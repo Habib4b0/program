@@ -6,7 +6,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.layout;
 
 import com.vaadin.ui.AbstractLayout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 
 /**
  *

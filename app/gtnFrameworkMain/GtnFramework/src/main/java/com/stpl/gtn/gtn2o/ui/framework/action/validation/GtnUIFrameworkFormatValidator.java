@@ -2,7 +2,7 @@ package com.stpl.gtn.gtn2o.ui.framework.action.validation;
 
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.ui.Field;
 
 public class GtnUIFrameworkFormatValidator implements GtnUIFrameworkValidator {
 

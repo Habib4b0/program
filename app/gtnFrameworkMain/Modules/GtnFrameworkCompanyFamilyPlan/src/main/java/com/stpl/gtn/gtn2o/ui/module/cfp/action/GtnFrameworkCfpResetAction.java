@@ -30,9 +30,9 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.cfprequest.GtnWsCfpRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.vaadin.data.Property;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.OptionGroup;
+import com.vaadin.v7.data.Property;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.ui.TabSheet;
 
 public class GtnFrameworkCfpResetAction

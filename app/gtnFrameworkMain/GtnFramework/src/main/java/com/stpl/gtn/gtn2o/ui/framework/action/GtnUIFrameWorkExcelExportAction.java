@@ -38,11 +38,11 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnwsExcelRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsExcelResponse;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.converter.Converter;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.server.Page;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.ExtCustomTable;
+import com.vaadin.v7.ui.ComboBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.ui.UI;
 
 /**

@@ -21,7 +21,6 @@ import java.util.TimeZone;
 
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.json.JSONArray;
 
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.GtnUIFrameworkNotesTabConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -30,12 +29,14 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.event.FieldEvents;
-import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.event.FieldEvents;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FileResource;
@@ -44,22 +45,23 @@ import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Upload;
-import com.vaadin.ui.Upload.Receiver;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextArea;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Upload;
+import com.vaadin.v7.ui.Upload.Receiver;
+import com.vaadin.v7.ui.VerticalLayout;
+import elemental.json.JsonArray;
 
 public class GtnUIFrameworkNotesTab extends CustomComponent {
 
@@ -189,7 +191,6 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		addBtnlayout.setSpacing(true);
 
 		HorizontalLayout addBtnInnerlayout = new HorizontalLayout();
-		addBtnInnerlayout.setImmediate(true);
 		addBtnInnerlayout.setSpacing(true);
 		addNote = new Button("ADD NOTE");
 
@@ -234,7 +235,6 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		cssHistoryInnerNoteLayout.addComponent(internalNotes);
 
 		imageLayout = new HorizontalLayout();
-		addBtnInnerlayout.setImmediate(true);
 
 		cssHistoryInnerNoteLayout.addComponent(imageLayout);
 		notesPanelInnerLayout.addComponent(notesPanelSubLayout2);
@@ -250,7 +250,6 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 
 		HorizontalLayout attachmentSubLayout1 = new HorizontalLayout();
 		attachmentSubLayout1.setSpacing(true);
-		attachmentSubLayout1.setImmediate(true);
 
 		fileNameLb = new Label("File Name");
 		fileNameLb.setContentMode(ContentMode.HTML);
@@ -264,22 +263,18 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		attachmentSubLayout1.addComponent(fileNameField);
 
 		HorizontalLayout attachmentSubLayout2 = new HorizontalLayout();
-		attachmentSubLayout2.setImmediate(true);
 		attachmentSubLayout2.setWidth("100%");
 
 		cssLayout1 = new CssLayout();
 		cssLayout1.setWidth("100%");
 		cssLayout1.setHeight("100%");
-		cssLayout1.setImmediate(true);
 		attachmentSubLayout2.addComponent(cssLayout1);
 
 		HorizontalLayout attachmentSubLayout3 = new HorizontalLayout();
-		attachmentSubLayout3.setImmediate(true);
 
 		CssLayout cssLayout2 = new CssLayout();
 		cssLayout2.setWidth("100%");
 		cssLayout2.setHeight("100%");
-		cssLayout2.setImmediate(true);
 
 		Label tableAttachments = new Label("Attachments");
 		tableAttachments.setContentMode(ContentMode.HTML);
@@ -289,7 +284,6 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		tableLayout = new VerticalLayout();
 		table = new ExtFilterTable();
 		remove = new Button("REMOVE");
-		remove.setImmediate(true);
 		table.setId("NotesTsaab");
 		table.setStyleName(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		tableLayout.addComponent(table);
@@ -379,7 +373,6 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		table.addStyleName("filterbar");
 		table.setFilterBarVisible(true);
 		table.setFilterDecorator(new ExtDemoFilterDecorator());
-		table.setImmediate(true);
 		table.setPageLength(3);
 		table.setContainerDataSource(attachmentsListBean);
 		table.setSelectable(true);
@@ -428,19 +421,24 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 			 */
 			private static final long serialVersionUID = 1L;
 
-			@Override
-			public void call(org.json.JSONArray arguments) throws org.json.JSONException {
-				try {
+
+
+                    @Override
+                    public void call(JsonArray arguments) {
+                       try {
 					setFileNameToField(arguments);
 				} catch (Exception ex) {
 					gtnLogger.error("Exception in handling through JSON", ex);
 				}
 				uploader.focus();
-			}
+                    }
 
+                 
+
+                 
 		});
 
-		uploader.addFocusListener(new FieldEvents.FocusListener() {
+		uploader.addFocusListener(new FocusListener() {
 			/**
 			 *
 			 */
@@ -450,7 +448,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 			 * Will execute,when we click an uploader.
 			 */
 			@Override
-			public void focus(final FieldEvents.FocusEvent event) {
+			public void focus(final FocusEvent event) {
 				uploadComponent.focus();
 			}
 		});
@@ -1000,7 +998,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		return String.valueOf(internalNote);
 	}
 
-	private void setFileNameToField(JSONArray arguments) throws org.json.JSONException {
+	private void setFileNameToField(JsonArray arguments)  {
 		String value = String.valueOf(arguments.get(0));
 		if (!"".equals(value)) {
 

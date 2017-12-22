@@ -30,7 +30,7 @@ import com.stpl.gtn.gtn2o.ws.request.authorization.GtnWsModuleAuthorizationGener
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.authorization.GtnWsModuleAuthorizationGeneralResponse;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 
 public class GtnUIFrameworkAuthorization {
 

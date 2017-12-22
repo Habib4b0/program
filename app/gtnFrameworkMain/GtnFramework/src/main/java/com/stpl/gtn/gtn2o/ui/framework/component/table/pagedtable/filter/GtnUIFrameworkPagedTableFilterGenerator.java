@@ -6,10 +6,10 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.data.Container;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.ui.Field;
 
 public class GtnUIFrameworkPagedTableFilterGenerator implements ExtFilterGenerator {
 

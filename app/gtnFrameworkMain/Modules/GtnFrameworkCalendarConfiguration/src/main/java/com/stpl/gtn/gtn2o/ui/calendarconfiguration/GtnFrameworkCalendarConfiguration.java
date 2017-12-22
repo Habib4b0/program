@@ -15,11 +15,21 @@ import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
-
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
 /**
  *
  * @author Abhiram.Giri
  */
+@Theme("mytheme")
+@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Component(service = UI.class, property = {
+        "com.liferay.portlet.display-category=GtnFrameworkCalendarConfiguration",
+        "javax.portlet.name=CalendarConfiguration",
+        "javax.portlet.display-name=Calendar Configuration",
+        "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class GtnFrameworkCalendarConfiguration extends UI {
 
 	private static final long serialVersionUID = 1L;

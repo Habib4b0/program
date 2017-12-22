@@ -10,7 +10,18 @@ import com.vaadin.annotations.JavaScript;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
 
+@Theme("mytheme")
+@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Component(service = UI.class, property = {
+        "com.liferay.portlet.display-category=GTN-WORKFLOWINBOX",
+        "javax.portlet.name=gtnFrameworkWorkflowInbox",
+        "javax.portlet.display-name=Workflow Inbox",
+        "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 @JavaScript("js/WorkflowInboxListener.js")
 public class GtnFrameworkWorkflowInbox extends UI {
 

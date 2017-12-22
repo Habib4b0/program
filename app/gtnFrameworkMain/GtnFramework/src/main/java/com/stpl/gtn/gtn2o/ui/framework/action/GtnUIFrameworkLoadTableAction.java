@@ -23,7 +23,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.ui.Field;
 
 public class GtnUIFrameworkLoadTableAction implements GtnUIFrameWorkAction {
 

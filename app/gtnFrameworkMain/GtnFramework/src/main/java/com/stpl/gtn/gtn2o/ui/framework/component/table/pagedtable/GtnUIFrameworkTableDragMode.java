@@ -1,6 +1,6 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable;
 
-import com.vaadin.ui.ExtCustomTable.TableDragMode;
+import org.asi.ui.extfilteringtable.ExtCustomTable.TableDragMode;
 
 public enum GtnUIFrameworkTableDragMode {
 	NONE(TableDragMode.NONE), ROW(TableDragMode.ROW), MULTIROW(TableDragMode.MULTIROW);

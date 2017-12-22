@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.stpl.gtn.gtn2o.ui</groupId>
 	<artifactId>GtnFrameworkReturnForecasting</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>GtnFrameworkReturnForecasting</name>
 	<description>GtnFrameworkReturnForecasting</description>
 	<parent>
@@ -15,8 +15,8 @@
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<dependencies>

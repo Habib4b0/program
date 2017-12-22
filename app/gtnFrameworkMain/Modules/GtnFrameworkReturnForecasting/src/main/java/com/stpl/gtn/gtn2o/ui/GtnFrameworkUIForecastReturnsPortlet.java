@@ -15,7 +15,18 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
 
+@Theme("mytheme")
+@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Component(service = UI.class, property = {
+        "com.liferay.portlet.display-category=GTN-FORECASTRETURN",
+        "javax.portlet.name=gtnFrameworkForecastReturn",
+        "javax.portlet.display-name=Forecast Returns",
+        "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class GtnFrameworkUIForecastReturnsPortlet extends UI {
 
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkUIForecastReturnsPortlet.class);

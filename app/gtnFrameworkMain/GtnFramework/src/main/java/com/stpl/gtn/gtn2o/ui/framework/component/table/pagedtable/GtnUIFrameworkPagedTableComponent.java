@@ -42,13 +42,13 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.transaction.constants.GtnWsTransactionConstants;
-import com.vaadin.data.Property;
-import com.vaadin.event.ItemClickEvent;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.ExtCustomTable.Align;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import org.asi.ui.extfilteringtable.ExtCustomTable.Align;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 
 public class GtnUIFrameworkPagedTableComponent implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
 

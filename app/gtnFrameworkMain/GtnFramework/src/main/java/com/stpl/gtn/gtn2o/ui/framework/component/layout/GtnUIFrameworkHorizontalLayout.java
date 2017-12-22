@@ -2,7 +2,7 @@
 package com.stpl.gtn.gtn2o.ui.framework.component.layout;
 
 import com.vaadin.ui.AbstractLayout;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 
 public class GtnUIFrameworkHorizontalLayout implements GtnUIFrameworkLayout {
 
