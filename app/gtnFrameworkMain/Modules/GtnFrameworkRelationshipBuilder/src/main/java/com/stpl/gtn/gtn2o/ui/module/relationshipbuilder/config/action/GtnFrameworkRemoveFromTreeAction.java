@@ -56,7 +56,7 @@ public class GtnFrameworkRemoveFromTreeAction implements GtnUIFrameWorkAction, G
 			loadResultLayout(gtnUIFrameWorkActionConfig);
 			return;
 		}
-    }
+	}
 
 	private void loadResultLayout(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {

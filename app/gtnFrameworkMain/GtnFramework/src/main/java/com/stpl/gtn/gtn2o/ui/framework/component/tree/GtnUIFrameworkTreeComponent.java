@@ -304,8 +304,8 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<GtnWsRecordBean> removeParentAndChildTreeItems(Tree tree, String initialTableId, boolean hasMultipleTable)
-			throws GtnFrameworkValidationFailedException {
+	public List<GtnWsRecordBean> removeParentAndChildTreeItems(Tree tree, String initialTableId,
+			boolean hasMultipleTable) throws GtnFrameworkValidationFailedException {
 		List<GtnWsRecordBean> returnListToRemove = null;
 		Object selectedValueInTree = tree.getValue();
 
@@ -334,15 +334,13 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 		ListIterator<?> listIteratorForTree = selectedItemListFromTree.listIterator();
 		while (listIteratorForTree.hasNext()) {
 			Object itemToRemove = listIteratorForTree.next();
-			Object selectedParent=itemToRemove;
-			if (!tree.hasChildren(itemToRemove))
-			{
+			Object selectedParent = itemToRemove;
+			if (!tree.hasChildren(itemToRemove)) {
 				tree.getContainerDataSource().removeItem(itemToRemove);
+			} else {
+				getChildren(itemToRemove, tree, selectedParent);
 			}
-			else{
-				getChildren(itemToRemove,tree,selectedParent);
-			}
-		    String treeLevelNoInTree = hasMultipleTable
+			String treeLevelNoInTree = hasMultipleTable
 					? String.valueOf(((GtnWsRecordBean) itemToRemove).getAdditionalPropertyByIndex(0)) : "";
 			GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(initialTableId + treeLevelNoInTree);
@@ -358,19 +356,18 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 
 	}
 
-	private void getChildren(Object item, Tree tree, Object selectedParent ) {
+	private void getChildren(Object item, Tree tree, Object selectedParent) {
 		if (tree.hasChildren(item)) {
-			    getChildren(tree.getChildren(item).iterator().next(),tree,selectedParent);
-			}else{
-					Object parent = tree.getParent(item);
-					tree.getContainerDataSource().removeItem(item);
-					if(!item.equals(selectedParent))
-					{
-				getChildren(parent,tree,selectedParent);	
-					}
-				}
+			getChildren(tree.getChildren(item).iterator().next(), tree, selectedParent);
+		} else {
+			Object parent = tree.getParent(item);
+			tree.getContainerDataSource().removeItem(item);
+			if (!item.equals(selectedParent)) {
+				getChildren(parent, tree, selectedParent);
 			}
-		
+		}
+	}
+
 	public List<GtnWsRecordBean> getTreeNodes(AbstractSelect tree) {
 		Container.Hierarchical container = (Container.Hierarchical) tree.getContainerDataSource();
 		return getTreeNodesFromCollection(container.rootItemIds(), container);
