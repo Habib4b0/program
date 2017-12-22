@@ -295,7 +295,6 @@ public class SessionDTO implements Serializable {
      */
     public void setCustomerLevelDetails(Map<String, List> customerLevelDetails) {
         this.hierarchyLevelDetails.putAll(customerLevelDetails);
-        System.out.println("//////////////////" +hierarchyLevelDetails );
     }
 
     /**

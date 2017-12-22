@@ -659,7 +659,6 @@ public class DiscountQueryBuilder {
                 : queryBuilder.replace(Constant.PROGJOIN, " JOIN #SELECTED_REBATE SR ON SR.PRICE_GROUP_TYPE = SPM.PRICE_GROUP_TYPE ");
         queryBuilder = queryBuilder.replace(Constant.AT_USER_GROUP, StringUtils.EMPTY);
         queryBuilder = QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames());
-        System.out.println("**************************discound query" + QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames()));
         if (queryBuilder.contains("('')")) {
             return Collections.EMPTY_LIST;
         } else {
@@ -699,7 +698,6 @@ public class DiscountQueryBuilder {
         }
         queryBuilder = queryBuilder.replace(Constant.AT_USER_GROUP, StringUtils.EMPTY);
         queryBuilder = QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames());
-        System.out.println("**************************discount query FOr last level" + QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames()));
         if (queryBuilder.contains("('')")) {
             return Collections.EMPTY_LIST;
         } else {
@@ -1063,27 +1061,30 @@ public class DiscountQueryBuilder {
         Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
         StringBuilder stringBuilder = new StringBuilder();
 
-        boolean isNotFirstElement = false;
-        boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
-        int i=1;
-        for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
-            if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
+		boolean isNotFirstElement = false;
+		boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo)
+				|| "D".equals(hierarchyIndicator);
+		int i = 1;
+		for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
+			if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo
+					&& hierarchyIndicator.equals(entry.getValue().get(4).toString()))
+					&& (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
 
-                if (isNotFirstElement) {
-                    stringBuilder.append(",\n");
-                }
-                stringBuilder.append("('");
-                stringBuilder.append(entry.getKey());
-                stringBuilder.append("'," + i++ + ")");
+				if (isNotFirstElement) {
+					stringBuilder.append(",\n");
+				}
+				stringBuilder.append("('");
+				stringBuilder.append(entry.getKey());
+				stringBuilder.append("'," + i++ + ")");
 
-                isNotFirstElement = true;
-            }
-        }
-        if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
-            stringBuilder.append("('");
-            stringBuilder.append("')");
-        }
-        return stringBuilder.toString();
-    }
+				isNotFirstElement = true;
+			}
+		}
+		if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
+			stringBuilder.append("('");
+			stringBuilder.append("')");
+		}
+		return stringBuilder.toString();
+	}
 
 }

@@ -2259,7 +2259,6 @@ public class DataSelectionLogic {
 		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
 				hierarchyNoType, sessionDTO);
 		tempList.clear();
-		System.out.println(QueryUtil.replaceTableNames(bean.getFinalQuery(), sessionDTO.getCurrentTableNames()));
 		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
 				QueryUtil.replaceTableNames(bean.getFinalQuery(), sessionDTO.getCurrentTableNames()));
 		for (int j = tempList.size() - 1; j >= 0; j--) {
@@ -2271,7 +2270,6 @@ public class DataSelectionLogic {
 			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
 															// Actual System Id
 			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY
-		/*	System.out.println("*******detailsList" + detailsList);	*/												// INDICATOR
 			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
 			resultMap.put(String.valueOf(object[0]), detailsList);
 
@@ -2284,7 +2282,6 @@ public class DataSelectionLogic {
 			}
 
 		}
-		System.out.println("*********************************karthick" +resultMap);
 		return resultMap;
 	}
 

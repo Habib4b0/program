@@ -1019,7 +1019,6 @@ public class NMProjectionVarianceLogic {
 
     public int configureLevelsCount(PVSelectionDTO selection) {
         int count;
-        System.out.println("is customHierachy" + selection.isIsCustomHierarchy());
         if (selection.isIsCustomHierarchy()) {
             count = getCountForCustomView(selection);
         } else {
@@ -2925,7 +2924,8 @@ public class NMProjectionVarianceLogic {
     
     
     
-    public List getHiearchyNoAsList(final ProjectionSelectionDTO projSelDTO, int start, int end) {
+    public List<String> getHiearchyNoAsList(final ProjectionSelectionDTO projSelDTO, int start, int end) {
+    
         String query = SQlUtil.getQuery("hiearchy-no-query");
         query = query.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
         query = query.replace(Constant.HIERARCHY_COLUMN_QUESTION, commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
@@ -2936,12 +2936,16 @@ public class NMProjectionVarianceLogic {
         query = query.replace(Constant.RELJOIN, commonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator()));
         query = query.replace(Constant.START_QUESTION, String.valueOf(start));
         query = query.replace(Constant.END_QUESTION, String.valueOf(end));
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
+        List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
-            return list;
+           List<String> l1=new ArrayList<>();
+           for(Object o:list)
+           {
+        	l1.add(o.toString()); 
+           }
+        	return l1;
         }
-
-        return Collections.emptyList();
+    	  return Collections.emptyList();
     }
     
     
@@ -2983,7 +2987,6 @@ public class NMProjectionVarianceLogic {
         query = query.replace(Constant.RELJOIN, commonLogic.getRelJoinGenerate(commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO)));
         query = query.replace(Constant.START_QUESTION, String.valueOf(start));
         query = query.replace(Constant.END_QUESTION, String.valueOf(end));
-        System.out.println(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
             return list;
