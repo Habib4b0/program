@@ -38,7 +38,6 @@ import com.stpl.app.cff.util.UiUtils;
 import com.stpl.app.model.ForecastConfig;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import static com.stpl.app.serviceUtils.ConstantUtil.SELECT_ONE;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -46,18 +45,18 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getSelectOne;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import static com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.SELECT_ONE;
+import com.vaadin.v7.data.Property;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import java.text.ParseException;
@@ -75,6 +74,7 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -568,10 +568,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 }
                 if (pivotView.getValue().equals("Variable")) {
                     pivotPanel.setCaption("Variable Pivot View");
-                    pivotPanel.setImmediate(true);
                 } else {
                     pivotPanel.setCaption("Period Pivot View");
-                    pivotPanel.setImmediate(true);
                 }
                 generated = true;
                 firstGenerated = true;

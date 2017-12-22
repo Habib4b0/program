@@ -24,7 +24,6 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -66,19 +65,20 @@ import com.stpl.ifs.ui.util.GtnWsCsvExportUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.AbstractValidator;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.event.FieldEvents;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.validator.AbstractValidator;
+import com.vaadin.v7.data.validator.RegexpValidator;
+import com.vaadin.v7.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
@@ -86,25 +86,26 @@ import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 
 /**
  * The Class FileManagementLookup.
@@ -1624,15 +1625,15 @@ public class FileManagementLookup extends Window {
 			List<Integer> existingSystemId = new ArrayList<>();
 
 			if (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-				dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastingMaster.class);
+				dynamicQuery = ForecastingMasterLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery
 						.add(RestrictionsFactoryUtil.eq(ConstantsUtils.FORECAST_YEAR, String.valueOf(selectedYear)));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
-						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
+						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue().toString()));
+						fileNameList.getValue()));
 				List<ForecastingMaster> listToRemove = ForecastingMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
 				for (final Iterator<ForecastingMaster> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final ForecastingMaster itemDetail = iterator.next();
@@ -1640,13 +1641,13 @@ public class FileManagementLookup extends Window {
 					savedForecast.put(itemDetail.getForecastMasterSid(), itemDetail);
 				}
 			} else if (FileType.equals(ConstantsUtils.DEMAND)) {
-				dynamicQuery = DynamicQueryFactoryUtil.forClass(DemandForecast.class);
+				dynamicQuery = DemandForecastLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
-						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
+						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue().toString()));
+						fileNameList.getValue()));
 				List<DemandForecast> listToRemove = DemandForecastLocalServiceUtil.dynamicQuery(dynamicQuery);
 				for (final Iterator<DemandForecast> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final DemandForecast itemDetail = iterator.next();
@@ -2375,8 +2376,9 @@ public class FileManagementLookup extends Window {
 						if (propertyId.equals(ConstantsUtils.UNITS)) {
 							final TextField unit = new TextField();
 							unit.setImmediate(true);
-							unit.addBlurListener(new FieldEvents.BlurListener() {
-								public void blur(FieldEvents.BlurEvent event) {
+							unit.addBlurListener(new BlurListener() {
+                                                                @Override
+								public void blur(BlurEvent event) {
 									LOGGER.debug("In configureFields levelValueReference.addBlurListener started ");
 
 									String unitValue = unit.getValue();
@@ -2408,8 +2410,9 @@ public class FileManagementLookup extends Window {
 						if (propertyId.equals(ConstantsUtils.PRICE)) {
 							final TextField price = new TextField();
 							price.setImmediate(true);
-							price.addBlurListener(new FieldEvents.BlurListener() {
-								public void blur(FieldEvents.BlurEvent event) {
+							price.addBlurListener(new BlurListener() {
+                                                            @Override
+								public void blur(BlurEvent event) {
 
 									LOGGER.debug(
 											"In configureFields levelValueReference.addValueChangeListener started");
@@ -2449,8 +2452,9 @@ public class FileManagementLookup extends Window {
 					if (propertyId.equals(ConstantsUtils.UNITS)) {
 						final TextField unit = new TextField();
 						unit.setImmediate(true);
-						unit.addBlurListener(new FieldEvents.BlurListener() {
-							public void blur(FieldEvents.BlurEvent event) {
+						unit.addBlurListener(new BlurListener() {
+                                                        @Override
+							public void blur(BlurEvent event) {
 								LOGGER.debug("In configureFields levelValueReference.addBlurListener  started");
 
 								String unitValue = unit.getValue();
@@ -2481,8 +2485,9 @@ public class FileManagementLookup extends Window {
 					if (propertyId.equals(ConstantsUtils.PRICE)) {
 						final TextField price = new TextField();
 						price.setImmediate(true);
-						price.addBlurListener(new FieldEvents.BlurListener() {
-							public void blur(FieldEvents.BlurEvent event) {
+						price.addBlurListener(new BlurListener() {
+                                                        @Override
+							public void blur(BlurEvent event) {
 								LOGGER.debug("In configureFields  levelValueReference.addBlurListener started");
 
 								String priceValue = price.getValue();
@@ -2513,8 +2518,9 @@ public class FileManagementLookup extends Window {
 
 						final TextField year1 = new TextField();
 						year1.setImmediate(true);
-						year1.addBlurListener(new FieldEvents.BlurListener() {
-							public void blur(FieldEvents.BlurEvent event) {
+						year1.addBlurListener(new BlurListener() {
+                                                        @Override
+							public void blur(BlurEvent event) {
 								LOGGER.debug("In configureFields levelValueReference.addBlurListener started");
 
 								String year = year1.getValue();
@@ -2533,8 +2539,9 @@ public class FileManagementLookup extends Window {
 					if (propertyId.equals(ConstantsUtils.MONTH)) {
 						final TextField month = new TextField();
 						month.setImmediate(true);
-						month.addBlurListener(new FieldEvents.BlurListener() {
-							public void blur(FieldEvents.BlurEvent event) {
+						month.addBlurListener(new BlurListener() {
+                                                        @Override
+							public void blur(BlurEvent event) {
 								LOGGER.debug("In configureFields levelValueReference.addBlurListener started");
 
 								String enteredMonth = month.getValue();

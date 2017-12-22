@@ -38,11 +38,11 @@ import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -386,7 +386,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
 
 
     /* (non-Javadoc)
-     * @see com.stpl.app.gtnforecasting.dao.DataSelectionDAO#getCustomerForecastLevel(com.stpl.portal.kernel.dao.orm.DynamicQuery)
+     * @see com.stpl.app.gtnforecasting.dao.DataSelectionDAO#getCustomerForecastLevel(com.liferay.portal.kernel.dao.orm.DynamicQuery)
      */
     @Override
     public List getCustomerForecastLevel(DynamicQuery query) {
@@ -404,8 +404,8 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      *
      * @param parameters the parameters
      * @return result list
-     * @throws com.stpl.portal.kernel.exception.SystemException
-     * @throws com.stpl.portal.kernel.exception.PortalException
+     * @throws com.liferay.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.PortalException
      */
     @Override
     public List getRelationshipHierarchy(final Map<String, Object> parameters) throws SystemException {
@@ -416,7 +416,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      * Save Customer hierarchy
      *
      * @param projectionCustHierarchy
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     @Override
     public void addProjectionCustHierarchy(final CffCustHierarchy cffCustHierarchy) throws SystemException {
@@ -427,7 +427,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      * Save Product hierarchy
      *
      * @param projectionProdHierarchy
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     @Override
     public void addProjectionProdHierarchy(final CffProdHierarchy cffProdHierarchy) throws SystemException {

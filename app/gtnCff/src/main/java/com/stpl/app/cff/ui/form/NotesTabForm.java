@@ -22,7 +22,6 @@ import com.stpl.app.cff.util.FileUploader;
 import com.stpl.app.cff.util.NotesTabLogic;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.service.ImtdIfpDetailsLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.AbstractNotesTab;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.NotesDTO;
@@ -31,16 +30,18 @@ import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
 import com.stpl.ifs.util.GtnFileUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.cff.dao.CommonServiceImpl;
+import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Upload;
+import com.vaadin.v7.ui.Upload;
 
 /**
  *
@@ -319,7 +320,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
 		List<Object> resultList = new ArrayList<>();
 		try {
-			resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
+			resultList = CommonServiceImpl.getInstance().fetchFieldsForSecurity(moduleName, tabName);
 		} catch (Exception ex) {
 			LOGGER.error(ex);
 		}

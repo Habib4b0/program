@@ -6,8 +6,8 @@ package com.stpl.app.cff.util;
 
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.logic.CommonLogic;
+import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -237,9 +237,9 @@ public class PVQueryUtils {
                 isProjectionStatus = true;
             }
             if (isProjectionStatus) {
-                customSql = new StringBuilder(CustomSQLUtil.get("getProjectionLists"));
+                customSql = new StringBuilder(SQlUtil.getQuery("getProjectionLists"));
             } else {
-                customSql = new StringBuilder(CustomSQLUtil.get("getWorkFlowLists"));
+                customSql = new StringBuilder(SQlUtil.getQuery("getWorkFlowLists"));
             }
 
             if (marketType == null || marketType.equals(StringUtils.EMPTY)) {
@@ -611,7 +611,7 @@ public class PVQueryUtils {
 
     public String getPVComparisonProjections(final List<Integer> projId) {
         try {
-            String customSql = CustomSQLUtil.get("getProjectionLists");
+            String customSql = SQlUtil.getQuery("getProjectionLists");
             if (projId != null && !projId.isEmpty()) {
                 customSql += (" PM.PROJECTION_MASTER_SID IN (" + CollectionToString(projId, false) + ")");
             } else {

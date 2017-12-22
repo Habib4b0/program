@@ -6,7 +6,7 @@
 
 package com.stpl.app.cff.ui.fileSelection.lazyload;
 
-import org.vaadin.addons.lazycontainer.SearchCriteria;
+import org.asi.ui.addons.lazycontainer.SearchCriteria;
 
 /**
  *

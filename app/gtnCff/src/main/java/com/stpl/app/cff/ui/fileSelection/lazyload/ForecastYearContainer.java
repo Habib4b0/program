@@ -11,13 +11,13 @@ import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.ErrorCodeUtil;
 import com.stpl.app.cff.util.ErrorCodes;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.util.Collections;
 import java.util.List;
+import org.asi.ui.addons.lazycontainer.DAO;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
+import org.asi.ui.addons.lazycontainer.SearchCriteria;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.DAO;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
-import org.vaadin.addons.lazycontainer.SearchCriteria;
 
 /**
  *

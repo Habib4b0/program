@@ -9,9 +9,9 @@ import com.stpl.app.model.HelperTable;
 import com.stpl.app.parttwo.model.CffApprovalDetails;
 import com.stpl.app.parttwo.model.CffDetails;
 import com.stpl.app.parttwo.model.CffMaster;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
 
 /**

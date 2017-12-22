@@ -3,7 +3,7 @@ package com.stpl.app.cff.ui.errorhandling;
 import org.jboss.logging.Logger;
 
 import com.vaadin.server.UserError;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.Label;
 
 // TODO: Auto-generated Javadoc
 /**

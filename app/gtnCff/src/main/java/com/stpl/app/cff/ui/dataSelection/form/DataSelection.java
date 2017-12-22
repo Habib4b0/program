@@ -65,12 +65,12 @@ import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.IndexedContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
@@ -512,7 +512,6 @@ public class DataSelection extends AbstractDataSelection {
 		final PrivatePublicView publicViewLookup = new PrivatePublicView(INDICATOR_PUBLIC_VIEW.getConstant(),
 				publicView, PUBLIC_VIEW.getConstant(), screenName);
 		UI.getCurrent().addWindow(publicViewLookup);
-		publicViewLookup.setImmediate(true);
 		publicViewLookup.addCloseListener(new Window.CloseListener() {
 			@Override
 			public void windowClose(Window.CloseEvent e) {
@@ -536,7 +535,6 @@ public class DataSelection extends AbstractDataSelection {
 		final PrivatePublicView privateViewLookup = new PrivatePublicView(INDICATOR_PRIVATE_VIEW.getConstant(),
 				privateView, PRIVATE_VIEW.getConstant(), screenName);
 		UI.getCurrent().addWindow(privateViewLookup);
-		privateViewLookup.setImmediate(true);
 		privateViewLookup.addCloseListener(new Window.CloseListener() {
 			@Override
 			public void windowClose(Window.CloseEvent e) {

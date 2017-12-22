@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Locale;
 
-import com.vaadin.data.util.converter.Converter;
+import com.vaadin.v7.data.util.converter.Converter;
 import org.apache.commons.lang.StringUtils;
 
 /**

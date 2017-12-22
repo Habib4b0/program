@@ -14,7 +14,7 @@ import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.PortalException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

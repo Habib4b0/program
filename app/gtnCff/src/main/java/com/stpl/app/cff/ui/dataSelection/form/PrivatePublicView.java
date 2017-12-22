@@ -12,10 +12,9 @@ import com.stpl.app.cff.util.Constants;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.TextField;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -29,6 +28,7 @@ import com.stpl.app.cff.util.UiUtils;
 import com.stpl.ifs.ui.DateToStringConverter;
 import static com.stpl.app.cff.util.Constants.LogicConstants.*;
 import com.stpl.ifs.ui.util.NumericConstants;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 
 /**
  *

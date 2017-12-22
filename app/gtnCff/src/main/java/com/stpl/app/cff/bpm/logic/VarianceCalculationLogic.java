@@ -5,8 +5,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.Map;
 
 import org.kie.api.task.model.TaskSummary;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import org.kie.api.task.model.Status;
 
 public class VarianceCalculationLogic {

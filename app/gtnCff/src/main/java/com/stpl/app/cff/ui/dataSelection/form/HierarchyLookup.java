@@ -9,11 +9,10 @@ import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.TextField;
 import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,7 +29,8 @@ import com.stpl.app.cff.util.NotificationUtils;
 import com.stpl.app.cff.util.UiUtils;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Property;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 /**
  *
  * @author mohamed.hameed

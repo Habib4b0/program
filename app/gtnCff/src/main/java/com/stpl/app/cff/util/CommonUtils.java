@@ -14,17 +14,17 @@ import com.stpl.app.parttwo.model.CffApprovalDetails;
 import com.stpl.app.parttwo.service.CffApprovalDetailsLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.NoSuchUserException;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.ComboBox;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ComboBox;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -59,9 +59,10 @@ import static com.stpl.app.cff.util.Constants.ProjectionConstants.PROJECTION_STA
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.PROJECTION_START_PERIOD;
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.PROJECTION_START_YEAR;
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.PROJECTION_START_YEAR_DDLB;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.exception.NoSuchUserException;
+import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -238,7 +239,7 @@ public class CommonUtils {
      * @return the user info
      */
     public static User getUserInfo(final long userId) {
-        DynamicQuery userSearchDynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery userSearchDynamicQuery = UserLocalServiceUtil.dynamicQuery();
         userSearchDynamicQuery.add(RestrictionsFactoryUtil.eq(com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.USER_ID, userId));
         List<User> resultList;
         try {
@@ -255,10 +256,10 @@ public class CommonUtils {
     public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
         final DataSelectionDAO DAO = new DataSelectionDAOImpl();
         int code = 0;
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
-        dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
+        dynamicQuery.setProjection(ProjectionFactoryUtil.property(StringConstantsUtil.HELPER_TABLE_SID));
         List result = DAO.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
             code = Integer.valueOf(result.get(0).toString());
@@ -463,8 +464,7 @@ public class CommonUtils {
     public HashMap<Long, String> getUserInfo() {
 
         List<User> users = new ArrayList<>();
-        DynamicQuery userGroupDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(User.class);
+        DynamicQuery userGroupDynamicQuery = UserLocalServiceUtil.dynamicQuery();
         try {
             users = UserLocalServiceUtil.dynamicQuery(userGroupDynamicQuery);
         } catch (SystemException ex) {
@@ -507,8 +507,7 @@ public class CommonUtils {
      */
     @SuppressWarnings("unchecked")
     public static int getCodeFromHelperTable(String description, String listName) {
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         int helperTableId = 0;
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtil.DESCRIPTION,
                 description));
@@ -533,7 +532,11 @@ public class CommonUtils {
         int id = 0;
         try {
             if (description != null && !description.equals(StringUtils.EMPTY)) {
-                List<HelperTable> helperTable = HelperTableLocalServiceUtil.findByHelperTableDetails(listName);
+                final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
+                dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtil.LIST_NAME,
+                        listName));
+                dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtil.DESCRIPTION));
+                List<HelperTable> helperTable = HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
                 for (HelperTable helperTable1 : helperTable) {
                     if (helperTable1.getDescription().equalsIgnoreCase(description)) {
                         id = helperTable1.getHelperTableSid();

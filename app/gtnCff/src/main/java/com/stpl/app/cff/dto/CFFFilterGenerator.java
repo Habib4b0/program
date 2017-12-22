@@ -10,15 +10,14 @@ import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.ConstantsUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Field;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,8 +70,6 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
                 return typeDdlb;
             } catch (SystemException ex) {
                 Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (PortalException ex) {
-                Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -89,8 +86,6 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
                 statusDdlb.setNullSelectionItemId(StringConstantsUtil.SHOW_ALL);
                 return statusDdlb;
             } catch (SystemException ex) {
-                Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (PortalException ex) {
                 Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);

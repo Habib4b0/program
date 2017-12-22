@@ -8,8 +8,8 @@ package com.stpl.app.cff.ui.fileSelection.logic.tableLogic;
 
 import com.stpl.app.cff.ui.fileSelection.dto.ItemSearchDTO;
 import com.stpl.app.cff.ui.fileSelection.logic.FileManagementLogic;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;

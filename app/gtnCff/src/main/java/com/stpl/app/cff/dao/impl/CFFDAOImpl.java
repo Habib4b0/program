@@ -15,11 +15,11 @@ import com.stpl.app.parttwo.service.CffApprovalDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +81,7 @@ public class CFFDAOImpl implements CFFDAO {
      *
      * @param query - dynamic query of HelperTable
      * @return list of HelperTable
-     * @throws com.stpl.portal.kernel.exception.PortalException
+     * @throws com.liferay.portal.kernel.exception.PortalException
      * @throws SystemException
      */
     public List<HelperTable> getHelperTableList(final DynamicQuery query) throws PortalException, SystemException {
@@ -89,22 +89,10 @@ public class CFFDAOImpl implements CFFDAO {
     }
 
     /**
-     * gets the helper table details by using list name
-     *
-     * @param listName
-     * @return
-     * @throws PortalException
-     * @throws SystemException
-     */
-    public List<HelperTable> getHelperTableDetailsByListName(String listName) throws PortalException, SystemException {
-        return HelperTableLocalServiceUtil.findByHelperTableDetails(listName);
-    }
-
-    /**
      * (non-Javadoc)
      *
-     * @throws com.stpl.portal.kernel.exception.SystemException
-     * @throws com.stpl.portal.kernel.exception.PortalException
+     * @throws com.liferay.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.PortalException
      * @see
      * com.stpl.app.cff.dao.CffLogicDAO#addCffMaster(com.stpl.app.cff.model.CffMaster)
      */
@@ -115,8 +103,8 @@ public class CFFDAOImpl implements CFFDAO {
     /**
      * (non-Javadoc)
      *
-     * @throws com.stpl.portal.kernel.exception.SystemException
-     * @throws com.stpl.portal.kernel.exception.PortalException
+     * @throws com.liferay.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.PortalException
      * @see com.stpl.app.cff.dao.CffLogicDAO#getCffMaster(int)
      */
     public CffMaster getCffMaster(final int cffMasterSid) throws SystemException, PortalException {
@@ -126,8 +114,8 @@ public class CFFDAOImpl implements CFFDAO {
     /**
      * (non-Javadoc)
      *
-     * @throws com.stpl.portal.kernel.exception.SystemException
-     * @throws com.stpl.portal.kernel.exception.PortalException
+     * @throws com.liferay.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.PortalException
      * @see
      * com.stpl.app.cff.dao.CffLogicDAO#updateCffMaster(com.stpl.app.cff.model.CffMaster)
      */
@@ -138,7 +126,7 @@ public class CFFDAOImpl implements CFFDAO {
     /**
      * (non-Javadoc)
      *
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      * @see
      * com.stpl.app.cff.dao.CffLogicDAO#addCffDetails(com.stpl.app.cff.model.CffDetails)
      */
@@ -149,7 +137,7 @@ public class CFFDAOImpl implements CFFDAO {
     /**
      * (non-Javadoc)
      *
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      * @see
      * com.stpl.app.cff.dao.CffLogicDAO#addCffApprovalDetails(com.stpl.app.cff.model.CffApprovalDetails)
      */

@@ -14,7 +14,7 @@ import com.stpl.app.cff.util.ConstantsUtil;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.apache.commons.lang.StringUtils;
 
 /**

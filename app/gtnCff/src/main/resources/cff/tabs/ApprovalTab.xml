@@ -5,7 +5,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 
-<VerticalLayout xmlns="urn:import:com.vaadin.ui"  xmlns:p="urn:vaadin:parent" xmlns:a="urn:import:org.asi.ui.extfilteringtable"
+<VerticalLayout xmlns:p="urn:vaadin:parent" xmlns:a="urn:import:org.asi.ui.extfilteringtable"
                 xmlns:s="urn:import:org.asi.ui.extfilteringtable.paged" 
                 xmlns:e="urn:import:com.stpl.ifs.ui.errorhandling"   spacing="true">
     <HorizontalLayout spacing="true" width="100%">

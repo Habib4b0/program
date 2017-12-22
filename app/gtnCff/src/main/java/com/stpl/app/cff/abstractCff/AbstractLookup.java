@@ -29,13 +29,13 @@ import com.stpl.app.cff.util.ErrorCodes;
 import com.stpl.app.cff.util.NotificationUtils;
 import com.stpl.app.cff.util.UiUtils;
 import com.stpl.app.serviceUtils.ErrorCodeUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.fieldgroup.FieldGroup;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.Window;
 
 /**

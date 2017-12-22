@@ -13,9 +13,9 @@ import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.cff.bpm.service.BPMProcessBean;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.model.Role;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 
 public class DSCalculationLogic {
 

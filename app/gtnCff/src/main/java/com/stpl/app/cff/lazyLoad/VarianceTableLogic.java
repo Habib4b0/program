@@ -12,7 +12,7 @@ import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
 import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

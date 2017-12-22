@@ -41,13 +41,13 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -219,7 +219,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 BottomBtnLayout.setVisible(false);
             }
             setTabSecurity();
-            tabSheet.addListener(new TabSheet.SelectedTabChangeListener() {
+            tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
                 @Override
                 public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                     int previousTabPostion = tabPosition;
@@ -232,7 +232,6 @@ public class CffApprovalDetailsForm extends CustomWindow {
                             if (Constants.REJECTED.equals(dto.getStatusDesc())) {
                                 if (!Integer.valueOf(sessionDTO.getUserId()).equals(dto.getCreatedUser())) {
                                     submitBtn.setEnabled(false);
-                                    submitBtn.setImmediate(true);
                                 } else {
                                     submitBtn.setEnabled(true);
                                 }
@@ -318,7 +317,6 @@ public class CffApprovalDetailsForm extends CustomWindow {
                                         isApproved = approvalTab.submitLogic();
                                         if (isApproved) {
                                             submitBtn.setEnabled(false);
-                                            submitBtn.setImmediate(true);
                                         }
                                         projectionResults.saveProjectionResultsSelection(sessionDTO);
                                         projectionVariance.savePvSelections(sessionDTO);
