@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.module.transaction.dynamicclasses;
 
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
+import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameWorkTransactionTableColumnFormatAction;
 import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameWorkTransactioneRecordTypeAction;
 import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransactionAlertAction;
 import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransactionCustomResultViewAction;
@@ -56,6 +57,8 @@ public class GtnUIFrameworkTransactionDynamicClassFiller implements GtnUIDynamic
 				new GtnUIFrameworkTransactionResetBeanAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkTransactionViewAction.class.getName(),
 				new GtnUIFrameworkTransactionViewAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameWorkTransactionTableColumnFormatAction.class.getName(),
+				new GtnUIFrameWorkTransactionTableColumnFormatAction());
 
 	}
 

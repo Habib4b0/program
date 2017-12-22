@@ -519,7 +519,9 @@
 		"columnName": "Baseline AMP",
 		"isSearchCriteria": false,
 		"isResultView": true,
-		"componentType": "text"
+		"componentType": "text",
+                "decimalFormatNeeded":true,
+		"pattern":"#0.000000"
 	},
 	{
 		"columnID": "baseCpiPeriod",
@@ -534,7 +536,9 @@
 		"columnName": "Base CPI",
 		"isSearchCriteria": false,
 		"isResultView": true,
-		"componentType": "text"
+		"componentType": "text",
+                "decimalFormatNeeded":true,
+		"pattern":"#0.000"
 	},
 	{
 		"columnID": "addChgDelIndicator",

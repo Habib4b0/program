@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkRootConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 
 public class GtnUIFrameworkTransactionConfig {
 
@@ -13,8 +12,8 @@ public class GtnUIFrameworkTransactionConfig {
 	private List<GtnUIFrameworkViewConfig> viewList = new ArrayList<>();
 
 
-	public GtnUIFrameworkRootConfig getMainTransactionRootConfig(boolean isInvalid)
-			throws GtnFrameworkGeneralException {
+	public GtnUIFrameworkRootConfig getMainTransactionRootConfig(boolean isInvalid)  {
+			
 		GtnUIFrameworkRootConfig rootConfig = new GtnUIFrameworkRootConfig();
 
 		generateTempleteForTransaction(isInvalid);
@@ -24,8 +23,7 @@ public class GtnUIFrameworkTransactionConfig {
 	}
 
 
-	private void generateTempleteForTransaction(boolean isInvalid)
-			throws GtnFrameworkGeneralException {
+	private void generateTempleteForTransaction(boolean isInvalid) {
 		viewList.add(new GtnFrameworkTransactionSearchTemplateConfig(isInvalid).getSearchView());
 
 		viewList.add(new GtnFrameworkTransactionViewTemplateConfig(isInvalid).getTransactionView());

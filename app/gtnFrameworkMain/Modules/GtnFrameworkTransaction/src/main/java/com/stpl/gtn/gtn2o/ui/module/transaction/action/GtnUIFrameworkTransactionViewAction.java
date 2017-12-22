@@ -29,6 +29,7 @@ import com.stpl.gtn.gtn2o.ws.request.transaction.GtnWsTransactionRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnWSTransactionColumnBean;
 import com.stpl.gtn.gtn2o.ws.transaction.constants.GtnWsTransactionConstants;
+import java.math.BigDecimal;
 
 public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
 
@@ -345,7 +346,14 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 					|| dateColumn.contains(String.valueOf(componentId))) && componentValue instanceof java.lang.String;
 			if (isDate) {
 				value = sdf1.parse(sdf1.format(parseDate(String.valueOf(componentValue))));
-			} else {
+			} 
+                        else if(String.valueOf(componentId).equals("baselineAmp") && String.valueOf(componentId)!=null){
+                            value = new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN).toString();
+                        } 
+                        else if(String.valueOf(componentId).equals("baseCpi")&& String.valueOf(componentId)!=null){
+                            value = new BigDecimal(String.valueOf(componentValue)).setScale(3, BigDecimal.ROUND_DOWN).toString();
+                        } 
+                        else {
 				value = componentValue instanceof java.lang.Long ? new Date((Long) componentValue)
 						: String.valueOf(componentValue);
 			}
