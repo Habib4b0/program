@@ -73,7 +73,7 @@
             <id>Install-Dependency</id>
             <modules>
                 <module>GtnLogger</module>
-                <!--<module>Resources</module>-->
+                <module>Resources</module>
                 <module>Security</module>
                 <module>GtnFrameWorkPropertyManager</module>
                 <module>GtnFrameworkCommon</module>
@@ -116,18 +116,18 @@
             <id>Release-Build</id>
             <modules>
                 <module>GtnLogger</module>
-                <!--<module>Resources</module>-->
-<!--                <module>Security</module>
-                <module>GtnFrameWorkPropertyManager</module>-->
+                <module>Resources</module>
+                <module>Security</module>
+                <module>GtnFrameWorkPropertyManager</module>
                 <module>GtnFrameworkCommon</module>
-<!--                <module>GtnFramework</module>
-                <module>GtnFrameworkComponentRepository</module>-->
+                <module>GtnFramework</module>
+                <module>GtnFrameworkComponentRepository</module>
                 <module>GtnFrameworkHierarchyRouteBuilder</module>
-<!--                <module>GtnFramworkQueryGenerator</module>
-                <module>GtnNewArchSharedLibrary</module>-->
-                <!--<module>GtnVaadinWidgetSet</module>-->
+                <module>GtnFramworkQueryGenerator</module>
+                <module>GtnNewArchSharedLibrary</module>
+                <module>GtnVaadinWidgetSet</module>
                 <module>Modules</module>
-                <!--<module>WebServices</module>-->
+                <module>WebServices</module>
             </modules>
             <activation>
                 <property>

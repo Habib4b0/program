@@ -16,8 +16,8 @@ import com.vaadin.annotations.Widgetset;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
-@Theme("mytheme")
-@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Theme("stpl")
+@Widgetset("com.stpl.gtn.gtn20.widgetset.gtnvaadinwidgetset.AppWidgetSet")
 @Component(service = UI.class, property = {
         "com.liferay.portlet.display-category=GTN-BUILDINGBLOCKS",
         "javax.portlet.name=GtnFrameworkItemFamilyPlan",
