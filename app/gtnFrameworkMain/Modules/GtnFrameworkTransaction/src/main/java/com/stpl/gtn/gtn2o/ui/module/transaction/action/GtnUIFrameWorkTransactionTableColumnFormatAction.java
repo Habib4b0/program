@@ -25,7 +25,8 @@ import java.util.List;
  *
  * @author deepika.krishnakumar
  */
-public class GtnUIFrameWorkTransactionTableColumnFormatAction  implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+public class GtnUIFrameWorkTransactionTableColumnFormatAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -41,11 +42,11 @@ public class GtnUIFrameWorkTransactionTableColumnFormatAction  implements GtnUIF
 			GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent((String) paramList.get(1));
 			GtnUIFrameworkComponentData tableComponent = tableBaseComponent.getComponentData();
-	
+
 			GtnUIFrameworkTransactionComponentTypeListBean componentTypeBean = (GtnUIFrameworkTransactionComponentTypeListBean) paramList
 					.get(3);
 			for (GtnWsRecordBean recordBean : tableComponent.getDataTableRecordList()) {
-				manageTableRecordType(recordBean, tableBaseComponent,componentTypeBean);
+				manageTableRecordType(recordBean, tableBaseComponent, componentTypeBean);
 			}
 		} catch (GtnFrameworkValidationFailedException e) {
 			throw new GtnFrameworkGeneralException("Error in doAction", e);
@@ -71,8 +72,7 @@ public class GtnUIFrameWorkTransactionTableColumnFormatAction  implements GtnUIF
 				GtnWsRecordBean.addProperties(i, value, record.getProperties());
 
 			}
-			
-			
+
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Error in doAction", e);
 		}
@@ -80,15 +80,15 @@ public class GtnUIFrameWorkTransactionTableColumnFormatAction  implements GtnUIF
 
 	private Object setFormatter(Object propertyId, Object value,
 			GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
-            
+
 		String decimalFormatPattern = componentBean.getFormatterMap(propertyId.toString());
 		if (decimalFormatPattern != null) {
 			DecimalFormat decimalFormat = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
-			 decimalFormat.applyPattern(decimalFormatPattern);
+			decimalFormat.applyPattern(decimalFormatPattern);
 			return formatPercentValue(decimalFormat, value);
 		}
-                    return value; 
-                
+		return value;
+
 	}
 
 	private Object formatPercentValue(DecimalFormat decimalFormat, Object value) {
@@ -96,14 +96,16 @@ public class GtnUIFrameWorkTransactionTableColumnFormatAction  implements GtnUIF
 		Object newValue = checkEmptyValue(value);
 		if (formatterPatter.contains(GtnWsTransactionConstants.PERCENTAGE)) {
 			DecimalFormat newDecimalFormat = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
-			newDecimalFormat.applyPattern(formatterPatter.replace(GtnWsTransactionConstants.PERCENTAGE, GtnFrameworkCommonStringConstants.STRING_EMPTY));
-			return newDecimalFormat.format(Double.parseDouble(newValue.toString())) + GtnWsTransactionConstants.PERCENTAGE;
+			newDecimalFormat.applyPattern(formatterPatter.replace(GtnWsTransactionConstants.PERCENTAGE,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY));
+			return newDecimalFormat.format(Double.parseDouble(newValue.toString()))
+					+ GtnWsTransactionConstants.PERCENTAGE;
 		}
 		return decimalFormat.format(Double.parseDouble(newValue.toString()));
 	}
-	
+
 	private Object checkEmptyValue(Object value) {
-		if(GtnFrameworkCommonStringConstants.STRING_EMPTY.equals(value.toString())) {
+		if (GtnFrameworkCommonStringConstants.STRING_EMPTY.equals(value.toString())) {
 			return "0";
 		}
 		return value;

@@ -8,12 +8,10 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 
 public class GtnUIFrameworkTransactionConfig {
 
-
 	private List<GtnUIFrameworkViewConfig> viewList = new ArrayList<>();
 
+	public GtnUIFrameworkRootConfig getMainTransactionRootConfig(boolean isInvalid) {
 
-	public GtnUIFrameworkRootConfig getMainTransactionRootConfig(boolean isInvalid)  {
-			
 		GtnUIFrameworkRootConfig rootConfig = new GtnUIFrameworkRootConfig();
 
 		generateTempleteForTransaction(isInvalid);
@@ -21,7 +19,6 @@ public class GtnUIFrameworkTransactionConfig {
 		rootConfig.setGtnViewConfigList(viewList);
 		return rootConfig;
 	}
-
 
 	private void generateTempleteForTransaction(boolean isInvalid) {
 		viewList.add(new GtnFrameworkTransactionSearchTemplateConfig(isInvalid).getSearchView());

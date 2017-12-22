@@ -22,9 +22,8 @@ public class GtnUIFrameworkTransactionDynamicClassFiller implements GtnUIDynamic
 
 	@Override
 	public void addDynamicObject() {
-		
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
-				GtnUIFrameworkTransactionGeneratedCoumnAction.class.getName(),
+
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkTransactionGeneratedCoumnAction.class.getName(),
 				new GtnUIFrameworkTransactionGeneratedCoumnAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkTransactionRefreshBeanAction.class.getName(),
 				new GtnUIFrameworkTransactionRefreshBeanAction());
@@ -32,14 +31,12 @@ public class GtnUIFrameworkTransactionDynamicClassFiller implements GtnUIDynamic
 				new GtnUIFrameworkTransactionTableCheckAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkTransactionTableCheckAllAction.class.getName(),
 				new GtnUIFrameworkTransactionTableCheckAllAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
-				GtnFrameworkTransactionReprocessRemoveValidation.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkTransactionReprocessRemoveValidation.class.getName(),
 				new GtnFrameworkTransactionReprocessRemoveValidation());
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkTransactionAlertAction.class.getName(),
 				new GtnUIFrameworkTransactionAlertAction());
-		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
-				GtnUIFrameworkTransactionCustomResultViewAction.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkTransactionCustomResultViewAction.class.getName(),
 				new GtnUIFrameworkTransactionCustomResultViewAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkTransactionEnableDisableAction.class.getName(),
 				new GtnUIFrameworkTransactionEnableDisableAction());

@@ -31,7 +31,7 @@ import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnWSTransactionColumnBean;
 import com.stpl.gtn.gtn2o.ws.transaction.constants.GtnWsTransactionConstants;
 import java.math.BigDecimal;
 
-public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
+public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameworkTransactionViewAction.class);
 
@@ -55,10 +55,10 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		String wsViewName = tableName;
 		String demandTypeColumnName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 		String demandTypeColumnValue = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-	    String inventoryLevelColumnName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String inventoryLevelColumnName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 		String inventoryLevelColumnValue = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		List<String> inventoryType =new ArrayList<>();
-	
+		List<String> inventoryType = new ArrayList<>();
+
 		if (wsViewName.contains("InventoryWdActualProjMas")) {
 			List<String> viewColumnList = (List<String>) actionParamList.get(1);
 			List<Object> columnList = (List<Object>) actionParamList.get(4);
@@ -68,14 +68,17 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			componentList = new ArrayList<>(columnList);
 			GtnUIFrameworkGlobalUI.setVisibleFlagForComponent(true, viewColumnList, componentId);
 			inventoryType.add(GtnTransactionUIConstants.INVENTORY_TYPE);
-			inventoryType.add(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnTransactionUIConstants.INVENTORY_TYPE).getValueFromComponent().toString());
-			inventoryLevelColumnName=GtnTransactionUIConstants.INVENTORY_LEVEL;
-			inventoryLevelColumnValue=GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnTransactionUIConstants.INVENTORY_LEVEL).getValueFromComponent().toString();
+			inventoryType.add(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnTransactionUIConstants.INVENTORY_TYPE)
+					.getValueFromComponent().toString());
+			inventoryLevelColumnName = GtnTransactionUIConstants.INVENTORY_LEVEL;
+			inventoryLevelColumnValue = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnTransactionUIConstants.INVENTORY_LEVEL).getValueFromComponent()
+					.toString();
 		} else if (wsViewName.contains(GtnTransactionUIConstants.DEMAND)) {
 			demandTypeColumnName = GtnTransactionUIConstants.DEMAND_TYPE_SID;
 			demandTypeColumnValue = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent(GtnTransactionUIConstants.DEMAND_TYPE_SID)
-					.getValueFromComponent().toString();
+					.getVaadinBaseComponent(GtnTransactionUIConstants.DEMAND_TYPE_SID).getValueFromComponent()
+					.toString();
 			gtnLogger.info(demandTypeColumnValue);
 			String layoutName = "transactionViewLayout";
 			String demandTypeCaption = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("adjustedDemandForecastId")
@@ -108,15 +111,12 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		List<String> helpercomponentList = (List<String>) actionParamList.get(3);
 		int systemId = getSystemId(isInvalid, componentId, actionParamList);
 		try {
-			if("VwInventoryWdActualProjMas" .equalsIgnoreCase(wsViewName))
-			{
+			if ("VwInventoryWdActualProjMas".equalsIgnoreCase(wsViewName)) {
 				loadDataFromService(componentList, wsViewName, helpercomponentList, systemId, inventoryLevelColumnName,
-						inventoryLevelColumnValue,inventoryType);	
-			}
-			else
-			{
-			loadDataFromService(componentList, wsViewName, helpercomponentList, systemId, demandTypeColumnName,
-					demandTypeColumnValue,null);
+						inventoryLevelColumnValue, inventoryType);
+			} else {
+				loadDataFromService(componentList, wsViewName, helpercomponentList, systemId, demandTypeColumnName,
+						demandTypeColumnValue, null);
 			}
 			gtnLogger.info("----------Ending doAction ---------------");
 		} catch (Exception e) {
@@ -125,7 +125,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 	}
 
 	private void loadDataFromService(List<Object> componentList, String tableName, List<String> helpercomponentList,
-			int systemId, String demandTypeColumnName, String demandTypeColumnValue,List<String> inventoryType)
+			int systemId, String demandTypeColumnName, String demandTypeColumnValue, List<String> inventoryType)
 			throws GtnFrameworkGeneralException {
 		gtnLogger.info("--------Inside loadDataFromService----------");
 
@@ -136,18 +136,17 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		gtnWsTransactionRequest.setProjectionColumns(componentList);
 		gtnWsTransactionRequest.setPrimayColumnValue(systemId);
 		gtnWsTransactionRequest.setHelpercomponentList(helpercomponentList);
-		if("VwInventoryWdActualProjMas".equalsIgnoreCase(tableName))
-		{
+		if ("VwInventoryWdActualProjMas".equalsIgnoreCase(tableName)) {
 			gtnWsTransactionRequest.setInventoryLevelColumnName(demandTypeColumnName);
-			gtnWsTransactionRequest.setInventoryLevelColumnValue(demandTypeColumnValue.isEmpty()?0:Integer.parseInt(demandTypeColumnValue));
+			gtnWsTransactionRequest.setInventoryLevelColumnValue(
+					demandTypeColumnValue.isEmpty() ? 0 : Integer.parseInt(demandTypeColumnValue));
 			gtnWsTransactionRequest.setInventoryTypeColumnName(inventoryType.get(0));
 			gtnWsTransactionRequest.setInventoryTypeColumnValue(Integer.parseInt(inventoryType.get(1)));
+		} else if ("Demand".equalsIgnoreCase(tableName)) {
+			gtnWsTransactionRequest.setDemandTypeColumnName(demandTypeColumnName);
+			gtnWsTransactionRequest.setDemandTypeColumnValue(
+					demandTypeColumnValue.isEmpty() ? 0 : Integer.parseInt(demandTypeColumnValue));
 		}
-		else if ("Demand".equalsIgnoreCase(tableName))
-			{
-				gtnWsTransactionRequest.setDemandTypeColumnName(demandTypeColumnName);
-				gtnWsTransactionRequest.setDemandTypeColumnValue(demandTypeColumnValue.isEmpty()?0:Integer.parseInt(demandTypeColumnValue));
-			}
 		request.setGtnWsTransactionRequest(gtnWsTransactionRequest);
 		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
 				GtnWsTransactionConstants.GTN_WS_TRANSACTION_SERVICE
@@ -339,21 +338,18 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			throws GtnFrameworkGeneralException {
 		Object value = null;
 		try {
-			List<String> dateColumn = Arrays.asList("firstReturn", "lastReturn", "origSaleMonth",
-					"maxExpiredMonth", "maxExpiredMonsPluscutoff");
+			List<String> dateColumn = Arrays.asList("firstReturn", "lastReturn", "origSaleMonth", "maxExpiredMonth",
+					"maxExpiredMonsPluscutoff");
 			SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
 			boolean isDate = (String.valueOf(componentId).contains("Date")
 					|| dateColumn.contains(String.valueOf(componentId))) && componentValue instanceof java.lang.String;
 			if (isDate) {
 				value = sdf1.parse(sdf1.format(parseDate(String.valueOf(componentValue))));
-			} 
-                        else if(String.valueOf(componentId).equals("baselineAmp") && String.valueOf(componentId)!=null){
-                            value = new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN).toString();
-                        } 
-                        else if(String.valueOf(componentId).equals("baseCpi")&& String.valueOf(componentId)!=null){
-                            value = new BigDecimal(String.valueOf(componentValue)).setScale(3, BigDecimal.ROUND_DOWN).toString();
-                        } 
-                        else {
+			} else if (String.valueOf(componentId).equals("baselineAmp") && String.valueOf(componentId) != null) {
+				value = new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN).toString();
+			} else if (String.valueOf(componentId).equals("baseCpi") && String.valueOf(componentId) != null) {
+				value = new BigDecimal(String.valueOf(componentValue)).setScale(3, BigDecimal.ROUND_DOWN).toString();
+			} else {
 				value = componentValue instanceof java.lang.Long ? new Date((Long) componentValue)
 						: String.valueOf(componentValue);
 			}

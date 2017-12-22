@@ -3,239 +3,240 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Mar 20, 2017 10:36:38 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.VwItemMaster" table="VW_ITEM_MASTER" >
-        <id name="itemMasterSid" type="int">
-            <column name="ITEM_MASTER_SID" />
-            <generator class="assigned"></generator>
-        </id>
-        <property name="itemStatus" type="string">
-            <column name="ITEM_STATUS" length="50" />
-        </property>
-        <property name="itemDesc" type="string">
-            <column name="ITEM_DESC" length="250" />
-        </property>
-        <property name="acquiredAmp" type="double">
-            <column name="ACQUIRED_AMP" precision="22" scale="6" />
-        </property>
-        <property name="authorizedGenericStartDate" type="timestamp">
-            <column name="AUTHORIZED_GENERIC_START_DATE" precision="23" />
-        </property>
-        <property name="newFormulationStartDate" type="timestamp">
-            <column name="NEW_FORMULATION_START_DATE" precision="23" />
-        </property>
-        <property name="marketTerminationDate" type="timestamp">
-            <column name="MARKET_TERMINATION_DATE" precision="23" />
-        </property>
-        <property name="obraBamp" type="double">
-            <column name="OBRA_BAMP" precision="22" scale="6" />
-        </property>
-        <property name="brand" type="string">
-            <column name="BRAND" length="100" />
-        </property>
-        <property name="manufacturerNo" type="string">
-            <column name="MANUFACTURER_NO" length="50"/>
-        </property>
-        <property name="modifiedDate" type="timestamp">
-            <column name="MODIFIED_DATE" precision="23" not-null="true"/>
-        </property>
-        <property name="organizationKey" type="string">
-            <column name="ORGANIZATION_KEY" />
-        </property>
-        <property name="acquiredBamp" type="double">
-            <column name="ACQUIRED_BAMP" precision="22" scale="6" />
-        </property>
-        <property name="pediatricExclusiveEndDate" type="timestamp">
-            <column name="PEDIATRIC_EXCLUSIVE_END_DATE" precision="23" />
-        </property>
-        <property name="source" type="string">
-            <column name="SOURCE" length="50" />
-        </property>
-        <property name="newFormulation" type="string">
-            <column name="NEW_FORMULATION" length="38"/>
-        </property>
-        <property name="addChgDelIndicator" type="string">
-            <column name="ADD_CHG_DEL_INDICATOR" length="1" not-null="true" />
-        </property>
-        <property name="divestitureDate" type="timestamp">
-            <column name="DIVESTITURE_DATE" precision="23" />
-        </property>
-        <property name="shelfLife" type="string">
-            <column name="SHELF_LIFE" length="30"/>
-        </property>
-        <property name="primaryUom" type="string">
-            <column name="PRIMARY_UOM" length="50"/>
-        </property>
-        <property name="newFormulationEndDate" type="timestamp">
-            <column name="NEW_FORMULATION_END_DATE" precision="23" />
-        </property>
-        <property name="modifiedBy" type="string">
-            <column name="MODIFIED_BY" />
-        </property>
-        <property name="packageSizeCode" type="string">
-            <column name="PACKAGE_SIZE_CODE" length="25"/>
-        </property>
-        <property name="secondaryUom" type="string">
-            <column name="SECONDARY_UOM" length="50" />
-        </property>
-        <property name="udc6" type="string">
-            <column name="UDC6" length="50" />
-        </property>
-        <property name="udc5" type="string">
-            <column name="UDC5" length="50"/>
-        </property>
-        <property name="discontinuationDate" type="timestamp">
-            <column name="DISCONTINUATION_DATE" precision="23" />
-        </property>
-        <property name="udc4" type="string">
-            <column name="UDC4" length="50" />
-        </property>
-        <property name="udc1" type="string">
-            <column name="UDC1" length="50" />
-        </property>
-        <property name="udc2" type="string">
-            <column name="UDC2" length="50"  />
-        </property>
-        <property name="packageSizeIntroDate" type="timestamp">
-            <column name="PACKAGE_SIZE_INTRO_DATE" precision="23"  />
-        </property>
-        <property name="udc3" type="string">
-            <column name="UDC3" length="50"  />
-        </property>
-        <property name="itemEndDate" type="timestamp">
-            <column name="ITEM_END_DATE" precision="23"  />
-        </property>
-        <property name="manufacturerId" type="string">
-            <column name="MANUFACTURER_ID" length="50"  />
-        </property>
-        <property name="itemFamilyId" type="string">
-            <column name="ITEM_FAMILY_ID" length="38"  />
-        </property>
-        <property name="upps" type="double">
-            <column name="UPPS" precision="22" scale="6"  />
-        </property>
-        <property name="shelfLifeType" type="string">
-            <column name="SHELF_LIFE_TYPE" length="50"  />
-        </property>
-        <property name="pediatricExclusiveIndicator" type="string">
-            <column name="PEDIATRIC_EXCLUSIVE_INDICATOR" length="50"  />
-        </property>
-        <property name="itemTypeIndication" type="string">
-            <column name="ITEM_TYPE_INDICATION" length="50"  />
-        </property>
-        <property name="acquisitionDate" type="timestamp">
-            <column name="ACQUISITION_DATE" precision="23"  />
-        </property>
-        <property name="clottingFactorIndicator" type="string">
-            <column name="CLOTTING_FACTOR_INDICATOR" length="50"  />
-        </property>
-        <property name="itemName" type="string">
-            <column name="ITEM_NAME" length="100" not-null="true" />
-        </property>
-        <property name="manufacturerName" type="string">
-            <column name="MANUFACTURER_NAME" length="100"  />
-        </property>
-        <property name="pediatricExclusiveStartDate" type="timestamp">
-            <column name="PEDIATRIC_EXCLUSIVE_START_DATE" precision="23"  />
-        </property>
-        <property name="firstSaleDate" type="timestamp">
-            <column name="FIRST_SALE_DATE" precision="23"  />
-        </property>
-        <property name="itemId" type="string">
-            <column name="ITEM_ID" length="38" not-null="true"  />
-        </property>
-        <property name="baselineAmp" type="string">
-            <column name="BASELINE_AMP" length="22" />
-        </property>
-        <property name="dosesPerUnit" type="string">
-            <column name="DOSES_PER_UNIT" length="25"  />
-        </property>
-        <property name="dualPricingIndicator" type="string">
-            <column name="DUAL_PRICING_INDICATOR" length="30"  />
-        </property>
-        <property name="baseCpi" type="string">
-            <column name="BASE_CPI" length="22"   />
-        </property>
-        <property name="createdDate" type="timestamp">
-            <column name="CREATED_DATE" precision="23" not-null="true" />
-        </property>
-        <property name="createdBy" type="string">
-            <column name="CREATED_BY" />
-        </property>
-        <property name="itemStartDate" type="timestamp">
-            <column name="ITEM_START_DATE" precision="23"  />
-        </property>
-        <property name="authorizedGeneric" type="string">
-            <column name="AUTHORIZED_GENERIC" length="50"  />
-        </property>
-        <property name="ndc9" type="string">
-            <column name="NDC9" length="100" not-null="true" />
-        </property>
-        <property name="authorizedGenericEndDate" type="timestamp">
-            <column name="AUTHORIZED_GENERIC_END_DATE" precision="23"  />
-        </property>
-        <property name="itemNo" type="string">
-            <column name="ITEM_NO" length="50" not-null="true" />
-        </property>
-        <property name="packageSize" type="string">
-            <column name="PACKAGE_SIZE" length="50"  />
-        </property>
-        <property name="ndc8" type="string">
-            <column name="NDC8" length="25" not-null="true" />
-        </property>
-        <property name="itemClass" type="string">
-            <column name="ITEM_CLASS" length="50"  />
-        </property>
-        <property name="labelerCode" type="string">
-            <column name="LABELER_CODE" length="25"  />
-        </property>
-        <property name="displayBrand" type="string">
-            <column name="DISPLAY_BRAND" length="100" />
-        </property>
-        <property name="clottingFactorEndDate" type="timestamp">
-            <column name="CLOTTING_FACTOR_END_DATE" precision="23" />
-        </property>
-        <property name="dra" type="double">
-            <column name="DRA" precision="22" scale="6" />
-        </property>
-        <property name="brandId" type="string">
-            <column name="BRAND_ID" length="25" />
-        </property>
-        <property name="baseCpiPeriod" type="timestamp">
-            <column name="BASE_CPI_PERIOD" precision="23" />
-        </property>
-        <property name="newFormulationIndicator" type="string">
-            <column name="NEW_FORMULATION_INDICATOR" length="50" />
-        </property>
-        <property name="lastLotExpirationDate" type="timestamp">
-            <column name="LAST_LOT_EXPIRATION_DATE" precision="23" />
-        </property>
-        <property name="batchId" type="string">
-            <column name="BATCH_ID" length="50" />
-        </property>
-        <property name="itemCode" type="string">
-            <column name="ITEM_CODE" length="25" not-null="true" />
-        </property>
-        <property name="clottingFactorStartDate" type="timestamp">
-            <column name="CLOTTING_FACTOR_START_DATE" precision="23" />
-        </property>
-        <property name="nonFederalExpirationDate" type="timestamp">
-            <column name="NON_FEDERAL_EXPIRATION_DATE" precision="23" />
-        </property>
-        <property name="form" type="string">
-            <column name="FORM" />
-        </property>
-        <property name="strength" type="string">
-            <column name="STRENGTH" />
-        </property>
-        <property name="itemCategory" type="string">
-            <column name="ITEM_CATEGORY" />
-        </property>
-        <property name="therapeuticClass" type="string">
-            <column name="THERAPEUTIC_CLASS" />
-        </property>
-        <property name="itemType" type="string">
-            <column name="ITEM_TYPE" />
-        </property>
-        
-    </class>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.VwItemMaster"
+		table="VW_ITEM_MASTER">
+		<id name="itemMasterSid" type="int">
+			<column name="ITEM_MASTER_SID" />
+			<generator class="assigned"></generator>
+		</id>
+		<property name="itemStatus" type="string">
+			<column name="ITEM_STATUS" length="50" />
+		</property>
+		<property name="itemDesc" type="string">
+			<column name="ITEM_DESC" length="250" />
+		</property>
+		<property name="acquiredAmp" type="double">
+			<column name="ACQUIRED_AMP" precision="22" scale="6" />
+		</property>
+		<property name="authorizedGenericStartDate" type="timestamp">
+			<column name="AUTHORIZED_GENERIC_START_DATE" precision="23" />
+		</property>
+		<property name="newFormulationStartDate" type="timestamp">
+			<column name="NEW_FORMULATION_START_DATE" precision="23" />
+		</property>
+		<property name="marketTerminationDate" type="timestamp">
+			<column name="MARKET_TERMINATION_DATE" precision="23" />
+		</property>
+		<property name="obraBamp" type="double">
+			<column name="OBRA_BAMP" precision="22" scale="6" />
+		</property>
+		<property name="brand" type="string">
+			<column name="BRAND" length="100" />
+		</property>
+		<property name="manufacturerNo" type="string">
+			<column name="MANUFACTURER_NO" length="50" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" precision="23" not-null="true" />
+		</property>
+		<property name="organizationKey" type="string">
+			<column name="ORGANIZATION_KEY" />
+		</property>
+		<property name="acquiredBamp" type="double">
+			<column name="ACQUIRED_BAMP" precision="22" scale="6" />
+		</property>
+		<property name="pediatricExclusiveEndDate" type="timestamp">
+			<column name="PEDIATRIC_EXCLUSIVE_END_DATE" precision="23" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="newFormulation" type="string">
+			<column name="NEW_FORMULATION" length="38" />
+		</property>
+		<property name="addChgDelIndicator" type="string">
+			<column name="ADD_CHG_DEL_INDICATOR" length="1" not-null="true" />
+		</property>
+		<property name="divestitureDate" type="timestamp">
+			<column name="DIVESTITURE_DATE" precision="23" />
+		</property>
+		<property name="shelfLife" type="string">
+			<column name="SHELF_LIFE" length="30" />
+		</property>
+		<property name="primaryUom" type="string">
+			<column name="PRIMARY_UOM" length="50" />
+		</property>
+		<property name="newFormulationEndDate" type="timestamp">
+			<column name="NEW_FORMULATION_END_DATE" precision="23" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" />
+		</property>
+		<property name="packageSizeCode" type="string">
+			<column name="PACKAGE_SIZE_CODE" length="25" />
+		</property>
+		<property name="secondaryUom" type="string">
+			<column name="SECONDARY_UOM" length="50" />
+		</property>
+		<property name="udc6" type="string">
+			<column name="UDC6" length="50" />
+		</property>
+		<property name="udc5" type="string">
+			<column name="UDC5" length="50" />
+		</property>
+		<property name="discontinuationDate" type="timestamp">
+			<column name="DISCONTINUATION_DATE" precision="23" />
+		</property>
+		<property name="udc4" type="string">
+			<column name="UDC4" length="50" />
+		</property>
+		<property name="udc1" type="string">
+			<column name="UDC1" length="50" />
+		</property>
+		<property name="udc2" type="string">
+			<column name="UDC2" length="50" />
+		</property>
+		<property name="packageSizeIntroDate" type="timestamp">
+			<column name="PACKAGE_SIZE_INTRO_DATE" precision="23" />
+		</property>
+		<property name="udc3" type="string">
+			<column name="UDC3" length="50" />
+		</property>
+		<property name="itemEndDate" type="timestamp">
+			<column name="ITEM_END_DATE" precision="23" />
+		</property>
+		<property name="manufacturerId" type="string">
+			<column name="MANUFACTURER_ID" length="50" />
+		</property>
+		<property name="itemFamilyId" type="string">
+			<column name="ITEM_FAMILY_ID" length="38" />
+		</property>
+		<property name="upps" type="double">
+			<column name="UPPS" precision="22" scale="6" />
+		</property>
+		<property name="shelfLifeType" type="string">
+			<column name="SHELF_LIFE_TYPE" length="50" />
+		</property>
+		<property name="pediatricExclusiveIndicator" type="string">
+			<column name="PEDIATRIC_EXCLUSIVE_INDICATOR" length="50" />
+		</property>
+		<property name="itemTypeIndication" type="string">
+			<column name="ITEM_TYPE_INDICATION" length="50" />
+		</property>
+		<property name="acquisitionDate" type="timestamp">
+			<column name="ACQUISITION_DATE" precision="23" />
+		</property>
+		<property name="clottingFactorIndicator" type="string">
+			<column name="CLOTTING_FACTOR_INDICATOR" length="50" />
+		</property>
+		<property name="itemName" type="string">
+			<column name="ITEM_NAME" length="100" not-null="true" />
+		</property>
+		<property name="manufacturerName" type="string">
+			<column name="MANUFACTURER_NAME" length="100" />
+		</property>
+		<property name="pediatricExclusiveStartDate" type="timestamp">
+			<column name="PEDIATRIC_EXCLUSIVE_START_DATE" precision="23" />
+		</property>
+		<property name="firstSaleDate" type="timestamp">
+			<column name="FIRST_SALE_DATE" precision="23" />
+		</property>
+		<property name="itemId" type="string">
+			<column name="ITEM_ID" length="38" not-null="true" />
+		</property>
+		<property name="baselineAmp" type="string">
+			<column name="BASELINE_AMP" length="22" />
+		</property>
+		<property name="dosesPerUnit" type="string">
+			<column name="DOSES_PER_UNIT" length="25" />
+		</property>
+		<property name="dualPricingIndicator" type="string">
+			<column name="DUAL_PRICING_INDICATOR" length="30" />
+		</property>
+		<property name="baseCpi" type="string">
+			<column name="BASE_CPI" length="22" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" precision="23" not-null="true" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" />
+		</property>
+		<property name="itemStartDate" type="timestamp">
+			<column name="ITEM_START_DATE" precision="23" />
+		</property>
+		<property name="authorizedGeneric" type="string">
+			<column name="AUTHORIZED_GENERIC" length="50" />
+		</property>
+		<property name="ndc9" type="string">
+			<column name="NDC9" length="100" not-null="true" />
+		</property>
+		<property name="authorizedGenericEndDate" type="timestamp">
+			<column name="AUTHORIZED_GENERIC_END_DATE" precision="23" />
+		</property>
+		<property name="itemNo" type="string">
+			<column name="ITEM_NO" length="50" not-null="true" />
+		</property>
+		<property name="packageSize" type="string">
+			<column name="PACKAGE_SIZE" length="50" />
+		</property>
+		<property name="ndc8" type="string">
+			<column name="NDC8" length="25" not-null="true" />
+		</property>
+		<property name="itemClass" type="string">
+			<column name="ITEM_CLASS" length="50" />
+		</property>
+		<property name="labelerCode" type="string">
+			<column name="LABELER_CODE" length="25" />
+		</property>
+		<property name="displayBrand" type="string">
+			<column name="DISPLAY_BRAND" length="100" />
+		</property>
+		<property name="clottingFactorEndDate" type="timestamp">
+			<column name="CLOTTING_FACTOR_END_DATE" precision="23" />
+		</property>
+		<property name="dra" type="double">
+			<column name="DRA" precision="22" scale="6" />
+		</property>
+		<property name="brandId" type="string">
+			<column name="BRAND_ID" length="25" />
+		</property>
+		<property name="baseCpiPeriod" type="timestamp">
+			<column name="BASE_CPI_PERIOD" precision="23" />
+		</property>
+		<property name="newFormulationIndicator" type="string">
+			<column name="NEW_FORMULATION_INDICATOR" length="50" />
+		</property>
+		<property name="lastLotExpirationDate" type="timestamp">
+			<column name="LAST_LOT_EXPIRATION_DATE" precision="23" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="itemCode" type="string">
+			<column name="ITEM_CODE" length="25" not-null="true" />
+		</property>
+		<property name="clottingFactorStartDate" type="timestamp">
+			<column name="CLOTTING_FACTOR_START_DATE" precision="23" />
+		</property>
+		<property name="nonFederalExpirationDate" type="timestamp">
+			<column name="NON_FEDERAL_EXPIRATION_DATE" precision="23" />
+		</property>
+		<property name="form" type="string">
+			<column name="FORM" />
+		</property>
+		<property name="strength" type="string">
+			<column name="STRENGTH" />
+		</property>
+		<property name="itemCategory" type="string">
+			<column name="ITEM_CATEGORY" />
+		</property>
+		<property name="therapeuticClass" type="string">
+			<column name="THERAPEUTIC_CLASS" />
+		</property>
+		<property name="itemType" type="string">
+			<column name="ITEM_TYPE" />
+		</property>
+
+	</class>
 </hibernate-mapping>

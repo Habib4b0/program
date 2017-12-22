@@ -29,31 +29,31 @@ public class GtnFrameworkTransactionPortlet extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
-            addStyleName("bootstrap");
-            addStyleName("bootstrap-bb");
-            ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-            PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
-            GtnUIFrameworkRootConfig rootConfig;
-            Navigator navigator = new Navigator(this, this);
-            boolean isInvalid = "InvalidIntegration".equals(portletDisplay.getPortletName());
-            rootConfig = new GtnUIFrameworkTransactionConfig().getMainTransactionRootConfig(isInvalid);
-            List<GtnUIFrameworkViewConfig> gtnViewConfigList = new ArrayList<>(rootConfig.getGtnViewConfigList());
-            List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>(
-                    gtnViewConfigList.get(0).getGtnComponentList());
-            List<GtnUIFrameworkComponentConfig> viewComponentList = new ArrayList<>(
-                    gtnViewConfigList.get(1).getGtnComponentList());
-            if (isInvalid) {
-                new GtnFrameworkTransactionInvalidComponentConfig().getComponentsForModules(componentList,
-                        viewComponentList);
-            } else {
-                new GtnFrameworkTransactionComponentConfig().getComponentsForModules(portletDisplay.getPortletName(),
-                        isInvalid, componentList, viewComponentList, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-                        null, GtnFrameworkCommonStringConstants.STRING_EMPTY);
-            }
-            getComponentList(rootConfig, componentList, viewComponentList, gtnViewConfigList);
-            GtnUIFrameworkEngine frameworkEngine = new GtnUIFrameworkEngine();
-            frameworkEngine.buildVaadinScreen(rootConfig, navigator, request, this, portletDisplay.getPortletName(),
-                    new GtnUIFrameworkTransactionDynamicClassFiller());
+		addStyleName("bootstrap");
+		addStyleName("bootstrap-bb");
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
+		GtnUIFrameworkRootConfig rootConfig;
+		Navigator navigator = new Navigator(this, this);
+		boolean isInvalid = "InvalidIntegration".equals(portletDisplay.getPortletName());
+		rootConfig = new GtnUIFrameworkTransactionConfig().getMainTransactionRootConfig(isInvalid);
+		List<GtnUIFrameworkViewConfig> gtnViewConfigList = new ArrayList<>(rootConfig.getGtnViewConfigList());
+		List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>(
+				gtnViewConfigList.get(0).getGtnComponentList());
+		List<GtnUIFrameworkComponentConfig> viewComponentList = new ArrayList<>(
+				gtnViewConfigList.get(1).getGtnComponentList());
+		if (isInvalid) {
+			new GtnFrameworkTransactionInvalidComponentConfig().getComponentsForModules(componentList,
+					viewComponentList);
+		} else {
+			new GtnFrameworkTransactionComponentConfig().getComponentsForModules(portletDisplay.getPortletName(),
+					isInvalid, componentList, viewComponentList, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		}
+		getComponentList(rootConfig, componentList, viewComponentList, gtnViewConfigList);
+		GtnUIFrameworkEngine frameworkEngine = new GtnUIFrameworkEngine();
+		frameworkEngine.buildVaadinScreen(rootConfig, navigator, request, this, portletDisplay.getPortletName(),
+				new GtnUIFrameworkTransactionDynamicClassFiller());
 		UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
 			private static final long serialVersionUID = 1L;
 

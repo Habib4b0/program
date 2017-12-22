@@ -520,7 +520,7 @@
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"componentType": "text",
-                "decimalFormatNeeded":true,
+        "decimalFormatNeeded":true,
 		"pattern":"#0.000000"
 	},
 	{
@@ -537,7 +537,7 @@
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"componentType": "text",
-                "decimalFormatNeeded":true,
+        "decimalFormatNeeded":true,
 		"pattern":"#0.000"
 	},
 	{
