@@ -1,97 +1,34 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 	<groupId>org.asi.container</groupId>
-	<artifactId>ext-container</artifactId>
+    <artifactId>ext-container</artifactId>
 	<version>1.1</version>
-	<packaging>bundle</packaging>
-	<name>ExtContainer</name>
-	<url>http://maven.apache.org</url>
+	<packaging>jar</packaging>
+    <name>ExtContainer</name>
+    <url>http://maven.apache.org</url>
 
 <parent>
 		<groupId>com.stpl.gtn.gtn2o</groupId>
 		<artifactId>GtnResources</artifactId>
 		<version>1.0</version>
-	</parent>
+    </parent>
 
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>7.3.8</vaadin.version>
-		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
-		<!-- ZIP Manifest fields -->
-		<Implementation-Version>${project.version}</Implementation-Version>
-		<!-- Must not change this because of the Directory -->
-		<Implementation-Title>${project.name}</Implementation-Title>
-		<Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
-		<Vaadin-License-Title>Apache License 2.0</Vaadin-License-Title>
-		<Vaadin-Addon>${artifactId}-${project.version}.jar</Vaadin-Addon>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
-	</properties>
-	<distributionManagement>
-		<repository>
-			<id>galderma-releases</id>
-			<url>https://repo.sysbiz.org/content/repositories/galderma-releases/</url>
-		</repository>
-	</distributionManagement>
-	<repositories>
-		<repository>
-			<id>vaadin-addons</id>
-			<url>http://maven.vaadin.com/vaadin-addons</url>
-		</repository>
-	</repositories>
-	<dependencies>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-server</artifactId>
-			<version>${vaadin.version}</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
-	<build>
-		<plugins>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <vaadin.version>8.1.6</vaadin.version>
+        <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.0</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<version>2.3.7</version>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<Vaadin-Package-Version>1</Vaadin-Package-Version>
-						<Vaadin-License-Title>${Vaadin-License-Title}</Vaadin-License-Title>
-					</instructions>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.5.1</version>
-				<executions>
-					<execution>
-						<id>default-deploy</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<serverId>central</serverId>
-					<nexusUrl>https://repo.sysbiz.org/content/repositories/central/</nexusUrl>
-					<skipStaging>true</skipStaging>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+        <!-- ZIP Manifest fields -->
+        <Implementation-Version>${project.version}</Implementation-Version>
+        <!-- Must not change this because of the Directory -->
+        <Implementation-Title>${project.name}</Implementation-Title>
+        <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+        <Vaadin-License-Title>Apache License 2.0</Vaadin-License-Title>
+        <Vaadin-Addon>${artifactId}-${project.version}.jar</Vaadin-Addon>
+    </properties>
+    
 </project>
+

@@ -18,7 +18,8 @@ package org.asi.ui.customtextfield.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.vaadin.client.ui.VTextField;
+import com.vaadin.v7.client.ui.VTextField;
+import com.vaadin.client.VConsole;
 import com.vaadin.shared.EventId;
 
 /**

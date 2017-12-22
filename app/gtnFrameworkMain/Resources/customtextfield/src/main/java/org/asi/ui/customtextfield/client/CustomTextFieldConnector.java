@@ -1,6 +1,6 @@
 package org.asi.ui.customtextfield.client;
 
-import com.vaadin.client.ui.textfield.TextFieldConnector;
+import com.vaadin.v7.client.ui.textfield.TextFieldConnector;
 import com.vaadin.shared.ui.Connect;
 import org.asi.ui.customtextfield.CustomTextField;
 

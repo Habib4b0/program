@@ -29,8 +29,8 @@ public class GtnFrameworkQueryGeneraterServiceImpl {
 			int updatedVersionNo, String userId, int levelNo) throws GtnFrameworkGeneralException {
 		selectQueryGenerator.addSelectClause(hierarchyLevelDefinitionList, relationBean, querygeneratorBean,
 				updatedVersionNo, userId, levelNo);
-		int index = levelNo < 1 ? 0 : levelNo - 1;
-		joinQueryGenerator.addJoinClause(querygeneratorBean, hierarchyLevelDefinitionList.get(index));
+		joinQueryGenerator.addJoinClause(querygeneratorBean,
+				hierarchyLevelDefinitionList, levelNo);
 		whereQueryGenerator.addWhereClause(querygeneratorBean, relationBean);
 
 	}

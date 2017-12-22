@@ -24,7 +24,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @Service
 @Scope(value = "singleton")
-public class GtnFrameworkDeductionRelationServiceRunnable implements Runnable {
+public class GtnFrameworkDeductionRelationServiceRunnable {
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
 
@@ -40,32 +40,15 @@ public class GtnFrameworkDeductionRelationServiceRunnable implements Runnable {
 	@Autowired
 	private GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
 
-	private GtnWsRelationshipBuilderBean relationBuilderBean;
-	private boolean isRelationSaved;
-	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkDeductionRelationServiceRunnable.class);
+	private static final GtnWSLogger logger = GtnWSLogger
+			.getGTNLogger(GtnFrameworkDeductionRelationServiceRunnable.class);
 
 	public GtnFrameworkDeductionRelationServiceRunnable() {
 		super();
 	}
 
-	public void saveRelationship(GtnWsRelationshipBuilderBean relationBuilderBean, boolean isRelationSaved) {
-		this.relationBuilderBean = relationBuilderBean;
-		this.isRelationSaved = isRelationSaved;
-		Thread t = new Thread(this);
-		t.start();
-	}
 
-	@Override
-	public void run() {
-		try {
-			saveRelationshipRunnable(relationBuilderBean, isRelationSaved);
-		} catch (GtnFrameworkGeneralException e) {
-			logger.error("Exception in getQuery", e);
-		}
-
-	}
-
-	private void saveRelationshipRunnable(GtnWsRelationshipBuilderBean relationBuilderBean, boolean isRelationSaved)
+	public void saveRelationship(GtnWsRelationshipBuilderBean relationBuilderBean, boolean isRelationSaved)
 			throws GtnFrameworkGeneralException {
 		try (Session session = sessionFactory.openSession()) {
 			Transaction tx = session.beginTransaction();

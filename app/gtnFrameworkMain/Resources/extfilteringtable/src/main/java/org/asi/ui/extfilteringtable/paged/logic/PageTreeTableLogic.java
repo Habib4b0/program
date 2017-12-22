@@ -5,6 +5,9 @@
  */
 package org.asi.ui.extfilteringtable.paged.logic;
 
+import com.vaadin.v7.data.Container.Hierarchical;
+import com.vaadin.v7.data.Container.Indexed;
+import com.vaadin.v7.data.Property;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,12 +17,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
 
-import com.vaadin.data.Container.Hierarchical;
-import com.vaadin.data.Container.Indexed;
-import com.vaadin.data.Property;
 
 /**
  * The Class PageTreeTableLogic.
@@ -28,79 +27,49 @@ import com.vaadin.data.Property;
  */
 public abstract class PageTreeTableLogic extends PageTreeLogicBase {
 
-    /**
-     * The minimize depth.
-     */
+    /** The minimize depth. */
     private boolean minimizeDepth = false;
-
-    /**
-     * The current page data.
-     */
+    
+    /** The current page data. */
     private Map<String, Object> currentPageData = new HashMap<String, Object>();
-
-    /**
-     * The current load data.
-     */
+    
+    /** The current load data. */
     private final Map<String, Object> currentLoadData = new HashMap<String, Object>();
-
-    /**
-     * The expandable level.
-     */
+    
+    /** The expandable level. */
     private Set<String> expandableLevel = new HashSet<String>();
-
-    /**
-     * The tree depth map list.
-     */
+    
+    /** The tree depth map list. */
     private final Map<String, Integer> treeDepthMapList = new HashMap<String, Integer>();
-
-    /**
-     * The min depth.
-     */
+    
+    /** The min depth. */
     private int minDepth = 0;
-
-    /**
-     * The current page tree level.
-     */
+    
+    /** The current page tree level. */
     private final List<String> currentPageTreeLevel = new ArrayList<String>();
-
-    /**
-     * The expanded tree list.
-     */
+    
+    /** The expanded tree list. */
     private final Map<String, Object> expandedTreeList = new HashMap<String, Object>();
-
-    /**
-     * The expanded tree data fetchable.
-     */
+    
+    /** The expanded tree data fetchable. */
     private Set<String> expandedTreeDataFetchable = new HashSet<String>();
-
-    /**
-     * The tree index map list.
-     */
+    
+    /** The tree index map list. */
     private final Map<String, Integer> treeIndexMapList = new HashMap<String, Integer>();
-
-    /**
-     * The non fetchable data.
-     */
+    
+    /** The non fetchable data. */
     private Map<String, Object> nonFetchableData = new HashMap<String, Object>();
-
-    /**
-     * The last parent index.
-     */
+    
+    /** The last parent index. */
     private int lastParentIndex = -1;
-
-    /**
-     * The default parent tree level.
-     */
+    
+    /** The default parent tree level. */
     private final String defaultParentTreeLevel = "";
-
-    /**
-     * The parent tree level.
-     */
+    
+    /** The parent tree level. */
     private String parentTreeLevel = defaultParentTreeLevel;
-
-    /**
-     * The temp parent tree level.
-     */
+    
+    /** The temp parent tree level. */
     private String tempParentTreeLevel = defaultParentTreeLevel;
 
     /**
@@ -111,15 +80,11 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
      * @return the map
      */
     public abstract Map<Integer, Object> loadData(int start, int offset);
-
-    /**
-     * The expanded fetchable.
-     */
+    
+    /** The expanded fetchable. */
     private boolean expandedFetchable = false;
-
-    /**
-     * The bulk data load allowed.
-     */
+    
+    /** The bulk data load allowed. */
     private boolean bulkDataLoadAllowed = false;
 
     /**
@@ -166,11 +131,9 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
         }
         return treeLevel;
     }
-
-    public void printRecord(String treeLevel, Object itemId, String calledMethod) {
-
+    public void printRecord(String treeLevel,Object itemId,String calledMethod){
+        
     }
-
     /**
      * Save current page.
      */
@@ -183,8 +146,8 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
                 String treeLevel = getCurrentPageTreeLevel().get(i);
                 Object itemId = getcurrentTreeData(treeLevel);
                 if (itemId != null) {
-                    printRecord(treeLevel, itemId, "saveCurrentPage");
-                    addCurrentPageData(treeLevel, itemId);
+                    printRecord(treeLevel,itemId,"saveCurrentPage");
+                    addCurrentPageData(treeLevel, itemId);                    
                     if (expandedTreeList.containsKey(treeLevel)) {
                         addExpandedTreeList(treeLevel, itemId);
                     }
@@ -614,7 +577,7 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
      * @return the item id
      */
     private Object getItemId(String treeLevels) {
-
+        
         if (treeLevels.isEmpty()) {
             return new Object();
         }
@@ -671,6 +634,7 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
                     List<String> childList = searchChild(parentTreeLevels + "*.", currentPageTreeLevel);
                     if (childList.size() > 0) {
                         List<HierarchyString> fetchableList = new ArrayList<HierarchyString>();
+
                         if (isAllExpandedFetchable()) {
                             for (int j = 0; j < childList.size(); j++) {
                                 String childLevel = childList.get(j);
@@ -744,7 +708,7 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
             if (this.controlTable != null) {
                 this.controlTable.removeExpandListener(expandListener);
                 this.controlTable.removeCollapseListener(collapseListener);
-            }
+            }            
             for (int i = 0; i < currentPageTreeLevel.size(); i++) {
                 String treeLevel = currentPageTreeLevel.get(i);
                 Object itemId = getAvailableData(treeLevel);
@@ -758,12 +722,12 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
                         Object parentItemId = expandedTreeList.get(parentTreeLevels);
                         ((Hierarchical) getContainerDataSource()).setParent(itemIds, parentItemId);
                     }
-                    boolean expanded = expandedTreeList.containsKey(treeLevel);
+                    boolean expanded=expandedTreeList.containsKey(treeLevel);
                     if (expanded) {
                         Object itemId1 = getcurrentTreeIndexData(i);
                         if (itemId1 != null) {
                             addExpandedTreeList(treeLevel, itemId1);
-                        }
+                        }                        
                     }
                     setTablesItemColapsed(itemIds, !expanded, true);
                 }
@@ -836,7 +800,7 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
      */
     protected void setAvailableData(String treeLevel, Object itemId) {
         boolean added = false;
-        printRecord(treeLevel, itemId, "setAvailableData");
+        printRecord(treeLevel,itemId,"setAvailableData");
         if (expandedTreeList.containsKey(treeLevel)) {
             addExpandedTreeList(treeLevel, itemId);
             added = true;
@@ -859,7 +823,7 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
         try {
             Map<String, Object> list = loadBulkData(bulkDataMap);
             if (list != null) {
-                Set<String> keys = new HashSet<String>(list.keySet());
+                Set<String> keys=new HashSet<String>(list.keySet());
                 for (String key : keys) {
                     Object object = list.remove(key);
                     setAvailableData(key, object);
@@ -900,12 +864,12 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
         try {
             Map<Integer, Object> list = loadData(start, offset);
             if (list != null) {
-                Set<Integer> keys = new HashSet<Integer>(list.keySet());
+                Set<Integer> keys=new HashSet<Integer>(list.keySet());
                 for (Integer key : keys) {
                     Object object = list.remove(key);
-                    String childLevel = parentTreeLevel + (key + 1) + ".";
+                    String childLevel = parentTreeLevel + (key + 1) + ".";                    
                     setAvailableData(childLevel, object);
-                    removeExpandedTreeDataFetchable(childLevel);
+                    removeExpandedTreeDataFetchable(childLevel);                    
                 }
             }
         } catch (Property.ReadOnlyException ex) {
@@ -1347,7 +1311,7 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
 
     /**
      * Clear all.
-     *
+     * 
      * It will reset the table logic to its initial state.
      */
     @Override
@@ -1359,9 +1323,8 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
 
     /**
      * Clear all except current page.
-     *
-     * It will reset the table logic to its initial state but it will keep the
-     * data present on current page container.
+     * 
+     * It will reset the table logic to its initial state but it will keep the data present on current page container.
      */
     public void clearAllExceptCurrentPage() {
         super.clearAll();
@@ -1423,5 +1386,5 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
 
     public String getLastParentTreeLevel() {
         return parentTreeLevel;
-    }
+}
 }

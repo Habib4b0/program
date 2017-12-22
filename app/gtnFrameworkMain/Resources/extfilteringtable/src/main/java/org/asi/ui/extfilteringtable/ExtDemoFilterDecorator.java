@@ -23,7 +23,7 @@ import org.asi.ui.extfilteringtable.numberfilter.ExtNumberFilterPopupConfig;
 
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.v7.shared.ui.datefield.Resolution;
 
 
 /**

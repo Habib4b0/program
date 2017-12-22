@@ -7,8 +7,6 @@ import com.stpl.app.gtnforecasting.additionalinformation.form.AdditionalInformat
 import com.stpl.app.gtnforecasting.bpm.logic.DSCalculationLogic;
 import com.stpl.app.gtnforecasting.bpm.logic.VarianceCalculationLogic;
 import com.stpl.app.gtnforecasting.bpm.persistance.WorkflowPersistance;
-import com.stpl.app.gtnforecasting.bpm.service.BPMProcessBean;
-import com.stpl.app.gtnforecasting.bpm.service.MailWorkItemHandler;
 import com.stpl.app.gtnforecasting.bpm.util.MessageUtils;
 import com.stpl.app.gtnforecasting.dataassumptions.form.DataAssumptions;
 import com.stpl.app.gtnforecasting.dataassumptions.logic.DataAssumptionsLogic;
@@ -119,8 +117,6 @@ import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.MinimizeTray;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.task.model.TaskSummary;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -1510,21 +1506,8 @@ public class ForecastForm extends AbstractForm {
 			}
 			String workflowStatus = logic.getWorkflowStatus(session.getProjectionId(), screenName);
 			if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
-				ProcessInstance processInstance = DSCalculationLogic.startWorkflow();
-				User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
-				List<String> roleList = new ArrayList<>();
-				boolean workflowFlag = DSCalculationLogic.isValidWorkflowUser(userModel, roleList,
-						processInstance.getId());
-				Long processInstanceId = processInstance.getId();
-				try {
-					TaskSummary taskSummary = DSCalculationLogic.startAndCompleteTask(userModel,
-							session.getProjectionId(), processInstanceId);
-					processInstanceId = taskSummary.getProcessInstanceId();
-					session.setProcessId(processInstanceId);
-				} catch (Exception e) {
-					LOGGER.error(e);
-				}
-				if (workflowFlag) {
+				 List<String> roleList = new ArrayList<>();
+				if (DSCalculationLogic.startWorkflow(session,userId)) {
 					submitProjToWorkflow(params, notes, screenName, getUploadedData);
 
 				} else {
@@ -1562,8 +1545,10 @@ public class ForecastForm extends AbstractForm {
 			}
 
 			VarianceCalculationLogic.submitWorkflow(session.getUserId(), processId, params);
-			String autoApproval = BPMProcessBean.getProcessVariableLog(processId, "Auto_Approval");
-			String noOfUsers = BPMProcessBean.getProcessVariableLog(processId, "NoOfUsers");
+			String autoApproval ="";
+//                        BPMProcessBean.getProcessVariableLog(processId, "Auto_Approval");
+			String noOfUsers = "";
+//                        BPMProcessBean.getProcessVariableLog(processId, "NoOfUsers");
 			if (!autoApproval.isEmpty() && !noOfUsers.isEmpty()) {
 
 				LOGGER.debug("autoApproval  : " + autoApproval);
@@ -2036,8 +2021,8 @@ public class ForecastForm extends AbstractForm {
 											sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate
 													+ " is Approved Succesfully.");
 											sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
-											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
-													"Workflow Approved Succesfully", sb);
+//											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
+//													"Workflow Approved Succesfully", sb);
 											getBtnApprove().setEnabled(false);
 											getBtnWithdraw().setEnabled(false);
 											getBtnCancel().setEnabled(false);
@@ -2093,8 +2078,8 @@ public class ForecastForm extends AbstractForm {
 											sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate
 													+ " is Rejected Succesfully.");
 											sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
-											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
-													"Workflow Rejected Succesfully", sb);
+//											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
+//													"Workflow Rejected Succesfully", sb);
 											getBtnApprove().setEnabled(false);
 											getBtnWithdraw().setEnabled(false);
 											getBtnCancel().setEnabled(false);
@@ -2153,8 +2138,8 @@ public class ForecastForm extends AbstractForm {
 											sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate
 													+ " is Withdrawn Succesfully.");
 											sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
-											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
-													"Workflow Withdrawn Succesfully", sb);
+//											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
+//													"Workflow Withdrawn Succesfully", sb);
 											getBtnApprove().setEnabled(false);
 											getBtnWithdraw().setEnabled(false);
 											getBtnCancel().setEnabled(false);
@@ -2212,8 +2197,8 @@ public class ForecastForm extends AbstractForm {
 											sb.append(Constant.WORKFLOW_ID_MSG + workflowIdUpdate
 													+ " is cancelled Succesfully.");
 											sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
-											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
-													"Workflow Cancelled Succesfully", sb);
+//											MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL,
+//													"Workflow Cancelled Succesfully", sb);
 											getBtnApprove().setEnabled(false);
 											getBtnWithdraw().setEnabled(false);
 											getBtnCancel().setEnabled(false);

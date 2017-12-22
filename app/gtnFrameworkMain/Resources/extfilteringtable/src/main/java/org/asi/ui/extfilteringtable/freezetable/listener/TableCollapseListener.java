@@ -16,13 +16,12 @@
 
 package org.asi.ui.extfilteringtable.freezetable.listener;
 
+import com.vaadin.v7.ui.AbstractSelect;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
+import com.vaadin.v7.ui.Tree.CollapseEvent;
+import com.vaadin.v7.ui.Tree.CollapseListener;
+import com.vaadin.v7.ui.TreeTable;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
-
-import com.vaadin.ui.AbstractSelect;
-import com.vaadin.ui.ExtCustomTreeTable;
-import com.vaadin.ui.Tree.CollapseEvent;
-import com.vaadin.ui.Tree.CollapseListener;
-import com.vaadin.ui.TreeTable;
 
 
 /**

@@ -3,6 +3,7 @@ package org.asi.ui.custommenubar.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
 import com.vaadin.client.ApplicationConnection;
 import com.vaadin.client.Paintable;
 import com.vaadin.client.TooltipInfo;

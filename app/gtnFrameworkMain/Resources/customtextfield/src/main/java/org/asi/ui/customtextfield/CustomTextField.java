@@ -1,12 +1,13 @@
 package org.asi.ui.customtextfield;
 
-import com.vaadin.data.Property;
-import com.vaadin.shared.EventId;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.TextField;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Map;
+
+import com.vaadin.shared.EventId;
+import com.vaadin.ui.Component;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.ui.TextField;
 
 public class CustomTextField extends TextField{
     /**

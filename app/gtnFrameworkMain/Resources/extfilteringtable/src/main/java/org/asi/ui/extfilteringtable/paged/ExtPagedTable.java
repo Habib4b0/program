@@ -15,7 +15,7 @@
  */
 package org.asi.ui.extfilteringtable.paged;
 
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.Set;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
@@ -210,4 +210,4 @@ public class ExtPagedTable<T extends Container.Indexed & Container.Filterable & 
         }
         return true;
     }
-}
+    } 

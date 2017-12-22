@@ -21,9 +21,9 @@ import java.util.Locale;
 
 
 import com.vaadin.server.Resource;
-import com.vaadin.shared.ui.datefield.Resolution;
-import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
-import com.vaadin.ui.DateField;
+import com.vaadin.v7.shared.ui.datefield.Resolution;
+import com.vaadin.v7.ui.AbstractTextField.TextChangeEventMode;
+import com.vaadin.v7.ui.DateField;
 import org.asi.ui.extfilteringtable.numberfilter.ExtNumberFilterPopupConfig;
 
 

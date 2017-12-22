@@ -49,13 +49,21 @@
 
     <inherits name="org.asi.ui.customwindow.CustomWindowWidgetSet" />
 
-    <inherits name="org.vaadin.alump.beforeunload.gwt.BeforeUnloadWidgetSet" />
+    
 
     <inherits name="org.asi.ui.customcombobox.WidgetSet" />
 
     
 
-    <inherits name="org.stpl.addon.calendar.WidgetSet" />
+    
 
 
+
+    <inherits name="org.vaadin.alump.beforeunload.BeforeUnloadWidgetSet" />
+
+    <inherits name="com.vaadin.v7.Vaadin7WidgetSet" />
+
+    <inherits name="de.steinwedel.messagebox.WidgetSet" />
+
+    <inherits name="com.stpl.app.v8.AppWidgetSet" />
 </module>
