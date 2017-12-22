@@ -74,8 +74,8 @@ public class IvldCompanyParentCacheModel implements CacheModel<IvldCompanyParent
 		sb.append(priorParentcompanyId);
 		sb.append(", reasonForFailure=");
 		sb.append(reasonForFailure);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", lastUpdatedDate=");
 		sb.append(lastUpdatedDate);
 		sb.append(", parentEndDate=");
@@ -142,11 +142,11 @@ public class IvldCompanyParentCacheModel implements CacheModel<IvldCompanyParent
 			ivldCompanyParentImpl.setReasonForFailure(reasonForFailure);
 		}
 
-		if (companyId == null) {
-			ivldCompanyParentImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			ivldCompanyParentImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			ivldCompanyParentImpl.setCompanyId(companyId);
+			ivldCompanyParentImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (lastUpdatedDate == null) {
@@ -275,7 +275,7 @@ public class IvldCompanyParentCacheModel implements CacheModel<IvldCompanyParent
 		parentcompanyId = objectInput.readUTF();
 		priorParentcompanyId = objectInput.readUTF();
 		reasonForFailure = objectInput.readUTF();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		lastUpdatedDate = objectInput.readUTF();
 		parentEndDate = objectInput.readUTF();
 		modifiedDate = objectInput.readLong();
@@ -322,11 +322,11 @@ public class IvldCompanyParentCacheModel implements CacheModel<IvldCompanyParent
 			objectOutput.writeUTF(reasonForFailure);
 		}
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		if (lastUpdatedDate == null) {
@@ -434,7 +434,7 @@ public class IvldCompanyParentCacheModel implements CacheModel<IvldCompanyParent
 	public String parentcompanyId;
 	public String priorParentcompanyId;
 	public String reasonForFailure;
-	public String companyId;
+	public String companyIdString;
 	public String lastUpdatedDate;
 	public String parentEndDate;
 	public long modifiedDate;

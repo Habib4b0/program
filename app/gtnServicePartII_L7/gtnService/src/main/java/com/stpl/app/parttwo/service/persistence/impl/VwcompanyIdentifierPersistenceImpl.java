@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -98,7 +96,7 @@ public class VwcompanyIdentifierPersistenceImpl extends BasePersistenceImpl<Vwco
 
 			Map<String, String> dbColumnNames = new HashMap<String, String>();
 
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("companyName", "COMPANY_NAME");
 			dbColumnNames.put("endDate", "END_DATE");
 			dbColumnNames.put("companyIdentifierSid", "COMPANY_IDENTIFIER_SID");
@@ -218,8 +216,6 @@ public class VwcompanyIdentifierPersistenceImpl extends BasePersistenceImpl<Vwco
 
 		vwcompanyIdentifier.setNew(true);
 		vwcompanyIdentifier.setPrimaryKey(companyIdentifierSid);
-
-		vwcompanyIdentifier.setCompanyId(companyProvider.getCompanyId());
 
 		return vwcompanyIdentifier;
 	}
@@ -366,7 +362,7 @@ public class VwcompanyIdentifierPersistenceImpl extends BasePersistenceImpl<Vwco
 		vwcompanyIdentifierImpl.setNew(vwcompanyIdentifier.isNew());
 		vwcompanyIdentifierImpl.setPrimaryKey(vwcompanyIdentifier.getPrimaryKey());
 
-		vwcompanyIdentifierImpl.setCompanyId(vwcompanyIdentifier.getCompanyId());
+		vwcompanyIdentifierImpl.setCompanyIdString(vwcompanyIdentifier.getCompanyIdString());
 		vwcompanyIdentifierImpl.setCompanyName(vwcompanyIdentifier.getCompanyName());
 		vwcompanyIdentifierImpl.setEndDate(vwcompanyIdentifier.getEndDate());
 		vwcompanyIdentifierImpl.setCompanyIdentifierSid(vwcompanyIdentifier.getCompanyIdentifierSid());
@@ -793,8 +789,6 @@ public class VwcompanyIdentifierPersistenceImpl extends BasePersistenceImpl<Vwco
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -806,11 +800,11 @@ public class VwcompanyIdentifierPersistenceImpl extends BasePersistenceImpl<Vwco
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No VwcompanyIdentifier exists with the primary key ";
 	private static final Log _log = LogFactoryUtil.getLog(VwcompanyIdentifierPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"companyId", "companyName", "endDate", "companyIdentifierSid",
-				"modifiedDate", "identifierStatus", "companyIdentifier",
-				"entityCode", "startDate", "createdDate", "createdBy", "source",
-				"companyNo", "batchId", "addChgDelIndicator",
-				"identifierCodeQualifierName", "modifiedBy",
-				"identifierCodeQualifier"
+				"companyIdString", "companyName", "endDate",
+				"companyIdentifierSid", "modifiedDate", "identifierStatus",
+				"companyIdentifier", "entityCode", "startDate", "createdDate",
+				"createdBy", "source", "companyNo", "batchId",
+				"addChgDelIndicator", "identifierCodeQualifierName",
+				"modifiedBy", "identifierCodeQualifier"
 			});
 }

@@ -61,7 +61,7 @@ public class IvldCompanyMasterSoap implements Serializable {
 		soapModel.setZipCode(model.getZipCode());
 		soapModel.setUdc3(model.getUdc3());
 		soapModel.setReasonForFailure(model.getReasonForFailure());
-		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCompanyIdString(model.getCompanyIdString());
 		soapModel.setAddress1(model.getAddress1());
 		soapModel.setCountry(model.getCountry());
 		soapModel.setAddress2(model.getAddress2());
@@ -354,12 +354,12 @@ public class IvldCompanyMasterSoap implements Serializable {
 		_reasonForFailure = reasonForFailure;
 	}
 
-	public String getCompanyId() {
-		return _companyId;
+	public String getCompanyIdString() {
+		return _companyIdString;
 	}
 
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	public String getAddress1() {
@@ -498,7 +498,7 @@ public class IvldCompanyMasterSoap implements Serializable {
 	private String _zipCode;
 	private String _udc3;
 	private String _reasonForFailure;
-	private String _companyId;
+	private String _companyIdString;
 	private String _address1;
 	private String _country;
 	private String _address2;

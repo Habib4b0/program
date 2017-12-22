@@ -124,7 +124,7 @@ public class VwCompanyTradeClassPersistenceTest {
 
 		newVwCompanyTradeClass.setPriorTradeClass(RandomTestUtil.randomString());
 
-		newVwCompanyTradeClass.setCompanyId(RandomTestUtil.randomString());
+		newVwCompanyTradeClass.setCompanyIdString(RandomTestUtil.randomString());
 
 		newVwCompanyTradeClass.setLastUpdatedDate(RandomTestUtil.nextDate());
 
@@ -158,8 +158,8 @@ public class VwCompanyTradeClassPersistenceTest {
 			newVwCompanyTradeClass.getPriorTradeClass());
 		Assert.assertEquals(existingVwCompanyTradeClass.getCompanyTradeClassSid(),
 			newVwCompanyTradeClass.getCompanyTradeClassSid());
-		Assert.assertEquals(existingVwCompanyTradeClass.getCompanyId(),
-			newVwCompanyTradeClass.getCompanyId());
+		Assert.assertEquals(existingVwCompanyTradeClass.getCompanyIdString(),
+			newVwCompanyTradeClass.getCompanyIdString());
 		Assert.assertEquals(Time.getShortTimestamp(
 				existingVwCompanyTradeClass.getLastUpdatedDate()),
 			Time.getShortTimestamp(newVwCompanyTradeClass.getLastUpdatedDate()));
@@ -219,12 +219,13 @@ public class VwCompanyTradeClassPersistenceTest {
 
 	protected OrderByComparator<VwCompanyTradeClass> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("VW_COMPANY_TRADE_CLASS",
-			"priorTradeClass", true, "companyTradeClassSid", true, "companyId",
-			true, "lastUpdatedDate", true, "priorTradeClassStartDate", true,
-			"modifiedDate", true, "tradeClassEndDate", true,
-			"tradeClassStartDate", true, "source", true, "createdBy", true,
-			"createdDate", true, "companyTradeClass", true, "batchId", true,
-			"addChgDelIndicator", true, "modifiedBy", true);
+			"priorTradeClass", true, "companyTradeClassSid", true,
+			"companyIdString", true, "lastUpdatedDate", true,
+			"priorTradeClassStartDate", true, "modifiedDate", true,
+			"tradeClassEndDate", true, "tradeClassStartDate", true, "source",
+			true, "createdBy", true, "createdDate", true, "companyTradeClass",
+			true, "batchId", true, "addChgDelIndicator", true, "modifiedBy",
+			true);
 	}
 
 	@Test
@@ -431,7 +432,7 @@ public class VwCompanyTradeClassPersistenceTest {
 
 		vwCompanyTradeClass.setPriorTradeClass(RandomTestUtil.randomString());
 
-		vwCompanyTradeClass.setCompanyId(RandomTestUtil.randomString());
+		vwCompanyTradeClass.setCompanyIdString(RandomTestUtil.randomString());
 
 		vwCompanyTradeClass.setLastUpdatedDate(RandomTestUtil.nextDate());
 

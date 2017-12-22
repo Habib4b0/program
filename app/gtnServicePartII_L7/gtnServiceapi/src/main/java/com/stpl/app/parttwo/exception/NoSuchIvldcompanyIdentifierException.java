@@ -21,20 +21,20 @@ import com.liferay.portal.kernel.exception.NoSuchModelException;
  * @author 
  */
 @ProviderType
-public class NoSuchIvldcompanyIdentifierException extends NoSuchModelException {
+public class NoSuchIvldCompanyIdentifierException extends NoSuchModelException {
 
-	public NoSuchIvldcompanyIdentifierException() {
+	public NoSuchIvldCompanyIdentifierException() {
 	}
 
-	public NoSuchIvldcompanyIdentifierException(String msg) {
+	public NoSuchIvldCompanyIdentifierException(String msg) {
 		super(msg);
 	}
 
-	public NoSuchIvldcompanyIdentifierException(String msg, Throwable cause) {
+	public NoSuchIvldCompanyIdentifierException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 
-	public NoSuchIvldcompanyIdentifierException(Throwable cause) {
+	public NoSuchIvldCompanyIdentifierException(Throwable cause) {
 		super(cause);
 	}
 

@@ -63,7 +63,7 @@ public class VwIvldReturnReserveSoap implements Serializable {
 		soapModel.setUdc3(model.getUdc3());
 		soapModel.setReasonForFailure(model.getReasonForFailure());
 		soapModel.setCountry(model.getCountry());
-		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCompanyIdString(model.getCompanyIdString());
 		soapModel.setCostCenter(model.getCostCenter());
 		soapModel.setGlCompany(model.getGlCompany());
 		soapModel.setBrandId(model.getBrandId());
@@ -371,12 +371,12 @@ public class VwIvldReturnReserveSoap implements Serializable {
 		_country = country;
 	}
 
-	public String getCompanyId() {
-		return _companyId;
+	public String getCompanyIdString() {
+		return _companyIdString;
 	}
 
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	public String getCostCenter() {
@@ -509,7 +509,7 @@ public class VwIvldReturnReserveSoap implements Serializable {
 	private String _udc3;
 	private String _reasonForFailure;
 	private String _country;
-	private String _companyId;
+	private String _companyIdString;
 	private String _costCenter;
 	private String _glCompany;
 	private String _brandId;

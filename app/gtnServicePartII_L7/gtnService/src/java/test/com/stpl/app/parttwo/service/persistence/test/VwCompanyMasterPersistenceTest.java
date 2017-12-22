@@ -168,7 +168,7 @@ public class VwCompanyMasterPersistenceTest {
 
 		newVwCompanyMaster.setUdc3(RandomTestUtil.randomString());
 
-		newVwCompanyMaster.setCompanyId(RandomTestUtil.randomString());
+		newVwCompanyMaster.setCompanyIdString(RandomTestUtil.randomString());
 
 		newVwCompanyMaster.setCountry(RandomTestUtil.randomString());
 
@@ -243,8 +243,8 @@ public class VwCompanyMasterPersistenceTest {
 			newVwCompanyMaster.getUdc2());
 		Assert.assertEquals(existingVwCompanyMaster.getUdc3(),
 			newVwCompanyMaster.getUdc3());
-		Assert.assertEquals(existingVwCompanyMaster.getCompanyId(),
-			newVwCompanyMaster.getCompanyId());
+		Assert.assertEquals(existingVwCompanyMaster.getCompanyIdString(),
+			newVwCompanyMaster.getCompanyIdString());
 		Assert.assertEquals(existingVwCompanyMaster.getCountry(),
 			newVwCompanyMaster.getCountry());
 		Assert.assertEquals(existingVwCompanyMaster.getCompanyType(),
@@ -298,7 +298,7 @@ public class VwCompanyMasterPersistenceTest {
 			true, "address1", true, "addChgDelIndicator", true, "modifiedBy",
 			true, "udc6", true, "udc5", true, "companyMasterSid", true, "udc4",
 			true, "udc1", true, "zipCode", true, "udc2", true, "udc3", true,
-			"companyId", true, "country", true, "companyType", true,
+			"companyIdString", true, "country", true, "companyType", true,
 			"companyStartDate", true, "companyNo", true, "batchId", true,
 			"companyStatus", true, "companyEndDate", true, "city", true,
 			"regionCode", true);
@@ -549,7 +549,7 @@ public class VwCompanyMasterPersistenceTest {
 
 		vwCompanyMaster.setUdc3(RandomTestUtil.randomString());
 
-		vwCompanyMaster.setCompanyId(RandomTestUtil.randomString());
+		vwCompanyMaster.setCompanyIdString(RandomTestUtil.randomString());
 
 		vwCompanyMaster.setCountry(RandomTestUtil.randomString());
 

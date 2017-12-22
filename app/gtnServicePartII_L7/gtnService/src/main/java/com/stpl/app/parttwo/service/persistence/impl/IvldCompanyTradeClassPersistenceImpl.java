@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -102,7 +100,7 @@ public class IvldCompanyTradeClassPersistenceImpl extends BasePersistenceImpl<Iv
 				"IVLD_COMPANY_TRADE_CLASS_SID");
 			dbColumnNames.put("priorTradeClass", "PRIOR_TRADE_CLASS");
 			dbColumnNames.put("reasonForFailure", "REASON_FOR_FAILURE");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("lastUpdatedDate", "LAST_UPDATED_DATE");
 			dbColumnNames.put("priorTradeClassStartDate",
 				"PRIOR_TRADE_CLASS_START_DATE");
@@ -223,8 +221,6 @@ public class IvldCompanyTradeClassPersistenceImpl extends BasePersistenceImpl<Iv
 
 		ivldCompanyTradeClass.setNew(true);
 		ivldCompanyTradeClass.setPrimaryKey(ivldCompanyTradeClassSid);
-
-		ivldCompanyTradeClass.setCompanyId(companyProvider.getCompanyId());
 
 		return ivldCompanyTradeClass;
 	}
@@ -374,7 +370,7 @@ public class IvldCompanyTradeClassPersistenceImpl extends BasePersistenceImpl<Iv
 		ivldCompanyTradeClassImpl.setIvldCompanyTradeClassSid(ivldCompanyTradeClass.getIvldCompanyTradeClassSid());
 		ivldCompanyTradeClassImpl.setPriorTradeClass(ivldCompanyTradeClass.getPriorTradeClass());
 		ivldCompanyTradeClassImpl.setReasonForFailure(ivldCompanyTradeClass.getReasonForFailure());
-		ivldCompanyTradeClassImpl.setCompanyId(ivldCompanyTradeClass.getCompanyId());
+		ivldCompanyTradeClassImpl.setCompanyIdString(ivldCompanyTradeClass.getCompanyIdString());
 		ivldCompanyTradeClassImpl.setLastUpdatedDate(ivldCompanyTradeClass.getLastUpdatedDate());
 		ivldCompanyTradeClassImpl.setPriorTradeClassStartDate(ivldCompanyTradeClass.getPriorTradeClassStartDate());
 		ivldCompanyTradeClassImpl.setModifiedDate(ivldCompanyTradeClass.getModifiedDate());
@@ -802,8 +798,6 @@ public class IvldCompanyTradeClassPersistenceImpl extends BasePersistenceImpl<Iv
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -816,7 +810,7 @@ public class IvldCompanyTradeClassPersistenceImpl extends BasePersistenceImpl<Iv
 	private static final Log _log = LogFactoryUtil.getLog(IvldCompanyTradeClassPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"ivldCompanyTradeClassSid", "priorTradeClass",
-				"reasonForFailure", "companyId", "lastUpdatedDate",
+				"reasonForFailure", "companyIdString", "lastUpdatedDate",
 				"priorTradeClassStartDate", "modifiedDate", "tradeClassEndDate",
 				"tradeClassIntfid", "tradeClassStartDate", "source", "createdBy",
 				"createdDate", "addChgDelIndicator", "batchId", "errorField",

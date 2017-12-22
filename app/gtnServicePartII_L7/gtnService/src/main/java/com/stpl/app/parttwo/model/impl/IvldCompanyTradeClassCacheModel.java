@@ -74,8 +74,8 @@ public class IvldCompanyTradeClassCacheModel implements CacheModel<IvldCompanyTr
 		sb.append(priorTradeClass);
 		sb.append(", reasonForFailure=");
 		sb.append(reasonForFailure);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", lastUpdatedDate=");
 		sb.append(lastUpdatedDate);
 		sb.append(", priorTradeClassStartDate=");
@@ -137,11 +137,11 @@ public class IvldCompanyTradeClassCacheModel implements CacheModel<IvldCompanyTr
 			ivldCompanyTradeClassImpl.setReasonForFailure(reasonForFailure);
 		}
 
-		if (companyId == null) {
-			ivldCompanyTradeClassImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			ivldCompanyTradeClassImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			ivldCompanyTradeClassImpl.setCompanyId(companyId);
+			ivldCompanyTradeClassImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (lastUpdatedDate == null) {
@@ -276,7 +276,7 @@ public class IvldCompanyTradeClassCacheModel implements CacheModel<IvldCompanyTr
 		ivldCompanyTradeClassSid = objectInput.readInt();
 		priorTradeClass = objectInput.readUTF();
 		reasonForFailure = objectInput.readUTF();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		lastUpdatedDate = objectInput.readUTF();
 		priorTradeClassStartDate = objectInput.readUTF();
 		modifiedDate = objectInput.readLong();
@@ -317,11 +317,11 @@ public class IvldCompanyTradeClassCacheModel implements CacheModel<IvldCompanyTr
 			objectOutput.writeUTF(reasonForFailure);
 		}
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		if (lastUpdatedDate == null) {
@@ -434,7 +434,7 @@ public class IvldCompanyTradeClassCacheModel implements CacheModel<IvldCompanyTr
 	public int ivldCompanyTradeClassSid;
 	public String priorTradeClass;
 	public String reasonForFailure;
-	public String companyId;
+	public String companyIdString;
 	public String lastUpdatedDate;
 	public String priorTradeClassStartDate;
 	public long modifiedDate;

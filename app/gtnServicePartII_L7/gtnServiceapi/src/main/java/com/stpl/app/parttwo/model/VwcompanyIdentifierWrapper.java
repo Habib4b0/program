@@ -58,7 +58,7 @@ public class VwcompanyIdentifierWrapper implements VwcompanyIdentifier,
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("companyName", getCompanyName());
 		attributes.put("endDate", getEndDate());
 		attributes.put("companyIdentifierSid", getCompanyIdentifierSid());
@@ -83,10 +83,10 @@ public class VwcompanyIdentifierWrapper implements VwcompanyIdentifier,
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String companyName = (String)attributes.get("companyName");
@@ -226,16 +226,6 @@ public class VwcompanyIdentifierWrapper implements VwcompanyIdentifier,
 	}
 
 	/**
-	* Returns the company ID of this vwcompany identifier.
-	*
-	* @return the company ID of this vwcompany identifier
-	*/
-	@Override
-	public java.lang.String getCompanyId() {
-		return _vwcompanyIdentifier.getCompanyId();
-	}
-
-	/**
 	* Returns the company identifier of this vwcompany identifier.
 	*
 	* @return the company identifier of this vwcompany identifier
@@ -253,6 +243,16 @@ public class VwcompanyIdentifierWrapper implements VwcompanyIdentifier,
 	@Override
 	public int getCompanyIdentifierSid() {
 		return _vwcompanyIdentifier.getCompanyIdentifierSid();
+	}
+
+	/**
+	* Returns the company ID string of this vwcompany identifier.
+	*
+	* @return the company ID string of this vwcompany identifier
+	*/
+	@Override
+	public java.lang.String getCompanyIdString() {
+		return _vwcompanyIdentifier.getCompanyIdString();
 	}
 
 	/**
@@ -456,16 +456,6 @@ public class VwcompanyIdentifierWrapper implements VwcompanyIdentifier,
 	}
 
 	/**
-	* Sets the company ID of this vwcompany identifier.
-	*
-	* @param companyId the company ID of this vwcompany identifier
-	*/
-	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_vwcompanyIdentifier.setCompanyId(companyId);
-	}
-
-	/**
 	* Sets the company identifier of this vwcompany identifier.
 	*
 	* @param companyIdentifier the company identifier of this vwcompany identifier
@@ -483,6 +473,16 @@ public class VwcompanyIdentifierWrapper implements VwcompanyIdentifier,
 	@Override
 	public void setCompanyIdentifierSid(int companyIdentifierSid) {
 		_vwcompanyIdentifier.setCompanyIdentifierSid(companyIdentifierSid);
+	}
+
+	/**
+	* Sets the company ID string of this vwcompany identifier.
+	*
+	* @param companyIdString the company ID string of this vwcompany identifier
+	*/
+	@Override
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_vwcompanyIdentifier.setCompanyIdString(companyIdString);
 	}
 
 	/**

@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -101,7 +99,7 @@ public class IvldCompanyParentPersistenceImpl extends BasePersistenceImpl<IvldCo
 			dbColumnNames.put("parentcompanyId", "PARENT_COMPANY_ID");
 			dbColumnNames.put("priorParentcompanyId", "PRIOR_PARENT_COMPANY_ID");
 			dbColumnNames.put("reasonForFailure", "REASON_FOR_FAILURE");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("lastUpdatedDate", "LAST_UPDATED_DATE");
 			dbColumnNames.put("parentEndDate", "PARENT_END_DATE");
 			dbColumnNames.put("modifiedDate", "MODIFIED_DATE");
@@ -219,8 +217,6 @@ public class IvldCompanyParentPersistenceImpl extends BasePersistenceImpl<IvldCo
 
 		ivldCompanyParent.setNew(true);
 		ivldCompanyParent.setPrimaryKey(ivldCompanyParentSid);
-
-		ivldCompanyParent.setCompanyId(companyProvider.getCompanyId());
 
 		return ivldCompanyParent;
 	}
@@ -368,7 +364,7 @@ public class IvldCompanyParentPersistenceImpl extends BasePersistenceImpl<IvldCo
 		ivldCompanyParentImpl.setParentcompanyId(ivldCompanyParent.getParentcompanyId());
 		ivldCompanyParentImpl.setPriorParentcompanyId(ivldCompanyParent.getPriorParentcompanyId());
 		ivldCompanyParentImpl.setReasonForFailure(ivldCompanyParent.getReasonForFailure());
-		ivldCompanyParentImpl.setCompanyId(ivldCompanyParent.getCompanyId());
+		ivldCompanyParentImpl.setCompanyIdString(ivldCompanyParent.getCompanyIdString());
 		ivldCompanyParentImpl.setLastUpdatedDate(ivldCompanyParent.getLastUpdatedDate());
 		ivldCompanyParentImpl.setParentEndDate(ivldCompanyParent.getParentEndDate());
 		ivldCompanyParentImpl.setModifiedDate(ivldCompanyParent.getModifiedDate());
@@ -795,8 +791,6 @@ public class IvldCompanyParentPersistenceImpl extends BasePersistenceImpl<IvldCo
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -809,10 +803,10 @@ public class IvldCompanyParentPersistenceImpl extends BasePersistenceImpl<IvldCo
 	private static final Log _log = LogFactoryUtil.getLog(IvldCompanyParentPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"parentcompanyId", "priorParentcompanyId", "reasonForFailure",
-				"companyId", "lastUpdatedDate", "parentEndDate", "modifiedDate",
-				"parentDetailsIntfid", "priorParentStartDate", "source",
-				"createdBy", "createdDate", "addChgDelIndicator", "batchId",
-				"ivldCompanyParentSid", "errorField", "errorCode",
+				"companyIdString", "lastUpdatedDate", "parentEndDate",
+				"modifiedDate", "parentDetailsIntfid", "priorParentStartDate",
+				"source", "createdBy", "createdDate", "addChgDelIndicator",
+				"batchId", "ivldCompanyParentSid", "errorField", "errorCode",
 				"intfInsertedDate", "modifiedBy", "reprocessedFlag",
 				"parentStartDate", "checkRecord"
 			});

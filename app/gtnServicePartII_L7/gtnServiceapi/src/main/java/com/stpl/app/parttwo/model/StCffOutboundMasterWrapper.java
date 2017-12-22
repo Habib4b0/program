@@ -119,7 +119,7 @@ public class StCffOutboundMasterWrapper implements StCffOutboundMaster,
 		attributes.put("businessUnitId", getBusinessUnitId());
 		attributes.put("projectionName", getProjectionName());
 		attributes.put("userId", getUserId());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("outboundStatus", getOutboundStatus());
 		attributes.put("originalBatchId", getOriginalBatchId());
 		attributes.put("deductionName", getDeductionName());
@@ -495,10 +495,10 @@ public class StCffOutboundMasterWrapper implements StCffOutboundMaster,
 			setUserId(userId);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String outboundStatus = (String)attributes.get("outboundStatus");
@@ -660,13 +660,13 @@ public class StCffOutboundMasterWrapper implements StCffOutboundMaster,
 	}
 
 	/**
-	* Returns the company ID of this st cff outbound master.
+	* Returns the company ID string of this st cff outbound master.
 	*
-	* @return the company ID of this st cff outbound master
+	* @return the company ID string of this st cff outbound master
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _stCffOutboundMaster.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _stCffOutboundMaster.getCompanyIdString();
 	}
 
 	/**
@@ -1440,13 +1440,13 @@ public class StCffOutboundMasterWrapper implements StCffOutboundMaster,
 	}
 
 	/**
-	* Sets the company ID of this st cff outbound master.
+	* Sets the company ID string of this st cff outbound master.
 	*
-	* @param companyId the company ID of this st cff outbound master
+	* @param companyIdString the company ID string of this st cff outbound master
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_stCffOutboundMaster.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_stCffOutboundMaster.setCompanyIdString(companyIdString);
 	}
 
 	/**

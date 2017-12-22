@@ -184,7 +184,7 @@ public class IvldAccrualInboundPersistenceTest {
 
 		newIvldAccrualInbound.setReasonForFailure(RandomTestUtil.randomString());
 
-		newIvldAccrualInbound.setCompanyId(RandomTestUtil.randomString());
+		newIvldAccrualInbound.setCompanyIdString(RandomTestUtil.randomString());
 
 		newIvldAccrualInbound.setAccountName(RandomTestUtil.randomString());
 
@@ -293,8 +293,8 @@ public class IvldAccrualInboundPersistenceTest {
 			newIvldAccrualInbound.getAccrualId());
 		Assert.assertEquals(existingIvldAccrualInbound.getReasonForFailure(),
 			newIvldAccrualInbound.getReasonForFailure());
-		Assert.assertEquals(existingIvldAccrualInbound.getCompanyId(),
-			newIvldAccrualInbound.getCompanyId());
+		Assert.assertEquals(existingIvldAccrualInbound.getCompanyIdString(),
+			newIvldAccrualInbound.getCompanyIdString());
 		Assert.assertEquals(existingIvldAccrualInbound.getAccountName(),
 			newIvldAccrualInbound.getAccountName());
 		Assert.assertEquals(existingIvldAccrualInbound.getAccrualType(),
@@ -372,8 +372,8 @@ public class IvldAccrualInboundPersistenceTest {
 			true, "categoryId", true, "itemNo", true, "reprocessedFlag", true,
 			"compIdentCodeQualifier", true, "acctIdentCodeQualifier", true,
 			"contractId", true, "accountNo", true, "accrualId", true,
-			"reasonForFailure", true, "companyId", true, "accountName", true,
-			"accrualType", true, "postingDate", true, "brandId", true,
+			"reasonForFailure", true, "companyIdString", true, "accountName",
+			true, "accrualType", true, "postingDate", true, "brandId", true,
 			"provisionId", true, "amount", true, "glDate", true, "subLedger",
 			true, "companyCostCenter", true, "glAccount", true, "companyNo",
 			true, "batchId", true, "programType", true, "itemName", true,
@@ -644,7 +644,7 @@ public class IvldAccrualInboundPersistenceTest {
 
 		ivldAccrualInbound.setReasonForFailure(RandomTestUtil.randomString());
 
-		ivldAccrualInbound.setCompanyId(RandomTestUtil.randomString());
+		ivldAccrualInbound.setCompanyIdString(RandomTestUtil.randomString());
 
 		ivldAccrualInbound.setAccountName(RandomTestUtil.randomString());
 

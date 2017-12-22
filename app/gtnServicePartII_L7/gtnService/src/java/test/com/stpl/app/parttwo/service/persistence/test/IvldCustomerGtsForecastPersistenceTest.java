@@ -176,7 +176,7 @@ public class IvldCustomerGtsForecastPersistenceTest {
 
 		newIvldCustomerGtsForecast.setCountry(RandomTestUtil.randomString());
 
-		newIvldCustomerGtsForecast.setCompanyId(RandomTestUtil.randomString());
+		newIvldCustomerGtsForecast.setCompanyIdString(RandomTestUtil.randomString());
 
 		newIvldCustomerGtsForecast.setForecastValueType(RandomTestUtil.randomString());
 
@@ -276,8 +276,8 @@ public class IvldCustomerGtsForecastPersistenceTest {
 			newIvldCustomerGtsForecast.getReasonForFailure());
 		Assert.assertEquals(existingIvldCustomerGtsForecast.getCountry(),
 			newIvldCustomerGtsForecast.getCountry());
-		Assert.assertEquals(existingIvldCustomerGtsForecast.getCompanyId(),
-			newIvldCustomerGtsForecast.getCompanyId());
+		Assert.assertEquals(existingIvldCustomerGtsForecast.getCompanyIdString(),
+			newIvldCustomerGtsForecast.getCompanyIdString());
 		Assert.assertEquals(existingIvldCustomerGtsForecast.getForecastValueType(),
 			newIvldCustomerGtsForecast.getForecastValueType());
 		Assert.assertEquals(existingIvldCustomerGtsForecast.getDeductionCategory(),
@@ -346,13 +346,13 @@ public class IvldCustomerGtsForecastPersistenceTest {
 			true, "udc6", true, "udc5", true, "deductionType", true, "udc4",
 			true, "udc1", true, "units", true, "deductionRate", true, "udc2",
 			true, "udc3", true, "reasonForFailure", true, "country", true,
-			"companyId", true, "forecastValueType", true, "deductionCategory",
-			true, "adjustmentCode", true, "deductionProgramType", true,
-			"customerGtsForecastIntfId", true, "salesInclusion", true,
-			"forecastVer", true, "batchId", true, "priceType", true,
-			"forecastMonth", true, "deductionInclusion", true, "errorField",
-			true, "segment", true, "brand", true, "forecastName", true,
-			"checkRecord", true);
+			"companyIdString", true, "forecastValueType", true,
+			"deductionCategory", true, "adjustmentCode", true,
+			"deductionProgramType", true, "customerGtsForecastIntfId", true,
+			"salesInclusion", true, "forecastVer", true, "batchId", true,
+			"priceType", true, "forecastMonth", true, "deductionInclusion",
+			true, "errorField", true, "segment", true, "brand", true,
+			"forecastName", true, "checkRecord", true);
 	}
 
 	@Test
@@ -620,7 +620,7 @@ public class IvldCustomerGtsForecastPersistenceTest {
 
 		ivldCustomerGtsForecast.setCountry(RandomTestUtil.randomString());
 
-		ivldCustomerGtsForecast.setCompanyId(RandomTestUtil.randomString());
+		ivldCustomerGtsForecast.setCompanyIdString(RandomTestUtil.randomString());
 
 		ivldCustomerGtsForecast.setForecastValueType(RandomTestUtil.randomString());
 

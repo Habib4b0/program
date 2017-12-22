@@ -235,7 +235,7 @@ public class StCffOutboundMasterPersistenceTest {
 
 		newStCffOutboundMaster.setProjectionName(RandomTestUtil.randomString());
 
-		newStCffOutboundMaster.setCompanyId(RandomTestUtil.randomString());
+		newStCffOutboundMaster.setCompanyIdString(RandomTestUtil.randomString());
 
 		newStCffOutboundMaster.setOutboundStatus(RandomTestUtil.randomString());
 
@@ -385,8 +385,8 @@ public class StCffOutboundMasterPersistenceTest {
 			newStCffOutboundMaster.getProjectionName());
 		Assert.assertEquals(existingStCffOutboundMaster.getUserId(),
 			newStCffOutboundMaster.getUserId());
-		Assert.assertEquals(existingStCffOutboundMaster.getCompanyId(),
-			newStCffOutboundMaster.getCompanyId());
+		Assert.assertEquals(existingStCffOutboundMaster.getCompanyIdString(),
+			newStCffOutboundMaster.getCompanyIdString());
 		Assert.assertEquals(existingStCffOutboundMaster.getOutboundStatus(),
 			newStCffOutboundMaster.getOutboundStatus());
 		Assert.assertEquals(existingStCffOutboundMaster.getOriginalBatchId(),
@@ -766,7 +766,7 @@ public class StCffOutboundMasterPersistenceTest {
 
 		stCffOutboundMaster.setProjectionName(RandomTestUtil.randomString());
 
-		stCffOutboundMaster.setCompanyId(RandomTestUtil.randomString());
+		stCffOutboundMaster.setCompanyIdString(RandomTestUtil.randomString());
 
 		stCffOutboundMaster.setOutboundStatus(RandomTestUtil.randomString());
 

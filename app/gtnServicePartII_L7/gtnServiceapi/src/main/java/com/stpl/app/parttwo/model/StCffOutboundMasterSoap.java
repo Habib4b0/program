@@ -94,7 +94,7 @@ public class StCffOutboundMasterSoap implements Serializable {
 		soapModel.setBusinessUnitId(model.getBusinessUnitId());
 		soapModel.setProjectionName(model.getProjectionName());
 		soapModel.setUserId(model.getUserId());
-		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCompanyIdString(model.getCompanyIdString());
 		soapModel.setOutboundStatus(model.getOutboundStatus());
 		soapModel.setOriginalBatchId(model.getOriginalBatchId());
 		soapModel.setDeductionName(model.getDeductionName());
@@ -648,12 +648,12 @@ public class StCffOutboundMasterSoap implements Serializable {
 		_userId = userId;
 	}
 
-	public String getCompanyId() {
-		return _companyId;
+	public String getCompanyIdString() {
+		return _companyIdString;
 	}
 
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	public String getOutboundStatus() {
@@ -803,7 +803,7 @@ public class StCffOutboundMasterSoap implements Serializable {
 	private String _businessUnitId;
 	private String _projectionName;
 	private String _userId;
-	private String _companyId;
+	private String _companyIdString;
 	private String _outboundStatus;
 	private String _originalBatchId;
 	private String _deductionName;

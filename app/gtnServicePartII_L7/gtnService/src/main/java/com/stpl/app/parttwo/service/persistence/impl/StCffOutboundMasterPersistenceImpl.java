@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -157,7 +155,7 @@ public class StCffOutboundMasterPersistenceImpl extends BasePersistenceImpl<StCf
 			dbColumnNames.put("businessUnitId", "BUSINESS_UNIT_ID");
 			dbColumnNames.put("projectionName", "PROJECTION_NAME");
 			dbColumnNames.put("userId", "USER_ID");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("outboundStatus", "OUTBOUND_STATUS");
 			dbColumnNames.put("originalBatchId", "ORIGINAL_BATCH_ID");
 			dbColumnNames.put("deductionName", "DEDUCTION_NAME");
@@ -270,8 +268,6 @@ public class StCffOutboundMasterPersistenceImpl extends BasePersistenceImpl<StCf
 
 		stCffOutboundMaster.setNew(true);
 		stCffOutboundMaster.setPrimaryKey(stCffOutboundMasterPK);
-
-		stCffOutboundMaster.setCompanyId(companyProvider.getCompanyId());
 
 		return stCffOutboundMaster;
 	}
@@ -478,7 +474,7 @@ public class StCffOutboundMasterPersistenceImpl extends BasePersistenceImpl<StCf
 		stCffOutboundMasterImpl.setBusinessUnitId(stCffOutboundMaster.getBusinessUnitId());
 		stCffOutboundMasterImpl.setProjectionName(stCffOutboundMaster.getProjectionName());
 		stCffOutboundMasterImpl.setUserId(stCffOutboundMaster.getUserId());
-		stCffOutboundMasterImpl.setCompanyId(stCffOutboundMaster.getCompanyId());
+		stCffOutboundMasterImpl.setCompanyIdString(stCffOutboundMaster.getCompanyIdString());
 		stCffOutboundMasterImpl.setOutboundStatus(stCffOutboundMaster.getOutboundStatus());
 		stCffOutboundMasterImpl.setOriginalBatchId(stCffOutboundMaster.getOriginalBatchId());
 		stCffOutboundMasterImpl.setDeductionName(stCffOutboundMaster.getDeductionName());
@@ -826,8 +822,6 @@ public class StCffOutboundMasterPersistenceImpl extends BasePersistenceImpl<StCf
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -855,7 +849,7 @@ public class StCffOutboundMasterPersistenceImpl extends BasePersistenceImpl<StCf
 				"deductionCategory2", "contractHolderNo", "deductionCategory3",
 				"itemNo", "deductionCategory4", "deductionCategory5",
 				"deductionCategory6", "contractId", "deductionProgram",
-				"businessUnitId", "projectionName", "userId", "companyId",
+				"businessUnitId", "projectionName", "userId", "companyIdString",
 				"outboundStatus", "originalBatchId", "deductionName",
 				"netProfitPerUnit", "periodSid", "salesInclusion", "batchId",
 				"financialForecastName", "netSalesDollar", "deductionDollars",

@@ -60,7 +60,7 @@ public class VwCompanyTradeClassWrapper implements VwCompanyTradeClass,
 
 		attributes.put("priorTradeClass", getPriorTradeClass());
 		attributes.put("companyTradeClassSid", getCompanyTradeClassSid());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("lastUpdatedDate", getLastUpdatedDate());
 		attributes.put("priorTradeClassStartDate", getPriorTradeClassStartDate());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -92,10 +92,10 @@ public class VwCompanyTradeClassWrapper implements VwCompanyTradeClass,
 			setCompanyTradeClassSid(companyTradeClassSid);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		Date lastUpdatedDate = (Date)attributes.get("lastUpdatedDate");
@@ -203,13 +203,13 @@ public class VwCompanyTradeClassWrapper implements VwCompanyTradeClass,
 	}
 
 	/**
-	* Returns the company ID of this vw company trade class.
+	* Returns the company ID string of this vw company trade class.
 	*
-	* @return the company ID of this vw company trade class
+	* @return the company ID string of this vw company trade class
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _vwCompanyTradeClass.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _vwCompanyTradeClass.getCompanyIdString();
 	}
 
 	/**
@@ -403,13 +403,13 @@ public class VwCompanyTradeClassWrapper implements VwCompanyTradeClass,
 	}
 
 	/**
-	* Sets the company ID of this vw company trade class.
+	* Sets the company ID string of this vw company trade class.
 	*
-	* @param companyId the company ID of this vw company trade class
+	* @param companyIdString the company ID string of this vw company trade class
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_vwCompanyTradeClass.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_vwCompanyTradeClass.setCompanyIdString(companyIdString);
 	}
 
 	/**

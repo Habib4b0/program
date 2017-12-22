@@ -35,7 +35,7 @@ public class VwCompanyTradeClassSoap implements Serializable {
 
 		soapModel.setPriorTradeClass(model.getPriorTradeClass());
 		soapModel.setCompanyTradeClassSid(model.getCompanyTradeClassSid());
-		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCompanyIdString(model.getCompanyIdString());
 		soapModel.setLastUpdatedDate(model.getLastUpdatedDate());
 		soapModel.setPriorTradeClassStartDate(model.getPriorTradeClassStartDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
@@ -119,12 +119,12 @@ public class VwCompanyTradeClassSoap implements Serializable {
 		_companyTradeClassSid = companyTradeClassSid;
 	}
 
-	public String getCompanyId() {
-		return _companyId;
+	public String getCompanyIdString() {
+		return _companyIdString;
 	}
 
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	public Date getLastUpdatedDate() {
@@ -225,7 +225,7 @@ public class VwCompanyTradeClassSoap implements Serializable {
 
 	private String _priorTradeClass;
 	private int _companyTradeClassSid;
-	private String _companyId;
+	private String _companyIdString;
 	private Date _lastUpdatedDate;
 	private Date _priorTradeClassStartDate;
 	private Date _modifiedDate;

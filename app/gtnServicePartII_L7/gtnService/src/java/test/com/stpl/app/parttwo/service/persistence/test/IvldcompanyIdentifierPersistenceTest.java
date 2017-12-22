@@ -33,11 +33,11 @@ import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
 import com.liferay.portal.test.rule.TransactionalTestRule;
 
-import com.stpl.app.parttwo.exception.NoSuchIvldcompanyIdentifierException;
-import com.stpl.app.parttwo.model.IvldcompanyIdentifier;
-import com.stpl.app.parttwo.service.IvldcompanyIdentifierLocalServiceUtil;
-import com.stpl.app.parttwo.service.persistence.IvldcompanyIdentifierPersistence;
-import com.stpl.app.parttwo.service.persistence.IvldcompanyIdentifierUtil;
+import com.stpl.app.parttwo.exception.NoSuchIvldCompanyIdentifierException;
+import com.stpl.app.parttwo.model.IvldCompanyIdentifier;
+import com.stpl.app.parttwo.service.IvldCompanyIdentifierLocalServiceUtil;
+import com.stpl.app.parttwo.service.persistence.IvldCompanyIdentifierPersistence;
+import com.stpl.app.parttwo.service.persistence.IvldCompanyIdentifierUtil;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -61,7 +61,7 @@ import java.util.Set;
  * @generated
  */
 @RunWith(Arquillian.class)
-public class IvldcompanyIdentifierPersistenceTest {
+public class IvldCompanyIdentifierPersistenceTest {
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule = new AggregateTestRule(new LiferayIntegrationTestRule(),
@@ -71,7 +71,7 @@ public class IvldcompanyIdentifierPersistenceTest {
 
 	@Before
 	public void setUp() {
-		_persistence = IvldcompanyIdentifierUtil.getPersistence();
+		_persistence = IvldCompanyIdentifierUtil.getPersistence();
 
 		Class<?> clazz = _persistence.getClass();
 
@@ -80,7 +80,7 @@ public class IvldcompanyIdentifierPersistenceTest {
 
 	@After
 	public void tearDown() throws Exception {
-		Iterator<IvldcompanyIdentifier> iterator = _ivldcompanyIdentifiers.iterator();
+		Iterator<IvldCompanyIdentifier> iterator = _ivldCompanyIdentifiers.iterator();
 
 		while (iterator.hasNext()) {
 			_persistence.remove(iterator.next());
@@ -93,155 +93,155 @@ public class IvldcompanyIdentifierPersistenceTest {
 	public void testCreate() throws Exception {
 		int pk = RandomTestUtil.nextInt();
 
-		IvldcompanyIdentifier ivldcompanyIdentifier = _persistence.create(pk);
+		IvldCompanyIdentifier ivldCompanyIdentifier = _persistence.create(pk);
 
-		Assert.assertNotNull(ivldcompanyIdentifier);
+		Assert.assertNotNull(ivldCompanyIdentifier);
 
-		Assert.assertEquals(ivldcompanyIdentifier.getPrimaryKey(), pk);
+		Assert.assertEquals(ivldCompanyIdentifier.getPrimaryKey(), pk);
 	}
 
 	@Test
 	public void testRemove() throws Exception {
-		IvldcompanyIdentifier newIvldcompanyIdentifier = addIvldcompanyIdentifier();
+		IvldCompanyIdentifier newIvldCompanyIdentifier = addIvldCompanyIdentifier();
 
-		_persistence.remove(newIvldcompanyIdentifier);
+		_persistence.remove(newIvldCompanyIdentifier);
 
-		IvldcompanyIdentifier existingIvldcompanyIdentifier = _persistence.fetchByPrimaryKey(newIvldcompanyIdentifier.getPrimaryKey());
+		IvldCompanyIdentifier existingIvldCompanyIdentifier = _persistence.fetchByPrimaryKey(newIvldCompanyIdentifier.getPrimaryKey());
 
-		Assert.assertNull(existingIvldcompanyIdentifier);
+		Assert.assertNull(existingIvldCompanyIdentifier);
 	}
 
 	@Test
 	public void testUpdateNew() throws Exception {
-		addIvldcompanyIdentifier();
+		addIvldCompanyIdentifier();
 	}
 
 	@Test
 	public void testUpdateExisting() throws Exception {
 		int pk = RandomTestUtil.nextInt();
 
-		IvldcompanyIdentifier newIvldcompanyIdentifier = _persistence.create(pk);
+		IvldCompanyIdentifier newIvldCompanyIdentifier = _persistence.create(pk);
 
-		newIvldcompanyIdentifier.setReasonForFailure(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setReasonForFailure(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setCompanyId(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setCompanyIdString(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setCompanyName(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setCompanyName(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setEndDate(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setEndDate(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setModifiedDate(RandomTestUtil.nextDate());
+		newIvldCompanyIdentifier.setModifiedDate(RandomTestUtil.nextDate());
 
-		newIvldcompanyIdentifier.setIdentifierStatus(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setIdentifierStatus(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setCompanyIdentifier(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setCompanyIdentifier(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setEntityCode(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setEntityCode(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setCompanyIdentifierIntfid(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setCompanyIdentifierIntfid(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setStartDate(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setStartDate(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setSource(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setSource(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setCreatedDate(RandomTestUtil.nextDate());
+		newIvldCompanyIdentifier.setCreatedDate(RandomTestUtil.nextDate());
 
-		newIvldcompanyIdentifier.setCreatedBy(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setCreatedBy(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setCompanyNo(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setCompanyNo(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setAddChgDelIndicator(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setAddChgDelIndicator(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setBatchId(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setBatchId(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setErrorField(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setErrorField(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setErrorCode(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setErrorCode(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setIdentifierCodeQualifierName(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setIdentifierCodeQualifierName(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setIntfInsertedDate(RandomTestUtil.nextDate());
+		newIvldCompanyIdentifier.setIntfInsertedDate(RandomTestUtil.nextDate());
 
-		newIvldcompanyIdentifier.setModifiedBy(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setModifiedBy(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setReprocessedFlag(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setReprocessedFlag(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setIdentifierCodeQualifier(RandomTestUtil.randomString());
+		newIvldCompanyIdentifier.setIdentifierCodeQualifier(RandomTestUtil.randomString());
 
-		newIvldcompanyIdentifier.setCheckRecord(RandomTestUtil.randomBoolean());
+		newIvldCompanyIdentifier.setCheckRecord(RandomTestUtil.randomBoolean());
 
-		_ivldcompanyIdentifiers.add(_persistence.update(
-				newIvldcompanyIdentifier));
+		_ivldCompanyIdentifiers.add(_persistence.update(
+				newIvldCompanyIdentifier));
 
-		IvldcompanyIdentifier existingIvldcompanyIdentifier = _persistence.findByPrimaryKey(newIvldcompanyIdentifier.getPrimaryKey());
+		IvldCompanyIdentifier existingIvldCompanyIdentifier = _persistence.findByPrimaryKey(newIvldCompanyIdentifier.getPrimaryKey());
 
-		Assert.assertEquals(existingIvldcompanyIdentifier.getReasonForFailure(),
-			newIvldcompanyIdentifier.getReasonForFailure());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getCompanyId(),
-			newIvldcompanyIdentifier.getCompanyId());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getCompanyName(),
-			newIvldcompanyIdentifier.getCompanyName());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getEndDate(),
-			newIvldcompanyIdentifier.getEndDate());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getReasonForFailure(),
+			newIvldCompanyIdentifier.getReasonForFailure());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getCompanyIdString(),
+			newIvldCompanyIdentifier.getCompanyIdString());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getCompanyName(),
+			newIvldCompanyIdentifier.getCompanyName());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getEndDate(),
+			newIvldCompanyIdentifier.getEndDate());
 		Assert.assertEquals(Time.getShortTimestamp(
-				existingIvldcompanyIdentifier.getModifiedDate()),
-			Time.getShortTimestamp(newIvldcompanyIdentifier.getModifiedDate()));
-		Assert.assertEquals(existingIvldcompanyIdentifier.getIdentifierStatus(),
-			newIvldcompanyIdentifier.getIdentifierStatus());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getCompanyIdentifier(),
-			newIvldcompanyIdentifier.getCompanyIdentifier());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getEntityCode(),
-			newIvldcompanyIdentifier.getEntityCode());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getCompanyIdentifierIntfid(),
-			newIvldcompanyIdentifier.getCompanyIdentifierIntfid());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getStartDate(),
-			newIvldcompanyIdentifier.getStartDate());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getSource(),
-			newIvldcompanyIdentifier.getSource());
+				existingIvldCompanyIdentifier.getModifiedDate()),
+			Time.getShortTimestamp(newIvldCompanyIdentifier.getModifiedDate()));
+		Assert.assertEquals(existingIvldCompanyIdentifier.getIdentifierStatus(),
+			newIvldCompanyIdentifier.getIdentifierStatus());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getCompanyIdentifier(),
+			newIvldCompanyIdentifier.getCompanyIdentifier());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getEntityCode(),
+			newIvldCompanyIdentifier.getEntityCode());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getCompanyIdentifierIntfid(),
+			newIvldCompanyIdentifier.getCompanyIdentifierIntfid());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getStartDate(),
+			newIvldCompanyIdentifier.getStartDate());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getSource(),
+			newIvldCompanyIdentifier.getSource());
 		Assert.assertEquals(Time.getShortTimestamp(
-				existingIvldcompanyIdentifier.getCreatedDate()),
-			Time.getShortTimestamp(newIvldcompanyIdentifier.getCreatedDate()));
-		Assert.assertEquals(existingIvldcompanyIdentifier.getCreatedBy(),
-			newIvldcompanyIdentifier.getCreatedBy());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getCompanyNo(),
-			newIvldcompanyIdentifier.getCompanyNo());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getAddChgDelIndicator(),
-			newIvldcompanyIdentifier.getAddChgDelIndicator());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getBatchId(),
-			newIvldcompanyIdentifier.getBatchId());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getErrorField(),
-			newIvldcompanyIdentifier.getErrorField());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getErrorCode(),
-			newIvldcompanyIdentifier.getErrorCode());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getIdentifierCodeQualifierName(),
-			newIvldcompanyIdentifier.getIdentifierCodeQualifierName());
+				existingIvldCompanyIdentifier.getCreatedDate()),
+			Time.getShortTimestamp(newIvldCompanyIdentifier.getCreatedDate()));
+		Assert.assertEquals(existingIvldCompanyIdentifier.getCreatedBy(),
+			newIvldCompanyIdentifier.getCreatedBy());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getCompanyNo(),
+			newIvldCompanyIdentifier.getCompanyNo());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getAddChgDelIndicator(),
+			newIvldCompanyIdentifier.getAddChgDelIndicator());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getBatchId(),
+			newIvldCompanyIdentifier.getBatchId());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getErrorField(),
+			newIvldCompanyIdentifier.getErrorField());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getErrorCode(),
+			newIvldCompanyIdentifier.getErrorCode());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getIdentifierCodeQualifierName(),
+			newIvldCompanyIdentifier.getIdentifierCodeQualifierName());
 		Assert.assertEquals(Time.getShortTimestamp(
-				existingIvldcompanyIdentifier.getIntfInsertedDate()),
+				existingIvldCompanyIdentifier.getIntfInsertedDate()),
 			Time.getShortTimestamp(
-				newIvldcompanyIdentifier.getIntfInsertedDate()));
-		Assert.assertEquals(existingIvldcompanyIdentifier.getModifiedBy(),
-			newIvldcompanyIdentifier.getModifiedBy());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getIvldcompanyIdentifierSid(),
-			newIvldcompanyIdentifier.getIvldcompanyIdentifierSid());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getReprocessedFlag(),
-			newIvldcompanyIdentifier.getReprocessedFlag());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getIdentifierCodeQualifier(),
-			newIvldcompanyIdentifier.getIdentifierCodeQualifier());
-		Assert.assertEquals(existingIvldcompanyIdentifier.getCheckRecord(),
-			newIvldcompanyIdentifier.getCheckRecord());
+				newIvldCompanyIdentifier.getIntfInsertedDate()));
+		Assert.assertEquals(existingIvldCompanyIdentifier.getModifiedBy(),
+			newIvldCompanyIdentifier.getModifiedBy());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getIvldCompanyIdentifierSid(),
+			newIvldCompanyIdentifier.getIvldCompanyIdentifierSid());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getReprocessedFlag(),
+			newIvldCompanyIdentifier.getReprocessedFlag());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getIdentifierCodeQualifier(),
+			newIvldCompanyIdentifier.getIdentifierCodeQualifier());
+		Assert.assertEquals(existingIvldCompanyIdentifier.getCheckRecord(),
+			newIvldCompanyIdentifier.getCheckRecord());
 	}
 
 	@Test
 	public void testFindByPrimaryKeyExisting() throws Exception {
-		IvldcompanyIdentifier newIvldcompanyIdentifier = addIvldcompanyIdentifier();
+		IvldCompanyIdentifier newIvldCompanyIdentifier = addIvldCompanyIdentifier();
 
-		IvldcompanyIdentifier existingIvldcompanyIdentifier = _persistence.findByPrimaryKey(newIvldcompanyIdentifier.getPrimaryKey());
+		IvldCompanyIdentifier existingIvldCompanyIdentifier = _persistence.findByPrimaryKey(newIvldCompanyIdentifier.getPrimaryKey());
 
-		Assert.assertEquals(existingIvldcompanyIdentifier,
-			newIvldcompanyIdentifier);
+		Assert.assertEquals(existingIvldCompanyIdentifier,
+			newIvldCompanyIdentifier);
 	}
 
-	@Test(expected = NoSuchIvldcompanyIdentifierException.class)
+	@Test(expected = NoSuchIvldCompanyIdentifierException.class)
 	public void testFindByPrimaryKeyMissing() throws Exception {
 		int pk = RandomTestUtil.nextInt();
 
@@ -254,59 +254,59 @@ public class IvldcompanyIdentifierPersistenceTest {
 			getOrderByComparator());
 	}
 
-	protected OrderByComparator<IvldcompanyIdentifier> getOrderByComparator() {
+	protected OrderByComparator<IvldCompanyIdentifier> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("IVLD_COMPANY_IDENTIFIER",
-			"reasonForFailure", true, "companyId", true, "companyName", true,
-			"endDate", true, "modifiedDate", true, "identifierStatus", true,
-			"companyIdentifier", true, "entityCode", true,
+			"reasonForFailure", true, "companyIdString", true, "companyName",
+			true, "endDate", true, "modifiedDate", true, "identifierStatus",
+			true, "companyIdentifier", true, "entityCode", true,
 			"companyIdentifierIntfid", true, "startDate", true, "source", true,
 			"createdDate", true, "createdBy", true, "companyNo", true,
 			"addChgDelIndicator", true, "batchId", true, "errorField", true,
 			"errorCode", true, "identifierCodeQualifierName", true,
 			"intfInsertedDate", true, "modifiedBy", true,
-			"ivldcompanyIdentifierSid", true, "reprocessedFlag", true,
+			"ivldCompanyIdentifierSid", true, "reprocessedFlag", true,
 			"identifierCodeQualifier", true, "checkRecord", true);
 	}
 
 	@Test
 	public void testFetchByPrimaryKeyExisting() throws Exception {
-		IvldcompanyIdentifier newIvldcompanyIdentifier = addIvldcompanyIdentifier();
+		IvldCompanyIdentifier newIvldCompanyIdentifier = addIvldCompanyIdentifier();
 
-		IvldcompanyIdentifier existingIvldcompanyIdentifier = _persistence.fetchByPrimaryKey(newIvldcompanyIdentifier.getPrimaryKey());
+		IvldCompanyIdentifier existingIvldCompanyIdentifier = _persistence.fetchByPrimaryKey(newIvldCompanyIdentifier.getPrimaryKey());
 
-		Assert.assertEquals(existingIvldcompanyIdentifier,
-			newIvldcompanyIdentifier);
+		Assert.assertEquals(existingIvldCompanyIdentifier,
+			newIvldCompanyIdentifier);
 	}
 
 	@Test
 	public void testFetchByPrimaryKeyMissing() throws Exception {
 		int pk = RandomTestUtil.nextInt();
 
-		IvldcompanyIdentifier missingIvldcompanyIdentifier = _persistence.fetchByPrimaryKey(pk);
+		IvldCompanyIdentifier missingIvldCompanyIdentifier = _persistence.fetchByPrimaryKey(pk);
 
-		Assert.assertNull(missingIvldcompanyIdentifier);
+		Assert.assertNull(missingIvldCompanyIdentifier);
 	}
 
 	@Test
 	public void testFetchByPrimaryKeysWithMultiplePrimaryKeysWhereAllPrimaryKeysExist()
 		throws Exception {
-		IvldcompanyIdentifier newIvldcompanyIdentifier1 = addIvldcompanyIdentifier();
-		IvldcompanyIdentifier newIvldcompanyIdentifier2 = addIvldcompanyIdentifier();
+		IvldCompanyIdentifier newIvldCompanyIdentifier1 = addIvldCompanyIdentifier();
+		IvldCompanyIdentifier newIvldCompanyIdentifier2 = addIvldCompanyIdentifier();
 
 		Set<Serializable> primaryKeys = new HashSet<Serializable>();
 
-		primaryKeys.add(newIvldcompanyIdentifier1.getPrimaryKey());
-		primaryKeys.add(newIvldcompanyIdentifier2.getPrimaryKey());
+		primaryKeys.add(newIvldCompanyIdentifier1.getPrimaryKey());
+		primaryKeys.add(newIvldCompanyIdentifier2.getPrimaryKey());
 
-		Map<Serializable, IvldcompanyIdentifier> ivldcompanyIdentifiers = _persistence.fetchByPrimaryKeys(primaryKeys);
+		Map<Serializable, IvldCompanyIdentifier> ivldCompanyIdentifiers = _persistence.fetchByPrimaryKeys(primaryKeys);
 
-		Assert.assertEquals(2, ivldcompanyIdentifiers.size());
-		Assert.assertEquals(newIvldcompanyIdentifier1,
-			ivldcompanyIdentifiers.get(
-				newIvldcompanyIdentifier1.getPrimaryKey()));
-		Assert.assertEquals(newIvldcompanyIdentifier2,
-			ivldcompanyIdentifiers.get(
-				newIvldcompanyIdentifier2.getPrimaryKey()));
+		Assert.assertEquals(2, ivldCompanyIdentifiers.size());
+		Assert.assertEquals(newIvldCompanyIdentifier1,
+			ivldCompanyIdentifiers.get(
+				newIvldCompanyIdentifier1.getPrimaryKey()));
+		Assert.assertEquals(newIvldCompanyIdentifier2,
+			ivldCompanyIdentifiers.get(
+				newIvldCompanyIdentifier2.getPrimaryKey()));
 	}
 
 	@Test
@@ -321,28 +321,28 @@ public class IvldcompanyIdentifierPersistenceTest {
 		primaryKeys.add(pk1);
 		primaryKeys.add(pk2);
 
-		Map<Serializable, IvldcompanyIdentifier> ivldcompanyIdentifiers = _persistence.fetchByPrimaryKeys(primaryKeys);
+		Map<Serializable, IvldCompanyIdentifier> ivldCompanyIdentifiers = _persistence.fetchByPrimaryKeys(primaryKeys);
 
-		Assert.assertTrue(ivldcompanyIdentifiers.isEmpty());
+		Assert.assertTrue(ivldCompanyIdentifiers.isEmpty());
 	}
 
 	@Test
 	public void testFetchByPrimaryKeysWithMultiplePrimaryKeysWhereSomePrimaryKeysExist()
 		throws Exception {
-		IvldcompanyIdentifier newIvldcompanyIdentifier = addIvldcompanyIdentifier();
+		IvldCompanyIdentifier newIvldCompanyIdentifier = addIvldCompanyIdentifier();
 
 		int pk = RandomTestUtil.nextInt();
 
 		Set<Serializable> primaryKeys = new HashSet<Serializable>();
 
-		primaryKeys.add(newIvldcompanyIdentifier.getPrimaryKey());
+		primaryKeys.add(newIvldCompanyIdentifier.getPrimaryKey());
 		primaryKeys.add(pk);
 
-		Map<Serializable, IvldcompanyIdentifier> ivldcompanyIdentifiers = _persistence.fetchByPrimaryKeys(primaryKeys);
+		Map<Serializable, IvldCompanyIdentifier> ivldCompanyIdentifiers = _persistence.fetchByPrimaryKeys(primaryKeys);
 
-		Assert.assertEquals(1, ivldcompanyIdentifiers.size());
-		Assert.assertEquals(newIvldcompanyIdentifier,
-			ivldcompanyIdentifiers.get(newIvldcompanyIdentifier.getPrimaryKey()));
+		Assert.assertEquals(1, ivldCompanyIdentifiers.size());
+		Assert.assertEquals(newIvldCompanyIdentifier,
+			ivldCompanyIdentifiers.get(newIvldCompanyIdentifier.getPrimaryKey()));
 	}
 
 	@Test
@@ -350,38 +350,38 @@ public class IvldcompanyIdentifierPersistenceTest {
 		throws Exception {
 		Set<Serializable> primaryKeys = new HashSet<Serializable>();
 
-		Map<Serializable, IvldcompanyIdentifier> ivldcompanyIdentifiers = _persistence.fetchByPrimaryKeys(primaryKeys);
+		Map<Serializable, IvldCompanyIdentifier> ivldCompanyIdentifiers = _persistence.fetchByPrimaryKeys(primaryKeys);
 
-		Assert.assertTrue(ivldcompanyIdentifiers.isEmpty());
+		Assert.assertTrue(ivldCompanyIdentifiers.isEmpty());
 	}
 
 	@Test
 	public void testFetchByPrimaryKeysWithOnePrimaryKey()
 		throws Exception {
-		IvldcompanyIdentifier newIvldcompanyIdentifier = addIvldcompanyIdentifier();
+		IvldCompanyIdentifier newIvldCompanyIdentifier = addIvldCompanyIdentifier();
 
 		Set<Serializable> primaryKeys = new HashSet<Serializable>();
 
-		primaryKeys.add(newIvldcompanyIdentifier.getPrimaryKey());
+		primaryKeys.add(newIvldCompanyIdentifier.getPrimaryKey());
 
-		Map<Serializable, IvldcompanyIdentifier> ivldcompanyIdentifiers = _persistence.fetchByPrimaryKeys(primaryKeys);
+		Map<Serializable, IvldCompanyIdentifier> ivldCompanyIdentifiers = _persistence.fetchByPrimaryKeys(primaryKeys);
 
-		Assert.assertEquals(1, ivldcompanyIdentifiers.size());
-		Assert.assertEquals(newIvldcompanyIdentifier,
-			ivldcompanyIdentifiers.get(newIvldcompanyIdentifier.getPrimaryKey()));
+		Assert.assertEquals(1, ivldCompanyIdentifiers.size());
+		Assert.assertEquals(newIvldCompanyIdentifier,
+			ivldCompanyIdentifiers.get(newIvldCompanyIdentifier.getPrimaryKey()));
 	}
 
 	@Test
 	public void testActionableDynamicQuery() throws Exception {
 		final IntegerWrapper count = new IntegerWrapper();
 
-		ActionableDynamicQuery actionableDynamicQuery = IvldcompanyIdentifierLocalServiceUtil.getActionableDynamicQuery();
+		ActionableDynamicQuery actionableDynamicQuery = IvldCompanyIdentifierLocalServiceUtil.getActionableDynamicQuery();
 
-		actionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<IvldcompanyIdentifier>() {
+		actionableDynamicQuery.setPerformActionMethod(new ActionableDynamicQuery.PerformActionMethod<IvldCompanyIdentifier>() {
 				@Override
 				public void performAction(
-					IvldcompanyIdentifier ivldcompanyIdentifier) {
-					Assert.assertNotNull(ivldcompanyIdentifier);
+					IvldCompanyIdentifier ivldCompanyIdentifier) {
+					Assert.assertNotNull(ivldCompanyIdentifier);
 
 					count.increment();
 				}
@@ -395,34 +395,34 @@ public class IvldcompanyIdentifierPersistenceTest {
 	@Test
 	public void testDynamicQueryByPrimaryKeyExisting()
 		throws Exception {
-		IvldcompanyIdentifier newIvldcompanyIdentifier = addIvldcompanyIdentifier();
+		IvldCompanyIdentifier newIvldCompanyIdentifier = addIvldCompanyIdentifier();
 
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(IvldcompanyIdentifier.class,
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(IvldCompanyIdentifier.class,
 				_dynamicQueryClassLoader);
 
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(
-				"ivldcompanyIdentifierSid",
-				newIvldcompanyIdentifier.getIvldcompanyIdentifierSid()));
+				"ivldCompanyIdentifierSid",
+				newIvldCompanyIdentifier.getIvldCompanyIdentifierSid()));
 
-		List<IvldcompanyIdentifier> result = _persistence.findWithDynamicQuery(dynamicQuery);
+		List<IvldCompanyIdentifier> result = _persistence.findWithDynamicQuery(dynamicQuery);
 
 		Assert.assertEquals(1, result.size());
 
-		IvldcompanyIdentifier existingIvldcompanyIdentifier = result.get(0);
+		IvldCompanyIdentifier existingIvldCompanyIdentifier = result.get(0);
 
-		Assert.assertEquals(existingIvldcompanyIdentifier,
-			newIvldcompanyIdentifier);
+		Assert.assertEquals(existingIvldCompanyIdentifier,
+			newIvldCompanyIdentifier);
 	}
 
 	@Test
 	public void testDynamicQueryByPrimaryKeyMissing() throws Exception {
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(IvldcompanyIdentifier.class,
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(IvldCompanyIdentifier.class,
 				_dynamicQueryClassLoader);
 
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(
-				"ivldcompanyIdentifierSid", RandomTestUtil.nextInt()));
+				"ivldCompanyIdentifierSid", RandomTestUtil.nextInt()));
 
-		List<IvldcompanyIdentifier> result = _persistence.findWithDynamicQuery(dynamicQuery);
+		List<IvldCompanyIdentifier> result = _persistence.findWithDynamicQuery(dynamicQuery);
 
 		Assert.assertEquals(0, result.size());
 	}
@@ -430,40 +430,40 @@ public class IvldcompanyIdentifierPersistenceTest {
 	@Test
 	public void testDynamicQueryByProjectionExisting()
 		throws Exception {
-		IvldcompanyIdentifier newIvldcompanyIdentifier = addIvldcompanyIdentifier();
+		IvldCompanyIdentifier newIvldCompanyIdentifier = addIvldCompanyIdentifier();
 
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(IvldcompanyIdentifier.class,
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(IvldCompanyIdentifier.class,
 				_dynamicQueryClassLoader);
 
 		dynamicQuery.setProjection(ProjectionFactoryUtil.property(
-				"ivldcompanyIdentifierSid"));
+				"ivldCompanyIdentifierSid"));
 
-		Object newIvldcompanyIdentifierSid = newIvldcompanyIdentifier.getIvldcompanyIdentifierSid();
+		Object newIvldCompanyIdentifierSid = newIvldCompanyIdentifier.getIvldCompanyIdentifierSid();
 
 		dynamicQuery.add(RestrictionsFactoryUtil.in(
-				"ivldcompanyIdentifierSid",
-				new Object[] { newIvldcompanyIdentifierSid }));
+				"ivldCompanyIdentifierSid",
+				new Object[] { newIvldCompanyIdentifierSid }));
 
 		List<Object> result = _persistence.findWithDynamicQuery(dynamicQuery);
 
 		Assert.assertEquals(1, result.size());
 
-		Object existingIvldcompanyIdentifierSid = result.get(0);
+		Object existingIvldCompanyIdentifierSid = result.get(0);
 
-		Assert.assertEquals(existingIvldcompanyIdentifierSid,
-			newIvldcompanyIdentifierSid);
+		Assert.assertEquals(existingIvldCompanyIdentifierSid,
+			newIvldCompanyIdentifierSid);
 	}
 
 	@Test
 	public void testDynamicQueryByProjectionMissing() throws Exception {
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(IvldcompanyIdentifier.class,
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(IvldCompanyIdentifier.class,
 				_dynamicQueryClassLoader);
 
 		dynamicQuery.setProjection(ProjectionFactoryUtil.property(
-				"ivldcompanyIdentifierSid"));
+				"ivldCompanyIdentifierSid"));
 
 		dynamicQuery.add(RestrictionsFactoryUtil.in(
-				"ivldcompanyIdentifierSid",
+				"ivldCompanyIdentifierSid",
 				new Object[] { RandomTestUtil.nextInt() }));
 
 		List<Object> result = _persistence.findWithDynamicQuery(dynamicQuery);
@@ -471,66 +471,66 @@ public class IvldcompanyIdentifierPersistenceTest {
 		Assert.assertEquals(0, result.size());
 	}
 
-	protected IvldcompanyIdentifier addIvldcompanyIdentifier()
+	protected IvldCompanyIdentifier addIvldCompanyIdentifier()
 		throws Exception {
 		int pk = RandomTestUtil.nextInt();
 
-		IvldcompanyIdentifier ivldcompanyIdentifier = _persistence.create(pk);
+		IvldCompanyIdentifier ivldCompanyIdentifier = _persistence.create(pk);
 
-		ivldcompanyIdentifier.setReasonForFailure(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setReasonForFailure(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setCompanyId(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setCompanyIdString(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setCompanyName(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setCompanyName(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setEndDate(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setEndDate(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setModifiedDate(RandomTestUtil.nextDate());
+		ivldCompanyIdentifier.setModifiedDate(RandomTestUtil.nextDate());
 
-		ivldcompanyIdentifier.setIdentifierStatus(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setIdentifierStatus(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setCompanyIdentifier(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setCompanyIdentifier(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setEntityCode(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setEntityCode(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setCompanyIdentifierIntfid(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setCompanyIdentifierIntfid(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setStartDate(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setStartDate(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setSource(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setSource(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setCreatedDate(RandomTestUtil.nextDate());
+		ivldCompanyIdentifier.setCreatedDate(RandomTestUtil.nextDate());
 
-		ivldcompanyIdentifier.setCreatedBy(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setCreatedBy(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setCompanyNo(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setCompanyNo(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setAddChgDelIndicator(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setAddChgDelIndicator(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setBatchId(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setBatchId(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setErrorField(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setErrorField(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setErrorCode(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setErrorCode(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setIdentifierCodeQualifierName(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setIdentifierCodeQualifierName(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setIntfInsertedDate(RandomTestUtil.nextDate());
+		ivldCompanyIdentifier.setIntfInsertedDate(RandomTestUtil.nextDate());
 
-		ivldcompanyIdentifier.setModifiedBy(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setModifiedBy(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setReprocessedFlag(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setReprocessedFlag(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setIdentifierCodeQualifier(RandomTestUtil.randomString());
+		ivldCompanyIdentifier.setIdentifierCodeQualifier(RandomTestUtil.randomString());
 
-		ivldcompanyIdentifier.setCheckRecord(RandomTestUtil.randomBoolean());
+		ivldCompanyIdentifier.setCheckRecord(RandomTestUtil.randomBoolean());
 
-		_ivldcompanyIdentifiers.add(_persistence.update(ivldcompanyIdentifier));
+		_ivldCompanyIdentifiers.add(_persistence.update(ivldCompanyIdentifier));
 
-		return ivldcompanyIdentifier;
+		return ivldCompanyIdentifier;
 	}
 
-	private List<IvldcompanyIdentifier> _ivldcompanyIdentifiers = new ArrayList<IvldcompanyIdentifier>();
-	private IvldcompanyIdentifierPersistence _persistence;
+	private List<IvldCompanyIdentifier> _ivldCompanyIdentifiers = new ArrayList<IvldCompanyIdentifier>();
+	private IvldCompanyIdentifierPersistence _persistence;
 	private ClassLoader _dynamicQueryClassLoader;
 }

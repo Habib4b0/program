@@ -150,7 +150,7 @@ public class VwCompanyParentDetailsModelImpl extends BaseModelImpl<VwCompanyPare
 
 		attributes.put("parentcompanyId", getParentcompanyId());
 		attributes.put("priorParentcompanyId", getPriorParentcompanyId());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("lastUpdatedDate", getLastUpdatedDate());
 		attributes.put("parentEndDate", getParentEndDate());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -185,10 +185,10 @@ public class VwCompanyParentDetailsModelImpl extends BaseModelImpl<VwCompanyPare
 			setPriorParentcompanyId(priorParentcompanyId);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		Date lastUpdatedDate = (Date)attributes.get("lastUpdatedDate");
@@ -296,18 +296,18 @@ public class VwCompanyParentDetailsModelImpl extends BaseModelImpl<VwCompanyPare
 	}
 
 	@Override
-	public String getCompanyId() {
-		if (_companyId == null) {
+	public String getCompanyIdString() {
+		if (_companyIdString == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _companyId;
+			return _companyIdString;
 		}
 	}
 
 	@Override
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	@Override
@@ -471,7 +471,7 @@ public class VwCompanyParentDetailsModelImpl extends BaseModelImpl<VwCompanyPare
 
 		vwCompanyParentDetailsImpl.setParentcompanyId(getParentcompanyId());
 		vwCompanyParentDetailsImpl.setPriorParentcompanyId(getPriorParentcompanyId());
-		vwCompanyParentDetailsImpl.setCompanyId(getCompanyId());
+		vwCompanyParentDetailsImpl.setCompanyIdString(getCompanyIdString());
 		vwCompanyParentDetailsImpl.setLastUpdatedDate(getLastUpdatedDate());
 		vwCompanyParentDetailsImpl.setParentEndDate(getParentEndDate());
 		vwCompanyParentDetailsImpl.setModifiedDate(getModifiedDate());
@@ -567,12 +567,12 @@ public class VwCompanyParentDetailsModelImpl extends BaseModelImpl<VwCompanyPare
 			vwCompanyParentDetailsCacheModel.priorParentcompanyId = null;
 		}
 
-		vwCompanyParentDetailsCacheModel.companyId = getCompanyId();
+		vwCompanyParentDetailsCacheModel.companyIdString = getCompanyIdString();
 
-		String companyId = vwCompanyParentDetailsCacheModel.companyId;
+		String companyIdString = vwCompanyParentDetailsCacheModel.companyIdString;
 
-		if ((companyId != null) && (companyId.length() == 0)) {
-			vwCompanyParentDetailsCacheModel.companyId = null;
+		if ((companyIdString != null) && (companyIdString.length() == 0)) {
+			vwCompanyParentDetailsCacheModel.companyIdString = null;
 		}
 
 		Date lastUpdatedDate = getLastUpdatedDate();
@@ -682,8 +682,8 @@ public class VwCompanyParentDetailsModelImpl extends BaseModelImpl<VwCompanyPare
 		sb.append(getParentcompanyId());
 		sb.append(", priorParentcompanyId=");
 		sb.append(getPriorParentcompanyId());
-		sb.append(", companyId=");
-		sb.append(getCompanyId());
+		sb.append(", companyIdString=");
+		sb.append(getCompanyIdString());
 		sb.append(", lastUpdatedDate=");
 		sb.append(getLastUpdatedDate());
 		sb.append(", parentEndDate=");
@@ -730,8 +730,8 @@ public class VwCompanyParentDetailsModelImpl extends BaseModelImpl<VwCompanyPare
 		sb.append(getPriorParentcompanyId());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>companyId</column-name><column-value><![CDATA[");
-		sb.append(getCompanyId());
+			"<column><column-name>companyIdString</column-name><column-value><![CDATA[");
+		sb.append(getCompanyIdString());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>lastUpdatedDate</column-name><column-value><![CDATA[");
@@ -793,7 +793,7 @@ public class VwCompanyParentDetailsModelImpl extends BaseModelImpl<VwCompanyPare
 		};
 	private String _parentcompanyId;
 	private String _priorParentcompanyId;
-	private String _companyId;
+	private String _companyIdString;
 	private Date _lastUpdatedDate;
 	private Date _parentEndDate;
 	private Date _modifiedDate;

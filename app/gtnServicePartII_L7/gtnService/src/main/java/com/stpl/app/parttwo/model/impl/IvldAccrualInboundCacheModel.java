@@ -130,8 +130,8 @@ public class IvldAccrualInboundCacheModel implements CacheModel<IvldAccrualInbou
 		sb.append(accrualId);
 		sb.append(", reasonForFailure=");
 		sb.append(reasonForFailure);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", accountName=");
 		sb.append(accountName);
 		sb.append(", accrualType=");
@@ -399,11 +399,11 @@ public class IvldAccrualInboundCacheModel implements CacheModel<IvldAccrualInbou
 			ivldAccrualInboundImpl.setReasonForFailure(reasonForFailure);
 		}
 
-		if (companyId == null) {
-			ivldAccrualInboundImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			ivldAccrualInboundImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			ivldAccrualInboundImpl.setCompanyId(companyId);
+			ivldAccrualInboundImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (accountName == null) {
@@ -574,7 +574,7 @@ public class IvldAccrualInboundCacheModel implements CacheModel<IvldAccrualInbou
 		accountNo = objectInput.readUTF();
 		accrualId = objectInput.readUTF();
 		reasonForFailure = objectInput.readUTF();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		accountName = objectInput.readUTF();
 		accrualType = objectInput.readUTF();
 		postingDate = objectInput.readUTF();
@@ -804,11 +804,11 @@ public class IvldAccrualInboundCacheModel implements CacheModel<IvldAccrualInbou
 			objectOutput.writeUTF(reasonForFailure);
 		}
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		if (accountName == null) {
@@ -973,7 +973,7 @@ public class IvldAccrualInboundCacheModel implements CacheModel<IvldAccrualInbou
 	public String accountNo;
 	public String accrualId;
 	public String reasonForFailure;
-	public String companyId;
+	public String companyIdString;
 	public String accountName;
 	public String accrualType;
 	public String postingDate;

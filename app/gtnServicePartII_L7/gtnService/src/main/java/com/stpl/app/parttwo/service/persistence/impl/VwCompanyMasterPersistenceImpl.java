@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -122,7 +120,7 @@ public class VwCompanyMasterPersistenceImpl extends BasePersistenceImpl<VwCompan
 			dbColumnNames.put("zipCode", "ZIP_CODE");
 			dbColumnNames.put("udc2", "UDC2");
 			dbColumnNames.put("udc3", "UDC3");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("country", "COUNTRY");
 			dbColumnNames.put("companyType", "COMPANY_TYPE");
 			dbColumnNames.put("companyStartDate", "COMPANY_START_DATE");
@@ -231,8 +229,6 @@ public class VwCompanyMasterPersistenceImpl extends BasePersistenceImpl<VwCompan
 
 		vwCompanyMaster.setNew(true);
 		vwCompanyMaster.setPrimaryKey(companyMasterSid);
-
-		vwCompanyMaster.setCompanyId(companyProvider.getCompanyId());
 
 		return vwCompanyMaster;
 	}
@@ -400,7 +396,7 @@ public class VwCompanyMasterPersistenceImpl extends BasePersistenceImpl<VwCompan
 		vwCompanyMasterImpl.setZipCode(vwCompanyMaster.getZipCode());
 		vwCompanyMasterImpl.setUdc2(vwCompanyMaster.getUdc2());
 		vwCompanyMasterImpl.setUdc3(vwCompanyMaster.getUdc3());
-		vwCompanyMasterImpl.setCompanyId(vwCompanyMaster.getCompanyId());
+		vwCompanyMasterImpl.setCompanyIdString(vwCompanyMaster.getCompanyIdString());
 		vwCompanyMasterImpl.setCountry(vwCompanyMaster.getCountry());
 		vwCompanyMasterImpl.setCompanyType(vwCompanyMaster.getCompanyType());
 		vwCompanyMasterImpl.setCompanyStartDate(vwCompanyMaster.getCompanyStartDate());
@@ -818,8 +814,6 @@ public class VwCompanyMasterPersistenceImpl extends BasePersistenceImpl<VwCompan
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -836,7 +830,7 @@ public class VwCompanyMasterPersistenceImpl extends BasePersistenceImpl<VwCompan
 				"organizationKey", "address2", "createdDate", "createdBy",
 				"source", "address1", "addChgDelIndicator", "modifiedBy", "udc6",
 				"udc5", "companyMasterSid", "udc4", "udc1", "zipCode", "udc2",
-				"udc3", "companyId", "country", "companyType",
+				"udc3", "companyIdString", "country", "companyType",
 				"companyStartDate", "companyNo", "batchId", "companyStatus",
 				"companyEndDate", "city", "regionCode"
 			});

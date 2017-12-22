@@ -122,7 +122,7 @@ public class VwcompanyIdentifierPersistenceTest {
 
 		VwcompanyIdentifier newVwcompanyIdentifier = _persistence.create(pk);
 
-		newVwcompanyIdentifier.setCompanyId(RandomTestUtil.randomString());
+		newVwcompanyIdentifier.setCompanyIdString(RandomTestUtil.randomString());
 
 		newVwcompanyIdentifier.setCompanyName(RandomTestUtil.randomString());
 
@@ -160,8 +160,8 @@ public class VwcompanyIdentifierPersistenceTest {
 
 		VwcompanyIdentifier existingVwcompanyIdentifier = _persistence.findByPrimaryKey(newVwcompanyIdentifier.getPrimaryKey());
 
-		Assert.assertEquals(existingVwcompanyIdentifier.getCompanyId(),
-			newVwcompanyIdentifier.getCompanyId());
+		Assert.assertEquals(existingVwcompanyIdentifier.getCompanyIdString(),
+			newVwcompanyIdentifier.getCompanyIdString());
 		Assert.assertEquals(existingVwcompanyIdentifier.getCompanyName(),
 			newVwcompanyIdentifier.getCompanyName());
 		Assert.assertEquals(Time.getShortTimestamp(
@@ -226,7 +226,7 @@ public class VwcompanyIdentifierPersistenceTest {
 
 	protected OrderByComparator<VwcompanyIdentifier> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("VW_COMPANY_IDENTIFIER",
-			"companyId", true, "companyName", true, "endDate", true,
+			"companyIdString", true, "companyName", true, "endDate", true,
 			"companyIdentifierSid", true, "modifiedDate", true,
 			"identifierStatus", true, "companyIdentifier", true, "entityCode",
 			true, "startDate", true, "createdDate", true, "createdBy", true,
@@ -437,7 +437,7 @@ public class VwcompanyIdentifierPersistenceTest {
 
 		VwcompanyIdentifier vwcompanyIdentifier = _persistence.create(pk);
 
-		vwcompanyIdentifier.setCompanyId(RandomTestUtil.randomString());
+		vwcompanyIdentifier.setCompanyIdString(RandomTestUtil.randomString());
 
 		vwcompanyIdentifier.setCompanyName(RandomTestUtil.randomString());
 

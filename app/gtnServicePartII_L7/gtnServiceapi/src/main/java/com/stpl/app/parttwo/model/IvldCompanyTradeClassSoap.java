@@ -37,7 +37,7 @@ public class IvldCompanyTradeClassSoap implements Serializable {
 		soapModel.setIvldCompanyTradeClassSid(model.getIvldCompanyTradeClassSid());
 		soapModel.setPriorTradeClass(model.getPriorTradeClass());
 		soapModel.setReasonForFailure(model.getReasonForFailure());
-		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCompanyIdString(model.getCompanyIdString());
 		soapModel.setLastUpdatedDate(model.getLastUpdatedDate());
 		soapModel.setPriorTradeClassStartDate(model.getPriorTradeClassStartDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
@@ -135,12 +135,12 @@ public class IvldCompanyTradeClassSoap implements Serializable {
 		_reasonForFailure = reasonForFailure;
 	}
 
-	public String getCompanyId() {
-		return _companyId;
+	public String getCompanyIdString() {
+		return _companyIdString;
 	}
 
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	public String getLastUpdatedDate() {
@@ -294,7 +294,7 @@ public class IvldCompanyTradeClassSoap implements Serializable {
 	private int _ivldCompanyTradeClassSid;
 	private String _priorTradeClass;
 	private String _reasonForFailure;
-	private String _companyId;
+	private String _companyIdString;
 	private String _lastUpdatedDate;
 	private String _priorTradeClassStartDate;
 	private Date _modifiedDate;

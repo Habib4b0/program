@@ -22,26 +22,26 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import com.stpl.app.parttwo.model.IvldcompanyIdentifier;
+import com.stpl.app.parttwo.model.IvldCompanyIdentifier;
 
 import org.osgi.util.tracker.ServiceTracker;
 
 import java.util.List;
 
 /**
- * The persistence utility for the ivldcompany identifier service. This utility wraps {@link com.stpl.app.parttwo.service.persistence.impl.IvldcompanyIdentifierPersistenceImpl} and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
+ * The persistence utility for the ivld company identifier service. This utility wraps {@link com.stpl.app.parttwo.service.persistence.impl.IvldCompanyIdentifierPersistenceImpl} and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
  *
  * <p>
  * Caching information and settings can be found in <code>portal.properties</code>
  * </p>
  *
  * @author
- * @see IvldcompanyIdentifierPersistence
- * @see com.stpl.app.parttwo.service.persistence.impl.IvldcompanyIdentifierPersistenceImpl
+ * @see IvldCompanyIdentifierPersistence
+ * @see com.stpl.app.parttwo.service.persistence.impl.IvldCompanyIdentifierPersistenceImpl
  * @generated
  */
 @ProviderType
-public class IvldcompanyIdentifierUtil {
+public class IvldCompanyIdentifierUtil {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -58,8 +58,8 @@ public class IvldcompanyIdentifierUtil {
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#clearCache(com.liferay.portal.kernel.model.BaseModel)
 	 */
-	public static void clearCache(IvldcompanyIdentifier ivldcompanyIdentifier) {
-		getPersistence().clearCache(ivldcompanyIdentifier);
+	public static void clearCache(IvldCompanyIdentifier ivldCompanyIdentifier) {
+		getPersistence().clearCache(ivldCompanyIdentifier);
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class IvldcompanyIdentifierUtil {
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery)
 	 */
-	public static List<IvldcompanyIdentifier> findWithDynamicQuery(
+	public static List<IvldCompanyIdentifier> findWithDynamicQuery(
 		DynamicQuery dynamicQuery) {
 		return getPersistence().findWithDynamicQuery(dynamicQuery);
 	}
@@ -80,7 +80,7 @@ public class IvldcompanyIdentifierUtil {
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int)
 	 */
-	public static List<IvldcompanyIdentifier> findWithDynamicQuery(
+	public static List<IvldCompanyIdentifier> findWithDynamicQuery(
 		DynamicQuery dynamicQuery, int start, int end) {
 		return getPersistence().findWithDynamicQuery(dynamicQuery, start, end);
 	}
@@ -88,9 +88,9 @@ public class IvldcompanyIdentifierUtil {
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#findWithDynamicQuery(DynamicQuery, int, int, OrderByComparator)
 	 */
-	public static List<IvldcompanyIdentifier> findWithDynamicQuery(
+	public static List<IvldCompanyIdentifier> findWithDynamicQuery(
 		DynamicQuery dynamicQuery, int start, int end,
-		OrderByComparator<IvldcompanyIdentifier> orderByComparator) {
+		OrderByComparator<IvldCompanyIdentifier> orderByComparator) {
 		return getPersistence()
 				   .findWithDynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
@@ -99,167 +99,167 @@ public class IvldcompanyIdentifierUtil {
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel)
 	 */
-	public static IvldcompanyIdentifier update(
-		IvldcompanyIdentifier ivldcompanyIdentifier) {
-		return getPersistence().update(ivldcompanyIdentifier);
+	public static IvldCompanyIdentifier update(
+		IvldCompanyIdentifier ivldCompanyIdentifier) {
+		return getPersistence().update(ivldCompanyIdentifier);
 	}
 
 	/**
 	 * @see com.liferay.portal.kernel.service.persistence.BasePersistence#update(com.liferay.portal.kernel.model.BaseModel, ServiceContext)
 	 */
-	public static IvldcompanyIdentifier update(
-		IvldcompanyIdentifier ivldcompanyIdentifier,
+	public static IvldCompanyIdentifier update(
+		IvldCompanyIdentifier ivldCompanyIdentifier,
 		ServiceContext serviceContext) {
-		return getPersistence().update(ivldcompanyIdentifier, serviceContext);
+		return getPersistence().update(ivldCompanyIdentifier, serviceContext);
 	}
 
 	/**
-	* Caches the ivldcompany identifier in the entity cache if it is enabled.
+	* Caches the ivld company identifier in the entity cache if it is enabled.
 	*
-	* @param ivldcompanyIdentifier the ivldcompany identifier
+	* @param ivldCompanyIdentifier the ivld company identifier
 	*/
-	public static void cacheResult(IvldcompanyIdentifier ivldcompanyIdentifier) {
-		getPersistence().cacheResult(ivldcompanyIdentifier);
+	public static void cacheResult(IvldCompanyIdentifier ivldCompanyIdentifier) {
+		getPersistence().cacheResult(ivldCompanyIdentifier);
 	}
 
 	/**
-	* Caches the ivldcompany identifiers in the entity cache if it is enabled.
+	* Caches the ivld company identifiers in the entity cache if it is enabled.
 	*
-	* @param ivldcompanyIdentifiers the ivldcompany identifiers
+	* @param ivldCompanyIdentifiers the ivld company identifiers
 	*/
 	public static void cacheResult(
-		List<IvldcompanyIdentifier> ivldcompanyIdentifiers) {
-		getPersistence().cacheResult(ivldcompanyIdentifiers);
+		List<IvldCompanyIdentifier> ivldCompanyIdentifiers) {
+		getPersistence().cacheResult(ivldCompanyIdentifiers);
 	}
 
 	/**
-	* Creates a new ivldcompany identifier with the primary key. Does not add the ivldcompany identifier to the database.
+	* Creates a new ivld company identifier with the primary key. Does not add the ivld company identifier to the database.
 	*
-	* @param ivldcompanyIdentifierSid the primary key for the new ivldcompany identifier
-	* @return the new ivldcompany identifier
+	* @param ivldCompanyIdentifierSid the primary key for the new ivld company identifier
+	* @return the new ivld company identifier
 	*/
-	public static IvldcompanyIdentifier create(int ivldcompanyIdentifierSid) {
-		return getPersistence().create(ivldcompanyIdentifierSid);
+	public static IvldCompanyIdentifier create(int ivldCompanyIdentifierSid) {
+		return getPersistence().create(ivldCompanyIdentifierSid);
 	}
 
 	/**
-	* Removes the ivldcompany identifier with the primary key from the database. Also notifies the appropriate model listeners.
+	* Removes the ivld company identifier with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param ivldcompanyIdentifierSid the primary key of the ivldcompany identifier
-	* @return the ivldcompany identifier that was removed
-	* @throws NoSuchIvldcompanyIdentifierException if a ivldcompany identifier with the primary key could not be found
+	* @param ivldCompanyIdentifierSid the primary key of the ivld company identifier
+	* @return the ivld company identifier that was removed
+	* @throws NoSuchIvldCompanyIdentifierException if a ivld company identifier with the primary key could not be found
 	*/
-	public static IvldcompanyIdentifier remove(int ivldcompanyIdentifierSid)
-		throws com.stpl.app.parttwo.exception.NoSuchIvldcompanyIdentifierException {
-		return getPersistence().remove(ivldcompanyIdentifierSid);
+	public static IvldCompanyIdentifier remove(int ivldCompanyIdentifierSid)
+		throws com.stpl.app.parttwo.exception.NoSuchIvldCompanyIdentifierException {
+		return getPersistence().remove(ivldCompanyIdentifierSid);
 	}
 
-	public static IvldcompanyIdentifier updateImpl(
-		IvldcompanyIdentifier ivldcompanyIdentifier) {
-		return getPersistence().updateImpl(ivldcompanyIdentifier);
+	public static IvldCompanyIdentifier updateImpl(
+		IvldCompanyIdentifier ivldCompanyIdentifier) {
+		return getPersistence().updateImpl(ivldCompanyIdentifier);
 	}
 
 	/**
-	* Returns the ivldcompany identifier with the primary key or throws a {@link NoSuchIvldcompanyIdentifierException} if it could not be found.
+	* Returns the ivld company identifier with the primary key or throws a {@link NoSuchIvldCompanyIdentifierException} if it could not be found.
 	*
-	* @param ivldcompanyIdentifierSid the primary key of the ivldcompany identifier
-	* @return the ivldcompany identifier
-	* @throws NoSuchIvldcompanyIdentifierException if a ivldcompany identifier with the primary key could not be found
+	* @param ivldCompanyIdentifierSid the primary key of the ivld company identifier
+	* @return the ivld company identifier
+	* @throws NoSuchIvldCompanyIdentifierException if a ivld company identifier with the primary key could not be found
 	*/
-	public static IvldcompanyIdentifier findByPrimaryKey(
-		int ivldcompanyIdentifierSid)
-		throws com.stpl.app.parttwo.exception.NoSuchIvldcompanyIdentifierException {
-		return getPersistence().findByPrimaryKey(ivldcompanyIdentifierSid);
+	public static IvldCompanyIdentifier findByPrimaryKey(
+		int ivldCompanyIdentifierSid)
+		throws com.stpl.app.parttwo.exception.NoSuchIvldCompanyIdentifierException {
+		return getPersistence().findByPrimaryKey(ivldCompanyIdentifierSid);
 	}
 
 	/**
-	* Returns the ivldcompany identifier with the primary key or returns <code>null</code> if it could not be found.
+	* Returns the ivld company identifier with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param ivldcompanyIdentifierSid the primary key of the ivldcompany identifier
-	* @return the ivldcompany identifier, or <code>null</code> if a ivldcompany identifier with the primary key could not be found
+	* @param ivldCompanyIdentifierSid the primary key of the ivld company identifier
+	* @return the ivld company identifier, or <code>null</code> if a ivld company identifier with the primary key could not be found
 	*/
-	public static IvldcompanyIdentifier fetchByPrimaryKey(
-		int ivldcompanyIdentifierSid) {
-		return getPersistence().fetchByPrimaryKey(ivldcompanyIdentifierSid);
+	public static IvldCompanyIdentifier fetchByPrimaryKey(
+		int ivldCompanyIdentifierSid) {
+		return getPersistence().fetchByPrimaryKey(ivldCompanyIdentifierSid);
 	}
 
-	public static java.util.Map<java.io.Serializable, IvldcompanyIdentifier> fetchByPrimaryKeys(
+	public static java.util.Map<java.io.Serializable, IvldCompanyIdentifier> fetchByPrimaryKeys(
 		java.util.Set<java.io.Serializable> primaryKeys) {
 		return getPersistence().fetchByPrimaryKeys(primaryKeys);
 	}
 
 	/**
-	* Returns all the ivldcompany identifiers.
+	* Returns all the ivld company identifiers.
 	*
-	* @return the ivldcompany identifiers
+	* @return the ivld company identifiers
 	*/
-	public static List<IvldcompanyIdentifier> findAll() {
+	public static List<IvldCompanyIdentifier> findAll() {
 		return getPersistence().findAll();
 	}
 
 	/**
-	* Returns a range of all the ivldcompany identifiers.
+	* Returns a range of all the ivld company identifiers.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link IvldcompanyIdentifierModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link IvldCompanyIdentifierModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param start the lower bound of the range of ivldcompany identifiers
-	* @param end the upper bound of the range of ivldcompany identifiers (not inclusive)
-	* @return the range of ivldcompany identifiers
+	* @param start the lower bound of the range of ivld company identifiers
+	* @param end the upper bound of the range of ivld company identifiers (not inclusive)
+	* @return the range of ivld company identifiers
 	*/
-	public static List<IvldcompanyIdentifier> findAll(int start, int end) {
+	public static List<IvldCompanyIdentifier> findAll(int start, int end) {
 		return getPersistence().findAll(start, end);
 	}
 
 	/**
-	* Returns an ordered range of all the ivldcompany identifiers.
+	* Returns an ordered range of all the ivld company identifiers.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link IvldcompanyIdentifierModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link IvldCompanyIdentifierModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param start the lower bound of the range of ivldcompany identifiers
-	* @param end the upper bound of the range of ivldcompany identifiers (not inclusive)
+	* @param start the lower bound of the range of ivld company identifiers
+	* @param end the upper bound of the range of ivld company identifiers (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of ivldcompany identifiers
+	* @return the ordered range of ivld company identifiers
 	*/
-	public static List<IvldcompanyIdentifier> findAll(int start, int end,
-		OrderByComparator<IvldcompanyIdentifier> orderByComparator) {
+	public static List<IvldCompanyIdentifier> findAll(int start, int end,
+		OrderByComparator<IvldCompanyIdentifier> orderByComparator) {
 		return getPersistence().findAll(start, end, orderByComparator);
 	}
 
 	/**
-	* Returns an ordered range of all the ivldcompany identifiers.
+	* Returns an ordered range of all the ivld company identifiers.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link IvldcompanyIdentifierModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link IvldCompanyIdentifierModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param start the lower bound of the range of ivldcompany identifiers
-	* @param end the upper bound of the range of ivldcompany identifiers (not inclusive)
+	* @param start the lower bound of the range of ivld company identifiers
+	* @param end the upper bound of the range of ivld company identifiers (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of ivldcompany identifiers
+	* @return the ordered range of ivld company identifiers
 	*/
-	public static List<IvldcompanyIdentifier> findAll(int start, int end,
-		OrderByComparator<IvldcompanyIdentifier> orderByComparator,
+	public static List<IvldCompanyIdentifier> findAll(int start, int end,
+		OrderByComparator<IvldCompanyIdentifier> orderByComparator,
 		boolean retrieveFromCache) {
 		return getPersistence()
 				   .findAll(start, end, orderByComparator, retrieveFromCache);
 	}
 
 	/**
-	* Removes all the ivldcompany identifiers from the database.
+	* Removes all the ivld company identifiers from the database.
 	*/
 	public static void removeAll() {
 		getPersistence().removeAll();
 	}
 
 	/**
-	* Returns the number of ivldcompany identifiers.
+	* Returns the number of ivld company identifiers.
 	*
-	* @return the number of ivldcompany identifiers
+	* @return the number of ivld company identifiers
 	*/
 	public static int countAll() {
 		return getPersistence().countAll();
@@ -269,10 +269,10 @@ public class IvldcompanyIdentifierUtil {
 		return getPersistence().getBadColumnNames();
 	}
 
-	public static IvldcompanyIdentifierPersistence getPersistence() {
+	public static IvldCompanyIdentifierPersistence getPersistence() {
 		return _serviceTracker.getService();
 	}
 
-	private static ServiceTracker<IvldcompanyIdentifierPersistence, IvldcompanyIdentifierPersistence> _serviceTracker =
-		ServiceTrackerFactory.open(IvldcompanyIdentifierPersistence.class);
+	private static ServiceTracker<IvldCompanyIdentifierPersistence, IvldCompanyIdentifierPersistence> _serviceTracker =
+		ServiceTrackerFactory.open(IvldCompanyIdentifierPersistence.class);
 }

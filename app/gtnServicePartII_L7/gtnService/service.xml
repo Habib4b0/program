@@ -269,7 +269,7 @@
         <column db-name="DEDUCTION_RATE" name="deductionRate" primary="false" type="String"/>
         <column db-name="CUSTOMER_GTS_FORECAST_SID" id-type="identity" name="customerGtsForecastSid" primary="true" type="int"/>
         <column db-name="COUNTRY" name="country" primary="false" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="FORECAST_VALUE_TYPE" name="forecastValueType" primary="false" type="String"/>
         <column db-name="DEDUCTION_CATEGORY" name="deductionCategory" primary="false" type="String"/>
         <column db-name="ADJUSTMENT_CODE" name="adjustmentCode" primary="false" type="String"/>
@@ -314,7 +314,7 @@
         <column db-name="UDC3" name="udc3" primary="false" type="String"/>
         <column db-name="REASON_FOR_FAILURE" name="reasonForFailure" primary="false" type="String"/>
         <column db-name="COUNTRY" name="country" primary="false" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="FORECAST_VALUE_TYPE" name="forecastValueType" primary="false" type="String"/>
         <column db-name="DEDUCTION_CATEGORY" name="deductionCategory" primary="false" type="String"/>
         <column db-name="ADJUSTMENT_CODE" name="adjustmentCode" primary="false" type="String"/>
@@ -357,7 +357,7 @@
         <column db-name="UDC2" name="udc2" primary="false" type="String"/>
         <column db-name="UDC3" name="udc3" primary="false" type="String"/>
         <column db-name="COUNTRY" name="country" primary="false" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="FORECAST_VALUE_TYPE" name="forecastValueType" primary="false" type="String"/>
         <column db-name="DEDUCTION_CATEGORY" name="deductionCategory" primary="false" type="String"/>
         <column db-name="ADJUSTMENT_CODE" name="adjustmentCode" primary="false" type="String"/>
@@ -609,7 +609,7 @@
         <column db-name="ACCOUNT_NO" name="accountNo" primary="false" type="String"/>
         <column db-name="ACCRUAL_ID" name="accrualId" primary="false" type="String"/>
         <column db-name="REASON_FOR_FAILURE" name="reasonForFailure" primary="false" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="ACCOUNT_NAME" name="accountName" primary="false" type="String"/>
         <column db-name="ACCRUAL_TYPE" name="accrualType" primary="false" type="String"/>
         <column db-name="POSTING_DATE" name="postingDate" primary="false" type="String"/>
@@ -691,7 +691,7 @@
         <column db-name="BUSINESS_UNIT_ID" name="businessUnitId" primary="false" type="String"/>
         <column db-name="PROJECTION_NAME" name="projectionName" primary="false" type="String"/>
         <column db-name="USER_ID" id-type="identity" name="userId" primary="true" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="OUTBOUND_STATUS" name="outboundStatus" primary="false" type="String"/>
         <column db-name="ORIGINAL_BATCH_ID" name="originalBatchId" primary="false" type="String"/>
         <column db-name="DEDUCTION_NAME" name="deductionName" primary="false" type="String"/>
@@ -733,7 +733,7 @@
         <column db-name="ZIP_CODE" name="zipCode" primary="false" type="String"/>
         <column db-name="UDC3" name="udc3" primary="false" type="String"/>
         <column db-name="REASON_FOR_FAILURE" name="reasonForFailure" primary="false" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="ADDRESS_1" name="address1" primary="false" type="String"/>
         <column db-name="COUNTRY" name="country" primary="false" type="String"/>
         <column db-name="ADDRESS_2" name="address2" primary="false" type="String"/>
@@ -748,9 +748,9 @@
         <column db-name="REGION_CODE" name="regionCode" primary="false" type="String"/>
         <column db-name="CHECK_RECORD" name="checkRecord" primary="false" type="boolean"/>
     </entity>
-    <entity cache-enabled="false" data-source="extDataSource" local-service="true" name="IvldcompanyIdentifier" remote-service="false"  table="IVLD_COMPANY_IDENTIFIER" >
+   <entity cache-enabled="false" data-source="extDataSource" local-service="true" name="IvldCompanyIdentifier" remote-service="false"  table="IVLD_COMPANY_IDENTIFIER" >
         <column db-name="REASON_FOR_FAILURE" name="reasonForFailure" primary="false" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="COMPANY_NAME" name="companyName" primary="false" type="String"/>
         <column db-name="END_DATE" name="endDate" primary="false" type="String"/>
         <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
@@ -770,7 +770,7 @@
         <column db-name="IDENTIFIER_CODE_QUALIFIER_NAME" name="identifierCodeQualifierName" primary="false" type="String"/>
         <column db-name="INTF_INSERTED_DATE" name="intfInsertedDate" primary="false" type="Date"/>
         <column db-name="MODIFIED_BY" name="modifiedBy" primary="false" type="String"/>
-        <column db-name="IVLD_COMPANY_IDENTIFIER_SID" name="ivldcompanyIdentifierSid" primary="true" type="int"/>
+        <column db-name="IVLD_COMPANY_IDENTIFIER_SID" name="ivldCompanyIdentifierSid" primary="true" type="int"/>
         <column db-name="REPROCESSED_FLAG" name="reprocessedFlag" primary="false" type="String"/>
         <column db-name="IDENTIFIER_CODE_QUALIFIER" name="identifierCodeQualifier" primary="false" type="String"/>
         <column db-name="CHECK_RECORD" name="checkRecord" primary="false" type="boolean"/>
@@ -779,7 +779,7 @@
         <column db-name="PARENT_COMPANY_ID" name="parentcompanyId" primary="false" type="String"/>
         <column db-name="PRIOR_PARENT_COMPANY_ID" name="priorParentcompanyId" primary="false" type="String"/>
         <column db-name="REASON_FOR_FAILURE" name="reasonForFailure" primary="false" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="LAST_UPDATED_DATE" name="lastUpdatedDate" primary="false" type="String"/>
         <column db-name="PARENT_END_DATE" name="parentEndDate" primary="false" type="String"/>
         <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
@@ -803,7 +803,7 @@
         <column db-name="IVLD_COMPANY_TRADE_CLASS_SID" name="ivldCompanyTradeClassSid" primary="true" type="int"/>
         <column db-name="PRIOR_TRADE_CLASS" name="priorTradeClass" primary="false" type="String"/>
         <column db-name="REASON_FOR_FAILURE" name="reasonForFailure" primary="false" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="LAST_UPDATED_DATE" name="lastUpdatedDate" primary="false" type="String"/>
         <column db-name="PRIOR_TRADE_CLASS_START_DATE" name="priorTradeClassStartDate" primary="false" type="String"/>
         <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
@@ -1049,7 +1049,7 @@
         <column db-name="ITEM_PRICE_PRECISION" name="itemPriceprecision" primary="false" type="int"/>
     </entity>
     <entity cache-enabled="false" data-source="extDataSource" local-service="true" name="VwcompanyIdentifier" remote-service="false"  table="VW_COMPANY_IDENTIFIER" >
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="COMPANY_NAME" name="companyName" primary="false" type="String"/>
         <column db-name="END_DATE" name="endDate" primary="false" type="Date"/>
         <column db-name="COMPANY_IDENTIFIER_SID" name="companyIdentifierSid" primary="true" type="int"/>
@@ -1071,7 +1071,7 @@
     <entity cache-enabled="false" data-source="extDataSource" local-service="true" name="VwCompanyParentDetails" remote-service="false"  table="VW_COMPANY_PARENT_DETAILS" >
         <column db-name="PARENT_COMPANY_ID" name="parentcompanyId" primary="false" type="String"/>
         <column db-name="PRIOR_PARENT_COMPANY_ID" name="priorParentcompanyId" primary="false" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="LAST_UPDATED_DATE" name="lastUpdatedDate" primary="false" type="Date"/>
         <column db-name="PARENT_END_DATE" name="parentEndDate" primary="false" type="Date"/>
         <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
@@ -1088,7 +1088,7 @@
     <entity cache-enabled="false" data-source="extDataSource" local-service="true" name="VwCompanyTradeClass" remote-service="false"  table="VW_COMPANY_TRADE_CLASS" >
         <column db-name="PRIOR_TRADE_CLASS" name="priorTradeClass" primary="false" type="String"/>
         <column db-name="COMPANY_TRADE_CLASS_SID" name="companyTradeClassSid" primary="true" type="int"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="LAST_UPDATED_DATE" name="lastUpdatedDate" primary="false" type="Date"/>
         <column db-name="PRIOR_TRADE_CLASS_START_DATE" name="priorTradeClassStartDate" primary="false" type="Date"/>
         <column db-name="MODIFIED_DATE" name="modifiedDate" primary="false" type="Date"/>
@@ -1208,7 +1208,7 @@
         <column db-name="ZIP_CODE" name="zipCode" primary="false" type="String"/>
         <column db-name="UDC2" name="udc2" primary="false" type="String"/>
         <column db-name="UDC3" name="udc3" primary="false" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="COUNTRY" name="country" primary="false" type="String"/>
         <column db-name="COMPANY_TYPE" name="companyType" primary="false" type="String"/>
         <column db-name="COMPANY_START_DATE" name="companyStartDate" primary="false" type="Date"/>
@@ -1248,7 +1248,7 @@
         <column db-name="UDC2" name="udc2" primary="false" type="String"/>
         <column db-name="UDC3" name="udc3" primary="false" type="String"/>
         <column db-name="COUNTRY" name="country" primary="false" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="COST_CENTER" name="costCenter" primary="false" type="String"/>
         <column db-name="GL_COMPANY" name="glCompany" primary="false" type="String"/>
         <column db-name="BRAND_ID" name="brandId" primary="false" type="String"/>
@@ -1293,7 +1293,7 @@
         <column db-name="UDC3" name="udc3" primary="false" type="String"/>
         <column db-name="REASON_FOR_FAILURE" name="reasonForFailure" primary="false" type="String"/>
         <column db-name="COUNTRY" name="country" primary="false" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="COST_CENTER" name="costCenter" primary="false" type="String"/>
         <column db-name="GL_COMPANY" name="glCompany" primary="false" type="String"/>
         <column db-name="BRAND_ID" name="brandId" primary="false" type="String"/>
@@ -1363,7 +1363,7 @@
         <column db-name="BUSINESS_UNIT_ID"  name="businessUnitId" primary="false" type="String"/>
         <column db-name="USER_ID"  name="userId" primary="false" type="String"/>
         <column db-name="COST_CENTER" name="costCenter" primary="false" type="String"/>
-        <column db-name="COMPANY_ID" name="companyId" primary="false" type="String"/>
+        <column db-name="COMPANY_ID" name="companyIdString" primary="false" type="String"/>
         <column db-name="OUTBOUND_STATUS" name="outboundStatus" primary="false" type="String"/>
         <column db-name="FUTURE_1" name="future1" primary="false" type="String"/>
         <column db-name="BRAND_ID" name="brandId" primary="false" type="String"/>

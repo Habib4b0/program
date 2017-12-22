@@ -180,7 +180,7 @@ public class VwIvldReturnReservePersistenceTest {
 
 		newVwIvldReturnReserve.setCountry(RandomTestUtil.randomString());
 
-		newVwIvldReturnReserve.setCompanyId(RandomTestUtil.randomString());
+		newVwIvldReturnReserve.setCompanyIdString(RandomTestUtil.randomString());
 
 		newVwIvldReturnReserve.setCostCenter(RandomTestUtil.randomString());
 
@@ -273,8 +273,8 @@ public class VwIvldReturnReservePersistenceTest {
 			newVwIvldReturnReserve.getReasonForFailure());
 		Assert.assertEquals(existingVwIvldReturnReserve.getCountry(),
 			newVwIvldReturnReserve.getCountry());
-		Assert.assertEquals(existingVwIvldReturnReserve.getCompanyId(),
-			newVwIvldReturnReserve.getCompanyId());
+		Assert.assertEquals(existingVwIvldReturnReserve.getCompanyIdString(),
+			newVwIvldReturnReserve.getCompanyIdString());
 		Assert.assertEquals(existingVwIvldReturnReserve.getCostCenter(),
 			newVwIvldReturnReserve.getCostCenter());
 		Assert.assertEquals(existingVwIvldReturnReserve.getGlCompany(),
@@ -333,9 +333,9 @@ public class VwIvldReturnReservePersistenceTest {
 			true, "intfInsertedDate", true, "modifiedBy", true, "itemNo", true,
 			"month", true, "reprocessedFlag", true, "udc6", true, "udc5", true,
 			"udc4", true, "udc1", true, "units", true, "udc2", true, "udc3",
-			true, "reasonForFailure", true, "country", true, "companyId", true,
-			"costCenter", true, "glCompany", true, "brandId", true, "future1",
-			true, "future2", true, "amount", true, "division", true,
+			true, "reasonForFailure", true, "country", true, "companyIdString",
+			true, "costCenter", true, "glCompany", true, "brandId", true,
+			"future1", true, "future2", true, "amount", true, "division", true,
 			"companyNo", true, "batchId", true, "itemName", true, "errorField",
 			true, "checkRecord", true);
 	}
@@ -600,7 +600,7 @@ public class VwIvldReturnReservePersistenceTest {
 
 		vwIvldReturnReserve.setCountry(RandomTestUtil.randomString());
 
-		vwIvldReturnReserve.setCompanyId(RandomTestUtil.randomString());
+		vwIvldReturnReserve.setCompanyIdString(RandomTestUtil.randomString());
 
 		vwIvldReturnReserve.setCostCenter(RandomTestUtil.randomString());
 

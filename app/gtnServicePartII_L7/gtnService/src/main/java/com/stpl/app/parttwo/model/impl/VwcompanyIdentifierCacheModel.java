@@ -68,8 +68,8 @@ public class VwcompanyIdentifierCacheModel implements CacheModel<VwcompanyIdenti
 	public String toString() {
 		StringBundler sb = new StringBundler(37);
 
-		sb.append("{companyId=");
-		sb.append(companyId);
+		sb.append("{companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", companyName=");
 		sb.append(companyName);
 		sb.append(", endDate=");
@@ -113,11 +113,11 @@ public class VwcompanyIdentifierCacheModel implements CacheModel<VwcompanyIdenti
 	public VwcompanyIdentifier toEntityModel() {
 		VwcompanyIdentifierImpl vwcompanyIdentifierImpl = new VwcompanyIdentifierImpl();
 
-		if (companyId == null) {
-			vwcompanyIdentifierImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			vwcompanyIdentifierImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			vwcompanyIdentifierImpl.setCompanyId(companyId);
+			vwcompanyIdentifierImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (companyName == null) {
@@ -241,7 +241,7 @@ public class VwcompanyIdentifierCacheModel implements CacheModel<VwcompanyIdenti
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		companyName = objectInput.readUTF();
 		endDate = objectInput.readLong();
 
@@ -265,11 +265,11 @@ public class VwcompanyIdentifierCacheModel implements CacheModel<VwcompanyIdenti
 	@Override
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		if (companyName == null) {
@@ -365,7 +365,7 @@ public class VwcompanyIdentifierCacheModel implements CacheModel<VwcompanyIdenti
 		}
 	}
 
-	public String companyId;
+	public String companyIdString;
 	public String companyName;
 	public long endDate;
 	public int companyIdentifierSid;

@@ -124,8 +124,8 @@ public class IvldCompanyMasterCacheModel implements CacheModel<IvldCompanyMaster
 		sb.append(udc3);
 		sb.append(", reasonForFailure=");
 		sb.append(reasonForFailure);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", address1=");
 		sb.append(address1);
 		sb.append(", country=");
@@ -352,11 +352,11 @@ public class IvldCompanyMasterCacheModel implements CacheModel<IvldCompanyMaster
 			ivldCompanyMasterImpl.setReasonForFailure(reasonForFailure);
 		}
 
-		if (companyId == null) {
-			ivldCompanyMasterImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			ivldCompanyMasterImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			ivldCompanyMasterImpl.setCompanyId(companyId);
+			ivldCompanyMasterImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (address1 == null) {
@@ -481,7 +481,7 @@ public class IvldCompanyMasterCacheModel implements CacheModel<IvldCompanyMaster
 		zipCode = objectInput.readUTF();
 		udc3 = objectInput.readUTF();
 		reasonForFailure = objectInput.readUTF();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		address1 = objectInput.readUTF();
 		country = objectInput.readUTF();
 		address2 = objectInput.readUTF();
@@ -677,11 +677,11 @@ public class IvldCompanyMasterCacheModel implements CacheModel<IvldCompanyMaster
 			objectOutput.writeUTF(reasonForFailure);
 		}
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		if (address1 == null) {
@@ -799,7 +799,7 @@ public class IvldCompanyMasterCacheModel implements CacheModel<IvldCompanyMaster
 	public String zipCode;
 	public String udc3;
 	public String reasonForFailure;
-	public String companyId;
+	public String companyIdString;
 	public String address1;
 	public String country;
 	public String address2;

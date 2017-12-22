@@ -231,7 +231,7 @@ public class VwReturnReserveModelImpl extends BaseModelImpl<VwReturnReserve>
 		attributes.put("udc2", getUdc2());
 		attributes.put("udc3", getUdc3());
 		attributes.put("country", getCountry());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("costCenter", getCostCenter());
 		attributes.put("glCompany", getGlCompany());
 		attributes.put("brandId", getBrandId());
@@ -430,10 +430,10 @@ public class VwReturnReserveModelImpl extends BaseModelImpl<VwReturnReserve>
 			setCountry(country);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String costCenter = (String)attributes.get("costCenter");
@@ -910,18 +910,18 @@ public class VwReturnReserveModelImpl extends BaseModelImpl<VwReturnReserve>
 	}
 
 	@Override
-	public String getCompanyId() {
-		if (_companyId == null) {
+	public String getCompanyIdString() {
+		if (_companyIdString == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _companyId;
+			return _companyIdString;
 		}
 	}
 
 	@Override
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	@Override
@@ -1142,7 +1142,7 @@ public class VwReturnReserveModelImpl extends BaseModelImpl<VwReturnReserve>
 		vwReturnReserveImpl.setUdc2(getUdc2());
 		vwReturnReserveImpl.setUdc3(getUdc3());
 		vwReturnReserveImpl.setCountry(getCountry());
-		vwReturnReserveImpl.setCompanyId(getCompanyId());
+		vwReturnReserveImpl.setCompanyIdString(getCompanyIdString());
 		vwReturnReserveImpl.setCostCenter(getCostCenter());
 		vwReturnReserveImpl.setGlCompany(getGlCompany());
 		vwReturnReserveImpl.setBrandId(getBrandId());
@@ -1425,12 +1425,12 @@ public class VwReturnReserveModelImpl extends BaseModelImpl<VwReturnReserve>
 			vwReturnReserveCacheModel.country = null;
 		}
 
-		vwReturnReserveCacheModel.companyId = getCompanyId();
+		vwReturnReserveCacheModel.companyIdString = getCompanyIdString();
 
-		String companyId = vwReturnReserveCacheModel.companyId;
+		String companyIdString = vwReturnReserveCacheModel.companyIdString;
 
-		if ((companyId != null) && (companyId.length() == 0)) {
-			vwReturnReserveCacheModel.companyId = null;
+		if ((companyIdString != null) && (companyIdString.length() == 0)) {
+			vwReturnReserveCacheModel.companyIdString = null;
 		}
 
 		vwReturnReserveCacheModel.costCenter = getCostCenter();
@@ -1582,8 +1582,8 @@ public class VwReturnReserveModelImpl extends BaseModelImpl<VwReturnReserve>
 		sb.append(getUdc3());
 		sb.append(", country=");
 		sb.append(getCountry());
-		sb.append(", companyId=");
-		sb.append(getCompanyId());
+		sb.append(", companyIdString=");
+		sb.append(getCompanyIdString());
 		sb.append(", costCenter=");
 		sb.append(getCostCenter());
 		sb.append(", glCompany=");
@@ -1738,8 +1738,8 @@ public class VwReturnReserveModelImpl extends BaseModelImpl<VwReturnReserve>
 		sb.append(getCountry());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>companyId</column-name><column-value><![CDATA[");
-		sb.append(getCompanyId());
+			"<column><column-name>companyIdString</column-name><column-value><![CDATA[");
+		sb.append(getCompanyIdString());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>costCenter</column-name><column-value><![CDATA[");
@@ -1828,7 +1828,7 @@ public class VwReturnReserveModelImpl extends BaseModelImpl<VwReturnReserve>
 	private String _udc2;
 	private String _udc3;
 	private String _country;
-	private String _companyId;
+	private String _companyIdString;
 	private String _costCenter;
 	private String _glCompany;
 	private String _brandId;

@@ -61,7 +61,7 @@ public class VwCompanyParentDetailsWrapper implements VwCompanyParentDetails,
 
 		attributes.put("parentcompanyId", getParentcompanyId());
 		attributes.put("priorParentcompanyId", getPriorParentcompanyId());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("lastUpdatedDate", getLastUpdatedDate());
 		attributes.put("parentEndDate", getParentEndDate());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -93,10 +93,10 @@ public class VwCompanyParentDetailsWrapper implements VwCompanyParentDetails,
 			setPriorParentcompanyId(priorParentcompanyId);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		Date lastUpdatedDate = (Date)attributes.get("lastUpdatedDate");
@@ -204,13 +204,13 @@ public class VwCompanyParentDetailsWrapper implements VwCompanyParentDetails,
 	}
 
 	/**
-	* Returns the company ID of this vw company parent details.
+	* Returns the company ID string of this vw company parent details.
 	*
-	* @return the company ID of this vw company parent details
+	* @return the company ID string of this vw company parent details
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _vwCompanyParentDetails.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _vwCompanyParentDetails.getCompanyIdString();
 	}
 
 	/**
@@ -404,13 +404,13 @@ public class VwCompanyParentDetailsWrapper implements VwCompanyParentDetails,
 	}
 
 	/**
-	* Sets the company ID of this vw company parent details.
+	* Sets the company ID string of this vw company parent details.
 	*
-	* @param companyId the company ID of this vw company parent details
+	* @param companyIdString the company ID string of this vw company parent details
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_vwCompanyParentDetails.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_vwCompanyParentDetails.setCompanyIdString(companyIdString);
 	}
 
 	/**

@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -126,7 +124,7 @@ public class IvldCompanyMasterPersistenceImpl extends BasePersistenceImpl<IvldCo
 			dbColumnNames.put("zipCode", "ZIP_CODE");
 			dbColumnNames.put("udc3", "UDC3");
 			dbColumnNames.put("reasonForFailure", "REASON_FOR_FAILURE");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("address1", "ADDRESS_1");
 			dbColumnNames.put("country", "COUNTRY");
 			dbColumnNames.put("address2", "ADDRESS_2");
@@ -239,8 +237,6 @@ public class IvldCompanyMasterPersistenceImpl extends BasePersistenceImpl<IvldCo
 
 		ivldCompanyMaster.setNew(true);
 		ivldCompanyMaster.setPrimaryKey(ivldCompanyMasterSid);
-
-		ivldCompanyMaster.setCompanyId(companyProvider.getCompanyId());
 
 		return ivldCompanyMaster;
 	}
@@ -413,7 +409,7 @@ public class IvldCompanyMasterPersistenceImpl extends BasePersistenceImpl<IvldCo
 		ivldCompanyMasterImpl.setZipCode(ivldCompanyMaster.getZipCode());
 		ivldCompanyMasterImpl.setUdc3(ivldCompanyMaster.getUdc3());
 		ivldCompanyMasterImpl.setReasonForFailure(ivldCompanyMaster.getReasonForFailure());
-		ivldCompanyMasterImpl.setCompanyId(ivldCompanyMaster.getCompanyId());
+		ivldCompanyMasterImpl.setCompanyIdString(ivldCompanyMaster.getCompanyIdString());
 		ivldCompanyMasterImpl.setAddress1(ivldCompanyMaster.getAddress1());
 		ivldCompanyMasterImpl.setCountry(ivldCompanyMaster.getCountry());
 		ivldCompanyMasterImpl.setAddress2(ivldCompanyMaster.getAddress2());
@@ -835,8 +831,6 @@ public class IvldCompanyMasterPersistenceImpl extends BasePersistenceImpl<IvldCo
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -854,9 +848,10 @@ public class IvldCompanyMasterPersistenceImpl extends BasePersistenceImpl<IvldCo
 				"createdDate", "createdBy", "addChgDelIndicator", "errorCode",
 				"intfInsertedDate", "modifiedBy", "companyMasterIntfid",
 				"reprocessedFlag", "udc6", "udc5", "udc4", "udc1", "udc2",
-				"zipCode", "udc3", "reasonForFailure", "companyId", "address1",
-				"country", "address2", "companyType", "companyStartDate",
-				"companyNo", "batchId", "companyStatus", "companyEndDate",
-				"errorField", "city", "regionCode", "checkRecord"
+				"zipCode", "udc3", "reasonForFailure", "companyIdString",
+				"address1", "country", "address2", "companyType",
+				"companyStartDate", "companyNo", "batchId", "companyStatus",
+				"companyEndDate", "errorField", "city", "regionCode",
+				"checkRecord"
 			});
 }

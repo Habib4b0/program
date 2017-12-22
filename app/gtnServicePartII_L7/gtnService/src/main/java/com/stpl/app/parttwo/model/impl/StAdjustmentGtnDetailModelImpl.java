@@ -314,7 +314,7 @@ public class StAdjustmentGtnDetailModelImpl extends BaseModelImpl<StAdjustmentGt
 		attributes.put("businessUnitId", getBusinessUnitId());
 		attributes.put("userId", getUserId());
 		attributes.put("costCenter", getCostCenter());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("outboundStatus", getOutboundStatus());
 		attributes.put("future1", getFuture1());
 		attributes.put("brandId", getBrandId());
@@ -665,10 +665,10 @@ public class StAdjustmentGtnDetailModelImpl extends BaseModelImpl<StAdjustmentGt
 			setCostCenter(costCenter);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String outboundStatus = (String)attributes.get("outboundStatus");
@@ -1544,18 +1544,18 @@ public class StAdjustmentGtnDetailModelImpl extends BaseModelImpl<StAdjustmentGt
 	}
 
 	@Override
-	public String getCompanyId() {
-		if (_companyId == null) {
+	public String getCompanyIdString() {
+		if (_companyIdString == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _companyId;
+			return _companyIdString;
 		}
 	}
 
 	@Override
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	@Override
@@ -1856,7 +1856,7 @@ public class StAdjustmentGtnDetailModelImpl extends BaseModelImpl<StAdjustmentGt
 		stAdjustmentGtnDetailImpl.setBusinessUnitId(getBusinessUnitId());
 		stAdjustmentGtnDetailImpl.setUserId(getUserId());
 		stAdjustmentGtnDetailImpl.setCostCenter(getCostCenter());
-		stAdjustmentGtnDetailImpl.setCompanyId(getCompanyId());
+		stAdjustmentGtnDetailImpl.setCompanyIdString(getCompanyIdString());
 		stAdjustmentGtnDetailImpl.setOutboundStatus(getOutboundStatus());
 		stAdjustmentGtnDetailImpl.setFuture1(getFuture1());
 		stAdjustmentGtnDetailImpl.setBrandId(getBrandId());
@@ -2351,12 +2351,12 @@ public class StAdjustmentGtnDetailModelImpl extends BaseModelImpl<StAdjustmentGt
 			stAdjustmentGtnDetailCacheModel.costCenter = null;
 		}
 
-		stAdjustmentGtnDetailCacheModel.companyId = getCompanyId();
+		stAdjustmentGtnDetailCacheModel.companyIdString = getCompanyIdString();
 
-		String companyId = stAdjustmentGtnDetailCacheModel.companyId;
+		String companyIdString = stAdjustmentGtnDetailCacheModel.companyIdString;
 
-		if ((companyId != null) && (companyId.length() == 0)) {
-			stAdjustmentGtnDetailCacheModel.companyId = null;
+		if ((companyIdString != null) && (companyIdString.length() == 0)) {
+			stAdjustmentGtnDetailCacheModel.companyIdString = null;
 		}
 
 		stAdjustmentGtnDetailCacheModel.outboundStatus = getOutboundStatus();
@@ -2597,8 +2597,8 @@ public class StAdjustmentGtnDetailModelImpl extends BaseModelImpl<StAdjustmentGt
 		sb.append(getUserId());
 		sb.append(", costCenter=");
 		sb.append(getCostCenter());
-		sb.append(", companyId=");
-		sb.append(getCompanyId());
+		sb.append(", companyIdString=");
+		sb.append(getCompanyIdString());
 		sb.append(", outboundStatus=");
 		sb.append(getOutboundStatus());
 		sb.append(", future1=");
@@ -2861,8 +2861,8 @@ public class StAdjustmentGtnDetailModelImpl extends BaseModelImpl<StAdjustmentGt
 		sb.append(getCostCenter());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>companyId</column-name><column-value><![CDATA[");
-		sb.append(getCompanyId());
+			"<column><column-name>companyIdString</column-name><column-value><![CDATA[");
+		sb.append(getCompanyIdString());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>outboundStatus</column-name><column-value><![CDATA[");
@@ -2992,7 +2992,7 @@ public class StAdjustmentGtnDetailModelImpl extends BaseModelImpl<StAdjustmentGt
 	private String _businessUnitId;
 	private String _userId;
 	private String _costCenter;
-	private String _companyId;
+	private String _companyIdString;
 	private String _outboundStatus;
 	private String _future1;
 	private String _brandId;

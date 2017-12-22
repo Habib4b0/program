@@ -24,7 +24,7 @@
 	<import class="com.stpl.app.parttwo.model.CustomerGtsActual" />
 	<import class="com.stpl.app.parttwo.model.CustomerGtsForecast" />
 	<import class="com.stpl.app.parttwo.model.IvldAccrualInbound" />
-	<import class="com.stpl.app.parttwo.model.IvldcompanyIdentifier" />
+	<import class="com.stpl.app.parttwo.model.IvldCompanyIdentifier" />
 	<import class="com.stpl.app.parttwo.model.IvldCompanyMaster" />
 	<import class="com.stpl.app.parttwo.model.IvldCompanyParent" />
 	<import class="com.stpl.app.parttwo.model.IvldCompanyTradeClass" />
@@ -398,7 +398,7 @@
 		<property column="UNITS" name="units" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="DEDUCTION_RATE" name="deductionRate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="FORECAST_VALUE_TYPE" name="forecastValueType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="DEDUCTION_CATEGORY" name="deductionCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="ADJUSTMENT_CODE" name="adjustmentCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -449,7 +449,7 @@
 		<property column="ACCOUNT_NO" name="accountNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="ACCRUAL_ID" name="accrualId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="ACCOUNT_NAME" name="accountName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="ACCRUAL_TYPE" name="accrualType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="POSTING_DATE" name="postingDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -470,12 +470,12 @@
 		<property column="CONTRACT_NAME" name="contractName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
-	<class name="com.stpl.app.parttwo.model.impl.IvldcompanyIdentifierImpl" table="IVLD_COMPANY_IDENTIFIER">
-		<id column="IVLD_COMPANY_IDENTIFIER_SID" name="ivldcompanyIdentifierSid" type="int">
+	<class name="com.stpl.app.parttwo.model.impl.IvldCompanyIdentifierImpl" table="IVLD_COMPANY_IDENTIFIER">
+		<id column="IVLD_COMPANY_IDENTIFIER_SID" name="ivldCompanyIdentifierSid" type="int">
 			<generator class="assigned" />
 		</id>
 		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COMPANY_NAME" name="companyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="END_DATE" name="endDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
@@ -530,7 +530,7 @@
 		<property column="ZIP_CODE" name="zipCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="ADDRESS_1" name="address1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="ADDRESS_2" name="address2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -552,7 +552,7 @@
 		<property column="PARENT_COMPANY_ID" name="parentcompanyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="PRIOR_PARENT_COMPANY_ID" name="priorParentcompanyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="LAST_UPDATED_DATE" name="lastUpdatedDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="PARENT_END_DATE" name="parentEndDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
@@ -577,7 +577,7 @@
 		</id>
 		<property column="PRIOR_TRADE_CLASS" name="priorTradeClass" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="LAST_UPDATED_DATE" name="lastUpdatedDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="PRIOR_TRADE_CLASS_START_DATE" name="priorTradeClassStartDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
@@ -662,7 +662,7 @@
 		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="FORECAST_VALUE_TYPE" name="forecastValueType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="DEDUCTION_CATEGORY" name="deductionCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="ADJUSTMENT_CODE" name="adjustmentCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -938,7 +938,7 @@
 		<property column="BUSINESS_UNIT_ID" name="businessUnitId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="USER_ID" name="userId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COST_CENTER" name="costCenter" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="OUTBOUND_STATUS" name="outboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="FUTURE_1" name="future1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="BRAND_ID" name="brandId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -1100,7 +1100,7 @@
 		<property column="DEDUCTION_PROGRAM" name="deductionProgram" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="BUSINESS_UNIT_ID" name="businessUnitId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="PROJECTION_NAME" name="projectionName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="OUTBOUND_STATUS" name="outboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="ORIGINAL_BATCH_ID" name="originalBatchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="DEDUCTION_NAME" name="deductionName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -1151,7 +1151,7 @@
 		<id column="COMPANY_IDENTIFIER_SID" name="companyIdentifierSid" type="int">
 			<generator class="assigned" />
 		</id>
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COMPANY_NAME" name="companyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="END_DATE" name="endDate" type="org.hibernate.type.TimestampType" />
 		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
@@ -1196,7 +1196,7 @@
 		<property column="ZIP_CODE" name="zipCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="UDC2" name="udc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COMPANY_TYPE" name="companyType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COMPANY_START_DATE" name="companyStartDate" type="org.hibernate.type.TimestampType" />
@@ -1213,7 +1213,7 @@
 		</id>
 		<property column="PARENT_COMPANY_ID" name="parentcompanyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="PRIOR_PARENT_COMPANY_ID" name="priorParentcompanyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="LAST_UPDATED_DATE" name="lastUpdatedDate" type="org.hibernate.type.TimestampType" />
 		<property column="PARENT_END_DATE" name="parentEndDate" type="org.hibernate.type.TimestampType" />
 		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
@@ -1231,7 +1231,7 @@
 			<generator class="assigned" />
 		</id>
 		<property column="PRIOR_TRADE_CLASS" name="priorTradeClass" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="LAST_UPDATED_DATE" name="lastUpdatedDate" type="org.hibernate.type.TimestampType" />
 		<property column="PRIOR_TRADE_CLASS_START_DATE" name="priorTradeClassStartDate" type="org.hibernate.type.TimestampType" />
 		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
@@ -1272,7 +1272,7 @@
 		<property column="UDC2" name="udc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="FORECAST_VALUE_TYPE" name="forecastValueType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="DEDUCTION_CATEGORY" name="deductionCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="ADJUSTMENT_CODE" name="adjustmentCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -1498,7 +1498,7 @@
 		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COST_CENTER" name="costCenter" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="GL_COMPANY" name="glCompany" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="BRAND_ID" name="brandId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -1545,7 +1545,7 @@
 		<property column="UDC2" name="udc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property column="COMPANY_ID" name="companyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="COST_CENTER" name="costCenter" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="GL_COMPANY" name="glCompany" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="BRAND_ID" name="brandId" type="com.liferay.portal.dao.orm.hibernate.StringType" />

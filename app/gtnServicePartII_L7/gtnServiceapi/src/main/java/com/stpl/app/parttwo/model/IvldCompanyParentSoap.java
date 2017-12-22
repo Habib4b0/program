@@ -36,7 +36,7 @@ public class IvldCompanyParentSoap implements Serializable {
 		soapModel.setParentcompanyId(model.getParentcompanyId());
 		soapModel.setPriorParentcompanyId(model.getPriorParentcompanyId());
 		soapModel.setReasonForFailure(model.getReasonForFailure());
-		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCompanyIdString(model.getCompanyIdString());
 		soapModel.setLastUpdatedDate(model.getLastUpdatedDate());
 		soapModel.setParentEndDate(model.getParentEndDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
@@ -134,12 +134,12 @@ public class IvldCompanyParentSoap implements Serializable {
 		_reasonForFailure = reasonForFailure;
 	}
 
-	public String getCompanyId() {
-		return _companyId;
+	public String getCompanyIdString() {
+		return _companyIdString;
 	}
 
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	public String getLastUpdatedDate() {
@@ -293,7 +293,7 @@ public class IvldCompanyParentSoap implements Serializable {
 	private String _parentcompanyId;
 	private String _priorParentcompanyId;
 	private String _reasonForFailure;
-	private String _companyId;
+	private String _companyIdString;
 	private String _lastUpdatedDate;
 	private String _parentEndDate;
 	private Date _modifiedDate;

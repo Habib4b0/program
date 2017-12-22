@@ -18,148 +18,148 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
-import com.stpl.app.parttwo.exception.NoSuchIvldcompanyIdentifierException;
-import com.stpl.app.parttwo.model.IvldcompanyIdentifier;
+import com.stpl.app.parttwo.exception.NoSuchIvldCompanyIdentifierException;
+import com.stpl.app.parttwo.model.IvldCompanyIdentifier;
 
 /**
- * The persistence interface for the ivldcompany identifier service.
+ * The persistence interface for the ivld company identifier service.
  *
  * <p>
  * Caching information and settings can be found in <code>portal.properties</code>
  * </p>
  *
  * @author
- * @see com.stpl.app.parttwo.service.persistence.impl.IvldcompanyIdentifierPersistenceImpl
- * @see IvldcompanyIdentifierUtil
+ * @see com.stpl.app.parttwo.service.persistence.impl.IvldCompanyIdentifierPersistenceImpl
+ * @see IvldCompanyIdentifierUtil
  * @generated
  */
 @ProviderType
-public interface IvldcompanyIdentifierPersistence extends BasePersistence<IvldcompanyIdentifier> {
+public interface IvldCompanyIdentifierPersistence extends BasePersistence<IvldCompanyIdentifier> {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link IvldcompanyIdentifierUtil} to access the ivldcompany identifier persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
+	 * Never modify or reference this interface directly. Always use {@link IvldCompanyIdentifierUtil} to access the ivld company identifier persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
 
 	/**
-	* Caches the ivldcompany identifier in the entity cache if it is enabled.
+	* Caches the ivld company identifier in the entity cache if it is enabled.
 	*
-	* @param ivldcompanyIdentifier the ivldcompany identifier
+	* @param ivldCompanyIdentifier the ivld company identifier
 	*/
-	public void cacheResult(IvldcompanyIdentifier ivldcompanyIdentifier);
+	public void cacheResult(IvldCompanyIdentifier ivldCompanyIdentifier);
 
 	/**
-	* Caches the ivldcompany identifiers in the entity cache if it is enabled.
+	* Caches the ivld company identifiers in the entity cache if it is enabled.
 	*
-	* @param ivldcompanyIdentifiers the ivldcompany identifiers
+	* @param ivldCompanyIdentifiers the ivld company identifiers
 	*/
 	public void cacheResult(
-		java.util.List<IvldcompanyIdentifier> ivldcompanyIdentifiers);
+		java.util.List<IvldCompanyIdentifier> ivldCompanyIdentifiers);
 
 	/**
-	* Creates a new ivldcompany identifier with the primary key. Does not add the ivldcompany identifier to the database.
+	* Creates a new ivld company identifier with the primary key. Does not add the ivld company identifier to the database.
 	*
-	* @param ivldcompanyIdentifierSid the primary key for the new ivldcompany identifier
-	* @return the new ivldcompany identifier
+	* @param ivldCompanyIdentifierSid the primary key for the new ivld company identifier
+	* @return the new ivld company identifier
 	*/
-	public IvldcompanyIdentifier create(int ivldcompanyIdentifierSid);
+	public IvldCompanyIdentifier create(int ivldCompanyIdentifierSid);
 
 	/**
-	* Removes the ivldcompany identifier with the primary key from the database. Also notifies the appropriate model listeners.
+	* Removes the ivld company identifier with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param ivldcompanyIdentifierSid the primary key of the ivldcompany identifier
-	* @return the ivldcompany identifier that was removed
-	* @throws NoSuchIvldcompanyIdentifierException if a ivldcompany identifier with the primary key could not be found
+	* @param ivldCompanyIdentifierSid the primary key of the ivld company identifier
+	* @return the ivld company identifier that was removed
+	* @throws NoSuchIvldCompanyIdentifierException if a ivld company identifier with the primary key could not be found
 	*/
-	public IvldcompanyIdentifier remove(int ivldcompanyIdentifierSid)
-		throws NoSuchIvldcompanyIdentifierException;
+	public IvldCompanyIdentifier remove(int ivldCompanyIdentifierSid)
+		throws NoSuchIvldCompanyIdentifierException;
 
-	public IvldcompanyIdentifier updateImpl(
-		IvldcompanyIdentifier ivldcompanyIdentifier);
-
-	/**
-	* Returns the ivldcompany identifier with the primary key or throws a {@link NoSuchIvldcompanyIdentifierException} if it could not be found.
-	*
-	* @param ivldcompanyIdentifierSid the primary key of the ivldcompany identifier
-	* @return the ivldcompany identifier
-	* @throws NoSuchIvldcompanyIdentifierException if a ivldcompany identifier with the primary key could not be found
-	*/
-	public IvldcompanyIdentifier findByPrimaryKey(int ivldcompanyIdentifierSid)
-		throws NoSuchIvldcompanyIdentifierException;
+	public IvldCompanyIdentifier updateImpl(
+		IvldCompanyIdentifier ivldCompanyIdentifier);
 
 	/**
-	* Returns the ivldcompany identifier with the primary key or returns <code>null</code> if it could not be found.
+	* Returns the ivld company identifier with the primary key or throws a {@link NoSuchIvldCompanyIdentifierException} if it could not be found.
 	*
-	* @param ivldcompanyIdentifierSid the primary key of the ivldcompany identifier
-	* @return the ivldcompany identifier, or <code>null</code> if a ivldcompany identifier with the primary key could not be found
+	* @param ivldCompanyIdentifierSid the primary key of the ivld company identifier
+	* @return the ivld company identifier
+	* @throws NoSuchIvldCompanyIdentifierException if a ivld company identifier with the primary key could not be found
 	*/
-	public IvldcompanyIdentifier fetchByPrimaryKey(int ivldcompanyIdentifierSid);
+	public IvldCompanyIdentifier findByPrimaryKey(int ivldCompanyIdentifierSid)
+		throws NoSuchIvldCompanyIdentifierException;
+
+	/**
+	* Returns the ivld company identifier with the primary key or returns <code>null</code> if it could not be found.
+	*
+	* @param ivldCompanyIdentifierSid the primary key of the ivld company identifier
+	* @return the ivld company identifier, or <code>null</code> if a ivld company identifier with the primary key could not be found
+	*/
+	public IvldCompanyIdentifier fetchByPrimaryKey(int ivldCompanyIdentifierSid);
 
 	@Override
-	public java.util.Map<java.io.Serializable, IvldcompanyIdentifier> fetchByPrimaryKeys(
+	public java.util.Map<java.io.Serializable, IvldCompanyIdentifier> fetchByPrimaryKeys(
 		java.util.Set<java.io.Serializable> primaryKeys);
 
 	/**
-	* Returns all the ivldcompany identifiers.
+	* Returns all the ivld company identifiers.
 	*
-	* @return the ivldcompany identifiers
+	* @return the ivld company identifiers
 	*/
-	public java.util.List<IvldcompanyIdentifier> findAll();
+	public java.util.List<IvldCompanyIdentifier> findAll();
 
 	/**
-	* Returns a range of all the ivldcompany identifiers.
+	* Returns a range of all the ivld company identifiers.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link IvldcompanyIdentifierModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link IvldCompanyIdentifierModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param start the lower bound of the range of ivldcompany identifiers
-	* @param end the upper bound of the range of ivldcompany identifiers (not inclusive)
-	* @return the range of ivldcompany identifiers
+	* @param start the lower bound of the range of ivld company identifiers
+	* @param end the upper bound of the range of ivld company identifiers (not inclusive)
+	* @return the range of ivld company identifiers
 	*/
-	public java.util.List<IvldcompanyIdentifier> findAll(int start, int end);
+	public java.util.List<IvldCompanyIdentifier> findAll(int start, int end);
 
 	/**
-	* Returns an ordered range of all the ivldcompany identifiers.
+	* Returns an ordered range of all the ivld company identifiers.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link IvldcompanyIdentifierModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link IvldCompanyIdentifierModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param start the lower bound of the range of ivldcompany identifiers
-	* @param end the upper bound of the range of ivldcompany identifiers (not inclusive)
+	* @param start the lower bound of the range of ivld company identifiers
+	* @param end the upper bound of the range of ivld company identifiers (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of ivldcompany identifiers
+	* @return the ordered range of ivld company identifiers
 	*/
-	public java.util.List<IvldcompanyIdentifier> findAll(int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<IvldcompanyIdentifier> orderByComparator);
+	public java.util.List<IvldCompanyIdentifier> findAll(int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<IvldCompanyIdentifier> orderByComparator);
 
 	/**
-	* Returns an ordered range of all the ivldcompany identifiers.
+	* Returns an ordered range of all the ivld company identifiers.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link IvldcompanyIdentifierModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link IvldCompanyIdentifierModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param start the lower bound of the range of ivldcompany identifiers
-	* @param end the upper bound of the range of ivldcompany identifiers (not inclusive)
+	* @param start the lower bound of the range of ivld company identifiers
+	* @param end the upper bound of the range of ivld company identifiers (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of ivldcompany identifiers
+	* @return the ordered range of ivld company identifiers
 	*/
-	public java.util.List<IvldcompanyIdentifier> findAll(int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<IvldcompanyIdentifier> orderByComparator,
+	public java.util.List<IvldCompanyIdentifier> findAll(int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<IvldCompanyIdentifier> orderByComparator,
 		boolean retrieveFromCache);
 
 	/**
-	* Removes all the ivldcompany identifiers from the database.
+	* Removes all the ivld company identifiers from the database.
 	*/
 	public void removeAll();
 
 	/**
-	* Returns the number of ivldcompany identifiers.
+	* Returns the number of ivld company identifiers.
 	*
-	* @return the number of ivldcompany identifiers
+	* @return the number of ivld company identifiers
 	*/
 	public int countAll();
 

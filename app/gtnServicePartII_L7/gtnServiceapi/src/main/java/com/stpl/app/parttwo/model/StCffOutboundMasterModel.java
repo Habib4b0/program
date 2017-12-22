@@ -21,7 +21,6 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import com.stpl.app.parttwo.service.persistence.StCffOutboundMasterPK;
@@ -44,8 +43,7 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface StCffOutboundMasterModel extends BaseModel<StCffOutboundMaster>,
-	ShardedModel {
+public interface StCffOutboundMasterModel extends BaseModel<StCffOutboundMaster> {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -948,21 +946,19 @@ public interface StCffOutboundMasterModel extends BaseModel<StCffOutboundMaster>
 	public void setUserId(String userId);
 
 	/**
-	 * Returns the company ID of this st cff outbound master.
+	 * Returns the company ID string of this st cff outbound master.
 	 *
-	 * @return the company ID of this st cff outbound master
+	 * @return the company ID string of this st cff outbound master
 	 */
 	@AutoEscape
-	@Override
-	public String getCompanyId();
+	public String getCompanyIdString();
 
 	/**
-	 * Sets the company ID of this st cff outbound master.
+	 * Sets the company ID string of this st cff outbound master.
 	 *
-	 * @param companyId the company ID of this st cff outbound master
+	 * @param companyIdString the company ID string of this st cff outbound master
 	 */
-	@Override
-	public void setCompanyId(String companyId);
+	public void setCompanyIdString(String companyIdString);
 
 	/**
 	 * Returns the outbound status of this st cff outbound master.

@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -133,7 +131,7 @@ public class IvldAccrualInboundPersistenceImpl extends BasePersistenceImpl<IvldA
 			dbColumnNames.put("accountNo", "ACCOUNT_NO");
 			dbColumnNames.put("accrualId", "ACCRUAL_ID");
 			dbColumnNames.put("reasonForFailure", "REASON_FOR_FAILURE");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("accountName", "ACCOUNT_NAME");
 			dbColumnNames.put("accrualType", "ACCRUAL_TYPE");
 			dbColumnNames.put("postingDate", "POSTING_DATE");
@@ -254,8 +252,6 @@ public class IvldAccrualInboundPersistenceImpl extends BasePersistenceImpl<IvldA
 
 		ivldAccrualInbound.setNew(true);
 		ivldAccrualInbound.setPrimaryKey(ivldAccrualInboundSid);
-
-		ivldAccrualInbound.setCompanyId(companyProvider.getCompanyId());
 
 		return ivldAccrualInbound;
 	}
@@ -432,7 +428,7 @@ public class IvldAccrualInboundPersistenceImpl extends BasePersistenceImpl<IvldA
 		ivldAccrualInboundImpl.setAccountNo(ivldAccrualInbound.getAccountNo());
 		ivldAccrualInboundImpl.setAccrualId(ivldAccrualInbound.getAccrualId());
 		ivldAccrualInboundImpl.setReasonForFailure(ivldAccrualInbound.getReasonForFailure());
-		ivldAccrualInboundImpl.setCompanyId(ivldAccrualInbound.getCompanyId());
+		ivldAccrualInboundImpl.setCompanyIdString(ivldAccrualInbound.getCompanyIdString());
 		ivldAccrualInboundImpl.setAccountName(ivldAccrualInbound.getAccountName());
 		ivldAccrualInboundImpl.setAccrualType(ivldAccrualInbound.getAccrualType());
 		ivldAccrualInboundImpl.setPostingDate(ivldAccrualInbound.getPostingDate());
@@ -862,8 +858,6 @@ public class IvldAccrualInboundPersistenceImpl extends BasePersistenceImpl<IvldA
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -884,10 +878,10 @@ public class IvldAccrualInboundPersistenceImpl extends BasePersistenceImpl<IvldA
 				"intfInsertedDate", "modifiedBy", "categoryId", "itemNo",
 				"reprocessedFlag", "compIdentCodeQualifier",
 				"acctIdentCodeQualifier", "contractId", "accountNo", "accrualId",
-				"reasonForFailure", "companyId", "accountName", "accrualType",
-				"postingDate", "brandId", "provisionId", "amount", "glDate",
-				"subLedger", "companyCostCenter", "glAccount", "companyNo",
-				"batchId", "programType", "itemName", "errorField",
+				"reasonForFailure", "companyIdString", "accountName",
+				"accrualType", "postingDate", "brandId", "provisionId", "amount",
+				"glDate", "subLedger", "companyCostCenter", "glAccount",
+				"companyNo", "batchId", "programType", "itemName", "errorField",
 				"ivldAccrualInboundSid", "contractNo", "brandName",
 				"contractName", "checkRecord"
 			});

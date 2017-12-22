@@ -165,7 +165,7 @@ public class IvldCompanyTradeClassModelImpl extends BaseModelImpl<IvldCompanyTra
 		attributes.put("ivldCompanyTradeClassSid", getIvldCompanyTradeClassSid());
 		attributes.put("priorTradeClass", getPriorTradeClass());
 		attributes.put("reasonForFailure", getReasonForFailure());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("lastUpdatedDate", getLastUpdatedDate());
 		attributes.put("priorTradeClassStartDate", getPriorTradeClassStartDate());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -212,10 +212,10 @@ public class IvldCompanyTradeClassModelImpl extends BaseModelImpl<IvldCompanyTra
 			setReasonForFailure(reasonForFailure);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String lastUpdatedDate = (String)attributes.get("lastUpdatedDate");
@@ -370,18 +370,18 @@ public class IvldCompanyTradeClassModelImpl extends BaseModelImpl<IvldCompanyTra
 	}
 
 	@Override
-	public String getCompanyId() {
-		if (_companyId == null) {
+	public String getCompanyIdString() {
+		if (_companyIdString == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _companyId;
+			return _companyIdString;
 		}
 	}
 
 	@Override
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	@Override
@@ -656,7 +656,7 @@ public class IvldCompanyTradeClassModelImpl extends BaseModelImpl<IvldCompanyTra
 		ivldCompanyTradeClassImpl.setIvldCompanyTradeClassSid(getIvldCompanyTradeClassSid());
 		ivldCompanyTradeClassImpl.setPriorTradeClass(getPriorTradeClass());
 		ivldCompanyTradeClassImpl.setReasonForFailure(getReasonForFailure());
-		ivldCompanyTradeClassImpl.setCompanyId(getCompanyId());
+		ivldCompanyTradeClassImpl.setCompanyIdString(getCompanyIdString());
 		ivldCompanyTradeClassImpl.setLastUpdatedDate(getLastUpdatedDate());
 		ivldCompanyTradeClassImpl.setPriorTradeClassStartDate(getPriorTradeClassStartDate());
 		ivldCompanyTradeClassImpl.setModifiedDate(getModifiedDate());
@@ -759,12 +759,12 @@ public class IvldCompanyTradeClassModelImpl extends BaseModelImpl<IvldCompanyTra
 			ivldCompanyTradeClassCacheModel.reasonForFailure = null;
 		}
 
-		ivldCompanyTradeClassCacheModel.companyId = getCompanyId();
+		ivldCompanyTradeClassCacheModel.companyIdString = getCompanyIdString();
 
-		String companyId = ivldCompanyTradeClassCacheModel.companyId;
+		String companyIdString = ivldCompanyTradeClassCacheModel.companyIdString;
 
-		if ((companyId != null) && (companyId.length() == 0)) {
-			ivldCompanyTradeClassCacheModel.companyId = null;
+		if ((companyIdString != null) && (companyIdString.length() == 0)) {
+			ivldCompanyTradeClassCacheModel.companyIdString = null;
 		}
 
 		ivldCompanyTradeClassCacheModel.lastUpdatedDate = getLastUpdatedDate();
@@ -923,8 +923,8 @@ public class IvldCompanyTradeClassModelImpl extends BaseModelImpl<IvldCompanyTra
 		sb.append(getPriorTradeClass());
 		sb.append(", reasonForFailure=");
 		sb.append(getReasonForFailure());
-		sb.append(", companyId=");
-		sb.append(getCompanyId());
+		sb.append(", companyIdString=");
+		sb.append(getCompanyIdString());
 		sb.append(", lastUpdatedDate=");
 		sb.append(getLastUpdatedDate());
 		sb.append(", priorTradeClassStartDate=");
@@ -987,8 +987,8 @@ public class IvldCompanyTradeClassModelImpl extends BaseModelImpl<IvldCompanyTra
 		sb.append(getReasonForFailure());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>companyId</column-name><column-value><![CDATA[");
-		sb.append(getCompanyId());
+			"<column><column-name>companyIdString</column-name><column-value><![CDATA[");
+		sb.append(getCompanyIdString());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>lastUpdatedDate</column-name><column-value><![CDATA[");
@@ -1075,7 +1075,7 @@ public class IvldCompanyTradeClassModelImpl extends BaseModelImpl<IvldCompanyTra
 	private int _ivldCompanyTradeClassSid;
 	private String _priorTradeClass;
 	private String _reasonForFailure;
-	private String _companyId;
+	private String _companyIdString;
 	private String _lastUpdatedDate;
 	private String _priorTradeClassStartDate;
 	private Date _modifiedDate;

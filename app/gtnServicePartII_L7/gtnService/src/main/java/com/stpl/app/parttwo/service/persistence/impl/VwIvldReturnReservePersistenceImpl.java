@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -128,7 +126,7 @@ public class VwIvldReturnReservePersistenceImpl extends BasePersistenceImpl<VwIv
 			dbColumnNames.put("udc3", "UDC3");
 			dbColumnNames.put("reasonForFailure", "REASON_FOR_FAILURE");
 			dbColumnNames.put("country", "COUNTRY");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("costCenter", "COST_CENTER");
 			dbColumnNames.put("glCompany", "GL_COMPANY");
 			dbColumnNames.put("brandId", "BRAND_ID");
@@ -241,8 +239,6 @@ public class VwIvldReturnReservePersistenceImpl extends BasePersistenceImpl<VwIv
 
 		vwIvldReturnReserve.setNew(true);
 		vwIvldReturnReserve.setPrimaryKey(ivldReturnReserveSid);
-
-		vwIvldReturnReserve.setCompanyId(companyProvider.getCompanyId());
 
 		return vwIvldReturnReserve;
 	}
@@ -419,7 +415,7 @@ public class VwIvldReturnReservePersistenceImpl extends BasePersistenceImpl<VwIv
 		vwIvldReturnReserveImpl.setUdc3(vwIvldReturnReserve.getUdc3());
 		vwIvldReturnReserveImpl.setReasonForFailure(vwIvldReturnReserve.getReasonForFailure());
 		vwIvldReturnReserveImpl.setCountry(vwIvldReturnReserve.getCountry());
-		vwIvldReturnReserveImpl.setCompanyId(vwIvldReturnReserve.getCompanyId());
+		vwIvldReturnReserveImpl.setCompanyIdString(vwIvldReturnReserve.getCompanyIdString());
 		vwIvldReturnReserveImpl.setCostCenter(vwIvldReturnReserve.getCostCenter());
 		vwIvldReturnReserveImpl.setGlCompany(vwIvldReturnReserve.getGlCompany());
 		vwIvldReturnReserveImpl.setBrandId(vwIvldReturnReserve.getBrandId());
@@ -841,8 +837,6 @@ public class VwIvldReturnReservePersistenceImpl extends BasePersistenceImpl<VwIv
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -860,7 +854,7 @@ public class VwIvldReturnReservePersistenceImpl extends BasePersistenceImpl<VwIv
 				"businessUnit", "businessUnitName", "addChgDelIndicator",
 				"errorCode", "intfInsertedDate", "modifiedBy", "itemNo", "month",
 				"reprocessedFlag", "udc6", "udc5", "udc4", "udc1", "units",
-				"udc2", "udc3", "reasonForFailure", "country", "companyId",
+				"udc2", "udc3", "reasonForFailure", "country", "companyIdString",
 				"costCenter", "glCompany", "brandId", "future1", "future2",
 				"amount", "division", "companyNo", "batchId", "itemName",
 				"errorField", "checkRecord"

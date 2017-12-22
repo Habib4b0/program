@@ -305,7 +305,7 @@
 		<field name="deductionRate" type="String" />
 		<field name="customerGtsForecastSid" type="int" />
 		<field name="country" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="forecastValueType" type="String" />
 		<field name="deductionCategory" type="String" />
 		<field name="adjustmentCode" type="String" />
@@ -353,7 +353,7 @@
 		<field name="accountNo" type="String" />
 		<field name="accrualId" type="String" />
 		<field name="reasonForFailure" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="accountName" type="String" />
 		<field name="accrualType" type="String" />
 		<field name="postingDate" type="String" />
@@ -375,9 +375,9 @@
 		<field name="contractName" type="String" />
 		<field name="checkRecord" type="boolean" />
 	</model>
-	<model name="com.stpl.app.parttwo.model.IvldcompanyIdentifier">
+	<model name="com.stpl.app.parttwo.model.IvldCompanyIdentifier">
 		<field name="reasonForFailure" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="companyName" type="String" />
 		<field name="endDate" type="String" />
 		<field name="modifiedDate" type="Date" />
@@ -397,7 +397,7 @@
 		<field name="identifierCodeQualifierName" type="String" />
 		<field name="intfInsertedDate" type="Date" />
 		<field name="modifiedBy" type="String" />
-		<field name="ivldcompanyIdentifierSid" type="int" />
+		<field name="ivldCompanyIdentifierSid" type="int" />
 		<field name="reprocessedFlag" type="String" />
 		<field name="identifierCodeQualifier" type="String" />
 		<field name="checkRecord" type="boolean" />
@@ -431,7 +431,7 @@
 		<field name="zipCode" type="String" />
 		<field name="udc3" type="String" />
 		<field name="reasonForFailure" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="address1" type="String" />
 		<field name="country" type="String" />
 		<field name="address2" type="String" />
@@ -450,7 +450,7 @@
 		<field name="parentcompanyId" type="String" />
 		<field name="priorParentcompanyId" type="String" />
 		<field name="reasonForFailure" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="lastUpdatedDate" type="String" />
 		<field name="parentEndDate" type="String" />
 		<field name="modifiedDate" type="Date" />
@@ -474,7 +474,7 @@
 		<field name="ivldCompanyTradeClassSid" type="int" />
 		<field name="priorTradeClass" type="String" />
 		<field name="reasonForFailure" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="lastUpdatedDate" type="String" />
 		<field name="priorTradeClassStartDate" type="String" />
 		<field name="modifiedDate" type="Date" />
@@ -555,7 +555,7 @@
 		<field name="udc3" type="String" />
 		<field name="reasonForFailure" type="String" />
 		<field name="country" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="forecastValueType" type="String" />
 		<field name="deductionCategory" type="String" />
 		<field name="adjustmentCode" type="String" />
@@ -817,7 +817,7 @@
 		<field name="businessUnitId" type="String" />
 		<field name="userId" type="String" />
 		<field name="costCenter" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="outboundStatus" type="String" />
 		<field name="future1" type="String" />
 		<field name="brandId" type="String" />
@@ -972,7 +972,7 @@
 		<field name="businessUnitId" type="String" />
 		<field name="projectionName" type="String" />
 		<field name="userId" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="outboundStatus" type="String" />
 		<field name="originalBatchId" type="String" />
 		<field name="deductionName" type="String" />
@@ -1019,7 +1019,7 @@
 		<field name="marketSizeUnits" type="double" />
 	</model>
 	<model name="com.stpl.app.parttwo.model.VwcompanyIdentifier">
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="companyName" type="String" />
 		<field name="endDate" type="Date" />
 		<field name="companyIdentifierSid" type="int" />
@@ -1063,7 +1063,7 @@
 		<field name="zipCode" type="String" />
 		<field name="udc2" type="String" />
 		<field name="udc3" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="country" type="String" />
 		<field name="companyType" type="String" />
 		<field name="companyStartDate" type="Date" />
@@ -1077,7 +1077,7 @@
 	<model name="com.stpl.app.parttwo.model.VwCompanyParentDetails">
 		<field name="parentcompanyId" type="String" />
 		<field name="priorParentcompanyId" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="lastUpdatedDate" type="Date" />
 		<field name="parentEndDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
@@ -1094,7 +1094,7 @@
 	<model name="com.stpl.app.parttwo.model.VwCompanyTradeClass">
 		<field name="priorTradeClass" type="String" />
 		<field name="companyTradeClassSid" type="int" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="lastUpdatedDate" type="Date" />
 		<field name="priorTradeClassStartDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
@@ -1133,7 +1133,7 @@
 		<field name="udc2" type="String" />
 		<field name="udc3" type="String" />
 		<field name="country" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="forecastValueType" type="String" />
 		<field name="deductionCategory" type="String" />
 		<field name="adjustmentCode" type="String" />
@@ -1349,7 +1349,7 @@
 		<field name="udc3" type="String" />
 		<field name="reasonForFailure" type="String" />
 		<field name="country" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="costCenter" type="String" />
 		<field name="glCompany" type="String" />
 		<field name="brandId" type="String" />
@@ -1393,7 +1393,7 @@
 		<field name="udc2" type="String" />
 		<field name="udc3" type="String" />
 		<field name="country" type="String" />
-		<field name="companyId" type="String" />
+		<field name="companyIdString" type="String" />
 		<field name="costCenter" type="String" />
 		<field name="glCompany" type="String" />
 		<field name="brandId" type="String" />

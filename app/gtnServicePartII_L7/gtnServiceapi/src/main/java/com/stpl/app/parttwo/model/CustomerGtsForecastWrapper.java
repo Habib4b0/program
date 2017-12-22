@@ -80,7 +80,7 @@ public class CustomerGtsForecastWrapper implements CustomerGtsForecast,
 		attributes.put("deductionRate", getDeductionRate());
 		attributes.put("customerGtsForecastSid", getCustomerGtsForecastSid());
 		attributes.put("country", getCountry());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("forecastValueType", getForecastValueType());
 		attributes.put("deductionCategory", getDeductionCategory());
 		attributes.put("adjustmentCode", getAdjustmentCode());
@@ -234,10 +234,10 @@ public class CustomerGtsForecastWrapper implements CustomerGtsForecast,
 			setCountry(country);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String forecastValueType = (String)attributes.get("forecastValueType");
@@ -387,13 +387,13 @@ public class CustomerGtsForecastWrapper implements CustomerGtsForecast,
 	}
 
 	/**
-	* Returns the company ID of this customer gts forecast.
+	* Returns the company ID string of this customer gts forecast.
 	*
-	* @return the company ID of this customer gts forecast
+	* @return the company ID string of this customer gts forecast
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _customerGtsForecast.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _customerGtsForecast.getCompanyIdString();
 	}
 
 	/**
@@ -817,13 +817,13 @@ public class CustomerGtsForecastWrapper implements CustomerGtsForecast,
 	}
 
 	/**
-	* Sets the company ID of this customer gts forecast.
+	* Sets the company ID string of this customer gts forecast.
 	*
-	* @param companyId the company ID of this customer gts forecast
+	* @param companyIdString the company ID string of this customer gts forecast
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_customerGtsForecast.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_customerGtsForecast.setCompanyIdString(companyIdString);
 	}
 
 	/**

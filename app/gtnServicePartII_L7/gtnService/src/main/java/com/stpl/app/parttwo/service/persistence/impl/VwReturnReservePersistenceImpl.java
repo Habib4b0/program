@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -127,7 +125,7 @@ public class VwReturnReservePersistenceImpl extends BasePersistenceImpl<VwReturn
 			dbColumnNames.put("udc2", "UDC2");
 			dbColumnNames.put("udc3", "UDC3");
 			dbColumnNames.put("country", "COUNTRY");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("costCenter", "COST_CENTER");
 			dbColumnNames.put("glCompany", "GL_COMPANY");
 			dbColumnNames.put("brandId", "BRAND_ID");
@@ -239,8 +237,6 @@ public class VwReturnReservePersistenceImpl extends BasePersistenceImpl<VwReturn
 
 		vwReturnReserve.setNew(true);
 		vwReturnReserve.setPrimaryKey(returnReserveSid);
-
-		vwReturnReserve.setCompanyId(companyProvider.getCompanyId());
 
 		return vwReturnReserve;
 	}
@@ -413,7 +409,7 @@ public class VwReturnReservePersistenceImpl extends BasePersistenceImpl<VwReturn
 		vwReturnReserveImpl.setUdc2(vwReturnReserve.getUdc2());
 		vwReturnReserveImpl.setUdc3(vwReturnReserve.getUdc3());
 		vwReturnReserveImpl.setCountry(vwReturnReserve.getCountry());
-		vwReturnReserveImpl.setCompanyId(vwReturnReserve.getCompanyId());
+		vwReturnReserveImpl.setCompanyIdString(vwReturnReserve.getCompanyIdString());
 		vwReturnReserveImpl.setCostCenter(vwReturnReserve.getCostCenter());
 		vwReturnReserveImpl.setGlCompany(vwReturnReserve.getGlCompany());
 		vwReturnReserveImpl.setBrandId(vwReturnReserve.getBrandId());
@@ -834,8 +830,6 @@ public class VwReturnReservePersistenceImpl extends BasePersistenceImpl<VwReturn
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -853,8 +847,9 @@ public class VwReturnReservePersistenceImpl extends BasePersistenceImpl<VwReturn
 				"createdDate", "createdBy", "businessUnit", "businessUnitName",
 				"buCompanyMasterSid", "inboundStatus", "modifiedBy", "itemNo",
 				"month", "udc6", "udc5", "udc4", "udc1", "units", "udc2", "udc3",
-				"country", "companyId", "costCenter", "glCompany", "brandId",
-				"future1", "future2", "amount", "recordLockStatus", "division",
-				"returnReserveSid", "companyNo", "batchId", "itemName"
+				"country", "companyIdString", "costCenter", "glCompany",
+				"brandId", "future1", "future2", "amount", "recordLockStatus",
+				"division", "returnReserveSid", "companyNo", "batchId",
+				"itemName"
 			});
 }

@@ -150,7 +150,7 @@ public class VwCompanyTradeClassModelImpl extends BaseModelImpl<VwCompanyTradeCl
 
 		attributes.put("priorTradeClass", getPriorTradeClass());
 		attributes.put("companyTradeClassSid", getCompanyTradeClassSid());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("lastUpdatedDate", getLastUpdatedDate());
 		attributes.put("priorTradeClassStartDate", getPriorTradeClassStartDate());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -185,10 +185,10 @@ public class VwCompanyTradeClassModelImpl extends BaseModelImpl<VwCompanyTradeCl
 			setCompanyTradeClassSid(companyTradeClassSid);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		Date lastUpdatedDate = (Date)attributes.get("lastUpdatedDate");
@@ -291,18 +291,18 @@ public class VwCompanyTradeClassModelImpl extends BaseModelImpl<VwCompanyTradeCl
 	}
 
 	@Override
-	public String getCompanyId() {
-		if (_companyId == null) {
+	public String getCompanyIdString() {
+		if (_companyIdString == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _companyId;
+			return _companyIdString;
 		}
 	}
 
 	@Override
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	@Override
@@ -471,7 +471,7 @@ public class VwCompanyTradeClassModelImpl extends BaseModelImpl<VwCompanyTradeCl
 
 		vwCompanyTradeClassImpl.setPriorTradeClass(getPriorTradeClass());
 		vwCompanyTradeClassImpl.setCompanyTradeClassSid(getCompanyTradeClassSid());
-		vwCompanyTradeClassImpl.setCompanyId(getCompanyId());
+		vwCompanyTradeClassImpl.setCompanyIdString(getCompanyIdString());
 		vwCompanyTradeClassImpl.setLastUpdatedDate(getLastUpdatedDate());
 		vwCompanyTradeClassImpl.setPriorTradeClassStartDate(getPriorTradeClassStartDate());
 		vwCompanyTradeClassImpl.setModifiedDate(getModifiedDate());
@@ -560,12 +560,12 @@ public class VwCompanyTradeClassModelImpl extends BaseModelImpl<VwCompanyTradeCl
 
 		vwCompanyTradeClassCacheModel.companyTradeClassSid = getCompanyTradeClassSid();
 
-		vwCompanyTradeClassCacheModel.companyId = getCompanyId();
+		vwCompanyTradeClassCacheModel.companyIdString = getCompanyIdString();
 
-		String companyId = vwCompanyTradeClassCacheModel.companyId;
+		String companyIdString = vwCompanyTradeClassCacheModel.companyIdString;
 
-		if ((companyId != null) && (companyId.length() == 0)) {
-			vwCompanyTradeClassCacheModel.companyId = null;
+		if ((companyIdString != null) && (companyIdString.length() == 0)) {
+			vwCompanyTradeClassCacheModel.companyIdString = null;
 		}
 
 		Date lastUpdatedDate = getLastUpdatedDate();
@@ -681,8 +681,8 @@ public class VwCompanyTradeClassModelImpl extends BaseModelImpl<VwCompanyTradeCl
 		sb.append(getPriorTradeClass());
 		sb.append(", companyTradeClassSid=");
 		sb.append(getCompanyTradeClassSid());
-		sb.append(", companyId=");
-		sb.append(getCompanyId());
+		sb.append(", companyIdString=");
+		sb.append(getCompanyIdString());
 		sb.append(", lastUpdatedDate=");
 		sb.append(getLastUpdatedDate());
 		sb.append(", priorTradeClassStartDate=");
@@ -729,8 +729,8 @@ public class VwCompanyTradeClassModelImpl extends BaseModelImpl<VwCompanyTradeCl
 		sb.append(getCompanyTradeClassSid());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>companyId</column-name><column-value><![CDATA[");
-		sb.append(getCompanyId());
+			"<column><column-name>companyIdString</column-name><column-value><![CDATA[");
+		sb.append(getCompanyIdString());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>lastUpdatedDate</column-name><column-value><![CDATA[");
@@ -792,7 +792,7 @@ public class VwCompanyTradeClassModelImpl extends BaseModelImpl<VwCompanyTradeCl
 		};
 	private String _priorTradeClass;
 	private int _companyTradeClassSid;
-	private String _companyId;
+	private String _companyIdString;
 	private Date _lastUpdatedDate;
 	private Date _priorTradeClassStartDate;
 	private Date _modifiedDate;

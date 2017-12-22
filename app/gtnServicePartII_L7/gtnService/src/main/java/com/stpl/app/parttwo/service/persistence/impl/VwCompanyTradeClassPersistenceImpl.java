@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -100,7 +98,7 @@ public class VwCompanyTradeClassPersistenceImpl extends BasePersistenceImpl<VwCo
 
 			dbColumnNames.put("priorTradeClass", "PRIOR_TRADE_CLASS");
 			dbColumnNames.put("companyTradeClassSid", "COMPANY_TRADE_CLASS_SID");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("lastUpdatedDate", "LAST_UPDATED_DATE");
 			dbColumnNames.put("priorTradeClassStartDate",
 				"PRIOR_TRADE_CLASS_START_DATE");
@@ -214,8 +212,6 @@ public class VwCompanyTradeClassPersistenceImpl extends BasePersistenceImpl<VwCo
 
 		vwCompanyTradeClass.setNew(true);
 		vwCompanyTradeClass.setPrimaryKey(companyTradeClassSid);
-
-		vwCompanyTradeClass.setCompanyId(companyProvider.getCompanyId());
 
 		return vwCompanyTradeClass;
 	}
@@ -364,7 +360,7 @@ public class VwCompanyTradeClassPersistenceImpl extends BasePersistenceImpl<VwCo
 
 		vwCompanyTradeClassImpl.setPriorTradeClass(vwCompanyTradeClass.getPriorTradeClass());
 		vwCompanyTradeClassImpl.setCompanyTradeClassSid(vwCompanyTradeClass.getCompanyTradeClassSid());
-		vwCompanyTradeClassImpl.setCompanyId(vwCompanyTradeClass.getCompanyId());
+		vwCompanyTradeClassImpl.setCompanyIdString(vwCompanyTradeClass.getCompanyIdString());
 		vwCompanyTradeClassImpl.setLastUpdatedDate(vwCompanyTradeClass.getLastUpdatedDate());
 		vwCompanyTradeClassImpl.setPriorTradeClassStartDate(vwCompanyTradeClass.getPriorTradeClassStartDate());
 		vwCompanyTradeClassImpl.setModifiedDate(vwCompanyTradeClass.getModifiedDate());
@@ -786,8 +782,6 @@ public class VwCompanyTradeClassPersistenceImpl extends BasePersistenceImpl<VwCo
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -799,7 +793,7 @@ public class VwCompanyTradeClassPersistenceImpl extends BasePersistenceImpl<VwCo
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No VwCompanyTradeClass exists with the primary key ";
 	private static final Log _log = LogFactoryUtil.getLog(VwCompanyTradeClassPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"priorTradeClass", "companyTradeClassSid", "companyId",
+				"priorTradeClass", "companyTradeClassSid", "companyIdString",
 				"lastUpdatedDate", "priorTradeClassStartDate", "modifiedDate",
 				"tradeClassEndDate", "tradeClassStartDate", "source",
 				"createdBy", "createdDate", "companyTradeClass", "batchId",

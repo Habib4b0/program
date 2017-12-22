@@ -36,7 +36,7 @@ public class VwCompanyParentDetailsSoap implements Serializable {
 
 		soapModel.setParentcompanyId(model.getParentcompanyId());
 		soapModel.setPriorParentcompanyId(model.getPriorParentcompanyId());
-		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCompanyIdString(model.getCompanyIdString());
 		soapModel.setLastUpdatedDate(model.getLastUpdatedDate());
 		soapModel.setParentEndDate(model.getParentEndDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
@@ -120,12 +120,12 @@ public class VwCompanyParentDetailsSoap implements Serializable {
 		_priorParentcompanyId = priorParentcompanyId;
 	}
 
-	public String getCompanyId() {
-		return _companyId;
+	public String getCompanyIdString() {
+		return _companyIdString;
 	}
 
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	public Date getLastUpdatedDate() {
@@ -226,7 +226,7 @@ public class VwCompanyParentDetailsSoap implements Serializable {
 
 	private String _parentcompanyId;
 	private String _priorParentcompanyId;
-	private String _companyId;
+	private String _companyIdString;
 	private Date _lastUpdatedDate;
 	private Date _parentEndDate;
 	private Date _modifiedDate;

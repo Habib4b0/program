@@ -25,8 +25,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -153,7 +151,7 @@ public class StAdjustmentGtnDetailPersistenceImpl extends BasePersistenceImpl<St
 			dbColumnNames.put("businessUnitId", "BUSINESS_UNIT_ID");
 			dbColumnNames.put("userId", "USER_ID");
 			dbColumnNames.put("costCenter", "COST_CENTER");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("outboundStatus", "OUTBOUND_STATUS");
 			dbColumnNames.put("future1", "FUTURE_1");
 			dbColumnNames.put("brandId", "BRAND_ID");
@@ -271,8 +269,6 @@ public class StAdjustmentGtnDetailPersistenceImpl extends BasePersistenceImpl<St
 
 		stAdjustmentGtnDetail.setNew(true);
 		stAdjustmentGtnDetail.setPrimaryKey(workflowId);
-
-		stAdjustmentGtnDetail.setCompanyId(companyProvider.getCompanyId());
 
 		return stAdjustmentGtnDetail;
 	}
@@ -473,7 +469,7 @@ public class StAdjustmentGtnDetailPersistenceImpl extends BasePersistenceImpl<St
 		stAdjustmentGtnDetailImpl.setBusinessUnitId(stAdjustmentGtnDetail.getBusinessUnitId());
 		stAdjustmentGtnDetailImpl.setUserId(stAdjustmentGtnDetail.getUserId());
 		stAdjustmentGtnDetailImpl.setCostCenter(stAdjustmentGtnDetail.getCostCenter());
-		stAdjustmentGtnDetailImpl.setCompanyId(stAdjustmentGtnDetail.getCompanyId());
+		stAdjustmentGtnDetailImpl.setCompanyIdString(stAdjustmentGtnDetail.getCompanyIdString());
 		stAdjustmentGtnDetailImpl.setOutboundStatus(stAdjustmentGtnDetail.getOutboundStatus());
 		stAdjustmentGtnDetailImpl.setFuture1(stAdjustmentGtnDetail.getFuture1());
 		stAdjustmentGtnDetailImpl.setBrandId(stAdjustmentGtnDetail.getBrandId());
@@ -905,8 +901,6 @@ public class StAdjustmentGtnDetailPersistenceImpl extends BasePersistenceImpl<St
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -931,10 +925,10 @@ public class StAdjustmentGtnDetailPersistenceImpl extends BasePersistenceImpl<St
 				"accountType", "glString", "createdDate", "createdBy",
 				"deductionUdc6", "deductionUdc5", "glCompanyName", "workflowId",
 				"itemNo", "contractId", "deductionProgram", "businessUnitId",
-				"userId", "costCenter", "companyId", "outboundStatus", "future1",
-				"brandId", "deductionName", "future2", "workflowName", "glDate",
-				"workflowCreatedBy", "glMonth", "batchId", "accountCategory",
-				"glCompanyNo", "workflowApprovedBy", "contractNo",
-				"originalBatchId", "adjustmentLevel"
+				"userId", "costCenter", "companyIdString", "outboundStatus",
+				"future1", "brandId", "deductionName", "future2", "workflowName",
+				"glDate", "workflowCreatedBy", "glMonth", "batchId",
+				"accountCategory", "glCompanyNo", "workflowApprovedBy",
+				"contractNo", "originalBatchId", "adjustmentLevel"
 			});
 }

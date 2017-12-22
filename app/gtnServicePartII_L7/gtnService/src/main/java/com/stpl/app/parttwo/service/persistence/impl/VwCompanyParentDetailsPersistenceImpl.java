@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -100,7 +98,7 @@ public class VwCompanyParentDetailsPersistenceImpl extends BasePersistenceImpl<V
 
 			dbColumnNames.put("parentcompanyId", "PARENT_COMPANY_ID");
 			dbColumnNames.put("priorParentcompanyId", "PRIOR_PARENT_COMPANY_ID");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("lastUpdatedDate", "LAST_UPDATED_DATE");
 			dbColumnNames.put("parentEndDate", "PARENT_END_DATE");
 			dbColumnNames.put("modifiedDate", "MODIFIED_DATE");
@@ -217,8 +215,6 @@ public class VwCompanyParentDetailsPersistenceImpl extends BasePersistenceImpl<V
 
 		vwCompanyParentDetails.setNew(true);
 		vwCompanyParentDetails.setPrimaryKey(companyParentDetailsSid);
-
-		vwCompanyParentDetails.setCompanyId(companyProvider.getCompanyId());
 
 		return vwCompanyParentDetails;
 	}
@@ -368,7 +364,7 @@ public class VwCompanyParentDetailsPersistenceImpl extends BasePersistenceImpl<V
 
 		vwCompanyParentDetailsImpl.setParentcompanyId(vwCompanyParentDetails.getParentcompanyId());
 		vwCompanyParentDetailsImpl.setPriorParentcompanyId(vwCompanyParentDetails.getPriorParentcompanyId());
-		vwCompanyParentDetailsImpl.setCompanyId(vwCompanyParentDetails.getCompanyId());
+		vwCompanyParentDetailsImpl.setCompanyIdString(vwCompanyParentDetails.getCompanyIdString());
 		vwCompanyParentDetailsImpl.setLastUpdatedDate(vwCompanyParentDetails.getLastUpdatedDate());
 		vwCompanyParentDetailsImpl.setParentEndDate(vwCompanyParentDetails.getParentEndDate());
 		vwCompanyParentDetailsImpl.setModifiedDate(vwCompanyParentDetails.getModifiedDate());
@@ -790,8 +786,6 @@ public class VwCompanyParentDetailsPersistenceImpl extends BasePersistenceImpl<V
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -803,7 +797,7 @@ public class VwCompanyParentDetailsPersistenceImpl extends BasePersistenceImpl<V
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No VwCompanyParentDetails exists with the primary key ";
 	private static final Log _log = LogFactoryUtil.getLog(VwCompanyParentDetailsPersistenceImpl.class);
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"parentcompanyId", "priorParentcompanyId", "companyId",
+				"parentcompanyId", "priorParentcompanyId", "companyIdString",
 				"lastUpdatedDate", "parentEndDate", "modifiedDate",
 				"priorParentStartDate", "source", "createdBy", "createdDate",
 				"companyParentDetailsSid", "batchId", "addChgDelIndicator",

@@ -21,28 +21,28 @@ import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
 
 /**
- * The extended model interface for the IvldcompanyIdentifier service. Represents a row in the &quot;IVLD_COMPANY_IDENTIFIER&quot; database table, with each column mapped to a property of this class.
+ * The extended model interface for the IvldCompanyIdentifier service. Represents a row in the &quot;IVLD_COMPANY_IDENTIFIER&quot; database table, with each column mapped to a property of this class.
  *
  * @author
- * @see IvldcompanyIdentifierModel
- * @see com.stpl.app.parttwo.model.impl.IvldcompanyIdentifierImpl
- * @see com.stpl.app.parttwo.model.impl.IvldcompanyIdentifierModelImpl
+ * @see IvldCompanyIdentifierModel
+ * @see com.stpl.app.parttwo.model.impl.IvldCompanyIdentifierImpl
+ * @see com.stpl.app.parttwo.model.impl.IvldCompanyIdentifierModelImpl
  * @generated
  */
-@ImplementationClassName("com.stpl.app.parttwo.model.impl.IvldcompanyIdentifierImpl")
+@ImplementationClassName("com.stpl.app.parttwo.model.impl.IvldCompanyIdentifierImpl")
 @ProviderType
-public interface IvldcompanyIdentifier extends IvldcompanyIdentifierModel,
+public interface IvldCompanyIdentifier extends IvldCompanyIdentifierModel,
 	PersistedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link com.stpl.app.parttwo.model.impl.IvldcompanyIdentifierImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to {@link com.stpl.app.parttwo.model.impl.IvldCompanyIdentifierImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<IvldcompanyIdentifier, Integer> IVLDCOMPANY_IDENTIFIER_SID_ACCESSOR =
-		new Accessor<IvldcompanyIdentifier, Integer>() {
+	public static final Accessor<IvldCompanyIdentifier, Integer> IVLD_COMPANY_IDENTIFIER_SID_ACCESSOR =
+		new Accessor<IvldCompanyIdentifier, Integer>() {
 			@Override
-			public Integer get(IvldcompanyIdentifier ivldcompanyIdentifier) {
-				return ivldcompanyIdentifier.getIvldcompanyIdentifierSid();
+			public Integer get(IvldCompanyIdentifier ivldCompanyIdentifier) {
+				return ivldCompanyIdentifier.getIvldCompanyIdentifierSid();
 			}
 
 			@Override
@@ -51,8 +51,8 @@ public interface IvldcompanyIdentifier extends IvldcompanyIdentifierModel,
 			}
 
 			@Override
-			public Class<IvldcompanyIdentifier> getTypeClass() {
-				return IvldcompanyIdentifier.class;
+			public Class<IvldCompanyIdentifier> getTypeClass() {
+				return IvldCompanyIdentifier.class;
 			}
 		};
 }
