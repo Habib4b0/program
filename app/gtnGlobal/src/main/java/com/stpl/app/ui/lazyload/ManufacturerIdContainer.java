@@ -8,18 +8,18 @@ import com.stpl.app.global.deductioncalendar.logic.DeductionCalendarLogic;
 import com.stpl.app.util.ErrorCodeUtil;
 import com.stpl.app.util.ErrorCodes;
 import com.stpl.app.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 import java.util.Collections;
 import java.util.List;
+import org.asi.ui.addons.lazycontainer.DAO;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
+import org.asi.ui.addons.lazycontainer.SearchCriteria;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.DAO;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
-import org.vaadin.addons.lazycontainer.SearchCriteria;
 
 /**
  *

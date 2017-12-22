@@ -1,6 +1,6 @@
 package com.stpl.app.util;
 
-import com.vaadin.data.validator.AbstractStringValidator;
+import com.vaadin.v7.data.validator.AbstractStringValidator;
 
 /*
  * Copyright 2000-2014 Vaadin Ltd.

@@ -3,12 +3,12 @@ package com.stpl.app.security.udc.ui.view;
 import com.stpl.app.security.common.SessionDTO;
 import com.stpl.app.security.udc.dto.HelperForm;
 import com.stpl.app.security.udc.ui.form.UdcHelperForm;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.UserError;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.VerticalLayout;
 
 public class UdcView extends VerticalLayout implements View {
 

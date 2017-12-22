@@ -8,7 +8,7 @@ import java.util.Locale;
 
 import org.jboss.logging.Logger;
 
-import com.vaadin.data.util.converter.Converter;
+import com.vaadin.v7.data.util.converter.Converter;
 
 // TODO: Auto-generated Javadoc
 /**

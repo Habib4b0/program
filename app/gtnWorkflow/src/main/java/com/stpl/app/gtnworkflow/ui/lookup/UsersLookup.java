@@ -13,16 +13,16 @@ import com.stpl.app.gtnworkflow.util.NotificationUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -224,7 +224,6 @@ public final class UsersLookup extends Window {
      * @return
      */
     public Button closeButton() {
-        closeBtn.setImmediate(true);
         closeBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -242,7 +241,6 @@ public final class UsersLookup extends Window {
      * @return
      */
     public Button selectButton() {
-        selectBtn.setImmediate(true);
         selectBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -266,7 +264,6 @@ public final class UsersLookup extends Window {
      * @return
      */
     public Button resetButton() {
-        resetBtn.setImmediate(true);
         resetBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -322,7 +319,6 @@ public final class UsersLookup extends Window {
      * @return
      */
     public Button searchButton() {
-        searchBtn.setImmediate(true);
         searchBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
@@ -359,7 +355,6 @@ public final class UsersLookup extends Window {
      * @return
      */
     public Button resetTable() {
-        resetTable.setImmediate(true);
         resetTable.addClickListener(new Button.ClickListener() {
 
             private static final long serialVersionUID = 1L;

@@ -12,18 +12,29 @@ import com.stpl.app.global.common.util.HelperListUtil;
 import com.stpl.app.global.deductioncalendar.ui.view.DeductionCalendarView;
 import com.stpl.app.util.CommonUIUtils;
 import com.stpl.app.util.ConstantsUtils;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 import org.jboss.logging.Logger;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
 
 /**
  *
  * @author sibi
  */
+@Theme("mytheme")
+@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Component(service = UI.class, property = {
+        "com.liferay.portlet.display-category=Deduction Calendar",
+        "javax.portlet.name=DeductionCalendar",
+        "javax.portlet.display-name=DeductionCalendar",
+        "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class DeductionCalendarUI extends UI {
 
     private static final Logger LOGGER = Logger.getLogger(DeductionCalendarUI.class);

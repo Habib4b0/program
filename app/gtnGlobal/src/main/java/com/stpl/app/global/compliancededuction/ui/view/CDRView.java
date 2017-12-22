@@ -9,12 +9,12 @@ import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.compliancededuction.dto.CDRDto;
 import com.stpl.app.global.compliancededuction.ui.form.CDRForm;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.data.util.BeanItem;
+import com.vaadin.v7.ui.VerticalLayout;
+import com.vaadin.v7.data.util.BeanItem;
 import org.jboss.logging.Logger;
 
 /**

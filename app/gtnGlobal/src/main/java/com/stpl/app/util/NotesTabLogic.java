@@ -14,11 +14,10 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.service.MasterDataFilesLocalServiceUtil;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.util.GtnFileUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 
 public class NotesTabLogic {
 	/**
@@ -37,7 +36,7 @@ public class NotesTabLogic {
 	@SuppressWarnings("unchecked")
 	public List<NotesDTO> getAttachmentDTOList(int masterTableSid, String moduleName, String filepath) {
 		List<NotesDTO> attachmentDTOList = new ArrayList<>();
-		DynamicQuery docDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(MasterDataFiles.class);
+		DynamicQuery docDetailsDynamicQuery = MasterDataFilesLocalServiceUtil.dynamicQuery();
 		docDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq("masterTableSid", masterTableSid));
 		docDetailsDynamicQuery.add(RestrictionsFactoryUtil.ilike("masterTableName", moduleName));
 		List<MasterDataFiles> docDetailsList = null;

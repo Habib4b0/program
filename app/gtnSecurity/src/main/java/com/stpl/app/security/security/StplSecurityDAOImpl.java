@@ -10,11 +10,12 @@ import com.stpl.app.model.UsergroupDomainMaster;
 import com.stpl.app.service.BusinessroleModuleLocalServiceUtil;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.security.service.SecurityImpl;
 import java.util.List;
 
 /**
@@ -60,7 +61,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO {
 	 * @throws SystemException
 	 * @throws PortalException
 	 */public List getBusinessroleModuleMasterTabList(final String businessRoleIds,final String moduleName){
-		return BusinessroleModuleLocalServiceUtil.getBusinessTabPermission(businessRoleIds, moduleName);
+		return new SecurityImpl().getBusinessTabPermission(businessRoleIds, moduleName);
 	}
 	
 	/**
@@ -72,7 +73,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO {
 	 * @throws PortalException
 	 */
 	public List getBusinessroleModuleMasterFieldList(final String businessRoleIds,final String moduleName) throws PortalException, SystemException {
-		return BusinessroleModuleLocalServiceUtil.getBusinessFieldPermission(businessRoleIds, moduleName);
+		return new SecurityImpl().getBusinessFieldPermission(businessRoleIds, moduleName);
 	}
 	
 	/**
@@ -84,7 +85,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO {
 	 * @throws PortalException
 	 */
 	public List getBusinessroleModuleMasterFunctionList(final String businessRoleIds,final String moduleName)  throws PortalException, SystemException{
-		return BusinessroleModuleLocalServiceUtil.getBusinessFunctionPermission(businessRoleIds, moduleName);
+		return new SecurityImpl().getBusinessFunctionPermission(businessRoleIds, moduleName);
 	}
 	
 }

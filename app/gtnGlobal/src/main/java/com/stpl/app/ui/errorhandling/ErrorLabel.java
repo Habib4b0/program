@@ -5,8 +5,8 @@ import com.vaadin.server.ErrorMessage;
 import org.jboss.logging.Logger;
 
 import com.vaadin.server.UserError;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.Label;
 
 // TODO: Auto-generated Javadoc
 /**

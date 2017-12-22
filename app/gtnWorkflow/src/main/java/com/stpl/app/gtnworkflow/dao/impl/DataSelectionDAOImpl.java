@@ -3,30 +3,14 @@ package com.stpl.app.gtnworkflow.dao.impl;
 import com.stpl.app.gtnworkflow.dao.DataSelectionDAO;
 import com.stpl.app.model.ProjectionMaster;
 import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  *
  * @author santanukumar
  */
 public class DataSelectionDAOImpl implements DataSelectionDAO {
-
-    /**
-     * Gets the user.
-     *
-     * @param systemId the system id
-     * @return the user
-     * @throws SystemException the system exception
-     * @throws PortalException the portal exception
-     * @throws Exception the exception
-     */
-    @Override
-    public User getUser(final Long systemId) throws SystemException, PortalException {
-        return UserLocalServiceUtil.getUser(systemId);
-    }
 
     /**
      * Adds the projection master.
