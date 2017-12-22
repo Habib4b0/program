@@ -6,13 +6,11 @@
 
 package org.asi.ui.extfilteringtable.paged;
 
+import com.vaadin.v7.data.Container;
 import java.util.Set;
-
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.asi.ui.extfilteringtable.paged.logic.TreeLogicBase;
-
-import com.vaadin.data.Container;
 
 /**
  * The Class PagedTreeTableBase.

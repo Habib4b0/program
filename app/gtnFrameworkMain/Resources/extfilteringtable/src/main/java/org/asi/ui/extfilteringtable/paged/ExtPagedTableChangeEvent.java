@@ -15,9 +15,8 @@
  */
 package org.asi.ui.extfilteringtable.paged;
 
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import java.io.Serializable;
-
-import com.vaadin.ui.ExtCustomTable;
 
 
 /**

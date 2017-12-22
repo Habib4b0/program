@@ -62,7 +62,7 @@ public enum WeekDay {
                 return WeekDay.SATURDAY;
             default:
                 return null;
-        }
+            }
         }
     
 }

@@ -1,0 +1,11 @@
+@import "addons.scss";
+@import "stpl.scss";
+
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+/* The actual styles should be defined in stpl.scss */
+.stpl {
+  @include addons;
+
+  // Include stpl theme styles in your theme
+  @include stpl;
+}

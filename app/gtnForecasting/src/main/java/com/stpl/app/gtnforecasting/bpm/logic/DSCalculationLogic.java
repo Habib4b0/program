@@ -1,20 +1,17 @@
 package com.stpl.app.gtnforecasting.bpm.logic;
 
-import com.liferay.portal.kernel.model.Role;
 import com.stpl.app.bpm.dto.ForecastingRulesDTO;
 import com.stpl.app.gtnforecasting.bpm.persistance.WorkflowPersistance;
-import com.stpl.app.gtnforecasting.bpm.service.BPMProcessBean;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.stpl.ifs.util.DroolsProperties;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.task.model.TaskSummary;
+//import org.kie.api.runtime.process.ProcessInstance;
+//import org.kie.api.task.model.TaskSummary;
 
 public class DSCalculationLogic {
 
@@ -29,76 +26,88 @@ public class DSCalculationLogic {
 
 	public static boolean isValidWorkflowUser(User userModel, List<String> roleList, long processIntanceId) {
 		boolean returnflag = false;
-		TaskSummary taskSummary = null;
-		try {
-
-			LOGGER.debug("userName :" + userModel.getScreenName());
-			taskSummary = BPMProcessBean.getAvailableTask(processIntanceId);
-                        if(taskSummary == null){
-                           LOGGER.debug("taskSummary id:" + taskSummary.getId());                        
-                           return true;
-                        }
-
-			LOGGER.debug("taskSummary : " + taskSummary.getName());
-			List<String> userRoles = BPMProcessBean.getPotentialOwners(taskSummary.getId(), roleList);
-			LOGGER.debug("userRoles :" + userRoles);
-			List<Role> roles = RoleLocalServiceUtil.getUserRoles(userModel.getUserId());
-			if (userRoles == null || userRoles.isEmpty()) {
-				return returnflag;
-			}
-			for (Role role : roles) {
-				if (userRoles.contains(role.getName())) {
-					returnflag = true;
-					break;
-				}
-			}
-		} catch (Exception e) {
-                    LOGGER.error(e);
-		}
+//		TaskSummary taskSummary = null;
+//		try {
+//
+//			LOGGER.debug("userName :" + userModel.getScreenName());
+//			taskSummary = BPMProcessBean.getAvailableTask(processIntanceId);
+//                        if(taskSummary == null){
+//                           LOGGER.debug("taskSummary id:" + taskSummary.getId());                        
+//                           return true;
+//                        }
+//
+//			LOGGER.debug("taskSummary : " + taskSummary.getName());
+//			List<String> userRoles = BPMProcessBean.getPotentialOwners(taskSummary.getId(), roleList);
+//			LOGGER.debug("userRoles :" + userRoles);
+//			List<Role> roles = RoleLocalServiceUtil.getUserRoles(userModel.getUserId());
+//			if (userRoles == null || userRoles.isEmpty()) {
+//				return returnflag;
+//			}
+//			for (Role role : roles) {
+//				if (userRoles.contains(role.getName())) {
+//					returnflag = true;
+//					break;
+//				}
+//			}
+//		} catch (Exception e) {
+//                    LOGGER.error(e);
+//		}
 
 		return returnflag;
 	}
 
 	
 
-	public static ProcessInstance startWorkflow() {
-		ProcessInstance processInstance = null;
-		try {
-			String workflowId = properties.getProperty("Forecasting_WorkflowId", "ForecastingWorkflow.SubmissionWorkflow");
-			processInstance = BPMProcessBean.startProcess(workflowId, null);
-		} catch (Exception e) {
-			LOGGER.error(e);
-		}
-		return processInstance;
+	public static boolean startWorkflow(SessionDTO session,String userId) {
+//		ProcessInstance processInstance = null;
+//                int processInstanceId = 0;
+//		try {
+//			String workflowId = properties.getProperty("Forecasting_WorkflowId", "ForecastingWorkflow.SubmissionWorkflow");
+//			processInstance = BPMProcessBean.startProcess(workflowId, null);
+//		} catch (Exception e) {
+//			LOGGER.error(e);
+//		}
+//            try {
+//               User userModel =  UserLocalServiceUtil.getUser(Long.parseLong(userId));
+//             TaskSummary summary  = startAndCompleteTask(userModel,session.getProjectionId(), processInstanceId);
+//             session.setProcessId(summary.getProcessInstanceId());
+//             List<String> roleList = new ArrayList<>();
+//             return  DSCalculationLogic.isValidWorkflowUser(userModel, roleList,
+//						processInstance.getId());
+//            } catch (PortalException ex) {
+//                Logger.getLogger(DSCalculationLogic.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+                
+		return false;
 	}
         
-        public static ProcessInstance startARPWorkflow() {
-		ProcessInstance processInstance = null;
-		try {
-			String workflowId = properties.getProperty("ARP_WorkflowId", "ARPWorkflow.ARPWorkflow");
-			processInstance = BPMProcessBean.startProcess(workflowId, null);
-		} catch (Exception e) {
-			LOGGER.error(e);
-		}
-		return processInstance;
-	}
+//        public static ProcessInstance startARPWorkflow() {
+//		ProcessInstance processInstance = null;
+//		try {
+//			String workflowId = properties.getProperty("ARP_WorkflowId", "ARPWorkflow.ARPWorkflow");
+//			processInstance = BPMProcessBean.startProcess(workflowId, null);
+//		} catch (Exception e) {
+//			LOGGER.error(e);
+//		}
+//		return processInstance;
+//	}
 
-	public static TaskSummary startAndCompleteTask(User userModel, int projectionId, long processInstanceId) {
-		TaskSummary taskSummary = null;
-		try {
-			LOGGER.debug("userId :" + userModel.getUserId());
-			LOGGER.debug("userName :" + userModel.getScreenName());
-			taskSummary = BPMProcessBean.getAvailableTask(processInstanceId);
-			LOGGER.debug("taskSummary :" + taskSummary.getName());
-			LOGGER.debug("taskSummary :" + taskSummary.getId());
-			BPMProcessBean.startTask(taskSummary.getId(), userModel.getScreenName());
-			BPMProcessBean.completeTask(taskSummary.getId(), userModel.getScreenName(), null);
-			WorkflowPersistance.insertWFInstanceInfo(projectionId, processInstanceId);
-		} catch (Exception e) {
-			LOGGER.error(e);
-		}
-		return taskSummary;
-	}
+//	public static TaskSummary startAndCompleteTask(User userModel, int projectionId, long processInstanceId) {
+//		TaskSummary taskSummary = null;
+//		try {
+//			LOGGER.debug("userId :" + userModel.getUserId());
+//			LOGGER.debug("userName :" + userModel.getScreenName());
+//			taskSummary = BPMProcessBean.getAvailableTask(processInstanceId);
+//			LOGGER.debug("taskSummary :" + taskSummary.getName());
+//			LOGGER.debug("taskSummary :" + taskSummary.getId());
+//			BPMProcessBean.startTask(taskSummary.getId(), userModel.getScreenName());
+//			BPMProcessBean.completeTask(taskSummary.getId(), userModel.getScreenName(), null);
+//			WorkflowPersistance.insertWFInstanceInfo(projectionId, processInstanceId);
+//		} catch (Exception e) {
+//			LOGGER.error(e);
+//		}
+//		return taskSummary;
+//	}
 
     public static List<ForecastingRulesDTO> getProjectionValues(int projectionId, String userId, String sessionId, String screenName,SessionDTO sessionDto) {
         List<ForecastingRulesDTO> list = new ArrayList<>();

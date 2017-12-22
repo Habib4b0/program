@@ -87,9 +87,9 @@ import com.vaadin.client.ui.TouchScrollDelegate;
 import com.vaadin.client.ui.TreeAction;
 import com.vaadin.client.ui.VContextMenu;
 import com.vaadin.client.ui.VEmbedded;
-import com.vaadin.client.ui.VLabel;
+import com.vaadin.v7.client.ui.VLabel;
 import com.vaadin.client.ui.VOverlay;
-import com.vaadin.client.ui.VTextField;
+import com.vaadin.v7.client.ui.VTextField;
 import com.vaadin.client.ui.dd.DDUtil;
 import com.vaadin.client.ui.dd.VAbstractDropHandler;
 import com.vaadin.client.ui.dd.VAcceptCallback;
@@ -100,7 +100,7 @@ import com.vaadin.client.ui.dd.VTransferable;
 import com.vaadin.shared.AbstractComponentState;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
-import com.vaadin.shared.ui.table.TableConstants;
+import com.vaadin.v7.shared.ui.table.TableConstants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -3336,7 +3336,7 @@ public class VExtCustomScrollTable extends FlowPanel implements HasWidgets,
          */
         @Override
         public void run() {
-            if (client.hasActiveRequest() || navKeyDown) {
+            if (client.getMessageSender().hasActiveRequest() || navKeyDown) {
                 // if client connection is busy, don't bother loading it more
                 VConsole.log("Postponed rowfetch");
                 schedule(250);
@@ -9252,7 +9252,7 @@ public class VExtCustomScrollTable extends FlowPanel implements HasWidgets,
             Util.runWebkitOverflowAutoFixDeferred(scrollBodyPanel.getElement());
 
             forceRealignColumnHeaders();
-            client.sendPendingVariableChanges();
+//            client.sendPendingVariableChanges();
         }
     };
 

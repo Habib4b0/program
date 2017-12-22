@@ -1601,49 +1601,7 @@ BEGIN
 END
 GO
 ----------------------------------------INSERTION OF ROWS------------------------------------------------------
-IF NOT EXISTS (
-		SELECT 1
-		FROM WORKFLOW_PROFILE
-		WHERE PROCESS_NAME = 'ACCRUAL_INBOUND_INTERFACE'
-		)
-BEGIN
-	INSERT [dbo].[WORKFLOW_PROFILE] (
-		[PROCESS_NAME]		
-		,[ACTIVE_FLAG]		
-		,[FREQUENCY]		
-		,[MODIFIED_BY]
-		,[MODIFIED_DATE]		
-		,[SCHEMA_NAME]
-		,[INBOUND_STATUS]
-		,[CREATED_DATE]
-		,[SLA_CALENDAR_MASTER_SID]
-		,[USER_SID]
-		,[CREATED_BY]
-		,[SUCCESS_MAIL_SUBJECT]
-		,[SUCCESS_MAIL_BODY]
-		,[FAILURE_MAIL_SUBJECT]
-		,[FAILURE_MAIL_BODY]
-			
-		)
-	VALUES (
-		'ACCRUAL_INBOUND_INTERFACE'		
-		,'Y'				
-		,'Time'		
-		,1
-		,getdate()		
-		,'BPI'
-		,'A'
-		,getdate()
-		,1
-		,1
-		,1	
-		,'SUCCESS - ACCRUAL_INBOUND_INTERFACE'
-		,'ACCRUAL_INBOUND_INTERFACE SUCCESS'
-		,'FAILURE - ACCRUAL_INBOUND_INTERFACE '
-		,'ACCRUAL_INBOUND_INTERFACE FAILURE'		
-		)
-END
-GO
+
 
 
 ---------------------------------------------------ADD_COLUMS-------------------------------------------------
@@ -2985,6 +2943,50 @@ BEGIN
 END
 GO
 
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ACCRUAL_INBOUND_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]
+		,[SUCCESS_MAIL_SUBJECT]
+		,[SUCCESS_MAIL_BODY]
+		,[FAILURE_MAIL_SUBJECT]
+		,[FAILURE_MAIL_BODY]
+			
+		)
+	VALUES (
+		'ACCRUAL_INBOUND_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1	
+		,'SUCCESS - ACCRUAL_INBOUND_INTERFACE'
+		,'ACCRUAL_INBOUND_INTERFACE SUCCESS'
+		,'FAILURE - ACCRUAL_INBOUND_INTERFACE '
+		,'ACCRUAL_INBOUND_INTERFACE FAILURE'		
+		)
+END
+GO
 -------------------------------------ADDING DECRYPTION_MODE COLUMN--------------------------------------------------------------------------
 IF NOT EXISTS (
 		SELECT 1

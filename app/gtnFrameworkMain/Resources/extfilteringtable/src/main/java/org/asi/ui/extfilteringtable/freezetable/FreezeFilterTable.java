@@ -15,8 +15,8 @@
  */
 package org.asi.ui.extfilteringtable.freezetable;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MultiSelectMode;
 import com.vaadin.ui.HorizontalSplitPanel;

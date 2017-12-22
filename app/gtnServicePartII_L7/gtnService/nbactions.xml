@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-Service Build</actionName>
+            <displayName>Service Build</displayName>
+            <goals>
+                <goal>service-builder:build</goal>
+            </goals>
+        </action>
+    </actions>

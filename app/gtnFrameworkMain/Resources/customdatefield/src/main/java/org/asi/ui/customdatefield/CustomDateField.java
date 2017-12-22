@@ -1,9 +1,9 @@
 package org.asi.ui.customdatefield;
 
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Property;
 import com.vaadin.shared.EventId;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.PopupDateField;
+import com.vaadin.v7.ui.PopupDateField;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Date;

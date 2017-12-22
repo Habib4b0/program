@@ -15,26 +15,26 @@
  */
 package org.asi.ui.extfilteringtable;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.Container.Filter;
-import com.vaadin.data.Container.Filterable;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.util.filter.And;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.Compare.Equal;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.event.FieldEvents.TextChangeEvent;
-import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Container.Filter;
+import com.vaadin.v7.data.Container.Filterable;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.Property.ValueChangeListener;
+import com.vaadin.v7.data.util.filter.And;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.Compare.Equal;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
+import com.vaadin.v7.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable.Unit;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.ui.Field;
 import com.vaadin.ui.HasComponents;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.TextField;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
@@ -55,6 +55,7 @@ import org.asi.ui.extfilteringtable.numberfilter.ExtNumberFilterPopup;
 import org.asi.ui.extfilteringtable.numberfilter.ExtNumberInterval;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTableBase;
 import org.asi.ui.extfilteringtable.paged.PagedTreeTableBase;
 
 
@@ -431,6 +432,12 @@ class ExtFilterFieldGenerator implements Serializable {
             actualTo = actualTo == null ? null : new java.sql.Date(interval
                     .getTo().getTime());
         } else if (Timestamp.class.equals(type)) {
+            actualFrom = actualFrom == null ? null : new Timestamp(interval
+                    .getFrom().getTime());
+            actualTo = actualTo == null ? null : new Timestamp(interval.getTo()
+                    .getTime());
+        }else if (java.util.Date.class.equals(type)) {
+            
             actualFrom = actualFrom == null ? null : new Timestamp(interval
                     .getFrom().getTime());
             actualTo = actualTo == null ? null : new Timestamp(interval.getTo()

@@ -5,14 +5,14 @@ import com.vaadin.client.ApplicationConnection;
 import com.vaadin.client.Paintable;
 import com.vaadin.client.UIDL;
 import static com.vaadin.client.ui.AbstractComponentConnector.isRealUpdate;
-import com.vaadin.client.ui.AbstractFieldConnector;
+import com.vaadin.v7.client.ui.AbstractFieldConnector;
 import com.vaadin.client.ui.SimpleManagedLayout;
 import org.asi.ui.customcombobox.CustomComboBox;
 
 import com.vaadin.shared.ui.Connect;
-import com.vaadin.shared.ui.combobox.ComboBoxConstants;
-import com.vaadin.shared.ui.combobox.ComboBoxState;
-import com.vaadin.shared.ui.combobox.FilteringMode;
+import com.vaadin.v7.shared.ui.combobox.ComboBoxConstants;
+import com.vaadin.v7.shared.ui.combobox.ComboBoxState;
+import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

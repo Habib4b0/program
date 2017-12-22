@@ -1022,7 +1022,7 @@ REBATE_SCHEDULE_ID
 
        FROM STAG_REBATE_SCHEDULE  A 
 WHERE NOT EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS=&apos;A&apos;)</sql>
+           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1048,7 +1048,7 @@ DROP TABLE #temp
 
 SELECT * into #temp             FROM STAG_REBATE_SCHEDULE  A 
 WHERE  EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 
 INSERT INTO IVLD_REBATE_SCHEDULE
 (
@@ -1262,9 +1262,9 @@ DROP TABLE #temp
 
 SELECT * into #temp             FROM STAG_REBATE_SCHEDULE  A 
 WHERE  EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 		   and  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B 
-           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 
 INSERT INTO IVLD_REBATE_SCHEDULE
 (
@@ -1451,7 +1451,7 @@ A.REBATE_SCHEDULE_ID
 
  from #temp  a
 WHERE not  EXISTS (SELECT 1 FROM CFP_MODEL  B 
-           WHERE A.CFP_ID=B.CFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.CFP_ID=B.CFP_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 
 
 
@@ -1485,11 +1485,11 @@ DROP TABLE #temp
 
 SELECT * into #temp             FROM STAG_REBATE_SCHEDULE  A 
 WHERE  EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 		   and  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B 
-           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 		   and EXISTS (SELECT 1 FROM CFP_MODEL  B 
-           WHERE A.CFP_ID=B.CFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.CFP_ID=B.CFP_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 
 INSERT INTO IVLD_REBATE_SCHEDULE
 (
@@ -1674,7 +1674,7 @@ select
 
  from #temp  a
 WHERE not  EXISTS (SELECT 1 FROM IFP_MODEL  B 
-           WHERE A.IFP_ID=B.IFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.IFP_ID=B.IFP_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 
 
 
@@ -1705,13 +1705,13 @@ DROP TABLE #temp
 
 SELECT * into #temp             FROM STAG_REBATE_SCHEDULE  A 
 WHERE  EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 		   and  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B 
-           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 		   and EXISTS (SELECT 1 FROM CFP_MODEL  B 
-           WHERE A.CFP_ID=B.CFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.CFP_ID=B.CFP_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 		   AND EXISTS (SELECT 1 FROM IFP_MODEL  B 
-           WHERE A.IFP_ID=B.IFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.IFP_ID=B.IFP_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 
 INSERT INTO IVLD_REBATE_SCHEDULE
 (
@@ -1896,7 +1896,7 @@ select
 
  from #temp  a
 WHERE not  EXISTS (SELECT 1 FROM ps_MODEL  B 
-           WHERE A.PRICE_SCHEDULE_ID=B.PS_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.PRICE_SCHEDULE_ID=B.PS_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 
 
 
@@ -1929,15 +1929,15 @@ DROP TABLE #temp
 
 SELECT * into #temp             FROM STAG_REBATE_SCHEDULE  A 
 WHERE  EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 		   and  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B 
-           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 		   and EXISTS (SELECT 1 FROM CFP_MODEL  B 
-           WHERE A.CFP_ID=B.CFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.CFP_ID=B.CFP_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 		   AND EXISTS (SELECT 1 FROM IFP_MODEL  B 
-           WHERE A.IFP_ID=B.IFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.IFP_ID=B.IFP_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 		    and EXISTS (SELECT 1 FROM ps_MODEL  B 
-           WHERE A.PRICE_SCHEDULE_ID=B.PS_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.PRICE_SCHEDULE_ID=B.PS_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 INSERT INTO IVLD_REBATE_SCHEDULE
 (
 
@@ -2120,7 +2120,7 @@ a.REBATE_SCHEDULE_ID
 
  from #temp  a
 WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B 
-           WHERE A.REBATE_PLAN_ID=B.REBATE_PLAN_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.REBATE_PLAN_ID=B.REBATE_PLAN_ID and b.INBOUND_STATUS &lt;&gt;&apos;D&apos;)
 
 
 
@@ -2707,70 +2707,6 @@ UPDATE UDCS SET UDC6 = @A6 WHERE MASTER_TYPE = &apos;RS_CONTRACT&apos; AND UDC6 
       <nr>0</nr>
       <xloc>1255</xloc>
       <yloc>1861</yloc>
-      </entry>
-    <entry>
-      <name>REPROCESSING_INVALID_DATA</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;REPROCESSING_INVALID_DATA.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>798</xloc>
-      <yloc>589</yloc>
-      </entry>
-    <entry>
-      <name>SET_STAG_COUNT</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;SET_STAG_COUNT.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>807</xloc>
-      <yloc>354</yloc>
       </entry>
     <entry>
       <name>REPROCESSING_INVALID_DATA</name>

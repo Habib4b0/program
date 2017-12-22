@@ -15,20 +15,19 @@
  */
 package org.asi.ui.extfilteringtable.client;
 
-import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
-import org.asi.ui.extfilteringtable.client.VExtCustomScrollTable.VScrollTableBody.VScrollTableRow;
-import org.asi.ui.extfilteringtable.client.VExtFilterTreeTable.PendingNavigationEvent;
-import org.asi.ui.extfilteringtable.client.VExtFilterTreeTable.VTreeTableScrollBody.VTreeTableRow;
-
 import com.google.gwt.dom.client.Element;
 import com.vaadin.client.ApplicationConnection;
 import com.vaadin.client.TooltipInfo;
 import com.vaadin.client.UIDL;
 import com.vaadin.client.Util;
 import com.vaadin.client.ui.FocusableScrollPanel;
+import org.asi.ui.extfilteringtable.client.VExtCustomScrollTable.VScrollTableBody.VScrollTableRow;
 import com.vaadin.shared.ui.Connect;
-import com.vaadin.shared.ui.treetable.TreeTableConstants;
-import com.vaadin.shared.ui.treetable.TreeTableState;
+import com.vaadin.v7.shared.ui.treetable.TreeTableConstants;
+import com.vaadin.v7.shared.ui.treetable.TreeTableState;
+import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
+import org.asi.ui.extfilteringtable.client.VExtFilterTreeTable.PendingNavigationEvent;
+import org.asi.ui.extfilteringtable.client.VExtFilterTreeTable.VTreeTableScrollBody.VTreeTableRow;
 
 
 /**

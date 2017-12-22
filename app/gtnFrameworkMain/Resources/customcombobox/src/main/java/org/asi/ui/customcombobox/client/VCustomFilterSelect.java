@@ -55,7 +55,7 @@ import com.vaadin.client.ui.menubar.MenuItem;
 import com.vaadin.shared.AbstractComponentState;
 import com.vaadin.shared.EventId;
 import com.vaadin.shared.ui.ComponentStateUtil;
-import com.vaadin.shared.ui.combobox.FilteringMode;
+import com.vaadin.v7.shared.ui.combobox.FilteringMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -205,7 +205,7 @@ public class VCustomFilterSelect extends Composite implements Field, KeyDownHand
          * Default constructor
          */
         SuggestionPopup() {
-            super(true, false, true);
+            super(true, false);
             debug("VFS.SP: constructor()");
             setOwner(VCustomFilterSelect.this);
             menu = new VCustomFilterSelect.SuggestionMenu();
