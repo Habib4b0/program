@@ -238,19 +238,7 @@ public class GtnWsItemMasterAddService {
 				infoBean.setNewFormulationIndicator(itemMaster.getNewFormulationIndicator());
 				infoBean.setUpps(getDoublevalue(itemMaster.getUpps()));
 				infoBean.setBaselineAmp(itemMaster.getBaselineAmp());
-				infoBean.setBaseCpi(new BigDecimal(itemMaster.getBaseCpi().toString()).setScale(3, BigDecimal.ROUND_DOWN));
-				if (itemMaster.getAcquiredAmp() != null) {
-					infoBean.setAcquiredAmp(Integer.valueOf(itemMaster.getAcquiredAmp().intValue()));
-				}
-				if (itemMaster.getAcquiredBamp() != null) {
-					infoBean.setAcquiredBamp(Integer.valueOf(itemMaster.getAcquiredBamp().intValue()));
-				}
-				if (itemMaster.getDra() != null) {
-					infoBean.setDra(Integer.valueOf(itemMaster.getDra().intValue()));
-				}
-				if (itemMaster.getObraBamp() != null) {
-					infoBean.setObraBamp(Integer.valueOf(itemMaster.getObraBamp().intValue()));
-				}
+				
 				infoBean.setCreatedBy(itemMaster.getCreatedBy());
 				infoBean.setCreatedByUserName(
 						gtnWebServiceAllListConfig.getUserIdNameMap().get(itemMaster.getCreatedBy()));
@@ -265,6 +253,7 @@ public class GtnWsItemMasterAddService {
 				infoBean.setInternalNotes(itemMaster.getInternalNotes());
 				infoBean.setNewFormulation(itemMaster.getNewFormulation());
 				infoBean.setItemCategory(getHelpervalue(itemMaster.getHelperTableByItemCategory()));
+                                setValuesInInfoBean(infoBean, itemMaster);
 
 			}
 			bean.setGtnWsItemMasterInfoBean(infoBean);
@@ -314,12 +303,12 @@ public class GtnWsItemMasterAddService {
 
 		Criterion itemMasterSIDCriterion = Restrictions.eq(GtnWsTableConstants.ITEM_MASTER_NAME,
 				session.load(ItemMaster.class, itemSystemId));
-        Criterion identifierCriterion=Restrictions.ne("inboundStatus", 'D');
+		Criterion identifierCriterion = Restrictions.ne("inboundStatus", 'D');
 		List<ItemIdentifier> results = (List<ItemIdentifier>) gtnSqlQueryEngine.executeSelectQuery(ItemIdentifier.class,
-				Arrays.asList(new Criterion[] { itemMasterSIDCriterion,identifierCriterion }), session);
+				Arrays.asList(new Criterion[] { itemMasterSIDCriterion, identifierCriterion }), session);
 
 		if (results != null && !results.isEmpty()) {
-		    GtnWsItemIdentifierBean idenBean;
+			GtnWsItemIdentifierBean idenBean;
 			for (ItemIdentifier object : results) {
 				idenBean = new GtnWsItemIdentifierBean();
 				idenBean.setItemIdentifierSid(object.getItemIdentifierSid());
@@ -644,12 +633,12 @@ public class GtnWsItemMasterAddService {
 
 			Date today = new Date();
 			Object[] params = new Object[] { pricingBean.getItemPricingQualifierSid(), pricingBean.getItemUom(),
-					pricingBean.getItemPrice(), pricingBean.getPricingCodeStatus(), pricingBean.getEntityCode(),
-					pricingBean.getStartDate(), pricingBean.getEndDate(),
+					pricingBean.getItemPrice().toPlainString(), pricingBean.getPricingCodeStatus(),
+					pricingBean.getEntityCode(), pricingBean.getStartDate(), pricingBean.getEndDate(),
 					gtnWsRequest.getGtnWsGeneralRequest().getUserId(), today,
 					gtnWsRequest.getGtnWsGeneralRequest().getUserId(), today };
 			GtnFrameworkDataType[] typeParams = new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER,
-					GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.DOUBLE, GtnFrameworkDataType.INTEGER,
+					GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER,
 					GtnFrameworkDataType.STRING, GtnFrameworkDataType.DATE, GtnFrameworkDataType.DATE,
 					GtnFrameworkDataType.STRING, GtnFrameworkDataType.DATE, GtnFrameworkDataType.STRING,
 					GtnFrameworkDataType.DATE };
@@ -732,5 +721,24 @@ public class GtnWsItemMasterAddService {
 		return Integer.parseInt(String.valueOf(gtnSqlQueryEngine.executeSelectQuery(statusValidationQuery).get(0)));
 
 	}
+        
+        private void setValuesInInfoBean(GtnWsItemMasterInfoBean infoBean, ItemMaster itemMaster) {
+            if (itemMaster.getBaseCpi() != null) {
+                infoBean.setBaseCpi(
+                        new BigDecimal(itemMaster.getBaseCpi().toString()).setScale(3, BigDecimal.ROUND_DOWN));
+            }
+            if (itemMaster.getAcquiredAmp() != null) {
+                infoBean.setAcquiredAmp(itemMaster.getAcquiredAmp().intValue());
+            }
+            if (itemMaster.getAcquiredBamp() != null) {
+                infoBean.setAcquiredBamp(itemMaster.getAcquiredBamp().intValue());
+            }
+            if (itemMaster.getDra() != null) {
+                infoBean.setDra(itemMaster.getDra().intValue());
+            }
+            if (itemMaster.getObraBamp() != null) {
+                infoBean.setObraBamp(itemMaster.getObraBamp().intValue());
+            }
+        }
 
 }

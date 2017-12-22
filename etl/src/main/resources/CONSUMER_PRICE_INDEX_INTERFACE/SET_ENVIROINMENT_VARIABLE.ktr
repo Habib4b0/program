@@ -208,7 +208,7 @@
            <schema_name/>
            </partitioning>
     <connection>appdb</connection>
-    <sql>	SELECT&#xd;&#xa; 	AUDIT_INTERFACE_NAME ,&#xd;&#xa;	WORKFLOW_INTERFACE_NAME ,&#xd;&#xa;	STAG_TABLE_NAME,&#xd;&#xa;	FILE_NAME  ,&#xd;&#xa;	INTERFACE_NAME_INPUT,&#xd;&#xa;	INTERFACE_NAME_ERROR ,&#xd;&#xa;	INTERFACE_NAME_PROCESSED ,&#xd;&#xa;	OUTBOUND_PROCESSED, &#xd;&#xa;    &#x27;CONSUMER_PRICE_INDEX_INTERFACE&#x27; as INTERFACE_TABLE,&#x27;CONSUMER_PRICE_INDEX_INTERFACE&#x27;	AS ORIGINAL_INTERFACE_TABLE_NAME&#xd;&#xa;	,	 SOURCE_TABLE_NAME  AS VIEW_NAME&#xd;&#xa;, SOURCE_TABLE_AVAILABLE&#xd;&#xa;	FROM ETL_TABLE where FILE_NAME&#x3d;&#x27;Customer_Price_Index_Intf.sh&#x27;</sql>
+    <sql>	SELECT&#xd;&#xa; 	AUDIT_INTERFACE_NAME ,&#xd;&#xa;	WORKFLOW_INTERFACE_NAME ,&#xd;&#xa;	STAG_TABLE_NAME,&#xd;&#xa;	FILE_NAME  ,&#xd;&#xa;	INTERFACE_NAME_INPUT,&#xd;&#xa;	INTERFACE_NAME_ERROR ,&#xd;&#xa;	INTERFACE_NAME_PROCESSED ,&#xd;&#xa;	OUTBOUND_PROCESSED, &#xd;&#xa;    &#x27;CONSUMER_PRICE_INDEX_INTERFACE&#x27; as INTERFACE_TABLE,&#x27;CONSUMER_PRICE_INDEX_INTERFACE&#x27;	AS ORIGINAL_INTERFACE_TABLE_NAME&#xd;&#xa;	,	 SOURCE_TABLE_NAME  AS VIEW_NAME&#xd;&#xa;, SOURCE_TABLE_AVAILABLE&#xd;&#xa;	FROM ETL_TABLE where FILE_NAME&#x3d;&#x27;Consumer_Price_Index_Intf.sh&#x27;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -216,8 +216,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>314</xloc>
-      <yloc>103</yloc>
+      <xloc>313</xloc>
+      <yloc>102</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

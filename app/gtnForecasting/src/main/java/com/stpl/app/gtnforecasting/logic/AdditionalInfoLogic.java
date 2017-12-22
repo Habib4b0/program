@@ -43,7 +43,7 @@ public class AdditionalInfoLogic {
     /**
      * The additional info logic dao.
      */
-    private AdditionalInfoDAO addInfoDao = new AdditionalInfoDAOImpl();
+    private final AdditionalInfoDAO addInfoDao = new AdditionalInfoDAOImpl();
     public SimpleDateFormat wordFormat = new SimpleDateFormat("<MM/dd/yyyy> <hh:mm:ss a>");
 
     /**

@@ -180,6 +180,7 @@ public class PPAProjectionDTO extends ExtListDTO implements Cloneable {
         this.priceProtectionEndDate = priceProtectionEndDate;
     }
 
+    @Override
     public Object clone() throws CloneNotSupportedException {
         PPAProjectionDTO dto = new PPAProjectionDTO();
         dto.setActualPriceCap(actualPriceCap);

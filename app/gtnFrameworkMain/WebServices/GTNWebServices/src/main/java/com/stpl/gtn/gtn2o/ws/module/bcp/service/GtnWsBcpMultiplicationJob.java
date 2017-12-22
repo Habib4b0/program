@@ -34,6 +34,7 @@ public class GtnWsBcpMultiplicationJob implements Runnable {
 	@Override
 	public void run() {
 		try {
+                    GTNLOGGER.info("Inside GtnWsBcpMultiplicationJob");
 			StringBuilder updatedLine = new StringBuilder();
 			if ("Rolling Annual Trend".equals(gtnWsBcpServiceBean.getMethodology())) {
 				rollingAnnualTrendDataFromList(updatedLine, lineList, gtnWsBcpServiceBean.getSalesFlag());

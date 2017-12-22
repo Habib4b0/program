@@ -810,9 +810,7 @@ public class DataSelectionQueryUtils {
 
         try {
             countList = (List) DAO.executeSelectQuery(sql);
-        } catch (PortalException ex) {
-            Logger.getLogger(DataSelectionQueryUtils.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(DataSelectionQueryUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         int count = 0;

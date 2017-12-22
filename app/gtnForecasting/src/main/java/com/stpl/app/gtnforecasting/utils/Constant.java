@@ -1648,6 +1648,10 @@ public class Constant {
     public static final String OVERRIDE_CPI_URA = "Override CPI URA";
     public static final String RELVALUE = "@RELVALUE";
     public static final String SELECTED_HIERARCHY_CUSTOM = "selected-hierarchy-no-for-custom";
+    public static final String RELJOIN = "@RELJOIN";
+    public static final String RELATIONSHIPJOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO ";
+    public static final String PARENTVALIDATE = "PARENT-VALIDATE";
+    public static final String DED_JOIN = "?DEDJOIN";
     /**
      * Enum for Frequency constants
      */
@@ -1663,7 +1667,7 @@ public class Constant {
         MONTHLY("Monthly"),
         MONTHS("Months"),
         QUARTERS("Quarters");
-        private String frequencyValue;
+        private final String frequencyValue;
 
         private FrequencyConstants(String frequencyValue) {
             this.frequencyValue = frequencyValue;
@@ -1732,7 +1736,7 @@ public class Constant {
         PROJECTION_END_MONTH("projectionEndMonth"),
         PROJECTION_START_DAY("projectionStartDay"),
         PROJECTION_END_DAY("projectionEndDay");
-        private String constant;
+        private final String constant;
 
         private ProjectionConstants(String constant) {
             this.constant = constant;
@@ -1935,7 +1939,7 @@ public class Constant {
         MANDATED_DISCOUNT("Mandated Discount"),
         SUPPLEMENTAL_DISCOUNT("Supplemental Discount"),
         RETURNS("Returns");
-        private String constant;
+        private final String constant;
 
         private LabelConstants(String constant) {
             this.constant = constant;
@@ -1991,7 +1995,7 @@ public class Constant {
         VAR_DIS_RATE(DISCOUNT_PER_AMOUNT),
         VAR_NETSALES(NET_SALES1),
         NULL("null");
-        private String constant;
+        private final String constant;
 
         private CommonConstants(String constant) {
             this.constant = constant;
@@ -2014,7 +2018,7 @@ public class Constant {
 
         EXCEL_IMAGE_PATH("../../icons/excel.png"),
         GRAPH_IMAGE_PATH("../../icons/chart.png");
-        private String constant;
+        private final String constant;
 
         private ResourceConstants(String constant) {
             this.constant = constant;
@@ -2041,6 +2045,7 @@ public class Constant {
              *
              * @return the annual count
              */
+            @Override
             public int getAnnualCount() {
                 return CalendarConstants.HISTORY_YEAR_COUNT.getConstant();
             }
@@ -2051,6 +2056,7 @@ public class Constant {
              * @param historyYearCount historyYearCount value
              * @return the semi-annual count
              */
+            @Override
             public int getSemiAnnualCount() {
                 return (NumericConstants.TWO * CalendarConstants.HISTORY_YEAR_COUNT.getConstant()) + (CalendarConstants.CURRENT_MONTH.getConstant() / NumericConstants.SIX);
             }
@@ -2061,6 +2067,7 @@ public class Constant {
              * @param historyYearCount historyYearCount value
              * @return the Quarterly count
              */
+            @Override
             public int getQuarterCount() {
                 return (NumericConstants.FOUR * CalendarConstants.HISTORY_YEAR_COUNT.getConstant()) + (CalendarConstants.CURRENT_MONTH.getConstant() / NumericConstants.THREE);
             }
@@ -2071,6 +2078,7 @@ public class Constant {
              * @param historyYearCount historyYearCount value
              * @return the Monthly count
              */
+            @Override
             public int getMonthCount() {
                 return (NumericConstants.TWELVE * CalendarConstants.HISTORY_YEAR_COUNT.getConstant()) + (CalendarConstants.CURRENT_MONTH.getConstant());
             }
@@ -2080,6 +2088,7 @@ public class Constant {
              *
              * @return
              */
+            @Override
             public int getCurrentQuarter() {
                 return CalendarConstants.CURRENT_MONTH.getConstant() / NumericConstants.THREE + 1;
             }
@@ -2089,6 +2098,7 @@ public class Constant {
              *
              * @return returns the total no. of projection periods
              */
+            @Override
             public int getProjectionYear() {
                 return CalendarConstants.CURRENT_YEAR.getConstant() + CalendarConstants.PROJECTION_YEAR_COUNT.getConstant();
             }
@@ -2152,7 +2162,7 @@ public class Constant {
         CURRENT_MONTH(Calendar.getInstance().get(Calendar.MONTH)),
         HISTORY_YEAR_COUNT(3),
         PROJECTION_YEAR_COUNT(3);
-        private int constant;
+        private final int constant;
 
         private CalendarConstants(int constant) {
             this.constant = constant;
@@ -2176,7 +2186,7 @@ public class Constant {
         ACTION_EDIT("EDIT"),
         ACTION_VIEW("VIEW"),
         ACTION_GENERATE("ADD");
-        private String constant;
+        private final String constant;
 
         private SessionConstants(String constant) {
             this.constant = constant;
@@ -2226,7 +2236,7 @@ public class Constant {
         NET_PRICE_TYPE("Net Price Type"),
         NET_PRICE_TYPE_FORMULA("Net Price Type Formula"),
         ATTACHED_DATE("Attached Date");
-        private String constant;
+        private final String constant;
 
         private PPAVariables(String constant) {
             this.constant = constant;
@@ -2328,7 +2338,7 @@ public class Constant {
         NET_PRICE_TYPE("netPriceType"),
         NET_PRICE_TYPE_FORMULA("netPriceTypeFormula"),
         ATTACHED_DATE("attachedDate");
-        private String constant;
+        private final String constant;
 
         private PPAColumns(String constant) {
             this.constant = constant;
@@ -2373,7 +2383,7 @@ public class Constant {
         VAR_COGS("COGS"),
         VAR_NET_PROFITE("Net Profit");
 
-        private String constant;
+        private final String constant;
 
         private PVVariables(String constant) {
             this.constant = constant;
@@ -2402,7 +2412,7 @@ public class Constant {
         COL_PERCENTAGE(PER_CHANGE),
         COL_ACTUALS(ACTUALS),
         COL_ACCRUALS(ACCRUALS);
-        private String constant;
+        private final String constant;
 
         private PVVariableCategory(String constant) {
             this.constant = constant;
@@ -2431,7 +2441,7 @@ public class Constant {
         DISCOUNT_AMT(DISCOUNT_AMOUNT_LABEL),
         PER_EX_FACTORY(PERCOFEXFACTORY);
 
-        private String constant;
+        private final String constant;
 
         private DPRVariables(String constant) {
             this.constant = constant;
