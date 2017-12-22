@@ -1715,16 +1715,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                             }
                         }
                     });
-                    doubleColumnList.removeAll(doubleHistoryAndProjectedColumnList);
-                    for(int start=0;start<doubleColumnList.size();start++){
-                    if(String.valueOf(propertyId).contains(String.valueOf(doubleColumnList.get(start)))){
-                    	SalesRowDto dto = (SalesRowDto) itemId;
-						dto.addStringProperties(propertyId,"");
-						container.getContainerProperty(itemId, propertyId).setValue("");
-						rightTable.setDoubleHeaderColumnCheckBoxDisable(doubleColumnList.get(start),true);
-						return null;
-                    }
-                   }
                     return textField;
                 }
                 return null;
