@@ -86,4 +86,7 @@ public class GtnWsRelationshipLevelDefinitionBean {
 		this.levelName = levelName;
 	}
 
+	
+
+
 }

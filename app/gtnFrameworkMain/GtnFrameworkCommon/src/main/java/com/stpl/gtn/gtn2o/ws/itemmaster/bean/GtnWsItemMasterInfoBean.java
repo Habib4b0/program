@@ -815,4 +815,4 @@ public class GtnWsItemMasterInfoBean implements Serializable {
 				+ itemFamilyId + ", altBaselineAmp=" + altBaselineAmp + ", altBaseCpi=" + altBaseCpi + '}';
 	}
 
-    }
+}

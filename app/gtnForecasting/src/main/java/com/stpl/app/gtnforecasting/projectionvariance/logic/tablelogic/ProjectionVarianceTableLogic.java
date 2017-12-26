@@ -309,7 +309,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
 
                         } else {
                             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
-                            List<String> list = commonLogic.getHiearchyNoAsList(projSelDTO, 0, projSelDTO.getLevelCount());
+                            List<String> list =  new NMProjectionVarianceLogic().getHiearchyNoAsList(projSelDTO, 0, projSelDTO.getLevelCount());
                             int size = list.size();
                             int index = count - size + 1;
                             for (int j = 0; j < size; j++) {
@@ -340,7 +340,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                     customizeResult(levelList, count, treeLevel, expandLevelNo, true, indicator, hierarchyNo, productHierarchyNo, customerHierarchyNo);
                 }
             }
-        } catch (NumberFormatException ex) {
+        } catch (Exception ex) {
             LOGGER.error(ex);
         }
     }

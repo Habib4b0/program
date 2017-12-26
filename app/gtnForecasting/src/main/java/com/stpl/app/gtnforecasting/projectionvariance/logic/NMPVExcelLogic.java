@@ -112,7 +112,6 @@ public class NMPVExcelLogic {
     private int frequencyDivision;
     private final int baseColumn_levelName_index = 0;
     private final int baseColumn_hierarchy_index = 1;
-    private final int baseColumn_hierarchyIndicator_index = 2;
     private final int baseColumn_period_index = 3;
     private final int baseColumn_year_index = 4;
     private final int baseColumn_period_discount_index = 2;
@@ -129,7 +128,7 @@ public class NMPVExcelLogic {
     private String groupFilterValue = StringUtils.EMPTY;
     private String viewValue = StringUtils.EMPTY;
     private static final String PRC_PROJ_RESULTS = "PRC_PROJECTION_RESULTS";
-    private static final String PRC_PV_SELECTION = "PRC_PROJECTION_VARIANCE";
+    private static final String PRC_PV_SELECTION = "PRC_PROJECTION_VARIANCE_1";
     public static final String PRC_PROJECTION_RESULTS_DISCOUNT_PROCEDURE = "PRC_PROJECTION_RESULTS_DISCOUNT";
     public static final String QUARTERLY1 = "QUARTERLY";
     public static final String PIVOT1 = "PIVOT";
@@ -338,15 +337,16 @@ public class NMPVExcelLogic {
                 //Group Column projSelDTO
 
                 String groupName;
+                String hierarchyNo = String.valueOf(obj[baseColumn_hierarchy_index]);
+                String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
                 if (isCustomView) {
-                    groupName = customView_relationship_hierarchy.get(obj[baseColumn_hierarchy_index] == null ? "" : obj[baseColumn_hierarchy_index].toString());
+                    groupName = customView_relationship_hierarchy.get(hierarchy.trim() == null ? "" : hierarchy.trim());
                     groupName = groupName == null ? "" : groupName;
                     detail.setHierarchyNo(obj[1].toString());
                     detail.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
                 } else {
-//                    groupName = selection.getSessionDTO().getLevelValueDiscription(obj[baseColumn_hierarchy_index].toString(), obj[baseColumn_hierarchyIndicator_index].toString());
-                    groupName = CommonUtil.getDisplayFormattedName(obj[baseColumn_hierarchy_index].toString(), obj[baseColumn_hierarchyIndicator_index].toString(),
-                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+                      groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), hierarchy.trim(),
+                      selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
                 }
 
                 detail.setGroup(groupName);
@@ -620,9 +620,10 @@ public class NMPVExcelLogic {
                 calculate(Constant.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), Constant.CHANGE, obj, isTotal ? NumericConstants.SIXTY_SEVEN : NumericConstants.FORTY_NINE, netExFactoryPer, selection, RATE_PER);
                 pvList.add(netExFactoryPer);
             }
-
+            String hierarchyNo = String.valueOf(obj[baseColumn_hierarchy_index]);
+            String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
             Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
-            List productList = relationshipLevelDetailsMap.get(obj[1].toString());
+            List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
             if (!isTotal && P.equals(String.valueOf(productList.get(4)))) {
                 /**
                  * Net Ex-Factory Sales
@@ -966,7 +967,9 @@ public class NMPVExcelLogic {
         }
 
         Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
-        List productList = relationshipLevelDetailsMap.get(obj[1].toString());
+        String hierarchyNo = String.valueOf(obj[baseColumn_hierarchy_index]);
+        String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
+        List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
         if (!isTotal && P.equals(String.valueOf(productList.get(4)))) {
             /**
              * Net Ex-Factory Sales
@@ -1221,16 +1224,17 @@ public class NMPVExcelLogic {
 
             //Group Column projSelDTO
             String groupName;
+            String hierarchyNo = String.valueOf(obj[baseColumn_hierarchy_index]);
+            String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
             if (isCustomView) {
-                groupName = customView_relationship_hierarchy.get(obj[baseColumn_hierarchy_index] == null ? "" : obj[baseColumn_hierarchy_index].toString());
+                groupName = customView_relationship_hierarchy.get(hierarchy.trim() == null ? "" : obj[baseColumn_hierarchy_index].toString());
                 groupName = groupName == null ? "" : groupName;
                 detail.setHierarchyNo(obj[1].toString());
 //                detail.setParentHierarchyNo(obj[obj.length-1] == null ? null : obj[obj.length-1].toString().substring(obj[obj.length-1].toString().indexOf('-') + 1));
                 detail.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
             } else {
-//                groupName = selection.getSessionDTO().getLevelValueDiscription(obj[baseColumn_hierarchy_index].toString(), obj[baseColumn_hierarchyIndicator_index].toString());
-                groupName = CommonUtil.getDisplayFormattedName(obj[baseColumn_hierarchy_index].toString(), obj[baseColumn_hierarchyIndicator_index].toString(),
-                        selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+                groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), hierarchy.trim(),
+                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
             }
 
             detail.setGroup(groupName);
@@ -1469,7 +1473,9 @@ public class NMPVExcelLogic {
         }
 
         Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
-        List productList = relationshipLevelDetailsMap.get(obj[1].toString());
+        String hierarchyNo = String.valueOf(obj[baseColumn_hierarchy_index]);
+        String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
+        List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
         if (!isTotal && P.equals(String.valueOf(productList.get(4)))) {
             if (selection.isNetExFactorySales()) {
                 if (selection.isColValue()) {
@@ -1819,7 +1825,9 @@ public class NMPVExcelLogic {
         }
 
         Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
-        List productList = relationshipLevelDetailsMap.get(obj[1].toString());
+        String hierarchyNo = String.valueOf(obj[baseColumn_hierarchy_index]);
+        String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
+        List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
         if (!isTotal && P.equals(String.valueOf(productList.get(4)))) {
             if (selection.isNetExFactorySales()) {
                 if (selection.isColValue()) {

@@ -44,8 +44,6 @@ import com.stpl.app.utils.QueryUtils;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.kernel.util.JavaConstants;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.DefaultErrorHandler;
@@ -117,7 +115,7 @@ public class ForecastUI extends UI {
         try {
             Collection<Object> userGroupId = stplSecurity.getUserGroupId(Long.parseLong(userId));
             VaadinSession.getCurrent().setAttribute("businessRoleIds", stplSecurity.getBusinessRoleIds(userGroupId));
-        } catch (PortalException | SystemException | NumberFormatException ex) {
+        } catch (Exception ex) {
             LOGGER.error(ex);
         }
 
@@ -133,7 +131,6 @@ public class ForecastUI extends UI {
         String userType = null;
         String noOfApprovals = null;
         String approvalLevels = null;
-        SessionUtil sessionUtil = new SessionUtil();
         ForecastEditWindow editWindow = null;
         AccrualRateProjectionView arpView = null;
         String customerHierSid = StringUtils.EMPTY;
@@ -198,7 +195,7 @@ public class ForecastUI extends UI {
                         logic.getLevelValueMap(temp.getProdRelationshipBuilderSid(), hierarchySid,
                                 temp.getProductHierVersionNo(), temp.getProjectionProdVersionNo()));
                 projectionName = temp.getProjectionName();
-            } catch (PortalException | SystemException | NumberFormatException ex) {
+            } catch (Exception ex) {
                 LOGGER.error(ex);
             }
             sessionDto.setWorkflowId(Integer.valueOf(workflowId));
@@ -346,7 +343,8 @@ public class ForecastUI extends UI {
         }
 
         // Configure the error handler for the UI
-        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+        
+           UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                 // Find the final cause
@@ -357,7 +355,7 @@ public class ForecastUI extends UI {
                         cause += t.getClass().getName();
 
     }
-
+        
                     LOGGER.error(t.getMessage());
                 }
 
@@ -365,6 +363,7 @@ public class ForecastUI extends UI {
                 // Do the default error handling (optional)
             }
         });
+        
 
     }
 

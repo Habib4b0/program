@@ -1531,7 +1531,7 @@ public class ProjectionResultsLogic {
                         
                         
                     }
-                    for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; k++) {
+                    for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; k++,neededRecord--) {
                         int l=k;
                         if (projSelDTO.isIsProjectionTotal()) {
                             l++;
@@ -1542,7 +1542,6 @@ public class ProjectionResultsLogic {
                             projDTOList.add(projectionDtoList.get(k));
                         }
                         started++;
-                        neededRecord--;
                     }
                 }
                 mayBeAdded += projSelDTO.getPeriodList().size();

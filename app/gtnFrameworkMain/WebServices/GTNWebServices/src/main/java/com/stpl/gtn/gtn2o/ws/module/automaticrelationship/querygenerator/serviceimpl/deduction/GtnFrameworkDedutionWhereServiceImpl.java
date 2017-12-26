@@ -20,7 +20,7 @@ import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipBuilder;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.service.GtnFrameworkWhereQueryGeneratorService;
-import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderService;
+import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyFileGeneratorService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
@@ -43,8 +43,9 @@ public class GtnFrameworkDedutionWhereServiceImpl implements GtnFrameworkWhereQu
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
 
+	
 	@Autowired
-	private GtnWsRelationshipBuilderService relationLogic;
+	private GtnWsRelationshipBuilderHierarchyFileGeneratorService gtnWsRelationshipBuilderHierarchyFileGenerator;
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkDedutionWhereServiceImpl.class);
 
@@ -72,7 +73,7 @@ public class GtnFrameworkDedutionWhereServiceImpl implements GtnFrameworkWhereQu
 			throws GtnFrameworkGeneralException {
 		List<Integer> result = new ArrayList<>();
 		try {
-			List<HierarchyLevelDefinitionBean> hierarchyList = relationLogic.getRBHierarchyLevelDefinitionBySid(
+			List<HierarchyLevelDefinitionBean> hierarchyList = getRBHierarchyLevelDefinitionBySid(
 					productrelationshipBuilder.getHierarchyDefinition().getHierarchyDefinitionSid(),
 					productrelationshipBuilder.getHierarchyDefinition().getVersionNo(),
 					productrelationshipBuilder.getRelationshipBuilderSid());
@@ -85,7 +86,7 @@ public class GtnFrameworkDedutionWhereServiceImpl implements GtnFrameworkWhereQu
 						.getKeyRelationBeanUsingTableIdAndColumnName(destinationHierarchyBean.getTableName(),
 								destinationHierarchyBean.getFieldName());
 				List<String> whereClauseColumn = hierarchyService.getMappingColumns(keyBean);
-				List<String> whereQueries = relationLogic.getRelationQueries(
+				List<String> whereQueries = getRelationQueries(
 						productrelationshipBuilder.getRelationshipBuilderSid(), hierarchyList.subList(0, levelNo),
 						productrelationshipBuilder.getVersionNo());
 				GtnFrameworkFileReadWriteService fileReadWriteService = new GtnFrameworkFileReadWriteService();
@@ -110,6 +111,41 @@ public class GtnFrameworkDedutionWhereServiceImpl implements GtnFrameworkWhereQu
 		}
 		return result;
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<HierarchyLevelDefinitionBean> getRBHierarchyLevelDefinitionBySid(int hierarchyDefSid, int versionNo,
+			int prodRelationShipBuilderSid) throws GtnFrameworkGeneralException {
+		List<String> inputlist = new ArrayList<>();
+		inputlist.add(String.valueOf(prodRelationShipBuilderSid));
+		inputlist.add(String.valueOf(hierarchyDefSid));
+		inputlist.add(String.valueOf(versionNo));
+		List<Object[]> result = executeQuery(gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(inputlist,
+				"getRBHierarchyLevelDefinitionByProductRelationSid"));
+		return gtnWsRelationshipBuilderHierarchyFileGenerator.gettHierarchyLevelDefinitionListMain(result);
+	}
+
+	public List<String> getRelationQueries(int relationshipSid,
+			List<HierarchyLevelDefinitionBean> levelHierarchyLevelDefinitionList, int versionNo) {
+		List<String> queryList = new ArrayList<>();
+		List<String> inputData = new ArrayList<>();
+		for (HierarchyLevelDefinitionBean levelDto : levelHierarchyLevelDefinitionList) {
+			if (!levelDto.isUserDefined()) {
+				inputData.add(String.valueOf(levelDto.getLevelNo()));
+				inputData.add(String.valueOf(relationshipSid));
+				inputData.add(String.valueOf(versionNo));
+				String relationQuery = gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(inputData,
+						"relationShipSubQueryForSubQuery");
+				queryList.add(relationQuery);
+				inputData.clear();
+			}
+		}
+		return queryList;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
+		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
 	}
 
 }

@@ -43,7 +43,6 @@ public class CommonLogic {
        
       public static NADataSelectionDAO dataSelection = new NADataSelectionDAOImpl();
         public void saveProjectionSelection(Map map, int projectionID, String screenName) throws PortalException {
-        PhsQueryUtils phsQueryUtils = new PhsQueryUtils();
         List<NaProjectionSelection> list = new ArrayList<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(NaProjectionSelection.class);
         query.add(RestrictionsFactoryUtil.eq("naProjMasterSid", projectionID));

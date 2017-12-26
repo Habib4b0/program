@@ -1173,16 +1173,22 @@ public class ProjectionVarianceLogic {
             input.add(inQuery);
             input.add(inQuery);
         }
-        if(!dto.getDeductionLevelFilter().isEmpty()){
-        dedInput.add(dto.getCurrentProjId());
-        dedInput.add(dto.getCcpIds());
-        dedInput.add(getRSIds(dto));
-        String commonQuery = HelperJoinQuery(dto,dedInput);
-        list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(commonQuery, dto.getSessionDTO().getCurrentTableNames()));
-        }else{
-        list = CommonQueryUtils.getAppData(input, "getCffDiscountExpandCount",
-                dto.getDiscountLevel().equals(PROGRAM_CATEGORY.toString())
-                ? "getCffDiscountExpandCount_PROGRAM_CATTEGORY" : "getCffDiscountExpandCount_PROGRAM");
+        if (!dto.getDeductionLevelFilter().isEmpty()) {
+            dedInput.add(dto.getCurrentProjId());
+            dedInput.add(dto.getCcpIds());
+            dedInput.add(getRSIds(dto));
+            String commonQuery = HelperJoinQuery(dto, dedInput);
+            list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(commonQuery, dto.getSessionDTO().getCurrentTableNames()));
+        } else {
+            String rsQuery = CommonQueryUtils.getAppDataQuery(input, "getCffDiscountExpandCount",
+                    dto.getDiscountLevel().equals(PROGRAM_CATEGORY.toString())
+                    ? "getCffDiscountExpandCount_PROGRAM_CATTEGORY" : "getCffDiscountExpandCount_PROGRAM");
+            if (!dto.getLevel().equals(DETAIL)) {
+                rsQuery = rsQuery.replace("@RSQUERY", " ");
+            } else {
+                rsQuery = rsQuery.replace("@RSQUERY", " AND NMDP.RS_CONTRACT_SID IN (SELECT TOKEN FROM UDF_SPLITSTRING(@RS_IDS,',')) ");
+            }
+            list = HelperTableLocalServiceUtil.executeSelectQuery(rsQuery);
         }
         int count = CFFLogic.getCount(list);
         return count;

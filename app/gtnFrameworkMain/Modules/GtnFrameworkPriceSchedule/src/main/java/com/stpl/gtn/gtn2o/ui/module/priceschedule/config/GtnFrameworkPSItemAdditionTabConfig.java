@@ -226,12 +226,23 @@ public class GtnFrameworkPSItemAdditionTabConfig {
 		psItemAdditionMoveLeftButtonConfig.setAuthorizationIncluded(true);
 		psItemAdditionMoveLeftButtonConfig.setComponentWidth("53px");
 		componentList.add(psItemAdditionMoveLeftButtonConfig);
+		
+		GtnUIFrameWorkActionConfig moveLeftAlertActionConfig = new GtnUIFrameWorkActionConfig();
+		moveLeftAlertActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		List<Object> alertParameterList = new ArrayList<>();
+		alertParameterList.add(GtnFramworkItemAdditionSelectValidateAction.class.getName());
+		alertParameterList.add(GtnFrameworkCommonConstants.CFP_RIGHT_RESULT_TABLE);
+		alertParameterList.add("Please select a record to remove.");
+		moveLeftAlertActionConfig.setActionParameterList(alertParameterList);
+		
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig psItemAdditionMoveLeftButtonDefaultActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
 		Map<String, Object> defaultDataMap = new HashMap<>();
 		defaultDataMap.put("CFPrightResultTable", null);
 		psItemAdditionMoveLeftButtonDefaultActionConfig.addActionParameter(defaultDataMap);
+		
+		actionConfigList.add(moveLeftAlertActionConfig);
 		actionConfigList.add(psItemAdditionMoveLeftButtonDefaultActionConfig);
 
 		psItemAdditionMoveLeftButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
