@@ -1,7 +1,6 @@
 package com.stpl.app.cff.logic;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
@@ -69,8 +68,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.jboss.logging.Logger;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.task.model.TaskSummary;
 
@@ -83,7 +81,7 @@ public class CFFLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LogManager.getLogger(CFFLogic.class);
+    private static final Logger LOGGER = Logger.getLogger(CFFLogic.class);
     public CFFQueryUtils cffQueryUtils = new CFFQueryUtils();
     /**
      * The common utils.
@@ -733,7 +731,7 @@ public class CFFLogic {
     public static Map<String, String> getAllUsers() {
         List<Object> userList = new ArrayList<>();
         Map<String, String> userMap = new HashMap<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery query = UserLocalServiceUtil.dynamicQuery();
         final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
         productProjectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.USER_ID));
         productProjectionList.add(ProjectionFactoryUtil.property("firstName"));

@@ -7,7 +7,6 @@ package com.stpl.app.cff.ui.projectionVariance.logic;
 
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -2633,7 +2632,7 @@ public class ProjectionVarianceLogic {
     public Map<Object, Object> getNMProjectionSelection(final int projectionId, final String screenName) {
         List<Object[]> list = new ArrayList<>();
         Map<Object, Object> map = new HashMap<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(NmProjectionSelection.class);
+        DynamicQuery query = NmProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq("projectionMasterSid", projectionId));
         query.add(RestrictionsFactoryUtil.eq("screenName", screenName));
         ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
@@ -2673,7 +2672,7 @@ public class ProjectionVarianceLogic {
 
     public void saveNMPVSelection(Map map, int projectionID, String screenName) {
         List<NmProjectionSelection> list = new ArrayList<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(NmProjectionSelection.class);
+        DynamicQuery query = NmProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq("projectionMasterSid", projectionID));
         query.add(RestrictionsFactoryUtil.eq("screenName", screenName));
 

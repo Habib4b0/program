@@ -6,7 +6,6 @@
 package com.stpl.app.cff.util;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -101,8 +100,7 @@ public class HelperListUtil {
         if (listNames != null && !listNames.isEmpty()) {
             try {
                 List<HelperDTO> helperList = null;
-                final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil
-                        .forClass(HelperTable.class);
+                final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
                 dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtil.LIST_NAME,
                         listNames));
                 dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtil.LIST_NAME));

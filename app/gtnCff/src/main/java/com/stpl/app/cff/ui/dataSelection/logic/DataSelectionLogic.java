@@ -5,7 +5,6 @@
 package com.stpl.app.cff.ui.dataSelection.logic;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
@@ -38,6 +37,7 @@ import com.stpl.app.parttwo.model.CffCustHierarchy;
 import com.stpl.app.parttwo.model.CffDetails;
 import com.stpl.app.parttwo.model.CffProdHierarchy;
 import com.stpl.app.parttwo.service.CffCustHierarchyLocalServiceUtil;
+import com.stpl.app.parttwo.service.CffDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffProdHierarchyLocalServiceUtil;
 import com.stpl.app.service.BrandMasterLocalServiceUtil;
 import com.stpl.app.service.CcpDetailsLocalServiceUtil;
@@ -396,7 +396,7 @@ public class DataSelectionLogic {
 	private void deleteProductHierarchyLevels(final int projectionId, final List<String> removeLevels)
 			throws SystemException {
 		List<CffProdHierarchy> details;
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffProdHierarchy.class);
+		final DynamicQuery dynamicQuery = CffProdHierarchyLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(CFF_MASTER_SID, projectionId));
 		dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.RELATIONSHIP_LEVEL_SID,
 				UiUtils.convertStringListToParsedIngeter(removeLevels)));
@@ -409,7 +409,7 @@ public class DataSelectionLogic {
 	public void updateProductHierarchyLogic(final List<Leveldto> levelList, final List<String> endLevelSids,
 			final int projectionId, DataSelectionDTO dataSelectionDTO) throws SystemException {
 		List<CffProdHierarchy> details;
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffProdHierarchy.class);
+		final DynamicQuery dynamicQuery = CffProdHierarchyLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(CFF_MASTER_SID, projectionId));
 		details = dataSelectionDao.findProdHierarchyByProjectionId(dynamicQuery);
 		for (final CffProdHierarchy cust : details) {
@@ -501,7 +501,7 @@ public class DataSelectionLogic {
 	private void deleteCustomerHierarchyLevels(final int projectionId, final List<String> removeLevels)
 			throws SystemException {
 		List<CffCustHierarchy> details;
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffCustHierarchy.class);
+		final DynamicQuery dynamicQuery = CffCustHierarchyLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(CFF_MASTER_SID, projectionId));
 		dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.RELATIONSHIP_LEVEL_SID,
 				UiUtils.convertStringListToParsedIngeter(removeLevels)));
@@ -514,7 +514,7 @@ public class DataSelectionLogic {
 	public void updateCustomerHierarchyLogic(final List<Leveldto> levelList, final List<String> endLevelSids,
 			final int projectionId) throws SystemException {
 		List<CffCustHierarchy> details;
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffCustHierarchy.class);
+		final DynamicQuery dynamicQuery = CffCustHierarchyLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(CFF_MASTER_SID, projectionId));
 		details = dataSelectionDao.findCustHierarchyByProjectionId(dynamicQuery);
 		for (final CffCustHierarchy cust : details) {
@@ -605,7 +605,7 @@ public class DataSelectionLogic {
 	 */
 	private void deleteProjectionDetails(final int projectionId) throws SystemException {
 		List<CffDetails> details;
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffDetails.class);
+		final DynamicQuery dynamicQuery = CffDetailsLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(CFF_MASTER_SID, projectionId));
 		details = dataSelectionDao.findProjDetailsByProjectionId(dynamicQuery);
 		for (final CffDetails detail : details) {

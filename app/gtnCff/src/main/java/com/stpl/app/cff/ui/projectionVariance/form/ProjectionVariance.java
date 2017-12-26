@@ -5,7 +5,6 @@
 package com.stpl.app.cff.ui.projectionVariance.form;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -14,8 +13,6 @@ import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.cff.abstractCff.AbstractProjectionVariance;
 import com.stpl.app.cff.dao.DataSelectionDAO;
 import com.stpl.app.cff.dao.impl.DataSelectionDAOImpl;
-import com.stpl.app.cff.dto.PVChart;
-import com.stpl.app.cff.dto.PVGraphWindow;
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.lazyLoad.VarianceTableLogic;
@@ -44,6 +41,7 @@ import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.UiUtils;
 import com.stpl.app.model.ForecastConfig;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
@@ -1027,10 +1025,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 chartiLst.add(dto);
             }
         }
-        final PVChart chart = new PVChart(chartiLst, String.valueOf(frequency.getValue()), "", fullHeader, pvSelectionDTO);
-        final PVGraphWindow salesGraphWindow = new PVGraphWindow(chart.getChart(), PROJECTION_VARIANCE);
-        UI.getCurrent().addWindow(salesGraphWindow);
-        salesGraphWindow.focus();
+//        final PVChart chart = new PVChart(chartiLst, String.valueOf(frequency.getValue()), "", fullHeader, pvSelectionDTO);
+//        final PVGraphWindow salesGraphWindow = new PVGraphWindow(chart.getChart(), PROJECTION_VARIANCE);
+//        UI.getCurrent().addWindow(salesGraphWindow);
+//        salesGraphWindow.focus();
     }
 
     public static List<Date> getStartandTodate() {
@@ -1075,7 +1073,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         } catch (SystemException ex) {
             java.util.logging.Logger.getLogger(ProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
         }
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastConfig.class);
+        DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq("businessProcessType", businessProcessType));
         dynamicQuery.addOrder(OrderFactoryUtil.desc("versionNo"));
         try {

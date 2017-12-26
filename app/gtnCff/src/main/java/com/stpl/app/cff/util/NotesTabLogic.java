@@ -5,7 +5,6 @@
 package com.stpl.app.cff.util;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -40,7 +39,7 @@ public class NotesTabLogic {
 	@SuppressWarnings("unchecked")
 	public List<NotesDTO> getAttachmentDTOList(int masterTableSid, String moduleName, String filepath) {
 		List<NotesDTO> attachmentDTOList = new ArrayList<>();
-		DynamicQuery docDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(MasterDataFiles.class);
+		DynamicQuery docDetailsDynamicQuery = MasterDataFilesLocalServiceUtil.dynamicQuery();
 		docDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq("masterTableSid", masterTableSid));
 		docDetailsDynamicQuery.add(RestrictionsFactoryUtil.ilike("masterTableName", moduleName));
 		List<MasterDataFiles> docDetailsList = null;

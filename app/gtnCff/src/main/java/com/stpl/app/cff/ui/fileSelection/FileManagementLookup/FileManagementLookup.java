@@ -5,7 +5,6 @@
 package com.stpl.app.cff.ui.fileSelection.FileManagementLookup;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -1652,7 +1651,7 @@ public class FileManagementLookup extends Window {
 					savedForecast.put(itemDetail.getDemandForecastSid(), itemDetail);
 				}
 			} else if (FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-				dynamicQuery = DynamicQueryFactoryUtil.forClass(AdjustedDemandForecast.class);
+				dynamicQuery = AdjustedDemandForecastLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
@@ -1680,7 +1679,7 @@ public class FileManagementLookup extends Window {
 
 				}
 			} else if (FileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-				dynamicQuery = DynamicQueryFactoryUtil.forClass(CustomerGtsForecast.class);
+				dynamicQuery = CustomerGtsForecastLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(

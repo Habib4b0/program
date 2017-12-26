@@ -8,10 +8,10 @@ import java.util.Enumeration;
 import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 
-
 public class DroolsProperties {
 
     private static Properties properties = new Properties();
+    private static Properties cffProperties = new Properties();
     private static boolean isPrinted = false;
 
     private static final org.jboss.logging.Logger logger = org.jboss.logging.Logger.getLogger(DroolsProperties.class);
@@ -57,6 +57,50 @@ public class DroolsProperties {
         } catch (IOException e) {
             logger.error(e.getMessage());
             throw new IllegalArgumentException("Error while reading the property file :" + e);
+        }
+    }
+
+    /**
+     * method will return properties class
+     *
+     * @return
+     */
+    public static Properties getCffPropertiesData() {
+        String path = "";
+        try {
+            path = System.getProperty("jboss.server.config.dir");
+            if (!isPrinted) {
+                logger.info("jboss.server.config.dir :" + path);
+            }
+            path = path.replace("standalone", "bpmconfig");
+            path = path.replace("configuration", "hierarchy_properties.properties");
+            if (!isPrinted) {
+                logger.info("Resources Path :[" + path + "]");
+            }
+            File file = new File(path);
+            if (!isPrinted) {
+                logger.info("File resources Path :" + file.getAbsolutePath());
+            }
+            FileInputStream fileInput = new FileInputStream(file);
+            cffProperties.load(fileInput);
+            fileInput.close();
+            if (!isPrinted) {
+                Enumeration<Object> enuKeys = cffProperties.keys();
+                while (enuKeys.hasMoreElements()) {
+                    String key = (String) enuKeys.nextElement();
+                    String value = cffProperties.getProperty(key);
+                    logger.info("Data in cffProperties File :Key :" + key + ": Value :" + value);
+                }
+                isPrinted = true;
+            }
+            return cffProperties;
+        } catch (FileNotFoundException e) {
+            logger.error(e.getMessage());
+            logger.error("Please check the hierarchy_properties.properties file in following path :[" + path + "]");
+            throw new IllegalArgumentException("Error while reading the property file :" + e.getMessage());
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            throw new IllegalArgumentException("Error while reading the property file :" + e.getMessage());
         }
     }
 

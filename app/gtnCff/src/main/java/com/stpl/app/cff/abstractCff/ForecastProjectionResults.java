@@ -718,10 +718,10 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         if (projectionSelectionDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
             projectionSelectionDTO.setActualsOrProjections("Actuals and Projections");
         }
-        final PRChart chart = new PRChart(chartiLst, projectionSelectionDTO, fullHeader);
-        final NmSPRGraphWindow prGraphWindow = new NmSPRGraphWindow(chart.getChart(), TAB_PROJECTION_RESULTS.getConstant());
-        UI.getCurrent().addWindow(prGraphWindow);
-        prGraphWindow.focus();
+//        final PRChart chart = new PRChart(chartiLst, projectionSelectionDTO, fullHeader);
+//        final NmSPRGraphWindow prGraphWindow = new NmSPRGraphWindow(chart.getChart(), TAB_PROJECTION_RESULTS.getConstant());
+//        UI.getCurrent().addWindow(prGraphWindow);
+//        prGraphWindow.focus();
         LOGGER.debug("graphExportLogic method ends");
     }
 

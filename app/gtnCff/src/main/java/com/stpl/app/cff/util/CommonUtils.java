@@ -1,7 +1,6 @@
 package com.stpl.app.cff.util;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -67,9 +66,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.asi.ui.custommenubar.CustomMenuBar;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -80,7 +78,7 @@ public class CommonUtils {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LogManager.getLogger(CommonUtils.class);
+    private static final Logger LOGGER = Logger.getLogger(CommonUtils.class);
     /**
      * The Constant CFF_MASTER_SYSTEM_ID_SESSION.
      */
@@ -623,7 +621,7 @@ public class CommonUtils {
      */
     public HashMap<Integer, String> getApprovalDetails() {
 
-        DynamicQuery cffApprovalDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(CffApprovalDetails.class);
+        DynamicQuery cffApprovalDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
         List<CffApprovalDetails> resultsList = new ArrayList<>();
         String s = "";
         HashMap<Long, String> userInfo = getUserInfo();
