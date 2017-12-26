@@ -79,7 +79,6 @@ public class SalesProjectionTree {
             CommonLogic cmLogic = new CommonLogic();
             String sql = cmLogic.insertAvailableHierarchyNoForExpand(projSelDTO)
                     + "Select HIERARCHY_NO from #SELECTED_HIERARCHY_NO order by HIERARCHY_NO ";
-            System.out.println("____________________________" +sql);
             return (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames()));
         }
     }

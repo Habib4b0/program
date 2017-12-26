@@ -4009,7 +4009,7 @@ public class CommonLogic {
 
     public String insertAvailableHierarchyNoForExpand(ProjectionSelectionDTO projSelDTO) {
         String sql;
-        sql = SQlUtil.getQuery("selected-hierarchy-no-order-values");
+        sql = SQlUtil.getQuery(Constant.SELECTED_HIERARCHY_NO);
         sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchyForExpand(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
         sql = sql.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
         sql += getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName());
