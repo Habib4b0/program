@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Tue Dec 26 12:47:02 IST 2017
+ext-container-2.0.jar>=
+ext-container-2.0.pom>=

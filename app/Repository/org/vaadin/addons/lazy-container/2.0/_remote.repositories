@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Tue Dec 26 12:47:36 IST 2017
+lazy-container-2.0.jar>=
+lazy-container-2.0.pom>=

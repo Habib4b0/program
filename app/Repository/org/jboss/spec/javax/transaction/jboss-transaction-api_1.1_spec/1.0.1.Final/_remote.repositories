@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Tue Dec 26 13:17:06 IST 2017
+jboss-transaction-api_1.1_spec-1.0.1.Final.jar>liferay-public=
+jboss-transaction-api_1.1_spec-1.0.1.Final.pom>liferay-public=
