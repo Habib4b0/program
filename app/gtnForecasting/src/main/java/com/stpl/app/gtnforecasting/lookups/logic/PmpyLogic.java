@@ -836,14 +836,20 @@ public class PmpyLogic {
         } catch (NumberFormatException | SQLException | NamingException ex) {
             LOGGER.error(ex);
         } finally {
-            try {
+           try {
+                if (statement != null) 
+                {
                 statement.close();
-            } catch (SQLException e) {
-                LOGGER.error(e);
-            }
-            try {
+                }
+                if (resList != null)
+                {
+                resList.close();
+                }
+                if (connection != null)
+                {
                 connection.close();
-            } catch (SQLException e) {
+                } 
+           }catch (SQLException e) {
                 LOGGER.error(e);
             }
         }

@@ -629,12 +629,18 @@ public class SalesProjectionLogic {
             LOGGER.error(new Date() + ex.getMessage());
         } finally {
             try {
+                if (statement != null) 
+                {
                 statement.close();
-            } catch (SQLException e) {
-               LOGGER.error(e);
-            }
-            try {
+                }
+                if (resList != null)
+                {
+                resList.close();
+                }
+                if (connection != null)
+                {
                 connection.close();
+                }
             } catch (SQLException e) {
                LOGGER.error(e);
             }

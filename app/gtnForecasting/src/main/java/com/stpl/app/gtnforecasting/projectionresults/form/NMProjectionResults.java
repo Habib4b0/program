@@ -65,13 +65,13 @@ import org.jboss.logging.Logger;
  */
 public class NMProjectionResults extends ForecastProjectionResults {
 
-    protected final StplSecurity stplSecurity = new StplSecurity();
+    protected final StplSecurity stplSec = new StplSecurity();
 
     private static final Logger LOGGER = Logger.getLogger(NMProjectionResults.class);
 
     private final NMProjectionResultsLogic projResLogic = new NMProjectionResultsLogic();
 
-    protected int tradingPartnerNo = 0;
+    protected int tradingPartnerNumber = 0;
 
     protected List<List<String>> discountlist = new ArrayList<>();
     protected ForecastForm form;
@@ -450,7 +450,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
 
     private void security() throws PortalException, SystemException {
 
-        final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PROJECTION_RESULTS);
+        final Map<String, AppPermission> functionPsHM = stplSec.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), getCommercialConstant() + "," + UISecurityUtil.PROJECTION_RESULTS);
 
         if (!(functionPsHM.get(FunctionNameUtil.GENERATE) != null && ((AppPermission) functionPsHM.get(FunctionNameUtil.GENERATE)).isFunctionFlag())) {
             generateBtn.setVisible(Boolean.FALSE);

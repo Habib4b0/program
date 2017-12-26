@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -140,7 +140,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     /**
      * The Constant LOGGER.
      */
-    protected static final Logger LOGGER = Logger
+    private static final Logger LOGGER = Logger
             .getLogger(ForecastSalesProjection.class);
     /**
      * The Constant serialVersionUID.
@@ -527,7 +527,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected GridLayout gridPopulate;
 
     @UiField("Variables")
-    protected Label Variables;
+    protected Label labelVariables;
     @UiField("projPeriodOrdr")
     protected Label projPeriodOrdr;
     @UiField("ForecastHorizonyalLayout")
@@ -661,10 +661,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             brand.setVisible(false);
             BrandLabel.setVisible(false);
             variables.setMultiSelect(false);
-            Variables.setVisible(false);
+            labelVariables.setVisible(false);
             actualsProjections.setVisible(true);
             GridLayoutProjection.replaceComponent(variables, proPeriodOrd);
-            GridLayoutProjection.replaceComponent(Variables, projPeriodOrdr);
+            GridLayoutProjection.replaceComponent(labelVariables, projPeriodOrdr);
             totalLivesLayout.setVisible(false);
             adjustmentLayout.setVisible(false);
 

@@ -154,7 +154,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     /**
      * The selected projection.
      */
-    String screenName;
+    private String scrnName;
     private boolean isComparisonLookupOpened;
     private final Map<String, List<ProjectionVarianceDTO>> resultMap = new HashMap();
     private boolean flag = false;
@@ -212,7 +212,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
      */
     public NMProjectionVariance(ForecastForm form, SessionDTO sessionDTO, String screenName) {
         super(sessionDTO, screenName);
-        this.screenName = screenName;
+        this.scrnName = screenName;
         LOGGER.info("ProjectionVariance Constructor initiated ");
         nonMandatedForm = form;
         session = nonMandatedForm.getSessions();
@@ -336,7 +336,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         resultBeanContainer.setColumnProperties(leftHeader.getProperties());
         resultBeanContainer.setColumnProperties(rightHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
-        tableLogic.setScreenName(screenName);
+        tableLogic.setScreenName(scrnName);
         tableLogic.setPageLength(NumericConstants.TWENTY);
         tableLogic.sinkItemPerPageWithPageLength(false);
         List<Integer> pagelength = CommonLogic.getPageNumber();
@@ -524,7 +524,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 LOGGER.error(ex);
             }
         }
-        final NMComparisonLookup comparisonLookupWindow = new NMComparisonLookup(comparison, projectionId, selectedList, screenName);
+        final NMComparisonLookup comparisonLookupWindow = new NMComparisonLookup(comparison, projectionId, selectedList, scrnName);
         UI.getCurrent().addWindow(comparisonLookupWindow);
         comparisonLookupWindow.addCloseListener(new Window.CloseListener() {
             /**
@@ -976,7 +976,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setVariables(variablesValue);
         pvSelectionDTO.setHistoryNum(CommonUtils.getHistoryProjectionNum(String.valueOf(frequency.getValue()), session));
         pvSelectionDTO.setCustomId(customId);
-        pvSelectionDTO.setTabName(screenName);
+        pvSelectionDTO.setTabName(scrnName);
         pvSelectionDTO.setComparisonBasis(String.valueOf(comparisonBasis.getValue()));
         pvSelectionDTO.setView(String.valueOf(view.getValue()));
         pvSelectionDTO.setDisplayFormat(CommonUtil.getDisplayFormatSelectedValues(displayFormatValues));

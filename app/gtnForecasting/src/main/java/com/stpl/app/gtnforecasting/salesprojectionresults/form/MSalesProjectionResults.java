@@ -150,7 +150,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         }
     };
     @UiField("tableVerticalLayout")
-    private VerticalLayout layout;
+    private VerticalLayout vLayout;
     private List<CustomViewMaster> customViewList = new ArrayList<>();
 
     /* Map for Mapping double Header right Visible columns */
@@ -415,8 +415,8 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         firstGenerated = true;
         projectionDTO.setCustomFlag(false);
         if (loadProjectionSelection()) {
-            layout.removeComponent(resultsTable);
-            layout.removeComponent(controlLayout);
+            vLayout.removeComponent(resultsTable);
+            vLayout.removeComponent(controlLayout);
             if ("variable".equalsIgnoreCase(pivotView.getValue().toString())) {
                 panelpivot.setCaption("Variable Pivot View");
             } else {
@@ -615,11 +615,11 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
      */
     @SuppressWarnings("serial")
     private void addResultTable() {
-        layout.addComponent(resultsTable);
+        vLayout.addComponent(resultsTable);
         controlLayout = tableLogic.createControls();
         controlLayout.setMargin(true);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        layout.addComponent(controlLayout);
+        vLayout.addComponent(controlLayout);
     }
 
     public void levelFilterDdlbChangeOption(boolean excelExport) {
@@ -834,14 +834,14 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         ForecastUI.EXCEL_CLOSE = true;
         ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.SALES_PROJECTION_RESULTS, Constant.SALES_PROJECTION_RESULTS, "Sales_Projection_Results.xls", false);
         exp.export();
-        layout.removeComponent(exceltable);
+        vLayout.removeComponent(exceltable);
     }
 
     private void configureExcelResultTable() {
         excelResultBean = new ExtTreeContainer<>(SalesProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exceltable = new ExtFilterTreeTable();
-        layout.addComponent(exceltable);
+        vLayout.addComponent(exceltable);
         exceltable.setVisible(false);
         exceltable.setRefresh(false);
         exceltable.setContainerDataSource(excelResultBean);

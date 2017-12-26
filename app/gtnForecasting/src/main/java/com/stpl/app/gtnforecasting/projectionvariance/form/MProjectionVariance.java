@@ -112,7 +112,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
     /**
      * The Session DTO.
      */
-    private final SessionDTO sessionDTO;
+    private final SessionDTO session;
     /**
      * The custom id.
      */
@@ -131,6 +131,8 @@ public class MProjectionVariance extends ForecastProjectionVariance {
 
     /**
      * Constructor for ProjectionVariance.
+     * @param sessionDTO
+     * @param screenName
      */
     public MProjectionVariance(SessionDTO sessionDTO, String screenName) {
         super(sessionDTO, screenName);
@@ -139,7 +141,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         group.setVisible(false);
         excelTable.setVisible(false);
         LOGGER.debug("ProjectionVariance Constructor initiated ");
-        this.sessionDTO = sessionDTO;
+        this.session = sessionDTO;
         pvSelectionDTO.setMandatedView(sessionDTO.getAction());
         pvSelectionDTO.setSession(sessionDTO);
         pvSelectionDTO.setSessionDTO(sessionDTO);
@@ -192,7 +194,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         excelBtn.setIcon(excelExportImage);
         graphBtn.setIcon(graphImage);
         initialTableLoad();
-        if (Constant.EDIT_SMALL.equals(sessionDTO.getAction()) || Constant.VIEW.equals(sessionDTO.getAction())) {
+        if (Constant.EDIT_SMALL.equals(session.getAction()) || Constant.VIEW.equals(session.getAction())) {
             setProjectionSelection();
         }
     }
@@ -276,7 +278,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void comparisonLookupLogic() {
         LOGGER.debug("Comparision lookup started");
-        MComparisonLookup comparisonLookupWindow = new MComparisonLookup(comparison, sessionDTO, scrnName,contractTypeList,pvSelectionDTO,tableLogic);
+        MComparisonLookup comparisonLookupWindow = new MComparisonLookup(comparison, session, scrnName,contractTypeList,pvSelectionDTO,tableLogic);
         UI.getCurrent().addWindow(comparisonLookupWindow);
         isComparisonLookupOpened = true;
         LOGGER.debug("Comparision lookup ends");
@@ -502,13 +504,13 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         }
 
         pvSelectionDTO.setFrequency(String.valueOf(frequency.getValue()));
-        pvSelectionDTO.setUserId(Integer.parseInt(sessionDTO.getUserId()));
-        pvSelectionDTO.setSessionId(Integer.parseInt(sessionDTO.getSessionId()));
-        pvSelectionDTO.setCustomerLevelNo(Integer.valueOf(sessionDTO.getCustomerLevelNumber()));
-        pvSelectionDTO.setProductLevelNo(Integer.valueOf(sessionDTO.getProductLevelNumber()));
-        pvSelectionDTO.setForecastDTO(sessionDTO.getForecastDTO());
-        pvSelectionDTO.setProjectionId(sessionDTO.getProjectionId());
-        pvSelectionDTO.setCurrentProjectionID(sessionDTO.getProjectionId());
+        pvSelectionDTO.setUserId(Integer.parseInt(session.getUserId()));
+        pvSelectionDTO.setSessionId(Integer.parseInt(session.getSessionId()));
+        pvSelectionDTO.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
+        pvSelectionDTO.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
+        pvSelectionDTO.setForecastDTO(session.getForecastDTO());
+        pvSelectionDTO.setProjectionId(session.getProjectionId());
+        pvSelectionDTO.setCurrentProjectionID(session.getProjectionId());
         pvSelectionDTO.setCurrentProjectionName("Current Projection");
 
         pvSelectionDTO.setLevel(String.valueOf(level.getValue()));
@@ -527,9 +529,9 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setProjectionPeriodOrder(projectionPeriodOrder.getValue().toString());
         pvSelectionDTO.setPivotView(pivotView.getValue().toString());
         pvSelectionDTO.setHistoryNum(historyNum);
-        pvSelectionDTO.setCustomerRelationId(sessionDTO.getCustomerRelationId());
-        pvSelectionDTO.setProductRelationId(sessionDTO.getProductRelationId());
-        pvSelectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(String.valueOf(frequency.getValue()), sessionDTO));
+        pvSelectionDTO.setCustomerRelationId(session.getCustomerRelationId());
+        pvSelectionDTO.setProductRelationId(session.getProductRelationId());
+        pvSelectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(String.valueOf(frequency.getValue()), session));
         viewChange(false);
         pivotPanel.setCaption(pivotView.getValue().toString() + SPACE + PIVOT_VIEW.getConstant());
 
@@ -567,9 +569,9 @@ public class MProjectionVariance extends ForecastProjectionVariance {
     }
 
     public void generateLogic() {
-        pvSelectionDTO.setSession(sessionDTO);
-        pvSelectionDTO.setSessionDTO(sessionDTO);
-        pvSelectionDTO.setMandatedView(sessionDTO.getAction());
+        pvSelectionDTO.setSession(session);
+        pvSelectionDTO.setSessionDTO(session);
+        pvSelectionDTO.setMandatedView(session.getAction());
         setCurrentHierarchy(new ArrayList<>(viewChangeHierarchy));
         levelFilter.removeValueChangeListener(levelFilterChangeOption);
         loadLevelAndFilterValue();
@@ -731,9 +733,9 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         } else {
             List<com.stpl.ifs.ui.forecastds.dto.Leveldto> newLevelList = null;
             if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
-                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getCustomerLevelNo(), sessionDTO.getProjectionId(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY,sessionDTO.getAction());
+                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getCustomerLevelNo(), session.getProjectionId(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY,session.getAction());
             } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
-                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getProductLevelNo(), sessionDTO.getProjectionId(), Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY,sessionDTO.getAction());
+                newLevelList = CommonLogic.getAllHierarchyLevels(pvSelectionDTO.getProductLevelNo(), session.getProjectionId(), Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY,session.getAction());
             }
             if (newLevelList != null) {
                 for (com.stpl.ifs.ui.forecastds.dto.Leveldto levelDto : newLevelList) {
@@ -759,10 +761,10 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setProductHierarchyNo(StringUtils.EMPTY);
         pvSelectionDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
         pvSelectionDTO.setIsCustomerDdlb(false);
-        pvSelectionDTO.setCustomerRelationId(sessionDTO.getCustomerRelationId());
-        pvSelectionDTO.setProductRelationId(sessionDTO.getProductRelationId());
-        pvSelectionDTO.setCustRelationshipBuilderSid(String.valueOf(sessionDTO.getCustomerRelationId()));
-        pvSelectionDTO.setProdRelationshipBuilderSid(String.valueOf(sessionDTO.getProductRelationId()));
+        pvSelectionDTO.setCustomerRelationId(session.getCustomerRelationId());
+        pvSelectionDTO.setProductRelationId(session.getProductRelationId());
+        pvSelectionDTO.setCustRelationshipBuilderSid(String.valueOf(session.getCustomerRelationId()));
+        pvSelectionDTO.setProdRelationshipBuilderSid(String.valueOf(session.getProductRelationId()));
         pvSelectionDTO.setView(view.getValue().toString());
         pvSelectionDTO.clearNonFetchableIndex();
         tableLogic.setProjectionResultsData(currentHierarchy, pvSelectionDTO, levelNo);
@@ -791,8 +793,8 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setCustomId(customId);
 
         if (customId != 0) {
-            sessionDTO.setCustomId(customId);
-            Utility.loadCustomHierarchyList(sessionDTO);
+            session.setCustomId(customId);
+            Utility.loadCustomHierarchyList(session);
             if (Constant.TOTAL.equalsIgnoreCase(pvSelectionDTO.getLevel())) {
                 levelDdlb.setEnabled(false);
                 expandLvlBtn.setEnabled(false);
@@ -1026,13 +1028,13 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         map.put("Pivot View", pivotView.getValue() != null ? pivotView.getValue().toString() : StringUtils.EMPTY );
         map.put("Variable Category",variableCategory.getValue() != null ? variableCategory.getValue().toString() : StringUtils.EMPTY);
         map.put(Constant.VARIABLES, getCheckedValues());
-        pvLogic.saveMPVSelection(map, sessionDTO.getProjectionId(), TAB_PROJECTION_VARIANCE.getConstant());
+        pvLogic.saveMPVSelection(map, session.getProjectionId(), TAB_PROJECTION_VARIANCE.getConstant());
         LOGGER.debug("savePVSelections method ends");
 
     }
 
     public void setProjectionSelection() {
-        Map<Object, Object> map = CommonLogic.getMProjectionSelection(sessionDTO.getProjectionId(), TAB_PROJECTION_VARIANCE.getConstant());
+        Map<Object, Object> map = CommonLogic.getMProjectionSelection(session.getProjectionId(), TAB_PROJECTION_VARIANCE.getConstant());
         if (map != null && !map.isEmpty()) {
 
             Object value = map.get(Constant.FREQUENCY_SMALL);

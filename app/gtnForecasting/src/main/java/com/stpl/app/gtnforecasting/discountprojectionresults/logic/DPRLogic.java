@@ -1347,7 +1347,7 @@ public class DPRLogic {
     private String getProgramCodeQuery(String hierarchyNo, String frequency, ProjectionSelectionDTO projSelDTO, String freqChar) {
         String columnName = StringUtils.EMPTY;
         List list;
-        String hierSQL = "SELECT FIELD_NAME FROM dbo.HIERARCHY_LEVEL_DEFINITION WHERE HIERARCHY_DEFINITION_SID=" + projSelDTO.getCustHierarchySID() + " and LEVEL_NAME='Contract'";
+        String hierSQL = "SELECT FIELD_NAME FROM dbo.HIERARCHY_LEVEL_DEFINITION WHERE HIERARCHY_DEFINITION_SID=" + projSelDTO.getCustomerHierarchySID() + " and LEVEL_NAME='Contract'";
         list = (List<Object>) CommonLogic.executeSelectQuery(hierSQL, null, null);
 
         if (list != null && !list.isEmpty()) {

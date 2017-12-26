@@ -59,7 +59,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
     /**
      * Screen name
      */
-    protected String screenName = StringUtils.EMPTY;
+    protected String scrnName = StringUtils.EMPTY;
       /** To reduce unwanted DB hits **/
     protected Map<MultiKey,List> contractTypeList;
     private final PVSelectionDTO pvSelectionDTO;
@@ -72,7 +72,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
         super(screenName, comparison);
         LOGGER.debug("ComparisonLookUp constructor started");
         this.sessionDTO = sessionDTO;
-        this.screenName = screenName;
+        this.scrnName = screenName;
         this.contractTypeList=contractTypeList;
         this.pvSelectionDTO = pvSelectionDTO;
         this.pvTableLogic = pvTableLogic;
@@ -328,7 +328,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
                 AbstractNotificationUtils.getErrorNotification("Date Range Error", "Start date and End date should not be equal");
                 flag = false;
             }
-                if ((flag) && (!tableLogic.fireSetData(lookUpDTO, sessionDTO, notNeededProjectionIds, false, screenName))) {
+                if ((flag) && (!tableLogic.fireSetData(lookUpDTO, sessionDTO, notNeededProjectionIds, false, scrnName))) {
 
                     AbstractNotificationUtils.getErrorNotification("No Matching Records",
                             "There were no records matching the search criteria.  Please try again.");

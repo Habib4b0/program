@@ -51,13 +51,13 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
     /**
      * Screen Name
      */
-    protected String screenName = StringUtils.EMPTY;
+    protected String scrnName = StringUtils.EMPTY;
 
     /**
      * Constructor for ComparisonLookup.
      *
-     * @param windowName Name of the window
      * @param moduleIndicator Indicates the module. NonMandated or Mandated or
+     * 
      * Channels
      * @param comparisonLookup Textfield which opens this lookup
      */
@@ -65,7 +65,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
         super(screenName, comparisonLookup);
         this.currentProjId = currentProjId;
         this.selectedList = selectedList;
-        this.screenName = screenName;
+        this.scrnName = screenName;
         configureFields();
     }
 
@@ -133,7 +133,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
                 comparisonLookup.setCreatedDateFrom(fromDate.getValue());
                 comparisonLookup.setCreatedDateTo(toDatValue);
 
-                tableLogic.fireSetData(comparisonLookup, false, screenName);
+                tableLogic.fireSetData(comparisonLookup, false, scrnName);
                 if (resultsTable.size() == 0) {
                     MessageBox.showPlain(Icon.INFO, Constant.ERROR, "No results could be found that match the entered search criteria.", ButtonId.OK);
                     addBtn.setEnabled(false);

@@ -56,18 +56,18 @@ import org.jboss.logging.Logger;
  */
 public class MSalesProjection extends ForecastSalesProjection {
 
-    private final String screenName;
+    private final String scrnName;
     private static final Logger LOGGER = Logger.getLogger(MSalesProjection.class);
     public static Map<String, Integer> rowCountMap = new HashMap<>();
     private boolean generated = false;
     private boolean firstGenerated = false;
     private final List<String> projectedPeriodList = new ArrayList();
     private SalesRowDto salesPMPYDTO = new SalesRowDto();
-    private final Set<String> tableHirarechyNos = new HashSet<>();
+    private final Set<String> tableHierarchyNos = new HashSet<>();
 
     public MSalesProjection(SessionDTO session, String screenName) throws PortalException, SystemException  {
         super(session, screenName);
-        this.screenName = screenName;
+        this.scrnName = screenName;
         init();
     }
 
@@ -282,7 +282,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         if (contractSelected && (tempContractLevel != 0 || tempCustomerLevel != 0) && (tempCustomerLevel <= 1 || tempCustomerLevel <= 1)) {
             if (!hasActuals) {
                 hierarchyNo = salesPMPYDTO.getHierarchyNo();
-                tableHirarechyNos.add(mSalesProjectionTableLogic.getTreeLevelonCurrentPage(salesPMPYDTO));
+                tableHierarchyNos.add(mSalesProjectionTableLogic.getTreeLevelonCurrentPage(salesPMPYDTO));
                 final MPmpyCalculator pmpyCalc = new MPmpyCalculator(session, projectedPeriodList);
                 getUI().addWindow(pmpyCalc);
                 pmpyCalc.addCloseListener(new Window.CloseListener() {
@@ -390,7 +390,7 @@ public class MSalesProjection extends ForecastSalesProjection {
     private void configureProjectionDTO() {
         boolean toHist = false;
         int historyNum = 0;
-        projectionDTO.setScreenName(screenName);
+        projectionDTO.setScreenName(scrnName);
         projectionDTO.setCustRelationshipBuilderSid(projectionDTO.getSessionDTO().getCustRelationshipBuilderSid());
         projectionDTO.setProdRelationshipBuilderSid(projectionDTO.getSessionDTO().getProdRelationshipBuilderSid());
         projectionDTO.setCustomerLevelNo(StringUtils.isBlank(projectionDTO.getSessionDTO().getCustomerLevelNumber()) || Constant.NULL.equals(projectionDTO.getSessionDTO().getCustomerLevelNumber())
