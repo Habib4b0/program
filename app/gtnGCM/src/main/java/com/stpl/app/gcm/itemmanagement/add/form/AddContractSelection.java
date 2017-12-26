@@ -37,7 +37,7 @@ import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.DISABLE;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.UIUtils;
+import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -821,7 +821,7 @@ public class AddContractSelection extends CustomComponent {
                 }
                 if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
                     ComboBox priceProtectionDdlb = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(priceProtectionDdlb, UIUtils.STATUS, true);
+                    CommonUtil.loadComboBoxForGCM(priceProtectionDdlb, UiUtils.STATUS, true);
                     return priceProtectionDdlb;
                 }
                 if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
@@ -1552,7 +1552,7 @@ public class AddContractSelection extends CustomComponent {
     }
 
     private void loadStatus() {
-        CommonUtil.getComboBoxByListName(massUpdateValue, UIUtils.STATUS, false);
+        CommonUtil.getComboBoxByListName(massUpdateValue, UiUtils.STATUS, false);
     }
 
     private void loadPriceTolerenceType() {

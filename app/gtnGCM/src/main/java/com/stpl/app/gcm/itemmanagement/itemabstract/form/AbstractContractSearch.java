@@ -27,7 +27,7 @@ import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.DISABLE;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.ENABLE;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.serviceUtils.UIUtils;
+import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -361,7 +361,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 
                 if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
                     ComboBox priceProtectionDdlb = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(priceProtectionDdlb, UIUtils.STATUS, true);
+                    CommonUtil.loadComboBoxForGCM(priceProtectionDdlb, UiUtils.STATUS, true);
                     return priceProtectionDdlb;
                 }
                 if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
@@ -945,7 +945,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
      * Load Alias Type
      */
     private void loadStatus() {
-        CommonUtil.getComboBoxByListName(massUpdateValue, UIUtils.STATUS, false);
+        CommonUtil.getComboBoxByListName(massUpdateValue, UiUtils.STATUS, false);
     }
 
     private void loadPriceTolerenceType() {

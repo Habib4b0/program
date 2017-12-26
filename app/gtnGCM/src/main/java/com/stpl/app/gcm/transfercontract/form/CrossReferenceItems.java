@@ -9,7 +9,7 @@ import com.stpl.app.gcm.transfercontract.dto.ComponentDetailsDTO;
 import com.stpl.app.gcm.transfercontract.dto.DetailsDTO;
 import com.stpl.app.gcm.transfercontract.dto.TransferToDTO;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.TreeTable;

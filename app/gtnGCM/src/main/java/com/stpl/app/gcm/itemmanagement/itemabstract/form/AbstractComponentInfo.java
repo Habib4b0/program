@@ -19,7 +19,7 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.abstracttablelogic.ComponentInfoTableLogic;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.ConstantsUtils;
-import com.stpl.app.serviceUtils.UIUtils;
+import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -415,7 +415,7 @@ public class AbstractComponentInfo extends CustomComponent {
                         }
                         if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
                             ComboBox priceProtectionDdlb = new ComboBox();
-                            CommonUtil.getComboBoxByListName(priceProtectionDdlb, UIUtils.STATUS, true);
+                            CommonUtil.getComboBoxByListName(priceProtectionDdlb, UiUtils.STATUS, true);
                             return priceProtectionDdlb;
                         }
                         if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {

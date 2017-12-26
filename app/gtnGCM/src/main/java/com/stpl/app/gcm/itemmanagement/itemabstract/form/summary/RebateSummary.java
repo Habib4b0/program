@@ -12,7 +12,7 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractSummaryDTO;
 import com.stpl.app.gcm.itemmanagement.remove.logic.RemoveItemLogic;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.CustomExcelExport;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;

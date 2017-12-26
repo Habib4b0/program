@@ -13,7 +13,7 @@ import com.stpl.app.gcm.tp.logic.CompanySearchLogic;
 import com.stpl.app.gcm.tp.tablelogic.CompanySearchTableLogic;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.EXCEL_IMAGE_PATH;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.vaadin.v7.data.util.BeanItemContainer;

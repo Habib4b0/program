@@ -26,7 +26,7 @@ import static com.stpl.app.gcm.util.Constants.QUARTERLY;
 import static com.stpl.app.gcm.util.Constants.SPACE;
 import com.stpl.app.gcm.util.CustomExcelExport;
 import com.stpl.app.gcm.util.HeaderUtils;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;

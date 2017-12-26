@@ -57,7 +57,7 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.SALES;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.UNITS;
 import com.stpl.app.gcm.util.Converters;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;

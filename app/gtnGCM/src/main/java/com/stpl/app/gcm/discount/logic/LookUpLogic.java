@@ -12,7 +12,7 @@ import com.stpl.app.gcm.discount.dao.impl.DiscountDaoImpl;
 import com.stpl.app.gcm.discount.dto.LookupDTO;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;

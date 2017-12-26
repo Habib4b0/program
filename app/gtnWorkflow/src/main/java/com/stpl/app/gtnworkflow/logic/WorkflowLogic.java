@@ -13,7 +13,6 @@ import com.stpl.app.gtnworkflow.util.CommonUtils;
 import com.stpl.app.gtnworkflow.util.HelperListUtil;
 import com.stpl.app.gtnworkflow.util.QueryUtils;
 import com.stpl.app.gtnworkflow.util.xmlparser.SQlUtil;
-import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.model.HistWorkflowMaster;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -23,7 +22,6 @@ import com.stpl.ifs.util.constants.ARMConstants;
 import static com.stpl.ifs.util.constants.GlobalConstants.getSelectOne;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
@@ -39,7 +37,6 @@ import com.stpl.app.gtnworkflow.service.WorkflowImpl;
 import com.stpl.app.gtnworkflow.util.ConstantsUtils;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.And;
 import com.vaadin.v7.data.util.filter.Between;
@@ -809,7 +806,7 @@ public class WorkflowLogic {
                 orderBy = asc ? "ASC" : "DESC";
             }
         }
-        String query = CustomSQLUtil.get("loadWorkflowHistory");
+        String query = SQlUtil.getQuery("loadWorkflowHistory");
         query = query.replace("?", String.valueOf(workFlowMasterSystemId));
         query = query.replace("ORDER BY MODIFIED_DATE asc", StringUtils.EMPTY);
         if (parameters.get(CommonUtils.STATUS) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CommonUtils.STATUS)))) {
@@ -891,7 +888,7 @@ public class WorkflowLogic {
         int count = 0;
         Map<String, Object> parameters = new HashMap<String, Object>();
         getParameterList(parameters, filters);
-        String query = CustomSQLUtil.get("loadWorkflowHistory");
+        String query = SQlUtil.getQuery("loadWorkflowHistory");
         query = query.replace("?", String.valueOf(workFlowMasterSystemId));
         query = query.replace("ORDER BY MODIFIED_DATE asc", StringUtils.EMPTY);
         if (parameters.get(CommonUtils.STATUS) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CommonUtils.STATUS)))) {

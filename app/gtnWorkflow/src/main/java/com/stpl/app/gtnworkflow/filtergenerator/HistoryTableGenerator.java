@@ -8,7 +8,6 @@ package com.stpl.app.gtnworkflow.filtergenerator;
 import com.stpl.app.gtnworkflow.util.CommonUtils;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -22,9 +21,8 @@ import com.vaadin.v7.ui.TextField;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -33,7 +31,7 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 public class HistoryTableGenerator implements ExtFilterGenerator {
 
     CommonUtils commonUtils = new CommonUtils();
-    private static final Logger LOGGER = LogManager.getLogger(HistoryTableGenerator.class);
+    private static final Logger LOGGER = Logger.getLogger(HistoryTableGenerator.class);
 
     public HistoryTableGenerator() {
         LOGGER.debug("HistoryTableGenerator");

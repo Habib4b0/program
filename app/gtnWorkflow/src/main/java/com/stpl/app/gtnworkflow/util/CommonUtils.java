@@ -14,7 +14,6 @@ import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -38,10 +37,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.custommenubar.MenuItemDTO;
+import org.jboss.logging.Logger;
 import org.vaadin.alump.beforeunload.BeforeUnload;
 
 /**
@@ -50,7 +48,7 @@ import org.vaadin.alump.beforeunload.BeforeUnload;
  */
 public class CommonUtils {
 
-    private static final Logger LOGGER = LogManager.getLogger(CommonUtils.class);
+    private static final Logger LOGGER = Logger.getLogger(CommonUtils.class);
     public final static String WORKFLOW_STATUS = "WorkFlowStatus";
     public final static String WORKFLOW_INBOX = "Workflow Inbox";
     public final static String YES = "YES";

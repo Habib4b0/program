@@ -8,7 +8,7 @@ package com.stpl.app.gcm.common;
 import com.stpl.app.gcm.common.dao.CommonDao;
 import com.stpl.app.gcm.common.dao.impl.CommonImpl;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;

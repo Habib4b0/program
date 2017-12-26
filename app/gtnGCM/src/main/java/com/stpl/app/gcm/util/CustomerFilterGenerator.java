@@ -6,7 +6,7 @@
 package com.stpl.app.gcm.util;
 
 import com.stpl.app.gcm.common.CommonUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Compare;

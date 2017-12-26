@@ -20,9 +20,8 @@ import com.vaadin.v7.ui.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -32,7 +31,7 @@ public class ViewTableGenerator implements ExtFilterGenerator {
 
     CommonUtils commonUtils = new CommonUtils();
     public static Map<Integer,String> userMap=new ConcurrentHashMap<Integer,String>();   
-    private static final Logger LOGGER = LogManager.getLogger(HistoryTableGenerator.class);
+    private static final Logger LOGGER = Logger.getLogger(HistoryTableGenerator.class);
 
     public ViewTableGenerator() {
         LOGGER.debug("ViewTableGenerator");

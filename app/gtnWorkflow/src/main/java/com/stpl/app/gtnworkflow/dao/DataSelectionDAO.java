@@ -8,7 +8,6 @@ package com.stpl.app.gtnworkflow.dao;
 import com.stpl.app.model.ProjectionMaster;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
 
 /**
  *

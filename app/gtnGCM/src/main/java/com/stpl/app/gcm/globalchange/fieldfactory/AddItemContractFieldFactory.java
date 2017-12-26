@@ -18,7 +18,7 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.form.FormulaLookUp;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.NEPLookup;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.app.serviceUtils.UIUtils;
+import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.event.FieldEvents;
@@ -90,7 +90,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("status")) {
             final ComboBox itemStatus = new ComboBox();
-            CommonUtil.getComboBoxByListName(itemStatus, UIUtils.STATUS, false);
+            CommonUtil.getComboBoxByListName(itemStatus, UiUtils.STATUS, false);
             itemStatus.addFocusListener(new FocusListener() {
                 @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {

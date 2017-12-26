@@ -31,7 +31,7 @@ import com.stpl.app.model.RsDetails;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.PsDetailsLocalServiceUtil;
 import com.stpl.app.service.RsDetailsLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;

@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gcm.transfercontract.form;
 
+import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.app.gcm.transfercontract.dto.CFPComponentDetailsDTO;
 import com.stpl.app.gcm.transfercontract.dto.ComponentDetailsDTO;
@@ -18,7 +19,7 @@ import com.stpl.app.gcm.transfercontract.util.Constant;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.app.serviceUtils.ConstantUtil;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.data.Property;
@@ -170,9 +171,9 @@ public class TransferSelectionForm extends VerticalLayout {
         componentType.addItem(Constant.RS_CATEGORY);
         
         searchField.setNullSelectionAllowed(true);
-        searchField.setNullSelectionItemId(ConstantUtil.SELECT_ONE);
-        searchField.addItem(ConstantUtil.SELECT_ONE);
-        searchField.select(ConstantUtil.SELECT_ONE);
+        searchField.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
+        searchField.addItem(ConstantsUtils.SELECT_ONE);
+        searchField.select(ConstantsUtils.SELECT_ONE);
         
         fromResultTable.setImmediate(Boolean.TRUE);
         fromResultTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -362,23 +363,23 @@ public class TransferSelectionForm extends VerticalLayout {
     public void componentValueChange(Property.ValueChangeEvent event) {
         if (Constant.CONTRACT_CATEGORY.equals(componentType.getValue())) {
             searchField.removeAllItems();
-            searchField.addItem(ConstantUtil.SELECT_ONE);
+            searchField.addItem(ConstantsUtils.SELECT_ONE);
             searchField.addItems(Arrays.asList(Constant.getInstance().contractSearch));
         } else if (Constant.CFP_CATEGORY.equals(componentType.getValue())) {
             searchField.removeAllItems();
-            searchField.addItem(ConstantUtil.SELECT_ONE);
+            searchField.addItem(ConstantsUtils.SELECT_ONE);
             searchField.addItems(Arrays.asList(Constant.getInstance().cfpSearch));
         } else if (Constant.IFP_CATEGORY.equals(componentType.getValue())) {
             searchField.removeAllItems();
-            searchField.addItem(ConstantUtil.SELECT_ONE);
+            searchField.addItem(ConstantsUtils.SELECT_ONE);
             searchField.addItems(Arrays.asList(Constant.getIFPSEARCH()));
         } else if (Constant.PS_CATEGORY.equals(componentType.getValue())) {
             searchField.removeAllItems();
-            searchField.addItem(ConstantUtil.SELECT_ONE);
+            searchField.addItem(ConstantsUtils.SELECT_ONE);
             searchField.addItems(Arrays.asList(Constant.getPSSEARCH()));
         } else if (Constant.RS_CATEGORY.equals(componentType.getValue())) {
             searchField.removeAllItems(); 
-            searchField.addItem(ConstantUtil.SELECT_ONE);
+            searchField.addItem(ConstantsUtils.SELECT_ONE);
             searchField.addItems(Arrays.asList(Constant.getRSSEARCH()));
         }
     }

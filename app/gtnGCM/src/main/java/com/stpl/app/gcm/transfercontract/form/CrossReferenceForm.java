@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gcm.transfercontract.form;
 
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.TabSheet;
