@@ -2119,7 +2119,11 @@ SET
                 IMTD.COMPANY_TYPE,
                 IMTD.TRADING_PARTNER_CONTRACT_NO,
                 cm.COMPANY_CATEGORY,
-                recordType='?'
+                CASE
+                WHEN CAST(CFP_DETAILS_START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                WHEN CAST(CFP_DETAILS_END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(CFP_DETAILS_START_DATE AS DATE) AND CAST(ISNULL(CFP_DETAILS_END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'    
+                END AS recordType
              FROM IMTD_CFP_DETAILS IMTD
                     JOIN COMPANY_MASTER cm on cm.COMPANY_MASTER_SID=IMTD.COMPANY_MASTER_SID AND cm.INBOUND_STATUS <> 'D'
                     LEFT JOIN HELPER_TABLE htrade on htrade.HELPER_TABLE_SID=IMTD.TRADING_PARTNER_CONTRACT_NO AND htrade.DESCRIPTION  NOT like '%Select One%'
@@ -2284,7 +2288,11 @@ SET
 		<query>
                 <![CDATA[
                 SELECT
-                        recordType = '?',
+                        CASE
+                        WHEN CAST(START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                        WHEN CAST(END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                        WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(START_DATE AS DATE) AND CAST(ISNULL(END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'
+                        END AS recordType,
                         im.ITEM_NO,
                         im.ITEM_NAME,
                         im.ITEM_DESC,
@@ -2439,7 +2447,11 @@ SET
 		<query>
                 <![CDATA[
                 SELECT
-                        recordType = '?',
+                        CASE
+                        WHEN CAST(CONTRACT_PRICE_START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                        WHEN CAST(CONTRACT_PRICE_END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                        WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(CONTRACT_PRICE_START_DATE AS DATE) AND CAST(ISNULL(CONTRACT_PRICE_END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'
+                        END AS recordType,
                         IMTD.ITEM_ID,
                         IMTD.ITEM_NO,
                         IMTD.ITEM_NAME,
@@ -2839,7 +2851,11 @@ WHERE
 		<query>
                 <![CDATA[
                     SELECT
-                            recordType = '?',
+                            CASE
+                            WHEN CAST(PRICE_PROTECTION_START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                            WHEN CAST(PRICE_PROTECTION_END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                            WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(PRICE_PROTECTION_START_DATE AS DATE) AND CAST(ISNULL(PRICE_PROTECTION_END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'
+                            END AS recordType,
                             IMTD.ITEM_ID,
                             IMTD.ITEM_NO,
                             IMTD.ITEM_NAME,
@@ -3178,7 +3194,11 @@ WHERE
 		<query>
                 <![CDATA[
                         SELECT
-                                recordType='?',
+                                CASE
+                                WHEN CAST(ITEM_REBATE_START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                                WHEN CAST(ITEM_REBATE_END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                                WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(ITEM_REBATE_START_DATE AS DATE) AND CAST(ISNULL(ITEM_REBATE_END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'
+                                END AS recordType,
                                 IMTD.ITEM_NO,
                                 IMTD.ITEM_NAME,
                                 itemType=CASE
@@ -6568,10 +6588,10 @@ SET
                          dbo.PS_CONTRACT_DETAILS_PENDING IMTD
                  LEFT JOIN BRAND_MASTER BM ON
                          IMTD.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
-                 LEFT JOIN ITEM_PRICING_QUALIFIER IPQ ON
-                         IPQ.ITEM_PRICING_QUALIFIER_SID=IMTD.ITEM_PRICING_QUALIFIER_SID
                  LEFT JOIN ?.dbo.User_ usr1 ON
                          usr1.UserId = IMTD.CREATED_BY
+                 LEFT JOIN HELPER_TABLE hpricedetailsstatus on hpricedetailsstatus.HELPER_TABLE_SID=IMTD.PS_CONTRACT_ATTACHED_STATUS AND hpricedetailsstatus.DESCRIPTION  NOT like '%Select One%'
+                 LEFT JOIN ITEM_PRICING_QUALIFIER IPQ  ON IPQ.ITEM_PRICING_QUALIFIER_SID = IMTD.ITEM_PRICING_QUALIFIER_SID AND IPQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
                  LEFT JOIN ITEM_MASTER im on
                          im.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                          AND im.INBOUND_STATUS <> 'D'
@@ -6609,24 +6629,16 @@ SELECT
                          usr1.firstName + ' ' + usr1.middleName + ' ' + usr1.lastName as CREATED_BY,
                          IMTD.CREATED_DATE,
                          IMTD.PS_CONTRACT_ATTACHED_DATE,
-                         IMTD.PS_CONT_DET_PENDING_SID,
-                         IMTD.ITEM_MASTER_SID,
-                         ptype=CASE
-                                               WHEN (IMTD.ITEM_PRICING_QUALIFIER_SID<>0 AND IPQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE 'Contract Price') THEN 1
-                                               ELSE 0
-                                       END,
-                         PRICEVAL=CASE
-                                               WHEN IMTD.PRICE<>0 THEN 1
-                                               ELSE 0
-                                       END
+                         hpricedetailsstatus.DESCRIPTION AS PD_STATUSPENDING,
+                         IPQ.ITEM_PRICING_QUALIFIER_NAME AS PD_PRICETYPEPENDING
                  FROM
                          dbo.PS_CONTRACT_DETAILS_PENDING IMTD
                  LEFT JOIN BRAND_MASTER BM ON
                          IMTD.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
-                 LEFT JOIN ITEM_PRICING_QUALIFIER IPQ ON
-                         IPQ.ITEM_PRICING_QUALIFIER_SID=IMTD.ITEM_PRICING_QUALIFIER_SID
                  LEFT JOIN ?.dbo.User_ usr1 ON
                          usr1.UserId = IMTD.CREATED_BY
+                 LEFT JOIN HELPER_TABLE hpricedetailsstatus on hpricedetailsstatus.HELPER_TABLE_SID=IMTD.PS_CONTRACT_ATTACHED_STATUS AND hpricedetailsstatus.DESCRIPTION  NOT like '%Select One%'
+                 LEFT JOIN ITEM_PRICING_QUALIFIER IPQ  ON IPQ.ITEM_PRICING_QUALIFIER_SID = IMTD.ITEM_PRICING_QUALIFIER_SID AND IPQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
                  LEFT JOIN ITEM_MASTER im on
                          im.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                          AND im.INBOUND_STATUS <> 'D'
@@ -6662,7 +6674,9 @@ SELECT
                     LEFT JOIN HELPER_TABLE BPH ON
                             BPH.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE
                     LEFT JOIN HELPER_TABLE hpriceprotectionstatus on hpriceprotectionstatus.HELPER_TABLE_SID=IMTD.PRICE_PROTECTION_STATUS AND hpriceprotectionstatus.DESCRIPTION  NOT like '%Select One%'
-                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ  on IQ.ITEM_PRICING_QUALIFIER_SID=Imtd.ITEM_PRICING_QUALIFIER_SID AND IQ.ITEM_PRICING_QUALIFIER_NAME  NOT like '%Select One%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ  ON IQ.ITEM_PRICING_QUALIFIER_SID = IMTD.PRICE_PROTECTION_PRICE_TYPE AND IQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ1 ON IQ1.ITEM_PRICING_QUALIFIER_SID = IMTD.SUBSEQUENT_PERIOD_PRICE_TYPE AND IQ1.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ2 ON IQ2.ITEM_PRICING_QUALIFIER_SID = IMTD.RESET_PRICE_TYPE AND IQ2.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
                     LEFT JOIN HELPER_TABLE hbasepricetype on hbasepricetype.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE AND hbasepricetype.DESCRIPTION  NOT like '%Select One%'
                     LEFT JOIN HELPER_TABLE hnetbaseprice on hnetbaseprice.HELPER_TABLE_SID=IMTD.NET_BASE_PRICE AND hnetbaseprice.DESCRIPTION  NOT like '%Select One%'
                     LEFT JOIN HELPER_TABLE hnetsubsequentperiodprice on hnetsubsequentperiodprice.HELPER_TABLE_SID=IMTD.NET_SUBSEQUENT_PERIOD_PRICE AND hnetsubsequentperiodprice.DESCRIPTION  NOT like '%Select One%'
@@ -6760,7 +6774,7 @@ SELECT
                             IQ.ITEM_PRICING_QUALIFIER_NAME AS MEASUREMENT_PRICEPENDING,
                             hbasepricetype.DESCRIPTION AS BASE_PRICE_TYPEPENDING,
                             hnetbaseprice.DESCRIPTION AS NET_BASE_PRICEPENDING,
-                            IQ.ITEM_PRICING_QUALIFIER_NAME AS SUBSEQUENT_PERIOD_PRICE_TYPEPENDING,
+                            IQ1.ITEM_PRICING_QUALIFIER_NAME AS SUBSEQUENT_PERIOD_PRICE_TYPEPENDING,
                             hnetsubsequentperiodprice.DESCRIPTION AS NET_SUBSEQUENT_PERIOD_PRICEPENDING,
                             hpricetolint.DESCRIPTION AS pricetolintpending,
                             hpricetolfre.DESCRIPTION AS pricetolfrepending,
@@ -6769,7 +6783,7 @@ SELECT
                             hresettype.DESCRIPTION AS resettypepending,
                             hresetinterval.DESCRIPTION AS resetintervalpending,
                             hresetfrequency.DESCRIPTION AS resetfrequencypending,
-                            IQ.ITEM_PRICING_QUALIFIER_NAME AS RESET_PRICE_TYPEPENDING,
+                            IQ2.ITEM_PRICING_QUALIFIER_NAME AS RESET_PRICE_TYPEPENDING,
                             hnetresetpricetype.DESCRIPTION AS netresetpricetypepending,    
                             hnetpricetype.DESCRIPTION AS netpricetypepending,
                             BPH.DESCRIPTION AS BDES,
@@ -6796,7 +6810,9 @@ SELECT
                     LEFT JOIN HELPER_TABLE BPH ON
                             BPH.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE
                     LEFT JOIN HELPER_TABLE hpriceprotectionstatus on hpriceprotectionstatus.HELPER_TABLE_SID=IMTD.PRICE_PROTECTION_STATUS AND hpriceprotectionstatus.DESCRIPTION  NOT like '%Select One%'
-                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ  on IQ.ITEM_PRICING_QUALIFIER_SID=Imtd.ITEM_PRICING_QUALIFIER_SID AND IQ.ITEM_PRICING_QUALIFIER_NAME  NOT like '%Select One%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ  ON IQ.ITEM_PRICING_QUALIFIER_SID = IMTD.PRICE_PROTECTION_PRICE_TYPE AND IQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ1 ON IQ1.ITEM_PRICING_QUALIFIER_SID = IMTD.SUBSEQUENT_PERIOD_PRICE_TYPE AND IQ1.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ2 ON IQ2.ITEM_PRICING_QUALIFIER_SID = IMTD.RESET_PRICE_TYPE AND IQ2.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
                     LEFT JOIN HELPER_TABLE hbasepricetype on hbasepricetype.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE AND hbasepricetype.DESCRIPTION  NOT like '%Select One%'
                     LEFT JOIN HELPER_TABLE hnetbaseprice on hnetbaseprice.HELPER_TABLE_SID=IMTD.NET_BASE_PRICE AND hnetbaseprice.DESCRIPTION  NOT like '%Select One%'
                     LEFT JOIN HELPER_TABLE hnetsubsequentperiodprice on hnetsubsequentperiodprice.HELPER_TABLE_SID=IMTD.NET_SUBSEQUENT_PERIOD_PRICE AND hnetsubsequentperiodprice.DESCRIPTION  NOT like '%Select One%'
@@ -7544,24 +7560,16 @@ SELECT
                          usr1.firstName + ' ' + usr1.middleName + ' ' + usr1.lastName as CREATED_BY,
                          IMTD.CREATED_DATE,
                          IMTD.PS_CONTRACT_ATTACHED_DATE,
-                         IMTD.PS_CONT_DET_PENDING_SID,
-                         IMTD.ITEM_MASTER_SID,
-                         ptype=CASE
-                                               WHEN (IMTD.ITEM_PRICING_QUALIFIER_SID<>0 AND IPQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE 'Contract Price') THEN 1
-                                               ELSE 0
-                                       END,
-                         PRICEVAL=CASE
-                                               WHEN IMTD.PRICE<>0 THEN 1
-                                               ELSE 0
-                                       END
+                         hpricedetailsstatus.DESCRIPTION AS PD_STATUSVIEWPENDING,
+                         IPQ.ITEM_PRICING_QUALIFIER_NAME AS PD_PRICETYPEVIEWPENDING
                  FROM
                          dbo.PS_CONTRACT_DETAILS_PENDING IMTD
                  LEFT JOIN BRAND_MASTER BM ON
                          IMTD.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
-                 LEFT JOIN ITEM_PRICING_QUALIFIER IPQ ON
-                         IPQ.ITEM_PRICING_QUALIFIER_SID=IMTD.ITEM_PRICING_QUALIFIER_SID
                  LEFT JOIN ?.dbo.User_ usr1 ON
                          usr1.UserId = IMTD.CREATED_BY
+                 LEFT JOIN HELPER_TABLE hpricedetailsstatus on hpricedetailsstatus.HELPER_TABLE_SID=IMTD.PS_CONTRACT_ATTACHED_STATUS AND hpricedetailsstatus.DESCRIPTION  NOT like '%Select One%'
+                 LEFT JOIN ITEM_PRICING_QUALIFIER IPQ  ON IPQ.ITEM_PRICING_QUALIFIER_SID = IMTD.ITEM_PRICING_QUALIFIER_SID AND IPQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
                  LEFT JOIN ITEM_MASTER im on
                          im.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                          AND im.INBOUND_STATUS <> 'D'

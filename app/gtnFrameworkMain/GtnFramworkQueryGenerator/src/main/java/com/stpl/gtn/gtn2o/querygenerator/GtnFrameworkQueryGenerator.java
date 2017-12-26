@@ -132,15 +132,14 @@ public final class GtnFrameworkQueryGenerator {
 		int listSize = conditionList.size();
 		for (GtnFrameworkJoinConditionBean gtnFrameworkJoinConditionBean : conditionList) {
 			GtnFrameworkColumnBean joinLeftTableColumnBean = gtnFrameworkJoinConditionBean.getJoinLeftTableColumnBean();
-			GtnFrameworkColumnBean joinRightTableColumnBean = gtnFrameworkJoinConditionBean
+			String joinRightTableColumnBean = gtnFrameworkJoinConditionBean
 					.getJoinRightTableColumnBean();
 			joinConditions.append(joinLeftTableColumnBean.getAliesName()).append(".")
 					.append(joinLeftTableColumnBean.getColumnName())
 					.append(gtnFrameworkJoinConditionBean.getJoinOperator().getOperaterType());
 			rightKeyJoinValue = new StringBuilder(" ? ");
 			if (joinRightTableColumnBean != null) {
-				rightKeyJoinValue = new StringBuilder(joinRightTableColumnBean.getAliesName()).append(".")
-						.append(joinRightTableColumnBean.getColumnName());
+				rightKeyJoinValue = new StringBuilder(joinRightTableColumnBean);
 			}
 			if (gtnFrameworkJoinConditionBean.getJoinOperator().equals(GtnFrameworkOperatorType.IN)
 					|| gtnFrameworkJoinConditionBean.getJoinOperator().equals(GtnFrameworkOperatorType.NOT_IN)) {
