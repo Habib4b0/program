@@ -108,18 +108,18 @@ public class NMPVExcelLogic {
     private static final int COLUMN_COUNT_DISCOUNT = 12;
     private static final int COLUMN_COUNT_TOTAL = 75;
     private static final int COLUMN_COUNT_DETAIL = 54;
-    private final int index = 5;
+    private static final int INDEX = 5;
     private int frequencyDivision;
-    private final int baseColumn_levelName_index = 0;
-    private final int baseColumn_hierarchy_index = 1;
-    private final int baseColumn_period_index = 3;
-    private final int baseColumn_year_index = 4;
-    private final int baseColumn_period_discount_index = 2;
-    private final int baseColumn_year_discount_index = 3;
-    private final int baseColumn_period_indexForTotal = 1;
-    private final int baseColumn_year_indexForTotal = 0;
-    private final int baseColumn_discount_index = 0;
-    private final List<Object[]> procRawList_total = new ArrayList();
+    private static final int BASECOLUMN_LEVELNAME_INDEX = 0;
+    private static final int BASECOLUMN_HIERARCHY_INDEX = 1;
+    private static final int BASECOLUMN_PERIOD_INDEX = 3;
+    private static final int BASECOLUMN_YR_INDEX = 4;
+    private static final int BASECOLUMN_PERIOD_DISC_INDEX = 2;
+    private static final int BASECOLUMN_YR_DISC_INDEX = 3;
+    private static final int BASECOLUMN_PERIOD_INDEX_TOTAL = 1;
+    private static final int BASECOLUMN_PERIOD_YR_TOTAL = 0;
+    private static final int BASECOLUMN_DISC_INDEX = 0;
+    private static final List<Object[]> PROC_RAWLIST_TOTAL = new ArrayList();
     private final List<Object[]> procRawList_detail = new ArrayList();
     private final List<Object[]> procRawList_detail_discount = new ArrayList();
     private final List<Integer> priorList = new ArrayList();
@@ -207,7 +207,7 @@ public class NMPVExcelLogic {
                     getTotalDiscount(selection);
                 }
 
-                calculateAndCustomize_total_period(procRawList_total);
+                calculateAndCustomize_total_period(PROC_RAWLIST_TOTAL);
                 if (discountFlag) {
                     discount_Customize();
                 }
@@ -236,7 +236,7 @@ public class NMPVExcelLogic {
 
                 } else {
                     getTotalRawData();
-                    calculateAndCustomize_total_pivot(procRawList_total);
+                    calculateAndCustomize_total_pivot(PROC_RAWLIST_TOTAL);
                 }
             } else {
                 executeProcedure_PRC_PV_SELECTION();
@@ -277,16 +277,16 @@ public class NMPVExcelLogic {
     private void calculateAndCustomize_detail_period(List<Object[]> rawList, List<Object[]> rawList_discount) {
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
-            String key = obj[baseColumn_hierarchy_index].toString();
+            String key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
             key = key.substring(key.indexOf('-') + 1);
             List<ProjectionVarianceDTO> pvList = resultMap.get(key);
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                addList(pvList, obj, index);
+                addList(pvList, obj, INDEX);
                 hierarchyAndTP_keys(obj, key, pvList);
             } else {
-                updateList(pvList, obj, index);
+                updateList(pvList, obj, INDEX);
             }
         }
         if (discountFlag) {
@@ -295,9 +295,9 @@ public class NMPVExcelLogic {
             int listIndex = 0;
             for (ListIterator<Object[]> it = rawList_discount.listIterator(); it.hasNext();) {
                 Object[] obj = it.next();
-                String key = obj[baseColumn_hierarchy_index].toString();
+                String key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
                 key = key.substring(key.indexOf('-') + 1);
-                String discountName = obj[baseColumn_discount_index] == null ? "" : obj[baseColumn_discount_index].toString();
+                String discountName = obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX].toString();
                 if (hierarchyKey.add(key)) {
                     listIndex = 0;
                     discountMap.clear();
@@ -320,8 +320,8 @@ public class NMPVExcelLogic {
         hierarchyKeys.add(key);
 
         resultMap.put(key, pvList);
-        if ("Customer".equalsIgnoreCase(String.valueOf(obj[baseColumn_levelName_index]))
-                || "Trading Partner".equalsIgnoreCase(String.valueOf(obj[baseColumn_levelName_index]))) {
+        if ("Customer".equalsIgnoreCase(String.valueOf(obj[BASECOLUMN_LEVELNAME_INDEX]))
+                || "Trading Partner".equalsIgnoreCase(String.valueOf(obj[BASECOLUMN_LEVELNAME_INDEX]))) {
             tradingPartnerKeys.add(key);
         }
     }
@@ -337,7 +337,7 @@ public class NMPVExcelLogic {
                 //Group Column projSelDTO
 
                 String groupName;
-                String hierarchyNo = String.valueOf(obj[baseColumn_hierarchy_index]);
+                String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
                 String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
                 if (isCustomView) {
                     groupName = customView_relationship_hierarchy.get(hierarchy.trim() == null ? "" : hierarchy.trim());
@@ -620,7 +620,7 @@ public class NMPVExcelLogic {
                 calculate(Constant.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), Constant.CHANGE, obj, isTotal ? NumericConstants.SIXTY_SEVEN : NumericConstants.FORTY_NINE, netExFactoryPer, selection, RATE_PER);
                 pvList.add(netExFactoryPer);
             }
-            String hierarchyNo = String.valueOf(obj[baseColumn_hierarchy_index]);
+            String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
             String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
             Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
             List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
@@ -967,7 +967,7 @@ public class NMPVExcelLogic {
         }
 
         Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
-        String hierarchyNo = String.valueOf(obj[baseColumn_hierarchy_index]);
+        String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
         String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
         List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
         if (!isTotal && P.equals(String.valueOf(productList.get(4)))) {
@@ -1057,17 +1057,17 @@ public class NMPVExcelLogic {
         List<Integer> priorList = selection.getProjIdList();
         switch (frequencyDivision) {
             case NumericConstants.FOUR:
-                commonColumn = "Q" + obj[isTotal ? 1 : baseColumn_period_index] + StringUtils.EMPTY + obj[isTotal ? 0 : baseColumn_year_index];
+                commonColumn = "Q" + obj[isTotal ? 1 : BASECOLUMN_PERIOD_INDEX] + StringUtils.EMPTY + obj[isTotal ? 0 : BASECOLUMN_YR_INDEX];
                 break;
             case NumericConstants.TWO:
-                commonColumn = "S" + obj[isTotal ? 1 : baseColumn_period_index] + StringUtils.EMPTY + obj[isTotal ? 0 : baseColumn_year_index];
+                commonColumn = "S" + obj[isTotal ? 1 : BASECOLUMN_PERIOD_INDEX] + StringUtils.EMPTY + obj[isTotal ? 0 : BASECOLUMN_YR_INDEX];
                 break;
             case 1:
-                commonColumn = StringUtils.EMPTY + obj[isTotal ? 0 : baseColumn_year_index];
+                commonColumn = StringUtils.EMPTY + obj[isTotal ? 0 : BASECOLUMN_YR_INDEX];
                 break;
             case NumericConstants.TWELVE:
-                String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[isTotal ? 1 : baseColumn_period_index])) - 1);
-                commonColumn = monthName.toLowerCase() + obj[isTotal ? 0 : baseColumn_year_index];
+                String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[isTotal ? 1 : BASECOLUMN_PERIOD_INDEX])) - 1);
+                commonColumn = monthName.toLowerCase() + obj[isTotal ? 0 : BASECOLUMN_YR_INDEX];
                 break;
             default:
                 break;
@@ -1100,7 +1100,7 @@ public class NMPVExcelLogic {
         List< Object[]> rawList = null;
         String discountId = CommonUtils.CollectionToString(selection.getDiscountNoList(), false);
         List<Integer> projectionIdList = new ArrayList();
-        procRawList_total.clear();
+        PROC_RAWLIST_TOTAL.clear();
         priorList.clear();
         if (frequency.equals(Constant.QUARTERLY)) {
             frequency = QUARTERLY1;
@@ -1116,7 +1116,7 @@ public class NMPVExcelLogic {
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
         Object[] orderedArg = {projectionId, frequency, discountId, VARIANCE1, selection.getSessionDTO().getSessionId(), selection.getUserId(), PIVOT1, null, selection.getUomCode(), ALL.equals(selection.getSalesInclusion()) ? null : selection.getSalesInclusion(), ALL.equals(selection.getSession().getDeductionInclusion()) ? null : selection.getSession().getDeductionInclusion()};
         rawList = CommonLogic.callProcedure(PRC_PROJ_RESULTS, orderedArg);
-        procRawList_total.addAll(rawList);
+        PROC_RAWLIST_TOTAL.addAll(rawList);
         rawList.clear();
     }
 
@@ -1192,8 +1192,8 @@ public class NMPVExcelLogic {
             Object[] obj = it.next();
 
             List<String> common = null;
-            if (!"null".equalsIgnoreCase(String.valueOf(obj[isTotal ? baseColumn_year_indexForTotal : baseColumn_year_index])) && !"null".equalsIgnoreCase(String.valueOf(obj[isTotal ? frequencyDivision == 1 ? 0 : baseColumn_period_indexForTotal : baseColumn_period_index]))) {
-                common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.valueOf(obj[isTotal ? baseColumn_year_indexForTotal : baseColumn_year_index].toString()), Integer.valueOf(obj[isTotal ? frequencyDivision == 1 ? 0 : baseColumn_period_indexForTotal : baseColumn_period_index].toString()));
+            if (!"null".equalsIgnoreCase(String.valueOf(obj[isTotal ? BASECOLUMN_PERIOD_YR_TOTAL : BASECOLUMN_YR_INDEX])) && !"null".equalsIgnoreCase(String.valueOf(obj[isTotal ? frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX_TOTAL : BASECOLUMN_PERIOD_INDEX]))) {
+                common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.valueOf(obj[isTotal ? BASECOLUMN_PERIOD_YR_TOTAL : BASECOLUMN_YR_INDEX].toString()), Integer.valueOf(obj[isTotal ? frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX_TOTAL : BASECOLUMN_PERIOD_INDEX].toString()));
                 String groupId = common.get(0);
 
                 if (periodList.contains(groupId)) {
@@ -1224,10 +1224,10 @@ public class NMPVExcelLogic {
 
             //Group Column projSelDTO
             String groupName;
-            String hierarchyNo = String.valueOf(obj[baseColumn_hierarchy_index]);
+            String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
             String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
             if (isCustomView) {
-                groupName = customView_relationship_hierarchy.get(hierarchy.trim() == null ? "" : obj[baseColumn_hierarchy_index].toString());
+                groupName = customView_relationship_hierarchy.get(hierarchy.trim() == null ? "" : obj[BASECOLUMN_HIERARCHY_INDEX].toString());
                 groupName = groupName == null ? "" : groupName;
                 detail.setHierarchyNo(obj[1].toString());
 //                detail.setParentHierarchyNo(obj[obj.length-1] == null ? null : obj[obj.length-1].toString().substring(obj[obj.length-1].toString().indexOf('-') + 1));
@@ -1473,7 +1473,7 @@ public class NMPVExcelLogic {
         }
 
         Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
-        String hierarchyNo = String.valueOf(obj[baseColumn_hierarchy_index]);
+        String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
         String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
         List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
         if (!isTotal && P.equals(String.valueOf(productList.get(4)))) {
@@ -1557,12 +1557,12 @@ public class NMPVExcelLogic {
             Object[] obj = it.next();
             String key;
             if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
-                key = obj[baseColumn_hierarchy_index].toString();
+                key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
             } else {
-                key = obj[baseColumn_hierarchy_index].toString().endsWith(".") ? obj[baseColumn_hierarchy_index].toString() + "$" + obj[obj.length - 1].toString() : obj[baseColumn_hierarchy_index].toString() + ".$" + obj[obj.length - 1].toString();
+                key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[obj.length - 1].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + ".$" + obj[obj.length - 1].toString();
             }
             List<ProjectionVarianceDTO> pvList = resultMap.get(key);
-            List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.valueOf(obj[isTotal ? baseColumn_year_indexForTotal : baseColumn_year_index].toString()), Integer.valueOf(obj[isTotal ? frequencyDivision == 1 ? 0 : baseColumn_period_indexForTotal : baseColumn_period_index].toString()));
+            List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.valueOf(obj[isTotal ? BASECOLUMN_PERIOD_YR_TOTAL : BASECOLUMN_YR_INDEX].toString()), Integer.valueOf(obj[isTotal ? frequencyDivision == 1 ? 0 : BASECOLUMN_PERIOD_INDEX_TOTAL : BASECOLUMN_PERIOD_INDEX].toString()));
             String groupId = common.get(0);
             if (periodList.contains(groupId)) {
                 String gorupName = common.get(1);
@@ -1572,10 +1572,10 @@ public class NMPVExcelLogic {
                     //To check condition total or details values
                     pvList = new ArrayList();
 
-                    addList_pivot(pvList, obj, freVarianceDTO, index, key);
+                    addList_pivot(pvList, obj, freVarianceDTO, INDEX, key);
                     hierarchyAndTP_keys(obj, key, pvList);
                 } else {
-                    updateList_pivot(pvList, obj, freVarianceDTO, index, key);
+                    updateList_pivot(pvList, obj, freVarianceDTO, INDEX, key);
                 }
             }
         }
@@ -1825,7 +1825,7 @@ public class NMPVExcelLogic {
         }
 
         Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
-        String hierarchyNo = String.valueOf(obj[baseColumn_hierarchy_index]);
+        String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
         String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
         List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
         if (!isTotal && P.equals(String.valueOf(productList.get(4)))) {
@@ -2010,7 +2010,7 @@ public class NMPVExcelLogic {
                 discountKeys.add(key);
             }
             pvList_discount.add(pvDTO);
-            pvDTO.setGroup(obj[baseColumn_discount_index] == null ? "" : obj[baseColumn_discount_index] == null ? "" : obj[baseColumn_discount_index].toString());
+            pvDTO.setGroup(obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX].toString());
         } else {
             pvList_discount = resultMap.get(key);
             pvDTO = pvList_discount.get(listIndex);
@@ -2020,17 +2020,17 @@ public class NMPVExcelLogic {
 
         switch (frequencyDivision) {
             case NumericConstants.FOUR:
-                commonColumn = "Q" + obj[baseColumn_period_discount_index] + StringUtils.EMPTY + obj[baseColumn_year_discount_index];
+                commonColumn = "Q" + obj[BASECOLUMN_PERIOD_DISC_INDEX] + StringUtils.EMPTY + obj[BASECOLUMN_YR_DISC_INDEX];
                 break;
             case NumericConstants.TWO:
-                commonColumn = "S" + obj[baseColumn_period_discount_index] + StringUtils.EMPTY + obj[baseColumn_year_discount_index];
+                commonColumn = "S" + obj[BASECOLUMN_PERIOD_DISC_INDEX] + StringUtils.EMPTY + obj[BASECOLUMN_YR_DISC_INDEX];
                 break;
             case 1:
-                commonColumn = StringUtils.EMPTY + obj[baseColumn_year_discount_index];
+                commonColumn = StringUtils.EMPTY + obj[BASECOLUMN_YR_DISC_INDEX];
                 break;
             case NumericConstants.TWELVE:
-                String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[baseColumn_period_discount_index])) - 1);
-                commonColumn = monthName.toLowerCase() + obj[baseColumn_year_discount_index];
+                String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[BASECOLUMN_PERIOD_DISC_INDEX])) - 1);
+                commonColumn = monthName.toLowerCase() + obj[BASECOLUMN_YR_DISC_INDEX];
                 break;
             default:
                 break;
@@ -2510,19 +2510,19 @@ public class NMPVExcelLogic {
             Object[] obj = it.next();
             String key;
             if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
-                key = obj[baseColumn_hierarchy_index].toString();
+                key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
             } else {
-                key = obj[baseColumn_hierarchy_index].toString().endsWith(".") ? obj[baseColumn_hierarchy_index].toString() + "$" + obj[obj.length - 1].toString() : obj[baseColumn_hierarchy_index].toString() + ".$" + obj[obj.length - 1].toString();
+                key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[obj.length - 1].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + ".$" + obj[obj.length - 1].toString();
             }
 
             List<ProjectionVarianceDTO> pvList = resultMap.get(key);
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                addList(pvList, obj, index);
+                addList(pvList, obj, INDEX);
                 hierarchyAndTP_keys(obj, key, pvList);
             } else {
-                updateList(pvList, obj, index);
+                updateList(pvList, obj, INDEX);
             }
         }
         if (discountFlag) {
@@ -2533,11 +2533,11 @@ public class NMPVExcelLogic {
                 Object[] obj = it.next();
                 String key;
                 if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
-                    key = obj[baseColumn_hierarchy_index].toString();
+                    key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
                 } else {
-                    key = obj[baseColumn_hierarchy_index].toString().endsWith(".") ? obj[baseColumn_hierarchy_index].toString() + "$" + obj[obj.length - 1].toString() : obj[baseColumn_hierarchy_index].toString() + ".$" + obj[obj.length - 1].toString();
+                    key = obj[BASECOLUMN_HIERARCHY_INDEX].toString().endsWith(".") ? obj[BASECOLUMN_HIERARCHY_INDEX].toString() + "$" + obj[obj.length - 1].toString() : obj[BASECOLUMN_HIERARCHY_INDEX].toString() + ".$" + obj[obj.length - 1].toString();
                 }
-                String discountName = obj[baseColumn_discount_index] == null ? "" : obj[baseColumn_discount_index].toString();
+                String discountName = obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX].toString();
                 if (hierarchyKey.add(key)) {
                     listIndex = 0;
                     discountMap.clear();

@@ -41,17 +41,17 @@ public class MMDPRLogic {
 
     private static final DecimalFormat DOLLAR = new DecimalFormat("#");
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("0.000");
-    private final String ACTUALSRATE = "ActualsRate";
-    private final String ACTUALSAMOUNT = "ActualsAmount";
-    private final String PROJECTIONSRATE = "ProjectionsRate";
-    private final String PROJECTIONSAMOUNT = "ProjectionsAmount";
-    private final String ACTUALRPU = "ActualsRPU";
-    private final String PROJECTEDRPU = "ProjectedRPU";
-    private final String NULL = "null";
-    private final String HYPHEN = "-";
-    private final String Q = "q";
-    private final String PERCENTAGE = Constant.PERCENT;
-    private final String DOLLAR_SYMBOL = "$";
+    private static final String ACTUALSRATE = "ActualsRate";
+    private static final String ACTUALSAMOUNT = "ActualsAmount";
+    private static final String PROJECTIONSRATE = "ProjectionsRate";
+    private static final String PROJECTIONSAMOUNT = "ProjectionsAmount";
+    private static final String ACTUALRPU = "ActualsRPU";
+    private static final String PROJECTEDRPU = "ProjectedRPU";
+    private static final String NULL = "null";
+    private static final String HYPHEN = "-";
+    private static final String Q = "q";
+    private static final String PERCENTAGE = Constant.PERCENT;
+    private static final String DOLLAR_SYMBOL = "$";
     private static final String CURRENCY = "$";
     private final DPRQueryUtils dqLogic = new DPRQueryUtils();
     

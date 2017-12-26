@@ -154,7 +154,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     /**
      * The selected projection.
      */
-    private String scrnName;
+    private final String scrnName;
     private boolean isComparisonLookupOpened;
     private final Map<String, List<ProjectionVarianceDTO>> resultMap = new HashMap();
     private boolean flag = false;

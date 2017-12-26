@@ -52,15 +52,15 @@ public class DiscountProjectionResultsLogic {
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.0");
     private static final DecimalFormat CUR_ZERO = new DecimalFormat("$#,##0");
     public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DiscountProjectionResultsLogic.class);
-    private final String ACTUALSRATE = "ActualsRate";
-    private final String ACTUALSAMOUNT = "ActualsAmount";
-    private final String PROJECTIONSRATE = "ProjectionsRate";
-    private final String PROJECTIONSAMOUNT = "ProjectionsAmount";
-    private final String NULL = "null";
-    private final String HYPHEN = "-";
-    private final String PERCENTAGE = "%";
-    private final String DOLLAR_SYMBOL = "$";
-    private final String ZERO_SYMBOL = "0";
+    private static final String ACTUALSRATE = "ActualsRate";
+    private static final String ACTUALSAMOUNT = "ActualsAmount";
+    private static final String PROJECTIONSRATE = "ProjectionsRate";
+    private static final String PROJECTIONSAMOUNT = "ProjectionsAmount";
+    private static final String NULL = "null";
+    private static final String HYPHEN = "-";
+    private static final String PERCENTAGE = "%";
+    private static final String DOLLAR_SYMBOL = "$";
+    private static final String ZERO_SYMBOL = "0";
     private final Map<String, String> monthMap = new HashMap<>();
     private final Map<String, String> valueMap = new HashMap<>();
 

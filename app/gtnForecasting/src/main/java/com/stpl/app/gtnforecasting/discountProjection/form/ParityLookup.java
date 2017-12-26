@@ -202,8 +202,8 @@ public class ParityLookup extends Window {
         ndc.setImmediate(true);
         ndcDesc.setImmediate(true);
         resultsTable.setContainerDataSource(resultsContainer);
-        resultsTable.setVisibleColumns(headerUtils.PARITY_COLS);
-        resultsTable.setColumnHeaders(headerUtils.PARITY_HEADER);
+        resultsTable.setVisibleColumns(HeaderUtils.PARITY_COLS);
+        resultsTable.setColumnHeaders(HeaderUtils.PARITY_HEADER);
         resultsTable.setFilterBarVisible(true);
         resultsTable.setSelectable(true);
         resultsTable.setMultiSelect(true);
@@ -212,8 +212,8 @@ public class ParityLookup extends Window {
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         
         parityTable.setContainerDataSource(parityContainer);
-        parityTable.setVisibleColumns(headerUtils.PARITY_COLS);
-        parityTable.setColumnHeaders(headerUtils.PARITY_HEADER);
+        parityTable.setVisibleColumns(HeaderUtils.PARITY_COLS);
+        parityTable.setColumnHeaders(HeaderUtils.PARITY_HEADER);
         parityTable.setFilterBarVisible(true);
         parityTable.setSelectable(true);
         parityTable.setMultiSelect(true);
