@@ -10,7 +10,7 @@
     <groupId>com.stpl.app</groupId>
     <artifactId>gtnGCM</artifactId>
     <version>1.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>gtnGCM</name>
 
