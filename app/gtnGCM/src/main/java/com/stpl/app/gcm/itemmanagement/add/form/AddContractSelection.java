@@ -646,12 +646,12 @@ public class AddContractSelection extends CustomComponent {
     @UiHandler("submitBtncur")
     public void submitButtonLogic(Button.ClickEvent event) {
 
-        submitButtonLogic();
-    }
+            submitButtonLogic();
+        }
     boolean isSubmit = false;
 
     public boolean submitButtonLogic() {
-        if (submitButtonCheck()) {
+        if (submitButtonCheckRecord() && submitButtonCheck()) {
             new AbstractNotificationUtils() {
                 @Override
                 public void yesMethod() {
@@ -692,7 +692,17 @@ public class AddContractSelection extends CustomComponent {
             return false;
         }
     }
-
+    
+    public Boolean submitButtonCheckRecord() {
+        List inputList = AbstractLogic.getResultsInput(selection);
+        List<Object[]> list = ItemQueries.getAppData(inputList, "Submit Check one Item condition", null);
+        if (AbstractLogic.getCount(list) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     /**
      * Load Selection Criteria
      */
