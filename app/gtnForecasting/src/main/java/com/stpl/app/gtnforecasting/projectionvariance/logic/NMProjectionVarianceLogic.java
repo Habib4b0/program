@@ -3096,7 +3096,7 @@ public class NMProjectionVarianceLogic {
 
                     isNotFirstElement = true;
                 } else {
-                    if (isNotFirstHierarchy) {
+                   if (isNotFirstHierarchy) {
                         stringBuilder.append(",\n");
                     }
                     stringBuilder.append(getString(entry.getKey(), Arrays.asList((String.valueOf(list.get(0))).split("\\,"))));
@@ -3108,7 +3108,7 @@ public class NMProjectionVarianceLogic {
     }
 
     public boolean isSplitNeeded(Map.Entry<String, List> entry, boolean isHierarchyNoNotAvailable, String hierarchyNo) {
-        return !hierarchyNo.contains(",") && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo));
+        return !hierarchyNo.contains(",") || (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo));
     }
 
     public boolean isHierarchyNoNotAvailable(String hierarchyNo, String hierarchyIndicator) {
