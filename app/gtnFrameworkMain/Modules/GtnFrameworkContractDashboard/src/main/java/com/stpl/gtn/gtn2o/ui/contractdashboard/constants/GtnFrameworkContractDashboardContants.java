@@ -71,6 +71,10 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String CFP_STATUS = "cfpStatus";
 	public static final String CFP_PENDING_STATUS = "companiessStatusHelperValue";
 	public static final String PP_STATUS_PENDING = "ppStatusHelperValue";
+	public static final String PD_STATUS_PENDING = "pdStatusHelperValue";	
+	public static final String PD_PRICETYPE_PENDING = "pdPriceTypeHelperValue";
+	public static final String PD_STATUS_VIEW_PENDING = "pdStatusViewHelperValue";	
+	public static final String PD_PRICETYPE_VIEW_PENDING = "pdPriceTypeViewHelperValue";
 	public static final String BASE_PRICE_TYPE_PENDING = "basepricetypeHelperValue";
 	public static final String NET_BASE_PRICE_PENDING = "netbasepriceHelperValue";
 	public static final String SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING = "subsequentperiodpriceHelperValue";
@@ -438,7 +442,19 @@ public class GtnFrameworkContractDashboardContants {
 			GtnFrameworkContractDashboardContants.getPtDetailMassPopulateField()[5].replace(" ", ""), "source",
 			CREATED_BY, CREATED_DATE, ATTACHED_DATE };
 
+	private static final String[] PRICE_DETAIL_PENDING_COLUMN = { RECORD_TYPE, PRICE_ID, PRICE_NO, PRICE_NAME, BRAND,
+			PD_STATUS_PENDING, GtnFrameworkContractDashboardContants.getPtDetailMassPopulateField()[0].replace(" ", ""),
+			GtnFrameworkContractDashboardContants.getPtDetailMassPopulateField()[1].replace(" ", ""),
+			PD_PRICETYPE_PENDING,
+			GtnFrameworkContractDashboardContants.getPtDetailMassPopulateField()[3].replace(" ", ""),
+			GtnFrameworkContractDashboardContants.getPtDetailMassPopulateField()[5].replace(" ", ""), "source",
+			CREATED_BY, CREATED_DATE, ATTACHED_DATE };
+
 	private static final String[] PRICE_DETAIL_COLUMN_HEADER = { "", RECORD_TYPE2, ITEM_ID, ITEM_NO, ITEM_NAME, BRAND2,
+			getPtDetailMassPopulateField()[2], getPtDetailMassPopulateField()[0], getPtDetailMassPopulateField()[1],
+			getPtDetailMassPopulateField()[4], getPtDetailMassPopulateField()[3], getPtDetailMassPopulateField()[5],
+			"Source", CREATED_BY2, CREATED_DATE2, ATTACHED_DATE2 };
+	private static final String[] PRICE_DETAIL_PENDING_COLUMN_HEADER = { RECORD_TYPE2, ITEM_ID, ITEM_NO, ITEM_NAME, BRAND2,
 			getPtDetailMassPopulateField()[2], getPtDetailMassPopulateField()[0], getPtDetailMassPopulateField()[1],
 			getPtDetailMassPopulateField()[4], getPtDetailMassPopulateField()[3], getPtDetailMassPopulateField()[5],
 			"Source", CREATED_BY2, CREATED_DATE2, ATTACHED_DATE2 };
@@ -448,6 +464,12 @@ public class GtnFrameworkContractDashboardContants {
 	private static final String[] PRICE_DETAIL_VIEW_COLUMN = { getPriceDetailColumn()[1], getPriceDetailColumn()[2],
 			getPriceDetailColumn()[3], getPriceDetailColumn()[4], getPriceDetailColumn()[5], getPriceDetailColumn()[6],
 			getPriceDetailColumn()[7], getPriceDetailColumn()[8], getPriceDetailColumn()[9], getPriceDetailColumn()[10],
+			getPriceDetailColumn()[11], getPriceDetailColumn()[12], getPriceDetailColumn()[13],
+			getPriceDetailColumn()[14], getPriceDetailColumn()[15] };
+	
+	private static final String[] PRICE_DETAIL_PENDING_VIEW_COLUMN = { getPriceDetailColumn()[1], getPriceDetailColumn()[2],
+			getPriceDetailColumn()[3], getPriceDetailColumn()[4], getPriceDetailColumn()[5], PD_STATUS_VIEW_PENDING,
+			getPriceDetailColumn()[7], getPriceDetailColumn()[8], PD_PRICETYPE_VIEW_PENDING, getPriceDetailColumn()[10],
 			getPriceDetailColumn()[11], getPriceDetailColumn()[12], getPriceDetailColumn()[13],
 			getPriceDetailColumn()[14], getPriceDetailColumn()[15] };
 
@@ -695,6 +717,12 @@ public class GtnFrameworkContractDashboardContants {
 			getItemDetailHeader()[11], getItemDetailHeader()[12], getItemDetailHeader()[13], getItemDetailHeader()[14],
 			getItemDetailHeader()[15], getItemDetailHeader()[16], getItemDetailHeader()[17] };
 	private static final String[] ITEM_DETAIL_VIEW_COLUMN = { getItemDetailColumn()[1], getItemDetailColumn()[2],
+			getItemDetailColumn()[3], getItemDetailColumn()[4], getItemDetailColumn()[5],
+			getItemDetailColumn()[6], getItemDetailColumn()[7], getItemDetailColumn()[8], getItemDetailColumn()[9],
+			getItemDetailColumn()[10], getItemDetailColumn()[11], getItemDetailColumn()[12], getItemDetailColumn()[13],
+			getItemDetailColumn()[14], getItemDetailColumn()[15], getItemDetailColumn()[16],
+			getItemDetailColumn()[17] };
+	private static final String[] ITEM_DETAIL_PENDING_VIEW_COLUMN = { getItemDetailColumn()[1], getItemDetailColumn()[2],
 			getItemDetailColumn()[3], getItemDetailColumn()[4], getItemDetailPendingColumn()[4],
 			getItemDetailColumn()[6], getItemDetailColumn()[7], getItemDetailColumn()[8], getItemDetailColumn()[9],
 			getItemDetailColumn()[10], getItemDetailColumn()[11], getItemDetailColumn()[12], getItemDetailColumn()[13],
@@ -953,6 +981,10 @@ public class GtnFrameworkContractDashboardContants {
 	public static String[] getItemDetailViewColumn() {
 		return ITEM_DETAIL_VIEW_COLUMN.clone();
 	}
+	
+	public static String[] getItemDetailPendingViewColumn() {
+		return ITEM_DETAIL_PENDING_VIEW_COLUMN.clone();
+	}
 
 	public static Class<?>[] getPricingHistoryColumnType() {
 		return PRICING_HISTORY_COLUMN_TYPE.clone();
@@ -1197,9 +1229,17 @@ public class GtnFrameworkContractDashboardContants {
 	public static String[] getPriceDetailColumnHeader() {
 		return PRICE_DETAIL_COLUMN_HEADER.clone();
 	}
+	
+	public static String[] getPriceDetailPendingColumnHeader() {
+		return PRICE_DETAIL_PENDING_COLUMN_HEADER.clone();
+	}
 
 	public static String[] getPriceDetailColumn() {
 		return PRICE_DETAIL_COLUMN.clone();
+	}
+	
+	public static String[] getPriceDetailPendingColumn() {
+		return PRICE_DETAIL_PENDING_COLUMN.clone();
 	}
 
 	public static String[] getPriceDetailEditableColumn() {
@@ -1237,6 +1277,11 @@ public class GtnFrameworkContractDashboardContants {
 	public static String[] getPriceDetailViewColumn() {
 		return PRICE_DETAIL_VIEW_COLUMN.clone();
 	}
+	
+	public static String[] getPriceDetailPendingViewColumn() {
+		return PRICE_DETAIL_PENDING_VIEW_COLUMN.clone();
+	}
+	
 
 	public static String[] getPpMassPopulateField() {
 		return PP_MASS_POPULATE_FIELD.clone();

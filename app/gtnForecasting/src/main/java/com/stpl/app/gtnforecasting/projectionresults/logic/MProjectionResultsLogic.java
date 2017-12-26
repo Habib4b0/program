@@ -1775,9 +1775,8 @@ public class MProjectionResultsLogic {
             if (mayBeAddedRecord < NumericConstants.ZERO) {
                 mayBeAddedRecord = NumericConstants.ZERO;
             }
-            for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > NumericConstants.ZERO; k++) {
+            for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > NumericConstants.ZERO; k++,neededRecord--) {
                 projDTOList.add(projectionDtoList.get(k));
-                neededRecord--;
             }
             mayBeAdded += projectionDtoList.size();
         }

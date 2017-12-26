@@ -27,6 +27,7 @@ public class GtnWsBcpFileMerger {
 
 		Path path = GtnFileNameUtils.getPath(finalFile.substring(0, finalFile.lastIndexOf('/')));
 		if (!Files.exists(path)) {
+                    GTNLOGGER.info("path ====="+path.toString());
 			Files.createDirectories(path);
 		}
 
@@ -40,6 +41,7 @@ public class GtnWsBcpFileMerger {
 		} else {
 			StringBuilder strb = new StringBuilder();
 			strb.append("cat ");
+                        GTNLOGGER.info("fileList size in mergeFiles ======"+fileList.size());
 			for (String sourceFile : fileList) {
 				strb.append(sourceFile).append(" ");
 			}
@@ -70,6 +72,9 @@ public class GtnWsBcpFileMerger {
 			closeable.close();
 		}
 
+                for (String fileName : fileList) {
+			Files.delete(GtnFileNameUtils.getPath(fileName));
+		}
 
 		GTNLOGGER.info("Merge Time: " + (System.currentTimeMillis() - time));
 

@@ -163,6 +163,7 @@ CASE WHEN   Isdate(ATTACHED_DATE)=0 and ATTACHED_DATE is not null THEN &apos;,AT
  CASE WHEN   Isdate(REVISION_DATE)=0 and REVISION_DATE is not null THEN &apos;,REVISION_DATE&apos; ELSE &apos;&apos; END  + 
 CASE WHEN   Isdate(PRICE_PROTECTION_START_DATE)=0 and PRICE_PROTECTION_START_DATE is not null THEN &apos;,PRICE_PROTECTION_START_DATE&apos; ELSE &apos;&apos; END  +
  CASE WHEN   Isdate(PRICE_PROTECTION_END_DATE)=0 and PRICE_PROTECTION_END_DATE is not null THEN &apos;,PRICE_PROTECTION_END_DATE&apos; ELSE &apos;&apos; END  + 
+ CASE WHEN   Isdate(RESET_DATE)=0 and RESET_DATE is not null THEN &apos;,RESET_DATE&apos; ELSE &apos;&apos; END  + 
  CASE WHEN   Isdate(CREATED_DATE)=0 and CREATED_DATE is not null THEN &apos;,CREATED_DATE&apos; ELSE &apos;&apos; END  + 
   CASE WHEN   Isdate(MODIFIED_DATE)=0 and MODIFIED_DATE is not null THEN &apos;,MODIFIED_DATE&apos; ELSE &apos;&apos; END  
 
@@ -174,6 +175,7 @@ WHERE      (Isdate(PRICE_SCHEDULE_START_DATE) = 0 and PRICE_SCHEDULE_START_DATE 
   OR (Isdate(REVISION_DATE) = 0  and REVISION_DATE is not null)
    OR (Isdate(PRICE_PROTECTION_START_DATE) = 0  and PRICE_PROTECTION_START_DATE is not null)
     OR (Isdate(PRICE_PROTECTION_END_DATE) = 0  and PRICE_PROTECTION_END_DATE is not null)
+    OR (Isdate(RESET_DATE) = 0  and RESET_DATE is not null)
  OR (Isdate(CREATED_DATE) = 0  and CREATED_DATE is not null)
  OR (Isdate(MODIFIED_DATE) = 0  and MODIFIED_DATE is not null)
       and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;PRICE_SCHEDULE_START_DATE&apos;
@@ -181,13 +183,17 @@ WHERE      (Isdate(PRICE_SCHEDULE_START_DATE) = 0 and PRICE_SCHEDULE_START_DATE 
 
 update IVLD_PRICE_SCHEDULE
 set ERROR_FIELD=
- CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),BASE_PRICE ))=0  and BASE_PRICE is not null THEN &apos;BASE_PRICE&apos; ELSE &apos;&apos; END+
- CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),CONTRACT_PRICE ))=0  and CONTRACT_PRICE is not null THEN &apos;CONTRACT_PRICE&apos; ELSE &apos;&apos; END+
- CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE ))=0  and PRICE is not null THEN &apos;PRICE&apos; ELSE &apos;&apos; END+
- CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE_REVISION ))=0  and PRICE_REVISION is not null THEN &apos;PRICE_REVISION&apos; ELSE &apos;&apos; END+
- CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE_TOLERANCE ))=0  and PRICE_TOLERANCE is not null THEN &apos;PRICE_TOLERANCE&apos; ELSE &apos;&apos; END+
- CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),SUGGESTED_PRICE ))=0  and SUGGESTED_PRICE is not null THEN &apos;SUGGESTED_PRICE&apos; ELSE &apos;&apos; END+
-  CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE_TOLERANCE_INTERVAL ))=0  and PRICE_TOLERANCE_INTERVAL is not null THEN &apos;PRICE_TOLERANCE_INTERVAL&apos; ELSE &apos;&apos; END
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),BASE_PRICE ))=0  and BASE_PRICE is not null THEN &apos;,BASE_PRICE&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),CONTRACT_PRICE ))=0  and CONTRACT_PRICE is not null THEN &apos;,CONTRACT_PRICE&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE ))=0  and PRICE is not null THEN &apos;,PRICE&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE_REVISION ))=0  and PRICE_REVISION is not null THEN &apos;,PRICE_REVISION&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE_TOLERANCE ))=0  and PRICE_TOLERANCE is not null THEN &apos;,PRICE_TOLERANCE&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),SUGGESTED_PRICE ))=0  and SUGGESTED_PRICE is not null THEN &apos;,SUGGESTED_PRICE&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),NET_BASE_PRICE ))=0  and NET_BASE_PRICE is not null THEN &apos;,NET_BASE_PRICE&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),NEP ))=0  and NEP is not null THEN &apos;,NEP&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),MAX_INCREMENTAL_CHANGE ))=0  and MAX_INCREMENTAL_CHANGE is not null THEN &apos;,MAX_INCREMENTAL_CHANGE&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),RESET_INTERVAL ))=0  and RESET_INTERVAL is not null THEN &apos;,RESET_INTERVAL&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE_TOLERANCE_INTERVAL ))=0  and PRICE_TOLERANCE_INTERVAL is not null THEN &apos;,PRICE_TOLERANCE_INTERVAL&apos; ELSE &apos;&apos; END
 WHERE 
 ((isnumeric(TRY_CONVERT(NUMERIC(22,6),BASE_PRICE )) = 0 and  BASE_PRICE is not null)
 OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),CONTRACT_PRICE) ) = 0 and CONTRACT_PRICE is not null)
@@ -195,8 +201,12 @@ OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE) ) = 0 and PRICE is not null)
 OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE_REVISION) ) = 0 and PRICE_REVISION is not null)
 OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE_TOLERANCE) ) = 0 and PRICE_TOLERANCE is not null)
 OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE_TOLERANCE_INTERVAL) ) = 0 and PRICE_TOLERANCE_INTERVAL is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),NEP) ) = 0 and NEP is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),NET_BASE_PRICE) ) = 0 and NET_BASE_PRICE is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),MAX_INCREMENTAL_CHANGE) ) = 0 and MAX_INCREMENTAL_CHANGE is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),RESET_INTERVAL) ) = 0 and RESET_INTERVAL is not null)
 OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),SUGGESTED_PRICE) ) = 0 and SUGGESTED_PRICE is not null)
-) 
+)
 and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos;  and ERROR_FIELD=&apos;PRICE_SCHEDULE_START_DATE&apos;
 		 
 
@@ -212,7 +222,7 @@ and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos;  and ERROR_FIELD=&apos;P
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>945</xloc>
-      <yloc>742</yloc>
+      <yloc>741</yloc>
       </entry>
     <entry>
       <name>START</name>
@@ -231,8 +241,8 @@ and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos;  and ERROR_FIELD=&apos;P
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>961</xloc>
-      <yloc>110</yloc>
+      <xloc>952</xloc>
+      <yloc>112</yloc>
       </entry>
     <entry>
       <name>DELETE FIILES IN FILE PROCESS (2)</name>
