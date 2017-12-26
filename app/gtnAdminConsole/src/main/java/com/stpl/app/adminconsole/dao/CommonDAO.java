@@ -5,8 +5,8 @@
 package com.stpl.app.adminconsole.dao;
 
 import com.stpl.app.model.HelperTable;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
 
 /**
@@ -17,12 +17,7 @@ public interface CommonDAO {
  
     Object executeSelectQuery(String query, Object udc1, Object udc2);
    
-    Object executeBulkUpdateQuery(String query, Object udc1, Object udc2);
-   
     public Object executeSelectQuery(final List input, String queryName1, String queryName2);
-
-    List<HelperTable> getHelperTableDetailsByListName(String listName)
-			throws SystemException; 
    
     List getHierachyDefinitionList(DynamicQuery query) throws SystemException;
    

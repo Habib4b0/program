@@ -51,23 +51,25 @@ import com.stpl.app.service.InventoryWdProjMasLocalServiceUtil;
 import com.stpl.app.service.ItemMasterLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.Criterion;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.Order;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Order;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.service.BrandMasterLocalServiceUtil;
+import com.stpl.app.service.ItemQualifierLocalServiceUtil;
 import com.stpl.util.dao.orm.CustomSQLUtil;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.ComboBox;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -128,7 +130,7 @@ public class FileManagementLogic {
 	 */
 	public List<ForecastingMaster> getForecastYear() throws SystemException {
 		LOGGER.debug("getForecastYear started");
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastingMaster.class);
+		final DynamicQuery dynamicQuery = ForecastingMasterLocalServiceUtil.dynamicQuery();
 		dynamicQuery.setProjection(
 				ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(ConstantsUtils.FORECAST_YEAR)));
 		dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.FORECAST_YEAR));
@@ -165,7 +167,7 @@ public class FileManagementLogic {
 		String sqlString;
 		LOGGER.debug("getDetailsSumm started with P1:String fileName=" + fileName + " P2:String version=" + version
 				+ " P3:String fileType=" + fileType + " P4:String country" + country);
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastingMaster.class);
+		final DynamicQuery dynamicQuery = ForecastingMasterLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.FORECAST_NAME, fileName));
 		if (ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())) {
 			if (ConstantsUtils.COUNTRY_US.equals(country)) {
@@ -297,7 +299,7 @@ public class FileManagementLogic {
 		fileManagement.setBusinessUnit(String.valueOf(fileMgtDTO.getBusinessUnitSysId()));
 		fileManagement.setCompany(fileMgtDTO.getCompanyMasterSystemId());
 		List<FileManagement> resultsList;
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(FileManagement.class);
+		final DynamicQuery dynamicQuery = FileManagementLocalServiceUtil.dynamicQuery();
 		final Order defaultOrder = OrderFactoryUtil.desc(ConstantsUtils.CREATE_DATE);
 		dynamicQuery.addOrder(defaultOrder);
 		Criterion criterion;
@@ -360,7 +362,7 @@ public class FileManagementLogic {
 		final FileManagementDTO fileMgtDTO = new FileManagementDTO();
 		LOGGER.debug("getCurrentFileInfo started with P1:String fileType=" + fileType + "Business Unit" + businessUnit);
 		List<FileManagement> resultsList;
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(FileManagement.class);
+		final DynamicQuery dynamicQuery = FileManagementLocalServiceUtil.dynamicQuery();
 		final Order defaultOrder = OrderFactoryUtil.desc(ConstantsUtils.CREATE_DATE);
 		dynamicQuery.addOrder(defaultOrder);
 		Criterion criterion;
@@ -420,7 +422,7 @@ public class FileManagementLogic {
 		final String filter = StringUtils.trimToEmpty(filterText);
 		LOGGER.debug("Entering getLazyPriceTypeCount method with filterText :" + filter);
 		List<Object[]> qualifierList;
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastingMaster.class);
+		final DynamicQuery dynamicQuery = ForecastingMasterLocalServiceUtil.dynamicQuery();
 		if (!filter.equals(ConstantsUtils.EMPTY)) {
 			dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_YEAR, Integer.valueOf(filter)));
 		}
@@ -453,7 +455,7 @@ public class FileManagementLogic {
 		final List<HelperDTO> list = new ArrayList<>();
 		final String filterText = StringUtils.trimToEmpty(filter) + "%";
 		LOGGER.debug("Entering getLazyPriceTypeResults method with filterText :" + filterText);
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastingMaster.class);
+		final DynamicQuery dynamicQuery = ForecastingMasterLocalServiceUtil.dynamicQuery();
 		dynamicQuery.setLimit(startIndex, end);
 		dynamicQuery.setProjection(
 				ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(ConstantsUtils.FORECAST_YEAR)));
@@ -476,7 +478,7 @@ public class FileManagementLogic {
 	public List<FileMananagementResultDTO> getItemSearchtrsults(final String itemName, final String itemNo)
 			throws SystemException {
 		List<FileMananagementResultDTO> resultList = new ArrayList<>();
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+		final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
 		if (itemName.length() > 0) {
 			String name = itemName.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
 			dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_NAME, name));
@@ -524,7 +526,7 @@ public class FileManagementLogic {
 		String forecastVersion = version + "%";
 		List<String> versions = new ArrayList<>();
 		List<String> versionList = new ArrayList<>();
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastingMaster.class);
+		final DynamicQuery dynamicQuery = ForecastingMasterLocalServiceUtil.dynamicQuery();
 		if (fileType.getDescription().equals(ConstantsUtils.EX_FACTORY_SALES)) {
 			dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 			dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country));
@@ -845,7 +847,7 @@ public class FileManagementLogic {
 							custForecast.setForecastMonth(beanItem.getForecastMonth());
 							custForecast.setItemId(beanItem.getItemId());
 							custForecast.setItemMasterSid(1);
-							custForecast.setCompanyId(beanItem.getCompanyId());
+							custForecast.setCompanyIdString(beanItem.getCompanyId());
 							custForecast.setCompanyMasterSid(1);
 							custForecast.setUnits(beanItem.getUnits());
 							custForecast.setPriceType(beanItem.getPriceType());
@@ -906,7 +908,7 @@ public class FileManagementLogic {
 	}
 
 	public void updateAutoModeProcess(final Date date) throws SystemException {
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastConfig.class);
+		final DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
 		List<ForecastConfig> config;
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("processType", true));
 		dynamicQuery.add(RestrictionsFactoryUtil.isNull("activeEndDate"));
@@ -942,7 +944,7 @@ public class FileManagementLogic {
 		final List<HelperDTO> helperList = new ArrayList<>();
 
 		LOGGER.debug("Entering getItemType P1:" + listType);
-		final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+		final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
 		cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME, listType));
 		cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
 		final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(cfpDynamicQuery);
@@ -971,7 +973,7 @@ public class FileManagementLogic {
 	 */
 	public List<HelperDTO> getItemQualifierNameResults() throws PortalException, SystemException {
 		final List<HelperDTO> list = new ArrayList<>();
-		final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemQualifier.class);
+		final DynamicQuery ifpDynamicQuery = ItemQualifierLocalServiceUtil.dynamicQuery();
 		final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
 		projectionList.add(ProjectionFactoryUtil.property(ITEM_QUALIFIER_SID));
 		projectionList.add(ProjectionFactoryUtil.property(ITEM_QUAL_NAME));
@@ -1010,7 +1012,7 @@ public class FileManagementLogic {
 		List<Object[]> qualifierList;
 		final List<HelperDTO> list = new ArrayList<>();
 
-		final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
+		final DynamicQuery ifpDynamicQuery = BrandMasterLocalServiceUtil.dynamicQuery();
 		final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
 		projectionList.add(ProjectionFactoryUtil.property("brandMasterSid"));
 		projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.BRAND_NAME));
@@ -1480,7 +1482,7 @@ public class FileManagementLogic {
 			searchQuery = searchQuery.replace("[?CONDITION]", condition);
 			searchQuery = searchQuery.replace(StringConstantUtils.DATEQUERY, dateWhereCondition);
 
-			resultsList = ForecastingMasterLocalServiceUtil.getFileSearchResults(searchQuery);
+			resultsList = HelperTableLocalServiceUtil.executeSelectQuery(searchQuery);
 			if (!isCount) {
 				loadMonthMap();
 				for (int i = 0; i < resultsList.size(); i++) {
@@ -2059,7 +2061,7 @@ public class FileManagementLogic {
 		if (isRecordLock) {
 			finalQuery = finalQuery + lockStatus;
 		}
-		list = ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
+		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		LOGGER.debug("getDetailsResults return List list=" + list.size());
 		return list;
 	}
@@ -2414,7 +2416,7 @@ public class FileManagementLogic {
 			finalQuery = finalQuery + lockStatus;
 		}
 
-		list = ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
+		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		LOGGER.debug("Ending Demand ForecastingMasterLocalServiceUtil Results");
 		return list;
 	}
@@ -2556,7 +2558,7 @@ public class FileManagementLogic {
 		if (isRecordLock) {
 			finalQuery = finalQuery + lockStatus;
 		}
-		list = ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
+		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		LOGGER.debug("Ending getAdjustedDemandDetailsResults Details Results");
 		return list;
 	}
@@ -2681,7 +2683,7 @@ public class FileManagementLogic {
 		if (isRecordLock) {
 			finalQuery = finalQuery + lockStatus;
 		}
-		list = ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
+		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		LOGGER.debug("Ending getInventorySummaryResults Details Results");
 		return list;
 	}
@@ -2823,7 +2825,7 @@ public class FileManagementLogic {
 		} else {
 			finalQuery = sqlString + filterQuery + order;
 		}
-		list = ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
+		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		LOGGER.debug("Ending getInventory Details Results");
 		return list;
 	}
@@ -3085,7 +3087,7 @@ public class FileManagementLogic {
 		} else {
 			finalQuery = sqlString + whereQuery + filterQuery + order;
 		}
-		list = ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
+		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		return list;
 	}
 
@@ -3325,7 +3327,7 @@ public class FileManagementLogic {
 		if (isRecordLock) {
 			finalQuery = finalQuery + lockStatus;
 		}
-		list = ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
+		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		LOGGER.debug("getDetailsResults return List list=" + list.size());
 		if (isExcelFlag) {
 			return finalQuery;
@@ -3475,7 +3477,7 @@ public class FileManagementLogic {
 			finalQuery = finalQuery + lockStatus;
 		}
 
-		list = ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
+		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		LOGGER.debug("Ending Demand Details Results");
 		if (isExcelFlag) {
 			return finalQuery;
@@ -3621,7 +3623,7 @@ public class FileManagementLogic {
 		if (isRecordLock) {
 			finalQuery = finalQuery + lockStatus;
 		}
-		list = ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
+		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		LOGGER.debug("Ending getAdjustedDemandDetailsResults_Excel Details Results");
 		if (isExcelflag) {
 			return finalQuery;
@@ -3758,7 +3760,7 @@ public class FileManagementLogic {
 		if (isExcelflag) {
 			return finalQuery;
 		} else {
-			return ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
+			return HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		}
 	}
 
@@ -3901,7 +3903,7 @@ public class FileManagementLogic {
 		} else {
 			finalQuery = sqlString + filterQuery + order;
 		}
-		list = ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
+		list = HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		LOGGER.debug("Ending getInventory Details Results");
 		if (isExcelflag) {
 			return finalQuery;
@@ -4083,7 +4085,7 @@ public class FileManagementLogic {
 		if (isExcelflag) {
 			return finalQuery;
 		} else {
-			return ForecastingMasterLocalServiceUtil.getFileSearchResults(finalQuery);
+			return HelperTableLocalServiceUtil.executeSelectQuery(finalQuery);
 		}
 	}
 

@@ -83,6 +83,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.stpl.addons</groupId>
+            <artifactId>ErrorLabel</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client</artifactId>
             <version>${vaadin.version}</version>
@@ -225,7 +231,7 @@
             <version>${stpl.excelexport.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
@@ -240,7 +246,7 @@
                 </exclusion>
             </exclusions>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
 

@@ -30,8 +30,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
  BusinessRoleMgmtLogicDAO dao = new BusinessRoleMgmtLogicDAOImpl();
 
     public List<BusinessroleMasterDTO> getAllBusinessroles() throws SystemException {
-    	DynamicQuery businessroleMasterDynamicQuery = DynamicQueryFactoryUtil
-				.forClass(BusinessroleMaster.class);
+    	DynamicQuery businessroleMasterDynamicQuery = BusinessroleMasterLocalServiceUtil.dynamicQuery();
     	Criterion criterion = RestrictionsFactoryUtil.eq("isActive", "Y");
     	criterion = RestrictionsFactoryUtil.or(criterion , RestrictionsFactoryUtil.isNull("isActive"));
     	businessroleMasterDynamicQuery.add(criterion);
@@ -120,8 +119,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
                 businessroleMaster.setModifiedBy(0);
 		businessroleMaster.setIsActive("Y");
 		try {
-			DynamicQuery businessroleMasterDynamicQuery = DynamicQueryFactoryUtil
-					.forClass(BusinessroleMaster.class);
+			DynamicQuery businessroleMasterDynamicQuery = BusinessroleMasterLocalServiceUtil.dynamicQuery();
 	    	businessroleMasterDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtils.BUSINESS_ROLE_NAME, businessroleName));
 			@SuppressWarnings("unchecked")
 			List<BusinessroleMaster> list = dao.getBusinessroleMasterList(businessroleMasterDynamicQuery);

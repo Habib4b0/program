@@ -47,8 +47,7 @@ public class UdcLogic {
         List<HelperTable> list = null;
         List<String> helperList = new ArrayList<String>();
         try {
-            DynamicQuery helperQuery = DynamicQueryFactoryUtil
-                    .forClass(HelperTable.class);
+            DynamicQuery helperQuery = HelperTableLocalServiceUtil.dynamicQuery();
             helperQuery.add(RestrictionsFactoryUtil.like("listName",
                     CATEGORY));
             helperQuery.addOrder(OrderFactoryUtil.asc(CommonUtils.DESCRIPTION));

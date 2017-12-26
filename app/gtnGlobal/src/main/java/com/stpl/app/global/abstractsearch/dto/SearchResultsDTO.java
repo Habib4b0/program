@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.validator.constraints.NotBlank;
+//import org.hibernate.validator.constraints.NotBlank;
 
 import com.stpl.app.util.HelperDTO;
 import java.util.Date;
@@ -46,7 +46,7 @@ public class SearchResultsDTO implements Serializable {
     private String packageSize = StringUtils.EMPTY;
     private String packageSizeIntroDate;
     private String upps;
-    @NotBlank(message = "Item End  String should  be present")
+//    @NotBlank(message = "Item End  String should  be present")
     private String itemEndDate;
     private String labelerCode = StringUtils.EMPTY;
     private String organizationKey = StringUtils.EMPTY;
