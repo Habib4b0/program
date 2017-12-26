@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Dec 22 18:17:07 IST 2017
+osgi.annotation-6.0.1.jar>liferay-public=
+osgi.annotation-6.0.1.pom>liferay-public=
+osgi.annotation-6.0.1.jar>central=
+osgi.annotation-6.0.1.pom>central=
