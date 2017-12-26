@@ -44,9 +44,9 @@ import org.osgi.service.component.annotations.ServiceScope;
 @Theme("mytheme")
 @Widgetset("com.stpl.app.v8.AppWidgetSet")
 @Component(service = UI.class, property = {
-        "com.liferay.portlet.display-category=Compliance and Deduction Rules",
+        "com.liferay.portlet.display-category=Global Files",
         "javax.portlet.name=ComplianceDeductionRules",
-        "javax.portlet.display-name=ComplianceDeductionRules",
+        "javax.portlet.display-name=Compliance & Deduction Rules",
         "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class ComplianceDeductionUI extends UI implements VaadinPortletSession.PortletListener {
 

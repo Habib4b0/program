@@ -6,7 +6,8 @@
 
 package com.stpl.app.adminconsole.filemanagement.ui.lazyload;
 
-import org.vaadin.addons.lazycontainer.SearchCriteria;
+import org.asi.ui.addons.lazycontainer.SearchCriteria;
+
 
 /**
  *

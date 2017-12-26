@@ -31,9 +31,9 @@ import org.osgi.service.component.annotations.ServiceScope;
 @Theme("mytheme")
 @Widgetset("com.stpl.app.v8.AppWidgetSet")
 @Component(service = UI.class, property = {
-        "com.liferay.portlet.display-category=Deduction Calendar",
+        "com.liferay.portlet.display-category=Global Files",
         "javax.portlet.name=DeductionCalendar",
-        "javax.portlet.display-name=DeductionCalendar",
+        "javax.portlet.display-name=Deduction Calendar",
         "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class DeductionCalendarUI extends UI {
 

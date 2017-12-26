@@ -1,4 +1,4 @@
-<Panel margin="true" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent"  xmlns:customTable="urn:import:org.asi.ui.extfilteringtable" >
+<Panel margin="true" xmlns:p="urn:vaadin:parent"  xmlns:customTable="urn:import:org.asi.ui.extfilteringtable" >
     <VerticalLayout id="mainVL" margin="true" >
         <Panel  caption="Search Criteria" >
             <VerticalLayout  id="customerGroupInformation" styleName = "responsiveTabGrid">

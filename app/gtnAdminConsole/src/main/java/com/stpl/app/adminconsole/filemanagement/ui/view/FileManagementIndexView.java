@@ -11,7 +11,7 @@ import com.stpl.app.adminconsole.filemanagement.ui.form.FileManagementIndex;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 
 // TODO: Auto-generated Javadoc
 /**

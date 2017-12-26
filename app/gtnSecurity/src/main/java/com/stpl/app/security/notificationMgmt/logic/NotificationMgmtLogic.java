@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.model.MailNotificationMaster;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.MailNotificationMasterLocalServiceUtil;
 
 /**
@@ -36,7 +37,7 @@ public class NotificationMgmtLogic {
    Date date = new Date();
     NotificationMgmtLogicDAO dao=new NotificationMgmtLogicDAOImpl();
     public  List<String> loadBusinessProcess() {
-        DynamicQuery businessProcessDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        DynamicQuery businessProcessDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         businessProcessDynamicQuery.add(RestrictionsFactoryUtil.ilike("listName", "WorkflowProcesses"));
         List<HelperTable> resultList = new ArrayList<HelperTable>();
         List<String> helperList = new ArrayList<String>();
@@ -54,7 +55,7 @@ public class NotificationMgmtLogic {
         return helperList;
     }
     public  List<HelperDTO> loadCategory() {
-        DynamicQuery categoryDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);      
+        DynamicQuery categoryDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         categoryDynamicQuery.add(RestrictionsFactoryUtil.ilike("listName", "MailNotificationCategory"));
       
         List<HelperTable> resultList = new ArrayList<HelperTable>();
@@ -172,10 +173,7 @@ public class NotificationMgmtLogic {
             dao.deleteNotification(mailNotificationSystemId);
             
             
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-            return false;
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
             return false;
         }
@@ -183,7 +181,7 @@ public class NotificationMgmtLogic {
     }
    public List<NotificationMgmtIndexDTO> loadTable(){
        List<NotificationMgmtIndexDTO> resultBean=new ArrayList<NotificationMgmtIndexDTO>();
-        DynamicQuery notificationDynamicQuery = DynamicQueryFactoryUtil.forClass(MailNotificationMaster.class);
+        DynamicQuery notificationDynamicQuery = MailNotificationMasterLocalServiceUtil.dynamicQuery();
         List<MailNotificationMaster> resultList=null;
         try{
              resultList=dao.getAllMailNotification(notificationDynamicQuery);

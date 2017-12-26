@@ -19,6 +19,9 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.service.UsergroupBusinessroleLocalService;
+import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
+import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
 import com.stpl.app.util.ConstantsUtils;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -83,8 +86,7 @@ public class StplSecurity {
      */
     public String getBusinessRoleIds(final Collection<Object> userGroupId) throws PortalException, SystemException {
         String businessRoleIds = StringUtils.EMPTY;
-        final DynamicQuery ugBusRoleDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(UsergroupBusinessrole.class);
+        final DynamicQuery ugBusRoleDynamicQuery = UsergroupBusinessroleLocalServiceUtil.dynamicQuery();
         ugBusRoleDynamicQuery.add(RestrictionsFactoryUtil.in("usergroupId", userGroupId));
         final List<UsergroupBusinessrole> list = dto.getUsergroupBusinessroleMasterList(ugBusRoleDynamicQuery);
         UsergroupBusinessrole usergroupBusinessroleMaster;
@@ -112,8 +114,7 @@ public class StplSecurity {
      */
     public List<String> getDomainIds(final Collection<Object> userGroupId) {
         List<String> domainIds = new ArrayList<String>();
-        final DynamicQuery ugDomainDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(UsergroupDomainMaster.class);
+        final DynamicQuery ugDomainDynamicQuery = UsergroupDomainMasterLocalServiceUtil.dynamicQuery();
         ugDomainDynamicQuery.add(RestrictionsFactoryUtil.in("usergroupId", userGroupId));
         try {
             final List<UsergroupDomainMaster> list = dto.getUsergroupDomainMasterList(ugDomainDynamicQuery);
@@ -307,7 +308,7 @@ public class StplSecurity {
      */
     public static Map<Integer, String> getUserName() throws SystemException {
         LOGGER.debug("Enters getUserName method");
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
             userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());

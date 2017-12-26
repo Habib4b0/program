@@ -6,7 +6,7 @@
 package com.stpl.app.adminconsole.util.converters;
 
 import com.stpl.app.adminconsole.util.ConstantsUtils;
-import com.vaadin.data.util.converter.Converter;
+import com.vaadin.v7.data.util.converter.Converter;
 import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 
