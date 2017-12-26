@@ -1633,12 +1633,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             public Field<?> createField(final Container container,
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {
-            	List doubleColumnList=rightHeader.getDoubleColumns();
-            	List doubleProjectedColumnList=rightHeader.getDoubleProjectedColumns();
-            	List doubleHistoryColumnList=rightHeader.getDoubleHistoryColumns();
-            	List s3 = ListUtils.union(doubleProjectedColumnList, doubleHistoryColumnList);
-            	Set doubleHistoryAndProjectedColumnSet = new LinkedHashSet(s3);
-            	List<String> doubleHistoryAndProjectedColumnList = new ArrayList(doubleHistoryAndProjectedColumnSet);
             	
                 if (!ACTION_VIEW.getConstant().equals(session.getAction()) && !String.valueOf(propertyId).contains(Constant.HISTORY_CAPS) && !String.valueOf(propertyId).contains(Constant.ACTUALSALES) && !String.valueOf(propertyId).contains(Constant.ACTUALUNITS)
                         && !String.valueOf(propertyId).contains(Constant.METHODOLOGY) && !String.valueOf(propertyId).contains(Constant.BASELINE) && !String.valueOf(propertyId).contains(Constant.GROUP) && !String.valueOf(propertyId).contains("Dis")
@@ -1715,16 +1709,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                             }
                         }
                     });
-                    doubleColumnList.removeAll(doubleHistoryAndProjectedColumnList);
-                    for(int start=0;start<doubleColumnList.size();start++){
-                    if(String.valueOf(propertyId).contains(String.valueOf(doubleColumnList.get(start)))){
-                    	SalesRowDto dto = (SalesRowDto) itemId;
-						dto.addStringProperties(propertyId,"");
-						container.getContainerProperty(itemId, propertyId).setValue("");
-						rightTable.setDoubleHeaderColumnCheckBoxDisable(doubleColumnList.get(start),true);
-						return null;
-                    }
-                   }
                     return textField;
                 }
                 return null;
