@@ -5,7 +5,6 @@
  */
 package com.stpl.app.cff.util.xmlparser;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
