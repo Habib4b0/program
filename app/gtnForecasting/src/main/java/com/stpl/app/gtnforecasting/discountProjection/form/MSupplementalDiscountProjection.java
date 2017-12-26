@@ -695,7 +695,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             }
         }
 
-        rightTable.setColumnAlignment(HeaderUtils.supplementalRightTableOneColumns[1], ExtCustomTable.Align.LEFT);
+        rightTable.setColumnAlignment(HeaderUtils.SUPPLEMENTAL_RIGHTS_TABLEONE_COLUMNS[1], ExtCustomTable.Align.LEFT);
         rightTable.setColumnAlignment(Constant.CONTRACT_END_DATE, ExtCustomTable.Align.CENTER);
 
         rightTable.setDoubleHeaderVisible(true);

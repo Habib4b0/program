@@ -198,10 +198,10 @@ public class PPADetailsLookup extends Window {
         tableLogic.sinkItemPerPageWithPageLength(Boolean.FALSE);
         rightTable = resultsTable.getRightFreezeAsTable();
         leftTable = resultsTable.getLeftFreezeAsTable();
-        rightTable.setVisibleColumns(HeaderUtils.ppaDetailsVisibleColumnRight);
-        leftTable.setVisibleColumns(HeaderUtils.ppaDetailsVisibleColumnLeft);
-        rightTable.setColumnHeaders(HeaderUtils.ppaDetailsVisibleHeaderRight);
-        leftTable.setColumnHeaders(HeaderUtils.ppaDetailsVisibleHeaderLeft);
+        rightTable.setVisibleColumns(HeaderUtils.PPA_DETAILS_VISIBLE_COL_RIGHT);
+        leftTable.setVisibleColumns(HeaderUtils.PPA_DETAILS_VISIBLE_COL_LEFT);
+        rightTable.setColumnHeaders(HeaderUtils.PPA_DETAILS_VISIBLE_HEADER_RIGHT);
+        leftTable.setColumnHeaders(HeaderUtils.PPA_DETAILS_VISIBLE_HEADER_LEFT);
         resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -472,8 +472,8 @@ public class PPADetailsLookup extends Window {
     private void createWorkSheet() throws  NoSuchMethodException, IllegalAccessException, InvocationTargetException {
             LOGGER.debug("Entering createWorkSheet");
             excelTable.setContainerDataSource(excelResultsContainer);
-            excelTable.setVisibleColumns(HeaderUtils.ppaDetailsVisibleColumnExcel);
-            excelTable.setColumnHeaders(HeaderUtils.ppaDetailsVisibleHeadersExcel);
+            excelTable.setVisibleColumns(HeaderUtils.PPA_DETAILS_VISIBLE_COL_EXCEL);
+            excelTable.setColumnHeaders(HeaderUtils.PPA_DETAILS_VIS_HEADER_EXCEL);
             List<PPADetailsDTO> resultList = (List<PPADetailsDTO>) logic.loadPPADetails(ppaDetailsDTO, sessionDTO, false, 0, NumericConstants.TEN_THOUSAND, null);
             excelResultsContainer.addAll(resultList);
             final long recordCount = excelResultsContainer.size();

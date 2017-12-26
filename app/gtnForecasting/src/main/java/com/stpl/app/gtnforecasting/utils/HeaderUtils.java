@@ -88,7 +88,7 @@ public class HeaderUtils {
      * The semi annuals.
      */
     private static final String[] semiAnnuals = new String[]{" SA1", " SA2"};
-    public static final String PROJECTIONS1 = "projections";
+    protected static final String PROJECTIONS1 = "projections";
     /**
      * The month.
      */
@@ -108,148 +108,148 @@ public class HeaderUtils {
      */
     public Object[] supplementalDoubleColumns = new Object[]{"ndc",
         "quarters"};
-    public static final String Q1_2014 = "Q1 2014";
+    protected static final String Q1_2014 = "Q1 2014";
     /**
      * The supplemental double header.
      */
     public String[] supplementalDoubleHeader = new String[]{" ", Q1_2014};
-    public static final String LEVEL1 = "level";
+    protected static final String LEVEL1 = "level";
     /**
      * -- DP TRIPLE HEADER --
      */
     /**
      * The Constant DP_LEFT INNER COLUMNS.
      */
-    public static final Object[] dpLeftFirstColumns = new Object[]{Constant.CHECK, LEVEL1, Constant.GROUP};
-    public static final String LEVEL_NAME1 = "Level Name";
+    protected static final Object[] dpLeftFirstColumns = new Object[]{Constant.CHECK, LEVEL1, Constant.GROUP};
+    protected static final String LEVEL_NAME1 = "Level Name";
     /**
      * The Constant DP_LEFT INNER HEADER.
      */
-    public static final String[] dpLeftFirstHeaders = new String[]{" ", LEVEL_NAME1, Constant.GROUPFCAPS};
-    public static final String HISTORY_COL1_ACTUAL_RATE = "historyCol1ActualRate";
+    protected static final String[] dpLeftFirstHeaders = new String[]{" ", LEVEL_NAME1, Constant.GROUPFCAPS};
+    protected static final String HISTORY_COL1_ACTUAL_RATE = "historyCol1ActualRate";
     /**
      * The Constant DP_LEFT INNER COLUMNS.
      */
-    public static final Object[] dpRigtFirstColumns = new Object[]{HISTORY_COL1_ACTUAL_RATE, "historyCol1ProjRate", "historyCol2ActualRate", "historyCol2ProjRate", "projCol1Rate", "projCol2Rate", "projCol3Rate", "projCol4Rate"};
-    public static final String PROJECTED_RATE1 = "Projected Rate";
-    public static final String ACTUAL_RATE1 = "Actual Rate";
+    protected static final Object[] dpRigtFirstColumns = new Object[]{HISTORY_COL1_ACTUAL_RATE, "historyCol1ProjRate", "historyCol2ActualRate", "historyCol2ProjRate", "projCol1Rate", "projCol2Rate", "projCol3Rate", "projCol4Rate"};
+    protected static final String PROJECTED_RATE1 = "Projected Rate";
+    protected static final String ACTUAL_RATE1 = "Actual Rate";
     /**
      * The Constant DP_LEFT INNER HEADER.
      */
-    public static final String[] dpRightFirstHeaders = new String[]{ACTUAL_RATE1, PROJECTED_RATE1, ACTUAL_RATE1, PROJECTED_RATE1, PROJECTED_RATE1, PROJECTED_RATE1, PROJECTED_RATE1, PROJECTED_RATE1};
+    protected static final String[] dpRightFirstHeaders = new String[]{ACTUAL_RATE1, PROJECTED_RATE1, ACTUAL_RATE1, PROJECTED_RATE1, PROJECTED_RATE1, PROJECTED_RATE1, PROJECTED_RATE1, PROJECTED_RATE1};
     /**
      * The Constant DP_LEFT SECOND COLUMNS.
      */
-    public static final Object[] dpLeftSecondColumns = new Object[]{Constant.GROUP};
+    protected static final Object[] dpLeftSecondColumns = new Object[]{Constant.GROUP};
     /**
      * The Constant DP_LEFT SECOND HEADER.
      */
-    public static final String[] dpLeftSecondHeaders = new String[]{" "};
+    protected static final String[] dpLeftSecondHeaders = new String[]{" "};
     /**
      * The Constant DP_LEFT SECOND COLUMNS.
      */
-    public static final Object[] dpRightSecondColumns = new Object[]{HISTORY_COL1_ACTUAL_RATE, "historyCol1ProjRate", "projCol1Rate", "projCol2Rate", "projCol3Rate", "projCol4Rate"};
+    protected static final Object[] dpRightSecondColumns = new Object[]{HISTORY_COL1_ACTUAL_RATE, "historyCol1ProjRate", "projCol1Rate", "projCol2Rate", "projCol3Rate", "projCol4Rate"};
     /**
      * The Constant DP_LEFT SECOND HEADER.
      */
-    public static final String[] dpRightSecondHeaders = new String[]{Q1_2014, "Q2 2014", "Q3 2014", "Q4 2014", "Q1 2015", "Q2 2015"};
+    protected static final String[] dpRightSecondHeaders = new String[]{Q1_2014, "Q2 2014", "Q3 2014", "Q4 2014", "Q1 2015", "Q2 2015"};
     /**
      * The Constant DP_LEFT SECOND COLUMNS.
      */
-    public static final Object[] dpLeftThirdColumns = new Object[]{Constant.GROUP};
+    protected static final Object[] dpLeftThirdColumns = new Object[]{Constant.GROUP};
     /**
      * The Constant DP_LEFT SECOND HEADER.
      */
-    public static final String[] dpLeftThirdHeaders = new String[]{" "};
+    protected static final String[] dpLeftThirdHeaders = new String[]{" "};
     /**
      * The Constant DP_LEFT SECOND COLUMNS.
      */
-    public static final Object[] dpRightThirdColumns = new Object[]{HISTORY_COL1_ACTUAL_RATE};
+    protected static final Object[] dpRightThirdColumns = new Object[]{HISTORY_COL1_ACTUAL_RATE};
     /**
      * The Constant DP_LEFT SECOND HEADER.
      */
-    public static final String[] dpRightThirdHeaders = new String[]{" < Price Group 1 >"};
+    protected static final String[] dpRightThirdHeaders = new String[]{" < Price Group 1 >"};
     /**
      * -- DP TRIPLE HEADER --
      */
     /**
      * The Constant DP_RIGHT_TRIPLE_HEADER.
      */
-    public static final String[] dpRightTripleHeader = new String[]{"discount name"};
+    protected static final String[] dpRightTripleHeader = new String[]{"discount name"};
 
     /* Right Top Visible Columns */
     /**
      * The Constant DP_RIGHT_TRIPLE_HEADER_COLUMNS.
      */
-    public static final Object[] dpRightTripleHeaderColumns = new Object[]{"discName"};
+    protected static final Object[] dpRightTripleHeaderColumns = new Object[]{"discName"};
     /**
      * The Constant DP_LEFT_DOUBLE_HEADER_COLUMNS.
      */
-    public static final Object[] dpLeftDoubleHeaderColumns = new Object[]{Constant.CHECK};
+    protected static final Object[] dpLeftDoubleHeaderColumns = new Object[]{Constant.CHECK};
     /**
      * The Constant DP_LEFT_DOUBLE_HEADER.
      */
-    public static final String[] dpLeftDoubleHeader = new String[]{" "};
+    protected static final String[] dpLeftDoubleHeader = new String[]{" "};
 
     /* Right Top Visible Columns */
     /**
      * The Constant DP_LEFT_VISIBLE_COLUMNS.
      */
-    public static final Object[] dpLeftVisibleColumns = new Object[]{Constant.CHECK, LEVEL1};
+    protected static final Object[] dpLeftVisibleColumns = new Object[]{Constant.CHECK, LEVEL1};
     /* Right Top Visible Columns */
     /**
      * The Constant DP_LEFT_VISIBLE_HEADER.
      */
-    public static final String[] dpLeftVisibleHeader = new String[]{" ", LEVEL1};
+    protected static final String[] dpLeftVisibleHeader = new String[]{" ", LEVEL1};
     /* Right Top Header */
     /**
      * The Constant SPR_RIGHT_DOUBLE_HEADER.
      */
-    public static final String[] sprRightDoubleHeader = new String[]{Q1_2014, "Q2 2014", "Q3 2014", "Q4 2014"};
+    protected static final String[] sprRightDoubleHeader = new String[]{Q1_2014, "Q2 2014", "Q3 2014", "Q4 2014"};
 
     /* Right Top Visible Columns */
     /**
      * The Constant SPR_RIGHT_DOUBLE_HEADER_COLUMNS.
      */
-    public static final Object[] sprRightDoubleColumns = new Object[]{"historyCol1Sales", "historyCol2Sales", "historyCol3Sales", "historyCol4Sales"};
+    protected static final Object[] sprRightDoubleColumns = new Object[]{"historyCol1Sales", "historyCol2Sales", "historyCol3Sales", "historyCol4Sales"};
 
     /* Right Lower Header */
     /**
      * The Constant SPR_RIGHT_VISIBLE_HEADER.
      */
-    public static final String[] sprRightVisibleHeader = new String[]{Constant.ACTUALS_PROPERTY, PROJECTIONS1, Constant.ACTUALS_PROPERTY, PROJECTIONS1, Constant.ACTUALS_PROPERTY, PROJECTIONS1, Constant.ACTUALS_PROPERTY, PROJECTIONS1};
+    protected static final String[] sprRightVisibleHeader = new String[]{Constant.ACTUALS_PROPERTY, PROJECTIONS1, Constant.ACTUALS_PROPERTY, PROJECTIONS1, Constant.ACTUALS_PROPERTY, PROJECTIONS1, Constant.ACTUALS_PROPERTY, PROJECTIONS1};
 
     /* Right Lower Visible Columns */
     /**
      * The Constant SPR_RIGHT_VISIBLE_COLUMNS.
      */
-    public static final Object[] sprRightVisibleColumns = new Object[]{"historyCol1Sales", "historyCol2Sales", "historyCol3Sales", "historyCol4Sales", "historyCol5Sales", "historyCol6Sales", "historyCol7Sales", "historyCol8Sales"};
+    protected static final Object[] sprRightVisibleColumns = new Object[]{"historyCol1Sales", "historyCol2Sales", "historyCol3Sales", "historyCol4Sales", "historyCol5Sales", "historyCol6Sales", "historyCol7Sales", "historyCol8Sales"};
     /**
      * The Constant LEFT_TABLE_HEADER_ONE__COLUMNS.
      */
-    public static final Object[] leftTableHeaderOneColumns = new Object[]{
+    protected static final Object[] leftTableHeaderOneColumns = new Object[]{
         Constant.CHECK, LEVEL1};
     /**
      * The Constant CUST_ID_TRANSF_HEADER.
      */
-    public static final String[] leftTableHeaderOneHeaders = new String[]{
+    protected static final String[] leftTableHeaderOneHeaders = new String[]{
         StringUtils.EMPTY, LEVEL_NAME1};
     /**
      * The Constant LEFT_TABLE__HEADER_SECOND_HEADERS.
      */
-    public static final String[] leftTableHeaderSecondHeaders = new String[]{StringUtils.EMPTY};
+    protected static final String[] leftTableHeaderSecondHeaders = new String[]{StringUtils.EMPTY};
     /**
      * The Constant LEFT_TABLE__HEADER_SECOND_COLUMNS.
      */
-    public static final Object[] leftTableSecondColumns = new Object[]{"actualsales"};
+    protected static final Object[] leftTableSecondColumns = new Object[]{"actualsales"};
     /**
      * The comparison columns.
      */
     public Object[] comparisonColumns = new Object[]{Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION,
         Constant.MARKET_TYPE, "customer", Constant.CONTRACT, Constant.BRAND, "ndcNo", "ndcName", "createdDate", "createdBy"};
-    public static final String MARKET_TYPE1 = "Market Type";
-    public static final String CREATED_BY1 = "Created By";
-    public static final String LEVEL_VALUE_PROPERTY = "levelValue";
+    protected static final String MARKET_TYPE1 = "Market Type";
+    protected static final String CREATED_BY1 = "Created By";
+    protected static final String LEVEL_VALUE_PROPERTY = "levelValue";
     /**
      * The parity header.
      */
@@ -261,49 +261,49 @@ public class HeaderUtils {
         Constant.BASELINE, Constant.METHODOLOGY, "actualsales", "projectedsales",
         "actualunits", "projectedunits", "projectedsales1",
         "projectedunits1", "productGrowth", "accountGrowth"};
-    public static final String PROJECTED_UNITS1 = "Projected Units";
-    public static final String ACTUAL_UNITS1 = "Actual Units";
-    public static final String PROJECTED_SALES1 = "Projected Sales";
-    public static final String METHODOLOGY1 = "Methodology";
-    public static final String BASE_LINE1 = "Base Line";
+    protected static final String PROJECTED_UNITS1 = "Projected Units";
+    protected static final String ACTUAL_UNITS1 = "Actual Units";
+    protected static final String PROJECTED_SALES1 = "Projected Sales";
+    protected static final String METHODOLOGY1 = "Methodology";
+    protected static final String BASE_LINE1 = "Base Line";
     /**
      * The SALES_SMALL projection header.
      */
-    public String[] salesRightTableHeaders = new String[]{Constant.GROUPFCAPS, BASE_LINE1, METHODOLOGY1, Constant.ACTUAL_SALES, PROJECTED_SALES1, ACTUAL_UNITS1, PROJECTED_UNITS1, PROJECTED_SALES1, PROJECTED_UNITS1, Constant.PRODUCT_GROWTH, Constant.ACCOUNT_GROWTH};
+    protected static final String[] salesRightTableHeaders = new String[]{Constant.GROUPFCAPS, BASE_LINE1, METHODOLOGY1, Constant.ACTUAL_SALES, PROJECTED_SALES1, ACTUAL_UNITS1, PROJECTED_UNITS1, PROJECTED_SALES1, PROJECTED_UNITS1, Constant.PRODUCT_GROWTH, Constant.ACCOUNT_GROWTH};
     /**
      * The Constant SUPPLEMENTAL_RIGHT_TABLE_ONE_COLUMNS.
      */
-    public static final Object[] supplementalRightTableOneColumns = new Object[]{
+    public static final Object[] SUPPLEMENTAL_RIGHTS_TABLEONE_COLUMNS = new Object[]{
         "actualDiscount", Constant.METHODOLOGY, "contractPrice", "discount1",
         "discount2", "contractEndDate", "methodologyQ4", "contractPriceQ4",
         "methodologyQ1", "contractPriceQ1"};
     /**
      * The Constant RIGHT_TABLE_HEADER_SECOND_HEADERS.
      */
-    public static final String[] rightTableHeaderSecondHeaders = new String[]{
+    public static final String[] RIGHT_TABLE_HEADER_SECOND_HEADER = new String[]{
         " ", "Q4 2013", "Q1 2014 Results"};
     /**
      * The Constant RIGHT_TABLE_HEADER_SECOND_COLUMNS.
      */
-    public static final Object[] rightTableHeaderSecondColumns = new Object[]{
+    protected static final Object[] RIGHT_TABLE_HEADER_SECOND_COLUMN = new Object[]{
         "default", "q1", "q2"};
     /**
      * The Constant PVS_VISIBLE_COLUMN.
      */
-    public static final Object[] pvsVisibleColumnLeft = new Object[]{"pvCheck",
+    protected static final Object[] PVS_VISIBLE_COLUMN_LEFT = new Object[]{"pvCheck",
         "projectionPeriodPV", "contractHolder", "costomer"};
-    public static final String CUSTOMER_ID2 = "Customer ID";
-    public static final String PROJECTION_PERIOD = "Projection Period";
+    protected static final String CUSTOMER_ID2 = "Customer ID";
+    protected static final String PROJECTION_PERIOD = "Projection Period";
     /**
      * The Constant PVS_COLUMN_HEADER.
      */
-    public static final String pvsColumnHeaderLeft[] = new String[]{StringUtils.EMPTY, PROJECTION_PERIOD, "Contract Holder", CUSTOMER_ID2};
-    public static final String SEGMENT_PROPERTY = "segment";
+    protected static final String[] PVS_COL_HEADER_LEFT = new String[]{StringUtils.EMPTY, PROJECTION_PERIOD, "Contract Holder", CUSTOMER_ID2};
+    protected static final String SEGMENT_PROPERTY = "segment";
 
     /**
      * The Constant PVS_VISIBLE_COLUMN.
      */
-    public static final Object pvsVisibleColumn[] = new Object[]{SEGMENT_PROPERTY,
+    protected static final Object[] PVS_VISIBLE_COLUMN = new Object[]{SEGMENT_PROPERTY,
         Constant.MARKET_TYPE, "brandPV", "grossSalePriorPV",
         "grossSaleProjectedPV", "grossSaleChangePV",
         "totalDiscountPriorPV", "totalDiscountProjectedPV",
@@ -312,7 +312,7 @@ public class HeaderUtils {
     /**
      * The Constant PVS_COLUMN_HEADER.
      */
-    public static final String pvsColumnHeader[] = new String[]{Constant.SEGMENT_LABEL, MARKET_TYPE1,
+    protected static final String[] PVS_COL_HEADER = new String[]{Constant.SEGMENT_LABEL, MARKET_TYPE1,
         Constant.BRAND_CAPS, "Gross Sale Prior", "Gross Sale Projected",
         "Gross Sale % Change", "Total Discount % Prior",
         "Total Discount % Projected", "Total Discount % Change",
@@ -321,7 +321,7 @@ public class HeaderUtils {
     /**
      * The Constant PVS_VISIBLE_COLUMN.
      */
-    public static final Object pvsVisibleColumnExcel[] = new Object[]{"projectionPeriodPV", "contractHolder", "costomer", SEGMENT_PROPERTY,
+    protected static final Object[] PVS_VISIBLE_COL_EXCEL = new Object[]{"projectionPeriodPV", "contractHolder", "costomer", SEGMENT_PROPERTY,
         Constant.MARKET_TYPE, "brandPV", "grossSalePriorPV",
         "grossSaleProjectedPV", "grossSaleChangePV",
         "totalDiscountPriorPV", "totalDiscountProjectedPV",
@@ -330,77 +330,77 @@ public class HeaderUtils {
     /**
      * The Constant PVS_COLUMN_HEADER.
      */
-    public static final String pvsColumnHeaderExcel[] = new String[]{PROJECTION_PERIOD, "Contract Holder", CUSTOMER_ID2, Constant.SEGMENT_LABEL, MARKET_TYPE1,
+    protected static final String[] PVS_COL_HEADER_EXCEL = new String[]{PROJECTION_PERIOD, "Contract Holder", CUSTOMER_ID2, Constant.SEGMENT_LABEL, MARKET_TYPE1,
         Constant.BRAND_CAPS, "Gross Sale Prior", "Gross Sale Projected",
         "Gross Sale Change", "Total Discount Prior",
         "Total Discount Projected", "Total Discount Change",
         "Net Sale Prior", "Net Sale Projected", "Net Sale Change",
         "Reason Code", "Commentary", CREATED_BY1};
-    public static final String PERIOD1 = "period";
+    protected static final String PERIOD1 = "period";
 
-    public static final Object ppaDetailsVisibleColumnExcel[] = new Object[]{PERIOD1, "rebateScheduleName", "priceProtectionPriceType", "price", "priceChange", "map",
+    public static final Object[] PPA_DETAILS_VISIBLE_COL_EXCEL = new Object[]{PERIOD1, "rebateScheduleName", "priceProtectionPriceType", "price", "priceChange", "map",
         "totalDeductions", "units", "deductionPerUnit", "netPrice", "netMAP", "priceProtectionAmountPerUnit", "priceProtectionPercent", "totalPriceProtectionDeduction",
         "nep", "nepFormula", "priceToleranceType", "priceTolerance", "priceToleranceInterval", "priceToleranceFrequency", "maxIncrementalChange",
         "resetEligible", "resetType", "resetDate", "resetInterval", "resetFrequency", "netPriceType", "netPriceTypeFormula"};
 
-    public static final String ppaDetailsVisibleHeadersExcel[] = new String[]{Constant.PERIOD, "Rebate Schedule Name", "Price Protection Price Type", "Price", "Price Change", "MAP",
+    public static final String[] PPA_DETAILS_VIS_HEADER_EXCEL = new String[]{Constant.PERIOD, "Rebate Schedule Name", "Price Protection Price Type", "Price", "Price Change", "MAP",
         "Total Deductions", Constant.UNITS_SMALL, "Deduction Per Unit", "Net Price", "Net MAP", "Price Protection Amount Per Unit", "Price Protection %", "Total Price Protection Deduction",
         "NEP", "NEP Formula", "Price Tolerance Type", "Price Tolerance", "Price Tolerance Interval", "Price Tolerance Frequency", "Max Incremental Change",
         "Reset Eligible", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency", "Net Price Type", "Net Price Type Formula"};
-    public static final String CONTRACT_NAME1 = "contractName";
+    protected static final String CONTRACT_NAME1 = "contractName";
 
     /**
      * The parity columns.
      */
-    public Object[] parityColumns = new Object[]{CONTRACT_NAME1,
+    public static final Object[] PARITY_COLS = new Object[]{CONTRACT_NAME1,
         "brandName", Constant.ITEM_NO, "itemDesc"};
     /**
      * The parity header.
      */
-    public String[] parityHeader = new String[]{Constant.CONTRACT_SMALL, Constant.BRAND_CAPS,
+    public static final String[] PARITY_HEADER = new String[]{Constant.CONTRACT_SMALL, Constant.BRAND_CAPS,
         "NDC #", "NDC Description"};
-    public static final String CUSTOMER_ID1 = "customerID";
+    protected static final String CUSTOMER_ID1 = "customerID";
     /**
      * The Constant PVS_VISIBLE_COLUMN.
      */
-    public static final Object pvCidtVisibleColumn[] = new Object[]{"contractHolderOrTP", CUSTOMER_ID1, SEGMENT_PROPERTY, Constant.MARKET_TYPE, "movedFromname", "movedFromCustomerID", "movedToname", "movedToCustomerID", "effectiveDate", "annualGrossSales"};
+    protected static final Object[] PV_CID_VISIBLE_COL = new Object[]{"contractHolderOrTP", CUSTOMER_ID1, SEGMENT_PROPERTY, Constant.MARKET_TYPE, "movedFromname", "movedFromCustomerID", "movedToname", "movedToCustomerID", "effectiveDate", "annualGrossSales"};
     /**
      * The Constant PVS_COLUMN_HEADER.
      */
-    public static final String piCvdtColumnHeader[] = new String[]{"Contract Holder/Trading Partner", CUSTOMER_ID2, Constant.SEGMENT_LABEL, MARKET_TYPE1, "Moved From (name)", "Moved From (Customer ID)", "Moved To (name)", "Moved To (Customer ID)", "Effective Date", "Annual Gross Sales"};
-    public static final String TRADING_PARTNER1 = "tradingPartner";
-    public static final String PROJECTION_PERIOD1 = "projectionPeriod";
+    protected static final String[] PI_CVDT_COL_HEADER = new String[]{"Contract Holder/Trading Partner", CUSTOMER_ID2, Constant.SEGMENT_LABEL, MARKET_TYPE1, "Moved From (name)", "Moved From (Customer ID)", "Moved To (name)", "Moved To (Customer ID)", "Effective Date", "Annual Gross Sales"};
+    protected static final String TRADING_PARTNER1 = "tradingPartner";
+    protected static final String PROJECTION_PERIOD1 = "projectionPeriod";
     /**
      * The Constant PVS_VISIBLE_COLUMN.
      */
-    public static final Object pvSalesVisibleColumns[] = new Object[]{PROJECTION_PERIOD1, TRADING_PARTNER1, CUSTOMER_ID1, Constant.GROUP, Constant.BRAND, "productGrowth", "accountGrowth"};
+    protected static final Object[] PV_SALES_VIS_COL = new Object[]{PROJECTION_PERIOD1, TRADING_PARTNER1, CUSTOMER_ID1, Constant.GROUP, Constant.BRAND, "productGrowth", "accountGrowth"};
     /**
      * The Constant PVS_COLUMN_HEADER.
      */
-    public static final String pvSalesCommonHeader[] = new String[]{PROJECTION_PERIOD, Constant.TRADING_PARTNER, CUSTOMER_ID2, Constant.GROUPFCAPS, Constant.BRAND_CAPS, Constant.PRODUCT_GROWTH, Constant.ACCOUNT_GROWTH};
+    protected static final String[] PV_SALES_COMMON_HEADER = new String[]{PROJECTION_PERIOD, Constant.TRADING_PARTNER, CUSTOMER_ID2, Constant.GROUPFCAPS, Constant.BRAND_CAPS, Constant.PRODUCT_GROWTH, Constant.ACCOUNT_GROWTH};
     /**
      * The Constant PVS_VISIBLE_COLUMN.
      */
-    public static final Object pvDiscountVisibleColumn[] = new Object[]{PROJECTION_PERIOD1, TRADING_PARTNER1, CUSTOMER_ID1, Constant.GROUP, Constant.BRAND};
+    public static final Object[] PV_DISC_VISIBLE_COL = new Object[]{PROJECTION_PERIOD1, TRADING_PARTNER1, CUSTOMER_ID1, Constant.GROUP, Constant.BRAND};
     /**
      * The Constant PVS_COLUMN_HEADER.
      */
-    public static final String pvDiscountColumnHeader[] = new String[]{PROJECTION_PERIOD, Constant.TRADING_PARTNER, CUSTOMER_ID2, Constant.GROUPFCAPS, Constant.BRAND_CAPS};
+    protected static final String[] PV_DISC_COL_HEADER = new String[]{PROJECTION_PERIOD, Constant.TRADING_PARTNER, CUSTOMER_ID2, Constant.GROUPFCAPS, Constant.BRAND_CAPS};
     /**
      * The Constant PVS_VISIBLE_COLUMN.
      */
-    public static final Object pvPpaVisibleColumn[] = new Object[]{PROJECTION_PERIOD1, TRADING_PARTNER1, CUSTOMER_ID1, Constant.GROUP, Constant.BRAND, "ppaCap", "ppaDiscountPer", "ppaDiscountDollar"};
+    protected static final Object[] PV_PPA_VISIBLE_COL = new Object[]{PROJECTION_PERIOD1, TRADING_PARTNER1, CUSTOMER_ID1, Constant.GROUP, Constant.BRAND, "ppaCap", "ppaDiscountPer", "ppaDiscountDollar"};
     /**
      * The Constant PVS_COLUMN_HEADER.
      */
-    public static final String pvPpaColumnHeader[] = new String[]{PROJECTION_PERIOD, Constant.TRADING_PARTNER, CUSTOMER_ID2, Constant.GROUPFCAPS, Constant.BRAND_CAPS, "PPA Cap", "PPA Discount %", "PPA Discount $"};
-    public static final Object ppaDetailsVisibleColumnLeft[] = new Object[]{PERIOD1, "rebateScheduleName"};
-    public static final Object ppaDetailsVisibleColumnRight[] = new Object[]{"priceProtectionPriceType", "price", "priceChange", "map",
+    protected static final String[] PA_PPA_COL_HEADER = new String[]{PROJECTION_PERIOD, Constant.TRADING_PARTNER, CUSTOMER_ID2, Constant.GROUPFCAPS, Constant.BRAND_CAPS, "PPA Cap", "PPA Discount %", "PPA Discount $"};
+    public static final Object[] PPA_DETAILS_VISIBLE_COL_LEFT = new Object[]{PERIOD1, "rebateScheduleName"};
+    public static final Object[] PPA_DETAILS_VISIBLE_COL_RIGHT = new Object[]{"priceProtectionPriceType", "price", "priceChange", "map",
         "totalDeductions", "units", "deductionPerUnit", "netPrice", "netMAP", "priceProtectionAmountPerUnit", "priceProtectionPercent", "totalPriceProtectionDeduction",
         "nep", "nepFormula", "priceToleranceType", "priceTolerance", "priceToleranceInterval", "priceToleranceFrequency", "maxIncrementalChange",
         "resetEligible", "resetType", "resetDate", "resetInterval", "resetFrequency", "netPriceType", "netPriceTypeFormula"};
-    public static final String ppaDetailsVisibleHeaderLeft[] = new String[]{Constant.PERIOD, "Rebate Schedule Name"};
-    public static final String ppaDetailsVisibleHeaderRight[] = new String[]{"Price Protection Price Type", "Price", "Price Change", "MAP",
+    public static final String[] PPA_DETAILS_VISIBLE_HEADER_LEFT = new String[]{Constant.PERIOD, "Rebate Schedule Name"};
+    public static final String[] PPA_DETAILS_VISIBLE_HEADER_RIGHT = new String[]{"Price Protection Price Type", "Price", "Price Change", "MAP",
         "Total Deductions", Constant.UNITS_SMALL, "Deduction Per Unit", "Net Price", "Net MAP", "Price Protection Amount Per Unit", "Price Protection %", "Total Price Protection Deduction",
         "NEP", "NEP Formula", "Price Tolerance Type", "Price Tolerance", "Price Tolerance Interval", "Price Tolerance Frequency", "Max Incremental Change",
         "Reset Eligible", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency", "Net Price Type", "Net Price Type Formula"};
@@ -408,10 +408,10 @@ public class HeaderUtils {
      * The col variance.
      */
 
-    public static final String SPACE_PROJECTED_SALES = "  Projected Sales";
-    public static final String SPACE_PROJECTED_UNITS = "  Projected Units";
-    public static final String PRODUCT_GROWTH = "  Product Growth";
-    public static final String ACCOUNT_GROWTH = "  Account Growth";
+    protected static final String SPACE_PROJECTED_SALES = "  Projected Sales";
+    protected static final String SPACE_PROJECTED_UNITS = "  Projected Units";
+    protected static final String PRODUCT_GROWTH = "  Product Growth";
+    protected static final String ACCOUNT_GROWTH = "  Account Growth";
     /**
      * The var dis rate.
      */
@@ -419,8 +419,8 @@ public class HeaderUtils {
      * The var net SALES_SMALL.
      */
 
-    private static final Map<String, String> columnHeaderMap = Constant.getColumnHeaderMap();
-    private static final Map<String, List<String>> populateIdentifier = Constant.getPopulateIdentifier();
+    private static final Map<String, String> COL_HEADER_MAP = Constant.getColumnHeaderMap();
+    private static final Map<String, List<String>> POPULATE_IDENTIFIER = Constant.getPopulateIdentifier();
 
     /**
      * Gets the dynamic discount.
@@ -569,7 +569,7 @@ public class HeaderUtils {
 
         return tableHeaderDTO;
     }
-    public static final String GROUP1 = "group1";
+    protected static final String GROUP1 = "group1";
 
     public static List getSalesProjectionRightTableColumns(Map selection, SessionDTO session) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
@@ -875,7 +875,7 @@ public class HeaderUtils {
         projSelDTO.setForecastEndIndex(forecastEndIndex);
 
     }
-    public static final String ALTERNATE_HISTORY = "Alternate-History";
+    protected static final String ALTERNATE_HISTORY = "Alternate-History";
 
     public static CustomTableHeaderDTO getCalculatedProjectionColumns(CustomTableHeaderDTO tableHeaderDTO, ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO fullHeaderDTO) {
         String projOrder = projSelDTO.getProjectionOrder();
@@ -1583,9 +1583,9 @@ public class HeaderUtils {
         projSelDTO.setHeaderMapForExcel(periodListMapForExcel);//Added for tabwise excel export
         return headerContents;
     }
-    public static final String ACTUAL_AMOUNT1 = "ActualAmount";
-    public static final String ACTUAL_RPU1 = "Actual RPU";
-    public static final String ACTUAL_AMOUNT_LABEL = "Actual Amount";
+    protected static final String ACTUAL_AMOUNT1 = "ActualAmount";
+    protected static final String ACTUAL_RPU1 = "Actual RPU";
+    protected static final String ACTUAL_AMOUNT_LABEL = "Actual Amount";
 
     public static String getMonthForInt(int num) {
         String month = "wrong";
@@ -1764,21 +1764,21 @@ public class HeaderUtils {
                     String excelsingleColumn = commonColumn + column + "." + (start - 1);
                     start++;
                     dmap.add(singleColumn1);
-                    if (columnHeaderMap.containsKey(column) && (populateIdentifier.get(Constant.DDLB_FIELD).contains(columnHeaderMap.get(column))
-                            || Constant.PRICE_PROTECTION_STATUS.equals(columnHeaderMap.get(column)))) {
-                        tableHeaderDTO.addSingleColumn(singleColumn1, columnHeaderMap.get(column), Object.class);
-                        fullHeader.addSingleColumn(excelsingleColumn, commonHeader + Constant.SPACE + columnHeaderMap.get(column), Object.class);
-                    } else if (Constant.PRICE_PROTECTION_START_DATE.equals(columnHeaderMap.get(column)) || Constant.PRICE_PROTECTION_END_DATE.equals(columnHeaderMap.get(column))
-                            || populateIdentifier.get(Constant.DATE_FEILD).contains(columnHeaderMap.get(column))) {
+                    if (COL_HEADER_MAP.containsKey(column) && (POPULATE_IDENTIFIER.get(Constant.DDLB_FIELD).contains(COL_HEADER_MAP.get(column))
+                            || Constant.PRICE_PROTECTION_STATUS.equals(COL_HEADER_MAP.get(column)))) {
+                        tableHeaderDTO.addSingleColumn(singleColumn1, COL_HEADER_MAP.get(column), Object.class);
+                        fullHeader.addSingleColumn(excelsingleColumn, commonHeader + Constant.SPACE + COL_HEADER_MAP.get(column), Object.class);
+                    } else if (Constant.PRICE_PROTECTION_START_DATE.equals(COL_HEADER_MAP.get(column)) || Constant.PRICE_PROTECTION_END_DATE.equals(COL_HEADER_MAP.get(column))
+                            || POPULATE_IDENTIFIER.get(Constant.DATE_FEILD).contains(COL_HEADER_MAP.get(column))) {
 
-                        tableHeaderDTO.addSingleColumn(singleColumn1, columnHeaderMap.get(column), Date.class);
-                        fullHeader.addSingleColumn(excelsingleColumn, commonHeader + Constant.SPACE + columnHeaderMap.get(column), Date.class);
+                        tableHeaderDTO.addSingleColumn(singleColumn1, COL_HEADER_MAP.get(column), Date.class);
+                        fullHeader.addSingleColumn(excelsingleColumn, commonHeader + Constant.SPACE + COL_HEADER_MAP.get(column), Date.class);
                     } else {
-                        tableHeaderDTO.addSingleColumn(singleColumn1, columnHeaderMap.get(column), String.class);
-                        fullHeader.addSingleColumn(excelsingleColumn, commonHeader + Constant.SPACE + columnHeaderMap.get(column), String.class);
+                        tableHeaderDTO.addSingleColumn(singleColumn1, COL_HEADER_MAP.get(column), String.class);
+                        fullHeader.addSingleColumn(excelsingleColumn, commonHeader + Constant.SPACE + COL_HEADER_MAP.get(column), String.class);
                     }
 
-                    tableHeaderDTO.addSingleProjectedColumn(singleColumn1, columnHeaderMap.get(column));
+                    tableHeaderDTO.addSingleProjectedColumn(singleColumn1, COL_HEADER_MAP.get(column));
 
                 }
 
@@ -2691,8 +2691,8 @@ public class HeaderUtils {
         }
         return tableHeaderDTO;
     }
-    public static final String HISTORY_NUM = "historyNum";
-    public static final String PROJECTION_NUM = "projectionNum";
+    protected static final String HISTORY_NUM = "historyNum";
+    protected static final String PROJECTION_NUM = "projectionNum";
 
     public static CustomTableHeaderDTO getSalesProjectionResultsCalculatedColumns(Map selection, CustomTableHeaderDTO tableHeaderDTO, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         ForecastDTO forecast = session.getForecastDTO();
@@ -3186,10 +3186,10 @@ public class HeaderUtils {
         histProjMap = getProjectionDetail(histProjMap, pvsdto);
         return histProjMap;
     }
-    public static final String PROJ_NUM = "projNum";
-    public static final String FREQUENCY_DIVISION1 = "frequencyDivision";
-    public static final String CURRENT_PERIOD = "currentPeriod";
-    public static final String CURRENT_YEAR = "currentYear";
+    protected static final String PROJ_NUM = "projNum";
+    protected static final String FREQUENCY_DIVISION1 = "frequencyDivision";
+    protected static final String CURRENT_PERIOD = "currentPeriod";
+    protected static final String CURRENT_YEAR = "currentYear";
 
     static Map<String, Integer> getHistoryDetail(Map<String, Integer> histProjMap, PVSelectionDTO pvsdto) {
         int startYear = histProjMap.get(CURRENT_YEAR);
@@ -3777,7 +3777,7 @@ public class HeaderUtils {
         projSelDTO.setColumns(CommonUtils.objectListToStringList(fullHeaderDTO.getSingleColumns()));
         return tableHeaderDTO;
     }
-    public static final String EMPTY_STRING = "empty";
+    protected static final String EMPTY_STRING = "empty";
 
     public static List<String> getCommonColumnHeaderForDiscount(int frequencyDivision, int year, int period) {
         List<String> common = new ArrayList<>();
@@ -5254,8 +5254,8 @@ public class HeaderUtils {
         headerContents.add(excelHeader);
         return headerContents;
     }
-    public static final String ACTUAL_COLUMN = "Actual ";
-    public static final String PROJECTED_COLUMN = "Projected ";
+    protected static final String ACTUAL_COLUMN = "Actual ";
+    protected static final String PROJECTED_COLUMN = "Projected ";
 
     public static CustomTableHeaderDTO getAHSummeryTabLeftTableColumns(CustomTableHeaderDTO fullHeaderDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
@@ -5409,8 +5409,8 @@ public class HeaderUtils {
         projSelDTO.setColumns(CommonUtils.objectListToStringList(tableHeaderDTO.getSingleColumns()));
         return tableHeaderDTO;
     }
-    public static final String PROJECTION_SALES = "projectionSales";
-    public static final String PROJECTION_UNITS = "Projection Units";
+    protected static final String PROJECTION_SALES = "projectionSales";
+    protected static final String PROJECTION_UNITS = "Projection Units";
 
     public static CustomTableHeaderDTO getAlternateHistoryRightTableColumnsForDiscount(ProjectionSelectionDTO projectionDTO, SessionDTO session, CustomTableHeaderDTO fullHeaderDTO, String rsName) {
 
