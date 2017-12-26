@@ -590,8 +590,8 @@ public class AddContractSelection extends CustomComponent {
 
                 isFound = isPresent();
                 if (isFound) {
-                    populateLogic();
-                }
+                        populateLogic();
+                    }
             } else {
                 MessageBox.showPlain(Icon.INFO, Constants.ERROR, "Please enter a " + massUpdateString + " to Mass Update. ", ButtonId.OK);
 
@@ -1256,8 +1256,8 @@ public class AddContractSelection extends CustomComponent {
             AbstractContractSearchDTO dto = (AbstractContractSearchDTO) object;
             if (dto.getCheckRecord()) {
                 isChecked = false;
-                isFound = true;
-                if (!isHavingValue(massUpdateString)) {
+                isFound = isHavingValue(massUpdateString);
+                if (!isFound) {
                     new AbstractNotificationUtils() {
                         @Override
                         public void yesMethod() {
@@ -1667,6 +1667,8 @@ public class AddContractSelection extends CustomComponent {
         tempTableMap.put(Constants.STATUS_FIELD, StringConstantsUtil.ITEM_STATUS_COLUMN);
         tempTableMap.put(Constants.START_DATE_HEADER, StringConstantsUtil.START_DATE_COLUMN);
         tempTableMap.put(Constants.END_DATE_HEADER, StringConstantsUtil.END_DATE_COLUMN);
+        tempTableMap.put(Constants.ITEM_START_DATE, StringConstantsUtil.START_DATE_COLUMN);
+        tempTableMap.put(Constants.ITEM_END_DATE, StringConstantsUtil.END_DATE_COLUMN);
         tempTableMap.put(StringConstantsUtil.CP_START_DATE_LABEL, StringConstantsUtil.CONTRACT_PRICE_START_DATE_COLUMN);
         tempTableMap.put(StringConstantsUtil.CP_END_DATE_LABEL, StringConstantsUtil.CONTRACT_PRICE_END_DATE_COLUMN);
         tempTableMap.put(StringConstantsUtil.CONTRACT_PRICE_LABEL, StringConstantsUtil.CONTRACT_PRICE_COLUMN);
