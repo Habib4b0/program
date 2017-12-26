@@ -7,8 +7,8 @@ package com.stpl.app.gcm.promotetptocontract.form;
 import com.stpl.app.gcm.promotetptocontract.dto.PromoteTpToChDto;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 /**

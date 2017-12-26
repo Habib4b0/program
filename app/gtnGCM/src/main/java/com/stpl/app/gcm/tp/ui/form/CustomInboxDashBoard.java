@@ -10,7 +10,7 @@ import com.stpl.app.gtnworkflow.logic.WorkflowLogic;
 import com.stpl.app.gtnworkflow.ui.form.InboxDashBoard;
 import com.stpl.app.gtnworkflow.util.CommonUtils;
 import com.stpl.ifs.util.QueryUtil;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
@@ -18,12 +18,11 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import elemental.json.JsonArray;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 /**
  *
@@ -56,7 +55,7 @@ public class CustomInboxDashBoard extends InboxDashBoard {
         inboxDashboardBean.removeAllItems();
         StringBuilder query = new StringBuilder();
         String businessProcessBinder = inboxDashboardDTO.getBusinessProcess();
-        query.append(CustomSQLUtil.get("gcm_wi.inbox_search"));
+        query.append(SQlUtil.getQuery("gcm_wi.inbox_search"));
         if ("Contract Management".equals(businessProcessBinder)) {
             String sql = query.toString().replace("@WFNAME", "CM.CONTRACT_NAME");
             query = new StringBuilder(sql.toString().replace("WM.PROJECTION_MASTER_SID", "WM.CONTRACT_MASTER_SID"));
@@ -101,8 +100,8 @@ public class CustomInboxDashBoard extends InboxDashBoard {
         JavaScript.getCurrent().addFunction("storageEventListener", new JavaScriptFunction() {
 
             @Override
-            public void call(JSONArray arguments) throws JSONException {
-                try {
+            public void call(JsonArray arguments) {
+                  try {
                     if (arguments.getBoolean(1)) {
                         workflowInboxSearch();
                         JavaScript.getCurrent().execute("localStorage.setItem('" + arguments.getString(0) + "', 'false');");

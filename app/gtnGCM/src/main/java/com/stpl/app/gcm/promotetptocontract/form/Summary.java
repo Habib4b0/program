@@ -20,8 +20,8 @@ import com.stpl.app.gcm.util.UiUtils;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -104,7 +104,6 @@ public class Summary extends VerticalLayout implements View {
 		tabSheet = new TabSheet();
 		tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
 		tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-		tabSheet.setImmediate(true);
 		try {
 			tabSheet.addTab(summaryTPDetails, Constants.IndicatorConstants.TAB_SUMMARY_TP_DETAILS.getConstant(), null,
 					0);

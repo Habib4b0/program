@@ -34,18 +34,18 @@ import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.PopupDateField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -170,7 +170,6 @@ public class TransferContract extends VerticalLayout implements View {
 		tabSheet = new TabSheet();
 		tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
 		tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-		tabSheet.setImmediate(true);
 		try {
 			tabSheet.addTab(transferComponents,
 					Constants.IndicatorConstants.TAB_PROMOTE_TP_TRANSFER_COMPONENTS.getConstant(), null, 0);
@@ -225,20 +224,16 @@ public class TransferContract extends VerticalLayout implements View {
 		try {
 			contractNo.setData(
 					"maxlengthvalidationhundred,maxlengthvalidationcontractno,specialchar,specialcharcontractno");
-			contractNo.setImmediate(true);
 			contractNo.setValidationVisible(true);
 
 			contractName.setData(
 					"maxlengthvalidationhundred,maxlengthvalidationcontractname,specialchar,specialcharcontractname");
-			contractName.setImmediate(true);
 			contractName.setValidationVisible(true);
 
 			cfpName.setData("maxlengthvalidationhundred,maxlengthvalidationcfpname,specialchar,specialcharcfpname");
-			cfpName.setImmediate(true);
 			cfpName.setValidationVisible(true);
 
 			number.setData("maxlengthvalidationhundred,maxlengthvalidationnumber,specialchar,specialcharnumber");
-			number.setImmediate(true);
 			number.setValidationVisible(true);
 
 			startDate.setDateFormat(Constants.DATE_FORMAT);

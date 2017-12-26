@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gcm.util;
 
-import com.stpl.portal.kernel.dao.orm.ORMException;
+import com.liferay.portal.kernel.dao.orm.ORMException;
 import java.io.IOException;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;

@@ -7,8 +7,8 @@ package com.stpl.app.gcm.tp.tablelogic;
 
 import com.stpl.app.gcm.tp.dto.TradingPartnerDTO;
 import com.stpl.app.gcm.tp.logic.CompanySearchLogic;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;

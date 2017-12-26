@@ -9,7 +9,6 @@ import com.stpl.app.gtnworkflow.util.xmlparser.SQlUtil;
 import com.stpl.app.gtnworkflow.dao.WorkFlowDAO;
 import com.stpl.app.gtnworkflow.dao.impl.WorkFlowImpl;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -96,7 +95,7 @@ public class QueryUtils {
         StringBuilder sql = null;
         try {
             sql = new StringBuilder();
-            sql = new StringBuilder(CustomSQLUtil.get(queryName));
+            sql = new StringBuilder(SQlUtil.getQuery(queryName));
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }

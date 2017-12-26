@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.index.dto;
 
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
 import org.apache.commons.lang.StringUtils;
 

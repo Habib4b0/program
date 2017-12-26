@@ -8,8 +8,10 @@ import com.stpl.app.gcm.common.HelperListUtil;
 import com.stpl.app.gcm.globalchange.ui.view.GlobalChangeUIMainView;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.portal.kernel.util.JavaConstants;
+import com.liferay.portal.kernel.util.JavaConstants;
 import com.vaadin.annotations.JavaScript;
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.VaadinPortletSession;
@@ -27,11 +29,20 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import org.jboss.logging.Logger;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
 
 /**
  *
  * @author alok.v
  */
+@Theme("mytheme")
+@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Component(service = UI.class, property = {
+        "com.liferay.portlet.display-category=Forecasting and Planning",
+        "javax.portlet.name=GlobalChangeManagement",
+        "javax.portlet.display-name=Global Change Management",
+        "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE) 
 @JavaScript("js/WorkflowInboxListener.js")
 public class GlobalChangeUI extends UI implements VaadinPortletSession.PortletListener {
 

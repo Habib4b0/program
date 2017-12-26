@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<sql>
+    <entity id="rebateCount">
+        <query>
+        <![CDATA[
+            SELECT count(distinct RSC.REBATE_PROGRAM_TYPE) FROM   PROJECTION_DETAILS PD
+            JOIN CCP_DETAILS CCPD ON CCPD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID AND CCPD.COMPANY_MASTER_SID in (?)  AND CCPD.CONTRACT_MASTER_SID = '?'
+            JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID AND IM.BRAND_MASTER_SID = '?'
+            JOIN RS_CONTRACT RSC ON RSC.CONTRACT_MASTER_SID = CCPD.CONTRACT_MASTER_SID
+            JOIN UDCS UDC ON UDC.MASTER_SID=RSC.RS_MODEL_SID
+            JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC2 AND UDC.MASTER_TYPE = 'RS_MODEL'AND HT.LIST_NAME = 'RS_UDC2' 
+            WHERE  PD.PROJECTION_MASTER_SID = '?';
+        ]]>
+        </query>
+    </entity>
+    <entity id="itemCountForRebate">
+        <query>
+        <![CDATA[
+            SELECT count(distinct IM.ITEM_NAME) FROM   PROJECTION_DETAILS PD
+            JOIN CCP_DETAILS CCPD ON CCPD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID AND CCPD.COMPANY_MASTER_SID in (?)  AND CCPD.CONTRACT_MASTER_SID = '?'
+            JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID AND IM.BRAND_MASTER_SID = '?'
+            JOIN RS_CONTRACT RSC ON RSC.CONTRACT_MASTER_SID = CCPD.CONTRACT_MASTER_SID AND RSC.REBATE_PROGRAM_TYPE = '?'
+            JOIN UDCS UDC ON UDC.MASTER_SID=RSC.RS_MODEL_SID
+            JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UDC.UDC2 AND UDC.MASTER_TYPE = 'RS_MODEL'AND HT.LIST_NAME = 'RS_UDC2' 
+            WHERE  PD.PROJECTION_MASTER_SID = '?';
+        ]]>
+        </query>
+    </entity>
+    <entity id="getContractForRebate">
+        <query>
+        <![CDATA[
+        
+         select CON.CONTRACT_MASTER_SID as ID,CON.CONTRACT_NAME as COM_NAME ,I."YEAR" as YEARS, I.? as PERIODS, 
+        sum(TEMP_NMSP.?) as Sales,sum(TEMP_NMSP.?) as Units, CON.CONTRACT_NO,
+        sum(NMSP.?) as totSales,sum(NMSP.?) as totUnits,
+        (sum(NMSP.?)-sum(TEMP_NMSP.?)) as salesVarience,
+        (sum(NMSP.?)-sum(TEMP_NMSP.?)) as unitVarience, 
+        (case when  sum(TEMP_NMSP.?)!=0 then ((sum(NMSP.?)-sum(TEMP_NMSP.?))/ sum(TEMP_NMSP.?)) else 0 end) as salesChange,
+        (case when  sum(TEMP_NMSP.?)!=0 then ((sum(NMSP.?)-sum(TEMP_NMSP.?))/ sum(TEMP_NMSP.?)) else 0 end) as unitChange
+
+        from  PROJECTION_DETAILS PD
+        join CCP_DETAILS CCPD ON CCPD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND CCPD.COMPANY_MASTER_SID in (?)   AND CCPD.CONTRACT_MASTER_SID=?
+        join CONTRACT_MASTER CON ON CON.CONTRACT_MASTER_SID=CCPD.CONTRACT_MASTER_SID 
+        join ? TEMP_NMSP ON  TEMP_NMSP.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID 
+        join ? NMSP ON  NMSP.PROJECTION_DETAILS_SID=TEMP_NMSP.PROJECTION_DETAILS_SID
+        join "PERIOD" I on I.PERIOD_SID = TEMP_NMSP.PERIOD_SID  WHERE PD.PROJECTION_MASTER_SID='?'  AND TEMP_NMSP.PERIOD_SID=NMSP.PERIOD_SID 
+        AND TEMP_NMSP.SESSION_ID=?
+        group by CON.CONTRACT_MASTER_SID,CON.CONTRACT_NAME,I."YEAR", I.?,CON.CONTRACT_NO order by CON.CONTRACT_MASTER_SID;
+        
+        ]]>
+        </query>
+    </entity>
+    <entity id="getCompanyForRebate">
+        <query>
+        <![CDATA[
+            select IMTD.COMPANY_MASTER_SID as ID, IMTD.COMPANY_NAME as COM_NAME,I."YEAR" as YEARS, I.? as PERIODS, sum(NMSP.?) as Amount,
+            sum(NMSP.?) as Rebate,CCPD.CONTRACT_MASTER_SID,IMTD.COMPANY_NO AS companyNo  from  PROJECTION_DETAILS PD 
+            join CCP_DETAILS CCPD ON CCPD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND CCPD.COMPANY_MASTER_SID in (?)  
+            AND CCPD.CONTRACT_MASTER_SID='?' join ? NMSP ON  NMSP.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID 
+            join "PERIOD" I on I.PERIOD_SID = NMSP.PERIOD_SID 
+            join COMPANY_MASTER IMTD ON IMTD.COMPANY_MASTER_SID IN (?) WHERE PD.PROJECTION_MASTER_SID= '?'  AND NMSP.SESSION_ID=?
+            group by CCPD.CONTRACT_MASTER_SID, I."YEAR", I.?, IMTD.COMPANY_MASTER_SID, IMTD.COMPANY_NAME, IMTD.COMPANY_NO order by IMTD.COMPANY_MASTER_SID;
+        ]]>
+        </query>
+    </entity>
+    <entity id="getBrandForRebate">
+        <query>
+        <![CDATA[
+            select BM.BRAND_MASTER_SID as ID,BM.BRAND_NAME as COM_NAME,I."YEAR" as YEARS, I.? as PERIODS,
+            sum(NMDP.?) as Sales,sum(NMDP.?) as Rate, CCPD.CONTRACT_MASTER_SID, CCPD.COMPANY_MASTER_SID, BM.BRAND_ID  from  PROJECTION_DETAILS PD 
+            join CCP_DETAILS CCPD ON CCPD.CCP_DETAILS_SID=PD.CCP_DETAILS_SID AND CCPD.COMPANY_MASTER_SID in (?)  
+            AND CCPD.CONTRACT_MASTER_SID='?' 
+            join ITEM_MASTER IM ON IM.ITEM_MASTER_SID=CCPD.ITEM_MASTER_SID 
+            join BRAND_MASTER BM ON IM.BRAND_MASTER_SID=BM.BRAND_MASTER_SID 
+             join ? NMDP 
+            ON  NMDP.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID 
+            join "PERIOD" I on I.PERIOD_SID = NMDP.PERIOD_SID WHERE PD.PROJECTION_MASTER_SID= '?'   AND NMDP.SESSION_ID=?
+            group by CCPD.CONTRACT_MASTER_SID, CCPD.COMPANY_MASTER_SID,BM.BRAND_MASTER_SID, BM.BRAND_NAME,I."YEAR", I.?,BM.BRAND_ID order by BM.BRAND_MASTER_SID;
+        ]]>
+        </query>
+    </entity>
+    <entity id="getRebate">
+        <query>
+        <![CDATA[
+            SELECT RSC.REBATE_PROGRAM_TYPE    AS ID,
+       HT.DESCRIPTION             AS COM_NAME,
+       I."YEAR"                   AS YEARS,
+       I.?                  AS PERIODS,
+       Sum(NMDP.?) AS Amount,
+       Sum(NMDP.?) AS Rate,
+       CCPD.CONTRACT_MASTER_SID,
+       CCPD.COMPANY_MASTER_SID,
+       IM.BRAND_MASTER_SID,
+       RSC.RS_NO
+FROM   PROJECTION_DETAILS PD
+       JOIN CCP_DETAILS CCPD
+         ON CCPD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+            AND CCPD.COMPANY_MASTER_SID in (?) 
+            AND CCPD.CONTRACT_MASTER_SID = '?'
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID
+            AND IM.BRAND_MASTER_SID = '?'
+       JOIN RS_CONTRACT RSC
+         ON RSC.CONTRACT_MASTER_SID = CCPD.CONTRACT_MASTER_SID
+      JOIN UDCS UDC
+	  ON UDC.MASTER_SID=RSC.RS_MODEL_SID
+	   JOIN HELPER_TABLE HT
+         ON HT.HELPER_TABLE_SID = UDC.UDC2
+		 AND UDC.MASTER_TYPE = 'RS_MODEL'AND HT.LIST_NAME = 'RS_UDC2' 
+       JOIN ? NMDP
+         ON NMDP.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+       JOIN "PERIOD" I
+         ON I.PERIOD_SID = NMDP.PERIOD_SID
+WHERE  PD.PROJECTION_MASTER_SID = '?'  AND NMDP.SESSION_ID=?
+GROUP  BY RSC.REBATE_PROGRAM_TYPE,
+CCPD.CONTRACT_MASTER_SID,
+       CCPD.COMPANY_MASTER_SID,
+       IM.BRAND_MASTER_SID,
+          HT.DESCRIPTION,
+          I."YEAR",
+          I.?,RSC.RS_NO ORDER  BY RSC.REBATE_PROGRAM_TYPE;
+        ]]>
+        </query>
+    </entity>
+    <entity id="getItemForRebate">
+        <query>
+        <![CDATA[
+            SELECT IM.ITEM_MASTER_SID    AS ID,
+       IM.ITEM_NAME             AS COM_NAME,
+       I."YEAR"                   AS YEARS,
+       I.?                  AS PERIODS,
+       Sum(NMDP.?) AS Amount,
+       Sum(NMDP.?) AS Rate,
+       IM.ITEM_NO
+FROM   PROJECTION_DETAILS PD
+       JOIN CCP_DETAILS CCPD
+         ON CCPD.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+            AND CCPD.COMPANY_MASTER_SID in (?) 
+            AND CCPD.CONTRACT_MASTER_SID = '?'
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = CCPD.ITEM_MASTER_SID
+            AND IM.BRAND_MASTER_SID = '?'
+       JOIN RS_CONTRACT RSC
+         ON RSC.CONTRACT_MASTER_SID = CCPD.CONTRACT_MASTER_SID AND RSC.REBATE_PROGRAM_TYPE = '?'
+      JOIN UDCS UDC
+	  ON UDC.MASTER_SID=RSC.RS_MODEL_SID
+	   JOIN HELPER_TABLE HT
+         ON HT.HELPER_TABLE_SID = UDC.UDC2
+		 AND UDC.MASTER_TYPE = 'RS_MODEL'AND HT.LIST_NAME = 'RS_UDC2' 
+       JOIN ? NMDP
+         ON NMDP.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+       JOIN "PERIOD" I
+         ON I.PERIOD_SID = NMDP.PERIOD_SID
+WHERE  PD.PROJECTION_MASTER_SID = '?'  AND NMDP.SESSION_ID=?
+GROUP  BY IM.ITEM_MASTER_SID,
+          IM.ITEM_NAME,
+          I."YEAR",
+          I.?,IM.ITEM_NO ORDER  BY IM.ITEM_MASTER_SID;
+        ]]>
+        </query>
+    </entity>
+</sql>

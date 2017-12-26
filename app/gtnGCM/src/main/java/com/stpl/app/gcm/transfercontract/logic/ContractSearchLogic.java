@@ -16,12 +16,12 @@ import com.stpl.app.gcm.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.util.BeanItem;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.util.BeanItem;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -77,7 +77,7 @@ public class ContractSearchLogic {
     public List<HelperDTO> getDropDownList(final String listType) throws SystemException {
         final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("Helper Table listType=" + listType);
-        final DynamicQuery helperTableQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
         helperTableQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
         final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(helperTableQuery);

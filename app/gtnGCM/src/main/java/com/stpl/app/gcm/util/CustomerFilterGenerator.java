@@ -6,14 +6,14 @@
 package com.stpl.app.gcm.util;
 
 import com.stpl.app.gcm.common.CommonUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Field;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.jboss.logging.Logger;
 
@@ -62,7 +62,6 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
             if ("companyStatus".equals(propertyId)) {
 
                 comboBox = new ComboBox();
-                comboBox.setImmediate(true);
                 commonMsg.loadComboBox(comboBox, "STATUS", true);
                 comboBox.select(0);
                 comboBox.setNullSelectionAllowed(true);
@@ -72,7 +71,6 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
 
             }else if ("status".equals(propertyId) || "statusDescription".equals(propertyId) || "priceProtectionStatus".equals(propertyId)) {
                 comboBox = new ComboBox();
-                comboBox.setImmediate(true);
                 commonMsg.loadComboBox(comboBox, "STATUS", true);
                 comboBox.select(0);
                 comboBox.setNullSelectionAllowed(true);
@@ -83,7 +81,6 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
             }else if ("tradeClass".equals(propertyId)) {
 
                 comboBox = new ComboBox();
-                comboBox.setImmediate(true);
                 commonMsg.loadComboBox(comboBox, "COMPANY_TRADE_CLASS", true);
                 comboBox.select(0);
                 comboBox.setNullSelectionAllowed(true);

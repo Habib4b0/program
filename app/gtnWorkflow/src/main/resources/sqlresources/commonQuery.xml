@@ -336,8 +336,8 @@
         0
             ]]>    
         </query> 
-        </entity>
-          <entity id="LoadAdjustmentType">
+    </entity>
+    <entity id="LoadAdjustmentType">
         <query> 
      <![CDATA[
      SELECT ADJ.ARM_ADJUSTMENT_CONFIG_SID,HT.DESCRIPTION,ADJ.TRANSACTION_NAME FROM ARM_ADJUSTMENT_CONFIG ADJ
@@ -453,6 +453,21 @@
                     WHERE MSM.MODULE_SUBMODULE_SID = SPM.MODULE_SUBMODULE_SID
                     and spm.CATEGORY_NAME not in ('Button','Tab')
             ]]>
+        </query>
+    </entity>
+    <entity id="loadBusinessUnitInWorkflow">
+        <query>
+        <![CDATA[
+            SELECT distinct COMPANY_MASTER_SID,COMPANY_NO FROM COMPANY_MASTER WHERE COMPANY_ID in (SELECT distinct COMPANY_CODE FROM GL_COST_CENTER_MASTER)
+        ]]>
+        </query>
+    </entity>
+    
+    <entity id="loadWorkflowHistory">
+        <query>
+        <![CDATA[
+            SELECT HWM.MODIFIED_DATE,HWM.MODIFIED_BY,HWM.WORKFLOW_STATUS_ID,HWM.NOTES,HWM.FILE_NAME FROM HIST_WORKFLOW_MASTER HWM WHERE WORKFLOW_MASTER_SID = ? 
+        ]]>
         </query>
     </entity>
 </sql>

@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gcm.discount.dto;
 
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 

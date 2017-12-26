@@ -17,21 +17,21 @@ import com.stpl.app.gcm.util.Constants.MessageConstants;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -158,7 +158,6 @@ public class ContractSearchForm extends VerticalLayout {
     }
 
     private void configureTable() {
-        resultTable.setImmediate(true);
         resultTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         resultTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         resultTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);

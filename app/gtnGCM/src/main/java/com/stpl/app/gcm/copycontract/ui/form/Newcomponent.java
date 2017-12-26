@@ -33,7 +33,6 @@ import com.stpl.app.model.RsContract;
 import com.stpl.app.model.RsModel;
 import com.stpl.app.service.CfpContractLocalServiceUtil;
 import com.stpl.app.service.CfpModelLocalServiceUtil;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.ContractAliasMasterLocalServiceUtil;
 import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.IfpContractLocalServiceUtil;
@@ -51,32 +50,31 @@ import com.stpl.app.model.GcmCompanyDetails;
 import com.stpl.app.model.GcmGlobalDetails;
 import com.stpl.app.model.GcmItemDetails;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.service.GcmCompanyDetailsLocalServiceUtil;
 import com.stpl.app.service.GcmGlobalDetailsLocalServiceUtil;
 import com.stpl.app.service.GcmItemDetailsLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.service.GcmCompanyDetailsLocalServiceUtil;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.TreeTable;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.TreeTable;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -98,6 +96,7 @@ import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 
 /**
  *
@@ -314,14 +313,11 @@ public class Newcomponent extends CustomComponent {
             componenttype.addItem(Constants.IndicatorConstants.PRICE_SCHEDULE);
             componenttype.addItem(Constants.IndicatorConstants.REBATE_SCHEDULE);
             componenttype.select(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN);
-            componenttype.setImmediate(true);
             componenttype.setNullSelectionAllowed(false);
 
-            componentDetailsSearch.setImmediate(true);
             componentDetailsSearch.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             componentDetailsSearch.setNullSelectionAllowed(true);
             componentDetailsSearch.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-            componentDetailsSearch.setImmediate(true);
             componentDetailsSearch.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             configureComponentDetailsTable();
             componentDetailsSearchTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -361,12 +357,10 @@ public class Newcomponent extends CustomComponent {
             });
 
             commonUtil.loadComboBox(searchDDLB, UiUtils.STATUS, false);
-            searchDDLB.setImmediate(true);
             searchDDLB.setVisible(false);
             commonUtil.loadComboBox(psStatus, UiUtils.STATUS, false);
             dashboardResultsTable.setPageLength(NumericConstants.EIGHT);
             dashboardResultsTable.markAsDirty();
-            dashboardResultsTable.setImmediate(true);
             dashboardResultsTable.setContainerDataSource(dashBoardContainer);
             dashboardResultsTable.setVisibleColumns(Constants.getInstance().copycontractDashboardResultsColumns);
             dashboardResultsTable.setColumnHeaders(Constants.getInstance().copycontractDashboardResultsHeaders);
@@ -391,7 +385,6 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSelectedItem.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
             componentDetailsSelectedItem.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
             componentDetailsSelectedItem.setHeight(NumericConstants.HUNDRED, Unit.PERCENTAGE);
-            componentDetailsSelectedItem.setImmediate(true);
             componentDetailsSelectedItem.setPageLength(NumericConstants.FIVE);
             componentDetailsSelectedItem.setContainerDataSource(componentResultsContainer);
             componentDetailsSelectedItem.setEditable(true);
@@ -477,7 +470,6 @@ public class Newcomponent extends CustomComponent {
             fieldDdlb.addItem(Constants.END_DATE_HEADER);
             fieldDdlb.setNullSelectionAllowed(true);
             fieldDdlb.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-            fieldDdlb.setImmediate(true);
             fieldDdlb.setWidth("205px");
             fieldDdlb.setPageLength(NumericConstants.FIVE);
             componentDetailsSearch.setPageLength(NumericConstants.FIVE);
@@ -544,11 +536,9 @@ public class Newcomponent extends CustomComponent {
         componentResultsContainer.removeAllItems();
         componentSearchContainer.removeAllItems();
         componentDetailsSearch.removeAllItems();
-        componentDetailsSearch.setImmediate(true);
         componentDetailsSearch.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         componentDetailsSearch.setNullSelectionAllowed(true);
         componentDetailsSearch.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        componentDetailsSearch.setImmediate(true);
         componentDetailsSearch.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         if (componenttype.getValue() != null) {
             if (componenttype.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
@@ -587,7 +577,6 @@ public class Newcomponent extends CustomComponent {
                         }
                     });
                     cfpStatus.select(Constants.ZEROSTRING);
-                    cfpStatus.setImmediate(true);
                     cfpStatus.setValidationVisible(true);
                     CopyContractLogic.getSelectNull(CFPType);
                     commonUtil.loadComboBox(CFPType, UiUtils.CFP_TYPE, false);
@@ -640,7 +629,6 @@ public class Newcomponent extends CustomComponent {
                         }
                     });
                     ifptype.select(Constants.ZEROSTRING);
-                    ifptype.setImmediate(true);
                     ifptype.setValidationVisible(true);
                     ifpComponent.setVisible(true);
                     psComponent.setVisible(false);
@@ -904,7 +892,7 @@ public class Newcomponent extends CustomComponent {
             });
 
             String query = queryUtils.LoadmassupdateCompany(ids);
-            List itemList = CompanyMasterLocalServiceUtil.executeQuery(query);
+            List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (itemList != null && itemList.size() > 0) {
                 for (int i = 0; i < itemList.size(); i++) {
                     NewComponentDTO itemDTO = new NewComponentDTO();
@@ -934,7 +922,7 @@ public class Newcomponent extends CustomComponent {
         }
         if (componenttype.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
             String query = queryUtils.Loadmassupdateitem(ids);
-            List itemList = CompanyMasterLocalServiceUtil.executeQuery(query);
+            List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             for (int i = 0; i < itemList.size(); i++) {
                 NewComponentDTO itemDTO = new NewComponentDTO();
                 Object[] obje = (Object[]) itemList.get(i);
@@ -971,7 +959,7 @@ public class Newcomponent extends CustomComponent {
         if (componenttype.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
 
             String query = queryUtils.getPSInfo(ids);
-            List itemList = CompanyMasterLocalServiceUtil.executeQuery(query);
+            List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (itemList != null && itemList.size() > 0) {
                 for (int i = 0; i < itemList.size(); i++) {
                     NewComponentDTO itemDTO = new NewComponentDTO();
@@ -1028,7 +1016,7 @@ public class Newcomponent extends CustomComponent {
         }
         if (componenttype.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
             String query = queryUtils.getIFPInfo(ids);
-            List itemList = CompanyMasterLocalServiceUtil.executeQuery(query);
+            List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (itemList != null && itemList.size() > 0) {
                 for (int i = 0; i < itemList.size(); i++) {
                     NewComponentDTO itemDTO = new NewComponentDTO();
@@ -1315,11 +1303,11 @@ public class Newcomponent extends CustomComponent {
                             List listcNo = null;
                             if (!Constants.EMPTY.equals(cfpId.getValue())) {
                                 String query = "select upper(CFP_ID) from CFP_MODEL where CFP_ID='" + cfpId.getValue().toUpperCase() + "'";
-                                listcId = CompanyMasterLocalServiceUtil.executeQuery(query);
+                                listcId = HelperTableLocalServiceUtil.executeSelectQuery(query);
                             }
                             if (!Constants.EMPTY.equals(cfpNo.getValue())) {
                                 String query = "select upper(CFP_NO) from CFP_MODEL where CFP_NO='" + cfpNo.getValue().toUpperCase() + "'";
-                                listcNo = CompanyMasterLocalServiceUtil.executeQuery(query);
+                                listcNo = HelperTableLocalServiceUtil.executeSelectQuery(query);
                             }
                             Object[] itemIds = dashboardResultsTable.getItemIds().toArray();
                             for (int i = 0; i < itemIds.length; i++) {
@@ -1418,7 +1406,7 @@ public class Newcomponent extends CustomComponent {
                                         String companyStatus = String.valueOf(componentResultsContainer.getContainerProperty(item, Constants.COMPANY_STATUS).getValue());
                                         GcmCompanyDetails tempCFP = GcmCompanyDetailsLocalServiceUtil.createGcmCompanyDetails(0);
                                         tempCFP.setCompanyMasterSid(Integer.valueOf(companysid));
-                                        tempCFP.setCompanyId(companysid);
+                                        tempCFP.setCompanyStringId(companysid);
                                         tempCFP.setCompanyNo(cno);
                                         tempCFP.setCompanyName(cname);
 
@@ -1459,7 +1447,7 @@ public class Newcomponent extends CustomComponent {
                                 List listcId = null;
                                 if (!Constants.EMPTY.equals(ifpId.getValue())) {
                                     String query = "select upper(IFP_ID) from IFP_MODEL where IFP_ID='" + ifpId.getValue().toUpperCase() + "'";
-                                    listcId = CompanyMasterLocalServiceUtil.executeQuery(query);
+                                    listcId = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
                                 }
                                 Object[] itemIds = dashboardResultsTable.getItemIds().toArray();
@@ -1599,7 +1587,7 @@ public class Newcomponent extends CustomComponent {
                         if (checkSameItemInPs(itemFamilyPlanID, componentDetailsSelectedItem.getItemIds(), queryName)) {
                             if (!psId.getValue().equals(Constants.EMPTY) && !psNo.getValue().equals(Constants.EMPTY) && !psName.getValue().equals(Constants.EMPTY) && psStatus.getValue() != null && psStartDate.getValue() != null && !psfileName.getValue().equals(Constants.EMPTY)) {
                                 String query = "select * from PS_MODEL where PS_NAME='" + psName.getValue() + "'";
-                                List list = CompanyMasterLocalServiceUtil.executeQuery(query);
+                                List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                                 if (list != null && list.size() > 0) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Price Schedule Name already exist. Please Enter Different Name");
                                     return;
@@ -1734,7 +1722,7 @@ public class Newcomponent extends CustomComponent {
                         if (checkSameItemInPs(itemFamilyPlanId, componentDetailsSelectedItem.getItemIds(), "temp Table PS Select")) {
                             if (!rsId.getValue().equals(Constants.EMPTY) && !rsNumber.getValue().equals(Constants.EMPTY) && !rsName.getValue().equals(Constants.EMPTY) && !rsStatus.getValue().equals(Constants.ZEROSTRING) && !rsType.getValue().equals(Constants.ZEROSTRING) && rsStartDate.getValue() != null && rsEndDate.getValue() != null && !paymentFrequency.getValue().equals(Constants.ZEROSTRING) && !paymentMethod.getValue().equals(Constants.ZEROSTRING) && !rebatePlanLevel.getValue().equals(Constants.ZEROSTRING) && !rsRarType.getValue().equals(Constants.ZEROSTRING) && !calendar.getValue().equals(Constants.ZEROSTRING)) {
                                 String query = "select * from RS_MODEL where RS_NAME='" + rsName.getValue() + "'";
-                                List list = CompanyMasterLocalServiceUtil.executeQuery(query);
+                                List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                                 if (list != null && list.size() > 0) {
                                     AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Rebate Schedule Name already exist. Please Enter Different Name");
                                     return;
@@ -1882,7 +1870,6 @@ public class Newcomponent extends CustomComponent {
                 componentDetailsSearch.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
                 componentDetailsSearch.setNullSelectionAllowed(true);
                 componentDetailsSearch.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-                componentDetailsSearch.setImmediate(true);
                 componentDetailsSearch.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
                 componentDetailsSearch.addItem(Constants.COMPANY_ID);
                 componentDetailsSearch.addItem(Constants.COMPANYNAME);
@@ -1897,7 +1884,6 @@ public class Newcomponent extends CustomComponent {
                 componentDetailsSearch.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
                 componentDetailsSearch.setNullSelectionAllowed(true);
                 componentDetailsSearch.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-                componentDetailsSearch.setImmediate(true);
                 componentDetailsSearch.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
                 componentDetailsSearch.addItem(Constants.ITEM_ID);
                 componentDetailsSearch.addItem(Constants.ITEM_NAME);
@@ -1969,7 +1955,7 @@ public class Newcomponent extends CustomComponent {
             } else if (level.equals(Constants.THREE)) {
                 String temptableSId = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
                 String query = queryUtils.getTempTableValue(temptableSId);
-                List list = CompanyMasterLocalServiceUtil.executeQuery(query);
+                List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (list != null && list.size() > 0) {
                     Object[] obj = (Object[]) list.get(0);
                     PsModel psModel;
@@ -2019,7 +2005,7 @@ public class Newcomponent extends CustomComponent {
             } else if (level.equals(Constants.FOUR)) {
                 String temptableSId = String.valueOf(dashboardResultsTable.getContainerProperty(item, Constants.HIDDEN_ID).getValue());
                 String query = queryUtils.getTempTableValueForPS(temptableSId);
-                List list = CompanyMasterLocalServiceUtil.executeQuery(query);
+                List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (list != null && list.size() > 0) {
                     Object[] obj = (Object[]) list.get(0);
                     RsModel rsModel = RsModelLocalServiceUtil.createRsModel(0);
@@ -2254,7 +2240,7 @@ public class Newcomponent extends CustomComponent {
                 cfpDetailsNo.setEnabled(false);
                 cfpDetailsName.setEnabled(false);
                 String query = queryUtils.LoadmassupdateCompany(selectedCompanies);
-                List itemList = CompanyMasterLocalServiceUtil.executeQuery(query);
+                List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (itemList != null && itemList.size() > 0) {
                     for (int i = 0; i < itemList.size(); i++) {
                         NewComponentDTO itemDTO = new NewComponentDTO();
@@ -2298,7 +2284,7 @@ public class Newcomponent extends CustomComponent {
                 ifpDetailsNo.setEnabled(false);
                 ifpDetailsName.setEnabled(false);
                 String query = queryUtils.Loadmassupdateitem(selectedItems);
-                List itemList = CompanyMasterLocalServiceUtil.executeQuery(query);
+                List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 for (int i = 0; i < itemList.size(); i++) {
                     NewComponentDTO itemDTO = new NewComponentDTO();
                     Object[] obje = (Object[]) itemList.get(i);
@@ -2350,7 +2336,7 @@ public class Newcomponent extends CustomComponent {
                 String query = "select im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h1.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE from dbo.ITEM_MASTER im join dbo.IMTD_PS_DETAILS ipd \n"
                         + "on im.ITEM_MASTER_SID=ipd.ITEM_MASTER_SID and ipd.PS_MODEL_SID='" + hiddenId + "' join dbo.HELPER_TABLE h on h.HELPER_TABLE_SID=im.THERAPEUTIC_CLASS join dbo.BRAND_MASTER bm on bm.BRAND_MASTER_SID=im.BRAND_MASTER_SID\n"
                         + "join dbo.HELPER_TABLE h1 on h1.HELPER_TABLE_SID=im.ITEM_STATUS";
-                List itemList = CompanyMasterLocalServiceUtil.executeQuery(query);
+                List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 for (int i = 0; i < itemList.size(); i++) {
                     NewComponentDTO itemDTO = new NewComponentDTO();
                     Object[] obje = (Object[]) itemList.get(i);
@@ -2403,7 +2389,7 @@ public class Newcomponent extends CustomComponent {
                 String query = "select im.ITEM_NO,im.ITEM_NAME,h.DESCRIPTION AS THERAPHY,bm.BRAND_NAME,h1.DESCRIPTION AS STATUS,im.ITEM_START_DATE,im.ITEM_END_DATE from dbo.ITEM_MASTER im join dbo.IMTD_PS_DETAILS ipd \n"
                         + "on im.ITEM_MASTER_SID=ipd.ITEM_MASTER_SID and ipd.PS_MODEL_SID='" + hiddenId + "' join dbo.HELPER_TABLE h on h.HELPER_TABLE_SID=im.THERAPEUTIC_CLASS join dbo.BRAND_MASTER bm on bm.BRAND_MASTER_SID=im.BRAND_MASTER_SID\n"
                         + "join dbo.HELPER_TABLE h1 on h1.HELPER_TABLE_SID=im.ITEM_STATUS";
-                List itemList = CompanyMasterLocalServiceUtil.executeQuery(query);
+                List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 for (int i = 0; i < itemList.size(); i++) {
                     NewComponentDTO itemDTO = new NewComponentDTO();
                     Object[] obje = (Object[]) itemList.get(i);
@@ -2504,7 +2490,7 @@ public class Newcomponent extends CustomComponent {
         query += " INSERT INTO CFP_DETAILS (COMPANY_MASTER_SID,COMPANY_START_DATE,COMPANY_END_DATE,TRADING_PARTNER_CONTRACT_NO,COMPANY_CFP_ATTACHED_STATUS,COMPANY_CFP_ATTACHED_DATE,CREATED_BY,CREATED_DATE,CFP_MODEL_SID,INBOUND_STATUS,RECORD_LOCK_STATUS,MODIFIED_BY,\"SOURCE\")\n"
                 + "select COMPANY_MASTER_SID,CFP_DETAILS_START_DATE,CFP_DETAILS_END_DATE,CFP_DETAILS_TRADE_CLASS,COMPANY_STATUS,CFP_DETAILS_START_DATE,CREATED_BY,CREATED_DATE," + cfpModelSid + ",'A',0,1,'BPI' from GCM_COMPANY_DETAILS"
                 + " where CFP_MODEL_SID=" + temptableSId + ";";
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 
     private void updateToIfpDetails(int ifpModelSid, String temptableSId) {
@@ -2513,7 +2499,7 @@ public class Newcomponent extends CustomComponent {
                 + "  		START_DATE,END_DATE,INBOUND_STATUS,\n"
                 + "  		RECORD_LOCK_STATUS,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE,\"SOURCE\") "
                 + " select " + ifpModelSid + ",ITEM_MASTER_SID,ITEM_STATUS_SID,IFP_DETAILS_START_DATE,IFP_DETAILS_END_DATE,'A',0,1,CREATED_DATE,1,MODIFIED_DATE,'BPI' from GCM_ITEM_DETAILS  where IFP_MODEL_SID=" + temptableSId + ";";
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 
     private boolean checkStartDate() {

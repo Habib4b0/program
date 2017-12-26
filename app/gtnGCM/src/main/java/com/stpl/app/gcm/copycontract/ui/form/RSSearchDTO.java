@@ -9,8 +9,8 @@ import com.stpl.app.gcm.copycontract.logic.CopyContractLogic;
 import java.util.ArrayList;
 import java.util.List;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.BeanDAO;
-import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
+import org.asi.ui.addons.lazycontainer.BeanDAO;
+import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 
 /**
  *

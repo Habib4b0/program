@@ -59,36 +59,37 @@ import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.event.FieldEvents;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.event.FieldEvents.FocusListener;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.event.FieldEvents;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.OptionGroup;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.v7.ui.themes.Reindeer;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
@@ -624,7 +625,6 @@ public class UpdatedContractSelection extends VerticalLayout {
         pagedTable.setColumnAlignment("contEndDate", ExtCustomTable.Align.CENTER);
         pagedTable.setColumnAlignment(Constants.COMP_START_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         pagedTable.setColumnAlignment(Constants.COMP_END_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
-        pagedTable.setImmediate(true);
         pagedTable.setSizeFull();
         pagedTable.setSelectable(true);
         pagedTable.setPageLength(NumericConstants.FIVE);
@@ -662,7 +662,6 @@ public class UpdatedContractSelection extends VerticalLayout {
                 if (!dto.getWorkflowStatus().equals(StringUtils.EMPTY)) {
                     projectionId.setCaption(dto.getProjectionId()); // for setting revision date in excel
                     projectionId.setData(dto);
-                    projectionId.setImmediate(true);
                     projectionId.setStyleName(Reindeer.BUTTON_LINK);
                     projectionId.addClickListener(new Button.ClickListener() {
                         public void buttonClick(Button.ClickEvent event) {
@@ -695,7 +694,6 @@ public class UpdatedContractSelection extends VerticalLayout {
                     if (!dto.getWorkflowStatus().trim().isEmpty()) {
                         check.setVisible(false);
                     } else {
-                        check.setImmediate(true);
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 logic.callCheckRecUpdate(check.getValue(), (ContractResultDTO) itemId, screenName, session);
@@ -718,13 +716,12 @@ public class UpdatedContractSelection extends VerticalLayout {
                     compStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     compStartDate.setDateFormat(Constants.DATE_FORMAT);
                     if (dto.getWorkflowStatus().trim().isEmpty() && (screenName.equals(TAB_TRANSFER_CONTRACT.getConstant()) || TRADING_PARTNER_UPDATE.getConstant().equals(session.getModuleName()) || session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()))) {
-                        compStartDate.setImmediate(true);
                         compStartDate.setData(((ContractResultDTO) itemId).getCompStartDate());
 
-                        compStartDate.addFocusListener(new FieldEvents.FocusListener() {
+                        compStartDate.addFocusListener(new FocusListener() {
 
                             @Override
-                            public void focus(FieldEvents.FocusEvent event) {
+                            public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                                 Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
 
                                     public void valueChange(Property.ValueChangeEvent event) {
@@ -774,12 +771,11 @@ public class UpdatedContractSelection extends VerticalLayout {
                     compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     compEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     if (dto.getWorkflowStatus().trim().isEmpty()) {
-                        compEndDate.setImmediate(true);
                         compEndDate.setData(((ContractResultDTO) itemId).getCompEndDate());
-                        compEndDate.addFocusListener(new FieldEvents.FocusListener() {
+                        compEndDate.addFocusListener(new FocusListener() {
 
                             @Override
-                            public void focus(FieldEvents.FocusEvent event) {
+                            public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                                 Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                                     public void valueChange(Property.ValueChangeEvent event) {
                                         if (!isTableUpdate) {
@@ -831,7 +827,6 @@ public class UpdatedContractSelection extends VerticalLayout {
 
                 if (String.valueOf(propertyId).equals(Constants.STATUS_S)) {
                     final CustomComboBox status = new CustomComboBox();
-                    status.setImmediate(true);
                     try {
                         CommmonLogic.loaDDLBForListLoading(status, UiUtils.STATUS, false);
                     } catch (Exception ex) {
@@ -840,10 +835,10 @@ public class UpdatedContractSelection extends VerticalLayout {
                     if (screenName.equals(TAB_TRANSFER_CONTRACT.getConstant())
                             || (session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()) && dto.getWorkflowStatus().trim().isEmpty())
                             || (session.getModuleName().equals(TRADING_PARTNER_UPDATE.getConstant()) && dto.getWorkflowStatus().trim().isEmpty())) {
-                        status.addFocusListener(new FieldEvents.FocusListener() {
+                        status.addFocusListener(new FocusListener() {
 
                             @Override
-                            public void focus(FieldEvents.FocusEvent event) {
+                            public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                                 status.addValueChangeListener(new Property.ValueChangeListener() {
 
                                     @Override

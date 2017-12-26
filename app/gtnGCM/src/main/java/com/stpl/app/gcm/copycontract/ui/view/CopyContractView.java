@@ -8,8 +8,8 @@ import com.stpl.app.gcm.copycontract.dto.ContractSelectionDTO;
 import com.stpl.app.gcm.copycontract.ui.form.CopyContractform;
 import com.stpl.app.gcm.discount.ui.layout.CopyContractWindow;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.ui.VerticalLayout;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
 
 /**

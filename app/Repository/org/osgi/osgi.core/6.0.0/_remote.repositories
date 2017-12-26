@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Dec 22 18:17:07 IST 2017
+osgi.core-6.0.0.jar>central=
+osgi.core-6.0.0.pom>central=
+osgi.core-6.0.0.jar>liferay-public=
+osgi.core-6.0.0.pom>liferay-public=

@@ -10,7 +10,7 @@ import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.SalesTabDTO;
 import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
 import com.stpl.app.gcm.tp.logic.LoadTabLogic;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

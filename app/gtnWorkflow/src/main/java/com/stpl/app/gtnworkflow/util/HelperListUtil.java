@@ -10,11 +10,10 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.stpl.app.gtnworkflow.util.xmlparser.SQlUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -204,7 +203,7 @@ public class HelperListUtil {
     public void loadBusinessUnitValues() {
         try {
             List<HelperDTO> helperList = new ArrayList<HelperDTO>();
-            String query = CustomSQLUtil.get("loadBusinessUnitInWorkflow");
+            String query = SQlUtil.getQuery("loadBusinessUnitInWorkflow");
             final List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (list != null) {
                 String currentListName = "Business_Unit";
