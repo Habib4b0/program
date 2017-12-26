@@ -17,7 +17,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 @Widgetset("com.stpl.app.v8.AppWidgetSet")
 @Component(service = UI.class, property = {
         "com.liferay.portlet.display-category=Security",
-        "javax.portlet.name=UserGrpBsnsRoleMaster",
+        "javax.portlet.name=UserGroupBusinessRoleMaster",
         "javax.portlet.display-name=User Group Business Role Master",
         "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class UserBsnsRoleMgmtUI extends UI {

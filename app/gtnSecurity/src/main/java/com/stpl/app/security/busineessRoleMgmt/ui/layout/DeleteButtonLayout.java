@@ -1,12 +1,9 @@
 package com.stpl.app.security.busineessRoleMgmt.ui.layout;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import com.stpl.app.security.busineessRoleMgmt.dto.BusinessroleMasterDTO;
 import com.stpl.app.security.busineessRoleMgmt.logic.BusinessRoleMgmtLogic;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.v7.data.util.BeanItem;
@@ -21,11 +18,12 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.v7.ui.Table;
 import com.stpl.app.security.businessRoleModuleMaster.util.CommonUtils;
+import org.jboss.logging.Logger;
 
 public class DeleteButtonLayout extends HorizontalLayout {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = LogManager
+	private static final Logger LOGGER = Logger
 			.getLogger(DeleteButtonLayout.class.getName());
 	private ErrorfulFieldGroup binder;
 	BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;

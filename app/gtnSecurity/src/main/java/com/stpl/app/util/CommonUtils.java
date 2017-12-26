@@ -11,8 +11,6 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 
@@ -21,8 +19,6 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
  * @author Santanukumar
  */
 public class CommonUtils {
-    private static final Logger LOGGER = LogManager
-            .getLogger(CommonUtils.class);
     public static HashMap<String, Long> getUserInfo() {
 
         List<User> users = new ArrayList<User>();

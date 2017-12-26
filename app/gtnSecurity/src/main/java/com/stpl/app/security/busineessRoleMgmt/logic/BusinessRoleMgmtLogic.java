@@ -3,8 +3,6 @@ package com.stpl.app.security.busineessRoleMgmt.logic;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import com.stpl.app.model.BusinessroleMaster;
 import com.stpl.app.security.busineessRoleMgmt.dto.BusinessroleMasterDTO;
 import com.stpl.app.security.businessRoleModuleMaster.util.CommonUtils;
@@ -14,14 +12,13 @@ import com.stpl.app.service.BusinessroleMasterLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.util.BeanItemContainer;
+import org.jboss.logging.Logger;
 
 public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterDTO>{
-	private static final Logger LOGGER = LogManager
+	private static final Logger LOGGER = Logger
 			.getLogger(BusinessRoleMgmtLogic.class.getName());
     public BusinessRoleMgmtLogic() {
         super(BusinessroleMasterDTO.class);
