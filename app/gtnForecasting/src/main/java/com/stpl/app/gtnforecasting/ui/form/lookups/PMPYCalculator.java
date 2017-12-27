@@ -231,7 +231,7 @@ public class PMPYCalculator extends Window {
     /**
      * The df UNITS_SMALL.
      */
-    private DecimalFormat dfUnits = new DecimalFormat("#.0");
+    private final DecimalFormat dfUnits = new DecimalFormat("#.0");
 
     /**
      * The calculated SALES_SMALL value.
@@ -487,6 +487,7 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
 
                     MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", "Are you sure you want to reset the page to default values?", new MessageBoxListener() {
@@ -494,6 +495,7 @@ public class PMPYCalculator extends Window {
                          * Default method.
                          */
 
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(Constant.YES)) {
                                 // reset the fields here
@@ -517,6 +519,7 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
 
                     firstCalculation();
@@ -528,6 +531,7 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
                     secondCalculation();
                 }
@@ -536,19 +540,12 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
 
                     try {
                         importButtonLogic();
-                    } catch (IllegalAccessException e) {
-
-                        LOGGER.error(e);
-
-                    } catch (InvocationTargetException e) {
-
-                        LOGGER.error(e);
-
-                    } catch (NoSuchMethodException e) {
+                    } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 
                         LOGGER.error(e);
 
@@ -655,6 +652,7 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
                     final boolean chValue = isContractCheckBoxSelected();
                     final boolean tpValue = isTpCheckBoxSelectd();
@@ -1113,6 +1111,7 @@ public class PMPYCalculator extends Window {
                      * Default method.
                      */
 
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals(Constant.YES)) {
                             close();

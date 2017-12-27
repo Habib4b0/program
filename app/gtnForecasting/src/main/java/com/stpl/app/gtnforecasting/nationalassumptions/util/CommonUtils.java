@@ -182,27 +182,29 @@ public class CommonUtils {
         SessionDTO startAndTodate = CommonUtils.sessionDto;
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
-        int startYear = startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
-        int endYear = endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
-        Calendar now = CommonUtils.getCalendar();
-        int currentYr = now.get(Calendar.YEAR);
-        int histYear = currentYr - NumericConstants.THREE;
+        if (startDate != null) {
+            int startYear = startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+            int endYear = endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+            Calendar now = CommonUtils.getCalendar();
+            int currentYr = now.get(Calendar.YEAR);
+            int histYear = currentYr - NumericConstants.THREE;
 
-        select.addItem(Constant.SELECT_ONE);
-        if (histYear >= startYear) {
-            int years = (endYear - startYear) + 1;
-            for (int i = 0; i < years; i++) {
-                int year = (startYear) + i;
-                for (int j = 1; j < NumericConstants.FIVE; j++) {
-                    select.addItem(Constant.Q + j + " " + year);
+            select.addItem(Constant.SELECT_ONE);
+            if (histYear >= startYear) {
+                int years = (endYear - startYear) + 1;
+                for (int i = 0; i < years; i++) {
+                    int year = (startYear) + i;
+                    for (int j = 1; j < NumericConstants.FIVE; j++) {
+                        select.addItem(Constant.Q + j + " " + year);
+                    }
                 }
-            }
-        } else {
-            int years = (endYear - histYear) + 1;
-            for (int i = 0; i < years; i++) {
-                int year = (histYear) + i;
-                for (int j = 1; j < NumericConstants.FIVE; j++) {
-                    select.addItem(Constant.Q + j + " " + year);
+            } else {
+                int years = (endYear - histYear) + 1;
+                for (int i = 0; i < years; i++) {
+                    int year = (histYear) + i;
+                    for (int j = 1; j < NumericConstants.FIVE; j++) {
+                        select.addItem(Constant.Q + j + " " + year);
+                    }
                 }
             }
         }
@@ -226,30 +228,32 @@ public class CommonUtils {
         SessionDTO startAndTodate = CommonUtils.sessionDto;
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
-        int startYear = startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
-        int endYear = endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
-        int lastPr=NumericConstants.FOUR;
-        int endMonth=endDate.getMonth()+ 1;
-        int endPeriod=getQuator(endMonth);
-        int years = (endYear - startYear) + 1;
-        int startMonth=startDate.getMonth()+ 1;
-        int startPeriod=getQuator(startMonth);
-        
-        select.addItem(Constant.SELECT_ONE);
-        for (int i = 0; i < years; i++) {
-            int year = (startYear) + i;
-            if (priceTypeValue.equals(Constant.ANNUAL_FSS)) {
-                select.addItem(year);
-            } else {
-             if (year == endYear) {
-                    lastPr = endPeriod;
-                }
-            for (int j = startPeriod; j <= lastPr; j++) {
-                select.addItem(Constant.Q + j + " " + year);
-            }
-            startPeriod=1;
-        }
-        }
+          if (startDate != null) {
+              int startYear = startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+              int endYear = endDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
+              int lastPr = NumericConstants.FOUR;
+              int endMonth = endDate.getMonth() + 1;
+              int endPeriod = getQuator(endMonth);
+              int years = (endYear - startYear) + 1;
+              int startMonth = startDate.getMonth() + 1;
+              int startPeriod = getQuator(startMonth);
+
+              select.addItem(Constant.SELECT_ONE);
+              for (int i = 0; i < years; i++) {
+                  int year = (startYear) + i;
+                  if (priceTypeValue.equals(Constant.ANNUAL_FSS)) {
+                      select.addItem(year);
+                  } else {
+                      if (year == endYear) {
+                          lastPr = endPeriod;
+                      }
+                      for (int j = startPeriod; j <= lastPr; j++) {
+                          select.addItem(Constant.Q + j + " " + year);
+                      }
+                      startPeriod = 1;
+                  }
+              }
+          }
         return select;
     }
 
@@ -399,10 +403,7 @@ public class CommonUtils {
                  helperTable = HelperTableLocalServiceUtil.getHelperTable(id);
             }
             return id == 0 ? StringUtils.EMPTY : helperTable.getDescription();
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-            return StringUtils.EMPTY;
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
             return StringUtils.EMPTY;
         }

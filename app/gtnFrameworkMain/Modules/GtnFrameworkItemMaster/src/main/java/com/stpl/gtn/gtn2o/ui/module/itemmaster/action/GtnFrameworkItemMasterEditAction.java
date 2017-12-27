@@ -1,8 +1,10 @@
 package com.stpl.gtn.gtn2o.ui.module.itemmaster.action;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.asi.container.ExtContainer;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -28,8 +30,6 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.itemmaster.GtnWsItemMasterRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import java.util.ArrayList;
-import org.asi.container.ExtContainer;
 
 /**
  *
@@ -112,35 +112,35 @@ public class GtnFrameworkItemMasterEditAction
 	public void configureInformationTabComponents(String sourceComponentId, GtnWsItemMasterInfoBean imEditBean)
 			throws GtnFrameworkGeneralException {
 		List<Object> imFielsValues = Arrays.asList(new Object[] { imEditBean.getItemId(), imEditBean.getItemNo(),
-                imEditBean.getItemDesc(), imEditBean.getItemName(), imEditBean.getItemId(), imEditBean.getItemNo(),
-                imEditBean.getItemDesc(), imEditBean.getItemName(), imEditBean.getItemStatus(),
-                imEditBean.getItemStartDate(), imEditBean.getItemEndDate(), imEditBean.getItemType(),
-                imEditBean.getTherapeuticClass(), imEditBean.getBrandMasterSid(), imEditBean.getItemClass(),
-                imEditBean.getForm(), imEditBean.getStrength(), imEditBean.getFirstSaleDate(), imEditBean.getNdc9(),
-                imEditBean.getNdc8(), imEditBean.getPrimaryUom(), imEditBean.getSecondaryUom(),
-                imEditBean.getLabelerCode(), imEditBean.getItemCode(), imEditBean.getPackageSize(),
-                imEditBean.getPackageSizeCode(), imEditBean.getItemTypeIndication(), imEditBean.getItemCategory(),
-                imEditBean.getPackageSizeIntroDate(), imEditBean.getManufacturerId(), imEditBean.getUdc1(),
-                imEditBean.getUdc2(), imEditBean.getUdc3(), imEditBean.getUdc4(), imEditBean.getUdc5(),
-                imEditBean.getUdc6(), imEditBean.getCompanyMasterSid(), imEditBean.getDosesPerUnit(),
-                imEditBean.getShelfLife(), imEditBean.getShelfLifeType(), imEditBean.getLastLotExpirationDate(),
-                imEditBean.getAuthorizedGenericStartDate(), imEditBean.getPediatricExclusiveStartDate(),
-                imEditBean.getClottingFactorStartDate(), imEditBean.getDiscontinuationDate(),
-                imEditBean.getAuthorizedGenericEndDate(), imEditBean.getPediatricExclusiveEndDate(),
-                imEditBean.getClottingFactorEndDate(), imEditBean.getDivestitureDate(), imEditBean.getAcquisitionDate(),
-                imEditBean.getNonFederalExpirationDate(), imEditBean.getMarketTerminationDate(),
-                imEditBean.getBaseCpiPeriod(), imEditBean.getAuthorizedGeneric(),
-                imEditBean.getPediatricExclusiveIndicator(), imEditBean.getClottingFactorIndicator(),
-                imEditBean.getDualPricingIndicator(), imEditBean.getNewFormulationIndicator(), imEditBean.getUpps(),
+				imEditBean.getItemDesc(), imEditBean.getItemName(), imEditBean.getItemId(), imEditBean.getItemNo(),
+				imEditBean.getItemDesc(), imEditBean.getItemName(), imEditBean.getItemStatus(),
+				imEditBean.getItemStartDate(), imEditBean.getItemEndDate(), imEditBean.getItemType(),
+				imEditBean.getTherapeuticClass(), imEditBean.getBrandMasterSid(), imEditBean.getItemClass(),
+				imEditBean.getForm(), imEditBean.getStrength(), imEditBean.getFirstSaleDate(), imEditBean.getNdc9(),
+				imEditBean.getNdc8(), imEditBean.getPrimaryUom(), imEditBean.getSecondaryUom(),
+				imEditBean.getLabelerCode(), imEditBean.getItemCode(), imEditBean.getPackageSize(),
+				imEditBean.getPackageSizeCode(), imEditBean.getItemTypeIndication(), imEditBean.getItemCategory(),
+				imEditBean.getPackageSizeIntroDate(), imEditBean.getManufacturerId(), imEditBean.getUdc1(),
+				imEditBean.getUdc2(), imEditBean.getUdc3(), imEditBean.getUdc4(), imEditBean.getUdc5(),
+				imEditBean.getUdc6(), imEditBean.getCompanyMasterSid(), imEditBean.getDosesPerUnit(),
+				imEditBean.getShelfLife(), imEditBean.getShelfLifeType(), imEditBean.getLastLotExpirationDate(),
+				imEditBean.getAuthorizedGenericStartDate(), imEditBean.getPediatricExclusiveStartDate(),
+				imEditBean.getClottingFactorStartDate(), imEditBean.getDiscontinuationDate(),
+				imEditBean.getAuthorizedGenericEndDate(), imEditBean.getPediatricExclusiveEndDate(),
+				imEditBean.getClottingFactorEndDate(), imEditBean.getDivestitureDate(), imEditBean.getAcquisitionDate(),
+				imEditBean.getNonFederalExpirationDate(), imEditBean.getMarketTerminationDate(),
+				imEditBean.getBaseCpiPeriod(), imEditBean.getAuthorizedGeneric(),
+				imEditBean.getPediatricExclusiveIndicator(), imEditBean.getClottingFactorIndicator(),
+				imEditBean.getDualPricingIndicator(), imEditBean.getNewFormulationIndicator(), imEditBean.getUpps(),
 				imEditBean.getBaselineAmp(), imEditBean.getBaseCpi(), imEditBean.getAcquiredAmp(),
-                imEditBean.getAcquiredBamp(), imEditBean.getDra(), imEditBean.getObraBamp(),
-                imEditBean.getNewFormulationStartDate(), imEditBean.getNewFormulationEndDate(),
-                imEditBean.getNewFormulation(), null, GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null, null,
-                GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
-                GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null, null,
-                GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
-                GtnFrameworkCommonStringConstants.STRING_NULL.equals(String.valueOf(imEditBean.getNdc9())) ? null
-                        : Integer.parseInt(imEditBean.getNdc9()) });
+				imEditBean.getAcquiredBamp(), imEditBean.getDra(), imEditBean.getObraBamp(),
+				imEditBean.getNewFormulationStartDate(), imEditBean.getNewFormulationEndDate(),
+				imEditBean.getNewFormulation(), null, GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null, null,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null, null,
+				GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
+				GtnFrameworkCommonStringConstants.STRING_NULL.equals(String.valueOf(imEditBean.getNdc9())) ? null
+						: Integer.parseInt(imEditBean.getNdc9()) });
 
 		GtnUIFrameWorkActionConfig imEditDefaultValueActionConfig = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.SET_DEFAULT_ACTION);

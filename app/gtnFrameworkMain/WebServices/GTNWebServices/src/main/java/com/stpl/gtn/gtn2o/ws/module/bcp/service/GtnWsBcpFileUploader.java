@@ -3,7 +3,6 @@ package com.stpl.gtn.gtn2o.ws.module.bcp.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -17,6 +16,8 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.bcp.GtnWsBcpServiceRequest;
+import java.nio.file.Files;
+import java.util.Arrays;
 
 @Service
 public class GtnWsBcpFileUploader {
@@ -91,11 +92,12 @@ public class GtnWsBcpFileUploader {
 			builder.directory(dir);
 
 		}
+                GTNLOGGER.info("uploadFiles command : "+Arrays.toString(commandArray));
 		Process p = builder.start();
 		p.waitFor();
 		fileList.add(finalFile);
 		fileList.add(logPath);
-		for (String fileName : fileList) {
+                for (String fileName : fileList) {
 			GTNLOGGER.debug("Deleted filename " + fileName);
 			Files.delete(GtnFileNameUtils.getPath(fileName));
 		}

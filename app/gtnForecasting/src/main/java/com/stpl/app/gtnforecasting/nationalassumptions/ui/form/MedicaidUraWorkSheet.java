@@ -191,28 +191,28 @@ public class MedicaidUraWorkSheet extends Window {
     private boolean valueChange = false;
     private boolean valueTAChange = false;
     private String description = StringUtils.EMPTY;
-    private Map<String, String> adjustedValues = new HashMap<>();
-    private Map<String, String> editedNotes = new HashMap<>();
+    private final Map<String, String> adjustedValues = new HashMap<>();
+    private final Map<String, String> editedNotes = new HashMap<>();
 
-    private Map<String, String> secondAdjustedValues = new HashMap<>();
-    private Map<String, String> secondEditedNotes = new HashMap<>();
+    private final Map<String, String> secondAdjustedValues = new HashMap<>();
+    private final Map<String, String> secondEditedNotes = new HashMap<>();
 
-    private Map<String, String> thirdAdjustedValues = new HashMap<>();
-    private Map<String, String> fourthAdjustedValues = new HashMap<>();
-    private Map<String, String> thirdEditedNotes = new HashMap<>();
-    private MedicaidQueryUtils queryUtil = new MedicaidQueryUtils();
+    private final Map<String, String> thirdAdjustedValues = new HashMap<>();
+    private final Map<String, String> fourthAdjustedValues = new HashMap<>();
+    private final Map<String, String> thirdEditedNotes = new HashMap<>();
+    private final MedicaidQueryUtils queryUtil = new MedicaidQueryUtils();
 
-    private Map<String, String> bpAdjustedValues = new HashMap<>();
-    private Map<String, String> bpEditedNotes = new HashMap<>();
-    private Map<String, String> cpiAdjustedValues = new HashMap<>();
-    private Map<String, String> cpiEditedNotes = new HashMap<>();
+    private final Map<String, String> bpAdjustedValues = new HashMap<>();
+    private final Map<String, String> bpEditedNotes = new HashMap<>();
+    private final Map<String, String> cpiAdjustedValues = new HashMap<>();
+    private final Map<String, String> cpiEditedNotes = new HashMap<>();
     private boolean submitFlag = false;
     private boolean submitMsg = false;
-    private HelperDTO ndcResultdto;
-    private HelperDTO brandResultdto;
-    private SessionDTO sessionDTO;
+    private final HelperDTO ndcResultdto;
+    private final HelperDTO brandResultdto;
+    private final SessionDTO sessionDTO;
     private boolean isFirestTimeLoadAMP = true, isFirestTimeLoadCPI = true;
-    private Map<String, String> baseYear = new HashMap<>();
+    private final Map<String, String> baseYear = new HashMap<>();
 
     /**
      * Instantiates a new master fcp work sheet.
@@ -371,10 +371,8 @@ public class MedicaidUraWorkSheet extends Window {
             } else {
                 closeBtn.setVisible(false);
             }
-        } catch (PortalException portal) {
+        } catch (PortalException | SystemException portal) {
             LOGGER.error(portal);
-        } catch (SystemException system) {
-            LOGGER.error(system);
         }
     }
 
@@ -402,6 +400,7 @@ public class MedicaidUraWorkSheet extends Window {
     @UiHandler("reset")
     public void reset(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -429,6 +428,7 @@ public class MedicaidUraWorkSheet extends Window {
     public void tableReset(Button.ClickEvent event) {
 
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -459,6 +459,7 @@ public class MedicaidUraWorkSheet extends Window {
         if (!Constant.VIEW.equalsIgnoreCase(MODE)) {
             if (submitFlag) {
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // do nothing
                     }
@@ -474,6 +475,7 @@ public class MedicaidUraWorkSheet extends Window {
                 }.getOkCancelMessage("Close Confirmation", "Are you sure you want to close the Worksheet? ");
             } else {
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // do nothing
                     }
@@ -572,6 +574,7 @@ public class MedicaidUraWorkSheet extends Window {
             /**
              * To create editable fields inside table .
              */
+            @Override
             public Field<?> createField(final Container container,
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {
@@ -1062,6 +1065,7 @@ public class MedicaidUraWorkSheet extends Window {
     public void submitBtn(final Button.ClickEvent event) {
         if (submitMsg) {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
 //
                 }

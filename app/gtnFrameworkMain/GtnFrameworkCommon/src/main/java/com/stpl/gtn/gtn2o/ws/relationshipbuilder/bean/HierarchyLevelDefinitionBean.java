@@ -58,6 +58,7 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 	private int hierarchyDefinitionSid;
 	private int modifiedBy;
 	private String levelName;
+	private int defaultVlaue;
 
 	public String getTableName() {
 		return tableName;
@@ -163,6 +164,14 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 		this.modifiedBy = modifiedBy;
 	}
 
+	public int getDefaultVlaue() {
+		return defaultVlaue;
+	}
+
+	public void setDefaultVlaue(int defaultVlaue) {
+		this.defaultVlaue = defaultVlaue;
+	}
+
 	public String getLevelName() {
 		return levelName;
 	}
@@ -249,6 +258,17 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 		setTableName((String) result[5]);
 		setFieldName((String) result[6]);
 		setVersionNo((Integer) result[7]);
+	}
+
+	public static HierarchyLevelDefinitionBean getPreviousLinkedLevel(
+			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
+			HierarchyLevelDefinitionBean currnetHierarchyLevelBean) {
+		for (int i = currnetHierarchyLevelBean.getLevelNo() - 2; i >= 0; i--) {
+			if (!hierarchyLevelDefinitionList.get(i).isUserDefined()) {
+				return hierarchyLevelDefinitionList.get(i);
+			}
+		}
+		return null;
 	}
 
 }

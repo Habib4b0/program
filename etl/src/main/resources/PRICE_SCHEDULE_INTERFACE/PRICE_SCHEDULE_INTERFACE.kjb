@@ -242,7 +242,43 @@ WHERE (upper(PRICE_TOLERANCE_INTERVAL)!=&apos;NULL&apos; or PRICE_TOLERANCE_INTE
 --WHERE PRICE_TYPE IS NOT NULL AND PRICE_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;PS_PRICE_TYPE&apos;)
 
 INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT ATTACHED_STATUS,&apos;STATUS&apos;,-1 FROM STAG_PRICE_SCHEDULE
-WHERE (upper(ATTACHED_STATUS)!=&apos;NULL&apos; or ATTACHED_STATUS IS NOT NULL ) AND ATTACHED_STATUS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;STATUS&apos;)</sql>
+WHERE (upper(ATTACHED_STATUS)!=&apos;NULL&apos; or ATTACHED_STATUS IS NOT NULL ) AND ATTACHED_STATUS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;STATUS&apos;)
+
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT PRICE_PROTECTION_STATUS,&apos;STATUS&apos;,-1 FROM STAG_PRICE_SCHEDULE
+WHERE (upper(PRICE_PROTECTION_STATUS)!=&apos;NULL&apos; or PRICE_PROTECTION_STATUS IS NOT NULL ) AND PRICE_PROTECTION_STATUS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;STATUS&apos;)
+
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT BASE_PRICE_TYPE,&apos;BASE_PRICE_TYPE&apos;,-1 FROM STAG_PRICE_SCHEDULE
+WHERE (upper(BASE_PRICE_TYPE)!=&apos;NULL&apos; or BASE_PRICE_TYPE IS NOT NULL ) AND BASE_PRICE_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;BASE_PRICE_TYPE&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT NET_SUBSEQUENT_PERIOD_PRICE,&apos;LOCKED_STATUS&apos;,-1 FROM STAG_PRICE_SCHEDULE
+WHERE (upper(NET_SUBSEQUENT_PERIOD_PRICE)!=&apos;NULL&apos; or NET_SUBSEQUENT_PERIOD_PRICE IS NOT NULL ) AND NET_SUBSEQUENT_PERIOD_PRICE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;LOCKED_STATUS&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT RESET_ELIGIBLE,&apos;LOCKED_STATUS&apos;,-1 FROM STAG_PRICE_SCHEDULE
+WHERE (upper(RESET_ELIGIBLE)!=&apos;NULL&apos; or RESET_ELIGIBLE IS NOT NULL ) AND RESET_ELIGIBLE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;LOCKED_STATUS&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT RESET_TYPE,&apos;RESET_TYPE&apos;,-1 FROM STAG_PRICE_SCHEDULE
+WHERE (upper(RESET_TYPE)!=&apos;NULL&apos; or RESET_TYPE IS NOT NULL ) AND RESET_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RESET_TYPE&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT RESET_INTERVAL,&apos;PRICE_TOLERANCE_INTERVAL&apos;,-1 FROM STAG_PRICE_SCHEDULE
+WHERE (upper(RESET_INTERVAL)!=&apos;NULL&apos; or RESET_INTERVAL IS NOT NULL ) AND RESET_INTERVAL NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;PRICE_TOLERANCE_INTERVAL&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT RESET_FREQUENCY,&apos;PRICE_TOLERANCE_FREQUENCY&apos;,-1 FROM STAG_PRICE_SCHEDULE
+WHERE (upper(RESET_FREQUENCY)!=&apos;NULL&apos; or RESET_FREQUENCY IS NOT NULL ) AND RESET_FREQUENCY NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;PRICE_TOLERANCE_FREQUENCY&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT NET_RESET_PRICE_TYPE,&apos;LOCKED_STATUS&apos;,-1 FROM STAG_PRICE_SCHEDULE
+WHERE (upper(NET_RESET_PRICE_TYPE)!=&apos;NULL&apos; or NET_RESET_PRICE_TYPE IS NOT NULL ) AND NET_RESET_PRICE_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;LOCKED_STATUS&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT NET_PRICE_TYPE,&apos;LOCKED_STATUS&apos;,-1 FROM STAG_PRICE_SCHEDULE
+WHERE (upper(NET_PRICE_TYPE)!=&apos;NULL&apos; or NET_PRICE_TYPE IS NOT NULL ) AND NET_PRICE_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;LOCKED_STATUS&apos;)
+
+
+
+
+
+
+</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -606,7 +642,28 @@ PRICE_SCHEDULE_ID
 ,PARENT_PRICES_CHEDULE_NAME
 ,CFP_ID
 ,IFP_ID
-
+,INTERNAL_NOTES
+,PRICE_PROTECTION_STATUS
+,PRICE_PROTECTION_PRICE_TYPE
+,NEP
+,NEP_FORMULA
+,BASE_PRICE_TYPE
+,NET_BASE_PRICE
+,NET_BASE_PRICE_FORMULA
+,SUBSEQUENT_PERIOD_PRICE_TYPE
+,NET_SUBSEQUENT_PERIOD_PRICE
+,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+,MAX_INCREMENTAL_CHANGE
+,RESET_ELIGIBLE
+,RESET_TYPE
+,RESET_DATE
+,RESET_INTERVAL
+,RESET_FREQUENCY
+,RESET_PRICE_TYPE
+,NET_RESET_PRICE_TYPE
+,NET_RESET_PRICE_FORMULA
+,NET_PRICE_TYPE
+,NET_PRICE_TYPE_FORMULA
 ) 
 SELECT 
 PRICE_SCHEDULE_ID
@@ -655,6 +712,28 @@ PRICE_SCHEDULE_ID
 ,PARENT_PRICE_SCHEDULE_NAME
 ,COMPANY_FAMILY_PLAN_ID
 ,ITEM_FAMILY_PLAN_ID
+,INTERNAL_NOTES
+,PRICE_PROTECTION_STATUS
+,PRICE_PROTECTION_PRICE_TYPE
+,NEP
+,NEP_FORMULA
+,BASE_PRICE_TYPE
+,NET_BASE_PRICE
+,NET_BASE_PRICE_FORMULA
+,SUBSEQUENT_PERIOD_PRICE_TYPE
+,NET_SUBSEQUENT_PERIOD_PRICE
+,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+,MAX_INCREMENTAL_CHANGE
+,RESET_ELIGIBLE
+,RESET_TYPE
+,RESET_DATE
+,RESET_INTERVAL
+,RESET_FREQUENCY
+,RESET_PRICE_TYPE
+,NET_RESET_PRICE_TYPE
+,NET_RESET_PRICE_FORMULA
+,NET_PRICE_TYPE
+,NET_PRICE_TYPE_FORMULA
 
  FROM ${STAGING_DB}..PRICE_SCHEDULE_INTERFACE</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
@@ -723,6 +802,29 @@ PRICE_SCHEDULE_ID
 ,PARENT_PRICE_SCHEDULE_NAME
 ,CFP_ID
 ,IFP_ID
+,INTERNAL_NOTES
+,PRICE_PROTECTION_STATUS
+,PRICE_PROTECTION_PRICE_TYPE
+,NEP
+,NEP_FORMULA
+,BASE_PRICE_TYPE
+,NET_BASE_PRICE
+,NET_BASE_PRICE_FORMULA
+,SUBSEQUENT_PERIOD_PRICE_TYPE
+,NET_SUBSEQUENT_PERIOD_PRICE
+,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+,MAX_INCREMENTAL_CHANGE
+,RESET_ELIGIBLE
+,RESET_TYPE
+,RESET_DATE
+,RESET_INTERVAL
+,RESET_FREQUENCY
+,RESET_PRICE_TYPE
+,NET_RESET_PRICE_TYPE
+,NET_RESET_PRICE_FORMULA
+,NET_PRICE_TYPE
+,NET_PRICE_TYPE_FORMULA
+
 
 )
 
@@ -774,6 +876,29 @@ a.PRICE_SCHEDULE_ID
 ,a.PARENT_PRICES_CHEDULE_NAME
 ,a.CFP_ID
 ,a.IFP_ID
+,a.INTERNAL_NOTES
+,a.PRICE_PROTECTION_STATUS
+,a.PRICE_PROTECTION_PRICE_TYPE
+,a.NEP
+,a.NEP_FORMULA
+,a.BASE_PRICE_TYPE
+,a.NET_BASE_PRICE
+,a.NET_BASE_PRICE_FORMULA
+,a.SUBSEQUENT_PERIOD_PRICE_TYPE
+,a.NET_SUBSEQUENT_PERIOD_PRICE
+,a.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+,a.MAX_INCREMENTAL_CHANGE
+,a.RESET_ELIGIBLE
+,a.RESET_TYPE
+,a.RESET_DATE
+,a.RESET_INTERVAL
+,a.RESET_FREQUENCY
+,a.RESET_PRICE_TYPE
+,a.NET_RESET_PRICE_TYPE
+,a.NET_RESET_PRICE_FORMULA
+,a.NET_PRICE_TYPE
+,a.NET_PRICE_TYPE_FORMULA
+
 
 
 
@@ -856,7 +981,28 @@ PRICE_SCHEDULE_ID
 ,PARENT_PRICE_SCHEDULE_NAME
 ,CFP_ID
 ,IFP_ID
-
+,INTERNAL_NOTES
+,PRICE_PROTECTION_STATUS
+,PRICE_PROTECTION_PRICE_TYPE
+,NEP
+,NEP_FORMULA
+,BASE_PRICE_TYPE
+,NET_BASE_PRICE
+,NET_BASE_PRICE_FORMULA
+,SUBSEQUENT_PERIOD_PRICE_TYPE
+,NET_SUBSEQUENT_PERIOD_PRICE
+,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+,MAX_INCREMENTAL_CHANGE
+,RESET_ELIGIBLE
+,RESET_TYPE
+,RESET_DATE
+,RESET_INTERVAL
+,RESET_FREQUENCY
+,RESET_PRICE_TYPE
+,NET_RESET_PRICE_TYPE
+,NET_RESET_PRICE_FORMULA
+,NET_PRICE_TYPE
+,NET_PRICE_TYPE_FORMULA
 
 
 )
@@ -909,6 +1055,28 @@ a.PRICE_SCHEDULE_ID
 ,a.PARENT_PRICES_CHEDULE_NAME
 ,a.CFP_ID
 ,a.IFP_ID
+,a.INTERNAL_NOTES
+,a.PRICE_PROTECTION_STATUS
+,a.PRICE_PROTECTION_PRICE_TYPE
+,a.NEP
+,a.NEP_FORMULA
+,a.BASE_PRICE_TYPE
+,a.NET_BASE_PRICE
+,a.NET_BASE_PRICE_FORMULA
+,a.SUBSEQUENT_PERIOD_PRICE_TYPE
+,a.NET_SUBSEQUENT_PERIOD_PRICE
+,a.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+,a.MAX_INCREMENTAL_CHANGE
+,a.RESET_ELIGIBLE
+,a.RESET_TYPE
+,a.RESET_DATE
+,a.RESET_INTERVAL
+,a.RESET_FREQUENCY
+,a.RESET_PRICE_TYPE
+,a.NET_RESET_PRICE_TYPE
+,a.NET_RESET_PRICE_FORMULA
+,a.NET_PRICE_TYPE
+,a.NET_PRICE_TYPE_FORMULA
 
 
  from #temp  a
@@ -1448,6 +1616,70 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;PR
       <xloc>1104</xloc>
       <yloc>1737</yloc>
       </entry>
+    <entry>
+      <name>REPROCESSING_INVALID_DATA</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;REPROCESSING_INVALID_DATA.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>699</xloc>
+      <yloc>648</yloc>
+      </entry>
+    <entry>
+      <name>SET_STAG_COUNT</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${COMMON_LOGIC_PATH}&#47;SET_STAG_COUNT.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>700</xloc>
+      <yloc>467</yloc>
+      </entry>
   </entries>
   <hops>
     <hop>
@@ -1820,15 +2052,6 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;PR
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT</from>
-      <to>TRUNCATE INTERFACE TABLE 2</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>TRUNCATE INTERFACE TABLE 2</from>
       <to>Simple evaluation 2 4 2 2</to>
       <from_nr>0</from_nr>
@@ -2042,6 +2265,42 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;PR
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT</from>
+      <to>SET_STAG_COUNT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SET_STAG_COUNT</from>
+      <to>REPROCESSING_INVALID_DATA</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REPROCESSING_INVALID_DATA</from>
+      <to>TRUNCATE INTERFACE TABLE 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REPROCESSING_INVALID_DATA</from>
+      <to>HELPER TABLE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
       <unconditional>N</unconditional>
     </hop>
   </hops>

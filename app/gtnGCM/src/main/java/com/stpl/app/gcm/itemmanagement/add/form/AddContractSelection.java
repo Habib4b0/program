@@ -22,7 +22,6 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentLookUpDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.FormulaDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractAllItemLookup;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractComponentInfo;
-import static com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractContractSearch.SEARCHICON;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.ComponentLookUp;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.NEPLookup;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.lookup.CFPLookUp;
@@ -172,6 +171,12 @@ public class AddContractSelection extends CustomComponent {
     public Label enddatelabel;
     @UiField("valuelabel")
     public Label valuelabel;
+    @UiField("baseWacPriceType")
+    private ComboBox baseWacPriceType;
+    @UiField("baseWacManual")
+    protected TextField baseWacManual;
+     @UiField("baseWacDate")
+    public PopupDateField baseWacDate;
     public static final Logger LOGGER = Logger.getLogger(AddContractSelection.class);
     AddItemDetailsTableLogic addItemTableLogic = new AddItemDetailsTableLogic();
     public static final String PRICE_TOLERANCE_FREQUENCY_LABEL = "Price ToleranceFrequency";
@@ -279,6 +284,7 @@ public class AddContractSelection extends CustomComponent {
         allItemsCombo.addItem("NO");
         allItemsCombo.select("NO");
         allItemsCombo.setReadOnly(true);
+        visibilityOptions();
     }
 
     @UiHandler("field")
@@ -510,6 +516,33 @@ public class AddContractSelection extends CustomComponent {
 
         }
 
+    }
+    @UiHandler("massUpdateValue")
+    public void basePriceTypeLogic(Property.ValueChangeEvent event) {
+        String processName = String.valueOf(massUpdateValue.getValue());
+        if (Constants.BASE_PRICE_TYPE_LABLE_NAME.equals(String.valueOf(field.getValue()))) {
+            baseWacDate.setValue(null);
+            baseWacPriceType.setValue(null);
+            baseWacManual.setValue(StringUtils.EMPTY);
+            if (Constants.SELECT_ONE.equals(processName) || Constants.NULL.equals(processName)){
+                baseWacManual.setVisible(false);
+                baseWacPriceType.setVisible(false);
+                baseWacDate.setVisible(false);
+            } else if (Constants.MANUAL_LABLE_NAME.equals(processName)) {
+                baseWacManual.setVisible(true);
+                baseWacPriceType.setVisible(false);
+                baseWacDate.setVisible(false);
+            } else if (Constants.DATE_LABLE_NAME.equals(processName)) {
+                baseWacDate.setVisible(true);
+                baseWacManual.setVisible(false);
+                baseWacPriceType.setVisible(false);
+            } else if (Constants.PRICE_TYPE_LABEL.equals(processName)) {
+                baseWacPriceType.setVisible(true);
+                baseWacManual.setVisible(false);
+                baseWacDate.setVisible(false);
+                loadPriceType(baseWacPriceType, false);
+            }
+        }
     }
 
     @UiHandler("searchBtn")
@@ -1247,8 +1280,11 @@ public class AddContractSelection extends CustomComponent {
         Collection itemId = addItemTable.getItemIds();
         List list = new ArrayList();
         Object value = null;
+        Object baseLineValue = null;
         String columnName = StringUtils.EMPTY;
+        String baseLineColumnName = StringUtils.EMPTY;
         String textValue;
+        String baseLineTextValue;
         HelperDTO tempDTO;
         Date tempDdate;
         for (Object object : itemId) {
@@ -1354,6 +1390,22 @@ public class AddContractSelection extends CustomComponent {
                         addItemTable.getItem(object).getItemProperty(Constants.BASE_PRICE_PROPERTY).setValue(tempDTO);
                         columnName = Constants.BASE_PRICE_TYPE_COLUMN_NAME;
                         value = tempDTO.getId();
+                        if (Constants.MANUAL_LABLE_NAME.equals(tempDTO.getDescription())) {
+                            baseLineTextValue = baseWacManual.getValue();
+                            addItemTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_MANUAL_LABLE_NAME).setValue(baseLineTextValue);
+                            baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
+                        } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
+                            addItemTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_DATE_LABLE_NAME).setValue(baseWacDate.getValue());
+                            baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
+                            baseLineValue = CommonUtils.DBDate.format(baseWacDate.getValue());
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                        } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
+                            baseLineValue = baseWacPriceType.getValue();
+                            addItemTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME).setValue(baseLineValue);
+                            baseLineColumnName = Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME;
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                        }
                         break;
                     case Constants.BASELINE_NET_WAC_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
@@ -1485,6 +1537,7 @@ public class AddContractSelection extends CustomComponent {
 
         list.addAll(getResultsInput(selection));
         logic.massUpdateItemDetails(list);
+        addItemTable.getContainerLogic().setCurrentPage(1);
     }
 
     private void resetMassUpdate() {
@@ -1537,8 +1590,12 @@ public class AddContractSelection extends CustomComponent {
         priceType.setItemCaptionPropertyId(null);
         priceType.addItem(0);
         priceType.setItemCaption(0, isFilter ? GlobalConstants.getShowAll() : GlobalConstants.getSelectOne());
-        priceType.setNullSelectionAllowed(true);
-        priceType.setNullSelectionItemId(0);
+        if (isFilter) {
+            priceType.setNullSelectionAllowed(true);
+            priceType.setNullSelectionItemId(0);
+        } else {
+            priceType.setNullSelectionAllowed(false);
+        }
         for (Object[] objects : list) {
             priceType.addItem((int) objects[0]);
             priceType.setItemCaption((int) objects[0], objects[1].toString());
@@ -1639,6 +1696,9 @@ public class AddContractSelection extends CustomComponent {
         tempTableMap.put(Constants.BASELINE_NET_WAC_LABLE_NAME, Constants.BASELINE_NET_WAC_COLUMN_NAME);
         tempTableMap.put(Constants.PRICE_TYPE_LABEL, Constants.PRICE_TYPE_COLUMN_NAME);
         tempTableMap.put(Constants.MEASUREMENT_PRICE_LABLE_NAME, Constants.MEASUREMENT_PRICE_COLUMN_NAME);
+        tempTableMap.put(Constants.BASELINE_WAC_LABLE_NAME, Constants.BASELINE_WAC_MANUAL_COLUMN_NAME);
+        tempTableMap.put(Constants.BASELINE_WAC_LABLE_NAME, Constants.BASELINE_WAC_DATE_COLUMN_NAME);
+        tempTableMap.put(Constants.BASELINE_WAC_LABLE_NAME, Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME);
     }
 
     private void loadFieldAndPropertyMap() {
@@ -1684,6 +1744,9 @@ public class AddContractSelection extends CustomComponent {
         fieldAndPropertyMap.put(Constants.BASELINE_NET_WAC_COLUMN_NAME, Constants.BASELINE_NET_WAC_PROPERTY);
         fieldAndPropertyMap.put(Constants.PRICE_TYPE_COLUMN_NAME, Constants.PRICE_TYPE_PROPERTY);
         fieldAndPropertyMap.put(Constants.MEASUREMENT_PRICE_COLUMN_NAME, Constants.MEASUREMENT_PRICE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.BASELINE_WAC_MANUAL_COLUMN_NAME, Constants.BASELINE_WAC_MANUAL_LABLE_NAME);
+        fieldAndPropertyMap.put(Constants.BASELINE_WAC_DATE_COLUMN_NAME, Constants.BASELINE_WAC_DATE_LABLE_NAME);
+        fieldAndPropertyMap.put(Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME, Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME);
     }
     
     public void LoadField() {
@@ -1723,6 +1786,7 @@ public class AddContractSelection extends CustomComponent {
         startdatelabel.setVisible(false);
         enddatelabel.setVisible(false);
         massUpdateText.setVisible(false);
+        visibilityOptions();
     }
 
     public void loadValueddlbTextField() {
@@ -1734,40 +1798,64 @@ public class AddContractSelection extends CustomComponent {
         massUpdateText.setVisible(true);
         populateBtn.setVisible(true);
         valuelabel.setVisible(true);
+        visibilityOptions();
     }
 
     public void loadValueddlbDateField(String processName) {
         massUpdateValue.setVisible(false);
-        massStartDate.setVisible(true);
-        massEndDate.setVisible(false);
         populateBtn.setVisible(true);
         valuelabel.setVisible(false);
-        startdatelabel.setVisible(true);
         massUpdateText.setVisible(false);
-        enddatelabel.setVisible(false);
+        visibilityOptions();
 
         switch (processName) {
             case Constants.ITEM_START_DATE:
+                startDateVisibility();
                 startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.ITEM_START_DATE.getConstant());
                 break;
             case Constants.ITEM_END_DATE:
+                endDateVisibility();
                 enddatelabel.setValue(ConstantsUtil.MassUpdateConstants.ITEM_END_DATE.getConstant());
                 break;
             case StringConstantsUtil.CP_START_DATE_LABEL:
+                startDateVisibility();
                 startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.CP_START_DATE.getConstant());
                 break;
             case StringConstantsUtil.CP_END_DATE_LABEL:
+                endDateVisibility();
                 enddatelabel.setValue(ConstantsUtil.MassUpdateConstants.CP_END_DATE.getConstant());
                 break;
             case Constants.PRICE_PROTECTION_START_DATE_LABEL:
+                startDateVisibility();
                 startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.PRICE_PRODECTION_START_DATE.getConstant());
                 break;
             case Constants.PRICE_PROTECTION_END_DATE_LABEL:
+                endDateVisibility();
                 enddatelabel.setValue(ConstantsUtil.MassUpdateConstants.PRICE_PRODECTION_END_DATE.getConstant());
                 break;
             case Constants.RESET_DATE_LABLE_NAME:
+                startDateVisibility();
                 startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.RESET_DATE.getConstant());
                 break;
         }
     }
-}
+
+    public void endDateVisibility() {
+        massStartDate.setVisible(false);
+        massEndDate.setVisible(true);
+        startdatelabel.setVisible(false);
+        enddatelabel.setVisible(true);
+    }
+
+    public void startDateVisibility() {
+        massStartDate.setVisible(true);
+        massEndDate.setVisible(false);
+        startdatelabel.setVisible(true);
+        enddatelabel.setVisible(false);
+    }
+    public void visibilityOptions() {
+        baseWacPriceType.setVisible(false);
+        baseWacManual.setVisible(false);
+        baseWacDate.setVisible(false);
+    }
+    }

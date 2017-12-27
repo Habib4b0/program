@@ -34,9 +34,9 @@ public class MethodologyLookUp extends Window {
 
     private final Table resultsTable = new Table();
 
-    BeanItemContainer<FormulaDTO> resultsContainer = new BeanItemContainer<>(FormulaDTO.class);
+    private final BeanItemContainer<FormulaDTO> resultsContainer = new BeanItemContainer<>(FormulaDTO.class);
 
-    Object formulaList;
+    private final Object formulaList;
     /**
      * Default Constructor to load the formula for Mass Update
      *

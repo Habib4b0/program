@@ -363,7 +363,6 @@ public class GtnWsContractDashboardCompanyLogic {
 		commonLogic.addUserIdSessionId(gtnWsRequest, inputlist);
 		inputlist.add(0, catalog);
 		inputlist.add(0, catalog);
-		commonLogic.addInputRecordType(gtnWsRequest, inputlist);
 		commonLogic.setGtnSearchResponse(gtnWsRequest, gtnResponse, controller, inputlist, queryName);
 	}
 

@@ -238,5 +238,48 @@
         <property name="reprocessedFlag" type="string">
             <column name="REPROCESSED_FLAG" length="1" />
         </property>
+        <property name="deductionInclusion" type="string">
+            <column name="DEDUCTION_INCLUSION" length="200" />
+        </property>
+        <property name="rebateScheduleAliasId" type="string">
+            <column name="REBATE_SCHEDULE_ALIAS_ID" length="200" />
+        </property>
+          <property name="paymentLevel" type="string">
+            <column name="PAYMENT_LEVEL" length="200" />
+        </property>
+        <property name="evaluationRuleLevel" type="string">
+            <column name="EVALUATION_RULE_LEVEL" length="200" />
+        </property>
+          <property name="evaluationRule" type="string">
+            <column name="EVALUATION_RULE" length="200" />
+        </property>
+        <property name="evaluationRuleBundle" type="string">
+            <column name="EVALUATION_RULE_BUNDLE" length="200" />
+        </property>
+          <property name="calculationType" type="string">
+            <column name="CALCULATION_TYPE" length="200" />
+        </property>
+        <property name="calculationRule" type="string">
+            <column name="CALCULATION_RULE" length="200" />
+        </property>
+          <property name="calculationRuleLevel" type="string">
+            <column name="CALCULATION_RULE_LEVEL" length="200" />
+        </property>
+        <property name="calculationRuleBundle" type="string">
+            <column name="CALCULATION_RULE_BUNDLE" length="200" />
+        </property>
+          <property name="netSalesFormula" type="string">
+            <column name="NET_SALES_FORMULA" length="200" />
+        </property>
+        <property name="nestSalesRule" type="string">
+            <column name="NET_SALES_RULE" length="200" />
+        </property>
+        <property name="deductionCalendarNo" type="string">
+            <column name="DEDUCTION_CALENDAR_NO" length="200" />
+        </property>
+         <property name="deductionCalendarName" type="string">
+            <column name="DEDUCTION_CALENDAR_NAME" length="200" />
+        </property>
+       
     </class>
 </hibernate-mapping>

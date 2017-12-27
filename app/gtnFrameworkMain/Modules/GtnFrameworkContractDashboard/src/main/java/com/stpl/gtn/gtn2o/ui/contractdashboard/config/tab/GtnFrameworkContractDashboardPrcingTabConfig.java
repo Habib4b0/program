@@ -889,6 +889,8 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		attachResults.setTableColumnDataType(GtnFrameworkContractDashboardContants.getPriceDetailColumnType());
 		attachResults.setTableVisibleHeader(GtnFrameworkContractDashboardContants.getPriceDetailColumnHeader());
 		attachResults.setTableColumnMappingId(GtnFrameworkContractDashboardContants.getPriceDetailColumn());
+		attachResults.setExtraColumn(new Object[] { GtnFrameworkContractDashboardContants.PD_STATUS_PENDING,GtnFrameworkContractDashboardContants.PD_PRICETYPE_PENDING});
+		attachResults.setExtraColumnDataType(new Class[] { String.class, String.class});
 		attachResults.setCountUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_DETAIL_TABLE_DATA);
 		attachResults.setResultSetUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
@@ -927,6 +929,8 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		attachResults.setTableColumnDataType(GtnFrameworkContractDashboardContants.getPriceDetailViewColumnType());
 		attachResults.setTableVisibleHeader(GtnFrameworkContractDashboardContants.getPriceDetailViewColumnHeader());
 		attachResults.setTableColumnMappingId(GtnFrameworkContractDashboardContants.getPriceDetailViewColumn());
+		attachResults.setExtraColumn(new Object[] { GtnFrameworkContractDashboardContants.PD_STATUS_VIEW_PENDING,GtnFrameworkContractDashboardContants.PD_PRICETYPE_VIEW_PENDING});
+		attachResults.setExtraColumnDataType(new Class[] { String.class, String.class});
 		attachResults.setCountUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_DETAIL_VIEW_TABLE_DATA);
 		attachResults.setResultSetUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
@@ -1552,6 +1556,27 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				.setTableVisibleHeader(GtnFrameworkContractDashboardContants.getPriceProtectionViewHeader());
 		cdPricingViewResultTable
 				.setTableColumnMappingId(GtnFrameworkContractDashboardContants.getPriceProtectionViewColumn());
+		cdPricingViewResultTable.setExtraColumn(new Object[] { GtnFrameworkContractDashboardContants.PP_STATUS_PENDING,
+				GtnFrameworkContractDashboardContants.MEASUREMENT_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.BASE_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_BASE_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_SUBSEQUENT_PERIOD_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_INTERVAL_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_FREQUENCY_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_ELIGIBLE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_INTERVAL_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_FREQUENCY_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_RESET_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_PRICE_TYPE_PENDING
+		});
+		cdPricingViewResultTable.setExtraColumnDataType(new Class[] { String.class, String.class,String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class
+		});
 		cdPricingViewResultTable.setCountUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_PROTECTION_VIEW_TABLE_DATA);
 		cdPricingViewResultTable.setResultSetUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE

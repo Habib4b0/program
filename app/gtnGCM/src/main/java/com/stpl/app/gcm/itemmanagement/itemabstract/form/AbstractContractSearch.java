@@ -167,7 +167,14 @@ public abstract class AbstractContractSearch extends CustomComponent {
     protected Button resetBtncur;
     @UiField("submit")
     protected Button submitBtncur;
-
+    
+    @UiField("baseWacPriceType")
+    private ComboBox baseWacPriceType;
+    @UiField("baseWacManual")
+    protected TextField baseWacManual;
+     @UiField("baseWacDate")
+    public PopupDateField baseWacDate;
+   
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     public AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
     public CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
@@ -470,6 +477,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         massEndDate.setVisible(Boolean.FALSE);
         populateBtn.setEnabled(false);
         massUpdateRadio.addItems(ENABLE.getConstant(), DISABLE.getConstant());
+        visibilityOptions();
         LoadComboToTableMap();
         LoadTempToTableMap();
         loadFieldAndPropertyMap();
@@ -521,7 +529,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
     @UiHandler("field")
     public void fieldTypeLogic(Property.ValueChangeEvent event) {
-        String processName = String.valueOf(field.getValue());
+        String processName = String.valueOf(field.getValue()); 
         massUpdateString = processName;
         massUpdateText.setReadOnly(false);
         massUpdateText.setValue(StringUtils.EMPTY);
@@ -726,8 +734,11 @@ public abstract class AbstractContractSearch extends CustomComponent {
         massEndDate.setValue(null);
         massUpdateValue.setValue(null);
         massUpdateText.setValue(StringUtils.EMPTY);
-    }
-
+        baseWacPriceType.setValue(null);
+        baseWacManual.setValue(StringUtils.EMPTY);
+        baseWacDate.setValue(null);
+                    }
+        
     @UiHandler("allItemsButton")
     public void allItemsButtonLogic(Button.ClickEvent event) {
         AbstractAllItemLookup itemLookup = new AbstractAllItemLookup(selectedItemList);
@@ -757,6 +768,33 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
         }
 
+    }
+    @UiHandler("massUpdateValue")
+    public void basePriceTypeLogic(Property.ValueChangeEvent event) {
+        String processName = String.valueOf(massUpdateValue.getValue());
+        if (Constants.BASE_PRICE_TYPE_LABLE_NAME.equals(String.valueOf(field.getValue()))) {
+            baseWacDate.setValue(null);
+            baseWacPriceType.setValue(null);
+            baseWacManual.setValue(StringUtils.EMPTY);
+            if (Constants.SELECT_ONE.equals(processName) || Constants.NULL.equals(processName)) {
+                baseWacManual.setVisible(false);
+                baseWacPriceType.setVisible(false);
+                baseWacDate.setVisible(false);
+            } else if (Constants.MANUAL_LABLE_NAME.equals(processName)) {
+                baseWacManual.setVisible(true);
+                baseWacPriceType.setVisible(false);
+                baseWacDate.setVisible(false);
+            } else if (Constants.DATE_LABLE_NAME.equals(processName)) {
+                baseWacDate.setVisible(true);
+                baseWacManual.setVisible(false);
+                baseWacPriceType.setVisible(false);
+            } else if (Constants.PRICE_TYPE_LABEL.equals(processName)) {
+                baseWacPriceType.setVisible(true);
+                baseWacManual.setVisible(false);
+                baseWacDate.setVisible(false);
+                loadPriceType(baseWacPriceType, false);
+            }
+        }
     }
 
     public CustomFieldGroup getBinder() {
@@ -981,7 +1019,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
     public Boolean submitButtonCheck() {
         List input = AbstractLogic.getResultsInput(selection);
-        List<Object[]> list = ItemQueries.getItemData(input, "Submit condition check", null);
+        List<Object[]> list = ItemQueries.getItemData(input, "Submit condition check for Item Update", null);
         if (AbstractLogic.getCount(list) == 0) {
             return true;
         } else {
@@ -1200,6 +1238,9 @@ public abstract class AbstractContractSearch extends CustomComponent {
         String textValue;
         HelperDTO tempDTO;
         Date tempDdate;
+        Object baseLineValue = null;
+        String baseLineColumnName = StringUtils.EMPTY;
+        String baseLineTextValue;
         for (Object object : itemId) {
             AbstractContractSearchDTO dto = (AbstractContractSearchDTO) object;
             if (dto.getCheckRecord()) {
@@ -1298,11 +1339,27 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         columnName = Constants.NEP_FORMULA_COLUMN_NAME;
                         value = nepForumulaDto.getFormulaSid();
                         break;
-                    case Constants.BASE_PRICE_TYPE_LABLE_NAME:
+                        case Constants.BASE_PRICE_TYPE_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
                         contractSelectionTable.getItem(object).getItemProperty(Constants.BASE_PRICE_PROPERTY).setValue(tempDTO);
                         columnName = Constants.BASE_PRICE_TYPE_COLUMN_NAME;
                         value = tempDTO.getId();
+                            if (Constants.MANUAL_LABLE_NAME.equals(tempDTO.getDescription())) {
+                                baseLineTextValue = baseWacManual.getValue();
+                                contractSelectionTable.getItem(object).getItemProperty("baseLineWacManual").setValue(baseLineTextValue);
+                                baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
+                               logic.updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
+                            } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
+                                contractSelectionTable.getItem(object).getItemProperty("baseLineWacDate").setValue(baseWacDate.getValue());
+                                baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
+                                baseLineValue = CommonUtils.DBDate.format(baseWacDate.getValue());
+                                logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                            } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
+                                baseLineValue = baseWacPriceType.getValue();
+                                contractSelectionTable.getItem(object).getItemProperty("baseLineWacPriceType").setValue(baseLineValue);
+                                baseLineColumnName = Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME;
+                                logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                            }
                         break;
                     case Constants.BASELINE_NET_WAC_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
@@ -1440,6 +1497,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         }
 
         logic.massUpdateItemDetails(list);
+        contractSelectionTable.getContainerLogic().setCurrentPage(1);
     }
 
     public boolean singleContractCheck(String queryName, List input) {
@@ -1685,9 +1743,9 @@ public abstract class AbstractContractSearch extends CustomComponent {
         tempTableMap.put(Constants.NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_COLUMN_NAME);
         tempTableMap.put(Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME, Constants.NET_SUBSEQUENT_PRICE_FORMULA_COLUMN_NAME);
         tempTableMap.put(Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME, Constants.NET_BASELINE_WAC_FORMULA_COLUMN_NAME);
-        tempTableMap.put(Constants.BASELINE_NET_WAC_LABLE_NAME, Constants.BASELINE_NET_WAC_COLUMN_NAME);
-        tempTableMap.put(Constants.PRICE_TYPE_LABEL, Constants.PRICE_TYPE_COLUMN_NAME);
-        tempTableMap.put(Constants.MEASUREMENT_PRICE_LABLE_NAME, Constants.MEASUREMENT_PRICE_COLUMN_NAME);
+        tempTableMap.put(Constants.BASELINE_WAC_LABLE_NAME, Constants.BASELINE_WAC_MANUAL_COLUMN_NAME);
+        tempTableMap.put(Constants.BASELINE_WAC_LABLE_NAME, Constants.BASELINE_WAC_DATE_COLUMN_NAME);
+        tempTableMap.put(Constants.BASELINE_WAC_LABLE_NAME, Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME);
     }
 
     private void loadFieldAndPropertyMap() {
@@ -1733,6 +1791,9 @@ public abstract class AbstractContractSearch extends CustomComponent {
         fieldAndPropertyMap.put(Constants.BASELINE_NET_WAC_COLUMN_NAME, Constants.BASELINE_NET_WAC_PROPERTY);
         fieldAndPropertyMap.put(Constants.PRICE_TYPE_COLUMN_NAME, Constants.PRICE_TYPE_PROPERTY);
         fieldAndPropertyMap.put(Constants.MEASUREMENT_PRICE_COLUMN_NAME, Constants.MEASUREMENT_PRICE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.BASELINE_WAC_MANUAL_COLUMN_NAME, Constants.BASELINE_WAC_MANUAL_LABLE_NAME);
+        fieldAndPropertyMap.put(Constants.BASELINE_WAC_DATE_COLUMN_NAME, Constants.BASELINE_WAC_DATE_LABLE_NAME);
+        fieldAndPropertyMap.put(Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME, Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME);
     }
     
     
@@ -1758,6 +1819,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         startdatelabel.setVisible(false);
         enddatelabel.setVisible(false);
         massUpdateText.setVisible(false);
+        visibilityOptions();
     }
 
     public void loadValueddlbTextField() {
@@ -1769,45 +1831,62 @@ public abstract class AbstractContractSearch extends CustomComponent {
         massUpdateText.setVisible(true);
         populateBtn.setVisible(true);
         valuelabel.setVisible(true);
+        visibilityOptions();
     }
 
     public void loadValueddlbDateField(String processName) {
         massUpdateValue.setVisible(false);
-        massStartDate.setVisible(true);
-        massEndDate.setVisible(false);
         populateBtn.setVisible(true);
         valuelabel.setVisible(false);
-        startdatelabel.setVisible(true);
         massUpdateText.setVisible(false);
-        enddatelabel.setVisible(false);
+        visibilityOptions();
 
         switch (processName) {
             case Constants.ITEM_START_DATE:
+                startDateVisibility();
                 startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.ITEM_START_DATE.getConstant());
                 break;
             case Constants.ITEM_END_DATE:
+                endDateVisibility();
                 enddatelabel.setValue(ConstantsUtil.MassUpdateConstants.ITEM_END_DATE.getConstant());
                 break;
             case StringConstantsUtil.CP_START_DATE_LABEL:
+                startDateVisibility();
                 startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.CP_START_DATE.getConstant());
                 break;
             case StringConstantsUtil.CP_END_DATE_LABEL:
+                endDateVisibility();
                 enddatelabel.setValue(ConstantsUtil.MassUpdateConstants.CP_END_DATE.getConstant());
                 break;
             case Constants.PRICE_PROTECTION_START_DATE_LABEL:
+                startDateVisibility();
                 startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.PRICE_PRODECTION_START_DATE.getConstant());
                 break;
             case Constants.PRICE_PROTECTION_END_DATE_LABEL:
+                endDateVisibility();
                 enddatelabel.setValue(ConstantsUtil.MassUpdateConstants.PRICE_PRODECTION_END_DATE.getConstant());
                 break;
             case Constants.RESET_DATE_LABLE_NAME:
+                startDateVisibility();
                 startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.RESET_DATE.getConstant());
                 break;
         }
     }
-    
-    
 
+    public void endDateVisibility() {
+        massStartDate.setVisible(false);
+        massEndDate.setVisible(true);
+        startdatelabel.setVisible(false);
+        enddatelabel.setVisible(true);
+    }
+
+    public void startDateVisibility() {
+        massStartDate.setVisible(true);
+        massEndDate.setVisible(false);
+        startdatelabel.setVisible(true);
+        enddatelabel.setVisible(false);
+    }
+    
     public Boolean multipleEndDateCheck(final Object massUpdate) {
         Boolean multipleDateCheck = Boolean.TRUE;
         if (massUpdate != null && massUpdateString.contains("Date")) {
@@ -1888,6 +1967,11 @@ public abstract class AbstractContractSearch extends CustomComponent {
     public Button getSubmit() {
         return submit;
     }
-    
+    public void visibilityOptions() {
+        baseWacPriceType.setVisible(false);
+        baseWacManual.setVisible(false);
+        baseWacDate.setVisible(false);
+    }
+
     
 }

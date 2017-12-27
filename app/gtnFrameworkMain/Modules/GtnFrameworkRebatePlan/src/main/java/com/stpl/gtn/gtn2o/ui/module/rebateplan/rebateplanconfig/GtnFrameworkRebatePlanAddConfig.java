@@ -272,12 +272,11 @@ public class GtnFrameworkRebatePlanAddConfig {
 	}
 
 	private void addSaveButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
-
-		GtnUIFrameworkComponentConfig saveBtnLayout = rpAddConfigProvider.getHorizontalLayoutConfig(
+        GtnUIFrameworkComponentConfig saveBtnLayout = rpAddConfigProvider.getHorizontalLayoutConfig(
 				"rebatePlanAddViewAddSaveButtonlayout", true,
 				GtnFrameworkStringConstants.RP_INFO_ADD_VIEW_BUTTON_LAYOUT);
 		componentList.add(saveBtnLayout);
-
+    
 		GtnUIFrameworkComponentConfig saveButtonConfig = rpAddConfigProvider.getUIFrameworkComponentConfig(
 				"rebatePlanAddViewAddSaveButton", true, "rebatePlanAddViewAddSaveButtonlayout",
 				GtnUIFrameworkComponentType.BUTTON);
@@ -293,29 +292,25 @@ public class GtnFrameworkRebatePlanAddConfig {
 		customActionrRuleNameExist
 				.setActionParameterList(Arrays.asList(new Object[] { GtnFrameworkRPConstants.SAVE_MANDATORY_ALERT }));
 		saveActionConfigList.add(customActionrRuleNameExist);
-
 		GtnUIFrameWorkActionConfig saveConfirmationAction = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.SAVE_CONFIRMATION_ACTION);
 		saveConfirmationAction.addActionParameter("Confirmation");
 		saveConfirmationAction.addActionParameter("Save record ");
 		saveConfirmationAction.addActionParameter("rebatePlanInformationTabRebatePlanName");
-
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfigList = new ArrayList<>();
-
-		GtnUIFrameWorkActionConfig customSavemAction = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.CUSTOM_ACTION);
-		customSavemAction.addActionParameter(GtnFrameworkRPConstants.SAVE_ACTION);
-
-		onSucessActionConfigList.add(customSavemAction);
-
-		GtnUIFrameWorkActionConfig changeCaptionActionConfig = new GtnUIFrameWorkActionConfig();
+        GtnUIFrameWorkActionConfig changeCaptionActionConfig = new GtnUIFrameWorkActionConfig();
 		changeCaptionActionConfig.setActionType(GtnUIFrameworkActionType.CHANGE_CAPTION);
 		changeCaptionActionConfig.addActionParameter(Arrays.asList(new String[] { "rebatePlanAddViewAddSaveButton" }));
 		changeCaptionActionConfig.addActionParameter(Arrays.asList(new String[] { "UPDATE" }));
+	    GtnUIFrameWorkActionConfig customSavemAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customSavemAction.addActionParameter(GtnFrameworkRPConstants.SAVE_ACTION);
+		saveActionConfigList.add(saveConfirmationAction);
+		onSucessActionConfigList.add(customSavemAction);
 		onSucessActionConfigList.add(changeCaptionActionConfig);
 		saveConfirmationAction.addActionParameter(onSucessActionConfigList);
-		saveActionConfigList.add(saveConfirmationAction);
 		saveButtonConfig.setGtnUIFrameWorkActionConfigList(saveActionConfigList);
+		
 	}
 
 	private void addResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
