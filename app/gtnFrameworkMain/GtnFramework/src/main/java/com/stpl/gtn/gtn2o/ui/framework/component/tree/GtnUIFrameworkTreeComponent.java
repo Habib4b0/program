@@ -303,6 +303,71 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 		return returnList;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<GtnWsRecordBean> removeParentAndChildTreeItems(Tree tree, String initialTableId,
+			boolean hasMultipleTable) throws GtnFrameworkValidationFailedException {
+		List<GtnWsRecordBean> returnListToRemove = null;
+		Object selectedValueInTree = tree.getValue();
+
+		if (selectedValueInTree == null) {
+			return returnListToRemove;
+		}
+		List<GtnWsRecordBean> selectedItemListFromTree = new ArrayList<>();
+		if (selectedValueInTree instanceof Collection) {
+			selectedItemListFromTree = new ArrayList<>((Set<GtnWsRecordBean>) selectedValueInTree);
+		} else {
+			selectedItemListFromTree.add((GtnWsRecordBean) selectedValueInTree);
+		}
+		if (selectedItemListFromTree.isEmpty()) {
+			return returnListToRemove;
+		}
+
+		Collections.sort(selectedItemListFromTree, new Comparator<GtnWsRecordBean>() {
+			@Override
+			public int compare(GtnWsRecordBean object1, GtnWsRecordBean object2) {
+				int treeLevelNo1InTree = Integer.parseInt(String.valueOf(object1.getAdditionalPropertyByIndex(0)));
+				int treeLevelNo2InTree = Integer.parseInt(String.valueOf(object2.getAdditionalPropertyByIndex(0)));
+				return treeLevelNo2InTree - treeLevelNo1InTree;
+			}
+		});
+
+		ListIterator<?> listIteratorForTree = selectedItemListFromTree.listIterator();
+		while (listIteratorForTree.hasNext()) {
+			Object itemToRemove = listIteratorForTree.next();
+			Object selectedParent = itemToRemove;
+			if (!tree.hasChildren(itemToRemove)) {
+				tree.getContainerDataSource().removeItem(itemToRemove);
+			} else {
+				getChildren(itemToRemove, tree, selectedParent);
+			}
+			String treeLevelNoInTree = hasMultipleTable
+					? String.valueOf(((GtnWsRecordBean) itemToRemove).getAdditionalPropertyByIndex(0)) : "";
+			GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(initialTableId + treeLevelNoInTree);
+			tableBaseComponent.addItemToDataTable(itemToRemove);
+			tableBaseComponent.setTableValue(null);
+			listIteratorForTree.remove();
+
+		}
+
+		returnListToRemove = new ArrayList<>(selectedItemListFromTree);
+
+		return returnListToRemove;
+
+	}
+
+	private void getChildren(Object item, Tree tree, Object selectedParent) {
+		if (tree.hasChildren(item)) {
+			getChildren(tree.getChildren(item).iterator().next(), tree, selectedParent);
+		} else {
+			Object parent = tree.getParent(item);
+			tree.getContainerDataSource().removeItem(item);
+			if (!item.equals(selectedParent)) {
+				getChildren(parent, tree, selectedParent);
+			}
+		}
+	}
+
 	public List<GtnWsRecordBean> getTreeNodes(AbstractSelect tree) {
 		Container.Hierarchical container = (Container.Hierarchical) tree.getContainerDataSource();
 		return getTreeNodesFromCollection(container.rootItemIds(), container);
