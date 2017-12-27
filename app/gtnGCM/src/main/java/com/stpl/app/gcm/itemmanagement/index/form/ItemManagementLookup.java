@@ -84,6 +84,7 @@ public class ItemManagementLookup extends CustomWindow {
     List<Integer> addedTabList = new ArrayList<>();
     boolean addSummaryFlag = false;
     SessionDTO session = new SessionDTO();
+    SelectionDTO transferSelection = new SelectionDTO();
 
     public ItemManagementLookup(List<ItemIndexDto> itemList, SelectionDTO selection) {
         super(selection.getWindowName());
@@ -135,24 +136,34 @@ public class ItemManagementLookup extends CustomWindow {
             removeSummary.configureSecurityPermissions(ConstantsUtil.EDIT);
             mainTab.addTab(removeSummary, StringConstantsUtil.SUMMARY_FIELD, null, 1);
         } else if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
-            transferBtn.setVisible(false);
-            contractTransfer = new CurrentContractTransfer(selection, itemList);
-            transferContract = new TransferContract(selection, itemList);
-            mainTab.addTab(contractTransfer.getContent(), Constants.CURRENT_CONTRACT_LABEL, null, 0);
-            mainTab.addTab(transferContract.getContent(), "Transfer Contract", null, 1);
-            removeSummary.getContent(itemList, selection);
-            removeSummary.configureSecurityPermissions(ConstantsUtil.TRANSFER);
-            mainTab.addTab(removeSummary, StringConstantsUtil.SUMMARY_FIELD, null, NumericConstants.TWO);
+            try {
+                transferBtn.setVisible(false);
+                transferSelection = selection.clone();
+                contractTransfer = new CurrentContractTransfer(selection, itemList);
+                transferContract = new TransferContract(transferSelection, itemList);
+                mainTab.addTab(contractTransfer.getContent(), Constants.CURRENT_CONTRACT_LABEL, null, 0);
+                mainTab.addTab(transferContract.getContent(), "Transfer Contract", null, 1);
+                removeSummary.getContent(itemList, selection);
+                removeSummary.configureSecurityPermissions(ConstantsUtil.TRANSFER);
+                mainTab.addTab(removeSummary, StringConstantsUtil.SUMMARY_FIELD, null, NumericConstants.TWO);
+            } catch (CloneNotSupportedException ex) {
+                LOGGER.debug(ex);
+            }
         } else if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-            contractTransfer = new CurrentContractTransfer(selection, itemList);
-            transferContract = new TransferContract(selection, itemList);
-            itemSelectionTransfer = new ItemSelection(selection, itemList);
-            mainTab.addTab(itemSelectionTransfer.getContent(), "Item Selection", null, 0);
-            mainTab.addTab(contractTransfer.getContent(), Constants.CURRENT_CONTRACT_LABEL, null, 1);
-            mainTab.addTab(transferContract.getContent(), "Transfer Contract", null, NumericConstants.TWO);
-            removeSummary.getContent(itemList, selection);
-            removeSummary.configureSecurityPermissions(ConstantsUtil.PROJECTIONTRANSFER);
-            mainTab.addTab(removeSummary, StringConstantsUtil.SUMMARY_FIELD, null, NumericConstants.THREE);
+            try {
+                transferSelection = selection.clone();
+                contractTransfer = new CurrentContractTransfer(selection, itemList);
+                transferContract = new TransferContract(transferSelection, itemList);
+                itemSelectionTransfer = new ItemSelection(selection, itemList);
+                mainTab.addTab(itemSelectionTransfer.getContent(), "Item Selection", null, 0);
+                mainTab.addTab(contractTransfer.getContent(), Constants.CURRENT_CONTRACT_LABEL, null, 1);
+                mainTab.addTab(transferContract.getContent(), "Transfer Contract", null, NumericConstants.TWO);
+                removeSummary.getContent(itemList, selection);
+                removeSummary.configureSecurityPermissions(ConstantsUtil.PROJECTIONTRANSFER);
+                mainTab.addTab(removeSummary, StringConstantsUtil.SUMMARY_FIELD, null, NumericConstants.THREE);
+            } catch (CloneNotSupportedException ex) {
+                LOGGER.debug(ex);
+            }
 
         }
 
