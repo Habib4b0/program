@@ -27,6 +27,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
@@ -48,21 +50,21 @@ import org.jboss.logging.Logger;
  */
 public class AlternateHistoryLogic {
 
-    QueryUtils queryUtils = new QueryUtils();
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
-    final DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
-    String ACTUAL_SALES = "actualSales";
-    String ACTUAL_UNITS = "actualUnits";
-    String PROJECTED_SALES = "projectionSales";
-    String PROJECTED_UNITS = "projectionUnits";
-    String ACTUAL_PAYMENT = "actualPayments";
+    protected QueryUtils queryUtils = new QueryUtils();
+    protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
+    protected final DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
+    protected String ACTUAL_SALES = "actualSales";
+    protected String ACTUAL_UNITS = "actualUnits";
+    protected String PROJECTED_SALES = "projectionSales";
+    protected String PROJECTED_UNITS = "projectionUnits";
+    protected String ACTUAL_PAYMENT = "actualPayments";
     
     public static final String PROJECTION_DETAILS_SID = "[$PROJECTION_DETAILS_SID]";
     public static final String END_DATE = "[$END_DATE]";
     public static final String START_DATE = "[$START_DATE]";
     public static final String TABLE_NAME = "[$TABLE_NAME]";
     
-    String PROJECTED_PAYMENT = "projectionPayments";
+    protected String PROJECTED_PAYMENT = "projectionPayments";
     /**
      * The Constant LOGGER.
      */
@@ -372,7 +374,7 @@ public class AlternateHistoryLogic {
                 }
                 list.clear();
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
 
@@ -1069,14 +1071,14 @@ public class AlternateHistoryLogic {
                 statement.setString(NumericConstants.SIX,    session.getSessionId());
                 statement.execute();
             }
-        } catch (Exception ex) {            
+        } catch (NumberFormatException | SQLException | NamingException ex) {            
             LOGGER.error(ex);
             return false;
         } finally {
             try {
                 statement.close();
                 connection.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e);
             }
         }

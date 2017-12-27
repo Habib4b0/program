@@ -460,7 +460,7 @@ public class PPAProjectionLogic {
             }
 
             selection.setLevelCount(count);
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex);
         }
         return count;

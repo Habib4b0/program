@@ -15,6 +15,7 @@ import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import static com.stpl.app.utils.Constants.WindowMessagesName.CONFIRMATION;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.WorkflowConstants;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.Sizeable;
@@ -460,7 +461,7 @@ public abstract class ForecastPVComparisonLookup extends Window{
         }else{
             MessageBox.showPlain(Icon.INFO, "Error", "No Data is available to submit", ButtonId.OK);
         }
-        }catch(Exception ex){
+        }catch(Property.ReadOnlyException ex){
             LOGGER.error(ex);
         }
     }

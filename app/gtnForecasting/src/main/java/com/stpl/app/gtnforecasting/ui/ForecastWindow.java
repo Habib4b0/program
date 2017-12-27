@@ -21,7 +21,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  * @author Sooriya.Lakshmanan
  */
 public class ForecastWindow extends CustomWindow {
-    ForecastForm forecastName;
+    protected ForecastForm forecastName;
     // DTO object for DataSelection.
     private final DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
 

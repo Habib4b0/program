@@ -514,7 +514,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                             } else {
                                 cpiCompounding.setEnabled(false);
                             }
-                        } catch (Exception ex) {
+                        } catch (PortalException | SystemException | Property.ReadOnlyException ex) {
                             LOGGER.error(ex);
                         }
                     } else {
@@ -567,7 +567,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             if (Constant.EDIT_SMALL.equalsIgnoreCase(mode)) {
                 try {
                     callNDCPopupProcedure();
-                } catch (Exception ex) {
+                } catch (SQLException | NamingException ex) {
                     LOGGER.error(ex);
                 }
             }
@@ -865,7 +865,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             ndcPopup.setHeight(Constant.NINE_THOUSAND_PX);
             ndcPopup.setWidth(Constant.NINE_THOUSAND_PX);
             UI.getCurrent().addWindow(ndcPopup);
-        } catch (Exception e) {
+        } catch (SystemException | IllegalArgumentException | NullPointerException | SQLException | NamingException e) {
             LOGGER.error(e);
         }
     }
@@ -1476,7 +1476,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             ndcPopup.setHeight(Constant.NINE_THOUSAND_PX);
             ndcPopup.setWidth(Constant.NINE_THOUSAND_PX);
             UI.getCurrent().addWindow(ndcPopup);
-        } catch (Exception ex) {
+        } catch (SystemException | IllegalArgumentException | NullPointerException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1770,7 +1770,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             if (newNdcCount != 0) {
                 callNewNdcProcedure();
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
 
         }
@@ -1780,7 +1780,7 @@ public class NationalAssumptions extends CustomComponent implements View {
     private void callNewNdcProcedure() {
         try {
             logic.newNdcCook(sessionDTO);
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         }
     }

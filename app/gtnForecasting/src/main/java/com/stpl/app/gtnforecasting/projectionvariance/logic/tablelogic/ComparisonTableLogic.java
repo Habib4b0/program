@@ -10,6 +10,8 @@ import com.stpl.app.gtnforecasting.projectionvariance.logic.MProjectionVarianceL
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
 import java.util.ArrayList;
@@ -26,13 +28,13 @@ import org.jboss.logging.Logger;
 public class ComparisonTableLogic extends PageTableLogic {
 
     private static final Logger LOGGER = Logger.getLogger(ComparisonTableLogic.class);
-    boolean loadData = false;
-    ComparisonLookupDTO comparisonLookup;
-    String notNeededProjectionIds = StringUtils.EMPTY;
-    ComparisonLookupDTO lookUpDTO;
-    SessionDTO sessionDTO;
-    String screenName=StringUtils.EMPTY;
-    MProjectionVarianceLogic projectionVarianceLogic=new MProjectionVarianceLogic();
+    protected boolean loadData = false;
+    protected ComparisonLookupDTO comparisonLookup;
+    protected String notNeededProjectionIds = StringUtils.EMPTY;
+    protected ComparisonLookupDTO lookUpDTO;
+    protected SessionDTO sessionDTO;
+    protected String screenName=StringUtils.EMPTY;
+    protected MProjectionVarianceLogic projectionVarianceLogic=new MProjectionVarianceLogic();
 
     @Override
     public int getCount() {
@@ -44,7 +46,7 @@ public class ComparisonTableLogic extends PageTableLogic {
                 } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                     count = new NMProjectionVarianceLogic().getComparisonCount(comparisonLookup, getFilters(),screenName);
                 }
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                                LOGGER.log(Logger.Level.ERROR, ex);
             }
         }
@@ -60,7 +62,7 @@ public class ComparisonTableLogic extends PageTableLogic {
             } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 resultList = new NMProjectionVarianceLogic().getComparisonResults(comparisonLookup, start, offset, getFilters(), getSortByColumns(),screenName);
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
           
             LOGGER.log(Logger.Level.ERROR, ex);
         }

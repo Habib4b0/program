@@ -104,9 +104,9 @@ public class Details extends CustomComponent {
 
     private CustomTableHeaderDTO leftHeaderDTO;
 
-    SessionDTO session;
+    protected SessionDTO session;
 
-    DSLogic dsLogic = new DSLogic();
+    protected DSLogic dsLogic = new DSLogic();
 
     private final AccrualRateSelectionDTO accrualRateSelectionDTO = new AccrualRateSelectionDTO();
 

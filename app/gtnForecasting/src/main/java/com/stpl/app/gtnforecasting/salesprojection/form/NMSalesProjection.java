@@ -74,13 +74,10 @@ import java.util.Collections;
  */
 public class NMSalesProjection extends ForecastSalesProjection {
 
-    final StplSecurity stplSecurity = new StplSecurity();
-    boolean generated = false;
-    boolean firstGenerated = false;
+    private final StplSecurity stplSecurity = new StplSecurity();
     private static final Logger LOGGER = Logger.getLogger(NMSalesProjection.class);
-    List<String> projectedPeriodList = new ArrayList();
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
-    protected NMSalesProjectionTableLogic mSalesProjectionTableLogic;
+    protected NMSalesProjectionTableLogic nmSalesProjectionTableLogic;
     protected String ALL = "ALL";
     public static final String SID = "SID";
   
@@ -136,14 +133,14 @@ public class NMSalesProjection extends ForecastSalesProjection {
             projectionDTO.setLevelFilter(true);
             projectionDTO.setLevelFilterValue(String.valueOf(UiUtils.parseStringToInteger(String.valueOf(levelFilter.getValue()).split("-")[0].trim())));
             projectionDTO.setFilterLevelNo(Integer.valueOf(projectionDTO.getLevelFilterValue()));
-            mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
+            nmSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
             projectionDTO.setLevelFilter(false);
         } else {
             projectionDTO.setIsFilter(false);
             projectionDTO.setLevelFilter(false);
             projectionDTO.setFilterLevelNo(0);
             projectionDTO.setLevelFilterValue(StringUtils.EMPTY);
-            mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
+            nmSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
         }
     }
 
@@ -288,9 +285,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     @Override
     protected void collapseButtonLogic() {
-        mSalesProjectionTableLogic.setRefresh(false);
+        nmSalesProjectionTableLogic.setRefresh(false);
         expandCollapseLevelOption(false, level.getValue());
-        mSalesProjectionTableLogic.setRefresh(true);
+        nmSalesProjectionTableLogic.setRefresh(true);
     }
 
     @Override
@@ -440,16 +437,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
             if (checkSelection()) {
                 LOGGER.debug("generate button click listener starts ");
-                generated = true;
-                firstGenerated = true;
                 tableLayout.removeAllComponents();
-                mSalesProjectionTableLogic = new NMSalesProjectionTableLogic();
-                resultsTable = new FreezePagedTreeTable(mSalesProjectionTableLogic);
+                nmSalesProjectionTableLogic = new NMSalesProjectionTableLogic();
+                resultsTable = new FreezePagedTreeTable(nmSalesProjectionTableLogic);
                 super.initializeResultTable();
                 configureResultTable();
                 addResultTable();
                 generateLogic();
-                generated = false;
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -463,11 +457,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
      */
     private void configureResultTable() {
         configureProjectionDTO();
-        mSalesProjectionTableLogic.setTreeNodeMultiClick(false);
-        mSalesProjectionTableLogic.setPageLength(NumericConstants.TWENTY);
-        mSalesProjectionTableLogic.sinkItemPerPageWithPageLength(false);
+        nmSalesProjectionTableLogic.setTreeNodeMultiClick(false);
+        nmSalesProjectionTableLogic.setPageLength(NumericConstants.TWENTY);
+        nmSalesProjectionTableLogic.sinkItemPerPageWithPageLength(false);
         List<Integer> pagelength = CommonLogic.getPageNumber();
-        mSalesProjectionTableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
+        nmSalesProjectionTableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
         excelHeader = new CustomTableHeaderDTO();
         leftHeader = HeaderUtils.getSalesLeftTableColumns(projectionDTO);
 
@@ -482,7 +476,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         customContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
         customContainer.setColumnProperties(leftHeader.getProperties());
         customContainer.setColumnProperties(rightHeader.getProperties());
-        mSalesProjectionTableLogic.setContainerDataSource(customContainer);
+        nmSalesProjectionTableLogic.setContainerDataSource(customContainer);
         leftTable = resultsTable.getLeftFreezeAsTable();
         rightTable = resultsTable.getRightFreezeAsTable();
         leftTable.setEditable(true);
@@ -534,7 +528,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
      */
     private void addResultTable() {
         tableLayout.addComponent(resultsTable);
-        HorizontalLayout controls = mSalesProjectionTableLogic.createControls();
+        HorizontalLayout controls = nmSalesProjectionTableLogic.createControls();
         HorizontalLayout controlLayout = CommonLogic.getResponsiveControls(controls);
         tableLayout.addComponent(controlLayout);
     }
@@ -584,7 +578,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             }
             CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT, 0));
             loadAllFilters();
-            mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
+            nmSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
         }
 
     public void loadAllFilters() {
@@ -759,7 +753,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     @Override
     public PageTreeTableLogic getTableLogic() {
-        return mSalesProjectionTableLogic;
+        return nmSalesProjectionTableLogic;
     }
 
     @Override

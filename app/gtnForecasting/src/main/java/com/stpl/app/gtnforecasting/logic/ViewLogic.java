@@ -171,7 +171,7 @@ public class ViewLogic {
             updatedViewMaster = dataSelection.addForecastingViewMaster(viewMaster);
             return updatedViewMaster;
 
-        } catch (Exception e) {
+        } catch (SystemException | NumberFormatException e) {
            LOGGER.error(e);
             return updatedViewMaster;
         }

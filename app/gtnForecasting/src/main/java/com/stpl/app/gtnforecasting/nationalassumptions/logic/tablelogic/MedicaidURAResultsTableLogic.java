@@ -27,10 +27,8 @@ import org.jboss.logging.Logger;
  * @author Manasa
  */
 public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
-    int levelNo;
-    String hierarchyNo;
-    boolean firstGenerated = false;
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    private boolean firstGenerated = false;
+    private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final MedicaidURAResultsLogic medResLogic = new MedicaidURAResultsLogic();
      /**
      * The Constant LOGGER.
@@ -39,8 +37,6 @@ public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
   SessionDTO sessionDTO;
     public void setProjectionResultsData(ProjectionSelectionDTO projSelDTO, int levelNo, String hierarchyNo,SessionDTO sessionDTO) {
         this.projSelDTO = projSelDTO;
-        this.levelNo = levelNo;
-        this.hierarchyNo = hierarchyNo;
         this.sessionDTO=sessionDTO;
         clearAll();
         firstGenerated = true;

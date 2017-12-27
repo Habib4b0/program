@@ -61,11 +61,13 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
@@ -642,7 +644,7 @@ public class MasterPhsWorksheet extends Window {
                     notif.show(Page.getCurrent());
                 }
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
     }
@@ -861,7 +863,7 @@ public class MasterPhsWorksheet extends Window {
             String priceType = "PHS";
             MedicaidURAResultsLogic medLogic = new MedicaidURAResultsLogic();
             medLogic.workSheetSetupCook(projectionDTO.getNdcSid().getId(), priceType, "PHS WORKSHEET", StringUtils.EMPTY,sessionDTO);
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         }
     }
@@ -888,7 +890,7 @@ public class MasterPhsWorksheet extends Window {
                         fcpQueryUtil.updateAdjustment(projectionDTO.getNdcSid().getId(), "getPhsAdjSumbitUpdate",sessionDTO);
                         submitFlag = true;
                         submitMsg = false;
-                    } catch (Exception ex) {
+                    } catch (PortalException | SystemException ex) {
                        LOGGER.error(ex);
                     }
                 }
@@ -901,7 +903,7 @@ public class MasterPhsWorksheet extends Window {
     public void closeLogic() {
         try {
             fcpQueryUtil.updateAdjustment(projectionDTO.getNdcSid().getId(), "getPhsAdjCloseUpdate",sessionDTO);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
