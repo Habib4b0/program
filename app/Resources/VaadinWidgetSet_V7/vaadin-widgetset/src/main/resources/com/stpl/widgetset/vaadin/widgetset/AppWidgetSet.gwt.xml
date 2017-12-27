@@ -9,4 +9,50 @@
     <!-- Inherit DefaultWidgetSet -->
     <inherits name="com.vaadin.DefaultWidgetSet" /> 
 
+
+    
+
+    
+
+    
+
+    <inherits name="org.asi.ui.extfilteringtable.ExtFilteringTableWidgetSet" />
+
+    <inherits name="de.steinwedel.messagebox.WidgetSet" />
+
+    
+
+    <inherits name="org.vaadin.hene.popupbutton.widgetset.PopupbuttonWidgetset" />
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <inherits name="com.vaadin.v7.Vaadin7WidgetSet" />
+
+    <inherits name="org.vaadin.alump.beforeunload.BeforeUnloadWidgetSet" />
+
+    <inherits name="org.asi.calendarfield.CalendarFieldWidgetSet" />
+
+    <inherits name="org.asi.ui.customwindow.CustomWindowWidgetSet" />
+
+    <inherits name="org.asi.ui.customtextfield.CustomTextFieldWidgetSet" />
+
+    <inherits name="org.asi.ui.customoptiongroup.WidgetSet" />
+
+    <inherits name="org.asi.ui.customcombobox.WidgetSet" />
+
+    <inherits name="org.asi.ui.customdatefield.CustomDateFieldWidgetSet" />
+
+    <inherits name="org.asi.ui.extcustomcheckbox.ExtCustomCheckBoxWidgetSet" />
+
+    <inherits name="org.asi.ui.custommenubar.CustomMenuBarWidgetSet" />
 </module>

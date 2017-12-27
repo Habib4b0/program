@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Tue Dec 26 14:39:10 IST 2017
+vaadin-widgetset-2.0.jar>=
+vaadin-widgetset-2.0.pom>=

@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Dec 22 18:17:07 IST 2017
+slf4j-api-1.7.25.jar>central=
+slf4j-api-1.7.25.pom>central=
+slf4j-api-1.7.25.jar>liferay-public=
+slf4j-api-1.7.25.pom>liferay-public=
