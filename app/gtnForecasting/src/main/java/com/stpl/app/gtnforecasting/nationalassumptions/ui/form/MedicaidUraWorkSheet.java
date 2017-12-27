@@ -1172,7 +1172,6 @@ public class MedicaidUraWorkSheet extends Window {
                 }
                 if (!bpAdjustedValues.isEmpty()) {
                     queryUtil.saveBaseYear(bpAdjustedValues, sessionDTO, projectionDTO.getNdc9(), Constant.AMP);
-                    queryUtil.saveBaseYearNotes(bpAdjustedValues, sessionDTO, projectionDTO.getNdc9(), Constant.AMP);
                     adjustFlag = true;
                     bpAdjustedValues.clear();
                 }
