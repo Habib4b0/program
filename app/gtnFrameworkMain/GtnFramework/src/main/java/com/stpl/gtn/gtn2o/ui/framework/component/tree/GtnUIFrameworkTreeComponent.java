@@ -130,6 +130,7 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 
 	}
 
+	
 	@Override
 	public void resetToDefault(String componentId, GtnUIFrameworkComponentConfig componentConfig) {
 		VerticalLayout resultLayout = (VerticalLayout) GtnUIFrameworkGlobalUI.getVaadinComponent(componentId);
