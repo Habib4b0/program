@@ -5,7 +5,6 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.tree;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
