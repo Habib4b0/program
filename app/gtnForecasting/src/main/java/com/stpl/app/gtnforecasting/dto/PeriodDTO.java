@@ -74,8 +74,8 @@ public class PeriodDTO {
         return HierarchyLevel;
     }
 
-    public void setHierarchyLevel(String HierarchyLevel) {
-        this.HierarchyLevel = HierarchyLevel;
+    public void setHierarchyLevel(String hierarchyLevel) {
+        this.HierarchyLevel = hierarchyLevel;
     }
 
     public Double getLives() {
@@ -106,8 +106,8 @@ public class PeriodDTO {
         return BaseLine;
     }
 
-    public void setBaseLine(String BaseLine) {
-        this.BaseLine = BaseLine;
+    public void setBaseLine(String baseline) {
+        this.BaseLine = baseline;
     }
 
     public String getUserGroup() {
@@ -134,8 +134,8 @@ public class PeriodDTO {
         return LevelName;
     }
 
-    public void setLevelName(String LevelName) {
-        this.LevelName = LevelName;
+    public void setLevelName(String levelName) {
+        this.LevelName = levelName;
     }
 
     public Integer getLevelNo() {
@@ -158,8 +158,8 @@ public class PeriodDTO {
         return LevelValues;
     }
 
-    public void setLevelValues(String LevelValues) {
-        this.LevelValues = LevelValues;
+    public void setLevelValues(String levelValue) {
+        this.LevelValues = levelValue;
     }
 
     public void setCustomer(String customer) {

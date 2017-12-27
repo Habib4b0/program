@@ -58,11 +58,13 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
@@ -802,7 +804,7 @@ public class MedicaidURA extends CustomComponent implements View {
                 priceBasis = "MQWAC";
             }
             medResLogic.medicaidProcSetupDataCook(sessionDTO, priceBasis);
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         }
     }

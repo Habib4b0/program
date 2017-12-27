@@ -16,16 +16,16 @@ import org.apache.commons.lang.StringUtils;
  * @author sooriya.lakshmanan
  */
 public class RunnableJob implements Runnable {
-    int projectionId=0;
-    int userId=0;
-    int sessionId=0;
-    String procedureCall=StringUtils.EMPTY;
-    String propertyId=StringUtils.EMPTY;
-    Object valueOf=null;
-    String hirarechyNo=StringUtils.EMPTY;
-    String group=StringUtils.EMPTY;
-    SessionDTO session=null;
-    ProjectionSelectionDTO selection=null;
+    private int projectionId=0;
+    private int userId=0;
+    private int sessionId=0;
+    private String procedureCall=StringUtils.EMPTY;
+    private String propertyId=StringUtils.EMPTY;
+    private Object valueOf=null;
+    private String hirarechyNo=StringUtils.EMPTY;
+    private String group=StringUtils.EMPTY;
+    private SessionDTO session=null;
+    private ProjectionSelectionDTO selection=null;
     private String table=StringUtils.EMPTY;
     
     public RunnableJob(final int projectionId, final int userId, final int sessionId, final String procedureCall) {

@@ -204,7 +204,7 @@ public class TotalLivesChart extends Window {
             layout.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
             layout.addComponent(chart);
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
 
             LOGGER.error(e);
         }

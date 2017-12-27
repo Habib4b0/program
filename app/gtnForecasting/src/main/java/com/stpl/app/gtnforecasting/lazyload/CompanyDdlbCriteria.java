@@ -14,10 +14,10 @@ import org.vaadin.addons.lazycontainer.SearchCriteria;
  */
 public class CompanyDdlbCriteria implements SearchCriteria {
 
-    int lastCount;
-    boolean dirty = true;
-    boolean customDirty = true;
-    String filter = StringUtils.EMPTY;
+    protected int lastCount;
+    protected boolean dirty = true;
+    protected boolean customDirty = true;
+    protected String filter = StringUtils.EMPTY;
 
     public boolean isCustomDirty() {
         return customDirty;

@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ui.calendarconfiguration.dynamicclasses;
 
 import com.stpl.gtn.gtn2o.ui.calendarconfiguration.config.action.process.GtnFrameworkAddAction;
+import com.stpl.gtn.gtn2o.ui.calendarconfiguration.config.action.process.GtnFrameworkCalendarCurdCommonValidationAction;
 import com.stpl.gtn.gtn2o.ui.calendarconfiguration.config.action.process.GtnFrameworkCopyAction;
 import com.stpl.gtn.gtn2o.ui.calendarconfiguration.config.action.process.GtnFrameworkCurdHolidaySelectionAction;
 import com.stpl.gtn.gtn2o.ui.calendarconfiguration.config.action.process.GtnFrameworkCurdResetAction;
@@ -22,7 +23,7 @@ public class GtnUIFrameworkCalenderConfigDynamicClassFiller implements GtnUIDyna
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCurdResetAction.class.getName(),new GtnFrameworkCurdResetAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCurdSaveAction.class.getName(),new GtnFrameworkCurdSaveAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCurdYearChangeAction.class.getName(),new GtnFrameworkCurdYearChangeAction());
-		
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCalendarCurdCommonValidationAction.class.getName(),new GtnFrameworkCalendarCurdCommonValidationAction());	
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkDeleteAction.class.getName(),new GtnFrameworkDeleteAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkProcessAction.class.getName(),new GtnFrameworkProcessAction());	
 		

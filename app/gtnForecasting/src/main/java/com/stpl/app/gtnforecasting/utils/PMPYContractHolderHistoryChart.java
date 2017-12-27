@@ -42,34 +42,34 @@ public class PMPYContractHolderHistoryChart {
     /**
      * The chart.
      */
-    public Chart chart = new Chart(ChartType.COLUMN);
+    protected Chart chart = new Chart(ChartType.COLUMN);
     /**
      * The conf.
      */
-    public Configuration conf = chart.getConfiguration();
+    protected Configuration conf = chart.getConfiguration();
     /**
-     * The chart1.
+     * The chart1.O
      */
-    public Chart chart1 = new Chart(ChartType.COLUMN);
+    protected Chart chart1 = new Chart(ChartType.COLUMN);
     /**
      * The conf1.
      */
-    public Configuration conf1 = chart1.getConfiguration();
+    protected Configuration conf1 = chart1.getConfiguration();
     /**
      * The chart2.
      */
-    public Chart chart2 = new Chart(ChartType.COLUMN);
+    protected Chart chart2 = new Chart(ChartType.COLUMN);
     /**
      * The conf2.
      */
-    public Configuration conf2 = chart2.getConfiguration();
+    protected Configuration conf2 = chart2.getConfiguration();
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(PMPYContractHolderHistoryChart.class);
 
-    String contractName = StringUtils.EMPTY;
-    List<Object> headeres = null;
+    protected String contractName = StringUtils.EMPTY;
+    protected List<Object> headeres = null;
 
     /**
      * The Constructor.

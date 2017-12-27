@@ -142,7 +142,7 @@ public StplSecurityDAO getDto() {
             	 domainIds=DOMAINIDS1;
             }
 
-        } catch (Exception e) {
+        } catch (SystemException e) {
             LOGGER.error(e);
         }
 

@@ -10,6 +10,7 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.form.DataSelectionForm;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;
+import java.text.ParseException;
 import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 
@@ -20,11 +21,11 @@ public class ForecastEditWindow extends CustomWindow {
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ForecastEditWindow.class);
 
-    SessionDTO session;
+    protected SessionDTO session;
     private DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
-    ExtFilterTable resultTable;
-    String screenName;
-    final DataSelectionForm dataSelectionForm;
+    protected ExtFilterTable resultTable;
+    protected String screenName;
+    protected final DataSelectionForm dataSelectionForm;
 
     public ForecastEditWindow(String projectionName, SessionDTO session, final ExtFilterTable resultTable, final String screenName, final DataSelectionForm dataSelectionForm) throws Exception {
         super(projectionName);
@@ -59,7 +60,7 @@ public class ForecastEditWindow extends CustomWindow {
                 session.setProjectionName(dataSelectionDTO.getProjectionName());
                 session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
                 session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
-            } catch (Exception ex) {
+            } catch (ParseException ex) {
                 LOGGER.error(ex + " NonMandatedEditWindow - loadSessionDTO");
             }
         } else {

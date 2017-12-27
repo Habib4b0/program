@@ -209,8 +209,8 @@ public static Map<String, String> getMap() {
     public static final String CONSUMER_PRICE_INDEX_INTERFACE = "CONSUMER_PRICE_INDEX_INTERFACE";
     public static final String PSTG_GL_COST_CENTER_INTERFACE = "PSTG_GL_COST_CENTER_INTERFACE";
     public static final String UNIT_OF_MEASURE_INTERFACE = "UNIT_OF_MEASURE_INTERFACE";
-    public static final String ACCRUALS_INTERFACE = " ACCRUALS_INTERFACE";
-    public static final String PSTG_SALES_FORECAST_INTERFACE = " PSTG_SALES_FORECAST_INTERFACE";
+    public static final String ACCRUALS_INTERFACE = "ACCRUALS_INTERFACE";
+    public static final String PSTG_SALES_FORECAST_INTERFACE = "PSTG_SALES_FORECAST_INTERFACE";
     
 			
     
@@ -315,7 +315,7 @@ public static Map<String, String> getMap() {
                         interfaceNameMap.put(PSTG_GL_COST_CENTER_INTERFACE,PSTG_GL_COST_CENTER_INTERFACE);
                         interfaceNameMap.put(UNIT_OF_MEASURE_INTERFACE,UNIT_OF_MEASURE_INTERFACE);
                         interfaceNameMap.put(ACCRUALS_INTERFACE,ACCRUALS_INTERFACE);
-                        interfaceNameMap.put( PSTG_SALES_FORECAST_INTERFACE,PSTG_SALES_FORECAST_INTERFACE);
+                        interfaceNameMap.put(PSTG_SALES_FORECAST_INTERFACE,PSTG_SALES_FORECAST_INTERFACE);
 		}
 	return interfaceNameMap;
 	}

@@ -84,6 +84,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import java.util.concurrent.ExecutionException;
 
 /**
  *
@@ -436,7 +437,6 @@ public class DataSelection extends ForecastDataSelection {
 		if (event.getProperty().getValue() != null
 				&& !SELECT_ONE.equals(String.valueOf(event.getProperty().getValue()))) {
 			String selectedLevel = String.valueOf(event.getProperty().getValue());
-			DataSelectionLogic logic = new DataSelectionLogic();
 			setSelectedProductLevel(selectedLevel);
 			int hierarchyId = 0;
 			String hierarchyName = StringUtils.EMPTY;
@@ -581,7 +581,7 @@ public class DataSelection extends ForecastDataSelection {
 							StringUtils.EMPTY, StringUtils.EMPTY, company.getValue(), businessUnit.getValue());
 				}
 			}
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 
 			LOGGER.error(ex + " in getCompanySidFromHierarchy");
 		}
@@ -856,7 +856,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			}
 
-		} catch (Exception ex) {
+		} catch (Property.ReadOnlyException ex) {
 			LOGGER.error(ex + " in initializeFromDto ");
 		}
 	}
@@ -886,7 +886,7 @@ public class DataSelection extends ForecastDataSelection {
 					filterCustomerOnGroupSelect();
 				}
 			}
-		} catch (Exception ex) {
+		} catch (SystemException | NumberFormatException ex) {
 			LOGGER.error(ex + " at triggerCustGrpOnView");
 		}
 	}
@@ -934,7 +934,7 @@ public class DataSelection extends ForecastDataSelection {
 					loadFilteredProductSelection(String.valueOf(productlevelDdlb.getValue()));
 				}
 			}
-		} catch (Exception ex) {
+		} catch (SystemException | NumberFormatException ex) {
 			LOGGER.error(ex + " at triggerProdGrpOnView");
 		}
 	}
@@ -1425,7 +1425,7 @@ public class DataSelection extends ForecastDataSelection {
 							dedLevel, company.getValue(), businessUnit.getValue());
 				}
 			}
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex + " in getItemSidFromHierarchy");
 		}
 		return innerLevelValues;
@@ -1571,7 +1571,7 @@ public class DataSelection extends ForecastDataSelection {
 				availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 				availableCustomer.setStyleName(Constant.FILTER_TABLE);
 			}
-		} catch (Exception ex) {
+		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
 
 			LOGGER.error(ex + " level  ValueChangeListener ");
 		}
@@ -1674,7 +1674,7 @@ public class DataSelection extends ForecastDataSelection {
 					productDescriptionMap = relationLogic.getLevelValueMap(String.valueOf(productRelation.getValue()),
 							productHierarchyDto.getHierarchyId(), hierarchyVersionNo, relationVersionNo);
 				}
-			} catch (Exception ex) {
+			} catch (NumberFormatException ex) {
 				LOGGER.error(ex + " in productRelation value change");
 			}
 		}
@@ -1825,7 +1825,7 @@ public class DataSelection extends ForecastDataSelection {
 			availableProduct.setFilterDecorator(new ExtDemoFilterDecorator());
 			availableProduct.setStyleName(Constant.FILTER_TABLE);
 
-		} catch (Exception ex) {
+		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
 
 			LOGGER.error(ex + " - in loadFilteredProductSelection");
 		}
@@ -1911,7 +1911,7 @@ public class DataSelection extends ForecastDataSelection {
 							StringUtils.EMPTY, StringUtils.EMPTY, company.getValue(), businessUnit.getValue());
 				}
 			}
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex + " in getCustomersFromHierarchy");
 		}
 		return innerLevelValues;
@@ -1995,7 +1995,7 @@ public class DataSelection extends ForecastDataSelection {
 			availableCustomer.setFilterBarVisible(true);
 			availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 			availableCustomer.setStyleName(Constant.FILTER_TABLE);
-		} catch (Exception ex) {
+		} catch (SystemException | NumberFormatException ex) {
 			LOGGER.error(ex + " filterCustomerOnGroupSelect ");
 		}
 
@@ -2456,7 +2456,7 @@ public class DataSelection extends ForecastDataSelection {
 
 			}
 			setProductBeanLisTemp(productBeanLisTemp);
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -2997,7 +2997,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
 				setProductBeanLisTemp(productBeanLisTemp);
 			}
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -3521,7 +3521,7 @@ public class DataSelection extends ForecastDataSelection {
 				setProductBeanLisTemp(productBeanLisTemp);
 
 			}
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -4074,7 +4074,7 @@ public class DataSelection extends ForecastDataSelection {
 				AbstractNotificationUtils.getErrorNotification("No Product hierarchy level Selected",
 						"No Level was selected to move. Please try again.");
 			}
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e);
 		}
 	}

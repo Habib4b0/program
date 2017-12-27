@@ -42,19 +42,19 @@ public class PMPYTradingPartnerHistoryChart {
     /**
      * The chart.
      */
-    public Chart chart = new Chart(ChartType.COLUMN);
+    protected Chart chart = new Chart(ChartType.COLUMN);
     /**
      * The conf.
      */
-    public Configuration conf = chart.getConfiguration();
+    protected Configuration conf = chart.getConfiguration();
     /**
      * The chart1.
      */
-    public Chart chart1 = new Chart(ChartType.COLUMN);
+    protected Chart chart1 = new Chart(ChartType.COLUMN);
     /**
      * The conf1.
      */
-    public Configuration conf1 = chart1.getConfiguration();
+    protected Configuration conf1 = chart1.getConfiguration();
     /**
      * The Constant LOGGER.
      */
@@ -62,7 +62,7 @@ public class PMPYTradingPartnerHistoryChart {
 
     private String tpName = StringUtils.EMPTY;
 
-    List<Object> headers = null;
+    protected List<Object> headers = null;
 
     /**
      * The Constructor.

@@ -23,8 +23,8 @@ public class DataAssumptionstableLogic extends PageTableLogic {
 
     private final DataAssumptionsLogic logic = new DataAssumptionsLogic();
     private boolean isFirstLoad = false;
-    DataAssumptionDTO dataAssumptionDTO;
-    SessionDTO sessionDTO;
+    protected DataAssumptionDTO dataAssumptionDTO;
+    protected SessionDTO sessionDTO;
     private static final Logger LOGGER = Logger.getLogger(DataAssumptionstableLogic.class);
     
     @Override
@@ -40,7 +40,7 @@ public class DataAssumptionstableLogic extends PageTableLogic {
                 }
             }
 
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("DataAssumptionstableLogic Count" + count);
