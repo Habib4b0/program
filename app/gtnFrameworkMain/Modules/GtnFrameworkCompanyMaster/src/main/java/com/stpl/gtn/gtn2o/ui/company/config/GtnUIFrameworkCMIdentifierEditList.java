@@ -163,7 +163,8 @@ public class GtnUIFrameworkCMIdentifierEditList {
 		customAction.setFieldValues(Arrays.asList(GtnFrameworkCompanyStringContants.EDIT_ATTACH_RESULT_TABLE,
 				GtnFrameworkCompanyStringContants.EDIT_LIST_CODE_QUALIFIER,
 				GtnFrameworkCompanyStringContants.EDIT_LIST_CODE_QUALIFIER_NAME,
-				GtnFrameworkCompanyStringContants.EDIT_LIST_EFFECTIVE_DATE, "notesTextArea", "editListSaveButton"));
+				GtnFrameworkCompanyStringContants.EDIT_LIST_EFFECTIVE_DATE,
+				GtnFrameworkCompanyStringContants.EDIT_LIST_NOTES_TEXTAREA, "editListSaveButton"));
 		actionConfigList.add(customAction);
 		attachResultConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -230,8 +231,9 @@ public class GtnUIFrameworkCMIdentifierEditList {
 				"notesMainLayout");
 		componentList.add(gtnLayout);
 
-		GtnUIFrameworkComponentConfig notesTextArea = configProvider.getUIFrameworkComponentConfig("notesTextArea",
-				true, "editListNotesLayout", GtnUIFrameworkComponentType.TEXTAREA);
+		GtnUIFrameworkComponentConfig notesTextArea = configProvider.getUIFrameworkComponentConfig(
+				GtnFrameworkCompanyStringContants.EDIT_LIST_NOTES_TEXTAREA, true, "editListNotesLayout",
+				GtnUIFrameworkComponentType.TEXTAREA);
 		notesTextArea.setAuthorizationIncluded(true);
 		notesTextArea.setComponentName("Notes");
 
@@ -334,7 +336,8 @@ public class GtnUIFrameworkCMIdentifierEditList {
 		resetCustomActionConfig
 				.addActionParameter(Arrays.asList(GtnFrameworkCompanyStringContants.EDIT_LIST_CODE_QUALIFIER,
 						GtnFrameworkCompanyStringContants.EDIT_LIST_CODE_QUALIFIER_NAME,
-						GtnFrameworkCompanyStringContants.EDIT_LIST_EFFECTIVE_DATE, "notesTextArea"));
+						GtnFrameworkCompanyStringContants.EDIT_LIST_EFFECTIVE_DATE,
+						GtnFrameworkCompanyStringContants.EDIT_LIST_NOTES_TEXTAREA));
 		resetCustomActionList.add(resetCustomActionConfig);
 
 		params.add(resetCustomActionList);
