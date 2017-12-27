@@ -29,16 +29,16 @@ import org.asi.container.ExtTreeContainer;
  */
 public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
 
-    List<Leveldto> currentHierarchy = new ArrayList<>();
-    PVSelectionDTO projSelDTO = new PVSelectionDTO();
-    PVSelectionDTO baseVariables = new PVSelectionDTO();
-    int levelNo;
-    boolean firstGenerated = false;
-    boolean isChild = false;
+    protected List<Leveldto> currentHierarchy = new ArrayList<>();
+    protected PVSelectionDTO projSelDTO = new PVSelectionDTO();
+    protected PVSelectionDTO baseVariables = new PVSelectionDTO();
+    protected int levelNo;
+    protected boolean firstGenerated = false;
+    protected boolean isChild = false;
     public static final Logger LOGGER = Logger.getLogger(ProjectionVarianceTableLogic.class);
     private String screenName = StringUtils.EMPTY;
-    NMProjectionVarianceLogic nmProjectionVarianceLogic = new NMProjectionVarianceLogic();
-    MProjectionVarianceLogic mProjectionVarianceLogic = new MProjectionVarianceLogic();
+    protected NMProjectionVarianceLogic nmProjectionVarianceLogic = new NMProjectionVarianceLogic();
+    protected MProjectionVarianceLogic mProjectionVarianceLogic = new MProjectionVarianceLogic();
 
     /**
      * Load date method for loading container based on different modules

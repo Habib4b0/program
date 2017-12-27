@@ -188,6 +188,13 @@ FROM ##ITEM_PRICING_TEMP_TABLE IP
 where IP.ITEM_PRICING_SID = ?
 	]]></query>
 	</entity>
+	
+	<entity id="deleteInPricingTempTable">
+		<query> 
+		<![CDATA[
+				DELETE FROM ##ITEM_PRICING_TEMP_TABLE WHERE ITEM_PRICING_SID = ?
+	]]></query>
+	</entity>
 
 
 	<entity id="insertInPricingTempTable">

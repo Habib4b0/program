@@ -20,6 +20,7 @@ import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
+import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
@@ -201,7 +202,7 @@ public class CustomerSelection extends CustomComponent implements View {
                     contractName.setValue(StringUtils.EMPTY);
                     customerName.setValue(StringUtils.EMPTY);
                     marketType.setValue(null);
-                } catch (Exception ex) {
+                } catch (Property.ReadOnlyException ex) {
                    LOGGER.error(ex);
 
                 }
@@ -505,7 +506,7 @@ public class CustomerSelection extends CustomComponent implements View {
             if (recordCount > 0) {
                 createWorkSheet("Available_Customer", availableCustomerTable, recordCount);
             }
-        } catch (Exception ex) {
+        } catch (SystemException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
             LOGGER.error(ex);
         } finally {
             contractExcelFlag = false;
@@ -556,7 +557,7 @@ public class CustomerSelection extends CustomComponent implements View {
             if (recordCount > 0) {
                 createWorkSheet("Selected_Customer", selectedCustomerTable, recordCount);
             }
-        } catch (Exception ex) {
+        } catch (SystemException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
             LOGGER.error(ex);
         } finally {
             infoExcelFlag = false;

@@ -843,7 +843,7 @@ public class AltSummeryDiscount extends CustomComponent {
             ForecastUI.EXCEL_CLOSE=true;
             ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(excelTable), excelName, excelName, excelName + ".xls", false);
             excel.export();
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("excel ends");
@@ -1466,7 +1466,8 @@ public class AltSummeryDiscount extends CustomComponent {
             }
             if (!overall.isEmpty()) {
                 int[] year = new int[overall.size()];
-                String tempYear = StringUtils.EMPTY, tempSubYear = StringUtils.EMPTY;
+                String tempYear = StringUtils.EMPTY;
+                String tempSubYear = StringUtils.EMPTY;
                 for (int i = 0; i < overall.size(); i++) {
                     if (defval == NumericConstants.TWO || defval == NumericConstants.FOUR) {
                         tempYear = overall.get(i).toString().trim().substring(NumericConstants.TWO);
@@ -1491,8 +1492,10 @@ public class AltSummeryDiscount extends CustomComponent {
 
                 }
                 Arrays.sort(year);
-                String startTempYear = StringUtils.EMPTY, startTempSubYear = StringUtils.EMPTY;
-                String endTempYear = StringUtils.EMPTY, endTempSubYear = StringUtils.EMPTY;
+                String startTempYear = StringUtils.EMPTY;
+                String startTempSubYear = StringUtils.EMPTY;
+                String endTempYear = StringUtils.EMPTY;
+                String endTempSubYear = StringUtils.EMPTY;
                 if (defval == NumericConstants.TWO || defval == NumericConstants.FOUR) {
                     startTempYear = startPeriod.toString().trim().substring(NumericConstants.TWO);
                     startTempSubYear = startPeriod.replace(startTempYear, StringUtils.EMPTY).trim();
@@ -1522,7 +1525,8 @@ public class AltSummeryDiscount extends CustomComponent {
                 }
                 String startfullYear = startTempYear + subYear2;
                 String endfullYear = endTempYear + subYear3;
-                int finStartPeriod = 0, finEndPeriod = 0;
+                int finStartPeriod = 0;
+                int finEndPeriod = 0;
                 finStartPeriod = Integer.valueOf(startfullYear.trim());
                 finEndPeriod = Integer.valueOf(endfullYear.trim());
                 if (year[year.length - 1] > finEndPeriod) {

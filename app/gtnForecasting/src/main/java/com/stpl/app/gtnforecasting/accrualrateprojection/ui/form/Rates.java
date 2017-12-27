@@ -104,9 +104,9 @@ public class Rates extends CustomComponent {
 
     private final AccrualRateSelectionDTO accrualRateSelectionDTO = new AccrualRateSelectionDTO();
 
-    SessionDTO session;
+    protected SessionDTO session;
 
-    DSLogic dsLogic = new DSLogic();
+    protected DSLogic dsLogic = new DSLogic();
 
     private boolean isFilterLoadNeeded = true;
 

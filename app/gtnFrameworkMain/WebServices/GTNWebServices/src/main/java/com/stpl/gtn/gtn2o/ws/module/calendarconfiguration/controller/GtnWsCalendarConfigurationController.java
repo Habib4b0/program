@@ -152,6 +152,23 @@ public class GtnWsCalendarConfigurationController {
 		return gtnResponse;
 	}
 
+	@RequestMapping(value = GtnWsCalendarConfigurationConstants.LOAD_CALENDAR_CONFIGURATION_CALENDAR_NAME, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse loadCalendarConfigurationCalendarName(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		logger.info("Enters loadCalendarConfigurationCalendarName");
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			GtnWsCalendarConfigurationResponse ccResponse = new GtnWsCalendarConfigurationResponse();
+			gtnResponse.setCalendarConfigurationResponse(ccResponse);
+			getLogic().getCalendarConfigurationCalendarName(gtnWsRequest.getCalendarConfigurationRequest(), ccResponse);
+		} catch (Exception ex) {
+			logger.error("Exception in loadCalendarConfigurationCalendarName", ex);
+		}
+
+		logger.info("Exit loadCalendarConfigurationCalendarName");
+		return gtnResponse;
+	}
+	
 	public String getSysSchemaCatalog() throws GtnFrameworkGeneralException {
 		String catalog = "";
 		try (Connection connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()

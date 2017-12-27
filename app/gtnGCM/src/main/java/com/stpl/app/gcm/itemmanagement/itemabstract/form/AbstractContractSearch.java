@@ -1201,8 +1201,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
             AbstractContractSearchDTO dto = (AbstractContractSearchDTO) object;
             if (dto.getCheckRecord()) {
                 isChecked = false;
-                isFound = true;
-                if (!isHavingValue(massUpdateString)) {
+                isFound = isHavingValue(massUpdateString);
+                if (!isFound) {
                     isFound = false;
                     new AbstractNotificationUtils() {
                         @Override

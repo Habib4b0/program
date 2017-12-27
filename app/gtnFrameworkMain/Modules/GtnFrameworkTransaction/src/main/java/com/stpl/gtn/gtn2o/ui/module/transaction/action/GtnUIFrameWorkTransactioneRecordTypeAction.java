@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.stpl.gtn.gtn2o.ui.module.transaction.action;
 
 import java.text.DecimalFormat;
@@ -110,14 +106,16 @@ public class GtnUIFrameWorkTransactioneRecordTypeAction implements GtnUIFrameWor
 		Object newValue = checkEmptyValue(value);
 		if (formatterPatter.contains(GtnWsTransactionConstants.PERCENTAGE)) {
 			DecimalFormat newDecimalFormat = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
-			newDecimalFormat.applyPattern(formatterPatter.replace(GtnWsTransactionConstants.PERCENTAGE, GtnFrameworkCommonStringConstants.STRING_EMPTY));
-			return newDecimalFormat.format(Double.parseDouble(newValue.toString())) + GtnWsTransactionConstants.PERCENTAGE;
+			newDecimalFormat.applyPattern(formatterPatter.replace(GtnWsTransactionConstants.PERCENTAGE,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY));
+			return newDecimalFormat.format(Double.parseDouble(newValue.toString()))
+					+ GtnWsTransactionConstants.PERCENTAGE;
 		}
 		return decimalFormat.format(Double.parseDouble(newValue.toString()));
 	}
-	
+
 	private Object checkEmptyValue(Object value) {
-		if(GtnFrameworkCommonStringConstants.STRING_EMPTY.equals(value.toString())) {
+		if (GtnFrameworkCommonStringConstants.STRING_EMPTY.equals(value.toString())) {
 			return "0";
 		}
 		return value;

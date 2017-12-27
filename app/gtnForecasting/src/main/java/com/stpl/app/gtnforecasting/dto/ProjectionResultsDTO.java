@@ -66,8 +66,8 @@ public class ProjectionResultsDTO extends ExtMapDTO implements Comparator<Projec
     
     private String parentHierarchyNo = StringUtils.EMPTY;
     
-    ProjectionResultsDTO manDTO;
-    ProjectionResultsDTO suppDTO;
+    private ProjectionResultsDTO manDTO;
+    private ProjectionResultsDTO suppDTO;
     
     private String discountValue=StringUtils.EMPTY;
     
@@ -246,7 +246,7 @@ public class ProjectionResultsDTO extends ExtMapDTO implements Comparator<Projec
 
                 }
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
           LOGGER.error(e);
 
         }

@@ -33,7 +33,7 @@ public class SQlUtil {
             File file = new File(url.getFile().replace("%20", " "));
             this.files = file.listFiles();
             getResources();
-        } catch (Exception e) {
+        } catch (IOException | JAXBException e) {
             LOGGER.error(e);
         }
 

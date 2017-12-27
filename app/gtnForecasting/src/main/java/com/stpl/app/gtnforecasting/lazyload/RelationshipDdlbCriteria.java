@@ -14,9 +14,9 @@ import org.vaadin.addons.lazycontainer.SearchCriteria;
  */
 public class RelationshipDdlbCriteria  implements SearchCriteria {
 
-    int lastCount;
-    boolean dirty = true;
-    String filter = StringUtils.EMPTY;
+    private int lastCount;
+    private boolean dirty = true;
+    private String filter = StringUtils.EMPTY;
     
     @Override
     public int getLastCount() {
