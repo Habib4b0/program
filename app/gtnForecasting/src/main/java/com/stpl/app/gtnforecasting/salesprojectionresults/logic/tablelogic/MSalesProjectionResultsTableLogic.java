@@ -32,12 +32,12 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
      */
     private static final Logger LOGGER = Logger.getLogger(MSalesProjectionResultsTableLogic.class);
 
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    protected ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     public NMSalesProjectionResultsLogic sprLogic = new NMSalesProjectionResultsLogic();
-    boolean firstGenerated = false;
-    boolean firstTotal = false;
-    int totalCount = 0;
-    List totalList = new ArrayList();
+    protected boolean firstGenerated = false;
+    protected boolean firstTotal = false;
+    protected int totalCount = 0;
+    protected List totalList = new ArrayList();
 
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {

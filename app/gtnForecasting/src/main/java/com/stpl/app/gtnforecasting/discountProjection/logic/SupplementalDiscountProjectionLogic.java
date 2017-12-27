@@ -37,6 +37,8 @@ import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.portal.kernel.exception.SystemException;
+import com.vaadin.data.Property;
 import java.util.Collections;
 
 /**
@@ -51,15 +53,15 @@ public class SupplementalDiscountProjectionLogic {
     private static final DecimalFormat CUR_FOUR_DECIMAL = new DecimalFormat("$#,##0.0000");
     private static final DecimalFormat PER_THREE_DECIMAL = new DecimalFormat("#,##0.000");
     private static final Logger LOGGER = Logger.getLogger(SupplementalDiscountProjectionLogic.class);
-    SalesProjectionDAO dao = new SalesProjectionDAOImpl();
-    ProjectionSelectionDTO projectionSelectionDTO = new ProjectionSelectionDTO();
-    List<String> levelName = new ArrayList<>();
-    String projectionValue = StringUtils.EMPTY;
-    boolean projectionValueFlag = false;
-    String suppHeader = StringUtils.EMPTY;
-    Object supplemental;
-    Object supplementalLevelName = null;
-    static HashMap<String, String> rsFormulaDbMap = new HashMap<>();
+    protected SalesProjectionDAO dao = new SalesProjectionDAOImpl();
+    protected ProjectionSelectionDTO projectionSelectionDTO = new ProjectionSelectionDTO();
+    protected List<String> levelName = new ArrayList<>();
+    protected String projectionValue = StringUtils.EMPTY;
+    protected boolean projectionValueFlag = false;
+    protected String suppHeader = StringUtils.EMPTY;
+    protected Object supplemental;
+    protected Object supplementalLevelName = null;
+    protected static HashMap<String, String> rsFormulaDbMap = new HashMap<>();
     public static final SimpleDateFormat DB_DATE = new SimpleDateFormat(Constant.DATE_FORMAT);
 
     public int getConfiguredSupplementalDiscountCount(Object parentId, ProjectionSelectionDTO projSelDTO) {
@@ -398,11 +400,11 @@ public class SupplementalDiscountProjectionLogic {
         return (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat decFormat, String value) {
         if (value == null || value.contains(Constant.NULL) || value.isEmpty()) {
             value = Constant.DASH;
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            value = decFormat.format(Double.valueOf(value));
         }
         return value;
     }
@@ -522,9 +524,7 @@ public class SupplementalDiscountProjectionLogic {
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.append(" Update ST_M_SUPPLEMENTAL_DISC_MASTER SET CHECK_RECORD =" + checkValue + " WHERE CCP_DETAILS_SID IN (" + ccpDetailsId + ")") ;
             dao.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder.toString(),sessionDto.getCurrentTableNames()));
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -539,9 +539,7 @@ public class SupplementalDiscountProjectionLogic {
                 queryBuilder.append(" SELECT DISTINCT CHECK_RECORD from ST_M_SUPPLEMENTAL_DISC_MASTER where (CHECK_RECORD IS NOT NULL OR CHECK_RECORD <> '')");
                 return (List<Integer>) dao.executeSelectQuery(QueryUtil.replaceTableNames(queryBuilder.toString(),sessionDTO.getCurrentTableNames()));
             }
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return Collections.emptyList();
@@ -620,7 +618,7 @@ public class SupplementalDiscountProjectionLogic {
                     select.addItem(ob);
                 }
             }
-        } catch (Exception e) {
+        } catch (UnsupportedOperationException e) {
             LOGGER.error(e);
         }
         return select;
@@ -664,10 +662,10 @@ public class SupplementalDiscountProjectionLogic {
         return (List<Object>) CommonLogic.executeSelectQuery(queryBuilder1.toString(), null, null);
     }
 
-    public String getRelationshipValue(int proj_Id) {
+    public String getRelationshipValue(int projId) {
         List<Object> list;
         String query = "select LEVEL_VALUE_REFERENCE from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID in\n"
-                + "(Select CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID=" + proj_Id + ")\n"
+                + "(Select CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID=" + projId + ")\n"
                 + "and LEVEL_NAME='Market Type'";
         list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
 
@@ -675,12 +673,12 @@ public class SupplementalDiscountProjectionLogic {
         return String.valueOf(list.get(0));
     }
 
-    public String getMTLinked(int hier_Id) {
+    public String getMTLinked(int hierId) {
         String str = StringUtils.EMPTY;
         List<Object> list;
         String query = "select DESCRIPTION from HELPER_TABLE where HELPER_TABLE_SID\n"
                 + "in(select RELATIONSHIP_LEVEL_VALUES from  RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_LEVEL_SID in (select RELATIONSHIP_LEVEL_SID\n" +
-                " from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID=" + hier_Id + " and Level_NAME='Market Type'))";
+                " from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID=" + hierId + " and Level_NAME='Market Type'))";
 
         list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
         if (!list.isEmpty()) {
@@ -702,7 +700,7 @@ public class SupplementalDiscountProjectionLogic {
                 }
 
             }
-        } catch (Exception e) {
+        } catch (UnsupportedOperationException e) {
             LOGGER.error(e);
         }
         return select;
@@ -742,22 +740,20 @@ public class SupplementalDiscountProjectionLogic {
 
             }
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
 
-    public int getProject(int proj_id) {
+    public int getProject(int projId) {
         int value = 0;
         try {
             List<Integer> listInte = new ArrayList<>();
             List list;
             String sql = StringUtils.EMPTY;
-            if (proj_id != 0) {
+            if (projId != 0) {
                 sql = "select PROJECTION_DETAILS_SID from dbo.PROJECTION_DETAILS\n"
-                        + "where PROJECTION_MASTER_SID=" + proj_id;
+                        + "where PROJECTION_MASTER_SID=" + projId;
             }
 
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
@@ -766,7 +762,7 @@ public class SupplementalDiscountProjectionLogic {
                 listInte.add(Integer.valueOf(String.valueOf(list.get(i))));
                 value = Integer.valueOf(String.valueOf(list.get(i)));
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex);
         }
         return value;
@@ -858,9 +854,7 @@ public class SupplementalDiscountProjectionLogic {
                 }
             }
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | Property.ReadOnlyException ex) {
             LOGGER.error(ex);
         }
     }
@@ -944,9 +938,7 @@ public class SupplementalDiscountProjectionLogic {
             queryList.add(query);
             dao.executeUpdateQuery(queryList);
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -983,9 +975,7 @@ public class SupplementalDiscountProjectionLogic {
                     + "DELETE FROM dbo.ST_M_SALES_PROJECTION_MASTER WHERE LAST_MODIFIED_DATE<'" + lastModified + "';";
 
             dao.executeUpdateQuery(deleteQuery);
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1070,9 +1060,7 @@ public class SupplementalDiscountProjectionLogic {
                     + "			AND B.PROJECTION_MASTER_SID=" + sessionDto.getProjectionId() + ";");
             queryList.add(query);
             dao.executeUpdateQuery(queryList);
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | ParseException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1471,9 +1459,7 @@ public class SupplementalDiscountProjectionLogic {
                         methodologyRefresher(saveDto, mapList, tableLogic, propertyId, saveDto.getPropertyValue(propertyId).toString(), 1);
                     }
                 }
-            } catch (PortalException ex) {
-                LOGGER.error(ex);
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex);
             }
         }
@@ -1534,7 +1520,7 @@ public class SupplementalDiscountProjectionLogic {
                     Object[] ob = {0, 0, 0};
                     methodologyUpdate(saveDto, session, ob, value, tempStr, true);
                 }
-            } catch (Exception e) {
+            } catch (PortalException | SystemException | NumberFormatException e) {
                 LOGGER.error(e);
             }
         }
@@ -1569,9 +1555,7 @@ public class SupplementalDiscountProjectionLogic {
         queryBuilder1.append("   and PERIOD_SID not in(SELECT PERIOD_SID FROM \"PERIOD\" where \"YEAR\" = ").append(checkedDto.getEndYear()).append(" and QUARTER > ").append(checkedDto.getEndPeriod()).append(" )))  \n");
         try {
             dao.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames()));
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1602,9 +1586,7 @@ public class SupplementalDiscountProjectionLogic {
         }
         try {
             dao.executeUpdateQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()));
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1619,9 +1601,7 @@ public class SupplementalDiscountProjectionLogic {
                     + "                          WHERE  \"YEAR\" = " + saveDto.getYear() + " \n"
                     + "                                 AND QUARTER = " + saveDto.getPeriod() + ") \n");
             methodologyCount = (List<Object>) dao.executeSelectQuery(QueryUtil.replaceTableNames(queryToCheckNdc.toString(), session.getCurrentTableNames()));
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return !methodologyCount.isEmpty() ? methodologyCount.size() : 0;
@@ -1734,9 +1714,7 @@ public class SupplementalDiscountProjectionLogic {
             StringBuilder query = new StringBuilder();
             query.append("SELECT DISTINCT PROJECTION_DETAILS_SID from PROJECTION_DETAILS WHERE PROJECTION_MASTER_SID = " + session.getProjectionId());
             return (List<String>) dao.executeSelectQuery(query.toString());
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return Collections.emptyList();
@@ -1776,7 +1754,7 @@ public class SupplementalDiscountProjectionLogic {
                 strList.add(masterQuery);
             }
             dao.executeUpdateQuery(strList);
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
     }

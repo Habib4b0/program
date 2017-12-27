@@ -52,9 +52,9 @@ public class ProjectionResultsLogic {
      * The Numeric Zero Decimal Places Format.
      */
     private static final DecimalFormat NUM_ZERO = new DecimalFormat("#,##0");
-    List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
+    private final List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     public static final String ISEMI_ANNUAL = ", I.SEMI_ANNUAL";
     
     public static final String IMONTH_AS_PERIODS_COMMA = "I.\"MONTH\" as PERIODS, \n";
@@ -824,15 +824,15 @@ public class ProjectionResultsLogic {
         }
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat decFormat, String value) {
         if (value.contains(Constant.NULL)) {
             value = DASH.getConstant();
         } else {
             Double newValue = Double.valueOf(value);
-            if (FORMAT.toPattern().contains(Constant.PERCENT)) {
+            if (decFormat.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = FORMAT.format(newValue);
+            value = decFormat.format(newValue);
         }
         return value;
     }
@@ -1977,26 +1977,26 @@ public class ProjectionResultsLogic {
         projSelDTO.setIsTotal(true);
         String selectClause = Constant.SELECT_SMALL_SPACE;
         String customQuery;
-        String ppa_actuals = StringUtils.EMPTY;
-        String ppa_projection = StringUtils.EMPTY;
+        String ppaActuals = StringUtils.EMPTY;
+        String ppaProjection = StringUtils.EMPTY;
         List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(TODIS1, "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         String orderBy = list.get(NumericConstants.THREE);
         if (projSelDTO.isPpa()) {
-            ppa_actuals = NULL_PPAACTUAL_SALES_ZERO;
-            ppa_projection = IS_NULL_PPAPROJECTION_SALES;
+            ppaActuals = NULL_PPAACTUAL_SALES_ZERO;
+            ppaProjection = IS_NULL_PPAPROJECTION_SALES;
         }
         selectClause += " SALE.SALES_ACTUAL_SALES as CONTRACT_ACTUAL_SALES \n"
                 + ", SALE.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES \n"
                 + ", SALE.ACTUAL_UNITS as CONTRACT_ACTUAL_UNITS \n"
                 + ", SALE.PROJECTION_UNITS as CONTRACT_PROJECTION_UNITS \n"
-                + ", TOTAL_ACTUAL_RATE=Isnull((Isnull(TODIS.ACTUAL_SALES, 0)" + ppa_actuals + ") / NULLIF(SALE.SALES_ACTUAL_SALES, 0), 0) * 100 \n"
-                + ", TOTAL_PROJECTION_RATE=Isnull((Isnull(TODIS.PROJECTION_SALES, 0)" + ppa_projection + ") / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n"
-                + ", TOTAL_ACTUAL_DOLAR=(Isnull(TODIS.ACTUAL_SALES, 0)" + ppa_actuals + ") \n"
-                + ", TOTAL_PROJECTION_DOLAR=(Isnull(TODIS.PROJECTION_SALES, 0)" + ppa_projection + ") \n"
-                + ", NET_ACTUAL_SALES=(Isnull(SALE.SALES_ACTUAL_SALES, 0)-(Isnull(TODIS.ACTUAL_SALES, 0)" + ppa_actuals + "))  \n"
-                + ", NET_PROJECTION_SALES=(Isnull(SALE.SALES_PROJECTION_SALES, 0)-(Isnull(TODIS.PROJECTION_SALES, 0)" + ppa_projection + ")) \n";
+                + ", TOTAL_ACTUAL_RATE=Isnull((Isnull(TODIS.ACTUAL_SALES, 0)" + ppaActuals + ") / NULLIF(SALE.SALES_ACTUAL_SALES, 0), 0) * 100 \n"
+                + ", TOTAL_PROJECTION_RATE=Isnull((Isnull(TODIS.PROJECTION_SALES, 0)" + ppaProjection + ") / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n"
+                + ", TOTAL_ACTUAL_DOLAR=(Isnull(TODIS.ACTUAL_SALES, 0)" + ppaActuals + ") \n"
+                + ", TOTAL_PROJECTION_DOLAR=(Isnull(TODIS.PROJECTION_SALES, 0)" + ppaProjection + ") \n"
+                + ", NET_ACTUAL_SALES=(Isnull(SALE.SALES_ACTUAL_SALES, 0)-(Isnull(TODIS.ACTUAL_SALES, 0)" + ppaActuals + "))  \n"
+                + ", NET_PROJECTION_SALES=(Isnull(SALE.SALES_PROJECTION_SALES, 0)-(Isnull(TODIS.PROJECTION_SALES, 0)" + ppaProjection + ")) \n";
         if (projSelDTO.isPpa()) {
             selectClause += ", PPA.ACTUAL_SALES AS PPA_ACTUAL_SALES \n"
                     + ", PPA.PROJECTION_SALES AS PPA_PROJECTION_SALES \n"

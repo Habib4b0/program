@@ -404,7 +404,7 @@ public class NationalAssumptionsForm extends CustomComponent {
             }
             additionalInformation.setUploderValue();
             lastPosition = tabPosition;
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         }
     }
@@ -530,7 +530,7 @@ public class NationalAssumptionsForm extends CustomComponent {
                 }
             }
             UI.getCurrent().setFocusedComponent(UI.getCurrent());
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         }
     }
@@ -642,7 +642,7 @@ public class NationalAssumptionsForm extends CustomComponent {
         CommonUIUtils.getMessageNotification(projectionId + "," + projName + " has been successfully saved");
         saveBtn.setCaption("UPDATE");
     }
-        catch(Exception e){
+        catch(PortalException e){
             LOGGER.error(e);
         }
     }

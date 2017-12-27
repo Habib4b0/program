@@ -21,7 +21,7 @@ public class PriceTypeCriteria implements SearchCriteria{
 	private int lastCount;
 
 	/** The dirty. */
-	public boolean dirty;
+	private boolean dirty;
 
 	/** The filter. */
 	private String filter;

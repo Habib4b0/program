@@ -17,6 +17,8 @@ import org.asi.container.ExtTreeContainer;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 
 /**
  *
@@ -24,13 +26,11 @@ import com.stpl.ifs.ui.util.NumericConstants;
  */
 public class AHSummeryTableLogic extends PageTreeTableLogic {
 
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final SalesLogic salesLogic = new SalesLogic();
-    int levelNo;
-    String hierarchyNo;
-    boolean firstGenerated = false;
+    private boolean firstGenerated = false;
     public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(AHSummeryTableLogic.class);
-    ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
+    private final ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
 
     /**
      * Loads the table in sales projection based on start and end index.
@@ -196,7 +196,7 @@ public class AHSummeryTableLogic extends PageTreeTableLogic {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
     }

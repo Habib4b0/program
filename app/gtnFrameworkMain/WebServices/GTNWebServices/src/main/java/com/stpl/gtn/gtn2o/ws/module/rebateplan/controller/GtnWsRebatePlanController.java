@@ -44,6 +44,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.rebateplan.GtnWsRebatePlanGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
+import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 import com.stpl.gtn.gtn2o.ws.util.GtnWsQueryConstants;
 
 /**
@@ -527,7 +528,13 @@ public class GtnWsRebatePlanController {
 			}
 			if (ruleDetailBean.getReturnRateSid() != null) {
 				rpTier.setHelperTableReturnRateSid(session.get(HelperTable.class, ruleDetailBean.getReturnRateSid()));
-			}
+			}else if(ruleDetailBean.getItemPricingQualifierSid() !=null && ruleDetailBean.getItemPricingQualifierSid().contains(GtnWsConstants.RETURN_RATE)){
+                            try {
+                                rpTier.setHelperTableReturnRateSid(session.get(HelperTable.class,getFormulaType(GtnWsConstants.RETURN_RATE)));
+                            } catch (GtnFrameworkGeneralException ex) {
+                               logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
+                            }
+                        }
 			rpTier.setCreatedDate(new Date());
 			rpTier.setCreatedBy(rebatePlanInfoBean.getUserId());
 			rpTier.setModifiedDate(new Date());

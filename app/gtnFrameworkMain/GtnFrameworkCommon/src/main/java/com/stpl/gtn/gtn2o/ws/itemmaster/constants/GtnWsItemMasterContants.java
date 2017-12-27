@@ -48,6 +48,7 @@ public class GtnWsItemMasterContants {
 	public static final String GTN_WS_PRICING_CREATE_TEMP_TABLE = "/createPricingTempTable";
 	public static final String GTN_WS_PRICING_UPDATE_SERVICE = "/updatePricingData";
 	public static final String GTN_WS_PRICING_INSERT_SERVICE = "/insertPricingData";
+	public static final String GTN_WS_PRICING_DELETE_SERVICE = "/deletePricingData";
 	public static final String GTN_WS_PRICING_DROP_TEMP_TABLE_SERVICE = "/dropTempTableService";
 	public static final String GTN_WS_PRICING_VALIDATION_SERVICE = "/validatePricing";
 

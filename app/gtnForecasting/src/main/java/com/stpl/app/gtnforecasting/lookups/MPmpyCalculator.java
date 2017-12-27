@@ -54,7 +54,6 @@ import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
@@ -65,6 +64,20 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
  * 
  */
 public class MPmpyCalculator extends Window {
+
+    /**
+     * @return the isSalesOrUnits
+     */
+    public boolean isIsSalesOrUnits() {
+        return isSalesOrUnits;
+    }
+
+    /**
+     * @return the isImport
+     */
+    public boolean isIsImport() {
+        return isImport;
+    }
 
     /**
      * The Constant serialVersionUID.
@@ -80,61 +93,57 @@ public class MPmpyCalculator extends Window {
      * The excel btn.
      */
     @UiField("excelBtn")
-    public Button excelBtn;
+    private Button excelBtn;
 
     /**
      * The excel btn.
      */
     @UiField("nextBtn")
-    public Button moveRight;
+    private Button moveRight;
 
     /**
      * The excel btn.
      */
     @UiField("previousBtn")
-    public Button moveLeft;
+    private Button moveLeft;
 
     /**
      * The graph btn.
      */
     @UiField("graphBtn")
-    public Button graphBtn;
+    private Button graphBtn;
 
     /**
      * The excel calc btn.
      */
     @UiField("excelCalcBtn")
-    public Button excelCalcBtn;
+    private Button excelCalcBtn;
 
     @UiField("availableProducts")
-    public ExtFilterTable availableProductsTable;
+    private ExtFilterTable availableProductsTable;
 
     @UiField("selectedProducts")
-    public ExtFilterTable selectedProductsTable;
+    private ExtFilterTable selectedProductsTable;
 
-    public ExtFilterTable pmpyTable=new ExtFilterTable();
+    private ExtFilterTable pmpyTable=new ExtFilterTable();
     
-    public ExtFilterTable pmpyExportTable=new ExtFilterTable();
-    
-    ExtFilterTreeTable excelTable = new ExtFilterTreeTable();
-
     @UiField("customerDdlb")
-    public ComboBox customerDDLB;
+    private ComboBox customerDDLB;
 
     @UiField("contractDdlb")
-    public ComboBox contractDDLB;
+    private ComboBox contractDDLB;
 
     @UiField("frequencyDdlb")
-    public ComboBox frequencyDDLB;
+    private ComboBox frequencyDDLB;
 
     @UiField("generateBtn")
-    public Button generateBtn;
+    private Button generateBtn;
 
     @UiField("resetBtn")
-    public Button resetBtn;
+    private Button resetBtn;
 
     @UiField("allBtn")
-    public Button allBtn;
+    private Button allBtn;
 
     private final BeanItemContainer<MPmpyDTO> availableProductsBean = new BeanItemContainer<>(MPmpyDTO.class);
 
@@ -158,10 +167,10 @@ public class MPmpyCalculator extends Window {
 
     private Object itemId;
     
-    CustomTableHeaderDTO headerDTO;
+    private CustomTableHeaderDTO headerDTO;
     
     @UiField("sales")
-    public  TextField salesField;
+    private  TextField salesField;
     
     @UiField("lives")
     private  TextField livesField; 
@@ -185,10 +194,10 @@ public class MPmpyCalculator extends Window {
     private  Button totLivesCalcBtn;            
     
     @UiField("tableLayout")
-    public VerticalLayout tableLayout;
+    private VerticalLayout tableLayout;
     
     @UiField("closeBtn")
-    public Button closeBtn;
+    private Button closeBtn;
     /**
      * The importBtn.
      */
@@ -204,29 +213,21 @@ public class MPmpyCalculator extends Window {
     @UiField("populate")
     private Button populateBtn;
     
-    public boolean isImport = false;
+    private boolean isImport = false;
     /**
      * Sales - true 
      * Units - false
      */
-    public boolean isSalesOrUnits = true;
+    private boolean isSalesOrUnits = true;
     
-    List<MPmpyDTO> pmpyList = new ArrayList<>();
+    private List<MPmpyDTO> pmpyList = new ArrayList<>();
     
-    Map<String,Double> pmpySalesMap = new HashMap<>();
-    Map<String,Integer> pmpyUnitsMap = new HashMap<>();
+    private final Map<String,Double> pmpySalesMap = new HashMap<>();
+    private final Map<String,Integer> pmpyUnitsMap = new HashMap<>();
     
-    DecimalFormat doubleDecimalFormat = new DecimalFormat("#0.00");
+    private final DecimalFormat doubleDecimalFormat = new DecimalFormat("#0.00");
     
-    DecimalFormat noDecimalFormat = new DecimalFormat("#");   
-    /**
-     * The calendar.
-     */
-     /**
-     * The df sales.
-     */
-
-    List<String> projectedPeriodList = new ArrayList<>();
+    private List<String> projectedPeriodList = new ArrayList<>();
     
     @UiField("resetCalcBtn")
     private Button resetCalcBtn;
@@ -243,18 +244,11 @@ public class MPmpyCalculator extends Window {
     
     private  static final String TEXT_RIGHT_ALIGN = "txtRightAlign";
     
-    /**
-     * The df units.
-     */
-    
-    
-    int projectionDetailsId = 0;
-    
     private final Map<Object, Boolean> chtCheckBoxMap = new HashMap<>();    
     
-    String updateValue;
+    private String updateValue;
     
-    String updatePeriod;
+    private String updatePeriod;
     /**
      * Instantiates a new pmpy calculator.
      * @param sessionDTO
@@ -447,7 +441,7 @@ public class MPmpyCalculator extends Window {
                         loadContractDDLB(Integer.valueOf(String.valueOf(event.getProperty().getValue())));
                         availableProductsBean.removeAllItems();
                         selectedProductsBean.removeAllItems();
-                    } catch (Exception ex) {
+                    } catch (PortalException | SystemException | NumberFormatException ex) {
                         LOGGER.error(ex);
                     }
                 }
@@ -481,7 +475,7 @@ public class MPmpyCalculator extends Window {
                         availableProductsBean.removeAllItems();
                         availableProductsBean.addAll(loadProductsTable(customerSid, contractSid));
                         selectedProductsBean.removeAllItems();
-                    } catch (Exception ex) {
+                    } catch (PortalException | SystemException | NumberFormatException ex) {
                         LOGGER.error(ex);
                     }
                 }
@@ -493,7 +487,7 @@ public class MPmpyCalculator extends Window {
                 public void buttonClick(Button.ClickEvent event) {
                     try {
                         moveAllProducts();
-                    } catch (Exception ex) {
+                    } catch (PortalException | SystemException ex) {
                         LOGGER.error(ex);
                     }
 
@@ -550,7 +544,7 @@ public class MPmpyCalculator extends Window {
                     final boolean chValue = isContractHistorySelected();
                     if (chValue) {
                         String valuePerLife ;
-                        if(isSalesOrUnits){
+                        if(isIsSalesOrUnits()){
                             valuePerLife = SalesUtils.valueToCurrency(calculateValuePerLife(Integer.valueOf(livesField.getValue())), doubleDecimalFormat);  
                         }else{
                             valuePerLife = calculateValuePerLife(Integer.valueOf(livesField.getValue()));  
@@ -569,14 +563,14 @@ public class MPmpyCalculator extends Window {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
 
-                    String tempVPL = isSalesOrUnits ? String.valueOf(SalesUtils.currencyToValue(valuePerLifeField.getValue())) : valuePerLifeField.getValue();
+                    String tempVPL = isIsSalesOrUnits() ? String.valueOf(SalesUtils.currencyToValue(valuePerLifeField.getValue())) : valuePerLifeField.getValue();
                     int valuePerlife = Double.valueOf(tempVPL).intValue();
                     String totalSales = calculateTotalSales(valuePerlife, Integer.valueOf(totalLivesField.getValue()));
-                    totalSalesField.setValue(isSalesOrUnits ? SalesUtils.valueToCurrency(totalSales, doubleDecimalFormat) : totalSales);
+                    totalSalesField.setValue(isIsSalesOrUnits() ? SalesUtils.valueToCurrency(totalSales, doubleDecimalFormat) : totalSales);
 
                     int totalSalesAmount = Double.valueOf(totalSales).intValue();
                     int projectionPeriodTotal = calculateProjectionPeriodTotal(totalSalesAmount, String.valueOf(frequencyDDLB.getValue()));
-                    projPeriodTotalField.setValue(isSalesOrUnits ? SalesUtils.valueToCurrency(String.valueOf(projectionPeriodTotal), doubleDecimalFormat) : String.valueOf(projectionPeriodTotal));
+                    projPeriodTotalField.setValue(isIsSalesOrUnits() ? SalesUtils.valueToCurrency(String.valueOf(projectionPeriodTotal), doubleDecimalFormat) : String.valueOf(projectionPeriodTotal));
                     projPeriodTotalField.setData(projPeriodTotalField.getValue());
                 }
             });
@@ -700,7 +694,7 @@ public class MPmpyCalculator extends Window {
                 }
             });
            
-        } catch (Exception ex) {            
+        } catch (PortalException | SystemException | Property.ReadOnlyException | UnsupportedOperationException ex) {            
             LOGGER.error(ex);
         }
 
@@ -891,7 +885,7 @@ public class MPmpyCalculator extends Window {
     public String calculateValuePerLife(int lives) {
         double valuePerLife = 0;
 
-        if (isSalesOrUnits) {
+        if (isIsSalesOrUnits()) {
             Double tempSalesAmount = (Double) SalesUtils.currencyToValue(salesField.getValue());
             int salesAmount = tempSalesAmount.intValue();
             if (lives != 0 && salesAmount != 0) {
@@ -1094,7 +1088,7 @@ public class MPmpyCalculator extends Window {
         
         livesField.setValue(ZERO);
         totalLivesField.setValue(ZERO);
-        if (isSalesOrUnits) {
+        if (isIsSalesOrUnits()) {
             salesField.setValue(DEFAULT_SALES);
             valuePerLifeField.setValue(DEFAULT_SALES);
             totalSalesField.setValue(DEFAULT_SALES);

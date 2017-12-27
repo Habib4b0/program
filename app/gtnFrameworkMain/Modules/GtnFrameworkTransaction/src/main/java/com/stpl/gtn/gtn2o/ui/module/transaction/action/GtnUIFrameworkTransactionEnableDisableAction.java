@@ -28,9 +28,7 @@ public class GtnUIFrameworkTransactionEnableDisableAction implements GtnUIFrameW
 		String valueFromDdlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getCaptionFromComboBox();
 		if (GtnTransactionUIConstants.SUMMARY.equals(valueFromDdlb)) {
 			isCompanyIdAndNameEnable = false;
-			isForcastNameAndVerEnable = true;
 		} else if (GtnTransactionUIConstants.DETAILS.equals(valueFromDdlb)) {
-			isCompanyIdAndNameEnable = true;
 			isForcastNameAndVerEnable = false;
 		}
 		for (int i = 0; i < companyIdAndName.length; i++) {

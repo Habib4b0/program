@@ -53,39 +53,31 @@ public class MProjectionResultsLogic {
      */
     private static final DecimalFormat CUR_TWO = new DecimalFormat("$#,##0.00");
 
-    ProjectionResultsDTO supDisPerDto = null;
-    ProjectionResultsDTO supDisDolDto = null;
-    ProjectionResultsDTO manDisPerDto = null;
-    ProjectionResultsDTO manDisDolDto = null;
-    ProjectionResultsDTO manRPUDto = null;
-    ProjectionResultsDTO supRPUDto = null;
-    List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
+    private ProjectionResultsDTO supDisPerDto = null;
+    private ProjectionResultsDTO supDisDolDto = null;
+    private ProjectionResultsDTO manDisPerDto = null;
+    private ProjectionResultsDTO manDisDolDto = null;
+    private ProjectionResultsDTO manRPUDto = null;
+    private ProjectionResultsDTO supRPUDto = null;
+    private List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
 
-    List<ProjectionResultsDTO> prjTotalDisDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjTotalDisChildDtoList = new ArrayList<>();
-    List<List<ProjectionResultsDTO>> programCodeDtoList = new ArrayList<>();
+    private final List<ProjectionResultsDTO> prjTotalDisDtoList = new ArrayList<>();
+    private final List<ProjectionResultsDTO> prjTotalDisChildDtoList = new ArrayList<>();
+    private final List<List<ProjectionResultsDTO>> programCodeDtoList = new ArrayList<>();
 
-    List<Object> totalDiscountDollarList = new ArrayList<>();
-    List<Object> childDiscountDollarList = new ArrayList<>();
-    List<Object[]> programCodeDollarList = new ArrayList<>();
-
-    List<Object> totalDiscountPerList = new ArrayList<>();
-    List<Object> childDiscountPerList = new ArrayList<>();
-    List<Object[]> programCodePerList = new ArrayList<>();
     public static final String TOTAL_DISCOUNT_DOLLAR = "Total Discount $";
-    List<ProjectionResultsDTO> netSalesDtoList = new ArrayList<>();
-    List<Object[]> prcMProjResultsContract = new ArrayList<>();
+    private final List<ProjectionResultsDTO> netSalesDtoList = new ArrayList<>();
+    private List<Object[]> prcMProjResultsContract = new ArrayList<>();
      //To Persist the Total Procedure Result List 
-    List<Object[]> prcMProcedureResults = new ArrayList<>();
-    List<Object> totalDiscount = new ArrayList<>();
-    List<Object> childDiscountList = new ArrayList<>();
-    List<Object[]> programCodeList = new ArrayList<>();
-    List<Object> prMainQuery = new ArrayList<>();
-    List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
+    private List<Object[]> prcMProcedureResults = new ArrayList<>();
+    private final List<Object> totalDiscount = new ArrayList<>();
+    private List<Object> childDiscountList = new ArrayList<>();
+    private List<Object[]> programCodeList = new ArrayList<>();
+    private List<Object> prMainQuery = new ArrayList<>();
+    private List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     // To Persist the Total Procedure Input
-     Object[] totalPRCInput;
-     Object[] totalDiscountPRCInput;
+    private Object[] totalPRCInput;
     public List<ProjectionResultsDTO> getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         if ( projSelDTO.getSessionDTO().isPrRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgs, totalPRCInput)) {
@@ -3181,16 +3173,16 @@ public class MProjectionResultsLogic {
         return projDTOList;
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat decFormat, String value) {
         if (value.contains(Constant.NULL)) {
             value = "0";
         } 
-        if (FORMAT.toPattern().contains(Constant.PERCENT)) {
+        if (decFormat.toPattern().contains(Constant.PERCENT)) {
             Double newValue = Double.valueOf(value);
             newValue = newValue / NumericConstants.HUNDRED;
-            value = FORMAT.format(newValue);
+            value = decFormat.format(newValue);
         }else{
-            value = FORMAT.format(Double.valueOf(value));
+            value = decFormat.format(Double.valueOf(value));
         }
         return value;
     }
@@ -3291,8 +3283,8 @@ public class MProjectionResultsLogic {
         String historyQuery = getChildTotalDiscountQuery(projSelDTO);
         projSelDTO.setFuture(true);
         String futureQuery = getChildTotalDiscountQuery(projSelDTO);
-         String CCPQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
-        String customQuery = CCPQuery + " \n" + finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
+         String ccpQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
+        String customQuery = ccpQuery + " \n" + finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
         return customQuery;
     }
 
@@ -3536,8 +3528,8 @@ public class MProjectionResultsLogic {
         customSQL1 += " CCP.HIERARCHY_NO,\n"
                 + "          p.\"YEAR\"\n";
           
-          String CCPQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
-        String sql = CCPQuery + " \n" + "   select "
+          String ccpQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
+        String sql = ccpQuery + " \n" + "   select "
                 + " Isnull(HISTORY.PROGRAM_CODE,FUTURE.PROGRAM_CODE) as PROGRAM_CODE \n"
                 + ",Isnull(HISTORY.HIERARCHY_NO,FUTURE.HIERARCHY_NO) \n"
                 + ",Isnull(HISTORY.YEARS,FUTURE.YEARS) as YEARS \n"
@@ -3653,8 +3645,8 @@ public class MProjectionResultsLogic {
         String discountQuery = getDiscountTotalQuery(projSelDTO);
         String salesQuery = getProjectionResultsSalesQueryPivotForPR(projSelDTO);
         CommonLogic commonLogic = new CommonLogic();
-          String CCPQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
-        customQuery = CCPQuery + " \n" + selectClause + " from  (" + discountQuery + ") DISCOUNT  FULL  JOIN (" + salesQuery + ") SALE " + " ON DISCOUNT.YEARS = SALE.YEARS\n"
+          String ccpQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
+        customQuery = ccpQuery + " \n" + selectClause + " from  (" + discountQuery + ") DISCOUNT  FULL  JOIN (" + salesQuery + ") SALE " + " ON DISCOUNT.YEARS = SALE.YEARS\n"
                 + "  AND DISCOUNT.PERIODS = SALE.PERIODS" + "\n order by " + orderBy;
         return customQuery;
     }

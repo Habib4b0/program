@@ -140,10 +140,10 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 	private Object getFieldValue(GtnWsRecordBean psPriceProtectionBean) {
 		String psPriceTypeValue = psPriceProtectionBean.getStringPropertyByIndex(11);
 		if (psPriceTypeValue.startsWith("P")) {
-			return psPriceProtectionBean.getPropertyValueByIndex(35);
+			return psPriceProtectionBean.getPropertyValueByIndex(36);
 		}
 		if (psPriceTypeValue.startsWith("D")) {
-			Object value = psPriceProtectionBean.getPropertyValueByIndex(34);
+			Object value = psPriceProtectionBean.getPropertyValueByIndex(35);
 			if (value != null && Long.class.isAssignableFrom(value.getClass())) {
 				value = new Date((Long) value);
 			}
@@ -158,11 +158,11 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 	private String getFieldId(String currentPropId, GtnWsRecordBean bean, Object value) {
 		String depandingValue = bean.getStringPropertyByIndex(11);
 		if (depandingValue.startsWith("P")) {
-			bean.getProperties().set(35, value);
+			bean.getProperties().set(36, value);
 			return currentPropId.replace("Entry", "Ddlb");
 		}
 		if (depandingValue.startsWith("D")) {
-			bean.getProperties().set(34, value);
+			bean.getProperties().set(35, value);
 			return currentPropId.replace("Entry", "Date");
 		}
 		if (depandingValue.startsWith("M")) {

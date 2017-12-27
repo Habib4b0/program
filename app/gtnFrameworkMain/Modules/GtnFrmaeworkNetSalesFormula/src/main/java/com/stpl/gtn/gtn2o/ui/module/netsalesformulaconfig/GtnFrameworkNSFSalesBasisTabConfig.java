@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfi
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfContractSelectionAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfRemoveAction;
@@ -853,7 +854,13 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 		salesBasisTabMassUpdatePanel.setComponentName("Mass Update");
 		salesBasisTabMassUpdatePanel.setAuthorizationIncluded(true);
 		componentList.add(salesBasisTabMassUpdatePanel);
-		addSalesBasisTabMassUpdateLayout(componentList, salesBasisTabMassUpdatePanel.getComponentId(), viewId);
+
+		GtnUIFrameworkComponentConfig salesBasisTabMassUpdateMainCssLayoutConfig = componentConfigProvider.getCssLayoutConfig(
+				viewId + "salesBasisMassUpdateMainLayout", true, salesBasisTabMassUpdatePanel.getComponentId());
+		salesBasisTabMassUpdateMainCssLayoutConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
+		componentList.add(salesBasisTabMassUpdateMainCssLayoutConfig);
+		
+		addSalesBasisTabMassUpdateLayout(componentList, salesBasisTabMassUpdateMainCssLayoutConfig.getComponentId(), viewId);
 	}
 
 	private void addSalesBasisTabMassUpdateLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
@@ -910,26 +917,19 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 		String componentId = viewId + "massUpdateDdlb";
 		GtnUIFrameworkComponentConfig salesBasisTabMassUpdateDdlbLayout = componentConfigProvider
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parentId);
+		salesBasisTabMassUpdateDdlbLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(salesBasisTabMassUpdateDdlbLayout);
 
 		GtnUIFrameworkComponentConfig salesBasisTabMassUpdateDdlb = componentConfigProvider
 				.getUIFrameworkComponentConfig(componentId, true, salesBasisTabMassUpdateDdlbLayout.getComponentId(),
 						GtnUIFrameworkComponentType.COMBOBOX);
 		salesBasisTabMassUpdateDdlb.setAuthorizationIncluded(true);
-		salesBasisTabMassUpdateDdlb.setComponentName(GtnFrameworkNSFConstants.getEmpty());
+		salesBasisTabMassUpdateDdlb.setComponentName("Field");
 		componentList.add(salesBasisTabMassUpdateDdlb);
 
 		GtnUIFrameworkComboBoxConfig salesBasisTabMassUpdateDdlbConfig = new GtnUIFrameworkComboBoxConfig();
 		salesBasisTabMassUpdateDdlbConfig.setItemValues(Arrays.asList(GtnFrameworkNSFConstants.getNetSalesRuleNo()));
 		salesBasisTabMassUpdateDdlb.setGtnComboboxConfig(salesBasisTabMassUpdateDdlbConfig);
-
-		List<GtnUIFrameWorkActionConfig> salesBasisTabMassUpdateDdlbActionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
-		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		customAction.addActionParameter(GtnUiFrameworkNsfSBMassFieldValueChangeAction.class.getName());
-		customAction.addActionParameter(viewId);
-		salesBasisTabMassUpdateDdlbActionConfigList.add(customAction);
-		salesBasisTabMassUpdateDdlb.setGtnUIFrameWorkActionConfigList(salesBasisTabMassUpdateDdlbActionConfigList);
 
 	}
 
@@ -939,15 +939,16 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 		String componentId = viewId + "massUpdateNetSalesRuleNo";
 		GtnUIFrameworkComponentConfig salesBasisTabMassPopupLayout = componentConfigProvider
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parentId);
+		salesBasisTabMassPopupLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		componentList.add(salesBasisTabMassPopupLayout);
 
 		GtnUIFrameworkComponentConfig salesBasisTabMassPopup = componentConfigProvider.getUIFrameworkComponentConfig(
 				componentId, true, salesBasisTabMassPopupLayout.getComponentId(),
 				GtnUIFrameworkComponentType.POPUPTEXTFIELD);
 		salesBasisTabMassPopup.setAuthorizationIncluded(true);
-		salesBasisTabMassPopup.setComponentName(GtnFrameworkNSFConstants.getEmpty());
+		salesBasisTabMassPopup.setComponentName("Value");
 		salesBasisTabMassPopup.addComponentStyle(GtnFrameworkCssConstants.SEARCHICON);
-		salesBasisTabMassPopup.setVisible(false);
+		salesBasisTabMassPopup.setVisible(true);
 		componentList.add(salesBasisTabMassPopup);
 
 		List<GtnUIFrameWorkActionConfig> salesBasisTabMassPopupActionConfigList = new ArrayList<>();
