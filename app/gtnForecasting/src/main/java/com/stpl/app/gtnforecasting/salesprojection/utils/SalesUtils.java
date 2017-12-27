@@ -22,6 +22,7 @@ import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.ProjectionList;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.stpl.portal.kernel.exception.SystemException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -164,7 +165,7 @@ public class SalesUtils {
                 }
             }
             return map;
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.debug(ex);
         }
         return null;

@@ -20,14 +20,14 @@ import com.vaadin.ui.TextField;
 public class NotesTextField extends CustomField {
 
     private static final long serialVersionUID = 1L;
-    TextField textField = new TextField();
-    TextArea txtArea = new TextArea();
-    Property txtAreaProperty;
-    Property txtProperty;
-    PopupView popup = new PopupView("<img src='/html/icons/notes.png'>",txtArea);
-    HorizontalLayout layout = new HorizontalLayout();
+    protected TextField textField = new TextField();
+    protected TextArea txtArea = new TextArea();
+    protected Property txtAreaProperty;
+    protected Property txtProperty;
+    protected PopupView popup = new PopupView("<img src='/html/icons/notes.png'>",txtArea);
+    protected HorizontalLayout layout = new HorizontalLayout();
     
-     public static String alphaNumericChars = "([0-9|a-z|A-Z|\\ |\\*])*";
+    public static String alphaNumericChars = "([0-9|a-z|A-Z|\\ |\\*])*";
     public static String notAlphaNumericChars = "([^0-9|a-z|A-Z|\\ |\\*])*";
   
     

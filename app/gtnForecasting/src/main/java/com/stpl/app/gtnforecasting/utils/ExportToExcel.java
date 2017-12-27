@@ -26,14 +26,14 @@ import org.apache.poi.ss.util.CellUtil;
  */
 public class ExportToExcel extends ExcelExport {
 
-    Map<String, String> formatter = null;
-    final CellStyle style1 = this.workbook.createCellStyle();
-    final CellStyle style2 = this.workbook.createCellStyle();
-    final CellStyle style3 = this.workbook.createCellStyle();
-    final CellStyle style4 = this.workbook.createCellStyle();
-    final CellStyle style5 = this.workbook.createCellStyle();
-    final CellStyle style6 = this.workbook.createCellStyle();
-    Object property;
+    protected Map<String, String> formatter = null;
+    protected final CellStyle style1 = this.workbook.createCellStyle();
+    protected final CellStyle style2 = this.workbook.createCellStyle();
+    protected final CellStyle style3 = this.workbook.createCellStyle();
+    protected final CellStyle style4 = this.workbook.createCellStyle();
+    protected final CellStyle style5 = this.workbook.createCellStyle();
+    protected final CellStyle style6 = this.workbook.createCellStyle();
+    protected Object property;
 
     public ExportToExcel(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter, Object property) {
       

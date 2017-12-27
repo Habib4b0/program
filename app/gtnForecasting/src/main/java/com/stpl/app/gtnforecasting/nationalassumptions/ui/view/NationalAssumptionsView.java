@@ -6,6 +6,8 @@ import com.stpl.app.gtnforecasting.nationalassumptions.ui.form.NationalAssumptio
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SESSION_ID;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
@@ -25,9 +27,9 @@ public class NationalAssumptionsView extends VerticalLayout implements View {
     private static final Logger LOGGER = Logger.getLogger(NationalAssumptionsView.class);
 
     public static final String NAME = "nationalAssumptions";
-    DataSelectionDTO dtoValue = new DataSelectionDTO();
-    OptionGroup mode = new OptionGroup();
-    SessionDTO sessionDto;
+    protected DataSelectionDTO dtoValue = new DataSelectionDTO();
+    protected OptionGroup mode = new OptionGroup();
+    protected SessionDTO sessionDto;
 
     public NationalAssumptionsView(SessionDTO sessionDto) {
         super();
@@ -52,7 +54,7 @@ public class NationalAssumptionsView extends VerticalLayout implements View {
                 nationalAssumptions.reloadTable();
             }
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex);
         }
 

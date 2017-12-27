@@ -35,7 +35,6 @@ import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
 import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
-import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
@@ -78,6 +77,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
+import java.lang.reflect.InvocationTargetException;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -101,99 +101,99 @@ public class PPAProjectionResults extends CustomComponent implements View {
      * The frequency.
      */
     @UiField("frequency")
-    public ComboBox frequency;
+    private ComboBox frequency;
     /**
      * The period order.
      */
     @UiField("periodOrder")
-    public OptionGroup periodOrder;
+    private OptionGroup periodOrder;
     /**
      * The actual or proj.
      */
     @UiField("actualOrProj")
-    public OptionGroup actualOrProj;
+    private OptionGroup actualOrProj;
     /**
      * The pivot view.
      */
     @UiField("pivotView")
-    public OptionGroup pivotView;
+    private OptionGroup pivotView;
     /**
      * The view.
      */
     @UiField("view")
-    public OptionGroup view;
+    private OptionGroup view;
     /**
      * The excel btn.
      */
     @UiField("excelBtn")
-    public Button excelBtn;
+    private Button excelBtn;
     /**
      * The graph btn.
      */
     @UiField("graphBtn")
-    public Button graphBtn;
+    private Button graphBtn;
     /**
      * The history.
      */
     @UiField("history")
-    public ComboBox history;
+    private ComboBox history;
     /**
      * The level.
      */
     @UiField("level")
-    public ComboBox level;
+    private ComboBox level;
     /**
      * The level filter.
      */
     @UiField("levelFilter")
-    public ComboBox levelFilter;
+    private ComboBox levelFilter;
     /**
      * The custom ddlb.
      */
     @UiField("customDdlb")
-    public ComboBox customDdlb;
+    private ComboBox customDdlb;
     /**
      * The reset.
      */
     @UiField("resetBtn")
-    public Button reset;
+    private Button reset;
     /**
      * The reset.
      */
     @UiField("expandBtn")
-    public Button expandBtn;
+    private Button expandBtn;
     /**
      * The reset.
      */
     @UiField("collapseBtn")
-    public Button collapseBtn;
+    private Button collapseBtn;
     /**
      * the generate button.
      */
     @UiField("generateBtn")
-    public Button generateBtn;
+    private Button generateBtn;
     /**
      * the verticalLayout.
      */
     @UiField("verticalLayout")
-    public VerticalLayout verticalLayout;
+    private VerticalLayout verticalLayout;
     @UiField("editBtn")
-    public Button editBtn;
+    private Button editBtn;
     @UiField("newBtn")
-    public Button newBtn;
+    private Button newBtn;
     @UiField("resultsCaption")
-    public Panel resultsCaption;
+    private Panel resultsCaption;
     @UiField("group")
-    public ComboBox group;
+    private ComboBox group;
     @UiField("groupLabel")
-    public Label groupLabel;
+    private Label groupLabel;
     @UiField("detailsBtn")
-    public Button detailsBtn;
-    int tradingPartnerNo = 0;
+    private Button detailsBtn;
+    protected int tradingPartnerNo = 0;
 
-    final StplSecurity stplSecurity = new StplSecurity();
+    protected final StplSecurity stplSecurity = new StplSecurity();
 
-    final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
+    protected final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
 
     /**
      * The excel export image.
@@ -207,23 +207,22 @@ public class PPAProjectionResults extends CustomComponent implements View {
     /**
      * The table logic
      */
-    PPAResultsTableLogic tableLogic = new PPAResultsTableLogic();
-    FreezePagedTreeTable periodTableId;
+    private final PPAResultsTableLogic tableLogic = new PPAResultsTableLogic();
+    private final FreezePagedTreeTable periodTableId;
     /**
      * The result bean.
      */
     private final ExtTreeContainer<PPAProjectionResultsDTO> resultBean = new ExtTreeContainer<>(PPAProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
-    List<Leveldto> viewChangeHierarchy = new ArrayList<>();
-    ExtCustomTreeTable excelTable;
+    private ExtCustomTreeTable excelTable;
     /**
      * Instantiates a new SALES_SMALL projection results.
      */
-    ExtFilterTreeTable leftTable;
-    ExtFilterTreeTable rightTable;
-    Integer projectionId;
-    CustomTableHeaderDTO ridhtdto;
-    CustomTableHeaderDTO leftdto;
-    SessionDTO session;
+    private ExtFilterTreeTable leftTable;
+    private ExtFilterTreeTable rightTable;
+    private final Integer projectionId;
+    private CustomTableHeaderDTO ridhtdto;
+    private CustomTableHeaderDTO leftdto;
+    private SessionDTO session;
     private int hierarchyLevelNo = 1;
     public static final String PIVOT_VIEW_LABEL = "Pivot View";
     /**
@@ -244,19 +243,14 @@ public class PPAProjectionResults extends CustomComponent implements View {
      * The min split position.
      */
     private final float minSplitPosition = 200;
-    int customIdToSelect = 0;
-    boolean customHierarchy = false;
-    int customId = 0;
-    List<CustomViewMaster> customViewList = new ArrayList<>();
-    ProjectionSelectionDTO selection = new ProjectionSelectionDTO();
-    boolean isGenerated;
-    PPAProjectionResultsLogic logic = new PPAProjectionResultsLogic();
-    public static final DataFormatConverter percentFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_PERCENT);
-    ExtTreeContainer<PPAProjectionResultsDTO> excelContainer = new ExtTreeContainer<>(PPAProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
-    String[] pivotHeaderForActuals = {Constant.GROUPFCAPS, "Discount $ Per Unit Actuals", "Discount % Actuals", "Unit Volume Actulas", "Total Discount Amount Actulas"};
-    String[] pivotHeaderForProjections = {Constant.GROUPFCAPS, "Discount $ Per Unit Projections", "Discount % Projections", "Unit Volume Projections", "Total Discount Amount Projections"};
-    String[] pivotHeaderForBoth = {Constant.GROUPFCAPS, "Discount $ Per Unit Actuals", "Discount $ Per Unit Projections", "Discount % Actuals", "Discount % Projections", "Unit Volume Actulas", "Unit Volume Projections", "Total Discount Amount Actulas", "Total Discount Amount Projections"};
-    Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
+    private int customIdToSelect = 0;
+    private int customId = 0;
+    private List<CustomViewMaster> customViewList = new ArrayList<>();
+    private final ProjectionSelectionDTO selection = new ProjectionSelectionDTO();
+    private boolean isGenerated;
+    private final PPAProjectionResultsLogic logic = new PPAProjectionResultsLogic();
+    private ExtTreeContainer<PPAProjectionResultsDTO> excelContainer = new ExtTreeContainer<>(PPAProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
+    private final Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
             try {
@@ -266,12 +260,12 @@ public class PPAProjectionResults extends CustomComponent implements View {
             }
         }
     };
-    List historyList = null;
-    boolean firstGenerated = false;
-    boolean generated = false;
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    PPADetailsLookup ppaDetailsLookup = null;
-    boolean isTabVisible = true;
+    protected List historyList = null;
+    protected boolean firstGenerated = false;
+    protected boolean generated = false;
+    protected CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    protected PPADetailsLookup ppaDetailsLookup = null;
+    protected boolean isTabVisible = true;
 
     /**
      * Instantiates a new PPA projection results.
@@ -384,7 +378,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
             configureTable();
             security();
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | Property.ReadOnlyException | NumberFormatException | UnsupportedOperationException ex) {
 
             LOGGER.error(ex);
         }
@@ -901,7 +895,6 @@ public class PPAProjectionResults extends CustomComponent implements View {
          if (customId != 0) {
             session.setCustomId(customId);
             Utility.loadCustomHierarchyList(session);
-              viewChangeHierarchy=session.getCustomHierarchyMap().get(customId);
         }
         if (!generated && firstGenerated && !"null".equals(String.valueOf(customDdlb.getValue()))) {
             try {
@@ -1167,7 +1160,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
             try {
                 ppaDetailsLookup = new PPADetailsLookup(projectionId, session);
                 UI.getCurrent().addWindow(ppaDetailsLookup);
-            } catch (Exception ex) {
+            } catch (IllegalArgumentException | NullPointerException ex) {
                 LOGGER.error(ex);
             }
         }
@@ -1216,7 +1209,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
             ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.PPA_PROJECTION_RESULT, Constant.PPA_PROJECTION_RESULT, "PPA_Projection_Results.xls", false);
             export.export();
             verticalLayout.removeComponent(excelTable);
-        } catch (Exception ex) {
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             LOGGER.error(ex);
         }
     }

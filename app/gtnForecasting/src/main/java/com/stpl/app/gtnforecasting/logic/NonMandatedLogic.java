@@ -87,6 +87,8 @@ import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.ComboBox;
+import java.sql.SQLException;
+import javax.naming.NamingException;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -113,7 +115,7 @@ public class NonMandatedLogic {
 	/**
 	 * The data selection.
 	 */
-	public static DataSelectionDAO dataSelection = new DataSelectionDAOImpl();
+	public static final DataSelectionDAO dataSelection = new DataSelectionDAOImpl();
 	/**
 	 * The formatter.
 	 */
@@ -126,7 +128,7 @@ public class NonMandatedLogic {
 	/**
 	 * the SALES_SMALL dao.
 	 */
-	SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
+	private final SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
 
 	/**
 	 * Searh view.
@@ -612,18 +614,18 @@ public class NonMandatedLogic {
 
 			LOGGER.debug("Ending manualEntrysalesCalculation    ::::");
 
-		} catch (Exception ex) {
+		} catch (SQLException | NamingException ex) {
 			LOGGER.error(new Date() + ex.getMessage());
 			throw new SystemException(ex);
 		} finally {
 			try {
 				statement.close();
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				LOGGER.error(e);
 			}
 			try {
 				connection.close();
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				LOGGER.error(e);
 			}
 		}
@@ -1675,7 +1677,7 @@ public class NonMandatedLogic {
 						getUploadedData, description);
 			}
 
-		} catch (Exception e) {
+		} catch (PortalException | SystemException e) {
 			LOGGER.error(e);
 			return "Not Saved";
 		}
@@ -2330,7 +2332,7 @@ public class NonMandatedLogic {
 
 			SalesProjectionDAO salesProjDAO = new SalesProjectionDAOImpl();
 			salesProjDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery, inputDto.getCurrentTableNames()));
-		} catch (Exception e) {
+		} catch (PortalException | SystemException e) {
 			LOGGER.error("Query:======================>" + insertQuery);
 			LOGGER.error(e);
 		}
@@ -2345,7 +2347,7 @@ public class NonMandatedLogic {
 
 			SalesProjectionDAO insertDAO = new SalesProjectionDAOImpl();
 			insertDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery, inputDto.getCurrentTableNames()));
-		} catch (Exception e) {
+		} catch (PortalException | SystemException e) {
 			LOGGER.error("Query:======================>" + insertQuery);
 			LOGGER.error(e);
 		}
@@ -2395,7 +2397,7 @@ public class NonMandatedLogic {
 					StringUtils.EMPTY + inputDto.getProjectionId());
 			SalesProjectionDAO deleteDAO = new SalesProjectionDAOImpl();
 			deleteDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery, inputDto.getCurrentTableNames()));
-		} catch (Exception e) {
+		} catch (PortalException | SystemException e) {
 			LOGGER.error(e);
 		}
 

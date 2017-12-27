@@ -9,6 +9,7 @@ import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;
+import java.text.ParseException;
 
 import org.asi.ui.customwindow.CustomWindow;
 
@@ -23,8 +24,8 @@ public class NonMandatedViewWindow extends CustomWindow {
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(NonMandatedViewWindow.class);
 
-    SessionDTO session;
-    DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
+    protected SessionDTO session;
+    protected DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
 
     public NonMandatedViewWindow(String projectionName, SessionDTO session) {
 
@@ -61,7 +62,7 @@ public class NonMandatedViewWindow extends CustomWindow {
                 session.setProjectionName(dataSelectionDTO.getProjectionName());
                 session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
                 session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
-            } catch (Exception ex) {
+            } catch (ParseException ex) {
             LOGGER.error(ex+" NonMandatedViewWindow - loadSessionDTO");
             }
 

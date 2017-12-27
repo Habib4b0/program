@@ -75,13 +75,11 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
     private CustomTableHeaderDTO customRightHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO customFullHeader = new CustomTableHeaderDTO();
     private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
-    private final ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
     private HorizontalLayout controlLayout;
     private ExtTreeContainer<DiscountProjectionResultsDTO> beanContainerResult = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
     private final ExtCustomTreeTable customExcelTableResult = new ExtCustomTreeTable();
     private ExtTreeContainer<DiscountProjectionResultsDTO> excelResultBean = new ExtTreeContainer<>(
             DiscountProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
-    private final CommonUtils commonUtils = new CommonUtils();
     private final MMDPRLogic mmLogic = new MMDPRLogic();
     private final DataSelectionLogic dsLogic = new DataSelectionLogic();
     /**

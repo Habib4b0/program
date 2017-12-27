@@ -29,6 +29,8 @@ import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.server.VaadinService;
 import java.io.IOException;
 import java.sql.Connection;
@@ -77,7 +79,7 @@ public class WorkflowLogic {
         workflowMaster.setModifiedDate(workflowMasterDTO.getModifiedDate());
         try {
             workFlowLogicDao.addWorkflowMaster(workflowMaster);
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
             return CommonUtils.WORKFLOW_NOT_SAVED;
         }
@@ -128,7 +130,7 @@ public class WorkflowLogic {
         try {
             workFlowLogicDao.updateWorkflowMaster(workflowMaster);
             workflowId = workflowMaster.getWorkflowId();
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return workflowId;
@@ -221,7 +223,7 @@ public class WorkflowLogic {
         try {
             workflowMaster = workFlowLogicDao.getWorkflowMaster(workflowMasterSystemId);
             return workflowMaster;
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return null;
@@ -242,7 +244,7 @@ public class WorkflowLogic {
         try {
             resultList = workFlowLogicDao.getWorkflowMasterByProjectionId(workflowMasterDynamicQuery);
             return resultList.get(0);
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return null;
@@ -278,7 +280,7 @@ public class WorkflowLogic {
                 LOGGER.error("workflowMaster not created");
             }
 
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
             return CommonUtils.WORKFLOW_NOT_SAVED;
         }
@@ -328,7 +330,7 @@ public class WorkflowLogic {
             }
             dataselectionLogicDao.updateProjectionMaster(projectionMaster);
             return SUCCESS;
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
             return CommonUtils.WORKFLOW_NOT_SAVED;
         }
@@ -356,7 +358,7 @@ public class WorkflowLogic {
         List<MailNotificationMaster> resultList = null;
         try {
             resultList = workFlowLogicDao.getMailNotificationMaster(mailDynamicQuery);
-        } catch (Exception e) {
+        } catch (SystemException e) {
             LOGGER.error(e);
         }
         for (MailNotificationMaster object : resultList) {
@@ -390,12 +392,12 @@ public class WorkflowLogic {
         } finally {
             try {
                 st.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e);
             }
             try {
                 con.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e);
             }
         }
@@ -436,7 +438,7 @@ public class WorkflowLogic {
                 HelperTable helperTable = resultList.get(0);
                 helperTableId = helperTable.getHelperTableSid();
             }
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return helperTableId;
@@ -468,7 +470,7 @@ public class WorkflowLogic {
             try {
                 DocDetails id = workFlowLogicDao.addDocDetails(docDetails);
                 docdetailsSids.append(id.getDocDetailsId()).append(",");
-            } catch (Exception ex) {
+            } catch (SystemException ex) {
                 LOGGER.error(ex);
                 return CommonUtils.WORKFLOW_NOT_SAVED;
             }

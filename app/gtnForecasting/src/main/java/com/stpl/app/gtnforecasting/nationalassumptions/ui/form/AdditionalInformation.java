@@ -234,7 +234,7 @@ public class AdditionalInformation extends CustomComponent {
             createExportDocs();
             configureFields();
             LOGGER.debug("AdditionalInformation Constructor ends");
-        } catch (Exception e) {
+        } catch (SystemException e) {
             LOGGER.error(e);
         }
     }
@@ -362,7 +362,7 @@ public class AdditionalInformation extends CustomComponent {
                         uploader.setValue(StringUtils.EMPTY);
                     }
                     LOGGER.debug("uploadSucceeded method in addSucceededListener ends");
-                } catch (Exception e) {
+                } catch (Property.ReadOnlyException e) {
                     LOGGER.error(e);
                 }
             }
@@ -484,7 +484,7 @@ public class AdditionalInformation extends CustomComponent {
                             newNotes.setValue(StringUtils.EMPTY);
                             documentExporter();
                         }
-                    } catch (Exception e) {
+                    } catch (SystemException | Property.ReadOnlyException e) {
                         LOGGER.error(e);
                     }
                 }

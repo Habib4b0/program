@@ -64,9 +64,9 @@ public class CommonUtil {
     /**
      * The helper list util.
      */
-    HelperListUtil helperListUtil = HelperListUtil.getInstance();
+    protected HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
-    private static Logger logger = Logger.getLogger(CommonUtil.class);
+    private static final Logger logger = Logger.getLogger(CommonUtil.class);
     public static String COMMA=",";
 
     /**
@@ -649,7 +649,7 @@ public class CommonUtil {
             }
             select.select(Constant.CONVERSION_FACTOR_DEFALUT_VALUE);
             return select;
-        } catch (Exception e) {
+        } catch (UnsupportedOperationException e) {
             LOGGER.error(e.getMessage());
         }
         return null;
@@ -706,4 +706,3 @@ public class CommonUtil {
     }
 
 }
-

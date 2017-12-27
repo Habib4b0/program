@@ -124,6 +124,7 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.io.IOException;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -538,7 +539,7 @@ public class ForecastForm extends AbstractForm {
 						}
 						onTabChangeForReturns();
 					}
-				} catch (Exception ex) {
+				} catch (InterruptedException | ExecutionException ex) {
 					LOGGER.error(ex);
 				}
 			}
@@ -653,7 +654,7 @@ public class ForecastForm extends AbstractForm {
 										returnsProjection.customContainer.removeAllItems();
 										returnsProjection.init();
 									}
-								} catch (Exception ex) {
+								} catch (PortalException | SystemException | IOException | ClassNotFoundException ex) {
 									LOGGER.debug(ex);
 								}
 
@@ -715,7 +716,7 @@ public class ForecastForm extends AbstractForm {
 								AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER,
 										Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
 							}
-						} catch (Exception ex) {
+						} catch (PortalException | SystemException | IOException | ClassNotFoundException ex) {
 							LOGGER.error(ex);
 						}
 					}
@@ -801,7 +802,7 @@ public class ForecastForm extends AbstractForm {
 			push(tabPosition);
 
 			lastPosition = tabPosition;
-		} catch (Exception ex) {
+		} catch (PortalException | SystemException ex) {
 			LOGGER.error(ex);
 		}
 		LOGGER.debug("onTabChange ends");
@@ -855,7 +856,7 @@ public class ForecastForm extends AbstractForm {
 								AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER,
 										Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
 							}
-						} catch (Exception ex) {
+						} catch (PortalException | SystemException | IOException | ClassNotFoundException ex) {
 							LOGGER.error(ex);
 						}
 					}
@@ -944,7 +945,7 @@ public class ForecastForm extends AbstractForm {
 								AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER,
 										Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
 							}
-						} catch (Exception ex) {
+						} catch (PortalException | SystemException | IOException | ClassNotFoundException ex) {
 							LOGGER.error(ex);
 						}
 					}
@@ -1186,9 +1187,9 @@ public class ForecastForm extends AbstractForm {
 						if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
 								|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
 							try {
-								NonMandatedLogic logic = new NonMandatedLogic();
+								NonMandatedLogic nmLogic = new NonMandatedLogic();
 								saveProjection();
-								logic.deleteTempBySession();
+								nmLogic.deleteTempBySession();
 
 								if (editWindow != null) {
 									closeEditTray(editWindow);
@@ -1201,7 +1202,7 @@ public class ForecastForm extends AbstractForm {
 									closeViewTray(viewWindow);
 									viewWindow.close();
 								}
-							} catch (Exception ex) {
+							} catch (SystemException ex) {
 								LOGGER.error(ex);
 							}
 						} else {
@@ -1252,11 +1253,11 @@ public class ForecastForm extends AbstractForm {
 										DataSelectionDTO.class);
 								resultTable.setContainerDataSource(tempContainer);
 								resultTable
-										.setVisibleColumns(TableHeaderColumnsUtil.getInstance().dataSelectionColumns);
-								resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().dataSelectionHeaders);
+										.setVisibleColumns(TableHeaderColumnsUtil.dataSelectionColumns);
+								resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeaders);
 							}
 							saveProjection();
-						} catch (Exception ex) {
+						} catch (IllegalArgumentException ex) {
 							LOGGER.error(ex);
 						}
 						if (editWindow != null) {
@@ -1472,9 +1473,7 @@ public class ForecastForm extends AbstractForm {
 				returnsProjection.saveReturnsSave();
 			}
 			updateSaveFlag(session.getProjectionId());
-		} catch (SystemException ex) {
-			LOGGER.error(ex);
-		} catch (Exception ex) {
+		} catch (SystemException | PortalException | InterruptedException | ExecutionException ex) {
 			LOGGER.error(ex);
 		}
 		LOGGER.debug("Exiting SaveProjection method");
@@ -1498,7 +1497,7 @@ public class ForecastForm extends AbstractForm {
 
 		if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
 				|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || session.getWorkflowId() != 0) {
-			NonMandatedLogic logic = new NonMandatedLogic();
+			NonMandatedLogic nmLogic = new NonMandatedLogic();
 			Map<String, Object> params = new HashMap<>();
 			params.put(Constant.PROJECTION_ID, session.getProjectionId());
 			saveProjection();
@@ -1511,7 +1510,7 @@ public class ForecastForm extends AbstractForm {
 			if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 				pushUpdate(INDICATOR_REFRESH_UPDATE.getConstant());
 			}
-			String workflowStatus = logic.getWorkflowStatus(session.getProjectionId(), screenName);
+			String workflowStatus = nmLogic.getWorkflowStatus(session.getProjectionId(), screenName);
 			if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
 				ProcessInstance processInstance = DSCalculationLogic.startWorkflow();
 				User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
@@ -1618,7 +1617,7 @@ public class ForecastForm extends AbstractForm {
 			} else {
 				submitProjection(notes, screenName, getUploadedData);
 			}
-		} catch (Exception ex) {
+		} catch (PortalException | SystemException | NumberFormatException ex) {
 			Logger.getLogger(ForecastForm.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -1628,8 +1627,8 @@ public class ForecastForm extends AbstractForm {
 	 */
 	private String submitToWorkflow(String notes, int noOfApprovals, String screenName,
 			List<NotesDTO> getUploadedData) {
-		NonMandatedLogic logic = new NonMandatedLogic();
-		return logic.submitProjection(session.getProjectionId(), session.getUserId(), notes, noOfApprovals, screenName,
+		NonMandatedLogic nmLogic = new NonMandatedLogic();
+		return nmLogic.submitProjection(session.getProjectionId(), session.getUserId(), notes, noOfApprovals, screenName,
 				getUploadedData, session.getDescription());
 	}
 
@@ -2009,8 +2008,8 @@ public class ForecastForm extends AbstractForm {
 								public void windowClose(Window.CloseEvent e) {
 									try {
 										int projectionId = session.getProjectionId();
-										String userId = session.getUserId();
-										int userIdInt = Integer.parseInt(userId);
+										String localUserId = session.getUserId();
+										int userIdInt = Integer.parseInt(localUserId);
 										int workflowId = session.getWorkflowId();
 										WorkflowLogic wfLogic = new WorkflowLogic();
 										String workflowIdUpdate;
@@ -2049,7 +2048,7 @@ public class ForecastForm extends AbstractForm {
 											CommonUIUtils
 													.getMessageNotification("The projection not approved properly");
 										}
-									} catch (Exception ex) {
+									} catch (NumberFormatException ex) {
 										LOGGER.error(ex);
 									}
 								}
@@ -2075,8 +2074,8 @@ public class ForecastForm extends AbstractForm {
 								public void windowClose(Window.CloseEvent e) {
 									try {
 										int projectionId = session.getProjectionId();
-										String userId = session.getUserId();
-										int userIdInt = Integer.parseInt(userId);
+										String localUserId = session.getUserId();
+										int userIdInt = Integer.parseInt(localUserId);
 										int workflowId = session.getWorkflowId();
 										WorkflowLogic wfLogic = new WorkflowLogic();
 										WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId,
@@ -2106,7 +2105,7 @@ public class ForecastForm extends AbstractForm {
 											CommonUIUtils
 													.getMessageNotification("The projection not rejected properly");
 										}
-									} catch (Exception ex) {
+									} catch (NumberFormatException ex) {
 										LOGGER.error(ex);
 									}
 								}
@@ -2132,8 +2131,8 @@ public class ForecastForm extends AbstractForm {
 								public void windowClose(Window.CloseEvent e) {
 									try {
 										int projectionId = session.getProjectionId();
-										String userId = session.getUserId();
-										int userIdInt = Integer.parseInt(userId);
+										String localUserId = session.getUserId();
+										int userIdInt = Integer.parseInt(localUserId);
 										int workflowId = session.getWorkflowId();
 										WorkflowLogic wfLogic = new WorkflowLogic();
 										WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId,
@@ -2166,7 +2165,7 @@ public class ForecastForm extends AbstractForm {
 											CommonUIUtils
 													.getMessageNotification("The projection not withdrawn properly");
 										}
-									} catch (Exception ex) {
+									} catch (NumberFormatException ex) {
 										LOGGER.error(ex);
 									}
 								}
@@ -2191,8 +2190,8 @@ public class ForecastForm extends AbstractForm {
 								public void windowClose(Window.CloseEvent e) {
 									try {
 										int projectionId = session.getProjectionId();
-										String userId = session.getUserId();
-										int userIdInt = Integer.parseInt(userId);
+										String localUserId = session.getUserId();
+										int userIdInt = Integer.parseInt(localUserId);
 										int workflowId = session.getWorkflowId();
 										WorkflowLogic wfLogic = new WorkflowLogic();
 										WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(projectionId,
@@ -2225,7 +2224,7 @@ public class ForecastForm extends AbstractForm {
 											CommonUIUtils
 													.getMessageNotification("The projection not cancelled properly");
 										}
-									} catch (Exception ex) {
+									} catch (NumberFormatException ex) {
 										LOGGER.error(ex);
 									}
 								}
@@ -2641,11 +2640,11 @@ public class ForecastForm extends AbstractForm {
 										DataSelectionDTO.class);
 								resultTable.setContainerDataSource(tempContainer);
 								resultTable
-										.setVisibleColumns(TableHeaderColumnsUtil.getInstance().dataSelectionColumns);
-								resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().dataSelectionHeaders);
+										.setVisibleColumns(TableHeaderColumnsUtil.dataSelectionColumns);
+								resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeaders);
 							}
 							dsLogic.deleteProjection(session.getProjectionId(), session.getUserId(), screenName);
-						} catch (Exception ex) {
+						} catch (IllegalArgumentException ex) {
 							LOGGER.error(ex);
 						}
 						if (editWindow != null) {

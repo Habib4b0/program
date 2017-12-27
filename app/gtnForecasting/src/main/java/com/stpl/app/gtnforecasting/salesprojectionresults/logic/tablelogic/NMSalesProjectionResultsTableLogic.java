@@ -91,7 +91,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
                 count = tree.getHierarchy(tree.getApex(), getLastParentTreeLevel()).getNoOfChilds();
             }
 
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("count= " + count);

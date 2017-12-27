@@ -23,6 +23,8 @@ import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
 
 import com.vaadin.server.VaadinService;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class MailWorkItemHandler implements WorkItemHandler {
 
@@ -55,11 +57,10 @@ public class MailWorkItemHandler implements WorkItemHandler {
         try {
             File f = CommonUtil.getFilePath(path + filePath1);
             is = new FileInputStream(f);
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
             LOGGER.error(e);
             is = null;
         }
-
         try {
             if (is == null) {
                 // Try loading from classpath
@@ -68,7 +69,7 @@ public class MailWorkItemHandler implements WorkItemHandler {
 
             // Try loading properties from the file (if found)
             props.load(is);
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOGGER.error(e);
         }
 
