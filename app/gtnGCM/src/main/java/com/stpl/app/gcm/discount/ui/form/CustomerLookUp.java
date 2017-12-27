@@ -9,10 +9,10 @@ import com.stpl.app.gcm.discount.dto.LookupDTO;
 import com.stpl.app.gcm.discount.logic.RebateTableLogic;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
@@ -69,14 +69,12 @@ public class CustomerLookUp extends Window {
         }
 
         custStatusBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        custStatus.setImmediate(true);
         custStatus.setContainerDataSource(custStatusBean);
         custStatus.setNullSelectionAllowed(true);
         custStatus.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         custStatus.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
 
         custTypeBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        custType.setImmediate(true);
         custType.setContainerDataSource(custTypeBean);
         custType.setNullSelectionAllowed(true);
         custType.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());

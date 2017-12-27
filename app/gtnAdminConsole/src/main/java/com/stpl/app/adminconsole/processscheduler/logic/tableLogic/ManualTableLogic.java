@@ -6,8 +6,8 @@ package com.stpl.app.adminconsole.processscheduler.logic.tableLogic;
 
 import com.stpl.app.adminconsole.processscheduler.dto.ProcessSchedulerDTO;
 import com.stpl.app.adminconsole.processscheduler.logic.ManualLogic;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 

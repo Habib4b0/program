@@ -4,7 +4,7 @@
  */
 package com.stpl.app.adminconsole.processscheduler.dto;
 
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.HelperUtils;
 import java.io.Serializable;

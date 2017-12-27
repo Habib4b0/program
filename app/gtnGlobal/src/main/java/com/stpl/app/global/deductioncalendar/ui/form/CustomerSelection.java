@@ -18,7 +18,6 @@ import com.stpl.app.global.deductioncalendar.ui.util.HeaderUtils;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.stpl.app.serviceUtils.ConstantUtil;
 import com.stpl.app.util.Constants;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.ErrorCodeUtil;
@@ -32,20 +31,21 @@ import com.stpl.app.util.TabNameUtil;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.global.abstractsearch.util.ConstantUtil;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -187,7 +187,7 @@ public class CustomerSelection extends CustomComponent {
     
     SessionDTO sessionDTO;
     
-    public String availableOrselected = org.apache.commons.lang3.StringUtils.EMPTY;
+    public String availableOrselected = StringUtils.EMPTY;
     
     public Boolean excelEligible = false;
     

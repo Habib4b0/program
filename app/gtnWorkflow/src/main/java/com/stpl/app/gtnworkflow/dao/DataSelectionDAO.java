@@ -6,26 +6,14 @@
 package com.stpl.app.gtnworkflow.dao;
 
 import com.stpl.app.model.ProjectionMaster;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  *
  * @author santanukumar
  */
 public interface DataSelectionDAO {
-
-    /**
-     * Gets the user.
-     *
-     * @param systemId the system id
-     * @return the user
-     * @throws SystemException the system exception
-     * @throws PortalException the portal exception
-     * @throws Exception the exception
-     */
-    User getUser(Long systemId) throws SystemException, PortalException;
 
     /**
      * Adds the projection master.

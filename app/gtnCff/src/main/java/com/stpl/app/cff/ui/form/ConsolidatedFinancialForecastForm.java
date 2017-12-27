@@ -34,8 +34,8 @@ import com.stpl.app.cff.util.SessionUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.TableHeaderUtils;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -972,7 +972,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 	
 	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
 		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
-				hierarchyId);
+				hierarchyId, sessionDTO.getUserId());
 		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
 		Future future = customerExecutorService.submit(wsClientRunnableTarget);
 		customerExecutorService.shutdown();

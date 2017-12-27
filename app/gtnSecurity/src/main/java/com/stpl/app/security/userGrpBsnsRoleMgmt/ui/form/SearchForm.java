@@ -4,38 +4,35 @@ import com.stpl.app.security.businessRoleModuleMaster.util.CommonUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.stpl.app.security.userGrpBsnsRoleMgmt.dto.UserGrpBsnsRoleDTO;
 import com.stpl.app.security.userGrpBsnsRoleMgmt.logic.UserGrpBsnsRoleLogic;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property.ValueChangeEvent;
+import com.vaadin.v7.data.Property.ValueChangeListener;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.NativeSelect;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.NativeSelect;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TwinColSelect;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TwinColSelect;
+import com.vaadin.v7.ui.VerticalLayout;
+import org.jboss.logging.Logger;
 
 public class SearchForm extends CustomComponent {
     private static final long serialVersionUID = 8893447767363695369L;
-    private static final Logger LOGGER = LogManager
+    private static final Logger LOGGER = Logger
             .getLogger(SearchForm.class.getName());
     final ErrorLabel errorMsg = new ErrorLabel();
     final Label space = new Label("&nbsp;", ContentMode.HTML);

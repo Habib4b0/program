@@ -1,6 +1,6 @@
-Bundle-Name: gtnService
-Bundle-SymbolicName: com.stpl.app
-Bundle-Version: 1.0.0
+Bundle-Name: ${project.name}
+Bundle-Version: ${project.version}
+Bundle-SymbolicName: ${project.groupId}.${project.artifactId}
 Liferay-Require-SchemaVersion: 1.0.0
 Liferay-Service: true
 -plugin.service: com.liferay.ant.bnd.service.ServiceAnalyzerPlugin

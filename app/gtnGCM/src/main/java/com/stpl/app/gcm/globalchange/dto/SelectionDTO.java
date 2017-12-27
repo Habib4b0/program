@@ -12,7 +12,7 @@ import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.index.form.ItemManagementLookup;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

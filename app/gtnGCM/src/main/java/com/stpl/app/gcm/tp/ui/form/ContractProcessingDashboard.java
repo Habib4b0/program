@@ -42,30 +42,30 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CsvExportforPagedTable;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Tree;
-import com.vaadin.ui.TreeTable;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Tree;
+import com.vaadin.v7.ui.TreeTable;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -340,7 +340,6 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
 
         addTradingPartnerTable.setVisibleColumns(Constants.getInstance().summaryContractSelectionColumns);
         addTradingPartnerTable.setColumnHeaders(Constants.getInstance().summaryContractSelectionHeaders);
-        addTradingPartnerTable.setImmediate(true);
         addTradingPartnerTable.setWidth(NumericConstants.FIVE_HUNDRED, Unit.PIXELS);
         addTradingPartnerTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
         addTradingPartnerTable.setPageLength(NumericConstants.SIX);
@@ -366,7 +365,6 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                     final PopupDateField compStartDate = new PopupDateField();
                     compStartDate.setDateFormat(Constants.MM_DD_YYYY);
                     compStartDate.setStyleName(Constants.DATE_FIELD_CENTER);
-                    compStartDate.setImmediate(true);
 
                     return compStartDate;
                 }
@@ -376,7 +374,6 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                     compEndDate.setDateFormat(Constants.MM_DD_YYYY);
                     compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
 
-                    compEndDate.setImmediate(true);
 
                     return compEndDate;
                 }
@@ -429,7 +426,6 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         contractDashboardTable.setVisibleColumns(Constants.getInstance().addtpTreeColumns);
         contractDashboardTable.setColumnHeaders(Constants.getInstance().treeHeaders);
         contractDashboardTable.markAsDirty();
-        contractDashboardTable.setImmediate(true);
         contractDashboardTable.setSizeFull();
         contractDashboardTable.removeAllItems();
         parentList.clear();

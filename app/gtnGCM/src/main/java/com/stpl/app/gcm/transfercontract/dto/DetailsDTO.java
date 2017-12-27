@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gcm.transfercontract.dto;
 
-import com.stpl.app.serviceUtils.ConstantUtil;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -21,8 +21,8 @@ public class DetailsDTO {
     private String match = StringUtils.EMPTY;
     private String add = StringUtils.EMPTY;
     private String remove = StringUtils.EMPTY;
-    private String componentType = ConstantUtil.SELECT_ONE;
-    private String searchField = ConstantUtil.SELECT_ONE;
+    private String componentType = ConstantsUtils.SELECT_ONE;
+    private String searchField = ConstantsUtils.SELECT_ONE;
     private String value = StringUtils.EMPTY;
     
     public String getComponentType() {

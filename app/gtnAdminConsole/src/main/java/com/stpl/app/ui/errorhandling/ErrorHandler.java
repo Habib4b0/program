@@ -3,9 +3,9 @@ package com.stpl.app.ui.errorhandling;
 import org.jboss.logging.Logger;
 
 import com.vaadin.server.DefaultErrorHandler;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.Label;
 
 // TODO: Auto-generated Javadoc
 /**

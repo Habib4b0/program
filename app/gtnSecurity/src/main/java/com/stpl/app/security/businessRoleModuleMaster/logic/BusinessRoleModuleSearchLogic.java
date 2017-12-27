@@ -7,9 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.stpl.app.model.BusinessroleMaster;
 import com.stpl.app.model.BusinessroleModule;
 import com.stpl.app.model.ModuleSubmoduleMaster;
@@ -22,15 +19,17 @@ import com.stpl.app.security.dao.impl.BusinessRoleModuleMasterLogicDAOImpl;
 import com.stpl.app.service.BusinessroleModuleLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.kernel.transaction.Transactional;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.transaction.Transactional;
+import com.stpl.app.service.BusinessroleMasterLocalServiceUtil;
+import com.stpl.app.service.ModuleSubmoduleMasterLocalServiceUtil;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
+import org.jboss.logging.Logger;
 
 @Transactional
 public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusinessRoleModuleForm> implements Serializable {
@@ -44,7 +43,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
      *
      */
     private static final long serialVersionUID = 4573149356126437540L;
-    private static final Logger LOGGER = LogManager
+    private static final Logger LOGGER = Logger
             .getLogger(BusinessRoleModuleSearchLogic.class.getName());
      int VersionNo = NumericConstants.ONE;
     public List<SearchBusinessRoleModuleForm> searchmoduleAccessDetails(
@@ -82,8 +81,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
         List subModuleProperyList = dao.getSubModuleProperyList(businessRoleName, subModuleName, moduleName);
             LOGGER.debug("subModuleProperyList size is ------>" + subModuleProperyList.size());
        
-            DynamicQuery businessRoleDynamicQuery = DynamicQueryFactoryUtil
-                    .forClass(BusinessroleMaster.class);
+            DynamicQuery businessRoleDynamicQuery = BusinessroleMasterLocalServiceUtil.dynamicQuery();
             if (StringUtils.isNotBlank(businessRoleName)) {
                 businessRoleName = businessRoleName.replace(CommonUtils.CHAR_ASTERISK,
                         CommonUtils.CHAR_PERCENT);
@@ -147,8 +145,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
             searchList = getCustomizedSearchFieldObject(businessRoleModuleList, subModuleProperyList, moduleName);
             LOGGER.debug("Custom sql() -> " + searchList.size());
         } else {
-            DynamicQuery businessRoleDynamicQuery = DynamicQueryFactoryUtil
-                    .forClass(BusinessroleMaster.class);
+            DynamicQuery businessRoleDynamicQuery = BusinessroleMasterLocalServiceUtil.dynamicQuery();
             if (StringUtils.isNotBlank(businessRoleName)) {
                 businessRoleName = businessRoleName.replace(CommonUtils.CHAR_ASTERISK,
                         CommonUtils.CHAR_PERCENT);
@@ -382,8 +379,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
     public List<String> getModuleNames() {
         List<String> moduleNames = new ArrayList<>();
         try {
-            DynamicQuery moduleSubmoduleMasterDynamicQuery = DynamicQueryFactoryUtil
-                    .forClass(ModuleSubmoduleMaster.class);
+            DynamicQuery moduleSubmoduleMasterDynamicQuery = ModuleSubmoduleMasterLocalServiceUtil.dynamicQuery();
             moduleSubmoduleMasterDynamicQuery
                     .setProjection(ProjectionFactoryUtil
                     .distinct(ProjectionFactoryUtil
@@ -540,8 +536,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
     public List<String> getSubModules(String moduleName) {
         List<String> subModuleNames = new ArrayList<>();
         try {
-            DynamicQuery moduleSubmoduleMasterDynamicQuery = DynamicQueryFactoryUtil
-                    .forClass(ModuleSubmoduleMaster.class);
+            DynamicQuery moduleSubmoduleMasterDynamicQuery = ModuleSubmoduleMasterLocalServiceUtil.dynamicQuery();
             String tempModuleName;
             if (StringUtils.isNotBlank(moduleName)) {
                 tempModuleName = moduleName.replace(CommonUtils.CHAR_ASTERISK,

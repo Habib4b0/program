@@ -14,12 +14,12 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import com.stpl.app.gcm.util.Message;
 import com.stpl.app.gcm.util.MessageUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
@@ -84,7 +84,6 @@ public class TransferTPForm extends CustomWindow {
     private void configureFields() {
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        tabSheet.setImmediate(true);
         tabSheet.addSelectedTabChangeListener(new SelectedTabChangeListener() {
 
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {

@@ -286,6 +286,8 @@ public final class ConstantsUtils {
     public static final int ZERO_NUM = 0;
 
     public static final int ONE = 1;
+    
+    public static final int TWO = 1;
 
     public static final String EDIT = "Edit";
 

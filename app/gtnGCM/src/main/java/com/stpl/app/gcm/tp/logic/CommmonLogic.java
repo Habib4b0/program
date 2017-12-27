@@ -40,20 +40,20 @@ import com.stpl.app.service.CompanyTradeClassLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.util.xmlparser.SQlUtil;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -96,7 +96,7 @@ public class CommmonLogic {
         List<IdDescriptionDTO> resultList = new ArrayList<>();
         IdDescriptionDTO idDescription = null;
         try {
-            DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+            DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
             final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
             productProjectionList.add(ProjectionFactoryUtil.property("helperTableSid"));
             productProjectionList.add(ProjectionFactoryUtil.property("description"));
@@ -1361,7 +1361,7 @@ public class CommmonLogic {
             query.append("AND SCREEN_NAME ='").append(contractType).append("'");
         }
 
-        count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
         return count;
     }
 
@@ -1388,7 +1388,7 @@ public class CommmonLogic {
             query.append(",'").append(contractType).append("'");
         }
         query.append("  )");
-        count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
 
         return count;
     }
@@ -1411,7 +1411,7 @@ public class CommmonLogic {
             query.append("AND SCREEN_NAME= '").append(contractType).append("'");
         }
 
-        count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
         return count;
     }
 
@@ -1440,7 +1440,7 @@ public class CommmonLogic {
             query.append(",'").append(contractType).append("'");
         }
         query.append("  )");
-        count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
 
         return count;
     }
@@ -1461,7 +1461,7 @@ public class CommmonLogic {
             query.append("AND SCREEN_NAME='").append(contractType).append("'");
         }
 
-        count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
         return count;
     }
 
@@ -1488,7 +1488,7 @@ public class CommmonLogic {
             query.append(",'").append(contractType).append("'");
         }
         query.append("  )");
-        count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
 
         return count;
     }
@@ -1523,7 +1523,7 @@ public class CommmonLogic {
             query.append("AND SCREEN_NAME='").append(contractType).append("'");
         }
 
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
         return updateStatus;
     }
 
@@ -1562,7 +1562,7 @@ public class CommmonLogic {
         if (isCount) {
             customSql.append("SELECT count(*) from (");
         }
-        customSql.append(CustomSQLUtil.get("get Submitted Records"));
+        customSql.append(SQlUtil.getQuery("get Submitted Records"));
         customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, session.getUserId());
         customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, session.getSessionId());
         customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, udcValue);
@@ -1576,7 +1576,7 @@ public class CommmonLogic {
         if (isCount) {
             customSql.append(")TEM");
         }
-        return CompanyMasterLocalServiceUtil.executeQuery(String.valueOf(customSql));
+        return HelperTableLocalServiceUtil.executeSelectQuery(String.valueOf(customSql));
     }
 
     public String getLevelOneHierarchy(String userId, String sessionId) {
@@ -1877,7 +1877,7 @@ public class CommmonLogic {
 
     public void updateCfpDetails(SessionDTO session) {
         StringBuilder customSql = new StringBuilder("  ");
-        customSql.append(CustomSQLUtil.get("updateCfpDetails"));
+        customSql.append(SQlUtil.getQuery("updateCfpDetails"));
         customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, session.getUserId());
         customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, session.getSessionId());
         customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, CommonUtils.CollectionToString(session.getCompanyMasterSids(), false));
@@ -1886,7 +1886,7 @@ public class CommmonLogic {
         } else {
             customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, "Source.END_DATE");
         }
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(customSql.toString());
+        HelperTableLocalServiceUtil.executeUpdateQuery(customSql.toString());
     }
 
     public List<IdDescriptionDTO> loadCompanyQualifier() {
@@ -1895,7 +1895,7 @@ public class CommmonLogic {
         List<IdDescriptionDTO> resultList = new ArrayList<>();
         IdDescriptionDTO idDescription = null;
         try {
-            DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyQualifier.class);
+            DynamicQuery dynamicQuery = CompanyQualifierLocalServiceUtil.dynamicQuery();
             final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
             productProjectionList.add(ProjectionFactoryUtil.property("companyQualifierSid"));
             productProjectionList.add(ProjectionFactoryUtil.property("companyQualifierName"));
@@ -1957,7 +1957,7 @@ public class CommmonLogic {
             company.setInboundStatus("A");
 
             CompanyMaster result = null;
-            company.setCompanyId(companyform.getCompanyId());
+            company.setCompanyStringId(companyform.getCompanyId());
             company.setCompanyNo(companyform.getCompanyNo());
             company.setCompanyName(companyform.getCompanyName());
             company.setCompanyStatus(Integer.valueOf(companyform.getComapnyStatus()));
@@ -1993,7 +1993,7 @@ public class CommmonLogic {
                 identifier.setCompanyQualifierSid(Integer.valueOf(identifierForm.getQualifierName()));
 
                 identifier.setIdentifierStatus(Integer.valueOf(identifierForm.getIdentifierStatus()));
-                identifier.setCompanyIdentifierValue(identifierForm.getCompanyIdentifier().trim());
+                identifier.setCompanyStringIdentifierValue(identifierForm.getCompanyIdentifier().trim());
                 identifier.setIdentifierStatus(Integer.valueOf(identifierForm.getIdentifierStatus()));
                 identifier.setCreatedDate(new Date());
                 identifier.setModifiedDate(new Date());
@@ -2040,11 +2040,11 @@ public class CommmonLogic {
                     tradeClass.setTradeClassEndDate(null);
                 }
 
-                final DynamicQuery tradeClassDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyTradeClass.class);
+                final DynamicQuery tradeClassDynamicQuery = CompanyTradeClassLocalServiceUtil.dynamicQuery();
                 tradeClassDynamicQuery.add(RestrictionsFactoryUtil.eq("companyTradeClass", tradeClass.getCompanyTradeClass()));
                 tradeClassDynamicQuery.add(RestrictionsFactoryUtil.eq("tradeClassStartDate", tradeClass.getTradeClassStartDate()));
                 tradeClassDynamicQuery.add(RestrictionsFactoryUtil.eq("inboundStatus", "D"));
-                final List<CompanyTradeClass> list = (List<CompanyTradeClass>) CompanyTradeClassLocalServiceUtil.dynamicQuery(tradeClassDynamicQuery);
+                final List<CompanyTradeClass> list = HelperTableLocalServiceUtil.dynamicQuery(tradeClassDynamicQuery);
                 if (!list.isEmpty()) {
                     CompanyTradeClass companyTradeClass = list.get(0);
                     tradeClass.setCompanyTradeClassSid(companyTradeClass.getCompanyTradeClassSid());
@@ -2137,7 +2137,7 @@ public class CommmonLogic {
             query.append(" AND RS_MODEL_SID='").append(rsSid).append("' ");
 
         }
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 
         return query.toString();
     }
@@ -2150,7 +2150,7 @@ public class CommmonLogic {
         query.append(" AND OPERATION = '").append(updateType).append("'");
         query.append(" AND SESSION_ID = '").append(searchSessionId).append("'");
 
-        count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
         return count;
     }
 
@@ -2166,7 +2166,7 @@ public class CommmonLogic {
         query.append(",").append("'").append(updateType).append("'");
         query.append(",").append("'").append(searchSessionId).append("'");
         query.append("  )");
-        count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
 
         return count;
     }
@@ -2188,7 +2188,7 @@ public class CommmonLogic {
         String newCfpContractMasterSid = CommonUtils.CollectionToString(newCfpContractMasterSidList, true);
         String oldCfpContractMasterSid = CommonUtils.CollectionToString(oldCfpContractMasterSidList, true);
 
-        queryString.append(CustomSQLUtil.get("tp.transferIFPQuery"));
+        queryString.append(SQlUtil.getQuery("tp.transferIFPQuery"));
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, oldContractMasterSid);
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, newContractMasterSid);
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, newCfpContractMasterSid);
@@ -2196,7 +2196,7 @@ public class CommmonLogic {
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, newCfpContractMasterSid);
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, oldCfpContractMasterSid);
 
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(queryString.toString());
+        HelperTableLocalServiceUtil.executeUpdateQuery(queryString.toString());
     }
 
     public List<ContractResultDTO> getActualPaidList(SessionDTO session, String field) {
@@ -2277,7 +2277,6 @@ public class CommmonLogic {
             comboBox.setNullSelectionItemId(ddlbDefaultValue);
         }
         comboBox.setNullSelectionAllowed(true);
-        comboBox.setImmediate(true);
         comboBox.setItemCaptionPropertyId("description");
         container.addAll(getDDLBListForListLoading(columnName, isFilter));
     }
@@ -2343,7 +2342,7 @@ public class CommmonLogic {
 
     public static List<String> getCustomerName(List<String> companyMasterSids) {
         String query = "Select COMPANY_NAME from COMPANY_MASTER where COMPANY_MASTER_SID in(" + CommonUtils.CollectionToString(companyMasterSids, true) + ")";
-        List<String> companyNamesList = CompanyMasterLocalServiceUtil.executeQuery(query);
+        List<String> companyNamesList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return companyNamesList;
     }
 }

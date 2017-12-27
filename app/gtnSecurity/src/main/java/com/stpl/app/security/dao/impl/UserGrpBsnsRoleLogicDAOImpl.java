@@ -11,10 +11,10 @@ import com.stpl.app.model.UsergroupBusinessrole;
 import com.stpl.app.security.dao.UserGrpBsnsRoleLogicDAO;
 import com.stpl.app.service.BusinessroleMasterLocalServiceUtil;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.UserGroup;
-import com.stpl.portal.service.UserGroupLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.UserGroup;
+import com.liferay.portal.kernel.service.UserGroupLocalServiceUtil;
 
 /**
  *

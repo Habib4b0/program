@@ -3,18 +3,14 @@ package com.stpl.app.security.businessRoleModuleMaster.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.stpl.app.security.businessRoleModuleMaster.dto.HelperDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.kernel.search.ParseException;
-import com.stpl.portal.model.ListType;
-import com.stpl.portal.service.ListTypeServiceUtil;
-import com.vaadin.ui.NativeSelect;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.ListType;
+import com.liferay.portal.kernel.service.ListTypeServiceUtil;
+import com.vaadin.v7.ui.NativeSelect;
+import org.jboss.logging.Logger;
 
 public class CommonUtils {
 	
@@ -52,7 +48,7 @@ public class CommonUtils {
 	 * @param listTypeId- listType typeid of listtype table to get the description
 	 * @return String - The description for the specific listtype id
 	 */
-	private static final Logger LOGGER = LogManager
+	private static final Logger LOGGER = Logger
 			.getLogger(CommonUtils.class.getName());
 	public  NativeSelect getNativeSelect(NativeSelect select,List<HelperDTO> helperList) {
 		for (HelperDTO helperDTO : helperList) {

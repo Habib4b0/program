@@ -4,7 +4,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.add.logic.tablelogic;
 
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.Collections;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;

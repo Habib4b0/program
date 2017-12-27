@@ -35,15 +35,15 @@ import static com.stpl.app.gcm.util.Constants.QUARTERLY;
 import static com.stpl.app.gcm.util.Constants.SPACE;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.ComboBox;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ComboBox;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -60,7 +60,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
 
 /**
  *
@@ -101,7 +101,6 @@ public class AbstractLogic {
             comboBox.setNullSelectionItemId(ddlbDefaultValue);
         }
         comboBox.setNullSelectionAllowed(true);
-        comboBox.setImmediate(true);
         comboBox.setItemCaptionPropertyId(DESCRIPTION);
         containerData.setMinFilterLength(0);
     }
@@ -642,7 +641,6 @@ public class AbstractLogic {
         comboBox.setContainerDataSource(containerData);
         comboBox.setNullSelectionItemId(ddlbDefaultValue);
         comboBox.setNullSelectionAllowed(true);
-        comboBox.setImmediate(true);
         comboBox.setItemCaptionPropertyId(DESCRIPTION);
     }
 
@@ -1620,7 +1618,6 @@ public class AbstractLogic {
             comboBox.setNullSelectionItemId(ddlbDefaultValue);
         }
         comboBox.setNullSelectionAllowed(true);
-        comboBox.setImmediate(true);
         comboBox.setItemCaptionPropertyId(DESCRIPTION);
         comboBox.addItems(getDDLBList(columnName, tableName, isFilter, queryName));
     }
@@ -1833,7 +1830,6 @@ public class AbstractLogic {
         select.removeAllItems();
         final HelperDTO defaultValue = new HelperDTO(0, isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE);
         select.setValidationVisible(true);
-        select.setImmediate(true);
         select.setNullSelectionAllowed(true);
         select.setNullSelectionItemId(defaultValue);
         select.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);

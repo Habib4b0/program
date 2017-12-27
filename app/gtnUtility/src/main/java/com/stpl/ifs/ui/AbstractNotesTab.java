@@ -28,7 +28,6 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.validator.StringLengthValidator;
-import com.vaadin.v7.event.FieldEvents;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.navigator.View;
@@ -55,6 +54,7 @@ import com.vaadin.v7.ui.Upload;
 import com.vaadin.v7.ui.Upload.Receiver;
 import com.vaadin.v7.ui.VerticalLayout;
 import elemental.json.JsonArray;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  *
@@ -153,13 +153,15 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
      *
      */
     public AbstractNotesTab(final FieldGroup binder, final String moduleName) {
-        this.binder = binder;
-        this.fileName = "Notes_History_" + moduleName.replace(" ", "");
-
-        setCompositionRoot(Clara.create(getClass().getResourceAsStream("/ui/notestabform.xml"), this));
-        intailizingObject();
-        init();
-
+        try {
+            this.binder = binder;
+            this.fileName = "Notes_History_" + moduleName.replace(" ", "");
+            setCompositionRoot(Clara.create(FrameworkUtil.getBundle(AbstractNotesTab.class).getBundleContext().getBundle().getResource("/ui/notestabform.xml").openStream(), this));
+            intailizingObject();
+            init();
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
     }
 
     private void init() {
@@ -242,7 +244,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
             pdfPngImage.setEnabled(false);
             wordPngImage.setStyleName(HeaderUtils.IMAGE_DISABLED);
             pdfPngImage.setStyleName(HeaderUtils.IMAGE_DISABLED);
-        }else{
+        } else {
             wordPngImage.setEnabled(true);
             pdfPngImage.setEnabled(true);
             wordPngImage.setStyleName(HeaderUtils.IMAGE_ENABLED);
@@ -286,11 +288,10 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
              *
              */
             private static final long serialVersionUID = 1L;
-          
 
             @Override
             public void call(JsonArray arguments) {
-               try {
+                try {
                     String value = String.valueOf(arguments.get(0));
                     if (StringUtils.isNotEmpty(value)) {
 
@@ -301,7 +302,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
                             String[] array = replace.split(",");
                             String filename = array[array.length - 1];
                             uploader.setValue(filename);
-                            fileNameField.setValue(StringUtils.isEmpty(fileNameField.getValue()) ? filename.substring(0, filename.lastIndexOf('.')) : filename.substring(0, filename.lastIndexOf('.')) );
+                            fileNameField.setValue(StringUtils.isEmpty(fileNameField.getValue()) ? filename.substring(0, filename.lastIndexOf('.')) : filename.substring(0, filename.lastIndexOf('.')));
                         } else if (name.contains("/")) {
                             final String replace = name.replace("/", ",");
                             final String[] array = replace.split(",");
@@ -310,7 +311,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
                             fileNameField.setValue(StringUtils.isEmpty(fileNameField.getValue()) ? filename.substring(0, filename.lastIndexOf('.')) : filename.substring(0, filename.lastIndexOf('.')));
                         } else {
                             uploader.setValue(name);
-                            fileNameField.setValue(StringUtils.isEmpty(fileNameField.getValue()) ? name.substring(0, name.lastIndexOf('.')) : name.substring(0, name.lastIndexOf('.')) );
+                            fileNameField.setValue(StringUtils.isEmpty(fileNameField.getValue()) ? name.substring(0, name.lastIndexOf('.')) : name.substring(0, name.lastIndexOf('.')));
                         }
                     } else {
                         uploader.setValue("");

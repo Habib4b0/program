@@ -13,25 +13,25 @@ import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.HelperUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.shared.ui.datefield.Resolution;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.Property.ValueChangeEvent;
+import com.vaadin.v7.data.Property.ValueChangeListener;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.shared.ui.datefield.Resolution;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.DateField;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Date;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
@@ -180,13 +180,10 @@ public class SearchForm extends CustomComponent {
         edit.setValue(Boolean.FALSE);
         view.setValue(Boolean.FALSE);
         add.setImmediate(true);
-        add.addValueChangeListener(new Property.ValueChangeListener() {
-            private static final long serialVersionUID = -6857112166321059475L;
-
-            public void valueChange(
-                    com.vaadin.data.Property.ValueChangeEvent event) {
-                // TODO Auto-generated method stub
-                boolean value = add.getValue();
+        add.addValueChangeListener(new ValueChangeListener() {
+            @Override
+            public void valueChange(ValueChangeEvent vce) {
+                 boolean value = add.getValue();
                 if (value == true) {
                     int size = searchFieldResult.size();
 
@@ -204,12 +201,9 @@ public class SearchForm extends CustomComponent {
         });
 
         view.setImmediate(true);
-        view.addValueChangeListener(new Property.ValueChangeListener() {
-            private static final long serialVersionUID = -6857112166321059475L;
-
-            public void valueChange(
-                    com.vaadin.data.Property.ValueChangeEvent event) {
-                // TODO Auto-generated method stub
+        view.addValueChangeListener(new ValueChangeListener() {
+            @Override
+            public void valueChange(ValueChangeEvent vce) {
                 boolean value = view.getValue();
 
                 if (value == true) {
@@ -228,13 +222,10 @@ public class SearchForm extends CustomComponent {
         });
 
         edit.setImmediate(true);
-        edit.addValueChangeListener(new Property.ValueChangeListener() {
-            private static final long serialVersionUID = -6857112166321059475L;
-
-            public void valueChange(
-                    com.vaadin.data.Property.ValueChangeEvent event) {
-                // TODO Auto-generated method stub
-                boolean value = edit.getValue();
+        edit.addValueChangeListener(new ValueChangeListener() {
+            @Override
+            public void valueChange(ValueChangeEvent vce) {
+                 boolean value = edit.getValue();
 
                 if (value == true) {
                     int size = searchFieldResult.size();
@@ -248,7 +239,6 @@ public class SearchForm extends CustomComponent {
                         addToTableField(false);
                     }
                 }
-
             }
         });
     }

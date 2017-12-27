@@ -24,34 +24,30 @@ import com.stpl.app.adminconsole.util.Message;
 import com.stpl.app.adminconsole.util.MessageUtil;
 import com.stpl.app.adminconsole.util.ResponsiveUtils;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.stpl.app.serviceUtils.ConstantUtil;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -60,10 +56,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -265,9 +262,9 @@ public class RelationshipOutboundProcess extends Window {
                 loadGrid(false);
 
                 if (tableLogic.isResultsEmpty()) {
-                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_COMPLETED);
+                    CommonUIUtils.successNotification(ConstantsUtils.NO_RESULSTS);
                 } else {
-                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
+                    CommonUIUtils.successNotification(ConstantsUtils.SEARCH_COMPLETED);
                 }
 
             } catch (FieldGroup.CommitException commit) {

@@ -5,10 +5,10 @@
  */
 package com.stpl.app.gcm.tp.lazyload;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.Container.Filter;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Container.Filter;
 import java.util.Set;
-import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
+import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 
 /**
  *

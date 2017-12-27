@@ -13,18 +13,19 @@ import com.stpl.app.model.HelperTable;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextField;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.validator.RegexpValidator;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -345,8 +346,7 @@ public class CommonUtil {
     public List<HelperDTO> getHelperResult(final String listType) throws SystemException, PortalException {
 
         final List<HelperDTO> helperList = new ArrayList<>();
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME,
                 listType));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));

@@ -22,54 +22,49 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.ENABLE;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.SELECT_ONE;
 import com.stpl.app.gcm.util.ResponsiveUtils;
 import com.stpl.app.gcm.util.UiUtils;
-import com.stpl.app.model.IfpContractDetails;
-import com.stpl.app.model.PsContractDetails;
-import com.stpl.app.model.PsDetails;
-import com.stpl.app.model.RsDetails;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.IfpContractDetailsLocalServiceUtil;
 import com.stpl.app.service.PsContractDetailsLocalServiceUtil;
 import com.stpl.app.service.PsDetailsLocalServiceUtil;
 import com.stpl.app.service.RsDetailsLocalServiceUtil;
-import com.stpl.app.serviceUtils.ErrorCodeUtil;
-import com.stpl.app.serviceUtils.ErrorCodes;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.FieldEvents;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.util.ErrorCodeUtil;
+import com.stpl.app.gcm.util.ErrorCodes;
+import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
-import com.vaadin.event.ItemClickEvent;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Tree;
-import com.vaadin.ui.TreeTable;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Tree;
+import com.vaadin.v7.ui.TreeTable;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -355,7 +350,6 @@ public class NewDiscountTab extends CustomComponent {
             endDate.setValue(removeDiscountDto.get(0).getContractendDate() == null ? StringUtils.EMPTY : DBDate.format((Date) removeDiscountDto.get(0).getContractendDate()));
             isEnable(false);
             componentTypeddlb = CommonLogic.loadComponentType(componentTypeddlb, null, true);
-            searchFieldDdlb.setImmediate(true);
             searchFieldDdlb = CommonLogic.loadNewTabSearchDdlb(searchFieldDdlb, selectedComponenttype);
             commonUtil.loadComboBox(rsStatusDdlb, UiUtils.STATUS, false);
             commonUtil.loadComboBox(rsProgramType, UiUtils.REBATE_PROGRAM_TYPE, false);
@@ -372,13 +366,11 @@ public class NewDiscountTab extends CustomComponent {
             massUpdateEnableDisable.addItem(DISABLE.getConstant());
             massUpdateEnableDisable.select(DISABLE.getConstant());
 
-            fieldDdlb.setImmediate(true);
             fieldDdlb.setNullSelectionAllowed(false);
             fieldDdlb.setInputPrompt(SELECT_ONE.getConstant());
             fieldDdlb.addItem(Constants.STATUS_FIELD);
             fieldDdlb.addItem(Constants.START_DATE_HEADER);
             fieldDdlb.addItem(Constants.END_DATE_HEADER);
-            valueDdlb.setImmediate(true);
             valueDdlb.setNullSelectionAllowed(false);
             valueDdlb.setInputPrompt(SELECT_ONE.getConstant());
             valueDdlb.setVisible(true);
@@ -387,7 +379,6 @@ public class NewDiscountTab extends CustomComponent {
             itemStatusList = CommonLogic.getDropDownList(Constants.IndicatorConstants.STATUS.getConstant());
             fromCDNo.setEnabled(false);
             fromCDName.setEnabled(false);
-            searchValueStatusDdlb.setImmediate(true);
             searchValueStatusDdlb.setVisible(false);
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -487,7 +478,6 @@ public class NewDiscountTab extends CustomComponent {
                 }
                 if (String.valueOf(propertyId).equals(Constants.STATUS_S)) {
                     final ComboBox status = new ComboBox();
-                    status.setImmediate(true);
                     status.setNullSelectionAllowed(false);
                     status.setInputPrompt(SELECT_ONE.getConstant());
                     try {
@@ -498,7 +488,7 @@ public class NewDiscountTab extends CustomComponent {
                     }
 
                     status.addBlurListener(new BlurListener() {
-                        public void blur(FieldEvents.BlurEvent event) {
+                        public void blur(BlurEvent event) {
                             String newValue = String.valueOf(((ComboBox) event.getComponent()).getValue());
                             String oldValue = dto.getTempStatus();
                             if (!oldValue.equals(newValue)) {
@@ -514,11 +504,10 @@ public class NewDiscountTab extends CustomComponent {
                 if (propertyId.equals(S_DATE_PROPERTY)) {
                     final PopupDateField itemStartDate = new PopupDateField();
                     itemStartDate.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
-                    itemStartDate.setImmediate(true);
                     itemStartDate.setDateFormat(MMDDYYYY.getConstant());
                     itemStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
                     itemStartDate.addBlurListener(new BlurListener() {
-                        public void blur(FieldEvents.BlurEvent event) {
+                        public void blur(BlurEvent event) {
                             Date dt1 = ((PopupDateField) event.getComponent()).getValue();
                             String newValue = String.valueOf(dt1);
                             String oldValue = String.valueOf(dto.getTempSDate());
@@ -534,11 +523,10 @@ public class NewDiscountTab extends CustomComponent {
                 if (propertyId.equals(Constants.E_DATE)) {
                     final PopupDateField itemEndDate = new PopupDateField();
                     itemEndDate.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
-                    itemEndDate.setImmediate(true);
                     itemEndDate.setDateFormat(MMDDYYYY.getConstant());
                     itemEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
                     itemEndDate.addBlurListener(new BlurListener() {
-                        public void blur(FieldEvents.BlurEvent event) {
+                        public void blur(BlurEvent event) {
                             Date dt1 = ((PopupDateField) event.getComponent()).getValue();
                             String newValue = String.valueOf(dt1);
                             String oldValue = String.valueOf(dto.getTempEDate());
@@ -609,7 +597,6 @@ public class NewDiscountTab extends CustomComponent {
                 }
                 if (String.valueOf(propertyId).equals(Constants.PRICE_TYPE_PROPERTY)) {
                     final ComboBox priceType = new ComboBox();
-                    priceType.setImmediate(true);
                     priceType.setNullSelectionAllowed(false);
                     priceType.setInputPrompt(SELECT_ONE.getConstant());
                     try {
@@ -619,7 +606,7 @@ public class NewDiscountTab extends CustomComponent {
                     }
 
                     priceType.addBlurListener(new BlurListener() {
-                        public void blur(FieldEvents.BlurEvent event) {
+                        public void blur(BlurEvent event) {
                             String newValue = String.valueOf(((ComboBox) event.getComponent()).getValue());
                             String oldValue = dto.getTempPriceType();
                             if (!oldValue.equals(newValue)) {
@@ -634,11 +621,10 @@ public class NewDiscountTab extends CustomComponent {
                 if (propertyId.equals(Constants.PP_S_DATE)) {
                     final PopupDateField ppStartDate = new PopupDateField();
                     ppStartDate.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
-                    ppStartDate.setImmediate(true);
                     ppStartDate.setDateFormat(MMDDYYYY.getConstant());
                     ppStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
                     ppStartDate.addBlurListener(new BlurListener() {
-                        public void blur(FieldEvents.BlurEvent event) {
+                        public void blur(BlurEvent event) {
                             Date dt1 = ((PopupDateField) event.getComponent()).getValue();
                             String newValue = String.valueOf(dt1);
                             String oldValue = String.valueOf(dto.getTempPpSDate());
@@ -694,7 +680,6 @@ public class NewDiscountTab extends CustomComponent {
         LOGGER.debug("Entering getProcessedTree method");
         final CommonLogic commonLogic = new CommonLogic();
         dashboardTreeTable.markAsDirty();
-        dashboardTreeTable.setImmediate(true);
         dashboardTreeTable.setSizeFull();
         dashboardTreeTable.setPageLength(NumericConstants.TEN);
         dashboardTreeTable.removeAllItems();
@@ -1555,7 +1540,7 @@ public class NewDiscountTab extends CustomComponent {
             final String message = srcTableBean.getCategory() + " cannot be added to  " + treeBean.getCategory();
             AbstractNotificationUtils.getWarningNotification(Constants.CRITERIA_MISMATCH, message);
         } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.getConstant()) && treeBean.getCategory().equals(Constants.IndicatorConstants.IFP.getConstant())) {
-            final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(IfpContractDetails.class);
+            final DynamicQuery rsDynamicQuery = IfpContractDetailsLocalServiceUtil.dynamicQuery();
             rsDynamicQuery.add(RestrictionsFactoryUtil.eq("ifpContractSid", treeBean.getInternalId()));
             rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.ITEM_MASTER_SID_PROPERTY)));
             final List<Object> itemsList = IfpContractDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery);
@@ -1586,11 +1571,11 @@ public class NewDiscountTab extends CustomComponent {
             }
         } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.RS_VALUE.getConstant()) && treeBean.getCategory().equals(Constants.IndicatorConstants.IFP.getConstant())) {
             LOGGER.debug("Inside Expected Code");
-            final DynamicQuery rsDynamicQuery1 = DynamicQueryFactoryUtil.forClass(IfpContractDetails.class);
+            final DynamicQuery rsDynamicQuery1 = IfpContractDetailsLocalServiceUtil.dynamicQuery();
             rsDynamicQuery1.add(RestrictionsFactoryUtil.eq("ifpContractSid", treeBean.getInternalId()));
             rsDynamicQuery1.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.ITEM_MASTER_SID_PROPERTY)));
             final List<Object> itemsList = IfpContractDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery1);
-            final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
+            final DynamicQuery rsDynamicQuery = RsDetailsLocalServiceUtil.dynamicQuery();
             rsDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", srcTableBean.getInternalId()));
             rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property("ifpModelSid")));
             RsDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery);
@@ -1618,7 +1603,7 @@ public class NewDiscountTab extends CustomComponent {
                 returnFlag = true;
             }
         } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.RS_VALUE.getConstant()) && treeBean.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.getConstant())) {
-            final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(PsContractDetails.class);
+            final DynamicQuery rsDynamicQuery = PsContractDetailsLocalServiceUtil.dynamicQuery();
             rsDynamicQuery.add(RestrictionsFactoryUtil.eq("psContractSid", treeBean.getInternalId()));
             rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constants.ITEM_MASTER_SID_PROPERTY)));
             final List<Object> itemsList = PsContractDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery);
@@ -1627,7 +1612,7 @@ public class NewDiscountTab extends CustomComponent {
             if ((treeBean.getInternalId() == 0 && !discountLogic.checkSameItemInPs(query1, query2, userId, sessionId)) || (treeBean.getInternalId() != 0 && !discountLogic.checkSameItemInPs(query2, itemsList, userId, sessionId))) {
                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_THE_SAME_ITEMS);
             } else {
-                final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsDetails.class);
+                final DynamicQuery psDynamicQuery = PsDetailsLocalServiceUtil.dynamicQuery();
                 psDynamicQuery.add(RestrictionsFactoryUtil.eq("psModelSid", treeBean.getModelSysId()));
                 psDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property("ifpModelSid")));
                 PsDetailsLocalServiceUtil.dynamicQuery(psDynamicQuery);

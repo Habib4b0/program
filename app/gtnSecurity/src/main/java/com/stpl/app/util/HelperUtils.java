@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.stpl.app.security.businessRoleModuleMaster.dto.HelperDTO;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
  
 public class HelperUtils {
 	

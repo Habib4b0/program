@@ -12,8 +12,8 @@ import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
@@ -117,7 +117,6 @@ public class AddDiscountForm extends CustomComponent implements View {
     private void addTab() {
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        tabSheet.setImmediate(true);
         tabSheet.markAsDirty();
         tabSheet.markAsDirtyRecursive();
         tabSheet.addTab(newDiscountTab, "New Discount", null, 0);

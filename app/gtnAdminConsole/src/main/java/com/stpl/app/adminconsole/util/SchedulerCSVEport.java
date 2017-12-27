@@ -22,8 +22,8 @@ import org.jboss.logging.Logger;
 
 import com.stpl.ifs.util.ExcelExportUtil;
 import com.stpl.ifs.util.GtnFileUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  *

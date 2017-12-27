@@ -29,11 +29,11 @@ import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -108,7 +108,6 @@ public class ItemManagementLookup extends CustomWindow {
         baseLayout.setMargin(true);
         mainTab.addStyleName(ValoTheme.TABSHEET_FRAMED);
         mainTab.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        mainTab.setImmediate(true);
         mainTab.markAsDirty();
         selection.setLookup(this);
         mainTab.markAsDirtyRecursive();
@@ -156,7 +155,6 @@ public class ItemManagementLookup extends CustomWindow {
 
         }
 
-        mainTab.setImmediate(true);
         mainTab.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 if (!valueChange) {
@@ -192,15 +190,10 @@ public class ItemManagementLookup extends CustomWindow {
         baseLayout.addComponent(mainTab);
         baseLayout.addComponent(getActionButton());
         previousBtn.setVisible(false);
-        previousBtn.setImmediate(true);
         transferBtn.setVisible(false);
-        transferBtn.setImmediate(true);
         addBtn.setVisible(false);
-        addBtn.setImmediate(true);
         removeBtn.setVisible(false);
-        removeBtn.setImmediate(true);
         editBtn.setVisible(false);
-        editBtn.setImmediate(true);
         setContent(baseLayout);
         nextBtn.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
@@ -274,12 +267,9 @@ public class ItemManagementLookup extends CustomWindow {
             previousBtn.setVisible(false);
             transferBtn.setVisible(false);
             nextBtn.setVisible(true);
-            previousBtn.setImmediate(true);
-            transferBtn.setImmediate(true);
             nextBtn.setVisible(true);
             if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
                 addBtn.setVisible(false);
-                addBtn.setImmediate(true);
             }
 
         } else if (tabPosition == 1) {
@@ -287,47 +277,32 @@ public class ItemManagementLookup extends CustomWindow {
             transferBtn.setVisible(false);
             if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER) || selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
                 nextBtn.setVisible(true);
-                nextBtn.setImmediate(true);
             } else if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
                 nextBtn.setVisible(false);
-                nextBtn.setImmediate(true);
                 addBtn.setVisible(true);
-                addBtn.setImmediate(true);
                 previousBtn.setVisible(true);
-                previousBtn.setImmediate(true);
                 addBtn.setVisible(CommonLogic.isButtonVisibleAccess("addBtn", itemsummary.getFunctionHM()));
                 closeBtn.setVisible(CommonLogic.isButtonVisibleAccess(StringConstantsUtil.CLOSE_BTN, itemsummary.getFunctionHM()));
             } else if (selection.getButtonMode().equals(ConstantsUtil.EDIT)) {
                 nextBtn.setVisible(false);
                 editBtn.setVisible(true);
-                editBtn.setImmediate(true);
                 editBtn.setVisible(CommonLogic.isButtonVisibleAccess("updatebtn", removeSummary.getFunctionHM()));
                 closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", removeSummary.getFunctionHM()));
             } else {
                 nextBtn.setVisible(false);
                 removeBtn.setVisible(true);
-                removeBtn.setImmediate(true);
             }
-            previousBtn.setImmediate(true);
-            transferBtn.setImmediate(true);
-            nextBtn.setImmediate(true);
         } else if (tabPosition == NumericConstants.TWO) {
             if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
                 previousBtn.setVisible(true);
                 transferBtn.setVisible(true);
                 transferBtn.setVisible(CommonLogic.isButtonVisibleAccess("transferBtn", removeSummary.getFunctionHM()));
                 nextBtn.setVisible(false);
-                previousBtn.setImmediate(true);
-                transferBtn.setImmediate(true);
-                nextBtn.setImmediate(true);
             }
             if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
                 previousBtn.setVisible(true);
                 transferBtn.setVisible(false);
                 nextBtn.setVisible(true);
-                previousBtn.setImmediate(true);
-                transferBtn.setImmediate(true);
-                nextBtn.setImmediate(true);
             }
         } else {
             previousBtn.setVisible(true);
@@ -335,9 +310,6 @@ public class ItemManagementLookup extends CustomWindow {
             transferBtn.setVisible(CommonLogic.isButtonVisibleAccess("transferBtn", removeSummary.getFunctionHM()));
             closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", removeSummary.getFunctionHM()));
             nextBtn.setVisible(false);
-            previousBtn.setImmediate(true);
-            transferBtn.setImmediate(true);
-            nextBtn.setImmediate(true);
         }
     }
 

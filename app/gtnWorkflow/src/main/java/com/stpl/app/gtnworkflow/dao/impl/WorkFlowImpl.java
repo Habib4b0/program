@@ -7,7 +7,6 @@ package com.stpl.app.gtnworkflow.dao.impl;
 
 
 import com.stpl.app.gtnworkflow.dao.WorkFlowDAO;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;
 
@@ -28,10 +27,6 @@ public class WorkFlowImpl implements WorkFlowDAO {
 
     public List executeSelect(String query) {
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
-    }
-
-    public Object executeUpdate(String query) {
-        return CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
     }
 
 }

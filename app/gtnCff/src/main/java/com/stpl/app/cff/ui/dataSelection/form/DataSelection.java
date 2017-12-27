@@ -3970,7 +3970,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	private Future<Boolean> checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
 		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
-				hierarchyId);
+				hierarchyId, sessionDTO.getUserId());
 		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
 		Future<Boolean> future = customerExecutorService.submit(wsClientRunnableTarget);
 		customerExecutorService.shutdown();

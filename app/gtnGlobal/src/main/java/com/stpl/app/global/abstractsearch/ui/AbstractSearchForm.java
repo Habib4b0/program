@@ -31,29 +31,29 @@ import com.stpl.app.util.ResponsiveUtils;
 import com.stpl.app.util.UISecurityUtil;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Validator;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.converter.StringToDateConverter;
-import com.vaadin.data.validator.AbstractValidator;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Property.ValueChangeEvent;
+import com.vaadin.v7.data.Validator;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.converter.StringToDateConverter;
+import com.vaadin.v7.data.validator.AbstractValidator;
+import com.vaadin.v7.data.validator.RegexpValidator;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.Resource;
 import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -364,7 +364,7 @@ public final class AbstractSearchForm extends CustomComponent {
      * The Constructor.
      *
      * @param moduleName
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public AbstractSearchForm(String moduleName) throws SystemException {
         super();
@@ -395,8 +395,8 @@ public final class AbstractSearchForm extends CustomComponent {
     /**
      * Inits the.
      *
-     * @throws com.stpl.portal.kernel.exception.PortalException
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.PortalException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public void init() throws PortalException, SystemException {
         configureFields();

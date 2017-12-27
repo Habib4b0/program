@@ -6,25 +6,23 @@
 package com.stpl.app.gtnworkflow.filtergenerator;
 
 import com.stpl.app.gtnworkflow.util.CommonUtils;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.TextField;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.gtnworkflow.util.ConstantsUtils;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.TextField;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -33,7 +31,7 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 public class HistoryTableGenerator implements ExtFilterGenerator {
 
     CommonUtils commonUtils = new CommonUtils();
-    private static final Logger LOGGER = LogManager.getLogger(HistoryTableGenerator.class);
+    private static final Logger LOGGER = Logger.getLogger(HistoryTableGenerator.class);
 
     public HistoryTableGenerator() {
         LOGGER.debug("HistoryTableGenerator");
@@ -123,7 +121,7 @@ public class HistoryTableGenerator implements ExtFilterGenerator {
     }
     public static Map<Integer, String> getUserName() throws SystemException {
         LOGGER.debug("Enters getUserName method");
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         Map<Integer,String> userMap=new ConcurrentHashMap<Integer,String>(); 
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {

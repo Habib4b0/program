@@ -20,7 +20,7 @@ import static com.stpl.app.gcm.util.Constants.ID;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.OptionGroup;
+import com.vaadin.v7.ui.OptionGroup;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
@@ -31,23 +31,23 @@ import static com.stpl.app.gcm.util.Converters.formatDate;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -56,7 +56,7 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.vaadin.addons.lazycontainer.LazyBeanItemContainer;
+import org.asi.ui.addons.lazycontainer.LazyBeanItemContainer;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -64,8 +64,8 @@ import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.ExtCustomTable.ColumnCheckListener;
-import com.vaadin.ui.Label;
+import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
@@ -306,39 +306,31 @@ public class CurrentContractSelection extends CustomComponent implements View {
         try {
             screenName = TAB_CURRENT_CONTRACT.getConstant();
             contractNo.setData("maxlengthvalidationhundred,maxlengthvalidationcontractno,specialchar,specialcharcontractno");
-            contractNo.setImmediate(true);
             contractNo.setValidationVisible(true);
 
             contractName.setData("maxlengthvalidationhundred,maxlengthvalidationcontractname,specialchar,specialcharcontractname");
-            contractName.setImmediate(true);
             contractName.setValidationVisible(true);
 
             rebateScheduleId.setData("maxlengthvalidation,maxlengthvalidationrebatescheduleid,specialchar,specialcharrebateschedule");
-            rebateScheduleId.setImmediate(true);
             rebateScheduleId.setValidationVisible(true);
 
             rebateScheduleName.setData("maxlengthvalidationhundred,maxlengthvalidationrebateschedule,specialchar,specialcharrebateschedulename");
-            rebateScheduleName.setImmediate(true);
             rebateScheduleName.setValidationVisible(true);
 
             rebateScheduleNo.setData("maxlengthvalidationhundred,maxlengthvalidationrsno,specialchar,specialcharrsno");
-            rebateScheduleNo.setImmediate(true);
             rebateScheduleNo.setValidationVisible(true);
 
             rebateScheduleAlias.setData("maxlengthvalidationhundred,maxlengthvalidationrsalias,specialchar,specialcharRrsalias");
-            rebateScheduleAlias.setImmediate(true);
             rebateScheduleAlias.setValidationVisible(true);
 
             massStartDate.setEnabled(false);
             massStartDate.setDateFormat(Constants.DATE_FORMAT);
             massEndDate.setDateFormat(Constants.DATE_FORMAT);
-            massUpdateRadio.setImmediate(true);
             massUpdateRadio.addItem(ENABLE.getConstant());
             massUpdateRadio.addItem(DISABLE.getConstant());
             massUpdateRadio.select(DISABLE.getConstant());
             massUpdateRadio.setEnabled(true);
 
-            salesProjectionRadio.setImmediate(true);
             salesProjectionRadio.addItem(YES.getConstant());
             salesProjectionRadio.addItem(NO.getConstant());
             salesProjectionRadio.select(YES.getConstant());
@@ -499,7 +491,6 @@ public class CurrentContractSelection extends CustomComponent implements View {
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
-                    check.setImmediate(true);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             if (check.getValue()) {
@@ -521,7 +512,6 @@ public class CurrentContractSelection extends CustomComponent implements View {
                     final PopupDateField compEndDate = new PopupDateField();
                     compEndDate.setDateFormat(Constants.MM_DD_YYYY);
                     compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
-                    compEndDate.setImmediate(true);
                     compEndDate.addValueChangeListener(new Property.ValueChangeListener() {
 
                         public void valueChange(Property.ValueChangeEvent event) {

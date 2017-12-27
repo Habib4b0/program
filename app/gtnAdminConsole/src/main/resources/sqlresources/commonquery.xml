@@ -861,5 +861,62 @@ select
             ]]>
         </query>
      </entity>
-     
+     <entity id="tabPermission">
+        <query>
+            <![CDATA[				
+                select distinct spm.PROPERTY_NAME,bmm.ACCESS_MODULE from USERGROUP_BUSINESSROLE as ubm,BUSINESSROLE_MODULE as bmm, 
+                MODULE_PROPERTIES as spm where 
+                ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and 
+                (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') 
+                and spm.CATEGORY_NAME='Tab'
+            ]]>
+        </query>
+    </entity>
+    <entity id="fieldPermissionForTransaction">
+        <query>
+	    <![CDATA[				
+                select distinct spm.PROPERTY_NAME,bmm.ADD_FLAG,bmm.EDIT_FLAG,bmm.VIEW_FLAG,spm.TAB_NAME from USERGROUP_BUSINESSROLE as ubm, 
+		BUSINESSROLE_MODULE as bmm, 
+                MODULE_PROPERTIES as spm where 
+                ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and 
+                (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') 
+                and spm.CATEGORY_NAME NOT IN ('Button','Tab')
+            ]]>
+        </query>
+    </entity>
+    <entity id="fieldPermission">
+        <query>
+            <![CDATA[				
+                select distinct spm.PROPERTY_NAME,bmm.ADD_FLAG,bmm.EDIT_FLAG,bmm.VIEW_FLAG from USERGROUP_BUSINESSROLE as ubm, 
+                BUSINESSROLE_MODULE as bmm, 
+                MODULE_PROPERTIES as spm where 
+                ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and 
+                (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') 
+                and spm.CATEGORY_NAME NOT IN ('Button','Tab')
+            ]]>
+        </query>
+    </entity>
+    <entity id="functionPermission">
+        <query>
+            <![CDATA[		
+		select distinct spm.PROPERTY_NAME,bmm.ACCESS_MODULE from USERGROUP_BUSINESSROLE as ubm, 
+		BUSINESSROLE_MODULE as bmm, 
+                MODULE_PROPERTIES as spm where 
+                ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and 
+                (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') 
+                and spm.CATEGORY_NAME='Button'
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="getDetailsResults">
+        <query>
+            <![CDATA[
+                SELECT DISTINCT IM.ITEM_NO,IM.ITEM_NAME,FM.FORECAST_YEAR,FM.FORECAST_MONTH,FM.FORECAST_DATE,
+                FM.PRICE,FM.UNITS,FM.DOLLARS,FM.RECORD_LOCK_STATUS,FM.FORECAST_MASTER_SID 
+                FROM FORECASTING_MASTER FM,ITEM_MASTER IM WHERE FM.NDC=IM.ITEM_ID 
+                AND FORECAST_NAME=  
+            ]]>
+        </query>
+    </entity>
 </sql>

@@ -9,11 +9,11 @@ import com.stpl.app.gcm.copycontract.dto.IFPItemDTO;
 import com.stpl.app.gcm.copycontract.dto.PSIFPDTO;
 import com.stpl.app.gcm.copycontract.dto.RsIfpDto;
 import com.stpl.app.model.HelperTable;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
-import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
+import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
 
 /**
  *

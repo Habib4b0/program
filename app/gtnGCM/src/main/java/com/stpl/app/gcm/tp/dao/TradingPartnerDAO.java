@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gcm.tp.dao;
 
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +20,7 @@ public interface TradingPartnerDAO {
      *
      * @param parameters the parameters
      * @return the projection master result list
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public List searchCompanies(final Map<String, Object> parameters) throws SystemException;
 

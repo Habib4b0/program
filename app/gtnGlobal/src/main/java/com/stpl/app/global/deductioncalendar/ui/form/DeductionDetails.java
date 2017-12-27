@@ -20,29 +20,28 @@ import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.event.FieldEvents;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.event.FieldEvents;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.OptionGroup;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -61,6 +60,7 @@ import java.util.logging.Level;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
@@ -392,7 +392,6 @@ public class DeductionDetails extends CustomComponent {
     private void initializeResultTable() {
         resultsTable.markAsDirty();
         resultsTable.setSelectable(false);
-        resultsTable.setImmediate(true);
         resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -558,16 +557,15 @@ public class DeductionDetails extends CustomComponent {
                     textField.setEnabled(true);
                     textField.setConverter(DEC_TWO);
 
-                    textField.addFocusListener(new FieldEvents.FocusListener() {
-
+                    textField.addFocusListener(new com.vaadin.event.FieldEvents.FocusListener() {
                         @Override
-                        public void focus(FieldEvents.FocusEvent event) {
+                        public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                             oldValue = String.valueOf(((TextField) event.getComponent()).getValue());
                         }
                     });
-                    textField.addBlurListener(new FieldEvents.BlurListener() {
-
-                        public void blur(FieldEvents.BlurEvent event) {
+                    textField.addBlurListener(new com.vaadin.event.FieldEvents.BlurListener() {
+                        @Override
+                        public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
                             try {
                                 String currentLevel = tableLogic.getTreeLevelonCurrentPage(itemId) + "~" + propertyId;
                                 if (refreshSet.isEmpty() || !refreshSet.contains(currentLevel)) {

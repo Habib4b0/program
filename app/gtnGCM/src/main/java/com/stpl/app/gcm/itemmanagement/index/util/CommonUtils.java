@@ -6,7 +6,7 @@ package com.stpl.app.gcm.itemmanagement.index.util;
 
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.index.dto.ForecastDTO;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import java.util.List;
 import static com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil.FrequencyConstants.*;
 import java.util.ArrayList;

@@ -9,23 +9,21 @@ import com.stpl.app.gtnworkflow.dto.InboxDashboardDTO;
 import com.stpl.app.gtnworkflow.dto.LevelDTO;
 import com.stpl.app.gtnworkflow.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.ARMConstants;
 import com.stpl.ifs.util.constants.GlobalConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import java.text.SimpleDateFormat;
@@ -39,10 +37,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.custommenubar.MenuItemDTO;
+import org.jboss.logging.Logger;
 import org.vaadin.alump.beforeunload.BeforeUnload;
 
 /**
@@ -51,7 +48,7 @@ import org.vaadin.alump.beforeunload.BeforeUnload;
  */
 public class CommonUtils {
 
-    private static final Logger LOGGER = LogManager.getLogger(CommonUtils.class);
+    private static final Logger LOGGER = Logger.getLogger(CommonUtils.class);
     public final static String WORKFLOW_STATUS = "WorkFlowStatus";
     public final static String WORKFLOW_INBOX = "Workflow Inbox";
     public final static String YES = "YES";
@@ -125,7 +122,7 @@ public class CommonUtils {
     public static HashMap<Long, String> setUserInfo() {
 
         List<User> users = new ArrayList<User>();
-        DynamicQuery userGroupDynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery userGroupDynamicQuery = UserLocalServiceUtil.dynamicQuery();
         try {
             users = UserLocalServiceUtil.dynamicQuery(userGroupDynamicQuery);
         } catch (SystemException ex) {

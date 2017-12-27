@@ -13,9 +13,10 @@ import com.stpl.app.security.dao.BusinessRoleModuleMasterLogicDAO;
 import com.stpl.app.service.BusinessroleMasterLocalServiceUtil;
 import com.stpl.app.service.BusinessroleModuleLocalServiceUtil;
 import com.stpl.app.service.ModuleSubmoduleMasterLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.kernel.transaction.Transactional;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.transaction.Transactional;
+import com.stpl.app.security.service.SecurityImpl;
 
 /**
  *
@@ -27,19 +28,19 @@ public class BusinessRoleModuleMasterLogicDAOImpl implements BusinessRoleModuleM
         return BusinessroleMasterLocalServiceUtil.dynamicQuery(query);
     }
      public List getBusinessRoleModuleList(String businessRoleName, String subModuleName, String moduleName) throws SystemException {
-        return BusinessroleModuleLocalServiceUtil.findModuleAccessDetails(businessRoleName, moduleName, subModuleName);
+        return new SecurityImpl().findModuleAccessDetails(businessRoleName, moduleName, subModuleName);
     }
 
     public List getSubModuleProperyList(String businessRoleName, String subModuleName, String moduleName) throws SystemException {
-        return BusinessroleModuleLocalServiceUtil.findsubmodulePropertyDetails(businessRoleName, moduleName, subModuleName);
+        return new SecurityImpl().findsubmodulePropertyDetails(businessRoleName, moduleName, subModuleName);
     }
 
     public List findFieldAccessDetails(String businessRoleName, String subModuleName, String moduleName) throws SystemException {
-        return BusinessroleModuleLocalServiceUtil.findFieldAccessDetails(businessRoleName, moduleName, subModuleName);
+        return new SecurityImpl().findFieldAccessDetails(businessRoleName, moduleName, subModuleName);
     }
 
     public List findSubModuleFieldDetails(String businessRoleName, String subModuleName, String moduleName) throws SystemException {
-        return BusinessroleModuleLocalServiceUtil.findSubModuleFieldDetails(businessRoleName, moduleName, subModuleName);
+        return new SecurityImpl().findSubModuleFieldDetails(businessRoleName, moduleName, subModuleName);
     }
 
     public List<ModuleSubmoduleMaster> getModuleSubmoduleMaster(DynamicQuery moduleSubmoduleMasterDynamicQuery) throws SystemException {

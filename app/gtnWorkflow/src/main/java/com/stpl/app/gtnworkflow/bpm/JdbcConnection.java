@@ -9,12 +9,11 @@ import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.jboss.logging.Logger;
 
 public class JdbcConnection {
 
-    private static final Logger LOGGER = LogManager.getLogger(JdbcConnection.class);
+    private static final Logger LOGGER = Logger.getLogger(JdbcConnection.class);
 
     public List<String> getGetRoleForCurrentTask(long processInstance) {
         List<String> roleList = new ArrayList<>();

@@ -31,9 +31,9 @@ import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.model.WorkflowProfile;
 import com.stpl.app.service.WorkflowProfileLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  *
@@ -73,7 +73,7 @@ public class QuartzListener implements ServletContextListener {
 				scheduler.start();
 			}
 
-			DynamicQuery query = DynamicQueryFactoryUtil.forClass(WorkflowProfile.class);
+			DynamicQuery query = WorkflowProfileLocalServiceUtil.dynamicQuery();
 			try {
 				list = WorkflowProfileLocalServiceUtil.dynamicQuery(query);
 

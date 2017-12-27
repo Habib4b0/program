@@ -8,8 +8,8 @@ package com.stpl.app.gcm.copycontract.logic.tablelogic;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.transfercontract.dto.ContractSearchDTO;
 import com.stpl.app.gcm.transfercontract.logic.ContractSearchLogic;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 

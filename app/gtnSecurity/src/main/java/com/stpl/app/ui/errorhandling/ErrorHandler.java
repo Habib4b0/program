@@ -1,12 +1,10 @@
 package com.stpl.app.ui.errorhandling;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.vaadin.server.DefaultErrorHandler;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.Label;
+import org.jboss.logging.Logger;
 
 public class ErrorHandler extends DefaultErrorHandler{
 
@@ -14,7 +12,7 @@ public class ErrorHandler extends DefaultErrorHandler{
 	 * 
 	 */
 	private static final long serialVersionUID = 7750147698117722961L;
-	private static final Logger LOGGER = LogManager.getLogger(ErrorHandler.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(ErrorHandler.class.getName());
 	AbstractLayout layout;
 	
 	public ErrorHandler(AbstractLayout layout) {

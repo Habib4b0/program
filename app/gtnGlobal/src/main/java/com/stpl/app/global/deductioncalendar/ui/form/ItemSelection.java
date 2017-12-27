@@ -38,22 +38,22 @@ import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.TableResultCustom;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.MultiSelectMode;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -69,10 +69,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -389,9 +389,9 @@ public class ItemSelection extends CustomComponent {
                     || (selectionDTO.getItem() != null && !selectionDTO.getItem().trim().isEmpty())) {
             boolean searchValue=availableTableLogic.fireSetData(binder, false);
             if(!searchValue){
-                    CommonUIUtils.successNotification(com.stpl.app.serviceUtils.ConstantUtil.NO_RESULTS_COMPLETED);
+                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_COMPLETED);
                     } else {
-                    CommonUIUtils.successNotification(com.stpl.app.serviceUtils.ConstantUtil.SEARCH_COMPLETED);
+                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
                     }
         
         } else {
@@ -614,7 +614,6 @@ public class ItemSelection extends CustomComponent {
      */
     public void add() {
 
-        addBtn.setImmediate(true);
         addBtn.setErrorHandler(new ErrorHandler() {
             /**
              * Invoked when an error occurs.
@@ -664,7 +663,6 @@ public class ItemSelection extends CustomComponent {
      */
     public void addAll() {
 
-        addallBtn.setImmediate(true);
         addallBtn.setErrorHandler(new ErrorHandler() {
             /**
              * Invoked when an error occurs.
@@ -700,7 +698,6 @@ public class ItemSelection extends CustomComponent {
      */
     public void removeBtn() {
 
-        removeBtn.setImmediate(true);
         removeBtn.setErrorHandler(new ErrorHandler() {
             /**
              * Invoked when an error occurs.
@@ -748,7 +745,6 @@ public class ItemSelection extends CustomComponent {
      */
     public void removeallBtn() {
 
-        removeallBtn.setImmediate(true);
         removeallBtn.setErrorHandler(new ErrorHandler() {
             /**
              * Invoked when an error occurs.

@@ -5,7 +5,7 @@
  */
 package com.stpl.app.adminconsole.abstractsearch.dto;
 
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.HelperUtils;
 import java.io.Serializable;
@@ -170,7 +170,7 @@ public class SearchCriteriaDTO implements Serializable {
     
     private HelperDTO combo1 = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
     private HelperDTO combo2 = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
-    private HelperDTO combo3 = new HelperDTO(0, com.stpl.app.adminconsole.util.ConstantsUtils.SELECT_ONE); 
+    private HelperDTO combo3 = new HelperDTO(0, ConstantsUtils.SELECT_ONE); 
     private Date date1;
     private Date date2;
     private Date date3;

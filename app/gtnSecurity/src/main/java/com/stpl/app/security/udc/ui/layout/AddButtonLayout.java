@@ -1,14 +1,11 @@
 package com.stpl.app.security.udc.ui.layout;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.security.udc.dto.HelperForm;
 import com.stpl.app.security.udc.logic.UdcLogic;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
@@ -16,8 +13,9 @@ import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+import org.jboss.logging.Logger;
 
 public class AddButtonLayout extends HorizontalLayout {
 	
@@ -27,7 +25,7 @@ public class AddButtonLayout extends HorizontalLayout {
 	private static final long serialVersionUID = -8933552027033590861L;
 	   private ErrorfulFieldGroup binder;
     UdcLogic udcLogic = new UdcLogic();
-    private static final Logger LOGGER = LogManager
+    private static final Logger LOGGER = Logger
             .getLogger(AddButtonLayout.class.getName());
     BeanItemContainer<HelperForm> searchResultbeans;
 	

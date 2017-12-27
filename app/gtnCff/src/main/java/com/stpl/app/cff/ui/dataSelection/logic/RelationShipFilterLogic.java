@@ -506,7 +506,7 @@ public class RelationShipFilterLogic {
 		input.add(productHierarchyQuery);
 		String withTableNameQuery = QueryUtil.replaceTableNames(CommonQueryUtils.getAppQuery(input, "ccpInsertQuery"),
 				tempTableNames);
-		daoImpl.executeSelectQuery(withTableNameQuery);
+		HelperTableLocalServiceUtil.executeUpdateQuery(withTableNameQuery);
 
 	}
 

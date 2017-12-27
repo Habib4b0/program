@@ -310,11 +310,11 @@ public class CommonServiceImpl {
     public List getHierarchyGroup(final String hierarchyName, final String hierarchyType, final String customerOrProduct, final String action) {
         StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
         try {
-            queryBuilder.append("SELECT distinct c.hierarchyDefinitionSid,c.hierarchyName,a.levelName, a.levelNo , ");
-            queryBuilder.append("b.levelNo , c.createdDate, c.modifiedDate, c.versionNo ");
-            queryBuilder.append("from HierarchyLevelDefinition a , HierarchyLevelDefinition b ,HierarchyDefinition c ");
-            queryBuilder.append("where a.hierarchyDefinitionSid = b.hierarchyDefinitionSid and a.hierarchyDefinitionSid = c.hierarchyDefinitionSid ");
-            queryBuilder.append("AND c.hierarchyCategory in (select ht.helperTableSid from HelperTable ht where ht.listName = 'HIERARCHY_CATEGORY' and ht.description like '");
+            queryBuilder.append("SELECT distinct c.hierarchy_Definition_Sid,c.hierarchy_Name,a.level_Name, a.level_No , ");
+            queryBuilder.append("b.level_No , c.created_Date, c.modified_Date, c.version_No ");
+            queryBuilder.append("from Hierarchy_Level_Definition a , Hierarchy_Level_Definition b ,Hierarchy_Definition c ");
+            queryBuilder.append("where a.hierarchy_Definition_Sid = b.hierarchy_Definition_Sid and a.hierarchy_Definition_Sid = c.hierarchy_Definition_Sid ");
+            queryBuilder.append("AND c.hierarchy_Category in (select ht.helper_Table_Sid from Helper_Table ht where ht.list_Name = 'HIERARCHY_CATEGORY' and ht.description like '");
 
             if (IndicatorConstants.INDICATOR_CUSTOMER_HIERARCHY.getConstant().equals(customerOrProduct)) {
                 queryBuilder.append("Customer Hierarchy");
@@ -322,16 +322,16 @@ public class CommonServiceImpl {
                 queryBuilder.append("Product Hierarchy");
             }
             queryBuilder.append("') ");
-            queryBuilder.append(" AND b.hierarchyDefinitionSid = c.hierarchyDefinitionSid ");
-            queryBuilder.append(" AND a.levelNo in (SELECT MAX(h.levelNo) FROM HierarchyLevelDefinition h WHERE h.hierarchyDefinitionSid = a.hierarchyDefinitionSid) ");
-            queryBuilder.append(" AND b.levelNo in  (SELECT MIN(h.levelNo) FROM HierarchyLevelDefinition h WHERE h.hierarchyDefinitionSid = b.hierarchyDefinitionSid) ");
+            queryBuilder.append(" AND b.hierarchy_Definition_Sid = c.hierarchy_Definition_Sid ");
+            queryBuilder.append(" AND a.level_No in (SELECT MAX(h.level_No) FROM Hierarchy_Level_Definition h WHERE h.hierarchy_Definition_Sid = a.hierarchy_Definition_Sid) ");
+            queryBuilder.append(" AND b.level_No in  (SELECT MIN(h.level_No) FROM Hierarchy_Level_Definition h WHERE h.hierarchy_Definition_Sid = b.hierarchy_Definition_Sid) ");
             if (hierarchyName != null && !"null".equals(hierarchyName) && !StringUtils.isEmpty(hierarchyName) && !StringUtils.isBlank(hierarchyName)) {
-                queryBuilder.append(" AND c.hierarchyName like '");
+                queryBuilder.append(" AND c.hierarchy_Name like '");
                 queryBuilder.append(hierarchyName);
                 queryBuilder.append("' ");
             }
             if (hierarchyType != null && !"null".equals(hierarchyType) && !StringUtils.isEmpty(hierarchyType) && !StringUtils.isBlank(hierarchyType)) {
-                queryBuilder.append(" AND c.hierarchyType in (select ht.helperTableSid from HelperTable ht where ht.description like '");
+                queryBuilder.append(" AND c.hierarchy_Type in (select ht.helper_Table_Sid from Helper_Table ht where ht.description like '");
                 queryBuilder.append(hierarchyType);
                 queryBuilder.append("') ");
             }

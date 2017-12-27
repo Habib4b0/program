@@ -5,10 +5,10 @@
 package com.stpl.app.gcm.tp.logic;
 
 import static com.stpl.app.gtnworkflow.util.AbstractFilterLogic.DBDate;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;

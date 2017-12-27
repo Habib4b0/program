@@ -11,9 +11,9 @@ import java.util.List;
 import com.stpl.app.model.FileManagement;
 import com.stpl.app.model.ForecastingMaster;
 import com.stpl.app.model.HelperTable;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -88,7 +88,7 @@ public interface FileManagementLogicDAO {
 	 *
 	 * @param master
 	 *            the file
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
 	 * @throws Exception
 	 *             the exception
 	 */
@@ -143,7 +143,7 @@ public interface FileManagementLogicDAO {
         /**
         * To get a list of companies from the companyMaster Table
         *
-        * @throws com.stpl.portal.kernel.exception.SystemException
+        * @throws com.liferay.portal.kernel.exception.SystemException
         * @table CompanyMaster
         * @param query - dynamic query
         * @return List<CompanyMaster>

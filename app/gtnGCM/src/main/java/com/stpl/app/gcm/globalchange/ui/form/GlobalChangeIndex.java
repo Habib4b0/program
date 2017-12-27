@@ -19,13 +19,13 @@ import com.stpl.app.gcm.tp.ui.form.CompanySearch;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Property;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
@@ -81,13 +81,11 @@ public class GlobalChangeIndex extends CustomComponent implements View {
             updateType.setNullSelectionAllowed(true);
             updateType.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
 
-            customerSelectRadio.setImmediate(true);
             customerSelectRadio.addItem(CUSTOMER_EXISTING.getConstant());
             customerSelectRadio.addItem(CUSTOMER_NEW.getConstant());
             customerSelectRadio.select(CUSTOMER_EXISTING.getConstant());
             customerSelectRadio.setEnabled(true);
 
-            modeSelectRadio.setImmediate(true);
             modeSelectRadio.addItem(COMPANY_FAMILY_PLAN.getConstant());
             modeSelectRadio.addItem(CONTRACT.getConstant());
             modeSelectRadio.select(CONTRACT.getConstant());

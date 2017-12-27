@@ -26,7 +26,7 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -125,7 +125,6 @@ public class PromoteTPToChForm extends CustomComponent implements View {
     private void addTab() {
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        tabSheet.setImmediate(true);
         tabSheet.markAsDirty();
         tabSheet.markAsDirtyRecursive();
         tabSheet.addTab(currentContractSelection, "Current Contract", null, 0);

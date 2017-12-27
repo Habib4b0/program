@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<VerticalLayout margin="true" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent">
+<VerticalLayout margin="true" xmlns:p="urn:vaadin:parent">
     <HorizontalLayout styleName="responsiveTabGrid">
         <CssLayout id="cssLayout" width="100%" height="100%">
 		

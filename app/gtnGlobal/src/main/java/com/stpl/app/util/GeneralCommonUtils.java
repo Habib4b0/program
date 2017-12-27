@@ -5,18 +5,18 @@ import com.stpl.app.global.dao.impl.CommonDaoImpl;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.kernel.search.ParseException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.NativeSelect;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.search.ParseException;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.NativeSelect;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -468,7 +468,7 @@ public class GeneralCommonUtils {
     public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
         
         int code=0;
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
@@ -547,8 +547,7 @@ public class GeneralCommonUtils {
         
         CommonDao DAO = CommonDaoImpl.getInstance();
         final List<HelperDTO> helperList = new ArrayList<>();
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME,
                 listType));
         dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));

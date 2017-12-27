@@ -7,16 +7,15 @@ package com.stpl.app.adminconsole.projnameconfig.logic;
 
 import com.stpl.app.adminconsole.common.util.CommonUtil;
 import com.stpl.app.model.ProjectionNameConfig;
-import com.stpl.app.model.impl.ProjectionNameConfigImpl;
 import com.stpl.app.adminconsole.projnameconfig.dto.ProjectionNameDTO;
 import com.stpl.app.service.ProjectionNameConfigLocalServiceUtil;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.VaadinSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,7 +69,7 @@ public class ProjNameConfigLogic {
          final int userId = Integer.valueOf((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
          
             final String[] names=finalTemplateName.split("~",NumericConstants.TWO);          
-            ProjectionNameConfig config=new ProjectionNameConfigImpl();
+            ProjectionNameConfig config = null;
             config.setBusinessProcessType(names[0]);
             config.setSelectedAttributes(names[1]);
             config.setVersionNo(1);
@@ -89,12 +88,10 @@ public class ProjNameConfigLogic {
      * @param businessProcess the business process
      * @return the available name template
      * @throws SystemException the system exception
-     * @throws PortalException the portal exception
-     * @throws Exception the exception
      */
     public List<ProjectionNameDTO> getAvailableNameTemplate(final String businessProcess)throws SystemException  {
         LOGGER.debug("getAvailableNameTemplate method started ");
-        final DynamicQuery nameDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionNameConfig.class);
+        final DynamicQuery nameDynamicQuery = ProjectionNameConfigLocalServiceUtil.dynamicQuery();
          final Map userInfoMap = (HashMap) CommonUtil.getCreatedByUser();
          final List<ProjectionNameDTO> nameDTOs = new ArrayList<>();
          nameDynamicQuery.add(RestrictionsFactoryUtil.ilike("businessProcessType", businessProcess));
@@ -122,13 +119,11 @@ public class ProjNameConfigLogic {
      * @param finalName the final name
      * @return true, if successful
      * @throws SystemException the system exception
-     * @throws PortalException the portal exception
-     * @throws Exception the exception
      */
     public boolean duplicateCheck(final String businessProcess,final String finalName)throws SystemException  {
          LOGGER.debug("duplicateCheck method started ");
         int count=0;
-        final DynamicQuery nameDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionNameConfig.class);
+        final DynamicQuery nameDynamicQuery = ProjectionNameConfigLocalServiceUtil.dynamicQuery();
         nameDynamicQuery.add(RestrictionsFactoryUtil.ilike("businessProcessType", businessProcess));
          List<ProjectionNameConfig> nameConfigs=ProjectionNameConfigLocalServiceUtil.dynamicQuery(nameDynamicQuery);
          for (ProjectionNameConfig nameConfig : nameConfigs) {         

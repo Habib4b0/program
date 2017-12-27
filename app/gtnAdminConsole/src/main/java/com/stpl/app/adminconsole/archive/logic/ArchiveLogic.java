@@ -10,10 +10,11 @@ import com.stpl.app.adminconsole.dao.impl.CommonDAOImpl;
 import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.model.VwUserTables;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.service.VwUserTablesLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,7 +48,7 @@ public class ArchiveLogic {
     public List<ArchiveDTO> getTableName(final String tableName) throws SystemException {
         LOGGER.debug("getTableName started with P1:String tableName=" + tableName);
         final List<ArchiveDTO> lookUpList = new ArrayList<>();
-        final DynamicQuery vwUserTablesDynamicQuery = DynamicQueryFactoryUtil.forClass(VwUserTables.class);
+        final DynamicQuery vwUserTablesDynamicQuery = VwUserTablesLocalServiceUtil.dynamicQuery();
         ArchiveDTO lookUp;
         if (tableName != null && StringUtils.isNotEmpty(tableName)) {
             final String table1 = tableName;
