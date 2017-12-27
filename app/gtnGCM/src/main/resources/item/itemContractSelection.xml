@@ -146,12 +146,12 @@ and open the template in the editor.
                 
             </HorizontalLayout>
         </Panel>
-        <HorizontalLayout>  
+        <HorizontalLayout width="100%"  margin="true" spacing="true">  
             
             <Panel  styleName="adjustCaption" id="AddItemDetails" caption="Add Item Details">
                 <VerticalLayout styleName = "width-auto">    
                        
-                    <VerticalLayout styleName = "width-auto" id="contractVertical" margin="false"
+                    <VerticalLayout  id="contractVertical" margin="false"
                                     spacing="true" >
                     </VerticalLayout>  
                     <!--<Table id="currentContractTable" width="1100px" immediate="true" height="200px"/>-->
@@ -169,7 +169,7 @@ and open the template in the editor.
         </HorizontalLayout>
          
         <!--<Panel  styleName="adjustCaption" id="componentInformation" caption="Component Information">-->
-            <HorizontalLayout>      
+            <HorizontalLayout width="100%"  margin="true" spacing="true">      
                 <VerticalLayout styleName = "width-auto">     
                 <VerticalLayout styleName = "width-auto" id="componentInfoLayout"></VerticalLayout>
 <!--                <GridLayout  spacing="true" columns="10"
