@@ -958,7 +958,7 @@ public class RelationShipFilterLogic {
 
 	}
 
-	private static GtnWsSecurityToken getGsnWsSecurityToken() {
+	public static GtnWsSecurityToken getGsnWsSecurityToken() {
 		GtnWsSecurityToken token = new GtnWsSecurityToken();
 		Integer sessionId = Calendar.getInstance().get(Calendar.MILLISECOND);
 		String userId = (String) VaadinSession.getCurrent().getAttribute(Constant.USER_ID);

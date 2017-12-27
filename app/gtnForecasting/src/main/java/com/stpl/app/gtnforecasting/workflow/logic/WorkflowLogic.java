@@ -235,8 +235,7 @@ public class WorkflowLogic {
      * @return - Workflow Master Object
      */
     public WorkflowMaster getWorkflowMasterByProjectionId(int projectionId) {
-        DynamicQuery workflowMasterDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(WorkflowMaster.class);
+        DynamicQuery workflowMasterDynamicQuery = WorkflowMasterLocalServiceUtil.dynamicQuery();
         workflowMasterDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID,
                 projectionId));
         List<WorkflowMaster> resultList;
