@@ -60,7 +60,6 @@ public class GtnWsForecastWorkFlowController {
         GtnWsForecastProjectionSubmitBean forecastProjectionSubmitBean = forecastProjectionSubmitRequest
                 .getGtnWsForecastProjectionSubmitBean();
         GtnWsGeneralRequest gtnWsGeneralRequest = forecastProjectionSubmitRequest.getGtnWsGeneralRequest();
-        int projectionId = forecastProjectionSubmitBean.getProjectionId();
         String userId = gtnWsGeneralRequest.getUserId();
         ProcessInstance processInstance = workflowLogicService.startWorkflow("Forecasting_WorkflowId",
                 "ForecastingWorkflow.SubmissionWorkflow", GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
