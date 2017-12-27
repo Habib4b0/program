@@ -1520,8 +1520,8 @@ public class CommonUtils {
      * @param toAddQuote
      * @return
      */
-    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
-        return collectionToString(collectionOfString, toAddQuote, false);
+    public static String convertCollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
+        return mConvertCollectionToString(collectionOfString, toAddQuote, false);
     }
 
     /**
@@ -1555,7 +1555,7 @@ public class CommonUtils {
      * @param toRemoveSpace
      * @return
      */
-    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+    public static String mConvertCollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
 
         String framedString = StringUtils.EMPTY;
         if (collectionOfString != null && !collectionOfString.isEmpty()) {

@@ -152,7 +152,7 @@ public class PPAProjectionResultsLogic {
         list1.add(unitVolume);
         list1.add(totalDiscount);
         list1 = setDefaultValue(list1, visibleColumn);
-        final int totalDiscountNo = 2;
+        final int TOTAL_DISCOUNT_NO = 2;
         final int discountPercentNo = NumericConstants.THREE;
         final int unitVolumeNo = NumericConstants.FOUR;
         final int discountDollerNo = NumericConstants.FIVE;
@@ -187,16 +187,16 @@ public class PPAProjectionResultsLogic {
                 unitVolume.addStringProperties(header, (str[unitVolumeNo] == null) ? CommonUtils.UNITVOLUME.format(Double.valueOf(Constant.DASH))
                         : isProj ? CommonUtils.UNITVOLUME.format(0.0)
                         : CommonUtils.UNITVOLUME.format(Double.valueOf(str[unitVolumeNo].toString())));
-                totalDiscount.addStringProperties(header, (str[totalDiscountNo] == null) ? CommonUtils.MONEY.format(Double.valueOf(Constant.DASH))
+                totalDiscount.addStringProperties(header, (str[TOTAL_DISCOUNT_NO] == null) ? CommonUtils.MONEY.format(Double.valueOf(Constant.DASH))
                         : isProj ? CommonUtils.MONEY.format(0.0)
-                        : CommonUtils.MONEY.format(Double.valueOf(str[totalDiscountNo].toString())));
+                        : CommonUtils.MONEY.format(Double.valueOf(str[TOTAL_DISCOUNT_NO].toString())));
             }
             header = isColumn(selection, quater, year, Constant.ACTUALS, frequency);
             if (header != null && actulOrProjection == 0) {
                 discountDoller.addStringProperties(header, (str[discountDollerNo] == null) ? CommonUtils.MONEY.format(Double.valueOf(Constant.DASH)) : CommonUtils.MONEY.format(Double.valueOf(str[discountDollerNo].toString())));
                 discountPercent.addStringProperties(header, (str[discountPercentNo] == null) ? CommonUtils.PERCENT_FORMAT.format(Double.valueOf(Constant.DASH)) : CommonUtils.PERCENT_FORMAT.format(Double.valueOf(str[discountPercentNo].toString())));
                 unitVolume.addStringProperties(header, (str[unitVolumeNo] == null) ? CommonUtils.UNITVOLUME.format(Double.valueOf(Constant.DASH)) : CommonUtils.UNITVOLUME.format(Double.valueOf(str[unitVolumeNo].toString())));
-                totalDiscount.addStringProperties(header, (str[totalDiscountNo] == null) ? CommonUtils.MONEY.format(Double.valueOf(Constant.DASH)) : CommonUtils.MONEY.format(Double.valueOf(str[totalDiscountNo].toString())));
+                totalDiscount.addStringProperties(header, (str[TOTAL_DISCOUNT_NO] == null) ? CommonUtils.MONEY.format(Double.valueOf(Constant.DASH)) : CommonUtils.MONEY.format(Double.valueOf(str[TOTAL_DISCOUNT_NO].toString())));
             }
         }
 
@@ -245,7 +245,7 @@ public class PPAProjectionResultsLogic {
         List<String> tempList = new ArrayList<>();
         tempList.addAll(dtoList);
 
-        final int totalDiscountNo = 2;
+        final int TOTAL_DISCOUNT_NO = 2;
         final int discountPercentNo = NumericConstants.THREE;
         final int unitVolumeNo = NumericConstants.FOUR;
         final int discountDollerNo = NumericConstants.FIVE;
@@ -291,12 +291,12 @@ public class PPAProjectionResultsLogic {
                     dto.setDiscountPerUnitActuals((str[discountDollerNo] == null) ? CommonUtils.MONEY.format(Double.valueOf(Constant.DASH)) : CommonUtils.MONEY.format(Double.valueOf(str[discountDollerNo].toString())));
                     dto.setDiscountPercentActuals((str[discountPercentNo] == null) ? CommonUtils.PERCENT_FORMAT.format(Double.valueOf(Constant.DASH)) : CommonUtils.PERCENT_FORMAT.format(Double.valueOf(str[discountPercentNo].toString())));
                     dto.setUnitVolumeActuals((str[unitVolumeNo] == null) ? CommonUtils.UNITVOLUME.format(Double.valueOf(Constant.DASH)) : CommonUtils.UNITVOLUME.format(Double.valueOf(str[unitVolumeNo].toString())));
-                    dto.setTotalDiscountActuals((str[totalDiscountNo] == null) ? CommonUtils.MONEY.format(Double.valueOf(Constant.DASH)) : CommonUtils.MONEY.format(Double.valueOf(str[totalDiscountNo].toString())));
+                    dto.setTotalDiscountActuals((str[TOTAL_DISCOUNT_NO] == null) ? CommonUtils.MONEY.format(Double.valueOf(Constant.DASH)) : CommonUtils.MONEY.format(Double.valueOf(str[TOTAL_DISCOUNT_NO].toString())));
                 } else if (actulOrProjection == 1) {
                     dto.setDiscountPerUnitProjections((str[discountDollerNo] == null) ? CommonUtils.MONEY.format(Double.valueOf(Constant.DASH)) : CommonUtils.MONEY.format(Double.valueOf(str[discountDollerNo].toString())));
                     dto.setDiscountPercentProjections((str[discountPercentNo] == null) ? CommonUtils.PERCENT_FORMAT.format(Double.valueOf(Constant.DASH)) : CommonUtils.PERCENT_FORMAT.format(Double.valueOf(str[discountPercentNo].toString())));
                     dto.setUnitVolumeProjections((str[unitVolumeNo] == null) ? CommonUtils.UNITVOLUME.format(Double.valueOf(Constant.DASH)) : CommonUtils.UNITVOLUME.format(Double.valueOf(str[unitVolumeNo].toString())));
-                    dto.setTotalDiscountProjections((str[totalDiscountNo] == null) ? CommonUtils.MONEY.format(Double.valueOf(Constant.DASH)) : CommonUtils.MONEY.format(Double.valueOf(str[totalDiscountNo].toString())));
+                    dto.setTotalDiscountProjections((str[TOTAL_DISCOUNT_NO] == null) ? CommonUtils.MONEY.format(Double.valueOf(Constant.DASH)) : CommonUtils.MONEY.format(Double.valueOf(str[TOTAL_DISCOUNT_NO].toString())));
                 }
             }
 

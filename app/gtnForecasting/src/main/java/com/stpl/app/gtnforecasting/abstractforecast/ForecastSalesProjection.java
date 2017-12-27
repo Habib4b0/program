@@ -2287,7 +2287,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             final String adjVariable = Constant.A;
             final String adjPeriod = (String) adjustPeriods.getValue();
             final String adjMethodology = String.valueOf(allocMethodology.getValue());
-            final String historyPeriods = null;
+            final String HISTORY_PERIODS = null;
             final String projectionPeriods;
 
             if (adjType.equals("Incremental") || adjType.equals("Override")) {
@@ -2333,7 +2333,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         }
                         getTableLogic().setRefresh(false);
                         salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,
-                                adjMethodology, historyPeriods, projectionPeriods);
+                                adjMethodology, HISTORY_PERIODS, projectionPeriods);
                         refreshTableData(getCheckedRecordsHierarchyNo());
                         getTableLogic().setRefresh(true);
                         session.setActualAdjustment(true);
@@ -2623,16 +2623,16 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     /**
      * Formats the given value based on the passed decimal format.
      *
-     * @param FORMAT
+     * @param decFormat
      * @param value
      * @param appendChar
      * @return
      */
-    public String getFormatValue(DecimalFormat FORMAT, String value, String appendChar) {
+    public String getFormatValue(DecimalFormat decFormat, String value, String appendChar) {
         if (Constant.CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(FORMAT.format(Double.valueOf(value)));
+            value = appendChar.concat(decFormat.format(Double.valueOf(value)));
         } else {
-            value = FORMAT.format(Double.valueOf(value)).concat(appendChar);
+            value = decFormat.format(Double.valueOf(value)).concat(appendChar);
         }
         return value;
     }
@@ -3587,16 +3587,16 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 if (Constant.GROUP.equals(propertyId)) {
 
                 } else if (Constant.METHODOLOGY.equals(propertyId)) {
-                    TextField FilterForMetohdology = new TextField();
-                    FilterForMetohdology.setReadOnly(true);
-                    FilterForMetohdology.setWidth("100%");
-                    return FilterForMetohdology;
+                    TextField filterForMetohdology = new TextField();
+                    filterForMetohdology.setReadOnly(true);
+                    filterForMetohdology.setWidth("100%");
+                    return filterForMetohdology;
 
                 } else if (Constant.BASELINE.equals(propertyId)) {
-                    TextField FilterForBaseline = new TextField();
-                    FilterForBaseline.setReadOnly(true);
-                    FilterForBaseline.setWidth("100%");
-                    return FilterForBaseline;
+                    TextField filterForBaseline = new TextField();
+                    filterForBaseline.setReadOnly(true);
+                    filterForBaseline.setWidth("100%");
+                    return filterForBaseline;
 
                 } else if (Constant.LEVELNAME.equals(propertyId)) {
                     TextField levelField = new TextField();

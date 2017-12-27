@@ -84,9 +84,8 @@ import org.asi.ui.custommenubar.MenuItemDTO;
 public class CommonLogic {
 
     private static final CommonDAO commonDao = new CommonDAOImpl();
-    private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     private static final CommonQueryUtils commonQueryUtil = new CommonQueryUtils();
-    private static final boolean viewFlag = false;
+    private static final boolean VIEW_FLAG = false;
     private static String screenName = StringUtils.EMPTY;
     public static final String CCPMAP = ") CCPMAP,";
     private final static Map<String, String> fileMap = new HashMap<>();
@@ -1664,7 +1663,7 @@ public class CommonLogic {
         String query = StringUtils.EMPTY;
         if (!userGroup.isEmpty() && !userGroup.equals(STRING_EMPTY)) {
             query = "JOIN "
-                    + (viewFlag ? "NM_SALES_PROJECTION_MASTER" : "ST_NM_SALES_PROJECTION_MASTER ")
+                    + (VIEW_FLAG ? "NM_SALES_PROJECTION_MASTER" : "ST_NM_SALES_PROJECTION_MASTER ")
                     + " SPMG ON SPMG.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  SPMG.USER_GROUP ='" + userGroup + "'";
         }
         return query;
@@ -1727,7 +1726,7 @@ public class CommonLogic {
         }
         String query = "   JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
         if (!isPrior && (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED).equals(screenName)) {
-            query += (viewFlag ? "" : getUserSessionQueryCondition(userId, sessionId, Constant.S));
+            query += (VIEW_FLAG ? "" : getUserSessionQueryCondition(userId, sessionId, Constant.S));
         }
         return query;
     }
@@ -4235,7 +4234,7 @@ public class CommonLogic {
         }
         String query = "  JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.CCP_DETAILS_SID=CH.CCP_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
         if (!isPrior && (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED).equals(screenName)) {
-            query += (viewFlag ? "" : getUserSessionQueryCondition(userId, sessionId, Constant.S));
+            query += (VIEW_FLAG ? "" : getUserSessionQueryCondition(userId, sessionId, Constant.S));
         }
         return query;
     }

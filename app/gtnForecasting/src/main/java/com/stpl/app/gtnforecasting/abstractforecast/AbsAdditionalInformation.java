@@ -126,11 +126,11 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     /**
      * The move back.
      */
-    public static final String moveBack = "../";
+    public static final String MOVE_BACK = "../";
     /**
      * The file path.
      */
-    protected final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + "National Assumptions");
+    protected final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + MOVE_BACK + MOVE_BACK + MOVE_BACK + File.separator + "Documents" + File.separator + "National Assumptions");
     protected List<String> notesList = new ArrayList<>();
     protected List<String> wordList = new ArrayList<>();
     protected int projectionId = 0;

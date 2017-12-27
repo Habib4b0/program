@@ -206,7 +206,7 @@ public class NMDPRLogic {
         }
         ccpid = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, proSelDTO.getSessionDTO().getCurrentTableNames()));
         if (ccpid != null && !ccpid.isEmpty()) {
-            String discountString = CommonUtils.collectionToString(discountList, true);
+            String discountString = CommonUtils.convertCollectionToString(discountList, true);
             if (discountString.equals(StringUtils.EMPTY)) {
                 discountString = ZERO;
             }
@@ -285,7 +285,7 @@ public class NMDPRLogic {
         }
         if (ccpId != null && !ccpId.isEmpty()) {
             String order = projSelDTO.getProjectionOrder();
-            String discountString = CommonUtils.collectionToString(discountList, true);
+            String discountString = CommonUtils.convertCollectionToString(discountList, true);
             projSelDTO.setCcpCount(ccpId.size());
             if (discountString.equals(StringUtils.EMPTY)) {
                 discountString = ZERO;

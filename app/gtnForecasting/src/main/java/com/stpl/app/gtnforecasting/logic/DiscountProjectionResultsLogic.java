@@ -2993,7 +2993,7 @@ public class DiscountProjectionResultsLogic {
                         double projectedSales = 0;
                         double projectedAmount = 0;
                         int year = 0;
-                        int Quarter = 0;
+                        int quarter = 0;
                         String commonColumn = StringUtils.EMPTY;
                         for (int j = 0; j < list.size(); j++) {
                             final Object[] object = (Object[]) list.get(j);
@@ -3005,7 +3005,7 @@ public class DiscountProjectionResultsLogic {
                             if (object[NumericConstants.SIX] != null) {
                                 selectedQuarter = (Integer) object[NumericConstants.SIX];
                             }
-                            if (year == selectedYear && Quarter == selectedQuarter) {
+                            if (year == selectedYear && quarter == selectedQuarter) {
                                 if (object[NumericConstants.TWO] != null) {
                                     Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
                                     actualSales = actualSales + aSales;
@@ -3055,12 +3055,12 @@ public class DiscountProjectionResultsLogic {
                                     projectedAmount = 0;
                                     commonColumn = Constant.Q + object[NumericConstants.SIX] + object[0];
                                     year = (Integer) object[0];
-                                    Quarter = (Integer) object[NumericConstants.SIX];
+                                    quarter = (Integer) object[NumericConstants.SIX];
                                 }
                             } else {
                                 if (j == 0) {
                                     year = selectedYear;
-                                    Quarter = selectedQuarter;
+                                    quarter = selectedQuarter;
                                     commonColumn = Constant.Q + object[NumericConstants.SIX] + object[0];
                                     if (object[NumericConstants.TWO] != null) {
                                         Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
@@ -3114,7 +3114,7 @@ public class DiscountProjectionResultsLogic {
                                     projectedAmount = 0;
                                     commonColumn = Constant.Q + object[NumericConstants.SIX] + object[0];
                                     year = (Integer) object[0];
-                                    Quarter = (Integer) object[NumericConstants.SIX];
+                                    quarter = (Integer) object[NumericConstants.SIX];
                                     if (object[NumericConstants.TWO] != null) {
                                         Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
                                         actualSales = actualSales + aSales;
@@ -4567,15 +4567,15 @@ public class DiscountProjectionResultsLogic {
         return query;
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat decFormat, String value) {
         if (value.contains(Constant.NULL)) {
             value = DASH.getConstant();
         } else {
             Double newValue = Double.valueOf(value);
-            if (FORMAT.toPattern().contains(Constant.PERCENT)) {
+            if (decFormat.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = FORMAT.format(newValue);
+            value = decFormat.format(newValue);
         }
         return value;
     }
@@ -4658,7 +4658,7 @@ public class DiscountProjectionResultsLogic {
         double projectedSales = 0;
         double projectedAmount = 0;
         int year = 0;
-        int Quarter = 0;
+        int quarter = 0;
 
         List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         String commonColumn = StringUtils.EMPTY;
@@ -4672,7 +4672,7 @@ public class DiscountProjectionResultsLogic {
             if (obj[NumericConstants.SIX] != null) {
                 selectedQuarter = (Integer) obj[NumericConstants.SIX];
             }
-            if (year == selectedYear && Quarter == selectedQuarter) {
+            if (year == selectedYear && quarter == selectedQuarter) {
                 if (obj[NumericConstants.TWO] != null) {
                     Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
                     actualSales = actualSales + aSales;
@@ -4692,7 +4692,7 @@ public class DiscountProjectionResultsLogic {
             } else {
                 if (i == 0) {
                     year = selectedYear;
-                    Quarter = selectedQuarter;
+                    quarter = selectedQuarter;
                     commonColumn = freq + obj[NumericConstants.SIX] + obj[0];
                     if (obj[NumericConstants.TWO] != null) {
                         Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
@@ -4747,7 +4747,7 @@ public class DiscountProjectionResultsLogic {
                     projectedAmount = 0;
                     commonColumn = freq + obj[NumericConstants.SIX] + obj[0];
                     year = (Integer) obj[0];
-                    Quarter = (Integer) obj[NumericConstants.SIX];
+                    quarter = (Integer) obj[NumericConstants.SIX];
                     if (obj[NumericConstants.TWO] != null) {
                         Double aSales = Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]));
                         actualSales = actualSales + aSales;
@@ -4800,7 +4800,7 @@ public class DiscountProjectionResultsLogic {
                 projectedAmount = 0;
                 commonColumn = freq + obj[NumericConstants.SIX] + obj[0];
                 year = (Integer) obj[0];
-                Quarter = (Integer) obj[NumericConstants.SIX];
+                quarter = (Integer) obj[NumericConstants.SIX];
             }
         }
         discountDto = putHyphenForDTO(periodList, discountDto);

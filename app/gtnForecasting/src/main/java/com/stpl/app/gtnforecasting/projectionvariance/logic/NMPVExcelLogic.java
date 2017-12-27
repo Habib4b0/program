@@ -274,7 +274,7 @@ public class NMPVExcelLogic {
         return !val;
     }
 
-    private void calculateAndCustomize_detail_period(List<Object[]> rawList, List<Object[]> rawList_discount) {
+    private void calculateAndCustomize_detail_period(List<Object[]> rawList, List<Object[]> rawListDisc) {
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
             String key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
@@ -293,7 +293,7 @@ public class NMPVExcelLogic {
             Map<String, Integer> discountMap = new HashMap();
             Set<String> hierarchyKey = new HashSet();
             int listIndex = 0;
-            for (ListIterator<Object[]> it = rawList_discount.listIterator(); it.hasNext();) {
+            for (ListIterator<Object[]> it = rawListDisc.listIterator(); it.hasNext();) {
                 Object[] obj = it.next();
                 String key = obj[BASECOLUMN_HIERARCHY_INDEX].toString();
                 key = key.substring(key.indexOf('-') + 1);
@@ -1078,11 +1078,11 @@ public class NMPVExcelLogic {
         }
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat decFormat, String value) {
         if (value.contains(NULL.getConstant())) {
             value = ZERO;
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            value = decFormat.format(Double.valueOf(value));
         }
         return value;
     }
@@ -2001,19 +2001,19 @@ public class NMPVExcelLogic {
             PVSelectionDTO selection, DecimalFormat format, boolean isAdd, int listIndex) {
 
         String key = masterKey + varaibleName + varibaleCat;
-        List<ProjectionVarianceDTO> pvList_discount;
+        List<ProjectionVarianceDTO> pvListDisc;
         if (isAdd) {
-            pvList_discount = resultMap.get(key);
-            if (pvList_discount == null) {
-                pvList_discount = new ArrayList();
-                resultMap.put(key, pvList_discount);
+            pvListDisc = resultMap.get(key);
+            if (pvListDisc == null) {
+                pvListDisc = new ArrayList();
+                resultMap.put(key, pvListDisc);
                 discountKeys.add(key);
             }
-            pvList_discount.add(pvDTO);
+            pvListDisc.add(pvDTO);
             pvDTO.setGroup(obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX] == null ? "" : obj[BASECOLUMN_DISC_INDEX].toString());
         } else {
-            pvList_discount = resultMap.get(key);
-            pvDTO = pvList_discount.get(listIndex);
+            pvListDisc = resultMap.get(key);
+            pvDTO = pvListDisc.get(listIndex);
         }
 
         String commonColumn = StringUtils.EMPTY;
@@ -2369,16 +2369,16 @@ public class NMPVExcelLogic {
         selection.setConversionNeeded(isConversionNeeded);
         String visibleColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.ZERO]).replaceAll(" ", StringUtils.EMPTY) + discountNo + CURRENT + projId;
         String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex])));
-        String Value = selection.isConversionNeeded() && !isPer
+        String value = selection.isConversionNeeded() && !isPer
                 ? CommonUtil.getConversionFormattedValue(selection, currentValue, true)
                 : getFormattedValue(format, currentValue);
-        discountDto.addStringProperties(visibleColumn, isPer ? Value + PERCENT : Value);
+        discountDto.addStringProperties(visibleColumn, isPer ? value + PERCENT : value);
         String actualColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.ZERO]).replaceAll(" ", StringUtils.EMPTY) + discountNo + ACTUAL + projId;
         String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex - 1])));
-        String Value1 = selection.isConversionNeeded() && !isPer
+        String tempValue = selection.isConversionNeeded() && !isPer
                 ? CommonUtil.getConversionFormattedValue(selection, actualValue, true)
                 : getFormattedValue(format, actualValue);
-        discountDto.addStringProperties(actualColumn, isPer ? Value1 + PERCENT : Value1);
+        discountDto.addStringProperties(actualColumn, isPer ? tempValue + PERCENT : tempValue);
         String accrualColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.ZERO]).replaceAll(" ", StringUtils.EMPTY) + discountNo + ACCRUAL + projId;
         String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex - 2])));
         String accValue = selection.isConversionNeeded() && !isPer
@@ -2505,7 +2505,7 @@ public class NMPVExcelLogic {
         return customViewMap;
     }
 
-    private void calculateAndCustomize_periodForCustomView(List<Object[]> rawList, List<Object[]> rawList_discount) {
+    private void calculateAndCustomize_periodForCustomView(List<Object[]> rawList, List<Object[]> rawListDisc) {
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
             String key;
@@ -2529,7 +2529,7 @@ public class NMPVExcelLogic {
             Map<String, Integer> discountMap = new HashMap();
             Set<String> hierarchyKey = new HashSet();
             int listIndex = 0;
-            for (ListIterator<Object[]> it = rawList_discount.listIterator(); it.hasNext();) {
+            for (ListIterator<Object[]> it = rawListDisc.listIterator(); it.hasNext();) {
                 Object[] obj = it.next();
                 String key;
                 if ("null".equals(String.valueOf(obj[obj.length - 1]))) {

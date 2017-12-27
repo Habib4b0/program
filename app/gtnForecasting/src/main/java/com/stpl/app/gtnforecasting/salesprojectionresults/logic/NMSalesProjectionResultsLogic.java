@@ -844,9 +844,9 @@ public class NMSalesProjectionResultsLogic {
 
 						if (started == NumericConstants.FIVE && !(salesUnits.equals(BOTH.getConstant()))) {
 							if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
-								SalesProjectionResultsDTO PercentageExFactorySalesDto = projectionTotalList
+								SalesProjectionResultsDTO percentageExFactorySalesDto = projectionTotalList
 										.get(NumericConstants.FIVE);
-								projDTOList.add(PercentageExFactorySalesDto);
+								projDTOList.add(percentageExFactorySalesDto);
 
 							}
 							started++;
@@ -868,9 +868,9 @@ public class NMSalesProjectionResultsLogic {
 					if (neededRecord > 0 && (salesUnits.equals(BOTH.getConstant()))) {
 						if ((salesUnits.equals(BOTH.getConstant()) && (started == NumericConstants.SIX))) {
 							if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
-								SalesProjectionResultsDTO PercentageExFactorySalesDto = projectionTotalList
+								SalesProjectionResultsDTO percentageExFactorySalesDto = projectionTotalList
 										.get(NumericConstants.FIVE);
-								projDTOList.add(PercentageExFactorySalesDto);
+								projDTOList.add(percentageExFactorySalesDto);
 							}
 							started++;
 							neededRecord--;
@@ -1051,7 +1051,7 @@ public class NMSalesProjectionResultsLogic {
 		SalesProjectionResultsDTO inventoryWithdrawDTO = new SalesProjectionResultsDTO();
 		SalesProjectionResultsDTO conSaleDTO = new SalesProjectionResultsDTO();
 		SalesProjectionResultsDTO unitVolDTO = new SalesProjectionResultsDTO();
-		SalesProjectionResultsDTO PercentageExFactorySalesDto = new SalesProjectionResultsDTO();
+		SalesProjectionResultsDTO percentageExFactorySalesDto = new SalesProjectionResultsDTO();
 		exFactorySalesDTO.setParent(0);
 		exFactorySalesDTO.setLevelValue(EX_FACTORY_SALES.getConstant());
 
@@ -1067,8 +1067,8 @@ public class NMSalesProjectionResultsLogic {
 		unitVolDTO.setParent(0);
 		unitVolDTO.setLevelValue(UNIT_VOL.getConstant());
 
-		PercentageExFactorySalesDto.setParent(0);
-		PercentageExFactorySalesDto.setLevelValue(SALES_PERC_OF_EX_FACTORY_SALES.getConstant());
+		percentageExFactorySalesDto.setParent(0);
+		percentageExFactorySalesDto.setLevelValue(SALES_PERC_OF_EX_FACTORY_SALES.getConstant());
 
 		Map<String, List<String>> projHeaderMap = new HashMap<>();
 		if (list != null && !list.isEmpty()) {
@@ -1107,13 +1107,13 @@ public class NMSalesProjectionResultsLogic {
 				inventoryWithdrawDTO.addStringProperties(commonColumn + Constant.PROJECTIONS,
 						inventoryWithdrawProjection);
 
-				String PerExFactoryActuals = StringUtils.EMPTY + obj[col + NumericConstants.EIGHT];
-				PerExFactoryActuals = getFormatValue(TWO_DECIMAL, PerExFactoryActuals, PERCENT);
-				PercentageExFactorySalesDto.addStringProperties(commonColumn + Constant.ACTUALS, PerExFactoryActuals);
-				String PerExFactoryProjections = StringUtils.EMPTY + obj[col + NumericConstants.NINE];
-				PerExFactoryProjections = getFormatValue(TWO_DECIMAL, PerExFactoryProjections, PERCENT);
-				PercentageExFactorySalesDto.addStringProperties(commonColumn + Constant.PROJECTIONS,
-						PerExFactoryProjections);
+				String perExFactoryActuals = StringUtils.EMPTY + obj[col + NumericConstants.EIGHT];
+				perExFactoryActuals = getFormatValue(TWO_DECIMAL, perExFactoryActuals, PERCENT);
+				percentageExFactorySalesDto.addStringProperties(commonColumn + Constant.ACTUALS, perExFactoryActuals);
+				String perExFactoryProjections = StringUtils.EMPTY + obj[col + NumericConstants.NINE];
+				perExFactoryProjections = getFormatValue(TWO_DECIMAL, perExFactoryProjections, PERCENT);
+				percentageExFactorySalesDto.addStringProperties(commonColumn + Constant.PROJECTIONS,
+						perExFactoryProjections);
 
 				String cswActuals = StringUtils.EMPTY + obj[col];
 				cswActuals = getFormatValue(TWO_DECIMAL, cswActuals, CURRENCY);
@@ -1140,17 +1140,17 @@ public class NMSalesProjectionResultsLogic {
 		projectionTotalList.add(inventoryWithdrawDTO);
 		projectionTotalList.add(conSaleDTO);
 		projectionTotalList.add(unitVolDTO);
-		projectionTotalList.add(PercentageExFactorySalesDto);
+		projectionTotalList.add(percentageExFactorySalesDto);
 		return projectionTotalList;
 	}
 
-	public String getFormattedValue(DecimalFormat FORMAT, String value) {
+	public String getFormattedValue(DecimalFormat decFormat, String value) {
 		if (value.contains(Constant.NULL)) {
 			value = SPRDASH.getConstant();
-		} else if (FORMAT.equals(CUR_PER)) {
-			value = FORMAT.format(Double.valueOf(value)) + PERCENT;
+		} else if (decFormat.equals(CUR_PER)) {
+			value = decFormat.format(Double.valueOf(value)) + PERCENT;
 		} else {
-			value = FORMAT.format(Double.valueOf(value));
+			value = decFormat.format(Double.valueOf(value));
 		}
 		return value;
 	}
@@ -1252,9 +1252,9 @@ public class NMSalesProjectionResultsLogic {
 		return frequencyNo;
 	}
 
-	public String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String CCP) {
-		String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + CCP
-				+ ".RELATIONSHIP_LEVEL_SID and " + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
+	public String getCCPWhereConditionQuery(String relationShipLevelDefination, String projectionDetails, String ccp) {
+		String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp
+				+ ".RELATIONSHIP_LEVEL_SID and " + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
 		return ccpWhereCond;
 	}
 
@@ -2965,13 +2965,13 @@ public class NMSalesProjectionResultsLogic {
 		return projDtoList;
 	}
 
-	public String getFormatValue(DecimalFormat FORMAT, String value, String appendChar) {
+	public String getFormatValue(DecimalFormat decFormat, String value, String appendChar) {
 		if (value.contains(Constant.NULL)) {
 			value = "...";
 		} else if (CURRENCY.equals(appendChar)) {
-			value = appendChar.concat(FORMAT.format(Double.valueOf(value)));
+			value = appendChar.concat(decFormat.format(Double.valueOf(value)));
 		} else {
-			value = FORMAT.format(Double.valueOf(value)).concat(appendChar);
+			value = decFormat.format(Double.valueOf(value)).concat(appendChar);
 		}
 		return value;
 	}
@@ -3000,9 +3000,9 @@ public class NMSalesProjectionResultsLogic {
 	}
 
 	public String getCCPWhereConditionQueryMandated(String relationShipLevelDefination, String projectionDetails,
-			String CCP) {
-		String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + CCP
-				+ ".RELATIONSHIP_LEVEL_SID and " + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
+			String ccp) {
+		String ccpWhereCond = Constant.AND_SMALL_SPACE + relationShipLevelDefination + ".RELATIONSHIP_LEVEL_SID =" + ccp
+				+ ".RELATIONSHIP_LEVEL_SID and " + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
 		return ccpWhereCond;
 	}
 

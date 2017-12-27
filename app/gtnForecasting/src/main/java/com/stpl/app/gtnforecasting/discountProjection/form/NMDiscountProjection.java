@@ -1645,7 +1645,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			checkValue = (Boolean) dto.getPropertyValue(Constant.CHECKRECORD);
 			hierarchyNo = dto.getHierarchyNo();
 			List<String> customViewDetails = new ArrayList<>();
-                        String discountIds = CommonUtils.collectionToString(checkedDiscountsPropertyIds, false);
+                        String discountIds = CommonUtils.convertCollectionToString(checkedDiscountsPropertyIds, false);
 			if (isCustomHierarchy) {
 				for (int i = 0; i < count; i++) {
 					customViewDetails = new ArrayList<>();

@@ -251,7 +251,7 @@ public class NMPmpyCalculator extends Window {
     /**
      * The regex.
      */
-    public static final String regex = "(^[0-9]+(\\.[0-9])?$)";
+    public static final String REGEX = "(^[0-9]+(\\.[0-9])?$)";
 
     /**
      * The calendar.
@@ -432,7 +432,7 @@ public class NMPmpyCalculator extends Window {
             marketShare.setValue(STRING_HUNDRED_PERCENT);
             marketShare1.setValue(STRING_HUNDRED_PERCENT);
             analogLives.setImmediate(true);
-            analogLives.addValidator(new RegexpValidator(regex, "Should contain only number"));
+            analogLives.addValidator(new RegexpValidator(REGEX, "Should contain only number"));
             sales.setEnabled(false);
             valuePerLife.setEnabled(false);
             totalSales.setEnabled(false);

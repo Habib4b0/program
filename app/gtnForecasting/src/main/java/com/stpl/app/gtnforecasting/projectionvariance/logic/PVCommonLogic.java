@@ -31,7 +31,7 @@ public class PVCommonLogic {
     private static final String CURRENT = "Current";
     private static final String ACCRUAL = "Accrual";
     private static final String ACTUAL = "Actual";
-    private static final String actualDASH = "-";
+    private static final String ACTUAL_DASH = "-";
     private static final Logger LOGGER = Logger.getLogger(PVCommonLogic.class);
 
 
@@ -189,7 +189,7 @@ public class PVCommonLogic {
                if (!actualCheck) {
                     pvDTO.addStringProperties(commonColumn + ACTUAL + pvsdto.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);
                 } else {
-                    pvDTO.addStringProperties(commonColumn + ACTUAL + pvsdto.getCurrentProjId(), actualDASH);
+                    pvDTO.addStringProperties(commonColumn + ACTUAL + pvsdto.getCurrentProjId(), ACTUAL_DASH);
                 }
                 //for CURRENT
                baseValue = pvsdto.isConversionNeeded() && !isPer ? CommonUtil.getConversionFormattedValue(pvsdto, currentValue, true)
@@ -201,14 +201,14 @@ public class PVCommonLogic {
                             : getFormattedValue(format, accrualValue);
                     pvDTO.addStringProperties(commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);
                 } else {
-                    pvDTO.addStringProperties(commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), actualDASH);
+                    pvDTO.addStringProperties(commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), ACTUAL_DASH);
                 }
             }
             if (actualBasis) {
                 if (!actualCheck) {
                     comparisonBasisCustomization(variableCategory, commonValue, currentValue, format, commonColumn, pvsdto, pvDTO, isPer, pvsdto);
                 } else if (variableCategory.equals(Constant.VALUE)) {
-                    pvDTO.addStringProperties(commonColumn + ACTUAL + pvsdto.getCurrentProjId(), actualDASH);
+                    pvDTO.addStringProperties(commonColumn + ACTUAL + pvsdto.getCurrentProjId(), ACTUAL_DASH);
                 }
             } else if (accrualBasis) {
                 comparisonBasisCustomization(variableCategory, commonValue, currentValue, format, commonColumn, pvsdto, pvDTO, isPer, pvsdto);

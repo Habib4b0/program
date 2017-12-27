@@ -400,11 +400,11 @@ public class SupplementalDiscountProjectionLogic {
         return (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat decFormat, String value) {
         if (value == null || value.contains(Constant.NULL) || value.isEmpty()) {
             value = Constant.DASH;
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            value = decFormat.format(Double.valueOf(value));
         }
         return value;
     }
@@ -662,10 +662,10 @@ public class SupplementalDiscountProjectionLogic {
         return (List<Object>) CommonLogic.executeSelectQuery(queryBuilder1.toString(), null, null);
     }
 
-    public String getRelationshipValue(int proj_Id) {
+    public String getRelationshipValue(int projId) {
         List<Object> list;
         String query = "select LEVEL_VALUE_REFERENCE from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID in\n"
-                + "(Select CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID=" + proj_Id + ")\n"
+                + "(Select CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID=" + projId + ")\n"
                 + "and LEVEL_NAME='Market Type'";
         list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
 
@@ -673,12 +673,12 @@ public class SupplementalDiscountProjectionLogic {
         return String.valueOf(list.get(0));
     }
 
-    public String getMTLinked(int hier_Id) {
+    public String getMTLinked(int hierId) {
         String str = StringUtils.EMPTY;
         List<Object> list;
         String query = "select DESCRIPTION from HELPER_TABLE where HELPER_TABLE_SID\n"
                 + "in(select RELATIONSHIP_LEVEL_VALUES from  RELATIONSHIP_LEVEL_DEFINITION where RELATIONSHIP_LEVEL_SID in (select RELATIONSHIP_LEVEL_SID\n" +
-                " from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID=" + hier_Id + " and Level_NAME='Market Type'))";
+                " from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID=" + hierId + " and Level_NAME='Market Type'))";
 
         list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
         if (!list.isEmpty()) {
@@ -745,15 +745,15 @@ public class SupplementalDiscountProjectionLogic {
         }
     }
 
-    public int getProject(int proj_id) {
+    public int getProject(int projId) {
         int value = 0;
         try {
             List<Integer> listInte = new ArrayList<>();
             List list;
             String sql = StringUtils.EMPTY;
-            if (proj_id != 0) {
+            if (projId != 0) {
                 sql = "select PROJECTION_DETAILS_SID from dbo.PROJECTION_DETAILS\n"
-                        + "where PROJECTION_MASTER_SID=" + proj_id;
+                        + "where PROJECTION_MASTER_SID=" + projId;
             }
 
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();

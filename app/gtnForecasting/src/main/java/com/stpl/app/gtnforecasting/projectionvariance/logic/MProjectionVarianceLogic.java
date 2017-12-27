@@ -119,9 +119,9 @@ public class MProjectionVarianceLogic {
         boolean viewFlag = false;
 
     public int getProjectionCount(final ComparisonLookupDTO lookUpDTO, final String selectedProjectionIds, final Set<Container.Filter> filterValue) throws PortalException, SystemException{
-        String QUOTES = "'";
-        String ASTERIK = "*";
-        String PERCENT = Constant.PERCENT;
+        String quotes = "'";
+        String asterik = "*";
+        String percent = Constant.PERCENT;
 
         String marketTypeVal;
         String brandVal;
@@ -157,62 +157,62 @@ public class MProjectionVarianceLogic {
             if (lookUpDTO.getMarketType() == null || lookUpDTO.getMarketType().equals(StringUtils.EMPTY)) {
                 marketTypeVal = "'%'";
             } else {
-                marketTypeVal = lookUpDTO.getMarketType().replace(ASTERIK, PERCENT);
-                marketTypeVal = QUOTES + marketTypeVal + QUOTES;
+                marketTypeVal = lookUpDTO.getMarketType().replace(asterik, percent);
+                marketTypeVal = quotes + marketTypeVal + quotes;
             }
             customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(")");
 
             if (lookUpDTO.getBrand() == null || lookUpDTO.getBrand().equals(StringUtils.EMPTY)) {
                 brandVal = "'%'";
             } else {
-                brandVal = lookUpDTO.getBrand().replace(ASTERIK, PERCENT);
-                brandVal = QUOTES + brandVal + QUOTES;
+                brandVal = lookUpDTO.getBrand().replace(asterik, percent);
+                brandVal = quotes + brandVal + quotes;
             }
             customSql.append("  AND (BM.BRAND_NAME LIKE ").append(brandVal).append(" or BM.BRAND_NAME is null)");
 
             if (lookUpDTO.getProjectionDescription() == null || lookUpDTO.getProjectionDescription().equals(StringUtils.EMPTY)) {
                 desc = "'%'";
             } else {
-                desc = lookUpDTO.getProjectionDescription().replace(ASTERIK, PERCENT);
-                desc = QUOTES + desc + QUOTES;
+                desc = lookUpDTO.getProjectionDescription().replace(asterik, percent);
+                desc = quotes + desc + quotes;
             }
             customSql.append("AND (PM.PROJECTION_DESCRIPTION LIKE ").append(desc).append(" or PM.PROJECTION_DESCRIPTION is null)");
 
             if (lookUpDTO.getProjectionName() == null || lookUpDTO.getProjectionName().equals(StringUtils.EMPTY)) {
                 projNameVal = "'%'";
             } else {
-                projNameVal = lookUpDTO.getProjectionName().replace(ASTERIK, PERCENT);
-                projNameVal = QUOTES + projNameVal + QUOTES;
+                projNameVal = lookUpDTO.getProjectionName().replace(asterik, percent);
+                projNameVal = quotes + projNameVal + quotes;
             }
             customSql.append("AND (PM.PROJECTION_NAME LIKE ").append(projNameVal).append(" or PM.PROJECTION_NAME is null)");
 
             if (lookUpDTO.getContract() == null || lookUpDTO.getContract().equals(StringUtils.EMPTY)) {
                 contractVal = "'%'";
             } else {
-                contractVal = lookUpDTO.getContract().replace(ASTERIK, PERCENT);
-                contractVal = QUOTES + contractVal + QUOTES;
+                contractVal = lookUpDTO.getContract().replace(asterik, percent);
+                contractVal = quotes + contractVal + quotes;
             }
             customSql.append("AND (CO.CONTRACT_NO LIKE ").append(contractVal).append(" or CO.CONTRACT_NO is null)");
 
             if (lookUpDTO.getNdcName() == null || lookUpDTO.getNdcName().equals(StringUtils.EMPTY)) {
                 ndcNameVal = "'%'";
             } else {
-                ndcNameVal = lookUpDTO.getNdcName().replace(ASTERIK, PERCENT);
-                ndcNameVal = QUOTES + ndcNameVal + QUOTES;
+                ndcNameVal = lookUpDTO.getNdcName().replace(asterik, percent);
+                ndcNameVal = quotes + ndcNameVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NAME LIKE ").append(ndcNameVal).append(" or IM.ITEM_NAME is null)");
             if (lookUpDTO.getNdcNo() == null || lookUpDTO.getNdcNo().equals(StringUtils.EMPTY)) {
                 ndcNoVal = "'%'";
             } else {
-                ndcNoVal = lookUpDTO.getNdcNo().replace(ASTERIK, PERCENT);
-                ndcNoVal = QUOTES + ndcNoVal + QUOTES;
+                ndcNoVal = lookUpDTO.getNdcNo().replace(asterik, percent);
+                ndcNoVal = quotes + ndcNoVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NO LIKE ").append(ndcNoVal).append("or IM.ITEM_NO is null)");
             if (lookUpDTO.getCustomer() == null || lookUpDTO.getCustomer().equals(StringUtils.EMPTY)) {
                 customer = "'%'";
             } else {
-                customer = lookUpDTO.getCustomer().replace(ASTERIK, PERCENT);
-                customer = QUOTES + customer + QUOTES;
+                customer = lookUpDTO.getCustomer().replace(asterik, percent);
+                customer = quotes + customer + quotes;
             }
             customSql.append("AND (CM.COMPANY_NO LIKE ").append(customer).append("or CM.COMPANY_NO is null)");
 
@@ -228,7 +228,7 @@ public class MProjectionVarianceLogic {
             if (isProjectionStatus) {
                 customSql.append("and pm.is_approved not in ('Y','C','A','R')");
             } else {
-                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " + QUOTES + lookUpDTO.getWorkflowStatus() + QUOTES);
+                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " + quotes + lookUpDTO.getWorkflowStatus() + quotes);
             }
             customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (").append(selectedProjectionIds).append(")");
             customSql.append("AND CUR_PD.PROJECTION_MASTER_SID =").append(selectedProjectionIds);
@@ -311,9 +311,9 @@ public class MProjectionVarianceLogic {
     public List getProjection(final ComparisonLookupDTO lookUpDTO, final String selectedProjectionIds,
             int startIndex, int offset, List<SortByColumn> list, final Set<Container.Filter> filterValue) throws PortalException, SystemException {
 
-        String QUOTES = "'";
-        String ASTERIK = "*";
-        String PERCENT = Constant.PERCENT;
+        String quotes = "'";
+        String asterik = "*";
+        String percent = Constant.PERCENT;
 
         String marketTypeVal;
         String brandVal;
@@ -352,61 +352,61 @@ public class MProjectionVarianceLogic {
             if (lookUpDTO.getMarketType().equals(Constant.NULL) || lookUpDTO.getMarketType().equals(StringUtils.EMPTY)) {
                 marketTypeVal = "'%'";
             } else {
-                marketTypeVal = lookUpDTO.getMarketType().replace(ASTERIK, PERCENT);
-                marketTypeVal = QUOTES + marketTypeVal + QUOTES;
+                marketTypeVal = lookUpDTO.getMarketType().replace(asterik, percent);
+                marketTypeVal = quotes + marketTypeVal + quotes;
             }
             customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE ").append(marketTypeVal).append(")");
 
             if (lookUpDTO.getBrand() == null || lookUpDTO.getBrand().equals(StringUtils.EMPTY)) {
                 brandVal = "'%'";
             } else {
-                brandVal = lookUpDTO.getBrand().replace(ASTERIK, PERCENT);
-                brandVal = QUOTES + brandVal + QUOTES;
+                brandVal = lookUpDTO.getBrand().replace(asterik, percent);
+                brandVal = quotes + brandVal + quotes;
             }
             customSql.append("  AND (BM.BRAND_NAME LIKE ").append(brandVal).append(" or BM.BRAND_NAME is null)");
 
             if (lookUpDTO.getProjectionName() == null || lookUpDTO.getProjectionName().equals(StringUtils.EMPTY)) {
                 projNameVal = "'%'";
             } else {
-                projNameVal = lookUpDTO.getProjectionName().replace(ASTERIK, PERCENT);
-                projNameVal = QUOTES + projNameVal + QUOTES;
+                projNameVal = lookUpDTO.getProjectionName().replace(asterik, percent);
+                projNameVal = quotes + projNameVal + quotes;
             }
             customSql.append("AND (PM.PROJECTION_NAME LIKE ").append(projNameVal).append(" or PM.PROJECTION_NAME is null)");
             if (lookUpDTO.getContract() == null || lookUpDTO.getContract().equals(StringUtils.EMPTY)) {
                 contractVal = "'%'";
             } else {
-                contractVal = lookUpDTO.getContract().replace(ASTERIK, PERCENT);
-                contractVal = QUOTES + contractVal + QUOTES;
+                contractVal = lookUpDTO.getContract().replace(asterik, percent);
+                contractVal = quotes + contractVal + quotes;
             }
             customSql.append("AND (CO.CONTRACT_NO LIKE ").append(contractVal).append(" or CO.CONTRACT_NO is null)");
 
             if (lookUpDTO.getProjectionDescription() == null || lookUpDTO.getProjectionDescription().equals(StringUtils.EMPTY)) {
                 desc = "'%'";
             } else {
-                desc = lookUpDTO.getProjectionDescription().replace(ASTERIK, PERCENT);
-                desc = QUOTES + desc + QUOTES;
+                desc = lookUpDTO.getProjectionDescription().replace(asterik, percent);
+                desc = quotes + desc + quotes;
             }
             customSql.append("AND (PM.PROJECTION_DESCRIPTION LIKE ").append(desc).append(" or PM.PROJECTION_DESCRIPTION is null)");
 
             if (lookUpDTO.getNdcName() == null || lookUpDTO.getNdcName().equals(StringUtils.EMPTY)) {
                 ndcNameVal = "'%'";
             } else {
-                ndcNameVal = lookUpDTO.getNdcName().replace(ASTERIK, PERCENT);
-                ndcNameVal = QUOTES + ndcNameVal + QUOTES;
+                ndcNameVal = lookUpDTO.getNdcName().replace(asterik, percent);
+                ndcNameVal = quotes + ndcNameVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NAME LIKE ").append(ndcNameVal).append(" or IM.ITEM_NAME is null)");
             if (lookUpDTO.getNdcNo() == null || lookUpDTO.getNdcNo().equals(StringUtils.EMPTY)) {
                 ndcNoVal = "'%'";
             } else {
-                ndcNoVal = lookUpDTO.getNdcNo().replace(ASTERIK, PERCENT);
-                ndcNoVal = QUOTES + ndcNoVal + QUOTES;
+                ndcNoVal = lookUpDTO.getNdcNo().replace(asterik, percent);
+                ndcNoVal = quotes + ndcNoVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NO LIKE ").append(ndcNoVal).append("or IM.ITEM_NO is null)");
             if (lookUpDTO.getCustomer() == null || lookUpDTO.getCustomer().equals(StringUtils.EMPTY)) {
                 customer = "'%'";
             } else {
-                customer = lookUpDTO.getCustomer().replace(ASTERIK, PERCENT);
-                customer = QUOTES + customer + QUOTES;
+                customer = lookUpDTO.getCustomer().replace(asterik, percent);
+                customer = quotes + customer + quotes;
             }
             customSql.append("AND (CM.COMPANY_NO LIKE ").append(customer).append("or CM.COMPANY_NO is null)");
 
@@ -422,7 +422,7 @@ public class MProjectionVarianceLogic {
             if (isProjectionStatus) {
                 customSql.append("and pm.is_approved not in ('Y','C','A','R')");
             } else {
-                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " + QUOTES + lookUpDTO.getWorkflowStatus() + QUOTES);
+                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " + quotes + lookUpDTO.getWorkflowStatus() + quotes);
             }
             customSql.append("AND PM.PROJECTION_MASTER_SID NOT IN (").append(selectedProjectionIds).append(")");
             customSql.append("AND CUR_PD.PROJECTION_MASTER_SID =").append(selectedProjectionIds);
@@ -2091,10 +2091,10 @@ public class MProjectionVarianceLogic {
     public List<ProjectionVarianceDTO> getDetailsPivotVariance(final PVSelectionDTO pvsdto) {
         try {
             CommonLogic commonLogic = new CommonLogic();
-           String CCPQuery = commonLogic.insertAvailableHierarchyNo(pvsdto);
+           String ccpQuery = commonLogic.insertAvailableHierarchyNo(pvsdto);
             pvsdto.setYear("ALL");
             pvsdto.setProjectionId(pvsdto.getCurrentProjectionID());
-            String query = CCPQuery + CommonLogic.getMandatedTempCCPQueryForCOGS(pvsdto) + " \n" + getProjectionVarianceQuery(pvsdto);
+            String query = ccpQuery + CommonLogic.getMandatedTempCCPQueryForCOGS(pvsdto) + " \n" + getProjectionVarianceQuery(pvsdto);
             List<Object> currentPivotDetails = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, pvsdto.getSession().getCurrentTableNames()), null, null);
             List<Object> programCodequeryList = new ArrayList<>();
             if (Constant.DETAIL.equals(pvsdto.getLevel()) && Constant.COMPONENT.equals(pvsdto.getDiscountLevel()) && (pvsdto.isVarDisAmount() || pvsdto.isVarDisRate())) {
@@ -3351,8 +3351,8 @@ public class MProjectionVarianceLogic {
                                     if (perSChange.isNaN() || perSChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perSChange))) {
                                         perSChange = 0.0;
                                     }
-                                    String SChange = String.valueOf(perSChange);
-                                    String baseSValue = getFormattedValue(RATE_PER, SChange);
+                                    String sChange = String.valueOf(perSChange);
+                                    String baseSValue = getFormattedValue(RATE_PER, sChange);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseSValue + PERCENT);
                                         columnList.remove(column);
@@ -3597,11 +3597,11 @@ public class MProjectionVarianceLogic {
         return projDTOList;
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat decFormat, String value) {
         if (value.contains(NULL)) {
             value = Constant.DASH;
         } else {
-            value = FORMAT.format(Double.valueOf(value));
+            value = decFormat.format(Double.valueOf(value));
         }
         return value;
     }
@@ -4322,8 +4322,8 @@ public class MProjectionVarianceLogic {
                                     if (perSChange.isNaN() || perSChange.isInfinite() || StringUtils.EMPTY.equals(String.valueOf(perSChange))) {
                                         perSChange = 0.0;
                                     }
-                                    String SChange = String.valueOf(perSChange);
-                                    String baseSValue = getFormattedValue(RATE_PER, SChange);
+                                    String sChange = String.valueOf(perSChange);
+                                    String baseSValue = getFormattedValue(RATE_PER, sChange);
                                     if (pvsdto.hasColumn(column)) {
                                         projDTO.addStringProperties(column, baseSValue + PERCENT);
                                         columnList.remove(column);
@@ -5142,15 +5142,15 @@ public class MProjectionVarianceLogic {
 
         public List<Object> getProjVarianceResults(final PVSelectionDTO pvsdto) {
         CommonLogic commonLogic = new CommonLogic();
-         String CCPQuery = commonLogic.insertAvailableHierarchyNo(pvsdto);
+         String ccpQuery = commonLogic.insertAvailableHierarchyNo(pvsdto);
         pvsdto.setYear("ALL");
         pvsdto.setProjectionId(pvsdto.getSession().getProjectionId());
         String query;
         if (pvsdto.isIsCustomHierarchy()) {
-            query = CCPQuery + CommonLogic.getMandatedTempCCPQueryForCOGS(pvsdto) + " \n" + getProjectionVarianceQuery(pvsdto);
+            query = ccpQuery + CommonLogic.getMandatedTempCCPQueryForCOGS(pvsdto) + " \n" + getProjectionVarianceQuery(pvsdto);
         } else {
           
-            query = CCPQuery + CommonLogic.getMandatedTempCCPQueryForCOGS(pvsdto) + " \n" + getProjectionVarianceQuery(pvsdto);
+            query = ccpQuery + CommonLogic.getMandatedTempCCPQueryForCOGS(pvsdto) + " \n" + getProjectionVarianceQuery(pvsdto);
         }
         List<Object> currentPivotDetails = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, pvsdto.getSession().getCurrentTableNames()), null, null);
         pvsdto.setProjectionId(pvsdto.getSession().getProjectionId());

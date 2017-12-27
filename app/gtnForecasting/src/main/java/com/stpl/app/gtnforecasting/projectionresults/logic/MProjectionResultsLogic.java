@@ -3173,16 +3173,16 @@ public class MProjectionResultsLogic {
         return projDTOList;
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat decFormat, String value) {
         if (value.contains(Constant.NULL)) {
             value = "0";
         } 
-        if (FORMAT.toPattern().contains(Constant.PERCENT)) {
+        if (decFormat.toPattern().contains(Constant.PERCENT)) {
             Double newValue = Double.valueOf(value);
             newValue = newValue / NumericConstants.HUNDRED;
-            value = FORMAT.format(newValue);
+            value = decFormat.format(newValue);
         }else{
-            value = FORMAT.format(Double.valueOf(value));
+            value = decFormat.format(Double.valueOf(value));
         }
         return value;
     }
@@ -3283,8 +3283,8 @@ public class MProjectionResultsLogic {
         String historyQuery = getChildTotalDiscountQuery(projSelDTO);
         projSelDTO.setFuture(true);
         String futureQuery = getChildTotalDiscountQuery(projSelDTO);
-         String CCPQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
-        String customQuery = CCPQuery + " \n" + finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
+         String ccpQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
+        String customQuery = ccpQuery + " \n" + finalSelectClause + " from (\n" + historyQuery + "\n) HISTORY FULL OUTER JOIN (\n" + futureQuery + "\n) FUTURE \n" + finalWhereCond;
         return customQuery;
     }
 
@@ -3528,8 +3528,8 @@ public class MProjectionResultsLogic {
         customSQL1 += " CCP.HIERARCHY_NO,\n"
                 + "          p.\"YEAR\"\n";
           
-          String CCPQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
-        String sql = CCPQuery + " \n" + "   select "
+          String ccpQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
+        String sql = ccpQuery + " \n" + "   select "
                 + " Isnull(HISTORY.PROGRAM_CODE,FUTURE.PROGRAM_CODE) as PROGRAM_CODE \n"
                 + ",Isnull(HISTORY.HIERARCHY_NO,FUTURE.HIERARCHY_NO) \n"
                 + ",Isnull(HISTORY.YEARS,FUTURE.YEARS) as YEARS \n"
@@ -3645,8 +3645,8 @@ public class MProjectionResultsLogic {
         String discountQuery = getDiscountTotalQuery(projSelDTO);
         String salesQuery = getProjectionResultsSalesQueryPivotForPR(projSelDTO);
         CommonLogic commonLogic = new CommonLogic();
-          String CCPQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
-        customQuery = CCPQuery + " \n" + selectClause + " from  (" + discountQuery + ") DISCOUNT  FULL  JOIN (" + salesQuery + ") SALE " + " ON DISCOUNT.YEARS = SALE.YEARS\n"
+          String ccpQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
+        customQuery = ccpQuery + " \n" + selectClause + " from  (" + discountQuery + ") DISCOUNT  FULL  JOIN (" + salesQuery + ") SALE " + " ON DISCOUNT.YEARS = SALE.YEARS\n"
                 + "  AND DISCOUNT.PERIODS = SALE.PERIODS" + "\n order by " + orderBy;
         return customQuery;
     }
