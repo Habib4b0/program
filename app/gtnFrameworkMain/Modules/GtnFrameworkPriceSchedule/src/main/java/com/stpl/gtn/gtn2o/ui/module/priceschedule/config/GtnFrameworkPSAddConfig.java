@@ -201,10 +201,10 @@ public class GtnFrameworkPSAddConfig {
 		savebtnLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_20);
 		componentList.add(savebtnLayout);
 		addSaveButtonComponent(componentList);
+        addDeleteButtonComponent(componentList);
 		addBackButtonComponent(componentList);
 		addResetButtonComponent(componentList);
-		addDeleteButtonComponent(componentList);
-
+		
 	}
 
 	private void addBackButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {

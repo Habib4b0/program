@@ -274,12 +274,12 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 			ruleDetailBean.setAdjustmentValue4itemPricingQualifier(getStringValueForNewItem(15, ruleDetail));
 			ruleDetailBean.setAdjustmentValue5itemPricingQualifier(getStringValueForNewItem(18, ruleDetail));
 
-			loadFormula(formulaList, ruleDetailBean, ruleDetail);
-
+                        loadFormula(formulaList, ruleDetailBean, ruleDetail);
+                        
 			ruleDetailBean.setItemPricingQualifierSid(getRPFormula(formulaList));
 			ruleDetailBeanList.add(ruleDetailBean);
 		}
-
+                
 	}
 
 	public void loadFormula(List<String[]> formulaList, GtnWsRebatePlanRuleDetailBean ruleDetailBean,
@@ -402,9 +402,8 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 
 	public void addDefaultValue(List<String[]> formulaList, GtnWsRebatePlanRuleDetailBean ruleDetailBean,
 			final GtnWsRecordBean ruleDetail) throws GtnFrameworkValidationFailedException {
-		String operator = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationsOperator")
-				.getCaptionFromComboBox();
-		formulaList.add(new String[] {
+		String operator = String.valueOf(ruleDetail.getProperties().get(2));
+            formulaList.add(new String[] {
 				isPercent(operator) ? getStringValue(3, ruleDetail)
 						: String.valueOf(ruleDetail.getPropertyValueByIndex(2)),
 				isPercent(operator) ? String.valueOf(ruleDetail.getPropertyValueByIndex(2))

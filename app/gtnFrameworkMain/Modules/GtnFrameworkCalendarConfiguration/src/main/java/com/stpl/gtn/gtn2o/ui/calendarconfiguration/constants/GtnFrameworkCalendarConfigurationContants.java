@@ -25,7 +25,7 @@ public class GtnFrameworkCalendarConfigurationContants {
 	public static final String CALENDAR_FIELD = "CalendarField";
 	public static final String RESULT_TABLE = "resultTable";
 	public static final String CALENDAR_SELECT_ALERT = "Please select an Existing Calendar from the Results list view";
-
+	public static final String CALENDAR_NAME_EXISTS = "Calendar Name already exists.";
 	private static final String[] CALENDAR_CONF_COLUMN = { "calendarName", "calendarDescription", "calendarYear",
 			"createdBy", "createdDate", "modifiedBy", "modifiedDate" };
 	private static final String[] CALENDAR_CONF_HEADER = { "Calendar Name", "Calendar Description", "Calendar Year",

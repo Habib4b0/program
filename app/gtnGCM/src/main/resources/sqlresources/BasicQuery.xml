@@ -556,4 +556,14 @@ SELECT
     </entity>
     
     
+    <entity id="Submit Check one Item condition">
+        <query>
+		<![CDATA[
+                
+                SELECT COUNT(*) FROM GCM_GLOBAL_DETAILS WHERE SESSION_ID = '?' AND OPERATION = '?' AND MODULE_NAME = 'ITEM_MANAGEMENT' AND CHECK_RECORD = 1;
+                
+		]]>
+        </query>
+    </entity>
+    
 </sql>
