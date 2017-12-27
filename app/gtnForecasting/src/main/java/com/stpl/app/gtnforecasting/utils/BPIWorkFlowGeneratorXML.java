@@ -7,22 +7,27 @@ package com.stpl.app.gtnforecasting.utils;
 
 import java.util.HashMap;
 import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.jboss.logging.Logger;
+import org.w3c.dom.DOMException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -135,7 +140,7 @@ public class BPIWorkFlowGeneratorXML {
                 }
                 
             }
-        } catch (Exception e) {
+        } catch (IOException | ParserConfigurationException | DOMException | SAXException e) {
             LOGGER.error(e);
         }
         
@@ -276,7 +281,7 @@ public class BPIWorkFlowGeneratorXML {
                 }
                 
             }
-        } catch (Exception e) {
+        } catch (IOException | ParserConfigurationException | TransformerException | DOMException | SAXException e) {
             LOGGER.error(e);
         }
         

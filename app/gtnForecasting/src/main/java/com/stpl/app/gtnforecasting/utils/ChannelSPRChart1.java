@@ -35,19 +35,19 @@ public class ChannelSPRChart1 {
     /**
      * The annual.
      */
-    public static final String annual = "Annual";
+    public static final String ANNUAL = "Annual";
     /**
      * The semi annual.
      */
-    public static final String semiAnnual = "semi-Annual";
+    public static final String SEMI_ANNUAL = "semi-Annual";
     /**
      * The month.
      */
-    public static final String month = "monthly";
+    public static final String MONTH = "monthly";
     /**
      * The quarter.
      */
-    public static final String quarter = "quarterly";
+    public static final String QUARTER = "quarterly";
     /**
      * The dto.
      */
@@ -61,12 +61,12 @@ public class ChannelSPRChart1 {
      */
     private static String history;
 
-    CustomTableHeaderDTO rightDto;
+    protected CustomTableHeaderDTO rightDto;
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(SPRChart.class);
-    ProjectionSelectionDTO projSelDTO;
+    protected ProjectionSelectionDTO projSelDTO;
 
     /**
      * The Constructor.

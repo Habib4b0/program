@@ -158,6 +158,19 @@ public class GtnWsItemMasterAddCotroller {
 			logger.info(GtnFrameworkWebserviceConstant.EXIT_DELETE_ITEM_MASTER);
 		}
 	}
+	
+	@PostMapping(value = GtnWsItemMasterContants.GTN_WS_PRICING_DELETE_SERVICE)
+	public GtnUIFrameworkWebserviceResponse deletePricingData(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest){
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			addWebservice.deletePricingData(gtnWsRequest);
+			gtnResponse.getGtnWsGeneralResponse().setSucess(true);
+			return gtnResponse;
+		}catch(Exception e){
+			gtnResponse.getGtnWsGeneralResponse().setSucess(false);
+			return gtnResponse;
+		}
+	}
 
 	@PostMapping(value = GtnWsItemMasterContants.GTN_WS_PRICING_TABLE_LOAD_SERVICE)
 	public GtnUIFrameworkWebserviceResponse loadItemPricing(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {

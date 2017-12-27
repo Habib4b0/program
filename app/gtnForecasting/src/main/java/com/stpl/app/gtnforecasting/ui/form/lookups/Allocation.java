@@ -40,6 +40,7 @@ import com.vaadin.server.ThemeResource;
 import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.vaadin.data.Property;
 import com.vaadin.ui.HorizontalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -445,7 +446,7 @@ public class Allocation extends CustomComponent implements View {
 
                     }
                     
-                } catch (Exception e) {
+                } catch (Property.ReadOnlyException e) {
                     LOGGER.error(e);
                 }
 
@@ -926,7 +927,10 @@ public class Allocation extends CustomComponent implements View {
         String from_val = session.getAltFromPeriod();
         String to_val = session.getAltToPeriod();
         String frequency_val = this.frequency.getValue().toString();
-        int startFrom, yearFrom, startTo, yearTo;
+        int startFrom;
+        int yearFrom;
+        int startTo;
+        int yearTo;
 
         if (Constant.ANNUALLY.equalsIgnoreCase(frequency_val)) {
             startFrom = 0;

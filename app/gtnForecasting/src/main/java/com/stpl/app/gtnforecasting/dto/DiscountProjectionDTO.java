@@ -42,8 +42,8 @@ public class DiscountProjectionDTO extends ExtMapDTO {
      * The product hierarchy Number
      */
     private String productHierarchyNo = StringUtils.EMPTY;
-    
-     /**
+
+    /**
      * The product hierarchy Number
      */
     private String deductionHierarchyNo = StringUtils.EMPTY;
@@ -60,19 +60,19 @@ public class DiscountProjectionDTO extends ExtMapDTO {
     /**
      * The tree level No
      */
-    Integer treeLevelNo = 0;
+    private Integer treeLevelNo = 0;
 
     /**
      * The Parent hierarchy Indicator
      */
-    String hierarchyIndicator = StringUtils.EMPTY;
+    private String hierarchyIndicator = StringUtils.EMPTY;
     private String hierarchyLevel = "empty";
-     private List<DiscountProjectionDTO> alternatePivotList;
-    private String parentAlternatePivot= StringUtils.EMPTY;
-    
-    private GtnSmallHashMap ccpCountForDiscount=new GtnSmallHashMap();
+    private List<DiscountProjectionDTO> alternatePivotList;
+    private String parentAlternatePivot = StringUtils.EMPTY;
+
+    private GtnSmallHashMap ccpCountForDiscount = new GtnSmallHashMap();
     private String parentHierarchyNo = StringUtils.EMPTY;
-    
+
     public String getGroup() {
         return group;
     }
@@ -184,7 +184,8 @@ public class DiscountProjectionDTO extends ExtMapDTO {
     public void setHierarchyLevel(String hierarchyLevel) {
         this.hierarchyLevel = hierarchyLevel;
     }
-  public List<DiscountProjectionDTO> getAlternatePivotList() {
+
+    public List<DiscountProjectionDTO> getAlternatePivotList() {
         return alternatePivotList;
     }
 
@@ -231,5 +232,5 @@ public class DiscountProjectionDTO extends ExtMapDTO {
     public void setDeductionInclusion(String deductionInclusion) {
         this.deductionInclusion = deductionInclusion;
     }
-    
+
 }

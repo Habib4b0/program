@@ -55,6 +55,8 @@ import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import com.stpl.ifs.util.CommonUtil;
+import java.io.IOException;
+import org.json.JSONException;
 
 /**
  *
@@ -124,11 +126,11 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     /**
      * The move back.
      */
-    public static final String moveBack = "../";
+    public static final String MOVE_BACK = "../";
     /**
      * The file path.
      */
-    protected final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + "National Assumptions");
+    protected final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + MOVE_BACK + MOVE_BACK + MOVE_BACK + File.separator + "Documents" + File.separator + "National Assumptions");
     protected List<String> notesList = new ArrayList<>();
     protected List<String> wordList = new ArrayList<>();
     protected int projectionId = 0;
@@ -299,7 +301,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
                         uploader.setValue(StringUtils.EMPTY);
                         fileNameField.setValue(StringUtils.EMPTY);
                     }
-                } catch (Exception ex) {
+                } catch (Property.ReadOnlyException | JSONException ex) {
                     LOGGER.error(ex);
                 }
                 uploader.focus();
@@ -485,14 +487,14 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         if (wordFile.exists() != true) {
             try {
                 wordFile.createNewFile();
-            } catch (Exception ex) {
+            } catch (IOException ex) {
                 LOGGER.error(ex);
             }
         }
         if (pdfFile.exists() != true) {
             try {
                 pdfFile.createNewFile();
-            } catch (Exception ex) {
+            } catch (IOException ex) {
                 LOGGER.error(ex);
             }
         }
@@ -795,7 +797,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
                 internalNotes.setEnabled(false);
                 newNote.setValue(StringUtils.EMPTY);
             }
-        } catch (Exception e) {
+        } catch (SystemException | Property.ReadOnlyException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("Ends of AdditionalInformation setValues Method");

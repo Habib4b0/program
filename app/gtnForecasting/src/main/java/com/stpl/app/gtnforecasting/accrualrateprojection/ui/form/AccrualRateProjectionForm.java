@@ -68,7 +68,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 import org.jboss.logging.Logger;
 import org.kie.api.runtime.process.ProcessInstance;
@@ -82,9 +81,9 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
     private static final Logger LOGGER = Logger.getLogger(AccrualRateProjectionForm.class);
 
-    public final Sales sales;
+    public Sales sales;
 
-    public final Rates rates;
+    private final Rates rates;
 
     private final Details details;
 
@@ -96,20 +95,19 @@ public class AccrualRateProjectionForm extends AbstractForm {
     /**
      * Seesion DTO
      */
-    SessionDTO session;
-    String screenName;
-    DataSelectionForm dataSelectionForm;
-    DSLogic dsLogic = new DSLogic();
+    private final SessionDTO session;
+    private final String screenName;
+    private final DataSelectionForm dataSelectionForm;
+    private final DSLogic dsLogic = new DSLogic();
     private final Button nextBtn = new Button(BTN_NEXT.getConstant());
     private final Button prevBtn = new Button(BTN_PREVIOUS.getConstant());
     private final Button refreshBtn = new Button("REFRESH");
 
     private int tabPosition;
     private int lastPosition;
-    boolean isRatesLoaded;
-    boolean isDetailsLoaded;
-    boolean heirarchySaved = false;
-    public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
+    private boolean isRatesLoaded;
+    private boolean isDetailsLoaded;
+    private boolean heirarchySaved = false;
 
     TabSheet.SelectedTabChangeListener tabChangeListener = new TabSheet.SelectedTabChangeListener() {
         @Override
@@ -350,7 +348,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     CommonUIUtils.getMessageNotification("The projection not approved properly");
                                 }
                                 CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
-                            } catch (Exception ex) {
+                            } catch (NumberFormatException ex) {
                                 LOGGER.error(ex);
                             }
                         }
@@ -400,7 +398,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     CommonUIUtils.getMessageNotification("The projection not rejected properly");
                                 }
                                 CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
-                            } catch (Exception ex) {
+                            } catch (NumberFormatException ex) {
                                 LOGGER.error(ex);
                             }
                         }
@@ -449,7 +447,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     CommonUIUtils.getMessageNotification("The projection not withdrawn properly");
                                 }
                                 CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
-                            } catch (Exception ex) {
+                            } catch (NumberFormatException ex) {
                                 LOGGER.error(ex);
                             }
                         }
@@ -499,7 +497,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                 } else {
                                     CommonUIUtils.getMessageNotification("The projection not cancelled properly");
                                 }
-                            } catch (Exception ex) {
+                            } catch (NumberFormatException ex) {
                                 LOGGER.error(ex);
                             }
                         }
@@ -603,7 +601,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             dsLogic.saveAccrualTab(session, latch);
             try {
                 latch.await();
-            } catch (Exception ex) {
+            } catch (InterruptedException ex) {
                 LOGGER.error(ex);
             }
             sales.saveTabSelection();
@@ -816,7 +814,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             if (!noOfUsers.isEmpty()) {
                 workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex);
         }
         return workflowId;

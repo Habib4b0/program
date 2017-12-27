@@ -354,7 +354,7 @@ public class FcpResultsLogic {
                 }
 
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         for (String columns : columnList) {
@@ -477,7 +477,7 @@ public class FcpResultsLogic {
                 projDTOList.add(tableDTO);
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         return projDTOList;
@@ -559,7 +559,7 @@ public class FcpResultsLogic {
             if (nonFampList != null) {
                 projDTOList = getCustomizedNonFamp(nonFampList, projSelDTO);
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("getNonFamp method ends ");
@@ -778,7 +778,7 @@ public class FcpResultsLogic {
             Map<String, String> priceTypeList = queryUtil.getFcpPriceTypeNameDynamic("FCP");
             projDTOList = getCustFcpWorksheetChild(projSelDTO, fcpQtrList, fcpYearlist, priceTypeList);
 
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("getFcpWorksheetChild method ends ");
@@ -861,7 +861,7 @@ public class FcpResultsLogic {
             List<Object[]> fcpYearlist = queryUtil.loadFCPWorksheet(session, ndcSid, true, projSelDTO.isAdjust());
             Map<String, String> priceTypeList = queryUtil.getFcpPriceTypeNameDynamic("FCP");
             projDTOList = getCustomizedFcpWorksheet(projSelDTO, fcpQtrList, fcpYearlist, priceTypeList);
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("getFcpWorksheet method ends ");
@@ -994,7 +994,7 @@ public class FcpResultsLogic {
             if (!medicaidIndex.isEmpty()) {
                 count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? String.valueOf(medicaidIndex.get(0)) : Constant.DASH);
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         return count;

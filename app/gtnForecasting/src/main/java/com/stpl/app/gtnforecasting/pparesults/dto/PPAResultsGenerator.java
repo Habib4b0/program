@@ -66,7 +66,7 @@ public class PPAResultsGenerator implements ExtFilterGenerator {
                 groupDdlb.addStyleName(Constant.FILTER_COMBOBOX);
                 groupDdlb.setPageLength(NumericConstants.SEVEN);
                 return groupDdlb;
-            } catch (Exception ex) {
+            } catch (UnsupportedOperationException ex) {
                 LOGGER.error(ex);
             }
         }

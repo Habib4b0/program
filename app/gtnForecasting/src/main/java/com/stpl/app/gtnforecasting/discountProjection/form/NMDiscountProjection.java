@@ -610,7 +610,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 							getUI().addWindow(alternateContractLookup);
 						} else {
 						}
-					} catch (Exception ex) {
+					} catch (IllegalArgumentException | NullPointerException ex) {
 						LOGGER.error(ex);
 					}
 				} else {
@@ -992,7 +992,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				return true;
 			}
 			viewValueChangeLogic();
-		} catch (Exception e) {
+		} catch (Property.ReadOnlyException | NumberFormatException e) {
 			LOGGER.error(e);
 		}
 		return false;
@@ -1417,7 +1417,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                         resultsTable.setTripleHeaderVisible(true);
 				}
 			}
-		} catch (Exception e) {
+		} catch (Property.ReadOnlyException | IllegalStateException | UnsupportedOperationException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -1645,7 +1645,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			checkValue = (Boolean) dto.getPropertyValue(Constant.CHECKRECORD);
 			hierarchyNo = dto.getHierarchyNo();
 			List<String> customViewDetails = new ArrayList<>();
-                        String discountIds = CommonUtils.collectionToString(checkedDiscountsPropertyIds, false);
+                        String discountIds = CommonUtils.convertCollectionToString(checkedDiscountsPropertyIds, false);
 			if (isCustomHierarchy) {
 				for (int i = 0; i < count; i++) {
 					customViewDetails = new ArrayList<>();
@@ -1981,7 +1981,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						"Please select which levels in the list view the Mass Update applies to. \n" + "AND/OR "
 								+ "Please select which discount this Mass Update applies to. ");
 			}
-		} catch (Exception e) {
+		} catch (Property.ReadOnlyException e) {
 			LOGGER.error(e);
 
 		}
@@ -2850,7 +2850,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				NotificationUtils.getErrorNotification("No Allocation Methodology selected",
 						"Please select an Allocation Methodology");
 			}
-		} catch (Exception e) {
+		} catch (Property.ReadOnlyException e) {
 		}
 	}
 
@@ -3027,7 +3027,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatter);
 				excel.export();
 			}
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
 			LOGGER.error(e);
 		}
 		LOGGER.debug("excel ends");
@@ -3511,7 +3511,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			loadGroupDdlb();
 			loadGroupFilterDdlb();
 
-		} catch (Exception e) {
+		} catch (NumberFormatException | UnsupportedOperationException e) {
 			LOGGER.debug(e);
 		}
 		LOGGER.debug("Exiting loadTreeTable ");
@@ -3663,7 +3663,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 								}
 							}
 						}
-					} catch (Exception e) {
+					} catch (Property.ReadOnlyException e) {
 						LOGGER.error(e);
 
 					}
@@ -4214,11 +4214,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private boolean checkHistorySelectedCount(int i) {
 		List<String> periodCalc = new ArrayList<>();
 		for (Object key : tripleHeaderForCheckedDoubleHeader.keySet()) {
-			Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader
+			Map<String, List<String>> checkDoubleHeader = tripleHeaderForCheckedDoubleHeader
 					.get(String.valueOf(key));
-			if (checkedDoubleHeaders != null) {
-				List<String> checkedHistoryList = checkedDoubleHeaders.get("H");
-				List<String> checkedProjList = checkedDoubleHeaders.get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
+			if (checkDoubleHeader != null) {
+				List<String> checkedHistoryList = checkDoubleHeader.get("H");
+				List<String> checkedProjList = checkDoubleHeader.get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
 				if (checkedHistoryList != null) {
 					periodCalc.addAll(checkedHistoryList);
 				}
@@ -4256,11 +4256,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private boolean checkHistorySelectedCountCustom(int i) {
 		List<String> periodCalc = new ArrayList<>();
 		for (Object key : tripleHeaderForCheckedDoubleHeaderCustom.keySet()) {
-			Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeaderCustom
+			Map<String, List<String>> checkDoubleHeader = tripleHeaderForCheckedDoubleHeaderCustom
 					.get(String.valueOf(key));
-			if (checkedDoubleHeaders != null) {
-				List<String> checkedHistoryList = checkedDoubleHeaders.get("H");
-				List<String> checkedProjList = checkedDoubleHeaders.get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
+			if (checkDoubleHeader != null) {
+				List<String> checkedHistoryList = checkDoubleHeader.get("H");
+				List<String> checkedProjList = checkDoubleHeader.get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
 				if (checkedHistoryList != null) {
 					periodCalc.addAll(checkedHistoryList);
 				}
@@ -4301,9 +4301,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		tripleHeaderForCheckedDoubleHeader.keySet().iterator();
 		checkedList = new ArrayList<>();
 		for (String d : tripleHeaderForCheckedDoubleHeader.keySet()) {
-			Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(d);
-			for (String e : checkedDoubleHeaders.keySet()) {
-				List a = checkedDoubleHeaders.get(e);
+			Map<String, List<String>> checkDoubleHeader = tripleHeaderForCheckedDoubleHeader.get(d);
+			for (String e : checkDoubleHeader.keySet()) {
+				List a = checkDoubleHeader.get(e);
 				if (checkedList.size() > 0 && a.size() > 0 && !isOne) {
 					ismultipleDiscount = true;
 					break;
@@ -4468,13 +4468,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	public boolean baseLineCalc(String startPeriod, String endPeriod) {
 		boolean retval = true;
-		Map<String, List<String>> checkedDoubleHeaders = null;
+		Map<String, List<String>> checkDoubleHeader = null;
 		for (Object key : tripleHeaderForCheckedDoubleHeader.keySet()) {
-			checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(String.valueOf(key));
+			checkDoubleHeader = tripleHeaderForCheckedDoubleHeader.get(String.valueOf(key));
 		}
-		if (checkedDoubleHeaders != null) {
-			List<String> checkedHistoryList = checkedDoubleHeaders.get("H");
-			List<String> checkedProjList = checkedDoubleHeaders.get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
+		if (checkDoubleHeader != null) {
+			List<String> checkedHistoryList = checkDoubleHeader.get("H");
+			List<String> checkedProjList = checkDoubleHeader.get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
 			GtnSmallHashMap monthMap = new GtnSmallHashMap();
 			int defval = 0;
 			String frequency = String.valueOf(frequencyDdlb.getValue().toString()).trim();
@@ -4497,7 +4497,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			}
 			if (!overall.isEmpty()) {
 				int[] year = new int[overall.size()];
-				String tempYear = StringUtils.EMPTY, tempSubYear = StringUtils.EMPTY;
+				String tempYear = StringUtils.EMPTY;
+                                String tempSubYear = StringUtils.EMPTY;
 				for (int i = 0; i < overall.size(); i++) {
 					if (defval == NumericConstants.TWO || defval == NumericConstants.FOUR) {
 						tempYear = overall.get(i).trim().substring(NumericConstants.TWO);
@@ -4523,8 +4524,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 				}
 				Arrays.sort(year);
-				String startTempYear = StringUtils.EMPTY, startTempSubYear = StringUtils.EMPTY;
-				String endTempYear = StringUtils.EMPTY, endTempSubYear = StringUtils.EMPTY;
+				String startTempYear = StringUtils.EMPTY;
+                                String startTempSubYear = StringUtils.EMPTY;
+				String endTempYear = StringUtils.EMPTY;
+                                String endTempSubYear = StringUtils.EMPTY;
 				if (defval == NumericConstants.TWO || defval == NumericConstants.FOUR) {
 					startTempYear = startPeriod.trim().substring(NumericConstants.TWO);
 					startTempSubYear = startPeriod.replace(startTempYear, StringUtils.EMPTY).trim();
@@ -4541,7 +4544,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					startTempYear = startPeriod.trim();
 					endTempYear = endPeriod.trim();
 				}
-				String subYear2 = StringUtils.EMPTY, subYear3 = StringUtils.EMPTY;
+				String subYear2 = StringUtils.EMPTY;
+                                String subYear3 = StringUtils.EMPTY;
 				if (defval == NumericConstants.TWO) {
 					subYear2 = startTempSubYear.replace(Constant.S, StringUtils.EMPTY);
 					subYear3 = endTempSubYear.replace(Constant.S, StringUtils.EMPTY);
@@ -4554,7 +4558,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				}
 				String startfullYear = startTempYear + subYear2;
 				String endfullYear = endTempYear + subYear3;
-				int finStartPeriod = 0, finEndPeriod = 0;
+				int finStartPeriod = 0;
+                                int finEndPeriod = 0;
 				finStartPeriod = Integer.valueOf(startfullYear.trim());
 				finEndPeriod = Integer.valueOf(endfullYear.trim());
 				if (year[year.length - 1] > finEndPeriod) {
@@ -4573,13 +4578,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	private boolean rollingAnnualTrendCount() {
 		boolean retval = true;
-		Map<String, List<String>> checkedDoubleHeaders = null;
+		Map<String, List<String>> checkDoubleHeader = null;
 		for (Object key : tripleHeaderForCheckedDoubleHeader.keySet()) {
-			checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(String.valueOf(key));
+			checkDoubleHeader = tripleHeaderForCheckedDoubleHeader.get(String.valueOf(key));
 		}
-		if (checkedDoubleHeaders != null) {
-			List<String> checkedHistoryList = checkedDoubleHeaders.get("H");
-			List<String> checkedProjList = checkedDoubleHeaders.get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
+		if (checkDoubleHeader != null) {
+			List<String> checkedHistoryList = checkDoubleHeader.get("H");
+			List<String> checkedProjList = checkDoubleHeader.get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
 			GtnSmallHashMap monthMap = new GtnSmallHashMap();
 			int defval = 0;
 			String frequency = String.valueOf(frequencyDdlb.getValue().toString()).trim();
@@ -4623,7 +4628,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				String subYear1 = StringUtils.EMPTY;
 				int[] year = new int[overall.size()];
 				int[] Quarter = new int[overall.size()];
-				String tempYear = StringUtils.EMPTY, tempSubYear = StringUtils.EMPTY;
+				String tempYear = StringUtils.EMPTY;
+                                String tempSubYear = StringUtils.EMPTY;
 				for (int i = 0; i < overall.size(); i++) {
 					if (defval == NumericConstants.TWO || defval == NumericConstants.FOUR) {
 						tempYear = overall.get(i).trim().substring(NumericConstants.TWO);
@@ -4672,13 +4678,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	private boolean exFactoryMethodologyCheck() {
 		boolean retval = true;
-		Map<String, List<String>> checkedDoubleHeaders = null;
+		Map<String, List<String>> checkDoubleHeader = null;
 		for (Object key : tripleHeaderForCheckedDoubleHeader.keySet()) {
-			checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(String.valueOf(key));
+			checkDoubleHeader = tripleHeaderForCheckedDoubleHeader.get(String.valueOf(key));
 		}
-		if (checkedDoubleHeaders != null) {
-			List<String> checkedHistoryList = checkedDoubleHeaders.get("H");
-			List<String> checkedProjList = checkedDoubleHeaders.get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
+		if (checkDoubleHeader != null) {
+			List<String> checkedHistoryList = checkDoubleHeader.get("H");
+			List<String> checkedProjList = checkDoubleHeader.get(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
 			GtnSmallHashMap monthMap = new GtnSmallHashMap();
 			int defval = 0;
 			String frequency = String.valueOf(frequencyDdlb.getValue().toString()).trim();

@@ -25,14 +25,14 @@ import org.apache.poi.ss.util.CellUtil;
  */
 public class CustomExcelNM extends ExcelExport {
 
-    Map<String, String> formatter = null;
-    final CellStyle style1 = this.workbook.createCellStyle();
-    final CellStyle style2 = this.workbook.createCellStyle();
-    final CellStyle style3 = this.workbook.createCellStyle();
-    final CellStyle style4 = this.workbook.createCellStyle();
-    final CellStyle style5 = this.workbook.createCellStyle();
-    final CellStyle style6 = this.workbook.createCellStyle();
-    DataFormat hssfDataFormat = this.workbook.createDataFormat();
+    protected Map<String, String> formatter = null;
+    protected final CellStyle style1 = this.workbook.createCellStyle();
+    protected final CellStyle style2 = this.workbook.createCellStyle();
+    protected final CellStyle style3 = this.workbook.createCellStyle();
+    protected final CellStyle style4 = this.workbook.createCellStyle();
+    protected final CellStyle style5 = this.workbook.createCellStyle();
+    protected final CellStyle style6 = this.workbook.createCellStyle();
+    protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
 
 
     public CustomExcelNM(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter) {

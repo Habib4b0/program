@@ -182,12 +182,12 @@ public class GtnFrameworkIfpAddConfig {
 		gtnLayout.setSpacing(true);
 		gtnLayout.setMargin(true);
 		gtnLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_PADDING_20);
-		componentList.add(gtnLayout);
-		addBackButtonComponent(componentList);
+		componentList.add(gtnLayout);		
 		addSaveButtonComponent(componentList);
+        addDeleteButtonComponent(componentList);
+        addBackButtonComponent(componentList);
 		addResetButtonComponent(componentList);
-		addDeleteButtonComponent(componentList);
-
+		
 	}
 
 	private void addBackButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {

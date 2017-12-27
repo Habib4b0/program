@@ -17,6 +17,8 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TextField;
@@ -253,7 +255,7 @@ public class ProductGroupLookup extends Window {
             } else {
                 resetTable.setVisible(false);
             }
-        } catch (Exception system) {
+        } catch (PortalException | SystemException system) {
             LOGGER.error(system);
         }
 

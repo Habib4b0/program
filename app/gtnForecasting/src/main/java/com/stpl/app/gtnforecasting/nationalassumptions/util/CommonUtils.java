@@ -68,22 +68,22 @@ public class CommonUtils {
     /**
      * The current year.
      */
-    static int currentYear;
+    protected static int currentYear;
 
     /**
      * The current month.
      */
-    static int currentMonth;
+    protected static int currentMonth;
 
     /**
      * The current quarter.
      */
-    static int currentQuarter;
+    protected static int currentQuarter;
 
     /**
      * The current semi.
      */
-    static int currentSemi;
+    protected static int currentSemi;
 
     /**
      * The current date.
@@ -93,7 +93,7 @@ public class CommonUtils {
     public static final String GLCOMP = "GLCOMP";
     public static final char CHAR_PERCENT = '%';
     public static final char CHAR_ASTERISK = '*';
-   public static final String PERCENT = "%";
+    public static final String PERCENT = "%";
     public static final String DOLLAR = "$";
     /** UserMap - Contains User System ID and User Name */
     public static Map<Integer,String> userMap=new ConcurrentHashMap<>();  
@@ -109,8 +109,8 @@ public class CommonUtils {
     
     public static String specialCharacter_Message="Value can contain only digits,alphabets";
        
-     public static SessionDTO sessionDto=new SessionDTO();
-     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
+    public static SessionDTO sessionDto=new SessionDTO();
+    public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     
     /**
      * Creates the clara.

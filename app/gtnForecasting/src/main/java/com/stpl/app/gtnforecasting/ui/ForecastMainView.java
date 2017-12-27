@@ -12,6 +12,8 @@ import com.stpl.app.gtnforecasting.utils.HelperListUtil;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -80,7 +82,7 @@ public class ForecastMainView extends VerticalLayout implements View {
         }
         try {
             addComponent(new DataSelectionForm(dataSelectionBinder, dataSelectionDTO, screenName));
-        } catch (Exception exception) {
+        } catch (PortalException | SystemException exception) {
             LOGGER.error(exception.getMessage());
         }
     } // Ends here

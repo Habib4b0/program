@@ -15,9 +15,9 @@ import com.vaadin.data.Container.Filter;
 public class DataSelectionSearchCriteria implements BeanSearchCriteria {
 
  
-	Set<Filter> filters;
-	int lastCount;
-	boolean dirty;
+	private Set<Filter> filters;
+	private int lastCount;
+	private boolean dirty;
 	
 	@Override
 	public Set<Filter> getFilters() {

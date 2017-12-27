@@ -332,4 +332,25 @@ public class GtnWsCalendarConfigurationLogic {
 			throw new GtnFrameworkGeneralException("Exception in getCalendarConfigurationHolidays", e);
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public void getCalendarConfigurationCalendarName(GtnWsCalendarConfigurationRequest ccRequest,
+			GtnWsCalendarConfigurationResponse ccResponse) throws GtnFrameworkGeneralException {
+		ccResponse.setSuccess(true);
+		String calendarName=ccRequest.getCalendarName();
+		boolean calendarNameAlreadyExists=false;
+		try (Session session = getController().getSessionFactory().openSession()) {
+			Criteria cr = session.createCriteria(CalendarConfigMaster.class);
+			List<CalendarConfigMaster> resultList = cr.list();
+			for (CalendarConfigMaster calendarConfigMaster : resultList) {
+				if(calendarName.equalsIgnoreCase(calendarConfigMaster.getCalendarName())){
+					calendarNameAlreadyExists=true;
+					break;
+				}
+			}
+			ccResponse.setCalendarNameExists(calendarNameAlreadyExists);
+		} catch (Exception e) {
+			throw new GtnFrameworkGeneralException("Exception in getCalendarConfigurationHolidays", e);
+		}
+	}
 }

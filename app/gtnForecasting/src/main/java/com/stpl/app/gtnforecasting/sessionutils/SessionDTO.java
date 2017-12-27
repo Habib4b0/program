@@ -121,11 +121,11 @@ public class SessionDTO implements Serializable {
     private String screenName = StringUtils.EMPTY;
     private int customId;
     private Set<String> salesgroupSet;
-    boolean sprRefreshReqd = false;
-    boolean isProgramCategory = true;
+    private boolean sprRefreshReqd = false;
+    private boolean isProgramCategory = true;
     private Set<String> discountgroupSet;
     private List<List<String>> discountRSlist = new ArrayList<>();
-    boolean discountRSlistUpdated = false;
+    private boolean discountRSlistUpdated = false;
     private List<List<String>> discountlist = new ArrayList<>();
     private List<CustomViewMaster> customerViewList = new ArrayList<>();
     private final List<Thread> threadList = new ArrayList<>();
@@ -138,8 +138,8 @@ public class SessionDTO implements Serializable {
     private boolean prRefreshReqd = false;
     private int maximumCustomerLevel;
     private int maximumProductLevel;
-    List<String> selectedCustomerRelationSid;
-    List<String> selectedProductRelationSid;
+    protected List<String> selectedCustomerRelationSid;
+    protected List<String> selectedProductRelationSid;
     private String currentActiveFile = null;
     private String fileName = StringUtils.EMPTY;
     private String fileType = StringUtils.EMPTY;
@@ -158,7 +158,7 @@ public class SessionDTO implements Serializable {
     private boolean actualAdjustment = false;
     private String actualAdjustmentPeriods = StringUtils.EMPTY;
     private boolean isDeductionCustom = false;
-    List<String> selectedRsForCustom;
+    protected List<String> selectedRsForCustom;
     private int selectedDeductionLevelNo;
     private int selectedDeductionLevelNoPv;
     private int customerLastLevelNo;
