@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
-import com.google.gwt.json.client.JSONException;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUIUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -192,7 +191,7 @@ public class WorkFlowNotesLookup extends Window {
                         uploader.setValue(StringUtils.EMPTY);
                         fileNameField.setValue(StringUtils.EMPTY);
                     }
-                } catch (Property.ReadOnlyException | JSONException ex) {
+                } catch (Property.ReadOnlyException ex) {
                     LOGGER.error(ex);
                 }
                 uploader.focus();

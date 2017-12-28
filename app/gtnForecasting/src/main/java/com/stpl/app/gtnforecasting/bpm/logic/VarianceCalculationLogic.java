@@ -1,7 +1,15 @@
 package com.stpl.app.gtnforecasting.bpm.logic;
 
+import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.form.ForecastForm;
-import java.util.Map;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastConstants;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastProjectionSubmitRequest;
+import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsForecastProjectionSubmitBean;
 
 public class VarianceCalculationLogic {
 
@@ -12,28 +20,23 @@ public class VarianceCalculationLogic {
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(VarianceCalculationLogic.class);
 
-    public static void submitWorkflow(final String userId, final Long processInstanceId, final Map<String, Object> params) {
-//        try {
-//            User user = UserLocalServiceUtil.getUser(Long.parseLong(userId));
-//
-//            TaskSummary task = BPMProcessBean.getAvailableTask(processInstanceId);
-//            LOGGER.info("task.getName() :" + task.getName());
-//            LOGGER.info("task.getId() :" + task.getId());
-//            LOGGER.info("task.getActualOwnerId() :" + task.getActualOwnerId());
-//            LOGGER.info("user.getScreenName() : " + user.getScreenName());
-//            if (task.getActualOwnerId() != null && !task.getActualOwnerId().equals(user.getScreenName())) {
-//                BPMProcessBean.claimTask(task.getId(), task.getActualOwnerId(), user.getScreenName());
-//                LOGGER.info("Claiming the " + task.getActualOwnerId() + " to :" + user.getScreenName());
-//            }
-//            if (task.getStatus().equals(Status.InProgress)) {
-//                BPMProcessBean.completeTask(task.getId(), user.getScreenName(), params);
-//            } else {
-//                BPMProcessBean.startTask(task.getId(), user.getScreenName());
-//                BPMProcessBean.completeTask(task.getId(), user.getScreenName(), params);
-//            }
-//        } catch (Exception e) {
-//            LOGGER.error(e);
-//        }
+    public static void submitWorkflow(final Long processInstanceId, final SessionDTO session,String moduleName) {
+        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsForecastProjectionSubmitRequest submitRequest = new GtnWsForecastProjectionSubmitRequest();
+        GtnWsForecastProjectionSubmitBean submitBean = new GtnWsForecastProjectionSubmitBean();
+        submitBean.setProcessId(processInstanceId);
+        submitBean.setProjectionId(session.getProjectionId());
+        submitBean.setModuleName(moduleName);
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setUserId(session.getUserId());
+        generalRequest.setSessionId(session.getSessionId());
+        submitRequest.setGtnWsForecastProjectionSubmitBean(submitBean);
+        submitRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnUIFrameworkWebserviceRequest.setGtnWsForecastProjectionSubmitRequest(submitRequest);
+         new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsForecastConstants.GTN_WS_FORECAST_WORKFLOW_SERVICE
+                + GtnWsForecastConstants.GTN_WS_FORECAST_SUBMIT_WORKFLOW,
+                GtnFrameworkCommonStringConstants.GTN_BPM, gtnUIFrameworkWebserviceRequest, RelationShipFilterLogic.getGsnWsSecurityToken());
     }
 
 }

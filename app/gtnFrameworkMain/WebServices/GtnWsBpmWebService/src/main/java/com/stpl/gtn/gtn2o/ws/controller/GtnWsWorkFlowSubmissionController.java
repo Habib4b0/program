@@ -122,7 +122,7 @@ public class GtnWsWorkFlowSubmissionController {
 
 		String workflowId = "";
 		List<ForecastingRulesDTO> list = workflowLogicService.getProjectionValues(
-				forecastProjectionSubmitBean.getProjectionId(), forecastProjectionSubmitBean.getModuleName());
+				forecastProjectionSubmitBean.getProjectionId(), forecastProjectionSubmitBean.getModuleName(),null,null);
 		try {
 			for (ForecastingRulesDTO forecastingRulesDTO : list) {
 				params.put("out_" + forecastingRulesDTO.getVariableName(), forecastingRulesDTO);

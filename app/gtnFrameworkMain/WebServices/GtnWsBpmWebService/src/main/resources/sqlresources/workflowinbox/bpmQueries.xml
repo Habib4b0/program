@@ -1,7 +1,8 @@
-<?xml version="1.0"?>
-<custom-sql>
-    <sql id="getProjectionRecords">
-		<![CDATA[
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sql>
+<entity id="getProjectionRecords">
+<query> <![CDATA[
+		
 			
 DECLARE @CNT                   INT=0,
         @I                     INT=1,
@@ -597,11 +598,12 @@ SELECT Isnull(Min(DIFF_SALES), 0)         AS MIN_DIFF_SALES,
        Isnull(Max([DIFF_NETPROFIT_%]), 0) AS [MAX_DIFF_NETPROFIT_%]
 FROM   @TEMP_MIN_MAX
 
-		]]>
-    </sql>
-
-    <sql id="getProjectionRecordsForAccrual">
-		<![CDATA[
+		
+    ]]> </query>
+</entity>
+<entity id="getProjectionRecordsForAccrual">
+<query> <![CDATA[
+		
        DECLARE @CNT                   INT=0,
         @I                     INT=1,
         @PROJECTION_MASTER_SID INT,
@@ -796,13 +798,12 @@ SELECT ISNULL(Min(DIFF_AMOUNT), 0)     AS MIN_DIFF_AMOUNT,
        ISNULL(Max([DIFF_RATE_%]), 0)   AS [MAX_DIFF_RATE_%]
 FROM   @TEMP_MIN_MAX 
 
-                ]]>
-    </sql>
-
-
-
-    <sql id="getProjectionRecordsForReturns">
-        <![CDATA[
+                
+    ]]> </query>
+</entity>
+<entity id="getProjectionRecordsForReturns">
+<query> <![CDATA[
+        
             DECLARE @PROJECTION INT=?
             DECLARE @TEMP_MASTER AS TABLE
               (
@@ -950,8 +951,7 @@ FROM   @TEMP_MIN_MAX
                    ISNULL(Max([DIFF_RETURN_PERCENT_%]), 0) AS [MAX_DIFF_RETURN_PERCENT_%]
             FROM   @TEMP_MIN_MAX 
 
-                ]]>
-    </sql>
-</custom-sql>
-
-
+                
+    ]]> </query>
+</entity>
+</sql>
