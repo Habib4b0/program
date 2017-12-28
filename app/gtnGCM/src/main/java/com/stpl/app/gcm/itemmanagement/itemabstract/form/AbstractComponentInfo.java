@@ -192,7 +192,6 @@ public class AbstractComponentInfo extends CustomComponent {
         HorizontalLayout controls = tablelogic.createControls();
         HorizontalLayout controlLayout = CommonLogic.getResponsiveControls(controls);
         tableLayout.addComponent(addResultsToTable());
-        tableLayout.setWidth("1878px");
         tableLayout.addComponent(controlLayout);
         getBinder();
         configureFields();
@@ -204,7 +203,6 @@ public class AbstractComponentInfo extends CustomComponent {
         tablelogic.sinkItemPerPageWithPageLength(false);
         currentComponentTable.setVisibleColumns(rsCol);
         currentComponentTable.setColumnHeaders(rsHeader);
-        currentComponentTable.setWidth("1800px");
         currentComponentTable.markAsDirty();
         currentComponentTable.setSelectable(false);
         currentComponentTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);

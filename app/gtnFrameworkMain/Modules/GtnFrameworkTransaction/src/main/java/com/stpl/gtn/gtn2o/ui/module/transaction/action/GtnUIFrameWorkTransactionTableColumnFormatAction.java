@@ -39,14 +39,14 @@ public class GtnUIFrameWorkTransactionTableColumnFormatAction
 			throws GtnFrameworkGeneralException {
 		try {
 			List<Object> paramList = gtnUIFrameWorkActionConfig.getActionParameterList();
-			GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
+			GtnUIFrameworkBaseComponent baseTableComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent((String) paramList.get(1));
-			GtnUIFrameworkComponentData tableComponent = tableBaseComponent.getComponentData();
+			GtnUIFrameworkComponentData tableComponent = baseTableComponent.getComponentData();
 
 			GtnUIFrameworkTransactionComponentTypeListBean componentTypeBean = (GtnUIFrameworkTransactionComponentTypeListBean) paramList
 					.get(3);
 			for (GtnWsRecordBean recordBean : tableComponent.getDataTableRecordList()) {
-				manageTableRecordType(recordBean, tableBaseComponent, componentTypeBean);
+				manageValidTableRecordType(recordBean, baseTableComponent, componentTypeBean);
 			}
 		} catch (GtnFrameworkValidationFailedException e) {
 			throw new GtnFrameworkGeneralException("Error in doAction", e);
@@ -59,17 +59,17 @@ public class GtnUIFrameWorkTransactionTableColumnFormatAction
 		return this;
 	}
 
-	private void manageTableRecordType(GtnWsRecordBean record, GtnUIFrameworkBaseComponent tableBaseComponent,
+	private void manageValidTableRecordType(GtnWsRecordBean record, GtnUIFrameworkBaseComponent tableBaseComponent,
 			GtnUIFrameworkTransactionComponentTypeListBean componentBean) throws GtnFrameworkGeneralException {
 		try {
-			List<Object> recordHeader = tableBaseComponent.getTableRecordHeader();
-			for (int i = 0; i < recordHeader.size(); i++) {
-				Object propertyId = recordHeader.get(i);
-				Object value = record.getPropertyValueByIndex(i);
-				Class<?> type = tableBaseComponent.getTableColumnProperty(propertyId.toString());
-				value = GtnUIFrameworkGlobalUI.getConvertedPropertyValue(type, value);
-				value = setFormatter(propertyId, value, componentBean);
-				GtnWsRecordBean.addProperties(i, value, record.getProperties());
+			List<Object> recordHeaderList = tableBaseComponent.getTableRecordHeader();
+			for (int i = 0; i < recordHeaderList.size(); i++) {
+				Object recordPropertyId = recordHeaderList.get(i);
+				Object propertyValue = record.getPropertyValueByIndex(i);
+				Class<?> dataType = tableBaseComponent.getTableColumnProperty(recordPropertyId.toString());
+				propertyValue = GtnUIFrameworkGlobalUI.getConvertedPropertyValue(dataType, propertyValue);
+				propertyValue = setFormatter(recordPropertyId, propertyValue, componentBean);
+				GtnWsRecordBean.addProperties(i, propertyValue, record.getProperties());
 
 			}
 
@@ -81,30 +81,30 @@ public class GtnUIFrameWorkTransactionTableColumnFormatAction
 	private Object setFormatter(Object propertyId, Object value,
 			GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
 
-		String decimalFormatPattern = componentBean.getFormatterMap(propertyId.toString());
-		if (decimalFormatPattern != null) {
-			DecimalFormat decimalFormat = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
-			decimalFormat.applyPattern(decimalFormatPattern);
-			return formatPercentValue(decimalFormat, value);
+                String formatDecimalPattern = componentBean.getFormatterMap(propertyId.toString());
+		if (formatDecimalPattern != null) {
+			DecimalFormat decimalFormatter = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
+			decimalFormatter.applyPattern(formatDecimalPattern);
+			return formatPercentageValue(decimalFormatter, value);
 		}
-		return value;
+            return value;
 
 	}
 
-	private Object formatPercentValue(DecimalFormat decimalFormat, Object value) {
-		String formatterPatter = decimalFormat.toPattern();
-		Object newValue = checkEmptyValue(value);
-		if (formatterPatter.contains(GtnWsTransactionConstants.PERCENTAGE)) {
-			DecimalFormat newDecimalFormat = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
-			newDecimalFormat.applyPattern(formatterPatter.replace(GtnWsTransactionConstants.PERCENTAGE,
+	private Object formatPercentageValue(DecimalFormat decimalFormat, Object value) {
+		String formatPattern = decimalFormat.toPattern();
+		Object newObjectValue = checkEmptyRecordValue(value);
+		if (formatPattern.contains(GtnWsTransactionConstants.PERCENTAGE)) {
+			DecimalFormat newDecimalFormatPattern = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
+			newDecimalFormatPattern.applyPattern(formatPattern.replace(GtnWsTransactionConstants.PERCENTAGE,
 					GtnFrameworkCommonStringConstants.STRING_EMPTY));
-			return newDecimalFormat.format(Double.parseDouble(newValue.toString()))
+			return newDecimalFormatPattern.format(Double.parseDouble(newObjectValue.toString()))
 					+ GtnWsTransactionConstants.PERCENTAGE;
 		}
-		return decimalFormat.format(Double.parseDouble(newValue.toString()));
+		return decimalFormat.format(Double.parseDouble(newObjectValue.toString()));
 	}
 
-	private Object checkEmptyValue(Object value) {
+	private Object checkEmptyRecordValue(Object value) {
 		if (GtnFrameworkCommonStringConstants.STRING_EMPTY.equals(value.toString())) {
 			return "0";
 		}
