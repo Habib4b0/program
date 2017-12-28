@@ -2549,7 +2549,32 @@ SELECT COUNT(*) FROM (SELECT DISTINCT Temp.PROJECTION_MASTER_SID      AS Project
                 ST.DESCRIPTION          AS ST1,
                 PTT.DESCRIPTION         AS ST2,
                 PTF.DESCRIPTION         AS ST3,
-                PT.DESCRIPTION          AS ST4
+                PT.DESCRIPTION          AS ST4,
+                Temp.NEP,
+                Temp.PRICE_PROTECTION_STATUS,
+                Temp.NEP_FORMULA,
+                Temp.MAX_INCREMENTAL_CHANGE,
+                Temp.RESET_ELIGIBLE,
+                Temp.RESET_TYPE,
+                Temp.RESET_DATE,
+                Temp.RESET_INTERVAL,
+                Temp.RESET_FREQUENCY,
+                Temp.NET_PRICE_TYPE,
+                Temp.NET_PRICE_TYPE_FORMULA,
+                Temp.RESET_PRICE_TYPE,
+                Temp.NET_RESET_PRICE_TYPE,
+                Temp.NET_RESET_PRICE_FORMULA_ID,
+                Temp.BASE_PRICE_TYPE,
+                Temp.SUBSEQUENT_PERIOD_PRICE_TYPE,
+                Temp.NET_SUBSEQUENT_PERIOD_PRICE,
+                Temp.NET_SUBSEQUENT_PRICE_FORMULA_ID,
+                Temp.NET_BASELINE_WAC_FORMULA_ID,
+                Temp.NET_BASE_PRICE,
+                Temp.PRICE_TYPE,
+                Temp.PRICE_PROTECTION_PRICE_TYPE,
+                Temp.BASELINE_WAC_MANUAL,
+                Temp.BASELINE_WAC_DATE,
+                Temp.BASELINE_WAC_PRICE_TYPE 
 FROM   GCM_GLOBAL_DETAILS Temp
        JOIN CONTRACT_MASTER CM
          ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID

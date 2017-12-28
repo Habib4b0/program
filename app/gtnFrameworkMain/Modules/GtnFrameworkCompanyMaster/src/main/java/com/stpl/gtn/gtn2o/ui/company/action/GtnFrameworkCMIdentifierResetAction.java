@@ -28,7 +28,7 @@ public class GtnFrameworkCMIdentifierResetAction implements GtnUIFrameWorkAction
 				.loadDateValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCompanyStringContants.EDIT_LIST_EFFECTIVE_DATE)
 				.loadComboBoxComponentValue(null);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("notesTextArea")
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCompanyStringContants.EDIT_LIST_NOTES_TEXTAREA)
 				.loadDateValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 	}
 
