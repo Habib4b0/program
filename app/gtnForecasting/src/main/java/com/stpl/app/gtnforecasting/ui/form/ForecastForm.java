@@ -2002,9 +2002,7 @@ public class ForecastForm extends AbstractForm {
 										if (workflowIdUpdate != null
 												&& !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
 
-											Map<String, Object> params = new HashMap<>();
-											params.put(Constant.APPROVE_FLAG, "approve");
-											VarianceCalculationLogic.submitWorkflow(
+											VarianceCalculationLogic.approveWorkflow(
 													session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Approved Information",
@@ -2059,9 +2057,7 @@ public class ForecastForm extends AbstractForm {
 										String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
 										if (workflowIdUpdate != null
 												&& !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
-											Map<String, Object> params = new HashMap<>();
-											params.put(Constant.APPROVE_FLAG, "reject-RWC");
-											VarianceCalculationLogic.submitWorkflow(
+											VarianceCalculationLogic.rejectWorkFlow(
 													session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Rejected Information ",
@@ -2116,9 +2112,7 @@ public class ForecastForm extends AbstractForm {
 										String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
 										if (workflowIdUpdate != null
 												&& !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
-											Map<String, Object> params = new HashMap<>();
-											params.put(Constant.APPROVE_FLAG, "withdraw-RWC");
-											VarianceCalculationLogic.submitWorkflow(
+											VarianceCalculationLogic.withDrawWorkflow(
 													session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
 
 											callWorkflowInboxRefresh();
@@ -2176,9 +2170,7 @@ public class ForecastForm extends AbstractForm {
 										if (workflowIdUpdate != null
 												&& !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
 
-											Map<String, Object> params = new HashMap<>();
-											params.put(Constant.APPROVE_FLAG, "cancel-RWC");
-											VarianceCalculationLogic.submitWorkflow(
+											VarianceCalculationLogic.cancelWorkFlow(
 													session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Cancel Information",
