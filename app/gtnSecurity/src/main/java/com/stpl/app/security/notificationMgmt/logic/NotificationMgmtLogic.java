@@ -8,10 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.security.dao.NotificationMgmtLogicDAO;
 import com.stpl.app.security.dao.impl.NotificationMgmtLogicDAOImpl;
@@ -19,20 +15,20 @@ import com.stpl.app.security.notificationMgmt.dto.NotificationMgmtIndexDTO;
 import com.stpl.app.util.CommonUtils;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.model.MailNotificationMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.MailNotificationMasterLocalServiceUtil;
+import org.jboss.logging.Logger;
 
 /**
  *
  * @author Santanukumar
  */
 public class NotificationMgmtLogic {
-    private static final Logger LOGGER = LogManager
+    private static final Logger LOGGER = Logger
             .getLogger(NotificationMgmtLogic.class);
    Date date = new Date();
     NotificationMgmtLogicDAO dao=new NotificationMgmtLogicDAOImpl();

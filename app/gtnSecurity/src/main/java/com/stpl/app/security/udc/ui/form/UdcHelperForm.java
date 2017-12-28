@@ -2,8 +2,6 @@ package com.stpl.app.security.udc.ui.form;
 
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.security.businessRoleModuleMaster.util.CommonUtils;
@@ -59,6 +57,7 @@ import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Map;
 import org.asi.ui.addons.lazycontainer.LazyBeanItemContainer;
+import org.jboss.logging.Logger;
 
 public class UdcHelperForm extends CustomComponent implements View {
 
@@ -94,7 +93,7 @@ public class UdcHelperForm extends CustomComponent implements View {
     Button btnDelete = new Button("Delete");
     Button btnSave1 = new Button("Add");
 
-    private static final Logger LOGGER = LogManager
+    private static final Logger LOGGER = Logger
             .getLogger(UdcHelperForm.class.getName());
 
     BeanItemContainer<HelperForm> searchResultbeans;

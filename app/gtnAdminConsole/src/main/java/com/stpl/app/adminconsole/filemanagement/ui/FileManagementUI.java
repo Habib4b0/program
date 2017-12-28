@@ -25,10 +25,10 @@ import org.osgi.service.component.annotations.ServiceScope;
  *
  * @author Elangovan
  */
-@Theme("mytheme")
-@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Theme("stpl")
+@Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet") 
 @Component(service = UI.class, property = {
-        "com.liferay.portlet.display-category=File Management",
+        "com.liferay.portlet.display-category=Admin Console",
         "javax.portlet.name=FileManagement",
         "javax.portlet.display-name=File Management",
         "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
@@ -39,7 +39,8 @@ public class FileManagementUI extends UI {
 
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(FileManagementUI.class);
-	SessionDTO sessionDTO = new SessionDTO();
+
+        SessionDTO sessionDTO = new SessionDTO();
 
 	/**
 	 * Initializes this UI.
@@ -59,8 +60,7 @@ public class FileManagementUI extends UI {
 			LOGGER.info("USER_ID: " + userId);
 			LOGGER.info("SESSION_ID: " + sessionId);
 			navigator = new Navigator(this, this);
-			HelperListUtil helperListUtil = HelperListUtil.getInstance();
-			helperListUtil.loadValuesWithListName("filemanagement");
+			HelperListUtil.getInstance().loadValuesWithListName("filemanagement");
 			navigator.addView(FileManagementIndexView.NAME, new FileManagementIndexView(sessionDTO));
 			navigator.setErrorView(new FileManagementIndexView(sessionDTO));
 			setData(sessionDTO);

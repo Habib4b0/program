@@ -13,8 +13,8 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
 @SuppressWarnings("serial")
-@Theme("mytheme")
-@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Theme("stpl")
+@Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet") 
 @Component(service = UI.class, property = {
         "com.liferay.portlet.display-category=Security",
         "javax.portlet.name=NotificationMgmt",

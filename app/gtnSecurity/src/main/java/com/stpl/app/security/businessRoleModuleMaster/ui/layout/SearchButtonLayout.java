@@ -1,10 +1,6 @@
 package com.stpl.app.security.businessRoleModuleMaster.ui.layout;
 
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.stpl.app.security.businessRoleModuleMaster.dto.SearchBusinessRoleModuleForm;
 import com.stpl.app.security.businessRoleModuleMaster.dto.SearchDTO;
 import com.stpl.app.security.businessRoleModuleMaster.logic.BusinessRoleModuleSearchLogic;
@@ -29,6 +25,7 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.jboss.logging.Logger;
 
 public class SearchButtonLayout extends HorizontalLayout {
 
@@ -48,7 +45,7 @@ public class SearchButtonLayout extends HorizontalLayout {
         CheckBox add;
 	CheckBox edit;
 	CheckBox view;
-	private static final Logger LOGGER = LogManager.getLogger(SearchButtonLayout.class
+	private static final Logger LOGGER = Logger.getLogger(SearchButtonLayout.class
 			.getName());
 final String Select=CommonUtils.SELECT_ONE;
 	public SearchButtonLayout(ErrorfulFieldGroup binder,BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans,BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult,ExtFilterTable table,ExtFilterTable tableField,ComboBox subModuleName,ComboBox moduleName,ComboBox businessRoleName

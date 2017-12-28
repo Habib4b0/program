@@ -919,4 +919,526 @@ select
             ]]>
         </query>
     </entity>
+    <entity id="getHierarchyDefinitionOutboundAllMaxLevel">
+        <query>
+            <![CDATA[
+                SELECT Max(NO_OF_LEVELS) FROM HIERARCHY_DEFINITION
+            ]]> 
+        </query>
+    </entity>
+    <entity id="getHierarchyDefinitionOutboundMaxLevel">
+        <query>
+            <![CDATA[
+                DECLARE @HIERARCHY_DEFINITION_SID VARCHAR(4000)='?HIERARCHY_DEFINITION_SID'
+                SELECT Max(NO_OF_LEVELS)
+                FROM   (SELECT TOKEN AS HIERARCHY_DEFINITION_SID,
+                           NO_OF_LEVELS
+                    FROM   [dbo].[Udf_splitstring] (@HIERARCHY_DEFINITION_SID, ',')F
+                           INNER JOIN HIERARCHY_DEFINITION H
+                                   ON F.TOKEN = H.HIERARCHY_DEFINITION_SID)A  
+            ]]>
+        </query>
+    </entity>
+    <entity id="getHierarchyDefinitionOutbound">
+        <query>
+        <![CDATA[
+
+        DECLARE @HIERARCHY_DEFINITION_SID VARCHAR(4000)='?HIERARCHY_DEFINITION_SID';
+
+        WITH HIERARCHY
+             AS (SELECT TOKEN AS HIERARCHY_DEFINITION_SID
+                 FROM   [dbo].[Udf_splitstring] (@HIERARCHY_DEFINITION_SID, ','))
+        SELECT C.HIERARCHY_DEFINITION_SID,
+               H.HIERARCHY_NAME,
+               HT.DESCRIPTION  AS HIERARCHY_TYPE,
+               HTC.DESCRIPTION AS HIERARCHY_CATEGORY,
+               H.NO_OF_LEVELS,
+               H.VERSION_NO    AS VERSION,
+               HL.LEVEL_NAME,
+               HL.LEVEL_NO,
+               HL.LEVEL_VALUE_REFERENCE,
+               HL.TABLE_NAME,
+               HL.FIELD_NAME,
+               HL.INCLUSION_RULE_TYPE,
+               HL.INCLUSION_RULE,
+               HL.INCLUSION_CONDITION,
+               HL.EXCLUSION_RULE_TYPE,
+               HL.EXCLUSION_RULE,
+               HL.EXCLUSION_CONDITION
+        FROM   HIERARCHY_DEFINITION H
+               INNER JOIN HIERARCHY C
+                       ON H.HIERARCHY_DEFINITION_SID = C.HIERARCHY_DEFINITION_SID
+               INNER JOIN HIERARCHY_LEVEL_DEFINITION HL
+                       ON H.HIERARCHY_DEFINITION_SID = HL.HIERARCHY_DEFINITION_SID
+               LEFT JOIN HELPER_TABLE HT
+                      ON HT.HELPER_TABLE_SID = H.HIERARCHY_TYPE
+                         AND HT.LIST_NAME = 'RELATIONSHIP_TYPE'
+               LEFT JOIN HELPER_TABLE HTC
+                      ON HTC.HELPER_TABLE_SID = H.HIERARCHY_CATEGORY
+                         AND HTC.LIST_NAME = 'HIERARCHY_CATEGORY' 
+
+
+        ]]>
+        </query>
+    </entity>
+    <entity id="getHierarchyDefinitionOuboundCheckAllResults">
+        <query>
+        <![CDATA[
+        WITH HIERARCHY
+             AS ( SELECT HIERARCHY_DEFINITION_SID from HIERARCHY_DEFINITION HD
+        WHERE HD.HIERARCHY_TYPE= ?CONDITIONS )
+        SELECT C.HIERARCHY_DEFINITION_SID,
+               H.HIERARCHY_NAME,
+               HT.DESCRIPTION  AS HIERARCHY_TYPE,
+               HTC.DESCRIPTION AS HIERARCHY_CATEGORY,
+               H.NO_OF_LEVELS,
+               H.VERSION_NO    AS VERSION,
+               HL.LEVEL_NAME,
+               HL.LEVEL_NO,
+               HL.LEVEL_VALUE_REFERENCE,
+               HL.TABLE_NAME,
+               HL.FIELD_NAME,
+               HL.INCLUSION_RULE_TYPE,
+               HL.INCLUSION_RULE,
+               HL.INCLUSION_CONDITION,
+               HL.EXCLUSION_RULE_TYPE,
+               HL.EXCLUSION_RULE,
+               HL.EXCLUSION_CONDITION
+        FROM   HIERARCHY_DEFINITION H
+               INNER JOIN HIERARCHY C
+                       ON H.HIERARCHY_DEFINITION_SID = C.HIERARCHY_DEFINITION_SID
+               INNER JOIN HIERARCHY_LEVEL_DEFINITION HL
+                       ON H.HIERARCHY_DEFINITION_SID = HL.HIERARCHY_DEFINITION_SID
+               LEFT JOIN HELPER_TABLE HT
+                      ON HT.HELPER_TABLE_SID = H.HIERARCHY_TYPE
+                         AND HT.LIST_NAME = 'RELATIONSHIP_TYPE'
+               LEFT JOIN HELPER_TABLE HTC
+                      ON HTC.HELPER_TABLE_SID = H.HIERARCHY_CATEGORY
+                         AND HTC.LIST_NAME = 'HIERARCHY_CATEGORY' 
+
+
+             ]]> 
+        </query>
+    </entity>
+    <entity id="getRelationshipBuilderOutbound">
+        <query>
+        <![CDATA[
+    
+    DECLARE @RELATIONSHIP_BUILDER_SID VARCHAR(4000)='?RELATIONSHIP_BUILDER_SID';
+
+WITH RELATION
+     AS (SELECT TOKEN AS RELATIONSHIP_BUILDER_SID
+         FROM   [dbo].[Udf_splitstring] (@RELATIONSHIP_BUILDER_SID, ',')),
+     LINKED
+     AS (SELECT *
+         FROM   (SELECT Row_number()
+                          OVER (
+                            PARTITION BY RC.RELATIONSHIP_BUILDER_SID, HLV.LEVEL_VALUES
+                            ORDER BY RC.RELATIONSHIP_BUILDER_SID) RN,
+                        RC.RELATIONSHIP_BUILDER_SID,
+                        HLV.LEVEL_VALUES                          AS RELATIONSHIP_TREE,
+                        R.RELATIONSHIP_NAME,
+                        R.RELATIONSHIP_DESCRIPTION,
+                        H.DESCRIPTION                             AS RELATIONSHIP_TYPE,
+                        HD.HIERARCHY_NAME,
+                        HLD.LEVEL_NAME                            AS HIERARCHY_LEVEL_NAME,
+                        HD.VERSION_NO                             AS HIERARCHY_VERSION_NO,
+                        R.START_DATE,
+                        R.BUILD_TYPE,
+                        RLD.HIERARCHY_NO,
+                        RLD.LEVEL_NO,
+                        RLD.PARENT_NODE
+                 FROM   RELATIONSHIP_BUILDER R
+                        INNER JOIN HIERARCHY_DEFINITION HD
+                                ON R.HIERARCHY_DEFINITION_SID = HD.HIERARCHY_DEFINITION_SID
+                        INNER JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                ON HD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
+                        INNER JOIN HIERARCHY_LEVEL_VALUES HLV
+                                ON HLV.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                        INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                                ON R.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID
+                                   AND RLD.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                        INNER JOIN RELATION RC
+                                ON RC.RELATIONSHIP_BUILDER_SID = R.RELATIONSHIP_BUILDER_SID
+                        LEFT JOIN HELPER_TABLE H
+                               ON H.HELPER_TABLE_SID = R.RELATIONSHIP_TYPE
+                                  AND LIST_NAME = 'RELATIONSHIP_TYPE')A
+         WHERE  RN = 1),
+     DEFINED
+     AS (SELECT NULL                          AS RN,
+                RC.RELATIONSHIP_BUILDER_SID,
+                RLD.RELATIONSHIP_LEVEL_VALUES AS RELATIONSHIP_TREE,
+                R.RELATIONSHIP_NAME,
+                R.RELATIONSHIP_DESCRIPTION,
+                H.DESCRIPTION                 AS RELATIONSHIP_TYPE,
+                HD.HIERARCHY_NAME,
+                RLD.LEVEL_NAME                AS HIERARCHY_LEVEL_NAME,
+                HD.VERSION_NO                 AS HIERARCHY_VERSION_NO,
+                R.START_DATE,
+                R.BUILD_TYPE,
+                RLD.HIERARCHY_NO,
+                RLD.LEVEL_NO,
+                RLD.PARENT_NODE
+         FROM   RELATIONSHIP_BUILDER R
+                INNER JOIN HIERARCHY_DEFINITION HD
+                        ON R.HIERARCHY_DEFINITION_SID = HD.HIERARCHY_DEFINITION_SID
+                LEFT JOIN HELPER_TABLE H
+                       ON H.HELPER_TABLE_SID = R.RELATIONSHIP_TYPE
+                          AND LIST_NAME = 'RELATIONSHIP_TYPE'
+                INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                        ON R.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID
+                INNER JOIN RELATION RC
+                        ON RC.RELATIONSHIP_BUILDER_SID = R.RELATIONSHIP_BUILDER_SID
+         WHERE  RLD.LEVEL_NAME NOT IN ( 'SEGMENT', 'SEGMENT GROUP' )),
+     LIN_DEF
+     AS (SELECT HIERARCHY_PARENT=Row_number()
+                                   OVER (
+                                     PARTITION BY A.RELATIONSHIP_BUILDER_SID, Len(HIERARCHY_NO)
+                                     ORDER BY A.RELATIONSHIP_BUILDER_SID),
+                *
+         FROM   (SELECT RELATIONSHIP_BUILDER_SID,
+                        RELATIONSHIP_TREE,
+                        RELATIONSHIP_NAME,
+                        RELATIONSHIP_DESCRIPTION,
+                        RELATIONSHIP_TYPE,
+                        HIERARCHY_NAME,
+                        HIERARCHY_LEVEL_NAME,
+                        HIERARCHY_VERSION_NO,
+                        START_DATE,
+                        BUILD_TYPE,
+                        HIERARCHY_NO,
+                        LEVEL_NO,
+                        PARENT_NODE
+                 FROM   LINKED
+                 UNION ALL
+                 SELECT RELATIONSHIP_BUILDER_SID,
+                        RELATIONSHIP_TREE,
+                        RELATIONSHIP_NAME,
+                        RELATIONSHIP_DESCRIPTION,
+                        RELATIONSHIP_TYPE,
+                        HIERARCHY_NAME,
+                        HIERARCHY_LEVEL_NAME,
+                        HIERARCHY_VERSION_NO,
+                        START_DATE,
+                        BUILD_TYPE,
+                        HIERARCHY_NO,
+                        LEVEL_NO,
+                        PARENT_NODE
+                 FROM   DEFINED)A)
+SELECT *
+FROM   LIN_DEF
+ORDER  BY RELATIONSHIP_BUILDER_SID,
+          HIERARCHY_PARENT,
+          HIERARCHY_NO 
+
+
+     ]]>
+     </query>
+    </entity> 
+    <entity id="getRelationshipOuboundCheckAllResults">
+        <query>
+        <![CDATA[
+    WITH  LINKED
+     AS (SELECT *
+         FROM   (SELECT Row_number()
+                          OVER (
+                            PARTITION BY R.RELATIONSHIP_BUILDER_SID, HLV.LEVEL_VALUES
+                            ORDER BY R.RELATIONSHIP_BUILDER_SID) RN,
+                        R.RELATIONSHIP_BUILDER_SID,
+                        HLV.LEVEL_VALUES                          AS RELATIONSHIP_TREE,
+                        R.RELATIONSHIP_NAME,
+                        R.RELATIONSHIP_DESCRIPTION,
+                        H.DESCRIPTION                             AS RELATIONSHIP_TYPE,
+                        HD.HIERARCHY_NAME,
+                        HLD.LEVEL_NAME                            AS HIERARCHY_LEVEL_NAME,
+                        HD.VERSION_NO                             AS HIERARCHY_VERSION_NO,
+                        R.START_DATE,
+                        R.BUILD_TYPE,
+                        RLD.HIERARCHY_NO,
+                        RLD.LEVEL_NO,
+                        RLD.PARENT_NODE
+                 FROM   dbo.RELATIONSHIP_BUILDER R
+                        INNER JOIN HIERARCHY_DEFINITION HD
+                                ON R.HIERARCHY_DEFINITION_SID = HD.HIERARCHY_DEFINITION_SID
+                        INNER JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                ON HD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
+                        INNER JOIN HIERARCHY_LEVEL_VALUES HLV
+                                ON HLV.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                        INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                                ON R.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID
+                                   AND RLD.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                       
+                        LEFT JOIN HELPER_TABLE H
+                               ON H.HELPER_TABLE_SID = R.RELATIONSHIP_TYPE
+                                  AND LIST_NAME = 'RELATIONSHIP_TYPE'
+                                  ?LWHEREQUERY
+                                  
+)A
+         WHERE  RN = 1),
+     DEFINED
+     AS (SELECT NULL                          AS RN,
+                R.RELATIONSHIP_BUILDER_SID,
+                RLD.RELATIONSHIP_LEVEL_VALUES AS RELATIONSHIP_TREE,
+                R.RELATIONSHIP_NAME,
+                R.RELATIONSHIP_DESCRIPTION,
+                H.DESCRIPTION                 AS RELATIONSHIP_TYPE,
+                HD.HIERARCHY_NAME,
+                RLD.LEVEL_NAME                AS HIERARCHY_LEVEL_NAME,
+                HD.VERSION_NO                 AS HIERARCHY_VERSION_NO,
+                R.START_DATE,
+                R.BUILD_TYPE,
+                RLD.HIERARCHY_NO,
+                RLD.LEVEL_NO,
+                RLD.PARENT_NODE
+         FROM   RELATIONSHIP_BUILDER R
+                INNER JOIN HIERARCHY_DEFINITION HD
+                        ON R.HIERARCHY_DEFINITION_SID = HD.HIERARCHY_DEFINITION_SID
+                LEFT JOIN HELPER_TABLE H
+                       ON H.HELPER_TABLE_SID = R.RELATIONSHIP_TYPE
+                          AND LIST_NAME = 'RELATIONSHIP_TYPE'
+                INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                        ON R.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID
+               
+         WHERE  RLD.LEVEL_NAME NOT IN ( 'SEGMENT', 'SEGMENT GROUP' )
+         ?ANDQUERY
+),
+     LIN_DEF
+     AS (SELECT HIERARCHY_PARENT=Row_number()
+                                   OVER (
+                                     PARTITION BY A.RELATIONSHIP_BUILDER_SID, Len(HIERARCHY_NO)
+                                     ORDER BY A.RELATIONSHIP_BUILDER_SID),
+                *
+         FROM   (SELECT RELATIONSHIP_BUILDER_SID,
+                        RELATIONSHIP_TREE,
+                        RELATIONSHIP_NAME,
+                        RELATIONSHIP_DESCRIPTION,
+                        RELATIONSHIP_TYPE,
+                        HIERARCHY_NAME,
+                        HIERARCHY_LEVEL_NAME,
+                        HIERARCHY_VERSION_NO,
+                        START_DATE,
+                        BUILD_TYPE,
+                        HIERARCHY_NO,
+                        LEVEL_NO,
+                        PARENT_NODE
+                 FROM   LINKED
+                 UNION ALL
+                 SELECT RELATIONSHIP_BUILDER_SID,
+                        RELATIONSHIP_TREE,
+                        RELATIONSHIP_NAME,
+                        RELATIONSHIP_DESCRIPTION,
+                        RELATIONSHIP_TYPE,
+                        HIERARCHY_NAME,
+                        HIERARCHY_LEVEL_NAME,
+                        HIERARCHY_VERSION_NO,
+                        START_DATE,
+                        BUILD_TYPE,
+                        HIERARCHY_NO,
+                        LEVEL_NO,
+                        PARENT_NODE
+                 FROM   DEFINED)A)
+SELECT *
+FROM   LIN_DEF
+ORDER  BY RELATIONSHIP_BUILDER_SID,
+          HIERARCHY_PARENT,
+          HIERARCHY_NO 
+
+
+      ]]> 
+        </query>
+    </entity> 
+    <entity id="getDetailsResults">
+        <query>
+        <![CDATA[
+                SELECT DISTINCT IM.ITEM_NO,IM.ITEM_NAME,FM.FORECAST_YEAR,FM.FORECAST_MONTH,FM.FORECAST_DATE,
+                FM.PRICE,FM.UNITS,FM.DOLLARS,FM.RECORD_LOCK_STATUS,FM.FORECAST_MASTER_SID 
+                FROM FORECASTING_MASTER FM,ITEM_MASTER IM WHERE FM.NDC=IM.ITEM_ID 
+                AND FORECAST_NAME= 
+        ]]>
+        </query>
+    </entity>
+    <entity id="getDetailsResultsExcel">
+        <query>
+            <![CDATA[
+                   SELECT DISTINCT FM.FORECAST_YEAR,FM.FORECAST_MONTH,IM.ITEM_NO,QUOTENAME(IM.ITEM_NAME, CHAR(34)),
+                  CONVERT(VARCHAR(10),FM.FORECAST_DATE,101)  AS FORECAST_DATE,
+                  FM.PRICE,FM.UNITS,FM.DOLLARS 
+                  FROM FORECASTING_MASTER FM,ITEM_MASTER IM WHERE FM.NDC=IM.ITEM_ID 
+                  AND FORECAST_NAME=   
+            ]]>
+        </query>
+    </entity>
+    <entity id="getHierarchyDefinitionCount">
+        <query>
+            <![CDATA[
+
+            SELECT  COUNT(HD.HIERARCHY_DEFINITION_SID) FROM HIERARCHY_DEFINITION HD
+            WHERE HD.HIERARCHY_TYPE=    
+
+            ]]>
+        </query>
+    </entity>
+
+    <entity id="getHierarchyDefinitionResults">
+        <query>
+        <![CDATA[
+
+        SELECT  HD.HIERARCHY_DEFINITION_SID,HD.HIERARCHY_NAME, HD.HIERARCHY_TYPE, HD.HIERARCHY_CATEGORY, HD.NO_OF_LEVELS, HD.CREATED_BY, HD.CREATED_DATE, HD.MODIFIED_BY, HD.MODIFIED_DATE, HD.VERSION_NO FROM HIERARCHY_DEFINITION HD
+        WHERE HD.HIERARCHY_TYPE=      
+
+        ]]>
+        </query>
+    </entity>
+    <entity id="getCffOuboundSearchResults">
+        <query>
+        <![CDATA[
+               ;WITH CFF
+    AS (SELECT cm.CFF_MASTER_SID,
+            cff_name,
+            cff_type= ht.description,
+            rn = Row_number()OVER(partition BY cm.cff_master_sid ORDER BY approval_sequence DESC),
+            approval_status= h.DESCRIPTION,
+            APPROVED_DATE,
+            APPROVED_BY,
+            ACTIVE_FROM_DATE,
+            ACTIVE_TO_DATE,
+            cm.inbound_status,
+            CM.CREATED_DATE
+            FROM   cff_master cm
+                INNER JOIN CFF_APPROVAL_DETAILS cad
+                           ON cm.CFF_MASTER_SID = cad.CFF_MASTER_SID
+                INNER JOIN helper_table ht
+                           ON cm.CFF_TYPE = ht.helper_table_sid
+                INNER JOIN HELPER_TABLE h
+                           ON h.HELPER_TABLE_SID = cad.APPROVAL_STATUS
+          
+),
+                Pagination
+        AS (SELECT CFF_MASTER_SID,
+            cff_name,
+            cff_type,
+            approval_status,
+            APPROVED_DATE,
+            APPROVED_BY,
+            ACTIVE_FROM_DATE,
+            ACTIVE_TO_DATE,
+            inbound_status,
+            CREATED_DATE,
+            pag=Row_number()OVER(ORDER BY CFF_MASTER_SID)
+            FROM   CFF
+            WHERE  rn = 1)
+    SELECT CFF_MASTER_SID
+    FROM   Pagination where inbound_status <> 'D'
+        ]]> 
+        </query>
+    </entity>
+    <entity id="getRelationshipOuboundScheduleResults">
+        <query>
+        <![CDATA[
+    WITH  LINKED
+     AS (SELECT *
+         FROM   (SELECT Row_number()
+                          OVER (
+                            PARTITION BY R.RELATIONSHIP_BUILDER_SID, HLV.LEVEL_VALUES
+                            ORDER BY R.RELATIONSHIP_BUILDER_SID) RN,
+                        R.RELATIONSHIP_BUILDER_SID,
+                        HLV.LEVEL_VALUES                          AS RELATIONSHIP_TREE,
+                        R.RELATIONSHIP_NAME,
+                        R.RELATIONSHIP_DESCRIPTION,
+                        H.DESCRIPTION                             AS RELATIONSHIP_TYPE,
+                        HD.HIERARCHY_NAME,
+                        HLD.LEVEL_NAME                            AS HIERARCHY_LEVEL_NAME,
+                        HD.VERSION_NO                             AS HIERARCHY_VERSION_NO,
+                        R.START_DATE,
+                        R.BUILD_TYPE,
+                        RLD.HIERARCHY_NO,
+                        RLD.LEVEL_NO,
+                        RLD.PARENT_NODE
+                 FROM   dbo.RELATIONSHIP_BUILDER R
+                        INNER JOIN HIERARCHY_DEFINITION HD
+                                ON R.HIERARCHY_DEFINITION_SID = HD.HIERARCHY_DEFINITION_SID
+                        INNER JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                ON HD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
+                        INNER JOIN HIERARCHY_LEVEL_VALUES HLV
+                                ON HLV.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                        INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                                ON R.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID
+                                   AND RLD.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                       
+                        LEFT JOIN HELPER_TABLE H
+                               ON H.HELPER_TABLE_SID = R.RELATIONSHIP_TYPE
+                                  AND LIST_NAME = 'RELATIONSHIP_TYPE'
+)A
+         WHERE  RN = 1),
+     DEFINED
+     AS (SELECT NULL                          AS RN,
+                R.RELATIONSHIP_BUILDER_SID,
+                RLD.RELATIONSHIP_LEVEL_VALUES AS RELATIONSHIP_TREE,
+                R.RELATIONSHIP_NAME,
+                R.RELATIONSHIP_DESCRIPTION,
+                H.DESCRIPTION                 AS RELATIONSHIP_TYPE,
+                HD.HIERARCHY_NAME,
+                RLD.LEVEL_NAME                AS HIERARCHY_LEVEL_NAME,
+                HD.VERSION_NO                 AS HIERARCHY_VERSION_NO,
+                R.START_DATE,
+                R.BUILD_TYPE,
+                RLD.HIERARCHY_NO,
+                RLD.LEVEL_NO,
+                RLD.PARENT_NODE
+         FROM   RELATIONSHIP_BUILDER R
+                INNER JOIN HIERARCHY_DEFINITION HD
+                        ON R.HIERARCHY_DEFINITION_SID = HD.HIERARCHY_DEFINITION_SID
+                LEFT JOIN HELPER_TABLE H
+                       ON H.HELPER_TABLE_SID = R.RELATIONSHIP_TYPE
+                          AND LIST_NAME = 'RELATIONSHIP_TYPE'
+                INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                        ON R.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID
+               
+         WHERE  RLD.LEVEL_NAME NOT IN ( 'SEGMENT', 'SEGMENT GROUP' )
+),
+     LIN_DEF
+     AS (SELECT HIERARCHY_PARENT=Row_number()
+                                   OVER (
+                                     PARTITION BY A.RELATIONSHIP_BUILDER_SID, Len(HIERARCHY_NO)
+                                     ORDER BY A.RELATIONSHIP_BUILDER_SID),
+                *
+         FROM   (SELECT RELATIONSHIP_BUILDER_SID,
+                        RELATIONSHIP_TREE,
+                        RELATIONSHIP_NAME,
+                        RELATIONSHIP_DESCRIPTION,
+                        RELATIONSHIP_TYPE,
+                        HIERARCHY_NAME,
+                        HIERARCHY_LEVEL_NAME,
+                        HIERARCHY_VERSION_NO,
+                        START_DATE,
+                        BUILD_TYPE,
+                        HIERARCHY_NO,
+                        LEVEL_NO,
+                        PARENT_NODE
+                 FROM   LINKED
+                 UNION ALL
+                 SELECT RELATIONSHIP_BUILDER_SID,
+                        RELATIONSHIP_TREE,
+                        RELATIONSHIP_NAME,
+                        RELATIONSHIP_DESCRIPTION,
+                        RELATIONSHIP_TYPE,
+                        HIERARCHY_NAME,
+                        HIERARCHY_LEVEL_NAME,
+                        HIERARCHY_VERSION_NO,
+                        START_DATE,
+                        BUILD_TYPE,
+                        HIERARCHY_NO,
+                        LEVEL_NO,
+                        PARENT_NODE
+                 FROM   DEFINED)A)
+SELECT *
+FROM   LIN_DEF
+ORDER  BY RELATIONSHIP_BUILDER_SID,
+          HIERARCHY_PARENT,
+          HIERARCHY_NO 
+
+
+      ]]> 
+      </query>
+    </entity>
 </sql>

@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.security.businessRoleModuleMaster.util.CommonUtils;
@@ -24,17 +21,17 @@ import com.stpl.app.util.NotificationUtils;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.IndexedContainer;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
+import org.jboss.logging.Logger;
 
 public class UdcLogic {
 
-    private static final Logger LOGGER = LogManager
+    private static final Logger LOGGER = Logger
             .getLogger(UdcLogic.class.getName());
     private static final String CATEGORY = "CategoryName";
     private static final String BRAND_NAME = "brandName";

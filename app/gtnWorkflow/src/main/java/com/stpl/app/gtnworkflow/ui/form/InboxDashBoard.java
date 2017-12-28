@@ -16,26 +16,21 @@ import com.stpl.app.gtnworkflow.util.CommonUtils;
 import com.stpl.app.gtnworkflow.util.ConstantUtils;
 import com.stpl.app.gtnworkflow.util.HelperListUtil;
 import com.stpl.app.gtnworkflow.util.NotificationUtils;
-import com.stpl.app.model.WorkflowProcessInfo;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.WorkflowProcessInfoLocalServiceUtil;
 import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.DateToStringConverter;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CsvExportforPagedTable;
 import com.stpl.ifs.util.HelperDTO;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.stpl.app.gtnworkflow.util.ConstantsUtils;
@@ -89,6 +84,7 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.app.security.StplSecurity;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.util.TableResultCustom;
 import elemental.json.JsonArray;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
@@ -366,6 +362,7 @@ public class InboxDashBoard extends CustomComponent implements View {
         String adjustmentTypevalue;
         String configurationType;
         String customerHierSid;
+        String productHierSid;
         String customerHierarchyLevel;
         String custRelationshipBuilderSid;
         String productHierarchyLevel;
@@ -395,6 +392,7 @@ public class InboxDashBoard extends CustomComponent implements View {
             configurationType = ((InboxDashboardDTO) targetItem.getBean()).getConfigurationType();
 
             customerHierSid = ((InboxDashboardDTO) targetItem.getBean()).getCustomerHierSid();
+            productHierSid = ((InboxDashboardDTO) targetItem.getBean()).getProductHierSid();
             customerHierarchyLevel = ((InboxDashboardDTO) targetItem.getBean()).getCustomerHierarchyLevel();
             custRelationshipBuilderSid = ((InboxDashboardDTO) targetItem.getBean()).getCustRelationshipBuilderSid();
             productHierarchyLevel = ((InboxDashboardDTO) targetItem.getBean()).getProductHierarchyLevel();
@@ -560,6 +558,7 @@ public class InboxDashBoard extends CustomComponent implements View {
                 opener.setParameter("customerHierSid", customerHierSid);
                 opener.setParameter("customerHierarchyLevel", customerHierarchyLevel);
                 opener.setParameter("custRelationshipBuilderSid", custRelationshipBuilderSid);
+                opener.setParameter("productHierSid", productHierSid);
                 opener.setParameter("productHierarchyLevel", productHierarchyLevel);
                 opener.setParameter("prodRelationshipBuilderSid", prodRelationshipBuilderSid);
             }

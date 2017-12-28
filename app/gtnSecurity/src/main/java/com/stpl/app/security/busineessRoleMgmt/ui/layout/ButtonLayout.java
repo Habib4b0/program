@@ -4,9 +4,6 @@
  */
 package com.stpl.app.security.busineessRoleMgmt.ui.layout;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.stpl.app.security.busineessRoleMgmt.dto.BusinessroleMasterDTO;
 import com.stpl.app.security.busineessRoleMgmt.logic.BusinessRoleMgmtLogic;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
@@ -27,6 +24,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.v7.ui.Table;
 import com.stpl.app.security.businessRoleModuleMaster.util.CommonUtils;
+import org.jboss.logging.Logger;
 /**
  * 
  * @author suthan
@@ -35,7 +33,7 @@ public class ButtonLayout extends HorizontalLayout {
 
 	private static final long serialVersionUID = -8493167007955745933L;
 	private ErrorfulFieldGroup binder;
-	private static final Logger LOGGER = LogManager
+	private static final Logger LOGGER = Logger
 			.getLogger(ButtonLayout.class.getName());
 	BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
 	Table table;
