@@ -9,7 +9,7 @@ import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.filemanagement.ui.form.FileMgmtCustomer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.jboss.logging.Logger;
 
 public class FileMgmtCustomerView extends VerticalLayout implements View {

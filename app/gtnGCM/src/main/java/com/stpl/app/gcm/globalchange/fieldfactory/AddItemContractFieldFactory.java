@@ -18,19 +18,21 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.form.FormulaLookUp;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.NEPLookup;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.app.serviceUtils.UIUtils;
+import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.event.FieldEvents;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.FieldEvents.FocusListener;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.validator.RegexpValidator;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
@@ -70,7 +72,6 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         final AbstractLogic abstractLogic = AbstractLogic.getInstance();
         if (propertyId.equals(Constants.CHECK_RECORD)) {
             final ExtCustomCheckBox check = new ExtCustomCheckBox();
-            check.setImmediate(true);
             if (!mainDto.getWorkFlowStatus().trim().isEmpty()) {
                 check.setVisible(false);
             } else {
@@ -89,12 +90,11 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("status")) {
             final ComboBox itemStatus = new ComboBox();
-            itemStatus.setImmediate(true);
-            CommonUtil.getComboBoxByListName(itemStatus, UIUtils.STATUS, false);
-            itemStatus.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
-
-                    itemStatus.addValueChangeListener(new Property.ValueChangeListener() {
+            CommonUtil.getComboBoxByListName(itemStatus, UiUtils.STATUS, false);
+            itemStatus.addFocusListener(new FocusListener() {
+                @Override
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
+                      itemStatus.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 Object itemStatusValue = itemStatus.getValue();
@@ -119,7 +119,6 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                         }
                     });
                     itemStatus.removeFocusListener(this);
-
                 }
             });
 
@@ -128,13 +127,13 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if (propertyId.equals("itemStartDate")) {
             final PopupDateField itemstartDate = new PopupDateField();
-            itemstartDate.setImmediate(true);
             itemstartDate.setRequired(true);
             itemstartDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             itemstartDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
 
-            itemstartDate.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            itemstartDate.addFocusListener(new FocusListener() {
+                @Override
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -179,12 +178,12 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("itemEndDate")) {
             final PopupDateField itemendDate = new PopupDateField();
-            itemendDate.setImmediate(true);
             itemendDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             itemendDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
-            itemendDate.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
-                    Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+            itemendDate.addFocusListener(new FocusListener() {
+                @Override
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
+                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -219,11 +218,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("cpStartDate")) {
             final PopupDateField cpstartDate = new PopupDateField();
-            cpstartDate.setImmediate(true);
             cpstartDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             cpstartDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
-            cpstartDate.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            cpstartDate.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -253,11 +251,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("cpEndDate")) {
             final PopupDateField cpendDate = new PopupDateField();
-            cpendDate.setImmediate(true);
             cpendDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             cpendDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
-            cpendDate.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            cpendDate.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -295,11 +292,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if (propertyId.equals("priceProtectionStartDate")) {
             final PopupDateField priceProtectionStartDate = new PopupDateField();
-            priceProtectionStartDate.setImmediate(true);
             priceProtectionStartDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             priceProtectionStartDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
-            priceProtectionStartDate.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            priceProtectionStartDate.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -329,11 +325,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("priceProtectionEndDate")) {
             final PopupDateField priceProtectionEndDate = new PopupDateField();
-            priceProtectionEndDate.setImmediate(true);
             priceProtectionEndDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             priceProtectionEndDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
-            priceProtectionEndDate.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            priceProtectionEndDate.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -370,10 +365,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("priceToleranceType")) {
             final ComboBox priceToleranceType = new ComboBox();
-            priceToleranceType.setImmediate(true);
             CommonUtil.getComboBoxByListName(priceToleranceType, "PRICE_TOLERANCE_TYPE", false);
-            priceToleranceType.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            priceToleranceType.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceToleranceType.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -407,10 +401,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("priceTolerance")) {
             final CustomTextField priceTolerance = new CustomTextField();
-            priceTolerance.setImmediate(true);
             priceTolerance.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
-            priceTolerance.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            priceTolerance.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceTolerance.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (priceTolerance.getValue() != null && !priceTolerance.getValue().trim().isEmpty() && valueChange) {
@@ -440,10 +433,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if (propertyId.equals("priceToleranceFrequency")) {
             final ComboBox priceToleranceFrequency = new ComboBox();
-            priceToleranceFrequency.setImmediate(true);
             CommonUtil.getComboBoxByListName(priceToleranceFrequency, "PRICE_TOLERANCE_FREQUENCY", false);
-            priceToleranceFrequency.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            priceToleranceFrequency.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceToleranceFrequency.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -476,10 +468,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("priceToleranceInterval")) {
             final ComboBox priceToleranceInterval = new ComboBox();
-            priceToleranceInterval.setImmediate(true);
             CommonUtil.getComboBoxByListName(priceToleranceInterval, "PRICE_TOLERANCE_INTERVAL", false);
-            priceToleranceInterval.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            priceToleranceInterval.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceToleranceInterval.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (priceToleranceInterval.getValue() != null && valueChange) {
@@ -511,10 +502,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("basePrice")) {
             final CustomTextField basePrice = new CustomTextField();
-            basePrice.setImmediate(true);
             basePrice.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
-            basePrice.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            basePrice.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     basePrice.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (basePrice.getValue() != null && valueChange) {
@@ -541,10 +531,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("price")) {
             final CustomTextField price = new CustomTextField();
-            price.setImmediate(true);
             price.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
-            price.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            price.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     price.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -571,10 +560,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("contractPrice")) {
             final CustomTextField contractPrice = new CustomTextField();
-            contractPrice.setImmediate(true);
             contractPrice.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
-            contractPrice.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            contractPrice.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     contractPrice.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (contractPrice.getValue() != null && valueChange) {
@@ -603,12 +591,11 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if (propertyId.equals("RSStartDate")) {
             final PopupDateField rsstartDate = new PopupDateField();
-            rsstartDate.setImmediate(true);
             rsstartDate.setRequired(true);
             rsstartDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             rsstartDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
-            rsstartDate.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            rsstartDate.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -639,9 +626,8 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final PopupDateField rsendDate = new PopupDateField();
             rsendDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             rsendDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
-            rsendDate.setImmediate(true);
-            rsendDate.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            rsendDate.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -677,7 +663,6 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("formulaId")) {
             final CustomTextField formulaId = new CustomTextField();
-            formulaId.setImmediate(true);
             formulaId.setReadOnly(true);
             formulaId.addStyleName(Constants.SEARCH_ICON);
             formulaId.addClickListener(new CustomTextField.ClickListener() {
@@ -711,7 +696,6 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("rebatePlan")) {
             final CustomTextField rebatePlan = new CustomTextField();
-            rebatePlan.setImmediate(true);
             rebatePlan.addStyleName(Constants.SEARCH_ICON);
             rebatePlan.setReadOnly(true);
             rebatePlan.addClickListener(new CustomTextField.ClickListener() {
@@ -745,10 +729,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("formulaMethodId")) {
             final CustomTextField formulaMethodId = new CustomTextField();
-            formulaMethodId.setImmediate(true);
             formulaMethodId.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
-            formulaMethodId.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            formulaMethodId.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     formulaMethodId.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (formulaMethodId.getValue() != null && valueChange) {
@@ -776,10 +759,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (propertyId.equals("rebateAmount")) {
             final CustomTextField rebateAmount = new CustomTextField();
-            rebateAmount.setImmediate(true);
             rebateAmount.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
-            rebateAmount.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            rebateAmount.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     rebateAmount.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -808,10 +790,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         
         if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
             final ComboBox priceProtectionStatus = new ComboBox();
-            priceProtectionStatus.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(priceProtectionStatus, Constants.STATUS, false);
-            priceProtectionStatus.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            priceProtectionStatus.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceProtectionStatus.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -842,10 +823,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (Constants.NEP_PROPERTY.equals(propertyId)) {
             final CustomTextField nep = new CustomTextField();
-            nep.setImmediate(true);
             nep.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
-            nep.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            nep.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     nep.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -871,7 +851,6 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (Constants.NEP_FORMULA_PROPERTY.equals(propertyId)) {
             final CustomTextField nepFormula = new CustomTextField();
-            nepFormula.setImmediate(true);
             nepFormula.setReadOnly(true);
             nepFormula.addStyleName(Constants.SEARCH_ICON);
             nepFormula.addClickListener(new CustomTextField.ClickListener() {
@@ -906,10 +885,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (Constants.MAX_INCREMENTAL_CHANGE_PROPERTY.equals(propertyId)) {
             final CustomTextField maxIncrementalChange = new CustomTextField();
-            maxIncrementalChange.setImmediate(true);
             maxIncrementalChange.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
-            maxIncrementalChange.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            maxIncrementalChange.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     maxIncrementalChange.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -935,10 +913,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (Constants.RESET_ELIGIBLE_PROPERTY.equals(propertyId)) {
             final ComboBox resetEligible = new ComboBox();
-            resetEligible.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(resetEligible, Constants.LOCKED_STATUS_LISTNAME, false);
-            resetEligible.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            resetEligible.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetEligible.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -969,10 +946,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (Constants.RESET_TYPE_PROPERTY.equals(propertyId)) {
             final ComboBox resetType = new ComboBox();
-            resetType.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(resetType, Constants.RESET_TYPE_LISTNAME, false);
-            resetType.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            resetType.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetType.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -1004,12 +980,11 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if (Constants.RESET_DATE_PROPERTY.equals(propertyId)) {
             final PopupDateField resetDate = new PopupDateField();
-            resetDate.setImmediate(true);
             resetDate.setRequired(true);
             resetDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             resetDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
-            resetDate.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            resetDate.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -1039,10 +1014,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if (Constants.RESET_INTERVAL_PROPERTY.equals(propertyId)) {
             final ComboBox resetInterval = new ComboBox();
-            resetInterval.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(resetInterval, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, false);
-            resetInterval.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            resetInterval.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetInterval.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -1073,10 +1047,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (Constants.RESET_FREQUENCY_PROPERTY.equals(propertyId)) {
             final ComboBox resetFrequency = new ComboBox();
-            resetFrequency.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(resetFrequency, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, false);
-            resetFrequency.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            resetFrequency.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetFrequency.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -1107,10 +1080,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (Constants.NET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
             final ComboBox netPriceType = new ComboBox();
-            netPriceType.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(netPriceType, Constants.LOCKED_STATUS_LISTNAME, false);
-            netPriceType.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            netPriceType.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     netPriceType.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -1141,7 +1113,6 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (Constants.NET_PRICE_TYPE_FORMULA_PROPERTY.equals(propertyId)) {
             final CustomTextField netPriceTypeFormula = new CustomTextField();
-            netPriceTypeFormula.setImmediate(true);
             netPriceTypeFormula.setReadOnly(true);
             netPriceTypeFormula.addStyleName(Constants.SEARCH_ICON);
             netPriceTypeFormula.addClickListener(new CustomTextField.ClickListener() {
@@ -1177,10 +1148,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if (Constants.RESET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
             final ComboBox resetPriceType = new ComboBox();
-            resetPriceType.setImmediate(true);
             final AbstractContractSearchDTO dto = loadPricetype(itemId, resetPriceType);
-            resetPriceType.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            resetPriceType.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetPriceType.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -1207,10 +1177,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if (Constants.NET_RESET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
             final ComboBox netResetPriceType = new ComboBox();
-            netResetPriceType.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(netResetPriceType, Constants.LOCKED_STATUS_LISTNAME, false);
-            netResetPriceType.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            netResetPriceType.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     netResetPriceType.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -1242,7 +1211,6 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if ("netResetPriceFormula".equals(propertyId)) {
             final CustomTextField netResetPriceFormulaId = new CustomTextField();
-            netResetPriceFormulaId.setImmediate(true);
             netResetPriceFormulaId.setReadOnly(true);
             netResetPriceFormulaId.addStyleName(Constants.SEARCH_ICON);
             netResetPriceFormulaId.addClickListener(new CustomTextField.ClickListener() {
@@ -1278,10 +1246,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
             final ComboBox basePriceType = new ComboBox();
-            basePriceType.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(basePriceType, Constants.BASE_PRICE_TYPE_LISTNAME, false);
-            basePriceType.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            basePriceType.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     basePriceType.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -1316,12 +1283,11 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
             if (Constants.MANUAL_LABLE_NAME.equals(dto.getBasePriceType().getDescription().trim())) {
                 final TextField baseLineWacManual = new TextField();
-                baseLineWacManual.setImmediate(true);
                 baseLineWacManual.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
-                baseLineWacManual.addBlurListener(new FieldEvents.BlurListener() {
+                baseLineWacManual.addBlurListener(new BlurListener() {
                     @Override
                     public void blur(FieldEvents.BlurEvent event) {
-                        AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                          AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
                         dto.setBaseLineWacManual(baseLineWacManual.getValue());
                         dto.setColumnName(Constants.BASELINE_WAC_MANUAL_COLUMN_NAME);
                         dto.setCaseNo(NumericConstants.FORTY_SEVEN);
@@ -1336,11 +1302,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                 return baseLineWacManual;
             } else if (Constants.DATE_LABLE_NAME.equals(dto.getBasePriceType().getDescription())) {
                 final PopupDateField baseLineWacResetDate = new PopupDateField();
-                baseLineWacResetDate.setImmediate(true);
                 baseLineWacResetDate.setRequired(true);
                 baseLineWacResetDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
                 baseLineWacResetDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
-                baseLineWacResetDate.addBlurListener(new FieldEvents.BlurListener() {
+                baseLineWacResetDate.addBlurListener(new BlurListener() {
                     @Override
                     public void blur(FieldEvents.BlurEvent event) {
                         AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
@@ -1358,9 +1323,8 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                 return baseLineWacResetDate;
             } else if (Constants.PRICE_TYPE_LABEL.equals(dto.getBasePriceType().getDescription())) {
                 final ComboBox baseLineWacPriceType = new ComboBox();
-                baseLineWacPriceType.setImmediate(true);
                 final AbstractContractSearchDTO dtoPriceType = loadPricetype(itemId, baseLineWacPriceType);
-                baseLineWacPriceType.addBlurListener(new FieldEvents.BlurListener() {
+                baseLineWacPriceType.addBlurListener(new BlurListener() {
                     @Override
                     public void blur(FieldEvents.BlurEvent event) {
                         Object value = baseLineWacPriceType.getValue();
@@ -1381,10 +1345,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if (Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY.equals(propertyId)) {
             final ComboBox subsequentPeriodPriceType = new ComboBox();
-            subsequentPeriodPriceType.setImmediate(true);
             final AbstractContractSearchDTO dto = loadPricetype(itemId, subsequentPeriodPriceType);
-            subsequentPeriodPriceType.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            subsequentPeriodPriceType.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     subsequentPeriodPriceType.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -1410,10 +1373,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY.equals(propertyId)) {
             final ComboBox netSubsequentPeriodPrice = new ComboBox();
-            netSubsequentPeriodPrice.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(netSubsequentPeriodPrice, Constants.LOCKED_STATUS_LISTNAME, false);
-            netSubsequentPeriodPrice.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            netSubsequentPeriodPrice.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     netSubsequentPeriodPrice.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -1446,7 +1408,6 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if ("netSubsequentPeriodPriceFormula".equals(propertyId)) {
             final CustomTextField netSubsequentPriceFormulaId = new CustomTextField();
-            netSubsequentPriceFormulaId.setImmediate(true);
             netSubsequentPriceFormulaId.setReadOnly(true);
             netSubsequentPriceFormulaId.addStyleName(Constants.SEARCH_ICON);
             netSubsequentPriceFormulaId.addClickListener(new CustomTextField.ClickListener() {
@@ -1482,7 +1443,6 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (Constants.NET_BASELINE_WAC_FORMULA_PROPERTY.equals(propertyId)) {
             final CustomTextField netBaselineWacFormulaId = new CustomTextField();
-            netBaselineWacFormulaId.setImmediate(true);
             netBaselineWacFormulaId.setReadOnly(true);
             netBaselineWacFormulaId.addStyleName(Constants.SEARCH_ICON);
             netBaselineWacFormulaId.addClickListener(new CustomTextField.ClickListener() {
@@ -1517,10 +1477,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (Constants.BASELINE_NET_WAC_PROPERTY.equals(propertyId)) {
             final ComboBox baselineNetWAC = new ComboBox();
-            baselineNetWAC.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(baselineNetWAC, Constants.LOCKED_STATUS_LISTNAME, false);
-            baselineNetWAC.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            baselineNetWAC.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     baselineNetWAC.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -1552,10 +1511,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         if (Constants.PRICE_TYPE_PROPERTY.equals(propertyId)) {
             final ComboBox priceType = new ComboBox();
-            priceType.setImmediate(true);
             final AbstractContractSearchDTO dto = loadPricetype(itemId, priceType);
-            priceType.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            priceType.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceType.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
@@ -1582,10 +1540,9 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
         if (Constants.MEASUREMENT_PRICE_PROPERTY.equals(propertyId)) {
             final ComboBox measurementPrice = new ComboBox();
-            measurementPrice.setImmediate(true);
             final AbstractContractSearchDTO dto = loadPricetype(itemId, measurementPrice);
-            measurementPrice.addFocusListener(new FieldEvents.FocusListener() {
-                public void focus(FieldEvents.FocusEvent event) {
+            measurementPrice.addFocusListener(new FocusListener() {
+                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     measurementPrice.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {

@@ -12,14 +12,15 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractSummaryDTO;
 import com.stpl.app.gcm.itemmanagement.remove.logic.RemoveItemLogic;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.CustomExcelExport;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
@@ -27,7 +28,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  * @author Srithar
  */
 public class RebateSummary extends Summary {
- public static final Logger LOGGER = Logger.getLogger(RebateSummary.class);
+ public static final Logger LOGGER = LoggerFactory.getLogger(RebateSummary.class);
     public RebateSummary(List<ItemIndexDto> itemList, SelectionDTO selection) {
         super(itemList, selection);
     }

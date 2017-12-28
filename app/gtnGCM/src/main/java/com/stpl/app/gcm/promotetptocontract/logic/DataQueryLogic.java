@@ -13,7 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -21,7 +22,7 @@ import org.jboss.logging.Logger;
  */
 public class DataQueryLogic {
 
-    private static final Logger LOGGER = org.jboss.logging.Logger.getLogger(DataQueryLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataQueryLogic.class);
 
     /**
      * Contract Holder Query
@@ -84,7 +85,7 @@ public class DataQueryLogic {
             return list2;
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
             return Collections.emptyList();
         }
     }
@@ -157,7 +158,7 @@ public class DataQueryLogic {
             return list2;
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
             return Collections.emptyList();
         }
     }

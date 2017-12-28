@@ -10,14 +10,14 @@ import com.stpl.app.global.deductioncalendar.ui.util.HeaderUtils;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.util.Constants;
 import static com.stpl.app.util.GeneralCommonUtils.ZERO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
@@ -41,10 +41,9 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.GlobalConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
-import com.vaadin.data.util.BeanItem;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.util.BeanItem;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -97,7 +96,7 @@ public class SelectionLogic {
         String dbColumnName;
         StringBuilder queryString = new StringBuilder();
         if (availableOrselected.equals("available")) {
-            queryString = new StringBuilder(CustomSQLUtil.get(isCount ? "available-customer-search-count" : "available-customer-search-results"));
+            queryString = new StringBuilder(SQLUtil.getQuery(isCount ? "available-customer-search-count" : "available-customer-search-results"));
 
             if (StringUtils.isNotBlank(selectionDTO.getState()) && !Constants.NULL.equals(selectionDTO.getState())) {
                 String state = selectionDTO.getState();
@@ -169,7 +168,7 @@ public class SelectionLogic {
                 }
             }
         } else if (availableOrselected.equals("selected")) {
-            queryString = new StringBuilder(CustomSQLUtil.get(isCount ? "selected-customer-search-count" : "selected-customer-search-results"));
+            queryString = new StringBuilder(SQLUtil.getQuery(isCount ? "selected-customer-search-count" : "selected-customer-search-results"));
             queryString.append("WHERE  CM.INBOUND_STATUS <> 'D' ");
 
             queryString.append(" AND ST.USER_ID = ").append(selectionDTO.getUserId()).append(" AND ST.SESSION_ID = '").append(selectionDTO.getSessionId()).append("'");
@@ -471,7 +470,7 @@ public class SelectionLogic {
             queryString.append(" ORDER BY ").append(dbColumnName).append(" ").append(orderBy).append(" OFFSET ").append(start).append(" ROWS FETCH NEXT ")
                     .append(offset).append(" ROWS ONLY");
         }
-        final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryString.toString(), this, this);
+        final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
 
         if (isCount) {
             object = (Integer) list.get(0);
@@ -572,7 +571,7 @@ public class SelectionLogic {
         queryString.append(sessionDTO.getUserId()).
                 append(ConstantsUtils.QUOTE_SESSION_ID).append(sessionDTO.getUiSessionId()).append("' AND SELECTION_TYPE='");
         queryString.append(isItem ? "I" : "C").append("';");
-        RsModelLocalServiceUtil.executeUpdateQuery(queryString.toString(), this, this);
+        HelperTableLocalServiceUtil.executeUpdateQuery(queryString.toString());
     }
 
     public void moveCustomersAndSaveToTempTable(final SelectionDTO selDTO, final SessionDTO sessionDTO) {
@@ -580,12 +579,12 @@ public class SelectionLogic {
             
             String selectedComapnyIds = String.valueOf(selDTO.getCompanyMasterSid());
             
-            String queryString = CustomSQLUtil.get("moveAndMergeToTempTable");
+            String queryString = SQLUtil.getQuery("moveAndMergeToTempTable");
             queryString = queryString.replace("?COMPANY_FECTH", getQuery(true,selDTO,null));
             queryString = queryString.replace("?UID", sessionDTO.getUserId());
             queryString = queryString.replace("?SID", "'"+sessionDTO.getUiSessionId()+"'");    
             queryString = queryString.replace("?COMPANY_ITEM_SIDS", selectedComapnyIds);
-            RsModelLocalServiceUtil.executeUpdateQuery(queryString, this, this);            
+            HelperTableLocalServiceUtil.executeUpdateQuery(queryString);            
         }
     }
 
@@ -595,17 +594,17 @@ public class SelectionLogic {
                     .replace("?CMSID", selDTO)
                     .replace("?UID", "'"+sessionDTO.getUserId()+"'")
                     .replace("?SID", "'"+sessionDTO.getUiSessionId()+"'");
-            RsModelLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()), this, this);
+            HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()));
         }
     }
 
     public void addAllCustomersAndSaveToTempTable(final SessionDTO sessionDTO,final SelectionDTO selDTO,Set<Container.Filter> filter) {
         
-        String queryString = CustomSQLUtil.get("moveAndMergeToTempTable");
+        String queryString = SQLUtil.getQuery("moveAndMergeToTempTable");
         queryString = queryString.replace("?COMPANY_FECTH", getQuery(false,selDTO,filter));    
         queryString = queryString.replace("?UID", sessionDTO.getUserId());
         queryString = queryString.replace("?SID", "'"+sessionDTO.getUiSessionId()+"'");
-        RsModelLocalServiceUtil.executeUpdateQuery(queryString, this, this);
+        HelperTableLocalServiceUtil.executeUpdateQuery(queryString);
     }
     
     /**
@@ -620,23 +619,23 @@ public class SelectionLogic {
      */
     public void addAllItemsAndSaveToTempTable(final SessionDTO sessionDTO,final ErrorfulFieldGroup searchItemForm, boolean isAddAll, List<Integer> selectedItemSID,Set<Container.Filter> filter) {
         
-        String queryString = CustomSQLUtil.get("moveAndMergeItemsToTempTable");
+        String queryString = SQLUtil.getQuery("moveAndMergeItemsToTempTable");
         queryString = queryString.replace("?ITEM_FECTH", isAddAll? buildSearchQuery(searchItemForm, true, 0, 0, StringUtils.EMPTY, null, filter, true) : buildSearchQuery(null, true, 0, 0, StringUtils.join(selectedItemSID, ","), null, null, true));    
         queryString = queryString.replace("?UID", sessionDTO.getUserId());
         queryString = queryString.replace("?SID", "'"+sessionDTO.getUiSessionId()+"'");
-        RsModelLocalServiceUtil.executeUpdateQuery(queryString, this, this);
+        HelperTableLocalServiceUtil.executeUpdateQuery(queryString);
     }
 
     public void deleteAllCustomersFromTempTable(final SessionDTO sessionDTO) {
         String query= SQLUtil.getQuery("cp-deleteall-company")
                     .replace("?UID", "'"+sessionDTO.getUserId()+"'")
                     .replace("?SID", "'"+sessionDTO.getUiSessionId()+"'");
-            RsModelLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()), this, this);
+            HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()));
     }
 
     public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
         int code = 0;
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
@@ -653,14 +652,14 @@ public class SelectionLogic {
         .replace("@SESSIONID", sessionDTO.getUiSessionId())
         .replace("@STARTPERIOD", detailsDto.getForecastFromDate())
         .replace("@ENDPERIOD", detailsDto.getForecastToDate());
-        RsModelLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(queryString,sessionDTO.getCurrentTableNames()), this, this);
+        HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(queryString,sessionDTO.getCurrentTableNames()));
     }
 
     public List<SelectionDTO> getAvailableTableResult(ErrorfulFieldGroup searchItemForm, int start, int end, List<SortByColumn> columns, final Set<Container.Filter> filterSet) {
         List<SelectionDTO> selectionDTO;
         StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchItemForm, false, start, end, StringUtils.EMPTY, columns, filterSet, false);
-        final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+        final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         selectionDTO = getCustomizedSearchFormFromObject(list);
         return selectionDTO;
     }
@@ -669,7 +668,7 @@ public class SelectionLogic {
         int count = 0;
         StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchItemForm, true, 0, 0, StringUtils.EMPTY, columns, filterSet, false);
-        final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+        final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         if (list != null && !list.isEmpty()) {
             count += list.size();
         }
@@ -680,11 +679,11 @@ public class SelectionLogic {
         List<SelectionDTO> selectionDTO;
         StringBuilder queryBuilder;
         queryBuilder = buildAvailableQuery(sessionDTO, false, filterSet);
-        final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+        final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
 
         StringBuilder queryBuilder1;
         queryBuilder1 = buildSearchQuery(null, false, start, end, StringUtils.join(list, ','), columns, filterSet, false);
-        final List list1 = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder1.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+        final List list1 = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder1.toString());
         selectionDTO = getCustomizedSearchFormFromObject(list1);
         return selectionDTO;
     }
@@ -989,11 +988,11 @@ public class SelectionLogic {
         if (isSelected) {
             query = isCount ? "ITEM_MASTER_SID, ?UID, ?SID FROM ITEM_MASTER IM LEFT JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID=IM.MANUFACTURER_ID \n" +
                               "LEFT join UDCS UDCS ON UDCS.MASTER_SID=IM.ITEM_MASTER_SID AND UDCS.MASTER_TYPE='ITEM_MASTER'  \n" +
-                              ConstantsUtils.LEFT_JOIN_BRAND_MASTER_ON_BM_SID : CustomSQLUtil.get("DeductionCalendarItemSelectionSearch");
+                              ConstantsUtils.LEFT_JOIN_BRAND_MASTER_ON_BM_SID : SQLUtil.getQuery("DeductionCalendarItemSelectionSearch");
         }else{
             query = isCount ? "DISTINCT ITEM_MASTER_SID FROM ITEM_MASTER IM LEFT JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID=IM.MANUFACTURER_ID \n" +
                                 "LEFT join UDCS UDCS ON UDCS.MASTER_SID=IM.ITEM_MASTER_SID AND UDCS.MASTER_TYPE='ITEM_MASTER'  \n" +
-                                "LEFT join dbo.BRAND_MASTER BM ON BM.BRAND_MASTER_SID=IM.BRAND_MASTER_SID " : CustomSQLUtil.get("DeductionCalendarItemSelectionSearch");
+                                "LEFT join dbo.BRAND_MASTER BM ON BM.BRAND_MASTER_SID=IM.BRAND_MASTER_SID " : SQLUtil.getQuery("DeductionCalendarItemSelectionSearch");
         }
         queryBuilder.append(" SELECT " + query + " WHERE IM.INBOUND_STATUS <> 'D' ");
         if (criteria.isEmpty()) {
@@ -1496,10 +1495,10 @@ public class SelectionLogic {
     public void moveItemAndSaveToTempTable(final String selDTO, final SessionDTO sessionDTO) {
         if (selDTO != null) {
 
-            final StringBuilder queryString = new StringBuilder(CustomSQLUtil.get("moveAndSaveToTempTable"));
+            final StringBuilder queryString = new StringBuilder(SQLUtil.getQuery("moveAndSaveToTempTable"));
             queryString.append("SELECT ").append(selDTO).append(" ,'I',1,'A','").append(sessionDTO.getUserId()).
                     append("','").append(sessionDTO.getUiSessionId()).append("' ;");
-            RsModelLocalServiceUtil.executeUpdateQuery(queryString.toString(), this, this);
+            HelperTableLocalServiceUtil.executeUpdateQuery(queryString.toString());
         }
     }
 
@@ -1510,12 +1509,12 @@ public class SelectionLogic {
             queryString=queryString.replace("?UID","'"+sessionDTO.getUserId()+"'")
                     .replace("?SID","'"+sessionDTO.getUiSessionId()+"'")
                     .replace("?IMSID",selDTO);
-            RsModelLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(queryString,sessionDTO.getCurrentTableNames()), this, this);
+            HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(queryString,sessionDTO.getCurrentTableNames()));
         }else if (isRemoveAll) {
             String queryString = SQLUtil.getQuery("cp-deleteall-item");
             queryString=queryString.replace("?UID","'"+sessionDTO.getUserId()+"'")
                     .replace("?SID","'"+sessionDTO.getUiSessionId()+"'");
-            RsModelLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(queryString,sessionDTO.getCurrentTableNames()), this, this);
+            HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(queryString,sessionDTO.getCurrentTableNames()));
         }
     }
 
@@ -1527,7 +1526,7 @@ public class SelectionLogic {
                     .append("' AND SELECTION_TYPE='I' AND USER_ID='").append(sessionDTO.getUserId()).
                     append(ConstantsUtils.QUOTE_SESSION_ID).append(sessionDTO.getUiSessionId()).append("' ;");
 
-            List obj = (List) RsModelLocalServiceUtil.executeSelectQuery(queryString.toString(), this, this);
+            List obj = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
             if (((Integer) obj.get(0)) > 0) {
                 return true;
             }
@@ -1538,7 +1537,7 @@ public class SelectionLogic {
     public List addToTempTable(ErrorfulFieldGroup searchItemForm) {
         StringBuilder queryBuilder;
         queryBuilder = buildSearchQuery(searchItemForm, true, 0, 0, StringUtils.EMPTY, null, null, false);
-        final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+        final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         return list;
     }
 
@@ -1546,7 +1545,7 @@ public class SelectionLogic {
         final StringBuilder queryString = new StringBuilder();
         queryString.append("UPDATE DEDUCTION_CALENDAR_MASTER SET INBOUND_STATUS = 'D' WHERE DEDUCTION_CALENDAR_MASTER_SID = ")
                 .append(deducationCalendarSid).append(";");
-         RsModelLocalServiceUtil.executeUpdateQuery(queryString.toString(), this, this);
+         HelperTableLocalServiceUtil.executeUpdateQuery(queryString.toString());
     }
 
     public String parseDateLogic(Object object) {
@@ -1567,7 +1566,7 @@ public class SelectionLogic {
     public String getSelectedCompanyIds(SessionDTO sessionDTO){
         final String query = "SELECT COMPANY_ITEM_SID FROM ST_SELECTION_TABLE WHERE SELECTION_TYPE = 'C' AND USER_ID = "
                 + " "+sessionDTO.getUserId()+" AND SESSION_ID = '"+sessionDTO.getUiSessionId()+"';";
-        List idList = (List) RsModelLocalServiceUtil.executeSelectQuery(query, null, null);
+        List idList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         
         String selectedCompanySids = StringUtils.EMPTY;
         if(!idList.isEmpty()){

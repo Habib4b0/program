@@ -9,7 +9,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import org.asi.container.ExtMapDTO;
 import java.util.Comparator;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -17,7 +18,7 @@ import org.jboss.logging.Logger;
  */
 public class SalesTabDTO extends ExtMapDTO implements Comparator<SalesTabDTO> {
     
-    private static final Logger LOGGER = Logger.getLogger(SalesTabDTO.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SalesTabDTO.class);
 
     private String levelValue = StringUtils.EMPTY;
     private Integer parent;
@@ -104,7 +105,7 @@ public class SalesTabDTO extends ExtMapDTO implements Comparator<SalesTabDTO> {
                 }
             }
         } catch (Exception e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
         }
 
         return value;

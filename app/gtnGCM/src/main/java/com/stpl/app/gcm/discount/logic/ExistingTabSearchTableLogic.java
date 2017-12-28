@@ -6,12 +6,13 @@
 package com.stpl.app.gcm.discount.logic;
 
 import com.stpl.app.gcm.discount.dto.ContractsDetailsDto;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,7 +20,7 @@ import org.jboss.logging.Logger;
  */
 public class ExistingTabSearchTableLogic extends PageTableLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(ExistingTabSearchTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExistingTabSearchTableLogic.class);
     ContractsDetailsDto newDiscountTabDto = new ContractsDetailsDto();
     DiscountLogic logic = new DiscountLogic();
     boolean generate = false;
@@ -30,7 +31,7 @@ public class ExistingTabSearchTableLogic extends PageTableLogic {
             try {
                 return logic.getRebateScheduleCount(newDiscountTabDto);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
         return 0;
@@ -44,7 +45,7 @@ public class ExistingTabSearchTableLogic extends PageTableLogic {
         try {
             resultList = logic.getRebateSchedule(newDiscountTabDto);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }

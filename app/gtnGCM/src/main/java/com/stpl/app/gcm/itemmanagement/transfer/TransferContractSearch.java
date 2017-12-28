@@ -24,7 +24,7 @@ import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
@@ -60,7 +60,7 @@ public class TransferContractSearch extends AbstractContractSearch {
             configureFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
 
         }
 
@@ -449,7 +449,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                         "Please select atleast one approved contract to proceed.");
             }
         } catch (Exception ez) {
-            LOGGER.error(ez);
+            LOGGER.error("",ez);
         }
         return isSubmit;
     }
@@ -478,7 +478,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                             selection.getLookup().changeTab();
                             isSubmit = true;
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
 
@@ -663,7 +663,7 @@ public class TransferContractSearch extends AbstractContractSearch {
             getResetBtncur().setVisible(CommonLogic.isButtonVisibleAccess("reset2", functionHM));
             getSubmit().setVisible(CommonLogic.isButtonVisibleAccess("submit", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

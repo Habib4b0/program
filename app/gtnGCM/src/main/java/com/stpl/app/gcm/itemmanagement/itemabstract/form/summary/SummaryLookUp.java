@@ -15,8 +15,8 @@ import com.stpl.app.gcm.itemmanagement.remove.form.SalesAndRebates;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Panel;
@@ -27,7 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -47,7 +48,7 @@ public class SummaryLookUp extends CustomComponent {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(SummaryLookUp.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(SummaryLookUp.class);
     final StplSecurity stplSecurity = new StplSecurity();
     Map<String, AppPermission> functionHM = new HashMap<>();
 
@@ -75,7 +76,7 @@ public class SummaryLookUp extends CustomComponent {
             mainTab.addTab(salesAndRebate, "Sales and Rebates", null, NumericConstants.THREE);
             configureFields();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         setCompositionRoot(panel);
         return panel;
@@ -157,7 +158,7 @@ public class SummaryLookUp extends CustomComponent {
             }
             setFunctionHM(functionHM);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 

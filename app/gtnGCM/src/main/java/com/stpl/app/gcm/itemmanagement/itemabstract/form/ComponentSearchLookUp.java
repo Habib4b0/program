@@ -13,27 +13,27 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.ComponentLookUpLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -49,14 +49,15 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author mohamed.hameed
  */
 public class ComponentSearchLookUp extends CustomWindow {
-private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.class);
+private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLookUp.class);
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
     @UiField("componentId")
@@ -107,7 +108,7 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
     private String component = StringUtils.EMPTY;
     ComponentLookUpDTO componentDto;
     ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection = new SelectionDTO();
     AbstractLogic logic = AbstractLogic.getInstance();
     List<String> countFlag = new ArrayList<>();
@@ -168,10 +169,7 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
         labelStartDate.setCaption(component + labelStartDate.getCaption());
         labelEndDate.setCaption(component + labelEndDate.getCaption());
         componentStatusBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        componentStatus_DTO.setImmediate(true);
         componentTypeBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        componentType.setImmediate(true);
-        selectBtn.setImmediate(false);
         selectBtn.setEnabled(false);
         componentStatus_DTO.setNullSelectionAllowed(true);
         componentStatus_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
@@ -238,7 +236,7 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
         cfpTableLayout.addComponent(controlLayout);
     }
 
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
@@ -289,7 +287,7 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
                     endDate.setValue(null);
                     binder.commit();
                 } catch (FieldGroup.CommitException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 

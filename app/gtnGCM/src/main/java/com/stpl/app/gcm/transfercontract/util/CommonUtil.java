@@ -6,14 +6,15 @@
 package com.stpl.app.gcm.transfercontract.util;
 
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -21,7 +22,7 @@ import org.jboss.logging.Logger;
  */
 public final class CommonUtil {
 
-    public static final Logger LOGGER = Logger.getLogger(CommonUtil.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CommonUtil.class);
 
     public static String astToPerConverter(final String inputString) {
         return StringUtils.isBlank(inputString) || Constants.NULL.equals(inputString) ? "%" : inputString.replace("*", "%");
@@ -57,7 +58,7 @@ public final class CommonUtil {
 
     public static String getQuery(final Map<String, String> input, final String queryName) {
         LOGGER.debug("queryName-->>" + queryName);
-        StringBuilder queryString = new StringBuilder(CustomSQLUtil.get(queryName) != null ? CustomSQLUtil.get(queryName) : StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder(SQlUtil.getQuery(queryName) != null ? SQlUtil.getQuery(queryName) : StringUtils.EMPTY);
         if (input != null) {
             for (Map.Entry<String, String> entry : input.entrySet()) {
                 final String string = entry.getKey();
@@ -90,7 +91,7 @@ public final class CommonUtil {
     
     public static String getQuery(final Map<String, String> input, final Map<String, String> inputToAppend, final String queryName) {
         LOGGER.debug("queryName-->>" + queryName);
-        StringBuilder queryString = new StringBuilder(CustomSQLUtil.get(queryName) != null ? CustomSQLUtil.get(queryName) : StringUtils.EMPTY);
+        StringBuilder queryString = new StringBuilder(SQlUtil.getQuery(queryName) != null ? SQlUtil.getQuery(queryName) : StringUtils.EMPTY);
         if (input != null) {
             for (Map.Entry<String, String> entry : input.entrySet()) {
                 final String string = entry.getKey();

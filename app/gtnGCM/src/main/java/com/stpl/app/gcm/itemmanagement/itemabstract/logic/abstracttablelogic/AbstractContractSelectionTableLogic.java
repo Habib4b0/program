@@ -12,14 +12,14 @@ import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractFilter;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.ui.form.WorkFlowLookup;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.v7.ui.themes.Reindeer;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -101,7 +101,6 @@ public class AbstractContractSelectionTableLogic extends PageTableLogic {
         Button projectionId = new Button(dto.getProjectionId());
         projectionId.setCaption(dto.getProjectionId()); // for setting revision date in excel
         projectionId.setData(dto);
-        projectionId.setImmediate(true);
         projectionId.setStyleName(Reindeer.BUTTON_LINK);
         projectionId.addClickListener(new ClickListener() {
             public void buttonClick(ClickEvent event) {

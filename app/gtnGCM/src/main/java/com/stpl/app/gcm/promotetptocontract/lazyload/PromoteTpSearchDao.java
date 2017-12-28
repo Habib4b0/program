@@ -8,10 +8,11 @@ import com.stpl.app.gcm.promotetptocontract.dto.PromoteTpToChDto;
 import com.stpl.app.gcm.promotetptocontract.logic.PromoteTPLogic;
 import java.util.ArrayList;
 import java.util.List;
-import org.vaadin.addons.lazycontainer.BeanDAO;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
+import org.asi.ui.addons.lazycontainer.BeanDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
 
 /**
  *
@@ -19,7 +20,7 @@ import org.vaadin.addons.lazycontainer.OrderByColumn;
  */
 public class PromoteTpSearchDao implements BeanDAO<PromoteTpToChDto> {
 
-    public static final Logger LOGGER = Logger.getLogger(PromoteTpSearchDao.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpSearchDao.class);
     PromoteTpToChDto promoteTpToChDto;
     PromoteTPLogic logic = new PromoteTPLogic();
 
@@ -34,7 +35,7 @@ public class PromoteTpSearchDao implements BeanDAO<PromoteTpToChDto> {
             count = logic.searchCompanyCount(promoteTpToChDto);
         } catch (Exception ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("count in PromoteTpSearchDao---->" + count);
         return count;
@@ -47,7 +48,7 @@ public class PromoteTpSearchDao implements BeanDAO<PromoteTpToChDto> {
             resultList = logic.searchCompaniesLazy(promoteTpToChDto, startIndex, offset,orderByColumns);
         } catch (Exception ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }

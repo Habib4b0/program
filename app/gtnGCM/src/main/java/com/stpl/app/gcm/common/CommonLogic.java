@@ -20,7 +20,8 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stpl.app.gcm.common.dao.CommonDao;
 import com.stpl.app.gcm.common.dao.impl.CommonImpl;
@@ -52,7 +53,6 @@ import com.stpl.app.model.RsContract;
 import com.stpl.app.model.RsModel;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.CfpModelLocalServiceUtil;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.IfpModelLocalServiceUtil;
 import com.stpl.app.service.PsModelLocalServiceUtil;
@@ -60,18 +60,22 @@ import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
-import com.vaadin.ui.ComboBox;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.util.xmlparser.SQlUtil;
+import com.stpl.app.service.CfpContractLocalServiceUtil;
+import com.stpl.app.service.ContractMasterLocalServiceUtil;
+import com.stpl.app.service.IfpContractLocalServiceUtil;
+import com.stpl.app.service.PsContractLocalServiceUtil;
+import com.stpl.app.service.RsContractLocalServiceUtil;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 
 /**
  *
@@ -85,7 +89,7 @@ public class CommonLogic {
 	static CommonDao DAO = CommonImpl.getInstance();
 	private final ContractDetailsDAO dao = new ContractDetailsDaoImpl();
 	private static final DiscountDAO discountDAO = new DiscountDaoImpl();
-	private static final Logger LOGGER = Logger.getLogger(CommonLogic.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CommonLogic.class);
 	private int newProjectionId;
 	private String forecastingType = StringUtils.EMPTY;
 	private int prodRelationshipId;
@@ -197,7 +201,7 @@ public class CommonLogic {
 	public DynamicQuery getProcessedQuery(final String contractId) {
 		LOGGER.debug("Entering getProcessedQuery method");
 
-		final DynamicQuery contractQuery = DynamicQueryFactoryUtil.forClass(ContractMaster.class);
+		final DynamicQuery contractQuery = ContractMasterLocalServiceUtil.dynamicQuery();
 		String contract;
 		if (contractId.trim().equals(StringUtils.EMPTY)) {
 			contract = IndicatorConstants.CHAR_PERCENT.getConstant();
@@ -245,7 +249,7 @@ public class CommonLogic {
 	public int getCFPQueriedCount(final int contractSystemId) throws SystemException {
 		LOGGER.debug("Entering getCFPQueriedCount method");
 
-		final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CfpContract.class);
+		final DynamicQuery cfpDynamicQuery = CfpContractLocalServiceUtil.dynamicQuery();
 		cfpDynamicQuery.add(
 				RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
 		cfpDynamicQuery.add(RestrictionsFactoryUtil
@@ -257,7 +261,7 @@ public class CommonLogic {
 	public int getIFPQueriedCount(final int contractSystemId) throws SystemException {
 		LOGGER.debug("Entering getIFPQueriedCount method");
 
-		final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(IfpContract.class);
+		final DynamicQuery ifpDynamicQuery = IfpContractLocalServiceUtil.dynamicQuery();
 		ifpDynamicQuery.add(
 				RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
 		ifpDynamicQuery.add(RestrictionsFactoryUtil
@@ -276,7 +280,7 @@ public class CommonLogic {
 	public int getPSQueriedCount(final int contractSystemId) throws SystemException {
 		LOGGER.debug("Entering getPSQueriedCount method");
 
-		final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsContract.class);
+		final DynamicQuery psDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
 		psDynamicQuery.add(
 				RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
 		psDynamicQuery.add(RestrictionsFactoryUtil
@@ -288,7 +292,7 @@ public class CommonLogic {
 	public int getRSQueriedCount(final int contractSystemId) throws SystemException {
 		LOGGER.debug("Entering getRSQueriedCount method");
 
-		final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContract.class);
+		final DynamicQuery rsDynamicQuery = RsContractLocalServiceUtil.dynamicQuery();
 		rsDynamicQuery.add(
 				RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
 		rsDynamicQuery.add(RestrictionsFactoryUtil
@@ -634,7 +638,7 @@ public class CommonLogic {
 		LOGGER.debug("Entering getCFPList method");
 
 		final List<ContractsDetailsDto> cfpList = new ArrayList<>();
-		final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CfpContract.class);
+		final DynamicQuery cfpDynamicQuery = CfpContractLocalServiceUtil.dynamicQuery();
 		cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
 				parent1.getSystemId()));
 		cfpDynamicQuery.add(RestrictionsFactoryUtil
@@ -672,7 +676,7 @@ public class CommonLogic {
 		LOGGER.debug("Entering getIFPList method");
 
 		final List<ContractsDetailsDto> ifpList = new ArrayList<>();
-		final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(IfpContract.class);
+		final DynamicQuery ifpDynamicQuery = IfpContractLocalServiceUtil.dynamicQuery();
 		ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
 				parent1.getSystemId()));
 		ifpDynamicQuery.add(RestrictionsFactoryUtil
@@ -745,7 +749,7 @@ public class CommonLogic {
 		LOGGER.debug("Entering getPSList method");
 
 		final List<ContractsDetailsDto> psList = new ArrayList<>();
-		final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsContract.class);
+		final DynamicQuery psDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
 		psDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
 				parent1.getSystemId()));
 		psDynamicQuery.add(RestrictionsFactoryUtil
@@ -842,7 +846,7 @@ public class CommonLogic {
 		LOGGER.debug("Entering getRSList method");
 
 		final List<ContractsDetailsDto> rsList = new ArrayList<>();
-		final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContract.class);
+		final DynamicQuery rsDynamicQuery = RsContractLocalServiceUtil.dynamicQuery();
 		rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
 				parent1.getSystemId()));
 		rsDynamicQuery.add(RestrictionsFactoryUtil
@@ -999,7 +1003,7 @@ public class CommonLogic {
 	}
 
 	public static String getDescriptionFromID(final int systemId) throws SystemException {
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+		DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("helperTableSid", systemId));
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 		productProjectionList.add(ProjectionFactoryUtil.property("description"));
@@ -1018,7 +1022,6 @@ public class CommonLogic {
 			componentTypeDdlb.addItem(Constants.IndicatorConstants.PRICE_SCHEDULE);
 			componentTypeDdlb.addItem(Constants.IndicatorConstants.REBATE_SCHEDULE);
 			componentTypeDdlb.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-			componentTypeDdlb.setImmediate(true);
 		} else {
 			componentTypeDdlb.removeAllItems();
 			componentTypeDdlb.addItem(componenttype);
@@ -1032,7 +1035,6 @@ public class CommonLogic {
 		searchDdlb.setNullSelectionAllowed(true);
 		searchDdlb.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
 		searchDdlb.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-		searchDdlb.setImmediate(true);
 		return searchDdlb;
 	}
 
@@ -1141,7 +1143,7 @@ public class CommonLogic {
 	public static List<HelperDTO> getDropDownList(final String listType) throws SystemException {
 		final List<HelperDTO> helperList = new ArrayList<>();
 		LOGGER.debug("Helper Table listType=" + listType);
-		final DynamicQuery helperTableQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+		final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();
 		helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
 		helperTableQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
 		final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(helperTableQuery);
@@ -1214,7 +1216,7 @@ public class CommonLogic {
 			date = inputDateFormatter.parse(stringDate);
 			return outputDateFormatter.format(date);
 		} catch (ParseException ex) {
-			java.util.logging.Logger.getLogger(CommonLogic.class.getName()).log(Level.SEVERE, null, ex);
+			LoggerFactory.getLogger(CommonLogic.class.getName()).error("", ex);
 		}
 		return null;
 	}
@@ -1239,7 +1241,7 @@ public class CommonLogic {
 		try {
 			convertedValue = Integer.parseInt(value);
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 			LOGGER.error("Unable To convert to Int " + value);
 		}
 		return convertedValue;
@@ -1301,7 +1303,7 @@ public class CommonLogic {
 				+ "' \n" + "            AND Temp.SCREEN_NAME = '" + screenName + "' \n"
 				+ "            AND PM.IS_APPROVED = 'A' \n" + "  ORDER  BY PM.MODIFIED_DATE DESC ";
 
-		List list = CompanyMasterLocalServiceUtil.executeQuery(query);
+		List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
 		if (list != null && !list.isEmpty()) {
 			projectionId = Integer.parseInt(String.valueOf(list.get(0)));
@@ -1507,8 +1509,8 @@ public class CommonLogic {
 				callActualsDetailsInsertProcedure();
 				String relationShipBuilderSidQuery = "select CUST_RELATIONSHIP_BUILDER_SID, PROD_RELATIONSHIP_BUILDER_SID, FORECASTING_TYPE, CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID = "
 						+ oldProjectionId;
-				Object[] projectionMasterRow = (Object[]) CompanyMasterLocalServiceUtil
-						.executeQuery(relationShipBuilderSidQuery).get(0);
+				Object[] projectionMasterRow = (Object[]) HelperTableLocalServiceUtil
+						.executeSelectQuery(relationShipBuilderSidQuery).get(0);
 				LOGGER.debug(" cust Rel Builder Sid  " + String.valueOf(projectionMasterRow[0]));
 				LOGGER.debug("  prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
 
@@ -1619,7 +1621,7 @@ public class CommonLogic {
 				LOGGER.error(" CCP insert procedure failed ");
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 		}
 
 		LOGGER.debug("Exiting generateNewProjection");
@@ -1656,14 +1658,14 @@ public class CommonLogic {
 			}
 		} catch (Exception ex) {
 
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 			return false;
 		} finally {
 			try {
 				statement.close();
 				connection.close();
 			} catch (Exception e) {
-				LOGGER.error(e);
+				LOGGER.error("",e);
 			}
 		}
 		LOGGER.debug("exiting ActualsDetailsInsertProcedure");
@@ -1689,7 +1691,7 @@ public class CommonLogic {
 		query += " RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSid + ") A \n"
 				+ " where RLD.HIERARCHY_NO like A.HIERARCHY_NO+'%'";
 		LOGGER.debug(" getRelationShipLevelSid query " + query);
-		List list = CompanyMasterLocalServiceUtil.executeQuery(query);
+		List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 		LOGGER.debug("Existing getRelationShipLevelSid");
 
 		return list;
@@ -1705,7 +1707,7 @@ public class CommonLogic {
 							+ "SELECT  " + newProjectionId
 							+ ", RELATIONSHIP_LEVEL_SID from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID = "
 							+ oldProjectionId;
-					CompanyMasterLocalServiceUtil.executeUpdateQuery(custQuery);
+					HelperTableLocalServiceUtil.executeUpdateQuery(custQuery);
 
 				}
 			} else if (custHierarchyClone) {
@@ -1727,7 +1729,7 @@ public class CommonLogic {
 						+ sessionDTO.getToProjectionId() + " \n" + "AND CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
 						+ ")";
 
-				CompanyMasterLocalServiceUtil.executeUpdateQuery(custQuery1);
+				HelperTableLocalServiceUtil.executeUpdateQuery(custQuery1);
 
 			}
 			if (prodHierarchyClone) {
@@ -1735,7 +1737,7 @@ public class CommonLogic {
 						+ "SELECT " + newProjectionId
 						+ ", RELATIONSHIP_LEVEL_SID from PROJECTION_PROD_HIERARCHY where PROJECTION_MASTER_SID = "
 						+ oldProjectionId;
-				CompanyMasterLocalServiceUtil.executeUpdateQuery(prodQuery1);
+				HelperTableLocalServiceUtil.executeUpdateQuery(prodQuery1);
 			}
 		} else {
 			if (custHierarchyClone) {
@@ -1743,7 +1745,7 @@ public class CommonLogic {
 						+ "SELECT " + newProjectionId
 						+ ", RELATIONSHIP_LEVEL_SID from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID = "
 						+ oldProjectionId;
-				CompanyMasterLocalServiceUtil.executeUpdateQuery(custQuery);
+				HelperTableLocalServiceUtil.executeUpdateQuery(custQuery);
 
 			}
 			if (prodHierarchyClone) {
@@ -1764,7 +1766,7 @@ public class CommonLogic {
 						+ " WHERE PD.PROJECTION_MASTER_SID=" + sessionDTO.getToProjectionId() + "\n"
 						+ " AND CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID)";
 
-				CompanyMasterLocalServiceUtil.executeUpdateQuery(prodQuery);
+				HelperTableLocalServiceUtil.executeUpdateQuery(prodQuery);
 
 			}
 		}
@@ -1790,7 +1792,7 @@ public class CommonLogic {
 				+ tableName + " (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) values (" + projectionId + ","
 				+ relationshipLevelSid + ")";
 
-		int recordNos = CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+		int recordNos = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
 		LOGGER.debug("Exiting updateCustomerOrProductHierarchy");
 		return recordNos;
 	}
@@ -1802,17 +1804,17 @@ public class CommonLogic {
 		boolean status = false;
 
 		try {
-			String customSql = CustomSQLUtil.get("gcm.saveCcp");
+			String customSql = SQlUtil.getQuery("gcm.saveCcp");
 
 			customSql = customSql.replace("?NEW_PROJECTION_ID", String.valueOf(newProjectionId));
 			customSql = customSql.replace("?OLD_PROJECTION_ID", String.valueOf(oldProjectionId));
 			customSql = customSql.replace("?FROM_PROJECTION_ID", String.valueOf(session.getFromProjectionId()));
 			customSql = customSql.replace("?TO_PROJECTION_ID", String.valueOf(session.getToProjectionId()));
-			CompanyMasterLocalServiceUtil.executeUpdateQuery(customSql);
+			HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
 
 			status = true;
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 		}
 
 		LOGGER.debug("End of insertIntoProjectionDetails method");
@@ -1834,15 +1836,15 @@ public class CommonLogic {
 		try {
 			LOGGER.debug("Entering tempOperation method ");
 
-			String customSql = CustomSQLUtil.get("nm.saveToMainTable");
+			String customSql = SQlUtil.getQuery("nm.saveToMainTable");
 			customSql = customSql.replace("?UID", userId);
 			customSql = customSql.replace("?SID", sessionId);
 
-			CompanyMasterLocalServiceUtil.executeUpdateQuery(customSql);
+			HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
 			updateSaveFlag(projectionId);
 			LOGGER.debug("End of tempOperation method");
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 		}
 	}
 
@@ -1881,7 +1883,7 @@ public class CommonLogic {
 
 	private void updateSaveFlag(final int projectionId) {
 		LOGGER.debug("Entering updateSaveFlag method ");
-		CompanyMasterLocalServiceUtil.executeUpdateQuery(
+		HelperTableLocalServiceUtil.executeUpdateQuery(
 				"UPDATE PROJECTION_MASTER SET SAVE_FLAG = 1 where PROJECTION_MASTER_SID = " + projectionId);
 		LOGGER.debug("Exiting updateSaveFlag method ");
 	}
@@ -1910,12 +1912,12 @@ public class CommonLogic {
 	public static List<HelperDTO> getBrand(String queryName) {
 		List results = new ArrayList();
 		List<HelperDTO> searchList = new ArrayList<>();
-		String query = CustomSQLUtil.get(queryName);
+		String query = SQlUtil.getQuery(queryName);
 		try {
 			results = discountDAO.getRebates(query);
 
 		} catch (Exception ex) {
-			java.util.logging.Logger.getLogger(CommonLogic.class.getName()).log(Level.SEVERE, null, ex);
+			LoggerFactory.getLogger(CommonLogic.class.getName()).error("", ex);
 		}
 		int size = results.size();
 		for (int i = 0; i < size; i++) {
@@ -1934,13 +1936,13 @@ public class CommonLogic {
 		StringBuilder discountQuery = new StringBuilder(StringUtils.EMPTY);
 		StringBuilder rebateQuery = new StringBuilder(StringUtils.EMPTY);
 		if (Constants.NON_MANDATED.equalsIgnoreCase(forecastingType)) {
-			salesQuery.append(CustomSQLUtil.get("nm.salesTableUpdate"));
-			discountQuery.append(CustomSQLUtil.get("nm.discountTableUpdate"));
-			rebateQuery.append(CustomSQLUtil.get("nm.ppaTableUpdate"));
+			salesQuery.append(SQlUtil.getQuery("nm.salesTableUpdate"));
+			discountQuery.append(SQlUtil.getQuery("nm.discountTableUpdate"));
+			rebateQuery.append(SQlUtil.getQuery("nm.ppaTableUpdate"));
 		} else if (Constants.MANDATED.equalsIgnoreCase(forecastingType)) {
-			salesQuery.append(CustomSQLUtil.get("man.salesTableUpdate"));
-			discountQuery.append(CustomSQLUtil.get("man.suppTableUpdate"));
-			rebateQuery.append(CustomSQLUtil.get("man.discountTableUpdate"));
+			salesQuery.append(SQlUtil.getQuery("man.salesTableUpdate"));
+			discountQuery.append(SQlUtil.getQuery("man.suppTableUpdate"));
+			rebateQuery.append(SQlUtil.getQuery("man.discountTableUpdate"));
 		}
 		salesQuery.replace(salesQuery.indexOf("?CON"), salesQuery.indexOf("?CON") + NumericConstants.FOUR,
 				contractMasterSid);
@@ -1978,9 +1980,9 @@ public class CommonLogic {
 			rebateQuery.replace(rebateQuery.indexOf(Constants.FIELD),
 					rebateQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.ITEM_MASTER_SID);
 		}
-		CompanyMasterLocalServiceUtil.executeUpdateQuery(salesQuery.toString());
-		CompanyMasterLocalServiceUtil.executeUpdateQuery(discountQuery.toString());
-		CompanyMasterLocalServiceUtil.executeUpdateQuery(rebateQuery.toString());
+		HelperTableLocalServiceUtil.executeUpdateQuery(salesQuery.toString());
+		HelperTableLocalServiceUtil.executeUpdateQuery(discountQuery.toString());
+		HelperTableLocalServiceUtil.executeUpdateQuery(rebateQuery.toString());
 	}
 
 	/**
@@ -2028,17 +2030,17 @@ public class CommonLogic {
 			LOGGER.debug("Ending " + procedureName + " Procedure");
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		} finally {
 			try {
 				statement.close();
 			} catch (Exception e) {
-				LOGGER.error(e);
+				LOGGER.error("",e);
 			}
 			try {
 				connection.close();
 			} catch (Exception e) {
-				LOGGER.error(e);
+				LOGGER.error("",e);
 			}
 		}
 		LOGGER.debug("Exiting callTableInsert");
@@ -2077,7 +2079,7 @@ public class CommonLogic {
 		String str = StringUtils.EMPTY;
 		String query = "select LEVEL_VALUE_REFERENCE from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID="
 				+ definedValue + " and LEVEL_NAME='Market Type'";
-		List<Object> listValue = CompanyMasterLocalServiceUtil.executeQuery(query);
+		List<Object> listValue = HelperTableLocalServiceUtil.executeSelectQuery(query);
 		if (listValue.size() > 0) {
 			for (int i = 0; i < listValue.size(); i++) {
 				str = String.valueOf(listValue.get(0));
@@ -2090,7 +2092,7 @@ public class CommonLogic {
 		String marketTypeValue = StringUtils.EMPTY;
 		String query = "select DESCRIPTION from HELPER_TABLE where HELPER_TABLE_SID in('" + marketType
 				+ "') and LIST_NAME='CONTRACT_TYPE' ";
-		List<Object> temp = CompanyMasterLocalServiceUtil.executeQuery(query);
+		List<Object> temp = HelperTableLocalServiceUtil.executeSelectQuery(query);
 		if (temp.size() > 0) {
 			for (int i = 0; i < temp.size(); i++) {
 				marketTypeValue = String.valueOf(temp.get(i));
@@ -2104,8 +2106,8 @@ public class CommonLogic {
 		try {
 			String relationShipBuilderSidQuery = "select CUST_RELATIONSHIP_BUILDER_SID, PROD_RELATIONSHIP_BUILDER_SID, FORECASTING_TYPE, CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID = "
 					+ oldProjectionId;
-			Object[] projectionMasterRow = (Object[]) CompanyMasterLocalServiceUtil
-					.executeQuery(relationShipBuilderSidQuery).get(0);
+			Object[] projectionMasterRow = (Object[]) HelperTableLocalServiceUtil
+					.executeSelectQuery(relationShipBuilderSidQuery).get(0);
 			LOGGER.debug(" cust Rel Builder Sid  " + String.valueOf(projectionMasterRow[0]));
 			LOGGER.debug("  prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
 			setProdRelationshipId(Integer.valueOf(String.valueOf(projectionMasterRow[1])));
@@ -2186,7 +2188,7 @@ public class CommonLogic {
 
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 		}
 
 		return tempList;
@@ -2207,8 +2209,8 @@ public class CommonLogic {
 		session = CommonUtils.attachSessionId(session);
 		String relationShipBuilderSidQuery = "select CUST_RELATIONSHIP_BUILDER_SID, PROD_RELATIONSHIP_BUILDER_SID,FORECASTING_TYPE, CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID = "
 				+ oldProjectionId;
-		Object[] projectionMasterRow = (Object[]) CompanyMasterLocalServiceUtil
-				.executeQuery(relationShipBuilderSidQuery).get(0);
+		Object[] projectionMasterRow = (Object[]) HelperTableLocalServiceUtil
+				.executeSelectQuery(relationShipBuilderSidQuery).get(0);
 
 		LOGGER.debug(" cust Rel Builder Sid " + String.valueOf(projectionMasterRow[0]));
 		LOGGER.debug(" prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
@@ -2292,13 +2294,13 @@ public class CommonLogic {
 		List queryList = new ArrayList();
 		try {
 			if (Constants.NON_MANDATED.equalsIgnoreCase(forecastingType)) {
-				salesQuery.append(CustomSQLUtil.get("nm.salesTableUpdate"));
-				discountQuery.append(CustomSQLUtil.get("nm.removediscountupdate"));
-				rebateQuery.append(CustomSQLUtil.get("nm.ppaTableUpdate"));
+				salesQuery.append(SQlUtil.getQuery("nm.salesTableUpdate"));
+				discountQuery.append(SQlUtil.getQuery("nm.removediscountupdate"));
+				rebateQuery.append(SQlUtil.getQuery("nm.ppaTableUpdate"));
 			} else if (Constants.MANDATED.equalsIgnoreCase(forecastingType)) {
-				salesQuery.append(CustomSQLUtil.get("man.salesTableUpdate"));
-				discountQuery.append(CustomSQLUtil.get("man.suppTableUpdate"));
-				rebateQuery.append(CustomSQLUtil.get("man.discountTableUpdate"));
+				salesQuery.append(SQlUtil.getQuery("man.salesTableUpdate"));
+				discountQuery.append(SQlUtil.getQuery("man.suppTableUpdate"));
+				rebateQuery.append(SQlUtil.getQuery("man.discountTableUpdate"));
 			}
 			salesQuery.replace(salesQuery.indexOf("?CON"), salesQuery.indexOf("?CON") + NumericConstants.FOUR,
 					String.valueOf(contractList.get(0)));
@@ -2331,11 +2333,11 @@ public class CommonLogic {
 
 			queryList.add(salesQuery.toString());
 			queryList.add(rebateQuery.toString());
-			CompanyMasterLocalServiceUtil.executeUpdateQuery(salesQuery.toString());
-			CompanyMasterLocalServiceUtil.executeUpdateQuery(discountQuery.toString());
-			CompanyMasterLocalServiceUtil.executeUpdateQuery(rebateQuery.toString());
+			HelperTableLocalServiceUtil.executeUpdateQuery(salesQuery.toString());
+			HelperTableLocalServiceUtil.executeUpdateQuery(discountQuery.toString());
+			HelperTableLocalServiceUtil.executeUpdateQuery(rebateQuery.toString());
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 		}
 	}
 
@@ -2350,13 +2352,13 @@ public class CommonLogic {
 				+ fromEndDate + "','" + toStartDate + "','" + transferFlag + "', '" + sessionId + "', '"
 				+ transferSalesFlag + "')";
 		LOGGER.debug("Exiting insertInputsBeforeTranfer");
-		CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+		HelperTableLocalServiceUtil.executeUpdateQuery(query);
 	}
 
 	public static List<String> getDiscriptionList(final String listType) throws SystemException {
 		final List<String> helperList = new ArrayList<>();
 		LOGGER.debug("Helper Table listType=" + listType);
-		final DynamicQuery helperTableQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+		final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();
 		helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
 		helperTableQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
 		final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(helperTableQuery);
@@ -2431,7 +2433,7 @@ public class CommonLogic {
 				+ " USER_ID='" + userId + "' AND SESSION_ID='" + sessionId
 				+ "' and CHECK_RECORD=1 and \"OPERATION\" like 'Promote_TP_Submit' ";
 
-		List<Object[]> list = CompanyMasterLocalServiceUtil.executeQuery(query);
+		List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 		LOGGER.debug(" exiting Promote Tp Submit Projection id =  " + projectionId);
 		return list;
 
@@ -2447,7 +2449,7 @@ public class CommonLogic {
 			relationType = obj[0] != null ? String.valueOf(obj[0]) : StringUtils.EMPTY;
 			LOGGER.debug("relationType ============================== " + relationType);
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 		}
 		return relationType;
 	}
@@ -2476,8 +2478,8 @@ public class CommonLogic {
 		session = CommonUtils.attachSessionId(session);
 		String relationShipBuilderSidQuery = "select CUST_RELATIONSHIP_BUILDER_SID, PROD_RELATIONSHIP_BUILDER_SID,FORECASTING_TYPE, CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID = "
 				+ oldProjectionId;
-		Object[] projectionMasterRow = (Object[]) CompanyMasterLocalServiceUtil
-				.executeQuery(relationShipBuilderSidQuery).get(0);
+		Object[] projectionMasterRow = (Object[]) HelperTableLocalServiceUtil
+				.executeSelectQuery(relationShipBuilderSidQuery).get(0);
 
 		LOGGER.debug(" cust Rel Builder Sid " + String.valueOf(projectionMasterRow[0]));
 		LOGGER.debug(" prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));

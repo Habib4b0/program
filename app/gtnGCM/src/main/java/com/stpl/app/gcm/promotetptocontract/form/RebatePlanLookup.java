@@ -14,11 +14,11 @@ import com.stpl.app.gcm.util.TableHeaderColumnsUtil;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.Window;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -41,7 +42,7 @@ public class RebatePlanLookup extends Window {
     private CustomTextField groupLookup;
     List<String> companySids;
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = org.jboss.logging.Logger.getLogger(TPContractHolderLookUp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TPContractHolderLookUp.class);
     @UiField("resultsTableRPL")
     private ExtFilterTable rebateResultTable;
     @UiField("cancelBtnRPL")
@@ -120,7 +121,6 @@ public class RebatePlanLookup extends Window {
         rebateResultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().rebatePlanVisibleColumn);
         rebateResultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().rebatePlanColumnHeader);
         rebateResultTable.setSelectable(true);
-        rebateResultTable.setImmediate(true);
         rebateResultTable.setWidth("1110px");
         rebateResultTable.setHeight("330px");
         return rebateResultTable;
@@ -133,7 +133,6 @@ public class RebatePlanLookup extends Window {
         rebateResultTable.setFilterBarVisible(true);
         rebateResultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         rebateResultTable.setStyleName("filtertable");
-        rebateResultTable.setImmediate(true);
         rebateResultTable.setSelectable(true);
 
         rebatePlanStatus.addItem(Constants.SELECT_ONE);
@@ -228,7 +227,7 @@ public class RebatePlanLookup extends Window {
             }
 
         } catch (Exception ex) {
-         LOGGER.error(ex);
+         LOGGER.error("",ex);
         }
         LOGGER.debug("btnSearchLogic ends");
 

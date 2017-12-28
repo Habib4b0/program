@@ -21,18 +21,18 @@ import com.stpl.app.gcm.util.Message;
 import com.stpl.app.gcm.util.MessageUtil;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.Tab;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -153,7 +153,6 @@ public class SummaryTab extends VerticalLayout {
             final TabSheet tabSheet = new TabSheet();
             tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
             tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-            tabSheet.setImmediate(true);
             final SalesTab salesTab = new SalesTab(session, false);
             final RebateTab rebateTab = new RebateTab(session, false);
             final SalesRebateTab salesRebateTab = new SalesRebateTab(session, false);
@@ -252,7 +251,7 @@ public class SummaryTab extends VerticalLayout {
                     AppDataUtils.dataUpdate(input, "Close button delete");
 
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage(MessageUtil.getErrorCode(Message.CLOSE_CONFIRM), MessageUtil.getErrorCode(Message.CLOSE_CONFIRM_MSG));
@@ -424,7 +423,7 @@ public class SummaryTab extends VerticalLayout {
                                 } else {
                                 }
                             } catch (Exception e) {
-                                LOGGER.error(e);
+                                LOGGER.error("",e);
                             }
 
                             if (projectionCreationFlag) {
@@ -583,7 +582,7 @@ public class SummaryTab extends VerticalLayout {
             functionalButton.setVisible(CommonLogic.isButtonVisibleAccess(FUNCTIONAL_BUTTON, functionHM));
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -596,7 +595,7 @@ public class SummaryTab extends VerticalLayout {
             functionalButton.setVisible(CommonLogic.isButtonVisibleAccess(FUNCTIONAL_BUTTON, functionHM));
 
             } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
     private void configureSecurityPermissionsUpdate() {
@@ -607,7 +606,7 @@ public class SummaryTab extends VerticalLayout {
             close.setVisible(CommonLogic.isButtonVisibleAccess(CLOSE_BTN, functionHM));
             functionalButton.setVisible(CommonLogic.isButtonVisibleAccess(FUNCTIONAL_BUTTON, functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

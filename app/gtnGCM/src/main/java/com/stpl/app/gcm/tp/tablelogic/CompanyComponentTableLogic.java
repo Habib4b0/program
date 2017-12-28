@@ -8,8 +8,8 @@ package com.stpl.app.gcm.tp.tablelogic;
 
 import com.stpl.app.gcm.tp.dto.ComponentInformationDTO;
 import com.stpl.app.gcm.tp.logic.ContractSelectionLogic;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 

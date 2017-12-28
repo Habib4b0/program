@@ -10,7 +10,7 @@ import com.stpl.app.gcm.discount.ui.view.AddDiscountAddView;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
 import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.extfilteringtable.ExtFilterTable;

@@ -9,12 +9,13 @@ import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.summary.RebateSummary;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.summary.SalesSummary;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,7 +34,7 @@ public class SalesAndRebates extends VerticalLayout {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(SalesAndRebates.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(SalesAndRebates.class);
 
     public SalesAndRebates(List<ItemIndexDto> itemList, SelectionDTO session) {
         this.session = session;

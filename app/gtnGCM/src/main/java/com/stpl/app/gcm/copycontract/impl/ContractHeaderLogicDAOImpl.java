@@ -14,16 +14,17 @@ import com.stpl.app.gcm.copycontract.dto.IFPItemDTO;
 import com.stpl.app.gcm.copycontract.dto.PSIFPDTO;
 import com.stpl.app.gcm.copycontract.dto.RsIfpDto;
 import com.stpl.app.model.HelperTable;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.impl.CompanyMasterImpl;
+import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import java.util.List;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
 
 /**
  *
@@ -33,14 +34,14 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
 
     CommonDao DAO = CommonImpl.getInstance();
     QueryUtils queryUtils = new QueryUtils();
-    public static final Logger LOGGER = Logger.getLogger(ContractHeaderLogicDAOImpl.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ContractHeaderLogicDAOImpl.class);
 
     public List<HelperTable> getHelperTableList(final DynamicQuery dynamicQuery) throws SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
     public List getColumnNames(String tableName) throws SystemException {
-        return CompanyMasterLocalServiceUtil.getColumnNames(tableName);
+        return CompanyMasterImpl.getColumnNames(tableName);
     }
 
     public int getCFPCount(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc) {
@@ -166,7 +167,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     public void updateCFP(List<Object> input) {
-        String sql = CustomSQLUtil.get("Existing.saveCFP");
+        String sql = SQlUtil.getQuery("Existing.saveCFP");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
         sql = sql.replaceFirst("[?]", input.get(1).toString());
         sql = sql.replaceFirst("[?]", input.get(NumericConstants.TWO).toString());
@@ -178,7 +179,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     public void updateIFP(List<Object> input) {
-        String sql = CustomSQLUtil.get("Existing.saveIFP");
+        String sql = SQlUtil.getQuery("Existing.saveIFP");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
         sql = sql.replaceFirst("[?]", input.get(1).toString());
         sql = sql.replaceFirst("[?]", input.get(NumericConstants.TWO).toString());
@@ -189,7 +190,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     public void updatePS(List<Object> input) {
-        String sql = CustomSQLUtil.get("Existing.savePS");
+        String sql = SQlUtil.getQuery("Existing.savePS");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
         sql = sql.replaceFirst("[?]", input.get(1).toString());
         sql = sql.replaceFirst("[?]", input.get(NumericConstants.TWO).toString());
@@ -200,7 +201,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
     }
 
     public void updateRS(List<Object> input) {
-        String sql = CustomSQLUtil.get("Existing.saveRS");
+        String sql = SQlUtil.getQuery("Existing.saveRS");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
         sql = sql.replaceFirst("[?]", input.get(1).toString());
         sql = sql.replaceFirst("[?]", input.get(NumericConstants.TWO).toString());

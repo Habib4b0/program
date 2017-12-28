@@ -8,7 +8,7 @@ package com.stpl.app.adminconsole.filemanagement.ui.form;
 import com.stpl.app.adminconsole.filemanagement.logic.FileManagementLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.Window;
 import java.text.SimpleDateFormat;
 import java.util.List;

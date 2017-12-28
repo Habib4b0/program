@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<VerticalLayout styleName="custom-margin" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent">
+<VerticalLayout styleName="custom-margin" xmlns:p="urn:vaadin:parent">
     <Panel id="panel" width="100%">
         <HorizontalLayout styleName="responsiveTabGrid" margin="true" spacing="true">
 

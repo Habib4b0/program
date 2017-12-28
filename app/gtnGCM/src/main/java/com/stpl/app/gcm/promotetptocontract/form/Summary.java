@@ -9,7 +9,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
@@ -20,8 +21,8 @@ import com.stpl.app.gcm.util.UiUtils;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -37,7 +38,7 @@ public class Summary extends VerticalLayout implements View {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(Summary.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Summary.class);
 	/**
 	 * The Constant serialVersionUID.
 	 */
@@ -70,7 +71,7 @@ public class Summary extends VerticalLayout implements View {
 			setHeaderValues();
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		}
 	}
 
@@ -104,7 +105,6 @@ public class Summary extends VerticalLayout implements View {
 		tabSheet = new TabSheet();
 		tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
 		tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-		tabSheet.setImmediate(true);
 		try {
 			tabSheet.addTab(summaryTPDetails, Constants.IndicatorConstants.TAB_SUMMARY_TP_DETAILS.getConstant(), null,
 					0);
@@ -112,7 +112,7 @@ public class Summary extends VerticalLayout implements View {
 					Constants.IndicatorConstants.TAB_SALES_PROJECTION_TRANSFER.getConstant(), null, 1);
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		}
 		attachTabChangeListener();
 
@@ -151,7 +151,7 @@ public class Summary extends VerticalLayout implements View {
 						summarySalesProjectionTransfer.loadResultTable(false);
 					}
 				} catch (Exception ex) {
-					LOGGER.error(ex);
+					LOGGER.error("",ex);
 				}
 			}
 		});

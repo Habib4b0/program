@@ -2,25 +2,26 @@ package com.stpl.app.global.abstractsearch.util;
 
 import com.stpl.app.global.dao.CommonDao;
 import com.stpl.app.global.dao.impl.CommonDaoImpl;
-import com.stpl.app.model.HelperTable;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.Role;
-import com.stpl.portal.service.RoleLocalServiceUtil;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.ComboBox;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.model.Role;
+import com.stpl.app.model.HelperTable;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ComboBox;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
 
 /**
  * The Class CommonUtils.
@@ -176,8 +177,7 @@ public class CommonUtils {
     public List<HelperDTO> getHelperResults(final String listType) throws SystemException, PortalException {
 
         final List<HelperDTO> helperList = new ArrayList<>();
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME,
                 listType));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
@@ -209,7 +209,7 @@ public class CommonUtils {
         for (Role role : userRoles) {
             roleList.add(role.getRoleId());
         }
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(Role.class);
+        DynamicQuery query = RoleLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq("name", "ETL"));
         query.add(RestrictionsFactoryUtil.in("roleId", roleList));
         List<Role> userList = RoleLocalServiceUtil.dynamicQuery(query);
@@ -245,8 +245,7 @@ public class CommonUtils {
           public List<HelperDTO> getHelperResult(final String listType) throws SystemException, PortalException {
 
         final List<HelperDTO> helperList = new ArrayList<>();
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME,
                 listType));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));

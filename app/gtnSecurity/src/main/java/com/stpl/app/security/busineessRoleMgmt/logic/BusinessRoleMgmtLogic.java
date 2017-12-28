@@ -12,13 +12,13 @@ import com.stpl.app.security.dao.BusinessRoleMgmtLogicDAO;
 import com.stpl.app.security.dao.impl.BusinessRoleMgmtLogicDAOImpl;
 import com.stpl.app.service.BusinessroleMasterLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.stpl.portal.kernel.dao.orm.Criterion;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.util.BeanItemContainer;
 
 public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterDTO>{
 	private static final Logger LOGGER = LogManager
@@ -30,8 +30,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
  BusinessRoleMgmtLogicDAO dao = new BusinessRoleMgmtLogicDAOImpl();
 
     public List<BusinessroleMasterDTO> getAllBusinessroles() throws SystemException {
-    	DynamicQuery businessroleMasterDynamicQuery = DynamicQueryFactoryUtil
-				.forClass(BusinessroleMaster.class);
+    	DynamicQuery businessroleMasterDynamicQuery = BusinessroleMasterLocalServiceUtil.dynamicQuery();
     	Criterion criterion = RestrictionsFactoryUtil.eq("isActive", "Y");
     	criterion = RestrictionsFactoryUtil.or(criterion , RestrictionsFactoryUtil.isNull("isActive"));
     	businessroleMasterDynamicQuery.add(criterion);
@@ -120,8 +119,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
                 businessroleMaster.setModifiedBy(0);
 		businessroleMaster.setIsActive("Y");
 		try {
-			DynamicQuery businessroleMasterDynamicQuery = DynamicQueryFactoryUtil
-					.forClass(BusinessroleMaster.class);
+			DynamicQuery businessroleMasterDynamicQuery = BusinessroleMasterLocalServiceUtil.dynamicQuery();
 	    	businessroleMasterDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtils.BUSINESS_ROLE_NAME, businessroleName));
 			@SuppressWarnings("unchecked")
 			List<BusinessroleMaster> list = dao.getBusinessroleMasterList(businessroleMasterDynamicQuery);

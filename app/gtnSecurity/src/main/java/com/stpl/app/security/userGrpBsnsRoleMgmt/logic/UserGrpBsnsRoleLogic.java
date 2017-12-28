@@ -14,12 +14,14 @@ import com.stpl.app.security.dao.UserGrpBsnsRoleLogicDAO;
 import com.stpl.app.security.dao.impl.UserGrpBsnsRoleLogicDAOImpl;
 import com.stpl.app.security.userGrpBsnsRoleMgmt.dto.UserGrpBsnsRoleDTO;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.Criterion;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.model.UserGroup;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.model.UserGroup;
+import com.liferay.portal.kernel.service.UserGroupLocalServiceUtil;
+import com.stpl.app.service.BusinessroleMasterLocalServiceUtil;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,8 +41,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
     	List brmIdList = new ArrayList();
         	String userGroup = usrDto.getSelUserGroupId();
         	Long userGroupId = usrDto.getUserGroupMap().get(userGroup);
-    	DynamicQuery ugbrmDynamicQuery = DynamicQueryFactoryUtil
-				.forClass(UsergroupBusinessrole.class);
+    	DynamicQuery ugbrmDynamicQuery = UsergroupBusinessroleLocalServiceUtil.dynamicQuery();
     	ugbrmDynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtils.USERGROUP_ID, Integer.valueOf(String.valueOf(userGroupId))));
     	
     	List<UsergroupBusinessrole> ugbrm = dao.getBsnsRoles(ugbrmDynamicQuery);
@@ -50,8 +51,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
     		brmIdList.add(ugbrmObj.getBusinessroleMasterSid());
 		}
 	    	if(ugbrm.size()>0){
-		    	DynamicQuery brmDynamicQuery = DynamicQueryFactoryUtil
-						.forClass(BusinessroleMaster.class);
+		    	DynamicQuery brmDynamicQuery = BusinessroleMasterLocalServiceUtil.dynamicQuery();
 		    	brmDynamicQuery.add(RestrictionsFactoryUtil.in(CommonUtils.BUSINESS_ROLE_MASTERSID, brmIdList));
 		    	List<BusinessroleMaster> brm = dao.getBusinessroleMaster(brmDynamicQuery);
 		    	Iterator<BusinessroleMaster> iterate2 = brm.iterator();
@@ -72,7 +72,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
     	UserGrpBsnsRoleDTO userDto = new UserGrpBsnsRoleDTO();
     	try{
     	List<String> usrGrpList = new ArrayList<String> ();
-    	DynamicQuery ugDynamicQuery = DynamicQueryFactoryUtil.forClass(UserGroup.class);
+    	DynamicQuery ugDynamicQuery = UserGroupLocalServiceUtil.dynamicQuery();
     	ugDynamicQuery.add(RestrictionsFactoryUtil.like("groupType","Business"));
     	List<UserGroup> usrGrp=dao.getUserGroups(ugDynamicQuery);
     	HashMap<String, Long> map = new HashMap<String, Long>();
@@ -116,7 +116,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
 			String string = (String) iter.next();
 			idList.add(brMap.get(string));
 		}
-    	DynamicQuery deleteDynamicQuery = DynamicQueryFactoryUtil.forClass(UsergroupBusinessrole.class);
+    	DynamicQuery deleteDynamicQuery = UsergroupBusinessroleLocalServiceUtil.dynamicQuery();
     	deleteDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtils.USERGROUP_ID, selUsrGrpId));
     	Criterion cri = RestrictionsFactoryUtil.in(CommonUtils.BUSINESS_ROLE_MASTERSID, idList);
     	deleteDynamicQuery.add(RestrictionsFactoryUtil.not(cri));
@@ -130,7 +130,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
     	Date date = new Date();
     	for (Iterator iterator = idList.iterator(); iterator.hasNext();) {
     		int brId = (Integer) iterator.next();
-    		DynamicQuery checkDynamicQuery = DynamicQueryFactoryUtil.forClass(UsergroupBusinessrole.class);
+    		DynamicQuery checkDynamicQuery = UsergroupBusinessroleLocalServiceUtil.dynamicQuery();
     		checkDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtils.USERGROUP_ID, selUsrGrpId));
     		checkDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtils.BUSINESS_ROLE_MASTERSID, brId));
     		List<UsergroupBusinessrole> checkUG = dao.getBsnsRoles(checkDynamicQuery);

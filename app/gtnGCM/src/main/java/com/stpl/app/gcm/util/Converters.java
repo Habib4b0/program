@@ -13,8 +13,8 @@ import com.stpl.app.gcm.promotetptocontract.dto.RebatePlanDTO;
 import com.stpl.app.gcm.tp.dto.TradingPartnerDTO;
 import com.stpl.app.gcm.util.Constants.DateFormatConstants;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public class Converters {
                 promoteTpToChList.add(promoteTpToChDto);
             }
         } catch (Exception ex) {
-           LOGGER.error(ex);
+           LOGGER.error("",ex);
         }
         return promoteTpToChList;
     }
@@ -143,7 +143,7 @@ public class Converters {
                 date = format.format(parse.parse(value));
             }
         } catch (Exception ex) {
-           LOGGER.error(ex);
+           LOGGER.error("",ex);
         }
         return date;
     }
@@ -161,7 +161,7 @@ public class Converters {
                 companyTypeDdlbDTOList.add(companyTypeDdlbDTO);
             }
         } catch (Exception ex) {
-           LOGGER.error(ex);
+           LOGGER.error("",ex);
         }
         return companyTypeDdlbDTOList;
     }
@@ -199,7 +199,7 @@ public class Converters {
                 CurrentContractList.add(currentContractDTO);
             }
         } catch (Exception ex) {
-           LOGGER.error(ex);
+           LOGGER.error("",ex);
         }
         return CurrentContractList;
     }
@@ -228,7 +228,7 @@ public class Converters {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return returnList;
     }
@@ -257,7 +257,7 @@ public class Converters {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return returnList;
     }

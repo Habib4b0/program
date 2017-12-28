@@ -11,10 +11,10 @@ import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractContractSearchDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractComponentInfo;
 import com.stpl.app.gcm.util.Constants;
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
 
 /**
@@ -42,7 +42,7 @@ public class CurrentContractTransfer extends CustomComponent {
             this.selection = selection;
             this.selectedItemList = selectedItemList;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 

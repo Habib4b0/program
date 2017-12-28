@@ -9,9 +9,11 @@ import com.stpl.app.gcm.tp.dto.TradingPartnerDTO;
 import com.stpl.app.gcm.tp.logic.CompanySearchLogic;
 import java.util.ArrayList;
 import java.util.List;
-import org.vaadin.addons.lazycontainer.BeanDAO;
-import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
+import org.asi.ui.addons.lazycontainer.BeanDAO;
+import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +27,7 @@ public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanySearchDAO.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(CompanySearchDAO.class);
 
     public CompanySearchDAO(TradingPartnerDTO tpDto) {
         this.dto = tpDto;
@@ -47,7 +49,7 @@ public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
         List<TradingPartnerDTO> resultList = new ArrayList<>();
         try {
         } catch (Exception ex) {
-             LOGGER.error(ex);
+             LOGGER.error("",ex);
         }
         return resultList;
     }

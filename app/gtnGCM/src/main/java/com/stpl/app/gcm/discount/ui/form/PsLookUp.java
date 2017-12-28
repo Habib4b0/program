@@ -13,34 +13,33 @@ import static com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractContract
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.ui.ComboBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.asi.ui.customcombobox.CustomComboBox;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -72,7 +71,7 @@ public class PsLookUp extends Window {
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private BeanItemContainer<String> psStatusBean = new BeanItemContainer<>(String.class);
-    private CustomFieldGroup binder;
+    private ErrorfulFieldGroup binder;
     private CustomTextField parentPsName;
     public boolean flag;
     CommonUtil commonUtil=CommonUtil.getInstance();
@@ -91,7 +90,7 @@ public class PsLookUp extends Window {
         try {
             configureFields();
         } catch (SystemException ex) {
-             LOGGER.error(ex);
+             LOGGER.error("",ex);
 
         }
     }
@@ -143,32 +142,27 @@ public class PsLookUp extends Window {
                 try{
                     CustomComboBox comboBox = new CustomComboBox();
                 if (propertyId.equals("psType")) {
-                    comboBox.setImmediate(true);
                     commonUtil.loadComboBox(comboBox, UiUtils.PS_TYPE, true);
                     return comboBox;
                 }
                 if (propertyId.equals("psCategory")) {
-                    comboBox.setImmediate(true);
                     commonUtil.loadComboBox(comboBox, UiUtils.PS_CATEGORY, true);
                     return comboBox;
                 }
                 if (propertyId.equals("psTradeClass")) {
-                    comboBox.setImmediate(true);
                     commonUtil.loadComboBox(comboBox, UiUtils.PS_TRADE_CLASS, true);
                     return comboBox;
                 }
                 if (propertyId.equals("psDesignation")) {
-                    comboBox.setImmediate(true);
                     commonUtil.loadComboBox(comboBox, UiUtils.PS_DESIGNATION, true);
                     return comboBox;
                 }
                 if (propertyId.equals("psStatus")) {
-                    comboBox.setImmediate(true);
                     commonUtil.loadComboBox(comboBox, UiUtils.STATUS, true);
                     return comboBox;
                 }
                 }catch(Exception ex){
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
                 return null;
             }
@@ -188,14 +182,12 @@ public class PsLookUp extends Window {
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultsTable.addStyleName("filterbar");
         psStatusBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        psStatus.setImmediate(true);
         BeanItemContainer<HelperDTO> temp = new BeanItemContainer<>(HelperDTO.class);
         temp.addAll(new DiscountLogic().getDropDownList(Constants.STATUS, Constants.HELPER_DTO));
         psStatus.setContainerDataSource(temp);
         psStatus.setNullSelectionItemId(Constants.HELPER_DTO);
         psStatus.setValue(Constants.HELPER_DTO);
         psStatus.setItemCaptionPropertyId("description");
-        psType.setImmediate(true);
         temp = new BeanItemContainer<>(HelperDTO.class);
         temp.addAll(new DiscountLogic().getDropDownList("PS_TYPE", Constants.HELPER_DTO));
         psType.setContainerDataSource(temp);
@@ -203,25 +195,23 @@ public class PsLookUp extends Window {
         psType.setNullSelectionAllowed(true);
         psType.setValue(Constants.HELPER_DTO);
         psType.setItemCaptionPropertyId("description");
-        psEndDate.setImmediate(true);
         psEndDate.setDateFormat(Constants.DATE_FORMAT);
         psEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
         psEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
-        psStartDate.setImmediate(true);
         psStartDate.setDateFormat(Constants.DATE_FORMAT);
         psStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
          try {
             commonUtil.loadComboBoxForGCM(psCategory, UiUtils.PS_CATEGORY, false);
         } catch (Exception ex) {
-            Logger.getLogger(IfpLookUp.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(IfpLookUp.class.getName()).error("", ex);
         }
         psStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
         psNo.focus();
 
     }
 
-    private CustomFieldGroup getBinder() {
-        binder = new CustomFieldGroup(new BeanItem<>(new LookupDTO()));
+    private ErrorfulFieldGroup getBinder() {
+        binder = new ErrorfulFieldGroup(new BeanItem<>(new LookupDTO()));
         binder.bindMemberFields(this);
         binder.setBuffered(true);
         return binder;

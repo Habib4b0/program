@@ -14,7 +14,7 @@ import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.CompanyCrtIdentifierDTO;
 import com.stpl.app.gcm.tp.dto.IdDescriptionDTO;
 import com.stpl.app.gcm.tp.logic.CommmonLogic;
-import com.stpl.app.gcm.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
@@ -22,21 +22,21 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.ADD_TRADING_PAR
 import com.stpl.app.gcm.util.Message;
 import com.stpl.app.gcm.util.MessageUtil;
 import com.stpl.app.gcm.util.UiUtils;
-import com.stpl.app.gcm.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +44,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -170,7 +171,7 @@ public class CompanyAddForm extends VerticalLayout {
     private BeanItemContainer<CompanyCrtIdentifierDTO> tradeClassContainer = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
 
     CompanyCrtIdentifierDTO companyCrtIdentifierDTO = new CompanyCrtIdentifierDTO();
-    private static final Logger LOGGER = Logger.getLogger(CompanyAddForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CompanyAddForm.class);
     /**
      * The binder.
      */
@@ -283,7 +284,7 @@ public class CompanyAddForm extends VerticalLayout {
             tradeStartDateLabel.setValue(tradeStartDateLabel.getValue() + star);
             tradeEndDateLabel.setValue(tradeEndDateLabel.getValue() + star);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
     }
@@ -431,7 +432,7 @@ public class CompanyAddForm extends VerticalLayout {
         try {
             StplSecurity.getUserName();
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
         String createdBy = StplSecurity.userMap.get(Integer.parseInt(VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString()));
@@ -502,7 +503,7 @@ public class CompanyAddForm extends VerticalLayout {
         try {
             StplSecurity.getUserName();
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         String createdBy = StplSecurity.userMap.get(Integer.parseInt(VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString()));
 
@@ -593,7 +594,7 @@ public class CompanyAddForm extends VerticalLayout {
 
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 

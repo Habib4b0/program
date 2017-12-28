@@ -5,12 +5,13 @@
  */
 package com.stpl.app.gcm.util;
 
-import com.stpl.portal.kernel.dao.orm.ORMException;
+import com.liferay.portal.kernel.dao.orm.ORMException;
 import java.io.IOException;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -18,7 +19,7 @@ import org.jboss.logging.Logger;
  */
 public class ErrorCodeUtil {
     
-    private static final Logger LOGGER = Logger.getLogger(ErrorCodeUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorCodeUtil.class);
 
     /**
      * The resouce bundle.
@@ -47,7 +48,7 @@ public class ErrorCodeUtil {
         try {
             return resouceBundle.getString(key);
         } catch (MissingResourceException e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
             return StringUtils.EMPTY;
         }
     }

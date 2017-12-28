@@ -38,7 +38,6 @@ import com.stpl.app.gcm.promotetptocontract.dto.RebatePlanDTO;
 import com.stpl.app.gcm.promotetptocontract.lazyload.DropdownListCriteria;
 import com.stpl.app.gcm.promotetptocontract.lazyload.LoadDropdownListDAO;
 import com.stpl.app.service.CfpModelLocalServiceUtil;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.IfpModelLocalServiceUtil;
 import com.stpl.app.service.PsModelLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
@@ -63,13 +62,18 @@ import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.ui.ComboBox;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.service.CfpContractLocalServiceUtil;
+import com.stpl.app.service.ContractMasterLocalServiceUtil;
+import com.stpl.app.service.IfpContractLocalServiceUtil;
+import com.stpl.app.service.PsContractLocalServiceUtil;
+import com.stpl.app.service.RsContractDetailsLocalServiceUtil;
+import com.stpl.app.service.RsContractLocalServiceUtil;
+import com.vaadin.v7.ui.ComboBox;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,9 +87,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
 
 /**
  *
@@ -96,7 +101,7 @@ public class PromoteTPLogic {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(PromoteTPLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTPLogic.class);
     public static PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
     HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private final ContractDetailsDAO dao = new ContractDetailsDaoImpl();
@@ -261,7 +266,6 @@ public class PromoteTPLogic {
         comboBox.setContainerDataSource(containerData);
         comboBox.setNullSelectionItemId(ddlbDefaultValue);
         comboBox.setNullSelectionAllowed(true);
-        comboBox.setImmediate(true);
         comboBox.setItemCaptionPropertyId("description");
         containerData.setMinFilterLength(0);
     }
@@ -303,7 +307,7 @@ public class PromoteTPLogic {
         try {
             list = ItemQueries.getItemData(getSearchSelection(binderDto), "searchPromoteTpToChContractCount", null);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return getCount(list);
 
@@ -413,7 +417,7 @@ public class PromoteTPLogic {
                         dto.setFormulaId(convertNullToEmpty(obj[NumericConstants.EIGHT]));
                         componentInfoList.add(dto);
                     } catch (ParseException ex) {
-                        java.util.logging.Logger.getLogger(PromoteTPLogic.class.getName()).log(Level.SEVERE, null, ex);
+                        LoggerFactory.getLogger(PromoteTPLogic.class.getName()).error("", ex);
                     }
                 }
             }
@@ -439,7 +443,7 @@ public class PromoteTPLogic {
             }
             LOGGER.debug("End of getLevel1Hierarchy method");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return container;
     }
@@ -480,7 +484,7 @@ public class PromoteTPLogic {
                 contractList.add(contractDetails);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("End of getContractList method");
         return contractList;
@@ -497,7 +501,7 @@ public class PromoteTPLogic {
     public DynamicQuery getProcessedQuery(final String contractId, final int start, final int end) {
         LOGGER.debug("Entering getProcessedQuery method");
 
-        final DynamicQuery contractQuery = DynamicQueryFactoryUtil.forClass(ContractMaster.class);
+        final DynamicQuery contractQuery = ContractMasterLocalServiceUtil.dynamicQuery();
         String contract;
         try {
             if (contractId.trim().equals(StringUtils.EMPTY)) {
@@ -511,7 +515,7 @@ public class PromoteTPLogic {
             contractQuery.setLimit(start, end);
             LOGGER.debug("End of getProcessedQuery method");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return contractQuery;
     }
@@ -538,7 +542,7 @@ public class PromoteTPLogic {
                 available = false;
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("End of isLevel2ListAvlbl method");
         return available;
@@ -547,12 +551,12 @@ public class PromoteTPLogic {
     public int getCFPQueriedCount(final int contractSystemId) throws SystemException {
         LOGGER.debug("Entering getCFPQueriedCount method");
 
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CfpContract.class);
+        final DynamicQuery cfpDynamicQuery = CfpContractLocalServiceUtil.dynamicQuery();
         try {
             cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
             cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("End of getCFPQueriedCount method");
         return (int) dao.contractMasterDynamicQueryCount(cfpDynamicQuery);
@@ -562,7 +566,7 @@ public class PromoteTPLogic {
     public int getIFPQueriedCount(final int contractSystemId) throws SystemException {
         LOGGER.debug("Entering getIFPQueriedCount method");
 
-        final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(IfpContract.class);
+        final DynamicQuery ifpDynamicQuery = IfpContractLocalServiceUtil.dynamicQuery();
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         LOGGER.debug("End of getIFPQueriedCount method");
@@ -578,7 +582,7 @@ public class PromoteTPLogic {
     public int getPSQueriedCount(final int contractSystemId) throws SystemException {
         LOGGER.debug("Entering getPSQueriedCount method");
 
-        final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsContract.class);
+        final DynamicQuery psDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
         psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
         psDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         LOGGER.debug("End of getPSQueriedCount method");
@@ -588,7 +592,7 @@ public class PromoteTPLogic {
     public int getRSQueriedCount(final int contractSystemId) throws SystemException {
         LOGGER.debug("Entering getRSQueriedCount method");
 
-        final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContract.class);
+        final DynamicQuery rsDynamicQuery = RsContractLocalServiceUtil.dynamicQuery();
         rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
         rsDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         LOGGER.debug("End of getRSQueriedCount method");
@@ -598,12 +602,12 @@ public class PromoteTPLogic {
     public List<ComponentInfoDTO> getLevelDetails(CurrentContractDTO tableBean) {
         List<ComponentInfoDTO> levelsDetails = new ArrayList<>();
         try {
-            final DynamicQuery contractQuery = DynamicQueryFactoryUtil.forClass(RsContractDetails.class);
+            final DynamicQuery contractQuery = RsContractDetailsLocalServiceUtil.dynamicQuery();
             contractQuery.add(RestrictionsFactoryUtil.eq("rsContractSid", tableBean.getInternalId()));
             List<RsContractDetails> contractDetails = discountDAO.getContractDetails(contractQuery);
             levelsDetails = getNewDiscountTabDto(contractDetails);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return levelsDetails;
     }
@@ -626,7 +630,7 @@ public class PromoteTPLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return levelsDetails;
     }
@@ -675,7 +679,7 @@ public class PromoteTPLogic {
         LOGGER.debug("Entering getCFPList method");
 
         final List<CurrentContractDTO> cfpList = new ArrayList<>();
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CfpContract.class);
+        final DynamicQuery cfpDynamicQuery = CfpContractLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
         cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         cfpDynamicQuery.setLimit(start, end);
@@ -708,7 +712,7 @@ public class PromoteTPLogic {
         LOGGER.debug("Entering getIFPList method");
 
         final List<CurrentContractDTO> ifpList = new ArrayList<>();
-        final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(IfpContract.class);
+        final DynamicQuery ifpDynamicQuery = IfpContractLocalServiceUtil.dynamicQuery();
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
 
@@ -758,7 +762,7 @@ public class PromoteTPLogic {
         LOGGER.debug("Entering getPSList method");
 
         final List<CurrentContractDTO> psList = new ArrayList<>();
-        final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsContract.class);
+        final DynamicQuery psDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
         psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
         psDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         if (parent2 != null) {
@@ -831,7 +835,7 @@ public class PromoteTPLogic {
         LOGGER.debug("Entering getRSList method");
 
         final List<CurrentContractDTO> rsList = new ArrayList<>();
-        final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContract.class);
+        final DynamicQuery rsDynamicQuery = RsContractLocalServiceUtil.dynamicQuery();
         rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
         rsDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         if (parent2 != null) {
@@ -1206,7 +1210,7 @@ public class PromoteTPLogic {
                 count = list.size();
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return count;
     }
@@ -1373,7 +1377,7 @@ public class PromoteTPLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
 
@@ -1421,7 +1425,7 @@ public class PromoteTPLogic {
 
                         componentInfoList2.add(dto);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }
@@ -1470,7 +1474,7 @@ public class PromoteTPLogic {
 
         query.append("AND USERS_SID='" + userId + "'  ");
         query.append("AND SESSION_ID= '" + sessionId + "'  ");
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 
         return updateStatus;
     }
@@ -1705,7 +1709,7 @@ public class PromoteTPLogic {
                 }
             }
         } catch (ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return searchList;
 
@@ -1728,7 +1732,7 @@ public class PromoteTPLogic {
             }
             LOGGER.debug("End of getLevel1Hierarchy method");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return container;
     }
@@ -1762,7 +1766,7 @@ public class PromoteTPLogic {
                 contractList.add(contractDetails);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("End of getContractList method");
         return contractList;
@@ -1844,7 +1848,7 @@ public class PromoteTPLogic {
         LOGGER.debug("Entering getCFPList method");
 
         final List<ComponentInfoDTO> cfpList = new ArrayList<>();
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CfpContract.class);
+        final DynamicQuery cfpDynamicQuery = CfpContractLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
         cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         cfpDynamicQuery.setLimit(start, end);
@@ -1877,7 +1881,7 @@ public class PromoteTPLogic {
         LOGGER.debug("Entering getIFPList method");
 
         final List<ComponentInfoDTO> ifpList = new ArrayList<>();
-        final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(IfpContract.class);
+        final DynamicQuery ifpDynamicQuery = IfpContractLocalServiceUtil.dynamicQuery();
         ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
 
@@ -1918,7 +1922,7 @@ public class PromoteTPLogic {
         LOGGER.debug("Entering getPSList method");
 
         final List<ComponentInfoDTO> psList = new ArrayList<>();
-        final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsContract.class);
+        final DynamicQuery psDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
         psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
         psDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         if (parent2 != null) {
@@ -1991,7 +1995,7 @@ public class PromoteTPLogic {
         LOGGER.debug("Entering getRSList method");
 
         final List<ComponentInfoDTO> rsList = new ArrayList<>();
-        final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsContract.class);
+        final DynamicQuery rsDynamicQuery = RsContractLocalServiceUtil.dynamicQuery();
         rsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), parent1.getSystemId()));
         rsDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         if (parent2 != null) {
@@ -2225,12 +2229,12 @@ public class PromoteTPLogic {
     public List<ComponentInfoDTO> getLevelContDashboardDetails(ComponentInfoDTO tableBean) {
         List<ComponentInfoDTO> levelsDetails = new ArrayList<>();
         try {
-            final DynamicQuery contractQuery = DynamicQueryFactoryUtil.forClass(RsContractDetails.class);
+            final DynamicQuery contractQuery = RsContractDetailsLocalServiceUtil.dynamicQuery();
             contractQuery.add(RestrictionsFactoryUtil.eq("rsContractSid", tableBean.getInternalId()));
             List<RsContractDetails> contractDetails = discountDAO.getContractDetails(contractQuery);
             levelsDetails = getNewDiscountTabDto(contractDetails);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return levelsDetails;
     }
@@ -2254,7 +2258,7 @@ public class PromoteTPLogic {
                 retList.add(tempDto);
             }
         } catch (ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
         return retList;
@@ -2286,7 +2290,7 @@ public class PromoteTPLogic {
     public List<HelperDTO> getDropDownList(final String listType) throws SystemException {
         final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType), RestrictionsFactoryUtil.like(Constants.LIST_NAME, Constants.ALL)));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
         final List<HelperTable> list = promoteTpDAO.getHelperTableList(cfpDynamicQuery);
@@ -2468,7 +2472,7 @@ public class PromoteTPLogic {
         try {
             results = promoteTpDAO.getItems(query);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return results.size();
     }
@@ -2500,7 +2504,7 @@ public class PromoteTPLogic {
                 results = promoteTpDAO.getItems(query);
                 return setItemDetails(results, Constants.IFP);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
 
         } else if (componentvalue.equals(Constants.PRICE_SCHEDULE)) {
@@ -2525,7 +2529,7 @@ public class PromoteTPLogic {
                     results = promoteTpDAO.getItems(query1);
                     return setItemDetails(results, Constants.PS);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
 
             }
@@ -2568,7 +2572,7 @@ public class PromoteTPLogic {
                     results = promoteTpDAO.getItems(query1);
                     return setItemDetails(results, Constants.RS);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
 
             }
@@ -2601,7 +2605,7 @@ public class PromoteTPLogic {
                     searchList.add(tabDto);
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         } else if (componentType.equals(Constants.PS)) {
             int size = results.size();
@@ -2631,7 +2635,7 @@ public class PromoteTPLogic {
                     searchList.add(tabDto);
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         } else if (componentType.equals(Constants.RS)) {
             int size = results.size();
@@ -2660,7 +2664,7 @@ public class PromoteTPLogic {
                     searchList.add(tabDto);
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
         return searchList;
@@ -2743,7 +2747,7 @@ public class PromoteTPLogic {
 
                         componentInfoList.add(dto);
                     } catch (ParseException ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }
@@ -2813,7 +2817,7 @@ public class PromoteTPLogic {
             if (!contractType.equals(StringUtils.EMPTY) && !contractType.equals(Constants.NULL)) {
                 query.append("AND SCREEN_NAME= '").append(contractType).append("'");
             }
-            count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+            count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
         } else {
             /*If record is not present in the table, this query will insert the record*/
             query = new StringBuilder("   ");
@@ -2867,7 +2871,7 @@ public class PromoteTPLogic {
         }
         query.append("  )");
         LOGGER.debug("insert query " + query.toString());
-        count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
 
         return count;
     }
@@ -2924,7 +2928,7 @@ public class PromoteTPLogic {
         }
         LOGGER.debug("update query " + query.toString());
 
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 
         return updateStatus;
     }
@@ -2958,7 +2962,7 @@ public class PromoteTPLogic {
         }
         LOGGER.debug("update query " + query.toString());
 
-        count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
         return count;
     }
 
@@ -2998,7 +3002,7 @@ public class PromoteTPLogic {
             query.append(",'").append(contractType).append("'");
         }
         query.append("  )");
-        count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
 
         return count;
     }
@@ -3036,7 +3040,7 @@ public class PromoteTPLogic {
                     dto.setCheckRecord(!String.valueOf(obj[NumericConstants.TWENTY_THREE]).equals(Constants.NULL) ? String.valueOf(obj[NumericConstants.TWENTY_THREE]).equals(Constants.TRUE) ? true : false : false);
                     resultList.add(dto);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }
@@ -3116,7 +3120,7 @@ public class PromoteTPLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }
@@ -3147,7 +3151,7 @@ public class PromoteTPLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return contResultList;
 
@@ -3167,7 +3171,7 @@ public class PromoteTPLogic {
         query.append(",").append("'").append(searchSessionId).append("'");
         query.append("  )");
      
-        count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
 
         return count;
     }
@@ -3180,7 +3184,7 @@ public class PromoteTPLogic {
         query.append(" AND OPERATION = '").append(updateType).append("'");
         query.append(" AND SESSION_ID = '").append(searchSessionId).append("'");
 
-        count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query.toString());
         return count;
     }
 
@@ -3381,7 +3385,7 @@ public class PromoteTPLogic {
                     }
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
 

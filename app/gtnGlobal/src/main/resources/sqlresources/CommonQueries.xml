@@ -1,0 +1,925 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<sql>
+    <entity id="tabPermission">
+        <query>
+            <![CDATA[				
+                select distinct spm.PROPERTY_NAME,bmm.ACCESS_MODULE from USERGROUP_BUSINESSROLE as ubm,BUSINESSROLE_MODULE as bmm, 
+                MODULE_PROPERTIES as spm where 
+                ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and 
+                (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') 
+                and spm.CATEGORY_NAME='Tab'
+            ]]>
+        </query>
+    </entity>
+    <entity id="fieldPermissionForTransaction">
+        <query>
+	    <![CDATA[				
+                select distinct spm.PROPERTY_NAME,bmm.ADD_FLAG,bmm.EDIT_FLAG,bmm.VIEW_FLAG,spm.TAB_NAME from USERGROUP_BUSINESSROLE as ubm, 
+		BUSINESSROLE_MODULE as bmm, 
+                MODULE_PROPERTIES as spm where 
+                ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and 
+                (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') 
+                and spm.CATEGORY_NAME NOT IN ('Button','Tab')
+            ]]>
+        </query>
+    </entity>
+    <entity id="fieldPermission">
+        <query>
+            <![CDATA[				
+                select distinct spm.PROPERTY_NAME,bmm.ADD_FLAG,bmm.EDIT_FLAG,bmm.VIEW_FLAG from USERGROUP_BUSINESSROLE as ubm, 
+                BUSINESSROLE_MODULE as bmm, 
+                MODULE_PROPERTIES as spm where 
+                ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and 
+                (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') 
+                and spm.CATEGORY_NAME NOT IN ('Button','Tab')
+            ]]>
+        </query>
+    </entity>
+    <entity id="functionPermission">
+        <query>
+            <![CDATA[		
+		select distinct spm.PROPERTY_NAME,bmm.ACCESS_MODULE from USERGROUP_BUSINESSROLE as ubm, 
+		BUSINESSROLE_MODULE as bmm, 
+                MODULE_PROPERTIES as spm where 
+                ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and 
+                (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') 
+                and spm.CATEGORY_NAME='Button'
+            ]]>
+        </query>
+    </entity>
+    <entity id="getRuleInfo-Edit">
+        <query>
+		<![CDATA[
+                    SELECT CM.RULE_TYPE,
+                    RT.DESCRIPTION AS TYP,
+                    CM.RULE_NO,
+                    CM.RULE_NAME,
+                    CM.RULE_CATEGORY,
+                    RC.DESCRIPTION AS CAT,
+                    CD.LINE_TYPE,
+                    CD.ITEM_GROUP_MS_ASSOCIATION,
+                    CD.KEYWORD,
+                    CD.OPERATOR,
+                    CD.VALUE,
+                    CD.COMPARISON,
+                    CD.LOGICAL_OPERATOR,
+                    CD.CDR_DETAILS_SID,
+                    CM.INTERNAL_NOTES
+                    FROM  CDR_MODEL CM
+                    JOIN CDR_DETAILS CD
+                      ON CM.CDR_MODEL_SID = CD.CDR_MODEL_SID
+                         AND CM.CDR_MODEL_SID = ?
+                    JOIN HELPER_TABLE RT
+                      ON RT.HELPER_TABLE_SID = CM.RULE_TYPE
+                    JOIN HELPER_TABLE RC
+                      ON RC.HELPER_TABLE_SID = CM.RULE_CATEGORY 
+		]]>
+       </query>
+    </entity>
+    <entity id="deduction-item-count">
+        <query>
+            <![CDATA[
+                SELECT COUNT(*) FROM ST_DEDUCTION_CALENDAR_ITEM
+                WHERE USER_ID = ?UID
+		AND SESSION_ID = ?SID
+            ]]> 
+        </query>
+    </entity>
+    <entity id="deduction-company-count">
+        <query>
+            <![CDATA[
+                SELECT COUNT(*) FROM ST_DEDUCTION_CALENDAR_COMPANY
+                WHERE USER_ID = ?UID
+		AND SESSION_ID = ?SID
+            ]]>  
+        </query>
+    </entity>
+    <entity id="insertToTempForCust">
+        <query>
+            <![CDATA[
+                DECLARE @DEDUCTION_CALENDAR_MASTER_SID INT = ?DCID, @USER_ID INT =?UID
+                ,@SESSION_ID VARCHAR(100) =?SID
+                INSERT INTO ST_DEDUCTION_CALENDAR_COMPANY
+                (COMPANY_MASTER_SID
+                ,USER_ID
+                ,SESSION_ID
+                )
+                SELECT COMPANY_MASTER_SID
+                ,@USER_ID
+                ,@SESSION_ID
+                 FROM DEDUCTION_CALENDAR_COMPANY
+                WHERE DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+                AND INBOUND_STATUS <>'D';
+            ]]>
+        </query>
+    </entity>
+     <entity id="insertToTempForProd">
+        <query>
+        <![CDATA[
+                DECLARE @DEDUCTION_CALENDAR_MASTER_SID INT = ?DCID, @USER_ID INT =?UID
+                ,@SESSION_ID VARCHAR(100) =?SID
+                INSERT INTO ST_DEDUCTION_CALENDAR_ITEM
+                (ITEM_MASTER_SID
+                ,USER_ID
+                ,SESSION_ID
+                )
+                SELECT ITEM_MASTER_SID
+                ,@USER_ID
+                ,@SESSION_ID
+                 FROM DEDUCTION_CALENDAR_ITEM
+                WHERE DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+                AND INBOUND_STATUS <>'D'
+            ]]>
+         </query>
+    </entity>
+    <entity id="deleteCustomer_Selection_Table">
+        <query>    
+            <![CDATA[
+                DELETE FROM ST_DEDUCTION_CALENDAR_COMPANY WHERE USER_ID='@USERID' AND SESSION_ID='@SESSIONID';
+            ]]>
+        </query>
+    </entity>
+    <entity id="deleteItem_Selection_Table">
+        <query> 
+            <![CDATA[
+                DELETE FROM ST_DEDUCTION_CALENDAR_ITEM WHERE USER_ID='@USERID' AND SESSION_ID='@SESSIONID';
+            ]]>
+        </query>
+    </entity>
+    <entity id="deleteSelectionTable">
+        <query> 
+            <![CDATA[
+                DELETE FROM ST_DEDUCTION_CALENDAR_COMPANY WHERE USER_ID='@USERID' AND SESSION_ID='@SESSIONID';
+                DELETE FROM ST_DEDUCTION_CALENDAR_ITEM WHERE USER_ID='@USERID' AND SESSION_ID='@SESSIONID';
+            ]]>
+        </query>
+    </entity>
+    <entity id="customer-ddlb-load">
+        <query> 
+            <![CDATA[
+                SELECT DISTINCT CM.COMPANY_NAME, CM.COMPANY_MASTER_SID FROM ST_DEDUCTION_CALENDAR_COMPANY SC
+                JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID = SC.COMPANY_MASTER_SID
+                WHERE USER_ID = ?UID
+                AND SESSION_ID = ?SID
+            ]]>
+        </query>
+    </entity>
+    <entity id="customer-ddlb-load">
+        <query>
+            <![CDATA[
+                SELECT DISTINCT IM.ITEM_NAME, IM.ITEM_MASTER_SID FROM ST_DEDUCTION_CALENDAR_ITEM SC
+                JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = SC.ITEM_MASTER_SID
+                WHERE USER_ID = ?UID
+                AND SESSION_ID = ?SID
+            ]]>  
+        </query>
+    </entity> 
+    <entity id="forecast-config">
+        <query>
+            <![CDATA[
+                    ;WITH CTE_FORECAST
+                    AS (SELECT TOP 1 FROM_DATE,
+                              TO_DATE
+                 FROM   FORECAST_CONFIG FG
+                        JOIN HELPER_TABLE HT
+                          ON HT.HELPER_TABLE_SID = FG.BUSINESS_PROCESS_TYPE
+                 WHERE  DESCRIPTION = 'Government'
+                 ORDER  BY VERSION_NO DESC
+                 UNION ALL
+                 SELECT TOP 1 FROM_DATE,
+                              TO_DATE
+                 FROM   FORECAST_CONFIG FG
+                        JOIN HELPER_TABLE HT
+                          ON HT.HELPER_TABLE_SID = FG.BUSINESS_PROCESS_TYPE
+                 WHERE  DESCRIPTION = 'Commercial'
+                 ORDER  BY VERSION_NO DESC)
+                 SELECT Min(Cast(FROM_DATE AS DATE)) FROM_DATE,
+               Max(Cast(TO_DATE AS DATE))   TO_DATE
+                FROM   CTE_FORECAST
+            ]]>
+        </query>
+    </entity> 
+    
+    <entity id="customercount">
+        <query>
+            <![CDATA[
+                Select Count(*) from dbo.ST_DEDUCTION_CALENDAR_COMPANY WHERE
+                USER_ID = ?UID
+                AND SESSION_ID = ?SID
+                ?FILTER
+            ]]>   
+        </query>
+    </entity> 
+    
+    <entity id="itemcount">
+        <query>
+        <![CDATA[
+            Select Count(*) from dbo.ST_DEDUCTION_CALENDAR_COMPANY WHERE
+            USER_ID = ?UID
+            AND SESSION_ID = ?SID
+            ]]>  
+        </query> 
+    </entity>
+    
+    <entity id="brandcount">
+        <query>
+        <![CDATA[
+            SELECT
+            COUNT(
+                DISTINCT BM.BRAND_MASTER_SID
+            )
+            FROM
+            ST_DEDUCTION_CALENDAR_ITEM SI
+            JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = SI.ITEM_MASTER_SID
+            JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+            WHERE
+            SI.USER_ID = ?UID
+            AND SI.SESSION_ID = ?SID
+        ]]>  
+        </query> 
+    </entity>
+    
+    <entity id="cust-brand-item-count">
+        <query>
+            <![CDATA[
+                    SELECT Count(DISTINCT I.ITEM_MASTER_SID)
+                  FROM   ST_DEDUCTION_CALENDAR_ITEM ST
+                 JOIN cp_details c
+                   ON c.ITEM_MASTER_SID = st.ITEM_MASTER_SID
+                 JOIN ITEM_MASTER I
+                   ON I.ITEM_MASTER_SID = C.ITEM_MASTER_SID
+                 JOIN ST_DEDUCTION_CALENDAR_COMPANY sc
+                   ON sc.COMPANY_MASTER_SID = c.COMPANY_MASTER_SID
+                      AND sc.USER_ID = st.USER_ID
+                      AND sc.SESSION_ID = st.SESSION_ID
+                  WHERE  st.USER_ID = ?UID
+                 AND st.SESSION_ID = ?SID
+                 AND C.COMPANY_MASTER_SID = ?CMID
+                 AND I.BRAND_MASTER_SID = ?BMID
+            ]]> 
+        </query>  
+    </entity>
+    
+    <entity id="prod-level1-count">
+        <query>
+        <![CDATA[
+                SELECT Count(DISTINCT BM.BRAND_MASTER_SID)
+              FROM   ST_DEDUCTION_CALENDAR_ITEM SD
+             JOIN ITEM_MASTER IM
+               ON IM.ITEM_MASTER_SID = SD.ITEM_MASTER_SID
+             JOIN BRAND_MASTER BM
+               ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+              WHERE  USER_ID = ?UID
+             AND SESSION_ID = ?SID
+             ?FILTER
+            ]]>   
+        </query>
+    </entity>
+    
+    <entity id="prod-level1-data">
+        <query>
+        <![CDATA[
+          ;WITH cte
+     AS (SELECT *
+         FROM   BRAND_MASTER bm
+         WHERE  EXISTS (SELECT 1
+                        FROM   ST_DEDUCTION_CALENDAR_ITEM si
+                               INNER JOIN ITEM_MASTER im
+                                       ON im.ITEM_MASTER_SID = si.ITEM_MASTER_SID
+                        WHERE  bm.BRAND_MASTER_SID = im.BRAND_MASTER_SID
+                                ?FILTER
+                               AND USER_ID = ?UID
+                               AND SESSION_ID = ?SID)
+         ORDER  BY BRAND_MASTER_SID
+        OFFSET ?START ROWS FETCH NEXT ?OFFSET ROWS ONLY
+        )
+SELECT cs.*
+FROM   cte sc
+       CROSS apply (SELECT bm.BRAND_MASTER_SID,
+                           bm.brand_name,
+                           YEAR,
+                           Count(*) total_count,
+                           Min(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 1
+                                 ELSE 0
+                               END) AS CHECK_RECORD,
+                           Sum(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 0
+                                 ELSE 1
+                               END) AS uncheck_count,
+                           ?FREQ
+                    FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+                           INNER JOIN CP_DETAILS CD
+                                   ON CD.CP_DETAILS_SID = ST.CP_DETAILS_SID
+                           JOIN ITEM_MASTER iM
+                             ON im.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                           JOIN BRAND_MASTER bm
+                             ON bm.BRAND_MASTER_SID = im.BRAND_MASTER_SID
+                                                JOIN ST_DEDUCTION_CALENDAR_COMPANY sdc ON sdc.COMPANY_MASTER_SID = cd.COMPANY_MASTER_SID
+                                                AND sdc.USER_ID = st.USER_ID
+                                                AND sdc.SESSION_ID = st.SESSION_ID
+                    WHERE  sc.BRAND_MASTER_SID = im.BRAND_MASTER_SID
+                           AND st.USER_ID = ?UID
+                           AND st.SESSION_ID = ?SID
+                           ?FILTER
+                           AND YEAR BETWEEN Year ('?FROM') AND Year('?TO')
+                    GROUP  BY bm.BRAND_MASTER_SID,
+                              bm.brand_name,
+                              YEAR) cs
+ORDER  BY BRAND_MASTER_SID,
+          brand_name,
+          YEAR
+
+
+                    ]]>   
+                    </query>
+    </entity>
+    
+    <entity id="prod-level2-count">
+        <query>
+        <![CDATA[
+        SELECT Count(sc.COMPANY_MASTER_SID)
+FROM   ST_DEDUCTION_CALENDAR_COMPANY sc
+WHERE  EXISTS (SELECT 1
+               FROM   ST_DEDUCTION_CALENDAR_ITEM si
+                      JOIN CP_DETAILS Cd
+                        ON Cd.ITEM_MASTER_SID = si.ITEM_MASTER_SID
+                      JOIN ITEM_MASTER IM
+                        ON IM.ITEM_MASTER_SID = cD.ITEM_MASTER_SID
+               WHERE  sc.COMPANY_MASTER_SID = cd.COMPANY_MASTER_SID
+                      AND si.USER_ID = sc.USER_ID
+                      AND si.SESSION_ID = sc.SESSION_ID
+                      AND IM.BRAND_MASTER_SID = ?BMSID
+                      ?FILTER
+                                    )
+       AND sc.USER_ID = ?UID
+       AND sc.SESSION_ID = ?SID;
+
+                    ]]>   
+                    </query>
+    </entity>
+    
+    <entity id="prod-level2-data">
+        <query>
+        <![CDATA[
+          ;WITH cte
+     AS (SELECT sc.COMPANY_MASTER_SID
+         FROM   ST_DEDUCTION_CALENDAR_COMPANY sc
+         WHERE  EXISTS (SELECT 1
+                        FROM   ST_DEDUCTION_CALENDAR_ITEM si
+                               JOIN CP_DETAILS Cd
+                                 ON Cd.ITEM_MASTER_SID = si.ITEM_MASTER_SID
+                               JOIN ITEM_MASTER IM
+                                 ON IM.ITEM_MASTER_SID = cD.ITEM_MASTER_SID
+                        WHERE  sc.COMPANY_MASTER_SID = cd.COMPANY_MASTER_SID
+                               AND si.USER_ID = sc.USER_ID
+                               AND si.SESSION_ID = sc.SESSION_ID
+                               AND IM.BRAND_MASTER_SID = ?BMSID
+                               ?FILTER
+                                                   )
+                AND sc.USER_ID = ?UID
+                AND sc.SESSION_ID = ?SID
+         ORDER  BY COMPANY_MASTER_SID
+        OFFSET ?START ROWS FETCH NEXT ?OFFSET ROWS ONLY
+        )
+SELECT cs.*
+FROM   cte sc
+       CROSS apply (SELECT cm.COMPANY_MASTER_SID,
+                           cm.COMPANY_NAME,
+                           YEAR,
+                           Count(*) total_count,
+                           Min(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 1
+                                 ELSE 0
+                               END) AS CHECK_RECORD,
+                           Sum(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 0
+                                 ELSE 1
+                               END) AS uncheck_count,
+                           ?FREQ
+                    FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+                           INNER JOIN CP_DETAILS CD
+                                   ON CD.CP_DETAILS_SID = ST.CP_DETAILS_SID
+                           JOIN COMPANY_MASTER cM
+                             ON cM.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                           JOIN ST_DEDUCTION_CALENDAR_ITEM sdc
+                             ON sdc.ITEM_MASTER_SID = cd.ITEM_MASTER_SID
+                                AND sdc.USER_ID = st.USER_ID
+                                AND sdc.SESSION_ID = st.SESSION_ID
+                            JOIN ITEM_MASTER im ON im.ITEM_MASTER_SID = cd.ITEM_MASTER_SID    
+                    WHERE  sc.COMPANY_MASTER_SID = cd.COMPANY_MASTER_SID
+                           AND st.USER_ID = ?UID
+                           AND st.SESSION_ID = ?SID
+                           AND  IM.BRAND_MASTER_SID = ?BMSID
+                           ?FILTER
+                           AND YEAR BETWEEN Year ('?FROM') AND Year('?TO')
+                    GROUP  BY cm.COMPANY_MASTER_SID,
+                              cm.COMPANY_NAME,
+                              YEAR) cs
+ORDER  BY COMPANY_MASTER_SID,
+          COMPANY_NAME,
+          YEAR
+
+
+                    ]]>  
+                    </query> 
+    </entity>
+    
+    <entity id="prod-level3-count">
+        <query>
+        <![CDATA[
+        SELECT Count(ITEM_MASTER_SID)
+FROM   ST_DEDUCTION_CALENDAR_ITEM SD
+WHERE  EXISTS (SELECT 1
+               FROM   CP_DETAILS cd
+                      JOIN ITEM_MASTER IM
+                        ON IM.ITEM_MASTER_SID = cd.ITEM_MASTER_SID
+                      JOIN BRAND_MASTER BM
+                        ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+                      JOIN ST_DEDUCTION_CALENDAR_COMPANY sc
+                        ON sc.COMPANY_MASTER_SID = cd.COMPANY_MASTER_SID
+                           AND sd.USER_ID = sc.USER_ID
+                           AND sd.SESSION_ID = sc.SESSION_ID
+               WHERE  sd.ITEM_MASTER_SID = cd.ITEM_MASTER_SID
+                      AND sc.COMPANY_MASTER_SID = ?CMID
+                      AND IM.BRAND_MASTER_SID = ?BMSID
+                      ?FILTER
+                      AND SD.USER_ID = ?UID
+                      AND SD.SESSION_ID = ?SID) 
+
+
+                    ]]>   
+                    </query>
+    </entity>
+    
+    <entity id="prod-level3-data">
+        <query>
+        <![CDATA[
+        ;with cte as
+(
+SELECT *
+FROM   ST_DEDUCTION_CALENDAR_ITEM SD
+WHERE  EXISTS (SELECT 1
+               FROM   CP_DETAILS cd
+                      JOIN ITEM_MASTER IM
+                        ON IM.ITEM_MASTER_SID = cd.ITEM_MASTER_SID
+                      JOIN BRAND_MASTER BM
+                        ON BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+                      JOIN ST_DEDUCTION_CALENDAR_COMPANY sc
+                        ON sc.COMPANY_MASTER_SID = cd.COMPANY_MASTER_SID
+                           AND sd.USER_ID = sc.USER_ID
+                           AND sd.SESSION_ID = sc.SESSION_ID
+               WHERE  sd.ITEM_MASTER_SID = cd.ITEM_MASTER_SID
+                      AND sc.COMPANY_MASTER_SID = ?CMID
+                      AND IM.BRAND_MASTER_SID = ?BMSID
+                      ?FILTER
+                      AND SD.USER_ID = ?UID
+                      AND SD.SESSION_ID = ?SID) 
+                                    order by ITEM_MASTER_SID
+   OFFSET ?START ROWS FETCH NEXT ?OFFSET ROWS ONLY
+)
+
+SELECT cs.*
+FROM   cte sc
+       CROSS apply (SELECT im.ITEM_MASTER_SID,
+                           im.ITEM_NAME,
+                           YEAR,
+                           Count(*) total_count,
+                           Min(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 1
+                                 ELSE 0
+                               END) AS CHECK_RECORD,
+                           Sum(CASE ( CHECK_RECORD )
+                                 WHEN 1 THEN 0
+                                 ELSE 1
+                               END) AS uncheck_count,
+                            ?FREQ   
+                    FROM   ST_DEDUCTION_CALENDAR_DETAILS ST
+                           INNER JOIN CP_DETAILS CD
+                                   ON CD.CP_DETAILS_SID = ST.CP_DETAILS_SID
+                           JOIN ITEM_MASTER iM
+                             ON iM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                           JOIN ST_DEDUCTION_CALENDAR_ITEM sdc
+                             ON sdc.ITEM_MASTER_SID = cd.ITEM_MASTER_SID
+                                AND sdc.USER_ID = st.USER_ID
+                                AND sdc.SESSION_ID = st.SESSION_ID
+                    WHERE  sc.ITEM_MASTER_SID = iM.ITEM_MASTER_SID
+                           AND st.USER_ID = ?UID
+                           AND st.SESSION_ID = ?SID
+                           AND CD.COMPANY_MASTER_SID = ?CMID
+                           ?FILTER
+                           AND YEAR BETWEEN Year ('?FROM') AND Year('?TO')
+                    GROUP  BY im.ITEM_MASTER_SID,
+                           im.ITEM_NAME,
+                              YEAR) cs
+ORDER  BY ITEM_MASTER_SID,
+          ITEM_NAME,
+          YEAR
+
+                    ]]>   
+                    </query>
+    </entity>
+    <entity id="customerlevelcolumns">
+        <query>
+            <![CDATA[
+                CM.COMPANY_MASTER_SID , CM.COMPANY_NAME,
+                YEAR ,
+                COUNT(*) total_count,
+                MIN(
+                    CASE
+                        (CHECK_RECORD)
+                        WHEN 1 THEN 1
+                        ELSE 0
+                    END
+                ) AS CHECK_RECORD,
+                SUM(
+                    CASE
+                        (CHECK_RECORD)
+                        WHEN 1 THEN 0
+                        ELSE 1
+                    END
+                ) AS uncheck_count,
+                ?FREQ
+            ]]>  
+        </query>
+    </entity>
+    <entity id="quarterlydisc">
+         <query>
+            <![CDATA[
+
+                Q1_DISCOUNT = SUM(
+                ISNULL (JAN_DISCOUNT_AMOUNT ,0) + ISNULL ( FEB_DISCOUNT_AMOUNT ,0) + ISNULL ( MAR_DISCOUNT_AMOUNT ,0)
+                ),
+                Q2_DISCOUNT = SUM(
+                    ISNULL (APR_DISCOUNT_AMOUNT ,0) + ISNULL ( MAY_DISCOUNT_AMOUNT ,0) + ISNULL ( JUN_DISCOUNT_AMOUNT ,0)
+                ),
+                Q3_DISCOUNT = SUM(
+                    ISNULL (JUL_DISCOUNT_AMOUNT ,0) + ISNULL ( AUG_DISCOUNT_AMOUNT ,0) + ISNULL ( SEP_DISCOUNT_AMOUNT ,0)
+                ),
+                Q4_DISCOUNT = SUM(
+                    ISNULL (OCT_DISCOUNT_AMOUNT ,0) + ISNULL ( NOV_DISCOUNT_AMOUNT ,0) + ISNULL ( DEC_DISCOUNT_AMOUNT ,0)
+                )
+            ]]>   
+        </query>
+    </entity>
+    
+    <entity id="semidisc">
+        <query>
+            <![CDATA[
+
+               s1_DISCOUNT = sum( ISNULL ( JAN_DISCOUNT_AMOUNT ,0) + ISNULL ( FEB_DISCOUNT_AMOUNT ,0)
+                        + ISNULL ( MAR_DISCOUNT_AMOUNT ,0) + ISNULL ( APR_DISCOUNT_AMOUNT ,0)
+                        + ISNULL ( MAY_DISCOUNT_AMOUNT ,0) + ISNULL ( JUN_DISCOUNT_AMOUNT ,0)),
+               s2_DISCOUNT = sum( ISNULL ( JUL_DISCOUNT_AMOUNT ,0) + ISNULL ( AUG_DISCOUNT_AMOUNT ,0)
+                        + ISNULL ( SEP_DISCOUNT_AMOUNT ,0) + ISNULL ( OCT_DISCOUNT_AMOUNT ,0)
+                        + ISNULL ( NOV_DISCOUNT_AMOUNT ,0) + ISNULL ( DEC_DISCOUNT_AMOUNT ,0))
+                ]]>   
+        </query>
+    </entity>
+    
+    <entity id="annualdisc">
+        <query>
+            <![CDATA[
+
+              Y_DISCOUNT = Sum( ISNULL ( JAN_DISCOUNT_AMOUNT ,0 ) + ISNULL ( FEB_DISCOUNT_AMOUNT ,0 )
+                        + ISNULL ( MAR_DISCOUNT_AMOUNT ,0 ) + ISNULL ( APR_DISCOUNT_AMOUNT ,0 )
+                        + ISNULL ( MAY_DISCOUNT_AMOUNT ,0 ) + ISNULL ( JUN_DISCOUNT_AMOUNT ,0 )
+                        + ISNULL ( JUL_DISCOUNT_AMOUNT ,0 ) + ISNULL ( AUG_DISCOUNT_AMOUNT ,0 )
+                        + ISNULL ( SEP_DISCOUNT_AMOUNT ,0 ) + ISNULL ( OCT_DISCOUNT_AMOUNT ,0 )
+                        + ISNULL ( NOV_DISCOUNT_AMOUNT ,0 ) + ISNULL ( DEC_DISCOUNT_AMOUNT ,0 ) )
+            ]]>   
+        </query>
+    </entity>
+    
+    <entity id="monthlydisc">
+        <query>
+            <![CDATA[
+
+             JAN=Sum ( ISNULL ( JAN_DISCOUNT_AMOUNT , 0) ) ,FEB= Sum( ISNULL ( FEB_DISCOUNT_AMOUNT
+                        , 0) ) ,MAR= Sum( ISNULL ( MAR_DISCOUNT_AMOUNT , 0) ) ,APR= Sum( ISNULL ( APR_DISCOUNT_AMOUNT
+                        , 0) ) ,MAY= Sum( ISNULL ( MAY_DISCOUNT_AMOUNT , 0) ) ,JUN= Sum( ISNULL ( JUN_DISCOUNT_AMOUNT
+                        , 0) ) ,JUL= Sum( ISNULL ( JUL_DISCOUNT_AMOUNT , 0) ) ,AUG= Sum( ISNULL ( AUG_DISCOUNT_AMOUNT
+                        , 0) ) ,SEP= Sum( ISNULL ( SEP_DISCOUNT_AMOUNT , 0) ) ,OCT= Sum( ISNULL ( OCT_DISCOUNT_AMOUNT
+                        , 0) ) ,NOV= Sum( ISNULL ( NOV_DISCOUNT_AMOUNT , 0) ) ,DEC= Sum( ISNULL ( DEC_DISCOUNT_AMOUNT , 0) )
+
+                ]]>   
+        </query>
+    </entity>
+    <entity id="insertRuleDetails-Edit">
+        <query>
+            <![CDATA[       
+                INSERT INTO CDR_DETAILS
+                (CDR_MODEL_SID,
+                 LINE_TYPE,
+                 ITEM_GROUP_MS_ASSOCIATION,
+                 KEYWORD,
+                 OPERATOR,
+                 VALUE,
+                 COMPARISON,
+                 LOGICAL_OPERATOR,
+                 CREATED_DATE,
+                 CREATED_BY,
+                 MODIFIED_DATE,
+                 MODIFIED_BY)
+                VALUES  
+            ]]>
+        </query>
+    </entity>
+    <entity id="available-customer-search-count">
+        <query>
+            <![CDATA[
+                SELECT 
+                    COUNT(CM.COMPANY_MASTER_SID)
+                FROM   COMPANY_MASTER CM
+                        LEFT JOIN COMPANY_TRADE_CLASS CTS
+                          ON CTS.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID AND CTS.INBOUND_STATUS <> 'D'
+                        LEFT JOIN HELPER_TABLE HT_CTS
+                               ON HT_CTS.HELPER_TABLE_SID = CTS.COMPANY_TRADE_CLASS
+                        LEFT JOIN HELPER_TABLE HT_CT
+                               ON HT_CT.HELPER_TABLE_SID = CM.COMPANY_TYPE
+                        LEFT JOIN HELPER_TABLE HT_CS
+                               ON HT_CS.HELPER_TABLE_SID = CM.COMPANY_STATUS
+                        LEFT JOIN HELPER_TABLE HT_ORG
+                               ON HT_ORG.HELPER_TABLE_SID = CM.ORGANIZATION_KEY
+                        LEFT JOIN HELPER_TABLE HT_CG
+                               ON HT_CG.HELPER_TABLE_SID = CM.COMPANY_GROUP
+                        LEFT JOIN UDCS UDC
+                               ON UDC.MASTER_SID = CM.COMPANY_MASTER_SID
+                                  AND UDC.MASTER_TYPE LIKE 'COMPANY_MASTER'
+                        LEFT JOIN COMPANY_PARENT_DETAILS CPD
+                          ON CPD.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                        LEFT JOIN COMPANY_MASTER CM1
+                          ON CPD.PARENT_COMPANY_MASTER_SID = CM1.COMPANY_MASTER_SID
+                        LEFT JOIN COMPANY_MASTER CM2
+                               ON CPD.PRIOR_PARENT_CMPY_MASTER_SID = CM2.COMPANY_MASTER_SID
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="available-customer-search-results">
+        <query>
+            <![CDATA[
+                SELECT
+                    CM.ORGANIZATION_KEY AS ORGANIZATION_KEY,
+                CM.COMPANY_ID AS COMPANY_ID,
+                CM.COMPANY_NO AS COMPANY_NO,
+                CM.COMPANY_NAME AS COMPANY_NAME,
+                CTS.COMPANY_TRADE_CLASS AS COMPANY_TRADE_CLASS,
+                CTS.TRADE_CLASS_START_DATE AS TRADE_CLASS_START_DATE,
+                CTS.TRADE_CLASS_END_DATE AS TRADE_CLASS_END_DATE,
+                CM.COMPANY_TYPE AS COMPANY_TYPE,
+                CM.COMPANY_STATUS AS COMPANY_STATUS,
+                CM.LIVES AS LIVES,
+                CM.COMPANY_START_DATE AS COMPANY_START_DATE,
+                CM.COMPANY_END_DATE AS COMPANY_END_DATE,
+                UDC.UDC1 AS UDC1,
+                UDC.UDC2 AS UDC2,
+                UDC.UDC3 AS UDC3,
+                UDC.UDC4 AS UDC4,
+                UDC.UDC5 AS UDC5,
+                UDC.UDC6 AS UDC6,
+                CM.COMPANY_GROUP AS COMPANY_GROUP,
+                CM.FINANCIAL_SYSTEM AS FINANCIAL_SYSTEM,
+                CM.ADDRESS1 AS ADDRESS1,
+                CM.ADDRESS2 AS ADDRESS2,
+                CM.CITY AS CITY,
+                CM."STATE" AS "STATE",
+                CM.ZIP_CODE AS ZIP_CODE,
+                CM.COUNTRY AS COUNTRY,
+                CM.REGION_CODE AS REGION_CODE,
+                CM1.COMPANY_NO AS COMPANY_NO1,
+                CPD.PARENT_START_DATE AS PARENT_START_DATE,
+                CPD.PARENT_END_DATE AS PARENT_END_DATE,
+                CPD.PRIOR_PARENT_START_DATE AS PRIOR_PARENT_START_DATE,
+                CM2.COMPANY_NO AS COMPANY_NO2,
+                CM.COMPANY_MASTER_SID AS COMPANY_MASTER_SID,
+                CPD.PARENT_COMPANY_MASTER_SID AS PARENT_COMPANY_MASTER_SID
+                     FROM   COMPANY_MASTER CM
+                        LEFT JOIN COMPANY_TRADE_CLASS CTS
+                          ON CTS.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID AND CTS.INBOUND_STATUS <> 'D'
+                        LEFT JOIN HELPER_TABLE HT_CTS
+                               ON HT_CTS.HELPER_TABLE_SID = CTS.COMPANY_TRADE_CLASS
+                        LEFT JOIN HELPER_TABLE HT_CT
+                               ON HT_CT.HELPER_TABLE_SID = CM.COMPANY_TYPE
+                        LEFT JOIN HELPER_TABLE HT_CS
+                               ON HT_CS.HELPER_TABLE_SID = CM.COMPANY_STATUS
+                        LEFT JOIN HELPER_TABLE HT_ORG
+                               ON HT_ORG.HELPER_TABLE_SID = CM.ORGANIZATION_KEY
+                        LEFT JOIN HELPER_TABLE HT_CG
+                               ON HT_CG.HELPER_TABLE_SID = CM.COMPANY_GROUP
+                        LEFT JOIN UDCS UDC
+                               ON UDC.MASTER_SID = CM.COMPANY_MASTER_SID
+                                  AND UDC.MASTER_TYPE LIKE 'COMPANY_MASTER'
+                    LEFT JOIN COMPANY_PARENT_DETAILS CPD
+                      ON CPD.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                    LEFT JOIN COMPANY_MASTER CM1
+                      ON CPD.PARENT_COMPANY_MASTER_SID = CM1.COMPANY_MASTER_SID
+                    LEFT JOIN COMPANY_MASTER CM2
+                           ON CPD.PRIOR_PARENT_CMPY_MASTER_SID = CM2.COMPANY_MASTER_SID
+             
+        ]]>
+        </query>
+    </entity>
+    <entity id="selected-customer-search-count">
+        <query>
+            <![CDATA[
+                SELECT 
+                    COUNT(CM.COMPANY_MASTER_SID)
+                FROM   ST_DEDUCTION_CALENDAR_COMPANY ST
+                JOIN COMPANY_MASTER CM ON ST.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                LEFT JOIN COMPANY_TRADE_CLASS CTS ON CTS.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID AND CTS.INBOUND_STATUS <> 'D'
+                 LEFT JOIN HELPER_TABLE HT_CTS ON HT_CTS.HELPER_TABLE_SID = CTS.COMPANY_TRADE_CLASS
+                LEFT JOIN HELPER_TABLE HT_CT ON HT_CT.HELPER_TABLE_SID = CM.COMPANY_TYPE 
+                LEFT JOIN HELPER_TABLE HT_CS ON HT_CS.HELPER_TABLE_SID = CM.COMPANY_STATUS 
+                LEFT JOIN HELPER_TABLE HT_ORG ON HT_ORG.HELPER_TABLE_SID = CM.ORGANIZATION_KEY 
+                LEFT JOIN HELPER_TABLE HT_CG ON HT_CG.HELPER_TABLE_SID = CM.COMPANY_GROUP 
+                LEFT JOIN UDCS UDC ON UDC.MASTER_SID = CM.COMPANY_MASTER_SID AND UDC.MASTER_TYPE LIKE 'COMPANY_MASTER' 
+                LEFT JOIN COMPANY_PARENT_DETAILS CPD ON CPD.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID 
+                LEFT JOIN COMPANY_MASTER CM1 ON CPD.PARENT_COMPANY_MASTER_SID = CM1.COMPANY_MASTER_SID 
+                LEFT JOIN COMPANY_MASTER CM2 ON CPD.PRIOR_PARENT_CMPY_MASTER_SID = CM2.COMPANY_MASTER_SID 
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="selected-customer-search-results">
+        <query>
+            <![CDATA[
+                SELECT
+                    CM.ORGANIZATION_KEY AS ORGANIZATION_KEY,
+                CM.COMPANY_ID AS COMPANY_ID,
+                CM.COMPANY_NO AS COMPANY_NO,
+                CM.COMPANY_NAME AS COMPANY_NAME,
+                CTS.COMPANY_TRADE_CLASS AS COMPANY_TRADE_CLASS,
+                CTS.TRADE_CLASS_START_DATE AS TRADE_CLASS_START_DATE,
+                CTS.TRADE_CLASS_END_DATE AS TRADE_CLASS_END_DATE,
+                CM.COMPANY_TYPE AS COMPANY_TYPE,
+                CM.COMPANY_STATUS AS COMPANY_STATUS,
+                CM.LIVES AS LIVES,
+                CM.COMPANY_START_DATE AS COMPANY_START_DATE,
+                CM.COMPANY_END_DATE AS COMPANY_END_DATE,
+                UDC.UDC1 AS UDC1,
+                UDC.UDC2 AS UDC2,
+                UDC.UDC3 AS UDC3,
+                UDC.UDC4 AS UDC4,
+                UDC.UDC5 AS UDC5,
+                UDC.UDC6 AS UDC6,
+                CM.COMPANY_GROUP AS COMPANY_GROUP,
+                CM.FINANCIAL_SYSTEM AS FINANCIAL_SYSTEM,
+                CM.ADDRESS1 AS ADDRESS1,
+                CM.ADDRESS2 AS ADDRESS2,
+                CM.CITY AS CITY,
+                CM."STATE" AS "STATE",
+                CM.ZIP_CODE AS ZIP_CODE,
+                CM.COUNTRY AS COUNTRY,
+                CM.REGION_CODE AS REGION_CODE,
+                CM1.COMPANY_NO AS COMPANY_NO1,
+                CPD.PARENT_START_DATE AS PARENT_START_DATE,
+                CPD.PARENT_END_DATE AS PARENT_END_DATE,
+                CPD.PRIOR_PARENT_START_DATE AS PRIOR_PARENT_START_DATE,
+                CM2.COMPANY_NO AS COMPANY_NO2,
+                CM.COMPANY_MASTER_SID AS COMPANY_MASTER_SID,
+                CPD.PARENT_COMPANY_MASTER_SID AS PARENT_COMPANY_MASTER_SID
+                    FROM   ST_DEDUCTION_CALENDAR_COMPANY ST
+                    JOIN COMPANY_MASTER CM ON ST.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID 
+                    LEFT JOIN COMPANY_TRADE_CLASS CTS ON CTS.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID AND CTS.INBOUND_STATUS <> 'D'
+                     LEFT JOIN HELPER_TABLE HT_CTS ON HT_CTS.HELPER_TABLE_SID = CTS.COMPANY_TRADE_CLASS
+                    LEFT JOIN HELPER_TABLE HT_CT ON HT_CT.HELPER_TABLE_SID = CM.COMPANY_TYPE 
+                    LEFT JOIN HELPER_TABLE HT_CS ON HT_CS.HELPER_TABLE_SID = CM.COMPANY_STATUS 
+                    LEFT JOIN HELPER_TABLE HT_ORG ON HT_ORG.HELPER_TABLE_SID = CM.ORGANIZATION_KEY 
+                    LEFT JOIN HELPER_TABLE HT_CG ON HT_CG.HELPER_TABLE_SID = CM.COMPANY_GROUP 
+                    LEFT JOIN UDCS UDC ON UDC.MASTER_SID = CM.COMPANY_MASTER_SID AND UDC.MASTER_TYPE LIKE 'COMPANY_MASTER' 
+                    LEFT JOIN COMPANY_PARENT_DETAILS CPD ON CPD.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID 
+                    LEFT JOIN COMPANY_MASTER CM1 ON CPD.PARENT_COMPANY_MASTER_SID = CM1.COMPANY_MASTER_SID 
+                    LEFT JOIN COMPANY_MASTER CM2 ON CPD.PRIOR_PARENT_CMPY_MASTER_SID = CM2.COMPANY_MASTER_SID 
+
+            ]]>
+        </query>
+    </entity>
+    <entity id="moveAndMergeToTempTable">
+        <query>
+            <![CDATA[
+        
+            INSERT INTO ST_DEDUCTION_CALENDAR_COMPANY
+                           (COMPANY_MASTER_SID,
+                           USER_ID,
+                           session_id)
+             ?COMPANY_FECTH 
+                 AND NOT EXISTS (SELECT 1
+                                            FROM   ST_DEDUCTION_CALENDAR_COMPANY di
+                                            WHERE  di.COMPANY_MASTER_SID = cm.COMPANY_MASTER_SID
+                                                         AND di.USER_ID = ?UID
+                                                         AND di.SESSION_ID = ?SID) ;
+                                       
+
+            ]]>  
+        </query> 
+    </entity>
+    <entity id="moveAndMergeItemsToTempTable">
+        <query>
+        <![CDATA[
+            
+            INSERT INTO ST_DEDUCTION_CALENDAR_ITEM
+                           (ITEM_MASTER_SID,
+                           USER_ID,
+                           session_id)
+             ?ITEM_FECTH 
+                 AND NOT EXISTS (SELECT 1
+                                            FROM   ST_DEDUCTION_CALENDAR_ITEM di
+                                            WHERE  di.ITEM_MASTER_SID = im.item_master_sid
+                                                         AND di.USER_ID = ?UID
+                                                         AND di.SESSION_ID = ?SID) ;
+            ]]>  
+        </query> 
+    </entity>
+    <entity id="DeductionCalendarItemSelectionSearch">  
+        <query>      
+                <![CDATA[            
+                    IM.ITEM_MASTER_SID,
+                    IM.item_Id,
+                    IM.item_no,
+                    IM.item_Name,
+                    IM.item_Desc,
+                    IM.item_Type,
+                    IM.item_Status,
+                    IM.RECORD_LOCK_STATUS,
+                    IM.item_Code,
+                    IM.package_Size_Code,
+                    IM.Upps,
+                    IM.item_Start_Date,
+                    IM.item_End_Date,
+                    IM.labeler_Code,
+                    IM.form,
+                    IM.strength,
+                    IM.primary_UOM,
+                    IM.secondary_UOM,
+                    IM.item_Class ,
+                    IM.pediatric_Exclusive_Start_Date,
+                    IM.pediatric_Exclusive_End_Date,
+                    IM.clotting_Factor_Start_Date,
+                    IM.clotting_Factor_End_Date,
+                    BM.BRAND_NAME,
+                    IM.NDC9,
+                    IM.NDC8,
+                    IM.therapeutic_Class,
+                    IM.package_Size_Intro_Date,
+                    CM.COMPANY_ID,
+                    CM.COMPANY_NO,
+                    CM.COMPANY_NAME,
+                    IM.organization_Key,
+                    IM.acquisition_Date,
+                    IM.authorized_Generic,
+                    IM.authorized_Generic_Start_Date,
+                    IM.authorized_Generic_End_Date,
+                    IM.first_Sale_Date,
+                    IM.ITEM_TYPE_INDICATION,
+                    IM.market_Termination_Date,
+                    IM.new_Formulation_Indicator,
+                    IM.new_Formulation,
+                    IM.new_Formulation_Start_Date,
+                    IM.new_Formulation_End_Date,
+                    IM.pediatric_Exclusive_Indicator,
+                    IM.clotting_Factor_Indicator,
+                    IM.shelf_Life,
+                    IM.shelf_Life_Type,
+                    IM.dual_Pricing_Indicator,
+                    IM.item_Family_ID,
+                    IM.acquired_AMP,
+                    IM.acquired_BAMP,
+                    IM.OBRA_BAMP,
+                    IM.DRA,
+                    IM.doses_per_Unit,
+                    IM.discontinuation_Date,
+                    IM.last_Lot_Expiration_Date,
+                    IM.baseline_AMP,
+                    IM.BASE_CPI_PERIOD,
+                    UDCS.UDC1,
+                    UDCS.UDC2,
+                    UDCS.UDC3,
+                    UDCS.UDC4,
+                    UDCS.UDC5,
+                    UDCS.UDC6,
+                    BM.DISPLAY_BRAND,
+                    IM.ITEM_CLASS
+
+                    FROM ITEM_MASTER IM 
+                    LEFT JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID=IM.MANUFACTURER_ID 
+                    LEFT join UDCS UDCS ON UDCS.MASTER_SID=IM.ITEM_MASTER_SID AND UDCS.MASTER_TYPE='ITEM_MASTER'  
+                    LEFT join dbo.BRAND_MASTER BM ON BM.BRAND_MASTER_SID=IM.BRAND_MASTER_SID ]]>
+
+            </query>
+        </entity>
+    <entity id="moveAndSaveToTempTable">
+        <query>
+            <![CDATA[
+                INSERT INTO ST_SELECTION_TABLE (COMPANY_ITEM_SID,SELECTION_TYPE,CHECK_RECORD,INBOUND_STATUS,USER_ID,SESSION_ID)  
+            ]]>   
+        </query>
+    </entity>
+</sql>

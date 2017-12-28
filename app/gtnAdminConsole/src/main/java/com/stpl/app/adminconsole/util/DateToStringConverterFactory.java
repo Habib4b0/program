@@ -4,8 +4,8 @@ import java.util.Date;
 
 
 import com.stpl.ifs.ui.DateToStringConverter;
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.data.util.converter.DefaultConverterFactory;
+import com.vaadin.v7.data.util.converter.Converter;
+import com.vaadin.v7.data.util.converter.DefaultConverterFactory;
 
 /**
  * A factory for creating DateToStringConverter objects.

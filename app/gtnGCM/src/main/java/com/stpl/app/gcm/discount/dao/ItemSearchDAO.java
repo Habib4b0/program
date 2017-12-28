@@ -9,10 +9,11 @@ import com.stpl.app.gcm.discount.dto.ContractsDetailsDto;
 import com.stpl.app.gcm.discount.logic.DiscountLogic;
 import java.util.ArrayList;
 import java.util.List;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.DAO;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
-import org.vaadin.addons.lazycontainer.SearchCriteria;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.asi.ui.addons.lazycontainer.DAO;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
+import org.asi.ui.addons.lazycontainer.SearchCriteria;
 
 /**
  *
@@ -22,7 +23,7 @@ public class ItemSearchDAO implements DAO<ContractsDetailsDto> {
 
     DiscountLogic logic = new DiscountLogic();
     ContractsDetailsDto removeDiscountDto = new ContractsDetailsDto();
-    private static final Logger LOGGER = Logger.getLogger(ItemSearchDAO.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemSearchDAO.class);
 
     public ItemSearchDAO() {
 
@@ -39,7 +40,7 @@ public class ItemSearchDAO implements DAO<ContractsDetailsDto> {
             count = logic.getItemSearchCount();
             LOGGER.debug("count--> " + count);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return count;
     }
@@ -50,7 +51,7 @@ public class ItemSearchDAO implements DAO<ContractsDetailsDto> {
             LOGGER.debug("find--> " + startIndex + "     " + offset);
             resultList = logic.getItemSearch(removeDiscountDto);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }

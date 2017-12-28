@@ -7,12 +7,11 @@ package com.stpl.app.adminconsole.abstractsearch.logic.tableLogic;
 
 import com.stpl.app.adminconsole.abstractsearch.dto.SearchResultsDTO;
 import com.stpl.app.adminconsole.abstractsearch.logic.AbstractSearchLogic;
-import com.stpl.app.adminconsole.abstractsearch.ui.AbstractSearchForm;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;

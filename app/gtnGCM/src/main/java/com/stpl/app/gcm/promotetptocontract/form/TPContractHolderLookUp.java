@@ -12,10 +12,10 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.TableHeaderColumnsUtil;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.Window;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -38,7 +39,7 @@ public class TPContractHolderLookUp extends Window {
     private TextField groupLookup;
     List<String> companySids;
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = org.jboss.logging.Logger.getLogger(TPContractHolderLookUp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TPContractHolderLookUp.class);
     @UiField("resultsTableCHL")
     private ExtFilterTable resultTable;
     @UiField("cancelBtnCHL")
@@ -115,7 +116,6 @@ public class TPContractHolderLookUp extends Window {
         resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().chHolderVisibleColumn);
         resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().chHolderColumnHeader);
         resultTable.setSelectable(true);
-        resultTable.setImmediate(true);
         resultTable.setHeight("330px");
 
         return resultTable;
@@ -129,7 +129,6 @@ public class TPContractHolderLookUp extends Window {
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultTable.addStyleName("filterbar");
         resultTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        resultTable.setImmediate(true);
         resultTable.setSelectable(true);
 
         contractHolderStatus.addItem(Constants.SELECT_ONE);
@@ -222,7 +221,7 @@ public class TPContractHolderLookUp extends Window {
             }
 
         } catch (Exception ex) {
-           LOGGER.error(ex);
+           LOGGER.error("",ex);
         }
         LOGGER.debug("btnSearchLogic ends");
     }

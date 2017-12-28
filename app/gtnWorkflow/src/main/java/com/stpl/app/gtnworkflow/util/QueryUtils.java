@@ -9,7 +9,6 @@ import com.stpl.app.gtnworkflow.util.xmlparser.SQlUtil;
 import com.stpl.app.gtnworkflow.dao.WorkFlowDAO;
 import com.stpl.app.gtnworkflow.dao.impl.WorkFlowImpl;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -76,18 +75,13 @@ public class QueryUtils {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
             LOGGER.debug("sql" +sql);
-            Integer count = (Integer) DAO.executeUpdate(sql.toString());
-            if (count > 0) {
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
+            HelperTableLocalServiceUtil.executeUpdateQuery(sql.toString());
 
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("End of updateData");
-        return Boolean.FALSE;
+        return Boolean.TRUE;
     }
 
     /**
@@ -101,7 +95,7 @@ public class QueryUtils {
         StringBuilder sql = null;
         try {
             sql = new StringBuilder();
-            sql = new StringBuilder(CustomSQLUtil.get(queryName));
+            sql = new StringBuilder(SQlUtil.getQuery(queryName));
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
@@ -162,19 +156,12 @@ public class QueryUtils {
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
-
-            Integer count = (Integer) DAO.executeUpdate(sql.toString());
-            if (count > 0) {
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
-
+            HelperTableLocalServiceUtil.executeUpdateQuery(sql.toString());
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("End updateAppData");
-        return Boolean.FALSE;
+        return Boolean.TRUE;
     }
 
     /**

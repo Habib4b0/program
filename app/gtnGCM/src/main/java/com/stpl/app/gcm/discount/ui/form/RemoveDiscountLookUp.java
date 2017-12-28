@@ -12,16 +12,16 @@ import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 import de.steinwedel.messagebox.ButtonId;
@@ -71,7 +71,6 @@ public class RemoveDiscountLookUp extends Window {
         VerticalLayout baseLayout = new VerticalLayout();
         mainTab.addStyleName(ValoTheme.TABSHEET_FRAMED);
         mainTab.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        mainTab.setImmediate(true);
         mainTab.addTab(removeDiscount.getContent(selecteditemList, mainTab, summary, removeDiscount, userId, sessionId), "Discount Selection", null, 0);
         mainTab.addTab(summary.getContent(selecteditemList, dto, mainTab, removeDiscount), "Summary", null, 1);
         baseLayout.addComponent(mainTab);
@@ -108,20 +107,17 @@ public class RemoveDiscountLookUp extends Window {
 
     public void configureFields() {
         removeBtn.setVisible(false);
-        nextBtn.setImmediate(true);
         nextBtn.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
                 mainTab.setSelectedTab(1);
             }
         });
-        previousBtn.setImmediate(true);
         previousBtn.setVisible(false);
         previousBtn.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
                 mainTab.setSelectedTab(0);
             }
         });
-        closeBtn.setImmediate(true);
         closeBtn.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
                 new AbstractNotificationUtils() {
@@ -130,7 +126,7 @@ public class RemoveDiscountLookUp extends Window {
                         try {
                             close();
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
 
                     }
@@ -143,7 +139,6 @@ public class RemoveDiscountLookUp extends Window {
 
             }
         });
-        removeBtn.setImmediate(true);
         removeBtn.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
 
@@ -187,7 +182,7 @@ public class RemoveDiscountLookUp extends Window {
                                 }, ButtonId.OK);
                             }
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                 }.getConfirmationMessage("Alert", "Are you sure you want to remove the discount?");
@@ -224,7 +219,7 @@ public class RemoveDiscountLookUp extends Window {
             closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", functionHM));
             nextBtn.setVisible(CommonLogic.isButtonVisibleAccess("nextBtn", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

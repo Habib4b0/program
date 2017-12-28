@@ -30,7 +30,7 @@ import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExcelExportUtil;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.vaadin.ui.ExtCustomTreeTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 
 /**
  *

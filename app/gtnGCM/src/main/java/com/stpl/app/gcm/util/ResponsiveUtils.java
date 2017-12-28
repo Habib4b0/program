@@ -10,23 +10,24 @@ import com.stpl.ifs.ui.CustomePagedFilterTable;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -34,7 +35,7 @@ import org.jboss.logging.Logger;
  */
 public class ResponsiveUtils {
 
-    private final static Logger LOGGER = Logger.getLogger(ResponsiveUtils.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
     public static final String PREV_NEXT_LAYOUT = "prev-next-layout";
     public static final String NEXTCOLUMN_BUTTON = "next-column-button";
     public static final String PREVCOLUMN_BUTTON = "prev-column-button";
@@ -98,7 +99,7 @@ public class ResponsiveUtils {
                 layout.addComponent(fieldComponent);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 

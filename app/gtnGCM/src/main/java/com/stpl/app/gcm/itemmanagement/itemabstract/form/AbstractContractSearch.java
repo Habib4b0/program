@@ -27,39 +27,39 @@ import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.DISABLE;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.ENABLE;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.serviceUtils.UIUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.gcm.util.UiUtils;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.OptionGroup;
+import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -78,7 +78,8 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -177,8 +178,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
    
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     public AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
-    public CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
-    public static final Logger LOGGER = Logger.getLogger(AbstractContractSearch.class);
+    public ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
+    public static final Logger LOGGER = LoggerFactory.getLogger(AbstractContractSearch.class);
     public AbstractContractSelectionTableLogic contractSelectionTableLogic = new AbstractContractSelectionTableLogic();
     public static final String SEARCHICON = "searchicon";
     public ExtPagedTable contractSelectionTable = new ExtPagedTable(contractSelectionTableLogic);
@@ -327,7 +328,6 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 if (Constants.CHECK_RECORD.equals(propertyId)) {
                     CustomTextField text = new CustomTextField();
                     text.setEnabled(false);
-                    text.setImmediate(true);
                     return text;
                 }
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
@@ -350,7 +350,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                     try {
                         logic.loadComboBox(pricetolerencetypeDdlb, "PS_TYPE", true);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                     return pricetolerencetypeDdlb;
                 }
@@ -362,7 +362,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 
                 if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
                     ComboBox priceProtectionDdlb = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(priceProtectionDdlb, UIUtils.STATUS, true);
+                    CommonUtil.loadComboBoxForGCM(priceProtectionDdlb, UiUtils.STATUS, true);
                     return priceProtectionDdlb;
                 }
                 if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
@@ -463,12 +463,10 @@ public abstract class AbstractContractSearch extends CustomComponent {
         massUpdateRadio.select(DISABLE.getConstant());
         field.addItem(Constants.SELECT_ONE);
         LoadField();
-        field.setImmediate(true);
         field.setNullSelectionAllowed(true);
         field.setNullSelectionItemId(Constants.SELECT_ONE);
         field.select(Constants.SELECT_ONE);
         massUpdateRadio.select(DISABLE.getConstant());
-        massUpdateRadio.setImmediate(true);
         massUpdateValue.setReadOnly(true);
         massUpdateValue.setVisible(Boolean.FALSE);
         massStartDate.setReadOnly(true);
@@ -497,7 +495,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -523,7 +521,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -797,7 +795,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         }
     }
 
-    public CustomFieldGroup getBinder() {
+    public ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
@@ -913,7 +911,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
             binder.commit();
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -948,7 +946,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
      * Load Alias Type
      */
     private void loadStatus() {
-        CommonUtil.getComboBoxByListName(massUpdateValue, UIUtils.STATUS, false);
+        CommonUtil.getComboBoxByListName(massUpdateValue, UiUtils.STATUS, false);
     }
 
     private void loadPriceTolerenceType() {
@@ -986,7 +984,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                                     selection.getLookup().changeTab();
                                     isSubmit = true;
                                 } catch (Exception ex) {
-                                    LOGGER.error(ex);
+                                    LOGGER.error("",ex);
                                 }
                             }
 

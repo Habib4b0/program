@@ -6,7 +6,7 @@
 package com.stpl.app.adminconsole.processscheduler.dto;
 
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

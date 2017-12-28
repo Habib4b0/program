@@ -16,7 +16,6 @@ import com.stpl.app.gcm.discount.logic.DiscountLogic;
 import com.stpl.app.gcm.discount.logic.ExistingTabSearchTableLogic;
 import com.stpl.app.gcm.discount.logic.ExistingTabSelectedTableLogic;
 import static com.stpl.app.gcm.discount.ui.form.NewDiscountTab.DBDate;
-import static com.stpl.app.gcm.discount.ui.form.NewDiscountTab.LOGGER;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
@@ -31,33 +30,32 @@ import com.stpl.app.model.RsDetails;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.PsDetailsLocalServiceUtil;
 import com.stpl.app.service.RsDetailsLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Tree;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Tree;
+import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -75,7 +73,8 @@ import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -86,7 +85,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ExistingDiscountTab extends CustomComponent {
 
-    public static final Logger LOGGER = Logger.getLogger(ExistingDiscountTab.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ExistingDiscountTab.class);
     ExistingTabSearchTableLogic availableTableLogic = new ExistingTabSearchTableLogic();
     ExistingTabSelectedTableLogic selectedTableLogic = new ExistingTabSelectedTableLogic();
     public ExtPagedTable componentResultsTable = new ExtPagedTable(availableTableLogic);
@@ -239,11 +238,7 @@ public class ExistingDiscountTab extends CustomComponent {
 
             componentTypeDdlb = CommonLogic.loadComponentType(componentTypeDdlb, null, true);
 
-            searchFieldDdlb.setImmediate(true);
-            componentTypeDdlb.setImmediate(true);
-            searchValueStatusDdlb.setImmediate(true);
             searchValueStatusDdlb.setVisible(false);
-            resultsComponentTypeDdlb.setImmediate(true);
             configureTables();
             LoadDashBoardTree();
             for (RemoveDiscountDto remove : removeDiscountDto) {
@@ -253,7 +248,7 @@ public class ExistingDiscountTab extends CustomComponent {
             fromCDName.setEnabled(false);
             itemStatusList = CommonLogic.getDropDownList(Constants.IndicatorConstants.STATUS.getConstant());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -308,7 +303,6 @@ public class ExistingDiscountTab extends CustomComponent {
         LOGGER.debug("Entering getProcessedTree method");
         final CommonLogic commonLogic = new CommonLogic();
         dashboardTreeTable.markAsDirty();
-        dashboardTreeTable.setImmediate(true);
         dashboardTreeTable.setSizeFull();
         dashboardTreeTable.setPageLength(NumericConstants.TEN);
         dashboardTreeTable.removeAllItems();
@@ -430,12 +424,12 @@ public class ExistingDiscountTab extends CustomComponent {
                 }
                 LOGGER.debug("End of StplExpandListener nodeExpand method");
             } catch (SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
                 final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                LOGGER.error(errorMsg);
+                LOGGER.error("",errorMsg);
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
             } catch (PortalException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
 
         }
@@ -519,10 +513,10 @@ public class ExistingDiscountTab extends CustomComponent {
                 LOGGER.debug("End of StplCollapseListener nodeCollapse method");
             } catch (SystemException ex) {
                 final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                LOGGER.error(errorMsg);
+                LOGGER.error("",errorMsg);
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
             } catch (PortalException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
 
         }
@@ -788,7 +782,7 @@ public class ExistingDiscountTab extends CustomComponent {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -817,7 +811,7 @@ public class ExistingDiscountTab extends CustomComponent {
                 final String message = srcTableBean.getCategory() + " cannot be added to  " + treeBean.getCategory();
                 AbstractNotificationUtils.getWarningNotification(Constants.CRITERIA_MISMATCH, message);
             } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.toString()) && treeBean.getCategory().equals(Constants.IndicatorConstants.IFP.toString())) {
-                final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsDetails.class);
+                final DynamicQuery psDynamicQuery = PsDetailsLocalServiceUtil.dynamicQuery();
 
                 psDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PS_MODEL_SID_PROPERTY, Integer.valueOf(srcTableBean.getPsSid())));
                 psDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(StringConstantsUtil.IFP_MODEL_SID)));
@@ -855,7 +849,7 @@ public class ExistingDiscountTab extends CustomComponent {
                 }
             } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.RS_VALUE.toString()) && treeBean.getCategory().equals(Constants.IndicatorConstants.IFP.toString())) {
                 LOGGER.debug("Inside Expected Code");
-                final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
+                final DynamicQuery rsDynamicQuery = RsDetailsLocalServiceUtil.dynamicQuery();
                 rsDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", srcTableBean.getInternalId()));
                 rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(StringConstantsUtil.IFP_MODEL_SID)));
                 final List<RsDetails> rebateScheduleDetailsList = RsDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery);
@@ -885,7 +879,7 @@ public class ExistingDiscountTab extends CustomComponent {
                     }
                 }
             } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.RS_VALUE.toString()) && treeBean.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.toString())) {
-                final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
+                final DynamicQuery rsDynamicQuery = RsDetailsLocalServiceUtil.dynamicQuery();
                 rsDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", srcTableBean.getInternalId()));
                 rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(StringConstantsUtil.IFP_MODEL_SID)));
                 final List<RsDetails> rebateScheduleDetailsList = RsDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery);
@@ -894,7 +888,7 @@ public class ExistingDiscountTab extends CustomComponent {
                         AbstractNotificationUtils.getWarningNotification("No Items", "No items Exists in RS");
                     } else {
                         final String rsSystem = String.valueOf(rebateScheduleDetailsList.get(0)).trim();
-                        final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsDetails.class);
+                        final DynamicQuery psDynamicQuery = PsDetailsLocalServiceUtil.dynamicQuery();
                         if (treeBean.getInternalId() != 0) {
                             psDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PS_MODEL_SID_PROPERTY, Integer.valueOf(treeBean.getModelSysId())));
                         } else {
@@ -1121,7 +1115,7 @@ public class ExistingDiscountTab extends CustomComponent {
                                 notif.show(Page.getCurrent());
                         } catch (Exception ex) {
                             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000));
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                 }
@@ -1186,7 +1180,7 @@ public class ExistingDiscountTab extends CustomComponent {
             psList.clear();
             rsList.clear();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         LOGGER.debug("End of saveTree method");
     }
@@ -1302,7 +1296,7 @@ public class ExistingDiscountTab extends CustomComponent {
             levelPopulateBtn.setVisible(CommonLogic.isButtonVisibleAccess("levelPopulateBtn", functionHM));
             addToTree.setVisible(CommonLogic.isButtonVisibleAccess("addToTree", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
     }

@@ -1,7 +1,7 @@
 package com.stpl.app.security.businessRoleModuleMaster.window;
 
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class MySub extends Window  {

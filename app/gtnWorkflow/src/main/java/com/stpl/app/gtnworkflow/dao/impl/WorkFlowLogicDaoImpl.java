@@ -4,9 +4,9 @@ import com.stpl.app.gtnworkflow.dao.WorkFlowLogicDao;
 import com.stpl.app.model.WorkflowMaster;
 import com.stpl.app.service.MailNotificationMasterLocalServiceUtil;
 import com.stpl.app.service.WorkflowMasterLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
 
 /**
@@ -50,7 +50,7 @@ public class WorkFlowLogicDaoImpl implements WorkFlowLogicDao {
      *
      * @param dynamicQuery
      * @return
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      * @throws Exception
      */
     @Override

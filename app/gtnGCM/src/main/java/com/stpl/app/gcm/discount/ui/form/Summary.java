@@ -27,21 +27,21 @@ import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,7 +57,8 @@ import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -94,7 +95,7 @@ public class Summary extends CustomComponent {
     CustomTableHeaderDTO rightDTO;
     RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
     private BeanItemContainer<RemoveDiscountDto> promoteTpToChDtoResultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
-    public static final Logger LOGGER = Logger.getLogger(Summary.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(Summary.class);
     DiscountLogic discountLogic = new DiscountLogic();
     List contractList = new ArrayList();
     List companyList = new ArrayList();
@@ -325,7 +326,7 @@ public class Summary extends CustomComponent {
                             RemoveDiscountDto removeDto = (RemoveDiscountDto) summaryResultsTable.getValue();
                             summaryResultsTable.removeItem(removeDto);
                         } catch (Exception e) {
-                            LOGGER.error(e);
+                            LOGGER.error("",e);
                         }
                     }
 
@@ -346,7 +347,7 @@ public class Summary extends CustomComponent {
             Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(removeDiscount.getUserId()), "GCM-Customer Management", "Remove Discount", "Summary Tab");
             rebuildBtn.setVisible(CommonLogic.isButtonVisibleAccess("rebuildBtn", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

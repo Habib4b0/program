@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import com.stpl.portal.kernel.dao.orm.ORMException;
+import com.liferay.portal.kernel.dao.orm.ORMException;
 import org.jboss.logging.Logger;
 
 /**

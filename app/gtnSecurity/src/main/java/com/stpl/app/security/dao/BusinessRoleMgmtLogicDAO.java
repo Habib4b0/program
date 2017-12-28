@@ -7,8 +7,8 @@ package com.stpl.app.security.dao;
 import java.util.List;
 
 import com.stpl.app.model.BusinessroleMaster;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  *

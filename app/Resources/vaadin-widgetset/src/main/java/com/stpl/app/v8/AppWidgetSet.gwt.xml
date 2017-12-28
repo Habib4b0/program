@@ -104,4 +104,6 @@
     <inherits name="org.asi.ui.extcustomcheckbox.ExtCustomCheckBoxWidgetSet" />
 
     <inherits name="org.asi.calendarfield.CalendarFieldWidgetSet" />
+
+    <inherits name="com.stpl.app.AppWidgetSet" />
 </module>

@@ -11,7 +11,7 @@ import com.stpl.app.global.deductioncalendar.dto.DeductionDetailsDTO;
 import com.stpl.app.global.deductioncalendar.dto.TableDTO;
 import com.stpl.app.global.deductioncalendar.logic.DeductionDetailsLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
