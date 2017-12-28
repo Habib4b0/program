@@ -2514,6 +2514,17 @@ public class SalesLogic {
         inputList.add(projectionPeriods);
         com.stpl.app.utils.QueryUtils.updateAppDataUsingSessionTables(inputList, "sales-adjustment-query", projectionSelectionDTO.getSessionDTO());
     }
+    public boolean adjustSalesProjectionValidation(ProjectionSelectionDTO projectionSelectionDTO) {
+        try {
+            String query = SQlUtil.getQuery("sales-adjustment-query-Validation");
+            SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
+            List list = (List) salesProjectionDAO.executeSelectQuery(QueryUtil.replaceTableNames(query, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+            return list.get(0) != null ? (Integer.parseInt(String.valueOf(list.get(0))) > 1) : false;
+        } catch (Exception e) {
+             LOGGER.error(e.getMessage());
+        }
+        return false;
+    }
 
 
     public AlternateLookupSource searchAlternateCustomerAndBrand(final CustomFieldGroup searchBinder, final String searchType, boolean flag) throws SystemException {

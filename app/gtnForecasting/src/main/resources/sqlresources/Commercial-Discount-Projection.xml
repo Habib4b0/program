@@ -2435,5 +2435,27 @@ END
                   ]]>
         </query>
     </entity>
+  <entity id="discount-adjustment-query-Validation">
+        <query> 
+            <![CDATA[
+           
+SELECT MAX(CNT) CNT
+FROM (
+	SELECT DISTINCT COUNT(A.CCP_DETAILS_SID) OVER (PARTITION BY ITEM_MASTER_SID) CNT
+	FROM ST_CCP_HIERARCHY A
+	INNER JOIN CCP_DETAILS B
+		ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+	WHERE EXISTS (
+			SELECT 1
+			FROM ST_NM_DISCOUNT_PROJ_MASTER C
+			WHERE A.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+				AND C.CHECK_RECORD = 1
+			)
+	) A
+
+                  ]]>
+        </query>
+    </entity>
    
 </sql>
+

@@ -432,7 +432,16 @@ public class DiscountProjectionLogic {
         com.stpl.app.utils.QueryUtils.updateAppDataUsingSessionTables(inputList, "discount-adjustment-query", session);
         return true;
     }
-
+ public boolean adjustDiscountProjectionValidation(ProjectionSelectionDTO projectionSelectionDTO) {
+        try {
+            String query = SQlUtil.getQuery("discount-adjustment-query-Validation");
+            List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+            return list.get(0) != null ? (Integer.parseInt(String.valueOf(list.get(0))) > 1) : false;
+        } catch (Exception e) {
+             LOGGER.error(e.getMessage());
+        }
+        return false;
+    }
     /**
      * To Update data related to adjustment prior to adjustment
      *
