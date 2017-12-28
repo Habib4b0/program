@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -20,7 +21,7 @@ import org.jboss.logging.Logger;
  */
 public class ContractMasterImpl {
     
-    private static final Logger LOGGER = Logger.getLogger(ContractMasterImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContractMasterImpl.class);
 
     public List getContractPriceInfo(int contractSystemId, int cfpId, int ifpId, int psId) {
 
@@ -279,7 +280,7 @@ public class ContractMasterImpl {
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
-            LOGGER.error(queries);
+            LOGGER.error("",queries);
         }
         return returnList;
     }

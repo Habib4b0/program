@@ -106,7 +106,8 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -124,7 +125,7 @@ public class NewComponents extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(NewComponents.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NewComponents.class);
     /**
      * The Constant serialVersionUID.
      */
@@ -326,7 +327,7 @@ public class NewComponents extends CustomComponent implements View {
             configureFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
     ColumnCheckListener checkListener = new ColumnCheckListener() {
@@ -482,9 +483,9 @@ public class NewComponents extends CustomComponent implements View {
                                 searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
 
                             } catch (SystemException ex) {
-                                java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                             } catch (Exception ex) {
-                                java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                             }
                         } else {
                             if (searchField.equals(Constants.ITEM_TYPE)) {
@@ -493,9 +494,9 @@ public class NewComponents extends CustomComponent implements View {
                                     itemStatusList = CommonLogic.getDropDownList("ITEM_TYPE");
                                     searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                                 } catch (SystemException ex) {
-                                    java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                                 } catch (Exception ex) {
-                                    java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                                 }
                             }
                             if (searchField.equals("PS Type")) {
@@ -504,9 +505,9 @@ public class NewComponents extends CustomComponent implements View {
                                     itemStatusList = CommonLogic.getDropDownList("PS_TYPE");
                                     searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                                 } catch (SystemException ex) {
-                                    java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                                 } catch (Exception ex) {
-                                    java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                                 }
                             }
                             if (searchField.equals("RS Type")) {
@@ -515,9 +516,9 @@ public class NewComponents extends CustomComponent implements View {
                                     itemStatusList = CommonLogic.getDropDownList("RS_TYPE");
                                     searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                                 } catch (SystemException ex) {
-                                    java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                                 } catch (Exception ex) {
-                                    java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                                 }
                             }
                         }
@@ -636,9 +637,9 @@ public class NewComponents extends CustomComponent implements View {
                             itemStatusList = CommonLogic.getDropDownList(STATUS.getConstant());
                             massValue = CommonLogic.getNativeSelect(massValue, itemStatusList);
                         } catch (SystemException ex) {
-                            java.util.logging.Logger.getLogger(NewComponents.class.getName()).log(Level.SEVERE, null, ex);
+                            LoggerFactory.getLogger(NewComponents.class.getName()).error("", ex);
                         } catch (Exception ex) {
-                            java.util.logging.Logger.getLogger(NewComponents.class.getName()).log(Level.SEVERE, null, ex);
+                            LoggerFactory.getLogger(NewComponents.class.getName()).error("", ex);
                         }
                     }
 
@@ -646,7 +647,7 @@ public class NewComponents extends CustomComponent implements View {
             });
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -755,7 +756,7 @@ public class NewComponents extends CustomComponent implements View {
                         itemStatus.setWidth(ONE_FIFTY_PX);
                         return itemStatus;
                     } catch (SystemException ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
                 if (propertyId.equals("itemStartDate")) {
@@ -859,7 +860,7 @@ public class NewComponents extends CustomComponent implements View {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         } finally {
             contractExcelFlag = false;
         }
@@ -876,7 +877,7 @@ public class NewComponents extends CustomComponent implements View {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         } finally {
             infoExcelFlag = false;
         }
@@ -1022,7 +1023,7 @@ public class NewComponents extends CustomComponent implements View {
                 componentDetailsTable.setSelectable(true);
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         } else if (componentType.getValue().toString().equalsIgnoreCase(ITEM_FAMILY_PLAN.toString())) {
             try {
@@ -1073,7 +1074,7 @@ public class NewComponents extends CustomComponent implements View {
                 componentDetailsTable.setSelectable(true);
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         } else if (componentType.getValue().toString().equalsIgnoreCase(PRICE_SCHEDULE.toString())) {
             try {
@@ -1124,7 +1125,7 @@ public class NewComponents extends CustomComponent implements View {
                 componentDetailsTable.setSelectable(true);
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
     }
@@ -1474,7 +1475,7 @@ public class NewComponents extends CustomComponent implements View {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, PLEASE_SELECT_CORREC_NODE);
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 } else if (level.equals(Constants.PRICE_SCHEDULE)) {
                     if (NumericConstants.THREE - levelNumber == 1) {
@@ -1589,7 +1590,7 @@ public class NewComponents extends CustomComponent implements View {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, PLEASE_SELECT_CORREC_NODE);
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             } else {
@@ -2062,7 +2063,7 @@ public class NewComponents extends CustomComponent implements View {
             }
             LOGGER.debug("TP Promoted Successfully as Contract Holder");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return returnList;
     }
@@ -2103,7 +2104,7 @@ public class NewComponents extends CustomComponent implements View {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -2172,7 +2173,7 @@ public class NewComponents extends CustomComponent implements View {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
 
         }
         isTableUpdate = false;
@@ -2214,7 +2215,7 @@ public class NewComponents extends CustomComponent implements View {
             removeFromTreeBtn.setVisible(CommonLogic.isButtonVisibleAccess("removeFromTreeBtn", functionHM));
             addToTreeBtn1.setVisible(CommonLogic.isButtonVisibleAccess("addToTreeBtn1", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 

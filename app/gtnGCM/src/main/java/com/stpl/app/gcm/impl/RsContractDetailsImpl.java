@@ -9,14 +9,15 @@ import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Porchelvi.Gunasekara
  */
 public class RsContractDetailsImpl {
-    private static final Logger LOGGER = Logger.getLogger(RsContractDetailsImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RsContractDetailsImpl.class);
     /**
      * Save the CFP Details to CFP Details Attached
      * 

@@ -18,8 +18,8 @@ import com.stpl.app.gcm.transfercontract.dto.ContractSearchDTO;
 import com.stpl.app.gcm.transfercontract.logic.ContractSearchLogic;
 import com.stpl.app.gcm.transfercontract.util.Constant;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
-import com.stpl.app.gcm.ui.errorhandling.ErrorLabel;
-import com.stpl.app.gcm.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
@@ -31,7 +31,6 @@ import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -57,6 +56,8 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import org.vaadin.teemu.clara.Clara;
@@ -68,7 +69,7 @@ import org.vaadin.teemu.clara.Clara;
 public class CopyContractindex extends VerticalLayout {
 
     SessionDTO session;
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CopyContractindex.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(CopyContractindex.class);
     private BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<>(ContractSearchDTO.class);
     @UiField("copycontractTableLayout")
     public VerticalLayout copycontractTableLayout;
@@ -142,7 +143,7 @@ public class CopyContractindex extends VerticalLayout {
             endDate.setDateFormat(Constants.MM_DD_YYYY);
             
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         
     }
@@ -155,7 +156,7 @@ public class CopyContractindex extends VerticalLayout {
             binderLocal.getFields().iterator();
             binderLocal.setErrorDisplay(errorMsg);
         } catch (Exception e) {
-          LOGGER.error(e);
+          LOGGER.error("",e);
         }
         return binderLocal;
     }
@@ -210,7 +211,7 @@ public class CopyContractindex extends VerticalLayout {
                 }
             });
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
 
     }
@@ -302,9 +303,9 @@ public class CopyContractindex extends VerticalLayout {
             }
 
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -325,7 +326,7 @@ public class CopyContractindex extends VerticalLayout {
                     aliastypecc.setValue(Constant.HELPER_DTO);
 
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage("Reset", "Are you sure you want to reset the page to default/previous values?");
@@ -350,7 +351,7 @@ public class CopyContractindex extends VerticalLayout {
             getUI().addWindow(chLookup);
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -387,7 +388,7 @@ public class CopyContractindex extends VerticalLayout {
             btnreset.setVisible(CommonLogic.isButtonVisibleAccess("btnreset", functionHM));
             copyBtn.setVisible(CommonLogic.isButtonVisibleAccess("copyBtn", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gcm.transfercontract.form;
 
-import com.stpl.app.gcm.util.ConstantsUtils;
+import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.TabSheet;
@@ -48,8 +48,8 @@ public class TransferDetailsForm extends VerticalLayout {
     }
     private void configureFields() {
          marketType.setNullSelectionAllowed(true);
-         marketType.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
-         marketType.addItem(ConstantsUtils.SELECT_ONE);
-         marketType.select(ConstantsUtils.SELECT_ONE);
+         marketType.setNullSelectionItemId(Constants.SELECT_ONE);
+         marketType.addItem(Constants.SELECT_ONE);
+         marketType.select(Constants.SELECT_ONE);
      }
 }

@@ -13,16 +13,12 @@ import com.stpl.app.gcm.copycontract.impl.ContractHeaderLogicDAOImpl;
 import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import com.stpl.app.gcm.transfercontract.util.Constant;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.app.gcm.util.xmlparser.SQlUtil;
-import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.vaadin.v7.data.Container;
@@ -38,7 +34,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -46,7 +43,7 @@ import org.jboss.logging.Logger;
  */
 public class ItemQueries {
 
-    private static final Logger LOGGER = Logger.getLogger(ItemQueries.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemQueries.class);
     final static CommonDao ITEMDAO = CommonImpl.getInstance();
     final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     
@@ -98,7 +95,7 @@ public class ItemQueries {
                 LOGGER.debug("sql ==================== " + sql);
                 list = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
 
@@ -126,7 +123,7 @@ public class ItemQueries {
                 }
                 list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
 
@@ -151,7 +148,7 @@ public class ItemQueries {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("End of Item Update");
         return Boolean.FALSE;
@@ -167,7 +164,7 @@ public class ItemQueries {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return sql.toString();
     }
@@ -180,7 +177,7 @@ public class ItemQueries {
             list = (List<Object[]>) ITEMDAO.executeSelect(query);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return list;
     }
@@ -197,7 +194,7 @@ public class ItemQueries {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return false;
     }
@@ -268,7 +265,7 @@ public class ItemQueries {
                 }
                 list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
 
@@ -640,7 +637,7 @@ public class ItemQueries {
                             int helperId = getHelperCode("STATUS", filterValue);
                             parameters.put(Constants.STATUS_S, helperId);
                         } catch (SystemException ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                     if (CONTRACT_TYPE.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(Constants.NULL)) {
@@ -648,7 +645,7 @@ public class ItemQueries {
                             int helperId = getHelperCode("CONTRACT_TYPE", filterValue);
                             parameters.put(CONTRACT_TYPE, helperId);
                         } catch (SystemException ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                 } else if (filter instanceof Between) {
@@ -762,7 +759,7 @@ public class ItemQueries {
             }
 
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return false;
     }

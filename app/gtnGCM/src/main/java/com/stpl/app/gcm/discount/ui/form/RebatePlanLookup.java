@@ -28,7 +28,8 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.customwindow.CustomWindow;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -64,7 +65,7 @@ public class RebatePlanLookup extends CustomWindow {
     public CustomTextField componentTextField;
     private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     CommonUtil commonUtil = CommonUtil.getInstance();
-     private static final Logger LOGGER = Logger.getLogger(RebatePlanLookup.class);
+     private static final Logger LOGGER = LoggerFactory.getLogger(RebatePlanLookup.class);
 
     public RebatePlanLookup(CustomTextField componentTextField) {
        super("Rebate Plan Lookup");
@@ -100,7 +101,7 @@ public class RebatePlanLookup extends CustomWindow {
             rebatePlanType.setNullSelectionAllowed(false);
             rebatePlanStatus.setNullSelectionAllowed(false);
         } catch (Exception e) {
-         LOGGER.error(e);
+         LOGGER.error("",e);
         }
     }
 
@@ -152,7 +153,7 @@ public class RebatePlanLookup extends CustomWindow {
                     rebatePlanType.setValue(Constants.ZEROSTRING);
                     Notification.show("Rebate Plan view is reset");
                 } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
                 }
             }
 

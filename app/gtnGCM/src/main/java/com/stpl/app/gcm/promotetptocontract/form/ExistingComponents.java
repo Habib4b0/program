@@ -85,7 +85,8 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -104,7 +105,7 @@ public class ExistingComponents extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ExistingComponents.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExistingComponents.class);
     /**
      * The Constant serialVersionUID.
      */
@@ -255,7 +256,7 @@ public class ExistingComponents extends CustomComponent implements View {
             configureFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -296,7 +297,7 @@ public class ExistingComponents extends CustomComponent implements View {
             cfpDetailsName.setEnabled(false);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -364,9 +365,9 @@ public class ExistingComponents extends CustomComponent implements View {
                             searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
 
                         } catch (SystemException ex) {
-                            java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                            LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                         } catch (Exception ex) {
-                            java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                            LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                         }
                     } else {
                         if (searchField.equals(Constants.IFPTYPE)) {
@@ -375,9 +376,9 @@ public class ExistingComponents extends CustomComponent implements View {
                                 itemStatusList = CommonLogic.getDropDownList("IFP_TYPE");
                                 searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                             } catch (SystemException ex) {
-                                java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                             } catch (Exception ex) {
-                                java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                             }
                         }
                         if (searchField.equals("PS Type")) {
@@ -386,9 +387,9 @@ public class ExistingComponents extends CustomComponent implements View {
                                 itemStatusList = CommonLogic.getDropDownList("PS_TYPE");
                                 searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                             } catch (SystemException ex) {
-                                java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                             } catch (Exception ex) {
-                                java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                             }
                         }
                         if (searchField.equals("RS Type")) {
@@ -397,9 +398,9 @@ public class ExistingComponents extends CustomComponent implements View {
                                 itemStatusList = CommonLogic.getDropDownList("RS_TYPE");
                                 searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                             } catch (SystemException ex) {
-                                java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                             } catch (Exception ex) {
-                                java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                             }
                         }
                     }
@@ -455,7 +456,7 @@ public class ExistingComponents extends CustomComponent implements View {
             loadTableHeader(compType);
             LOGGER.debug("Ended populate method");
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
         }
     }
 
@@ -513,7 +514,7 @@ public class ExistingComponents extends CustomComponent implements View {
             }
             transferCompPanelTableLayout.removeComponent(exportPeriodViewTable);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         } finally {
             contractExcelFlag = false;
         }
@@ -535,7 +536,7 @@ public class ExistingComponents extends CustomComponent implements View {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         } finally {
             infoExcelFlag = false;
         }
@@ -608,7 +609,7 @@ public class ExistingComponents extends CustomComponent implements View {
         try {
             addToContDashboardTree();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -1113,7 +1114,7 @@ public class ExistingComponents extends CustomComponent implements View {
             }
             LOGGER.debug("TP Promoted Successfully as Contract Holder");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return returnList;
     }
@@ -1135,7 +1136,7 @@ public class ExistingComponents extends CustomComponent implements View {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -1171,7 +1172,7 @@ public class ExistingComponents extends CustomComponent implements View {
             populateBtn2.setVisible(CommonLogic.isButtonVisibleAccess("populateBtn2", functionHM));
             addToTreeBtn1.setVisible(CommonLogic.isButtonVisibleAccess("addToTreeBtn1", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

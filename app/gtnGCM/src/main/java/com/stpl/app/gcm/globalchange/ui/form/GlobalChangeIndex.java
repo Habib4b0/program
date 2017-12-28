@@ -18,7 +18,7 @@ import com.stpl.app.gcm.tp.ui.form.CompanyAddForm;
 import com.stpl.app.gcm.tp.ui.form.CompanySearch;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.vaadin.v7.data.Property;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -27,7 +27,8 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
@@ -39,10 +40,10 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class GlobalChangeIndex extends CustomComponent implements View {
 
-    private static final Logger LOGGER = Logger.getLogger(GlobalChangeIndex.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalChangeIndex.class);
     SessionDTO sessionDTO = new SessionDTO();
-    public CustomFieldGroup promoteTpToChDtoBinder;
-    public CustomFieldGroup globalChangeBinder;
+    public ErrorfulFieldGroup promoteTpToChDtoBinder;
+    public ErrorfulFieldGroup globalChangeBinder;
     @UiField("layout")
     public VerticalLayout layout;
     @UiField("customerSelectRadio")
@@ -113,7 +114,7 @@ public class GlobalChangeIndex extends CustomComponent implements View {
                 }
             });
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -185,7 +186,7 @@ public class GlobalChangeIndex extends CustomComponent implements View {
                     }
 
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
 
             } else if (Constants.ITEM_MANAGEMENT.equals(processName)) {
@@ -229,7 +230,7 @@ public class GlobalChangeIndex extends CustomComponent implements View {
                 layout.removeAllComponents();
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -305,7 +306,7 @@ public class GlobalChangeIndex extends CustomComponent implements View {
                 }
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
 
         }

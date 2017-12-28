@@ -17,7 +17,7 @@ import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
@@ -59,7 +59,8 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
@@ -141,12 +142,12 @@ public class ItemSelection extends CustomComponent {
     BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
     BeanItemContainer<ItemIndexDto> transferContainer = new BeanItemContainer<>(ItemIndexDto.class);
     ItemIndexDto binderDto = new ItemIndexDto();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     AbstractLogic logic = AbstractLogic.getInstance();
     ItemIndexTableLogic resultTableLogic = new ItemIndexTableLogic();
     public ExtPagedTable itemResult = new ExtPagedTable(resultTableLogic);
     final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
-    public static final Logger LOGGER = Logger.getLogger(ItemSelection.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ItemSelection.class);
     public ExtFilterTable transferTable = new ExtFilterTable();
     VerticalLayout contractDashboardLay = new VerticalLayout();
     final List<ItemIndexDto> excelList = new ArrayList<>();
@@ -194,7 +195,7 @@ public class ItemSelection extends CustomComponent {
                 createWorkSheet(StringConstantsUtil.SELECTED_ITEMS);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
     
@@ -305,7 +306,7 @@ public class ItemSelection extends CustomComponent {
                 createWorkSheetItemResults(StringConstantsUtil.ITEM_RESULTS);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
     public void createWorkSheetItemResults(String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
@@ -361,7 +362,7 @@ public class ItemSelection extends CustomComponent {
                 createWorkSheetTransferItem(StringConstantsUtil.TRANSFER_ITEMS);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
     public void createWorkSheetTransferItem(String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
@@ -529,7 +530,7 @@ public class ItemSelection extends CustomComponent {
             loadPlaceHolder(placeHolder_DTO, false);
             loadIdentifierType();
         } catch (Exception ex) {
-           LOGGER.error(ex);
+           LOGGER.error("",ex);
         }
     }
 
@@ -603,7 +604,7 @@ public class ItemSelection extends CustomComponent {
         transferItemsTable.addComponent(transferTable);
     }
 
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
@@ -651,7 +652,7 @@ public class ItemSelection extends CustomComponent {
             placeHolder_DTO.setValue(null);
             binder.commit();
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 

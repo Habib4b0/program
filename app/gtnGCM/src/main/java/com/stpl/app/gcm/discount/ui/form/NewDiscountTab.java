@@ -87,7 +87,8 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -98,7 +99,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class NewDiscountTab extends CustomComponent {
 
-    public static final Logger LOGGER = Logger.getLogger(NewDiscountTab.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(NewDiscountTab.class);
     NewDiscountTableLogic tableLogic = new NewDiscountTableLogic();
     NewDiscountSelectedTableLogic selectedTableLogic = new NewDiscountSelectedTableLogic();
     public ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tableLogic);
@@ -381,7 +382,7 @@ public class NewDiscountTab extends CustomComponent {
             fromCDName.setEnabled(false);
             searchValueStatusDdlb.setVisible(false);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -484,7 +485,7 @@ public class NewDiscountTab extends CustomComponent {
                         commonUtil.loadComboBox(status, UiUtils.STATUS, false);
 
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
 
                     status.addBlurListener(new BlurListener() {
@@ -602,7 +603,7 @@ public class NewDiscountTab extends CustomComponent {
                     try {
                         CommonLogic.getNativeSelect(priceType, priceTypeList);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
 
                     priceType.addBlurListener(new BlurListener() {
@@ -795,12 +796,12 @@ public class NewDiscountTab extends CustomComponent {
                 }
                 LOGGER.debug("End of StplExpandListener nodeExpand method");
             } catch (SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
                 final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                 LOGGER.error(errorMsg);
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
             } catch (PortalException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
 
         }
@@ -888,7 +889,7 @@ public class NewDiscountTab extends CustomComponent {
                 LOGGER.error(errorMsg);
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
             } catch (PortalException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
 
         }
@@ -1247,7 +1248,7 @@ public class NewDiscountTab extends CustomComponent {
                     valueDdlb.removeAllItems();
                     valueDdlb = CommonLogic.getNativeSelect(valueDdlb, itemStatusList);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
             if (Constants.PRICE_TYPE_LABEL.equals(String.valueOf(fieldDdlb.getValue()))) {
@@ -1255,7 +1256,7 @@ public class NewDiscountTab extends CustomComponent {
                     valueDdlb.removeAllItems();
                     valueDdlb = CommonLogic.getNativeSelect(valueDdlb, priceTypeList);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 
@@ -1512,7 +1513,7 @@ public class NewDiscountTab extends CustomComponent {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
     
@@ -1910,7 +1911,7 @@ public class NewDiscountTab extends CustomComponent {
                                         "There were no records Selected from Results Table.  Please Select Record.");
                             }
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
 
@@ -1991,7 +1992,7 @@ public class NewDiscountTab extends CustomComponent {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         LOGGER.debug("End of saveTree method");
     }
@@ -2199,7 +2200,7 @@ public class NewDiscountTab extends CustomComponent {
             removeBtn.setVisible(CommonLogic.isButtonVisibleAccess("removeBtn", functionHMPermission));
             addToTree.setVisible(CommonLogic.isButtonVisibleAccess("addToTree", functionHMPermission));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

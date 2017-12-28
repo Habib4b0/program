@@ -106,7 +106,7 @@ public class AllCustomers extends Window {
                 companyResultsContainer.addBean(dto);
             }
         } catch (Exception e) {
-           LOGGER.error(e);
+           LOGGER.error("",e);
         }
     }
 

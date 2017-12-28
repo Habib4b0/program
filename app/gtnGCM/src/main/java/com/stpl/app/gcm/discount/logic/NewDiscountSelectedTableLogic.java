@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +26,7 @@ public class NewDiscountSelectedTableLogic extends PageTableLogic {
     SessionDTO sessionDTO;
     DiscountLogic logic = new DiscountLogic();
     boolean generate = false;
-    private static final Logger LOGGER = Logger.getLogger(NewDiscountSelectedTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NewDiscountSelectedTableLogic.class);
 
     /**
      * Record count logic
@@ -55,7 +56,7 @@ public class NewDiscountSelectedTableLogic extends PageTableLogic {
         try {
             resultList = DiscountLogic.getCommonResults(binderDto, sessionDTO, true);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }

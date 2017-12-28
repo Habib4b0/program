@@ -42,7 +42,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
             configureFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
     }
@@ -160,7 +160,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
             getResetBtncur().setVisible(CommonLogic.isButtonVisibleAccess("reset2", functionHM));
             getSubmit().setVisible(CommonLogic.isButtonVisibleAccess("submit", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

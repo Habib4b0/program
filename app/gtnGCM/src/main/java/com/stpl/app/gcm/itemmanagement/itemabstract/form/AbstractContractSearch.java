@@ -28,7 +28,7 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.DISABLE;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.ENABLE;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.gcm.util.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
@@ -78,7 +78,8 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -177,8 +178,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
    
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     public AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
-    public CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
-    public static final Logger LOGGER = Logger.getLogger(AbstractContractSearch.class);
+    public ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
+    public static final Logger LOGGER = LoggerFactory.getLogger(AbstractContractSearch.class);
     public AbstractContractSelectionTableLogic contractSelectionTableLogic = new AbstractContractSelectionTableLogic();
     public static final String SEARCHICON = "searchicon";
     public ExtPagedTable contractSelectionTable = new ExtPagedTable(contractSelectionTableLogic);
@@ -349,7 +350,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                     try {
                         logic.loadComboBox(pricetolerencetypeDdlb, "PS_TYPE", true);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                     return pricetolerencetypeDdlb;
                 }
@@ -494,7 +495,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -520,7 +521,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -794,7 +795,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         }
     }
 
-    public CustomFieldGroup getBinder() {
+    public ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
@@ -910,7 +911,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
             binder.commit();
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -983,7 +984,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                                     selection.getLookup().changeTab();
                                     isSubmit = true;
                                 } catch (Exception ex) {
-                                    LOGGER.error(ex);
+                                    LOGGER.error("",ex);
                                 }
                             }
 

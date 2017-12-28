@@ -20,7 +20,7 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.logic.abstracttablelogic.Com
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.app.gcm.util.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
@@ -171,7 +171,7 @@ public class AbstractComponentInfo extends CustomComponent {
     public final String[] rsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
     ComponentInfoDTO binderDto = new ComponentInfoDTO();
     public static final String FILTERBAR = "filterbar";
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection;
     AbstractLogic abstractLogic = AbstractLogic.getInstance();
     String componentFlag = StringUtils.EMPTY;
@@ -659,7 +659,7 @@ public class AbstractComponentInfo extends CustomComponent {
             loadPaymentFrequency();
             loadRPLevel();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -726,9 +726,9 @@ public class AbstractComponentInfo extends CustomComponent {
     /**
      * get Binder
      *
-     * @return CustomFieldGroup
+     * @return ErrorfulFieldGroup
      */
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
@@ -772,7 +772,7 @@ public class AbstractComponentInfo extends CustomComponent {
             }
 
         } catch (Exception e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
         }
     }
 
@@ -797,7 +797,7 @@ public class AbstractComponentInfo extends CustomComponent {
                 ExcelExportforBB.createFileContent(currentComponentTable.getVisibleColumns(), resultList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -815,7 +815,7 @@ public class AbstractComponentInfo extends CustomComponent {
             excel.export();
             contractDashboardLay.removeComponent(contractDashboardLay);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 

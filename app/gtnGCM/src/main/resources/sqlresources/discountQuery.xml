@@ -226,6 +226,7 @@ from
         </query>
     </entity>
     <entity id="ad.itemsFromIfp">
+        <query>
 		<![CDATA[
     SELECT Distinct IFP_IM.ITEM_MASTER_SID,IFP_IM.ITEM_NO, IFP_IM.ITEM_NAME,ST1.DESCRIPTION, BND.BRAND_NAME,ST.HELPER_TABLE_SID,ST.DESCRIPTION, IFP_IM.ITEM_START_DATE, IFP_IM.ITEM_END_DATE
                     FROM IFP_DETAILS IFP_CD 
@@ -269,6 +270,7 @@ from
         </query>
     </entity>
     <entity id="ad.formulaSearchCount">
+        <query>
 		<![CDATA[
                 select count(Distinct FORMULA_DETAILS_MASTER_SID)   from FORMULA_DETAILS_MASTER where FORMULA_ID like '?FORMULA_ID?' 
                 AND FORMULA_NO like '?FORMULA_NO?' AND FORMULA_DESC like '?FORMULA_DESC?';
@@ -296,6 +298,7 @@ from
         </query>
     </entity>
     <entity id="ad.insertintoRsDetailsFromTemp">
+        <query>
 		<![CDATA[
                     INSERT into RS_DETAILS(RS_MODEL_SID,IFP_MODEL_SID,ITEM_MASTER_SID,ITEM_REBATE_START_DATE,ITEM_REBATE_END_DATE,ITEM_RS_ATTACHED_STATUS,ITEM_RS_ATTACHED_DATE,
                     FORMULA_ID,INBOUND_STATUS,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE)
@@ -350,6 +353,7 @@ from
         </query>
     </entity>
     <entity id="ad.insertintoIFPDetailsFromTemp">
+        <query>
         <![CDATA[
                     INSERT into IFP_DETAILS(IFP_MODEL_SID,ITEM_MASTER_SID,START_DATE,ITEM_IFP_ATTACHED_STATUS,ITEM_IFP_ATTACHED_DATE,
                     INBOUND_STATUS,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE)
