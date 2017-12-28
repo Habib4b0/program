@@ -84,7 +84,7 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.app.security.StplSecurity;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.util.TableResultCustom;
 import elemental.json.JsonArray;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
