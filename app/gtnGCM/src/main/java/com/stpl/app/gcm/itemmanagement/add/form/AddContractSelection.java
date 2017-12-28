@@ -751,7 +751,6 @@ public class AddContractSelection extends CustomComponent {
         addItemTable.setEditable(Boolean.TRUE);
         addItemTable.markAsDirty();
         addItemTable.setSelectable(true);
-        addItemTable.setWidth("1878");
         addItemTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         contractVertical.addComponent(addItemTable);
         HorizontalLayout controls = addItemTableLogic.createControls();
