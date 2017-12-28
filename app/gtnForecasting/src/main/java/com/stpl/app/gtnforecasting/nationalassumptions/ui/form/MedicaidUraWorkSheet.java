@@ -1249,6 +1249,7 @@ public class MedicaidUraWorkSheet extends Window {
     public void closeLogic() {
         try {
             queryUtil.updateAdjustment(projectionDTO.getNdc9(), "removeMedicaidAdjustment",sessionDTO);
+            queryUtil.removeOverrideOnClose(sessionDTO);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }

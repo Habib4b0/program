@@ -297,8 +297,10 @@ public class DiscountProjectionLogic {
                                 }
                             }
                         }else{
-                          discountDto.setCcpCount(Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));
-                          discountDto.setUncheckCount(discountDto.getUncheckCount() + Integer.valueOf(String.valueOf(obj[NumericConstants.TEN])));
+                             if (obj[NumericConstants.NINE] != null) {
+                                 discountDto.setCcpCount(Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));
+                                 discountDto.setUncheckCount(discountDto.getUncheckCount() + Integer.valueOf(String.valueOf(obj[NumericConstants.TEN])));
+                             }
                          }
                         String column = StringUtils.EMPTY;
                         if (frequency.equals(QUARTERLY.getConstant())) {
