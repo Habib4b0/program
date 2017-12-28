@@ -5,6 +5,19 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.tree;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
+
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
@@ -34,19 +47,6 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.Tree.CollapseListener;
 import com.vaadin.ui.Tree.ExpandListener;
 import com.vaadin.ui.VerticalLayout;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
 
 /**
  *
@@ -275,14 +275,7 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 			return returnList;
 		}
 
-		Collections.sort(selectedItemList, new Comparator<GtnWsRecordBean>() {
-			@Override
-			public int compare(GtnWsRecordBean o1, GtnWsRecordBean o2) {
-				int treeLevelNo1 = Integer.parseInt(String.valueOf(o1.getAdditionalPropertyByIndex(0)));
-				int treeLevelNo2 = Integer.parseInt(String.valueOf(o2.getAdditionalPropertyByIndex(0)));
-				return treeLevelNo2 - treeLevelNo1;
-			}
-		});
+		collectionsSort(selectedItemList);
 
 		ListIterator<?> listIterator = selectedItemList.listIterator();
 
@@ -301,6 +294,69 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 		}
 		returnList = new ArrayList<>(selectedItemList);
 		return returnList;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<GtnWsRecordBean> removeParentAndChildTreeItems(Tree tree, String initialTableId,
+			boolean hasMultipleTable) throws GtnFrameworkValidationFailedException {
+		List<GtnWsRecordBean> returnListToRemove = null;
+		Object selectedValueInTree = tree.getValue();
+
+		if (selectedValueInTree == null) {
+			return returnListToRemove;
+		}
+		List<GtnWsRecordBean> selectedItemListFromTree = new ArrayList<>();
+		if (selectedValueInTree instanceof Collection) {
+			selectedItemListFromTree = new ArrayList<>((Set<GtnWsRecordBean>) selectedValueInTree);
+		} else {
+			selectedItemListFromTree.add((GtnWsRecordBean) selectedValueInTree);
+		}
+		if (selectedItemListFromTree.isEmpty()) {
+			return returnListToRemove;
+		}
+		
+		collectionsSort(selectedItemListFromTree);
+
+		ListIterator<?> listIteratorForTree = selectedItemListFromTree.listIterator();
+		while (listIteratorForTree.hasNext()) {
+			Object itemToRemove = listIteratorForTree.next();
+			Object selectedParent = itemToRemove;
+			if (!tree.hasChildren(itemToRemove)) {
+				tree.getContainerDataSource().removeItem(itemToRemove);
+			} else {
+				getChildren(itemToRemove, tree, selectedParent);
+			}
+			String treeLevelNoInTree = hasMultipleTable
+					? String.valueOf(((GtnWsRecordBean) itemToRemove).getAdditionalPropertyByIndex(0)) : "";
+			GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(initialTableId + treeLevelNoInTree);
+			tableBaseComponent.addItemToDataTable(itemToRemove);
+			tableBaseComponent.setTableValue(null);
+			listIteratorForTree.remove();
+
+		}
+
+		returnListToRemove = new ArrayList<>(selectedItemListFromTree);
+
+		return returnListToRemove;
+
+	}
+	
+	private void collectionsSort(List<GtnWsRecordBean> list) {
+		list.sort((o1,o2)->(((String) (o1.getAdditionalPropertyByIndex(0))).compareTo((String)o2.getAdditionalPropertyByIndex(0))));
+		
+	}
+	
+	private void getChildren(Object item, Tree tree, Object selectedParent) {
+		if (tree.hasChildren(item)) {
+			getChildren(tree.getChildren(item).iterator().next(), tree, selectedParent);
+		} else {
+			Object parent = tree.getParent(item);
+			tree.getContainerDataSource().removeItem(item);
+			if (!item.equals(selectedParent)) {
+				getChildren(parent, tree, selectedParent);
+			}
+		}
 	}
 
 	public List<GtnWsRecordBean> getTreeNodes(AbstractSelect tree) {

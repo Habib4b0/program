@@ -1917,8 +1917,9 @@ public class AbstractLogic {
     }
     
     public String updateBaseLineWacColumn(String baseLineColumnName, Object baseLineValue, AbstractContractSearchDTO dto, SelectionDTO selection) {
+        String operation = ConstantsUtil.TRANSFER.equals(selection.getButtonMode()) ? ConstantsUtil.TRANSFER_CONTRACT : selection.getButtonMode();
         String updateQuery = "UPDATE GCM_GLOBAL_DETAILS SET " + baseLineColumnName + " ='" + baseLineValue + "' WHERE SESSION_ID ='" + selection.getSessionId() + "' "
-                + " AND OPERATION ='" + selection.getButtonMode() + "' " + Constants.AND_CHECK_RECORD;
+                + " AND OPERATION ='" + operation + "' " + Constants.AND_CHECK_RECORD;
         HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery);
         return updateQuery;
     }

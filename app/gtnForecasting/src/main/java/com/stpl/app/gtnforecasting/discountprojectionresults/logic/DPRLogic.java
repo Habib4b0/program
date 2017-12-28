@@ -55,12 +55,12 @@ public class DPRLogic {
     private static final String PERCENTAGE = Constant.PERCENT;
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.0");
     public List<DiscountProjectionResultsDTO> projectionTotalList = new ArrayList<>();
-    Object[] dprOrderedArgs;
-    List<Object[]> totalPrcResultList = new ArrayList<>();
+    protected Object[] dprOrderedArgs;
+    protected List<Object[]> totalPrcResultList = new ArrayList<>();
     public static final String SUPPLEMENTAL = "supplemental";
     public static final String SUPPLEMENTAL_DISCOUNT1 = "SupplementalDiscount";
 
-    public List<DiscountProjectionResultsDTO> getConfiguredDPResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO)  {
+    public List<DiscountProjectionResultsDTO> getConfiguredDPResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) {
         List<DiscountProjectionResultsDTO> resultList;
         if (!projSelDTO.isIsFilter() || (parentId instanceof DiscountProjectionResultsDTO)) {
             projSelDTO.setYear(Constant.ALL);
@@ -219,9 +219,9 @@ public class DPRLogic {
                 programCodeList = getProgramCodeDiscount(projSelDTO);
                 if (programCodeList != null && !programCodeList.isEmpty()) {
                     for (int k = start; k < programCodeList.size() && neededRecord > 0; neededRecord--, k++) {
-                    projDTOList.add(programCodeList.get(k));
-                    started++;
-                }                   
+                        projDTOList.add(programCodeList.get(k));
+                        started++;
+                    }
                 }
             }
         } else {
@@ -268,7 +268,7 @@ public class DPRLogic {
             }
             if (projSelDTO.isCustomFlag()) {
                 projSelDTO.setCustomLevelNo(projSelDTO.getCustomLevelNo() + 1);
-                int i = CommonLogic.getIndicatorCount( projSelDTO.getCustomId());
+                int i = CommonLogic.getIndicatorCount(projSelDTO.getCustomId());
                 if (i >= projSelDTO.getCustomLevelNo()) {
                     tempCustomFlag = true;
                 }
@@ -412,8 +412,19 @@ public class DPRLogic {
             boolean actualFlag = false;
             String lastValue = StringUtils.EMPTY;
             String tempAnnual = StringUtils.EMPTY;
-            double annualMandamt = 0.0, annualMandrate = 0.0, annualMandrpu = 0.0, annualMandProjamt = 0.0, annualMandProjrate = 0.0, annualMandProjrpu = 0.0,
-                    annualSuppamt = 0.0, annualSupprate = 0.0, annualSupprpu = 0.0, annualSuppProjamt = 0.0, annualSuppProjrate = 0.0, annualSuppProjrpu = 0.0;
+            double annualMandamt = 0.0;
+            double annualMandrate = 0.0;
+            double annualMandrpu = 0.0;
+            double annualMandProjamt = 0.0;
+            double annualMandProjrate = 0.0;
+            double annualMandProjrpu = 0.0;
+            double annualSuppamt = 0.0;
+            double annualSupprate = 0.0;
+            double annualSupprpu = 0.0;
+            double annualSuppProjamt = 0.0;
+            double annualSuppProjrate = 0.0;
+            double annualSuppProjrpu = 0.0;
+
             List<Object> rightHeaderColumns = projSelDTO.getRightHeaderDoubleColumns();
             for (int i = 0; i < list.size(); i++) {
                 String columnName;
@@ -581,17 +592,17 @@ public class DPRLogic {
                 }
             }
         } else {
-            for (String value : projSelDTO.getProgramCodeList()) {              
-                DiscountProjectionResultsDTO contractDTO = new DiscountProjectionResultsDTO();               
-                        contractDTO.setLevelNo(projSelDTO.getLevelNo());
-                        contractDTO.setHierarchyNo(projSelDTO.getHierarchyNo());
-                        contractDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
-                        contractDTO.setLevelValue(value);
-                        contractDTO.setRelationshipLevelName(contractDTO.getLevelValue());
-                        contractDTO.setParentLevelName(projSelDTO.getLevelValue());
-                        contractDTO.setParent(0);
-                        pcDTO.add(contractDTO);
-                
+            for (String value : projSelDTO.getProgramCodeList()) {
+                DiscountProjectionResultsDTO contractDTO = new DiscountProjectionResultsDTO();
+                contractDTO.setLevelNo(projSelDTO.getLevelNo());
+                contractDTO.setHierarchyNo(projSelDTO.getHierarchyNo());
+                contractDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
+                contractDTO.setLevelValue(value);
+                contractDTO.setRelationshipLevelName(contractDTO.getLevelValue());
+                contractDTO.setParentLevelName(projSelDTO.getLevelValue());
+                contractDTO.setParent(0);
+                pcDTO.add(contractDTO);
+
             }
         }
 
@@ -666,14 +677,14 @@ public class DPRLogic {
         int count = 0;
         //configureLevelsCount and configureLevelsCountMethodCalled  used to  reduce unwanted query Hits
         int configureLevelsCount = 0;
-        boolean configureLevelsCountMethodCalled=false; 
-        
+        boolean configureLevelsCountMethodCalled = false;
+
         boolean tempCustomFlag = false;
         boolean mdFlag = false;
         if (projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
-            String salesOrUnit = projSelDTO.getMandatedOrSupp();           
+            String salesOrUnit = projSelDTO.getMandatedOrSupp();
             count += projSelDTO.isIsProjectionTotal() == true ? 1 : 0;
-            
+
             if (MANDATED_DISCOUNT.getConstant().equals(projSelDTO.getLevelValue()) || SUPPLEMENTAL_DISCOUNT.getConstant().equals(projSelDTO.getLevelValue())) {
                 List<Object> list;
                 list = getProgramCodeCount(projSelDTO.getProjectionId(), projSelDTO.getHierarchyNo());
@@ -714,33 +725,32 @@ public class DPRLogic {
             }
             if (projSelDTO.isCustomFlag()) {
                 if (tempCustomFlag) {
-                    configureLevelsCount= configureLevelsCount(projSelDTO);
-                    configureLevelsCountMethodCalled=true;
+                    configureLevelsCount = configureLevelsCount(projSelDTO);
+                    configureLevelsCountMethodCalled = true;
                     count = count + configureLevelsCount;
                 }
             } else {
                 projSelDTO.setLevelNo(projSelDTO.getLevelNo() + 1);
                 projSelDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo() + 1);
-                 configureLevelsCount= configureLevelsCount(projSelDTO);
-                 configureLevelsCountMethodCalled=true;
-                 count = count +configureLevelsCount ;
+                configureLevelsCount = configureLevelsCount(projSelDTO);
+                configureLevelsCountMethodCalled = true;
+                count = count + configureLevelsCount;
             }
         } else if (!mdFlag && !projSelDTO.isIsFilter()) {
             projSelDTO.setLevelNo(projSelDTO.getLevelNo());
-                configureLevelsCount= configureLevelsCount(projSelDTO);
-                configureLevelsCountMethodCalled=true;
-                count = count +configureLevelsCount ;
+            configureLevelsCount = configureLevelsCount(projSelDTO);
+            configureLevelsCountMethodCalled = true;
+            count = count + configureLevelsCount;
 
         }
-           // If configureLevelsCountMethod is Called then taking  count from variable configureLevelsCount and no need to hit DB
-        projSelDTO.setLevelCount(configureLevelsCountMethodCalled ? configureLevelsCount: configureLevelsCount(projSelDTO));
+        // If configureLevelsCountMethod is Called then taking  count from variable configureLevelsCount and no need to hit DB
+        projSelDTO.setLevelCount(configureLevelsCountMethodCalled ? configureLevelsCount : configureLevelsCount(projSelDTO));
         return count;
     }
 
-
- public List<DiscountProjectionResultsDTO> configureLevels(int start, int offset, ProjectionSelectionDTO projSelDTO) {
-     if(projSelDTO.getTreeLevelNo()==0){
-            projSelDTO.setTreeLevelNo(projSelDTO.getLevelNo()+1);
+    public List<DiscountProjectionResultsDTO> configureLevels(int start, int offset, ProjectionSelectionDTO projSelDTO) {
+        if (projSelDTO.getTreeLevelNo() == 0) {
+            projSelDTO.setTreeLevelNo(projSelDTO.getLevelNo() + 1);
         }
         int neededRecord = offset;
         CommonLogic comm = new CommonLogic();
@@ -749,18 +759,18 @@ public class DPRLogic {
         if (projSelDTO.isCustomFlag()) {
             projSelDTO.setHierarchyIndicator(comm.getHiearchyIndicatorFromCustomView(projSelDTO));
         }
-            levelMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
+        levelMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
         if (projSelDTO.isCustomFlag()) {
-              projSelDTO.setTreeLevelNo(projSelDTO.getCustomLevelNo());
-            List obj = comm.getHiearchyNoForCustomView(projSelDTO,start,offset);
+            projSelDTO.setTreeLevelNo(projSelDTO.getCustomLevelNo());
+            List obj = comm.getHiearchyNoForCustomView(projSelDTO, start, offset);
             for (Object object : obj) {
                 String hierarchyNo = String.valueOf(object);
 
-                if (levelMap.containsKey(hierarchyNo)  ) {
+                if (levelMap.containsKey(hierarchyNo)) {
                     List levelValues = levelMap.get(object);
                     Integer levelNo = Integer.valueOf((String) levelValues.get(2));
                     DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
-                   
+
                     dto.setLevelNo(levelNo);
                     dto.setTreeLevelNo(projSelDTO.getTreeLevelNo());
                     dto.setCustomLevelNo(projSelDTO.getCustomLevelNo());
@@ -793,21 +803,21 @@ public class DPRLogic {
                 Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
 
                 for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; neededRecord--, i++) {
-                        DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
-                        dto.setLevelNo(Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNoList.get(i)).get(2).toString()));
-                        dto.setTreeLevelNo(dto.getLevelNo());
-                        dto.setGroup(projSelDTO.getSessionDTO().getLevelValueDiscription(hierarchyNoList.get(i), projSelDTO.getHierarchyIndicator()));
-                        dto.setLevelValue(projSelDTO.getSessionDTO().getLevelValueDiscription(hierarchyNoList.get(i), projSelDTO.getHierarchyIndicator()));
-                        dto.setHierarchyNo(hierarchyNoList.get(i));
-                        dto.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
-                           dto.setRelationshipLevelName(projSelDTO.getSessionDTO().getLevelValueDiscription(dto.getHierarchyNo(), dto.getHierarchyIndicator()));
-                        if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
-                            dto.setCustomerHierarchyNo(dto.getHierarchyNo());
-                            dto.setProductHierarchyNo(projSelDTO.getProductHierarchyNo());
-                        } else if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
-                            dto.setProductHierarchyNo(dto.getHierarchyNo());
-                            dto.setCustomerHierarchyNo(projSelDTO.getCustomerHierarchyNo());
-                        }
+                    DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
+                    dto.setLevelNo(Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNoList.get(i)).get(2).toString()));
+                    dto.setTreeLevelNo(dto.getLevelNo());
+                    dto.setGroup(projSelDTO.getSessionDTO().getLevelValueDiscription(hierarchyNoList.get(i), projSelDTO.getHierarchyIndicator()));
+                    dto.setLevelValue(projSelDTO.getSessionDTO().getLevelValueDiscription(hierarchyNoList.get(i), projSelDTO.getHierarchyIndicator()));
+                    dto.setHierarchyNo(hierarchyNoList.get(i));
+                    dto.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
+                    dto.setRelationshipLevelName(projSelDTO.getSessionDTO().getLevelValueDiscription(dto.getHierarchyNo(), dto.getHierarchyIndicator()));
+                    if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
+                        dto.setCustomerHierarchyNo(dto.getHierarchyNo());
+                        dto.setProductHierarchyNo(projSelDTO.getProductHierarchyNo());
+                    } else if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
+                        dto.setProductHierarchyNo(dto.getHierarchyNo());
+                        dto.setCustomerHierarchyNo(projSelDTO.getCustomerHierarchyNo());
+                    }
                     if (Constant.PERIOD.equals(projSelDTO.getPivotView())) {
                         dto = getChildNodeValues(dto, projSelDTO);
                     } else {
@@ -815,18 +825,19 @@ public class DPRLogic {
                     }
                     dto.setCustomLevelNo(projSelDTO.getCustomLevelNo());
                     dto.setOnExpandTotalRow(1);
-                        dto.setParent(1);
-                        resultList.add(dto);
+                    dto.setParent(1);
+                    resultList.add(dto);
                 }
-        }
+            }
         }
         return resultList;
     }
+
     public int configureLevelsCount(ProjectionSelectionDTO projSelDTO) {
         int levelCount = 0;
         CommonLogic commonLogic = new CommonLogic();
-        if(projSelDTO.getTreeLevelNo()==0){
-            projSelDTO.setTreeLevelNo(projSelDTO.getLevelNo()+1);
+        if (projSelDTO.getTreeLevelNo() == 0) {
+            projSelDTO.setTreeLevelNo(projSelDTO.getLevelNo() + 1);
         }
         if (projSelDTO.isCustomFlag()) {
             projSelDTO.setTreeLevelNo(projSelDTO.getCustomLevelNo());
@@ -834,30 +845,30 @@ public class DPRLogic {
         } else {
             levelCount = commonLogic.getCount(projSelDTO);
         }
-      
+
         projSelDTO.setLevelCount(levelCount);
         return levelCount;
     }
 
-    public List<DiscountProjectionResultsDTO> getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO)  {
+    public List<DiscountProjectionResultsDTO> getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
         List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<>();
-          List<Object[]> gtsList;
-           boolean viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
-         // Procedure called only in  Tab Change
-        if (projSelDTO.getSessionDTO().isDprRefreshReqd() ||  !CommonLogic.checkProcedureInputIsSame(orderedArgs, dprOrderedArgs)) {
-            if(viewFlag){
-                orderedArgs=ArrayUtils.removeElement(orderedArgs, projSelDTO.getUserId());
-                orderedArgs=ArrayUtils.removeElement(orderedArgs, projSelDTO.getSessionDTO().getSessionId()); 
+        List<Object[]> gtsList;
+        boolean viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
+        // Procedure called only in  Tab Change
+        if (projSelDTO.getSessionDTO().isDprRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgs, dprOrderedArgs)) {
+            if (viewFlag) {
+                orderedArgs = ArrayUtils.removeElement(orderedArgs, projSelDTO.getUserId());
+                orderedArgs = ArrayUtils.removeElement(orderedArgs, projSelDTO.getSessionDTO().getSessionId());
             }
-          gtsList = CommonLogic.callProcedure(viewFlag? "PRC_M_DISCOUNT_PROJ_TOTAL_VIEW":"PRC_M_DISCOUNT_PROJ_TOTAL", orderedArgs);
+            gtsList = CommonLogic.callProcedure(viewFlag ? "PRC_M_DISCOUNT_PROJ_TOTAL_VIEW" : "PRC_M_DISCOUNT_PROJ_TOTAL", orderedArgs);
             dprOrderedArgs = new Object[orderedArgs.length];
             System.arraycopy(orderedArgs, 0, dprOrderedArgs, 0, orderedArgs.length);
             totalPrcResultList.clear();
             totalPrcResultList.addAll(gtsList);
-        }else{
-            gtsList=totalPrcResultList;
+        } else {
+            gtsList = totalPrcResultList;
         }
-         projSelDTO.getSessionDTO().setDprRefreshReqd(false);
+        projSelDTO.getSessionDTO().setDprRefreshReqd(false);
         if (gtsList != null) {
             projDTOList = getCustomizedProjectionTotal(gtsList, projSelDTO);
         }
@@ -867,21 +878,21 @@ public class DPRLogic {
 
     public List<DiscountProjectionResultsDTO> getProjectionPivotTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
         List<DiscountProjectionResultsDTO> projDTOList;
-         List<Object[]> gtsList;
-          boolean viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
-         // Procedure called only in  Tab Change
+        List<Object[]> gtsList;
+        boolean viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
+        // Procedure called only in  Tab Change
         if (projSelDTO.getSessionDTO().isDprRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgs, dprOrderedArgs)) {
-            if(viewFlag){
-                orderedArgs=ArrayUtils.removeElement(orderedArgs, projSelDTO.getUserId());
-                orderedArgs=ArrayUtils.removeElement(orderedArgs, projSelDTO.getSessionDTO().getSessionId()); 
+            if (viewFlag) {
+                orderedArgs = ArrayUtils.removeElement(orderedArgs, projSelDTO.getUserId());
+                orderedArgs = ArrayUtils.removeElement(orderedArgs, projSelDTO.getSessionDTO().getSessionId());
             }
-            gtsList = CommonLogic.callProcedure(viewFlag? "PRC_M_DISCOUNT_PROJ_TOTAL_VIEW":"PRC_M_DISCOUNT_PROJ_TOTAL", orderedArgs);
+            gtsList = CommonLogic.callProcedure(viewFlag ? "PRC_M_DISCOUNT_PROJ_TOTAL_VIEW" : "PRC_M_DISCOUNT_PROJ_TOTAL", orderedArgs);
             dprOrderedArgs = new Object[orderedArgs.length];
             System.arraycopy(orderedArgs, 0, dprOrderedArgs, 0, orderedArgs.length);
             totalPrcResultList.clear();
             totalPrcResultList.addAll(gtsList);
-        }else{
-            gtsList=totalPrcResultList;
+        } else {
+            gtsList = totalPrcResultList;
         }
         projSelDTO.getSessionDTO().setDprRefreshReqd(false);
         projDTOList = getCustomizedProjectionPivotTotal(gtsList, projSelDTO);
@@ -891,7 +902,7 @@ public class DPRLogic {
         return projDTOList;
     }
 
-    public List<DiscountProjectionResultsDTO> getCustomizedProjectionTotal(List<Object[]> list, ProjectionSelectionDTO projSelDTO)  {
+    public List<DiscountProjectionResultsDTO> getCustomizedProjectionTotal(List<Object[]> list, ProjectionSelectionDTO projSelDTO) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         String mandSupp = projSelDTO.getMandatedOrSupp();
         String freq = projSelDTO.getFrequency();
@@ -911,8 +922,24 @@ public class DPRLogic {
         supplDTO.setParent(0);
         supplDTO.setLevelValue(SUPPLEMENTAL_DISCOUNT.getConstant());
         supplDTO.setRelationshipLevelName(SUPPLEMENTAL_DISCOUNT.getConstant());
-        double amt = 0.0, rate = 0.0, rpu = 0.0, projamt = 0.0, projrate = 0.0, projrpu = 0.0, annualMandamt = 0.0, annualMandrate = 0.0, annualMandrpu = 0.0,
-                annualMandProjamt = 0.0, annualMandProjrate = 0.0, annualMandProjrpu = 0.0, annualSuppamt = 0.0, annualSupprate = 0.0, annualSupprpu = 0.0, annualSuppProjamt = 0.0, annualSuppProjrate = 0.0, annualSuppProjrpu = 0.0;
+        double amt = 0.0;
+        double rate = 0.0;
+        double rpu = 0.0;
+        double projamt = 0.0;
+        double projrate = 0.0;
+        double projrpu = 0.0;
+        double annualMandamt = 0.0;
+        double annualMandrate = 0.0;
+        double annualMandrpu = 0.0;
+        double annualMandProjamt = 0.0;
+        double annualMandProjrate = 0.0;
+        double annualMandProjrpu = 0.0;
+        double annualSuppamt = 0.0;
+        double annualSupprate = 0.0;
+        double annualSupprpu = 0.0;
+        double annualSuppProjamt = 0.0;
+        double annualSuppProjrate = 0.0;
+        double annualSuppProjrpu = 0.0;
         String tempAnnualColumn = StringUtils.EMPTY;
         List<Object> rightHeaderColumns = projSelDTO.getRightHeaderDoubleColumns();
 
@@ -1320,7 +1347,7 @@ public class DPRLogic {
     private String getProgramCodeQuery(String hierarchyNo, String frequency, ProjectionSelectionDTO projSelDTO, String freqChar) {
         String columnName = StringUtils.EMPTY;
         List list;
-        String hierSQL = "SELECT FIELD_NAME FROM dbo.HIERARCHY_LEVEL_DEFINITION WHERE HIERARCHY_DEFINITION_SID=" + projSelDTO.getCustHierarchySID() + " and LEVEL_NAME='Contract'";
+        String hierSQL = "SELECT FIELD_NAME FROM dbo.HIERARCHY_LEVEL_DEFINITION WHERE HIERARCHY_DEFINITION_SID=" + projSelDTO.getCustomerHierarchySID() + " and LEVEL_NAME='Contract'";
         list = (List<Object>) CommonLogic.executeSelectQuery(hierSQL, null, null);
 
         if (list != null && !list.isEmpty()) {
@@ -1348,7 +1375,7 @@ public class DPRLogic {
                 + "FROM   ( VALUES('" + hierarchyNo + "') ) A(HIERARCHY_NO)\n"
                 + "       JOIN ST_CCP_HIERARCHY CH\n"
                 + "         ON CH.CUST_HIERARCHY_NO LIKE A.HIERARCHY_NO + '%' ";
-        String customSQL = selectedHierQury+ " SELECT \n"
+        String customSQL = selectedHierQury + " SELECT \n"
                 + "    '' as   LEVEL_NO,\n"
                 + "     '' as   LEVEL_NAME,\n"
                 + "       cm." + columnName + ",\n"
@@ -1368,9 +1395,9 @@ public class DPRLogic {
 
         customSQL += "join ccp_details ccd on ccd.CCP_DETAILS_SID=pd.CCP_DETAILS_SID\n"
                 + "join contract_master cm on cm.contract_master_sid=ccd.contract_master_sid\n";
-        
+
         customSQL += Constant.JOIN_SPACE
-                +  "   ST_M_SALES_PROJECTION_MASTER "
+                + "   ST_M_SALES_PROJECTION_MASTER "
                 + "m_mas ON pd.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
                 + "JOIN  "
                 + " ST_M_ACTUAL_SALES m_ac"
@@ -1390,7 +1417,7 @@ public class DPRLogic {
         if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL += "         p." + frequency + ",\n";
         }
-        customSQL +=Constant.PD_HIERARCHY_NO
+        customSQL += Constant.PD_HIERARCHY_NO
                 + "          p.\"YEAR\""
                 + "Union ALL \n"
                 + "\n"
@@ -1422,25 +1449,23 @@ public class DPRLogic {
                 + "  ST_M_SALES_PROJECTION "
                 + " m_ac ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID \n"
                 + "JOIN    "
-                 + "  ST_M_DISCOUNT_PROJECTION "
+                + "  ST_M_DISCOUNT_PROJECTION "
                 + " MAD ON MAD.CCP_DETAILS_SID = pd.CCP_DETAILS_SID \n"
                 + "AND MAD.PERIOD_SID=m_ac.PERIOD_SID \n"
                 + Constant.LEFT_JOIN
                 + "  ST_M_SUPPLEMENTAL_DISC_MASTER "
                 + " SPM ON SPM.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
                 + "\n"
-              
                 + Constant.LEFT_JOIN
-                +"  ST_M_SUPPLEMENTAL_DISC_PROJ "
+                + "  ST_M_SUPPLEMENTAL_DISC_PROJ "
                 + " SPMA ON SPMA.CCP_DETAILS_SID = pd.CCP_DETAILS_SID \n"
                 + "                                                                        AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
                 + "JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID \n"
-                
                 + "GROUP  BY cm." + columnName + ",\n";
         if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL += "          p." + frequency + ",\n";
         }
-        customSQL +=Constant.PD_HIERARCHY_NO
+        customSQL += Constant.PD_HIERARCHY_NO
                 + "          p.\"YEAR\"\n";
         if (Constant.PERIOD.equalsIgnoreCase(projSelDTO.getPivotView())) {
             customSQL += "Order By cm." + columnName + ",p.\"YEAR\"\n";
@@ -1451,11 +1476,10 @@ public class DPRLogic {
         if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL += "          ,p." + frequency + "\n";
         }
-         customSQL=QueryUtil.replaceTableNames(customSQL, projSelDTO.getSessionDTO().getCurrentTableNames());
-       
+        customSQL = QueryUtil.replaceTableNames(customSQL, projSelDTO.getSessionDTO().getCurrentTableNames());
+
         return customSQL;
     }
-    
 
     private String getProgramCodeNameQuery(int projectionId) {
         String customSQL = "SELECT DISTINCT CM.CONTRACT_NAME FROM dbo.CONTRACT_MASTER CM \n"
@@ -1475,8 +1499,18 @@ public class DPRLogic {
         freqChar = !Constant.YEAR_SPACE.equalsIgnoreCase(frequency) ? Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency) ? Constant.S : Constant.QUARTER.equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
         String query = getHierarchyLevelQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar);
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
-        double annualMandamt = 0.0, annualMandrate = 0.0, annualMandrpu = 0.0, annualMandProjamt = 0.0, annualMandProjrate = 0.0, annualMandProjrpu = 0.0,
-                annualSuppamt = 0.0, annualSupprate = 0.0, annualSupprpu = 0.0, annualSuppProjamt = 0.0, annualSuppProjrate = 0.0, annualSuppProjrpu = 0.0;
+        double annualMandamt = 0.0;
+        double annualMandrate = 0.0;
+        double annualMandrpu = 0.0;
+        double annualMandProjamt = 0.0;
+        double annualMandProjrate = 0.0;
+        double annualMandProjrpu = 0.0;
+        double annualSuppamt = 0.0;
+        double annualSupprate = 0.0;
+        double annualSupprpu = 0.0;
+        double annualSuppProjamt = 0.0;
+        double annualSuppProjrate = 0.0;
+        double annualSuppProjrpu = 0.0;
         String tempAnnual = StringUtils.EMPTY;
         List<Object> rightHeaderColumns = projSelDTO.getRightHeaderDoubleColumns();
         if (list != null && !list.isEmpty()) {
@@ -1805,7 +1839,7 @@ public class DPRLogic {
                 + "FROM   ( VALUES('" + hierarchyNo + "%') ) A(HIERARCHY_NO)\n"
                 + "       JOIN ST_CCP_HIERARCHY CH\n"
                 + "         ON CH.CUST_HIERARCHY_NO LIKE A.HIERARCHY_NO + '%' ";
-        String customSQL = selectedHierQury+ "SELECT \n"
+        String customSQL = selectedHierQury + "SELECT \n"
                 + "  '' as   LEVEL_NO,\n"
                 + "   '' as     LEVEL_NAME,\n"
                 + "  '' as      RELATIONSHIP_LEVEL_VALUES,\n"
@@ -1822,28 +1856,23 @@ public class DPRLogic {
         }
         customSQL += "FROM #SELECTED_HIERARCHY_NO pd \n";
 
-      
         customSQL += Constant.JOIN_SPACE
-                +  "  ST_M_SALES_PROJECTION_MASTER "
+                + "  ST_M_SALES_PROJECTION_MASTER "
                 + " m_mas ON pd.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
                 + Constant.JOIN_SPACE
                 + "  ST_M_ACTUAL_SALES "
                 + " m_ac ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID\n"
-            
                 + "JOIN  "
                 + "  ST_M_ACTUAL_DISCOUNT "
                 + " MAD ON MAD.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
                 + "AND MAD.PERIOD_SID=m_ac.PERIOD_SID\n"
-
                 + Constant.LEFT_JOIN
-                +"  ST_M_SUPPLEMENTAL_DISC_MASTER "
+                + "  ST_M_SUPPLEMENTAL_DISC_MASTER "
                 + " SPM ON SPM.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
-              
                 + Constant.LEFT_JOIN
-                +  "  ST_M_SUPPLEMENTAL_DISC_ACTUALS "
+                + "  ST_M_SUPPLEMENTAL_DISC_ACTUALS "
                 + " SPMA ON SPMA.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
                 + "										   AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
-              
                 + "JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n";
         if (!Constant.PERIOD.equalsIgnoreCase(projSelDTO.getPivotView())) {
             if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
@@ -1855,7 +1884,7 @@ public class DPRLogic {
             }
 
         }
-       
+
         customSQL += "GROUP  BY \n";
         if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL += "          p." + frequency + ",\n";
@@ -1881,15 +1910,12 @@ public class DPRLogic {
         }
         customSQL += "	FROM #SELECTED_HIERARCHY_NO pd \n ";
 
-
         customSQL += Constant.JOIN_SPACE
                 + "  ST_M_SALES_PROJECTION_MASTER "
                 + "m_mas ON pd.CCP_DETAILS_SID = m_mas.CCP_DETAILS_SID\n"
-              
                 + "JOIN   "
                 + " ST_M_SALES_PROJECTION"
                 + " m_ac ON m_mas.CCP_DETAILS_SID = m_ac.CCP_DETAILS_SID\n"
-             
                 + "JOIN   "
                 + " ST_M_DISCOUNT_PROJECTION "
                 + " MAD ON MAD.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
@@ -1901,7 +1927,7 @@ public class DPRLogic {
                 + "  ST_M_SUPPLEMENTAL_DISC_PROJ "
                 + " SPMA ON SPMA.CCP_DETAILS_SID = pd.CCP_DETAILS_SID\n"
                 + "                                                                        AND SPMA.PERIOD_SID=m_ac.PERIOD_SID\n"
-                + "JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n" ;
+                + "JOIN   PERIOD p ON p.period_sid = m_ac.PERIOD_SID\n";
         if (!Constant.PERIOD.equalsIgnoreCase(projSelDTO.getPivotView())) {
             if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
                 customSQL += "AND p.PERIOD_SID between (SELECT MIN(PERIOD_SID) FROM PERIOD WHERE '" + freqChar + "'+CONVERT(VARCHAR(2)," + frequency + ")+' '+CONVERT(VARCHAR(4),YEAR)='" + freqChar + projSelDTO.getHistoryStartPeriod() + " " + projSelDTO.getHistoryStartYear() + "')"
@@ -1921,7 +1947,7 @@ public class DPRLogic {
         if (!Constant.YEAR_SPACE.equalsIgnoreCase(frequency)) {
             customSQL += "          ,p." + frequency + "\n";
         }
-         customSQL=   QueryUtil.replaceTableNames(customSQL, projSelDTO.getSessionDTO().getCurrentTableNames());
+        customSQL = QueryUtil.replaceTableNames(customSQL, projSelDTO.getSessionDTO().getCurrentTableNames());
         return customSQL;
     }
 
@@ -1942,7 +1968,7 @@ public class DPRLogic {
         freq.put(NumericConstants.TWELVE, Constant.MONTH_SPACE);
         String frequency = freq.get(projSelDTO.getFrequencyDivision());
         String freqChar = !Constant.YEAR_SPACE.equalsIgnoreCase(frequency) ? Constant.SEMI_ANNUAL.equalsIgnoreCase(frequency) ? Constant.S : Constant.QUARTER.equalsIgnoreCase(frequency) ? Constant.Q : CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED : "";
-        String query = getHierarchyLevelQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO,freqChar);
+        String query = getHierarchyLevelQuery(projSelDTO.getHierarchyNo(), frequency, projSelDTO, freqChar);
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
         if (projSelDTO.getProjectionOrder().equalsIgnoreCase(Constant.DESCENDING)) {
             Collections.reverse(list);
@@ -2120,7 +2146,7 @@ public class DPRLogic {
                 }
 
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         dto.setDprDTOList(childList);
@@ -2213,7 +2239,7 @@ public class DPRLogic {
         }
     }
 
-    public List<DiscountProjectionResultsDTO> getConfiguredResultsTotal(ProjectionSelectionDTO projSelDTO)  {
+    public List<DiscountProjectionResultsDTO> getConfiguredResultsTotal(ProjectionSelectionDTO projSelDTO) {
         List<DiscountProjectionResultsDTO> totalDTO = new ArrayList<>();
         List<Integer> yearList = new ArrayList<>();
         yearList.add(projSelDTO.getForecastDTO().getHistoryStartYear());
@@ -2290,13 +2316,13 @@ public class DPRLogic {
                 }
             }
             return map;
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return null;
     }
 
-    public void saveDiscountProjection(SessionDTO sessionDTO) throws PortalException, SystemException{
+    public void saveDiscountProjection(SessionDTO sessionDTO) throws PortalException, SystemException {
 
         LOGGER.debug("Session--->" + sessionDTO.getUserId() + " || " + sessionDTO.getSessionId() + " || " + sessionDTO.getProjectionId());
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();

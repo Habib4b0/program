@@ -7,6 +7,8 @@ package com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad;
 
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.NationalAssumptionLogic;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import java.util.Collections;
 import java.util.List;
 import org.jboss.logging.Logger;
@@ -55,7 +57,7 @@ public class NdcFilterContainer implements DAO<HelperDTO>{
         try {
             LOGGER.debug("Entering Count method :");
             return NationalAssumptionLogic.getLazyNdcFilterCount(searchCriteria.getFilter(),brandMasterSid,itemFlag,therapeutic) + 1;
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return 0;
@@ -69,7 +71,7 @@ public class NdcFilterContainer implements DAO<HelperDTO>{
         try {
             LOGGER.debug("Entering find method :");
             return NationalAssumptionLogic.getLazyNdcFilterResults(startIndex, startIndex + offset, searchCriteria.getFilter(), itemFlag,brandMasterSid,therapeutic,isFilter);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return Collections.emptyList();

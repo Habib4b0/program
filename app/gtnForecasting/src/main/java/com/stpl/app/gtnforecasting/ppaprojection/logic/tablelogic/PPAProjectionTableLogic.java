@@ -33,10 +33,10 @@ import org.jboss.logging.Logger;
  */
 public class PPAProjectionTableLogic extends PageTreeTableLogic {
 
-    CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
-    SessionDTO session;
-    List<SaveDTO> saveList;
-    PPAProjectionLogic logic = new PPAProjectionLogic();
+    protected CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
+    protected SessionDTO session;
+    protected List<SaveDTO> saveList;
+    protected PPAProjectionLogic logic = new PPAProjectionLogic();
     private PPAProjection ppaProjection = null;
 
     public PPAProjectionLogic getLogic() {
@@ -46,10 +46,10 @@ public class PPAProjectionTableLogic extends PageTreeTableLogic {
     public void setLogic(PPAProjectionLogic logic) {
         this.logic = logic;
     }
-    ProjectionSelectionDTO selection;
-    int pageNumber = 1;
-    boolean isRefresh;
-    boolean isGenerated = false;
+    protected ProjectionSelectionDTO selection;
+    protected int pageNumber = 1;
+    protected boolean isRefresh;
+    protected boolean isGenerated = false;
     private static final Logger LOGGER = Logger.getLogger(PPAProjectionLogic.class);
 
     public boolean isIsRefresh() {

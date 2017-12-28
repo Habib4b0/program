@@ -217,7 +217,7 @@ public class TableDTO extends ExtMapDTO implements Comparator<TableDTO>{
 
                 }
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         

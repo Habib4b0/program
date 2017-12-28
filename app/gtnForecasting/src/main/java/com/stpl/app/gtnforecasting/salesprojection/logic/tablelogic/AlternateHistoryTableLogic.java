@@ -22,12 +22,12 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class AlternateHistoryTableLogic extends PageTableLogic {
 
-    boolean firstTime = true;
-    CustomFieldGroup searchBinder;
-    AlternateHistoryDTO altHistoryDTO;
-    AlternateHistoryLogic logic = new AlternateHistoryLogic();
-    SessionDTO session;
-    boolean isAvailable = Boolean.FALSE;
+    private boolean firstTime = true;
+    private CustomFieldGroup searchBinder;
+    private AlternateHistoryDTO altHistoryDTO;
+    private final AlternateHistoryLogic logic = new AlternateHistoryLogic();
+    private SessionDTO session;
+    private boolean isAvailable = Boolean.FALSE;
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(AlternateHistoryTableLogic.class);
   
 

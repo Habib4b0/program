@@ -607,7 +607,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
             } else {
                 MessageBox.showPlain(Icon.INFO, "Error", alertMsg.getString("PV_MSG_ID_01"), ButtonId.OK);
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
     }

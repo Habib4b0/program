@@ -20,7 +20,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class ForecastEditView extends VerticalLayout {
 
-    SessionDTO session;
+    protected SessionDTO session;
 
     /**
      * View name for navigation.
@@ -37,11 +37,11 @@ public class ForecastEditView extends VerticalLayout {
      */
     private final CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
 
-    ForecastForm forecastName;
-    ForecastEditWindow editWindow;
-    ExtFilterTable resultTable;
-    final String screenName;
-    final DataSelectionForm dataSelectionForm;
+    protected ForecastForm forecastName;
+    protected ForecastEditWindow editWindow;
+    protected ExtFilterTable resultTable;
+    protected final String screenName;
+    protected final DataSelectionForm dataSelectionForm;
 
     /**
      * Default constructor.

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.calendarconfiguration.config.action.process.GtnFrameworkCalendarCurdCommonValidationAction;
 import com.stpl.gtn.gtn2o.ui.calendarconfiguration.config.action.process.GtnFrameworkCurdHolidaySelectionAction;
 import com.stpl.gtn.gtn2o.ui.calendarconfiguration.config.action.process.GtnFrameworkCurdResetAction;
 import com.stpl.gtn.gtn2o.ui.calendarconfiguration.config.action.process.GtnFrameworkCurdSaveAction;
@@ -87,6 +88,8 @@ public class GtnFrameworkCalendarConfigurationCrudConfig {
 		searchCCCrudButtonConfig.setAuthorizationIncluded(true);
 		componentList.add(searchCCCrudButtonConfig);
 
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		
 		GtnUIFrameWorkActionConfig validationActionConfig = new GtnUIFrameWorkActionConfig();
 		validationActionConfig.setActionType(GtnUIFrameworkActionType.VALIDATION_ACTION);
 		validationActionConfig.setFieldValues(componentIdList);
@@ -97,6 +100,12 @@ public class GtnFrameworkCalendarConfigurationCrudConfig {
 		failureActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.ERROR);
 		failureActionConfig.addActionParameter("Please complete all mandatory fields");
 
+		GtnUIFrameWorkActionConfig customCommonValidationAction = new GtnUIFrameWorkActionConfig();
+		customCommonValidationAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customCommonValidationAction.addActionParameter(GtnFrameworkCalendarCurdCommonValidationAction.class.getName());
+		customCommonValidationAction.addActionParameter(GtnFrameworkCalendarConfigurationContants.CC_CRUD_VIEW);
+		customCommonValidationAction.setFieldValues(GtnFrameworkCalendarConfigurationContants.getFieldList());
+		
 		GtnUIFrameWorkActionConfig saveActionConfig = new GtnUIFrameWorkActionConfig();
 		saveActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		saveActionConfig.addActionParameter(GtnFrameworkCurdSaveAction.class.getName());
@@ -110,9 +119,12 @@ public class GtnFrameworkCalendarConfigurationCrudConfig {
 		confirmActionConfig.addActionParameter(Arrays.asList(saveActionConfig));
 
 		validationActionConfig.addActionParameter(Arrays.asList(failureActionConfig));
-		validationActionConfig.addActionParameter(Arrays.asList(confirmActionConfig));
-
-		searchCCCrudButtonConfig.addGtnUIFrameWorkActionConfig(validationActionConfig);
+		
+		actionConfigList.add(validationActionConfig);
+		actionConfigList.add(customCommonValidationAction);
+		actionConfigList.add(confirmActionConfig);
+		
+		searchCCCrudButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}
 
 	private void addCCCrudViewResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,

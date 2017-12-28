@@ -393,7 +393,7 @@ public class HeaderUtils {
             massPopulateList.add(object);
         }
         projSelDTO.setProjectedList(massPopulateList);
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 LOGGER.error(e);
             }
         }

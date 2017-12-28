@@ -5,8 +5,8 @@ and open the template in the editor.
 -->
 
 
-<VerticalLayout spacing="true"  immediate="true">
-    <Panel  margin="true" immediate="true" spacing="true" caption="Component Information">
+<VerticalLayout spacing="true"  immediate="true" width="100%">
+    <Panel  margin="true" immediate="true" spacing="true" caption="Component Information" width="100%">
          <VerticalLayout margin="true" immediate="true" spacing="true" styleName = "width-auto">
               <VerticalLayout  immediate="true" spacing="true" styleName = "width-auto">
             <GridLayout spacing="true" id="itemSearchGrid"
@@ -52,7 +52,7 @@ and open the template in the editor.
        </VerticalLayout>
     
     
-       
+                           
             <VerticalLayout  immediate="true" spacing="true" styleName = "width-auto">
                 <VerticalLayout id="tableLayout" 
                             spacing="true" >

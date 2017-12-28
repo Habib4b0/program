@@ -26,7 +26,7 @@ import org.apache.poi.ss.util.CellUtil;
  */
 public class ExportSalesAllocation extends ExcelExport {
 
-    Map<String, String> formatter = null;
+    protected Map<String, String> formatter = null;
 
     public ExportSalesAllocation(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter) {
         super(tableHolder, new HSSFWorkbook(), sheetName, reportTitle, exportFileName, hasTotalsRow);
@@ -41,9 +41,9 @@ public class ExportSalesAllocation extends ExcelExport {
      * @param rootItemId the root item id
      * @param row the row
      */
-    final CellStyle style1 = this.workbook.createCellStyle();
-    final CellStyle style2 = this.workbook.createCellStyle();
-    DataFormat hssfDataFormat = this.workbook.createDataFormat();
+    protected final CellStyle style1 = this.workbook.createCellStyle();
+    protected final CellStyle style2 = this.workbook.createCellStyle();
+    protected DataFormat hssfDataFormat = this.workbook.createDataFormat();
 
     @Override
     protected void addDataRow(final Sheet sheetToAddTo, final Object rootItemId, final int row) {

@@ -912,7 +912,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		GtnUIFrameworkComponentConfig massUpdateDdlbConfig = componentConfigProvider.getUIFrameworkComponentConfig(
 				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		massUpdateDdlbConfig.setAuthorizationIncluded(true);
-		massUpdateDdlbConfig.setComponentName(GtnFrameworkNSFConstants.getEmpty());
+		massUpdateDdlbConfig.setComponentName("Field");
 		componentList.add(massUpdateDdlbConfig);
 
 		GtnUIFrameworkComboBoxConfig massUpdateComboBoxConfig = new GtnUIFrameworkComboBoxConfig();
@@ -941,7 +941,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		GtnUIFrameworkComponentConfig netSalesRuleConfig = componentConfigProvider.getUIFrameworkComponentConfig(
 				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELD);
 		netSalesRuleConfig.setAuthorizationIncluded(true);
-		netSalesRuleConfig.setComponentName(GtnFrameworkNSFConstants.getEmpty());
+		netSalesRuleConfig.setComponentName("Value");
 		netSalesRuleConfig.addComponentStyle(GtnFrameworkCssConstants.SEARCHICON);
 		netSalesRuleConfig.setVisible(false);
 		componentList.add(netSalesRuleConfig);
@@ -993,8 +993,8 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		GtnUIFrameworkComponentConfig massUpdateDdlbConfig = componentConfigProvider.getUIFrameworkComponentConfig(
 				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		massUpdateDdlbConfig.setAuthorizationIncluded(true);
-		massUpdateDdlbConfig.setComponentName(GtnFrameworkNSFConstants.getEmpty());
-		massUpdateDdlbConfig.setVisible(false);
+		massUpdateDdlbConfig.setComponentName("Value");
+		massUpdateDdlbConfig.setVisible(true);
 		componentList.add(massUpdateDdlbConfig);
 
 		GtnUIFrameworkComboBoxConfig massUpdateComboBoxConfig = new GtnUIFrameworkComboBoxConfig();

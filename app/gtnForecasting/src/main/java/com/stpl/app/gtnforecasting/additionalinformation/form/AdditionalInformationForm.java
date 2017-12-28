@@ -22,6 +22,7 @@ import com.stpl.ifs.util.ExportWord;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.FileResource;
@@ -178,7 +179,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 uploader.setValue(StringUtils.EMPTY);
                 fileNameField.setValue(StringUtils.EMPTY);
             }
-        } catch (Exception ex) {
+        } catch (Property.ReadOnlyException | NumberFormatException ex) {
               LOGGER.error(ex);
         }
 
@@ -219,7 +220,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 uploader.setValue(StringUtils.EMPTY);
                 fileNameField.setValue(StringUtils.EMPTY);
             }
-        } catch (Exception ex) {
+        } catch (Property.ReadOnlyException ex) {
             LOGGER.error(ex);
         }
 
@@ -334,7 +335,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
             } else {
                 remove.setVisible(false);
             }
-        } catch (Exception system) {
+        } catch (PortalException | SystemException system) {
             LOGGER.error(system);
         }
 

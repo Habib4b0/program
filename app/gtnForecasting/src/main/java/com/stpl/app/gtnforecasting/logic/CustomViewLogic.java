@@ -12,7 +12,6 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -39,9 +38,9 @@ public class CustomViewLogic {
     private final List<String> listNameCollection = new ArrayList();
     private final List<Integer> helperList_values = new ArrayList();
     private final StringBuilder tableName = new StringBuilder();
-     private final Set<String> tableNameSet = new HashSet();
+    private final Set<String> tableNameSet = new HashSet();
     private final StringBuilder fieldName = new StringBuilder();
-     private final Set<String> fieldNameSet = new HashSet();
+    private final Set<String> fieldNameSet = new HashSet();
     private final StringBuilder finalQuery = new StringBuilder();
     private final List<LevelMapKey> hierarchyList = new ArrayList();
 
@@ -68,8 +67,8 @@ public class CustomViewLogic {
         List<Object[]> finalrawList = build_custom_query();
         customizeFinalResult(finalrawList);
         updateHelperListValues();
-        List<Object[]> rawList_ccp = executeQuery(projectionId, customViewMasterSid, "GET_CCP_VALUES");
-        split_ccp(rawList_ccp);
+        List<Object[]> RAWLIST_CCP = executeQuery(projectionId, customViewMasterSid, "GET_CCP_VALUES");
+        split_ccp(RAWLIST_CCP);
         build_executeFinalQuery(hierarchyList);
         buildAndExecute_customCCP_update();
 
@@ -144,8 +143,8 @@ public class CustomViewLogic {
             query = query.replace("[$HIERARCHY_NO]", obj.getHierarchyNo());
             List<Integer> jsd=obj.getCcpIds();
             for (int j = 0; j < jsd.size(); j++) {
-                Integer level_ccpId = jsd.get(j);
-               String subQuery = query.replace("[$CCP_DETAILS_SID]", String.valueOf(level_ccpId));
+                Integer LEVEL_CCP_ID = jsd.get(j);
+               String subQuery = query.replace("[$CCP_DETAILS_SID]", String.valueOf(LEVEL_CCP_ID));
                 if (selectQuery.length() == 0) {
                     selectQuery += subQuery;
                 } else {
@@ -166,16 +165,16 @@ public class CustomViewLogic {
             it.remove();
             String levelRef = obj[NumericConstants.TWO] == null ? "" : obj[NumericConstants.TWO].toString();
             if (levelRef.equals("User Defined")) {
-                int level_id = Integer.valueOf(obj[NumericConstants.THREE] == null ? "" : obj[NumericConstants.THREE].toString());
-                String level_value = obj[NumericConstants.FOUR] == null ? "" : obj[NumericConstants.FOUR].toString();
-                levelValue_map.put(level_id, level_value);
+                int LEVEL_ID = Integer.valueOf(obj[NumericConstants.THREE] == null ? "" : obj[NumericConstants.THREE].toString());
+                String LEVEL_VALUE = obj[NumericConstants.FOUR] == null ? "" : obj[NumericConstants.FOUR].toString();
+                levelValue_map.put(LEVEL_ID, LEVEL_VALUE);
 
             } else {
-                int level_id = Integer.valueOf(obj[NumericConstants.THREE] == null ? "0" : obj[NumericConstants.THREE].toString());//Changed from "" to "0" for GAL-5444
+                int LEVEL_ID = Integer.valueOf(obj[NumericConstants.THREE] == null ? "0" : obj[NumericConstants.THREE].toString());//Changed from "" to "0" for GAL-5444
                 String table = obj[0] == null ? "" : obj[0].toString();
                 String column = obj[1] == null ? "" : obj[1].toString();
                 String[] strArray = {table, column, ""};
-                level_table_field_names.put(level_id, strArray);
+                level_table_field_names.put(LEVEL_ID, strArray);
                 if(tableNameSet.add(table)){
                      if (tableName.length() > 0) {
                     tableName.append(",");
@@ -217,29 +216,29 @@ listNameCollection.add(listName);
         String query = "";
         String lastTableName = "";
         String lastFieldName = "";
-        String level_sid = "";
+        String LEVEL_SID = "";
         int lastElement = level_table_field_names.size();
         int i = 0;
         for (Map.Entry<Integer, String[]> entry : level_table_field_names.entrySet()) {
             i++;
-            Integer level_id = entry.getKey();
+            Integer LEVEL_ID = entry.getKey();
             String[] objArray = entry.getValue();
             String key = objArray[0] + "-" + objArray[1];
-            String list_Name = table_field_helperList.get(key);
-            if (list_Name == null) {
+            String LIST_NAME = table_field_helperList.get(key);
+            if (LIST_NAME == null) {
 
-                if (!level_sid.isEmpty()) {
-                    level_sid += " , ";
+                if (!LEVEL_SID.isEmpty()) {
+                    LEVEL_SID += " , ";
                 }
-                level_sid += level_id;
+                LEVEL_SID += LEVEL_ID;
                 if ((!objArray[0].equals(lastTableName) || i == lastElement) && !lastTableName.isEmpty()) {
                     if (!query.isEmpty()) {
                         query += " UNION ALL ";
                     }
-                    query += "SELECT " + lastFieldName + "," + lastTableName + "_SID  " + " FROM " + lastTableName + " WHERE " + lastTableName + "_SID in( " + level_sid + " )";
+                    query += "SELECT " + lastFieldName + "," + lastTableName + "_SID  " + " FROM " + lastTableName + " WHERE " + lastTableName + "_SID in( " + LEVEL_SID + " )";
                 }
             } else {
-                helperList_values.add(level_id);
+                helperList_values.add(LEVEL_ID);
             }
             lastTableName = objArray[0];
             lastFieldName = objArray[1];
@@ -254,9 +253,9 @@ listNameCollection.add(listName);
 
         for (ListIterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
-            int level_id = Integer.valueOf(obj[1] == null ? "" : obj[1].toString());
-            String level_value = obj[0] == null ? "" : obj[0].toString();
-            levelValue_map.put(level_id, level_value);
+            int LEVEL_ID = Integer.valueOf(obj[1] == null ? "" : obj[1].toString());
+            String LEVEL_VALUE = obj[0] == null ? "" : obj[0].toString();
+            levelValue_map.put(LEVEL_ID, LEVEL_VALUE);
         }
         return;
 
@@ -281,14 +280,14 @@ listNameCollection.add(listName);
             for (ListIterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
                 Object[] obj = it.next();
                 it.remove();
-                String level_value = obj[1].toString();
-                String level_No = obj[0].toString();
+                String LEVEL_VALUE = obj[1].toString();
+                String LEVEL_NO = obj[0].toString();
 
-                if (levelNoSet.add(level_No)) {
+                if (levelNoSet.add(LEVEL_NO)) {
                     ccpMap = new HashMap();
                     level_ccpIds.add(ccpMap);
                 }
-                LevelMapKey key = new LevelMapKey(level_No, level_value);
+                LevelMapKey key = new LevelMapKey(LEVEL_NO, LEVEL_VALUE);
 
                 key.setCustomViewDetailsSid(Integer.valueOf(obj[NumericConstants.THREE].toString()));
                 List ccpIds = ccpMap.get(key);
@@ -300,7 +299,7 @@ listNameCollection.add(listName);
             }
 
             formHierarchy();
-        } catch (Exception e) {
+        } catch (CloneNotSupportedException | NumberFormatException e) {
             LOGGER.error(e);
         }
 
@@ -309,7 +308,7 @@ listNameCollection.add(listName);
     private void formHierarchy() throws CloneNotSupportedException  {
 
         int levelCount = level_ccpIds.size();
-        String level_values_sid = "";
+        String LEVEL_VALUES_SID = "";
         for (int i = 0; i < levelCount; i++) {
 
             int levelHi = 0;
@@ -332,10 +331,10 @@ listNameCollection.add(listName);
                         String parentHierarchyNo = findParentHierarchyNo(ccpId, Integer.valueOf(currentKey.getLevelNo()) - 1);
 
                         if (!parentHierarchy.equals(parentHierarchyNo)) {
-                            if (!level_values_sid.equals(currentKey.getLevelValuesSid())) {
+                            if (!LEVEL_VALUES_SID.equals(currentKey.getLevelValuesSid())) {
                                 levelHi++;
                             }
-                            level_values_sid = currentKey.getLevelValuesSid();
+                            LEVEL_VALUES_SID = currentKey.getLevelValuesSid();
                             String hierarchyN0 = parentHierarchyNo + (levelHi) + DOT;
 
                             LevelMapKey newKey = new LevelMapKey(currentKey.getLevelNo(), currentKey.getLevelValuesSid());
@@ -376,13 +375,5 @@ listNameCollection.add(listName);
         }
         return parentHierarchyNo;
     }
-
-    Comparator comp = new Comparator<LevelMapKey>() {
-
-        @Override
-        public int compare(LevelMapKey o1, LevelMapKey o2) {
-            return o1.getLevelNo().compareTo(o2.getLevelNo());
-        }
-    };
 
 }
