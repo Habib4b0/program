@@ -46,6 +46,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.gtn.gtn2o.ws.constants.workflow.GtnWsBpmCommonConstants;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.JavaScript;
@@ -324,7 +325,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
                                     Map<String, Object> params = new HashMap<>();
                                     params.put(Constant.APPROVE_FLAG, "approve");
-                                    VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params);
+                                    VarianceCalculationLogic.submitWorkflow( session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Approved Information", Constant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
                                     // For Mail
@@ -378,7 +379,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                 if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
                                     Map<String, Object> params = new HashMap<>();
                                     params.put(Constant.APPROVE_FLAG, "reject-RWC");
-                                    VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params);
+                                    VarianceCalculationLogic.submitWorkflow( session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     // For Mail
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Rejected Information ", Constant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
@@ -427,7 +428,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                 if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
                                     Map<String, Object> params = new HashMap<>();
                                     params.put(Constant.APPROVE_FLAG, "withdraw-RWC");
-                                    VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params);
+                                    VarianceCalculationLogic.submitWorkflow( session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", Constant.WORKFLOW_ID + workflowIdUpdate + " withdrawn successfully");
                                     // For Mail
@@ -478,7 +479,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     Map<String, Object> params = new HashMap<>();
                                     params.put(Constant.APPROVE_FLAG, "cancel-RWC");
 
-                                    VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params);
+                                    VarianceCalculationLogic.submitWorkflow( session.getProcessId(),session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Cancel Information", Constant.WORKFLOW_ID + workflowIdUpdate + " cancelled successfully");
                                     // For Mail
@@ -803,7 +804,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             WorkflowRuleDTO dto = new WorkflowRuleDTO();
             dto.setNoOfUsers(NumericConstants.TWO);
             params.put("out_workflowDTO", dto);
-            VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params);
+            VarianceCalculationLogic.submitWorkflow( session.getProcessId(),session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
 //            String noOfUsers = BPMProcessBean.getProcessVariableLog(session.getProcessId(), "NoOfUsers");
 String noOfUsers ="";
             if (!noOfUsers.isEmpty()) {

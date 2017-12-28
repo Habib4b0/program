@@ -30,7 +30,9 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.app.service.MailNotificationMasterLocalServiceUtil;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.vaadin.server.VaadinService;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -94,9 +96,8 @@ public class WorkflowLogic {
      * @throws IOException
      */
     public String saveWorkflow(int projectionId, String userId, String notes, int noOfLevels, String screenName, List<NotesDTO> getUploadedData, String description) {
-        String path = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null
-                ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
-        String filePath1 = "/../../../WorkflowXML/BPIGeneratorIDs.xml";
+        String path = System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH);
+        String filePath1 = "WorkflowXML/BPIGeneratorIDs.xml";
         String moduleName = StringUtils.EMPTY;
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             moduleName = Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY;
@@ -235,8 +236,7 @@ public class WorkflowLogic {
      * @return - Workflow Master Object
      */
     public WorkflowMaster getWorkflowMasterByProjectionId(int projectionId) {
-        DynamicQuery workflowMasterDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(WorkflowMaster.class);
+        DynamicQuery workflowMasterDynamicQuery = WorkflowMasterLocalServiceUtil.dynamicQuery();
         workflowMasterDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID,
                 projectionId));
         List<WorkflowMaster> resultList;
