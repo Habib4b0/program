@@ -20,13 +20,11 @@ import com.stpl.app.gcm.promotetptocontract.dto.ComponentInfoDTO;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.transfercontract.dto.ContractSearchDTO;
-import com.stpl.app.gcm.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -48,7 +46,8 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -63,7 +62,7 @@ public class QueryUtils {
     public static final char CHAR_PERCENT = '%';
     final SessionDTO sessiondto = new SessionDTO();
     Map<String, String> fieldMap = new HashMap<>();
-    private static final Logger LOGGER = Logger.getLogger(QueryUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QueryUtils.class);
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     /**
      * The Constant CHAR_ASTERISK.
@@ -74,7 +73,7 @@ public class QueryUtils {
      * The Constant CHAR_PERCENT.
      */
     //This method will return the query for contract search in landing screem
-    public String getDiscContract(CustomFieldGroup removeDiscountDto, Set<Container.Filter> filters, List<SortByColumn> sortByColumn) {
+    public String getDiscContract(ErrorfulFieldGroup removeDiscountDto, Set<Container.Filter> filters, List<SortByColumn> sortByColumn) {
         String Query = searchQuery(removeDiscountDto);
         Map parameters = new HashMap();
         try {
@@ -293,7 +292,7 @@ public class QueryUtils {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         return Query;
     }
@@ -832,7 +831,7 @@ public class QueryUtils {
         return query;
     }
 
-    public String searchQuery(CustomFieldGroup removeDiscountDto) {
+    public String searchQuery(ErrorfulFieldGroup removeDiscountDto) {
         String query = StringUtils.EMPTY;
         if (removeDiscountDto != null && getNull(removeDiscountDto.getField(StringConstantsUtil.CUSTOMER).getValue().toString())) {
             String customer = removeDiscountDto.getField(StringConstantsUtil.CUSTOMER).getValue().toString();
@@ -1286,7 +1285,7 @@ public class QueryUtils {
         return helperList;
     }
 
-    public String getSearchValues(CustomFieldGroup discountChBinder, String moduleName, int start, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) {
+    public String getSearchValues(ErrorfulFieldGroup discountChBinder, String moduleName, int start, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) {
         String query = StringUtils.EMPTY;
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         LookupDTO binderDTO = ((BeanItem<LookupDTO>) (discountChBinder.getItemDataSource())).getBean();
@@ -1839,7 +1838,7 @@ public class QueryUtils {
         return query;
     }
 
-    public String getSearchValuesCount(CustomFieldGroup discountChBinder, String moduleName, Set<Container.Filter> filters) {
+    public String getSearchValuesCount(ErrorfulFieldGroup discountChBinder, String moduleName, Set<Container.Filter> filters) {
         String query = StringUtils.EMPTY;
         LookupDTO binderDTO = ((BeanItem<LookupDTO>) (discountChBinder.getItemDataSource())).getBean();
         Map<String, Object> parameters = new HashMap<>();

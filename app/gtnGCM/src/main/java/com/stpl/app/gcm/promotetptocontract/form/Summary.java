@@ -9,7 +9,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
@@ -37,7 +38,7 @@ public class Summary extends VerticalLayout implements View {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(Summary.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Summary.class);
 	/**
 	 * The Constant serialVersionUID.
 	 */
@@ -70,7 +71,7 @@ public class Summary extends VerticalLayout implements View {
 			setHeaderValues();
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		}
 	}
 
@@ -111,7 +112,7 @@ public class Summary extends VerticalLayout implements View {
 					Constants.IndicatorConstants.TAB_SALES_PROJECTION_TRANSFER.getConstant(), null, 1);
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		}
 		attachTabChangeListener();
 
@@ -150,7 +151,7 @@ public class Summary extends VerticalLayout implements View {
 						summarySalesProjectionTransfer.loadResultTable(false);
 					}
 				} catch (Exception ex) {
-					LOGGER.error(ex);
+					LOGGER.error("",ex);
 				}
 			}
 		});

@@ -26,13 +26,13 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.EXCEL_IMAGE_PAT
 import com.stpl.app.gcm.util.Constants.MessageConstants;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.v7.data.util.BeanItem;
@@ -69,6 +69,8 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -123,7 +125,7 @@ public class CompanySearch extends VerticalLayout {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanySearch.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(CompanySearch.class);
     CommonUtil commonUtil = CommonUtil.getInstance();
     String updateType = StringUtils.EMPTY;
     CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
@@ -139,7 +141,7 @@ public class CompanySearch extends VerticalLayout {
     /**
      * The data selection binder.
      */
-    public CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(tpDto));
+    public ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(tpDto));
     /**
      * The excel export image.
      */
@@ -218,7 +220,7 @@ public class CompanySearch extends VerticalLayout {
 
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -277,7 +279,7 @@ public class CompanySearch extends VerticalLayout {
                         commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, true);
                         return tradeClass;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
                 if ("companyType".equals(propertyId)) {
@@ -286,7 +288,7 @@ public class CompanySearch extends VerticalLayout {
                         commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, true);
                         return companyType;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
                 if ("companyCategory".equals(propertyId)) {
@@ -295,7 +297,7 @@ public class CompanySearch extends VerticalLayout {
                         commonUtil.loadComboBox(companyCategory, UiUtils.COMPANY_CATEGORY, true);
                         return companyCategory;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
                 if ("state".equals(propertyId)) {
@@ -304,7 +306,7 @@ public class CompanySearch extends VerticalLayout {
                         commonUtil.loadComboBox(state, UiUtils.STATE, true);
                         return state;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }                           
                 }
                 if (propertyId.equals(CHECK)) {
@@ -395,7 +397,7 @@ public class CompanySearch extends VerticalLayout {
                 try {
                     companySearchReset();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage("Reset Confirmation", "Are you sure you want to reset the Company Search?");
@@ -496,7 +498,7 @@ public class CompanySearch extends VerticalLayout {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -584,12 +586,12 @@ public class CompanySearch extends VerticalLayout {
                     CommonUIUtils.getMessageNotification("Search Completed");
                 }
             } catch (CommitException commit) {
-                LOGGER.error(commit);
+                LOGGER.error("",commit);
             }
         }
     }
 
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         dataSelectionBinder.bindMemberFields(this);
         dataSelectionBinder.setItemDataSource(new BeanItem<>(tpDto));
         dataSelectionBinder.setBuffered(true);
@@ -612,7 +614,7 @@ public class CompanySearch extends VerticalLayout {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -656,7 +658,7 @@ public class CompanySearch extends VerticalLayout {
                     companyLogic.loadSetData(selectedTpDto, StringUtils.EMPTY, StringUtils.EMPTY, Constants.ZEROSTRING, session.getSearchSessionId());
                     companyLogic.isRecordPresent();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage("Reset Confirmation", "Are you sure you want to reset the Results list view?");
@@ -702,7 +704,7 @@ public class CompanySearch extends VerticalLayout {
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -727,7 +729,7 @@ public class CompanySearch extends VerticalLayout {
                 deleteBtn.setVisible(CommonLogic.isButtonVisibleAccess("deleteBtn", functionHM));
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 

@@ -82,7 +82,8 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -202,7 +203,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private static final BeanItem<?> NULL_OBJECT = null;
     /* Current Level Value */
     public int levelValue;
-    private static final Logger LOGGER = Logger.getLogger(ContractProcessingDashboard.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContractProcessingDashboard.class);
     SessionDTO session = new SessionDTO();
     RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
     /**
@@ -275,7 +276,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                         CommonUtil.loadComboBoxForGCM(status, Constants.STATUS, true);
                         return status;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
 
                 } 
@@ -321,7 +322,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                         CommonUtil.loadComboBoxForGCM(status, Constants.STATUS, true);
                         return status;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
 
                 } 
@@ -556,7 +557,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                 LOGGER.debug("End of StplExpandListener nodeExpand method");
             } catch (Exception ex) {
 
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
                 final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                 LOGGER.error(errorMsg);
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
@@ -738,7 +739,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                 rebatePlanLevel.setValue(getFromList(fieldData, NumericConstants.THIRTEEN));
 
             } catch (ParseException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
     }
@@ -753,7 +754,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                 }
             }
         } catch (IndexOutOfBoundsException ie) {
-            LOGGER.error(ie);
+            LOGGER.error("",ie);
         }
         return fieldvalue;
     }
@@ -784,7 +785,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                         contractDashboardContainer.removeItem(contractDashboardTable.getValue());
                         contractDashboardTable.setValue(null);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }.getConfirmationMessage("Confirm Remove", "Are you sure you want to remove the selected Contract from the Add Customer process? \n It will be removed and added back to the Available List of Contracts in the Contract Selection screen.");
@@ -827,7 +828,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                         csLogic.updateSubmitFlag(session.getModuleName(), StringUtils.EMPTY, session.getUserId(), session.getSessionId(), false);
                         LoadDashBoardTree();
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }.getConfirmationMessage("Confirm Remove", "Are you sure you want to remove the selected Contract from the Add Customer process? \n It will be removed and added back to the Available List of Contracts in the Contract Selection screen.");
@@ -868,7 +869,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                     loadComponentInformation(tableBean.getCategory());
 
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             } else {
                 AbstractNotificationUtils.getErrorNotification("No Level Selected",
@@ -890,7 +891,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             int recordCount = CommonUtils.convertToInteger(String.valueOf(list.get(0)));
             ExcelExportforBB.createWorkSheet(visibleHeaders, recordCount, this, UI.getCurrent(), "Add_Customer_Results");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -899,7 +900,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         try {
             CsvExportforPagedTable.createWorkSheet(componentInformationTable.getColumnHeaders(), componentInformationTable.getVisibleColumns(), tablelogic, excelName.replace(" ", "_"));
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -978,7 +979,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             }
             ExcelExportforBB.createFileContent(visibleColumns, checkedContractList, printWriter);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -991,7 +992,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             remove.setVisible(CommonLogic.isButtonVisibleAccess("resetBtn2", functionHM));
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 

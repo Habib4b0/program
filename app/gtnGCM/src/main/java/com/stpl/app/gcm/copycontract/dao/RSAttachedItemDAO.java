@@ -10,7 +10,8 @@ import com.stpl.app.gcm.copycontract.logic.CopyContractLogic;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.asi.ui.addons.lazycontainer.BeanDAO;
 import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 
@@ -19,7 +20,7 @@ import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
  * @author kasiammal.m
  */
 public class RSAttachedItemDAO implements BeanDAO {
-private static final Logger LOGGER = Logger.getLogger(RSAttachedItemDAO.class);
+private static final Logger LOGGER = LoggerFactory.getLogger(RSAttachedItemDAO.class);
     CopyContractLogic logic = new CopyContractLogic();
     RsIfpDto RsIfpDto = new RsIfpDto();
 
@@ -38,7 +39,7 @@ private static final Logger LOGGER = Logger.getLogger(RSAttachedItemDAO.class);
         try {
             resultList = logic.getRSAttachedItemSearch(RsIfpDto, i, i1, bsc, list);
         } catch (ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }

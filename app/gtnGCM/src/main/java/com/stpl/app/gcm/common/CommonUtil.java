@@ -21,7 +21,8 @@ import com.vaadin.v7.ui.TextField;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -40,7 +41,7 @@ public class CommonUtil {
      */
     static HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
-    private static Logger logger = Logger.getLogger(CommonUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 
     /**
      * Instantiates a new common util.
@@ -73,7 +74,7 @@ public class CommonUtil {
     public ComboBox loadComboBox(final ComboBox select,
             String listName, boolean isFilter) {
         select.removeAllItems();
-        final String defaultValue = isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE;
+        final String defaultValue = isFilter ? ConstantsUtils.SHOW_ALL : Constants.SELECT_ONE;
         select.setValidationVisible(true);
         select.setNullSelectionAllowed(true);
         select.setNullSelectionItemId(defaultValue);
@@ -163,7 +164,7 @@ public class CommonUtil {
                 }
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("",e);
         }
     }
 
@@ -179,7 +180,7 @@ public class CommonUtil {
     public ComboBox loadYesNoDDLB(final ComboBox select,
             boolean isFilter) {
 
-        final String defaultValue = isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE;
+        final String defaultValue = isFilter ? ConstantsUtils.SHOW_ALL : Constants.SELECT_ONE;
         select.setValidationVisible(true);
         select.setNullSelectionAllowed(true);
         select.setNullSelectionItemId(defaultValue);
@@ -188,14 +189,14 @@ public class CommonUtil {
         select.addItem(ConstantsUtils.NO_VARIABLE);
         select.select(defaultValue);
         select.markAsDirty();
-        select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : select.getValue()));
+        select.setDescription((String) (select.getValue() == null ? Constants.SELECT_ONE : select.getValue()));
         select.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 if (event.getProperty() != null && event.getProperty().getValue() != null && (StringUtils.EMPTY.equals(event.getProperty().getValue()) || ConstantsUtils.NULL.equals(event.getProperty().getValue()))) {
                     select.select(defaultValue);
                 }
-                select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : select.getValue()));
+                select.setDescription((String) (select.getValue() == null ? Constants.SELECT_ONE : select.getValue()));
             }
         });
         return select;

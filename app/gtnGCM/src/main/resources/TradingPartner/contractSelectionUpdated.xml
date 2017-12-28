@@ -4,11 +4,11 @@ To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
 
-<Panel  xmlns:errorMsg="urn:import:com.stpl.app.gcm.ui.errorhandling" xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" 
+<Panel  xmlns:errorMsg="urn:import:com.stpl.app.ui.errorhandling" xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" 
         xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
     <VerticalLayout id="contractSelectionVerticalLayout" spacing="true"
                     margin="true" immediate="true">
-        <errorMsg:ErrorLabel id="errorMsg"/>
+        <!--<errorMsg:ErrorLabel id="errorMsg"/>-->
         <Panel id="tradingPartnerSearch" caption = "Search Criteria">
             <HorizontalLayout spacing="true" margin="true" immediate="true">
                 <VerticalLayout>
@@ -84,7 +84,6 @@ and open the template in the editor.
                     <HorizontalLayout id="transferSalesProjectionLayout" spacing = "false" margin = "false" visible="false">
                         <Label caption="Transfer Sales Projection: " contentMode="HTML"/>
                         <OptionGroup multiSelect="false" id="transferSalesProjection" immediate="true"  styleName = "horizontal" />
-                        <CheckBox id="removeProjectionDetails" immediate="true"  styleName = "horizontal" caption="Remove Projection Details" />
                     </HorizontalLayout>
                     <Button id="resetBtn" caption="RESET" alignment="BOTTOM_LEFT" />
                 </HorizontalLayout>

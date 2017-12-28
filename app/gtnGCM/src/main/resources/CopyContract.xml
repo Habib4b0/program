@@ -3,7 +3,7 @@
 To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
-<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:p="urn:import:com.stpl.app.gcm.ui.errorhandling" id="mainPanelcopy">
+<Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:p="urn:import:com.stpl.app.ui.errorhandling" id="mainPanelcopy">
     <VerticalLayout id="copycontractVerticalLayout" spacing="true"
                     margin="true" immediate="true">
         <p:ErrorLabel id="errorMsg"/> 

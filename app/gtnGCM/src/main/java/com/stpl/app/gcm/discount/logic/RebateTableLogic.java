@@ -5,7 +5,7 @@
 package com.stpl.app.gcm.discount.logic;
 
 import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.List;
@@ -20,7 +20,7 @@ public class RebateTableLogic extends PageTableLogic {
     RemoveDiscountDto binderDto = new RemoveDiscountDto();
     DiscountLogic logic = new DiscountLogic();
     boolean generate = false;
-    CustomFieldGroup discountChBinder;
+    ErrorfulFieldGroup discountChBinder;
 
     /**
      * Record count logic
@@ -69,7 +69,7 @@ public class RebateTableLogic extends PageTableLogic {
      *
      * @param binderDto
      */
-    public boolean loadSetData(RemoveDiscountDto binderDto, CustomFieldGroup discountChBinder) {
+    public boolean loadSetData(RemoveDiscountDto binderDto, ErrorfulFieldGroup discountChBinder) {
         this.discountChBinder = discountChBinder;
         clearAll();
         setRequiredCount(true);

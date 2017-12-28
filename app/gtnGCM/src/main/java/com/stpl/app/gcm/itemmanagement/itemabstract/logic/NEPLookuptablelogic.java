@@ -11,7 +11,8 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -20,7 +21,7 @@ import org.jboss.logging.Logger;
 public class NEPLookuptablelogic extends PageTableLogic {
 
     private AbstractLogic logic = AbstractLogic.getInstance();
-    private static final Logger LOGGER = Logger.getLogger(NEPLookuptablelogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NEPLookuptablelogic.class);
     private boolean isFirstLoad = false;
     private boolean isResultsEmpty;
     private boolean isReset = false;
@@ -36,7 +37,7 @@ public class NEPLookuptablelogic extends PageTableLogic {
             isResultsEmpty = count == 0;
             count = isReset ? 0 : count;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
 
         }
         return count;
@@ -49,7 +50,7 @@ public class NEPLookuptablelogic extends PageTableLogic {
             try {
                 list =  logic.lookupResultsQuery(formulaDto, start, offset, this.getSortByColumns(), this.getFilters(), false);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
 
             }
         }

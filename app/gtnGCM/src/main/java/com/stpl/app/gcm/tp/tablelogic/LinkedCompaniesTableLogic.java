@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,7 +26,7 @@ public class LinkedCompaniesTableLogic extends PageTableLogic {
     CompanyLinkDTO tpDTo = new CompanyLinkDTO();
     String searchSessionid = StringUtils.EMPTY;
     boolean firstTime = true;
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanySearchTableLogic.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(CompanySearchTableLogic.class);
 
     @Override
     public int getCount() {
@@ -33,7 +35,7 @@ public class LinkedCompaniesTableLogic extends PageTableLogic {
                 return logic.getLinkedCompaniesCount(tpDTo, getFilters(), searchSessionid);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         return 0;
     }
@@ -43,7 +45,7 @@ public class LinkedCompaniesTableLogic extends PageTableLogic {
         try {
             return logic.getLinkedCompanies(tpDTo, start, offset, getFilters(), searchSessionid);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
             return Collections.emptyList();
         }
 

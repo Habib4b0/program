@@ -69,7 +69,8 @@ import java.util.Iterator;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.customwindow.MinimizeTray;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.vaadin.event.FieldEvents.BlurListener;
 
@@ -79,7 +80,7 @@ import com.vaadin.event.FieldEvents.BlurListener;
  */
 public class CopyContractform extends CustomComponent implements View {
 
-    private static final Logger LOGGER = Logger.getLogger(CopyContractform.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CopyContractform.class);
     CopyContractWindow editWindow;
     ExtFilterTable resultTable;
     @UiField("main")
@@ -208,7 +209,7 @@ public class CopyContractform extends CustomComponent implements View {
                 }
             });
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -233,7 +234,7 @@ public class CopyContractform extends CustomComponent implements View {
                         editWindow.close();
                         closeEditTray(editWindow);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }.getConfirmationMessage("Close", "Are you sure you want to close the popup?");
@@ -339,7 +340,7 @@ public class CopyContractform extends CustomComponent implements View {
                     resetFields();
                     Newcomponent.resetFieldsNewComponetTab();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage("Create", "Are you sure you want to save the new contract?");
@@ -390,7 +391,7 @@ public class CopyContractform extends CustomComponent implements View {
                 try {
                     onTabChange(tabPosition);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         });
@@ -433,7 +434,7 @@ public class CopyContractform extends CustomComponent implements View {
             });
             getUI().addWindow(chLookup);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -485,7 +486,7 @@ public class CopyContractform extends CustomComponent implements View {
                     try {
                         commonUtil.loadComboBoxForGCM(status, UiUtils.STATUS, false);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                     return status;
                 }
@@ -495,7 +496,7 @@ public class CopyContractform extends CustomComponent implements View {
                     try {
                         commonUtil.loadComboBoxForGCM(marketType, UiUtils.CONTRACT_TYPE, false);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                     return marketType;
                 }
@@ -527,7 +528,7 @@ public class CopyContractform extends CustomComponent implements View {
                     try {
                         commonUtil.loadComboBoxForGCM(aliasType, UiUtils.CONTRACT_ALIAS_TYPE, false);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                     return aliasType;
                 }
@@ -722,7 +723,7 @@ public class CopyContractform extends CustomComponent implements View {
                 try {
                     resetLogic();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage("Reset", "Are you sure you want to reset the page to default/previous values?");
@@ -774,7 +775,7 @@ public class CopyContractform extends CustomComponent implements View {
                             }
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }.getConfirmationMessage("Reset", "Are you sure you want to remove the checked row?");
@@ -842,7 +843,7 @@ public class CopyContractform extends CustomComponent implements View {
             Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Contract Management", "Copy Contract", "New Tab Screen");
             populate.setVisible(CommonLogic.isButtonVisibleAccess("populate", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

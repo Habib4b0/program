@@ -49,7 +49,8 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -81,7 +82,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(TradingpartnerDetails.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TradingpartnerDetails.class);
     SessionDTO session;
     boolean checkValue = false;
 
@@ -224,7 +225,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
                     removeCheckedItems(tradingPartnerDetailsContainer);
                     contractRefresh = true;
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage(messageHeader, "Are you sure you want to remove the selected Contract from the " + message + " Customer process?\n It will be removed and added back to the Available List of Contracts in the Current Contract Selection screen. ");
@@ -280,7 +281,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
                 createWorkSheet("Contract_Details", tradingPartnerDetailsTable);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -296,7 +297,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
             headers = ArrayUtils.removeElement(headers, StringUtils.EMPTY);
             ExcelExportforBB.createWorkSheet((String[]) headers, recordCount, this, UI.getCurrent(), moduleName);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -311,7 +312,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
                 ExcelExportforBB.createFileContent(columns, checkedContractList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -334,7 +335,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
             Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(session.getUserId()), "GCM-Customer Management", "UpdateCustomer", "SummaryTab");
             rebuild.setVisible(CommonLogic.isButtonVisibleAccess("rebuild", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

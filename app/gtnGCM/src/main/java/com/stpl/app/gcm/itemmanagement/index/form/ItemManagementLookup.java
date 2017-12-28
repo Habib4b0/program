@@ -46,7 +46,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -80,7 +81,7 @@ public class ItemManagementLookup extends CustomWindow {
     Map<String, AppPermission> functionHM = new HashMap<>();
     Integer lasttabPosition = 0;
     boolean valueChange = false;
-    public static final Logger LOGGER = Logger.getLogger(ItemManagementLookup.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ItemManagementLookup.class);
     List<Integer> addedTabList = new ArrayList<>();
     boolean addSummaryFlag = false;
     SessionDTO session = new SessionDTO();
@@ -180,7 +181,7 @@ public class ItemManagementLookup extends CustomWindow {
                         }
 
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }
@@ -920,7 +921,7 @@ public class ItemManagementLookup extends CustomWindow {
                 ItemQueries.itemUpdate(input, "InsertContractDataForProjTransferSearch");
 
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error("",e);
             }
         }
     }

@@ -10,14 +10,15 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Porchelvi.Gunasekara
  */
 public class BusinessRoleModuleImpl {
-     private static final Logger LOGGER = Logger.getLogger(BusinessRoleModuleImpl.class);
+     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessRoleModuleImpl.class);
      
     public static List getBusinessFunctionPermission(String businessRoleId,String moduleName) {
 		//HashMap <String,AppPermission> hashMap=new HashMap<String,AppPermission>();

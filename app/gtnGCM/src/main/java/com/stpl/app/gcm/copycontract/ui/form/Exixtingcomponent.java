@@ -78,7 +78,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.asi.ui.addons.lazycontainer.LazyBeanItemContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -90,7 +91,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class Exixtingcomponent extends CustomComponent {
 
-    public static final Logger LOGGER = Logger.getLogger(Exixtingcomponent.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(Exixtingcomponent.class);
     @UiField("componentDetailsSelectedLayout")
     public VerticalLayout componentDetailsSelectedLayout;
     @UiField("componentDetailsSelectedItemLayout")
@@ -283,7 +284,7 @@ public class Exixtingcomponent extends CustomComponent {
             psDetailsGrid.setVisible(false);
             rsDetailsGrid.setVisible(false);
         } catch (Exception ex) {
-           LOGGER.error(ex);
+           LOGGER.error("",ex);
         }
     }
 
@@ -1222,7 +1223,7 @@ public class Exixtingcomponent extends CustomComponent {
             levelpop.setVisible(CommonLogic.isButtonVisibleAccess("levelpop", functionHM));
             addToTree.setVisible(CommonLogic.isButtonVisibleAccess("addToTree", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

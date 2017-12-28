@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author kasiammal.m
@@ -26,7 +27,7 @@ public class CopyComponentsResultLogic extends PageTableLogic {
     List<ContractSelectionDTO> selectedlist = new ArrayList<>();
     CopyContractLogic logic = new CopyContractLogic();
     int count;
-    private static final Logger LOGGER = Logger.getLogger(CopyComponentsResultLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CopyComponentsResultLogic.class);
 
     @Override
     public int getCount() {
@@ -36,7 +37,7 @@ public class CopyComponentsResultLogic extends PageTableLogic {
                 count = selectedlist.size();
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return count;
     }
@@ -47,7 +48,7 @@ public class CopyComponentsResultLogic extends PageTableLogic {
         try {
             resultList = logic.getComponentinfoResults(selectedlist);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
 

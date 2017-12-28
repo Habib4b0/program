@@ -13,7 +13,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -21,7 +22,7 @@ import org.jboss.logging.Logger;
  */
 public final class CommonUtil {
 
-    public static final Logger LOGGER = Logger.getLogger(CommonUtil.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CommonUtil.class);
 
     public static String astToPerConverter(final String inputString) {
         return StringUtils.isBlank(inputString) || Constants.NULL.equals(inputString) ? "%" : inputString.replace("*", "%");

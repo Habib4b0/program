@@ -62,7 +62,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -74,7 +75,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
  */
 public class Copycomponents extends CustomComponent {
 
-    private static final Logger LOGGER = Logger.getLogger(Copycomponents.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Copycomponents.class);
     @UiField("componentitems")
     public OptionGroup componentitems;
     @UiField("contractDashBoardLayout")
@@ -230,7 +231,7 @@ public class Copycomponents extends CustomComponent {
             configureFields();
             configureSecurityPermissions();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -388,7 +389,7 @@ public class Copycomponents extends CustomComponent {
             });
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
         componentTypeValueChange();
@@ -992,7 +993,7 @@ public class Copycomponents extends CustomComponent {
                         try {
                             contractDashBoardTable.removeItem(root);
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                 }.getConfirmationMessage("Reset Conformation", "Are you sure you want to remove the selected record?");
@@ -1064,7 +1065,7 @@ public class Copycomponents extends CustomComponent {
                 saveRS(item);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -1184,7 +1185,7 @@ public class Copycomponents extends CustomComponent {
             populateDetails.setVisible(CommonLogic.isButtonVisibleAccess("populateDetails", functionHMPermission));
             addToTree.setVisible(CommonLogic.isButtonVisibleAccess("addToTree", functionHMPermission));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 

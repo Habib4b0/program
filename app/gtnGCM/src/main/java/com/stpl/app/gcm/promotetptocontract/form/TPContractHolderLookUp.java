@@ -23,7 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -38,7 +39,7 @@ public class TPContractHolderLookUp extends Window {
     private TextField groupLookup;
     List<String> companySids;
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = org.jboss.logging.Logger.getLogger(TPContractHolderLookUp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TPContractHolderLookUp.class);
     @UiField("resultsTableCHL")
     private ExtFilterTable resultTable;
     @UiField("cancelBtnCHL")
@@ -220,7 +221,7 @@ public class TPContractHolderLookUp extends Window {
             }
 
         } catch (Exception ex) {
-           LOGGER.error(ex);
+           LOGGER.error("",ex);
         }
         LOGGER.debug("btnSearchLogic ends");
     }

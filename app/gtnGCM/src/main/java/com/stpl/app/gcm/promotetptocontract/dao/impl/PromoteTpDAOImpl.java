@@ -31,14 +31,15 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import java.util.logging.Level;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author alok.v
  */
 public class PromoteTpDAOImpl implements PromoteTpDAO {
-public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
+public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.class);
     @Override
     public List companyCount(final Map<String, Object> parameters) throws SystemException {
 
@@ -62,7 +63,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
         try {
             return (int) CompanyMasterLocalServiceUtil.dynamicQueryCount(dynamicQuery);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return 0;
     }
@@ -71,7 +72,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
         try {
             return CompanyMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return Collections.emptyList();
     }
@@ -209,7 +210,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
         String updateQuery = "UPDATE GCM_GLOBAL_DETAILS set CHECK_RECORD = '0' , OPERATION = '" + udcValue + "' where USER_ID='" + userId + "' AND SESSION_ID='" + sessionId + "' AND CHECK_RECORD='1' AND SCREEN_NAME = '" + screenName + "'";
         HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery);
     } catch (SystemException ex) {
-        java.util.logging.Logger.getLogger(PromoteTpDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        LoggerFactory.getLogger(PromoteTpDAOImpl.class.getName()).error("", ex);
     }
     }
 

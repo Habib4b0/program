@@ -66,7 +66,6 @@ import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
-import com.vaadin.v7.event.FieldEvents;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
@@ -112,7 +111,8 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -297,8 +297,8 @@ public class UpdatedContractSelection extends VerticalLayout {
     public Button allCustomers;
     @UiField("allCustomer")
     public ComboBox allCustomer;
-    @UiField("removeProjectionDetails")
-    public CheckBox removeProjectionDetails;
+//    @UiField("removeProjectionDetails")
+//    public CheckBox removeProjectionDetails;
     final StplSecurity stplSecurity = new StplSecurity();
     Map<String, AppPermission> functionHM = new HashMap<>();
     /**
@@ -324,7 +324,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(UpdatedContractSelection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdatedContractSelection.class);
 
     private ContractSelectionLogic logic = new ContractSelectionLogic();
 
@@ -344,6 +344,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     boolean isTableUpdate = false;
 
     boolean isComponentInformationExport = false;
+    CheckBox removeProjectionDetails = new CheckBox("Remove Projection Details");
 
     public UpdatedContractSelection(SessionDTO session, AddTPForm form) {
         this.addTpForm = form;
@@ -381,8 +382,10 @@ public class UpdatedContractSelection extends VerticalLayout {
     }
 
     private void initContractSelection(SessionDTO session) {
+        try{
         this.session = session;
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/contractSelectionUpdated.xml"), this));
+        transferSalesProjectionOptionLayout.addComponent(removeProjectionDetails);
         configureFields();
         contractSeletion = new ContractSelectionDTO();
         contractSeletion.setCompanyMasterSids(session.getCompanyMasterSids());
@@ -398,6 +401,9 @@ public class UpdatedContractSelection extends VerticalLayout {
         }
         contractSeletion.setSearch(true);
         contractSeletion.setReset(false);
+        }catch(Exception e){
+        e.printStackTrace();
+        }
     }
 
     private void configureFieldsForTransferTP(boolean isTransfer) {
@@ -540,7 +546,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             allCustomer.select("No");
             allCustomer.setReadOnly(Boolean.TRUE);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -557,7 +563,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                         logic.setIdDescription(statusResultList, status);
                         return status;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
 
                 }               
@@ -568,7 +574,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                         rarCategory.select(0);
                         return rarCategory;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
                 return null;
@@ -809,7 +815,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                                                 }
 
                                             } catch (Exception e) {
-                                                LOGGER.error(e);
+                                                LOGGER.error("",e);
                                             }
                                         }
                                     }
@@ -830,7 +836,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     try {
                         CommmonLogic.loaDDLBForListLoading(status, UiUtils.STATUS, false);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                     if (screenName.equals(TAB_TRANSFER_CONTRACT.getConstant())
                             || (session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()) && dto.getWorkflowStatus().trim().isEmpty())
@@ -979,7 +985,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 rebatePlanLevel.setValue(getFromList(fieldData, NumericConstants.THIRTEEN));
 
             } catch (ParseException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
     }
@@ -1073,7 +1079,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                         transferTpForm.close();
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage("Close confirmation", "Are you sure you want to close out? \n No values will be saved. ");
@@ -1189,7 +1195,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 }
             }
         } catch (IndexOutOfBoundsException ie) {
-            LOGGER.error(ie);
+            LOGGER.error("",ie);
 
         }
         return fieldvalue;
@@ -1441,7 +1447,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     ifpNo.setValue(StringUtils.EMPTY);
                     psNo.setValue(StringUtils.EMPTY);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage("Reset Confirmation", "Are you sure you want to reset the Search values?");
@@ -1471,7 +1477,7 @@ public class UpdatedContractSelection extends VerticalLayout {
 
                     ContractTableLogic.loadSetData(contractSeletion, session);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage("Reset Confirmation", "Are you sure you want to reset the values in the Available Contracts list view?");
@@ -1483,7 +1489,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             createWorkSheet("Available_Contracts", pagedTable);
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -1530,7 +1536,7 @@ public class UpdatedContractSelection extends VerticalLayout {
 
             ExcelExportforBB.createFileContent(visibleColumns, searchList, printWriter);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -1972,7 +1978,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHM));
         }
             catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -1987,7 +1993,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             NextBtn.setVisible(CommonLogic.isButtonVisibleAccess("NextBtn", functionHM));
             closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -2017,7 +2023,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
     private void configureSecurityPermissionsRemoveTransfer() {
@@ -2033,7 +2039,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHM));
         }
             catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

@@ -251,7 +251,7 @@ public class SummaryTab extends VerticalLayout {
                     AppDataUtils.dataUpdate(input, "Close button delete");
 
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage(MessageUtil.getErrorCode(Message.CLOSE_CONFIRM), MessageUtil.getErrorCode(Message.CLOSE_CONFIRM_MSG));
@@ -423,7 +423,7 @@ public class SummaryTab extends VerticalLayout {
                                 } else {
                                 }
                             } catch (Exception e) {
-                                LOGGER.error(e);
+                                LOGGER.error("",e);
                             }
 
                             if (projectionCreationFlag) {
@@ -582,7 +582,7 @@ public class SummaryTab extends VerticalLayout {
             functionalButton.setVisible(CommonLogic.isButtonVisibleAccess(FUNCTIONAL_BUTTON, functionHM));
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -595,7 +595,7 @@ public class SummaryTab extends VerticalLayout {
             functionalButton.setVisible(CommonLogic.isButtonVisibleAccess(FUNCTIONAL_BUTTON, functionHM));
 
             } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
     private void configureSecurityPermissionsUpdate() {
@@ -606,7 +606,7 @@ public class SummaryTab extends VerticalLayout {
             close.setVisible(CommonLogic.isButtonVisibleAccess(CLOSE_BTN, functionHM));
             functionalButton.setVisible(CommonLogic.isButtonVisibleAccess(FUNCTIONAL_BUTTON, functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

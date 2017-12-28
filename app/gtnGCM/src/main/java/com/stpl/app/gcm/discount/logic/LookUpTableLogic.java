@@ -6,7 +6,7 @@
 package com.stpl.app.gcm.discount.logic;
 
 import com.stpl.app.gcm.discount.dto.LookupDTO;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.List;
@@ -21,7 +21,7 @@ public class LookUpTableLogic extends PageTableLogic {
     LookupDTO binderDto = new LookupDTO();
     LookUpLogic logic = new LookUpLogic();
     boolean generate = false;
-    CustomFieldGroup discountChBinder;
+    ErrorfulFieldGroup discountChBinder;
     String moduleName;
 
     /**
@@ -72,7 +72,7 @@ public class LookUpTableLogic extends PageTableLogic {
      *
      * @param binderDto
      */
-    public boolean loadSetData(CustomFieldGroup discountChBinder, String moduleName) {
+    public boolean loadSetData(ErrorfulFieldGroup discountChBinder, String moduleName) {
         this.discountChBinder = discountChBinder;
         this.moduleName = moduleName;
         clearAll();

@@ -16,7 +16,6 @@ import com.stpl.app.gcm.discount.logic.DiscountLogic;
 import com.stpl.app.gcm.discount.logic.ExistingTabSearchTableLogic;
 import com.stpl.app.gcm.discount.logic.ExistingTabSelectedTableLogic;
 import static com.stpl.app.gcm.discount.ui.form.NewDiscountTab.DBDate;
-import static com.stpl.app.gcm.discount.ui.form.NewDiscountTab.LOGGER;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
@@ -35,7 +34,6 @@ import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -75,7 +73,8 @@ import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -86,7 +85,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ExistingDiscountTab extends CustomComponent {
 
-    public static final Logger LOGGER = Logger.getLogger(ExistingDiscountTab.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ExistingDiscountTab.class);
     ExistingTabSearchTableLogic availableTableLogic = new ExistingTabSearchTableLogic();
     ExistingTabSelectedTableLogic selectedTableLogic = new ExistingTabSelectedTableLogic();
     public ExtPagedTable componentResultsTable = new ExtPagedTable(availableTableLogic);
@@ -249,7 +248,7 @@ public class ExistingDiscountTab extends CustomComponent {
             fromCDName.setEnabled(false);
             itemStatusList = CommonLogic.getDropDownList(Constants.IndicatorConstants.STATUS.getConstant());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -425,12 +424,12 @@ public class ExistingDiscountTab extends CustomComponent {
                 }
                 LOGGER.debug("End of StplExpandListener nodeExpand method");
             } catch (SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
                 final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                LOGGER.error(errorMsg);
+                LOGGER.error("",errorMsg);
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
             } catch (PortalException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
 
         }
@@ -514,10 +513,10 @@ public class ExistingDiscountTab extends CustomComponent {
                 LOGGER.debug("End of StplCollapseListener nodeCollapse method");
             } catch (SystemException ex) {
                 final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-                LOGGER.error(errorMsg);
+                LOGGER.error("",errorMsg);
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
             } catch (PortalException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
 
         }
@@ -783,7 +782,7 @@ public class ExistingDiscountTab extends CustomComponent {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -1116,7 +1115,7 @@ public class ExistingDiscountTab extends CustomComponent {
                                 notif.show(Page.getCurrent());
                         } catch (Exception ex) {
                             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000));
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                 }
@@ -1181,7 +1180,7 @@ public class ExistingDiscountTab extends CustomComponent {
             psList.clear();
             rsList.clear();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         LOGGER.debug("End of saveTree method");
     }
@@ -1297,7 +1296,7 @@ public class ExistingDiscountTab extends CustomComponent {
             levelPopulateBtn.setVisible(CommonLogic.isButtonVisibleAccess("levelPopulateBtn", functionHM));
             addToTree.setVisible(CommonLogic.isButtonVisibleAccess("addToTree", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
     }

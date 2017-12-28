@@ -42,7 +42,7 @@ public class CurrentContractTransfer extends CustomComponent {
             this.selection = selection;
             this.selectedItemList = selectedItemList;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 

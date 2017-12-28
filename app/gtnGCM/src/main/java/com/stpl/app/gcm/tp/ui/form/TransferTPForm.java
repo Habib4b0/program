@@ -132,7 +132,7 @@ public class TransferTPForm extends CustomWindow {
                     allTableRefreshOnTabChange(tabName);
 
                 } catch (Exception e) {
-                   LOGGER.error(e);
+                   LOGGER.error("",e);
                 }
             }
 
