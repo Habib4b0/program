@@ -33,7 +33,6 @@ public class AppDataUtils {
 
     public static List getAppData(List input, String queryName, String queryName2) {
         LOGGER.debug("Inside item get data");
-        System.out.println("input***************************"+input+"queryName--------------------");
         List list = new ArrayList();
         StringBuilder sql;
         if (queryName != null && !queryName.isEmpty()) {
@@ -48,7 +47,6 @@ public class AppDataUtils {
                 }
                 list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
-                ex.printStackTrace();
                 LOGGER.error("",ex);
             }
         }
