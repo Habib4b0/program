@@ -171,7 +171,7 @@ public class AbstractComponentInfo extends CustomComponent {
     public final String[] rsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
     ComponentInfoDTO binderDto = new ComponentInfoDTO();
     public static final String FILTERBAR = "filterbar";
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection;
     AbstractLogic abstractLogic = AbstractLogic.getInstance();
     String componentFlag = StringUtils.EMPTY;
@@ -353,10 +353,12 @@ public class AbstractComponentInfo extends CustomComponent {
 
     public void setFilter() {
         currentComponentTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -373,18 +375,22 @@ public class AbstractComponentInfo extends CustomComponent {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                
                 if (componentSelection.getValue() != null && !"null".equals(String.valueOf(componentSelection.getValue()))) {

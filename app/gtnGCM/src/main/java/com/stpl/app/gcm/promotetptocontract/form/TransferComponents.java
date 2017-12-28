@@ -362,12 +362,14 @@ public class TransferComponents extends CustomComponent implements View {
         transferCompTable1.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
 
         transferCompTable1.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
 
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
 
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             boolean isCheck = check.getValue();
                             if (isCheck) {
@@ -384,6 +386,7 @@ public class TransferComponents extends CustomComponent implements View {
         });
 
         transferCompTable1.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = transferCompTable1.getItemIds();
                 for (Object obj : itemList) {
@@ -397,6 +400,7 @@ public class TransferComponents extends CustomComponent implements View {
             /**
              * Method is called when results value is changed
              */
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }
@@ -480,6 +484,7 @@ public class TransferComponents extends CustomComponent implements View {
         contractComponentDetailsTable.setWidth("790px");
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         //empty
     }

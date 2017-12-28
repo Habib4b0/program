@@ -8,7 +8,6 @@ import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.summary.RebateSummary;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.summary.SalesSummary;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;

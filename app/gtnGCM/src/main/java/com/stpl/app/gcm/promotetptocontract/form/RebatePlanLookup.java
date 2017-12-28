@@ -4,7 +4,6 @@
  */
 package com.stpl.app.gcm.promotetptocontract.form;
 
-import static com.stpl.app.gcm.discount.ui.form.ExistingDiscountTab.LOGGER;
 import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.gcm.promotetptocontract.dto.RebatePlanDTO;
 import com.stpl.app.gcm.promotetptocontract.logic.PromoteTPLogic;
@@ -37,8 +36,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class RebatePlanLookup extends Window {
 
-    private String indicator;
-    private CustomTextField groupLookup;
+    private final String indicator;
+    private final CustomTextField groupLookup;
     List<String> companySids;
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = org.jboss.logging.Logger.getLogger(TPContractHolderLookUp.class);
@@ -71,7 +70,7 @@ public class RebatePlanLookup extends Window {
     private ComboBox rebatePlanStatus;
     @UiField("rebatePlanType")
     private ComboBox rebatePlanType;
-    private BeanItemContainer<RebatePlanDTO> resultContainer = new BeanItemContainer<>(RebatePlanDTO.class);
+    private final BeanItemContainer<RebatePlanDTO> resultContainer = new BeanItemContainer<>(RebatePlanDTO.class);
     private RebatePlanDTO selectedChHolderHierarchy;
     List<CompanyMaster> filteredCompanies;
     PromoteTPLogic logic = new PromoteTPLogic();
@@ -149,19 +148,23 @@ public class RebatePlanLookup extends Window {
         loadRebatePlanType();
 
         searchBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnSearchLogic();
             }
         });
         selectBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnLookupSelectLogic();
             }
         });
 
         resetBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // do nothing
                     }

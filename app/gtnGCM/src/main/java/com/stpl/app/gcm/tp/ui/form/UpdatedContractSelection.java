@@ -293,7 +293,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiField("psNo")
     public CustomTextField psNo;
     @UiField("allCustomers")
-    public Button allCustomers;
+    public Button vAllCustomerList;
     @UiField("allCustomer")
     public ComboBox allCustomer;
     @UiField("removeProjectionDetails")
@@ -419,6 +419,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             transferSalesProjectionOption.select(YES.getConstant());
             transferSalesProjectionOption.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     if (transferSalesProjectionOption.getValue().equals(YES.getConstant())) {
                         transferTpForm.setSalesCopyFlag(true);
@@ -429,6 +430,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             });
             removeProjectionDetails.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     transferTpForm.setSalesRemoveFlag(removeProjectionDetails.getValue());
                 }
@@ -490,6 +492,7 @@ public class UpdatedContractSelection extends VerticalLayout {
 
             componentSelection.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     loadComponentInformation(String.valueOf(event.getProperty().getValue()), pagedTable.getValue());
                     componentInformationTable.setFilterBarVisible(true);
@@ -563,7 +566,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 if ("rARCategory".equals(propertyId)) {
                     try {
                         final ComboBox rarCategory = new ComboBox();
-                        commonMsg.loadComboBoxForGCM(rarCategory, "RS_UDC2", true);
+                        CommonUtil.loadComboBoxForGCM(rarCategory, "RS_UDC2", true);
                         rarCategory.select(0);
                         return rarCategory;
                     } catch (Exception ex) {
@@ -588,10 +591,12 @@ public class UpdatedContractSelection extends VerticalLayout {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -632,6 +637,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         
         pagedTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 
+            @Override
             public void itemClick(ItemClickEvent event) {
                 String componentSelectionValue = String.valueOf(componentSelection.getValue());
                 if (!SELECT_ONE.getConstant().equals(componentSelectionValue)) {
@@ -665,12 +671,14 @@ public class UpdatedContractSelection extends VerticalLayout {
                     projectionId.setImmediate(true);
                     projectionId.setStyleName(Reindeer.BUTTON_LINK);
                     projectionId.addClickListener(new Button.ClickListener() {
+                        @Override
                         public void buttonClick(Button.ClickEvent event) {
 
                             WorkFlowLookup wLookUp = new WorkFlowLookup(session, dto.getProjectionId());
                             UI.getCurrent().addWindow(wLookUp);
                             wLookUp.addCloseListener(new Window.CloseListener() {
 
+                                @Override
                                 public void windowClose(Window.CloseEvent e) {
                                     ContractTableLogic.loadSetData(contractSeletion, session);
                                 }
@@ -687,6 +695,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         });
 
         pagedTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 final ContractResultDTO dto = (ContractResultDTO) itemId;
 
@@ -697,6 +706,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     } else {
                         check.setImmediate(true);
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                            @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 logic.callCheckRecUpdate(check.getValue(), (ContractResultDTO) itemId, screenName, session);
                                 if (!check.getValue()) {
@@ -727,6 +737,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                             public void focus(FieldEvents.FocusEvent event) {
                                 Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
 
+                                    @Override
                                     public void valueChange(Property.ValueChangeEvent event) {
                                         if (!isTableUpdate && compStartDate != null && compStartDate.getValue() != null) {
                                             Date enteredDate = compStartDate.getValue();
@@ -781,6 +792,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                             @Override
                             public void focus(FieldEvents.FocusEvent event) {
                                 Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                                    @Override
                                     public void valueChange(Property.ValueChangeEvent event) {
                                         if (!isTableUpdate) {
                                             try {
@@ -1061,6 +1073,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiHandler("closeBtn")
     public void closeBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -1326,6 +1339,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         final Object massUpdateValueTemp = massUpdateValue;
         if (logic.isValuesPresentAlready(String.valueOf(fieldDdlb.getValue()), session.getUserId(), session.getSessionId(), screenName)) {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     return;
                 }
@@ -1417,6 +1431,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiHandler("tpResetBtn")
     public void tpResetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -1455,6 +1470,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiHandler("resetBtn")
     public void resetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -1804,6 +1820,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             if (logic.isHavingAnyCommonProducts(session.getCompanyMasterSids(), session.getPhCompanyMasterSids(), sourceProjectionId, destProjectionId, sourceContractId, destContractId)) {
 
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
 
                         logic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
@@ -1825,6 +1842,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         } else if (isHavingDifferentProducts()) {
             String companies = CommonLogic.getSelectedCompanyNames(session.getCompanyMasterSids());
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     logic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
                     ContractTableLogic.handleFilterChange();
@@ -1848,6 +1866,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         LOGGER.debug("Entering checkTimeGap");
         if (isTimeGapPresent()) {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     logic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
                 }
@@ -1871,6 +1890,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         String toCustomerStartDate = CommonLogic.getDateForCheckedContract(session.getSessionId(), true, true, false);
         if (logic.isSalesPresentAlready(toProjectionId, toCustomerStartDate, session.getCompanyMasterSids(), toContractSid, toFlavour)) {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     logic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
                 }

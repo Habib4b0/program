@@ -104,23 +104,23 @@ public class AddContractSelection extends CustomComponent {
     @UiField("brand")
     public TextField brand;
     @UiField(Constants.CONTRACT_HOLDER)
-    public CustomTextField contractHolder;
+    public CustomTextField vCntHolder;
     @UiField("ifp")
     public CustomTextField ifp;
     @UiField("cfp")
     public CustomTextField cfp;
     @UiField("contractNo")
-    public CustomTextField contractNo;
+    public CustomTextField vCntNo;
     @UiField("contractName")
-    public CustomTextField contractName;
+    public CustomTextField vCntName;
     @UiField("priceSchedule")
-    public CustomTextField priceSchedule;
+    public CustomTextField vPriceSchdle;
     @UiField("customerNo")
-    public CustomTextField customerNo;
+    public CustomTextField vCustNo;
     @UiField("customerName")
-    public CustomTextField customerName;
+    public CustomTextField vCustName;
     @UiField("rebateSchedule")
-    public CustomTextField rebateSchedule;
+    public CustomTextField rsSchedule;
     @UiField("number")
     public TextField number;
     @UiField("massUpdateValue")
@@ -210,7 +210,7 @@ public class AddContractSelection extends CustomComponent {
     AbstractLogic logic = AbstractLogic.getInstance();
     AddItemTableDTO binderDto = new AddItemTableDTO();
     public static final String CONFIRMATION_HEADER = "Confirmation";
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection;
     BeanItemContainer<AbstractContractSearchDTO> itemContractContainer = new BeanItemContainer<>(AbstractContractSearchDTO.class);
     AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
@@ -243,7 +243,7 @@ public class AddContractSelection extends CustomComponent {
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(Clara.create(getClass().getResourceAsStream("/item/itemContractSelection.xml"), this));
         massUpdateRadio.addItems("Enable", DISABLE.getConstant());
-        contractHolder.focus();
+        vCntHolder.focus();
         Panel panel = new Panel();
         panel.setContent(layout);
         field.addItem(Constants.SELECT_ONE);
@@ -362,6 +362,7 @@ public class AddContractSelection extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NEP_FORMULA_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -388,6 +389,7 @@ public class AddContractSelection extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -414,6 +416,7 @@ public class AddContractSelection extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -440,6 +443,7 @@ public class AddContractSelection extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -466,6 +470,7 @@ public class AddContractSelection extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_PRICE_TYPE_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -656,7 +661,7 @@ public class AddContractSelection extends CustomComponent {
                 @Override
                 public void yesMethod() {
                     try {
-                        List input = logic.getResultsInput(selection);
+                        List input = AbstractLogic.getResultsInput(selection);
                         ItemQueries.itemUpdate(input, "Submitting the contract");
                         selection.getLookup().changeTab();
                         if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
@@ -754,6 +759,7 @@ public class AddContractSelection extends CustomComponent {
         contractVertical.addComponent(controlLayout);
         addItemTable.setTableFieldFactory(new AddItemContractFieldFactory(selection, addItemTable, fieldAndPropertyMap));
         addItemTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = addItemTable.getItemIds();
                 for (Object obj : itemList) {
@@ -766,10 +772,12 @@ public class AddContractSelection extends CustomComponent {
         });
 
         addItemTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -787,18 +795,22 @@ public class AddContractSelection extends CustomComponent {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constants.CHECK_RECORD.equals(propertyId)) {
                     CustomTextField text = new CustomTextField();
@@ -912,6 +924,7 @@ public class AddContractSelection extends CustomComponent {
              * Method called when available results value is changed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }
@@ -922,13 +935,13 @@ public class AddContractSelection extends CustomComponent {
 
     @UiHandler(Constants.CONTRACT_HOLDER) 
     public void contractHolder(CustomTextField.ClickEvent event) {
-        ComponentLookUp chHolder = new ComponentLookUp("Contract Holder", "Contract Holder Lookup", contractHolder);
+        ComponentLookUp chHolder = new ComponentLookUp("Contract Holder", "Contract Holder Lookup", vCntHolder);
         chHolder.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-                if (contractHolder.getData() != null) {
-                    ComponentLookUpDTO object = (ComponentLookUpDTO) contractHolder.getData();
-                    contractHolder.setValue(object.getComponentName());
+                if (vCntHolder.getData() != null) {
+                    ComponentLookUpDTO object = (ComponentLookUpDTO) vCntHolder.getData();
+                    vCntHolder.setValue(object.getComponentName());
                     binderDto.setContractHolder_SID(object.getMasterSid());
                 }
             }
@@ -966,14 +979,14 @@ public class AddContractSelection extends CustomComponent {
      */
     @UiHandler("contractNo")
     public void contractNo(CustomTextField.ClickEvent event) {
-        ComponentLookUp contractNum = new ComponentLookUp("Contract", "Contract Lookup", contractNo);
+        ComponentLookUp contractNum = new ComponentLookUp("Contract", "Contract Lookup", vCntNo);
         contractNum.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-                if (contractNo.getData() != null) {
-                    ComponentLookUpDTO object = (ComponentLookUpDTO) contractNo.getData();
-                    contractNo.setValue(object.getComponentNo());
-                    contractName.setValue(object.getComponentNo());
+                if (vCntNo.getData() != null) {
+                    ComponentLookUpDTO object = (ComponentLookUpDTO) vCntNo.getData();
+                    vCntNo.setValue(object.getComponentNo());
+                    vCntName.setValue(object.getComponentNo());
                     binderDto.setContractNo_SID(object.getMasterSid());
                     binderDto.setContractName_SID(object.getMasterSid());
                 }
@@ -1012,14 +1025,14 @@ public class AddContractSelection extends CustomComponent {
      */
     @UiHandler("contractName")
     public void contractName(CustomTextField.ClickEvent event) {
-        ComponentLookUp contractNameObj = new ComponentLookUp("Contract", "Contract Lookup", contractName);
+        ComponentLookUp contractNameObj = new ComponentLookUp("Contract", "Contract Lookup", vCntName);
         contractNameObj.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-                if (contractName.getData() != null) {
-                    ComponentLookUpDTO object = (ComponentLookUpDTO) contractName.getData();
-                    contractNo.setValue(object.getComponentNo());
-                    contractName.setValue(object.getComponentNo());
+                if (vCntName.getData() != null) {
+                    ComponentLookUpDTO object = (ComponentLookUpDTO) vCntName.getData();
+                    vCntNo.setValue(object.getComponentNo());
+                    vCntName.setValue(object.getComponentNo());
                     binderDto.setContractNo_SID(object.getMasterSid());
                     binderDto.setContractName_SID(object.getMasterSid());
                 }
@@ -1036,13 +1049,13 @@ public class AddContractSelection extends CustomComponent {
      */
     @UiHandler("priceSchedule")
     public void priceSchedule(CustomTextField.ClickEvent event) {
-        PSLookUp ps = new PSLookUp(priceSchedule);
+        PSLookUp ps = new PSLookUp(vPriceSchdle);
         ps.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-                if (priceSchedule.getData() != null) {
-                    ComponentLookUpDTO object = (ComponentLookUpDTO) priceSchedule.getData();
-                    priceSchedule.setValue(object.getComponentName());
+                if (vPriceSchdle.getData() != null) {
+                    ComponentLookUpDTO object = (ComponentLookUpDTO) vPriceSchdle.getData();
+                    vPriceSchdle.setValue(object.getComponentName());
                     binderDto.setPs_SID(object.getMasterSid());
                 }
             }
@@ -1058,14 +1071,14 @@ public class AddContractSelection extends CustomComponent {
      */
     @UiHandler("customerNo")
     public void customerNo(CustomTextField.ClickEvent event) {
-        ComponentLookUp companyNo = new ComponentLookUp("Customer", "Customer Lookup", customerNo);
+        ComponentLookUp companyNo = new ComponentLookUp("Customer", "Customer Lookup", vCustNo);
         companyNo.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-                if (customerNo.getData() != null) {
-                    ComponentLookUpDTO object = (ComponentLookUpDTO) customerNo.getData();
-                    customerNo.setValue(object.getComponentNo());
-                    customerName.setValue(object.getComponentName());
+                if (vCustNo.getData() != null) {
+                    ComponentLookUpDTO object = (ComponentLookUpDTO) vCustNo.getData();
+                    vCustNo.setValue(object.getComponentNo());
+                    vCustName.setValue(object.getComponentName());
                     binderDto.setCustomer_SID(object.getMasterSid());
                 }
             }
@@ -1081,14 +1094,14 @@ public class AddContractSelection extends CustomComponent {
      */
     @UiHandler("customerName")
     public void customerName(CustomTextField.ClickEvent event) {
-        ComponentLookUp companyName = new ComponentLookUp("Customer", "Customer Lookup", customerName);
+        ComponentLookUp companyName = new ComponentLookUp("Customer", "Customer Lookup", vCustName);
         companyName.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-                if (customerName.getData() != null) {
-                    ComponentLookUpDTO object = (ComponentLookUpDTO) customerName.getData();
-                    customerNo.setValue(object.getComponentNo());
-                    customerName.setValue(object.getComponentName());
+                if (vCustName.getData() != null) {
+                    ComponentLookUpDTO object = (ComponentLookUpDTO) vCustName.getData();
+                    vCustNo.setValue(object.getComponentNo());
+                    vCustName.setValue(object.getComponentName());
                     binderDto.setCustomer_SID(object.getMasterSid());
                 }
             }
@@ -1105,13 +1118,13 @@ public class AddContractSelection extends CustomComponent {
     @UiHandler("rebateSchedule")
     public void rebateSchedule(CustomTextField.ClickEvent event) {
         try {
-            RSLookUp rs = new RSLookUp(rebateSchedule);
+            RSLookUp rs = new RSLookUp(rsSchedule);
             rs.addCloseListener(new Window.CloseListener() {
                 @Override
                 public void windowClose(Window.CloseEvent e) {
-                    if (rebateSchedule.getData() != null) {
-                        ComponentLookUpDTO object = (ComponentLookUpDTO) rebateSchedule.getData();
-                        rebateSchedule.setValue(object.getComponentName());
+                    if (rsSchedule.getData() != null) {
+                        ComponentLookUpDTO object = (ComponentLookUpDTO) rsSchedule.getData();
+                        rsSchedule.setValue(object.getComponentName());
                         binderDto.setRs_SID(object.getMasterSid());
                     }
                 }

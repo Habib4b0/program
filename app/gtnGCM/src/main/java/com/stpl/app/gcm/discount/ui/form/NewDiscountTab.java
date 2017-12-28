@@ -113,13 +113,13 @@ public class NewDiscountTab extends CustomComponent {
     @UiField("dashboardResultsTable")
     public TreeTable dashboardTreeTable;
     @UiField("rsStartDate")
-    public PopupDateField rsstartDate;
+    public PopupDateField rebateScheduleStartDate;
     @UiField("rsEndDate")
     public PopupDateField rsEndDate;
     @UiField("componentTypeddlb")
     public ComboBox componentTypeddlb;
     @UiField("searchField")
-    public ComboBox searchFieldDdlb;
+    public ComboBox searchDdlb;
     @UiField("searchValue")
     public TextField searchValue;
     @UiField("searchBtn")
@@ -247,10 +247,10 @@ public class NewDiscountTab extends CustomComponent {
     @UiField("searchDatePeriod")
     public PopupDateField searchDatePeriod;
     public List<ContractsDetailsDto> contListafterRemove = new ArrayList<>();
-    private BeanItemContainer<ContractsDetailsDto> componentResultsContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
+    private final BeanItemContainer<ContractsDetailsDto> componentResultsContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
     private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
-    private BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
-    private BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
+    private final BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
+    private final BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
     public static final SimpleDateFormat DBDate = new SimpleDateFormat("MM-dd-yyyy");
     public static final String S_DATE_PROPERTY = "sDate";
     /* Current Level Value */
@@ -316,8 +316,8 @@ public class NewDiscountTab extends CustomComponent {
             startDate.addStyleName("v-align-center");
             endDate.addStyleName("v-align-center");
 
-            rsstartDate.setDateFormat(Constants.MM_DD_YYYY);
-            rsstartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
+            rebateScheduleStartDate.setDateFormat(Constants.MM_DD_YYYY);
+            rebateScheduleStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
 
             rsEndDate.setDateFormat(Constants.MM_DD_YYYY);
             rsEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
@@ -355,8 +355,8 @@ public class NewDiscountTab extends CustomComponent {
             endDate.setValue(removeDiscountDto.get(0).getContractendDate() == null ? StringUtils.EMPTY : DBDate.format((Date) removeDiscountDto.get(0).getContractendDate()));
             isEnable(false);
             componentTypeddlb = CommonLogic.loadComponentType(componentTypeddlb, null, true);
-            searchFieldDdlb.setImmediate(true);
-            searchFieldDdlb = CommonLogic.loadNewTabSearchDdlb(searchFieldDdlb, selectedComponenttype);
+            searchDdlb.setImmediate(true);
+            searchDdlb = CommonLogic.loadNewTabSearchDdlb(searchDdlb, selectedComponenttype);
             commonUtil.loadComboBox(rsStatusDdlb, UiUtils.STATUS, false);
             commonUtil.loadComboBox(rsProgramType, UiUtils.REBATE_PROGRAM_TYPE, false);
             commonUtil.loadComboBox(rebatePlanLevel, UiUtils.REBATE_PLAN_LEVEL, false);
@@ -414,12 +414,14 @@ public class NewDiscountTab extends CustomComponent {
         componentDetailsSearchTable.setColumnHeaders(Constants.getInstance().itemSearchResultsHeaders);
         componentDetailsSearchTable.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
         componentDetailsSearchTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
 
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
 
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             ContractsDetailsDto dto = (ContractsDetailsDto) itemId;
                             boolean isCheck = check.getValue();
@@ -437,6 +439,7 @@ public class NewDiscountTab extends CustomComponent {
             }
         });
         componentDetailsSearchTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = componentDetailsSearchTable.getItemIds();
                 int size = itemList.size();
@@ -459,12 +462,14 @@ public class NewDiscountTab extends CustomComponent {
         componentDetailsSelectedItem.setEditable(Boolean.TRUE);
         componentDetailsSelectedItem.setFilterBarVisible(Boolean.TRUE);
         componentDetailsSelectedItem.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 final ContractsDetailsDto dto = (ContractsDetailsDto) itemId;
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
 
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             boolean isCheck = check.getValue();
                             dto.setCheckRecord(isCheck);
@@ -498,6 +503,7 @@ public class NewDiscountTab extends CustomComponent {
                     }
 
                     status.addBlurListener(new BlurListener() {
+                        @Override
                         public void blur(FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(((ComboBox) event.getComponent()).getValue());
                             String oldValue = dto.getTempStatus();
@@ -518,6 +524,7 @@ public class NewDiscountTab extends CustomComponent {
                     itemStartDate.setDateFormat(MMDDYYYY.getConstant());
                     itemStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
                     itemStartDate.addBlurListener(new BlurListener() {
+                        @Override
                         public void blur(FieldEvents.BlurEvent event) {
                             Date dt1 = ((PopupDateField) event.getComponent()).getValue();
                             String newValue = String.valueOf(dt1);
@@ -538,6 +545,7 @@ public class NewDiscountTab extends CustomComponent {
                     itemEndDate.setDateFormat(MMDDYYYY.getConstant());
                     itemEndDate.setStyleName(Constants.DATE_FIEILD_CENTER);
                     itemEndDate.addBlurListener(new BlurListener() {
+                        @Override
                         public void blur(FieldEvents.BlurEvent event) {
                             Date dt1 = ((PopupDateField) event.getComponent()).getValue();
                             String newValue = String.valueOf(dt1);
@@ -556,11 +564,13 @@ public class NewDiscountTab extends CustomComponent {
                     rebatePlan.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                     rebatePlan.addStyleName("searchicon");
                     rebatePlan.addClickListener(new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             RebatePlanLookup lookup = new RebatePlanLookup(rebatePlan);
                             lookup.rebatePlanId.focus();
                             lookup.addCloseListener(new Window.CloseListener() {
 
+                                @Override
                                 public void windowClose(Window.CloseEvent e) {
                                     if (rebatePlan.getData() != null) {
                                         String newValue = String.valueOf(rebatePlan.getData());
@@ -584,10 +594,12 @@ public class NewDiscountTab extends CustomComponent {
                     formulaId.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                     formulaId.addStyleName("searchicon");
                     formulaId.addClickListener(new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             FormulaSearchLookup lookup = new FormulaSearchLookup(formulaId);
                             lookup.formulaId.focus();
                             lookup.addCloseListener(new Window.CloseListener() {
+                                @Override
                                 public void windowClose(Window.CloseEvent e) {
                                     if (formulaId.getData() != null) {
                                         String newValue = String.valueOf(formulaId.getData());
@@ -619,6 +631,7 @@ public class NewDiscountTab extends CustomComponent {
                     }
 
                     priceType.addBlurListener(new BlurListener() {
+                        @Override
                         public void blur(FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(((ComboBox) event.getComponent()).getValue());
                             String oldValue = dto.getTempPriceType();
@@ -638,6 +651,7 @@ public class NewDiscountTab extends CustomComponent {
                     ppStartDate.setDateFormat(MMDDYYYY.getConstant());
                     ppStartDate.setStyleName(Constants.DATE_FIEILD_CENTER);
                     ppStartDate.addBlurListener(new BlurListener() {
+                        @Override
                         public void blur(FieldEvents.BlurEvent event) {
                             Date dt1 = ((PopupDateField) event.getComponent()).getValue();
                             String newValue = String.valueOf(dt1);
@@ -656,6 +670,7 @@ public class NewDiscountTab extends CustomComponent {
             }
         });
         componentDetailsSelectedItem.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = componentDetailsSelectedItem.getItemIds();
                 int size = itemList.size();
@@ -716,6 +731,7 @@ public class NewDiscountTab extends CustomComponent {
              * Called when a Button has been clicked.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void itemClick(final ItemClickEvent event) {
                 tableBeanId = event.getItemId();
                 BeanItem<?> targetItem;
@@ -762,6 +778,7 @@ public class NewDiscountTab extends CustomComponent {
          * Node Expand Event
          *
          */
+        @Override
         public void nodeExpand(final Tree.ExpandEvent event) {
             try {
                 LOGGER.debug("Entering StplExpandListener nodeExpand method");
@@ -933,7 +950,7 @@ public class NewDiscountTab extends CustomComponent {
     public void searchBtnClick(Button.ClickEvent event) {
         LOGGER.debug("Entered search method");
         String compType = String.valueOf(componentTypeddlb.getValue());
-        String searchField = String.valueOf(searchFieldDdlb.getValue() != null ? searchFieldDdlb.getValue() : StringUtils.EMPTY);
+        String searchField = String.valueOf(searchDdlb.getValue() != null ? searchDdlb.getValue() : StringUtils.EMPTY);
         String sValue = searchValue.getValue();
         String ddlbValue = searchValueStatusDdlb.getValue() == null || searchValueStatusDdlb.getValue().equals(Constants.ZEROSTRING) ? StringUtils.EMPTY : String.valueOf(searchValueStatusDdlb.getValue());
 
@@ -1163,7 +1180,7 @@ public class NewDiscountTab extends CustomComponent {
             }
         }
         if (load) {
-            searchFieldDdlb = CommonLogic.loadNewTabSearchDdlb(searchFieldDdlb, selectedComponenttype);
+            searchDdlb = CommonLogic.loadNewTabSearchDdlb(searchDdlb, selectedComponenttype);
         }
         if (selectedComponenttype.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString()) || selectedComponenttype.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
         session.setSearchSessionId(StringUtils.EMPTY);
@@ -1876,6 +1893,7 @@ public class NewDiscountTab extends CustomComponent {
         check = checkForAllLevels(dashboardTreeTable.rootItemIds(), level, 0);
         if (check) {
             MessageBox.showPlain(Icon.QUESTION, "Create", "Are you sure you want to save the contract ?", new MessageBoxListener() {
+                @Override
                 public void buttonClicked(ButtonId buttonId) {
                     if (buttonId.name().equals("YES")) {
                         try {

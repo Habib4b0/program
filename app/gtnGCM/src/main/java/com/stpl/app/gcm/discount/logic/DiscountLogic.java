@@ -2841,9 +2841,9 @@ public class DiscountLogic {
             inputMap.put(StringConstantsUtil.PS_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
         } else if (Constant.getPSSEARCH()[NumericConstants.TWO].equals(searchField)) {
             inputMap.put(StringConstantsUtil.PS_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().getInstance().cfpSearch[NumericConstants.THREE].equals(searchField)) {
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.THREE].equals(searchField)) {
             inputMap.put(StringConstantsUtil.PS_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().getInstance().cfpSearch[NumericConstants.FOUR].equals(searchField)) {
+        } else if (Constants.getInstance().cfpSearch[NumericConstants.FOUR].equals(searchField)) {
             inputMap.put(StringConstantsUtil.PS_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
@@ -2879,19 +2879,19 @@ public class DiscountLogic {
             inputMap.put(StringConstantsUtil.THERAPEUTIC_CLASS_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 
-        if (Constants.getInstance().getInstance().companySearch[0].equals(searchField)) {
+        if (Constants.getInstance().companySearch[0].equals(searchField)) {
             inputMap.put(StringConstantsUtil.COMPANY_ID_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().getInstance().companySearch[1].equals(searchField)) {
+        } else if (Constants.getInstance().companySearch[1].equals(searchField)) {
             inputMap.put(StringConstantsUtil.COMPANY_NAME_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().getInstance().companySearch[NumericConstants.TWO].equals(searchField)) {
+        } else if (Constants.getInstance().companySearch[NumericConstants.TWO].equals(searchField)) {
             inputMap.put(StringConstantsUtil.COMPANY_NO_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().getInstance().companySearch[NumericConstants.THREE].equals(searchField)) {
+        } else if (Constants.getInstance().companySearch[NumericConstants.THREE].equals(searchField)) {
             inputMap.put(StringConstantsUtil.COMPANY_STATUS_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().getInstance().companySearch[NumericConstants.FOUR].equals(searchField)) {
+        } else if (Constants.getInstance().companySearch[NumericConstants.FOUR].equals(searchField)) {
             inputMap.put(StringConstantsUtil.COMPANY_TYPE_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().getInstance().companySearch[NumericConstants.FIVE].equals(searchField)) {
+        } else if (Constants.getInstance().companySearch[NumericConstants.FIVE].equals(searchField)) {
             inputMap.put(StringConstantsUtil.COMPANY_CATEGORY_QUESTION, CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().getInstance().companySearch[NumericConstants.SIX].equals(searchField)) {
+        } else if (Constants.getInstance().companySearch[NumericConstants.SIX].equals(searchField)) {
             inputMap.put(StringConstantsUtil.TRADE_CLASS_QUESTION, CommonUtil.astToPerConverter(searchValue));
         }
 

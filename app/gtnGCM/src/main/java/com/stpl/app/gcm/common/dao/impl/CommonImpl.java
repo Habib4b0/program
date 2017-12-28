@@ -25,10 +25,12 @@ public class CommonImpl implements CommonDao {
         return dao;
     }
 
+    @Override
     public List executeSelect(String query) {
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
+    @Override
     public Object executeUpdate(String query) {
         return CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
     }

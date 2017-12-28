@@ -104,11 +104,13 @@ public class AbstractContractSelectionTableLogic extends PageTableLogic {
         projectionId.setImmediate(true);
         projectionId.setStyleName(Reindeer.BUTTON_LINK);
         projectionId.addClickListener(new ClickListener() {
+            @Override
             public void buttonClick(ClickEvent event) {
 
                 WorkFlowLookup wLookUp = new WorkFlowLookup(new SessionDTO(), dto.getProjectionId());
                 UI.getCurrent().addWindow(wLookUp);
                 wLookUp.addCloseListener(new Window.CloseListener() {
+                    @Override
                     public void windowClose(Window.CloseEvent e) {
                         loadSetData(selection, true, selectedItemList, input);
                     }

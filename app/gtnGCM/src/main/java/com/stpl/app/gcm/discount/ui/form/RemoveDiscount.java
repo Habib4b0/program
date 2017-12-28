@@ -16,7 +16,6 @@ import com.stpl.app.gcm.discount.logic.ComponentInfoTableLogic;
 import com.stpl.app.gcm.discount.logic.ContractComponentInfoTableLogic;
 import com.stpl.app.gcm.discount.logic.DiscountLogic;
 import com.stpl.app.gcm.discount.logic.RSInfoTableLogic;
-import static com.stpl.app.gcm.discount.ui.form.ExistingDiscountTab.LOGGER;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.security.StplSecurity;
@@ -163,10 +162,10 @@ public class RemoveDiscount extends CustomComponent {
     private ContractsDetailsDto tableBean;
     private static final BeanItem<?> NULL_OBJECT = null;
     public int levelValue;
-    private BeanItemContainer<RemoveDiscountDto> componentResultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
-    private BeanItemContainer<RemoveDiscountDto> contractComponentContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
+    private final BeanItemContainer<RemoveDiscountDto> componentResultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
+    private final BeanItemContainer<RemoveDiscountDto> contractComponentContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
-    private BeanItemContainer<RemoveDiscountDto> selectedContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
+    private final BeanItemContainer<RemoveDiscountDto> selectedContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     private static final Logger LOGGER = Logger.getLogger(RemoveDiscount.class);
     SessionDTO session = new SessionDTO();
     RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
@@ -197,7 +196,7 @@ public class RemoveDiscount extends CustomComponent {
     RemoveDiscount removeDiscount;
     boolean remove = true;
     CommonUtils commonUtils = new CommonUtils();
-    private ContractsDetailsDto contractDto = new ContractsDetailsDto();
+    private final ContractsDetailsDto contractDto = new ContractsDetailsDto();
     int userId;
     int sessionId;
     List<Object> rsSidList = new ArrayList<>();
@@ -290,10 +289,12 @@ public class RemoveDiscount extends CustomComponent {
                 }
             }
             componentResultsTable.setFilterGenerator(new ExtFilterGenerator() {
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Object value) {
                     return null;
                 }
 
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                     if (originatingField instanceof ComboBox) {
                         if (originatingField.getValue() != null) {
@@ -307,18 +308,22 @@ public class RemoveDiscount extends CustomComponent {
                     return null;
                 }
 
+                @Override
                 public void filterRemoved(Object propertyId) {
                     return;
                 }
 
+                @Override
                 public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                     return;
                 }
 
+                @Override
                 public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                     return null;
                 }
 
+                @Override
                 public AbstractField<?> getCustomFilterComponent(Object propertyId) {
 
                     AbstractLogic logic = AbstractLogic.getInstance();
@@ -411,6 +416,7 @@ public class RemoveDiscount extends CustomComponent {
                  * Called when a Button has been clicked.
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void itemClick(final ItemClickEvent event) {
                     tableBeanId = event.getItemId();
                     BeanItem<?> targetItem;
@@ -483,6 +489,7 @@ public class RemoveDiscount extends CustomComponent {
          * Node Expand Event
          *
          */
+        @Override
         public void nodeExpand(final Tree.ExpandEvent event) {
             try {
                 LOGGER.debug("Entering StplExpandListener nodeExpand method");
@@ -574,6 +581,7 @@ public class RemoveDiscount extends CustomComponent {
          *
          * @param event the event
          */
+        @Override
         public void nodeCollapse(final Tree.CollapseEvent event) {
             try {
                 LOGGER.debug("Entering StplCollapseListener nodeCollapse method");
@@ -840,7 +848,7 @@ public class RemoveDiscount extends CustomComponent {
             logic.getDiscountRsList(rsSidList, contractDto);
             contractDto.setRemovedRsList(rsSidList);
             mainTab.removeTab(mainTab.getTab(1));
-            contractDto.setRsSystemId(commonUtils.CollectionToString(rebateList, true));
+            contractDto.setRsSystemId(CommonUtils.CollectionToString(rebateList, true));
             mainTab.addTab(summary.getContent(selecteditemList, contractDto, mainTab, removeDiscount), "Summary", null, 1);
 
         } catch (Exception ex) {

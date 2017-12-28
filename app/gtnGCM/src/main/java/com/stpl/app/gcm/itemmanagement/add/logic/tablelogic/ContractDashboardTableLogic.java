@@ -25,6 +25,7 @@ public class ContractDashboardTableLogic extends PageTreeTableLogic {
     SelectionDTO selection = new SelectionDTO();
     ContractDashboardDTO idDTO = new ContractDashboardDTO();
 
+    @Override
     public int getCount() {
         if (!isGenerated) {
             return logic.getConfigureCount(lastParent, selection, idDTO);
@@ -53,6 +54,7 @@ public class ContractDashboardTableLogic extends PageTreeTableLogic {
      * @param datasource
      * @return Object
      */
+    @Override
     public Object configureContainer(Object object, Container datasource) {
         ContractDashboardDTO dto = (ContractDashboardDTO) object;
         ((ExtTreeContainer<ContractDashboardDTO>) datasource).addBean(dto);

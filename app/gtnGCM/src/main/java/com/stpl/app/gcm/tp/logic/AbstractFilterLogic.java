@@ -21,8 +21,8 @@ public class AbstractFilterLogic {
 
     private static AbstractFilterLogic instance;
     private Map<String, String> filterMap = new HashMap<>();
-    private Map<String, String> summaryFilterMap = new HashMap<>();
-    private Map<String, String> queryMap = new HashMap<>();
+    private final Map<String, String> summaryFilterMap = new HashMap<>();
+    private final Map<String, String> queryMap = new HashMap<>();
     public static final String CONTRACT_STATUS = "contractStatus";
 
     private AbstractFilterLogic() {

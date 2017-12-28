@@ -287,6 +287,7 @@ public class ItemContractSelectionDTO implements Cloneable {
         this.isCount = isCount;
     }
 
+    @Override
     public ItemContractSelectionDTO clone() throws CloneNotSupportedException {
         ItemContractSelectionDTO selection = new ItemContractSelectionDTO();
         selection.contractSid = this.contractSid;

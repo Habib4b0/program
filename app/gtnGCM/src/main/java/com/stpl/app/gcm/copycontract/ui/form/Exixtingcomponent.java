@@ -69,7 +69,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.VerticalLayout;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,7 +107,7 @@ public class Exixtingcomponent extends CustomComponent {
     public TextField SearchvaluedEC;
     @UiField("componentInformationGrid")
     public GridLayout componentInformationGrid;
-    private BeanItemContainer componentDetailsContainer = new BeanItemContainer(ExistingComponentDTO.class);
+    private final BeanItemContainer componentDetailsContainer = new BeanItemContainer(ExistingComponentDTO.class);
     public static final String PLEASE_SELECT_CORRECT_NODE = "Please Select Correct Node";
     public static final String THERE_WERE_NO_RECORDS_MATCHING = "There were no records matching the search criteria.  Please try again.";
     TextField CFPname = new TextField();
@@ -183,7 +182,7 @@ public class Exixtingcomponent extends CustomComponent {
     DateFormat format = new SimpleDateFormat("MM/dd/yyy");
     CommonUtil commonUtil = CommonUtil.getInstance();
     public static final String SAVED_SYSTEM_ID = "savedSystemId";
-    private BeanItemContainer componentResultsContainer = new BeanItemContainer(ExistingComponentDTO.class);
+    private final BeanItemContainer componentResultsContainer = new BeanItemContainer(ExistingComponentDTO.class);
     ExistingComponentResultsTableLogic componentReseultsTableLogic = new ExistingComponentResultsTableLogic();
     public ExtPagedTable componentResultsSearchTable = new ExtPagedTable(componentReseultsTableLogic);
     ExistingComponentDetailsTableLogic componentDetailsTableLogic = new ExistingComponentDetailsTableLogic();
@@ -242,6 +241,7 @@ public class Exixtingcomponent extends CustomComponent {
             CFPtradeclass.setEnabled(false);
             CFPdesignation.setEnabled(false);
             componentResultsSearchTable.addListener(new ItemClickEvent.ItemClickListener() {
+                @Override
                 public void itemClick(ItemClickEvent event) {
 
                     if (resultsLazyContainer1 != null) {
@@ -274,6 +274,7 @@ public class Exixtingcomponent extends CustomComponent {
             dashboardResultsTable.setHeight(NumericConstants.HUNDRED, Unit.PERCENTAGE);
             dashboardResultsTable.setPageLength(NumericConstants.FIVE);
             dashboardResultsTable.addListener(new ItemClickEvent.ItemClickListener() {
+                @Override
                 public void itemClick(ItemClickEvent event) {
                     return;
                 }

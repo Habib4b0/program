@@ -10,7 +10,6 @@ import com.vaadin.data.util.filter.Between;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -125,7 +124,7 @@ public class GcmtFilterLogic {
         if (stringFilter.getValue() instanceof Date) {
             Date value = (Date) stringFilter.getValue();
             StringBuilder tempStart;
-            if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+            if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
                 if (sql.length() == 0) {
                     tempStart = new StringBuilder("where ( ( * >= '?')");
                 } else {
@@ -143,7 +142,7 @@ public class GcmtFilterLogic {
     }
 
     public void lessOperator(Compare.Operation operation, Compare stringFilter, StringBuilder sql, Map<String, String> queryMap) {
-        if (operation.LESS.toString().equals(operation.name())) {
+        if (Compare.Operation.LESS.toString().equals(operation.name())) {
             int val = (Integer) stringFilter.getValue();
             StringBuilder tempStart;
             String value = StringUtils.EMPTY;
@@ -170,7 +169,7 @@ public class GcmtFilterLogic {
     }
 
     public void greaterlOperator(Compare.Operation operation, Compare stringFilter, StringBuilder sql, Map<String, String> queryMap) {
-        if (operation.GREATER.toString().equals(operation.name())) {
+        if (Compare.Operation.GREATER.toString().equals(operation.name())) {
             StringBuilder tempStart;
             String value = StringUtils.EMPTY;
             int val = (Integer) stringFilter.getValue();
@@ -197,7 +196,7 @@ public class GcmtFilterLogic {
     }
 
     public void equalOperator(Compare.Operation operation, Compare stringFilter, StringBuilder sql, Map<String, String> queryMap) {
-        if (operation.EQUAL.toString().equals(operation.name())) {
+        if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
             StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
             StringBuilder tempStart;

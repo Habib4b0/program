@@ -70,19 +70,19 @@ private static final Logger LOGGER = Logger.getLogger(PSLookUp.class);
     @UiField("resetBtn")
     public Button resetBtn;
     @UiField("selectBtn")
-    public Button selectBtn;
+    public Button selectButton;
     @UiField("closeBtn")
-    public Button closeBtn;
+    public Button closeButton;
     @UiField("endDate")
     PopupDateField endDate;
     AbstractLookUpTableLogic tableLogic = new AbstractLookUpTableLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
-    private BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
-    private BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
+    private final BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
     ComponentLookUpDTO componentDto;
     ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection = new SelectionDTO();
     AbstractLogic logic = AbstractLogic.getInstance();
     List<String> countFlag = new ArrayList<>();
@@ -125,8 +125,8 @@ private static final Logger LOGGER = Logger.getLogger(PSLookUp.class);
         componentStatusBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         componentStatus_DTO.setImmediate(true);
         componentTypeBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        selectBtn.setImmediate(false);
-        selectBtn.setEnabled(true);
+        selectButton.setImmediate(false);
+        selectButton.setEnabled(true);
 
        
         for (Object object : resultsTable.getVisibleColumns()) {
@@ -136,10 +136,12 @@ private static final Logger LOGGER = Logger.getLogger(PSLookUp.class);
             }
         }
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -153,18 +155,22 @@ private static final Logger LOGGER = Logger.getLogger(PSLookUp.class);
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("componentStatus".equals(propertyId)) {
                     ComboBox rsProgramType = new ComboBox();

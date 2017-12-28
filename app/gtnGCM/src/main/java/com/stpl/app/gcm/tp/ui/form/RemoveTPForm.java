@@ -13,7 +13,6 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TAB_SUMMARY;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TRADING_PARTNER_REMOVE;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
@@ -81,6 +80,7 @@ public class RemoveTPForm extends CustomWindow {
         tabSheet.addTab(summary, TAB_SUMMARY.getConstant(), null, 1);
         tabSheet.addSelectedTabChangeListener(new SelectedTabChangeListener() {
 
+            @Override
             public void selectedTabChange(SelectedTabChangeEvent event) {
                 final Tab tab = (Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
                 tabPosition = event.getTabSheet().getTabPosition(tab);

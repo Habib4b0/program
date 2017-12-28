@@ -344,6 +344,7 @@ public class ExistingComponents extends CustomComponent implements View {
         });
 
         componentResultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+            @Override
             public void itemClick(ItemClickEvent event) {
                 ComponentInfoDTO comInfoDto = (ComponentInfoDTO) event.getItemId();
                 String compType = String.valueOf(componentTypeDdlb.getValue());
@@ -496,6 +497,7 @@ public class ExistingComponents extends CustomComponent implements View {
         contractComponentDetailsTable.setColumnHeaders(Constants.getInstance().componentDetailsHeaders);
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         //empty
     }

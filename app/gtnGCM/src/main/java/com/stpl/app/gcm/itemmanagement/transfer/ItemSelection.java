@@ -14,7 +14,6 @@ import com.stpl.app.gcm.itemmanagement.index.logic.ItemLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.tp.logic.CommmonLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
@@ -141,7 +140,7 @@ public class ItemSelection extends CustomComponent {
     BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
     BeanItemContainer<ItemIndexDto> transferContainer = new BeanItemContainer<>(ItemIndexDto.class);
     ItemIndexDto binderDto = new ItemIndexDto();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     AbstractLogic logic = AbstractLogic.getInstance();
     ItemIndexTableLogic resultTableLogic = new ItemIndexTableLogic();
     public ExtPagedTable itemResult = new ExtPagedTable(resultTableLogic);
@@ -439,11 +438,13 @@ public class ItemSelection extends CustomComponent {
         transferTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         transferTable.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
         transferTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
 
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             boolean isCheck = check.getValue();
                             if (isCheck) {
@@ -462,6 +463,7 @@ public class ItemSelection extends CustomComponent {
         });
 
         transferTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = transferTable.getItemIds();
                 for (Object obj : itemList) {

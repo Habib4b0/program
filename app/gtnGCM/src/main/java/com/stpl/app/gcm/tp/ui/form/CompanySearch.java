@@ -104,9 +104,9 @@ public class CompanySearch extends VerticalLayout {
     @UiField("parentName")
     private CustomTextField parentName;
     @UiField("deleteBtn")
-    public Button deleteBtn;
+    public Button deleteButton;
     @UiField("addBtn")
-    public Button addBtn;
+    public Button addButton;
     /**
      * The excel btn.
      */
@@ -115,9 +115,9 @@ public class CompanySearch extends VerticalLayout {
     @UiField("searchBtn")
     public Button searchBtn;
     @UiField("editBtn")
-    public Button editBtn;
+    public Button editButton;
     @UiField("transferBtn")
-    public Button transferBtn;
+    public Button transferButton;
     @UiField("resetBtn2")
     public Button resetBtn2;
     /**
@@ -129,7 +129,7 @@ public class CompanySearch extends VerticalLayout {
     CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     StplSecurity stplSecurity = new StplSecurity();
     public ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
-    private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
+    private final BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
     ExtTreeContainer<TradingPartnerDTO> resultsLazyContainer = new ExtTreeContainer<>(TradingPartnerDTO.class);
     public TradingPartnerDTO tpDto = new TradingPartnerDTO();
     final ErrorLabel errorMsg = new ErrorLabel();
@@ -180,6 +180,7 @@ public class CompanySearch extends VerticalLayout {
 
             parentNo.addClickListener(new CustomTextField.ClickListener() {
 
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     parentCompanyLookup = new ParentCompanyLookup(parentNo, parentName, parentCompanySid);
                     UI.getCurrent().addWindow(parentCompanyLookup);
@@ -188,6 +189,7 @@ public class CompanySearch extends VerticalLayout {
 
             parentName.addClickListener(new CustomTextField.ClickListener() {
 
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     parentCompanyLookup = new ParentCompanyLookup(parentNo, parentName, parentCompanySid);
                     UI.getCurrent().addWindow(parentCompanyLookup);
@@ -195,26 +197,26 @@ public class CompanySearch extends VerticalLayout {
             });
 
             if (TRADING_PARTNER_REMOVE.getConstant().equals(updateType)) {
-                addBtn.setEnabled(false);
-                editBtn.setEnabled(false);
-                transferBtn.setEnabled(false);
-                deleteBtn.setEnabled(true);
+                addButton.setEnabled(false);
+                editButton.setEnabled(false);
+                transferButton.setEnabled(false);
+                deleteButton.setEnabled(true);
             } else if (ADD_TRADING_PARTNER.getConstant().equals(updateType)) {
-                addBtn.setEnabled(true);
-                editBtn.setVisible(false);
-                transferBtn.setVisible(false);
-                deleteBtn.setVisible(false);
+                addButton.setEnabled(true);
+                editButton.setVisible(false);
+                transferButton.setVisible(false);
+                deleteButton.setVisible(false);
 
             } else if (TRANSFER_TRADING_PARTNER.getConstant().equals(updateType) || PROJECTION_DETAILS_TRANSFER.getConstant().equals(updateType)) {
-                addBtn.setEnabled(false);
-                editBtn.setEnabled(false);
-                transferBtn.setEnabled(true);
-                deleteBtn.setEnabled(false);
+                addButton.setEnabled(false);
+                editButton.setEnabled(false);
+                transferButton.setEnabled(true);
+                deleteButton.setEnabled(false);
             } else if (TRADING_PARTNER_UPDATE.getConstant().equals(updateType)) {
-                addBtn.setEnabled(false);
-                editBtn.setEnabled(true);
-                transferBtn.setEnabled(false);
-                deleteBtn.setEnabled(false);
+                addButton.setEnabled(false);
+                editButton.setEnabled(true);
+                transferButton.setEnabled(false);
+                deleteButton.setEnabled(false);
 
             }
         } catch (Exception ex) {
@@ -233,6 +235,7 @@ public class CompanySearch extends VerticalLayout {
 
         companySearchResultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 
+            @Override
             public void itemClick(ItemClickEvent event) {
                 if (event.getItemId() != null) {
                     List<String> selectedCompany = new ArrayList<>();
@@ -255,10 +258,12 @@ public class CompanySearch extends VerticalLayout {
 
         companySearchResultsTable.setFilterGenerator(new ExtFilterGenerator() {
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -270,6 +275,7 @@ public class CompanySearch extends VerticalLayout {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("tradeClass".equals(propertyId)) {
                     try {
@@ -315,14 +321,17 @@ public class CompanySearch extends VerticalLayout {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
@@ -330,11 +339,13 @@ public class CompanySearch extends VerticalLayout {
 
         companySearchResultsTable.setTableFieldFactory(new TableFieldFactory() {
 
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(CHECK)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.setImmediate(true);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             int count = logic.callCompanyUpdate(check.getValue(), (TradingPartnerDTO) itemId, updateType, searchSessionId);
                             if (count == 0) {
@@ -381,6 +392,7 @@ public class CompanySearch extends VerticalLayout {
     @UiHandler("resetBtn1")
     public void resetSearchCriteria(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -637,6 +649,7 @@ public class CompanySearch extends VerticalLayout {
     @UiHandler("resetBtn2")
     public void resetListView(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -714,18 +727,18 @@ public class CompanySearch extends VerticalLayout {
                 searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(SEARCH_BTN, functionHM));
                 reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", functionHM));
                 resetBtn2.setVisible(CommonLogic.isButtonVisibleAccess("resetBtn2", functionHM));
-                addBtn.setVisible(CommonLogic.isButtonVisibleAccess("addBtn", functionHM));
+                addButton.setVisible(CommonLogic.isButtonVisibleAccess("addBtn", functionHM));
                 
             } else {
                 Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(VaadinSession.getCurrent().getAttribute(Constants.USER_ID)), "GCM-Customer Management", "Customer Management", "Landing  Screen");
                 searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(SEARCH_BTN, functionHM));
                 reset.setVisible(CommonLogic.isButtonVisibleAccess("reset", functionHM));
                 resetBtn2.setVisible(CommonLogic.isButtonVisibleAccess("resetBtn2", functionHM));
-                transferBtn.setVisible(CommonLogic.isButtonVisibleAccess("transferBtn", functionHM));
+                transferButton.setVisible(CommonLogic.isButtonVisibleAccess("transferBtn", functionHM));
                 searchBtn.setVisible(CommonLogic.isButtonVisibleAccess(SEARCH_BTN, functionHM));
-                addBtn.setVisible(CommonLogic.isButtonVisibleAccess("addBtn", functionHM));
-                editBtn.setVisible(CommonLogic.isButtonVisibleAccess("editBtn", functionHM));
-                deleteBtn.setVisible(CommonLogic.isButtonVisibleAccess("deleteBtn", functionHM));
+                addButton.setVisible(CommonLogic.isButtonVisibleAccess("addBtn", functionHM));
+                editButton.setVisible(CommonLogic.isButtonVisibleAccess("editBtn", functionHM));
+                deleteButton.setVisible(CommonLogic.isButtonVisibleAccess("deleteBtn", functionHM));
             }
         } catch (Exception ex) {
             LOGGER.error(ex);

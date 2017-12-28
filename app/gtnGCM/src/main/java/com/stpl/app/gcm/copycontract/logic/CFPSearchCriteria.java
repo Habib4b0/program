@@ -18,26 +18,32 @@ public class CFPSearchCriteria implements BeanSearchCriteria {
     int lastCount;
     boolean dirty;
 
+    @Override
     public int getLastCount() {
         return lastCount;
     }
 
+    @Override
     public void setLastCount(int i) {
         this.lastCount = i;
     }
 
+    @Override
     public boolean isDirty() {
         return true;
     }
 
+    @Override
     public void setDirty(boolean bln) {
         this.dirty = bln;
     }
 
+    @Override
     public Set<Container.Filter> getFilters() {
         return filters;
     }
 
+    @Override
     public void setFilters(Set<Container.Filter> set) {
         this.filters = set;
     }

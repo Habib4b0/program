@@ -231,10 +231,12 @@ public class Summary extends CustomComponent {
             addContractTable.setColumnWidth(propertyId, -1);
         }
         addContractTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -248,18 +250,22 @@ public class Summary extends CustomComponent {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
                     ComboBox marketTypeDdlb = new ComboBox();
@@ -284,6 +290,7 @@ public class Summary extends CustomComponent {
              * Method called when available results value is changed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 contractItemClick(event.getProperty().getValue());
                 selection.setReset(false);
@@ -319,6 +326,7 @@ public class Summary extends CustomComponent {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.setSpacing(true);
         remove1.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(ClickEvent event) {
                 if (leftTable.getValue() != null) {
                     new AbstractNotificationUtils() {
@@ -339,6 +347,7 @@ public class Summary extends CustomComponent {
             }
         });
         populate.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(ClickEvent event) {
                 if (leftTable.getValue() != null) {
                     populateBtnLogic();
@@ -355,6 +364,7 @@ public class Summary extends CustomComponent {
         contractDashboardLay.addComponent(controlLayout);
         contractDashboardLay.addComponent(horizontalLayout);
         leftTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+            @Override
             public void itemClick(ItemClickEvent event) {
                 resultsItemClick(event.getItemId());
             }

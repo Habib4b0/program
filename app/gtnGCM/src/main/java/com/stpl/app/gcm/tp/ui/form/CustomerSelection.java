@@ -2,7 +2,6 @@ package com.stpl.app.gcm.tp.ui.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.CommonUtil;
-import static com.stpl.app.gcm.discount.ui.form.ExistingDiscountTab.LOGGER;
 import com.stpl.app.gcm.security.StplSecurity;
 import static com.stpl.app.gcm.security.StplSecurity.userMap;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
@@ -54,12 +53,9 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
@@ -150,13 +146,13 @@ public class CustomerSelection extends VerticalLayout {
     public ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
     public ExtPagedTable transferCustomerTable = new ExtPagedTable(transferCustomerTableLogic);
 
-    private BeanItemContainer<TradingPartnerDTO> selectedCustomersContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
-    private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
-    private BeanItemContainer<CompanyLinkDTO> transferCustomerContainer = new BeanItemContainer<>(CompanyLinkDTO.class);
+    private final BeanItemContainer<TradingPartnerDTO> selectedCustomersContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
+    private final BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
+    private final BeanItemContainer<CompanyLinkDTO> transferCustomerContainer = new BeanItemContainer<>(CompanyLinkDTO.class);
 
     boolean isPlaceholdersAssociated = false;
     boolean transferFlag = false;
-    private String linkedCustomersSessionId = CommonUtils.createSessionId();
+    private final String linkedCustomersSessionId = CommonUtils.createSessionId();
     TradingPartnerDTO fromCompany;
     TradingPartnerDTO toCompany;
 
@@ -220,10 +216,12 @@ public class CustomerSelection extends VerticalLayout {
             transferCustomerTableLogic.sinkItemPerPageWithPageLength(false);
 
             transferCustomerTable.setFilterGenerator(new ExtFilterGenerator() {
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Object value) {
                     return null;
                 }
 
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                     if (originatingField instanceof ComboBox) {
                         if (originatingField.getValue() != null) {
@@ -237,18 +235,22 @@ public class CustomerSelection extends VerticalLayout {
                     return null;
                 }
 
+                @Override
                 public void filterRemoved(Object propertyId) {
                     //empty
                 }
 
+                @Override
                 public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                     //empty
                 }
 
+                @Override
                 public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                     return null;
                 }
 
+                @Override
                 public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                     return null;
                 }
@@ -281,6 +283,7 @@ public class CustomerSelection extends VerticalLayout {
 
             selectedCustomersTable.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     if (event.getProperty().getValue() != null) {
                         fromCompany = (TradingPartnerDTO) event.getProperty().getValue();
@@ -291,10 +294,12 @@ public class CustomerSelection extends VerticalLayout {
             });
 
             selectedCustomersTable.setFilterGenerator(new ExtFilterGenerator() {
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Object value) {
                     return null;
                 }
                 
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                     if (originatingField instanceof ComboBox) {
                         if (originatingField.getValue() != null) {
@@ -306,18 +311,22 @@ public class CustomerSelection extends VerticalLayout {
                     return null;
                 }
                 
+                @Override
                 public void filterRemoved(Object propertyId) {
                     return;
                 }
                 
+                @Override
                 public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                     return;
                 }
                 
+                @Override
                 public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                     return null;
                 }
                 
+                @Override
                 public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 try {
                         if (propertyId.equals("companyType")) {
@@ -363,6 +372,7 @@ public class CustomerSelection extends VerticalLayout {
 
             companySearchResultsTable.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     if (event.getProperty().getValue() != null) {
                         toCompany = (TradingPartnerDTO) event.getProperty().getValue();
@@ -373,10 +383,12 @@ public class CustomerSelection extends VerticalLayout {
             });
 
              companySearchResultsTable.setFilterGenerator(new ExtFilterGenerator() {
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Object value) {
                     return null;
                 }
                 
+                @Override
                  public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                     if (originatingField instanceof ComboBox) {
                         if (originatingField.getValue() != null) {
@@ -388,18 +400,22 @@ public class CustomerSelection extends VerticalLayout {
                     return null;
                 }
                 
+                @Override
                 public void filterRemoved(Object propertyId) {
                     return;
                 }
                 
+                @Override
                 public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                     return;
                 }
                 
+                @Override
                 public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                     return null;
                 }
                 
+                @Override
                 public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                   try {
                         if (propertyId.equals("companyType")) {
@@ -445,11 +461,13 @@ public class CustomerSelection extends VerticalLayout {
 
             transferCustomerTable.setTableFieldFactory(new TableFieldFactory() {
 
+                @Override
                 public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                     if (propertyId.equals("check")) {
                         final ExtCustomCheckBox check = new ExtCustomCheckBox();
                         check.setImmediate(true);
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                            @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 if (itemId != null) {
                                     CompanyLinkDTO transferCustomerDto = (CompanyLinkDTO) itemId;
@@ -474,6 +492,7 @@ public class CustomerSelection extends VerticalLayout {
             selectedCustomersLogic.setCurrentPage(1);
             parentNo.addClickListener(new CustomTextField.ClickListener() {
 
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     parentCompanyLookup = new ParentCompanyLookup(parentNo, parentName, parentCompanySid);
                     UI.getCurrent().addWindow(parentCompanyLookup);
@@ -482,6 +501,7 @@ public class CustomerSelection extends VerticalLayout {
 
             parentName.addClickListener(new CustomTextField.ClickListener() {
 
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     parentCompanyLookup = new ParentCompanyLookup(parentNo, parentName, parentCompanySid);
                     UI.getCurrent().addWindow(parentCompanyLookup);
@@ -633,6 +653,7 @@ public class CustomerSelection extends VerticalLayout {
     @UiHandler("resetBtn")
     public void resetSearchCriteria(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -657,6 +678,7 @@ public class CustomerSelection extends VerticalLayout {
     @UiHandler("listViewResetBtn")
     public void resetListView(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -725,6 +747,7 @@ public class CustomerSelection extends VerticalLayout {
     @UiHandler("closeBtn")
     public void closeBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }

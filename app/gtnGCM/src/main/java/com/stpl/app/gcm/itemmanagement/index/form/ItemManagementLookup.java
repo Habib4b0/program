@@ -158,6 +158,7 @@ public class ItemManagementLookup extends CustomWindow {
 
         mainTab.setImmediate(true);
         mainTab.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
+            @Override
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 if (!valueChange) {
                     final TabSheet.Tab tab = (TabSheet.Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
@@ -203,16 +204,19 @@ public class ItemManagementLookup extends CustomWindow {
         editBtn.setImmediate(true);
         setContent(baseLayout);
         nextBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 tabChangeLogic();
             }
         });
         previousBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnPreviousLogic();
             }
         });
         addBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (!itemsummary.isItemSelected()) {
                     addButtonLogic();
@@ -222,6 +226,7 @@ public class ItemManagementLookup extends CustomWindow {
             }
         });
         editBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (removeSummary.getItemDetails(Boolean.FALSE)==null || (removeSummary.getItemDetails(Boolean.FALSE) != null && removeSummary.getItemDetails(Boolean.FALSE).size() == 0)) {
                     AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_RECORDS_SUBMITTED, StringConstantsUtil.NO_VALID_RECORDS);
@@ -234,6 +239,7 @@ public class ItemManagementLookup extends CustomWindow {
            
         });
         removeBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                
                 if (removeSummary.getItemDetails(Boolean.FALSE) == null || (removeSummary.getItemDetails(Boolean.FALSE) != null && removeSummary.getItemDetails(Boolean.FALSE).size() == 0)) {
@@ -245,6 +251,7 @@ public class ItemManagementLookup extends CustomWindow {
             }
         });
         transferBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 transferButtonLogic();
             }
@@ -414,6 +421,7 @@ public class ItemManagementLookup extends CustomWindow {
                          * box is pressed.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             close();
                         }
@@ -472,6 +480,7 @@ public class ItemManagementLookup extends CustomWindow {
                          * box is pressed.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             close();
                         }
@@ -526,6 +535,7 @@ public class ItemManagementLookup extends CustomWindow {
                          * box is pressed.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             close();
                         }
@@ -596,10 +606,10 @@ public class ItemManagementLookup extends CustomWindow {
                     List inputForInputTable = getTransferInput(fromProjection, transferFromProjection, toProjection, transferToProjection);
                     ItemQueries.itemUpdate(inputForInputTable, "Transfer Input table Insert");
                     if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
-                        logic.callPrcFeSalesTransfer(String.valueOf(selection.getSessionId()));
+                        CommonLogic.callPrcFeSalesTransfer(String.valueOf(selection.getSessionId()));
                     }
                     if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-                        logic.callPrcFeProjectionDetailsTransfer(String.valueOf(selection.getSessionId()));
+                        CommonLogic.callPrcFeProjectionDetailsTransfer(String.valueOf(selection.getSessionId()));
                     }
 
                     close();
@@ -620,6 +630,7 @@ public class ItemManagementLookup extends CustomWindow {
                          * box is pressed.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             close();
                         }
@@ -666,7 +677,7 @@ public class ItemManagementLookup extends CustomWindow {
 
             mainTab.setSelectedTab(tabPosition + 1);
             removeSummary.loadSummaryTable();
-            logic.getIdAndForecastingType(selection.getTabSelection(), selection);
+            ItemLogic.getIdAndForecastingType(selection.getTabSelection(), selection);
         }
     }
 
@@ -685,6 +696,7 @@ public class ItemManagementLookup extends CustomWindow {
     public void insertToTempTable() {
 
         Thread t = new Thread() {
+            @Override
             public void run() {
                 synchronized (this) {
                     List input = new ArrayList();
@@ -832,7 +844,7 @@ public class ItemManagementLookup extends CustomWindow {
             for (int i = 0; i < itemList.size(); i++) {
                 fromItemList.add(itemList.get(i).getSystemId());
             }
-            input.add(commonLogic.generateCustomerMappings(fromItemList, itemSelectionTransfer.mappingItems()));
+            input.add(CommonLogic.generateCustomerMappings(fromItemList, itemSelectionTransfer.mappingItems()));
         }
         input.add(contractTransfer.isRemoveProjectionBooleanVal());
         input.add(selection.getSessionId());

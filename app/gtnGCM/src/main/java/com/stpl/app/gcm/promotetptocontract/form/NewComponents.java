@@ -535,6 +535,7 @@ public class NewComponents extends CustomComponent implements View {
             });
 
             compItemSearchTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                     Collection itemList = compItemSearchTable.getItemIds();
                     int size = itemList.size();
@@ -670,11 +671,13 @@ public class NewComponents extends CustomComponent implements View {
         compItemSearchTable.setColumnCheckBox(Constants.CHECK_RECORD, true, false);
 
         compItemSearchTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
 
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             compItemSearchTable.getContainerProperty(itemId, Constants.CHECK_RECORD).setValue(check.getValue());
                         }
@@ -725,11 +728,13 @@ public class NewComponents extends CustomComponent implements View {
         componentDetailsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
 
         componentDetailsTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
 
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             boolean isCheck = check.getValue();
                             if (isCheck) {
@@ -742,6 +747,7 @@ public class NewComponents extends CustomComponent implements View {
                     return check;
                 }
                 componentDetailsTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                    @Override
                     public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                         Collection itemList = componentDetailsTable.getItemIds();
                         for (Object obj : itemList) {
@@ -779,6 +785,7 @@ public class NewComponents extends CustomComponent implements View {
                     rebatePlan.addStyleName("searchicon");
                     rebatePlan.setWidth(ONE_FIFTY_PX);
                     rebatePlan.addClickListener(new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             final RebatePlanLookup rebatePlanLookupWindow = new RebatePlanLookup("Rebate Plan", rebatePlan);
                             rebatePlanLookupWindow.setWidth("1320px");
@@ -794,6 +801,7 @@ public class NewComponents extends CustomComponent implements View {
                     formulaId.addStyleName("searchicon");
                     formulaId.setWidth(ONE_FIFTY_PX);
                     formulaId.addClickListener(new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             final FormulaLookUp formulaLookUpWindow = new FormulaLookUp(formulaId);
                             formulaLookUpWindow.setWidth("1020px");
@@ -850,6 +858,7 @@ public class NewComponents extends CustomComponent implements View {
         massEndDate.setValue(null);
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         //empty
     }

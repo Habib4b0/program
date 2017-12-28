@@ -19,7 +19,6 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.Constants.IndicatorConstants;
 import static com.stpl.app.gcm.util.Constants.MessageConstants.NO_TP_SELECTED_BODY;
@@ -66,7 +65,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.customwindow.MinimizeTray;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
@@ -139,7 +137,7 @@ public class ItemManagementIndex extends CustomComponent {
     ItemLogic logic = new ItemLogic();
     AbstractLogic abstractLogic = AbstractLogic.getInstance();
     ItemIndexDto binderDto = new ItemIndexDto();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection;
     boolean resetFlag = false;
     HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
@@ -238,11 +236,13 @@ public class ItemManagementIndex extends CustomComponent {
         itemResults.markAsDirty();
         itemResults.setSelectable(false);
         itemResults.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
 
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             boolean isCheck = check.getValue();
 
@@ -262,10 +262,12 @@ public class ItemManagementIndex extends CustomComponent {
         });
 
         itemResults.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -279,18 +281,22 @@ public class ItemManagementIndex extends CustomComponent {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constants.CHECK_RECORD.equals(propertyId)) {
                     CheckBox text = new CheckBox();

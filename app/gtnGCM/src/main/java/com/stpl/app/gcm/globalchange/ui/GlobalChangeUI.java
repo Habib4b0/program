@@ -85,20 +85,24 @@ public class GlobalChangeUI extends UI implements VaadinPortletSession.PortletLi
 
     }
 
+    @Override
     public void handleRenderRequest(RenderRequest request, RenderResponse response, UI uI) {
         PortletConfig portletConfig = (PortletConfig) request.getAttribute(JavaConstants.JAVAX_PORTLET_CONFIG);
         CommonUtils.setPortalConfig(portletConfig);
         getUI().getNavigator().navigateTo(GlobalChangeUIMainView.NAME);
     }
 
+    @Override
     public void handleActionRequest(ActionRequest request, ActionResponse response, UI uI) {
         //empty
     }
 
+    @Override
     public void handleEventRequest(EventRequest request, EventResponse response, UI uI) {
         // empty
     }
 
+    @Override
     public void handleResourceRequest(ResourceRequest request, ResourceResponse response, UI uI) {
         //empty
     }

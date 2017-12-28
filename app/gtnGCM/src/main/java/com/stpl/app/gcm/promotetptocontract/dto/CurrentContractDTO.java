@@ -59,10 +59,10 @@ public class CurrentContractDTO implements Serializable {
     private String aliasEndDate = StringUtils.EMPTY;
     private Integer hiddenId = 0;
     String screenName = StringUtils.EMPTY;
-    private Integer CFPId = 0;
+    private Integer cfpId = 0;
     private Integer IFPId = 0;
-    private Integer PSId = 0;
-    private Integer RSId = 0;
+    private Integer psId = 0;
+    private Integer rsId = 0;
     private Boolean search = false;
     private Boolean reset = false;
     private Boolean searchInverse = false;
@@ -71,12 +71,13 @@ public class CurrentContractDTO implements Serializable {
     private Date contEndDate;
     private String projectionId = StringUtils.EMPTY;
     private Boolean isCustomerDetailsTab = false;
-    public Integer getCFPId() {
-        return CFPId;
+    
+    public Integer getCfpId() {
+        return cfpId;
     }
 
-    public void setCFPId(Integer CFPId) {
-        this.CFPId = CFPId;
+    public void setCfpId(Integer cfpId) {
+        this.cfpId = cfpId;
     }
 
     public Integer getIFPId() {
@@ -87,20 +88,20 @@ public class CurrentContractDTO implements Serializable {
         this.IFPId = IFPId;
     }
 
-    public Integer getPSId() {
-        return PSId;
+    public Integer getPsId() {
+        return psId;
     }
 
-    public void setPSId(Integer PSId) {
-        this.PSId = PSId;
+    public void setPsId(Integer psId) {
+        this.psId = psId;
     }
 
-    public Integer getRSId() {
-        return RSId;
+    public Integer getRsId() {
+        return rsId;
     }
 
-    public void setRSId(Integer RSId) {
-        this.RSId = RSId;
+    public void setRsId(Integer rsId) {
+        this.rsId = rsId;
     }
 
     public Date getContStartDate() {
@@ -401,10 +402,7 @@ public class CurrentContractDTO implements Serializable {
      * Variable used for Contract id.
      */
     private Integer contractSid = 0;
-    /**
-     * Variable used for CFPID.
-     */
-    private Integer cfpId = 0;
+    
     /**
      * Variable used for CFPID.
      */
@@ -417,18 +415,11 @@ public class CurrentContractDTO implements Serializable {
      * Variable used for IFPID.
      */
     private Integer ifpContractId = 0;
-    /**
-     * Variable used for PSID.
-     */
-    private Integer psId = 0;
+    
     /**
      * Variable used for PSID.
      */
     private Integer psContractId = 0;
-    /**
-     * Variable used for RSID.
-     */
-    private Integer rsId = 0;
     /**
      * Variable used for INTERNAL ID.
      */
@@ -499,14 +490,6 @@ public class CurrentContractDTO implements Serializable {
         this.contractSid = contractSid;
     }
 
-    public Integer getCfpId() {
-        return cfpId;
-    }
-
-    public void setCfpId(Integer cfpId) {
-        this.cfpId = cfpId;
-    }
-
     public Integer getCfpContractId() {
         return cfpContractId;
     }
@@ -531,28 +514,12 @@ public class CurrentContractDTO implements Serializable {
         this.ifpContractId = ifpContractId;
     }
 
-    public Integer getPsId() {
-        return psId;
-    }
-
-    public void setPsId(Integer psId) {
-        this.psId = psId;
-    }
-
     public Integer getPsContractId() {
         return psContractId;
     }
 
     public void setPsContractId(Integer psContractId) {
         this.psContractId = psContractId;
-    }
-
-    public Integer getRsId() {
-        return rsId;
-    }
-
-    public void setRsId(Integer rsId) {
-        this.rsId = rsId;
     }
 
     public Integer getInternalId() {

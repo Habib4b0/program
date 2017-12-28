@@ -29,7 +29,7 @@ public class PromoteTpToChEdit extends VerticalLayout {
     /**
      * Binder for DataSelection.
      */
-    private CustomFieldGroup promoteTpToChBinder = new CustomFieldGroup(new BeanItem<>(promoteTpToChDto));
+    private final CustomFieldGroup promoteTpToChBinder = new CustomFieldGroup(new BeanItem<>(promoteTpToChDto));
     PromoteTPToChForm promoteTPToChForm;
     PromoteTpToChWindow editWindow;
     ExtFilterTable resultTable;

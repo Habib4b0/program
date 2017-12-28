@@ -34,8 +34,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class TPContractHolderLookUp extends Window {
 
-    private String indicator;
-    private TextField groupLookup;
+    private final String indicator;
+    private final TextField groupLookup;
     List<String> companySids;
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = org.jboss.logging.Logger.getLogger(TPContractHolderLookUp.class);
@@ -68,7 +68,7 @@ public class TPContractHolderLookUp extends Window {
     private ComboBox contractHolderStatus;
     @UiField("contractHolderType")
     private ComboBox contractHolderType;
-    private BeanItemContainer<ContractHolderDTO> resultContainer = new BeanItemContainer<>(ContractHolderDTO.class);
+    private final BeanItemContainer<ContractHolderDTO> resultContainer = new BeanItemContainer<>(ContractHolderDTO.class);
     private ContractHolderDTO selectedChHolderHierarchy;
     List<CompanyMaster> filteredCompanies;
     PromoteTPLogic logic = new PromoteTPLogic();
@@ -145,14 +145,17 @@ public class TPContractHolderLookUp extends Window {
         loadContractHolderType(contractHolderType);
         
         selectBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnLookupSelectLogic();
             }
         });
 
         resetBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // do nothing
                     }

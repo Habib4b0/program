@@ -216,7 +216,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
 
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     public List<ComponentInformationDTO> componentInformation = new ArrayList<>();
-    private ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<>(ComponentInformationDTO.class);
+    private final ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<>(ComponentInformationDTO.class);
     public String excelName = "Rebate Schedule Information";
     CompanyComponentTableLogic tablelogic = new CompanyComponentTableLogic();
     public ExtPagedTable componentInformationTable = new ExtPagedTable(tablelogic);
@@ -297,10 +297,12 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -350,10 +352,12 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         addTradingPartnerTable.setFilterBarVisible(Boolean.TRUE);
         addTradingPartnerTable.setFilterDecorator(new ExtDemoFilterDecorator());
         addTradingPartnerTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             logic.callCheckRecUpdate(check.getValue(), (ContractResultDTO) itemId, StringUtils.EMPTY, session);
 
@@ -446,6 +450,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
              * Called when a Button has been clicked.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void itemClick(final ItemClickEvent event) {
                 tableBeanId = event.getItemId();
                 BeanItem<?> targetItem;
@@ -508,6 +513,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
          * Node Expand Event
          *
          */
+        @Override
         public void nodeExpand(final Tree.ExpandEvent event) {
             try {
                 LOGGER.debug("Entering StplExpandListener nodeExpand method");
@@ -586,6 +592,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
          *
          * @param event the event
          */
+        @Override
         public void nodeCollapse(final Tree.CollapseEvent event) {
             try {
                 LOGGER.debug("Entering StplCollapseListener nodeCollapse method");
@@ -772,6 +779,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     public void currentContractRemoveButtonClickListener(Button.ClickEvent event) {
         if (contractDashboardTable.getValue() != null) {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     // do nothing
                 }
@@ -812,6 +820,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
         if (checkedContracts.size() > 0) {
 
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     // do nothing
                 }
@@ -890,7 +899,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
             tempVisibleHeaders.remove(0);
             String[] visibleHeaders = Arrays.copyOf(tempVisibleHeaders.toArray(), tempVisibleHeaders.size(), String[].class);
 
-            List list = logic.getSubmittedRecords(session, StringUtils.EMPTY, true);
+            List list = CommmonLogic.getSubmittedRecords(session, StringUtils.EMPTY, true);
             int recordCount = CommonUtils.convertToInteger(String.valueOf(list.get(0)));
             ExcelExportforBB.createWorkSheet(visibleHeaders, recordCount, this, UI.getCurrent(), "Add_Customer_Results");
         } catch (Exception e) {

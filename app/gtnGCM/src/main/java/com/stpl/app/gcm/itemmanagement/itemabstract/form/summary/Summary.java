@@ -163,6 +163,7 @@ public abstract class Summary extends CustomComponent {
         mapRightVisibleColumns = rightDTO.getDoubleHeaderMaps();
         deletedetailtable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
         rightTable.addDoubleHeaderColumnCheckListener(new ExtCustomTable.DoubleHeaderColumnCheckListener() {
+            @Override
             public void doubleHeaderColumnCheck(
                     ExtCustomTable.DoubleHeaderColumnCheckEvent event) {
                 Notification.show("Current Value: " + event.isChecked()
@@ -171,6 +172,7 @@ public abstract class Summary extends CustomComponent {
         });
 
         rightTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(
                     ExtCustomTable.ColumnCheckEvent event) {
                 Notification.show("Current Value: " + event.isChecked()
@@ -213,11 +215,13 @@ public abstract class Summary extends CustomComponent {
         history.addItem(StringConstantsUtil.FOUR_QUARTERS);
         history.setValue(StringConstantsUtil.FOUR_QUARTERS);
         frequency.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 frequenyChangeLogic();
             }
         });
         history.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 historyChangeLogic();
             }
@@ -256,7 +260,7 @@ public abstract class Summary extends CustomComponent {
 
 
 
-         logic.getIdAndForecastingType(selectionDTO, selection);
+         RemoveItemLogic.getIdAndForecastingType(selectionDTO, selection);
         if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER) || selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
             this.selectionDTO.setOperation(ConstantsUtil.TRANSFER_SUMMARY);
         } else {

@@ -16,7 +16,6 @@ import com.stpl.app.gcm.discount.logic.DiscountLogic;
 import com.stpl.app.gcm.discount.logic.ExistingTabSearchTableLogic;
 import com.stpl.app.gcm.discount.logic.ExistingTabSelectedTableLogic;
 import static com.stpl.app.gcm.discount.ui.form.NewDiscountTab.DBDate;
-import static com.stpl.app.gcm.discount.ui.form.NewDiscountTab.LOGGER;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
@@ -199,10 +198,10 @@ public class ExistingDiscountTab extends CustomComponent {
      * The contract member.
      */
     private ContractsDetailsDto contractDetails;
-    private BeanItemContainer<ContractsDetailsDto> componentResultsContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
+    private final BeanItemContainer<ContractsDetailsDto> componentResultsContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
     private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
-    private BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
-    private BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
+    private final BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
+    private final BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
     ContractsDetailsDto newDiscountTabDto = new ContractsDetailsDto();
     List<Integer> rebateList = new ArrayList<>();
     List<HelperDTO> itemStatusList = new ArrayList<>();
@@ -329,6 +328,7 @@ public class ExistingDiscountTab extends CustomComponent {
              * Called when a Button has been clicked.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void itemClick(final ItemClickEvent event) {
                 treeBeanId = event.getItemId();
                 BeanItem<?> targetItem;
@@ -382,6 +382,7 @@ public class ExistingDiscountTab extends CustomComponent {
          * Node Expand Event
          *
          */
+        @Override
         public void nodeExpand(final Tree.ExpandEvent event) {
             try {
                 LOGGER.debug("Entering StplExpandListener nodeExpand method");
@@ -471,6 +472,7 @@ public class ExistingDiscountTab extends CustomComponent {
          *
          * @param event the event
          */
+        @Override
         public void nodeCollapse(final Tree.CollapseEvent event) {
             try {
                 LOGGER.debug("Entering StplCollapseListener nodeCollapse method");
@@ -807,8 +809,8 @@ public class ExistingDiscountTab extends CustomComponent {
                     setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBean);
                     returnFlag = true;
                 } else {
-                    final String message = "Cannot make a " + srcTableBean.getCategory() + " as contracts header";
-                    AbstractNotificationUtils.getWarningNotification(Constants.CRITERIA_MISMATCH, message);
+                    final String MESSAGE = "Cannot make a " + srcTableBean.getCategory() + " as contracts header";
+                    AbstractNotificationUtils.getWarningNotification(Constants.CRITERIA_MISMATCH, MESSAGE);
                 }
             } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.CONTRACT.toString())) {
                 final String message = "Cannot make a " + srcTableBean.getCategory() + " as child node";
@@ -1111,6 +1113,7 @@ public class ExistingDiscountTab extends CustomComponent {
         check = checkForAllLevels(idList, level, 0);
         if (check) {
             MessageBox.showPlain(Icon.QUESTION, "Create", "Are you sure you want to save the contract ?", new MessageBoxListener() {
+                @Override
                 public void buttonClicked(ButtonId buttonId) {
                     if (buttonId.name().equals("YES")) {
                         try {
