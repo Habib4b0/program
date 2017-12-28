@@ -362,6 +362,7 @@ public class InboxDashBoard extends CustomComponent implements View {
         String adjustmentTypevalue;
         String configurationType;
         String customerHierSid;
+        String productHierSid;
         String customerHierarchyLevel;
         String custRelationshipBuilderSid;
         String productHierarchyLevel;
@@ -391,6 +392,7 @@ public class InboxDashBoard extends CustomComponent implements View {
             configurationType = ((InboxDashboardDTO) targetItem.getBean()).getConfigurationType();
 
             customerHierSid = ((InboxDashboardDTO) targetItem.getBean()).getCustomerHierSid();
+            productHierSid = ((InboxDashboardDTO) targetItem.getBean()).getProductHierSid();
             customerHierarchyLevel = ((InboxDashboardDTO) targetItem.getBean()).getCustomerHierarchyLevel();
             custRelationshipBuilderSid = ((InboxDashboardDTO) targetItem.getBean()).getCustRelationshipBuilderSid();
             productHierarchyLevel = ((InboxDashboardDTO) targetItem.getBean()).getProductHierarchyLevel();
@@ -556,6 +558,7 @@ public class InboxDashBoard extends CustomComponent implements View {
                 opener.setParameter("customerHierSid", customerHierSid);
                 opener.setParameter("customerHierarchyLevel", customerHierarchyLevel);
                 opener.setParameter("custRelationshipBuilderSid", custRelationshipBuilderSid);
+                opener.setParameter("productHierSid", productHierSid);
                 opener.setParameter("productHierarchyLevel", productHierarchyLevel);
                 opener.setParameter("prodRelationshipBuilderSid", prodRelationshipBuilderSid);
             }
