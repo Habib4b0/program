@@ -51,17 +51,17 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
      * The results container.
      */
 
-    final private SessionDTO sessionDTO;
+    private final SessionDTO sessionDTO;
 
-    Object removeItemId = new Object();
-    boolean removeFlag = false;
-    ProjectionVarianceTableLogic pvTableLogic;
+    protected Object removeItemId = new Object();
+    protected boolean removeFlag = false;
+    protected ProjectionVarianceTableLogic pvTableLogic;
     /**
      * Screen name
      */
-    String screenName = StringUtils.EMPTY;
+    protected String scrnName = StringUtils.EMPTY;
       /** To reduce unwanted DB hits **/
-    Map<MultiKey,List> contractTypeList;
+    protected Map<MultiKey,List> contractTypeList;
     private final PVSelectionDTO pvSelectionDTO;
     private final HeaderUtils headerUtils = new HeaderUtils();
 
@@ -72,7 +72,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
         super(screenName, comparison);
         LOGGER.debug("ComparisonLookUp constructor started");
         this.sessionDTO = sessionDTO;
-        this.screenName = screenName;
+        this.scrnName = screenName;
         this.contractTypeList=contractTypeList;
         this.pvSelectionDTO = pvSelectionDTO;
         this.pvTableLogic = pvTableLogic;
@@ -231,7 +231,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
             } else {
                 AbstractNotificationUtils.getErrorNotification("No Value Selected", "Please select a projection to add. ");
             }
-        } catch (Exception ex) {
+        } catch (Property.ReadOnlyException ex) {
               LOGGER.error(ex);
         }
     }
@@ -328,7 +328,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
                 AbstractNotificationUtils.getErrorNotification("Date Range Error", "Start date and End date should not be equal");
                 flag = false;
             }
-                if ((flag) && (!tableLogic.fireSetData(lookUpDTO, sessionDTO, notNeededProjectionIds, false, screenName))) {
+                if ((flag) && (!tableLogic.fireSetData(lookUpDTO, sessionDTO, notNeededProjectionIds, false, scrnName))) {
 
                     AbstractNotificationUtils.getErrorNotification("No Matching Records",
                             "There were no records matching the search criteria.  Please try again.");

@@ -112,7 +112,7 @@ public class NdcPopupForm extends Window {
                         medicaidNdcPopUp.saveAll();
                         federalNdcPopup.saveAll();
                         close();
-                    } catch (Exception ex) {
+                    } catch (PortalException | SystemException ex) {
                         LOGGER.error(ex);
                     }
                 }
@@ -166,7 +166,7 @@ public class NdcPopupForm extends Window {
                         federalNdcPopup.resetTableLogic();
                     }
 
-                } catch (Exception ex) {
+                } catch (SystemException ex) {
                     LOGGER.error(ex);
                 }
 

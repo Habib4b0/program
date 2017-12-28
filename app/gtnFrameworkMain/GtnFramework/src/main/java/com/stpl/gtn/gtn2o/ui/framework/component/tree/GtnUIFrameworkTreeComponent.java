@@ -5,6 +5,19 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.tree;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
+
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
@@ -34,19 +47,6 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.Tree.CollapseListener;
 import com.vaadin.ui.Tree.ExpandListener;
 import com.vaadin.ui.VerticalLayout;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
 
 /**
  *
@@ -275,14 +275,7 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 			return returnList;
 		}
 
-		Collections.sort(selectedItemList, new Comparator<GtnWsRecordBean>() {
-			@Override
-			public int compare(GtnWsRecordBean o1, GtnWsRecordBean o2) {
-				int treeLevelNo1 = Integer.parseInt(String.valueOf(o1.getAdditionalPropertyByIndex(0)));
-				int treeLevelNo2 = Integer.parseInt(String.valueOf(o2.getAdditionalPropertyByIndex(0)));
-				return treeLevelNo2 - treeLevelNo1;
-			}
-		});
+		collectionsSort(selectedItemList);
 
 		ListIterator<?> listIterator = selectedItemList.listIterator();
 
@@ -321,15 +314,8 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 		if (selectedItemListFromTree.isEmpty()) {
 			return returnListToRemove;
 		}
-
-		Collections.sort(selectedItemListFromTree, new Comparator<GtnWsRecordBean>() {
-			@Override
-			public int compare(GtnWsRecordBean object1, GtnWsRecordBean object2) {
-				int treeLevelNo1InTree = Integer.parseInt(String.valueOf(object1.getAdditionalPropertyByIndex(0)));
-				int treeLevelNo2InTree = Integer.parseInt(String.valueOf(object2.getAdditionalPropertyByIndex(0)));
-				return treeLevelNo2InTree - treeLevelNo1InTree;
-			}
-		});
+		
+		collectionsSort(selectedItemListFromTree);
 
 		ListIterator<?> listIteratorForTree = selectedItemListFromTree.listIterator();
 		while (listIteratorForTree.hasNext()) {
@@ -355,7 +341,12 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 		return returnListToRemove;
 
 	}
-
+	
+	private void collectionsSort(List<GtnWsRecordBean> list) {
+		list.sort((o1,o2)->(((String) (o1.getAdditionalPropertyByIndex(0))).compareTo((String)o2.getAdditionalPropertyByIndex(0))));
+		
+	}
+	
 	private void getChildren(Object item, Tree tree, Object selectedParent) {
 		if (tree.hasChildren(item)) {
 			getChildren(tree.getChildren(item).iterator().next(), tree, selectedParent);

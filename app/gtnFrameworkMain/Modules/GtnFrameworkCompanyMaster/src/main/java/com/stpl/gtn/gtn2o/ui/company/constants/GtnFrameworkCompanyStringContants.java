@@ -91,6 +91,7 @@ public class GtnFrameworkCompanyStringContants {
 	public static final String EDIT_LIST_FIELD_LAYOUT = "editListFieldLayout";
 	public static final String EDIT_ATTACH_RESULT_TABLE = "editattachResultTable";
 	public static final String EDIT_LIST_EFFECTIVE_DATE = "editListEffectiveDates";
+	public static final String EDIT_LIST_NOTES_TEXTAREA = "notesTextArea";
 
 	public static final String EDIT_LIST_CODE_QUALIFIER = "editListidentifierCodeQualifier";
 	public static final String EDIT_LIST_CODE_QUALIFIER_NAME = "editListidentifierCodeQualifierName";

@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterItem
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterManufactureIdValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterNewFormulationAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingAttachAction;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingDeleteAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingFieldFactoryUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingTableConfigureAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingTempTableClearAction;
@@ -88,6 +89,8 @@ public class GtnUIFrameworkItemMasterDynamicClassFiller implements GtnUIDynamicO
 				new GtnFrameworkItemMasterFocusListnerAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkItemMasterPricingAttachAction.class.getName(),
 				new GtnFrameworkItemMasterPricingAttachAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkItemMasterPricingDeleteAction.class.getName(),
+				new GtnFrameworkItemMasterPricingDeleteAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkItemMasterPricingTempTableClearAction.class.getName(),
 				new GtnFrameworkItemMasterPricingTempTableClearAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkItemClickEnableDisableAction.class.getName(),

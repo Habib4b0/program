@@ -278,7 +278,7 @@ public class PMPYCalculator extends Window {
      */
     private final Button calculateTwo = new Button(Constant.CALCULATE);
 
-    private static final String regex = "(^[0-9]+(\\.[0-9])?$)";
+    private static final String REGEX = "(^[0-9]+(\\.[0-9])?$)";
 
     private final Calendar calendar = CommonUtils.getCalendar();
 
@@ -387,7 +387,7 @@ public class PMPYCalculator extends Window {
             marketShare.setValue(Constant.HUNDRED_PERCENT);
             marketShare1.setValue(Constant.HUNDRED_PERCENT);
             analogLives.setImmediate(true);
-            analogLives.addValidator(new RegexpValidator(regex, "Should contain only number"));
+            analogLives.addValidator(new RegexpValidator(REGEX, "Should contain only number"));
             sales.setEnabled(false);
             valuePerLife.setEnabled(false);
             totalSales.setEnabled(false);

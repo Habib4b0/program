@@ -2,6 +2,8 @@ package com.stpl.app.gtnforecasting.bpm.logic;
 
 import com.stpl.app.gtnforecasting.bpm.service.BPMProcessBean;
 import com.stpl.app.gtnforecasting.ui.form.ForecastForm;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import java.util.Map;
 
 import org.kie.api.task.model.TaskSummary;
@@ -11,8 +13,8 @@ import org.kie.api.task.model.Status;
 
 public class VarianceCalculationLogic {
 
-    static ForecastForm forecastForm;
-    static String notiMsg = "";
+    protected static ForecastForm forecastForm;
+    protected static String notiMsg = "";
     /**
      * The Constant LOGGER.
      */
@@ -37,7 +39,7 @@ public class VarianceCalculationLogic {
                 BPMProcessBean.startTask(task.getId(), user.getScreenName());
                 BPMProcessBean.completeTask(task.getId(), user.getScreenName(), params);
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException | NumberFormatException e) {
             LOGGER.error(e);
         }
     }

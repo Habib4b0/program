@@ -225,9 +225,10 @@ public class GtnFrameworkRebateScheduleAddConfig {
 		gtnLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_20);
 		componentList.add(gtnLayout);
 		addSaveButtonComponent(componentList);
+        addDeleteButtonComponent(componentList);
 		addBackButtonComponent(componentList);
 		addResetButtonComponent(componentList);
-		addDeleteButtonComponent(componentList);
+		
 
 	}
 

@@ -29,6 +29,15 @@ public class GtnWsCalendarConfigurationRequest implements GtnWSRequestData {
 	private int countryCode;
 	private String country;
 	private boolean defaultHolidays;
+	private boolean isCalendarNameExists;
+	
+	public boolean isCalendarNameExists() {
+		return isCalendarNameExists;
+	}
+
+	public void setCalendarNameExists(boolean isCalendarNameExists) {
+		this.isCalendarNameExists = isCalendarNameExists;
+	}
 
 	public GtnWsRecordBean getCalendarBean() {
 		return calendarBean;

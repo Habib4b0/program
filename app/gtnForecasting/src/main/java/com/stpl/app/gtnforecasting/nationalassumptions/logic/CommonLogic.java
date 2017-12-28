@@ -55,7 +55,7 @@ public class CommonLogic {
                 PhsQueryUtils.saveSelection(map, projectionID, screenName, Constant.UPDATE);
             }
             
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
               LOGGER.error(ex);
         }
     }
@@ -84,7 +84,7 @@ public class CommonLogic {
                 }
             }
             return map;
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
              LOGGER.error(ex);
         }
         return null;
@@ -122,7 +122,7 @@ public class CommonLogic {
             LOGGER.debug("End of tempOperation method");
             Object temp =DAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames())) ;
             return temp;
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
            
             LOGGER.error(e);
             return null;

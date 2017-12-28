@@ -236,9 +236,10 @@ public class GtnFrameworkCompanyMasterAddConfig {
 		gtnLayout.setComponentWidth("40%");
 		componentList.add(gtnLayout);
 		addSaveButtonComponent(componentList);
+        addDeleteButtonComponent(componentList);
 		addBackButtonComponent(componentList);
 		addResetButtonComponent(componentList);
-		addDeleteButtonComponent(componentList);
+		
 
 	}
 

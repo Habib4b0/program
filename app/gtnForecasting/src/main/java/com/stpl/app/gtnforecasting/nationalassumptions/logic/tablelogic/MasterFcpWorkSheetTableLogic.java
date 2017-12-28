@@ -25,15 +25,11 @@ import org.jboss.logging.Logger;
  */
 public class MasterFcpWorkSheetTableLogic  extends PageTreeTableLogic {
 
-    int levelNo;
-    String hierarchyNo;
-    boolean firstGenerated = false;
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    
+    private boolean firstGenerated = false;
+    private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final FcpResultsLogic fcpResLogic = new FcpResultsLogic();
-    boolean firstTotal = false;
-    int totalCount = 0;
-    List totalList = new ArrayList();
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
     /**
      * The Constant LOGGER.
      */
@@ -86,7 +82,6 @@ public class MasterFcpWorkSheetTableLogic  extends PageTreeTableLogic {
         this.projSelDTO = projSelDTO;
         this.sessionDTO=sessionDTO;
         clearAll();
-        firstTotal = isTotal;
         firstGenerated = true;
         setCurrentPage(1);
     }

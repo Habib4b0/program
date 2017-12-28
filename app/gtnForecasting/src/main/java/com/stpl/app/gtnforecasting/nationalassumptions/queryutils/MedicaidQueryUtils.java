@@ -66,7 +66,7 @@ public class MedicaidQueryUtils {
                 customSql = customSql.replace(key, String.valueOf(input.get(key)));
             }
             medicaidList = (List) DAO.executeSelectQuery(customSql);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return medicaidList;

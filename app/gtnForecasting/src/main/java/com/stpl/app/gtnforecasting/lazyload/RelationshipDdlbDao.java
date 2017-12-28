@@ -8,6 +8,7 @@ package com.stpl.app.gtnforecasting.lazyload;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
 import java.util.List;
 import org.vaadin.addons.lazycontainer.DAO;
@@ -20,15 +21,15 @@ import org.vaadin.addons.lazycontainer.SearchCriteria;
  */
 public class RelationshipDdlbDao implements DAO<RelationshipDdlbDto> {
 
-    RelationshipDdlbDto defaultRelationshipDdlbDto;
+    private final RelationshipDdlbDto defaultRelationshipDdlbDto;
 
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(RelationshipDdlbDao.class);
 
-    DataSelectionLogic logic = new DataSelectionLogic();
-    RelationshipDdlbDto selectedRelationshipDdlbDto;
+    private final DataSelectionLogic logic = new DataSelectionLogic();
+    private final RelationshipDdlbDto selectedRelationshipDdlbDto;
     
 
-    int hierarchyDefinitionSid;
+    private final int hierarchyDefinitionSid;
 
     public RelationshipDdlbDao(final int hierarchyDefinitionSid, final RelationshipDdlbDto defaultRelationshipDdlbDto, RelationshipDdlbDto selectedRelationshipDdlbDto) {
         this.hierarchyDefinitionSid = hierarchyDefinitionSid;
@@ -41,9 +42,7 @@ public class RelationshipDdlbDao implements DAO<RelationshipDdlbDto> {
         int count = 0;
         try {
             count = logic.getRelationshipSidCount(criteria.getFilter(), hierarchyDefinitionSid);
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return count + 1;
@@ -54,11 +53,8 @@ public class RelationshipDdlbDao implements DAO<RelationshipDdlbDto> {
         List<RelationshipDdlbDto> resultList = new ArrayList<>();
         try {
             resultList = logic.getRelationshipSidLazy(startIndex, startIndex + offset, defaultRelationshipDdlbDto, criteria.getFilter(), hierarchyDefinitionSid, selectedRelationshipDdlbDto);
-        } catch (PortalException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-
         }
         return resultList;
     }

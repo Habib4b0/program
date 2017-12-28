@@ -24,16 +24,14 @@ import org.jboss.logging.Logger;
  * @author Manasa
  */
 public class MedicaidWorkSheetTableLogic extends PageTreeTableLogic {
-    int levelNo;
-    String hierarchyNo;
-    boolean firstGenerated = false;
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    private boolean firstGenerated = false;
+    private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final MedicaidURAResultsLogic medicaidResLogic = new MedicaidURAResultsLogic();
     /**
      * The Constant LOGGER.
      */
     private final Logger LOGGER = Logger.getLogger(MasterFcpWorkSheetTableLogic.class);
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
 
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
@@ -83,8 +81,6 @@ public class MedicaidWorkSheetTableLogic extends PageTreeTableLogic {
     public void setProjectionResultsData(ProjectionSelectionDTO projSelDTO, int levelNo, String hierarchyNo,SessionDTO sessionDTO) {
 
         this.projSelDTO = projSelDTO;
-        this.levelNo = levelNo;
-        this.hierarchyNo = hierarchyNo;
         this.sessionDTO=sessionDTO;
         clearAll();
         firstGenerated = true;

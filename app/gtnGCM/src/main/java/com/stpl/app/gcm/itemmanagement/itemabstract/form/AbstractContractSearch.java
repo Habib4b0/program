@@ -1201,8 +1201,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
             AbstractContractSearchDTO dto = (AbstractContractSearchDTO) object;
             if (dto.getCheckRecord()) {
                 isChecked = false;
-                isFound = true;
-                if (!isHavingValue(massUpdateString)) {
+                isFound = isHavingValue(massUpdateString);
+                if (!isFound) {
                     isFound = false;
                     new AbstractNotificationUtils() {
                         @Override
@@ -1339,27 +1339,27 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         columnName = Constants.NEP_FORMULA_COLUMN_NAME;
                         value = nepForumulaDto.getFormulaSid();
                         break;
-                        case Constants.BASE_PRICE_TYPE_LABLE_NAME:
+                    case Constants.BASE_PRICE_TYPE_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
                         contractSelectionTable.getItem(object).getItemProperty(Constants.BASE_PRICE_PROPERTY).setValue(tempDTO);
                         columnName = Constants.BASE_PRICE_TYPE_COLUMN_NAME;
                         value = tempDTO.getId();
-                            if (Constants.MANUAL_LABLE_NAME.equals(tempDTO.getDescription())) {
-                                baseLineTextValue = baseWacManual.getValue();
-                                contractSelectionTable.getItem(object).getItemProperty("baseLineWacManual").setValue(baseLineTextValue);
-                                baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
-                               logic.updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
-                            } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
-                                contractSelectionTable.getItem(object).getItemProperty("baseLineWacDate").setValue(baseWacDate.getValue());
-                                baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
-                                baseLineValue = CommonUtils.DBDate.format(baseWacDate.getValue());
-                                logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
-                            } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
-                                baseLineValue = baseWacPriceType.getValue();
-                                contractSelectionTable.getItem(object).getItemProperty("baseLineWacPriceType").setValue(baseLineValue);
-                                baseLineColumnName = Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME;
-                                logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
-                            }
+                        if (Constants.MANUAL_LABLE_NAME.equals(tempDTO.getDescription())) {
+                            baseLineTextValue = baseWacManual.getValue();
+                            contractSelectionTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_MANUAL_LABLE_NAME).setValue(baseLineTextValue);
+                            baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
+                        } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
+                            contractSelectionTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_DATE_LABLE_NAME).setValue(baseWacDate.getValue());
+                            baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
+                            baseLineValue = CommonUtils.DBDate.format(baseWacDate.getValue());
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                        } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
+                            baseLineValue = baseWacPriceType.getValue();
+                            contractSelectionTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME).setValue(baseLineValue);
+                            baseLineColumnName = Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME;
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                        }
                         break;
                     case Constants.BASELINE_NET_WAC_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
