@@ -47,7 +47,6 @@ import com.stpl.app.adminconsole.util.GtnWsCallEtlService;
 import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
 import com.stpl.app.model.HelperTable;
-import com.stpl.app.model.HierarchyDefinition;
 import com.stpl.app.model.WorkflowProfile;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.WorkflowProfileLocalServiceUtil;

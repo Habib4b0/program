@@ -29,7 +29,6 @@ import com.stpl.app.adminconsole.util.TableResultCustom;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
@@ -38,7 +37,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
@@ -55,6 +53,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import static com.stpl.app.adminconsole.common.util.CommonUtil.convertStringToDate;
 import com.stpl.app.adminconsole.service.AdminConsoleImpl;
+import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
 import com.stpl.app.service.BrandMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalService;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -770,7 +769,7 @@ public final class CommonUtil {
     public static String replacedQuery(Map<String, String> input, String queryName) {
         StringBuilder queryString = new StringBuilder();
         try {
-            queryString = new StringBuilder(CustomSQLUtil.get(queryName));
+            queryString = new StringBuilder(SQlUtil.getQuery(queryName));
             if (input != null) {
                 for (Map.Entry<String, String> entry : input.entrySet()) {
                     final String string = entry.getKey();

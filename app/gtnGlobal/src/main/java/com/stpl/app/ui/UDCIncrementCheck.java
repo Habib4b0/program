@@ -1,6 +1,5 @@
 package com.stpl.app.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.logging.Logger;
@@ -11,7 +10,6 @@ import com.stpl.app.model.HelperTable;
 import com.stpl.app.util.Constants;
 import com.stpl.app.util.ConstantsUtils;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 

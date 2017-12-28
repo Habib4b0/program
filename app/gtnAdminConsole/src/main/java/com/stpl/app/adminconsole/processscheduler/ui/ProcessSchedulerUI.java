@@ -30,10 +30,10 @@ import org.osgi.service.component.annotations.ServiceScope;
  *
  * @author Jayaram
  */
-@Theme("mytheme")
-@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Theme("stpl")
+@Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet") 
 @Component(service = UI.class, property = {
-        "com.liferay.portlet.display-category=Process Scheduler",
+        "com.liferay.portlet.display-category=Admin Console",
         "javax.portlet.name=ProcessScheduler",
         "javax.portlet.display-name=Process Scheduler",
         "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
