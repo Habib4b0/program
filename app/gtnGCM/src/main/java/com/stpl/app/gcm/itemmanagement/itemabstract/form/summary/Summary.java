@@ -17,8 +17,6 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractSummaryDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.abstracttablelogic.SummaryTableLogic;
 import com.stpl.app.gcm.itemmanagement.remove.logic.RemoveItemLogic;
-import com.stpl.app.gcm.security.StplSecurity;
-import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.FrequencyConstants.MONTHLY;
@@ -28,7 +26,6 @@ import static com.stpl.app.gcm.util.Constants.FrequencyConstants.SEMI_ANNUAL;
 import static com.stpl.app.gcm.util.Constants.FrequencyConstants.YEAR;
 import static com.stpl.app.gcm.util.Constants.QUARTERLY;
 import com.stpl.app.gcm.util.HeaderUtils;
-import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.data.Property;
@@ -64,45 +61,39 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 public abstract class Summary extends CustomComponent {
 
     @UiField("tradingPartnerSalesTableLayout")
-    VerticalLayout tradingPartnerSalesTableLayout;
+    protected VerticalLayout tradingPartnerSalesTableLayout;
     @UiField("excelBtn")
-    public Button excelBtn;
+    private Button excelBtn;
     @UiField("mainPanel")
-    Panel mainPanel;
-    public ComboBox frequency = new ComboBox();
-    public ComboBox history = new ComboBox();
-    SummaryTableLogic deletetableLogic = new SummaryTableLogic();
-    public FreezePagedTreeTable deletedetailtable = new FreezePagedTreeTable(deletetableLogic);
-    Object[] visibleColumn = {"q12015", "q22015", "q32015", "q42015", "q12016", "q22016", "q32016", "q42016",};
-    String[] columnHeader = {"Q1 2015", "Q2 2015", "Q3 2015", "Q4 2015", "Q1 2016", "Q2 2016", "Q3 2016", "Q4 2016",};
-    Panel panelSalesSummary = new Panel();
+    protected Panel mainPanel;
+    private final ComboBox frequency = new ComboBox();
+    private final ComboBox history = new ComboBox();
+    private final SummaryTableLogic deletetableLogic = new SummaryTableLogic();
+    private FreezePagedTreeTable deletedetailtable = new FreezePagedTreeTable(deletetableLogic);
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightDTO;
-    SelectionDTO selection;
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightDTO;
+    protected SelectionDTO selection;
     @UiField("horizontalLayout1")
-    HorizontalLayout horizontalLayout1;
+    private HorizontalLayout horizontalLayout1;
     @UiField("verti")
-    VerticalLayout verti;
-    public ExtTreeContainer<AbstractSummaryDTO> resultBean = new ExtTreeContainer<>(AbstractSummaryDTO.class,ExtContainer.DataStructureMode.MAP);
+    private VerticalLayout verti;
+    private final ExtTreeContainer<AbstractSummaryDTO> resultBean = new ExtTreeContainer<>(AbstractSummaryDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The map left visible columns.
      */
-    public Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
+    private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
     /**
      * The map right visible columns.
      */
-    public Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
-    ExtFilterTreeTable leftTable;
-    ExtFilterTreeTable rightTable;
-    SessionDTO session;
-    List<ItemIndexDto> itemList;
-    public ExtCustomTreeTable exportPeriodViewTable;
-    public ExtTreeContainer<AbstractSummaryDTO> excelResultBean = new ExtTreeContainer<>(AbstractSummaryDTO.class,ExtContainer.DataStructureMode.MAP);
-    public RemoveItemLogic logic = new RemoveItemLogic();
-    TabSelectionDTO selectionDTO = new TabSelectionDTO();
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
+    private ExtFilterTreeTable leftTable;
+    private ExtFilterTreeTable rightTable;
+    private List<ItemIndexDto> itemList;
+    protected ExtCustomTreeTable exportPeriodViewTable;
+    protected ExtTreeContainer<AbstractSummaryDTO> excelResultBean = new ExtTreeContainer<>(AbstractSummaryDTO.class,ExtContainer.DataStructureMode.MAP);
+    protected final RemoveItemLogic logic = new RemoveItemLogic();
+    protected final TabSelectionDTO selectionDTO = new TabSelectionDTO();
 
     public Summary(List<ItemIndexDto> itemList, SelectionDTO selection) {
         this.selection = selection;
@@ -229,7 +220,6 @@ public abstract class Summary extends CustomComponent {
     }
 
     public void loadResultTable() {
-        session = selection.getSessionDTO();
         deletetableLogic.setProjectionResultsData(itemList, selection, isSales());
     }
 

@@ -53,7 +53,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -75,106 +74,97 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class CustomerSelection extends VerticalLayout {
 
     @UiField("selectedCustomersTableLayout")
-    public VerticalLayout selectedCustomersTableLayout;
+    private VerticalLayout selectedCustomersTableLayout;
 
     @UiField("companySearchResultsLayout")
-    public VerticalLayout companySearchResultsLayout;
+    private VerticalLayout companySearchResultsLayout;
 
     @UiField("transferCustomerTableLayout")
-    public VerticalLayout transferCustomerTableLayout;
+    private VerticalLayout transferCustomerTableLayout;
 
     @UiField("selectedCustomersExport")
-    public Button selectedCustomersExport;
+    private Button selectedCustomersExport;
 
     @UiField("searchResultsExport")
-    public Button searchResultsExport;
+    private Button searchResultsExport;
 
     @UiField("transferCustomersExport")
-    public Button transferCustomersExport;
+    private Button transferCustomersExport;
     @UiField("resetBtn")
-    public Button resetBtn;
+    private Button resetBtn;
     @UiField("searchBtn")
-    public Button searchBtn;
+    private Button searchBtn;
     @UiField("listViewResetBtn")
-    public Button listViewResetBtn;
+    private Button listViewResetBtn;
     @UiField("transferBtn")
-    public Button transferBtn;
+    private Button transferBtn;
     @UiField("removeBtn")
-    public Button removeBtn;
+    private Button removeBtn;
 
     @UiField("companyId")
-    public TextField companyId;
+    private TextField companyId;
     @UiField("companyName")
-    public TextField companyName;
+    private TextField companyName;
     @UiField("companyCategory")
-    public ComboBox companyCategory;
+    private ComboBox companyCategory;
     @UiField("identifierType")
-    public ComboBox identifierType;
+    private ComboBox identifierType;
     @UiField("parentNo")
     private CustomTextField parentNo;
     @UiField("companyType")
-    public ComboBox companyType;
+    private ComboBox companyType;
     @UiField("companyNo")
-    public TextField companyNo;
+    private TextField companyNo;
     @UiField("tradeClass")
-    public ComboBox tradeClass;
+    private ComboBox tradeClass;
     @UiField("identifier")
-    public TextField identifier;
+    private TextField identifier;
     @UiField("parentName")
     private CustomTextField parentName;
 
-    ParentCompanyLookup parentCompanyLookup = null;
-    int parentCompanySid;
+    private ParentCompanyLookup parentCompanyLookup = null;
+    private int parentCompanySid;
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(CustomerSelection.class);
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    final transient StplSecurity stplSecurity = new StplSecurity();
-    transient Map<String, AppPermission> functionHM = new HashMap<>();
+    private final transient StplSecurity stplSecurity = new StplSecurity();
 
-    TransferTPForm transferTpForm;
-    SessionDTO session;
+    private final TransferTPForm transferTpForm;
+    private SessionDTO session;
 
-    transient CompanySearchLogic logic = new CompanySearchLogic();
-    transient List<IdDescriptionDTO> resultList;
-    transient CompanySearchTableLogic selectedCustomersLogic = new CompanySearchTableLogic();
-    transient CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
-    transient LinkedCompaniesTableLogic transferCustomerTableLogic = new LinkedCompaniesTableLogic();
+    private final transient CompanySearchLogic logic = new CompanySearchLogic();
+    private transient List<IdDescriptionDTO> resultList;
+    private final transient CompanySearchTableLogic selectedCustomersLogic = new CompanySearchTableLogic();
+    private final transient CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
+    private final transient LinkedCompaniesTableLogic transferCustomerTableLogic = new LinkedCompaniesTableLogic();
 
-    public ExtPagedTable selectedCustomersTable = new ExtPagedTable(selectedCustomersLogic);
-    public ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
-    public ExtPagedTable transferCustomerTable = new ExtPagedTable(transferCustomerTableLogic);
+    private final ExtPagedTable selectedCustomersTable = new ExtPagedTable(selectedCustomersLogic);
+    private final ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
+    private final ExtPagedTable transferCustomerTable = new ExtPagedTable(transferCustomerTableLogic);
 
     private final BeanItemContainer<TradingPartnerDTO> selectedCustomersContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
     private final BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
     private final BeanItemContainer<CompanyLinkDTO> transferCustomerContainer = new BeanItemContainer<>(CompanyLinkDTO.class);
 
-    boolean isPlaceholdersAssociated = false;
-    boolean transferFlag = false;
+    private boolean transferFlag = false;
     private final String linkedCustomersSessionId = CommonUtils.createSessionId();
-    TradingPartnerDTO fromCompany;
-    TradingPartnerDTO toCompany;
+    private TradingPartnerDTO fromCompany;
+    private TradingPartnerDTO toCompany;
 
-    String customerSearchSessionId = StringUtils.EMPTY;
+    private String customerSearchSessionId = StringUtils.EMPTY;
 
-    public TradingPartnerDTO tpDto = new TradingPartnerDTO();
-    transient public CompanyLinkDTO companyDto = new CompanyLinkDTO();
-    final ErrorLabel errorMsg = new ErrorLabel();
-    transient CommonUtil commonUtil = CommonUtil.getInstance();
+    private final TradingPartnerDTO tpDto = new TradingPartnerDTO();
+    private final transient CompanyLinkDTO companyDto = new CompanyLinkDTO();
+    private final ErrorLabel errorMsg = new ErrorLabel();
+    private final transient CommonUtil commonUtil = CommonUtil.getInstance();
 
     /**
      * The data selection binder.
      */
-    public CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(tpDto));
-
-    @UiField("Excellayout")
-    public HorizontalLayout Excellayout;
-    @UiField("resultExcelLayout")
-    public HorizontalLayout resultExcelLayout;
-    @UiField("transferExcelLayout")
-    public HorizontalLayout transferExcelLayout;
-
+    private CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(tpDto));
+   
     public CustomerSelection(SessionDTO session, TransferTPForm form) {
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/customerSelection.xml"), this));
         this.transferTpForm = form;

@@ -56,28 +56,26 @@ import org.jboss.logging.Logger;
  */
 public class AbstractItemDetails extends CustomComponent {
 
-    Panel itemDetailsSummary = new Panel();
-    VerticalLayout lay = new VerticalLayout();
-    ItemDetailsTableLogic itemdetailstableLogic = new ItemDetailsTableLogic();
-    public ExtPagedTable itemdetailstable = new ExtPagedTable(itemdetailstableLogic);
-    ItemDetailsTableLogic itemTransferTableLogic = new ItemDetailsTableLogic();
-    public ExtPagedTable itemTransferTable = new ExtPagedTable(itemTransferTableLogic);
-    Object[] visibleColumn = {Constants.CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp", "ifp", "ps", "rs", "rarCategory", "status", "itemstartdate", "itemenddate"};
-    String[] columnHeader = {"", "Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", "CFP Name", Constants.IFP_NAME_LABEL, "PS Name", "RS Name", "RAR Category", "Status", Constants.ITEM_START_DATE, Constants.ITEM_END_DATE};
+    private Panel itemDetailsSummary = new Panel();
+    private VerticalLayout lay = new VerticalLayout();
+    private ItemDetailsTableLogic itemdetailstableLogic = new ItemDetailsTableLogic();
+    private ExtPagedTable itemdetailstable = new ExtPagedTable(itemdetailstableLogic);
+    private ItemDetailsTableLogic itemTransferTableLogic = new ItemDetailsTableLogic();
+    private ExtPagedTable itemTransferTable = new ExtPagedTable(itemTransferTableLogic);
+    private Object[] visibleColumn = {Constants.CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp", "ifp", "ps", "rs", "rarCategory", "status", "itemstartdate", "itemenddate"};
+    private String[] columnHeader = {"", "Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", "CFP Name", Constants.IFP_NAME_LABEL, "PS Name", "RS Name", "RAR Category", "Status", Constants.ITEM_START_DATE, Constants.ITEM_END_DATE};
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
-    SelectionDTO selection = new SelectionDTO();
-    public AbstractLogic logic = AbstractLogic.getInstance();
-    public SummaryLogic summaryLogic = new SummaryLogic();
-    Button cancelremove = new Button("CANCEL REMOVE");
-    Button cancelremoveForTransfer = new Button("CANCEL REMOVE");
-    List<SummaryDTO> selectedItemList = new ArrayList<>();
-    List<SummaryDTO> selectedTransferItemList = new ArrayList<>();
-    ExtCustomTable contractExcelTable;
-    BeanItemContainer<SummaryDTO> contractExcelResultBean;
-    BeanItemContainer<SummaryDTO> container = new BeanItemContainer<>(SummaryDTO.class);
-    BeanItemContainer<SummaryDTO> transferContainer = new BeanItemContainer<>(SummaryDTO.class);
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private SelectionDTO selection = new SelectionDTO();
+    private AbstractLogic logic = AbstractLogic.getInstance();
+    private SummaryLogic summaryLogic = new SummaryLogic();
+    private Button cancelremove = new Button("CANCEL REMOVE");
+    private Button cancelremoveForTransfer = new Button("CANCEL REMOVE");
+    private List<SummaryDTO> selectedItemList = new ArrayList<>();
+    private List<SummaryDTO> selectedTransferItemList = new ArrayList<>();
+    private BeanItemContainer<SummaryDTO> container = new BeanItemContainer<>(SummaryDTO.class);
+    private BeanItemContainer<SummaryDTO> transferContainer = new BeanItemContainer<>(SummaryDTO.class);
+    private final StplSecurity stplSecurity = new StplSecurity();
+    private Map<String, AppPermission> functionHM = new HashMap<>();
     public static final Logger LOGGER = Logger.getLogger(AbstractItemDetails.class);
 
     public AbstractItemDetails(SelectionDTO selection) {

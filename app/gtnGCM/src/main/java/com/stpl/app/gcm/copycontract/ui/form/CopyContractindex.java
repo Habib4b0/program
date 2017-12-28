@@ -225,7 +225,7 @@ public class CopyContractindex extends VerticalLayout {
         for (ContractSearchDTO temp : selectionList) {
             ContractSelectionDTO dto = new ContractSelectionDTO();
             dto.setContractSid(temp.getContractSid());
-            dto.setSessionid(String.valueOf(binderDTO.getSessionId()));
+            dto.setSessionId(String.valueOf(binderDTO.getSessionId()));
             dto.setUserid(String.valueOf(binderDTO.getUserId()));
             dto.setContractHolder(temp.getContractHolder());
             dto.setContractName(temp.getContractName());

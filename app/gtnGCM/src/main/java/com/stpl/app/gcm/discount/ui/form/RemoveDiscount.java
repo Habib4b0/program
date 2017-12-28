@@ -19,7 +19,6 @@ import com.stpl.app.gcm.discount.logic.RSInfoTableLogic;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.security.StplSecurity;
-import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
@@ -55,7 +54,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -76,74 +74,74 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class RemoveDiscount extends CustomComponent {
 
     @UiField("contractNo")
-    public TextField contractNo;
+    private TextField contractNo;
     @UiField("contractName")
-    public TextField contractName;
+    private TextField contractName;
     @UiField("contractType")
-    public TextField contractType;
+    private TextField contractType;
     @UiField("contractStartDate")
-    public TextField contractStartDate;
+    private TextField contractStartDate;
     @UiField("contractEndDate")
-    public TextField contractEndDate;
-    ComponentInfoTableLogic infoLogic = new ComponentInfoTableLogic();
-    public ExtPagedTable componentResultsTable = new ExtPagedTable(infoLogic);
-    ContractComponentInfoTableLogic contractLogic = new ContractComponentInfoTableLogic();
-    public ExtPagedTable contractComponentTable = new ExtPagedTable(contractLogic);
+    private TextField contractEndDate;
+    private final ComponentInfoTableLogic infoLogic = new ComponentInfoTableLogic();
+    private final ExtPagedTable componentResultsTable = new ExtPagedTable(infoLogic);
+    private final ContractComponentInfoTableLogic contractLogic = new ContractComponentInfoTableLogic();
+    private final ExtPagedTable contractComponentTable = new ExtPagedTable(contractLogic);
     @UiField("populateBtn")
-    public Button populateBtn;
+    private Button populateBtn;
     @UiField("populateBtn2")
-    public Button populateBtn2;
+    private Button populateBtn2;
     @UiField("rsId")
-    public TextField rsId;
+    private TextField rsId;
     @UiField("status")
-    public TextField status;
+    private TextField status;
     @UiField("rebateFrequency")
-    public TextField rebateFrequency;
+    private TextField rebateFrequency;
     @UiField("rsNumber")
-    public TextField rsNumber;
+    private TextField rsNumber;
     @UiField("startDate")
-    public PopupDateField startDate;
+    private PopupDateField startDate;
     @UiField("rarType")
-    public TextField rarType;
+    private TextField rarType;
     @UiField("rsType")
-    public TextField rsType;
+    private TextField rsType;
     @UiField("rsProgramType")
-    public TextField rsProgramType;
+    private TextField rsProgramType;
     @UiField("rsCategory")
-    public TextField rsCategory;
+    private TextField rsCategory;
     @UiField("paymentFrequency")
-    public TextField paymentFrequency;
+    private TextField paymentFrequency;
     @UiField("rebatePlanLevel")
-    public TextField rebatePlanLevel;
+    private TextField rebatePlanLevel;
     @UiField("rsName")
-    public TextField rsName;
+    private TextField rsName;
     @UiField("endDate")
-    public PopupDateField endDate;
+    private PopupDateField endDate;
     @UiField("basis")
-    public TextField basis;
-    public TreeTable dashboardTreeTable = new TreeTable();
+    private TextField basis;
+    private final TreeTable dashboardTreeTable = new TreeTable();
     @UiField("removeBtn")
-    public Button removeBtn;
+    private Button removeBtn;
     @UiField("removeAllBtn")
-    public Button removeAllBtn;
+    private Button removeAllBtn;
     RSInfoTableLogic rsInfoTableLogic = new RSInfoTableLogic();
-    public ExtPagedTable selectedTable = new ExtPagedTable(rsInfoTableLogic);
+    private final ExtPagedTable selectedTable = new ExtPagedTable(rsInfoTableLogic);
     @UiField("componentResultsLayout")
-    public VerticalLayout componentResultsLayout;
+    private VerticalLayout componentResultsLayout;
     @UiField("contractComponentsLayout")
-    public VerticalLayout contractComponentsLayout;
+    private VerticalLayout contractComponentsLayout;
     @UiField("dashBoardTableLayout")
-    public VerticalLayout dashBoardTableLayout;
+    private VerticalLayout dashBoardTableLayout;
     @UiField("selectedTableLayout")
-    public VerticalLayout selectedTableLayout;
+    private VerticalLayout selectedTableLayout;
     @UiField("searchField")
-    public ComboBox searchField;
+    private ComboBox searchField;
     @UiField("searchValue")
-    public TextField searchValue;
+    private TextField searchValue;
     @UiField("searchBtn")
-    public Button searchBtn;
+    private Button searchBtn;
     /* Contains the parent items of an item in the hierarchy */
-    public List parentList = new ArrayList();
+    private final List parentList = new ArrayList();
     /**
      * The contract member.
      */
@@ -161,45 +159,40 @@ public class RemoveDiscount extends CustomComponent {
      */
     private ContractsDetailsDto tableBean;
     private static final BeanItem<?> NULL_OBJECT = null;
-    public int levelValue;
+    private int levelValue;
     private final BeanItemContainer<RemoveDiscountDto> componentResultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     private final BeanItemContainer<RemoveDiscountDto> contractComponentContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
     private final BeanItemContainer<RemoveDiscountDto> selectedContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     private static final Logger LOGGER = Logger.getLogger(RemoveDiscount.class);
-    SessionDTO session = new SessionDTO();
-    RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
-    List<String> removeList = new ArrayList<>();
-    List<Integer> contractList = new ArrayList<>();
-    List<Integer> rebateList = new ArrayList<>();
-    List<RemoveDiscountDto> selecteditemList;
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private final List<String> removeList = new ArrayList<>();
+    private final List<Integer> contractList = new ArrayList<>();
+    private final List<Integer> rebateList = new ArrayList<>();
+    private List<RemoveDiscountDto> selecteditemList;
+    private static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The table bean id.
      */
     private Object tableBeanId;
-    DiscountLogic logic = new DiscountLogic();
-    Summary summary;
-    TabSheet mainTab;
-    RemoveDiscountLookUp lookUp;
-    QueryUtils queryUtils = new QueryUtils();
+    private final DiscountLogic logic = new DiscountLogic();
+    private Summary summary;
+    private TabSheet mainTab;
+    private final QueryUtils queryUtils = new QueryUtils();
     @UiField("fromCDLabelNo")
-    public Label fromCDLabelNo;
+    private Label fromCDLabelNo;
     @UiField("fromCDNo")
-    public TextField fromCDNo;
+    private TextField fromCDNo;
     @UiField("fromCDLabelName")
-    public Label fromCDLabelName;
+    private Label fromCDLabelName;
     @UiField("fromCDName")
-    public TextField fromCDName;
-    RemoveDiscount removeDiscount;
-    boolean remove = true;
-    CommonUtils commonUtils = new CommonUtils();
+    private TextField fromCDName;
+    private RemoveDiscount removeDiscount;
+    private final boolean remove = true;
     private final ContractsDetailsDto contractDto = new ContractsDetailsDto();
-    int userId;
-    int sessionId;
-    List<Object> rsSidList = new ArrayList<>();
+    private int userId;
+    private int sessionId;
+    private final List<Object> rsSidList = new ArrayList<>();
 
     public Component getContent(final List<RemoveDiscountDto> selecteditemList, TabSheet mainTab, Summary summary, RemoveDiscount removeDiscount, int userID, int sessionID) {
         this.selecteditemList = selecteditemList;

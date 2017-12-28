@@ -46,7 +46,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TableFieldFactory;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -61,7 +60,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -83,75 +81,66 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ItemManagementIndex extends CustomComponent {
 
-    @UiField("itemId")
-    public TextField itemId;
-    @UiField("itemName")
-    public TextField itemName;
+    
     @UiField("therapeuticClass")
-    public ComboBox therapeuticClass;
+    private ComboBox therapeuticClass;
     @UiField("form")
-    public ComboBox form_DTO;
+    private ComboBox form_DTO;
     @UiField("identifierType")
-    public ComboBox identifierType_DTO;
-    @UiField("itemNo")
-    public TextField itemNo;
-    @UiField("itemDesc")
-    public TextField itemDesc;
+    private ComboBox identifierType_DTO;
+    
     @UiField("brand")
-    public ComboBox brand_DTO;
+    private ComboBox brand_DTO;
     @UiField("strength")
-    public ComboBox strength_DTO;
+    private ComboBox strength_DTO;
     @UiField("identifier")
-    public TextField identifier;
+    private TextField identifier;
     @UiField("company")
-    public ComboBox company_DTO;
+    private ComboBox company_DTO;
     @UiField("placeHolder")
-    public ComboBox placeHolder_DTO;
-    @UiField("ndc9")
-    public TextField ndc9;
+    private ComboBox placeHolder_DTO;
+    
     @UiField("itemCategory")
-    public ComboBox itemCategory;
+    private ComboBox itemCategory;
     @UiField("itemType")
-    public ComboBox itemType;
+    private ComboBox itemType;
     @UiField("tableLayout")
-    public VerticalLayout vLayout;
+    private VerticalLayout vLayout;
     @UiField("addBtn")
-    public Button addBtn;
+    private Button addBtn;
     @UiField("deleteBtn")
-    public Button deleteBtn;
+    private Button deleteBtn;
     @UiField("editBtn")
-    public Button editBtn;
+    private Button editBtn;
     @UiField("transferBtn")
-    public Button transferBtn;
+    private Button transferBtn;
     @UiField("excelBtn")
-    public Button excel;
+    private Button excel;
     @UiField("searchBtn")
-    public Button searchBtn;
+    private Button searchBtn;
     @UiField("resetBtn")
-    public Button resetBtn;
+    private Button resetBtn;
     @UiField("tableReset")
-    public Button tableReset;
-    TabSheet mainTab = new TabSheet();
-    public static final Logger LOGGER = Logger.getLogger(ItemManagementIndex.class);
-    BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
-    ItemLogic logic = new ItemLogic();
-    AbstractLogic abstractLogic = AbstractLogic.getInstance();
-    ItemIndexDto binderDto = new ItemIndexDto();
+    private Button tableReset;
+    
+    private static final Logger LOGGER = Logger.getLogger(ItemManagementIndex.class);
+    private final BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
+    private final ItemLogic logic = new ItemLogic();
+    private final AbstractLogic abstractLogic = AbstractLogic.getInstance();
+    private ItemIndexDto binderDto = new ItemIndexDto();
     private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
-    SelectionDTO selection;
-    boolean resetFlag = false;
-    HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
-    ItemIndexTableLogic tableLogic = new ItemIndexTableLogic();
-    public ExtPagedTable itemResults = new ExtPagedTable(tableLogic);
-    List<ItemIndexDto> selecteditemList = new ArrayList<>();
-    final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
-    Integer internalSessionId = 0;
-    Long sessionId;
+    private final SelectionDTO selection;
+    
+    private final ItemIndexTableLogic tableLogic = new ItemIndexTableLogic();
+    private final ExtPagedTable itemResults = new ExtPagedTable(tableLogic);
+    private final List<ItemIndexDto> selecteditemList = new ArrayList<>();
+    private final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
+    
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
-    VerticalLayout contractDashboardLay = new VerticalLayout();
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    
+    private final StplSecurity stplSecurity = new StplSecurity();
+    
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
 
     public ItemManagementIndex(SelectionDTO selection) {
         this.selection = selection;
@@ -402,7 +391,6 @@ public class ItemManagementIndex extends CustomComponent {
                 Date sessionDate = new Date();
                 selection.setInternalSessionid(Integer.valueOf(fmtID.format(sessionDate)).toString());
                 selection.setReset(false);
-                resetFlag = true;
                 if (!tableLogic.loadSetData(binderDto, selection, selecteditemList)) {
 
                     AbstractNotificationUtils.getErrorNotification("No Matching Records",
@@ -483,7 +471,6 @@ public class ItemManagementIndex extends CustomComponent {
             public void yesMethod() {
                 itemResults.resetFilters();
                 selection.setReset(true);
-                resetFlag = true;
                 tableLogic.loadSetData(binderDto, selection, null);
             }
 

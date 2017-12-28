@@ -148,7 +148,7 @@ public class CompanySearch extends VerticalLayout {
     int parentCompanySid;
     ParentCompanyLookup parentCompanyLookup = null;
     private String searchSessionId = StringUtils.EMPTY;
-    CompanySearchLogic logic = new CompanySearchLogic();
+    CompanySearchLogic companySearchLogic = new CompanySearchLogic();
 
     public CompanySearch(String updateType) {
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/companySearch.xml"), this));
@@ -279,27 +279,27 @@ public class CompanySearch extends VerticalLayout {
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("tradeClass".equals(propertyId)) {
                     try {
-                        ComboBox tradeClass = new ComboBox();
-                        commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, true);
-                        return tradeClass;
+                        ComboBox tmpComboTradeClass = new ComboBox();
+                        commonUtil.loadComboBox(tmpComboTradeClass, UiUtils.COMPANY_TRADE_CLASS, true);
+                        return tmpComboTradeClass;
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
                 }
                 if ("companyType".equals(propertyId)) {
                     try {
-                        ComboBox companyType = new ComboBox();
-                        commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, true);
-                        return companyType;
+                        ComboBox tmpCompanyType = new ComboBox();
+                        commonUtil.loadComboBox(tmpCompanyType, UiUtils.COMPANY_TYPE, true);
+                        return tmpCompanyType;
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
                 }
                 if ("companyCategory".equals(propertyId)) {
                     try {
-                        ComboBox companyCategory = new ComboBox();
-                        commonUtil.loadComboBox(companyCategory, UiUtils.COMPANY_CATEGORY, true);
-                        return companyCategory;
+                        ComboBox tmpCompanyCategory = new ComboBox();
+                        commonUtil.loadComboBox(tmpCompanyCategory, UiUtils.COMPANY_CATEGORY, true);
+                        return tmpCompanyCategory;
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
@@ -437,10 +437,10 @@ public class CompanySearch extends VerticalLayout {
             if (count > 0) {
                 int count1 = logic.getDataCount(session.getCompanyMasterSids(), false);
                 if (count1 > 0) {
-                    SessionDTO session = createSession(updateType);
-                    session.setSearchSessionId(searchSessionId);
-                    session.setModuleName(TRADING_PARTNER_REMOVE.getConstant());
-                        RemoveTPForm removeForm = new RemoveTPForm(session);
+                    SessionDTO sessionDto = createSession(updateType);
+                    sessionDto.setSearchSessionId(searchSessionId);
+                    sessionDto.setModuleName(TRADING_PARTNER_REMOVE.getConstant());
+                        RemoveTPForm removeForm = new RemoveTPForm(sessionDto);
                     UI.getCurrent().addWindow(removeForm);
                 } else {
                     AbstractNotificationUtils.getErrorNotification("No Valid Contracts", "There is no Contract attached with the selected Company ");
@@ -458,12 +458,12 @@ public class CompanySearch extends VerticalLayout {
         if (ADD_TRADING_PARTNER.getConstant().equals(updateType)) {
             if (companySearchResultsTable.getValue() != null) {
                 TradingPartnerDTO dto = (TradingPartnerDTO) companySearchResultsTable.getValue();
-                SessionDTO session = createSession(updateType);
-                session.setModuleName(ADD_TRADING_PARTNER.getConstant());
+                SessionDTO sessionDto = createSession(updateType);
+                sessionDto.setModuleName(ADD_TRADING_PARTNER.getConstant());
                 List<String> companyIds = new ArrayList<>();
                 companyIds.add(dto.getCompanySystemId());
-                session.setCompanyMasterSids(companyIds);
-                AddTPForm removeForm = new AddTPForm(session);
+                sessionDto.setCompanyMasterSids(companyIds);
+                AddTPForm removeForm = new AddTPForm(sessionDto);
                 UI.getCurrent().addWindow(removeForm);
             } else {
                 AbstractNotificationUtils.getErrorNotification(" Error", PLEASE_SELECT_A_VALUE_IN_THE_RESULTS_LIST);
@@ -487,14 +487,14 @@ public class CompanySearch extends VerticalLayout {
                     }
 
                     if (count1 > 0) {
-                        SessionDTO session = createSession(updateType);
-                        session.setSearchSessionId(searchSessionId);
+                        SessionDTO sessionDto = createSession(updateType);
+                        sessionDto.setSearchSessionId(searchSessionId);
                         if (TRANSFER_TRADING_PARTNER.getConstant().equals(updateType)) {
-                            session.setModuleName(TRANSFER_TRADING_PARTNER.getConstant());
+                            sessionDto.setModuleName(TRANSFER_TRADING_PARTNER.getConstant());
                         } else {
-                            session.setModuleName(PROJECTION_DETAILS_TRANSFER.getConstant());
+                            sessionDto.setModuleName(PROJECTION_DETAILS_TRANSFER.getConstant());
                         }
-                        TransferTPForm transferTp = new TransferTPForm(session);
+                        TransferTPForm transferTp = new TransferTPForm(sessionDto);
                         UI.getCurrent().addWindow(transferTp);
                     } else {
                         if (session.getCompanyMasterSids().size() == 1) {
@@ -522,10 +522,10 @@ public class CompanySearch extends VerticalLayout {
             if (count > 0) {
                 int count1 = logic.getDataCount(session.getCompanyMasterSids(), false);
                 if (count1 > 0) {
-                    SessionDTO session = createSession(updateType);
-                    session.setSearchSessionId(searchSessionId);
-                    session.setModuleName(TRADING_PARTNER_UPDATE.getConstant());
-                    UpdateTPForm updateTPForm = new UpdateTPForm(session);
+                    SessionDTO sessionDto = createSession(updateType);
+                    sessionDto.setSearchSessionId(searchSessionId);
+                    sessionDto.setModuleName(TRADING_PARTNER_UPDATE.getConstant());
+                    UpdateTPForm updateTPForm = new UpdateTPForm(sessionDto);
                     UI.getCurrent().addWindow(updateTPForm);
                 } else {
                     AbstractNotificationUtils.getErrorNotification("No Valid Contracts", "There is no Contract attached with the selected Company ");
@@ -640,7 +640,7 @@ public class CompanySearch extends VerticalLayout {
             recordLockStatus = Constants.ZEROSTRING;
         }
         if (resultTable.size() != 0) {
-            recordCount = logic.companySearchCount(tpDto, parentCompanyNo, parentCompanyName, companyLogic.getFilters(), recordLockStatus, searchSessionId);
+            recordCount = companySearchLogic.companySearchCount(tpDto, parentCompanyNo, parentCompanyName, companyLogic.getFilters(), recordLockStatus, searchSessionId);
         }
         ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.toUpperCase());
 
@@ -712,7 +712,7 @@ public class CompanySearch extends VerticalLayout {
         }
         try {
             if (end != 0) {
-                final List<TradingPartnerDTO> searchList = (List<TradingPartnerDTO>) logic.searchCompaniesLazy(tpDto, start, end, companyLogic.getSortByColumns(), parentCompanyNo, parentCompanyName, companyLogic.getFilters(), recordLockStatus, searchSessionId, false);
+                final List<TradingPartnerDTO> searchList = (List<TradingPartnerDTO>) companySearchLogic.searchCompaniesLazy(tpDto, start, end, companyLogic.getSortByColumns(), parentCompanyNo, parentCompanyName, companyLogic.getFilters(), recordLockStatus, searchSessionId, false);
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (Exception e) {

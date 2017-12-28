@@ -3,11 +3,9 @@ package com.stpl.app.gcm.itemmanagement.add.form;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
-import com.stpl.app.gcm.itemmanagement.add.dto.ComponentTableDTO;
 import com.stpl.app.gcm.itemmanagement.add.dto.ContractDashboardDTO;
 import com.stpl.app.gcm.itemmanagement.add.dto.SummaryDTO;
 import com.stpl.app.gcm.itemmanagement.add.logic.SummaryLogic;
-import com.stpl.app.gcm.itemmanagement.add.logic.tablelogic.ComponentDetailsTableLogic;
 import com.stpl.app.gcm.itemmanagement.add.logic.tablelogic.ContractDashboardTableLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.abstracttablelogic.ItemDetailsTableLogic;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
@@ -40,7 +38,6 @@ import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 
@@ -69,70 +66,61 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class Summary extends CustomComponent {
 
     @UiField("selectionCriteria")
-    Panel selectionCriteria;
+    private Panel selectionCriteria;
     @UiField("itemNo")
-    public TextField itemNo;
+    private TextField itemNo;
     @UiField("itemName")
-    public TextField itemName;
+    private TextField itemName;
     @UiField("itemDesc")
-    public TextField itemDesc;
+    private TextField itemDesc;
     @UiField("therapeuticClass")
-    public TextField therapeuticClass;
+    private TextField therapeuticClass;
     @UiField("brand")
-    public TextField brand;
+    private TextField brand;
     @UiField("Contract Processing Dashboard")
-    Panel ContractProcessingDashboard;
+    private Panel ContractProcessingDashboard;
     @UiField("Add Trading Partner Results")
-    Panel addTradingPartnerResults;
+    private Panel addTradingPartnerResults;
     @UiField("lay")
-    VerticalLayout lay;
+    private VerticalLayout lay;
     @UiField("addremove")
-    Button remove;
+    private Button remove;
     @UiField("excelBtn")
-    Button excelBtn;
+    private Button excelBtn;
     @UiField("contractDashboardResults")
-    Panel ContractDashboardResults;
+    private Panel ContractDashboardResults;
     @UiField("contractDashboardLay")
-    VerticalLayout contractDashboardLay;
-    Table table2;
-    Button remove1 = new Button("REMOVE");
-    Button populate = new Button("POPULATE");
+    private VerticalLayout contractDashboardLay;
+    private final Button remove1 = new Button("REMOVE");
+    private final Button populate = new Button("POPULATE");
     @UiField("Component Details")
-    Panel ComponentDetails;
+    private Panel ComponentDetails;
     @UiField("componentDetailsLay")
-    VerticalLayout componentDetailsLay;
-    ItemDetailsTableLogic contractTableLogic = new ItemDetailsTableLogic();
+    private VerticalLayout componentDetailsLay;
+    private final ItemDetailsTableLogic contractTableLogic = new ItemDetailsTableLogic();
     public ExtPagedTable addContractTable = new ExtPagedTable(contractTableLogic);
-    ComponentDetailsTableLogic componenttableLogic = new ComponentDetailsTableLogic();
-    public ExtPagedTable componenttable = new ExtPagedTable(componenttableLogic);
-    ContractDashboardTableLogic contractDashboardTableLogic = new ContractDashboardTableLogic();
-    public FreezePagedTreeTable contractDashBoardtable = new FreezePagedTreeTable(contractDashboardTableLogic);
-    public List<ItemIndexDto> selecteditemList;
+    private final ContractDashboardTableLogic contractDashboardTableLogic = new ContractDashboardTableLogic();
+    private final FreezePagedTreeTable contractDashBoardtable = new FreezePagedTreeTable(contractDashboardTableLogic);
+    private List<ItemIndexDto> selecteditemList;
     public static final Logger LOGGER = Logger.getLogger(AddContractSelection.class);
-    Object[] visibleColumn = {Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp", "ifp", "ps", "rs"};
-    String[] columnHeader = {"Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", Constants.CFP, Constants.IFP, Constants.PS, Constants.RS};
-    Object[] componentColumn = {"itemNo", "itemName", "therapyClass", "brand", "status", Constants.START_DATE, Constants.END_DATE, "rebatePlan", "formulaId"};
-    String[] componentHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, "Status", "Start Date", "End Date", "Rebate Plan", "Formula ID"};
-    Object[] contractDashBoardColumn = {"component", "id", "number", "name"};
-    String[] contractDashBoardHeader = {"Component", "ID", "Number", "Name"};
-    ExtTreeContainer<ContractDashboardDTO> contractDashBoardContainer = new ExtTreeContainer<>(ContractDashboardDTO.class);
-    SelectionDTO selection;
-    ContractDashboardDTO componentInfoDTO = new ContractDashboardDTO();
-    SummaryDTO summaryItem = new SummaryDTO();
+    private final Object[] visibleColumn = {Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp", "ifp", "ps", "rs"};
+    private final String[] columnHeader = {"Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", Constants.CFP, Constants.IFP, Constants.PS, Constants.RS};
+    private final Object[] contractDashBoardColumn = {"component", "id", "number", "name"};
+    private final String[] contractDashBoardHeader = {"Component", "ID", "Number", "Name"};
+    private final ExtTreeContainer<ContractDashboardDTO> contractDashBoardContainer = new ExtTreeContainer<>(ContractDashboardDTO.class);
+    private SelectionDTO selection;
+    private ContractDashboardDTO componentInfoDTO = new ContractDashboardDTO();
+    private SummaryDTO summaryItem = new SummaryDTO();
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
-    Object dashBoardItemId;
-    Object contractItemId;
-    BeanItemContainer<ComponentTableDTO> componentContainer = new BeanItemContainer<>(ComponentTableDTO.class);
-    BeanItemContainer<SummaryDTO> contractContainer = new BeanItemContainer<>(SummaryDTO.class);
-    ComponentInfo component;
-    ExtFilterTreeTable leftTable;
-    ExtFilterTreeTable rightTable;
-    SummaryDTO summaryDTO = new SummaryDTO();
-    ContractDashboardDTO dto = new ContractDashboardDTO();
-    SummaryLogic logic = new SummaryLogic();
-    AbstractLogic abstractLogic = AbstractLogic.getInstance();
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private final BeanItemContainer<SummaryDTO> contractContainer = new BeanItemContainer<>(SummaryDTO.class);
+    private ComponentInfo component;
+    private ExtFilterTreeTable leftTable;
+    private ExtFilterTreeTable rightTable;
+    private final ContractDashboardDTO dto = new ContractDashboardDTO();
+    private final SummaryLogic logic = new SummaryLogic();
+    private final AbstractLogic abstractLogic = AbstractLogic.getInstance();
+    private final StplSecurity stplSecurity = new StplSecurity();
+    private Map<String, AppPermission> functionHM = new HashMap<>();
 
     public Summary(List<ItemIndexDto> selecteditemList) {
         this.selecteditemList = selecteditemList;
@@ -402,10 +390,8 @@ public class Summary extends CustomComponent {
     protected void resultsItemClick(final Object obj) {
         if (obj == null) {
             componentInfoDTO = null;
-            dashBoardItemId = null;
         } else {
             componentInfoDTO = (ContractDashboardDTO) obj;
-            dashBoardItemId = obj;
         }
     }
 
@@ -418,10 +404,8 @@ public class Summary extends CustomComponent {
     protected void contractItemClick(final Object obj) {
         if (obj == null) {
             summaryItem = null;
-            contractItemId = null;
         } else {
             summaryItem = (SummaryDTO) obj;
-            contractItemId = obj;
         }
     }
 

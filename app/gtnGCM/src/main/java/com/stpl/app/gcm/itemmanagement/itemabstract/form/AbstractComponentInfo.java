@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -69,88 +68,84 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class AbstractComponentInfo extends CustomComponent {
 
-    @UiField("compId")
-    public Label compId;
     @UiField("componentSelection")
-    public ComboBox componentSelection;
+    private ComboBox componentSelection;
     @UiField("labelId")
-    public Label labelId;
+    private Label labelId;
     @UiField("componentId")
-    public TextField componentId;
+    private TextField componentId;
     @UiField("labelNo")
-    public Label labelNo;
+    private Label labelNo;
     @UiField("componentNo")
-    TextField componentNo;
+    private TextField componentNo;
     @UiField("labelName")
-    public Label labelName;
+    private Label labelName;
     @UiField("componentName")
-    TextField componentName;
+    private TextField componentName;
     @UiField("labelStatus")
-    public Label labelStatus;
+    private Label labelStatus;
     @UiField("componentStatus")
-    TextField componentStatus;
+    private TextField componentStatus;
     @UiField("labelType")
-    public Label labelType;
+    private Label labelType;
     @UiField("componentType")
-    TextField componentType;
-    @UiField("lableStartDate")
-    public Label lableStartDate;
+    private TextField componentType;
+    
     @UiField("compStartDate")
-    PopupDateField compStartDate;
-    @UiField("lableEndDate")
-    public Label lableEndDate;
+    private PopupDateField compStartDate;
+    
     @UiField("compEndDate")
-    PopupDateField compEndDate;
+    private PopupDateField compEndDate;
     @UiField("labelRebateFreq")
-    public Label labelRebateFreq;
+    private Label labelRebateFreq;
     @UiField("rebateFrequency")
-    TextField rebateFrequency;
+    private TextField rebateFrequency;
     @UiField("labelBasis")
-    public Label labelBasis;
+    private Label labelBasis;
     @UiField("basis")
-    TextField basis;
+    private TextField basis;
     @UiField("labelRsType")
-    public Label labelRsType;
+    private Label labelRsType;
     @UiField("rsType")
-    public ComboBox rsType_DTO;
+    protected ComboBox rsType_DTO;
     @UiField("lableRsProgramType")
-    public Label lableRsProgramType;
+    protected Label lableRsProgramType;
     @UiField("rsProgramType")
-    public ComboBox rsProgramType_DTO;
+    protected ComboBox rsProgramType_DTO;
     @UiField("lableRsCategory")
-    public Label lableRsCategory;
+    protected Label lableRsCategory;
     @UiField("rsCategory")
-    public ComboBox rsCategory_DTO;
+    protected ComboBox rsCategory_DTO;
     @UiField("lablePaymentFreq")
-    public Label lablePaymentFreq;
+    private Label lablePaymentFreq;
     @UiField("paymentFrequency")
-    public ComboBox paymentFrequency_DTO;
+    protected ComboBox paymentFrequency_DTO;
     @UiField("lableRebatePlanLevel")
-    public Label lableRebatePlanLevel;
+    private Label lableRebatePlanLevel;
     @UiField("rebatePlanLevel")
-    public ComboBox rebatePlanLevel_DTO;
+    protected ComboBox rebatePlanLevel_DTO;
     @UiField("tableLayout")
-    VerticalLayout tableLayout;
+    private VerticalLayout tableLayout;
     @UiField("itemSearchGrid")
-    GridLayout itemSearchGrid;
+    private GridLayout itemSearchGrid;
     @UiField("exportBtn")
-    public Button exportBtn;
-    TextField rsTypeText = new TextField();
-    TextField rsProgramTypeText = new TextField();
-    TextField rsCategoryText = new TextField();
-    TextField paymentFrequencyText = new TextField();
-    TextField rebatePlanLevelText = new TextField();
-    ComponentInfoTableLogic tablelogic = new ComponentInfoTableLogic();
-    public ExtPagedTable currentComponentTable = new ExtPagedTable(tablelogic);
-    BeanItemContainer<ComponentInfoDTO> searchContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
-    String layoutIndicator = new String();
+    private Button exportBtn;
+    protected final TextField rsTypeText = new TextField();
+    protected final TextField rsProgramTypeText = new TextField();
+    protected final TextField rsCategoryText = new TextField();
+    protected final TextField paymentFrequencyText = new TextField();
+    protected final TextField rebatePlanLevelText = new TextField();
+    private final ComponentInfoTableLogic tablelogic = new ComponentInfoTableLogic();
+    private final ExtPagedTable currentComponentTable = new ExtPagedTable(tablelogic);
+    private final BeanItemContainer<ComponentInfoDTO> searchContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
+    private String layoutIndicator = new String();
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
-    public final Object[] ifpCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.ATTACHED_DATE_PROPERTY};
-    public final String[] ifpHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.ATTACHED_DATE_FIELD};
-    public final Object[] cfpCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, "itemStatus", Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "tradeClass", Constants.ATTACHED_DATE_PROPERTY};
-    public final String[] cfpHeader = {Constants.COMPANYNO, Constants.COMPANYNAME, "Company status", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.TRADECLASS, Constants.ATTACHED_DATE_FIELD};
+    private final Object[] ifpCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.ATTACHED_DATE_PROPERTY};
+    private final String[] ifpHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.ATTACHED_DATE_FIELD};
+    private final Object[] cfpCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, "itemStatus", Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "tradeClass", Constants.ATTACHED_DATE_PROPERTY};
+    private final String[] cfpHeader = {Constants.COMPANYNO, Constants.COMPANYNAME, "Company status", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.TRADECLASS, Constants.ATTACHED_DATE_FIELD};
 
-    public final Object[] psCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY,
+    private final Object[] psCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY,
         Constants.PRICE_PROTECTION_STATUS_PROPERTY, Constants.PRICE_PROTECTION_START_DATE_PROPERTY, Constants.PRICE_PROTECTION_END_DATE_PROPERTY,
         Constants.MEASUREMENT_PRICE_PROPERTY, Constants.NEP_PROPERTY, Constants.NEP_FORMULA_PROPERTY, Constants.BASE_PRICE_PROPERTY, Constants.BASELINE_WAC_PROPERTY,
         Constants.BASELINE_NET_WAC_PROPERTY, Constants.NET_BASELINE_WAC_FORMULA_PROPERTY, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY, Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_PROPERTY,
@@ -158,7 +153,7 @@ public class AbstractComponentInfo extends CustomComponent {
         Constants.MAX_INCREMENTAL_CHANGE_PROPERTY, Constants.RESET_ELIGIBLE_PROPERTY, Constants.RESET_TYPE_PROPERTY, Constants.RESET_DATE_PROPERTY, Constants.RESET_INTERVAL_PROPERTY, Constants.RESET_FREQUENCY_PROPERTY,
         Constants.RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_FORMULA_PROPERTY, Constants.NET_PRICE_TYPE_PROPERTY, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY, Constants.ATTACHED_DATE_PROPERTY};
 
-    public final String[] psHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND,
+    private final String[] psHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND,
         Constants.PRICE_PROTECTION_STATUS_LABEL, Constants.PRICE_PROTECTION_START_DATE_LABEL, Constants.PRICE_PROTECTION_END_DATE_LABEL,
         Constants.MEASUREMENT_PRICE_LABLE_NAME, Constants.NEP_LABLE_NAME, Constants.NEP_FORMULA_LABLE_NAME, Constants.BASE_PRICE_TYPE_LABLE_NAME, Constants.BASELINE_WAC_LABLE_NAME,
         Constants.BASELINE_NET_WAC_LABLE_NAME, Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME,
@@ -167,19 +162,19 @@ public class AbstractComponentInfo extends CustomComponent {
         Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME, Constants.NET_PRICE_TYPE_LABLE_NAME, Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME, Constants.ATTACHED_DATE_FIELD};
 
 
-    public final Object[] rsCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", Constants.ATTACHED_DATE_PROPERTY};
-    public final String[] rsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
-    ComponentInfoDTO binderDto = new ComponentInfoDTO();
-    public static final String FILTERBAR = "filterbar";
+    private final Object[] rsCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", Constants.ATTACHED_DATE_PROPERTY};
+    private final String[] rsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
+    private final ComponentInfoDTO binderDto = new ComponentInfoDTO();
+    private static final String FILTERBAR = "filterbar";
     private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
-    SelectionDTO selection;
-    AbstractLogic abstractLogic = AbstractLogic.getInstance();
-    String componentFlag = StringUtils.EMPTY;
+    private SelectionDTO selection;
+    private final AbstractLogic abstractLogic = AbstractLogic.getInstance();
+    private String componentFlag = StringUtils.EMPTY;
     private BeanItemContainer<ComponentInfoDTO> contractExcelResultBean = new BeanItemContainer<>(ComponentInfoDTO.class);
     private ExtCustomTable contractExcelTable;
-    VerticalLayout contractDashboardLay = new VerticalLayout();
-    ComponentInfoDTO componentDto = new ComponentInfoDTO();
-    AbstractLogic logic = AbstractLogic.getInstance();
+    private final VerticalLayout contractDashboardLay = new VerticalLayout();
+    private ComponentInfoDTO componentDto = new ComponentInfoDTO();
+    private final AbstractLogic logic = AbstractLogic.getInstance();
 
     public AbstractComponentInfo(final String indicator, final SelectionDTO selection) {
         this.selection = selection;

@@ -94,98 +94,88 @@ import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_
 public class AddContractSelection extends CustomComponent {
 
     @UiField("itemNo")
-    public TextField itemNo;
+    private TextField itemNo;
     @UiField("itemName")
-    public TextField itemName;
+    private TextField itemName;
     @UiField("itemDesc")
-    public TextField itemDesc;
+    private TextField itemDesc;
     @UiField("therapeuticClass")
-    public TextField therapeuticClass;
+    private TextField therapeuticClass;
     @UiField("brand")
-    public TextField brand;
+    private TextField brand;
     @UiField(Constants.CONTRACT_HOLDER)
-    public CustomTextField vCntHolder;
+    private CustomTextField vCntHolder;
     @UiField("ifp")
-    public CustomTextField ifp;
+    private CustomTextField ifp;
     @UiField("cfp")
-    public CustomTextField cfp;
+    private CustomTextField cfp;
     @UiField("contractNo")
-    public CustomTextField vCntNo;
+    private CustomTextField vCntNo;
     @UiField("contractName")
-    public CustomTextField vCntName;
+    private CustomTextField vCntName;
     @UiField("priceSchedule")
-    public CustomTextField vPriceSchdle;
+    private CustomTextField vPriceSchdle;
     @UiField("customerNo")
-    public CustomTextField vCustNo;
+    private CustomTextField vCustNo;
     @UiField("customerName")
-    public CustomTextField vCustName;
+    private CustomTextField vCustName;
     @UiField("rebateSchedule")
-    public CustomTextField rsSchedule;
+    private CustomTextField rsSchedule;
     @UiField("number")
-    public TextField number;
+    private TextField number;
     @UiField("massUpdateValue")
-    public ComboBox massUpdateValue;
+    private ComboBox massUpdateValue;
     @UiField("marketType")
-    public ComboBox marketType_DTO;
+    private ComboBox marketType_DTO;
     @UiField("typeDdlb")
-    public ComboBox typeDdlb;
+    private ComboBox typeDdlb;
     @UiField("field")
-    public ComboBox field;
-    @UiField("startDate")
-    public PopupDateField startDate;
-    @UiField("endDate")
-    public PopupDateField endDate;
-    @UiField("fromDate")
-    public PopupDateField fromDate;
-    @UiField("toDate")
-    public PopupDateField toDate;
+    private ComboBox field;
+    
     @UiField("massStartDate")
-    public PopupDateField massStartDate;
+    private PopupDateField massStartDate;
     @UiField("massEndDate")
-    public PopupDateField massEndDate;
+    private PopupDateField massEndDate;
     @UiField("massUpdateRadio")
-    public OptionGroup massUpdateRadio;
+    private OptionGroup massUpdateRadio;
     @UiField("searchBtn")
-    public Button searchBtn;
+    private Button searchBtn;
     @UiField("populateBtn")
-    public Button populateBtn;
+    private Button populateBtn;
     @UiField("resetBtncur")
-    public Button resetBtncur;
+    private Button resetBtncur;
     @UiField("resetBtn")
-    public Button resetBtn;
+    private Button resetBtn;
     @UiField("submitBtncur")
-    public Button submitBtncur;
+    private Button submitBtncur;
     @UiField("contractVertical")
-    public VerticalLayout contractVertical;
-    @UiField("allItemsBtn")
-    public Button allItemsBtn;
+    private VerticalLayout contractVertical;
+    
     @UiField("allItemsCombo")
-    public ComboBox allItemsCombo;
-    @UiField("AddItemDetails")
-    public Panel AddItemDetails;
+    private ComboBox allItemsCombo;
+    
     @UiField("componentInfoLayout")
     VerticalLayout componentInfoLayout;
     @UiField("startdatelabel")
-    public Label startdatelabel;
+    private Label startdatelabel;
     @UiField("enddatelabel")
-    public Label enddatelabel;
+    private Label enddatelabel;
     @UiField("valuelabel")
-    public Label valuelabel;
+    private Label valuelabel;
     @UiField("baseWacPriceType")
     private ComboBox baseWacPriceType;
     @UiField("baseWacManual")
     protected TextField baseWacManual;
-     @UiField("baseWacDate")
-    public PopupDateField baseWacDate;
-    public static final Logger LOGGER = Logger.getLogger(AddContractSelection.class);
-    AddItemDetailsTableLogic addItemTableLogic = new AddItemDetailsTableLogic();
-    public static final String PRICE_TOLERANCE_FREQUENCY_LABEL = "Price ToleranceFrequency";
-    public ExtPagedTable addItemTable = new ExtPagedTable(addItemTableLogic);
-    public static final String SEARCHICON = "searchicon";
-    public List<ItemIndexDto> selecteditemList;
-    Object[] componentColumn = {"itemNo", "itemName", "therapyClass", "brand", Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.REBATE_PLAN_PROPERTY, Constants.FORMULA_ID_PROPERTY};
-    String[] componentHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.REBATE_PLAN_LABEL, "Formula Id"};
-    Object[] addColumn = {Constants.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO,
+    @UiField("baseWacDate")
+    private PopupDateField baseWacDate;
+    private static final Logger LOGGER = Logger.getLogger(AddContractSelection.class);
+    private final AddItemDetailsTableLogic addItemTableLogic = new AddItemDetailsTableLogic();
+    
+    private final ExtPagedTable addItemTable = new ExtPagedTable(addItemTableLogic);
+    private static final String SEARCHICON = "searchicon";
+    private List<ItemIndexDto> selecteditemList;
+    
+    private final Object[] addColumn = {Constants.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO,
         Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "itemStartDate",
         "itemEndDate", StringConstantsUtil.CP_START_DATE, StringConstantsUtil.CP_END_DATE, Constants.PRICE_TYPE_PROPERTY,
         StringConstantsUtil.PRICE_PROPERTY, Constants.PRICE_PROTECTION_STATUS_PROPERTY, Constants.PRICE_PROTECTION_START_DATE_PROPERTY, Constants.PRICE_PROTECTION_END_DATE_PROPERTY,
@@ -196,7 +186,7 @@ public class AddContractSelection extends CustomComponent {
         Constants.RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_FORMULA_PROPERTY, Constants.NET_PRICE_TYPE_PROPERTY, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY,
         "cfpNO", Constants.CFP_NAME, "ifpNo", Constants.IFPNAME, "psNo", Constants.PSNAME, "rsNo", Constants.RSNAME, "rarCategory"};
 
-    String[] addHeader = {StringUtils.EMPTY, Constants.PROJECTION_ID_HEADER, Constants.WORK_FLOW_STATUS_HEADER, Constants.CONTRACT_HOLDER_HEADER, Constants.CONTRACT_NO_HEADER,
+    private final String[] addHeader = {StringUtils.EMPTY, Constants.PROJECTION_ID_HEADER, Constants.WORK_FLOW_STATUS_HEADER, Constants.CONTRACT_HOLDER_HEADER, Constants.CONTRACT_NO_HEADER,
         Constants.CONTRACT_NAME_HEADER, Constants.MARKET_TYPE_HEADER, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.ITEM_START_DATE,
         Constants.ITEM_END_DATE, StringConstantsUtil.CP_START_DATE_LABEL, StringConstantsUtil.CP_END_DATE_LABEL, Constants.PRICE_TYPE_LABEL,
         StringConstantsUtil.PRICE_LABEL, Constants.PRICE_PROTECTION_STATUS_LABEL, Constants.PRICE_PROTECTION_START_DATE_LABEL, Constants.PRICE_PROTECTION_END_DATE_LABEL,
@@ -207,22 +197,21 @@ public class AddContractSelection extends CustomComponent {
         Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME,  Constants.NET_PRICE_TYPE_LABLE_NAME,  Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME,
         Constants.CFP_NO_HEADER, Constants.CFP_NAME_HEADER, Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.PS_NO_LABEL, Constants.PS_NAME_LABEL, Constants.RS_NO_HEADER, Constants.RS_NAME_LABEL, Constants.RAR_CATEGORY_HEADER};
     
-    AbstractLogic logic = AbstractLogic.getInstance();
-    AddItemTableDTO binderDto = new AddItemTableDTO();
-    public static final String CONFIRMATION_HEADER = "Confirmation";
+    private final AbstractLogic logic = AbstractLogic.getInstance();
+    private final AddItemTableDTO binderDto = new AddItemTableDTO();
+    private static final String CONFIRMATION_HEADER = "Confirmation";
     private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
-    SelectionDTO selection;
-    BeanItemContainer<AbstractContractSearchDTO> itemContractContainer = new BeanItemContainer<>(AbstractContractSearchDTO.class);
-    AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
-    AbstractComponentInfo component = new AbstractComponentInfo(Constants.RS, selection);
-    String massUpdateString = StringUtils.EMPTY;
-    boolean isFound = false;
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
-    Map comboToTableMap = new HashMap();
-    Map tempTableMap = new HashMap();
-    Map fieldAndPropertyMap = new HashMap();
-    CustomTextField.ClickListener clickLister;
+    private SelectionDTO selection;
+    private final BeanItemContainer<AbstractContractSearchDTO> itemContractContainer = new BeanItemContainer<>(AbstractContractSearchDTO.class);
+    private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
+    private final AbstractComponentInfo component = new AbstractComponentInfo(Constants.RS, selection);
+    private String massUpdateString = StringUtils.EMPTY;
+    private boolean isFound = false;
+    private final StplSecurity stplSecurity = new StplSecurity();
+    private final Map comboToTableMap = new HashMap();
+    private final Map tempTableMap = new HashMap();
+    private final Map fieldAndPropertyMap = new HashMap();
+    private CustomTextField.ClickListener clickLister;
     @UiField("massUpdateText")
     protected CustomTextField massUpdateText;
 

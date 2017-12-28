@@ -81,7 +81,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -104,56 +103,56 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class NewDiscountTab extends CustomComponent {
 
     public static final Logger LOGGER = Logger.getLogger(NewDiscountTab.class);
-    NewDiscountTableLogic tableLogic = new NewDiscountTableLogic();
-    NewDiscountSelectedTableLogic selectedTableLogic = new NewDiscountSelectedTableLogic();
-    public ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tableLogic);
-    public ExtPagedTable componentDetailsSelectedItem = new ExtPagedTable(selectedTableLogic);
+    private final NewDiscountTableLogic tableLogic = new NewDiscountTableLogic();
+    private final NewDiscountSelectedTableLogic selectedTableLogic = new NewDiscountSelectedTableLogic();
+    private final ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tableLogic);
+    private final ExtPagedTable componentDetailsSelectedItem = new ExtPagedTable(selectedTableLogic);
     @UiField("levelDetailsResultsTable")
-    public ExtFilterTable levelDetailsResultsTable;
+    private  ExtFilterTable levelDetailsResultsTable;
     @UiField("dashboardResultsTable")
-    public TreeTable dashboardTreeTable;
+    private  TreeTable dashboardTreeTable;
     @UiField("rsStartDate")
-    public PopupDateField rebateScheduleStartDate;
+    private PopupDateField rebateScheduleStartDate;
     @UiField("rsEndDate")
-    public PopupDateField rsEndDate;
+    private PopupDateField rsEndDate;
     @UiField("componentTypeddlb")
     public ComboBox componentTypeddlb;
     @UiField("searchField")
-    public ComboBox searchDdlb;
+    private ComboBox searchDdlb;
     @UiField("searchValue")
-    public TextField searchValue;
+    private TextField searchValue;
     @UiField("searchBtn")
-    public Button searchBtn;
+    private Button searchBtn;
     @UiField("tableLayout")
-    public VerticalLayout vLayout;
+    private VerticalLayout vLayout;
     @UiField("tableLayout1")
-    public VerticalLayout vLayout1;
+    private VerticalLayout vLayout1;
     @UiField("contractNo")
-    public TextField contractNo;
+    private TextField contractNo;
     @UiField("contractName")
-    public TextField contractName;
+    private TextField contractName;
     @UiField("contractType")
-    public TextField contractType;
+    private TextField contractType;
     @UiField("startDate")
-    public TextField startDate;
+    private TextField startDate;
     @UiField("endDate")
-    public TextField endDate;
+    private TextField endDate;
     @UiField("rsStatusDdlb")
-    public ComboBox rsStatusDdlb;
+    private ComboBox rsStatusDdlb;
     @UiField("rsProgramType")
-    public ComboBox rsProgramType;
+    private ComboBox rsProgramType;
     @UiField("rebatePlanLevel")
-    public ComboBox rebatePlanLevel;
+    private ComboBox rebatePlanLevel;
     @UiField("paymentFrequency")
-    public ComboBox paymentFrequency;
+    private ComboBox paymentFrequency;
     @UiField("paymentMethod")
-    public ComboBox paymentMethod;
+    private ComboBox paymentMethod;
     @UiField("rsType")
-    public ComboBox rsType;
+    private ComboBox rsType;
     @UiField("massUpdateRadio")
-    public OptionGroup massUpdateEnableDisable;
+    private OptionGroup massUpdateEnableDisable;
     @UiField("fieldDdlb")
-    public ComboBox fieldDdlb;
+    private ComboBox fieldDdlb;
     @UiField("valueDdlb")
     private ComboBox valueDdlb;
     @UiField("datePeriod")
@@ -163,105 +162,105 @@ public class NewDiscountTab extends CustomComponent {
 
     /* Component Layout */
     @UiField("componentSelectionLayout")
-    public HorizontalLayout componentSelectionLayout;
+    private HorizontalLayout componentSelectionLayout;
     @UiField("cfpComponent")
-    public GridLayout cfpComponent;
+    private GridLayout cfpComponent;
     @UiField("ifpComponent")
-    public GridLayout ifpComponent;
+    private GridLayout ifpComponent;
     @UiField("psComponent")
-    public GridLayout psComponent;
+    private GridLayout psComponent;
     @UiField("rsComponent")
-    public GridLayout rsComponent;
+    private GridLayout rsComponent;
     SessionDTO session;
     @UiField("addToTree")
-    public Button addToTree;
+    private Button addToTree;
     @UiField("rsId")
-    public TextField rsId;
+    private TextField rsId;
     @UiField("rsNumber")
-    public TextField rsNumber;
+    private TextField rsNumber;
     @UiField("rsStartDate")
-    public PopupDateField rsStartDate;
+    private PopupDateField rsStartDate;
     @UiField("rsName")
-    public TextField rsName;
+    private TextField rsName;
     @UiField("fromCDLabelNo")
-    public Label fromCDLabelNo;
+    private Label fromCDLabelNo;
     @UiField("fromCDNo")
-    public TextField fromCDNo;
+    private TextField fromCDNo;
     @UiField("fromCDLabelName")
-    public Label fromCDLabelName;
+    private Label fromCDLabelName;
     @UiField("fromCDName")
-    public TextField fromCDName;
+    private TextField fromCDName;
     @UiField("levelRemoveBtn")
-    public Button levelRemoveBtn;
+    private Button levelRemoveBtn;
     ContractsDetailsDto saveTreeDto;
     @UiField("psId")
-    public TextField psId;
+    private TextField psId;
     @UiField("psNo")
-    public TextField psNo;
+    private TextField psNo;
     @UiField("psName")
-    public TextField psName;
+    private TextField psName;
     @UiField("psStatus")
-    public ComboBox psStatus;
+    private ComboBox psStatus;
     @UiField("psStartDate")
-    public PopupDateField psStartDate;
+    private PopupDateField psStartDate;
     @UiField("ifpId")
-    public TextField ifpId;
+    private TextField ifpId;
     @UiField("ifpNo")
-    public TextField ifpNo;
+    private TextField ifpNo;
     @UiField("ifpName")
-    public TextField ifpName;
+    private TextField ifpName;
     @UiField("ifpStatus")
-    public ComboBox ifpStatus;
+    private ComboBox ifpStatus;
     @UiField("ifpStartDate")
-    public PopupDateField ifpStartDate;
+    private PopupDateField ifpStartDate;
     @UiField("removeBtn")
-    public Button removeBtn;
+    private Button removeBtn;
     @UiField("levelPopulateBtn")
-    public Button levelPopulateBtn;
+    private Button levelPopulateBtn;
     @UiField("addBtn")
-    public Button addBtn;
+    private Button addBtn;
     @UiField("psType")
-    public ComboBox psType;
+    private ComboBox psType;
     @UiField("ifpType")
-    public ComboBox ifpType;
+    private ComboBox ifpType;
     @UiField("cfpType")
-    public ComboBox cfpType;
+    private ComboBox cfpType;
     @UiField("cfpStatus")
-    public ComboBox cfpStatus;
+    private ComboBox cfpStatus;
     @UiField("cfpId")
-    public TextField cfpId;
+    private TextField cfpId;
     @UiField("cfpNo")
-    public TextField cfpNo;
+    private TextField cfpNo;
     @UiField("cfpName")
-    public TextField cfpName;
+    private TextField cfpName;
     @UiField("cfpStartDate")
-    public PopupDateField cfpStartDate;
+    private PopupDateField cfpStartDate;
     @UiField("cfpEndDate")
-    public PopupDateField cfpEndDate;
+    private PopupDateField cfpEndDate;
     @UiField("ifpEndDate")
-    public PopupDateField ifpEndDate;
+    private PopupDateField ifpEndDate;
     @UiField("psEndDate")
-    public PopupDateField psEndDate;
+    private PopupDateField psEndDate;
     @UiField("searchValueStatusDdlb")
-    public ComboBox searchValueStatusDdlb;
+    private ComboBox searchValueStatusDdlb;
     @UiField("searchDatePeriod")
-    public PopupDateField searchDatePeriod;
-    public List<ContractsDetailsDto> contListafterRemove = new ArrayList<>();
+    private PopupDateField searchDatePeriod;
+    private final List<ContractsDetailsDto> contListafterRemove = new ArrayList<>();
     private final BeanItemContainer<ContractsDetailsDto> componentResultsContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
     private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
     private final BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
     private final BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat("MM-dd-yyyy");
+    public static final SimpleDateFormat DB_DATE = new SimpleDateFormat("MM-dd-yyyy");
     public static final String S_DATE_PROPERTY = "sDate";
     /* Current Level Value */
-    public int levelValue;
+    private int levelValue;
     /**
      * The table bean id.
      */
     private Object tableBeanId;
     /* Contains the parent items of an item in the hierarchy */
-    public List parentList = new ArrayList();
-    List<RemoveDiscountDto> removeDiscountDto;
+    private final List parentList = new ArrayList();
+    private final List<RemoveDiscountDto> removeDiscountDto;
     /**
      * The table bean.
      */
@@ -279,28 +278,23 @@ public class NewDiscountTab extends CustomComponent {
      * The contract member.
      */
     private ContractsDetailsDto contractDetails;
-    ContractsDetailsDto newDiscountTabDto = new ContractsDetailsDto();
-    List<ContractsDetailsDto> selecteditemList = new ArrayList<>();
-    List<ContractsDetailsDto> selectedResultList = new ArrayList<>();
-    List<Integer> rebateList = new ArrayList<>();
-    List<HelperDTO> itemStatusList = new ArrayList<>();
-    List<HelperDTO> priceTypeList = new ArrayList<>();
-    String selectedComponenttype = StringUtils.EMPTY;
-    List<String> newlyAddedRebates = new ArrayList<>();
-    CommonUtil commonUtil = CommonUtil.getInstance();
-    StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
-
-    final List<ContractsDetailsDto> cfpList = new ArrayList<>();
-    final List<ContractsDetailsDto> ifpList = new ArrayList<>();
-    final List<ContractsDetailsDto> psList = new ArrayList<>();
-    final List<ContractsDetailsDto> rsList = new ArrayList<>();
-    final List<ContractsDetailsDto> selected = new ArrayList<>();
-    int levelVal = 0;
-    int contractMasterId = 0;
-    List<ContractsDetailsDto> ifpListforMap;
-    List<ContractsDetailsDto> psListforMap;
-    List<ContractsDetailsDto> rsListforMap;
+    private final ContractsDetailsDto newDiscountTabDto = new ContractsDetailsDto();
+    private final List<Integer> rebateList = new ArrayList<>();
+    private List<HelperDTO> itemStatusList = new ArrayList<>();
+    private List<HelperDTO> priceTypeList = new ArrayList<>();
+    private String selectedComponenttype = StringUtils.EMPTY;
+    private final List<String> newlyAddedRebates = new ArrayList<>();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
+    private final StplSecurity stplSecurity = new StplSecurity();
+    private final List<ContractsDetailsDto> cfpList = new ArrayList<>();
+    private final List<ContractsDetailsDto> ifpList = new ArrayList<>();
+    private final List<ContractsDetailsDto> psList = new ArrayList<>();
+    private final List<ContractsDetailsDto> rsList = new ArrayList<>();
+    private int levelVal = 0;
+    private int contractMasterId = 0;
+    private List<ContractsDetailsDto> ifpListforMap;
+    private List<ContractsDetailsDto> psListforMap;
+    private List<ContractsDetailsDto> rsListforMap;
 
     public NewDiscountTab(List<RemoveDiscountDto> removeDiscountDto, SessionDTO session) {
         this.removeDiscountDto = removeDiscountDto;
@@ -351,8 +345,8 @@ public class NewDiscountTab extends CustomComponent {
             contractNo.setValue(removeDiscountDto.get(0).getContractNo());
             contractName.setValue(removeDiscountDto.get(0).getContractName());
             contractType.setValue(removeDiscountDto.get(0).getMarketType());
-            startDate.setValue(removeDiscountDto.get(0).getContractstartDate() == null ? StringUtils.EMPTY : DBDate.format((Date) removeDiscountDto.get(0).getContractstartDate()));
-            endDate.setValue(removeDiscountDto.get(0).getContractendDate() == null ? StringUtils.EMPTY : DBDate.format((Date) removeDiscountDto.get(0).getContractendDate()));
+            startDate.setValue(removeDiscountDto.get(0).getContractstartDate() == null ? StringUtils.EMPTY : DB_DATE.format((Date) removeDiscountDto.get(0).getContractstartDate()));
+            endDate.setValue(removeDiscountDto.get(0).getContractendDate() == null ? StringUtils.EMPTY : DB_DATE.format((Date) removeDiscountDto.get(0).getContractendDate()));
             isEnable(false);
             componentTypeddlb = CommonLogic.loadComponentType(componentTypeddlb, null, true);
             searchDdlb.setImmediate(true);
@@ -963,7 +957,7 @@ public class NewDiscountTab extends CustomComponent {
                 Object ddlb = searchValueStatusDdlb.getValue();
                 newDiscountTabDto.setSearchFieldValue(searchValueStatusDdlb.getItemCaption(ddlb));
             } else if (searchField.contains("Date")) {
-                newDiscountTabDto.setSearchFieldValue(DBDate.format(searchDatePeriod.getValue()));
+                newDiscountTabDto.setSearchFieldValue(DB_DATE.format(searchDatePeriod.getValue()));
             } else {
                 newDiscountTabDto.setSearchFieldValue(ddlbValue);
             }
