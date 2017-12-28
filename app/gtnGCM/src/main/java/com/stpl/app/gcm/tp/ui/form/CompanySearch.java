@@ -508,7 +508,7 @@ public class CompanySearch extends VerticalLayout {
                     AbstractNotificationUtils.getErrorNotification(MessageConstants.NO_TP_SELECTED.getConstant(), MessageConstants.NO_TP_SELECTED_BODY.getConstant());
                 }
             }
-        } catch (Exception e) {
+        } catch (CloneNotSupportedException | IllegalArgumentException | NullPointerException e) {
             LOGGER.error(e);
         }
     }
