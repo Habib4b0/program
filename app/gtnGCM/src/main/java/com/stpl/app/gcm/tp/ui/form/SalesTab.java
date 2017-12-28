@@ -32,7 +32,6 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -193,6 +192,7 @@ public class SalesTab extends VerticalLayout {
         mapRightVisibleColumns = rightDTO.getDoubleHeaderMaps();
         resultsTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
         rightTable.addDoubleHeaderColumnCheckListener(new ExtCustomTable.DoubleHeaderColumnCheckListener() {
+            @Override
             public void doubleHeaderColumnCheck(
                     ExtCustomTable.DoubleHeaderColumnCheckEvent event) {
                 Notification.show("Current Value: " + event.isChecked()
@@ -201,6 +201,7 @@ public class SalesTab extends VerticalLayout {
         });
 
         rightTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(
                     ExtCustomTable.ColumnCheckEvent event) {
                 Notification.show("Current Value: " + event.isChecked()
@@ -349,7 +350,7 @@ public class SalesTab extends VerticalLayout {
             initializeResultTable();
             leftDTO = HeaderUtils.getSalesTabLeftTableColumns(fullHeader);
             tableHeader = new CustomTableHeaderDTO();
-            rightDTO = header.getSalesAndRebateColumns(tableHeader, fullHeader, Integer.valueOf(his[0]), String.valueOf(frequency.getValue()), true);
+            rightDTO = HeaderUtils.getSalesAndRebateColumns(tableHeader, fullHeader, Integer.valueOf(his[0]), String.valueOf(frequency.getValue()), true);
             resultBean.setColumnProperties(leftDTO.getProperties());
             resultBean.setColumnProperties(rightDTO.getProperties());
             tableLogic.setTreeNodeMultiClick(false);

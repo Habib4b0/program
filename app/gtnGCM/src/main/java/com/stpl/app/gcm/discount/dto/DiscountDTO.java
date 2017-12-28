@@ -27,6 +27,7 @@ public class DiscountDTO extends ExtMapDTO implements Comparator<DiscountDTO> {
         this.levelValue = levelValue;
     }
 
+    @Override
     public int compare(DiscountDTO o1, DiscountDTO o2) {
         throw new UnsupportedOperationException("Not supported yet."); 
     }

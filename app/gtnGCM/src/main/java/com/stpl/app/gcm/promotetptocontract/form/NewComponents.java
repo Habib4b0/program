@@ -10,13 +10,11 @@ import com.stpl.app.gcm.common.HelperListUtil;
 import com.stpl.app.gcm.common.QueryUtils;
 import static com.stpl.app.gcm.discount.logic.DiscountLogic.DBDate;
 import com.stpl.app.gcm.promotetptocontract.dto.ComponentInfoDTO;
-import com.stpl.app.gcm.promotetptocontract.dto.CurrentContractDTO;
 import com.stpl.app.gcm.promotetptocontract.logic.NewComponentSearchTableLogic;
 import com.stpl.app.gcm.promotetptocontract.logic.PromoteTPLogic;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
-import com.stpl.app.gcm.tp.dto.IdDescriptionDTO;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
@@ -94,7 +92,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -131,183 +128,176 @@ public class NewComponents extends CustomComponent implements View {
      */
     private static final long serialVersionUID = 1L;
     private SessionDTO session;
-    boolean isTableUpdate = false;
 
     @UiField("massValue")
-    public ComboBox massValue;
+    private ComboBox massValue;
 
     @UiField("massStartDate")
-    public PopupDateField massStartDate;
+    private PopupDateField massStartDate;
 
     @UiField("massEndDate")
-    public PopupDateField massEndDate;
+    private PopupDateField massEndDate;
 
     @UiField("compItemSearchTableLayout")
-    public VerticalLayout compItemSearchTableLayout;
+    private VerticalLayout compItemSearchTableLayout;
     @UiField("contractDashboardResultsTableLayout")
-    public VerticalLayout contractDashboardResultsTableLayout;
+    private VerticalLayout contractDashboardResultsTableLayout;
     @UiField("contractComponentDetailsTableLayout")
-    public VerticalLayout contractComponentDetailsTableLayout;
+    private VerticalLayout contractComponentDetailsTableLayout;
     @UiField("componentDetailsTableLayout")
-    public VerticalLayout componentDetailsTableLayout;
+    private VerticalLayout componentDetailsTableLayout;
     @UiField("massUpdateRadio")
-    public OptionGroup massUpdateRadio;
+    private OptionGroup massUpdateRadio;
     @UiField("fieldDdlb")
-    public ComboBox fieldDdlb;
+    private ComboBox fieldDdlb;
     @UiField("massPopulateBtn")
-    public Button massPopulateBtn;
+    private Button massPopulateBtn;
     @UiField("componentType")
-    public ComboBox componentType;
+    private ComboBox componentType;
     @UiField("status")
-    public ComboBox status;
+    private ComboBox status;
     @UiField("searchType")
-    public ComboBox searchType;
+    private ComboBox searchType;
     @UiField("rsType")
-    public ComboBox rsType;
+    private ComboBox rsType;
     @UiField("searchFieldDdlb")
-    public ComboBox searchFieldDdlb;
+    private ComboBox searchFieldDdlb;
     @UiField("excelBtn1")
-    public Button excelBtn1;
+    private Button excelBtn1;
     @UiField("excelBtn2")
-    public Button excelBtn2;
+    private Button excelBtn2;
     @UiField("removeBtn2")
-    public Button removeBtn2;
+    private Button removeBtn2;
     @UiField("searchBtn1")
-    public Button searchBtn1;
+    private Button searchBtn1;
     @UiField("searchValueTextField")
-    public TextField searchValueTextField;
+    private TextField searchValueTextField;
     @UiField("startDate")
-    public PopupDateField startDate;
+    private PopupDateField startDate;
     @UiField("endDate")
-    public PopupDateField endDate;
+    private PopupDateField endDate;
     @UiField("addItemBtn")
-    public Button addItemBtn;
+    private Button addItemBtn;
     @UiField("removeFromTreeBtn")
-    public Button removeFromTreeBtn;
+    private Button removeFromTreeBtn;
     @UiField("addToTreeBtn1")
-    public Button addToTreeBtn1;
+    private Button addToTreeBtn1;
     @UiField("populateBtn2")
-    public Button populateBtn2;
+    private Button populateBtn2;
     /**
      * IFP Layout
      */
     @UiField("componentInfoIfpLayout")
-    public GridLayout componentInfoIfpLayout;
+    private GridLayout componentInfoIfpLayout;
     /**
      * PS Layout
      */
     @UiField("componentInfoPsLayout")
-    public GridLayout componentInfoPsLayout;
+    private GridLayout componentInfoPsLayout;
     /**
      * RS Layout
      */
     @UiField("componentInfoRebateLayout")
-    public GridLayout componentInfoRebateLayout;
+    private GridLayout componentInfoRebateLayout;
     /*ifp Component */
     @UiField("ifpId")
-    public TextField ifpId;
+    private TextField ifpId;
     @UiField("ifpNo")
-    public TextField ifpNo;
+    private TextField ifpNo;
     @UiField("ifpName")
-    public TextField ifpName;
+    private TextField ifpName;
     @UiField("ifpStatus")
-    public ComboBox ifpStatus;
+    private ComboBox ifpStatus;
     @UiField("ifpStartDate")
-    public PopupDateField ifpStartDate;
+    private PopupDateField ifpStartDate;
     @UiField("ifpEndDate")
-    public PopupDateField ifpEndDate;
+    private PopupDateField ifpEndDate;
     @UiField("ifpType")
-    public ComboBox ifpType;
+    private ComboBox ifpType;
     /*ps Component */
     @UiField("psId")
-    public TextField psId;
+    private TextField psId;
     @UiField("psNo")
-    public TextField psNo;
+    private TextField psNo;
     @UiField("psName")
-    public TextField psName;
+    private TextField psName;
     @UiField("psStatus")
-    public ComboBox psStatus;
+    private ComboBox psStatus;
     @UiField("psStartDate")
-    public PopupDateField psStartDate;
+    private PopupDateField psStartDate;
     @UiField("psEndDate")
-    public PopupDateField psEndDate;
+    private PopupDateField psEndDate;
     @UiField("psType")
-    public ComboBox psType;
+    private ComboBox psType;
     /**
      * Rebate Components
      */
     @UiField("rebateScheduleId")
-    public TextField rebateScheduleId;
+    private TextField rebateScheduleId;
     @UiField("rsNumber")
-    public TextField rsNumber;
+    private TextField rsNumber;
     @UiField("rsName")
-    public TextField rsName;
+    private TextField rsName;
     @UiField("cfpDetailsGrid")
-    public GridLayout cfpDetailsGrid;
+    private GridLayout cfpDetailsGrid;
     @UiField("ifpDetailsGrid")
-    public GridLayout ifpDetailsGrid;
+    private GridLayout ifpDetailsGrid;
     @UiField("psDetailsGrid")
-    public GridLayout psDetailsGrid;
+    private GridLayout psDetailsGrid;
     @UiField("rsDetailsGrid")
-    public GridLayout rsDetailsGrid;
+    private GridLayout rsDetailsGrid;
     @UiField("cfpDetailsNo")
-    public TextField cfpDetailsNo;
+    private TextField cfpDetailsNo;
     @UiField("cfpDetailsName")
-    public TextField cfpDetailsName;
+    private TextField cfpDetailsName;
     @UiField("ifpDetailsNo")
-    public TextField ifpDetailsNo;
+    private TextField ifpDetailsNo;
     @UiField("ifpDetailsName")
-    public TextField ifpDetailsName;
+    private TextField ifpDetailsName;
     @UiField("psDetailsNo")
-    public TextField psDetailsNo;
+    private TextField psDetailsNo;
     @UiField("psDetailsName")
-    public TextField psDetailsName;
+    private TextField psDetailsName;
     @UiField("rsDetailsNo")
-    public TextField rsDetailsNo;
+    private TextField rsDetailsNo;
     @UiField("rsDetailsName")
-    public TextField rsDetailsName;
+    private TextField rsDetailsName;
     @UiField("paymentMethod")
-    public ComboBox paymentMethod;
+    private ComboBox paymentMethod;
     @UiField("rsProgramType")
-    public ComboBox rsProgramType;
+    private ComboBox rsProgramType;
     @UiField("paymentFrequency")
-    public ComboBox paymentFrequency;
+    private ComboBox paymentFrequency;
     @UiField("rebatePlanLevel")
-    public ComboBox rebatePlanLevel;
+    private ComboBox rebatePlanLevel;
 
     private TreeTable contractDashboardResultsTable = new TreeTable();
-    public ExtFilterTable contractComponentDetailsTable = new ExtFilterTable();
-    public ExtFilterTable componentDetailsTable = new ExtFilterTable();
+    private ExtFilterTable contractComponentDetailsTable = new ExtFilterTable();
+    private ExtFilterTable componentDetailsTable = new ExtFilterTable();
     private BeanItemContainer<ComponentInfoDTO> compItemSearchResultsContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
     private BeanItemContainer<ComponentInfoDTO> componentDetailResultsContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
     private BeanItemContainer<ComponentInfoDTO> componentResultsContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
-    ExtTreeContainer<ComponentInfoDTO> dashBoardTreeContainer = new ExtTreeContainer<>(ComponentInfoDTO.class);
-    public List parentList = new ArrayList();
-    public int levelValue;
-    CurrentContractDTO currentContractDTO = new CurrentContractDTO();
+    private ExtTreeContainer<ComponentInfoDTO> dashBoardTreeContainer = new ExtTreeContainer<>(ComponentInfoDTO.class);
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    NewComponentSearchTableLogic compItemSearchTableLogic = new NewComponentSearchTableLogic();
-    public ExtPagedTable compItemSearchTable = new ExtPagedTable(compItemSearchTableLogic);
-    ComponentInfoDTO contInfoDto = new ComponentInfoDTO();
-    DateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT);
-    public static final String MASS_UPDATE_ERROR = "Mass Update Error";
-    QueryUtils queryUtils = new QueryUtils();
-    List<ComponentInfoDTO> selecteditemList = new ArrayList<>();
-    PromoteTPLogic logic = new PromoteTPLogic();
-    String excelName = "Component Details";
-    public List<ComponentInfoDTO> compInfo = new ArrayList<>();
-    List<HelperDTO> itemStatusList = new ArrayList<>();
-    List<IdDescriptionDTO> IFPStatusList = new ArrayList<>();
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    PromoteTPLogic tpLogic = new PromoteTPLogic();
-    Boolean contractExcelFlag = false;
-    Boolean infoExcelFlag = false;
-    String ifpModelId = "1";
+    private NewComponentSearchTableLogic compItemSearchTableLogic = new NewComponentSearchTableLogic();
+    private ExtPagedTable compItemSearchTable = new ExtPagedTable(compItemSearchTableLogic);
+    private ComponentInfoDTO contInfoDto = new ComponentInfoDTO();
+    private DateFormat df = new SimpleDateFormat(Constants.DATE_FORMAT);
+    private static final String MASS_UPDATE_ERROR = "Mass Update Error";
+    private QueryUtils queryUtils = new QueryUtils();
+    private List<ComponentInfoDTO> selecteditemList = new ArrayList<>();
+    private PromoteTPLogic logic = new PromoteTPLogic();
+    private String excelName = "Component Details";
+    private List<ComponentInfoDTO> compInfo = new ArrayList<>();
+    private List<HelperDTO> itemStatusList = new ArrayList<>();
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    private PromoteTPLogic tpLogic = new PromoteTPLogic();
+    private Boolean contractExcelFlag = false;
+    private Boolean infoExcelFlag = false;
+    private String ifpModelId = "1";
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
-    Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
-    public List<ComponentInfoDTO> contListafterRemove = new ArrayList<>();
-    StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
+    private StplSecurity stplSecurity = new StplSecurity();
     public static final String ITEM_MASTER_ID = "itemMasterId";
     public static final String SELECT_ONE_VALUE = "-Select One-";
     public static final String ONE_FIFTY_PX = "150px";
@@ -535,6 +525,7 @@ public class NewComponents extends CustomComponent implements View {
             });
 
             compItemSearchTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                     Collection itemList = compItemSearchTable.getItemIds();
                     int size = itemList.size();
@@ -670,11 +661,13 @@ public class NewComponents extends CustomComponent implements View {
         compItemSearchTable.setColumnCheckBox(Constants.CHECK_RECORD, true, false);
 
         compItemSearchTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
 
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             compItemSearchTable.getContainerProperty(itemId, Constants.CHECK_RECORD).setValue(check.getValue());
                         }
@@ -725,11 +718,13 @@ public class NewComponents extends CustomComponent implements View {
         componentDetailsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
 
         componentDetailsTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
 
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             boolean isCheck = check.getValue();
                             if (isCheck) {
@@ -742,6 +737,7 @@ public class NewComponents extends CustomComponent implements View {
                     return check;
                 }
                 componentDetailsTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                    @Override
                     public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                         Collection itemList = componentDetailsTable.getItemIds();
                         for (Object obj : itemList) {
@@ -779,6 +775,7 @@ public class NewComponents extends CustomComponent implements View {
                     rebatePlan.addStyleName("searchicon");
                     rebatePlan.setWidth(ONE_FIFTY_PX);
                     rebatePlan.addClickListener(new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             final RebatePlanLookup rebatePlanLookupWindow = new RebatePlanLookup("Rebate Plan", rebatePlan);
                             rebatePlanLookupWindow.setWidth("1320px");
@@ -794,6 +791,7 @@ public class NewComponents extends CustomComponent implements View {
                     formulaId.addStyleName("searchicon");
                     formulaId.setWidth(ONE_FIFTY_PX);
                     formulaId.addClickListener(new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             final FormulaLookUp formulaLookUpWindow = new FormulaLookUp(formulaId);
                             formulaLookUpWindow.setWidth("1020px");
@@ -850,6 +848,7 @@ public class NewComponents extends CustomComponent implements View {
         massEndDate.setValue(null);
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         //empty
     }
@@ -2163,7 +2162,7 @@ public class NewComponents extends CustomComponent implements View {
         LOGGER.debug("Entering performMassUpdate");
 
         List<ComponentInfoDTO> containerList = componentDetailResultsContainer.getItemIds();
-        isTableUpdate = true;
+
 
         try {
             for (ComponentInfoDTO dto : containerList) {
@@ -2181,7 +2180,6 @@ public class NewComponents extends CustomComponent implements View {
             LOGGER.error(ex);
 
         }
-        isTableUpdate = false;
         LOGGER.debug("Exiting performMassUpdate");
     }
 

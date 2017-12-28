@@ -15,9 +15,7 @@ import com.stpl.app.gcm.discount.logic.SummaryTableLogic;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.security.StplSecurity;
-import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.DateFormatConstants.MMDDYYYY;
 import com.stpl.app.gcm.util.HeaderUtils;
@@ -40,7 +38,6 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.VerticalLayout;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,42 +66,39 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class Summary extends CustomComponent {
 
     @UiField("summaryLayout")
-    public VerticalLayout summaryLayout;
+    private VerticalLayout summaryLayout;
     @UiField("discountLayout")
-    public VerticalLayout discountLayout;
+    private VerticalLayout discountLayout;
     @UiField("contractNo")
-    public TextField contractNo;
+    private TextField contractNo;
     @UiField("contractName")
-    public TextField contractName;
+    private TextField contractName;
     @UiField("contractType")
-    public TextField contractType;
+    private TextField contractType;
     @UiField("contractStartDate")
-    public TextField contractStartDate;
+    private TextField contractStartDate;
     @UiField("contractEndDate")
-    public TextField contractEndDate;
+    private TextField contractEndDate;
     @UiField("rebuildBtn")
-    public Button rebuildBtn;
-    SummaryTableLogic tableLogic = new SummaryTableLogic();
-    ComponentInfoTableLogic infoLogic = new ComponentInfoTableLogic();
-    public ExtPagedTable summaryResultsTable = new ExtPagedTable(infoLogic);
-    public FreezePagedTreeTable discountTable = new FreezePagedTreeTable(tableLogic);
-    ExtFilterTreeTable leftTable;
-    ExtFilterTreeTable rightTable;
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightDTO;
-    RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
-    private BeanItemContainer<RemoveDiscountDto> promoteTpToChDtoResultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
+    private Button rebuildBtn;
+    private final SummaryTableLogic tableLogic = new SummaryTableLogic();
+    private final ComponentInfoTableLogic infoLogic = new ComponentInfoTableLogic();
+    private final ExtPagedTable summaryResultsTable = new ExtPagedTable(infoLogic);
+    private final FreezePagedTreeTable discountTable = new FreezePagedTreeTable(tableLogic);
+    private ExtFilterTreeTable leftTable;
+    private ExtFilterTreeTable rightTable;
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightDTO;
+    private final RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
+    private final BeanItemContainer<RemoveDiscountDto> promoteTpToChDtoResultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     public static final Logger LOGGER = Logger.getLogger(Summary.class);
-    DiscountLogic discountLogic = new DiscountLogic();
-    List contractList = new ArrayList();
-    List companyList = new ArrayList();
-    List rsList = new ArrayList();
-    List<RemoveDiscountDto> selecteditemList;
-    public TreeTable dashboardTreeTable = new TreeTable();
+    private final DiscountLogic discountLogic = new DiscountLogic();
+    private final List contractList = new ArrayList();
+    private final List companyList = new ArrayList();
+    private final List rsList = new ArrayList();
+    private List<RemoveDiscountDto> selecteditemList;
     private ExtTreeContainer<DiscountDTO> resultBean = new ExtTreeContainer<>(DiscountDTO.class, ExtContainer.DataStructureMode.MAP);
-    final CommonLogic commonLogic = new CommonLogic();
-    StplSecurity stplSecurity = new StplSecurity();
-    SessionDTO session;
+    private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The map left visible columns.
      */
@@ -113,16 +107,12 @@ public class Summary extends CustomComponent {
      * The map right visible columns.
      */
     private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
-    ContractsDetailsDto dto;
-    TabSheet mainTab;
-    RemoveDiscountLookUp lookUp;
-    CommonUtils commonUtils = new CommonUtils();
-    RemoveDiscount removeDiscount;
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
+    private ContractsDetailsDto dto;
+    private RemoveDiscount removeDiscount;
+    private static final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
 
     public Component getContent(List<RemoveDiscountDto> selecteditemList, ContractsDetailsDto dto, TabSheet mainTab, RemoveDiscount removeDiscount) {
         VerticalLayout vLayout = new VerticalLayout();
-        this.mainTab = mainTab;
         this.removeDiscount = removeDiscount;
         this.selecteditemList = selecteditemList;
         this.dto = dto;
@@ -175,10 +165,12 @@ public class Summary extends CustomComponent {
             }
         }
         summaryResultsTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -192,18 +184,22 @@ public class Summary extends CustomComponent {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 AbstractLogic logic = AbstractLogic.getInstance();
                 if ("contractStatus".equals(propertyId)) {

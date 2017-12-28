@@ -50,6 +50,7 @@ public class ErrorHandler extends DefaultErrorHandler {
      *
      * @param event the event
      */
+    @Override
     public void error(final ErrorEvent event) {
         try {
 

@@ -56,7 +56,6 @@ import com.stpl.app.service.GcmGlobalDetailsLocalServiceUtil;
 import com.stpl.app.service.GcmItemDetailsLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
@@ -341,6 +340,7 @@ public class Newcomponent extends CustomComponent {
                 componentDetailsSearchTable.setColumnWidth(column, NumericConstants.ONE_FIVE_ZERO);
             }
             componentDetailsSearchTable.setTableFieldFactory(new TableFieldFactory() {
+                @Override
                 public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                     Field field;
                     if (String.valueOf(Constants.CHECK).equals(propertyId)) {
@@ -353,6 +353,7 @@ public class Newcomponent extends CustomComponent {
             });
 
             componentDetailsSearchTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                     for (NewComponentDTO temp : componentSearchContainer.getItemIds()) {
                         componentSearchContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());
@@ -407,6 +408,7 @@ public class Newcomponent extends CustomComponent {
             }
 
             componentDetailsSelectedItem.setTableFieldFactory(new TableFieldFactory() {
+                @Override
                 public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                     Field field = null;
                     if (Constants.CHECK.equals(propertyId)) {
@@ -439,6 +441,7 @@ public class Newcomponent extends CustomComponent {
                 }
             });
             componentDetailsSelectedItem.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                     for (NewComponentDTO temp : componentResultsContainer.getItemIds()) {
                         componentResultsContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());
@@ -518,6 +521,7 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSearchTable.setColumnWidth(column, NumericConstants.ONE_FIVE_ZERO);
         }
         componentDetailsSearchTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                 Field field;
                 if (String.valueOf(Constants.CHECK).equals(propertyId)) {
@@ -530,6 +534,7 @@ public class Newcomponent extends CustomComponent {
         });
 
         componentDetailsSearchTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 for (NewComponentDTO temp : componentSearchContainer.getItemIds()) {
                     componentSearchContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());
@@ -569,6 +574,7 @@ public class Newcomponent extends CustomComponent {
                         componentDetailsSearchTable.setColumnWidth(column, NumericConstants.ONE_FIVE_ZERO);
                     }
                     componentDetailsSearchTable.setTableFieldFactory(new TableFieldFactory() {
+                        @Override
                         public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                             Field field;
                             if (String.valueOf(Constants.CHECK).equals(propertyId)) {
@@ -580,6 +586,7 @@ public class Newcomponent extends CustomComponent {
                         }
                     });
                     componentDetailsSearchTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                        @Override
                         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                             for (NewComponentDTO temp : componentSearchContainer.getItemIds()) {
                                 componentSearchContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());
@@ -629,6 +636,7 @@ public class Newcomponent extends CustomComponent {
                         componentDetailsSearchTable.setColumnWidth(column, NumericConstants.ONE_FIVE_ZERO);
                     }
                     componentDetailsSearchTable.setTableFieldFactory(new TableFieldFactory() {
+                        @Override
                         public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                             Field field;
                             if (String.valueOf(Constants.CHECK).equals(propertyId)) {
@@ -721,6 +729,7 @@ public class Newcomponent extends CustomComponent {
                 componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
                 componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
                 componentDetailsSelectedItem.setTableFieldFactory(new TableFieldFactory() {
+                    @Override
                     public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                         Field field;
 
@@ -729,9 +738,11 @@ public class Newcomponent extends CustomComponent {
                             rebatePlan.addStyleName("searchicon");
                             rebatePlan.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                             rebatePlan.addClickListener(new CustomTextField.ClickListener() {
+                                @Override
                                 public void click(CustomTextField.ClickEvent event) {
                                     RebatePlanLookup lookup = new RebatePlanLookup(rebatePlan);
                                     lookup.addCloseListener(new Window.CloseListener() {
+                                        @Override
                                         public void windowClose(Window.CloseEvent e) {
                                             return;
                                         }
@@ -745,9 +756,11 @@ public class Newcomponent extends CustomComponent {
                             formulaId.addStyleName("searchicon");
                             formulaId.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                             formulaId.addClickListener(new CustomTextField.ClickListener() {
+                                @Override
                                 public void click(CustomTextField.ClickEvent event) {
                                     FormulaSearchLookup lookup = new FormulaSearchLookup(formulaId);
                                     lookup.addCloseListener(new Window.CloseListener() {
+                                        @Override
                                         public void windowClose(Window.CloseEvent e) {
                                             if (formulaId.getData() != null) {
                                             }
@@ -896,6 +909,7 @@ public class Newcomponent extends CustomComponent {
                 componentDetailsSelectedItem.setColumnWidth(column, NumericConstants.ONE_FIVE_ZERO);
             }
             componentDetailsSelectedItem.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                     for (NewComponentDTO temp : componentResultsContainer.getItemIds()) {
                         componentResultsContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());
