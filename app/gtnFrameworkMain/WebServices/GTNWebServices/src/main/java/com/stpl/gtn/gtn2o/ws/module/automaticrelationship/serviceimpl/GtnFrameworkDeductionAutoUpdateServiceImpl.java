@@ -96,4 +96,9 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 		return automaticService;
 	}
 
+    @Override
+    public void createDeductionRelation(GtnWsRelationshipBuilderBean relationBean) throws GtnFrameworkGeneralException {
+        //Overriden method
+    }
+
 }
