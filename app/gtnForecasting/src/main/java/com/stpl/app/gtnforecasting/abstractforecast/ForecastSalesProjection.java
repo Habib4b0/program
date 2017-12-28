@@ -2294,6 +2294,12 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 return;
             }
         }
+        
+        if (salesLogic.adjustSalesProjectionValidation(projectionDTO)) {
+             NotificationUtils.getErrorNotification("Error", "When using the ‘% of Ex-Factory’ methodology, a product cannot be included in multiple selected contract, customer, and product combinations. Please update the selections");
+                return;
+        }
+        
 
         if ((Constant.ACTUAL).equals(variable.getValue())) {
             final String adjValue = String.valueOf(adjustment.getValue());
