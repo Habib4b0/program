@@ -6,7 +6,7 @@ package com.stpl.app.gcm.itemmanagement.itemabstract.form;
 
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentInfoDTO;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import java.util.ArrayList;

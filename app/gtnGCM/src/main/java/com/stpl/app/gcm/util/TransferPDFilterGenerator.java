@@ -8,21 +8,22 @@ package com.stpl.app.gcm.util;
 
 
 import com.stpl.app.gcm.tp.logic.CommmonLogic;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Field;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class TransferPDFilterGenerator implements ExtFilterGenerator {
     
-    private static Logger LOGGER = Logger.getLogger(TransferPDFilterGenerator.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(TransferPDFilterGenerator.class);
     
    
   CommmonLogic commonLogic = new CommmonLogic();
@@ -67,7 +68,6 @@ public class TransferPDFilterGenerator implements ExtFilterGenerator {
             if ("statusString".equals(propertyId)) {
 
                 comboBox = new ComboBox();
-                comboBox.setImmediate(true);
                  commonLogic.loaDDLBForListLoading(comboBox,"STATUS",true);
                 comboBox.setNullSelectionAllowed(true);
                 comboBox.setNullSelectionItemId("Show All");
@@ -76,7 +76,7 @@ public class TransferPDFilterGenerator implements ExtFilterGenerator {
 
             }         
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         } 
         return null;
     }

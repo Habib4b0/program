@@ -19,38 +19,38 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.abstracttablelogic.ComponentInfoTableLogic;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.ConstantsUtils;
-import com.stpl.app.serviceUtils.UIUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.gcm.util.UiUtils;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -171,7 +171,7 @@ public class AbstractComponentInfo extends CustomComponent {
     public final String[] rsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
     ComponentInfoDTO binderDto = new ComponentInfoDTO();
     public static final String FILTERBAR = "filterbar";
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection;
     AbstractLogic abstractLogic = AbstractLogic.getInstance();
     String componentFlag = StringUtils.EMPTY;
@@ -415,7 +415,7 @@ public class AbstractComponentInfo extends CustomComponent {
                         }
                         if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
                             ComboBox priceProtectionDdlb = new ComboBox();
-                            CommonUtil.getComboBoxByListName(priceProtectionDdlb, UIUtils.STATUS, true);
+                            CommonUtil.getComboBoxByListName(priceProtectionDdlb, UiUtils.STATUS, true);
                             return priceProtectionDdlb;
                         }
                         if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
@@ -659,7 +659,7 @@ public class AbstractComponentInfo extends CustomComponent {
             loadPaymentFrequency();
             loadRPLevel();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -726,9 +726,9 @@ public class AbstractComponentInfo extends CustomComponent {
     /**
      * get Binder
      *
-     * @return CustomFieldGroup
+     * @return ErrorfulFieldGroup
      */
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
@@ -772,7 +772,7 @@ public class AbstractComponentInfo extends CustomComponent {
             }
 
         } catch (Exception e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
         }
     }
 
@@ -797,7 +797,7 @@ public class AbstractComponentInfo extends CustomComponent {
                 ExcelExportforBB.createFileContent(currentComponentTable.getVisibleColumns(), resultList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -815,7 +815,7 @@ public class AbstractComponentInfo extends CustomComponent {
             excel.export();
             contractDashboardLay.removeComponent(contractDashboardLay);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 

@@ -20,13 +20,15 @@ import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.HeaderUtils.getCommonColumnHeader;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -37,7 +39,7 @@ public class LoadTabLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(LoadTabLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoadTabLogic.class);
     static int projectionId = 0;
     public static String forecatingType = StringUtils.EMPTY;
     public static TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
@@ -871,7 +873,7 @@ public class LoadTabLogic {
                 + "                        AND C.CONTRACT_MASTER_SID=" + session.getContMasteSid() + "\n"
                 + "                        AND C.COMPANY_MASTER_SID in(" + compSid + ");\n";
 
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 
     }
 
@@ -894,7 +896,7 @@ public class LoadTabLogic {
 
         String tempQuery = " DELETE FROM dbo.ST_" + salesTableAndColumn.get(0) + " WHERE  USER_ID=" + session.getUserId() + "  AND SESSION_ID=" + session.getSessionId() + ";"
                 + "  DELETE FROM dbo.ST_" + discountTableAndColumn.get(0) + " WHERE  USER_ID=" + session.getUserId() + " AND SESSION_ID=" + session.getSessionId() + "; ";
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(tempQuery);
+        HelperTableLocalServiceUtil.executeUpdateQuery(tempQuery);
     }
 
     public void updateSalesAndDiscount(SessionDTO session) {

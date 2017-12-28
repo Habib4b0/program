@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<sql>
+    <entity id="tabPermission">
+        <query>
+            <![CDATA[				
+                select distinct spm.PROPERTY_NAME,bmm.ACCESS_MODULE from USERGROUP_BUSINESSROLE as ubm,BUSINESSROLE_MODULE as bmm, 
+                MODULE_PROPERTIES as spm where 
+                ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and 
+                (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') 
+                and spm.CATEGORY_NAME='Tab'
+            ]]>
+        </query>
+    </entity>
+    <entity id="fieldPermissionForTransaction">
+        <query>
+	    <![CDATA[				
+                select distinct spm.PROPERTY_NAME,bmm.ADD_FLAG,bmm.EDIT_FLAG,bmm.VIEW_FLAG,spm.TAB_NAME from USERGROUP_BUSINESSROLE as ubm, 
+		BUSINESSROLE_MODULE as bmm, 
+                MODULE_PROPERTIES as spm where 
+                ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and 
+                (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') 
+                and spm.CATEGORY_NAME NOT IN ('Button','Tab')
+            ]]>
+        </query>
+    </entity>
+    <entity id="fieldPermission">
+        <query>
+            <![CDATA[				
+                select distinct spm.PROPERTY_NAME,bmm.ADD_FLAG,bmm.EDIT_FLAG,bmm.VIEW_FLAG from USERGROUP_BUSINESSROLE as ubm, 
+                BUSINESSROLE_MODULE as bmm, 
+                MODULE_PROPERTIES as spm where 
+                ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and 
+                (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') 
+                and spm.CATEGORY_NAME NOT IN ('Button','Tab')
+            ]]>
+        </query>
+    </entity>
+    <entity id="functionPermission">
+        <query>
+            <![CDATA[		
+		select distinct spm.PROPERTY_NAME,bmm.ACCESS_MODULE from USERGROUP_BUSINESSROLE as ubm, 
+		BUSINESSROLE_MODULE as bmm, 
+                MODULE_PROPERTIES as spm where 
+                ubm.BUSINESSROLE_MASTER_SID=bmm.BUSINESSROLE_MASTER_SID and bmm.SUBMODULE_PROPERTY_ID=spm.MODULE_PROPERTY_SID and 
+                (spm.PROPERTY_NAME is not null or spm.PROPERTY_NAME != '') 
+                and spm.CATEGORY_NAME='Button'
+            ]]>
+        </query>
+    </entity>
+    <entity id="findModuleAccessDetails">
+        <query>
+		<![CDATA[	 
+	            SELECT BMM.BUSINESSROLE_MODULE_SID,MSM.MODULE_NAME,MSM.SUBMODULE_NAME,SPM.DISPLAY_NAME,BMM.ACCESS_MODULE,SPM.MODULE_PROPERTY_SID,BM.BUSINESSROLE_MASTER_SID,SPM.CATEGORY_NAME,SPM.TAB_NAME   
+                    FROM 
+                    MODULE_SUBMODULE_MASTER MSM
+                    ,BUSINESSROLE_MODULE BMM
+                    ,MODULE_PROPERTIES SPM
+                    ,BUSINESSROLE_MASTER BM
+                    WHERE MSM.MODULE_SUBMODULE_SID = SPM.MODULE_SUBMODULE_SID
+                    AND SPM.MODULE_PROPERTY_SID = BMM.SUBMODULE_PROPERTY_ID
+                    AND BM.BUSINESSROLE_MASTER_SID=BMM.BUSINESSROLE_MASTER_SID
+                    AND (SPM.CATEGORY_NAME='Tab' OR SPM.CATEGORY_NAME='Button')
+		]]>
+        </query>
+    </entity>
+    <entity id="findsubmodulePropertyDetails">
+        <query>
+		<![CDATA[
+                    SELECT SPM.DISPLAY_NAME,SPM.MODULE_PROPERTY_SID,SPM.MODULE_NAME,SPM.CATEGORY_NAME,SPM.TAB_NAME
+                    FROM 
+                    MODULE_SUBMODULE_MASTER MSM
+                    ,MODULE_PROPERTIES SPM
+                    WHERE MSM.MODULE_SUBMODULE_SID = SPM.MODULE_SUBMODULE_SID
+                    AND (SPM.CATEGORY_NAME='Tab' OR SPM.CATEGORY_NAME='Button') 
+		]]>
+        </query>
+    </entity>
+    <entity id="findFieldAccessDetails">
+        <query>
+            <![CDATA[	
+                    SELECT BMM.BUSINESSROLE_MODULE_SID,MSM.MODULE_NAME,MSM.SUBMODULE_NAME,SPM.DISPLAY_NAME,BMM.ADD_FLAG,BMM.EDIT_FLAG,BMM.VIEW_FLAG,SPM.MODULE_PROPERTY_SID,BM.BUSINESSROLE_MASTER_SID,SPM.TAB_NAME,SPM.CATEGORY_NAME 
+                    FROM 
+                    MODULE_SUBMODULE_MASTER MSM
+                    ,BUSINESSROLE_MODULE BMM
+                    ,MODULE_PROPERTIES SPM
+                    ,BUSINESSROLE_MASTER BM
+                    WHERE MSM.MODULE_SUBMODULE_SID = SPM.MODULE_SUBMODULE_SID
+                    AND SPM.MODULE_PROPERTY_SID = BMM.SUBMODULE_PROPERTY_ID
+                    AND BM.BUSINESSROLE_MASTER_SID=BMM.BUSINESSROLE_MASTER_SID
+                    and spm.CATEGORY_NAME not in ('Button','Tab')
+            ]]>
+        </query>
+    </entity>
+    <entity id="findsubmoduleFieldDetails">
+        <query>
+            <![CDATA[
+                    SELECT SPM.DISPLAY_NAME,SPM.MODULE_PROPERTY_SID,SPM.MODULE_NAME,SPM.NULL_FLAG,SPM.TAB_NAME,SPM.CATEGORY_NAME
+                    FROM 
+                    MODULE_SUBMODULE_MASTER MSM
+                    ,MODULE_PROPERTIES SPM
+                    WHERE MSM.MODULE_SUBMODULE_SID = SPM.MODULE_SUBMODULE_SID
+                    and spm.CATEGORY_NAME not in ('Button','Tab')
+            ]]>
+        </query>
+    </entity>
+</sql>

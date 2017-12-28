@@ -32,26 +32,26 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.event.ItemClickEvent;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.event.ItemClickEvent;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.PopupDateField;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Tree;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Tree;
+import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,7 +65,8 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -167,7 +168,7 @@ public class RemoveDiscount extends CustomComponent {
     private BeanItemContainer<RemoveDiscountDto> contractComponentContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
     private BeanItemContainer<RemoveDiscountDto> selectedContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
-    private static final Logger LOGGER = Logger.getLogger(RemoveDiscount.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RemoveDiscount.class);
     SessionDTO session = new SessionDTO();
     RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
     List<String> removeList = new ArrayList<>();
@@ -225,7 +226,6 @@ public class RemoveDiscount extends CustomComponent {
         try {
             searchField.focus();
             dashboardTreeTable.removeAllItems();
-            searchField.setImmediate(true);
             searchField.setNullSelectionAllowed(true);
             searchField.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             searchField.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
@@ -252,7 +252,7 @@ public class RemoveDiscount extends CustomComponent {
             fromCDName.setEnabled(false);
         } catch (Exception ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -360,7 +360,6 @@ public class RemoveDiscount extends CustomComponent {
             selectedTable.setVisibleColumns(Constants.getInstance().selectedResultsColumns);
             selectedTable.setColumnHeaders(Constants.getInstance().selectedResultsHeaders);
             selectedTable.markAsDirtyRecursive();
-            selectedTable.setImmediate(true);
             selectedTable.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
             selectedTable.setSelectable(false);
             selectedTable.markAsDirty();
@@ -380,7 +379,7 @@ public class RemoveDiscount extends CustomComponent {
             startDate.setDateFormat(Constants.DATE_FORMAT);
             endDate.setDateFormat(Constants.DATE_FORMAT);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -390,7 +389,6 @@ public class RemoveDiscount extends CustomComponent {
             final CommonLogic commonLogic = new CommonLogic();
 
             dashboardTreeTable.markAsDirty();
-            dashboardTreeTable.setImmediate(true);
             dashboardTreeTable.setSizeFull();
             dashboardTreeTable.setPageLength(NumericConstants.TEN);
             dashboardTreeTable.removeAllItems();
@@ -425,7 +423,7 @@ public class RemoveDiscount extends CustomComponent {
                 }
             });
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         LOGGER.debug("End of getProcessedTree method");
     }
@@ -535,7 +533,7 @@ public class RemoveDiscount extends CustomComponent {
                 }
                 LOGGER.debug("End of StplExpandListener nodeExpand method");
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
                 final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                 LOGGER.error(errorMsg);
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
@@ -693,7 +691,7 @@ public class RemoveDiscount extends CustomComponent {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -764,7 +762,7 @@ public class RemoveDiscount extends CustomComponent {
                         "Please highlight a component to Remove.");
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
 
     }
@@ -824,7 +822,7 @@ public class RemoveDiscount extends CustomComponent {
                 loadComponentTable(list);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -844,7 +842,7 @@ public class RemoveDiscount extends CustomComponent {
             mainTab.addTab(summary.getContent(selecteditemList, contractDto, mainTab, removeDiscount), "Summary", null, 1);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
         LOGGER.debug("Ending RemoveAll method");
@@ -904,7 +902,7 @@ public class RemoveDiscount extends CustomComponent {
             removeAllBtn.setVisible(CommonLogic.isButtonVisibleAccess("removeAllBtn", functionHM));
             populateBtn2.setVisible(CommonLogic.isButtonVisibleAccess("populateBtn2", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

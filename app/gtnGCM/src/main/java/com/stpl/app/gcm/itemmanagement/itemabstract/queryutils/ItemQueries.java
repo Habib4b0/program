@@ -13,22 +13,18 @@ import com.stpl.app.gcm.copycontract.impl.ContractHeaderLogicDAOImpl;
 import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import com.stpl.app.gcm.transfercontract.util.Constant;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.app.gcm.util.xmlparser.SQlUtil;
-import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.util.xmlparser.SQlUtil;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +34,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -46,7 +43,7 @@ import org.jboss.logging.Logger;
  */
 public class ItemQueries {
 
-    private static final Logger LOGGER = Logger.getLogger(ItemQueries.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemQueries.class);
     final static CommonDao ITEMDAO = CommonImpl.getInstance();
     final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     
@@ -98,7 +95,7 @@ public class ItemQueries {
                 LOGGER.debug("sql ==================== " + sql);
                 list = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
 
@@ -112,10 +109,10 @@ public class ItemQueries {
         StringBuilder sql;
         if (queryName != null && !queryName.isEmpty()) {
             try {
-                sql = new StringBuilder(CustomSQLUtil.get(queryName));
+                sql = new StringBuilder(SQlUtil.getQuery(queryName));
                 if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
                     sql.append(" ");
-                    sql.append(CustomSQLUtil.get(quaryName2));
+                    sql.append(SQlUtil.getQuery(quaryName2));
                 }
                 if (queryName.equals("CFP Component Search For Table") || queryName.contains("IFP Component Search For Table")
                         || queryName.contains("PS Component Search For Table") || queryName.contains("RS Component Search For Table")) {
@@ -126,7 +123,7 @@ public class ItemQueries {
                 }
                 list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
 
@@ -138,7 +135,7 @@ public class ItemQueries {
         LOGGER.debug("Inside Item Update");
         StringBuilder sql = new StringBuilder();
         try {
-            sql = new StringBuilder(CustomSQLUtil.get(queryName));
+            sql = new StringBuilder(SQlUtil.getQuery(queryName));
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
@@ -151,7 +148,7 @@ public class ItemQueries {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("End of Item Update");
         return Boolean.FALSE;
@@ -161,32 +158,32 @@ public class ItemQueries {
         StringBuilder sql = null;
         try {
             sql = new StringBuilder();
-            sql = new StringBuilder(CustomSQLUtil.get(queryName));
+            sql = new StringBuilder(SQlUtil.getQuery(queryName));
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return sql.toString();
     }
 
     public static List getDataByDTO(String queryName, Object dto) {
-        StringBuilder sql = new StringBuilder(CustomSQLUtil.get(queryName));
+        StringBuilder sql = new StringBuilder(SQlUtil.getQuery(queryName));
         List list = new ArrayList();
         try {
             String query = getQuery(sql, dto);
             list = (List<Object[]>) ITEMDAO.executeSelect(query);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return list;
     }
 
     public static boolean updateDataByDTO(String queryName, Object dto) {
-        StringBuilder sql = new StringBuilder(CustomSQLUtil.get(queryName));
+        StringBuilder sql = new StringBuilder(SQlUtil.getQuery(queryName));
         try {
             String query = getQuery(sql, dto);
             Integer count = (Integer) ITEMDAO.executeUpdate(query.toString());
@@ -197,7 +194,7 @@ public class ItemQueries {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return false;
     }
@@ -230,7 +227,7 @@ public class ItemQueries {
         if (queryName != null && !queryName.isEmpty()) {
 
             try {
-                sql = new StringBuilder(CustomSQLUtil.get(queryName));
+                sql = new StringBuilder(SQlUtil.getQuery(queryName));
                 if (queryName.contains("CFP Component Search")) {
                     sql.append(getCFPFilterQuery(filters));
                 }
@@ -245,7 +242,7 @@ public class ItemQueries {
                 }
                 if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
                     sql.append(" ");
-                    sql.append(CustomSQLUtil.get(quaryName2));
+                    sql.append(SQlUtil.getQuery(quaryName2));
                 }
                 if (queryName.equals("CFP Component Search For Table")) {
                     sql.append(" ORDER BY CM.COMPANY_NO OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;");
@@ -268,7 +265,7 @@ public class ItemQueries {
                 }
                 list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
 
@@ -640,7 +637,7 @@ public class ItemQueries {
                             int helperId = getHelperCode("STATUS", filterValue);
                             parameters.put(Constants.STATUS_S, helperId);
                         } catch (SystemException ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                     if (CONTRACT_TYPE.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(Constants.NULL)) {
@@ -648,7 +645,7 @@ public class ItemQueries {
                             int helperId = getHelperCode("CONTRACT_TYPE", filterValue);
                             parameters.put(CONTRACT_TYPE, helperId);
                         } catch (SystemException ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                 } else if (filter instanceof Between) {
@@ -739,7 +736,7 @@ public class ItemQueries {
     public static int getHelperCode(String listName, String description) throws SystemException {
         ContractHeaderDAO DAO = new ContractHeaderLogicDAOImpl();
         int code = 0;
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
@@ -762,7 +759,7 @@ public class ItemQueries {
             }
 
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return false;
     }

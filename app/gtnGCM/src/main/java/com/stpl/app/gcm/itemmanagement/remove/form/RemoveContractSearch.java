@@ -16,12 +16,12 @@ import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
-import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.TableFieldFactory;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.TableFieldFactory;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
@@ -32,7 +32,8 @@ import java.util.List;
 import java.util.Map;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
@@ -44,7 +45,7 @@ public class RemoveContractSearch extends AbstractContractSearch {
     SelectionDTO selection = new SelectionDTO();
     final StplSecurity stplSecurity = new StplSecurity();
     Map<String, AppPermission> functionHM = new HashMap<>();
-    public static final Logger LOGGER = Logger.getLogger(RemoveContractSearch.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(RemoveContractSearch.class);
 
     public RemoveContractSearch(SelectionDTO selection, List selectedItemList) {
         super(selection, selectedItemList);
@@ -53,7 +54,7 @@ public class RemoveContractSearch extends AbstractContractSearch {
             configureFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
     }
@@ -201,7 +202,7 @@ public class RemoveContractSearch extends AbstractContractSearch {
             getResetBtncur().setVisible(CommonLogic.isButtonVisibleAccess("reset2", functionHM));
             getSubmit().setVisible(CommonLogic.isButtonVisibleAccess("submit", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

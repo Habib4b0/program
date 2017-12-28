@@ -10,10 +10,14 @@ import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.filemanagement.ui.view.FileManagementIndexView;
 import com.stpl.app.adminconsole.util.HelperListUtil;
 import com.stpl.ifs.ui.DateToStringConverterFactory;
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -21,6 +25,13 @@ import com.vaadin.ui.UI;
  *
  * @author Elangovan
  */
+@Theme("mytheme")
+@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Component(service = UI.class, property = {
+        "com.liferay.portlet.display-category=File Management",
+        "javax.portlet.name=FileManagement",
+        "javax.portlet.display-name=File Management",
+        "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class FileManagementUI extends UI {
 
 	/** The navigator. */

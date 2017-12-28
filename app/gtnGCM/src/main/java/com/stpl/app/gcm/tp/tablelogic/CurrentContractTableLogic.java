@@ -9,13 +9,15 @@ import com.stpl.app.gcm.copycontract.dto.ContractSelectionDTO;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.ContractResultDTO;
 import com.stpl.app.gcm.tp.logic.CommmonLogic;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -31,7 +33,7 @@ public class CurrentContractTableLogic extends PageTableLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CurrentContractTableLogic.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(CurrentContractTableLogic.class);
 
     /**
      * Record count method

@@ -14,7 +14,6 @@ import com.stpl.app.gcm.promotetptocontract.dto.CurrentContractDTO;
 import com.stpl.app.gcm.promotetptocontract.logic.NewComponentSearchTableLogic;
 import com.stpl.app.gcm.promotetptocontract.logic.PromoteTPLogic;
 import com.stpl.app.gcm.security.StplSecurity;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.IdDescriptionDTO;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
@@ -46,45 +45,45 @@ import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.GcmContractDetailsLocalServiceUtil;
 import com.stpl.app.service.GcmGlobalDetailsLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.IfpContractDetailsLocalServiceUtil;
 import com.stpl.app.service.IfpContractLocalServiceUtil;
 import com.stpl.app.service.IfpDetailsLocalServiceUtil;
 import com.stpl.app.service.IfpModelLocalServiceUtil;
-import com.stpl.app.service.PsContractDetailsLocalServiceUtil;
 import com.stpl.app.service.PsContractLocalServiceUtil;
 import com.stpl.app.service.PsModelLocalServiceUtil;
-import com.stpl.app.service.RsContractDetailsLocalServiceUtil;
 import com.stpl.app.service.RsContractLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.impl.IfpContractDetailsImpl;
+import com.stpl.app.gcm.impl.PsContractDetailsImpl;
+import com.stpl.app.gcm.impl.RsContractDetailsImpl;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.ExtCustomTable.ColumnCheckListener;
-import com.vaadin.ui.Field;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
+import com.vaadin.v7.ui.Field;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.TreeTable;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.TreeTable;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
@@ -107,7 +106,8 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -125,7 +125,7 @@ public class NewComponents extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(NewComponents.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NewComponents.class);
     /**
      * The Constant serialVersionUID.
      */
@@ -327,7 +327,7 @@ public class NewComponents extends CustomComponent implements View {
             configureFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
     ColumnCheckListener checkListener = new ColumnCheckListener() {
@@ -360,7 +360,6 @@ public class NewComponents extends CustomComponent implements View {
             psEndDate.setDateFormat(Constants.DATE_FORMAT);
             massStartDate.setDateFormat(Constants.MM_DD_YYYY);
             massEndDate.setDateFormat(Constants.MM_DD_YYYY);
-            massUpdateRadio.setImmediate(true);
             massUpdateRadio.addItem(ENABLE.getConstant());
             massUpdateRadio.addItem(DISABLE.getConstant());
             massUpdateRadio.select(DISABLE.getConstant());
@@ -484,9 +483,9 @@ public class NewComponents extends CustomComponent implements View {
                                 searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
 
                             } catch (SystemException ex) {
-                                java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                             } catch (Exception ex) {
-                                java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                             }
                         } else {
                             if (searchField.equals(Constants.ITEM_TYPE)) {
@@ -495,9 +494,9 @@ public class NewComponents extends CustomComponent implements View {
                                     itemStatusList = CommonLogic.getDropDownList("ITEM_TYPE");
                                     searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                                 } catch (SystemException ex) {
-                                    java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                                 } catch (Exception ex) {
-                                    java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                                 }
                             }
                             if (searchField.equals("PS Type")) {
@@ -506,9 +505,9 @@ public class NewComponents extends CustomComponent implements View {
                                     itemStatusList = CommonLogic.getDropDownList("PS_TYPE");
                                     searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                                 } catch (SystemException ex) {
-                                    java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                                 } catch (Exception ex) {
-                                    java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                                 }
                             }
                             if (searchField.equals("RS Type")) {
@@ -517,9 +516,9 @@ public class NewComponents extends CustomComponent implements View {
                                     itemStatusList = CommonLogic.getDropDownList("RS_TYPE");
                                     searchType = CommonLogic.getNativeSelect(searchType, itemStatusList);
                                 } catch (SystemException ex) {
-                                    java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                                 } catch (Exception ex) {
-                                    java.util.logging.Logger.getLogger(ExistingComponents.class.getName()).log(Level.SEVERE, null, ex);
+                                    LoggerFactory.getLogger(ExistingComponents.class.getName()).error("", ex);
                                 }
                             }
                         }
@@ -638,9 +637,9 @@ public class NewComponents extends CustomComponent implements View {
                             itemStatusList = CommonLogic.getDropDownList(STATUS.getConstant());
                             massValue = CommonLogic.getNativeSelect(massValue, itemStatusList);
                         } catch (SystemException ex) {
-                            java.util.logging.Logger.getLogger(NewComponents.class.getName()).log(Level.SEVERE, null, ex);
+                            LoggerFactory.getLogger(NewComponents.class.getName()).error("", ex);
                         } catch (Exception ex) {
-                            java.util.logging.Logger.getLogger(NewComponents.class.getName()).log(Level.SEVERE, null, ex);
+                            LoggerFactory.getLogger(NewComponents.class.getName()).error("", ex);
                         }
                     }
 
@@ -648,7 +647,7 @@ public class NewComponents extends CustomComponent implements View {
             });
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -757,21 +756,19 @@ public class NewComponents extends CustomComponent implements View {
                         itemStatus.setWidth(ONE_FIFTY_PX);
                         return itemStatus;
                     } catch (SystemException ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
                 if (propertyId.equals("itemStartDate")) {
                     final PopupDateField itemSDate = new PopupDateField();
                     itemSDate.setDateFormat(Constants.MM_DD_YYYY);
                     itemSDate.setWidth(ONE_FIFTY_PX);
-                    itemSDate.setImmediate(true);
                     return itemSDate;
                 }
                 if (propertyId.equals("itemEndDate")) {
                     final PopupDateField itemEDate = new PopupDateField();
                     itemEDate.setDateFormat(Constants.MM_DD_YYYY);
                     itemEDate.setWidth(ONE_FIFTY_PX);
-                    itemEDate.setImmediate(true);
                     return itemEDate;
                 }
                 if (propertyId.equals("rebatePlan")) {
@@ -786,7 +783,6 @@ public class NewComponents extends CustomComponent implements View {
                             UI.getCurrent().addWindow(rebatePlanLookupWindow);
                         }
                     });
-                    rebatePlan.setImmediate(true);
                     return rebatePlan;
                 }
                 if (propertyId.equals("formulaId")) {
@@ -801,7 +797,6 @@ public class NewComponents extends CustomComponent implements View {
                             UI.getCurrent().addWindow(formulaLookUpWindow);
                         }
                     });
-                    formulaId.setImmediate(true);
                     return formulaId;
                 }
                 return null;
@@ -865,7 +860,7 @@ public class NewComponents extends CustomComponent implements View {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         } finally {
             contractExcelFlag = false;
         }
@@ -882,7 +877,7 @@ public class NewComponents extends CustomComponent implements View {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         } finally {
             infoExcelFlag = false;
         }
@@ -986,7 +981,7 @@ public class NewComponents extends CustomComponent implements View {
             try {
                 Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
                 String query = queryUtils.getItemInfo(ids, ifps);
-                List itemList = CompanyMasterLocalServiceUtil.executeQuery(query);
+                List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (itemList != null && itemList.size() > 0) {
                     for (int i = 0; i < itemList.size(); i++) {
                         ComponentInfoDTO itemInfoDTO = new ComponentInfoDTO();
@@ -1028,13 +1023,13 @@ public class NewComponents extends CustomComponent implements View {
                 componentDetailsTable.setSelectable(true);
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         } else if (componentType.getValue().toString().equalsIgnoreCase(ITEM_FAMILY_PLAN.toString())) {
             try {
                 String query = queryUtils.getIFPInformation(ids);
                 Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
-                List itemList = CompanyMasterLocalServiceUtil.executeQuery(query);
+                List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (itemList != null && itemList.size() > 0) {
                     for (int i = 0; i < itemList.size(); i++) {
                         ComponentInfoDTO itemInfoDTO = new ComponentInfoDTO();
@@ -1079,12 +1074,12 @@ public class NewComponents extends CustomComponent implements View {
                 componentDetailsTable.setSelectable(true);
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         } else if (componentType.getValue().toString().equalsIgnoreCase(PRICE_SCHEDULE.toString())) {
             try {
                 String query = queryUtils.getIFPInformation(ids);
-                List itemList = CompanyMasterLocalServiceUtil.executeQuery(query);
+                List itemList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (itemList != null && itemList.size() > 0) {
                     Map<Integer, HelperDTO> idHelperDTOMap = helperListUtil.getIdHelperDTOMap();
                     for (int i = 0; i < itemList.size(); i++) {
@@ -1130,7 +1125,7 @@ public class NewComponents extends CustomComponent implements View {
                 componentDetailsTable.setSelectable(true);
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
     }
@@ -1312,7 +1307,7 @@ public class NewComponents extends CustomComponent implements View {
 
                 String companySid = session.getCompanyMasterSid();
                 String componentQuery = queryUtils.getCompanyInformation(companySid);
-                List componentList = CompanyMasterLocalServiceUtil.executeQuery(componentQuery);
+                List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
                 if (componentList != null && componentList.size() > 0) {
                     componentResultsContainer.removeAllItems();
                     List<ComponentInfoDTO> companyList = new ArrayList<>();
@@ -1480,7 +1475,7 @@ public class NewComponents extends CustomComponent implements View {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, PLEASE_SELECT_CORREC_NODE);
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 } else if (level.equals(Constants.PRICE_SCHEDULE)) {
                     if (NumericConstants.THREE - levelNumber == 1) {
@@ -1595,7 +1590,7 @@ public class NewComponents extends CustomComponent implements View {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, PLEASE_SELECT_CORREC_NODE);
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             } else {
@@ -1841,7 +1836,7 @@ public class NewComponents extends CustomComponent implements View {
                         input.add(ifpmodel.getIfpModelSid());
                         input.add(DBDate.format(ifpmodel.getIfpStartDate()));
                         input.add(ifpmodel.getIfpEndDate() == null ? null : DBDate.format(ifpmodel.getIfpEndDate()));
-                        IfpContractDetailsLocalServiceUtil.saveIfpDetailsAttached(input, null);
+                        IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
                     }
                 } else if (level.equals(Constants.THREE)) {
                     String psModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
@@ -1960,7 +1955,7 @@ public class NewComponents extends CustomComponent implements View {
                     input.add(psModelId);
                     input.add(DBDate.format(psmodel.getPsStartDate()));
                     input.add(psmodel.getPsEndDate() == null ? null : DBDate.format(psmodel.getPsEndDate()));
-                    PsContractDetailsLocalServiceUtil.savePsDetailsAttached(input, null);
+                    PsContractDetailsImpl.savePsDetailsAttached(input, null);
 
                 } else if (level.equals(Constants.FOUR)) {
                     /*Below line is used to get temp table sid from tree node */
@@ -2061,14 +2056,14 @@ public class NewComponents extends CustomComponent implements View {
                         input.add(rsModel.getRsModelSid());
                         input.add(rsModel.getRsStartDate());
                         input.add(rsModel.getRsEndDate() == null ? null : rsModel.getRsEndDate());
-                        RsContractDetailsLocalServiceUtil.saveRsDetailsAttached(input, null);
+                        RsContractDetailsImpl.saveRsDetailsAttached(input, null);
 
                     }
                 }
             }
             LOGGER.debug("TP Promoted Successfully as Contract Holder");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return returnList;
     }
@@ -2109,7 +2104,7 @@ public class NewComponents extends CustomComponent implements View {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -2178,7 +2173,7 @@ public class NewComponents extends CustomComponent implements View {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
 
         }
         isTableUpdate = false;
@@ -2220,7 +2215,7 @@ public class NewComponents extends CustomComponent implements View {
             removeFromTreeBtn.setVisible(CommonLogic.isButtonVisibleAccess("removeFromTreeBtn", functionHM));
             addToTreeBtn1.setVisible(CommonLogic.isButtonVisibleAccess("addToTreeBtn1", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 

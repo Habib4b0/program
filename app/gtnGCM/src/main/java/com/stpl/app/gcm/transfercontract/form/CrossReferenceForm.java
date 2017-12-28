@@ -5,11 +5,11 @@
  */
 package com.stpl.app.gcm.transfercontract.form;
 
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -39,7 +39,6 @@ public class CrossReferenceForm extends VerticalLayout {
     private void addTab() {
         crossRefTab.addStyleName(ValoTheme.TABSHEET_FRAMED);
         crossRefTab.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        crossRefTab.setImmediate(true);
         crossRefTab.markAsDirty();
         crossRefTab.markAsDirtyRecursive();
         crossRefTab.addTab(new CrossReferenceCustomers(), "Customers", null, 0);

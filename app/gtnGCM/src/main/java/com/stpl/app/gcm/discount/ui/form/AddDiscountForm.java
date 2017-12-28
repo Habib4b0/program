@@ -12,8 +12,8 @@ import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -35,7 +37,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class AddDiscountForm extends CustomComponent implements View {
 
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(AddDiscountForm.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(AddDiscountForm.class);
     /**
      * The tab flag.
      */
@@ -117,7 +119,6 @@ public class AddDiscountForm extends CustomComponent implements View {
     private void addTab() {
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        tabSheet.setImmediate(true);
         tabSheet.markAsDirty();
         tabSheet.markAsDirtyRecursive();
         tabSheet.addTab(newDiscountTab, "New Discount", null, 0);
@@ -137,7 +138,7 @@ public class AddDiscountForm extends CustomComponent implements View {
                 try {
                     onTabChange();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         });
@@ -223,7 +224,7 @@ public class AddDiscountForm extends CustomComponent implements View {
                 try {
                     editWindow.close();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 
@@ -287,7 +288,7 @@ public class AddDiscountForm extends CustomComponent implements View {
         try {
             saveDiscount();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
     }
@@ -301,7 +302,7 @@ public class AddDiscountForm extends CustomComponent implements View {
             addDiscountBtn.setVisible(CommonLogic.isButtonVisibleAccess("addDiscountBtn", functionHM));
             nextBtn.setVisible(CommonLogic.isButtonVisibleAccess("nextBtn", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

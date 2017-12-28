@@ -21,30 +21,30 @@ import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
 
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -58,7 +58,8 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -108,7 +109,7 @@ public class Summary extends CustomComponent {
     ContractDashboardTableLogic contractDashboardTableLogic = new ContractDashboardTableLogic();
     public FreezePagedTreeTable contractDashBoardtable = new FreezePagedTreeTable(contractDashboardTableLogic);
     public List<ItemIndexDto> selecteditemList;
-    public static final Logger LOGGER = Logger.getLogger(AddContractSelection.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AddContractSelection.class);
     Object[] visibleColumn = {Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp", "ifp", "ps", "rs"};
     String[] columnHeader = {"Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", Constants.CFP, Constants.IFP, Constants.PS, Constants.RS};
     Object[] componentColumn = {"itemNo", "itemName", "therapyClass", "brand", "status", Constants.START_DATE, Constants.END_DATE, "rebatePlan", "formulaId"};
@@ -165,7 +166,6 @@ public class Summary extends CustomComponent {
                 itemDesc.setValue(dto.getItemDesc());
                 therapeuticClass.setValue(dto.getTherapeuticClass());
                 brand.setValue(dto.getBrand());
-                itemNo.setImmediate(true);
             }
             itemNo.setReadOnly(Boolean.TRUE);
             itemName.setReadOnly(Boolean.TRUE);
@@ -174,7 +174,7 @@ public class Summary extends CustomComponent {
             brand.setReadOnly(Boolean.TRUE);
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -203,7 +203,7 @@ public class Summary extends CustomComponent {
             List<SummaryDTO> list = logic.getContractResults(selection, 0, Integer.MAX_VALUE);
             ExcelExportforBB.createWorkSheet(addContractTable.getColumnHeaders(), list.size(), this, UI.getCurrent(), "Item_Details");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -214,7 +214,7 @@ public class Summary extends CustomComponent {
                 ExcelExportforBB.createFileContent(addContractTable.getVisibleColumns(), list, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -485,7 +485,7 @@ public class Summary extends CustomComponent {
             remove1.setVisible(CommonLogic.isButtonVisibleAccess("remove1", functionHM));
             populate.setVisible(CommonLogic.isButtonVisibleAccess("populate", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 

@@ -10,10 +10,11 @@ import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.security.dao.UdcLogicDAO;
 import com.stpl.app.service.BrandMasterLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,11 +27,11 @@ public class UdcLogicDAOImpl implements UdcLogicDAO {
     }
 
     public List<HelperTable> getDescrition(String desc) throws SystemException {
-        return HelperTableLocalServiceUtil.findByHelperTableDetails(desc);
+        return new ArrayList<>();
     }
 
     public List<HelperTable> findByHelperTableDetails(String category) throws SystemException {
-        return HelperTableLocalServiceUtil.findByHelperTableDetails(category);
+        return new ArrayList<>();
     }
     
 

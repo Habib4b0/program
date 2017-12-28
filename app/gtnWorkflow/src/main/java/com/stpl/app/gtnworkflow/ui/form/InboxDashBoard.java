@@ -17,10 +17,8 @@ import com.stpl.app.gtnworkflow.util.ConstantUtils;
 import com.stpl.app.gtnworkflow.util.HelperListUtil;
 import com.stpl.app.gtnworkflow.util.NotificationUtils;
 import com.stpl.app.model.WorkflowProcessInfo;
-import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.WorkflowProcessInfoLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
@@ -29,19 +27,22 @@ import com.stpl.ifs.util.CsvExportforPagedTable;
 import com.stpl.ifs.util.HelperDTO;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.Role;
-import com.stpl.portal.service.RoleLocalServiceUtil;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.stpl.app.gtnworkflow.util.ConstantsUtils;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.BrowserWindowOpener;
@@ -51,21 +52,20 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 import de.steinwedel.messagebox.ButtonId;
@@ -85,13 +85,13 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.jboss.logging.Logger;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.ifs.util.TableResultCustom;
+import elemental.json.JsonArray;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 
 /**
  * class is responsible for the Landing page of Workflow Inbox.
@@ -412,7 +412,7 @@ public class InboxDashBoard extends CustomComponent implements View {
             cssLayoutBottom.addComponent(excelBtn);
             try {
                 if (!isSubmitter) {
-                    DynamicQuery query = DynamicQueryFactoryUtil.forClass(WorkflowProcessInfo.class);
+                    DynamicQuery query = WorkflowProcessInfoLocalServiceUtil.dynamicQuery();
                     final ProjectionList projList = ProjectionFactoryUtil.projectionList();
                     projList.add(ProjectionFactoryUtil.property("processInstanceId"));
                     if (workflowId.startsWith(ConstantsUtils.BR) || workflowId.startsWith(ConstantsUtils.FD)) {
@@ -597,9 +597,8 @@ public class InboxDashBoard extends CustomComponent implements View {
             addResposivenessToInformationPanel(fieldRsHM);
 
             JavaScript.getCurrent().addFunction("storageEventListener", new JavaScriptFunction() {
-
                 @Override
-                public void call(JSONArray arguments) throws JSONException {
+                public void call(JsonArray arguments) {
                     try {
                         String businessProcessvalue = String.valueOf(businessProcess.getValue());
                         if (arguments.getString(0).equals(businessProcessvalue) && arguments.getBoolean(1)) {

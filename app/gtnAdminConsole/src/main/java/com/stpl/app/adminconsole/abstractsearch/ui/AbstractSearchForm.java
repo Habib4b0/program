@@ -35,37 +35,36 @@ import com.stpl.app.adminconsole.discount.ui.view.DiscountAddView;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
 import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
+import com.stpl.app.adminconsole.util.ErrorCodeUtil;
 import com.stpl.app.adminconsole.util.ErrorCodes;
 import com.stpl.app.adminconsole.util.Message;
 import com.stpl.app.adminconsole.util.ResponsiveUtils;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.serviceUtils.ConstantUtil;
-import com.stpl.app.serviceUtils.ErrorCodeUtil;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -254,7 +253,7 @@ public class AbstractSearchForm extends CustomComponent {
      * The Constructor.
      *
      * @param moduleName
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public AbstractSearchForm(String moduleName, final SessionDTO sessionDTO) throws SystemException, PortalException {
         super();
@@ -282,8 +281,8 @@ public class AbstractSearchForm extends CustomComponent {
     /**
      * Inits the.
      *
-     * @throws com.stpl.portal.kernel.exception.PortalException
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.PortalException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public void init() throws PortalException, SystemException {
         final StplSecurity stplSecurity = new StplSecurity();
@@ -449,10 +448,10 @@ public class AbstractSearchForm extends CustomComponent {
                 resultTable.addStyleName("TableCheckBox");
                 resultTable.setSelectable(true);
                 if (tableLogic.isResultsEmpty()) {
-                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_COMPLETED);
+                    CommonUIUtils.successNotification(ConstantsUtils.NO_RESULSTS);
                 } else {
                     sessionDTO.setMode("no");
-                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
+                    CommonUIUtils.successNotification(ConstantsUtils.SEARCH_COMPLETED);
                 }
 
                 resultTable.markAsDirtyRecursive();
@@ -500,9 +499,9 @@ public class AbstractSearchForm extends CustomComponent {
                 resultTable.addStyleName("TableCheckBox");
                 resultTable.setSelectable(true);
                 if (tableLogic.isResultsEmpty()) {
-                    CommonUIUtils.successNotification(ConstantUtil.NO_RESULTS_COMPLETED);
+                    CommonUIUtils.successNotification(ConstantsUtils.NO_RESULSTS);
                 } else {
-                    CommonUIUtils.successNotification(ConstantUtil.SEARCH_COMPLETED);
+                    CommonUIUtils.successNotification(ConstantsUtils.SEARCH_COMPLETED);
                     editBtn.setEnabled(false);
                     copyBtn.setEnabled(false);
                     deleteBtn.setEnabled(false);

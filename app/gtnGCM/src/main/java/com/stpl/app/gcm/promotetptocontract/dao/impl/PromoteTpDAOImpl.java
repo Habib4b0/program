@@ -19,48 +19,51 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TAB_TRANSFER_CO
 import com.stpl.app.model.GcmGlobalDetails;
 import com.stpl.app.service.GcmGlobalDetailsLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.impl.CompanyMasterImpl;
+import com.stpl.app.gcm.impl.ContractMasterImpl;
+import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import java.util.logging.Level;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author alok.v
  */
 public class PromoteTpDAOImpl implements PromoteTpDAO {
-public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
+public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.class);
     @Override
     public List companyCount(final Map<String, Object> parameters) throws SystemException {
 
-        return CompanyMasterLocalServiceUtil.searchTPCompanies(parameters);
+        return CompanyMasterImpl.searchTPCompanies(parameters);
 
     }
 
     @Override
     public List searchTPCompanies(final Map<String, Object> parameters) throws SystemException {
 
-        return CompanyMasterLocalServiceUtil.searchTPCompanies(parameters);
+        return CompanyMasterImpl.searchTPCompanies(parameters);
 
     }
 
     public List loadCompanyTypeDDLB(Map<String, Object> parameters) {
 
-        return CompanyMasterLocalServiceUtil.getCompanyTypeCount(parameters);
+        return CompanyMasterImpl.getCompanyTypeCount(parameters);
     }
 
     public int getCompanyTypeCount(DynamicQuery dynamicQuery) {
         try {
             return (int) CompanyMasterLocalServiceUtil.dynamicQueryCount(dynamicQuery);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return 0;
     }
@@ -69,7 +72,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
         try {
             return CompanyMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return Collections.emptyList();
     }
@@ -77,7 +80,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
     @Override
     public List searchCurrentContracts(final Map<String, Object> parameters) throws SystemException {
 
-        return ContractMasterLocalServiceUtil.searchContractsForPromoteTp(parameters);
+        return ContractMasterImpl.searchContractsForPromoteTp(parameters);
     }
 
     /**
@@ -111,7 +114,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
             queries[0] = query1;
             queries[1] = query2;
 
-            return (List) ContractMasterLocalServiceUtil.executeSelectQueries(queries);
+            return (List) ContractMasterImpl.executeSelectQueries(queries);
         }
         return new ArrayList();
     }
@@ -126,7 +129,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
     }
 
     public void updateCFP(List<Object> input) {
-        String sql = CustomSQLUtil.get("Existing.saveCFP");
+        String sql = SQlUtil.getQuery("Existing.saveCFP");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
         sql = sql.replaceFirst("[?]", input.get(1).toString());
         sql = sql.replaceFirst("[?]", input.get(NumericConstants.TWO).toString());
@@ -137,7 +140,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
     }
 
     public void updateIFP(List<Object> input) {
-        String sql = CustomSQLUtil.get("Existing.saveIFP");
+        String sql = SQlUtil.getQuery("Existing.saveIFP");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
         sql = sql.replaceFirst("[?]", input.get(1).toString());
         sql = sql.replaceFirst("[?]", input.get(NumericConstants.TWO).toString());
@@ -148,7 +151,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
     }
 
     public void updatePS(List<Object> input) {
-        String sql = CustomSQLUtil.get("Existing.savePS");
+        String sql = SQlUtil.getQuery("Existing.savePS");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
         sql = sql.replaceFirst("[?]", input.get(1).toString());
         sql = sql.replaceFirst("[?]", input.get(NumericConstants.TWO).toString());
@@ -159,7 +162,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
     }
 
     public void updateRS(List<Object> input) {
-        String sql = CustomSQLUtil.get("Existing.saveRS");
+        String sql = SQlUtil.getQuery("Existing.saveRS");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
         sql = sql.replaceFirst("[?]", input.get(1).toString());
         sql = sql.replaceFirst("[?]", input.get(NumericConstants.TWO).toString());
@@ -205,9 +208,9 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
         GcmGlobalDetailsLocalServiceUtil.updateGcmGlobalDetails(temp);
              
         String updateQuery = "UPDATE GCM_GLOBAL_DETAILS set CHECK_RECORD = '0' , OPERATION = '" + udcValue + "' where USER_ID='" + userId + "' AND SESSION_ID='" + sessionId + "' AND CHECK_RECORD='1' AND SCREEN_NAME = '" + screenName + "'";
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(updateQuery);
+        HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery);
     } catch (SystemException ex) {
-        java.util.logging.Logger.getLogger(PromoteTpDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        LoggerFactory.getLogger(PromoteTpDAOImpl.class.getName()).error("", ex);
     }
     }
 
@@ -293,7 +296,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
         queries[0] = query1;
         queries[1] = query2;
 
-        return (List) ContractMasterLocalServiceUtil.executeSelectQueries(queries);
+        return (List) ContractMasterImpl.executeSelectQueries(queries);
     }
 
     public List startDateAndEndDateValidation(String userId, String sessionId, String screenName) {
@@ -304,7 +307,7 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
         queries[0] = query1;
         queries[1] = query2;
 
-        return (List) ContractMasterLocalServiceUtil.executeSelectQueries(queries);
+        return (List) ContractMasterImpl.executeSelectQueries(queries);
     }
 
     public List isAnyRecordSelected(String userId, String sessionId, String screenName) {
@@ -314,6 +317,6 @@ public static final Logger LOGGER = Logger.getLogger(PromoteTpDAOImpl.class);
     }
 
     public List searchCompanies(Map<String, Object> parameters) throws SystemException {
-        return CompanyMasterLocalServiceUtil.searchCompanies(parameters);
+        return CompanyMasterImpl.searchCompanies(parameters);
     }
 }

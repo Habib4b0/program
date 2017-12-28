@@ -1,14 +1,14 @@
 package com.stpl.app.ui;
 
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
-import com.vaadin.event.ItemClickEvent.ItemClickListener;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
+import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
+import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.VerticalLayout;
 
 public abstract class AbstractSearchResults  extends CustomComponent{
 	private static final long serialVersionUID = 1L;

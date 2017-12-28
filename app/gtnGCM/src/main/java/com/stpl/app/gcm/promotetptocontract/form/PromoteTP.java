@@ -11,8 +11,8 @@ import com.stpl.app.gcm.promotetptocontract.logic.CompanySearchTableLogic;
 import com.stpl.app.gcm.promotetptocontract.logic.PromoteTPLogic;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.ui.form.CompanySearch;
-import com.stpl.app.gcm.ui.errorhandling.ErrorLabel;
-import com.stpl.app.gcm.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
@@ -20,31 +20,31 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.EXCEL_IMAGE_PAT
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.PROMOTE_TRADING_PARTNER;
 import com.stpl.app.gcm.util.Constants.MessageConstants;
 import com.stpl.app.gcm.util.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.ComboBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -54,13 +54,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.vaadin.addons.lazycontainer.LazyBeanItemContainer;
+import org.asi.ui.addons.lazycontainer.LazyBeanItemContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -72,9 +73,9 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class PromoteTP extends VerticalLayout {
 
     SessionDTO session = new SessionDTO();
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(PromoteTP.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(PromoteTP.class);
     public PromoteTpToChDto promoteTpToChDto = new PromoteTpToChDto();
-    public CustomFieldGroup promoteTpToChDtoBinder;
+    public ErrorfulFieldGroup promoteTpToChDtoBinder;
     @UiField("promoteTpToChDtoTableLayout")
     public VerticalLayout promoteTpToChDtoTableLayout;
     @UiField("companyType")
@@ -206,20 +207,16 @@ public class PromoteTP extends VerticalLayout {
      */
     protected void configureFields() {
         companyId.setData("maxlengthvalidationhundred,maxlengthvalidationcompanyid,specialchar,specialcharcompanyid");
-        companyId.setImmediate(true);
         companyId.setValidationVisible(true);
         companyId.focus();
 
         companyNo.setData("maxlengthvalidationhundred,maxlengthvalidationcompanyno,specialchar,specialcharcompanyno");
-        companyNo.setImmediate(true);
         companyNo.setValidationVisible(true);
 
         companyName.setData("maxlengthvalidationhundred,maxlengthvalidationcompanyname,specialchar,specialcharcompanyname");
-        companyName.setImmediate(true);
         companyName.setValidationVisible(true);
 
         identifier.setData("maxlengthvalidationhundred,maxlengthvalidationcompanyidentifier,specialchar,specialcharcompanyidentifier");
-        identifier.setImmediate(true);
         identifier.setValidationVisible(true);
 
         companyType.addItem(ddlbDefaultValue);
@@ -274,7 +271,7 @@ public class PromoteTP extends VerticalLayout {
                         commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, true);
                         return tradeClass;
                     } catch (Exception ex) {
-                        Logger.getLogger(CompanySearch.class.getName()).log(Level.SEVERE, null, ex);
+                        LoggerFactory.getLogger(CompanySearch.class.getName()).error("", ex);
                     }
                 }
                 if ("companyType".equals(propertyId)) {
@@ -283,7 +280,7 @@ public class PromoteTP extends VerticalLayout {
                         commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, true);
                         return companyType;
                     } catch (Exception ex) {
-                        Logger.getLogger(CompanySearch.class.getName()).log(Level.SEVERE, null, ex);
+                        LoggerFactory.getLogger(CompanySearch.class.getName()).error("", ex);
                     }
                 }
                 if ("companyCategory".equals(propertyId)) {
@@ -292,7 +289,7 @@ public class PromoteTP extends VerticalLayout {
                         commonUtil.loadComboBox(companyCategory, UiUtils.COMPANY_CATEGORY, true);
                         return companyCategory;
                     } catch (Exception ex) {
-                        Logger.getLogger(CompanySearch.class.getName()).log(Level.SEVERE, null, ex);
+                        LoggerFactory.getLogger(CompanySearch.class.getName()).error("", ex);
                     }
                 }
                 if ("state".equals(propertyId)) {
@@ -301,7 +298,7 @@ public class PromoteTP extends VerticalLayout {
                         commonUtil.loadComboBox(state, UiUtils.STATE, true);
                         return state;
                     } catch (Exception ex) {
-                        Logger.getLogger(CompanySearch.class.getName()).log(Level.SEVERE, null, ex);
+                        LoggerFactory.getLogger(CompanySearch.class.getName()).error("", ex);
                     }
                 }
                
@@ -402,7 +399,7 @@ public class PromoteTP extends VerticalLayout {
                     try {
                         companySearchReset();
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }
@@ -449,7 +446,7 @@ public class PromoteTP extends VerticalLayout {
                     CommonUIUtils.getMessageNotification("Search Completed");
                 }
             } catch (FieldGroup.CommitException commit) {
-                 LOGGER.error(commit);
+                 LOGGER.error("",commit);
             }
         }
     }
@@ -484,7 +481,7 @@ public class PromoteTP extends VerticalLayout {
                 promoteTpToChDto.setIdentifier(String.valueOf(0));
             }
         } catch (Exception ex) {
-             LOGGER.error(ex);
+             LOGGER.error("",ex);
         }
     }
 
@@ -501,7 +498,7 @@ public class PromoteTP extends VerticalLayout {
                     try {
                         searchResultsReset();
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }
@@ -572,7 +569,7 @@ public class PromoteTP extends VerticalLayout {
             }
              promoteTpToChDtoTableLayout.removeComponent(companyViewTable);
         } catch (Exception e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
         }
     }
 
@@ -613,7 +610,7 @@ public class PromoteTP extends VerticalLayout {
               ExcelExportforBB.createFileContent(companySearchResultsTable.getVisibleColumns(), searchList, printWriter);
                     }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
     

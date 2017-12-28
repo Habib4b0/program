@@ -13,11 +13,11 @@ import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractContractSearchDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractComponentInfo;
 import com.stpl.app.gcm.util.Constants;
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import java.util.List;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 
 /**
  *
@@ -37,7 +37,7 @@ public class TransferContract extends CustomComponent {
             this.selection = selection;
             this.selectedItemList = selectedItemList;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 

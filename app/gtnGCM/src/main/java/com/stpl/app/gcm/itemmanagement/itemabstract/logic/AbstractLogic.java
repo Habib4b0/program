@@ -35,15 +35,15 @@ import static com.stpl.app.gcm.util.Constants.QUARTERLY;
 import static com.stpl.app.gcm.util.Constants.SPACE;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.ComboBox;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ComboBox;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -60,7 +60,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
 
 /**
  *
@@ -101,7 +101,6 @@ public class AbstractLogic {
             comboBox.setNullSelectionItemId(ddlbDefaultValue);
         }
         comboBox.setNullSelectionAllowed(true);
-        comboBox.setImmediate(true);
         comboBox.setItemCaptionPropertyId(DESCRIPTION);
         containerData.setMinFilterLength(0);
     }
@@ -456,7 +455,7 @@ public class AbstractLogic {
             }
 
         } catch (SystemException e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
         }
         return finalResult;
 
@@ -467,7 +466,7 @@ public class AbstractLogic {
             HelperTable table = HelperTableLocalServiceUtil.getHelperTable(code);
             return table.getDescription();
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             return null;
         }
     }
@@ -642,7 +641,6 @@ public class AbstractLogic {
         comboBox.setContainerDataSource(containerData);
         comboBox.setNullSelectionItemId(ddlbDefaultValue);
         comboBox.setNullSelectionAllowed(true);
-        comboBox.setImmediate(true);
         comboBox.setItemCaptionPropertyId(DESCRIPTION);
     }
 
@@ -1620,7 +1618,6 @@ public class AbstractLogic {
             comboBox.setNullSelectionItemId(ddlbDefaultValue);
         }
         comboBox.setNullSelectionAllowed(true);
-        comboBox.setImmediate(true);
         comboBox.setItemCaptionPropertyId(DESCRIPTION);
         comboBox.addItems(getDDLBList(columnName, tableName, isFilter, queryName));
     }
@@ -1702,7 +1699,7 @@ public class AbstractLogic {
 
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
            
         } finally {
             try {
@@ -1710,18 +1707,18 @@ public class AbstractLogic {
                     rs.close();
                 }
             } catch (Exception e) {
-                 LOGGER.error(e);
+                 LOGGER.error("",e);
             }
             try {
                 statement.close();
             } catch (Exception e) {
-                 LOGGER.error(e);
+                 LOGGER.error("",e);
             }
             try {
                 connection.close();
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
            
         }
@@ -1748,12 +1745,12 @@ public class AbstractLogic {
                 objList.add(str);
             }
         } catch (Exception ex) {
-             LOGGER.error(ex);
+             LOGGER.error("",ex);
         } finally {
             try {
                 rs.close();
             } catch (SQLException ex) {
-                 LOGGER.error(ex);
+                 LOGGER.error("",ex);
             }
         }
         return objList;
@@ -1831,9 +1828,8 @@ public class AbstractLogic {
     public ComboBox loadComboBox(final ComboBox select,
             String listName, boolean isFilter) {
         select.removeAllItems();
-        final HelperDTO defaultValue = new HelperDTO(0, isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE);
+        final HelperDTO defaultValue = new HelperDTO(0, isFilter ? ConstantsUtils.SHOW_ALL : Constants.SELECT_ONE);
         select.setValidationVisible(true);
-        select.setImmediate(true);
         select.setNullSelectionAllowed(true);
         select.setNullSelectionItemId(defaultValue);
         select.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
@@ -1848,14 +1844,14 @@ public class AbstractLogic {
         select.setContainerDataSource(resultContainer);
         select.select(defaultValue);
         select.markAsDirty();
-        select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : select.getValue()));
+        select.setDescription((String) (select.getValue() == null ? Constants.SELECT_ONE : select.getValue()));
         select.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 if (event.getProperty() != null && event.getProperty().getValue() != null && (StringUtils.EMPTY.equals(event.getProperty().getValue()) || ConstantsUtils.NULL.equals(event.getProperty().getValue()))) {
                     select.select(defaultValue);
                 }
-                select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : ((HelperDTO) select.getValue()).getDescription()));
+                select.setDescription((String) (select.getValue() == null ? Constants.SELECT_ONE : ((HelperDTO) select.getValue()).getDescription()));
             }
         });
         return select;

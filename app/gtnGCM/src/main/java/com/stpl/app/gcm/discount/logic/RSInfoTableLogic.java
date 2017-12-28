@@ -6,12 +6,13 @@
 package com.stpl.app.gcm.discount.logic;
 
 import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,7 +20,7 @@ import org.jboss.logging.Logger;
  */
 public class RSInfoTableLogic extends PageTableLogic{
 
-    private static final Logger LOGGER = Logger.getLogger(RSInfoTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RSInfoTableLogic.class);
     DiscountLogic logic = new DiscountLogic();
     RemoveDiscountDto removeDiscountDto =null;
     
@@ -35,7 +36,7 @@ public class RSInfoTableLogic extends PageTableLogic{
                 count= logic.getItemsCount(removeDiscountDto, 0 , 0);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return count;
     }
@@ -52,7 +53,7 @@ public class RSInfoTableLogic extends PageTableLogic{
         try {
             list= logic.getItems(removeDiscountDto, start, offset, false);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return list;
     }

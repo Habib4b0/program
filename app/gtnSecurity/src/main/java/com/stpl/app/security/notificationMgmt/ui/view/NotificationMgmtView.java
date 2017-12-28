@@ -7,7 +7,7 @@ package com.stpl.app.security.notificationMgmt.ui.view;
 import com.stpl.app.security.notificationMgmt.ui.form.NotificationMgmtIndex;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 
 /**
  *

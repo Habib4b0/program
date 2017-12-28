@@ -23,32 +23,32 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.ADD_DISCOUNT;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,7 +61,8 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -118,7 +119,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     RebateTableLogic tableLogic = new RebateTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     final List<RemoveDiscountDto> selecteditemList = new ArrayList<>();
-    private static final Logger LOGGER = Logger.getLogger(RemoveDiscountIndex.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RemoveDiscountIndex.class);
     public String screenName = StringUtils.EMPTY;
     /* The bean used to load Start Period */
     final private BeanItemContainer<String> marketTypeBean = new BeanItemContainer<>(String.class);
@@ -129,7 +130,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     /**
      * Binder for DataSelection.
      */
-    final private CustomFieldGroup discountChBinder = new CustomFieldGroup(new BeanItem<>(removeDiscountDto));
+    final private ErrorfulFieldGroup discountChBinder = new ErrorfulFieldGroup(new BeanItem<>(removeDiscountDto));
     /**
      * Bean container for result table.
      */
@@ -155,7 +156,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
      * @return the binder
      * @throws StplR2Exception the stpl r2 exception
      */
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         LOGGER.debug("Entering getBinder");
         discountChBinder.bindMemberFields(this);
         discountChBinder.setItemDataSource(new BeanItem<>(new RemoveDiscountDto()));
@@ -180,32 +181,27 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
             }
             marketTypeBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             marketTypeBean.addAll(discountLogic.getMarketType());
-            marketType.setImmediate(true);
             marketType.setContainerDataSource(marketTypeBean);
             marketType.setNullSelectionAllowed(true);
             marketType.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             marketType.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             promoteTpToChDtoTableLayout.addComponent(resultsTable); // Removed below lines for CEL-810
-            contractstartDate.setImmediate(true);
             contractstartDate.setValidationVisible(true);
             contractstartDate.setDateFormat(Constants.DATE_FORMAT);
             contractstartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
-            contractendDate.setImmediate(true);
             contractendDate.setValidationVisible(true);
             contractendDate.setDateFormat(Constants.DATE_FORMAT);
             contractendDate.addStyleName(Constants.DATE_FIEILD_CENTER);
             commonUtil.loadComboBox(aliastype, UiUtils.CONTRACT_ALIAS_TYPE, false);
             configureAccrualResultsTable();
-            aliasStartDate.setImmediate(true);
             aliasStartDate.setValidationVisible(true);
             aliasStartDate.setDateFormat(Constants.DATE_FORMAT);
             aliasStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
-            aliasEndDate.setImmediate(true);
             aliasEndDate.setValidationVisible(true);
             aliasEndDate.setDateFormat(Constants.DATE_FORMAT);
             aliasEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
     
@@ -622,7 +618,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
                       removeDiscountDto.setSearch(Boolean.FALSE);
                     tableLogic.loadSetData(removeDiscountDto, discountChBinder);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage("Reset Conformation", "Are you sure you want to reset the page to default/previous values?");
@@ -659,7 +655,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
         LOGGER.debug("Ending reset method");
     }
 
-    public Boolean isSearch(final CustomFieldGroup binder) {
+    public Boolean isSearch(final ErrorfulFieldGroup binder) {
         Boolean flag = false;
         if (getNull(binder.getField(Constants.CONTRACT_HOLDER).getValue().toString())) {
             flag = true;

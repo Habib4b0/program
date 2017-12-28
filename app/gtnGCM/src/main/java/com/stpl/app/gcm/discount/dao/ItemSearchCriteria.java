@@ -6,7 +6,7 @@
 package com.stpl.app.gcm.discount.dao;
 
 import org.apache.commons.lang.StringUtils;
-import org.vaadin.addons.lazycontainer.SearchCriteria;
+import org.asi.ui.addons.lazycontainer.SearchCriteria;
 
 /**
  *

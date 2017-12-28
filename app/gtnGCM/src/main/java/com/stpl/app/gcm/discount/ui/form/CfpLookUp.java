@@ -11,24 +11,24 @@ import com.stpl.app.gcm.discount.logic.LookUpTableLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.ui.ComboBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import org.asi.ui.customcombobox.CustomComboBox;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -36,7 +36,8 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -47,7 +48,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class CfpLookUp extends Window {
 
-    private static final Logger LOGGER = Logger.getLogger(CfpLookUp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CfpLookUp.class);
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
     @UiField("cfpId")
@@ -60,7 +61,7 @@ public class CfpLookUp extends Window {
     public ComboBox cfpStatus;
     @UiField("cfpType")
     public ComboBox cfpType;
-    private CustomFieldGroup binder;
+    private ErrorfulFieldGroup binder;
     @UiField("cfpStartDate")
     public PopupDateField cfpStartDate;
     @UiField("cfpEndDate")
@@ -136,48 +137,43 @@ public class CfpLookUp extends Window {
                      CustomComboBox comboBox = new CustomComboBox();
                     if (propertyId.equals("cfpType")) {
                         try {
-                            comboBox.setImmediate(true);
                             commonUtil.loadComboBox(comboBox, UiUtils.CFP_TYPE, true);
                             return comboBox;
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                     if (propertyId.equals("cfpCategory")) {
                         try {
-                            comboBox.setImmediate(true);
                             commonUtil.loadComboBox(comboBox, UiUtils.CFP_CATEGORY, true);
                             return comboBox;
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                 if (propertyId.equals("cfpDesignation")) {
                          try {
-                    comboBox.setImmediate(true);
                             commonUtil.loadComboBox(comboBox, UiUtils.CFP_DESIGNATION, true);                          
                              return comboBox;
                              } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                              }
                           
                 }
                     if (propertyId.equals("cfpStatus")) {
                         try {
-                            comboBox.setImmediate(true);
                             commonUtil.loadComboBox(comboBox, UiUtils.STATUS, true);
                             return comboBox;
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                     if (propertyId.equals("cfpTradeClass")) {
                         try {
-                            comboBox.setImmediate(true);
                             commonUtil.loadComboBox(comboBox, UiUtils.CFP_TRADE_CLASS, true);
                             return comboBox;
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                     return null;
@@ -200,22 +196,20 @@ public class CfpLookUp extends Window {
             commonUtil.loadComboBoxForGCM(cfpStatus, UiUtils.STATUS, false);
             commonUtil.loadComboBoxForGCM(cfpType, UiUtils.CFP_TYPE, false);
             commonUtil.loadComboBoxForGCM(cfpCategory, UiUtils.CFP_CATEGORY, false);
-            cfpEndDate.setImmediate(true);
             cfpEndDate.setDateFormat(Constants.DATE_FORMAT);
             cfpEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
             cfpEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
-            cfpStartDate.setImmediate(true);
             cfpStartDate.setDateFormat(Constants.DATE_FORMAT);
             cfpStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
             cfpStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
             cfpId.focus();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
-    private CustomFieldGroup getBinder() {
-        binder = new CustomFieldGroup(new BeanItem<>(new LookupDTO()));
+    private ErrorfulFieldGroup getBinder() {
+        binder = new ErrorfulFieldGroup(new BeanItem<>(new LookupDTO()));
         binder.bindMemberFields(this);
         binder.setBuffered(true);
         return binder;

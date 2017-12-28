@@ -7,8 +7,8 @@ package com.stpl.app.gcm.promotetptocontract.logic;
 
 import static com.stpl.app.gcm.discount.ui.form.ExistingDiscountTab.LOGGER;
 import com.stpl.app.gcm.promotetptocontract.dto.ComponentInfoDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
@@ -29,7 +29,7 @@ public class NewComponentSearchTableLogic extends PageTableLogic {
             try {
                 return logic.getComponentItemSearchCount(componentInfoDTO);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
         return 0;
@@ -43,7 +43,7 @@ public class NewComponentSearchTableLogic extends PageTableLogic {
         try {
             resultList = logic.getComponentItemSearchResult(componentInfoDTO);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
         return resultList;

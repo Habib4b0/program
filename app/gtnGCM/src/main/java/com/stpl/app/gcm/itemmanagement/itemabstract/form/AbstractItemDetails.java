@@ -20,23 +20,23 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TableFieldFactory;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -49,7 +49,8 @@ import java.util.Map;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -79,7 +80,7 @@ public class AbstractItemDetails extends CustomComponent {
     BeanItemContainer<SummaryDTO> transferContainer = new BeanItemContainer<>(SummaryDTO.class);
     final StplSecurity stplSecurity = new StplSecurity();
     Map<String, AppPermission> functionHM = new HashMap<>();
-    public static final Logger LOGGER = Logger.getLogger(AbstractItemDetails.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AbstractItemDetails.class);
 
     public AbstractItemDetails(SelectionDTO selection) {
         try {
@@ -94,7 +95,7 @@ public class AbstractItemDetails extends CustomComponent {
             setCompositionRoot(itemDetailsSummary);
             itemDetailsSummary.setSizeFull();
         } catch (Exception e) {
-           LOGGER.error(e);
+           LOGGER.error("",e);
         }
     }
 
@@ -210,7 +211,7 @@ public class AbstractItemDetails extends CustomComponent {
                     selection.setOperation("CURRENT SUMMARY");
                     createWorkSheet("Current_Item_Details", itemdetailstable);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                    
                 }
             }
@@ -229,7 +230,7 @@ public class AbstractItemDetails extends CustomComponent {
             }
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -350,7 +351,7 @@ public class AbstractItemDetails extends CustomComponent {
                     selection.setOperation("TRANSFER SUMMARY");
                     createWorkSheet("Transfer_Item_Details", itemdetailstable);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                   
                 }
             }

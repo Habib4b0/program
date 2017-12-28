@@ -10,11 +10,41 @@
     
     <artifactId>gtnWorkflow</artifactId>
     <version>1.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>gtnWorkflow</name>
     <description>gtnWorkflow</description>
-    
+     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <lazy.container.version>2.0</lazy.container.version>
+        <stpl.excelexport.version>2.0</stpl.excelexport.version>
+    </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>osgi.annotation</artifactId>
+            <version>6.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+         <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>osgi.core</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>osgi.cmpn</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.portal.kernel</artifactId>
+            <version>2.6.0</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -24,17 +54,15 @@
         <dependency>
             <groupId>com.stpl.ifs</groupId>
             <artifactId>gtnUtility</artifactId>
-            <version>${gtn.version}</version>
-        </dependency> 
-
-        <!-- Project Dependencies -->
-        <dependency>
-            <groupId>com.stpl.app</groupId>
-            <artifactId>gtnServicePartI</artifactId>
-            <version>${pom.version}</version>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>dom4j</artifactId>
+                    <groupId>dom4j</groupId>
+                </exclusion>               
+            </exclusions>
             <scope>provided</scope>
-        </dependency>
-        
+        </dependency> 
         <!--JBPM Dependency -->
         <dependency> 
             <groupId>com.stpl.app.bpm</groupId>
@@ -68,10 +96,10 @@
         </dependency>	
         
         
-        <dependency>
-            <groupId>org.asi.ui.galderma</groupId>
+       <dependency>
+            <groupId>com.stpl.addons</groupId>
             <artifactId>custommenubar</artifactId>
-            <version>1.0</version>
+            <version>2.0</version>
             <scope>provided</scope>
         </dependency>
         
@@ -84,9 +112,9 @@
         </dependency>
         
         <dependency>
-            <groupId>org.vaadin.alump.beforeunload.galderma</groupId>
+            <groupId>com.stpl.addons</groupId>
             <artifactId>beforeunload-addon</artifactId>
-            <version>1.0.1</version>
+            <version>2.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -96,33 +124,27 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.asi.ui.galderma</groupId>
+            <groupId>com.stpl.addons</groupId>
             <artifactId>extfilteringtable</artifactId>
-            <version>1.5</version>
+            <version>2.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>${commons.lang.version}</version>
-            <scope>provided</scope>
-        </dependency>   
+            <scope>compile</scope>
+        </dependency>  
         <dependency>
-            <groupId>com.stpl.portal</groupId>
-            <artifactId>portal-service</artifactId>
-            <version>${com.stpl.portal.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.stpl.portal</groupId>
-            <artifactId>util-java</artifactId>
-            <version>${com.stpl.portal.version}</version>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-client</artifactId>
+            <version>${vaadin.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j.version}</version>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-compatibility-client</artifactId>
+            <version>${vaadin.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -140,7 +162,7 @@
             <groupId>de.steinwedel.vaadin.addon</groupId>
             <artifactId>messagebox</artifactId>
             <version>${de.steinwedel.vaadin.addon.version}</version>
-             <exclusions>
+            <exclusions>
                 <exclusion>
                     <groupId>com.vaadin</groupId>
                     <artifactId>vaadin-themes</artifactId>
@@ -152,27 +174,34 @@
             </exclusions>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.asi.ui.galderma</groupId>
+         <dependency>
+            <groupId>com.stpl.addons</groupId>
             <artifactId>customtextfield</artifactId>
-            <version>1.0</version>
+            <version>2.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.portlet</groupId>
             <artifactId>portlet-api</artifactId>
-            <version>${javax.portlet}</version>
+            <version>2.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.vaadin.addons</groupId>
+            <groupId>com.stpl.addons</groupId>
             <artifactId>clara</artifactId>
-            <version>1.1.0</version>
+            <version>2.0</version>
+            <scope>provided</scope>
         </dependency>
         
         <dependency>
-            <groupId>org.asi.ui.galderma</groupId>
+            <groupId>com.stpl.addons</groupId>
             <artifactId>customcombobox</artifactId>
+            <version>2.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.stpl.app</groupId>
+            <artifactId>gtnApiPartI</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
@@ -223,7 +252,7 @@
                     <overWriteSnapshots>true</overWriteSnapshots>
                 </configuration>
             </plugin>
-            <plugin>
+<!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>      
@@ -257,11 +286,11 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
             
             
             
-            <plugin>
+<!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.2</version>
@@ -273,19 +302,7 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <!--                    <compilerArguments>
-                        <endorseddirs>${endorsed.dir}</endorseddirs>
-                    </compilerArguments>-->
-                </configuration>
-            </plugin>
+            </plugin>-->
             <!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>

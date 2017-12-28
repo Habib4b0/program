@@ -15,7 +15,6 @@ import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.xmlparser.SQLUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -511,11 +510,11 @@ public class DeductionDetailsLogic {
     public List loadFilterDdlb(DeductionDetailsDTO dto) {
         String query = StringUtils.EMPTY;
         if (ConstantsUtils.CUSTOMER.equals(dto.getDataView())) {
-            query = CustomSQLUtil.get("customer-ddlb-load")
+            query = SQLUtil.getQuery("customer-ddlb-load")
                     .replace("?UID", dto.getUserId())
                     .replace("?SID", "'" + dto.getSessionId() + "'");
         } else if (ConstantsUtils.PRODUCT.equals(dto.getDataView())) {
-            query = CustomSQLUtil.get("product-ddlb")
+            query = SQLUtil.getQuery("product-ddlb")
                     .replace("?UID", dto.getUserId())
                     .replace("?SID", "'" + dto.getSessionId() + "'");
         }

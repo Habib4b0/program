@@ -18,20 +18,19 @@ import com.stpl.app.gcm.transfercontract.util.Constant;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.app.serviceUtils.ConstantUtil;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Tree;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Tree;
+import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import java.util.Arrays;
 import java.util.Map;
@@ -133,7 +132,7 @@ public class TransferSelectionForm extends VerticalLayout {
     private String sField;
     private String sValue;
     DetailsDTO detailsDTO=new DetailsDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(detailsDTO));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(detailsDTO));
     public TransferSelectionForm(final Map<String, Set<String>> resultList, final TransferContractWindow window) {
         this.resultList = resultList;
         addTab();
@@ -151,7 +150,6 @@ public class TransferSelectionForm extends VerticalLayout {
     private void addTab() {
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        tabSheet.setImmediate(Boolean.TRUE);
         tabSheet.markAsDirty();
         tabSheet.markAsDirtyRecursive();
         tabSheet.addTab(Clara.create(getClass().getResourceAsStream("/TransferContract/transferSelection.xml"), this), "Transfer Selection", null, 0);
@@ -171,9 +169,9 @@ public class TransferSelectionForm extends VerticalLayout {
         componentType.addItem(Constant.RS_CATEGORY);
         
         searchField.setNullSelectionAllowed(true);
-        searchField.setNullSelectionItemId(ConstantUtil.SELECT_ONE);
-        searchField.addItem(ConstantUtil.SELECT_ONE);
-        searchField.select(ConstantUtil.SELECT_ONE);
+        searchField.setNullSelectionItemId(Constants.SELECT_ONE);
+        searchField.addItem(Constants.SELECT_ONE);
+        searchField.select(Constants.SELECT_ONE);
         
         fromResultTable.setImmediate(Boolean.TRUE);
         fromResultTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
@@ -363,23 +361,23 @@ public class TransferSelectionForm extends VerticalLayout {
     public void componentValueChange(Property.ValueChangeEvent event) {
         if (Constant.CONTRACT_CATEGORY.equals(componentType.getValue())) {
             searchField.removeAllItems();
-            searchField.addItem(ConstantUtil.SELECT_ONE);
+            searchField.addItem(Constants.SELECT_ONE);
             searchField.addItems(Arrays.asList(Constant.getInstance().contractSearch));
         } else if (Constant.CFP_CATEGORY.equals(componentType.getValue())) {
             searchField.removeAllItems();
-            searchField.addItem(ConstantUtil.SELECT_ONE);
+            searchField.addItem(Constants.SELECT_ONE);
             searchField.addItems(Arrays.asList(Constant.getInstance().cfpSearch));
         } else if (Constant.IFP_CATEGORY.equals(componentType.getValue())) {
             searchField.removeAllItems();
-            searchField.addItem(ConstantUtil.SELECT_ONE);
+            searchField.addItem(Constants.SELECT_ONE);
             searchField.addItems(Arrays.asList(Constant.getIFPSEARCH()));
         } else if (Constant.PS_CATEGORY.equals(componentType.getValue())) {
             searchField.removeAllItems();
-            searchField.addItem(ConstantUtil.SELECT_ONE);
+            searchField.addItem(Constants.SELECT_ONE);
             searchField.addItems(Arrays.asList(Constant.getPSSEARCH()));
         } else if (Constant.RS_CATEGORY.equals(componentType.getValue())) {
             searchField.removeAllItems(); 
-            searchField.addItem(ConstantUtil.SELECT_ONE);
+            searchField.addItem(Constants.SELECT_ONE);
             searchField.addItems(Arrays.asList(Constant.getRSSEARCH()));
         }
     }
@@ -434,7 +432,7 @@ public class TransferSelectionForm extends VerticalLayout {
     public void resetLogic(Button.ClickEvent event) {
         binder.setItemDataSource(new BeanItem<>(new DetailsDTO()));
     }
-       private CustomFieldGroup getBinder() {
+       private ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(detailsDTO));
         binder.setBuffered(true);

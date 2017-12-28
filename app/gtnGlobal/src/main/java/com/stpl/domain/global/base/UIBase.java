@@ -3,8 +3,8 @@
  */
 package com.stpl.domain.global.base;
 
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
 
 /** 
  * <!-- begin-UML-doc -->

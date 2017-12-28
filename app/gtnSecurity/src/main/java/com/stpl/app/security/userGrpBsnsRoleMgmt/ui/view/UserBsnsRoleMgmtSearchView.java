@@ -6,7 +6,7 @@ import com.stpl.app.security.userGrpBsnsRoleMgmt.ui.form.SearchForm;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.UserError;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 
 public class UserBsnsRoleMgmtSearchView extends VerticalLayout implements View {
 

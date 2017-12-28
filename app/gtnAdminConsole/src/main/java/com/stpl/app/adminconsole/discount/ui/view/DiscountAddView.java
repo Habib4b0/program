@@ -6,10 +6,10 @@ import com.stpl.app.adminconsole.discount.logic.DiscountLogic;
 import org.jboss.logging.Logger;
 
 import com.stpl.app.adminconsole.discount.ui.form.DiscountAddForm;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
 
 

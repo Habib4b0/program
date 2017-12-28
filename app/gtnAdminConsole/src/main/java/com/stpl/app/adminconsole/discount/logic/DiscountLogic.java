@@ -21,18 +21,19 @@ import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.service.RsModelLocalServiceUtil;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -106,7 +107,7 @@ public class DiscountLogic {
         List<DeductionGroup> list;
         List<SearchResultsDTO> searchList;
 
-        final DynamicQuery discountgroupDynamicQuery = DynamicQueryFactoryUtil.forClass(DeductionGroup.class);
+        final DynamicQuery discountgroupDynamicQuery = DeductionGroupLocalServiceUtil.dynamicQuery();
         if (binder.getField(ConstantsUtils.TEXT1).getValue() != null && StringUtils.isNotEmpty(binder.getField(ConstantsUtils.TEXT1).getValue().toString())) {
             final String discountName = String.valueOf(binder.getField(ConstantsUtils.TEXT1).getValue());
             final String deductionGroupName = discountName.replace("*", "%");
@@ -212,7 +213,7 @@ public class DiscountLogic {
         List<RsModel> itemsList;
         final List items = new ArrayList();
         final HashMap itemsMap = new HashMap();
-        final DynamicQuery deductiongroupDynamicQuery = DynamicQueryFactoryUtil.forClass(DeductionGroupDetails.class);
+        final DynamicQuery deductiongroupDynamicQuery = DeductionGroupDetailsLocalServiceUtil.dynamicQuery();
         deductiongroupDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtil.DEDUCTION_GROUP_SID, deductionGroupSid));
         resultList = DAO.getDeductionGroupsDetailsList(deductiongroupDynamicQuery);
 
@@ -221,7 +222,7 @@ public class DiscountLogic {
             itemsMap.put(deductionGroupDetail.getRsModelSid(), deductionGroupDetail);
             items.add(deductionGroupDetail.getRsModelSid());
         }
-        final DynamicQuery rsModelDynamicQuery = DynamicQueryFactoryUtil.forClass(RsModel.class);
+        final DynamicQuery rsModelDynamicQuery = RsModelLocalServiceUtil.dynamicQuery();
         if (!items.isEmpty()) {
             rsModelDynamicQuery.add(RestrictionsFactoryUtil.in("rsModelSid", items));
         }
@@ -377,7 +378,7 @@ public class DiscountLogic {
             final Date date = new Date();
             final int deductionGroupSystemId = deductionGroup.getDeductionGroupSid();
             final int deductionGroupSessionId = sessionDTO.getSystemId();
-            final DynamicQuery deductionGroupDetailsQuery = DynamicQueryFactoryUtil.forClass(DeductionGroupDetails.class);
+            final DynamicQuery deductionGroupDetailsQuery = DeductionGroupDetailsLocalServiceUtil.dynamicQuery();
             deductionGroupDetailsQuery.add(RestrictionsFactoryUtil.eq(CommonUtil.DEDUCTION_GROUP_SID, deductionGroupSessionId));
             final List<DeductionGroupDetails> itemToRemove = DAO.getDeductionGroupDetailsList(deductionGroupDetailsQuery);
             final HashMap savedItemsMap = new HashMap();
@@ -472,7 +473,7 @@ public class DiscountLogic {
      */
     public DiscountSearchDTO getDeductionGroupInfo(final int deductionGroupSystemId) throws SystemException {
         LOGGER.debug("getItemGroupInfo started");
-        final DynamicQuery deductionGroupDynamicQuery = DynamicQueryFactoryUtil.forClass(DeductionGroup.class);
+        final DynamicQuery deductionGroupDynamicQuery = DeductionGroupLocalServiceUtil.dynamicQuery();
         deductionGroupDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtil.DEDUCTION_GROUP_SID, deductionGroupSystemId));
         final List<DeductionGroup> resultsList = DeductionGroupLocalServiceUtil.dynamicQuery(deductionGroupDynamicQuery);
         DiscountSearchDTO dto = new DiscountSearchDTO();
@@ -489,13 +490,11 @@ public class DiscountLogic {
      *
      * @return the existing deductionGroup names
      * @throws SystemException the system exception
-     * @throws PortalException the portal exception
-     * @throws Exception the exception
      */
     public Map getExistingItemgroupNames() throws SystemException {
         LOGGER.debug("getExistingItemgroupNames started");
         final HashMap results = new HashMap();
-        final DynamicQuery deductionGroupDynamicQuery = DynamicQueryFactoryUtil.forClass(DeductionGroup.class);
+        final DynamicQuery deductionGroupDynamicQuery = DeductionGroupLocalServiceUtil.dynamicQuery();
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property(CommonUtil.DEDUCTION_GROUP_SID));
         projList.add(ProjectionFactoryUtil.property(CommonUtil.DEDUCTION_GROUP_NAME));
@@ -523,7 +522,7 @@ public class DiscountLogic {
     public int getExistingVersion(final int deductionGroupSystemId) throws SystemException {
         LOGGER.debug("getExistingVersion started");
         int version = ConstantsUtils.ZERO_NUM;
-        final DynamicQuery deductionGroupHistoryDynamicQuery = DynamicQueryFactoryUtil.forClass(DeductionGroup.class);
+        final DynamicQuery deductionGroupHistoryDynamicQuery = DeductionGroupLocalServiceUtil.dynamicQuery();
         deductionGroupHistoryDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtil.DEDUCTION_GROUP_SID, deductionGroupSystemId));
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property(CommonUtil.VERSION_NO));
@@ -544,11 +543,9 @@ public class DiscountLogic {
     /**
      * Delete item group.
      *
-     * @param itemGroupSystemId the item group system id
      * @return the string
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
-     * @throws Exception the exception
      */
     public String deletedeductionGroup(final int deductionGroupSystemId) throws SystemException, PortalException {
         LOGGER.debug("deletededuction started with P1:int itemdeductionSystemId=" + deductionGroupSystemId);
@@ -556,7 +553,7 @@ public class DiscountLogic {
         DeductionGroup deductionGroup;
         String deletedItemGroupName;
         List<DeductionGroupDetails> rebateList;
-        final DynamicQuery deductionDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(DeductionGroupDetails.class);
+        final DynamicQuery deductionDetailsDynamicQuery = DeductionGroupDetailsLocalServiceUtil.dynamicQuery();
         deductionDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(CommonUtil.DEDUCTION_GROUP_SID, deductionGroupSystemId));
         rebateList = DAO.getDeductionDetailsList(deductionDetailsDynamicQuery);
         if (rebateList != null && !rebateList.isEmpty()) {

@@ -17,7 +17,6 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.model.ContractAliasMaster;
 import com.stpl.app.model.ContractMaster;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.ContractAliasMasterLocalServiceUtil;
 import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
@@ -28,26 +27,26 @@ import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -63,10 +62,12 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 
 /**
  *
@@ -74,7 +75,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class Copycomponents extends CustomComponent {
 
-    private static final Logger LOGGER = Logger.getLogger(Copycomponents.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Copycomponents.class);
     @UiField("componentitems")
     public OptionGroup componentitems;
     @UiField("contractDashBoardLayout")
@@ -230,7 +231,7 @@ public class Copycomponents extends CustomComponent {
             configureFields();
             configureSecurityPermissions();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -253,7 +254,6 @@ public class Copycomponents extends CustomComponent {
             SearchvaluedNC.setEnabled(false);
             contractDashBoardTable.setPageLength(NumericConstants.TEN);
             contractDashBoardTable.markAsDirty();
-            contractDashBoardTable.setImmediate(true);
             contractDashBoardTable.setContainerDataSource(dashBoardContainer);
             contractDashBoardTable.setVisibleColumns(Constants.getInstance().copycontractDashboardResultsColumns);
             contractDashBoardTable.setColumnHeaders(Constants.getInstance().copycontractDashboardResultsHeaders);
@@ -374,7 +374,6 @@ public class Copycomponents extends CustomComponent {
                 public Field<?> createField(final Container container, final Object itemId, final Object propertyId, final Component uiContext) {
                     if (propertyId.equals(Constants.CHECK)) {
                         final ExtCustomCheckBox select = new ExtCustomCheckBox();
-                        select.setImmediate(true);
                         select.addClickListener(new ExtCustomCheckBox.ClickListener() {
                             @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
@@ -390,7 +389,7 @@ public class Copycomponents extends CustomComponent {
             });
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
         componentTypeValueChange();
@@ -994,7 +993,7 @@ public class Copycomponents extends CustomComponent {
                         try {
                             contractDashBoardTable.removeItem(root);
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                 }.getConfirmationMessage("Reset Conformation", "Are you sure you want to remove the selected record?");
@@ -1066,7 +1065,7 @@ public class Copycomponents extends CustomComponent {
                 saveRS(item);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -1077,7 +1076,7 @@ public class Copycomponents extends CustomComponent {
         Date date = new Date();
         String createdDate = dbDate.format(date);
         String query = queryUtils.cfpContractDetailsInsert(contractSid, createdDate, cfpContractSId);
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
         String query1 = queryUtils.idenCFPQuery();
         List ids = ccDao.searchList(query1);
         if (ids != null && ids.size() > 0) {
@@ -1101,7 +1100,7 @@ public class Copycomponents extends CustomComponent {
         Date date = new Date();
         String createdDate = dbDate.format(date);
         String query = queryUtils.ifpContractDetailsInsert(parentCFPId, contractSid, createdDate, ifpContractSId);
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
         String query1 = queryUtils.idenIFPQuery();
         List ids = ccDao.searchList(query1);
         if (ids != null && ids.size() > 0) {
@@ -1127,7 +1126,7 @@ public class Copycomponents extends CustomComponent {
         Date date = new Date();
         String createdDate = dbDate.format(date);
         String query = queryUtils.psContractDetailsInsert(contractSid, parentCFPId, parentIFPId, createdDate, psContractSId);
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
         String query1 = queryUtils.idenPSQuery();
         List ids = ccDao.searchList(query1);
         if (ids != null && ids.size() > 0) {
@@ -1155,7 +1154,7 @@ public class Copycomponents extends CustomComponent {
         Date date = new Date();
         String createdDate = dbDate.format(date);
         String query = queryUtils.rsContractDetailsInsert(contractSid, parentCFPId, parentIFPId, parentPSId, createdDate, rsContractSId);
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
         String query1 = queryUtils.idenRSQuery();
         List ids = ccDao.searchList(query1);
         if (ids != null && ids.size() > 0) {
@@ -1186,7 +1185,7 @@ public class Copycomponents extends CustomComponent {
             populateDetails.setVisible(CommonLogic.isButtonVisibleAccess("populateDetails", functionHMPermission));
             addToTree.setVisible(CommonLogic.isButtonVisibleAccess("addToTree", functionHMPermission));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 

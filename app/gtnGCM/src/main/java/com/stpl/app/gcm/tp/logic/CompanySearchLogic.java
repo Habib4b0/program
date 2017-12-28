@@ -6,9 +6,6 @@
 package com.stpl.app.gcm.tp.logic;
 
 import com.stpl.app.gcm.util.StringConstantsUtil;
-import com.stpl.app.model.CompanyQualifier;
-import com.stpl.app.model.HelperTable;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
 import com.stpl.app.gcm.tp.dao.impl.TradingPartnerDAOImpl;
@@ -19,17 +16,16 @@ import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.Converters;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.ComboBox;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.util.xmlparser.SQlUtil;
+import com.stpl.app.service.CompanyQualifierLocalServiceUtil;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.ComboBox;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +35,8 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -54,7 +52,7 @@ public class CompanySearchLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanySearchLogic.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(CompanySearchLogic.class);
 
     public int companySearchCount(TradingPartnerDTO tpDto, String parentCompanyNo,String parentCompanyName, Set<Container.Filter> filters, String recordLockStatus, String searchSessionId) throws SystemException {
         Map<String, Object> parameters = new HashMap<>();
@@ -264,7 +262,7 @@ public class CompanySearchLogic {
         List<IdDescriptionDTO> resultList = new ArrayList<>();
         IdDescriptionDTO idDescription = null;
         try {
-            DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+            DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
             final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
             productProjectionList.add(ProjectionFactoryUtil.property("helperTableSid"));
             productProjectionList.add(ProjectionFactoryUtil.property("description"));
@@ -280,7 +278,7 @@ public class CompanySearchLogic {
                 }
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }
@@ -300,7 +298,7 @@ public class CompanySearchLogic {
         List<IdDescriptionDTO> resultList = new ArrayList<>();
         IdDescriptionDTO idDescription = null;
         try {
-            DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyQualifier.class);
+            DynamicQuery dynamicQuery = CompanyQualifierLocalServiceUtil.dynamicQuery();
             final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
             productProjectionList.add(ProjectionFactoryUtil.property("companyQualifierSid"));
             productProjectionList.add(ProjectionFactoryUtil.property("companyQualifierName"));
@@ -315,7 +313,7 @@ public class CompanySearchLogic {
                 }
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }
@@ -330,16 +328,16 @@ public class CompanySearchLogic {
 
     public void clearTempTable(String sessionId) {
         String query = "Delete from GCM_COMPANY_DETAILS WHERE SESSION_ID = '" + sessionId + "'";
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 
     public static int getCompanyCount(String searchSessionId) {
         int count = 0;
         try{
         String query = "Select Count(COMPANY_MASTER_SID) from GCM_COMPANY_DETAILS where CHECK_RECORD = '1' AND SESSION_ID = '" + searchSessionId + "'";
-        count = (Integer) CompanyMasterLocalServiceUtil.executeQuery(query).get(0);
+        count = (Integer) HelperTableLocalServiceUtil.executeSelectQuery(query).get(0);
         }catch(Exception e){
-           LOGGER.error(e);
+           LOGGER.error("",e);
         }
         return count;
     }
@@ -348,9 +346,9 @@ public class CompanySearchLogic {
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         List resultList;
         List<TradingPartnerDTO> returnList;
-        query.append(CustomSQLUtil.get(COMPANIES_FROM_MAIN_TABLE));
+        query.append(SQlUtil.getQuery(COMPANIES_FROM_MAIN_TABLE));
         query.append(" AND cm.COMPANY_MASTER_SID in (" + CommonUtils.CollectionToString(companyMasterSids, true) + ")");
-        resultList = CompanyMasterLocalServiceUtil.executeQuery(query.toString());
+        resultList = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
         returnList = converters.searchCompany(resultList);
         return returnList;
     }
@@ -358,26 +356,26 @@ public class CompanySearchLogic {
     public void insertIntoTempTable(String searchSessionId, String updateType) {
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         query.append("With TEMP as (");
-        query.append(CustomSQLUtil.get(COMPANIES_FROM_MAIN_TABLE));
+        query.append(SQlUtil.getQuery(COMPANIES_FROM_MAIN_TABLE));
         query.append(") INSERT into GCM_COMPANY_DETAILS(CHECK_RECORD, COMPANY_MASTER_SID,COMPANY_NO,COMPANY_NAME,SESSION_ID,SUB_MODULE_NAME,Created_Date)");
         query.append("SELECT '0', companyMasterSid,companyNo,companyName,'").append(searchSessionId).append("','").append(updateType).append("'");
         query.append(" ,getdate()");
         query.append(" FROM TEMP;");
         query.append(" delete  FROM GCM_COMPANY_DETAILS where getdate()-1>CREATED_DATE");
-                CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+                HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
     }
     
     
     public void insertIntoTempTablecustomer(String searchSessionId, String updateType) {
         StringBuilder query = new StringBuilder(StringUtils.EMPTY);
         query.append("With TEMP as (");
-        query.append(CustomSQLUtil.get(COMPANIES_FROM_MAIN_TABLE));
+        query.append(SQlUtil.getQuery(COMPANIES_FROM_MAIN_TABLE));
         query.append(") INSERT into GCM_COMPANY_DETAILS(CHECK_RECORD, COMPANY_MASTER_SID,COMPANY_NO,COMPANY_NAME,SESSION_ID,SUB_MODULE_NAME,Created_Date)");
         query.append("SELECT '0', companyMasterSid,companyNo,companyName,'").append(searchSessionId).append("','").append(updateType).append("'");
         query.append(" ,getdate()");
         query.append(" FROM TEMP;");
         query.append(" delete  FROM GCM_COMPANY_DETAILS where getdate()-1>CREATED_DATE");
-                CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+                HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
     }
     
 
@@ -536,7 +534,7 @@ public class CompanySearchLogic {
         try {
             count = Integer.valueOf(String.valueOf(tpDao.getLinkedCustomersCheckedRecordCount(linkedCustomersSessionId).get(0)));
         } catch (Exception e) {
-          LOGGER.error(e);
+          LOGGER.error("",e);
         }
         return count > 0;
     }

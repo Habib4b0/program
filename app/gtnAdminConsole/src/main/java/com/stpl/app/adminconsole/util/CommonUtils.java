@@ -15,27 +15,29 @@ import com.stpl.app.model.HierarchyDefinition;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.Role;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.RoleLocalServiceUtil;
-import com.stpl.portal.service.UserLocalServiceUtil;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.data.validator.StringLengthValidator;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.service.CompanyMasterLocalServiceUtil;
+import com.stpl.app.service.HierarchyDefinitionLocalServiceUtil;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.validator.RegexpValidator;
+import com.vaadin.v7.data.validator.StringLengthValidator;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.TextField;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,8 +51,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
 
 /**
  *
@@ -167,8 +169,7 @@ public class CommonUtils {
     public List<HelperDTO> getHelperResults(final String listType) throws SystemException, PortalException {
 
         final List<HelperDTO> helperList = new ArrayList<>();
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME,
                 listType));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
@@ -198,8 +199,8 @@ public class CommonUtils {
         final List<HelperDTO> helperList = new ArrayList<>();
         try {
             List<CompanyMaster> resultList;
-            final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
-            final DynamicQuery helperDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+            final DynamicQuery companyDynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
+            final DynamicQuery helperDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
             helperDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.DESCRIPTION, "GLCOMP"));
             helperDynamicQuery.add(RestrictionsFactoryUtil.eq("listName", "COMPANY_TYPE"));
             List<HelperTable> helperTableList = HelperTableLocalServiceUtil.dynamicQuery(helperDynamicQuery);
@@ -428,7 +429,7 @@ public class CommonUtils {
         for (Role role : userRoles) {
             roleList.add(role.getRoleId());
         }
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(Role.class);
+        DynamicQuery query = RoleLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq("name", "ETL"));
         query.add(RestrictionsFactoryUtil.in("roleId", roleList));
         List<Role> userList = RoleLocalServiceUtil.dynamicQuery(query);
@@ -459,7 +460,7 @@ public class CommonUtils {
     public List getFilterValueFromHelper(String filterString) {
         List resultList = new ArrayList();
         try {
-            final DynamicQuery helperDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+            final DynamicQuery helperDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
             helperDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, filterString));
             helperDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.LIST_NAME, "RELATIONSHIP_TYPE"));
             helperDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property("helperTableSid")));
@@ -650,7 +651,7 @@ public class CommonUtils {
     public static HashMap<Long, String> setUserInfo() {
 
         List<User> users = new ArrayList<>();
-        DynamicQuery userGroupDynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery userGroupDynamicQuery = UserLocalServiceUtil.dynamicQuery();
         try {
             users = UserLocalServiceUtil.dynamicQuery(userGroupDynamicQuery);
         } catch (SystemException ex) {
@@ -680,13 +681,13 @@ public class CommonUtils {
      * Gets the hierarchy info.
      *
      * @return the hierarchy info
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public static Map getHierarchyInfo() throws SystemException {
         LOGGER.debug("Entering getHierarchyInfo ");
         List<Object[]> resultList;
         final HashMap results = new HashMap();
-        final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyDefinition.class);
+        final DynamicQuery companyDynamicQuery = HierarchyDefinitionLocalServiceUtil.dynamicQuery();
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property("hierarchyDefinitionSid"));
         projList.add(ProjectionFactoryUtil.property("hierarchyName"));

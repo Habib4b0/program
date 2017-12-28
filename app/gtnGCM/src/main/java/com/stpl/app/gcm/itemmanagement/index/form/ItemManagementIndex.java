@@ -25,33 +25,33 @@ import com.stpl.app.gcm.util.Constants.IndicatorConstants;
 import static com.stpl.app.gcm.util.Constants.MessageConstants.NO_TP_SELECTED_BODY;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -74,7 +74,8 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -134,12 +135,12 @@ public class ItemManagementIndex extends CustomComponent {
     @UiField("tableReset")
     public Button tableReset;
     TabSheet mainTab = new TabSheet();
-    public static final Logger LOGGER = Logger.getLogger(ItemManagementIndex.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ItemManagementIndex.class);
     BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
     ItemLogic logic = new ItemLogic();
     AbstractLogic abstractLogic = AbstractLogic.getInstance();
     ItemIndexDto binderDto = new ItemIndexDto();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection;
     boolean resetFlag = false;
     HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
@@ -171,7 +172,7 @@ public class ItemManagementIndex extends CustomComponent {
             excel.setIcon(excelExportImage, "Excel Export");
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -215,7 +216,6 @@ public class ItemManagementIndex extends CustomComponent {
         loadAllDdlb();
         getBinder();
         identifier.setEnabled(false);
-        identifier.setImmediate(true);
     }
 
     private void configureTable() {
@@ -308,7 +308,7 @@ public class ItemManagementIndex extends CustomComponent {
                     try {
                         abstractLogic.loadComboBox(therapeuticClassDdlb, "THERAPEUTIC_CLASS", true);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                     return therapeuticClassDdlb;
                 }
@@ -338,7 +338,7 @@ public class ItemManagementIndex extends CustomComponent {
                         abstractLogic.loadComboBox(itemCategoryDdlb, "ITEM_CATEGORY", true);
                         return itemCategoryDdlb;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
                 if ("itemType".equals(propertyId)) {
@@ -347,7 +347,7 @@ public class ItemManagementIndex extends CustomComponent {
                         abstractLogic.loadComboBox(itemTypeDdlb, "ITEM_TYPE", true);
                         return itemTypeDdlb;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
                 return null;
@@ -404,7 +404,7 @@ public class ItemManagementIndex extends CustomComponent {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         LOGGER.debug("searchButtonLogic ends");
     }
@@ -417,7 +417,7 @@ public class ItemManagementIndex extends CustomComponent {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -444,7 +444,7 @@ public class ItemManagementIndex extends CustomComponent {
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -458,7 +458,7 @@ public class ItemManagementIndex extends CustomComponent {
                     binder.setItemDataSource(new BeanItem<>(binderDto));
                     binder.commit();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 
@@ -659,13 +659,12 @@ public class ItemManagementIndex extends CustomComponent {
             placeHolder_DTO.setNullSelectionItemId(showAll);
         }
         placeHolder_DTO.setNullSelectionAllowed(true);
-        placeHolder_DTO.setImmediate(true);
         placeHolder_DTO.setItemCaptionPropertyId("description");
         container.addAll(placeHolderList);
         placeHolder_DTO.select(dto);
     }
 
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
@@ -767,7 +766,7 @@ public class ItemManagementIndex extends CustomComponent {
             transferBtn.setVisible(CommonLogic.isButtonVisibleAccess("transferBtn", functionHM));
             tableReset.setVisible(CommonLogic.isButtonVisibleAccess("tableReset", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

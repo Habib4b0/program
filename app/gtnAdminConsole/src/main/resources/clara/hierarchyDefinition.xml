@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<VerticalLayout margin="true" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:b="urn:import:org.asi.ui.customtextfield"
+<VerticalLayout margin="true" xmlns:p="urn:vaadin:parent" xmlns:b="urn:import:org.asi.ui.customtextfield"
                 xmlns:errorMsg="urn:import:com.stpl.app.ui.errorhandling" spacing="true">
        
     <Panel caption="Hierarchy Definition" >

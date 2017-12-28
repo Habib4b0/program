@@ -4,7 +4,7 @@ import com.stpl.app.adminconsole.archive.ui.form.ArchiveIndex;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 
 public class ArchiveMainPageView extends VerticalLayout implements View {
 

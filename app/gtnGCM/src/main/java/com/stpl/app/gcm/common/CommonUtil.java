@@ -8,20 +8,21 @@ package com.stpl.app.gcm.common;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.Constants.IndicatorConstants;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.app.gcm.util.ValidationUtils;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.validator.RegexpValidator;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -40,7 +41,7 @@ public class CommonUtil {
      */
     static HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
-    private static Logger logger = Logger.getLogger(CommonUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 
     /**
      * Instantiates a new common util.
@@ -73,9 +74,8 @@ public class CommonUtil {
     public ComboBox loadComboBox(final ComboBox select,
             String listName, boolean isFilter) {
         select.removeAllItems();
-        final String defaultValue = isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE;
+        final String defaultValue = isFilter ? ConstantsUtils.SHOW_ALL : Constants.SELECT_ONE;
         select.setValidationVisible(true);
-        select.setImmediate(true);
         select.setNullSelectionAllowed(true);
         select.setNullSelectionItemId(defaultValue);
         select.setData(listName);
@@ -98,7 +98,6 @@ public class CommonUtil {
         select.removeAllItems();
         final HelperDTO defaultValue = isFilter ? ddlbShowAllValue : ddlbDefaultValue;
         select.setValidationVisible(true);
-        select.setImmediate(true);
         select.setNullSelectionAllowed(true);
         select.setNullSelectionItemId(defaultValue);
         select.setContainerDataSource(container);
@@ -107,7 +106,6 @@ public class CommonUtil {
             container.addAll(helperListUtil.getListNameMap().get(listName));
         }
         select.select(defaultValue);
-        select.setImmediate(true);
         select.setItemCaptionPropertyId("description");
         return select;
     }
@@ -117,7 +115,6 @@ public class CommonUtil {
         final HelperDTO defaultValue = isFilter ? ddlbShowAllValue : ddlbDefaultValue;
         String comboboxName = listName;
         columnName.setValidationVisible(true);
-        columnName.setImmediate(true);
         columnName.setNullSelectionAllowed(true);
         columnName.setNullSelectionItemId(defaultValue);
         columnName.setContainerDataSource(container);
@@ -142,7 +139,6 @@ public class CommonUtil {
             container.addAll(helperListUtil.getListNameMap().get(listName));
         }
         columnName.select(defaultValue);
-        columnName.setImmediate(true);
         columnName.setItemCaptionPropertyId("description");
         container.addAll(helperListUtil.getListNameMap().get(listName));
         return columnName;
@@ -168,7 +164,7 @@ public class CommonUtil {
                 }
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("",e);
         }
     }
 
@@ -184,9 +180,8 @@ public class CommonUtil {
     public ComboBox loadYesNoDDLB(final ComboBox select,
             boolean isFilter) {
 
-        final String defaultValue = isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE;
+        final String defaultValue = isFilter ? ConstantsUtils.SHOW_ALL : Constants.SELECT_ONE;
         select.setValidationVisible(true);
-        select.setImmediate(true);
         select.setNullSelectionAllowed(true);
         select.setNullSelectionItemId(defaultValue);
         select.addItem(defaultValue);
@@ -194,14 +189,14 @@ public class CommonUtil {
         select.addItem(ConstantsUtils.NO_VARIABLE);
         select.select(defaultValue);
         select.markAsDirty();
-        select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : select.getValue()));
+        select.setDescription((String) (select.getValue() == null ? Constants.SELECT_ONE : select.getValue()));
         select.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 if (event.getProperty() != null && event.getProperty().getValue() != null && (StringUtils.EMPTY.equals(event.getProperty().getValue()) || ConstantsUtils.NULL.equals(event.getProperty().getValue()))) {
                     select.select(defaultValue);
                 }
-                select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : select.getValue()));
+                select.setDescription((String) (select.getValue() == null ? Constants.SELECT_ONE : select.getValue()));
             }
         });
         return select;

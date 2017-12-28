@@ -24,22 +24,22 @@ import com.stpl.app.gcm.util.TransferPDFilterGenerator;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TableFieldFactory;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TableFieldFactory;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +51,8 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -102,7 +103,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(TransferTpTradingpartnerDetails.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransferTpTradingpartnerDetails.class);
 
     public TransferTpTradingpartnerDetails(SessionDTO session, BeanItemContainer<ContractResultDTO> currentTPDetailsContainer,
             BeanItemContainer<ContractResultDTO> transferTPDetailsContainer, TransferTPForm transferTpForm) {
@@ -278,7 +279,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
         currentTradingPartnerDetailsTable.setFilterFieldVisible(Constants.CHECK_RECORD, false);
         transferTradingPartnerDetailsTable.setFilterFieldVisible(Constants.CHECK_RECORD, false);
         }catch(Exception ex){
-          LOGGER.error(ex);       
+          LOGGER.error("",ex);       
         }      
     }
 
@@ -385,7 +386,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
 
             ExcelExportforBB.createWorkSheet(visibleHeaders, recordCount, this, UI.getCurrent(), "Current_Contract_Details");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -402,7 +403,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
 
             ExcelExportforBB.createWorkSheet(visibleHeaders, recordCount, this, UI.getCurrent(), "Transfer_Contract_Details");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -427,7 +428,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
             List checkedContractList = commonLogic.getContractResults(CommmonLogic.getSubmittedRecords(session, screenName, false));
             ExcelExportforBB.createFileContent(visibleColumns, checkedContractList, printWriter);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
     private void configureSecurityPermissions() {
@@ -437,7 +438,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
             currentRemove.setVisible(CommonLogic.isButtonVisibleAccess("currentRemove", functionHM));
             transferRemove.setVisible(CommonLogic.isButtonVisibleAccess("transferRemove", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 

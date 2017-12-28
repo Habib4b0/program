@@ -15,7 +15,7 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
@@ -42,7 +42,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
             configureFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
     }
@@ -160,7 +160,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
             getResetBtncur().setVisible(CommonLogic.isButtonVisibleAccess("reset2", functionHM));
             getSubmit().setVisible(CommonLogic.isButtonVisibleAccess("submit", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

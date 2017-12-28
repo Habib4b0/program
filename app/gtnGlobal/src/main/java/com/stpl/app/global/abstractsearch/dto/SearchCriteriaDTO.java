@@ -4,7 +4,7 @@ import com.stpl.app.util.ConstantsUtils;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.hibernate.validator.constraints.NotBlank;
+//import org.hibernate.validator.constraints.NotBlank;
 
 import com.stpl.app.util.HelperDTO;
 import com.stpl.app.util.HelperUtils;
@@ -23,7 +23,7 @@ public class SearchCriteriaDTO implements Serializable {
     /**
      * The item no.
      */
-    @NotBlank(message = "The item No must not be empty")
+//    @NotBlank(message = "The item No must not be empty")
     private String text3 = HelperUtils.EMPTY;
 
     /**

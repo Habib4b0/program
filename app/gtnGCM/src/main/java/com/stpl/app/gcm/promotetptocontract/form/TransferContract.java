@@ -17,7 +17,8 @@ import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -34,18 +35,18 @@ import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.PopupDateField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -61,7 +62,7 @@ public class TransferContract extends VerticalLayout implements View {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(TransferContract.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TransferContract.class);
 	/**
 	 * The Constant serialVersionUID.
 	 */
@@ -137,7 +138,7 @@ public class TransferContract extends VerticalLayout implements View {
 			init();
 			addContent();
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		}
 	}
 
@@ -170,7 +171,6 @@ public class TransferContract extends VerticalLayout implements View {
 		tabSheet = new TabSheet();
 		tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
 		tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-		tabSheet.setImmediate(true);
 		try {
 			tabSheet.addTab(transferComponents,
 					Constants.IndicatorConstants.TAB_PROMOTE_TP_TRANSFER_COMPONENTS.getConstant(), null, 0);
@@ -181,7 +181,7 @@ public class TransferContract extends VerticalLayout implements View {
 					NumericConstants.TWO);
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		}
 		attachTabChangeListener();
 
@@ -215,7 +215,7 @@ public class TransferContract extends VerticalLayout implements View {
 				tabPosition = event.getTabSheet().getTabPosition(tab);
 				try {
 				} catch (Exception ex) {
-					LOGGER.error(ex);
+					LOGGER.error("",ex);
 				}
 			}
 		});
@@ -225,20 +225,16 @@ public class TransferContract extends VerticalLayout implements View {
 		try {
 			contractNo.setData(
 					"maxlengthvalidationhundred,maxlengthvalidationcontractno,specialchar,specialcharcontractno");
-			contractNo.setImmediate(true);
 			contractNo.setValidationVisible(true);
 
 			contractName.setData(
 					"maxlengthvalidationhundred,maxlengthvalidationcontractname,specialchar,specialcharcontractname");
-			contractName.setImmediate(true);
 			contractName.setValidationVisible(true);
 
 			cfpName.setData("maxlengthvalidationhundred,maxlengthvalidationcfpname,specialchar,specialcharcfpname");
-			cfpName.setImmediate(true);
 			cfpName.setValidationVisible(true);
 
 			number.setData("maxlengthvalidationhundred,maxlengthvalidationnumber,specialchar,specialcharnumber");
-			number.setImmediate(true);
 			number.setValidationVisible(true);
 
 			startDate.setDateFormat(Constants.DATE_FORMAT);
@@ -260,7 +256,7 @@ public class TransferContract extends VerticalLayout implements View {
 			cfpStatus.addItems(CommonLogic.getDropDownList("STATUS"));
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		}
 	}
 
@@ -575,33 +571,33 @@ public class TransferContract extends VerticalLayout implements View {
 				logic.callCcpInsertProcedure();
 				logic.callActualsDetailsInsertProcedure();
 			} catch (SystemException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			} catch (PortalException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			} catch (ParseException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			}
 		}
 		if (tabPosition == NumericConstants.TWO) {
 			try {
 				existingComponents.saveExistingContract();
 			} catch (SystemException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			} catch (PortalException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			} catch (ParseException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			}
 		}
 		if (tabPosition == 1) {
 			try {
 				newComponents.saveNewContract();
 			} catch (SystemException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			} catch (PortalException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			} catch (ParseException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			}
 		}
 	}

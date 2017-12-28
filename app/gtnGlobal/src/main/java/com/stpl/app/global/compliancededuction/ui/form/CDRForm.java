@@ -21,14 +21,14 @@ import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.UISecurityUtil;
 import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.themes.ValoTheme;
@@ -117,10 +117,8 @@ public class CDRForm extends StplCustomComponent {
     private void configureFields() throws SystemException, PortalException {
         mainTab.addStyleName(ValoTheme.TABSHEET_FRAMED);
         mainTab.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        mainTab.setImmediate(true);
         mainTab.markAsDirty();
         mainTab.markAsDirtyRecursive();
-        mainTab.setImmediate(true);
         mainTab.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 Component component = event.getTabSheet().getSelectedTab();

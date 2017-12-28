@@ -35,7 +35,7 @@ public class CommonUtils {
     public final static String QUOTES = "'";
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     public static final SimpleDateFormat commonDate = new SimpleDateFormat("MM-dd-yyy");
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat(com.stpl.app.serviceUtils.ConstantsUtils.DATE_FORMAT);
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat(com.stpl.app.gcm.util.ConstantsUtils.DATE_FORMAT);
     public static final String MMDDYYYY = "MM/dd/yyyy";
     /**
      * The Constant CHAR_ASTERISK.
@@ -246,7 +246,7 @@ public class CommonUtils {
         ob.addUnloadListener(new BeforeUnload.UnloadListener() {
             @Override
             public void unload(BeforeUnload.UnloadEvent event) {
-               if (!Constants.TRUE.equals(VaadinSession.getCurrent().getAttribute(com.stpl.app.serviceUtils.ConstantsUtils.EXCEL_CLOSE))) {
+               if (!Constants.TRUE.equals(VaadinSession.getCurrent().getAttribute(com.stpl.app.gcm.util.ConstantsUtils.EXCEL_CLOSE))) {
                     uI.close();
                 } 
             }

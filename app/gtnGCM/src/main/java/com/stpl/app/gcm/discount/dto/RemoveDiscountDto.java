@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gcm.discount.dto;
 
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.Constants;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 
@@ -28,7 +28,7 @@ public class RemoveDiscountDto {
     private String psName = StringUtils.EMPTY;
     private String rsName = StringUtils.EMPTY;
     private String customer = StringUtils.EMPTY;
-    private String aliastype = ConstantsUtils.SELECT_ONE;
+    private String aliastype = Constants.SELECT_ONE;
     private String aliasnumber = StringUtils.EMPTY;
     private Date aliasStartDate;
     private Date aliasEndDate;

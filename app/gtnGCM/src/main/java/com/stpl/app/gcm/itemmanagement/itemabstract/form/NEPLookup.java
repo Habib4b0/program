@@ -14,15 +14,15 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gtnworkflow.util.CommonUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -36,7 +36,8 @@ import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
@@ -139,7 +140,6 @@ public class NEPLookup extends Window {
         resultTable.setComponentError(null);
         resultTable.setSelectable(true);
         resultTable.markAsDirty();
-        resultTable.setImmediate(true);
         resultTable.setFilterBarVisible(true);
         resultTable.setValidationVisible(false);
         resultTable.addStyleName("filterbar");

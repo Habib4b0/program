@@ -13,16 +13,16 @@ import com.stpl.app.gcm.tp.logic.CompanySearchLogic;
 import com.stpl.app.gcm.tp.tablelogic.CompanySearchTableLogic;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.EXCEL_IMAGE_PATH;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.VerticalLayout;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +73,6 @@ public class AllCustomers extends Window {
 
     protected void configureFields() {
         closeBtn.setEnabled(true);
-        closeBtn.setImmediate(true);
         tradingPartnerTableLayout.addComponent(companySearchResultsTable);
         excelBtn.setIcon(excelExportImage);
         configureCompanySearchResultsTable();
@@ -107,7 +106,7 @@ public class AllCustomers extends Window {
                 companyResultsContainer.addBean(dto);
             }
         } catch (Exception e) {
-           LOGGER.error(e);
+           LOGGER.error("",e);
         }
     }
 

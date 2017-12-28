@@ -6,8 +6,8 @@
 package com.stpl.domain.global.DeductionCalendar;
 
 import com.stpl.app.model.DeductionCalendarMaster;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  *

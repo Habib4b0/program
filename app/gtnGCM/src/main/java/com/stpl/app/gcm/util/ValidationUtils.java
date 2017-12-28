@@ -7,7 +7,8 @@ package com.stpl.app.gcm.util;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -15,7 +16,7 @@ import org.jboss.logging.Logger;
  */
 public final class ValidationUtils {
     
-    private static final Logger LOGGER = Logger.getLogger(ValidationUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ValidationUtils.class);
 
     /**
      * The special characters.
@@ -40,7 +41,7 @@ public final class ValidationUtils {
         try {
             return resouceBundle.getString(key);
         } catch (MissingResourceException e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
             return StringUtils.EMPTY;
         }
     }
