@@ -121,7 +121,7 @@ public class ItemManagementLookup extends CustomWindow {
             addBtn.setVisible(false);
             mainTab.addTab(contractSelection.getContent(itemList, selection), "Contract Selection", null, 0);
             removeSummary.getContent(itemList, selection);
-            mainTab.addTab(itemsummary, StringConstantsUtil.SUMMARY_FIELD, null, 1);
+            mainTab.addTab(itemsummary.getContent(itemList, selection), StringConstantsUtil.SUMMARY_FIELD, null, 1);
         } else if (selection.getButtonMode().equals(ConstantsUtil.DELETE)) {
             removeContractSelection = new RemoveContractSelection(selection, itemList);
             mainTab.addTab(removeContractSelection.getContent(), Constants.CURRENT_CONTRACT_LABEL, null, 0);
@@ -166,9 +166,6 @@ public class ItemManagementLookup extends CustomWindow {
                             saveDetailsToTempTable();
                         }
 
-                        if (!tabList.contains(tabPosition)) {
-                            tabLazyLoad(tabPosition);
-                        }
                         if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
                             itemsummary.loadItemResults();
                         }
