@@ -94,10 +94,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 					&& automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList)) {
 				automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean, userId);
 				return Boolean.TRUE;
-			} else if (checkManualRelation(relationshipBuilderSid)) {
-                            automaticService.createDeductionRelation(relationBean);
-                            return Boolean.TRUE;
-                        }
+			}
 			LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");
 		}
 		return Boolean.FALSE;
@@ -237,10 +234,20 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 	}
         
         public boolean checkManualRelation(int relationshipBuilderSid) throws GtnFrameworkGeneralException {
-        String query = gtnWsSqlService.getQuery("manualRelationCheck");
-        List<Integer> resultData = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query,
-                new Object[]{relationshipBuilderSid}, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
-        return (int) resultData.get(0) == 1;
-    }
+            String query = gtnWsSqlService.getQuery("manualRelationCheck");
+            List<Integer> resultData = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query,
+                    new Object[]{relationshipBuilderSid}, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
+            GtnWsRelationshipBuilderBean relationBeanManual = getRelationtionshipBuilder(relationshipBuilderSid);
+            if (relationBeanManual != null) {
+                GtnFrameworkAutoupdateService automaticService = getAutomaticserviceObject(
+                        relationBeanManual.getHierarchycategory());
+                if ((int) resultData.get(0) == 1) {
+                    automaticService.createDeductionRelation(relationBeanManual);
+                }
+                return Boolean.TRUE;
+            }
+            LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");
+            return Boolean.FALSE;
+        }
 
 }
