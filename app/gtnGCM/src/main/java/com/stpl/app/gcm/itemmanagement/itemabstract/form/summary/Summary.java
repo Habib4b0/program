@@ -122,7 +122,7 @@ public abstract class Summary extends CustomComponent {
         ConfigureSalesSummaryTable();
         loadResultTable();
         return panel;
-    }
+     }
 
     void ConfigureSalesSummaryTable() {
         fullHeader = new CustomTableHeaderDTO();

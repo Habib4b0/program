@@ -166,9 +166,6 @@ public class ItemManagementLookup extends CustomWindow {
                             saveDetailsToTempTable();
                         }
 
-                        if (!tabList.contains(tabPosition)) {
-                            tabLazyLoad(tabPosition);
-                        }
                         if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
                             itemsummary.loadItemResults();
                         }

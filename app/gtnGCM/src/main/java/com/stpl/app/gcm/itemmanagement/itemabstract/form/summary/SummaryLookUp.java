@@ -71,9 +71,9 @@ public class SummaryLookUp extends CustomComponent {
             rebate = new RebateSummary(itemList, selection);
             salesAndRebate = new SalesAndRebates(itemList, selection);
             mainTab.addTab(itemDetails, "Item Details", null, 0);
-            mainTab.addTab(sales, "Sales", null, 1);
-            mainTab.addTab(rebate, "Rebates", null, NumericConstants.TWO);
-            mainTab.addTab(salesAndRebate, "Sales and Rebates", null, NumericConstants.THREE);
+            mainTab.addTab(sales.getContent(itemList, selection), "Sales", null, 1);
+            mainTab.addTab(rebate.getContent(itemList, selection), "Rebates", null, NumericConstants.TWO);
+            mainTab.addTab(salesAndRebate.getContent(itemList, selection), "Sales and Rebates", null, NumericConstants.THREE);
             configureFields();
         } catch (Exception ex) {
             LOGGER.error("",ex);
@@ -87,9 +87,6 @@ public class SummaryLookUp extends CustomComponent {
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 final TabSheet.Tab tab = (TabSheet.Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
                 tabPosition = event.getTabSheet().getTabPosition(tab);
-                if (!tabList.contains(tabPosition)) {
-                    tabLazyLoad(tabPosition);
-                }
                 if (tabPosition == 1) {
                     sales.loadResultTable();
                 } else if (tabPosition == NumericConstants.TWO) {
