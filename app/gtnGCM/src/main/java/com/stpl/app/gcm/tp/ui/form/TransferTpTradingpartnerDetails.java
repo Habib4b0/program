@@ -87,8 +87,8 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
     final transient  StplSecurity stplSecurity = new StplSecurity();
     transient Map<String, AppPermission>  functionHM = new HashMap<>();
 
-    private BeanItemContainer<ContractResultDTO> currentTPDetailsContainer;
-    private BeanItemContainer<ContractResultDTO> transferTPDetailsContainer;
+    private final BeanItemContainer<ContractResultDTO> currentTPDetailsContainer;
+    private final BeanItemContainer<ContractResultDTO> transferTPDetailsContainer;
     boolean currentContractRefresh;
     boolean transferContractRefresh;
     boolean currentCheckValue = false;
@@ -164,10 +164,12 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
         transferTradingPartnerTableLayout.addComponent(transferTpControlLayout);
 
         currentTradingPartnerDetailsTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             currentCheckValue = check.getValue();
                             commonLogic.callCheckRecUpdate(check.getValue(), (ContractResultDTO) itemId, TAB_CURRENT_CONTRACT.getConstant(), session);
@@ -221,10 +223,12 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
         });
 
         transferTradingPartnerDetailsTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             transferCheckValue = check.getValue();
                             commonLogic.callCheckRecUpdate(check.getValue(), (ContractResultDTO) itemId, TAB_TRANSFER_CONTRACT.getConstant(), session);
@@ -289,6 +293,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
             return;
         }
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -312,6 +317,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
         }
 
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }

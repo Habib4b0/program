@@ -153,6 +153,7 @@ public class TransferContract extends VerticalLayout implements View {
 		this.existingComponents = new ExistingComponents(session, contractDashBoardTable);
 	}
 
+        @Override
 	public void enter(ViewChangeListener.ViewChangeEvent event) {
 		// empty
 	}
@@ -548,15 +549,15 @@ public class TransferContract extends VerticalLayout implements View {
 					dto.setIFPId(0);
 				}
 				if (!selectedDto.getPsContSid().equals(StringUtils.EMPTY)) {
-					dto.setPSId(Integer.valueOf(selectedDto.getPsContSid()));
+					dto.setPsId(Integer.valueOf(selectedDto.getPsContSid()));
 				} else {
-					dto.setPSId(0);
+					dto.setPsId(0);
 				}
 
 				if (!selectedDto.getRsContSid().equals(StringUtils.EMPTY)) {
-					dto.setRSId(Integer.valueOf(selectedDto.getRsContSid()));
+					dto.setRsId(Integer.valueOf(selectedDto.getRsContSid()));
 				} else {
-					dto.setRSId(0);
+					dto.setRsId(0);
 				}
 				selectedList.add(dto);
 			}
@@ -574,33 +575,21 @@ public class TransferContract extends VerticalLayout implements View {
 				}
 				logic.callCcpInsertProcedure();
 				logic.callActualsDetailsInsertProcedure();
-			} catch (SystemException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
-			} catch (PortalException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
-			} catch (ParseException ex) {
+			} catch (SystemException | PortalException | ParseException ex) {
 				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
 		if (tabPosition == NumericConstants.TWO) {
 			try {
 				existingComponents.saveExistingContract();
-			} catch (SystemException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
-			} catch (PortalException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
-			} catch (ParseException ex) {
+			} catch (SystemException | PortalException | ParseException ex) {
 				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
 		if (tabPosition == 1) {
 			try {
 				newComponents.saveNewContract();
-			} catch (SystemException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
-			} catch (PortalException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
-			} catch (ParseException ex) {
+			} catch (SystemException | PortalException | ParseException ex) {
 				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}

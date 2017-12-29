@@ -117,136 +117,130 @@ public class TransferComponents extends CustomComponent implements View {
     private static final long serialVersionUID = 1L;
     private SessionDTO session;
     @UiField("transferCompPanelTableLayout")
-    public VerticalLayout transferCompPanelTableLayout;
+    private VerticalLayout transferCompPanelTableLayout;
     @UiField("componentDetailsTableLayout")
-    public VerticalLayout componentDetailsTableLayout;
+    private VerticalLayout componentDetailsTableLayout;
 
     @UiField("componentTypeDdlb")
-    public ComboBox componentTypeDdlb;
+    private ComboBox componentTypeDdlb;
     @UiField("dashboardResultsTable")
-    public TreeTable contractDashboardResultsTable;
+    private TreeTable contractDashboardResultsTable;
     @UiField("rebateScheduleId")
-    public TextField rebateScheduleId;
+    private TextField rebateScheduleId;
     @UiField("status")
-    public TextField status;
+    private TextField status;
     @UiField("rebateFrequency")
-    public TextField rebateFrequency;
+    private TextField rebateFrequency;
     @UiField("rsNumber")
-    public TextField rsNumber;
+    private TextField rsNumber;
     @UiField("startDate")
-    public TextField startDate;
+    private TextField startDate;
     @UiField("rarType")
-    public TextField rarType;
+    private TextField rarType;
     @UiField("rsType")
-    public TextField rsType;
+    private TextField rsType;
     @UiField("rsName")
-    public TextField rsName;
+    private TextField rsName;
     @UiField("endDate")
-    public TextField endDate;
+    private TextField endDate;
     @UiField("basis")
-    public TextField basis;
+    private TextField basis;
     @UiField("excelBtn1")
-    public Button excelBtn1;
+    private Button excelBtn1;
     @UiField("excelBtn2")
-    public Button excelBtn2;
+    private Button excelBtn2;
     @UiField("populateBtn1")
-    public Button populateBtn1;
+    private Button populateBtn1;
     @UiField("addToTreeBtn1")
-    public Button addToTreeBtn1;
+    private Button addToTreeBtn1;
     @UiField("populateBtn2")
-    public Button populateBtn2;
+    private Button populateBtn2;
     @UiField("removeBtn2")
-    public Button removeBtn2;
+    private Button removeBtn2;
     /**
      * Added for Dashboard details
      */
     @UiField("cfpDetailsGrid")
-    public GridLayout cfpDetailsGrid;
+    private GridLayout cfpDetailsGrid;
     @UiField("ifpDetailsGrid")
-    public GridLayout ifpDetailsGrid;
+    private GridLayout ifpDetailsGrid;
     @UiField("psDetailsGrid")
-    public GridLayout psDetailsGrid;
+    private GridLayout psDetailsGrid;
     @UiField("rsDetailsGrid")
-    public GridLayout rsDetailsGrid;
+    private GridLayout rsDetailsGrid;
     @UiField("cfpDetailsNo")
-    public TextField cfpDetailsNo;
+    private TextField cfpDetailsNo;
     @UiField("cfpDetailsName")
-    public TextField cfpDetailsName;
+    private TextField cfpDetailsName;
     @UiField("ifpDetailsNo")
-    public TextField ifpDetailsNo;
+    private TextField ifpDetailsNo;
     @UiField("ifpDetailsName")
-    public TextField ifpDetailsName;
+    private TextField ifpDetailsName;
     @UiField("psDetailsNo")
-    public TextField psDetailsNo;
+    private TextField psDetailsNo;
     @UiField("psDetailsName")
-    public TextField psDetailsName;
+    private TextField psDetailsName;
     @UiField("rsDetailsNo")
-    public TextField rsDetailsNo;
+    private TextField rsDetailsNo;
     @UiField("rsDetailsName")
-    public TextField rsDetailsName;
+    private TextField rsDetailsName;
     @UiField("contractComponentDetailsTable")
-    public ExtFilterTable contractComponentDetailsTable;
+    private ExtFilterTable contractComponentDetailsTable;
 
     @UiField("componentInfoRebateLayout")
-    public GridLayout componentInfoRebateLayout;
+    private GridLayout componentInfoRebateLayout;
     @UiField("componentInfoIfpLayout")
-    public GridLayout componentInfoIfpLayout;
+    private GridLayout componentInfoIfpLayout;
     @UiField("componentInfoPsLayout")
-    public GridLayout componentInfoPsLayout;
+    private GridLayout componentInfoPsLayout;
 
     @UiField("ifpId")
-    public TextField ifpId;
+    private TextField ifpId;
     @UiField("ifpNo")
-    public TextField ifpNo;
+    private TextField ifpNo;
     @UiField("ifpName")
-    public TextField ifpName;
+    private TextField ifpName;
     @UiField("ifpStatus")
-    public TextField ifpStatus;
+    private TextField ifpStatus;
     @UiField("ifpStartDate")
-    public TextField ifpStartDate;
+    private TextField ifpStartDate;
     @UiField("ifpfileName")
-    public TextField ifpfileName;
+    private TextField ifpfileName;
 
     @UiField("psId")
-    public TextField psId;
+    private TextField psId;
     @UiField("psNo")
-    public TextField psNo;
+    private TextField psNo;
     @UiField("psName")
-    public TextField psName;
+    private TextField psName;
     @UiField("psStatus")
-    public TextField psStatus;
+    private TextField psStatus;
     @UiField("psStartDate")
-    public TextField psStartDate;
+    private TextField psStartDate;
     @UiField("psfileName")
-    public TextField psfileName;
+    private TextField psfileName;
     @UiField("componentitems")
-    public OptionGroup componentitems;
-    public ExtFilterTable componentDetailsTable = new ExtFilterTable();
+    private OptionGroup componentitems;
+    private ExtFilterTable componentDetailsTable = new ExtFilterTable();
     private BeanItemContainer<ComponentInfoDTO> componentDetailResultsContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
     private BeanItemContainer<ComponentInfoDTO> contractInfoContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
-    public List parentList = new ArrayList();
-    public int levelValue;
-    CurrentContractDTO currentContractDTO = new CurrentContractDTO();
-    ExtPagedFilterTable transferCompTable1 = new ExtPagedFilterTable();
-    BeanItemContainer<CurrentContractDTO> transferCompContainer1 = new BeanItemContainer<>(CurrentContractDTO.class);
-    List<CurrentContractDTO> selecteditemList = new ArrayList<>();
-    PromoteTPLogic logic = new PromoteTPLogic();
+    private ExtPagedFilterTable transferCompTable1 = new ExtPagedFilterTable();
+    private BeanItemContainer<CurrentContractDTO> transferCompContainer1 = new BeanItemContainer<>(CurrentContractDTO.class);
+    private List<CurrentContractDTO> selecteditemList = new ArrayList<>();
+    private PromoteTPLogic logic = new PromoteTPLogic();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    ExtTreeContainer<ComponentInfoDTO> dashBoardTreeContainer1 = new ExtTreeContainer<>(ComponentInfoDTO.class);
-    QueryUtils queryUtils = new QueryUtils();
-    ComponentInfoDTO componentInfoDTO = new ComponentInfoDTO();
-    DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
-    public static final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    private ExtTreeContainer<ComponentInfoDTO> dashBoardTreeContainer1 = new ExtTreeContainer<>(ComponentInfoDTO.class);
+    private QueryUtils queryUtils = new QueryUtils();
+    private DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+    private static final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private ExtCustomTable contractExportPeriodViewTable = new ExtCustomTable();
-    public List<ComponentInfoDTO> componentInformation = new ArrayList<>();
-    String excelName = "Rebate Schedule Information";
-    boolean isLoad = false;
-    boolean isRebateLoad = false;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    Boolean contractExcelFlag = false;
-    Boolean infoExcelFlag = false;
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private List<ComponentInfoDTO> componentInformation = new ArrayList<>();
+    private String excelName = "Rebate Schedule Information";
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    private Boolean contractExcelFlag = false;
+    private Boolean infoExcelFlag = false;
+    private final StplSecurity stplSecurity = new StplSecurity();
+    private Map<String, AppPermission> functionHM = new HashMap<>();
 
     /**
      * Transfer Contract Constructor
@@ -362,12 +356,14 @@ public class TransferComponents extends CustomComponent implements View {
         transferCompTable1.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
 
         transferCompTable1.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
 
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
 
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             boolean isCheck = check.getValue();
                             if (isCheck) {
@@ -384,6 +380,7 @@ public class TransferComponents extends CustomComponent implements View {
         });
 
         transferCompTable1.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = transferCompTable1.getItemIds();
                 for (Object obj : itemList) {
@@ -397,6 +394,7 @@ public class TransferComponents extends CustomComponent implements View {
             /**
              * Method is called when results value is changed
              */
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }
@@ -480,6 +478,7 @@ public class TransferComponents extends CustomComponent implements View {
         contractComponentDetailsTable.setWidth("790px");
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         //empty
     }
@@ -489,8 +488,7 @@ public class TransferComponents extends CustomComponent implements View {
         List<CurrentContractDTO> checkedContractList = logic.getSelectedTPContract(CommmonLogic.getSubmittedRecords(session, screenName, false));
 
         transferCompContainer1.addAll(checkedContractList);
-        isLoad = true;
-        isRebateLoad = true;
+       
     }
 
     /**

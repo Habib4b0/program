@@ -23,7 +23,7 @@ import org.jboss.logging.Logger;
  */
 public class CustomerFilterGenerator implements ExtFilterGenerator {
     
-    private static Logger LOGGER = Logger.getLogger(CustomerFilterGenerator.class);
+    private static final Logger LOGGER = Logger.getLogger(CustomerFilterGenerator.class);
     
     CommonUtil commonMsg = CommonUtil.getInstance();
 

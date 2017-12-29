@@ -24,7 +24,6 @@ import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.ProjectionList;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.util.dao.orm.CustomSQLUtil;
 import com.vaadin.data.Container;
@@ -244,7 +243,7 @@ public class CompanySearchLogic {
             parameters.put("orderBy", asc ? "ASC" : "DESC");
         }
         resultList = tpDao.searchCompanies(parameters);
-        returnList = converters.searchCompany(resultList);
+        returnList = Converters.searchCompany(resultList);
         return returnList;
     }
 
@@ -351,7 +350,7 @@ public class CompanySearchLogic {
         query.append(CustomSQLUtil.get(COMPANIES_FROM_MAIN_TABLE));
         query.append(" AND cm.COMPANY_MASTER_SID in (" + CommonUtils.CollectionToString(companyMasterSids, true) + ")");
         resultList = CompanyMasterLocalServiceUtil.executeQuery(query.toString());
-        returnList = converters.searchCompany(resultList);
+        returnList = Converters.searchCompany(resultList);
         return returnList;
     }
     

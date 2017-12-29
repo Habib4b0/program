@@ -40,6 +40,7 @@ public class ErrorfulFieldGroup extends FieldGroup {
      *
      * @throws CommitException the commit exception
      */
+    @Override
     public void commit() throws CommitException {
         try {
             super.commit();

@@ -92,22 +92,22 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
     @UiField("resetBtn")
     public Button resetBtn;
     @UiField("selectBtn")
-    public Button selectBtn;
+    public Button selectButton;
     @UiField("closeBtn")
-    public Button closeBtn;
+    public Button closeButton;
     @UiField("startDate")
     public PopupDateField startDate;
     @UiField("endDate")
     public PopupDateField endDate;
     ComponentLookUpLogic tableLogic = new ComponentLookUpLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
-    private BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
-    private BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
+    private final BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
     private String component = StringUtils.EMPTY;
     ComponentLookUpDTO componentDto;
     ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection = new SelectionDTO();
     AbstractLogic logic = AbstractLogic.getInstance();
     List<String> countFlag = new ArrayList<>();
@@ -171,8 +171,8 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
         componentStatus_DTO.setImmediate(true);
         componentTypeBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         componentType.setImmediate(true);
-        selectBtn.setImmediate(false);
-        selectBtn.setEnabled(false);
+        selectButton.setImmediate(false);
+        selectButton.setEnabled(false);
         componentStatus_DTO.setNullSelectionAllowed(true);
         componentStatus_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
 
@@ -181,16 +181,19 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
              * Method called when available results value is changed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }
         });
         setFlag();
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -204,18 +207,22 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (StringConstantsUtil.COMPONENT_STATUS_PROPERTY.equals(propertyId)) {
                     final ComboBox componentStatusDdlb = new ComboBox();
@@ -331,9 +338,9 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
      */
     protected void resultsItemClick(final Object obj) {
         if (obj == null) {
-            selectBtn.setEnabled(false);
+            selectButton.setEnabled(false);
         } else {
-            selectBtn.setEnabled(true);
+            selectButton.setEnabled(true);
         }
     }
 

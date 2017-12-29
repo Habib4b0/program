@@ -30,6 +30,7 @@ public abstract class AbstractNotificationUtils {
              *
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 if (buttonId.name().equals("YES")) {
                     yesMethod();
@@ -54,6 +55,7 @@ public abstract class AbstractNotificationUtils {
              * pressed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 // Do Nothing
             }
@@ -73,6 +75,7 @@ public abstract class AbstractNotificationUtils {
              * pressed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 // Do Nothing
             }
@@ -92,6 +95,7 @@ public abstract class AbstractNotificationUtils {
              * pressed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 // Do Nothing
             }

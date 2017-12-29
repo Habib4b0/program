@@ -39,10 +39,10 @@ public class ItemLookUp extends Window {
     public ComboBox itemType;
 
     RebateTableLogic tableLogic = new RebateTableLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
-    private BeanItemContainer<String> itemStatusBean = new BeanItemContainer<>(String.class);
-    private BeanItemContainer<String> itemTypeBean = new BeanItemContainer<>(String.class);
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
+    private final BeanItemContainer<String> itemStatusBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> itemTypeBean = new BeanItemContainer<>(String.class);
 
     public ItemLookUp() {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/item.xml"), this));

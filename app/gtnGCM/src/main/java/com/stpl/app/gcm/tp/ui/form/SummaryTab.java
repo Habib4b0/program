@@ -160,6 +160,7 @@ public class SummaryTab extends VerticalLayout {
 
             tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
 
+                @Override
                 public void selectedTabChange(SelectedTabChangeEvent event) {
                     final Tab tab = (Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
                     int tabPosition = event.getTabSheet().getTabPosition(tab);
@@ -230,6 +231,7 @@ public class SummaryTab extends VerticalLayout {
     @UiHandler("close")
     public void closeBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -334,6 +336,7 @@ public class SummaryTab extends VerticalLayout {
                      * Called when reset button is clicked
                      */
                     @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         List<String> tempList = new ArrayList<>();
                         List<String> tempTransferList = new ArrayList<>();
@@ -470,6 +473,7 @@ public class SummaryTab extends VerticalLayout {
                                      * the message box is pressed.
                                      */
                                     @SuppressWarnings("PMD")
+                                    @Override
                                     public void buttonClicked(final ButtonId buttonId) {
                                         if (session.getModuleName().equals(TRADING_PARTNER_REMOVE.getConstant())) {
                                             rtpform.close();
@@ -522,7 +526,7 @@ public class SummaryTab extends VerticalLayout {
     public void refreshTransferTPDetails() {
         CommmonLogic logic = new CommmonLogic();
         transferTPDetailsContainer.removeAllItems();
-        List<ContractResultDTO> checkedContractList = logic.getContractResults(logic.getSubmittedRecords(session, TAB_TRANSFER_CONTRACT.getConstant(), false));
+        List<ContractResultDTO> checkedContractList = logic.getContractResults(CommmonLogic.getSubmittedRecords(session, TAB_TRANSFER_CONTRACT.getConstant(), false));
         transferTPDetailsContainer.addAll(checkedContractList);
     }
 

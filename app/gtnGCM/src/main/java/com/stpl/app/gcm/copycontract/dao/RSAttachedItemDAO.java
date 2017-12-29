@@ -27,12 +27,14 @@ private static final Logger LOGGER = Logger.getLogger(RSAttachedItemDAO.class);
         this.RsIfpDto = RsIfpDto;
     }
 
+@Override
     public int count(BeanSearchCriteria bsc) {
         int count = 0;
         count = logic.getRSAttachedItemSearchCount(RsIfpDto, bsc);
         return count;
     }
 
+@Override
     public List find(BeanSearchCriteria bsc, int i, int i1, List list) {
         List<ExistingComponentDTO> resultList = new ArrayList<>();
         try {

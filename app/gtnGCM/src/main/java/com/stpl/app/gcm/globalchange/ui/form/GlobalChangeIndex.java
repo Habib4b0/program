@@ -63,6 +63,7 @@ public class GlobalChangeIndex extends CustomComponent implements View {
         configureFields();
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         //empty
     }
@@ -99,6 +100,7 @@ public class GlobalChangeIndex extends CustomComponent implements View {
             sessionDTO.setForecastingType(forecastDetails.get(1));
             }
             modeSelectRadio.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
 
                     if (valueChange) {

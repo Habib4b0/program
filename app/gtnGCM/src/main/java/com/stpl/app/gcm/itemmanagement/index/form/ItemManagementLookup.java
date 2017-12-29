@@ -22,12 +22,10 @@ import com.stpl.app.gcm.itemmanagement.transfer.TransferContract;
 import com.stpl.app.gcm.itemmanagement.transfer.CurrentContractTransfer;
 import com.stpl.app.gcm.itemmanagement.transfer.ItemSelection;
 import com.stpl.app.gcm.itemmanagement.update.UpdateItem;
-import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Button;
@@ -41,9 +39,7 @@ import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
 import org.jboss.logging.Logger;
@@ -54,37 +50,34 @@ import org.jboss.logging.Logger;
  */
 public class ItemManagementLookup extends CustomWindow {
 
-    TabSheet mainTab = new TabSheet();
-    int tabPosition;
-    List<Integer> tabList = new ArrayList<>();
-    List<ItemIndexDto> itemList = new ArrayList<>();
-    SelectionDTO selection;
-    Button closeBtn = new Button("CLOSE");
-    Button nextBtn = new Button("NEXT");
-    Button previousBtn = new Button("PREVIOUS");
-    Button removeBtn = new Button("REMOVE");
-    Button addBtn = new Button("PROCESS");
-    Button editBtn = new Button("UPDATE");
-    Button transferBtn = new Button("TRANSFER");
-    AddContractSelection contractSelection = new AddContractSelection();
-    Summary itemsummary = new Summary(itemList);
-    UpdateItem updateitem;
-    RemoveContractSelection removeContractSelection;
-    ItemLogic logic = new ItemLogic();
-    CurrentContractTransfer contractTransfer;
-    SummaryLookUp removeSummary;
-    TransferContract transferContract;
-    ItemSelection itemSelectionTransfer;
-    CommonLogic commonLogic = new CommonLogic();
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
-    Integer lasttabPosition = 0;
-    boolean valueChange = false;
+    private TabSheet mainTab = new TabSheet();
+    private int tabPosition;
+    private final List<Integer> tabList = new ArrayList<>();
+    private List<ItemIndexDto> itemList = new ArrayList<>();
+    private final SelectionDTO selection;
+    public Button closeBtn = new Button("CLOSE");
+    private final Button nextBtn = new Button("NEXT");
+    private final Button previousBtn = new Button("PREVIOUS");
+    private final Button removeBtn = new Button("REMOVE");
+    private final Button addBtn = new Button("PROCESS");
+    private final Button editBtn = new Button("UPDATE");
+    private final Button transferBtn = new Button("TRANSFER");
+    private final AddContractSelection contractSelection = new AddContractSelection();
+    private final Summary itemsummary = new Summary(itemList);
+    private UpdateItem updateitem;
+    private RemoveContractSelection removeContractSelection;
+    private final ItemLogic logic = new ItemLogic();
+    private CurrentContractTransfer contractTransfer;
+    private SummaryLookUp removeSummary;
+    private TransferContract transferContract;
+    private ItemSelection itemSelectionTransfer;
+    private Integer lasttabPosition = 0;
+    private boolean valueChange = false;
     public static final Logger LOGGER = Logger.getLogger(ItemManagementLookup.class);
-    List<Integer> addedTabList = new ArrayList<>();
-    boolean addSummaryFlag = false;
-    SessionDTO session = new SessionDTO();
-    SelectionDTO transferSelection = new SelectionDTO();
+    private final List<Integer> addedTabList = new ArrayList<>();
+    private boolean addSummaryFlag = false;
+    private final SessionDTO session = new SessionDTO();
+    private SelectionDTO transferSelection = new SelectionDTO();
 
     public ItemManagementLookup(List<ItemIndexDto> itemList, SelectionDTO selection) {
         super(selection.getWindowName());
@@ -169,6 +162,7 @@ public class ItemManagementLookup extends CustomWindow {
 
         mainTab.setImmediate(true);
         mainTab.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
+            @Override
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 if (!valueChange) {
                     final TabSheet.Tab tab = (TabSheet.Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
@@ -214,16 +208,19 @@ public class ItemManagementLookup extends CustomWindow {
         editBtn.setImmediate(true);
         setContent(baseLayout);
         nextBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 tabChangeLogic();
             }
         });
         previousBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnPreviousLogic();
             }
         });
         addBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (!itemsummary.isItemSelected()) {
                     addButtonLogic();
@@ -233,6 +230,7 @@ public class ItemManagementLookup extends CustomWindow {
             }
         });
         editBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (removeSummary.getItemDetails(Boolean.FALSE)==null || (removeSummary.getItemDetails(Boolean.FALSE) != null && removeSummary.getItemDetails(Boolean.FALSE).size() == 0)) {
                     AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.NO_RECORDS_SUBMITTED, StringConstantsUtil.NO_VALID_RECORDS);
@@ -245,6 +243,7 @@ public class ItemManagementLookup extends CustomWindow {
            
         });
         removeBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                
                 if (removeSummary.getItemDetails(Boolean.FALSE) == null || (removeSummary.getItemDetails(Boolean.FALSE) != null && removeSummary.getItemDetails(Boolean.FALSE).size() == 0)) {
@@ -256,6 +255,7 @@ public class ItemManagementLookup extends CustomWindow {
             }
         });
         transferBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 transferButtonLogic();
             }
@@ -425,6 +425,7 @@ public class ItemManagementLookup extends CustomWindow {
                          * box is pressed.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             close();
                         }
@@ -483,6 +484,7 @@ public class ItemManagementLookup extends CustomWindow {
                          * box is pressed.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             close();
                         }
@@ -537,6 +539,7 @@ public class ItemManagementLookup extends CustomWindow {
                          * box is pressed.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             close();
                         }
@@ -607,10 +610,10 @@ public class ItemManagementLookup extends CustomWindow {
                     List inputForInputTable = getTransferInput(fromProjection, transferFromProjection, toProjection, transferToProjection);
                     ItemQueries.itemUpdate(inputForInputTable, "Transfer Input table Insert");
                     if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
-                        logic.callPrcFeSalesTransfer(String.valueOf(selection.getSessionId()));
+                        CommonLogic.callPrcFeSalesTransfer(String.valueOf(selection.getSessionId()));
                     }
                     if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-                        logic.callPrcFeProjectionDetailsTransfer(String.valueOf(selection.getSessionId()));
+                        CommonLogic.callPrcFeProjectionDetailsTransfer(String.valueOf(selection.getSessionId()));
                     }
 
                     close();
@@ -631,6 +634,7 @@ public class ItemManagementLookup extends CustomWindow {
                          * box is pressed.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             close();
                         }
@@ -677,7 +681,7 @@ public class ItemManagementLookup extends CustomWindow {
 
             mainTab.setSelectedTab(tabPosition + 1);
             removeSummary.loadSummaryTable();
-            logic.getIdAndForecastingType(selection.getTabSelection(), selection);
+            ItemLogic.getIdAndForecastingType(selection.getTabSelection(), selection);
         }
     }
 
@@ -696,6 +700,7 @@ public class ItemManagementLookup extends CustomWindow {
     public void insertToTempTable() {
 
         Thread t = new Thread() {
+            @Override
             public void run() {
                 synchronized (this) {
                     List input = new ArrayList();
@@ -843,7 +848,7 @@ public class ItemManagementLookup extends CustomWindow {
             for (int i = 0; i < itemList.size(); i++) {
                 fromItemList.add(itemList.get(i).getSystemId());
             }
-            input.add(commonLogic.generateCustomerMappings(fromItemList, itemSelectionTransfer.mappingItems()));
+            input.add(CommonLogic.generateCustomerMappings(fromItemList, itemSelectionTransfer.mappingItems()));
         }
         input.add(contractTransfer.isRemoveProjectionBooleanVal());
         input.add(selection.getSessionId());

@@ -33,12 +33,12 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class UpdateItemSearch extends AbstractContractSearch {
 
-    SelectionDTO selection = new SelectionDTO();
+    SelectionDTO selectionDto = new SelectionDTO();
 
     public UpdateItemSearch(SelectionDTO selection, List selectedItemList) {
         super(selection, selectedItemList);
         try {
-            this.selection = selection;
+            this.selectionDto = selection;
             configureFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
@@ -63,14 +63,14 @@ public class UpdateItemSearch extends AbstractContractSearch {
 
             MessageBox.showPlain(Icon.INFO, "Error", "Please enter/select search criteria", ButtonId.OK);
         } else {
-            selection.setCountQueryName("Item Load contract Count");
-            selection.setDataQueryName("Load contract Item");
+            selectionDto.setCountQueryName("Item Load contract Count");
+            selectionDto.setDataQueryName("Load contract Item");
             searchButtonLogic(true);
         }
     }
 
     public Boolean checkrecord() {
-        List input = AbstractLogic.getResultsInput(selection);
+        List input = AbstractLogic.getResultsInput(selectionDto);
         String queryname = "checkrecord condition check";
         Boolean isUpdated = ItemQueries.itemUpdate(input, queryname);
         return isUpdated;
@@ -153,7 +153,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
 
     private void configureSecurityPermissions() {
         try {
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), "GCM-Item Management", "Item Update", "Contract Selection Tab");
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selectionDto.getUserId()), "GCM-Item Management", "Item Update", "Contract Selection Tab");
             getSearchBtn().setVisible(CommonLogic.isButtonVisibleAccess("search", functionHM));
             getResetBtn().setVisible(CommonLogic.isButtonVisibleAccess("reset1", functionHM));
             getPopulateBtn().setVisible(CommonLogic.isButtonVisibleAccess("populateBtn", functionHM));

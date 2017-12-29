@@ -34,6 +34,7 @@ public class GlobalChangeUIMainView extends VerticalLayout implements View {
      *
      * @param event
      */
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         globalChangeDTO = new GlobalChangeDTO();
     }

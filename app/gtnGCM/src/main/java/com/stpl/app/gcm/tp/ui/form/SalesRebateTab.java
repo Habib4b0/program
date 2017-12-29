@@ -6,7 +6,6 @@
 package com.stpl.app.gcm.tp.ui.form;
 
 import com.stpl.app.gcm.sessionutils.SessionDTO;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.VerticalLayout;
 import org.jboss.logging.Logger;

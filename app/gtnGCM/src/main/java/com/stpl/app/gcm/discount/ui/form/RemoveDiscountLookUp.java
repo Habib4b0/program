@@ -110,6 +110,7 @@ public class RemoveDiscountLookUp extends Window {
         removeBtn.setVisible(false);
         nextBtn.setImmediate(true);
         nextBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 mainTab.setSelectedTab(1);
             }
@@ -117,12 +118,14 @@ public class RemoveDiscountLookUp extends Window {
         previousBtn.setImmediate(true);
         previousBtn.setVisible(false);
         previousBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 mainTab.setSelectedTab(0);
             }
         });
         closeBtn.setImmediate(true);
         closeBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 new AbstractNotificationUtils() {
                     @Override
@@ -145,6 +148,7 @@ public class RemoveDiscountLookUp extends Window {
         });
         removeBtn.setImmediate(true);
         removeBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
 
                 new AbstractNotificationUtils() {
@@ -176,6 +180,7 @@ public class RemoveDiscountLookUp extends Window {
                                      * the message box is pressed.
                                      */
                                     @SuppressWarnings("PMD")
+                                    @Override
                                     public void buttonClicked(final ButtonId buttonId) {
                                         close();
                                         final Notification notif = new Notification("Discount removed Successfully", Notification.Type.HUMANIZED_MESSAGE);
@@ -196,6 +201,7 @@ public class RemoveDiscountLookUp extends Window {
         });
 
         mainTab.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
+            @Override
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 final TabSheet.Tab tab = (TabSheet.Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
                 tabPosition = event.getTabSheet().getTabPosition(tab);
