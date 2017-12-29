@@ -67,21 +67,21 @@ public class GlobalChangeUI extends UI {
 //            VaadinPortletSession portletsession = (VaadinPortletSession) VaadinSession.getCurrent();
 //            portletsession.addPortletListener(this);
 //        }
-//        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
-//            @Override
-//            public void error(com.vaadin.server.ErrorEvent event) {
-//                // Find the final cause
-//                String cause = "The Exception occured because of: ";
-//                for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
-//                    if (t.getCause() == null) {
-//                        cause += t.getClass().getName();
-//                    }
-//
-//                }
-//                LOGGER.error("",cause);
-//                // Do the default error handling (optional)
-//            }
-//        });
+        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+            @Override
+            public void error(com.vaadin.server.ErrorEvent event) {
+                // Find the final cause
+                String cause = "The Exception occured because of: ";
+                for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
+                    if (t.getCause() == null) {
+                        cause += t.getClass().getName();
+                    }
+
+                }
+                LOGGER.error("",cause);
+                // Do the default error handling (optional)
+            }
+        });
         }catch (Exception ex) {
             ex.printStackTrace();
             LOGGER.error("",ex);
