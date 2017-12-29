@@ -24,7 +24,7 @@
 			<groupId>com.stpl.gtn.gtn2o</groupId>
 			<artifactId>GtnFramework</artifactId>
 			<version>${gtnFramework.version}</version>
-			<scope>provided</scope>
+			<!--<scope>provided</scope>-->
 		</dependency>
 		<dependency>
 			<groupId>com.stpl.gtn.gtn2o.ui</groupId>
@@ -43,9 +43,9 @@
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <archive>
-                        <manifestEntries>
+<!--                        <manifestEntries>
                             <Dependencies>com.stpl.newarch.shared.library</Dependencies>
-                        </manifestEntries>
+                        </manifestEntries>-->
                     </archive>
                 </configuration>
             </plugin>
