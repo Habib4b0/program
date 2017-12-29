@@ -6,6 +6,16 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.model.User;
+import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastConstants;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastProjectionSubmitRequest;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
+import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsForecastProjectionSubmitBean;
 import com.stpl.ifs.util.DroolsProperties;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,17 +25,14 @@ import java.util.Properties;
 
 public class DSCalculationLogic {
 
-	/**
-	 * The Constant LOGGER.
-	 */
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DSCalculationLogic.class);
-	private static final Properties properties = DroolsProperties.getPropertiesData();
+    /**
+     * The Constant LOGGER.
+     */
+    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DSCalculationLogic.class);
+    private static final Properties properties = DroolsProperties.getPropertiesData();
 
-	
-
-
-	public static boolean isValidWorkflowUser(User userModel, List<String> roleList, long processIntanceId) {
-		boolean returnflag = false;
+    public static boolean isValidWorkflowUser(User userModel, List<String> roleList, long processIntanceId) {
+        boolean returnflag = false;
 //		TaskSummary taskSummary = null;
 //		try {
 //
@@ -53,35 +60,51 @@ public class DSCalculationLogic {
 //                    LOGGER.error(e);
 //		}
 
-		return returnflag;
-	}
+        return returnflag;
+    }
 
-	
+    public static GtnWsCommonWorkflowResponse startWorkflow(SessionDTO session, String userId) {
+        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+            GtnWsForecastProjectionSubmitRequest submitRequest = new GtnWsForecastProjectionSubmitRequest();
+        GtnWsForecastProjectionSubmitBean submitBean = new GtnWsForecastProjectionSubmitBean();
+        submitBean.setProjectionId(session.getProjectionId());
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setUserId(userId);
+        generalRequest.setSessionId(session.getSessionId());
+        submitRequest.setGtnWsForecastProjectionSubmitBean(submitBean);
+        submitRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnUIFrameworkWebserviceRequest.setGtnWsForecastProjectionSubmitRequest(submitRequest);
+        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsForecastConstants.GTN_WS_FORECAST_WORKFLOW_SERVICE
+                + GtnWsForecastConstants.GTN_WS_FORECAST_START_TASK,
+                GtnFrameworkCommonStringConstants.GTN_BPM, gtnUIFrameworkWebserviceRequest, RelationShipFilterLogic.getGsnWsSecurityToken());
+        GtnWsCommonWorkflowResponse workFlowResponse = response.getGtnWSCommonWorkflowResponse();
+        session.setProcessId(workFlowResponse.getProcessInstanceId());
+        return workFlowResponse;
+    }
+    
+    public static GtnWsCommonWorkflowResponse startAndCompleteTask(SessionDTO session, String userId) {
+        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsForecastProjectionSubmitRequest submitRequest = new GtnWsForecastProjectionSubmitRequest();
+        GtnWsForecastProjectionSubmitBean submitBean = new GtnWsForecastProjectionSubmitBean();
+        submitBean.setProjectionId(session.getProjectionId());
+        submitBean.setProcessId(session.getProcessId());
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setUserId(userId);
+        generalRequest.setSessionId(session.getSessionId());
+        submitRequest.setGtnWsForecastProjectionSubmitBean(submitBean);
+        submitRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnUIFrameworkWebserviceRequest.setGtnWsForecastProjectionSubmitRequest(submitRequest);
+        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsForecastConstants.GTN_WS_FORECAST_WORKFLOW_SERVICE
+                + GtnWsForecastConstants.GTN_WS_FORECAST_COMPLETE_TASK,
+                GtnFrameworkCommonStringConstants.GTN_BPM, gtnUIFrameworkWebserviceRequest, RelationShipFilterLogic.getGsnWsSecurityToken());
+        GtnWsCommonWorkflowResponse workFlowResponse = response.getGtnWSCommonWorkflowResponse();
+        session.setProcessId(workFlowResponse.getProcessInstanceId());
+        return workFlowResponse;
+    }
 
-	public static boolean startWorkflow(SessionDTO session,String userId) {
-//		ProcessInstance processInstance = null;
-//                int processInstanceId = 0;
-//		try {
-//			String workflowId = properties.getProperty("Forecasting_WorkflowId", "ForecastingWorkflow.SubmissionWorkflow");
-//			processInstance = BPMProcessBean.startProcess(workflowId, null);
-//		} catch (Exception e) {
-//			LOGGER.error(e);
-//		}
-//            try {
-//               User userModel =  UserLocalServiceUtil.getUser(Long.parseLong(userId));
-//             TaskSummary summary  = startAndCompleteTask(userModel,session.getProjectionId(), processInstanceId);
-//             session.setProcessId(summary.getProcessInstanceId());
-//             List<String> roleList = new ArrayList<>();
-//             return  DSCalculationLogic.isValidWorkflowUser(userModel, roleList,
-//						processInstance.getId());
-//            } catch (PortalException ex) {
-//                Logger.getLogger(DSCalculationLogic.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-                
-		return false;
-	}
-        
-//        public static ProcessInstance startARPWorkflow() {
+    public static boolean startARPWorkflow(SessionDTO session, String userId) {
 //		ProcessInstance processInstance = null;
 //		try {
 //			String workflowId = properties.getProperty("ARP_WorkflowId", "ARPWorkflow.ARPWorkflow");
@@ -89,8 +112,20 @@ public class DSCalculationLogic {
 //		} catch (Exception e) {
 //			LOGGER.error(e);
 //		}
+//                User userModel = UserLocalServiceUtil.getUser(Long.parseLong(session.getUserId()));
+//                List<String> roleList = new ArrayList<>();
+//                workflowFlag = DSCalculationLogic.isValidWorkflowUser(userModel, roleList, processInstance.getId());
+//                Long processInstanceId = processInstance.getId();
+        try {
+//                        TaskSummary taskSummary = DSCalculationLogic.startAndCompleteTask(userModel, session.getProjectionId(), processInstanceId);
+//                        processInstanceId = taskSummary.getProcessInstanceId();
+//                        session.setProcessId(processInstanceId);
+        } catch (Exception e) {
+            LOGGER.error(e);
+        }
 //		return processInstance;
-//	}
+        return false;
+    }
 
 //	public static TaskSummary startAndCompleteTask(User userModel, int projectionId, long processInstanceId) {
 //		TaskSummary taskSummary = null;
@@ -108,11 +143,10 @@ public class DSCalculationLogic {
 //		}
 //		return taskSummary;
 //	}
-
-    public static List<ForecastingRulesDTO> getProjectionValues(int projectionId, String userId, String sessionId, String screenName,SessionDTO sessionDto) {
+    public static List<ForecastingRulesDTO> getProjectionValues(int projectionId, String userId, String sessionId, String screenName, SessionDTO sessionDto) {
         List<ForecastingRulesDTO> list = new ArrayList<>();
         try {
-            List<Object[]> returnList = WorkflowPersistance.getProjectionRecords(projectionId, userId, sessionId, screenName,sessionDto);
+            List<Object[]> returnList = WorkflowPersistance.getProjectionRecords(projectionId, userId, sessionId, screenName, sessionDto);
             for (int i = 0; i < returnList.size(); i++) {
                 Object[] obj = returnList.get(i);
                 if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
@@ -158,7 +192,7 @@ public class DSCalculationLogic {
                     netProfit.setAmountGreatest(Double.valueOf(String.valueOf(obj[NumericConstants.ELEVEN])));
                     netProfit.setPercentLowest(Double.valueOf(String.valueOf(obj[NumericConstants.TWENTY_TWO])));
                     netProfit.setPercentGreatest(Double.valueOf(String.valueOf(obj[NumericConstants.TWENTY_THREE])));
-                    
+
                     list.add(sales);
                     list.add(units);
                     list.add(discount);
@@ -172,25 +206,43 @@ public class DSCalculationLogic {
         }
         return list;
     }
-        
-        public static List<ForecastingRulesDTO> getProjectionValuesForAccrual(int projectionId, String userId, String sessionId) {
-		List<ForecastingRulesDTO> list = new ArrayList<>();
-		try {
-			List<Object[]> returnList = WorkflowPersistance.getProjectionRecordsForAccrual(projectionId, userId, sessionId);
 
-			for (int i = 0; i < returnList.size(); i++) {
-				Object[] obj = returnList.get(i);
-				ForecastingRulesDTO accrualRate = new ForecastingRulesDTO("Accrual_Rate_Projection");
-				accrualRate.setAmountLowest(Double.valueOf(String.valueOf(obj[NumericConstants.TWO])));
-				accrualRate.setAmountGreatest(Double.valueOf(String.valueOf(obj[NumericConstants.THREE])));
-				accrualRate.setPercentLowest(Double.valueOf(String.valueOf(obj[NumericConstants.SIX])));
-				accrualRate.setPercentGreatest(Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])));
-                                
-				list.add(accrualRate);
-			}
-		} catch (Exception e) {
-                    LOGGER.error(e);
-		}
-		return list;
-	}
+    public static List<ForecastingRulesDTO> getProjectionValuesForAccrual(int projectionId, String userId, String sessionId) {
+        List<ForecastingRulesDTO> list = new ArrayList<>();
+        try {
+            List<Object[]> returnList = WorkflowPersistance.getProjectionRecordsForAccrual(projectionId, userId, sessionId);
+
+            for (int i = 0; i < returnList.size(); i++) {
+                Object[] obj = returnList.get(i);
+                ForecastingRulesDTO accrualRate = new ForecastingRulesDTO("Accrual_Rate_Projection");
+                accrualRate.setAmountLowest(Double.valueOf(String.valueOf(obj[NumericConstants.TWO])));
+                accrualRate.setAmountGreatest(Double.valueOf(String.valueOf(obj[NumericConstants.THREE])));
+                accrualRate.setPercentLowest(Double.valueOf(String.valueOf(obj[NumericConstants.SIX])));
+                accrualRate.setPercentGreatest(Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])));
+
+                list.add(accrualRate);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+        }
+        return list;
+    }
+
+    public static String getProcessVariableLog(Long processId, String processVariableName) {
+         GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsForecastProjectionSubmitRequest submitRequest = new GtnWsForecastProjectionSubmitRequest();
+        GtnWsForecastProjectionSubmitBean submitBean = new GtnWsForecastProjectionSubmitBean();
+        submitBean.setProcessId(processId);
+        submitBean.setVariableName(processVariableName);
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        submitRequest.setGtnWsForecastProjectionSubmitBean(submitBean);
+        submitRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnUIFrameworkWebserviceRequest.setGtnWsForecastProjectionSubmitRequest(submitRequest);
+        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsForecastConstants.GTN_WS_FORECAST_WORKFLOW_SERVICE
+                + GtnWsForecastConstants.GTN_WS_FORECAST_GET_VARIABLE,
+                GtnFrameworkCommonStringConstants.GTN_BPM, gtnUIFrameworkWebserviceRequest, RelationShipFilterLogic.getGsnWsSecurityToken());
+        GtnWsCommonWorkflowResponse workFlowResponse = response.getGtnWSCommonWorkflowResponse();
+        return workFlowResponse.getProcessVariable();
+    }
 }

@@ -157,7 +157,7 @@ select distinct spm.PROPERTY_NAME,bmm.ADD_FLAG,bmm.EDIT_FLAG,bmm.VIEW_FLAG,spm.T
 		
     ]]> </query>
     </entity>
-    <entity id="buttonSecurity">
+    <entity id="buttonSecurityService">
         <query> <![CDATA[
 		
 		SELECT DISTINCT SPM.PROPERTY_NAME,

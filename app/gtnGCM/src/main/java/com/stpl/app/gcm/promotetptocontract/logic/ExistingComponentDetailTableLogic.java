@@ -28,7 +28,7 @@ public class ExistingComponentDetailTableLogic extends PageTableLogic {
             try {
                 return logic.getItemsFromRsCount(newDiscountTabDto);
             } catch (Exception ex) {
-               LOGGER.error(ex);
+               LOGGER.error("",ex);
             }
         }
         return 0;
@@ -42,7 +42,7 @@ public class ExistingComponentDetailTableLogic extends PageTableLogic {
         try {
             resultList = logic.getItemsFromRs(newDiscountTabDto);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }

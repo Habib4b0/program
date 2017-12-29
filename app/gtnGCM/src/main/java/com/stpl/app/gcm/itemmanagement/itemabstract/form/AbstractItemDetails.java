@@ -49,7 +49,8 @@ import java.util.Map;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -79,7 +80,7 @@ public class AbstractItemDetails extends CustomComponent {
     BeanItemContainer<SummaryDTO> transferContainer = new BeanItemContainer<>(SummaryDTO.class);
     final StplSecurity stplSecurity = new StplSecurity();
     Map<String, AppPermission> functionHM = new HashMap<>();
-    public static final Logger LOGGER = Logger.getLogger(AbstractItemDetails.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AbstractItemDetails.class);
 
     public AbstractItemDetails(SelectionDTO selection) {
         try {
@@ -94,7 +95,7 @@ public class AbstractItemDetails extends CustomComponent {
             setCompositionRoot(itemDetailsSummary);
             itemDetailsSummary.setSizeFull();
         } catch (Exception e) {
-           LOGGER.error(e);
+           LOGGER.error("",e);
         }
     }
 
@@ -210,7 +211,7 @@ public class AbstractItemDetails extends CustomComponent {
                     selection.setOperation("CURRENT SUMMARY");
                     createWorkSheet("Current_Item_Details", itemdetailstable);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                    
                 }
             }
@@ -229,7 +230,7 @@ public class AbstractItemDetails extends CustomComponent {
             }
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -350,7 +351,7 @@ public class AbstractItemDetails extends CustomComponent {
                     selection.setOperation("TRANSFER SUMMARY");
                     createWorkSheet("Transfer_Item_Details", itemdetailstable);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                   
                 }
             }

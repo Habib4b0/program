@@ -12,7 +12,7 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.abstracttablelogic.AbstractLookUpTableLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.v7.data.Container;
@@ -39,7 +39,8 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -49,7 +50,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  * @author mohamed.hameed
  */
 public class RSLookUp extends Window {
-private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
+private static final Logger LOGGER = LoggerFactory.getLogger(RSLookUp.class);
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
     @UiField("componentId")
@@ -85,7 +86,7 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
     private BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
     ComponentLookUpDTO componentDto;
     ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection = new SelectionDTO();
     AbstractLogic logic = AbstractLogic.getInstance();
     List<String> countFlag = new ArrayList<>();
@@ -175,7 +176,7 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
                         logic.loadComboBox(componentType, "RS_TYPE", true);
                         return componentType;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
                 if ("rsProgramType".equals(propertyId)) {
@@ -184,7 +185,7 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
                         logic.loadComboBox(rsProgramType, REBATE_PROGRAM_TYPE_HEADER, true);
                         return rsProgramType;
                     } catch (Exception ex) {
-                         LOGGER.error(ex);
+                         LOGGER.error("",ex);
                     }
                 }
                 if ("category".equals(propertyId)) {
@@ -193,7 +194,7 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
                         logic.loadComboBox(category, "RS_CATEGORY", true);
                         return category;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
                 if ("componentStatus".equals(propertyId)) {
@@ -215,7 +216,7 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
         cfpTableLayout.addComponent(controlLayout);
     }
 
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
@@ -255,7 +256,7 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
                     endDate.setValue(null);
                     binder.commit();
                 } catch (FieldGroup.CommitException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 

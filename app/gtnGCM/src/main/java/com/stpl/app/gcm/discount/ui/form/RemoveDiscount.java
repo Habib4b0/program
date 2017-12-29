@@ -65,7 +65,8 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -167,7 +168,7 @@ public class RemoveDiscount extends CustomComponent {
     private BeanItemContainer<RemoveDiscountDto> contractComponentContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
     private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
     private BeanItemContainer<RemoveDiscountDto> selectedContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
-    private static final Logger LOGGER = Logger.getLogger(RemoveDiscount.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RemoveDiscount.class);
     SessionDTO session = new SessionDTO();
     RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
     List<String> removeList = new ArrayList<>();
@@ -251,7 +252,7 @@ public class RemoveDiscount extends CustomComponent {
             fromCDName.setEnabled(false);
         } catch (Exception ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -378,7 +379,7 @@ public class RemoveDiscount extends CustomComponent {
             startDate.setDateFormat(Constants.DATE_FORMAT);
             endDate.setDateFormat(Constants.DATE_FORMAT);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -422,7 +423,7 @@ public class RemoveDiscount extends CustomComponent {
                 }
             });
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         LOGGER.debug("End of getProcessedTree method");
     }
@@ -532,7 +533,7 @@ public class RemoveDiscount extends CustomComponent {
                 }
                 LOGGER.debug("End of StplExpandListener nodeExpand method");
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
                 final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                 LOGGER.error(errorMsg);
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
@@ -690,7 +691,7 @@ public class RemoveDiscount extends CustomComponent {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -761,7 +762,7 @@ public class RemoveDiscount extends CustomComponent {
                         "Please highlight a component to Remove.");
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
 
     }
@@ -821,7 +822,7 @@ public class RemoveDiscount extends CustomComponent {
                 loadComponentTable(list);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -841,7 +842,7 @@ public class RemoveDiscount extends CustomComponent {
             mainTab.addTab(summary.getContent(selecteditemList, contractDto, mainTab, removeDiscount), "Summary", null, 1);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
         LOGGER.debug("Ending RemoveAll method");
@@ -901,7 +902,7 @@ public class RemoveDiscount extends CustomComponent {
             removeAllBtn.setVisible(CommonLogic.isButtonVisibleAccess("removeAllBtn", functionHM));
             populateBtn2.setVisible(CommonLogic.isButtonVisibleAccess("populateBtn2", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

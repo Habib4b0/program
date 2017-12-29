@@ -171,7 +171,7 @@ and open the template in the editor.
             ]]>
         </query>
     </entity>
-    <entity id="customer-ddlb-load">
+    <entity id="product-ddlb">
         <query>
             <![CDATA[
                 SELECT DISTINCT IM.ITEM_NAME, IM.ITEM_MASTER_SID FROM ST_DEDUCTION_CALENDAR_ITEM SC

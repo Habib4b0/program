@@ -13,7 +13,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author srithar
@@ -25,7 +26,7 @@ public class ExistingComponentDetailsTableLogic extends PageTableLogic {
     CopyContractLogic logic = new CopyContractLogic();
     ExistingComponentDTO dto;
     List newInput = new ArrayList();
-    private static final Logger LOGGER = Logger.getLogger(ExistingComponentDetailsTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExistingComponentDetailsTableLogic.class);
 
     /**
      * Record count logic
@@ -38,7 +39,7 @@ public class ExistingComponentDetailsTableLogic extends PageTableLogic {
             try {
                 return Integer.valueOf(String.valueOf(logic.getExistingDetailsData(componentType, dto, true, 0, 0)));
             } catch (ParseException ex) {
-             LOGGER.error(ex);
+             LOGGER.error("",ex);
             }
         }
         return 0;
@@ -57,7 +58,7 @@ public class ExistingComponentDetailsTableLogic extends PageTableLogic {
         try {
             resultList = (List<ExistingComponentDTO>) logic.getExistingDetailsData(componentType, dto, false, start, offset);
         } catch (ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }

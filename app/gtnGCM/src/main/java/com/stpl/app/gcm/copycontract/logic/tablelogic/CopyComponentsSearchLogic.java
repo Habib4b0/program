@@ -14,7 +14,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author kasiammal.m
@@ -26,7 +27,7 @@ public class CopyComponentsSearchLogic extends PageTableLogic {
     String Component = StringUtils.EMPTY;
     CopyContractLogic logic = new CopyContractLogic();
     int count;
-    private static final Logger LOGGER = Logger.getLogger(CopyComponentsSearchLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CopyComponentsSearchLogic.class);
 
     @Override
     public int getCount() {
@@ -36,7 +37,7 @@ public class CopyComponentsSearchLogic extends PageTableLogic {
                 count = logic.getComponentCount(Query);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return count;
     }
@@ -47,7 +48,7 @@ public class CopyComponentsSearchLogic extends PageTableLogic {
         try {
             resultList = logic.getComponentResults(Component, Query, start, offset);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
 

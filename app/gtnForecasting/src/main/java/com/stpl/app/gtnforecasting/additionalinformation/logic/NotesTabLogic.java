@@ -14,7 +14,6 @@ import com.stpl.app.service.AdditionalNotesLocalServiceUtil;
 import com.stpl.app.service.DocDetailsLocalServiceUtil;
 import com.stpl.ifs.ui.NotesDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;

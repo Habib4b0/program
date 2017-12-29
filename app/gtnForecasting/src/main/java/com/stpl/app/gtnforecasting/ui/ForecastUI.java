@@ -61,8 +61,8 @@ import org.vaadin.alump.beforeunload.BeforeUnload;
  * @author soundarrajan
  * @version 1.0
  */
-@Theme("mytheme")
-@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Theme("stpl")
+@Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet")
 @Component(service = UI.class, property = {
         "com.liferay.portlet.display-category=Forecast and Planning",
         "javax.portlet.name=Commercial",

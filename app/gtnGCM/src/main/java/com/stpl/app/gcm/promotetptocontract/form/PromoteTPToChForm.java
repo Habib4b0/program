@@ -5,7 +5,6 @@
 package com.stpl.app.gcm.promotetptocontract.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
-import com.stpl.app.gcm.promotetptocontract.dto.PromoteTpToChDto;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.logic.ContractSelectionLogic;
@@ -14,7 +13,7 @@ import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TAB_CURRENT_CONTRACT;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.navigator.View;
@@ -45,6 +44,8 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -57,12 +58,12 @@ public class PromoteTPToChForm extends CustomComponent implements View {
 
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     final ErrorLabel errorMsg = new ErrorLabel();
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(PromoteTPToChForm.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(PromoteTPToChForm.class);
     StplSecurity stplSecurity = new StplSecurity();
     /**
      * The data selection binder.
      */
-    public CustomFieldGroup promoteTpBinder;
+    public ErrorfulFieldGroup promoteTpBinder;
     boolean tabFlag = false;
     /**
      * The tab sheet.
@@ -102,7 +103,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
      * @param custom
      * @throws Exception
      */
-    public PromoteTPToChForm(CustomFieldGroup promoteTpToChBinder, SessionDTO session, PromoteTpToChWindow editWindow, final ExtFilterTable resultTable) {
+    public PromoteTPToChForm(ErrorfulFieldGroup promoteTpToChBinder, SessionDTO session, PromoteTpToChWindow editWindow, final ExtFilterTable resultTable) {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/PromoteTPToChForm.xml"), this));
         this.promoteTpBinder = promoteTpToChBinder;
         this.resultTable = resultTable;
@@ -151,7 +152,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
                         summary.transferTPDetails();
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
 
                 }
             }
@@ -188,7 +189,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
             previousBtn.setVisible(false);
             transferBtn.setVisible(false);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -250,7 +251,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
                             AbstractNotificationUtils.getAlertNotification("Info", "New Projection has been created with Name of:" + projName + "," + copiedProjection);
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }
@@ -272,7 +273,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
                         transferContract.saveContract();
                         tabSheet.setSelectedTab(tabPosition + 1);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
 
@@ -300,7 +301,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
                 try {
                     btnPrevLogic();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 
@@ -325,7 +326,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
                     try {
                         promoteWindow.close();
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }
@@ -365,14 +366,14 @@ public class PromoteTPToChForm extends CustomComponent implements View {
             }
         } catch (Exception ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             return false;
         } finally {
             try {
                 statement.close();
                 connection.close();
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error("",e);
             }
         }
         LOGGER.debug("exiting CcpInsertProcedure");
@@ -385,7 +386,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
             closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", functionHM));
             nextBtn.setVisible(CommonLogic.isButtonVisibleAccess("nextBtn", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

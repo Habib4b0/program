@@ -92,7 +92,8 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -104,7 +105,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
  */
 public class Newcomponent extends CustomComponent {
 
-    public static final Logger LOGGER = Logger.getLogger(Newcomponent.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(Newcomponent.class);
     @UiField("componenttype")
     public ComboBox componenttype;
     @UiField("SearchfieldNC")
@@ -411,7 +412,7 @@ public class Newcomponent extends CustomComponent {
                         try {
                             commonUtil.loadComboBox(status, UiUtils.STATUS, false);
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                         field = status;
                     }
@@ -484,7 +485,7 @@ public class Newcomponent extends CustomComponent {
             rsDetailsGrid.setVisible(false);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -594,7 +595,7 @@ public class Newcomponent extends CustomComponent {
                     searchDDLB.setEnabled(true);
                     componentSearch.setEnabled(true);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             } else if (componenttype.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
                 try {
@@ -644,7 +645,7 @@ public class Newcomponent extends CustomComponent {
                     searchDDLB.setEnabled(true);
                     componentSearch.setEnabled(true);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             } else if (componenttype.getValue().toString().equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
                 cfpComponent.setVisible(false);
@@ -1208,7 +1209,7 @@ public class Newcomponent extends CustomComponent {
                 statusddlb.setVisible(true);
                 startPeriod.setVisible(false);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         } else if (searchField.equals("null")) {
             startPeriod.setVisible(false);
@@ -1564,7 +1565,7 @@ public class Newcomponent extends CustomComponent {
                                             selectedItems = getIdString(setA);
                                         }
                                     } catch (Exception e) {
-                                        LOGGER.error(e);
+                                        LOGGER.error("",e);
                                     }
 
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(hiddenId);
@@ -1704,7 +1705,7 @@ public class Newcomponent extends CustomComponent {
                                         }
                                     }
                                 } catch (SystemException ex) {
-                                    LOGGER.error(ex);
+                                    LOGGER.error("",ex);
                                 }
                             } else {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, PLEASE_ENTER_ALL_THE_FIELDS);
@@ -1842,7 +1843,7 @@ public class Newcomponent extends CustomComponent {
                                         }
                                     }
                                 } catch (SystemException ex) {
-                                    LOGGER.error(ex);
+                                    LOGGER.error("",ex);
                                 }
                             } else {
                                 AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Enter all the fields in Component Selection section");
@@ -1859,7 +1860,7 @@ public class Newcomponent extends CustomComponent {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -2184,7 +2185,7 @@ public class Newcomponent extends CustomComponent {
                 dashboardResultsTable.getContainerProperty(item, Constants.SAVED_SYSTEM_ID).setValue(String.valueOf(im1.getIfpContractSid()));
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -2614,7 +2615,7 @@ public class Newcomponent extends CustomComponent {
             populateDetails.setVisible(CommonLogic.isButtonVisibleAccess("populateDetails", functionHM));
             addToTree.setVisible(CommonLogic.isButtonVisibleAccess("addToTree", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -31,7 +33,7 @@ public class CurrentContractTableLogic extends PageTableLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CurrentContractTableLogic.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(CurrentContractTableLogic.class);
 
     /**
      * Record count method

@@ -11,14 +11,15 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author santanukumar
  */
 public class FormulaLookupTableLogic extends PageTableLogic {
- private static final Logger LOGGER = Logger.getLogger(DiscountLogic.class);
+ private static final Logger LOGGER = LoggerFactory.getLogger(DiscountLogic.class);
    
     LookupDTO binderDto = new LookupDTO();
     DiscountLogic logic = new DiscountLogic();
@@ -35,7 +36,7 @@ public class FormulaLookupTableLogic extends PageTableLogic {
             try {
                 return logic.getFormulaSearchCount(binderDto);
             } catch (Exception ex) {
-                 LOGGER.error(ex);
+                 LOGGER.error("",ex);
             }
         }
         return 0;
@@ -56,7 +57,7 @@ public class FormulaLookupTableLogic extends PageTableLogic {
         try {
             resultList = logic.getFormulaSearchResults(binderDto);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }

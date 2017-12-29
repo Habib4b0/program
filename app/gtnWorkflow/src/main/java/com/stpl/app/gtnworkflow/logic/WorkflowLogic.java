@@ -175,6 +175,7 @@ public class WorkflowLogic {
                     + "    PM.CUSTOMER_HIERARCHY_SID AS customerHierSid,\n"
                     + "    PM.CUSTOMER_HIERARCHY_LEVEL AS customerHierarchyLevel,\n"
                     + "    PM.CUST_RELATIONSHIP_BUILDER_SID AS custRelationshipBuilderSid,\n"
+                    + "    PM.PRODUCT_HIERARCHY_SID AS prodHierSid,\n"
                     + "    PM.PRODUCT_HIERARCHY_LEVEL AS productHierarchyLevel,\n"
                     + "    PM.PROD_RELATIONSHIP_BUILDER_SID AS prodRelationshipBuilderSid");
         }

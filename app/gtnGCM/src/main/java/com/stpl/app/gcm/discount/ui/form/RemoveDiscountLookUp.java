@@ -126,7 +126,7 @@ public class RemoveDiscountLookUp extends Window {
                         try {
                             close();
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
 
                     }
@@ -182,7 +182,7 @@ public class RemoveDiscountLookUp extends Window {
                                 }, ButtonId.OK);
                             }
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                 }.getConfirmationMessage("Alert", "Are you sure you want to remove the discount?");
@@ -219,7 +219,7 @@ public class RemoveDiscountLookUp extends Window {
             closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", functionHM));
             nextBtn.setVisible(CommonLogic.isButtonVisibleAccess("nextBtn", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

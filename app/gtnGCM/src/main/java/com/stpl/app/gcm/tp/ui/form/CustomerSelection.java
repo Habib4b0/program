@@ -22,17 +22,16 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TAB_TRANSFER_CO
 import com.stpl.app.gcm.util.Constants.MessageConstants;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CsvExportforPagedTable;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
@@ -63,7 +62,8 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -128,7 +128,7 @@ public class CustomerSelection extends VerticalLayout {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(CustomerSelection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerSelection.class);
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     final transient StplSecurity stplSecurity = new StplSecurity();
     transient Map<String, AppPermission> functionHM = new HashMap<>();
@@ -166,7 +166,7 @@ public class CustomerSelection extends VerticalLayout {
     /**
      * The data selection binder.
      */
-    public CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(tpDto));
+    public ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(tpDto));
 
     @UiField("Excellayout")
     public HorizontalLayout Excellayout;
@@ -345,7 +345,7 @@ public class CustomerSelection extends VerticalLayout {
                             return state;
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                     return null;
                 }
@@ -423,7 +423,7 @@ public class CustomerSelection extends VerticalLayout {
                             return state;
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                     return null;
                         }
@@ -476,7 +476,7 @@ public class CustomerSelection extends VerticalLayout {
             });
             LOGGER.debug("Exiting configureFields");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         transferCustomerTable.setFilterFieldVisible("check", false);
     }
@@ -489,7 +489,7 @@ public class CustomerSelection extends VerticalLayout {
         pagedTable.setPageLength(NumericConstants.FIVE);
     }
 
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         dataSelectionBinder.bindMemberFields(this);
         dataSelectionBinder.setItemDataSource(new BeanItem<>(tpDto));
         dataSelectionBinder.setBuffered(true);
@@ -504,7 +504,7 @@ public class CustomerSelection extends VerticalLayout {
             CsvExportforPagedTable.createWorkSheet(selectedCustomersTable.getColumnHeaders(), selectedCustomersTable.getVisibleColumns(), selectedCustomersLogic, "Selected Customers");
 
         } catch (Exception e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
         }
         LOGGER.debug("Exiting selectedCustomersExport");
     }
@@ -515,7 +515,7 @@ public class CustomerSelection extends VerticalLayout {
         try {
             CsvExportforPagedTable.createWorkSheet(companySearchResultsTable.getColumnHeaders(), companySearchResultsTable.getVisibleColumns(), companyLogic, "Customer Search");
         } catch (Exception e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
         }
         LOGGER.debug("Exiting searchResultsExport");
     }
@@ -534,7 +534,7 @@ public class CustomerSelection extends VerticalLayout {
 
             CsvExportforPagedTable.createWorkSheet(visibleHeaders, visibleColumns, transferCustomerTableLogic, "Transfer Customers");
         } catch (Exception e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
         }
         LOGGER.debug("Exiting transferCustomersExport");
     }
@@ -577,7 +577,7 @@ public class CustomerSelection extends VerticalLayout {
                     CommonUIUtils.getMessageNotification("Search Completed");
                 }
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error("",e);
             }
         }
         LOGGER.debug("Exiting searchBtnLogic");
@@ -596,7 +596,7 @@ public class CustomerSelection extends VerticalLayout {
             LOGGER.debug("End of getUserName method");
            
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
          return userMap;
     }  
@@ -634,7 +634,7 @@ public class CustomerSelection extends VerticalLayout {
                 try {
                     companySearchReset();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage("Reset Confirmation", "Are you sure you want to reset the Company Search?");
@@ -720,7 +720,7 @@ public class CustomerSelection extends VerticalLayout {
                 try {
                     transferTpForm.close();
                 } catch (Exception ex) {
-                     LOGGER.error(ex);
+                     LOGGER.error("",ex);
                 }
             }
         }.getConfirmationMessage("Close confirmation", "Are you sure you want to close out? \n No values will be saved. ");
@@ -792,7 +792,7 @@ public class CustomerSelection extends VerticalLayout {
             removeBtn.setVisible(CommonLogic.isButtonVisibleAccess("transferBtn", functionHM));
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

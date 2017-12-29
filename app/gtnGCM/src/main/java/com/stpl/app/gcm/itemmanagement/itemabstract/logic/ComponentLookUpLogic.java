@@ -12,7 +12,8 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +26,7 @@ public class ComponentLookUpLogic extends PageTableLogic {
     ItemLogic logic = new ItemLogic();
     SelectionDTO selection;
     boolean isGenerated = false;
-    public static final Logger LOGGER = Logger.getLogger(ComponentLookUpLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUpLogic.class);
     public ComponentLookUpLogic() {
         LOGGER.debug("Inside Constructor");
     }

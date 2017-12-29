@@ -19,7 +19,6 @@ import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -207,7 +206,7 @@ public class CommonUtil {
         select.markAsDirty();
         select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : select.getValue()));
 
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.DESCRIPTION, new Object[]{Constant.ACTIVE, Constant.INACTIVE}));
         dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
         List<HelperTable> list = helperListUtil.getDynamicQuery(dynamicQuery);
@@ -245,7 +244,7 @@ public class CommonUtil {
         select.setItemCaption(0, ConstantsUtils.SELECT_ONE);
         select.markAsDirty();
         select.setDescription((String) (select.getValue() == DASH ? ConstantsUtils.SELECT_ONE : select.getItemCaption(select.getValue())));
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.DESCRIPTION, new Object[]{Constant.ACTIVE, Constant.INACTIVE}));
         dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
         List<HelperTable> list = helperListUtil.getDynamicQuery(dynamicQuery);
@@ -687,7 +686,7 @@ public class CommonUtil {
     /**-----------------------------alg-2696--------------------------------------------**/
     public void loadOnDemandCombobox(final ComboBox allocationBasis, final String listName) {
         try {
-            final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+            final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
             dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.LIST_NAME, new Object[]{listName}));
             dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
             List<HelperTable> list = helperListUtil.getDynamicQuery(dynamicQuery);

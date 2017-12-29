@@ -25,7 +25,8 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.customwindow.CustomWindow;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -56,7 +57,7 @@ public class FormulaSearchLookup extends CustomWindow {
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
      public CustomTextField componentTextField;
     private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
-     private static final Logger LOGGER = Logger.getLogger(FormulaSearchLookup.class);
+     private static final Logger LOGGER = LoggerFactory.getLogger(FormulaSearchLookup.class);
     public FormulaSearchLookup(CustomTextField componentTextField) {
         super("Formula Id Lookup");
         setContent(Clara.create(getClass().getResourceAsStream("/discount/formulaIdpopup.xml"), this));
@@ -122,7 +123,7 @@ public class FormulaSearchLookup extends CustomWindow {
                      formulaNo.setValue(StringUtils.EMPTY);
                     formulaName.setValue(StringUtils.EMPTY);
                 } catch (Exception ex) {
-                     LOGGER.error(ex);
+                     LOGGER.error("",ex);
                 }
             }
 

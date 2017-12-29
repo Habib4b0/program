@@ -5,9 +5,9 @@
  */
 package com.stpl.app.adminconsole.util.xmlparser;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +15,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import org.jboss.logging.Logger;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  *
@@ -24,14 +25,12 @@ public class SQlUtil {
 
     private final Map<String, String> QUERY_MAP = new HashMap<>();
     private static SQlUtil sqlUtil = null;
-    private File[] files = null;
     private static final Logger LOGGER = Logger.getLogger(SQlUtil.class);
+
     private SQlUtil() {
         try {
-            URL url = getClass().getResource("/sqlresources/");
-            File file = new File(url.getFile().replace("%20", " "));
-            this.files = file.listFiles();
-            getResources();
+            Enumeration<URL> urls = FrameworkUtil.getBundle(SQlUtil.class).getBundleContext().getBundle().findEntries("/sqlresources", "*", false);
+            getResources(urls);
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -45,17 +44,20 @@ public class SQlUtil {
         return sqlUtil;
     }
 
-    private void getResources() throws JAXBException, IOException {
-        if (files == null) {
+    private void getResources(Enumeration<URL> urls) throws JAXBException, IOException {
+        if (urls == null) {
             return;
         }
 
-        for (int i = 0; i < files.length; i++) {
-            File file = files[i];
-            if (file != null && file.isFile() && file.getCanonicalPath().endsWith(".xml")) {
+        while (urls.hasMoreElements()) {
+            URL tempUrl = urls.nextElement();
+            if (tempUrl.getFile() != null && tempUrl.getFile().contains(".xml")) {
+                Map<String, Object> properties = new HashMap<String, Object>(1);
+//                properties.put("javax.xml.bind.context.factory",
+//                        "org.eclipse.persistence.jaxb.JAXBContextFactory");
                 JAXBContext jaxbContext = JAXBContext.newInstance(Sql.class);
                 Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-                Sql que = (Sql) jaxbUnmarshaller.unmarshal(file);
+                Sql que = (Sql) jaxbUnmarshaller.unmarshal(tempUrl);
                 List<SqlEntity> list = que.getSqlEntity();
                 for (SqlEntity ans : list) {
                     QUERY_MAP.put(ans.getSqlID(), ans.getSqlQuery());
@@ -70,6 +72,10 @@ public class SQlUtil {
     }
 
     public static String getQuery(String sqlId) {
+        return SQlUtil.getContext().getQUERY_MAP().get(sqlId);
+    }
+    
+     public static String getQuery(Class clasName,String sqlId) {
         return SQlUtil.getContext().getQUERY_MAP().get(sqlId);
     }
 

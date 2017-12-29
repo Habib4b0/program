@@ -9,8 +9,8 @@ import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.transfercontract.dto.ContractSearchDTO;
 import com.stpl.app.gcm.transfercontract.logic.ContractSearchLogic;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
-import com.stpl.app.gcm.ui.errorhandling.ErrorLabel;
-import com.stpl.app.gcm.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.Constants.MessageConstants;
@@ -39,7 +39,8 @@ import java.util.Set;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -121,7 +122,7 @@ public class ContractSearchForm extends VerticalLayout {
 
     private final BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<>(ContractSearchDTO.class);
     private final ContractSearchLogic logic = new ContractSearchLogic();
-    public static final Logger LOGGER = Logger.getLogger(ContractSearchLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ContractSearchLogic.class);
     CommonUtil commonUtil=CommonUtil.getInstance();
     /**
      * The binder.
@@ -153,7 +154,7 @@ public class ContractSearchForm extends VerticalLayout {
             commonUtil.loadComboBox(aliasType, UiUtils.CONTRACT_ALIAS_TYPE, false);
             commonUtil.loadComboBox(marketType, UiUtils.CONTRACT_TYPE, false);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -223,7 +224,7 @@ public class ContractSearchForm extends VerticalLayout {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -235,7 +236,7 @@ public class ContractSearchForm extends VerticalLayout {
             resultContainer.removeAllItems();
             resultTable.resetFilters();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -255,9 +256,9 @@ public class ContractSearchForm extends VerticalLayout {
             }
 
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

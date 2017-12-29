@@ -26,7 +26,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -41,7 +42,7 @@ public class RebatePlanLookup extends Window {
     private CustomTextField groupLookup;
     List<String> companySids;
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = org.jboss.logging.Logger.getLogger(TPContractHolderLookUp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TPContractHolderLookUp.class);
     @UiField("resultsTableRPL")
     private ExtFilterTable rebateResultTable;
     @UiField("cancelBtnRPL")
@@ -226,7 +227,7 @@ public class RebatePlanLookup extends Window {
             }
 
         } catch (Exception ex) {
-         LOGGER.error(ex);
+         LOGGER.error("",ex);
         }
         LOGGER.debug("btnSearchLogic ends");
 

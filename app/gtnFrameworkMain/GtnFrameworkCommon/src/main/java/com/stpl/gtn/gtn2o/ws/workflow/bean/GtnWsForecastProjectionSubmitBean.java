@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ws.workflow.bean;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  *
@@ -13,123 +14,144 @@ import java.io.Serializable;
  */
 public class GtnWsForecastProjectionSubmitBean implements Serializable {
 
-	/**
-	 * 
-	 */
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    public GtnWsForecastProjectionSubmitBean() {
+        super();
+    }
 
-	public GtnWsForecastProjectionSubmitBean() {
-		super();
-	}
+    private int projectionId;
 
-	private int projectionId;
+    private String moduleName;
 
-	private String moduleName;
+    private String workflowIdGeneratorXmlPath;
 
-	private String workflowIdGeneratorXmlPath;
+    private String notes;
 
-	private String notes;
+    private String description;
 
-	private String description;
+    private String workflowId;
 
-	private String workflowId;
+    private int noOfApproval;
 
-	private int noOfApproval;
+    private int approvalLevel;
 
-	private int approvalLevel;
+    private long processId;
 
-	private long processId;
+    private String workflowStatus = null;
 
-	private String workflowStatus = null;
+    private String userType = null;
 
-	private String userType = null;
+    private String variableName;
 
-	public int getProjectionId() {
-		return projectionId;
-	}
+    private Map<String, Object> submitWorkflowParam;
 
-	public void setProjectionId(int projectionId) {
-		this.projectionId = projectionId;
-	}
+    public int getProjectionId() {
+        return projectionId;
+    }
 
-	public String getModuleName() {
-		return moduleName;
-	}
+    public void setProjectionId(int projectionId) {
+        this.projectionId = projectionId;
+    }
 
-	public void setModuleName(String moduleName) {
-		this.moduleName = moduleName;
-	}
+    public String getModuleName() {
+        return moduleName;
+    }
 
-	public String getWorkflowIdGeneratorXmlPath() {
-		return workflowIdGeneratorXmlPath;
-	}
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
 
-	public void setWorkflowIdGeneratorXmlPath(String workflowIdGeneratorXmlPath) {
-		this.workflowIdGeneratorXmlPath = workflowIdGeneratorXmlPath;
-	}
+    public String getWorkflowIdGeneratorXmlPath() {
+        return workflowIdGeneratorXmlPath;
+    }
 
-	public String getNotes() {
-		return notes;
-	}
+    public void setWorkflowIdGeneratorXmlPath(String workflowIdGeneratorXmlPath) {
+        this.workflowIdGeneratorXmlPath = workflowIdGeneratorXmlPath;
+    }
 
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
+    public String getNotes() {
+        return notes;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getWorkflowId() {
-		return workflowId;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setWorkflowId(String workflowId) {
-		this.workflowId = workflowId;
-	}
+    public String getWorkflowId() {
+        return workflowId;
+    }
 
-	public int getNoOfApproval() {
-		return noOfApproval;
-	}
+    public void setWorkflowId(String workflowId) {
+        this.workflowId = workflowId;
+    }
 
-	public void setNoOfApproval(int noOfApproval) {
-		this.noOfApproval = noOfApproval;
-	}
+    public int getNoOfApproval() {
+        return noOfApproval;
+    }
 
-	public int getApprovalLevel() {
-		return approvalLevel;
-	}
+    public void setNoOfApproval(int noOfApproval) {
+        this.noOfApproval = noOfApproval;
+    }
 
-	public void setApprovalLevel(int approvalLevel) {
-		this.approvalLevel = approvalLevel;
-	}
+    public int getApprovalLevel() {
+        return approvalLevel;
+    }
 
-	public long getProcessId() {
-		return processId;
-	}
+    public void setApprovalLevel(int approvalLevel) {
+        this.approvalLevel = approvalLevel;
+    }
 
-	public void setProcessId(long processId) {
-		this.processId = processId;
-	}
+    public long getProcessId() {
+        return processId;
+    }
 
-	public String getWorkflowStatus() {
-		return workflowStatus;
-	}
+    public void setProcessId(long processId) {
+        this.processId = processId;
+    }
 
-	public void setWorkflowStatus(String workflowStatus) {
-		this.workflowStatus = workflowStatus;
-	}
+    public String getWorkflowStatus() {
+        return workflowStatus;
+    }
 
-	public String getUserType() {
-		return userType;
-	}
+    public void setWorkflowStatus(String workflowStatus) {
+        this.workflowStatus = workflowStatus;
+    }
 
-	public void setUserType(String userType) {
-		this.userType = userType;
-	}
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getVariableName() {
+        return variableName;
+    }
+
+    public void setVariableName(String variableName) {
+        this.variableName = variableName;
+    }
+
+    public Map<String, Object> getSubmitWorkflowParam() {
+        return submitWorkflowParam;
+    }
+
+    public void setSubmitWorkflowParam(Map<String, Object> submitWorkflowParam) {
+        this.submitWorkflowParam = submitWorkflowParam;
+    }
+    
+
 }

@@ -15,7 +15,8 @@ import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Field;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -23,7 +24,7 @@ import org.jboss.logging.Logger;
  */
 public class CustomerFilterGenerator implements ExtFilterGenerator {
     
-    private static Logger LOGGER = Logger.getLogger(CustomerFilterGenerator.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(CustomerFilterGenerator.class);
     
     CommonUtil commonMsg = CommonUtil.getInstance();
 
@@ -96,7 +97,7 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
 
                     return priceType;
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             } else if ("priceToleranceType".equals(propertyId)) {
                 try {
@@ -106,7 +107,7 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
 
                     return tolerance;
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             } else if ("priceToleranceInterval".equals(propertyId)) {
                 try {
@@ -116,7 +117,7 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
 
                     return toleranceInterval;
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             } else if ("priceToleranceFrequency".equals(propertyId)) {
                 try {
@@ -125,7 +126,7 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
                     frequency.select(0);
                     return frequency;
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             } else if ("contractType".equals(propertyId)) {
                 try {
@@ -134,7 +135,7 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
                     frequency.select(0);
                     return frequency;
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             } else if ("resetType".equals(propertyId) || "resetInterval".equals(propertyId) || "resetFrequency".equals(propertyId)) {
                 try {
@@ -143,7 +144,7 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
                                         "resetInterval".equals(propertyId) ? "PRICE_TOLERANCE_INTERVAL" : "PRICE_TOLERANCE_FREQUENCY", true);
                     return resetType;
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             } else if ("resetEligible".equals(propertyId)) {
                 try {
@@ -152,7 +153,7 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
                     resetEligible.setDebugId("testing");
                     return resetEligible;
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             } else if ("formulaType".equals(propertyId)) {
                 try {
@@ -161,11 +162,11 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
                     frequency.select(0);
                     return frequency;
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             } 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return null;
     }

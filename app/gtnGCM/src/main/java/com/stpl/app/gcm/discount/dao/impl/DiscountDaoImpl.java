@@ -31,7 +31,7 @@ import com.stpl.app.service.PsModelLocalServiceUtil;
 import com.stpl.app.service.RsContractDetailsLocalServiceUtil;
 import com.stpl.app.service.RsContractLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -56,7 +56,7 @@ public class DiscountDaoImpl implements DiscountDAO {
         return list;
     }
 
-    public List<RemoveDiscountDto> getContracts(CustomFieldGroup removeDiscountDto,
+    public List<RemoveDiscountDto> getContracts(ErrorfulFieldGroup removeDiscountDto,
             int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumn) {
         List<RemoveDiscountDto> resultLists;
         String query = queryUtils.getDiscContract(removeDiscountDto, filters, sortByColumn);
@@ -65,7 +65,7 @@ public class DiscountDaoImpl implements DiscountDAO {
         return resultLists;
     }
 
-    public int getContractsCount(CustomFieldGroup removeDiscountDto, Set<Container.Filter> filters) {
+    public int getContractsCount(ErrorfulFieldGroup removeDiscountDto, Set<Container.Filter> filters) {
         String query = queryUtils.getDiscContract(removeDiscountDto, filters, new ArrayList<SortByColumn>());
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
 
@@ -135,13 +135,13 @@ public class DiscountDaoImpl implements DiscountDAO {
         return resultLists;
     }
 
-    public List getSearchValues(CustomFieldGroup discountChBinder, int start, int offset, String moduleName, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) {
+    public List getSearchValues(ErrorfulFieldGroup discountChBinder, int start, int offset, String moduleName, Set<Container.Filter> filters, List<SortByColumn> sortByColumns) {
         String query = queryUtils.getSearchValues(discountChBinder, moduleName, start, offset, filters, sortByColumns);
         List resultLists = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists;
     }
 
-    public int getSearchCount(CustomFieldGroup discountChBinder, String moduleName, Set<Container.Filter> filters) {
+    public int getSearchCount(ErrorfulFieldGroup discountChBinder, String moduleName, Set<Container.Filter> filters) {
         String query = queryUtils.getSearchValuesCount(discountChBinder, moduleName, filters);
         List resultLists = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return resultLists.size();

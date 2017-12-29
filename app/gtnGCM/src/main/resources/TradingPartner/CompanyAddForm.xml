@@ -3,7 +3,7 @@
 To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
-<Panel  xmlns:p="urn:import:com.stpl.app.gcm.ui.errorhandling" xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+<Panel  xmlns:p="urn:import:com.stpl.app.ui.errorhandling" xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
     <VerticalLayout id="parentVerticalLayout" spacing="true" margin="true" immediate="true">
         <p:ErrorLabel id="errorMsg"/>
         <Panel caption="Company Information:" spacing="true" margin="true" immediate="true">

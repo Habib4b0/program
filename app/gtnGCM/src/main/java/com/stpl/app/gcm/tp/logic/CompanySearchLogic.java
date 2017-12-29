@@ -35,6 +35,8 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -50,7 +52,7 @@ public class CompanySearchLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanySearchLogic.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(CompanySearchLogic.class);
 
     public int companySearchCount(TradingPartnerDTO tpDto, String parentCompanyNo,String parentCompanyName, Set<Container.Filter> filters, String recordLockStatus, String searchSessionId) throws SystemException {
         Map<String, Object> parameters = new HashMap<>();
@@ -276,7 +278,7 @@ public class CompanySearchLogic {
                 }
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }
@@ -311,7 +313,7 @@ public class CompanySearchLogic {
                 }
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }
@@ -335,7 +337,7 @@ public class CompanySearchLogic {
         String query = "Select Count(COMPANY_MASTER_SID) from GCM_COMPANY_DETAILS where CHECK_RECORD = '1' AND SESSION_ID = '" + searchSessionId + "'";
         count = (Integer) HelperTableLocalServiceUtil.executeSelectQuery(query).get(0);
         }catch(Exception e){
-           LOGGER.error(e);
+           LOGGER.error("",e);
         }
         return count;
     }
@@ -532,7 +534,7 @@ public class CompanySearchLogic {
         try {
             count = Integer.valueOf(String.valueOf(tpDao.getLinkedCustomersCheckedRecordCount(linkedCustomersSessionId).get(0)));
         } catch (Exception e) {
-          LOGGER.error(e);
+          LOGGER.error("",e);
         }
         return count > 0;
     }

@@ -12,12 +12,11 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.gcm.transfercontract.dto.ContractSearchDTO;
 import com.stpl.app.gcm.transfercontract.util.CommonUtil;
 import com.stpl.app.gcm.transfercontract.util.Constant;
-import com.stpl.app.gcm.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -28,7 +27,8 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -36,7 +36,7 @@ import org.jboss.logging.Logger;
  */
 public class ContractSearchLogic {
 
-    public static final Logger LOGGER = Logger.getLogger(ContractSearchLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ContractSearchLogic.class);
     QueryUtils queryUtils = new QueryUtils();
 
     public List<ContractSearchDTO> getPlaceHolderContractData(ContractSearchDTO binderDTO, int start, int offset, List<SortByColumn> sortByColumns) {

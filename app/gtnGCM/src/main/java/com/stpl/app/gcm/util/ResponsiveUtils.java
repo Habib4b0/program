@@ -26,7 +26,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -34,7 +35,7 @@ import org.jboss.logging.Logger;
  */
 public class ResponsiveUtils {
 
-    private final static Logger LOGGER = Logger.getLogger(ResponsiveUtils.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
     public static final String PREV_NEXT_LAYOUT = "prev-next-layout";
     public static final String NEXTCOLUMN_BUTTON = "next-column-button";
     public static final String PREVCOLUMN_BUTTON = "prev-column-button";
@@ -98,7 +99,7 @@ public class ResponsiveUtils {
                 layout.addComponent(fieldComponent);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 

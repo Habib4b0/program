@@ -38,7 +38,7 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.DISABLE;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.gcm.util.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -78,7 +78,8 @@ import java.util.Map;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -177,7 +178,7 @@ public class AddContractSelection extends CustomComponent {
     protected TextField baseWacManual;
      @UiField("baseWacDate")
     public PopupDateField baseWacDate;
-    public static final Logger LOGGER = Logger.getLogger(AddContractSelection.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AddContractSelection.class);
     AddItemDetailsTableLogic addItemTableLogic = new AddItemDetailsTableLogic();
     public static final String PRICE_TOLERANCE_FREQUENCY_LABEL = "Price ToleranceFrequency";
     public ExtPagedTable addItemTable = new ExtPagedTable(addItemTableLogic);
@@ -210,7 +211,7 @@ public class AddContractSelection extends CustomComponent {
     AbstractLogic logic = AbstractLogic.getInstance();
     AddItemTableDTO binderDto = new AddItemTableDTO();
     public static final String CONFIRMATION_HEADER = "Confirmation";
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection;
     BeanItemContainer<AbstractContractSearchDTO> itemContractContainer = new BeanItemContainer<>(AbstractContractSearchDTO.class);
     AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
@@ -611,7 +612,7 @@ public class AddContractSelection extends CustomComponent {
                     binder.setItemDataSource(new BeanItem<>(new AddItemTableDTO()));
                     binder.commit();
                 } catch (FieldGroup.CommitException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 
@@ -663,7 +664,7 @@ public class AddContractSelection extends CustomComponent {
                         }
                         isSubmit = true;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
 
@@ -1107,7 +1108,7 @@ public class AddContractSelection extends CustomComponent {
 
             UI.getCurrent().addWindow(rs);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -1135,9 +1136,9 @@ public class AddContractSelection extends CustomComponent {
     /**
      * get Binder
      *
-     * @return CustomFieldGroup
+     * @return ErrorfulFieldGroup
      */
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
@@ -1772,7 +1773,7 @@ public class AddContractSelection extends CustomComponent {
             resetBtncur.setVisible(CommonLogic.isButtonVisibleAccess("resetBtncur", functionHM));
             submitBtncur.setVisible(CommonLogic.isButtonVisibleAccess("submitBtncur", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
     public void loadValueddlbField() {

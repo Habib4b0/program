@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<VerticalLayout  spacing="true" xmlns:el="urn:import:com.stpl.app.ui.errorhandling" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" >
+<VerticalLayout  spacing="true" xmlns:el="urn:import:com.stpl.app.ui.errorhandling" xmlns:p="urn:vaadin:parent" >
     <el:ErrorLabel id="errorMsg" />      
     <VerticalLayout  id = "deductioncalendar" >
         <Panel id="panel" caption="Deduction Calendar Information" >

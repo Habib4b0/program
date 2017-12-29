@@ -44,7 +44,5 @@ public class CustomFieldGroup extends FieldGroup {
             throw e;
         }
     }
-
-	
     
 }

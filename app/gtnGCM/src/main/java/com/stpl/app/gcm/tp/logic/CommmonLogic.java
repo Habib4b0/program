@@ -30,9 +30,7 @@ import com.stpl.app.gcm.util.ErrorCodeUtil;
 import com.stpl.app.gcm.util.ErrorCodes;
 import com.stpl.app.model.CompanyIdentifier;
 import com.stpl.app.model.CompanyMaster;
-import com.stpl.app.model.CompanyQualifier;
 import com.stpl.app.model.CompanyTradeClass;
-import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.CompanyIdentifierLocalServiceUtil;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.CompanyQualifierLocalServiceUtil;
@@ -41,7 +39,6 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -66,7 +63,8 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -78,7 +76,7 @@ public class CommmonLogic {
     static HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     static HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
-    public static final Logger LOGGER = Logger.getLogger(CommmonLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CommmonLogic.class);
     public static final String FILTERCFP_NAME = "filter~cfpName";
     public static final String FILTERIFP_NAME = "filter~ifpName";
     public static final String FILTERCFP_NO = "filter~cfpNo";
@@ -113,7 +111,7 @@ public class CommmonLogic {
             }
 
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }
@@ -1866,7 +1864,7 @@ public class CommmonLogic {
                     dto.setTpstatus(String.valueOf(obj[NumericConstants.FORTY_TWO]));
                     resultList.add(dto);
                 } catch (ParseException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }
@@ -1912,7 +1910,7 @@ public class CommmonLogic {
             }
 
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
         return resultList;
@@ -1975,7 +1973,7 @@ public class CommmonLogic {
             saveCompanyTradeClass(companyTradeList, result);
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
 
         return company;
@@ -2066,7 +2064,7 @@ public class CommmonLogic {
             }
 
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
 
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);

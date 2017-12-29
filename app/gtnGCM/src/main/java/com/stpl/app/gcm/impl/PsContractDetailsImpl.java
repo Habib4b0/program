@@ -8,7 +8,8 @@ package com.stpl.app.gcm.impl;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -16,7 +17,7 @@ import org.jboss.logging.Logger;
  */
 public class PsContractDetailsImpl {
       
-     private static final Logger LOGGER = Logger.getLogger(PsContractDetailsImpl.class);
+     private static final Logger LOGGER = LoggerFactory.getLogger(PsContractDetailsImpl.class);
     /**
      * Save the CFP Details to CFP Details Attached
      * 

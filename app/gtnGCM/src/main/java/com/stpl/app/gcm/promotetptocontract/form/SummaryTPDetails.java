@@ -36,7 +36,8 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -67,7 +68,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(TransferComponents.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransferComponents.class);
     /**
      * The Constant serialVersionUID.
      */
@@ -115,7 +116,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
             configureFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -245,7 +246,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
                 createWorkSheet("Current Customer Details", currentTradingPartnerTable, recordCount);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         } finally {
             contractExcelFlag = false;
         }
@@ -260,7 +261,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
                 createWorkSheet("Transfer Customer Details", transferTradingPartnerTable, recordCount);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         } finally {
             infoExcelFlag = false;
         }
@@ -306,7 +307,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
                         }
                         selecteditemList.clear();
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }.getConfirmationMessage("Remove Confirmation", "Are you sure you want to remove the selected Contract from the Promote COMPANY process? It will be removed and added back to the Available List of Contracts in the Current Contract Selection screen.");
@@ -338,7 +339,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
                         }
                         selItemList.clear();
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }.getConfirmationMessage("Remove Confirmation", "Are you sure you want to remove the selected Contract from the Promote COMPANY process? It will be removed and added back to the Available List of Contracts in the Transfer Contract Selection screen.");
@@ -372,7 +373,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -382,7 +383,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
             transferRemove.setVisible(CommonLogic.isButtonVisibleAccess("transferRemove", functionHM));
             currentRemove.setVisible(CommonLogic.isButtonVisibleAccess("currentRemove", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

@@ -20,7 +20,8 @@ import com.vaadin.v7.ui.themes.Reindeer;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -34,7 +35,7 @@ public class AddItemDetailsTableLogic extends PageTableLogic {
     boolean isGenerated = false;
     boolean isSummary = false;
     List<ItemIndexDto> selectedItemList;
-    public static final Logger LOGGER = Logger.getLogger(AddItemDetailsTableLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AddItemDetailsTableLogic.class);
     /**
      * Record count method
      *

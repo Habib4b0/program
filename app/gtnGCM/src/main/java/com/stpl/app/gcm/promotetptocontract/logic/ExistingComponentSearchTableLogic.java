@@ -28,7 +28,7 @@ public class ExistingComponentSearchTableLogic extends PageTableLogic {
             try {
                 return logic.getRebateScheduleCount(newDiscountTabDto);
             } catch (Exception ex) {
-               LOGGER.error(ex);
+               LOGGER.error("",ex);
             }
         }
         return 0;
@@ -42,7 +42,7 @@ public class ExistingComponentSearchTableLogic extends PageTableLogic {
         try {
             resultList = logic.getRebateSchedule(newDiscountTabDto);
         } catch (Exception ex) {
-           LOGGER.error(ex);
+           LOGGER.error("",ex);
         }
         return resultList;
     }

@@ -10,7 +10,8 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -18,7 +19,7 @@ import org.jboss.logging.Logger;
  */
 public class CfpContractDetailsImpl {
     
-    private static final Logger LOGGER = Logger.getLogger(CfpContractDetailsImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CfpContractDetailsImpl.class);
 
     /**
      * Save the CFP Details to CFP Details Attached

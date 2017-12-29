@@ -13,8 +13,8 @@ import org.osgi.service.component.annotations.ServiceScope;
 
 @SuppressWarnings("serial")
 // @PreserveOnRefresh
-@Theme("mytheme")
-@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Theme("stpl")
+@Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet") 
 @Component(service = UI.class, property = {
         "com.liferay.portlet.display-category=Security",
         "javax.portlet.name=UserGroupBusinessRoleMaster",
