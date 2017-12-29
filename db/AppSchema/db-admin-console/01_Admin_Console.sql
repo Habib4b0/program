@@ -3,7 +3,8 @@ IF NOT EXISTS ( SELECT 'X'
                WHERE  TABLE_NAME = 'COMPANY_GROUP'
                       AND TABLE_SCHEMA = 'DBO')
   BEGIN
-      CREATE TABLE [DBO].[COMPANY_GROUP]
+  
+      CREATE TABLE [dbo].[COMPANY_GROUP]
         (
            [COMPANY_GROUP_SID]         INT IDENTITY(1, 1) NOT NULL,
            [COMPANY_GROUP_NO]          VARCHAR(50) NULL,
