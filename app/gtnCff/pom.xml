@@ -202,7 +202,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.vaadin.addons</groupId>
+            <groupId>com.stpl.addons</groupId>
             <artifactId>lazy-container</artifactId>
             <version>${lazy.container.version}</version>
             <scope>provided</scope>
@@ -527,6 +527,18 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>biz.aQute.bnd</groupId>
+                <artifactId>bnd-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>bnd-process</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             
             
