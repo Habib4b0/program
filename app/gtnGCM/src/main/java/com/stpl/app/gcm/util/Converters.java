@@ -28,16 +28,11 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Converters {
 
-    SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
-
     /**
      * Set the Values to respective fields for Company Search
      *
      * @param resultList
      * @return
-     * @throws ParseException
-     * @throws PortalException
-     * @throws SystemException
      */
     public static List<PromoteTpToChDto> searchTPCompany(List resultList) {
         List<PromoteTpToChDto> promoteTpToChList = new ArrayList<>();

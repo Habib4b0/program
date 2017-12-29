@@ -64,22 +64,22 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class RebateTab extends VerticalLayout {
 
     @UiField("tradingPartnerSalesTableLayout")
-    VerticalLayout tradingPartnerSalesTableLayout;
+    private VerticalLayout tradingPartnerSalesTableLayout;
     @UiField("excelBtn")
     public Button excelBtn;
     @UiField("frequency")
     public ComboBox frequency;
     @UiField("history")
     public ComboBox history;
-    CustomTableHeaderDTO tableHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO tableHeader = new CustomTableHeaderDTO();
     final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     /**
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = Logger.getLogger(RebateTab.class);
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightDTO;
-    CustomTableHeaderDTO leftDTO;
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightDTO;
+    private CustomTableHeaderDTO leftDTO;
     public static final String FOUR_QUARTERS = "4 Quarters";
     public static final String QUARTERLY1 = "Quarterly";
     private ExtTreeContainer<RebateTabDTO> resultBean = new ExtTreeContainer<>(RebateTabDTO.class,ExtContainer.DataStructureMode.MAP);
@@ -91,10 +91,10 @@ public class RebateTab extends VerticalLayout {
      * The map right visible columns.
      */
     private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
-    ExtFilterTreeTable leftTable;
-    ExtFilterTreeTable rightTable;
-    RebateTabTableLogic tableLogic = new RebateTabTableLogic();
-    FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
+    private ExtFilterTreeTable leftTable;
+    private ExtFilterTreeTable rightTable;
+    private final RebateTabTableLogic tableLogic = new RebateTabTableLogic();
+    private FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     /*
      * The max split position.
@@ -114,9 +114,9 @@ public class RebateTab extends VerticalLayout {
     private ExtCustomTreeTable exportPeriodViewTable;
     private ExtTreeContainer<RebateTabDTO> excelResultBean = new ExtTreeContainer<>(RebateTabDTO.class,ExtContainer.DataStructureMode.MAP);
     LoadTabLogic tabLogic = new LoadTabLogic();
-    boolean load = false;
+    public boolean load = false;
     SessionDTO session;
-    int projectionId = 0;
+    private int projectionId = 0;
 
     public RebateTab(SessionDTO session, boolean isLoad) {
         this.load = isLoad;

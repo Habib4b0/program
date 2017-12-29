@@ -38,7 +38,7 @@ public class ContractHolderLookUp extends Window {
     @UiField("chType")
     public ComboBox chType;
 
-    RebateTableLogic tableLogic = new RebateTableLogic();
+    private final RebateTableLogic tableLogic = new RebateTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private final BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private final BeanItemContainer<String> chStatusBean = new BeanItemContainer<>(String.class);

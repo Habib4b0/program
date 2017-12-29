@@ -77,22 +77,21 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
     @UiField("transferRemove")
     public Button transferRemove;
 
-    SessionDTO session;
-    transient ContractSelectionLogic logic = new ContractSelectionLogic();
-    transient CommmonLogic commonLogic = new CommmonLogic();
+    private final SessionDTO session;
+    private final transient ContractSelectionLogic logic = new ContractSelectionLogic();
+    private final transient CommmonLogic commonLogic = new CommmonLogic();
     public ExtPagedFilterTable currentTradingPartnerDetailsTable = new ExtPagedFilterTable();
     public ExtPagedFilterTable transferTradingPartnerDetailsTable = new ExtPagedFilterTable();
 
-    TransferTPForm transferTpForm;
-    final transient  StplSecurity stplSecurity = new StplSecurity();
-    transient Map<String, AppPermission>  functionHM = new HashMap<>();
+    private final TransferTPForm transferTpForm;
+    private final transient StplSecurity stplSecurity = new StplSecurity();
 
     private final BeanItemContainer<ContractResultDTO> currentTPDetailsContainer;
     private final BeanItemContainer<ContractResultDTO> transferTPDetailsContainer;
-    boolean currentContractRefresh;
-    boolean transferContractRefresh;
-    boolean currentCheckValue = false;
-    boolean transferCheckValue = false;
+    private boolean currentContractRefresh;
+    private boolean transferContractRefresh;
+    private boolean currentCheckValue = false;
+    private boolean transferCheckValue = false;
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private boolean csvTransferFlag = false;
 

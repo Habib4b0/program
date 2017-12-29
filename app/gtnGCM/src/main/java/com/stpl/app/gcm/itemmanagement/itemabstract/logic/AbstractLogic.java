@@ -833,9 +833,6 @@ public class AbstractLogic {
             case NumericConstants.FORTY_SIX:
                  input.add(compDTO.getMeasurementPrice() != 0 ? compDTO.getMeasurementPrice() : null);
                 break;
-                
-            
-            
             case NumericConstants.FORTY_SEVEN:
                 input.add(compDTO.getBaseLineWacManual()!= null && !compDTO.getBaseLineWacManual().isEmpty() ? compDTO.getBaseLineWacManual() : null);
                 break;
@@ -847,12 +844,8 @@ public class AbstractLogic {
             case NumericConstants.FORTY_NINE:
                 input.add(compDTO.getBaseLineWacPriceType()!= 0 ? compDTO.getBaseLineWacPriceType() : null);
                 break;
-                
-                
-                
-                
-                
-                
+            default:
+                break;
         }
 
         if (!selection.isIsContractUpdate()) { // Condition check for identification of - For check record =1 update values
@@ -1033,8 +1026,6 @@ public class AbstractLogic {
             case NumericConstants.FORTY_SIX:
                 input.add(dto.getMeasurementPrice() != null ? dto.getMeasurementPrice().getId() : null);
                 break;
-
-      
             case NumericConstants.FORTY_SEVEN:
                 input.add(dto.getBaseLineWacManual() != null && !dto.getBaseLineWacManual().isEmpty() ? dto.getBaseLineWacManual() : null);
                 break;
@@ -1042,9 +1033,10 @@ public class AbstractLogic {
             case NumericConstants.FORTY_EIGHT:
                 input.add(dto.getBaseLineWacDate() != null ? setQuotes(CommonUtils.DBDate.format(dto.getBaseLineWacDate())) : null);
                 break;
-
             case NumericConstants.FORTY_NINE:
                 input.add(dto.getBaseLineWacPriceType() != 0 ? dto.getBaseLineWacPriceType() : null);
+                break;
+            default:
                 break;
         }
 

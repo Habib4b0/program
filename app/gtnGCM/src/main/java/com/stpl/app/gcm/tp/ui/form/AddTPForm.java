@@ -28,7 +28,7 @@ public class AddTPForm extends CustomWindow {
 
     SummaryTab summary;
     TabSheet tabSheet = new TabSheet();
-    int tabPosition;
+    private int tabPosition;
     SessionDTO session;
     UpdatedContractSelection updatedContractSelection;
 

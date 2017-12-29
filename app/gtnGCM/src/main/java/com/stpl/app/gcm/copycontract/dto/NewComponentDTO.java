@@ -89,8 +89,8 @@ public class NewComponentDTO implements Serializable {
     private String rebatePlanName = StringUtils.EMPTY;
     private String rebateAmount = StringUtils.EMPTY;
     private String bundleNo = StringUtils.EMPTY;
-    int start;
-    int offset;
+    private int start;
+    private int offset;
 
     public String getFormulaType() {
         return formulaType;

@@ -8,8 +8,6 @@ package com.stpl.app.gcm.common;
 import com.stpl.app.gcm.common.dao.CommonDao;
 import com.stpl.app.gcm.common.dao.impl.CommonImpl;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
-import com.stpl.app.serviceUtils.ConstantsUtils;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -24,7 +22,6 @@ public class AppDataUtils {
 
     private static final Logger LOGGER = Logger.getLogger(ItemQueries.class);
     final static CommonDao ITEMDAO = CommonImpl.getInstance();
-    final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 
     public static List getGroupList() {
         return new ArrayList();

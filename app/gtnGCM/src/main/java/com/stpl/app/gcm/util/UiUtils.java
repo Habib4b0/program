@@ -5,9 +5,6 @@
 package com.stpl.app.gcm.util;
 
 import java.util.ResourceBundle;
-
-import org.jboss.logging.Logger;
-
 import com.vaadin.ui.AbstractOrderedLayout;
 
 /**
@@ -16,7 +13,6 @@ import com.vaadin.ui.AbstractOrderedLayout;
  */
 public class UiUtils {
 
-	private static final Logger LOGGER = Logger.getLogger(UiUtils.class);
 	private static ResourceBundle resourceBundle;
 	public static final String COMPANY_CATEGORY = "COMPANY_CATEGORY";
 	public static final String COMPANY_TYPE = "COMPANY_TYPE";
@@ -103,22 +99,9 @@ public class UiUtils {
 
 	public static AbstractOrderedLayout getLayout(AbstractOrderedLayout layout) {
 		resourceBundle = ResourceBundle.getBundle("configurations/default");
-		// AbstractOrderedLayout layout = null;
-		// try {
-		// layout = (AbstractOrderedLayout)
-		// Class.forName(theClass.getName()).newInstance();
-
 		layout.setMargin(Boolean.valueOf(resourceBundle.getString("layout_margin")));
 		layout.setSpacing(Boolean.valueOf(resourceBundle.getString("layout_spacing")));
 		return layout;
-		// } catch (InstantiationException ex) {
-		// LOGGER.error(ex);
-		// } catch (IllegalAccessException ex) {
-		// LOGGER.error(ex);
-		// } catch (ClassNotFoundException ex) {
-		// LOGGER.error(ex);
-		// }
-		// return layout;
 	}
 
 	private static UiUtils object;

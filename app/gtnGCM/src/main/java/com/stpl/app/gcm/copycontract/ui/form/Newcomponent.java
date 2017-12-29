@@ -141,16 +141,16 @@ public class Newcomponent extends CustomComponent {
     public ExtFilterTable componentDetailsSelectedItem;
     @UiField("levelDetailsResultsTable1")
     public ExtFilterTable levelDetailsResultsTable;
-    TreeTable dashboardResultsTable;
+    private final TreeTable dashboardResultsTable;
     @UiField("componentSelectionGrid")
     public GridLayout componentSelectionGrid;
-    CopyContractLogic CopyContractLogic = new CopyContractLogic();
+    private final CopyContractLogic CopyContractLogic = new CopyContractLogic();
     private final BeanItemContainer<NewComponentDTO> componentSearchContainer = new BeanItemContainer<>(NewComponentDTO.class);
     private final BeanItemContainer<NewComponentDTO> componentResultsContainer = new BeanItemContainer<>(NewComponentDTO.class);
-    ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
+    private final ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
     private final BeanItemContainer<NewComponentDTO> contractInfoContainer = new BeanItemContainer<>(NewComponentDTO.class);
-    QueryUtils queryUtils = new QueryUtils();
-    DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    private final QueryUtils queryUtils = new QueryUtils();
+    private final DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     @UiField("dashboardid")
     public VerticalLayout dashboardLayout;
     /* Component Layout */

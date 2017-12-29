@@ -73,7 +73,7 @@ public class IfpLookUp extends Window {
     private BeanItemContainer<String> ifpStatusBean = new BeanItemContainer<>(String.class);
     private CustomFieldGroup binder;
     private CustomTextField parentIfpName;
-    boolean flag;
+    private boolean flag;
     CommonUtil commonUtil = CommonUtil.getInstance();
 
     public IfpLookUp(CustomTextField parentIfpName, boolean flag) {

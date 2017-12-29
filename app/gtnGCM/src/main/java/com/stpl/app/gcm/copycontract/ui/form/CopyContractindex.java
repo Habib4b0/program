@@ -13,7 +13,6 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentLookUpDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.ComponentLookUp;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.security.StplSecurity;
-import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.transfercontract.dto.ContractSearchDTO;
 import com.stpl.app.gcm.transfercontract.logic.ContractSearchLogic;
 import com.stpl.app.gcm.transfercontract.util.Constant;
@@ -66,7 +65,6 @@ import org.vaadin.teemu.clara.Clara;
  */
 public class CopyContractindex extends VerticalLayout {
 
-    SessionDTO session;
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CopyContractindex.class);
     private final BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<>(ContractSearchDTO.class);
     @UiField("copycontractTableLayout")
@@ -107,13 +105,13 @@ public class CopyContractindex extends VerticalLayout {
     public PopupDateField aliasEndDate;
     private final ContractSearchLogic logic = new ContractSearchLogic();
     private final ErrorfulFieldGroup binder;
-    TextField hiddenId = new TextField();
-    CommonUtil commonUtils = CommonUtil.getInstance();
-    ContractSearchTableLogic tablelogic = new ContractSearchTableLogic();
+    private final TextField hiddenId = new TextField();
+    private final CommonUtil commonUtils = CommonUtil.getInstance();
+    private final ContractSearchTableLogic tablelogic = new ContractSearchTableLogic();
     public ExtPagedTable copycontractResultsTable = new ExtPagedTable(tablelogic);
     final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
-    ContractSearchDTO binderDTO;
-    List<ContractSearchDTO> selectionList = new ArrayList<>();
+    private ContractSearchDTO binderDTO;
+    private final List<ContractSearchDTO> selectionList = new ArrayList<>();
     public CopyContractindex() throws SystemException {
         addComponent(Clara.create(getClass().getResourceAsStream("/CopyContract.xml"), this));
         configuretable();

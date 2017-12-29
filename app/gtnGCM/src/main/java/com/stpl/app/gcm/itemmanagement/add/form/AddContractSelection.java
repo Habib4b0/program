@@ -1539,6 +1539,8 @@ public class AddContractSelection extends CustomComponent {
                         columnName = Constants.NET_PRICE_TYPE_FORMULA_COLUMN_NAME;
                         value = textValue;
                         break;
+                    default:
+                        break;
                 }
             }
         }
@@ -1849,6 +1851,8 @@ public class AddContractSelection extends CustomComponent {
             case Constants.RESET_DATE_LABLE_NAME:
                 startDateVisibility();
                 startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.RESET_DATE.getConstant());
+                break;
+            default:
                 break;
         }
     }

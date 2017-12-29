@@ -71,7 +71,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -94,11 +93,11 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class ContractProcessingDashboard extends CustomTPDetailsLayout {
 
     @UiField("componentDetailsTableLayout")
-    VerticalLayout componentDetailsTableLayout;
+    private VerticalLayout componentDetailsTableLayout;
     @UiField("addTradingPartnerTableLayout")
-    VerticalLayout addTradingPartnerTableLayout;
+    private VerticalLayout addTradingPartnerTableLayout;
     @UiField("contractDashboardTableLayout")
-    VerticalLayout contractDashboardTableLayout;
+    private VerticalLayout contractDashboardTableLayout;
 
     @UiField("cNumber")
     private TextField cNumber;
@@ -174,13 +173,12 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private Button remove;
     public ExtFilterTable addTradingPartnerTable = new ExtFilterTable();
     public TreeTable contractDashboardTable = new TreeTable();
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private final StplSecurity stplSecurity = new StplSecurity();
 
     final private BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
     private BeanItemContainer<ContractResultDTO> selectedContractContainer = new BeanItemContainer<>(ContractResultDTO.class);
     private ExtTreeContainer<ContractsDetailsDto> contractDashboardContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
-    boolean contractRefresh;
+    private boolean contractRefresh;
 
     public List parentList = new ArrayList();
     /**
