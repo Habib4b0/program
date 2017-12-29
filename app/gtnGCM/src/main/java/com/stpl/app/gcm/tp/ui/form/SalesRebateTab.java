@@ -21,7 +21,7 @@ public class SalesRebateTab extends VerticalLayout {
     private VerticalLayout tradingPartnerSalesTableLayout;
     @UiField("tradingPartnerRebatesTableLayout")
     private VerticalLayout tradingPartnerRebatesTableLayout;
-    SessionDTO session;
+    private SessionDTO session;
     private final boolean isLoad;
     /**
      * The Constant LOGGER.

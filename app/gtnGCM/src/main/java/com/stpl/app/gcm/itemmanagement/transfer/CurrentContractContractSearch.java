@@ -55,9 +55,9 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
 
     @UiField("exportLayout")
     protected HorizontalLayout exportLayout;
-    SelectionDTO selectionDto;
-    Object valueChange;
-    Label Label = new Label("Transfer Sales Projection :");
+    private SelectionDTO selectionDto;
+    private Object valueChange;
+    private Label Label = new Label("Transfer Sales Projection :");
     public OptionGroup transferSales = new OptionGroup();
     CheckBox removeProjection = new CheckBox("Remove Projection Details");
     private Object[] visibleColumn = {ConstantsUtil.CHECK_RECORD, Constants.PROJ_ID_LINK, Constants.WORKFLOW_STATUS, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, 

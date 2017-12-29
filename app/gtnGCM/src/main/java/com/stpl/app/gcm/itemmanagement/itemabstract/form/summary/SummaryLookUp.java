@@ -35,15 +35,15 @@ import org.jboss.logging.Logger;
  */
 public class SummaryLookUp extends CustomComponent {
 
-    SelectionDTO selection;
-    TabSheet mainTab = new TabSheet();
-    int tabPosition = 0;
-    List<Integer> tabList = new ArrayList<>();
-    Summary sales;
-    List<ItemIndexDto> itemList;
-    Summary rebate;
-    SalesAndRebates salesAndRebate;
-    AbstractItemDetails itemDetails;
+    private SelectionDTO selection;
+    private final TabSheet mainTab = new TabSheet();
+    private int tabPosition = 0;
+    private final List<Integer> tabList = new ArrayList<>();
+    private Summary sales;
+    private List<ItemIndexDto> itemList;
+    private Summary rebate;
+    private SalesAndRebates salesAndRebate;
+    private AbstractItemDetails itemDetails;
     /**
      * The Constant LOGGER.
      */

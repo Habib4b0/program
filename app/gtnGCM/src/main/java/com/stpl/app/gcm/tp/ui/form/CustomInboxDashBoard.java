@@ -33,7 +33,7 @@ public class CustomInboxDashBoard extends InboxDashBoard {
 
     private String projectionId = StringUtils.EMPTY;
     public Button closeBtn = new Button(" CLOSE ");
-    WorkFlowLookup workFlowLookup = null;
+    private WorkFlowLookup workFlowLookup = null;
     private final WorkflowLogic searchLogic = new WorkflowLogic();
     private List<InboxDashboardDTO> inboxSearchResults = new ArrayList<>();
     private static final Logger LOGGER = Logger.getLogger(CustomInboxDashBoard.class);

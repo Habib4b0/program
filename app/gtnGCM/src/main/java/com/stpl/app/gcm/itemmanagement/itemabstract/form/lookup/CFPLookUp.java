@@ -74,7 +74,7 @@ private static final Logger LOGGER = Logger.getLogger(CFPLookUp.class);
     @UiField("closeBtn")
     public Button closeButton;
     @UiField("endDate")
-    PopupDateField endDate;
+    private PopupDateField endDate;
     private final AbstractLookUpTableLogic tableLogic = new AbstractLookUpTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private final BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);

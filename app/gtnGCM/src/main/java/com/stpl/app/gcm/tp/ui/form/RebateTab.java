@@ -113,9 +113,9 @@ public class RebateTab extends VerticalLayout {
     public TabSelectionDTO selectionDTO = new TabSelectionDTO();
     private ExtCustomTreeTable exportPeriodViewTable;
     private ExtTreeContainer<RebateTabDTO> excelResultBean = new ExtTreeContainer<>(RebateTabDTO.class,ExtContainer.DataStructureMode.MAP);
-    LoadTabLogic tabLogic = new LoadTabLogic();
+    private final LoadTabLogic tabLogic = new LoadTabLogic();
     public boolean load = false;
-    SessionDTO session;
+    public final SessionDTO session;
     private int projectionId = 0;
 
     public RebateTab(SessionDTO session, boolean isLoad) {

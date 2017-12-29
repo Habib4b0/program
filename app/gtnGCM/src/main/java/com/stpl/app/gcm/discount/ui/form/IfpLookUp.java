@@ -67,14 +67,14 @@ public class IfpLookUp extends Window {
     public PopupDateField ifpStartDate;
     @UiField("ifpEndDate")
     public PopupDateField ifpEndDate;
-    LookUpTableLogic tableLogic = new LookUpTableLogic();
+    private LookUpTableLogic tableLogic = new LookUpTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private BeanItemContainer<String> ifpStatusBean = new BeanItemContainer<>(String.class);
     private CustomFieldGroup binder;
     private CustomTextField parentIfpName;
     private boolean flag;
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    private CommonUtil commonUtil = CommonUtil.getInstance();
 
     public IfpLookUp(CustomTextField parentIfpName, boolean flag) {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/ifp.xml"), this));

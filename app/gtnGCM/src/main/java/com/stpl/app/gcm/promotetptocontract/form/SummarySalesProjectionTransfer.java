@@ -56,8 +56,8 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = Logger.getLogger(SummarySalesProjectionTransfer.class);
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightDTO;
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightDTO;
     private final ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The map left visible columns.
@@ -67,16 +67,16 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
      * The map right visible columns.
      */
     private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
-    ExtFilterTreeTable leftTable;
-    ExtFilterTreeTable rightTable;
-    SalesTabTableLogic tableLogic = new SalesTabTableLogic();
-    FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
+    private ExtFilterTreeTable leftTable;
+    private ExtFilterTreeTable rightTable;
+    private final SalesTabTableLogic tableLogic = new SalesTabTableLogic();
+    private final FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
     public TabSelectionDTO selectionDTO = new TabSelectionDTO();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    SessionDTO session;
+    private final SessionDTO session;
     private ExtCustomTreeTable exportPeriodViewTable;
-    private ExtTreeContainer<SalesTabDTO> excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
-    LoadTabLogic tabLogic = new LoadTabLogic();
+    private ExtTreeContainer<SalesTabDTO> excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class, ExtContainer.DataStructureMode.MAP);
+    private final LoadTabLogic tabLogic = new LoadTabLogic();
 
     /**
      * The max split position.
@@ -90,7 +90,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
      * The split position.
      */
     private final float splitPosition = 300;
-    ExtFilterTable resultTable;
+    public ExtFilterTable resultTable;
 
     public SummarySalesProjectionTransfer(ExtFilterTable resultTable, SessionDTO session) {
         this.resultTable = resultTable;

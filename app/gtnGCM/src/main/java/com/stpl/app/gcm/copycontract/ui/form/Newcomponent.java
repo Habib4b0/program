@@ -267,11 +267,11 @@ public class Newcomponent extends CustomComponent {
     public String selectedItems = Constants.EMPTY;
     public static final String PRICE_VAL = "([0-9|\\.|])*";
     private final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd ");
-    CommonDao DAO = CommonImpl.getInstance();
-    CommonUtil commonUtil = CommonUtil.getInstance();
-    NewComponentsDetailsSearchTableLogic tablelogic = new NewComponentsDetailsSearchTableLogic();
+    private final CommonDao DAO = CommonImpl.getInstance();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
+    private final NewComponentsDetailsSearchTableLogic tablelogic = new NewComponentsDetailsSearchTableLogic();
     public ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tablelogic);
-    CopyContractLogic logic = new CopyContractLogic();
+    private final CopyContractLogic logic = new CopyContractLogic();
     public static final String REGEX_STRING = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*";
     public static final String SELECT_ATLEAST_ONE_RECORD = "Please Select Atleast one Record at Component Details Section";
     public static final String STRING_REGEX = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*";

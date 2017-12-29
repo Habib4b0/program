@@ -26,11 +26,11 @@ import org.asi.ui.customwindow.CustomWindow;
  */
 public class AddTPForm extends CustomWindow {
 
-    SummaryTab summary;
-    TabSheet tabSheet = new TabSheet();
-    private int tabPosition;
-    SessionDTO session;
-    UpdatedContractSelection updatedContractSelection;
+  private final  SummaryTab summary;
+  private  TabSheet tabSheet = new TabSheet();
+  private int tabPosition;
+  private final  SessionDTO session;
+  private final  UpdatedContractSelection updatedContractSelection;
 
     public AddTPForm(SessionDTO session) {
         this.session = session;

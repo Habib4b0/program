@@ -11,7 +11,6 @@ import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.tp.ui.layout.CustomTPDetailsLayout;
 
 import com.stpl.app.gcm.discount.dto.ContractsDetailsDto;
-import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.ComponentInformationDTO;
@@ -201,8 +200,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     /* Current Level Value */
     public int levelValue;
     private static final Logger LOGGER = Logger.getLogger(ContractProcessingDashboard.class);
-    SessionDTO session = new SessionDTO();
-    RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
+    private SessionDTO session = new SessionDTO();
     /**
      * The table bean id.
      */
@@ -210,13 +208,13 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     /**
      * The tree bean id.
      */
-    CommmonLogic logic = new CommmonLogic();
+    private final CommmonLogic logic = new CommmonLogic();
 
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     public List<ComponentInformationDTO> componentInformation = new ArrayList<>();
     private final ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<>(ComponentInformationDTO.class);
     public String excelName = "Rebate Schedule Information";
-    CompanyComponentTableLogic tablelogic = new CompanyComponentTableLogic();
+    private final CompanyComponentTableLogic tablelogic = new CompanyComponentTableLogic();
     public ExtPagedTable componentInformationTable = new ExtPagedTable(tablelogic);
 
     public ContractProcessingDashboard(BeanItemContainer<ContractResultDTO> selectedContractContainer, SessionDTO session) {

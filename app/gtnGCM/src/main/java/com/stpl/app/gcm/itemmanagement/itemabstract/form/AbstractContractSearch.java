@@ -205,14 +205,14 @@ public abstract class AbstractContractSearch extends CustomComponent {
         Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME,  Constants.NET_PRICE_TYPE_LABLE_NAME,  Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME,
         Constants.CFP_NO_HEADER, Constants.CFP_NAME_HEADER, Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.PS_NO_LABEL, Constants.PS_NAME_LABEL, Constants.RS_NO_HEADER, Constants.RS_NAME_LABEL, Constants.RAR_CATEGORY_HEADER};
     
-    SelectionDTO selection;
+    private SelectionDTO selection;
     public List<ItemIndexDto> selectedItemList;
     public AbstractLogic logic = AbstractLogic.getInstance();
     public BeanItemContainer<AbstractContractSearchDTO> contractExcelResultBean = new BeanItemContainer<>(AbstractContractSearchDTO.class);
     public ExtCustomTable contractExcelTable;
     public VerticalLayout contractDashboardLay = new VerticalLayout();
-    String massUpdateString = StringUtils.EMPTY;
-    String tabOperation = StringUtils.EMPTY;
+    private String massUpdateString = StringUtils.EMPTY;
+    private String tabOperation = StringUtils.EMPTY;
     protected StplSecurity stplSecurity = new StplSecurity();
     private final Map<String, AppPermission> functionHM = new HashMap<>();
     public String userId = VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString();
@@ -221,7 +221,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     public String transferSalesString = StringUtils.EMPTY;
     public boolean removeProjectionBooleanVal = false;
     public boolean isSubmit = false;
-    AddItemContractFieldFactory fieldFactory;
+    private AddItemContractFieldFactory fieldFactory;
     private final Map comboToTableMap = new HashMap();
     private final Map tempTableMap = new HashMap();
     private final Map startDateEndDateMap = new HashMap();

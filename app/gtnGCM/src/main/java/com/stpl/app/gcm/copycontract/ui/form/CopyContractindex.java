@@ -109,7 +109,7 @@ public class CopyContractindex extends VerticalLayout {
     private final CommonUtil commonUtils = CommonUtil.getInstance();
     private final ContractSearchTableLogic tablelogic = new ContractSearchTableLogic();
     public ExtPagedTable copycontractResultsTable = new ExtPagedTable(tablelogic);
-    final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
+    private final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
     private ContractSearchDTO binderDTO;
     private final List<ContractSearchDTO> selectionList = new ArrayList<>();
     public CopyContractindex() throws SystemException {

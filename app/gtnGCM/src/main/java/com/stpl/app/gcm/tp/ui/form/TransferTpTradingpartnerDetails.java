@@ -7,11 +7,9 @@
 package com.stpl.app.gcm.tp.ui.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
-import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.ContractResultDTO;
-import com.stpl.app.gcm.tp.dto.IdDescriptionDTO;
 import com.stpl.app.gcm.tp.logic.CommmonLogic;
 import com.stpl.app.gcm.tp.logic.ContractSelectionLogic;
 import com.stpl.app.gcm.tp.ui.layout.CustomTPDetailsLayout;
@@ -43,7 +41,6 @@ import com.vaadin.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -94,9 +91,6 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
     private boolean transferCheckValue = false;
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private boolean csvTransferFlag = false;
-
-    transient CommonUtil commonUtil=CommonUtil.getInstance();
-    transient List<IdDescriptionDTO> statusResultList = new ArrayList<>();
 
     /**
      * The Constant LOGGER.

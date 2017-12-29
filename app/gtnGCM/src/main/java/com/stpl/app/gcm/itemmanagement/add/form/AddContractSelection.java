@@ -155,7 +155,7 @@ public class AddContractSelection extends CustomComponent {
     private ComboBox allItemsCombo;
     
     @UiField("componentInfoLayout")
-    VerticalLayout componentInfoLayout;
+    private VerticalLayout componentInfoLayout;
     @UiField("startdatelabel")
     private Label startdatelabel;
     @UiField("enddatelabel")
@@ -642,7 +642,7 @@ public class AddContractSelection extends CustomComponent {
 
             submitButtonLogic();
         }
-    boolean isSubmit = false;
+    private boolean isSubmit = false;
 
     public boolean submitButtonLogic() {
         if (submitButtonCheckRecord() && submitButtonCheck()) {

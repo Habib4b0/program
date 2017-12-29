@@ -68,8 +68,8 @@ import org.vaadin.addons.lazycontainer.LazyContainer;
  */
 public class AbstractLogic {
 
-    static HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
-    static HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
+    private static final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    private static final HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
     public static final Map<String, List> ddlbMap = new HashMap<>();
     public static final String DESCRIPTION = "description";
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
@@ -78,7 +78,7 @@ public class AbstractLogic {
     /**
      * The helper list util.
      */
-    HelperListUtil helperListUtil = HelperListUtil.getInstance();
+    private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
     private AbstractLogic() {
 

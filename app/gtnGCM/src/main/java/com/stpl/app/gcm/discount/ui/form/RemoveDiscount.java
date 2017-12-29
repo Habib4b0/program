@@ -124,7 +124,7 @@ public class RemoveDiscount extends CustomComponent {
     private Button removeBtn;
     @UiField("removeAllBtn")
     private Button removeAllBtn;
-    RSInfoTableLogic rsInfoTableLogic = new RSInfoTableLogic();
+    private final RSInfoTableLogic rsInfoTableLogic = new RSInfoTableLogic();
     private final ExtPagedTable selectedTable = new ExtPagedTable(rsInfoTableLogic);
     @UiField("componentResultsLayout")
     private VerticalLayout componentResultsLayout;
