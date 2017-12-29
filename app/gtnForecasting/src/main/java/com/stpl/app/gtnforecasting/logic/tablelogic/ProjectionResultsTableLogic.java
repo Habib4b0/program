@@ -26,9 +26,9 @@ import com.stpl.ifs.ui.util.GtnSmallHashMap;
  */
 public class ProjectionResultsTableLogic extends PageTreeTableLogic {
 
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    protected ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final ProjectionResultsLogic projResLogic = new ProjectionResultsLogic();
-    boolean firstGenerated = false;
+    protected boolean firstGenerated = false;
     /**
      * The Constant LOGGER.
      */

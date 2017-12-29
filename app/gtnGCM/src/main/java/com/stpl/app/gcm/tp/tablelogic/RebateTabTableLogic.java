@@ -40,6 +40,7 @@ public class RebateTabTableLogic extends PageTreeTableLogic {
         return map;
     }
 
+    @Override
     public int getCount() {
         int count = 0;
         if (firstGenerated) {
@@ -48,6 +49,7 @@ public class RebateTabTableLogic extends PageTreeTableLogic {
         return count;
     }
 
+    @Override
     public Object configureContainer(Object object, Container datasource) {
         RebateTabDTO itemId = (RebateTabDTO) object;
         ((ExtTreeContainer<RebateTabDTO>) datasource).addBean(itemId);

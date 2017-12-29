@@ -123,7 +123,7 @@ public class AlternateHistoryDTO extends ExtMapDTO{
     
     private String endDate=StringUtils.EMPTY;
 
-    String actualsOrProjections = StringUtils.EMPTY;
+    private String actualsOrProjections = StringUtils.EMPTY;
     
   
     private Integer projDetailSid=new Integer(0);

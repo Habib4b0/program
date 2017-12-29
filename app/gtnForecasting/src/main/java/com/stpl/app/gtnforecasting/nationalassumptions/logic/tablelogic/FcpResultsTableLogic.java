@@ -27,12 +27,10 @@ import org.jboss.logging.Logger;
  */
 public class FcpResultsTableLogic extends PageTreeTableLogic {
 
-    int levelNo;
-    String hierarchyNo;
-    boolean firstGenerated = false;
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    private boolean firstGenerated = false;
+    private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final FcpResultsLogic fcpResLogic = new FcpResultsLogic();
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
     /**
      * The Constant LOGGER.
      */

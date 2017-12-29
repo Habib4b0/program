@@ -14,6 +14,7 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.DroolsProperties;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.model.Role;
 import com.stpl.portal.model.User;
 import com.stpl.portal.service.RoleLocalServiceUtil;
@@ -54,7 +55,7 @@ public class DSCalculationLogic {
 					break;
 				}
 			}
-		} catch (Exception e) {
+		} catch (SystemException e) {
                     LOGGER.error(e);
 		}
 
@@ -160,7 +161,7 @@ public class DSCalculationLogic {
                     list.add(netProfit);
                 }
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         return list;
@@ -181,7 +182,7 @@ public class DSCalculationLogic {
                                 
 				list.add(accrualRate);
 			}
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
                     LOGGER.error(e);
 		}
 		return list;

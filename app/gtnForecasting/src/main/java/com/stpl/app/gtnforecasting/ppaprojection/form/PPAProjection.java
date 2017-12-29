@@ -49,6 +49,7 @@ import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.data.util.converter.Converter;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -334,7 +335,7 @@ public class PPAProjection extends CustomComponent implements View {
         try {
             configurefields();
             security();
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         Panel panel = new Panel();
@@ -430,7 +431,7 @@ public class PPAProjection extends CustomComponent implements View {
                     status.setImmediate(true);
                     try {
                         CommonUtil.getInstance().loadActiveInactiveIntergerDDLB(status, false);
-                    } catch (Exception ex) {
+                    } catch (SystemException ex) {
                         LOGGER.error(ex);
                     }
                     status.setValue(dto.getPriceProtectionStatus());
@@ -448,7 +449,7 @@ public class PPAProjection extends CustomComponent implements View {
                                             savePPAProjection(propertyId.toString(), statusValue, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.LEFT);
 
                                         }
-                                    } catch (Exception e) {
+                                    } catch (NumberFormatException e) {
                                         LOGGER.error(e);
                                     }
                                 }
@@ -692,7 +693,7 @@ public class PPAProjection extends CustomComponent implements View {
                                             }
                                         });
                                         UI.getCurrent().addWindow(formulaLookup);
-                                    } catch (Exception ex) {
+                                    } catch (IllegalArgumentException | NullPointerException ex) {
                                         LOGGER.error(ex);
                                     }
                                 }
@@ -706,7 +707,7 @@ public class PPAProjection extends CustomComponent implements View {
                             component = lookUpField;
                         }
                     }
-                } catch (Exception e) {
+                } catch (Property.ReadOnlyException | Converter.ConversionException | UnsupportedOperationException e) {
                     LOGGER.error(e);
                 }
                 return component;
@@ -1372,7 +1373,7 @@ public class PPAProjection extends CustomComponent implements View {
                     lblStart.setVisible(false);
                 }
             }
-        } catch (Exception e) {
+        } catch (SystemException | Property.ReadOnlyException | Converter.ConversionException | UnsupportedOperationException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("fieldDdlb value change listener ends");
@@ -1404,7 +1405,7 @@ public class PPAProjection extends CustomComponent implements View {
                     formulaLookup.removeCloseListener(this);
                 }
             });
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException | NullPointerException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1914,7 +1915,7 @@ public class PPAProjection extends CustomComponent implements View {
                     synchronized (t) {
                         t.wait();
                     }
-                } catch (Exception e) {
+                } catch (InterruptedException e) {
                     LOGGER.error(e);
                 }
             }

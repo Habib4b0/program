@@ -30,6 +30,7 @@ public class LoadDdlbDAO implements DAO<HelperDTO> {
         this.isFilter = isFilter;
     }
 
+    @Override
     public int count(SearchCriteria criteria) {
         List<String> filterTextList = new ArrayList<>();
         String filterText = StringUtils.trimToEmpty(criteria.getFilter()) + "%";
@@ -38,6 +39,7 @@ public class LoadDdlbDAO implements DAO<HelperDTO> {
         return count;
     }
 
+    @Override
     public List<HelperDTO> find(SearchCriteria criteria, int startIndex, int offset, List<OrderByColumn> columns) {
         List<String> offSetList = new ArrayList<>();
         String filterText = StringUtils.trimToEmpty(criteria.getFilter()) + "%";

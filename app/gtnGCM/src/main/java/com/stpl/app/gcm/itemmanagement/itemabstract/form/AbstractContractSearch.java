@@ -226,8 +226,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
     public VerticalLayout contractDashboardLay = new VerticalLayout();
     String massUpdateString = StringUtils.EMPTY;
     String tabOperation = StringUtils.EMPTY;
-    public StplSecurity stplSecurity = new StplSecurity();
-    public Map<String, AppPermission> functionHM = new HashMap<>();
+    protected StplSecurity stplSecurity = new StplSecurity();
+    private final Map<String, AppPermission> functionHM = new HashMap<>();
     public String userId = VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString();
     boolean isChecked = true;
     boolean isFound = false;
@@ -290,10 +290,12 @@ public abstract class AbstractContractSearch extends CustomComponent {
         }
 
         contractSelectionTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -311,18 +313,22 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constants.CHECK_RECORD.equals(propertyId)) {
                     CustomTextField text = new CustomTextField();
@@ -443,6 +449,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         contractVertical.addComponent(controlLayout);
         contractSelectionTable.setEditable(Boolean.TRUE);
         contractSelectionTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = contractSelectionTable.getItemIds();
                 for (Object obj : itemList) {
@@ -602,6 +609,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NEP_FORMULA_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -628,6 +636,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -654,6 +663,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -681,6 +691,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -707,6 +718,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_PRICE_TYPE_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -1201,8 +1213,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
             AbstractContractSearchDTO dto = (AbstractContractSearchDTO) object;
             if (dto.getCheckRecord()) {
                 isChecked = false;
-                isFound = true;
-                if (!isHavingValue(massUpdateString)) {
+                isFound = isHavingValue(massUpdateString);
+                if (!isFound) {
                     isFound = false;
                     new AbstractNotificationUtils() {
                         @Override
@@ -1339,27 +1351,27 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         columnName = Constants.NEP_FORMULA_COLUMN_NAME;
                         value = nepForumulaDto.getFormulaSid();
                         break;
-                        case Constants.BASE_PRICE_TYPE_LABLE_NAME:
+                    case Constants.BASE_PRICE_TYPE_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
                         contractSelectionTable.getItem(object).getItemProperty(Constants.BASE_PRICE_PROPERTY).setValue(tempDTO);
                         columnName = Constants.BASE_PRICE_TYPE_COLUMN_NAME;
                         value = tempDTO.getId();
-                            if (Constants.MANUAL_LABLE_NAME.equals(tempDTO.getDescription())) {
-                                baseLineTextValue = baseWacManual.getValue();
-                                contractSelectionTable.getItem(object).getItemProperty("baseLineWacManual").setValue(baseLineTextValue);
-                                baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
-                               logic.updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
-                            } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
-                                contractSelectionTable.getItem(object).getItemProperty("baseLineWacDate").setValue(baseWacDate.getValue());
-                                baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
-                                baseLineValue = CommonUtils.DBDate.format(baseWacDate.getValue());
-                                logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
-                            } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
-                                baseLineValue = baseWacPriceType.getValue();
-                                contractSelectionTable.getItem(object).getItemProperty("baseLineWacPriceType").setValue(baseLineValue);
-                                baseLineColumnName = Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME;
-                                logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
-                            }
+                        if (Constants.MANUAL_LABLE_NAME.equals(tempDTO.getDescription())) {
+                            baseLineTextValue = baseWacManual.getValue();
+                            contractSelectionTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_MANUAL_LABLE_NAME).setValue(baseLineTextValue);
+                            baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
+                        } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
+                            contractSelectionTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_DATE_LABLE_NAME).setValue(baseWacDate.getValue());
+                            baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
+                            baseLineValue = CommonUtils.DBDate.format(baseWacDate.getValue());
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                        } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
+                            baseLineValue = baseWacPriceType.getValue();
+                            contractSelectionTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME).setValue(baseLineValue);
+                            baseLineColumnName = Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME;
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                        }
                         break;
                     case Constants.BASELINE_NET_WAC_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();

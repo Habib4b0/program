@@ -48,13 +48,13 @@ public class FormulaLookUp extends Window {
     @UiField("resetBtn")
     public Button resetBtn;
     @UiField("selectBtn")
-    public Button selectBtn;
+    public Button selectButton;
     @UiField("closeBtn")
-    public Button closeBtn;
+    public Button closeButton;
     FormulaIdTableLogic tableLogic = new FormulaIdTableLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     public CustomTextField componentTextField;
-    private BeanItemContainer<FormulaDTO> resultsContainer = new BeanItemContainer<>(FormulaDTO.class);
+    private final BeanItemContainer<FormulaDTO> resultsContainer = new BeanItemContainer<>(FormulaDTO.class);
     public final Object[] formulaSearchColumns = new Object[]{
         "formulaId", "formulaNo", "formulaName"};
     public final String[] formulaSearchHeaders = new String[]{

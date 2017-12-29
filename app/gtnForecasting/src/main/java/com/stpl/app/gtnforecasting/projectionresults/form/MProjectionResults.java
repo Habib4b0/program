@@ -62,21 +62,21 @@ public final class MProjectionResults extends ForecastProjectionResults {
     /**
      * discountlist
      */
-    List<List<String>> discountlist = new ArrayList<>();
+    protected List<List<String>> discountlist = new ArrayList<>();
      /**
      * left table
      */
-    ExtPagedTreeTable leftTable;
+    protected ExtPagedTreeTable leftTable;
      /**
      * right table
      */
-    ExtPagedTreeTable rightTable;
-    int ctot = 0;//1
-    int tot = 0;//4
-    int perIndex = 0;
-    int rpuIndex = 0;//13
-    int dolIndex = 0;
-    boolean canLoad = true;
+    protected ExtPagedTreeTable rightTable;
+    protected int ctot = 0;//1
+    protected int tot = 0;//4
+    protected int perIndex = 0;
+    protected int rpuIndex = 0;//13
+    protected int dolIndex = 0;
+    protected boolean canLoad = true;
 
     public MProjectionResults(final SessionDTO session, final String screenName) throws SystemException, PortalException  {
         super(session, screenName);
@@ -201,7 +201,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
             int count = tableLogic.mProjectionResultsLogic.getConfiguredProjectionResultsCount(new Object(), projectionSelectionDTO, true, projectionSelectionDTO);
             List<ProjectionResultsDTO> resultList = tableLogic.mProjectionResultsLogic.getConfiguredProjectionResults(new Object(), 0, count, projectionSelectionDTO);
             loadDataToContainer(resultList, null);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }

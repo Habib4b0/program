@@ -276,6 +276,7 @@ public class SessionDTO implements Serializable, Cloneable {
         this.processName = processName;
     }
 
+    @Override
     public SessionDTO clone() throws CloneNotSupportedException {
         SessionDTO selection = (SessionDTO) super.clone();
         selection.setWorkflowId(workflowId);

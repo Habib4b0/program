@@ -14,6 +14,8 @@ import com.stpl.app.utils.DateToStringConverter;
 import com.stpl.app.utils.TableHeaderColumnsUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CsvExportforPagedTable;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
@@ -23,6 +25,7 @@ import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+import java.lang.reflect.InvocationTargetException;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.vaadin.teemu.clara.Clara;
@@ -52,12 +55,12 @@ public class DataAssumptions extends CustomComponent {
 
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private static final Logger LOGGER = Logger.getLogger(DataAssumptions.class);
-    DataAssumptionstableLogic tableLogic = new DataAssumptionstableLogic();
+    protected DataAssumptionstableLogic tableLogic = new DataAssumptionstableLogic();
     private final ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
     public BeanItemContainer<DataAssumptionDTO> resultsContainer = new BeanItemContainer<>(DataAssumptionDTO.class);
 
     protected SessionDTO session;
-    DataAssumptionDTO dataAssumptionDTO;
+    protected DataAssumptionDTO dataAssumptionDTO;
 
     public DataAssumptions(SessionDTO session) {
         this.session = session;
@@ -78,8 +81,8 @@ public class DataAssumptions extends CustomComponent {
         tableLayout.addComponent(controlLayout);
 
         tableLogic.setContainerDataSource(resultsContainer);
-        resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().dataAssumptionColumns);
-        resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().dataAssumptionHeaders);
+        resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataAssumptionColumns);
+        resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataAssumptionHeaders);
         resultTable.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
         resultTable.setComponentError(null);
@@ -119,8 +122,8 @@ public class DataAssumptions extends CustomComponent {
     private void createWorkSheet() {
         LOGGER.info("Entering createWorkSheet");
         try {
-            CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(),TableHeaderColumnsUtil.getInstance().dataAssumptionsColumnsExcel , tableLogic, "Data Assumptions");
-        } catch (Exception e) {
+            CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(),TableHeaderColumnsUtil.dataAssumptionsColumnsExcel , tableLogic, "Data Assumptions");
+        } catch (PortalException | SystemException | IllegalAccessException | IllegalArgumentException | NoSuchFieldException | NoSuchMethodException | InvocationTargetException e) {
             LOGGER.error(e);
         }
     }

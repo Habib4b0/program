@@ -66,7 +66,7 @@ public class MedicaidQueryUtils {
                 customSql = customSql.replace(key, String.valueOf(input.get(key)));
             }
             medicaidList = (List) DAO.executeSelectQuery(customSql);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return medicaidList;
@@ -434,6 +434,12 @@ public class MedicaidQueryUtils {
             queryList.clear();
         }
 
+    }
+    
+    /**ALG-3140	**/
+    public void removeOverrideOnClose(SessionDTO session) throws PortalException, SystemException {
+        String customSql = "UPDATE ST_MEDICAID_URA_PROJ SET ADJUSTMENT = null";
+        DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
     }
 
 }

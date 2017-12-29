@@ -29,10 +29,10 @@ public class ComparisonLookupDTO {
     private String createdDateTo;
     private int projectionId = 0;
     private String createdBy = StringUtils.EMPTY;
-    List<ComparisonLookupDTO> selected = new ArrayList<>();
-    List<Integer> projIdList = new ArrayList<>();
-    List<String> projNameList = new ArrayList<>();
-    Map<Integer, String> projectionMap = new HashMap<>();
+    protected List<ComparisonLookupDTO> selected = new ArrayList<>();
+    protected List<Integer> projIdList = new ArrayList<>();
+    protected List<String> projNameList = new ArrayList<>();
+    protected Map<Integer, String> projectionMap = new HashMap<>();
 
     public String getWorkflowStatus() {
         return workflowStatus;

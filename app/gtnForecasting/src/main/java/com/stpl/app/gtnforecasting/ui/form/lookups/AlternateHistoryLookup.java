@@ -21,6 +21,7 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
@@ -378,7 +379,7 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
             customerDDLB.addItem(obj[0]);
             customerDDLB.setItemCaption(obj[0], String.valueOf(obj[1]));
         }
-         }catch(Exception e){
+         }catch(PortalException | SystemException | UnsupportedOperationException e){
          LOGGER.error(e);
          }
     }

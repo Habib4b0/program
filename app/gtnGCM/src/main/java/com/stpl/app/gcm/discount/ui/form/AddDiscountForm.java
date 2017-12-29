@@ -239,6 +239,7 @@ public class AddDiscountForm extends CustomComponent implements View {
      *
      * @param event the event
      */
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         tabSheet.setSelectedTab(0);
     }

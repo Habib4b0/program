@@ -19,7 +19,6 @@ public class DiscountProjectionResultsDTO extends ExtMapDTO {
     /**
      * The Constant serialVersionUID.
      */
-    private static final long serialVersionUID = 8127118762859743943L;
     private String level = StringUtils.EMPTY;
     private String group = StringUtils.EMPTY;
     private String customer = StringUtils.EMPTY;
@@ -45,8 +44,8 @@ public class DiscountProjectionResultsDTO extends ExtMapDTO {
     private String customerHierarchyNo = StringUtils.EMPTY;
     private Integer customLevelNo = 0;
     private String parentLevelName = StringUtils.EMPTY;
-    DiscountProjectionResultsDTO manDTO;
-    DiscountProjectionResultsDTO suppDTO;
+    protected DiscountProjectionResultsDTO manDTO;
+    protected DiscountProjectionResultsDTO suppDTO;
     private List<DiscountProjectionResultsDTO> dprDTOList;
     private String relationshipLevelName = StringUtils.EMPTY;
     private int total = 0;

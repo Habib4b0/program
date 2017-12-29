@@ -124,10 +124,12 @@ public class PsLookUp extends Window {
         resultsTable.setFilterBarVisible(Boolean.TRUE);
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -139,6 +141,7 @@ public class PsLookUp extends Window {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 try{
                     CustomComboBox comboBox = new CustomComboBox();
@@ -173,14 +176,17 @@ public class PsLookUp extends Window {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
@@ -211,7 +217,7 @@ public class PsLookUp extends Window {
         psStartDate.setDateFormat(Constants.DATE_FORMAT);
         psStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
          try {
-            commonUtil.loadComboBoxForGCM(psCategory, UiUtils.PS_CATEGORY, false);
+            CommonUtil.loadComboBoxForGCM(psCategory, UiUtils.PS_CATEGORY, false);
         } catch (Exception ex) {
             Logger.getLogger(IfpLookUp.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -261,6 +267,7 @@ public class PsLookUp extends Window {
     @UiHandler("resetBtn")
     public void resetButtonLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }

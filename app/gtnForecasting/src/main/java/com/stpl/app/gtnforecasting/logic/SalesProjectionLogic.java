@@ -50,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 
 // TODO: Auto-generated Javadoc
@@ -78,9 +79,7 @@ public class SalesProjectionLogic {
 
             salesProjectionDAO.getSalesProjectionResult(query);
 
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -122,18 +121,18 @@ public class SalesProjectionLogic {
             }
 
             LOGGER.debug("Ending callAdjustmentProcedure return  staus ::::" + status);
-        } catch (Exception ex) {
+        } catch (NumberFormatException | SQLException | NamingException ex) {
             LOGGER.error(new Date() + ex.getMessage());
             throw new SystemException(ex);
         } finally {
             try {
                 statement.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e);
             }
             try {
                 connection.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e);
             }
         }
@@ -186,19 +185,19 @@ public class SalesProjectionLogic {
             }
 
             LOGGER.debug("Ending callCalculationProcedure return  staus ::::" + status);
-        } catch (Exception ex) {
+        } catch (NumberFormatException | SQLException | NamingException ex) {
             LOGGER.error(new Date() + ex.getMessage());
             throw new SystemException(ex);
 
         } finally {
             try {
                 statement.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                LOGGER.error(e);
             }
             try {
                 connection.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e);
             }
         }
@@ -219,9 +218,7 @@ public class SalesProjectionLogic {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {
             salesProjectionDAO.getSalesProjection(selections);
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -324,14 +321,14 @@ public class SalesProjectionLogic {
             }
 
             LOGGER.debug("Ending callAlternateHistoryProcedure return  staus ::::" + status);
-        } catch (Exception ex) {
+        } catch (NumberFormatException | SQLException | NamingException ex) {
             LOGGER.error(new Date() + ex.getMessage());
             throw new SystemException(ex);
         } finally {
             try {
                 statement.close();
                 connection.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e);
             }
         }
@@ -360,18 +357,18 @@ public class SalesProjectionLogic {
             }
 
             LOGGER.debug("Ending callSalesInsertProcedure return  staus ::::" + status);
-        } catch (Exception ex) {
+        } catch (NumberFormatException | SQLException | NamingException ex) {
             LOGGER.error(new Date() + ex.getMessage());
             throw new SystemException(ex);
         } finally {
             try {
                 statement.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e);
             }
             try {
                 connection.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e);
             }
         }
@@ -520,9 +517,7 @@ public class SalesProjectionLogic {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {
             salesProjectionDAO.getSalesProjection(selections);
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -535,10 +530,7 @@ public class SalesProjectionLogic {
 
         try {
             salesProjectionDAO.getSalesProjection(inputs);
-        } catch (PortalException ex) {
-
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
 
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -572,9 +564,7 @@ public class SalesProjectionLogic {
             if (!list.isEmpty()) {
                 count = Integer.parseInt(String.valueOf(list.get(0)));
             }
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -586,9 +576,7 @@ public class SalesProjectionLogic {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {
             salesProjectionDAO.getSalesProjection(inputs);
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -636,18 +624,24 @@ public class SalesProjectionLogic {
             }
 
             LOGGER.debug("Ending callSalesInsertProcedure return  staus ::::");
-        } catch (Exception ex) {
+        } catch (NumberFormatException | SQLException | NamingException ex) {
                LOGGER.error(ex);
             LOGGER.error(new Date() + ex.getMessage());
         } finally {
             try {
+                if (statement != null) 
+                {
                 statement.close();
-            } catch (Exception e) {
-               LOGGER.error(e);
-            }
-            try {
+                }
+                if (resList != null)
+                {
+                resList.close();
+                }
+                if (connection != null)
+                {
                 connection.close();
-            } catch (Exception e) {
+                }
+            } catch (SQLException e) {
                LOGGER.error(e);
             }
         }
@@ -785,9 +779,7 @@ public class SalesProjectionLogic {
         List list = null;
         try {
             list = salesProjectionDAO.getSalesProjection(input);
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
         SalesRowDto dto;
@@ -836,7 +828,7 @@ public class SalesProjectionLogic {
                 }
                 projectionDettailsId = Integer.valueOf(list.get(0).toString());
             }
-        } catch (Exception ex) {
+        } catch (SystemException | NumberFormatException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -962,9 +954,7 @@ public class SalesProjectionLogic {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {
             list = salesProjectionDAO.getSalesProjection(input);
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (!list.isEmpty()) {
@@ -979,9 +969,7 @@ public class SalesProjectionLogic {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {
             list = salesProjectionDAO.getSalesProjection(input);
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -1004,9 +992,7 @@ public class SalesProjectionLogic {
             if (!list.isEmpty()) {
                 count = Integer.valueOf(list.get(0).toString());
             }
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
         return count;
@@ -1019,9 +1005,7 @@ public class SalesProjectionLogic {
         try {
             List list = salesProjectionDAO.getSalesProjection(input);
             count = Integer.valueOf(list.get(0).toString());
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -1033,9 +1017,7 @@ public class SalesProjectionLogic {
         try {
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             groupList = salesProjectionDAO.getSalesProjection(input);
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
         return groupList;
@@ -1065,18 +1047,18 @@ public class SalesProjectionLogic {
             }
 
             LOGGER.debug("Ending callManualEntryProcedure return  staus ::::" + status);
-        } catch (Exception ex) {
+        } catch (NumberFormatException | SQLException | NamingException ex) {
             LOGGER.error(ex);
 
         } finally {
             try {
                 statement.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e);
             }
             try {
                 connection.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e);
             }
         }
@@ -1092,9 +1074,7 @@ public class SalesProjectionLogic {
         try {
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             projectionDetailsIdList = salesProjectionDAO.getSalesProjection(input);
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -1106,9 +1086,7 @@ public class SalesProjectionLogic {
         try {
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             salesProjectionDAO.getSalesProjection(input);
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -1117,9 +1095,7 @@ public class SalesProjectionLogic {
         try {
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             salesProjectionDAO.getSalesProjection(input);
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -1128,9 +1104,7 @@ public class SalesProjectionLogic {
         try {
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             salesProjectionDAO.getSalesProjection(input);
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -1185,9 +1159,7 @@ public class SalesProjectionLogic {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {
             list = salesProjectionDAO.getSalesProjection(inputs);
-        } catch (PortalException ex) {
-            Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -1215,7 +1187,7 @@ public class SalesProjectionLogic {
             if (count <= 0) {
                 hasNoActuals = true;
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
         return hasNoActuals;

@@ -15,7 +15,6 @@ import com.stpl.app.gcm.util.Message;
 import com.stpl.app.gcm.util.MessageUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
@@ -38,7 +37,7 @@ public class TransferTPForm extends CustomWindow {
     CustomerSelection customerSelectionTab;
     SessionDTO session;
 
-    private ContractSelectionLogic logic = new ContractSelectionLogic();
+    private final ContractSelectionLogic logic = new ContractSelectionLogic();
     String lastTabName = StringUtils.EMPTY;
     int tabPosition;
     int tabCount = 0;
@@ -87,6 +86,7 @@ public class TransferTPForm extends CustomWindow {
         tabSheet.setImmediate(true);
         tabSheet.addSelectedTabChangeListener(new SelectedTabChangeListener() {
 
+            @Override
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 try {
                     final Tab tab = (Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());

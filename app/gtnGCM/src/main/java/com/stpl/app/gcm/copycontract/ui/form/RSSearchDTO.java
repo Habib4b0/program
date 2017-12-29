@@ -26,12 +26,14 @@ class RSSearchDTO implements BeanDAO {
         this.RsIfpDto = RsIfpDto;
     }
 
+ @Override
     public int count(BeanSearchCriteria bsc) {
         int count = 0;
         count = logic.getRSSearchCount(RsIfpDto, bsc);
         return count;
     }
 
+ @Override
     public List find(BeanSearchCriteria bsc, int i, int i1, List list) {
         List<RsIfpDto> resultList = new ArrayList<>();
         return resultList;

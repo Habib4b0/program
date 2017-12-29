@@ -43,6 +43,7 @@ import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.portal.kernel.exception.PortalException;
 import org.jboss.logging.Logger;
 
 /**
@@ -51,8 +52,6 @@ import org.jboss.logging.Logger;
  */
 public class ReturnsProjection extends ForecastSalesProjection {
 
-    boolean generated = false;
-    boolean firstGenerated = false;
     private static final Logger LOGGER = Logger.getLogger(ReturnsProjection.class);
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
 
@@ -151,7 +150,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), "Returns Projection", "Returns Projection", "Returns_Projection.xls", false);
                 exp.export();
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("excelExportLogic ends ");
@@ -186,8 +185,6 @@ public class ReturnsProjection extends ForecastSalesProjection {
         try {
 
             LOGGER.debug("generate button click listener starts ");
-            generated = true;
-            firstGenerated = true;
             tableLayout.removeAllComponents();
             mSalesProjectionTableLogic = new MSalesProjectionTableLogic();
             resultsTable = new FreezePagedTreeTable(mSalesProjectionTableLogic);
@@ -196,7 +193,6 @@ public class ReturnsProjection extends ForecastSalesProjection {
             projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(projectionDTO.getSessionDTO(), projectionDTO));
             addResultTable();
             generateLogic();
-            generated = false;
             checkAllCheckBox();
 
         } catch (Exception e) {
@@ -367,7 +363,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
     public void saveReturnsSave() {
         try {
             salesLogic.saveReturnsSalesProjection(projectionDTO.getSessionDTO());
-        } catch (Exception e) {
+        } catch (PortalException e) {
             LOGGER.error(e);
         }
 

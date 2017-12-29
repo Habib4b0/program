@@ -55,7 +55,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
 
     @UiField("exportLayout")
     protected HorizontalLayout exportLayout;
-    SelectionDTO selection;
+    SelectionDTO selectionDto;
     Object valueChange;
     Label Label = new Label("Transfer Sales Projection :");
     public OptionGroup transferSales = new OptionGroup();
@@ -76,7 +76,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
     public CurrentContractContractSearch(SelectionDTO selection, List selectedItemList) {
         super(selection, selectedItemList);
         try {
-            this.selection = selection;
+            this.selectionDto = selection;
             configureFields();
             configureSecurityPermissions();
             setTabOperation(ConstantsUtil.CURRENT_COONTRACT);
@@ -102,12 +102,12 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
 
             MessageBox.showPlain(Icon.INFO, "Error", "Please enter/select search criteria", ButtonId.OK);
         } else {
-            if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-                selection.setCountQueryName("ProjectionTransferItemCountQuery");
-                selection.setDataQueryName("ProjectionTransferItemDataQuery");
+            if (selectionDto.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+                selectionDto.setCountQueryName("ProjectionTransferItemCountQuery");
+                selectionDto.setDataQueryName("ProjectionTransferItemDataQuery");
             } else {
-                selection.setCountQueryName("Item Load contract Count");
-                selection.setDataQueryName("Load contract Item");
+                selectionDto.setCountQueryName("Item Load contract Count");
+                selectionDto.setDataQueryName("Load contract Item");
             }
 
             searchButtonLogic(true);
@@ -124,8 +124,10 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
         addTransferSales();
     }
 
+    @Override
     public void createFieldFactory() {
         contractSelectionTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 AbstractContractSearchDTO mainDto = (AbstractContractSearchDTO) itemId;
                 final AbstractLogic abstractLogic = AbstractLogic.getInstance();
@@ -137,6 +139,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
                     } else {
                         check.setVisible(true);
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                            @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 if (itemId instanceof AbstractContractSearchDTO) {
                                     AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
@@ -158,13 +161,15 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
                     itemendDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
                     itemendDate.addFocusListener(new FieldEvents.FocusListener() {
 
+                        @Override
                         public void focus(FieldEvents.FocusEvent event) {
                             Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
 
+                                @Override
                                 public void valueChange(Property.ValueChangeEvent event) {
                                     AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
                                     dto.setCaseNo(0);
-                                    Date startDate = abstractLogic.getStartDateCheck(dto, selection, "START_DATE");
+                                    Date startDate = abstractLogic.getStartDateCheck(dto, selectionDto, "START_DATE");
                                     if (startDate != null && itemendDate.getValue() != null && itemendDate.getValue().before(startDate)) {
                                         itemendDate.setValue(null);
                                         MessageBox.showPlain(Icon.ERROR, "Start Date cannot come before the End Date", "You cannot proceed with this Item Start Date since it does not come after the End Date you have entered on the previous screen.", ButtonId.OK);
@@ -256,18 +261,19 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
     }
 
     private void saveTempItemDetails(final AbstractContractSearchDTO dto) {
-        logic.getEditedItemDetails(dto, selection);
+        logic.getEditedItemDetails(dto, selectionDto);
     }
 
+    @Override
     public List getInput() {
         List input = new ArrayList();
-        if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+        if (selectionDto.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
             input.add(AbstractLogic.getItemIds(selectedItemList));
         }
-        input.add(selection.getSessionId());
+        input.add(selectionDto.getSessionId());
         input.add(ConstantsUtil.CURRENT_COONTRACT);
-        if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-            input.add(selection.getButtonMode());
+        if (selectionDto.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+            input.add(selectionDto.getButtonMode());
         }
 
         if (binderDto.getContractNo() != null && !binderDto.getContractNo().isEmpty()) {
@@ -349,6 +355,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
         return input;
     }
 
+    @Override
     public List getResultsInput(SelectionDTO selection) {
         List input = new ArrayList();
         input.add(selection.getSessionId());
@@ -362,6 +369,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
      * @param selection
      * @return
      */
+    @Override
     public List getPopulateDateCheckInput(SelectionDTO selection) {
         List input = new ArrayList();
         input.add(selection.getSessionId());
@@ -369,9 +377,10 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
         return input;
     }
 
+    @Override
     public boolean submit() {
         try {
-            List input = getSessionInput(selection);
+            List input = getSessionInput(selectionDto);
             setTransferSalesString(String.valueOf(transferSales.getValue()));
             setRemoveProjectionBooleanVal(removeProjection.getValue());
             if (selectingOneContract("Selecting one contract", input)) {
@@ -384,16 +393,16 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
                                         @Override
                                         public void yesMethod() {
                                             try {
-                                                List input = getResultsInput(selection);
-                                                if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+                                                List input = getResultsInput(selectionDto);
+                                                if (selectionDto.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
                                                     ItemQueries.itemUpdate(input, "SubmittingthecontractForUPdateProjTransfer");
                                                 } else {
                                                     ItemQueries.itemUpdate(input, "Submitting the contract For UPdate");
                                                 }
                                                 updateSubmittedContract();
                                                 binder.commit();
-                                                selection.setIsTransfer(removeProjection.getValue());
-                                                selection.getLookup().changeTab();
+                                                selectionDto.setIsTransfer(removeProjection.getValue());
+                                                selectionDto.getLookup().changeTab();
                                                 isSubmit = true;
                                             } catch (Exception ex) {
                                                 LOGGER.error(ex);
@@ -466,6 +475,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
 
     }
 
+    @Override
     public void LoadField() {
         field.addItems(Constants.SELECT_ONE, Constants.END_DATE_HEADER);
         valuelabel.setVisible(Boolean.FALSE);
@@ -473,6 +483,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
 
     }
 
+    @Override
     public Boolean massUpdateItemDetails(final List input, final SelectionDTO selection) {
         input.add(selection.getSessionId());
         input.add(ConstantsUtil.CURRENT_COONTRACT);
@@ -480,8 +491,9 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
         return isUpdated;
     }
 
+    @Override
     public void setVisibleColumns() {
-        if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+        if (selectionDto.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
             contractSelectionTable.setVisibleColumns(visibleColumnPt);
             contractSelectionTable.setColumnHeaders(headerPt);
         } else {
@@ -493,7 +505,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
 
     public boolean isChecked() {
         List input = new ArrayList();
-        input.add(selection.getSessionId());
+        input.add(selectionDto.getSessionId());
         input.add(ConstantsUtil.CURRENT_COONTRACT);
         List list = ItemQueries.getItemData(input, "Mass Update checkreord check", null);
         if (list == null || list.isEmpty()) {
@@ -502,37 +514,43 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
         return true;
     }
 
+    @Override
     public List getSessionInput(SelectionDTO selection) {
         return AbstractLogic.getCurrentInput(selection);
     }
 
+    @Override
     public List getSessionSummary(SelectionDTO selection) {
         return AbstractLogic.getCurrentSummary(selection);
     }
 
+    @Override
     public String getContractItemName() {
         return contractItemName;
     }
 
+    @Override
     public void setContractItemName(String contractItemName) {
         this.contractItemName = contractItemName;
     }
 
+    @Override
     public void updateSubmittedContract() {
         List updateInput = new ArrayList();
         updateInput.add("OPERATION");
         updateInput.add(ConstantsUtil.CURRENT_SUMMARY);
-        updateInput.addAll(getSessionInput(selection));
+        updateInput.addAll(getSessionInput(selectionDto));
         ItemQueries.itemUpdate(updateInput, "Abstract Mass update"); // To Change The operation from Current transfer to Current summary
     }
 
+    @Override
     public boolean isRemoveProjectionBooleanVal() {
         return removeProjection.getValue();
     }
 
     private void configureSecurityPermissions() {
         try {
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), "GCM-Item Management", "Item Transfer", "Contract Selection Tab");
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selectionDto.getUserId()), "GCM-Item Management", "Item Transfer", "Contract Selection Tab");
             getSearchBtn().setVisible(CommonLogic.isButtonVisibleAccess("search", functionHM));
             getResetBtn().setVisible(CommonLogic.isButtonVisibleAccess("reset1", functionHM));
             getPopulateBtn().setVisible(CommonLogic.isButtonVisibleAccess("populateBtn", functionHM));

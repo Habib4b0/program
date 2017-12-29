@@ -105,7 +105,7 @@ public class FileUploader implements Receiver {
 		} catch (final java.io.FileNotFoundException e) {
 			LOGGER.error(e);
 			return NULL_OUTPUT_STREAM;
-		} catch (Exception ex) {
+		} catch (IOException ex) {
 			LOGGER.error(ex);
 			new Notification("Could not create ", ex.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());

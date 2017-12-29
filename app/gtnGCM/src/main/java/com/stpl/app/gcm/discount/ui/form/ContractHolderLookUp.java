@@ -39,10 +39,10 @@ public class ContractHolderLookUp extends Window {
     public ComboBox chType;
 
     RebateTableLogic tableLogic = new RebateTableLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
-    private BeanItemContainer<String> chStatusBean = new BeanItemContainer<>(String.class);
-    private BeanItemContainer<String> chTypeBean = new BeanItemContainer<>(String.class);
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
+    private final BeanItemContainer<String> chStatusBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> chTypeBean = new BeanItemContainer<>(String.class);
 
     public ContractHolderLookUp() {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/contractHolder.xml"), this));
