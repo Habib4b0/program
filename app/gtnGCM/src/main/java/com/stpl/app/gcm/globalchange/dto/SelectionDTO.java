@@ -766,6 +766,7 @@ public class SelectionDTO implements Cloneable {
         this.threadList.add(threadList);
     }
 
+    @Override
     public SelectionDTO clone() throws CloneNotSupportedException {
         SelectionDTO selection = (SelectionDTO) super.clone();
         selection.setCompany(company);

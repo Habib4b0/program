@@ -31,7 +31,6 @@ import com.vaadin.data.Container;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -69,7 +68,7 @@ public class CopyContractindex extends VerticalLayout {
 
     SessionDTO session;
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CopyContractindex.class);
-    private BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<>(ContractSearchDTO.class);
+    private final BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<>(ContractSearchDTO.class);
     @UiField("copycontractTableLayout")
     public VerticalLayout copycontractTableLayout;
     @UiField("copyBtn")
@@ -178,6 +177,7 @@ public class CopyContractindex extends VerticalLayout {
             copycontractResultsTable.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
             copycontractResultsTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], Boolean.TRUE);
             copycontractResultsTable.setTableFieldFactory(new TableFieldFactory() {
+                @Override
                 public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                     Field field;
                     if (String.valueOf(HeaderUtil.getInstance().contractSearchColumn[0]).equals(propertyId)) {
@@ -204,6 +204,7 @@ public class CopyContractindex extends VerticalLayout {
             });
 
             copycontractResultsTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                     for (ContractSearchDTO temp : resultContainer.getItemIds()) {
                         resultContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());
@@ -224,7 +225,7 @@ public class CopyContractindex extends VerticalLayout {
         for (ContractSearchDTO temp : selectionList) {
             ContractSelectionDTO dto = new ContractSelectionDTO();
             dto.setContractSid(temp.getContractSid());
-            dto.setSessionid(String.valueOf(binderDTO.getSessionId()));
+            dto.setSessionId(String.valueOf(binderDTO.getSessionId()));
             dto.setUserid(String.valueOf(binderDTO.getUserId()));
             dto.setContractHolder(temp.getContractHolder());
             dto.setContractName(temp.getContractName());
@@ -313,6 +314,7 @@ public class CopyContractindex extends VerticalLayout {
     public void resetButtonClickLogic(Button.ClickEvent event
     ) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }

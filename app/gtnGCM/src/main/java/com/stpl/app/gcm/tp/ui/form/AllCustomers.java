@@ -41,9 +41,9 @@ public class AllCustomers extends Window {
     @UiField("tradingPartnerTableLayout")
     public VerticalLayout tradingPartnerTableLayout;
     @UiField("excelBtn")
-    public Button excelBtn;
+    public Button excelButton;
     @UiField("closeBtn")
-    public Button closeBtn;
+    public Button closeButton;
 
     CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     public ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
@@ -72,10 +72,10 @@ public class AllCustomers extends Window {
     }
 
     protected void configureFields() {
-        closeBtn.setEnabled(true);
-        closeBtn.setImmediate(true);
+        closeButton.setEnabled(true);
+        closeButton.setImmediate(true);
         tradingPartnerTableLayout.addComponent(companySearchResultsTable);
-        excelBtn.setIcon(excelExportImage);
+        excelButton.setIcon(excelExportImage);
         configureCompanySearchResultsTable();
     }
 
@@ -121,8 +121,8 @@ public class AllCustomers extends Window {
         ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(companyViewTable), "All Customers", "All Customers", "All_Customers.xls", false);
         excel.export();
         tradingPartnerTableLayout.removeComponent(companyViewTable);
-        closeBtn.setEnabled(true);
-        excelBtn.setEnabled(true);
+        closeButton.setEnabled(true);
+        excelButton.setEnabled(true);
     }
 
     private void configureCompanyExcelResultTable() {

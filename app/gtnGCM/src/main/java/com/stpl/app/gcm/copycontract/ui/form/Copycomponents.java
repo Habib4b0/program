@@ -28,7 +28,6 @@ import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
@@ -49,7 +48,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.VerticalLayout;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -294,6 +292,7 @@ public class Copycomponents extends CustomComponent {
             contractComponent.setColumnAlignment("contractStartDate", ExtCustomTable.Align.CENTER);
             contractComponent.setColumnAlignment("contractEndDate", ExtCustomTable.Align.CENTER);
             contractComponent.setTableFieldFactory(new TableFieldFactory() {
+                @Override
                 public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                     Field field;
                     if (String.valueOf(Constants.CHECK).equals(propertyId)) {
@@ -306,6 +305,7 @@ public class Copycomponents extends CustomComponent {
             });
             
             contractComponent.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                     for (CopyComponentDTO temp : contractComponentContainer.getItemIds()) {
                         contractComponentContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());                        
@@ -362,6 +362,7 @@ public class Copycomponents extends CustomComponent {
                  * Method is called when results value is changed
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void valueChange(final Property.ValueChangeEvent event) {
                     resultsItemClick(event.getProperty().getValue());
                 }
@@ -371,6 +372,7 @@ public class Copycomponents extends CustomComponent {
                 /**
                  * To create editable fields inside table .
                  */
+                @Override
                 public Field<?> createField(final Container container, final Object itemId, final Object propertyId, final Component uiContext) {
                     if (propertyId.equals(Constants.CHECK)) {
                         final ExtCustomCheckBox select = new ExtCustomCheckBox();

@@ -24,6 +24,7 @@ public class IFPSearchDAO implements BeanDAO<IFPItemDTO> {
         this.IFPItemDTO = IFPItemDTO;
     }
 
+    @Override
     public int count(BeanSearchCriteria bsc) {
         int count = 0;
         count = logic.getIFPSearchCount(IFPItemDTO, bsc);
@@ -31,6 +32,7 @@ public class IFPSearchDAO implements BeanDAO<IFPItemDTO> {
 
     }
 
+    @Override
     public List<IFPItemDTO> find(BeanSearchCriteria bsc, int i, int i1, List<OrderByColumn> list) {
         List<IFPItemDTO> resultList = new ArrayList<>();
         return resultList;

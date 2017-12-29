@@ -72,7 +72,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
     public ExtFilterTable tradingPartnerDetailsTable = new ExtFilterTable();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
 
-    private BeanItemContainer<ContractResultDTO> tradingPartnerDetailsContainer;
+    private final BeanItemContainer<ContractResultDTO> tradingPartnerDetailsContainer;
     CommmonLogic logic = new CommmonLogic();
     Set checkedCount = new HashSet();
     CommonUtil commonMsg = CommonUtil.getInstance();
@@ -113,10 +113,12 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
         tradingPartnerDetailsTable.setColumnAlignment("compEndDate", ExtCustomTable.Align.CENTER);
         tradingPartnerDetailsTable.setEditable(true);
         tradingPartnerDetailsTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             checkValue = check.getValue();
                             logic.callCheckRecUpdate(check.getValue(), (ContractResultDTO) itemId, StringUtils.EMPTY, session);
@@ -213,6 +215,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
         }
 
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }

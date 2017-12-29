@@ -39,6 +39,7 @@ public class SummaryTableLogic extends PageTreeTableLogic {
         return map;
     }
 
+    @Override
     public int getCount() {
         if (generate) {
             int count = itemLogic.getConfigureSalesCount(getLastParent(), removeDiscountDto);

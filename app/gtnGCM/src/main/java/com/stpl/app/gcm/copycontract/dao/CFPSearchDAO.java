@@ -24,12 +24,14 @@ public class CFPSearchDAO implements BeanDAO<CFPCompanyDTO> {
         this.CFPCompanyDTO = CFPCompanyDTO;
     }
 
+    @Override
     public int count(BeanSearchCriteria bsc) {
         int count = 0;
         count = logic.getContractSearchCount(CFPCompanyDTO, bsc);
         return count;
     }
 
+    @Override
     public List<CFPCompanyDTO> find(BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list) {
         List<CFPCompanyDTO> resultList = new ArrayList<>();
         return resultList;

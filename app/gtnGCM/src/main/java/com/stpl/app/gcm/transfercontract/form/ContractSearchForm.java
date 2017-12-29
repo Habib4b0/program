@@ -170,6 +170,7 @@ public class ContractSearchForm extends VerticalLayout {
         resultTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], Boolean.TRUE);
         resultTable.setTableFieldFactory(new TableFieldFactory() {
 
+            @Override
             public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                 Field field;
                 if (String.valueOf(HeaderUtil.getInstance().contractSearchColumn[0]).equals(propertyId)) {
@@ -183,6 +184,7 @@ public class ContractSearchForm extends VerticalLayout {
 
         resultTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
 
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 for (ContractSearchDTO temp : resultContainer.getItemIds()) {
                     resultContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());

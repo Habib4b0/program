@@ -5,7 +5,6 @@
 package com.stpl.app.gcm.promotetptocontract.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
-import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.gcm.promotetptocontract.dto.ComponentInfoDTO;
@@ -291,6 +290,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         binderDto.setCompanySystemId(dto.getCompanySystemId());
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         // empty
     }
@@ -359,6 +359,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
             rarCategory.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
 
             componentSelection.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     String compType = String.valueOf(componentSelection.getValue());
                     if (compType.equals(Constants.COMPANY_FAMILY_PLAN)) {
@@ -496,11 +497,13 @@ public class CurrentContractSelection extends CustomComponent implements View {
         currentTradingPartnerTable2.setColumnCheckBox(Constants.CHECK_RECORD, true);
 
         currentTradingPartnerTable2.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.setImmediate(true);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             if (check.getValue()) {
                                 CurrentContractDTO dto = (CurrentContractDTO) itemId;
@@ -524,6 +527,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
                     compEndDate.setImmediate(true);
                     compEndDate.addValueChangeListener(new Property.ValueChangeListener() {
 
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             logic.callDateUpdate(compEndDate.getValue(), (CurrentContractDTO) itemId, session, screenName, "END_DATE");
 
@@ -545,6 +549,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         });
 
         currentTradingPartnerTable2.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = currentTradingPartnerTable2.getItemIds();
                 for (Object obj : itemList) {
@@ -555,6 +560,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         });
 
         currentTradingPartnerTable2.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+            @Override
             public void itemClick(ItemClickEvent event) {
                 String componentSelectionValue = String.valueOf(componentSelection.getValue());
                 if (!SELECT_ONE.getConstant().equals(componentSelectionValue)) {
@@ -722,6 +728,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
     @UiHandler("resetBtn1")
     public void resetBtn1Logic(Button.ClickEvent event) {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", " Are you sure you want to reset the Search values?\n ", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals("YES")) {
                     try {
@@ -753,6 +760,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
     public void resetBtn2Logic(Button.ClickEvent event) {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", " Are you sure you want to reset the values \n "
                 + " in the Current-Customer Details list view? ", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals("YES")) {
                     try {

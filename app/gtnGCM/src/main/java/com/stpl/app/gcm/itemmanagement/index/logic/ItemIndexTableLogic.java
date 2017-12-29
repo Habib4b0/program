@@ -7,13 +7,10 @@ package com.stpl.app.gcm.itemmanagement.index.logic;
 
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
-import com.stpl.portal.kernel.exception.SystemException;
 
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 
 /**

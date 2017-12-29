@@ -19,7 +19,7 @@ import org.jboss.logging.Logger;
  */
 public class NEPLookuptablelogic extends PageTableLogic {
 
-    private AbstractLogic logic = AbstractLogic.getInstance();
+    private final AbstractLogic logic = AbstractLogic.getInstance();
     private static final Logger LOGGER = Logger.getLogger(NEPLookuptablelogic.class);
     private boolean isFirstLoad = false;
     private boolean isResultsEmpty;

@@ -294,10 +294,12 @@ public class DiscountProjectionLogic {
                                     discountDto.setUncheckCount(discountDto.getUncheckCount() + Integer.valueOf(String.valueOf(obj[NumericConstants.TEN])));
                                 }
                             }
-                        } else {
-                            discountDto.setCcpCount(Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));
-                            discountDto.setUncheckCount(discountDto.getUncheckCount() + Integer.valueOf(String.valueOf(obj[NumericConstants.TEN])));
-                        }
+                        }else{
+                             if (obj[NumericConstants.NINE] != null) {
+                                 discountDto.setCcpCount(Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));
+                                 discountDto.setUncheckCount(discountDto.getUncheckCount() + Integer.valueOf(String.valueOf(obj[NumericConstants.TEN])));
+                             }
+                         }
                         String column = StringUtils.EMPTY;
                         if (frequency.equals(QUARTERLY.getConstant())) {
                             column = Constant.Q_SMALL + obj[NumericConstants.THREE] + obj[NumericConstants.TWO];
@@ -432,7 +434,16 @@ public class DiscountProjectionLogic {
         com.stpl.app.utils.QueryUtils.updateAppDataUsingSessionTables(inputList, "discount-adjustment-query", session);
         return true;
     }
-
+ public boolean adjustDiscountProjectionValidation(ProjectionSelectionDTO projectionSelectionDTO) {
+        try {
+            String query = SQlUtil.getQuery("discount-adjustment-query-Validation");
+            List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+            return list.get(0) != null ? (Integer.parseInt(String.valueOf(list.get(0))) > 1) : false;
+        } catch (Exception e) {
+             LOGGER.error(e.getMessage());
+        }
+        return false;
+    }
     /**
      * To Update data related to adjustment prior to adjustment
      *

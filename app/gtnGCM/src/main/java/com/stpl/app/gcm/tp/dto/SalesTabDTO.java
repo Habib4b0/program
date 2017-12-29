@@ -83,6 +83,7 @@ public class SalesTabDTO extends ExtMapDTO implements Comparator<SalesTabDTO> {
         this.itemMasterSid = itemMasterSid;
     }
 
+    @Override
     public int compare(SalesTabDTO obj1, SalesTabDTO obj2) {
         int value = 0;
         try {

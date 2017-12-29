@@ -36,7 +36,6 @@ import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**

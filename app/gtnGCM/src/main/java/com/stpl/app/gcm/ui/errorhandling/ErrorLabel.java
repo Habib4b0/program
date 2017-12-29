@@ -39,6 +39,7 @@ public class ErrorLabel extends Label implements ErrorDisplay {
      *
      * @param error the error
      */
+    @Override
     public void setError(final String error) {
         try {
             setValue(error);
@@ -52,6 +53,7 @@ public class ErrorLabel extends Label implements ErrorDisplay {
     /**
      * Clears the component's error message and makes it invisible.
      */
+    @Override
     public void clearError() {
         try {
             setValue(null);

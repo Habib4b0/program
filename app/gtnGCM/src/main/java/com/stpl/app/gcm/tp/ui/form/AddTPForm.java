@@ -14,7 +14,6 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.CONTRACT_SELECT
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TAB_SUMMARY;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
@@ -79,6 +78,7 @@ public class AddTPForm extends CustomWindow {
         tabSheet.addTab(summary, TAB_SUMMARY.getConstant(), null, 1);
         tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
 
+            @Override
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 final TabSheet.Tab tab = (TabSheet.Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
                 int tabPosition = event.getTabSheet().getTabPosition(tab);

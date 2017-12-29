@@ -86,7 +86,7 @@ public class LoadTabLogic {
             tabSelectionDTO.setParentLevel("new");
             tabSelectionDTO.setContractMasterSid(session.getContMasteSid());
         }
-        this.projectionId = projectionId;
+        LoadTabLogic.projectionId = projectionId;
         setParentLevels(tabSelectionDTO);
         setForecastingType(LoadTabLogic.projectionId);
 
@@ -453,7 +453,7 @@ public class LoadTabLogic {
             tabSelectionDTO.setContractMasterSid(session.getContMasteSid());
             tabSelectionDTO.setParentLevel("new");
         }
-        this.projectionId = projectionId;
+        LoadTabLogic.projectionId = projectionId;
         getRebateParentLevels(tabSelectionDTO);
         setForecastingType(projectionId);
         List<Object> list = getRebateCountQuery(tabSelectionDTO);
@@ -898,7 +898,7 @@ public class LoadTabLogic {
     }
 
     public void updateSalesAndDiscount(SessionDTO session) {
-        this.projectionId = session.getProjectionId();
+        LoadTabLogic.projectionId = session.getProjectionId();
 
         setForecastingType(LoadTabLogic.projectionId);
         List<String> salesColumn = CommonLogic.getApprovedProjectionResults(forecatingType, true);
