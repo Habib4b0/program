@@ -60,7 +60,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -69,7 +68,6 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.validator.AbstractValidator;
-import com.vaadin.v7.event.FieldEvents;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.ErrorHandler;
@@ -2190,7 +2188,7 @@ public class FileManagementLookup extends Window {
 			final HashMap savedForecast = new HashMap();
 			List<Integer> existingSystemId = new ArrayList<>();
 			if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.EX_FACTORY_SALES)) {
-				dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastingMaster.class);
+				dynamicQuery = ForecastingMasterLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery
 						.add(RestrictionsFactoryUtil.eq(ConstantsUtils.FORECAST_YEAR, String.valueOf(selectedYear)));
@@ -2198,7 +2196,7 @@ public class FileManagementLookup extends Window {
 				dynamicQuery.add(
 						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue().toString()));
+						fileNameList.getValue()));
 				List<ForecastingMaster> listToRemove = ForecastingMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
 				for (final Iterator<ForecastingMaster> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final ForecastingMaster itemDetail = iterator.next();
@@ -2206,14 +2204,14 @@ public class FileManagementLookup extends Window {
 					savedForecast.put(itemDetail.getForecastMasterSid(), itemDetail);
 				}
 			} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.DEMAND)) {
-				dynamicQuery = DynamicQueryFactoryUtil.forClass(DemandForecast.class);
+				dynamicQuery = DemandForecastLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
 						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue().toString()));
+						fileNameList.getValue()));
 				List<DemandForecast> listToRemove = DemandForecastLocalServiceUtil.dynamicQuery(dynamicQuery);
 				for (final Iterator<DemandForecast> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final DemandForecast itemDetail = iterator.next();
@@ -2222,13 +2220,13 @@ public class FileManagementLookup extends Window {
 				}
 			} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription()
 					.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-				dynamicQuery = DynamicQueryFactoryUtil.forClass(AdjustedDemandForecast.class);
+				dynamicQuery = AdjustedDemandForecastLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
 						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue().toString()));
+						fileNameList.getValue()));
 				List<AdjustedDemandForecast> listToRemove = AdjustedDemandForecastLocalServiceUtil
 						.dynamicQuery(dynamicQuery);
 				for (final Iterator<AdjustedDemandForecast> iterator = listToRemove.iterator(); iterator.hasNext();) {
@@ -2240,9 +2238,9 @@ public class FileManagementLookup extends Window {
 					.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 				List<String> query = new ArrayList<>();
 				query.add(selectedFile);
-				query.add(country.getValue().toString());
-				query.add(versionList.getValue().toString());
-				query.add(fileNameList.getValue().toString());
+				query.add(country.getValue());
+				query.add(versionList.getValue());
+				query.add(fileNameList.getValue());
 				List<FileMananagementResultDTO> list = FileManagementLogic.getInventoryDemandValidationQuery(query);
 				for (final Iterator<FileMananagementResultDTO> iterator = list.iterator(); iterator.hasNext();) {
 					final FileMananagementResultDTO itemDetail = iterator.next();
@@ -2250,14 +2248,14 @@ public class FileManagementLookup extends Window {
 					savedForecast.put(itemDetail.getInventoryForecastDetailsSysId(), itemDetail);
 				}
 			} else if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.CUSTOMERGTS)) {
-				dynamicQuery = DynamicQueryFactoryUtil.forClass(CustomerGtsForecast.class);
+				dynamicQuery = CustomerGtsForecastLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 
-				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
+				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue()));
 				dynamicQuery.add(
-						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
+						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue().toString()));
+						fileNameList.getValue()));
 				List<CustomerGtsForecast> listToRemove = CustomerGtsForecastLocalServiceUtil.dynamicQuery(dynamicQuery);
 				for (final Iterator<CustomerGtsForecast> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final CustomerGtsForecast itemDetail = iterator.next();

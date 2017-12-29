@@ -32,7 +32,6 @@ import com.stpl.app.model.WorkflowProfile;
 import com.stpl.app.service.WorkflowProfileLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 
 /**

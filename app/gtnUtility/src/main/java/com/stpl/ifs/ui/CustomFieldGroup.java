@@ -1,6 +1,6 @@
 package com.stpl.ifs.ui;
 
-import com.stpl.ifs.ui.errorhandling.ErrorDisplay;
+import com.stpl.app.ui.errorhandling.ErrorDisplay;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 

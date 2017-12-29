@@ -78,6 +78,7 @@ public class InboxDashboardDTO implements Serializable {
     private String customerHierSid = StringUtils.EMPTY;
     private String customerHierarchyLevel = StringUtils.EMPTY;
     private String custRelationshipBuilderSid = StringUtils.EMPTY;
+    private String productHierSid = StringUtils.EMPTY;
     private String productHierarchyLevel = StringUtils.EMPTY;
     private String prodRelationshipBuilderSid = StringUtils.EMPTY;
     
@@ -609,4 +610,11 @@ public class InboxDashboardDTO implements Serializable {
         this.prodRelationshipBuilderSid = prodRelationshipBuilderSid;
     }
 
+    public String getProductHierSid() {
+        return productHierSid;
+    }
+
+    public void setProductHierSid(String productHierSid) {
+        this.productHierSid = productHierSid;
+    }
 }

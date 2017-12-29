@@ -3,7 +3,7 @@
 To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
-<Panel xmlns:p="urn:import:com.stpl.ifs.ui.errorhandling" xmlns:c="urn:import:org.asi.ui.customtextfield" >
+<Panel xmlns:p="urn:import:com.stpl.app.ui.errorhandling" xmlns:c="urn:import:org.asi.ui.customtextfield" >
 
     <VerticalLayout margin="true" spacing="true" >
         <p:ErrorLabel id="errorMsg"/>

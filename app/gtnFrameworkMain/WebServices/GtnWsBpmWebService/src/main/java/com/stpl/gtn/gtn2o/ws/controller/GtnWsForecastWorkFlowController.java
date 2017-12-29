@@ -70,7 +70,7 @@ public class GtnWsForecastWorkFlowController {
         boolean workflowFlag = workflowLogicService.isValidWorkflowUser(userModel, roleList,
                 processInstance.getId(), GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
         GtnWsCommonWorkflowResponse wfResponse = new GtnWsCommonWorkflowResponse();
-        wfResponse.setHasPermission(true);
+        wfResponse.setHasPermission(workflowFlag);
         wfResponse.setProcessInstanceId(processInstanceId.intValue());
         wfResponse.setRoleList(roleList);
         generalResponse.setSucess(true);
@@ -153,5 +153,93 @@ public class GtnWsForecastWorkFlowController {
         gtnWsresponse.setGtnWsGeneralResponse(generalResponse);
         return gtnWsresponse;
     }
+    
+    @RequestMapping(value = GtnWsForecastConstants.GTN_WS_FORECAST_APPROVE_WORKFLOW)
+    @ResponseBody
+    public GtnUIFrameworkWebserviceResponse approveWorkFlow(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+        GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebserviceResponse();
+        GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
+        GtnWsForecastProjectionSubmitRequest forecastProjectionSubmitRequest = gtnUIFrameworkWebserviceRequest
+                .getGtnWsForecastProjectionSubmitRequest();
+        GtnWsForecastProjectionSubmitBean forecastProjectionSubmitBean = forecastProjectionSubmitRequest
+                .getGtnWsForecastProjectionSubmitBean();
+        GtnWsGeneralRequest gtnWsGeneralRequest = forecastProjectionSubmitRequest.getGtnWsGeneralRequest();
+        Map<String, Object> params = new HashMap<>();
+				params.put("approveFlag", "approve");
+				workflowLogicService.updateTaskInBpm(gtnWsGeneralRequest.getUserId(), forecastProjectionSubmitBean.getProcessId(), params,
+						GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+        GtnWsCommonWorkflowResponse wfResponse = new GtnWsCommonWorkflowResponse();
+        generalResponse.setSucess(true);
+        gtnWsresponse.setGtnWSCommonWorkflowResponse(wfResponse);
+        gtnWsresponse.setGtnWsGeneralResponse(generalResponse);
+        return gtnWsresponse;
+    }
+    
+     @RequestMapping(value = GtnWsForecastConstants.GTN_WS_FORECAST_REJECT_WORKFLOW)
+    @ResponseBody
+    public GtnUIFrameworkWebserviceResponse rejectWorkflow(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+        GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebserviceResponse();
+        GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
+        GtnWsForecastProjectionSubmitRequest forecastProjectionSubmitRequest = gtnUIFrameworkWebserviceRequest
+                .getGtnWsForecastProjectionSubmitRequest();
+        GtnWsForecastProjectionSubmitBean forecastProjectionSubmitBean = forecastProjectionSubmitRequest
+                .getGtnWsForecastProjectionSubmitBean();
+        GtnWsGeneralRequest gtnWsGeneralRequest = forecastProjectionSubmitRequest.getGtnWsGeneralRequest();
+        Map<String, Object> params = new HashMap<>();
+				params.put("approveFlag", "reject-RWC");
+				workflowLogicService.updateTaskInBpm(gtnWsGeneralRequest.getUserId(), forecastProjectionSubmitBean.getProcessId(), params,
+						GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+        GtnWsCommonWorkflowResponse wfResponse = new GtnWsCommonWorkflowResponse();
+        generalResponse.setSucess(true);
+        gtnWsresponse.setGtnWSCommonWorkflowResponse(wfResponse);
+        gtnWsresponse.setGtnWsGeneralResponse(generalResponse);
+        return gtnWsresponse;
+    }
+     @RequestMapping(value = GtnWsForecastConstants.GTN_WS_FORECAST_WITHDRAW_WORKFLOW)
+    @ResponseBody
+    public GtnUIFrameworkWebserviceResponse withDrawWorkflow(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+        GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebserviceResponse();
+        GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
+        GtnWsForecastProjectionSubmitRequest forecastProjectionSubmitRequest = gtnUIFrameworkWebserviceRequest
+                .getGtnWsForecastProjectionSubmitRequest();
+        GtnWsForecastProjectionSubmitBean forecastProjectionSubmitBean = forecastProjectionSubmitRequest
+                .getGtnWsForecastProjectionSubmitBean();
+        GtnWsGeneralRequest gtnWsGeneralRequest = forecastProjectionSubmitRequest.getGtnWsGeneralRequest();
+        Map<String, Object> params = new HashMap<>();
+				params.put("approveFlag", "withdraw-RWC");
+				workflowLogicService.updateTaskInBpm(gtnWsGeneralRequest.getUserId(), forecastProjectionSubmitBean.getProcessId(), params,
+						GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+        GtnWsCommonWorkflowResponse wfResponse = new GtnWsCommonWorkflowResponse();
+        generalResponse.setSucess(true);
+        gtnWsresponse.setGtnWSCommonWorkflowResponse(wfResponse);
+        gtnWsresponse.setGtnWsGeneralResponse(generalResponse);
+        return gtnWsresponse;
+    }
+    
+      @RequestMapping(value = GtnWsForecastConstants.GTN_WS_FORECAST_CANCEL_WORKFLOW)
+    @ResponseBody
+    public GtnUIFrameworkWebserviceResponse cancelWorkflow(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+        GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebserviceResponse();
+        GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
+        GtnWsForecastProjectionSubmitRequest forecastProjectionSubmitRequest = gtnUIFrameworkWebserviceRequest
+                .getGtnWsForecastProjectionSubmitRequest();
+        GtnWsForecastProjectionSubmitBean forecastProjectionSubmitBean = forecastProjectionSubmitRequest
+                .getGtnWsForecastProjectionSubmitBean();
+        GtnWsGeneralRequest gtnWsGeneralRequest = forecastProjectionSubmitRequest.getGtnWsGeneralRequest();
+        Map<String, Object> params = new HashMap<>();
+				params.put("approveFlag", "cancel-RWC");
+				workflowLogicService.updateTaskInBpm(gtnWsGeneralRequest.getUserId(), forecastProjectionSubmitBean.getProcessId(), params,
+						GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+        GtnWsCommonWorkflowResponse wfResponse = new GtnWsCommonWorkflowResponse();
+        generalResponse.setSucess(true);
+        gtnWsresponse.setGtnWSCommonWorkflowResponse(wfResponse);
+        gtnWsresponse.setGtnWsGeneralResponse(generalResponse);
+        return gtnWsresponse;
+    }
+    
 
 }

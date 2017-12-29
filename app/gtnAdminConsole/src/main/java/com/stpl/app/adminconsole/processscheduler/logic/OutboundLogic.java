@@ -17,24 +17,21 @@ import com.stpl.app.adminconsole.processscheduler.dto.RelationshipOutboundDTO;
 import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.HelperListUtil;
-import com.stpl.app.model.HierarchyDefinition;
 import com.stpl.app.model.RelationshipBuilder;
 import com.stpl.app.security.StplSecurity;
-import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.HierarchyDefinitionLocalServiceUtil;
 import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
 import com.vaadin.v7.data.util.filter.Compare;
@@ -119,7 +116,7 @@ public class OutboundLogic {
         if (hierarchyTypeMap.isEmpty()) {
             loadHierarchyTypeMap();
         }
-        StringBuilder queryBuilder = new StringBuilder(isCount ? CustomSQLUtil.get("getHierarchyDefinitionCount") : CustomSQLUtil.get("getHierarchyDefinitionResults"));
+        StringBuilder queryBuilder = new StringBuilder(isCount ? SQlUtil.getQuery("getHierarchyDefinitionCount") : SQlUtil.getQuery("getHierarchyDefinitionResults"));
         queryBuilder.append(hierarchyTypeMap.get(hierType));
         loadHdSearchCriteriaMap();
           
@@ -746,7 +743,7 @@ public class OutboundLogic {
     }
          
     public Set getAllCffIds() {
-        String query = CustomSQLUtil.get("getCffOuboundSearchResults");
+        String query = SQlUtil.getQuery("getCffOuboundSearchResults");
         Set checkedCffsSet = new HashSet();
 
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -814,7 +811,7 @@ public class OutboundLogic {
     public List<OutboundTableDTO> getRelationShipSheduledResults() {
         List<OutboundTableDTO> rbOutboundList = new ArrayList<>();
         try {
-            String rbQuery=CustomSQLUtil.get("getRelationshipOuboundScheduleResults");
+            String rbQuery=SQlUtil.getQuery("getRelationshipOuboundScheduleResults");
             List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(rbQuery);
             rbOutboundList=getCustomizedRbOutbound(list);
         } catch (Exception e) {

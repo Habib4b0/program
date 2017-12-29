@@ -29,7 +29,6 @@ import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
-import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.DemandForecast;
 import com.stpl.app.model.FileManagement;
 import com.stpl.app.model.ForecastConfig;
@@ -37,9 +36,6 @@ import com.stpl.app.model.ForecastingMaster;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.model.InventoryWdProjMas;
 import com.stpl.app.model.ItemMaster;
-import com.stpl.app.model.ItemQualifier;
-import com.stpl.app.parttwo.model.AdjustedDemandForecast;
-import com.stpl.app.parttwo.model.CustomerGtsForecast;
 import com.stpl.app.parttwo.service.AdjustedDemandForecastLocalServiceUtil;
 import com.stpl.app.parttwo.service.CustomerGtsForecastLocalServiceUtil;
 import com.stpl.app.service.DemandForecastLocalServiceUtil;
@@ -53,7 +49,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Order;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
@@ -61,9 +56,10 @@ import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.parttwo.model.AdjustedDemandForecast;
+import com.stpl.app.parttwo.model.CustomerGtsForecast;
 import com.stpl.app.service.BrandMasterLocalServiceUtil;
 import com.stpl.app.service.ItemQualifierLocalServiceUtil;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.util.filter.Between;
@@ -1072,7 +1068,7 @@ public class FileManagementLogic {
 		Criterion criterion = null;
 		List<FileManagement> resultsList;
 
-		projectionDynamicQuery = DynamicQueryFactoryUtil.forClass(FileManagement.class);
+		projectionDynamicQuery = FileManagementLocalServiceUtil.dynamicQuery();
 		Criterion criteria = RestrictionsFactoryUtil.eq(StringConstantUtils.FILE_TYPE, fileType.getId());
 		if (ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())
 				&& ConstantsUtils.COUNTRY_US.equals(country)) {
@@ -1961,7 +1957,7 @@ public class FileManagementLogic {
 			sqlString = "SELECT count( * ) \n"
 					+ " FROM FORECASTING_MASTER FM, ITEM_MASTER IM WHERE FM.NDC=IM.ITEM_ID AND \n" + "FORECAST_NAME=  ";
 		} else {
-			sqlString = CustomSQLUtil.get("getDetailsResults");
+			sqlString = SQlUtil.getQuery("getDetailsResults");
 		}
 		sqlString = sqlString.concat("'").concat(detailsResultDTO.getFileName()).concat("'");
 		if (ConstantsUtils.EX_FACTORY_SALES.equals(detailsResultDTO.getHelperType().getDescription())
@@ -3224,7 +3220,7 @@ public class FileManagementLogic {
 			sqlString = "SELECT count( * ) \n"
 					+ " FROM FORECASTING_MASTER FM, ITEM_MASTER IM WHERE FM.NDC=IM.ITEM_ID AND \n" + "FORECAST_NAME=  ";
 		} else {
-			sqlString = CustomSQLUtil.get("getDetailsResultsExcel");
+			sqlString = SQlUtil.getQuery("getDetailsResultsExcel");
 		}
 		sqlString = sqlString.concat("'").concat(detailsResultDTO.getFileName()).concat("'");
 		if (ConstantsUtils.EX_FACTORY_SALES.equals(detailsResultDTO.getHelperType().getDescription())

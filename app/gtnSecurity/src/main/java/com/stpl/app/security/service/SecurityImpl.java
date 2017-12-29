@@ -187,6 +187,7 @@ public class SecurityImpl {
             if (subModuleName.length()!=0) {
                     sql += " AND MSM.SUBMODULE_NAME = '" + subModuleName + "' ";
             }
+            System.out.println("findFieldAccessDetails sql = "+sql);
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

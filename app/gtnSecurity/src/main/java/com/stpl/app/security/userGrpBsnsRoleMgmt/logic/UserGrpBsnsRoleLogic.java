@@ -16,17 +16,15 @@ import com.stpl.app.security.userGrpBsnsRoleMgmt.dto.UserGrpBsnsRoleDTO;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.service.UserGroupLocalServiceUtil;
 import com.stpl.app.service.BusinessroleMasterLocalServiceUtil;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.jboss.logging.Logger;
 
 public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDTO>{
-     private static final Logger LOGGER = LogManager
+     private static final Logger LOGGER = Logger
             .getLogger(UserGrpBsnsRoleLogic.class.getName());
 
     public UserGrpBsnsRoleLogic() {
@@ -73,7 +71,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
     	try{
     	List<String> usrGrpList = new ArrayList<String> ();
     	DynamicQuery ugDynamicQuery = UserGroupLocalServiceUtil.dynamicQuery();
-    	ugDynamicQuery.add(RestrictionsFactoryUtil.like("groupType","Business"));
+//    	ugDynamicQuery.add(RestrictionsFactoryUtil.like("groupType","Business"));
     	List<UserGroup> usrGrp=dao.getUserGroups(ugDynamicQuery);
     	HashMap<String, Long> map = new HashMap<String, Long>();
     	Iterator<UserGroup> iterate = usrGrp.iterator();

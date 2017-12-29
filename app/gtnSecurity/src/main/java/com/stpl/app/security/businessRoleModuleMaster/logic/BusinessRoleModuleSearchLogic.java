@@ -7,9 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.stpl.app.model.BusinessroleMaster;
 import com.stpl.app.model.BusinessroleModule;
 import com.stpl.app.model.ModuleSubmoduleMaster;
@@ -23,7 +20,6 @@ import com.stpl.app.service.BusinessroleModuleLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -33,6 +29,7 @@ import com.stpl.app.service.BusinessroleMasterLocalServiceUtil;
 import com.stpl.app.service.ModuleSubmoduleMasterLocalServiceUtil;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
+import org.jboss.logging.Logger;
 
 @Transactional
 public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusinessRoleModuleForm> implements Serializable {
@@ -46,7 +43,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
      *
      */
     private static final long serialVersionUID = 4573149356126437540L;
-    private static final Logger LOGGER = LogManager
+    private static final Logger LOGGER = Logger
             .getLogger(BusinessRoleModuleSearchLogic.class.getName());
      int VersionNo = NumericConstants.ONE;
     public List<SearchBusinessRoleModuleForm> searchmoduleAccessDetails(

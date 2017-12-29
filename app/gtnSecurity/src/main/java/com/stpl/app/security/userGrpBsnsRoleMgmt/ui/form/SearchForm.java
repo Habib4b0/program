@@ -4,10 +4,6 @@ import com.stpl.app.security.businessRoleModuleMaster.util.CommonUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.stpl.app.security.userGrpBsnsRoleMgmt.dto.UserGrpBsnsRoleDTO;
 import com.stpl.app.security.userGrpBsnsRoleMgmt.logic.UserGrpBsnsRoleLogic;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
@@ -32,10 +28,11 @@ import com.vaadin.v7.ui.NativeSelect;
 import com.vaadin.ui.Notification;
 import com.vaadin.v7.ui.TwinColSelect;
 import com.vaadin.v7.ui.VerticalLayout;
+import org.jboss.logging.Logger;
 
 public class SearchForm extends CustomComponent {
     private static final long serialVersionUID = 8893447767363695369L;
-    private static final Logger LOGGER = LogManager
+    private static final Logger LOGGER = Logger
             .getLogger(SearchForm.class.getName());
     final ErrorLabel errorMsg = new ErrorLabel();
     final Label space = new Label("&nbsp;", ContentMode.HTML);
