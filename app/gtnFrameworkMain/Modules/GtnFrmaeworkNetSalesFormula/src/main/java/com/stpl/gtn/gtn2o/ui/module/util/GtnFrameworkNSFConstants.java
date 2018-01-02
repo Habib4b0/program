@@ -17,6 +17,8 @@ public class GtnFrameworkNSFConstants {
 	private static final String NSF_MAIN_VIEW = "netSalesFormulaMainView";
 	private static final String NO_SEARCH_CRITERIA = "No Search Criteria";
 	private static final String PLEASE_ENTER_SEARCH_CRITERIA = "Please enter Search Criteria";
+	private static final String FORMULA_TYPE_IS_MANDATORY = "Formula Type is Mandatory";
+	private static final String PLEASE_SELECT_FORMULA_TYPE = "Please select Formula Type";
 	private static final String RESET_CONFIRMATION = "Reset Confirmation";
 	private static final String RESET_CONFIRMATION_MSG = "Are you sure you want to reset the values in the Search Criteria group box?";
 
@@ -154,6 +156,14 @@ public class GtnFrameworkNSFConstants {
 		return NSF_MAIN_VIEW;
 	}
 	
+    public static String getFormulaTypeIsMandatory() {
+		return FORMULA_TYPE_IS_MANDATORY;
+	}
+
+	public static String getPleaseSelectFormulaType() {
+		return PLEASE_SELECT_FORMULA_TYPE;
+	}
+
 	public static String getNoSearchCriteria() {
 		return NO_SEARCH_CRITERIA;
 	}
