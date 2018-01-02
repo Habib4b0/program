@@ -10,7 +10,7 @@ and open the template in the editor.
     
     <entity id="non-mandated-sales-query-new">
         <query>
-               <![CDATA[
+            <![CDATA[
                 IF Object_id('TEMPDB..#ST_NM_SALES_PROJECTION') IS NOT NULL
                 DROP TABLE #ST_NM_SALES_PROJECTION
 
@@ -24,7 +24,7 @@ and open the template in the editor.
                        COUNT(DISTINCT SHN.CCP_DETAILS_SID) AS ROW_COUNT INTO #ST_NM_SALES_PROJECTION
                 FROM #SELECTED_HIERARCHY_NO SHN
                 JOIN ST_NM_SALES_PROJECTION NMSP ON NMSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
-                JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID 
+                JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID
                 @UOMCODE 
                 @SALESINCLUSION 
                 GROUP BY SHN.HIERARCHY_NO,             
@@ -116,7 +116,7 @@ and open the template in the editor.
                        MAINQ.ccpcount,
                        MAINQ.hierarchy_indicator,
                        MAINQ.user_group,
-                       '' AS SEC_HIERARCHY,SALES_INCLUSION   
+                       '' AS SEC_HIERARCHY,SALES_INCLUSION   , MAINQ.INSTR
                 FROM
                   (SELECT Q.account_growth,
                           Q.product_growth,
@@ -137,7 +137,7 @@ and open the template in the editor.
                           Q.hierarchy_indicator,
                           Q.user_group,
                           Dense_rank() OVER(
-                                            ORDER BY Q.HIERARCHY_NO ASC) AS TEMP_INDEX,Q.SALES_INCLUSION
+                                            ORDER BY Q.INSTR ASC) AS TEMP_INDEX,Q.SALES_INCLUSION,Q.INSTR
                    FROM
                      (SELECT distinct 0.0 AS ACCOUNT_GROWTH,
                              0.0 AS PRODUCT_GROWTH,
@@ -156,7 +156,7 @@ and open the template in the editor.
                              UNCHECK_COUNT,
                              CCPCOUNT,
                              '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR,
-                             sh.USER_GROUP,MSPM.SALES_INCLUSION
+                             sh.USER_GROUP,MSPM.SALES_INCLUSION,INSTR
                       FROM (SELECT HIERARCHY_NO,year,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY,P.@FREVAL@,INSTR FROM #SELECTED_HIERARCHY_NO SHS CROSS JOIN PERIOD P WHERE P.PERIOD_SID BETWEEN @STAT_SALES AND @EN_SALES GROUP BY  year,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY,P.@FREVAL@,INSTR,HIERARCHY_NO) SH 
 					  left join 
 					  #ST_NM_SALES_PROJECTION_MASTER MSPM on  mspm.HIERARCHY_NO=sh.HIERARCHY_NO
@@ -179,7 +179,7 @@ and open the template in the editor.
                                        UNCHECK_COUNT,
                                        CCPCOUNT,
                                        '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR,
-                                       sh.USER_GROUP,MSPM.SALES_INCLUSION
+                                       sh.USER_GROUP,MSPM.SALES_INCLUSION, INSTR
                       FROM (SELECT HIERARCHY_NO,year,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY,P.@FREVAL@,INSTR FROM #SELECTED_HIERARCHY_NO SHS CROSS JOIN PERIOD P WHERE P.PERIOD_SID BETWEEN @ACTUAL_START_PERIOD AND @ACTUAL_END_PERIOD GROUP BY  year,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY,P.@FREVAL@,INSTR,HIERARCHY_NO) sh left join 
 					   #ST_NM_SALES_PROJECTION_MASTER MSPM on mspm.HIERARCHY_NO=sh.HIERARCHY_NO
                      left  JOIN #ST_NM_SALES_PROJECTION MSP ON MSPM.HIERARCHY_NO = MSP.HIERARCHY_NO 
@@ -187,7 +187,7 @@ and open the template in the editor.
                 WHERE MAINQ.TEMP_INDEX > @START
                   AND MAINQ.TEMP_INDEX <= (@START+@END)
                 ORDER BY 
-                        MAINQ.HIERARCHY_NO,
+                        MAINQ.INSTR,
                         MAINQ.YEARS,
                         MAINQ.PERIODS;
                 ]]>
