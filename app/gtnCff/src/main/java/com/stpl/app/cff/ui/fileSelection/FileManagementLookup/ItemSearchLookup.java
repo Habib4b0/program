@@ -6,7 +6,7 @@ package com.stpl.app.cff.ui.fileSelection.FileManagementLookup;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.cff.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.dto.FileManagementFilterGenerator;
 import com.stpl.app.cff.ui.fileSelection.dto.ItemSearchDTO;

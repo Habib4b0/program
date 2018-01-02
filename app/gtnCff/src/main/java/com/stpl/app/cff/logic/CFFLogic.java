@@ -48,6 +48,8 @@ import com.stpl.app.parttwo.service.CffCustHierarchyLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffProdHierarchyLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
@@ -1131,19 +1133,17 @@ public class CFFLogic {
         if (null == sessionDTO.getWorkflowStatus()) {
             try {
                 List<String> roleList = new ArrayList<>();
-                ProcessInstance processInstance = DSCalculationLogic.startWorkflow();
-                User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
-                boolean workflowFlag = DSCalculationLogic.isValidWorkflowUser(userModel, roleList, processInstance.getId());
-                if (workflowFlag) {
-                    Long processInstanceId = processInstance.getId();
+                GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(sessionDTO,userId);
+                if (response.isHasPermission()) {
+                    Long processInstanceId = Long.valueOf(String.valueOf(response.getProcessInstanceId()));
                     try {
-                        TaskSummary taskSummary = DSCalculationLogic.startAndCompleteTask(userModel, Integer.valueOf(cffMasterSid), processInstanceId);
-                        processInstanceId = taskSummary.getProcessInstanceId();
+                        GtnWsCommonWorkflowResponse taskSummary = DSCalculationLogic.startAndCompleteTask(sessionDTO,userId);
+                        processInstanceId = Long.valueOf(String.valueOf(taskSummary.getProcessInstanceId()));
                     } catch (Exception e) {
                         LOGGER.error(e);
                     }
-                    VarianceCalculationLogic.submitWorkflow(userId, processInstanceId, params);
-                    noOfLevel = BPMProcessBean.getProcessVariableLog(processInstanceId, "NoOfUsers");
+                    VarianceCalculationLogic.submitWorkflow(processInstanceId, sessionDTO,"CFF");
+                    noOfLevel = DSCalculationLogic.getProcessVariableLog(processInstanceId, "NoOfUsers");
                 } else {
                     StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
                     if (!roleList.isEmpty()) {
@@ -1152,14 +1152,12 @@ public class CFFLogic {
                     NotificationUtils.getAlertNotification("Permission Denined", notiMsg.toString());
 
                 }
-            } catch (PortalException ex) {
-                java.util.logging.Logger.getLogger(CFFLogic.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SystemException ex) {
+            }  catch (SystemException ex) {
                 java.util.logging.Logger.getLogger(CFFLogic.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (sessionDTO.getWorkflowStatus() != null && sessionDTO.getWorkflowStatus().equals("Rejected")) {
-            VarianceCalculationLogic.submitWorkflow(userId, sessionDTO.getProcessId(), params);
-            noOfLevel = BPMProcessBean.getProcessVariableLog(sessionDTO.getProcessId(), "NoOfUsers");
+            VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(), sessionDTO, "CFF");
+            noOfLevel = DSCalculationLogic.getProcessVariableLog(sessionDTO.getProcessId(), "NoOfUsers");
         }
 
         return noOfLevel;

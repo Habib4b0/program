@@ -4,6 +4,7 @@ import com.stpl.app.cff.dao.CommonDAO;
 import com.stpl.app.cff.dao.impl.CommonDAOImpl;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.service.FileReadWriteService;
+import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkJoinClauseBean;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
@@ -13,12 +14,15 @@ import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryB
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
+import com.vaadin.server.VaadinSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -817,6 +821,15 @@ public class RelationShipFilterLogic {
 		finalQueryBean.addWhereClauseBean("ITEM_MASTER.ORGANIZATION_KEY", null, GtnFrameworkOperatorType.EQUAL_TO,
 				GtnFrameworkDataType.STRING, businessUnitValue);
 		return CommonQueryUtils.getQuery(finalQueryBean.generateQuery(), input);
+	}
+        
+        public static GtnWsSecurityToken getGsnWsSecurityToken() {
+		GtnWsSecurityToken token = new GtnWsSecurityToken();
+		Integer sessionId = Calendar.getInstance().get(Calendar.MILLISECOND);
+		String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID);
+		token.setUserId(userId);
+		token.setSessionId(sessionId.toString());
+		return token;
 	}
 
 }

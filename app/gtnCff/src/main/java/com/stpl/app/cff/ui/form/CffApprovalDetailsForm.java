@@ -39,7 +39,6 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -132,7 +131,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
     private CustomFieldGroup cffSearchBinder;
     private CFFLogic cffLogic = new CFFLogic();
     private Boolean isApproved = false;
-
+    public static final String CFF = "CFF";
     private boolean filterOptionLoaded = false;
 
     /**
@@ -406,9 +405,8 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 cffLogic.approveCffInformation(cffMasterSystemId, userId);
 
                 result = cffLogic.approveCffApproveDetails(userId, cffMasterSystemId, CommonUtils.WORKFLOW_STATUS_REJECTED).get(0).toString();
-                Map<String, Object> params = new HashMap<>();
-                params.put(StringConstantsUtil.APPROVE_FLAG, "reject-RWC");
-                VarianceCalculationLogic.submitWorkflow(sessionDTO.getUserId(), sessionDTO.getProcessId(), params);
+                
+                VarianceCalculationLogic.rejectWorkFlow(sessionDTO.getProcessId(), sessionDTO, CFF);
                 if (!result.equals(CommonUtils.FAIL)) {
                     notestab.getApprovalWindow().close();
                     CommonUIUtils.getMessageNotification("Rejected Successfully");
@@ -448,9 +446,8 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 cffLogic.approveCffInformation(cffMasterSystemId, userId);
 
                 result = cffLogic.approveCffApproveDetails(userId, cffMasterSystemId, CommonUtils.WORKFLOW_STATUS_CANCELLED).get(0).toString();
-                Map<String, Object> params = new HashMap<>();
-                params.put(StringConstantsUtil.APPROVE_FLAG, "cancel-RWC");
-                VarianceCalculationLogic.submitWorkflow(sessionDTO.getUserId(), sessionDTO.getProcessId(), params);
+                
+                VarianceCalculationLogic.cancelWorkFlow(sessionDTO.getProcessId(), sessionDTO, CFF);
                 if (!result.equals(CommonUtils.FAIL)) {
                     notestab.getApprovalWindow().close();
                     CommonUIUtils.getMessageNotification("Cancelled Successfully");
@@ -518,9 +515,8 @@ public class CffApprovalDetailsForm extends CustomWindow {
 
                         List<Object> resultList = cffLogic.approveCffApproveDetails(userId, cffMasterSystemId, CommonUtils.WORKFLOW_STATUS_APPROVED);
                         result = resultList.get(0).toString();
-                        Map<String, Object> params = new HashMap<>();
-                        params.put(StringConstantsUtil.APPROVE_FLAG, "approve");
-                        VarianceCalculationLogic.submitWorkflow(sessionDTO.getUserId(), sessionDTO.getProcessId(), params);
+                        
+                        VarianceCalculationLogic.approveWorkflow(sessionDTO.getProcessId(),sessionDTO, CFF);
                         if (!result.equals(CommonUtils.FAIL)) {
                             if ((Boolean) resultList.get(1)) {
                                 Object[] obj = {dto.getCffMasterSid()};

@@ -33,6 +33,12 @@
             <version>2.0</version>   
             <scope>provided</scope>         
         </dependency>
+        <dependency>
+            <groupId>com.stpl.addons</groupId>
+            <artifactId>ErrorLabel</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!--vaadin addons-->  
         <dependency>
@@ -92,7 +98,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-          <groupId>org.vaadin.addons</groupId>
+            <groupId>com.stpl.addons</groupId>
             <artifactId>lazy-container</artifactId>
             <version>2.0</version>
             <scope>provided</scope>
@@ -181,12 +187,6 @@
         <dependency>
             <artifactId>GtnFrameworkCommon</artifactId>
             <groupId>com.stpl.gtn.gtn2o</groupId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.stpl.addons</groupId>
-            <artifactId>ErrorLabel</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
