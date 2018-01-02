@@ -146,7 +146,7 @@ public class IfpLookUp extends Window {
                     }
                     if (propertyId.equals("ifpCategory")) {
                         commonUtil.loadComboBox(comboBox, UiUtils.IFP_CATEGORY, true);
-                        return ifpCategory;
+                        return comboBox;
                     }
                     if (propertyId.equals("ifpDesignation")) {
                         commonUtil.loadComboBox(comboBox, UiUtils.IFP_DESIGNATION, true);

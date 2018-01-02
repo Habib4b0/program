@@ -230,8 +230,8 @@ public class TPContractHolderLookUp extends Window {
         logic.loadDdlb("getCompanyTypeForContact",contractHolderType);
     }
 
-    @UiHandler("selectBtnCHL")
-    protected void btnLookupSelectLogic() {
+//    @UiHandler("selectBtnCHL")
+    public void btnLookupSelectLogic() {
         if (resultTable != null && resultTable.getValue() != null) {
             if (CONTRACT_HOLDER.equals(indicator)) {
                 setSelectedChHolderHierarchy((ContractHolderDTO) resultTable.getValue());
