@@ -18,6 +18,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.formatter.GtnWsFormatter;
 import com.stpl.gtn.gtn2o.ws.transaction.constants.GtnWsTransactionConstants;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class GtnUIFrameWorkTransactionTableColumnFormatAction
 
 	private void manageValidTableRecordType(GtnWsRecordBean record, GtnUIFrameworkBaseComponent tableBaseComponent,
 			GtnUIFrameworkTransactionComponentTypeListBean componentBean) throws GtnFrameworkGeneralException {
+
 		try {
 			List<Object> recordHeaderList = tableBaseComponent.getTableRecordHeader();
 			for (int i = 0; i < recordHeaderList.size(); i++) {
@@ -70,7 +72,24 @@ public class GtnUIFrameWorkTransactionTableColumnFormatAction
 				propertyValue = GtnUIFrameworkGlobalUI.getConvertedPropertyValue(dataType, propertyValue);
 				propertyValue = setFormatter(recordPropertyId, propertyValue, componentBean);
 				GtnWsRecordBean.addProperties(i, propertyValue, record.getProperties());
+			}
 
+			if (recordHeaderList.get(6).equals("itemPrice")) {
+				Object recordPropertyValueAMP = record.getPropertyValueByIndex(4);
+				Object value = record.getPropertyValueByIndex(6);
+				if (value == null || String.valueOf(value).isEmpty()) {
+					return;
+				}
+				if ("AMP".equals(recordPropertyValueAMP) || "BP".equals(recordPropertyValueAMP)) {
+					value = "$" + new BigDecimal(String.valueOf(value)).setScale(6, BigDecimal.ROUND_DOWN).toString();
+				} else if ("CPIURA".equals(recordPropertyValueAMP) || "CPI (Alt) URA".equals(recordPropertyValueAMP)) {
+					value = "$" + new BigDecimal(String.valueOf(value)).setScale(3, BigDecimal.ROUND_DOWN).toString();
+				} else if ("URA".equals(recordPropertyValueAMP)) {
+					value = "$" + new BigDecimal(String.valueOf(value)).setScale(4, BigDecimal.ROUND_DOWN).toString();
+				} else {
+					value = "$" + Double.parseDouble(String.valueOf(value));
+				}
+				GtnWsRecordBean.addProperties(6, value, record.getProperties());
 			}
 
 		} catch (Exception e) {
@@ -81,14 +100,16 @@ public class GtnUIFrameWorkTransactionTableColumnFormatAction
 	private Object setFormatter(Object propertyId, Object value,
 			GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
 
-                String formatDecimalPattern = componentBean.getFormatterMap(propertyId.toString());
-		if (formatDecimalPattern != null) {
-			DecimalFormat decimalFormatter = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
-			decimalFormatter.applyPattern(formatDecimalPattern);
-			return formatPercentageValue(decimalFormatter, value);
-		}
-            return value;
+		if (componentBean.getFormatterMap() != null && !componentBean.getFormatterMap().isEmpty()) {
+			String formatDecimalPattern = componentBean.getFormatterMap(propertyId.toString());
+			if (formatDecimalPattern != null) {
+				DecimalFormat decimalFormatter = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
+				decimalFormatter.applyPattern(formatDecimalPattern);
+				return formatPercentageValue(decimalFormatter, value);
+			}
 
+		}
+		return value;
 	}
 
 	private Object formatPercentageValue(DecimalFormat decimalFormat, Object value) {

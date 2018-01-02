@@ -7,7 +7,7 @@ public class VwItemPricing implements java.io.Serializable {
 
 	private int itemPricingSid;
 	private String itemUom;
-	private Double itemPrice;
+	private String itemPrice;
 	private String pricingCodeStatus;
 	private String entityCode;
 	private Date startDate;
@@ -26,7 +26,7 @@ public class VwItemPricing implements java.io.Serializable {
 	private String addChgDelIndicator;
 
 	public VwItemPricing() {
-            //constructor
+		// constructor
 	}
 
 	public int getItemPricingSid() {
@@ -45,11 +45,11 @@ public class VwItemPricing implements java.io.Serializable {
 		this.itemUom = itemUom;
 	}
 
-	public Double getItemPrice() {
+	public String getItemPrice() {
 		return this.itemPrice;
 	}
 
-	public void setItemPrice(Double itemPrice) {
+	public void setItemPrice(String itemPrice) {
 		this.itemPrice = itemPrice;
 	}
 
