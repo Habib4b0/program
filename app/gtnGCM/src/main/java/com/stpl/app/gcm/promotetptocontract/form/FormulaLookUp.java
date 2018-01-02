@@ -51,7 +51,7 @@ public class FormulaLookUp extends CustomWindow {
     public Button selectButton;
     @UiField("closeBtn")
     public Button closeButton;
-    FormulaIdTableLogic tableLogic = new FormulaIdTableLogic();
+    private final FormulaIdTableLogic tableLogic = new FormulaIdTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     public CustomTextField componentTextField;
     private final BeanItemContainer<FormulaDTO> resultsContainer = new BeanItemContainer<>(FormulaDTO.class);
@@ -59,7 +59,7 @@ public class FormulaLookUp extends CustomWindow {
         "formulaId", "formulaNo", "formulaName"};
     public final String[] formulaSearchHeaders = new String[]{
         "Formula Id", "Formula No", "Formula Name"};
-    SelectionDTO selection = new SelectionDTO();
+    private final SelectionDTO selection = new SelectionDTO();
 
     public FormulaLookUp(CustomTextField componentTextField) {
         super("Formula ID lookup");

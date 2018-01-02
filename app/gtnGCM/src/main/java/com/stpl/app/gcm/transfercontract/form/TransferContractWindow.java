@@ -17,7 +17,7 @@ import org.asi.ui.customwindow.CustomWindow;
  */
 public class TransferContractWindow extends CustomWindow {
 
-    final Map<String, Set<String>> resultList;
+    private final Map<String, Set<String>> resultList;
 
     public TransferContractWindow(final Map<String, Set<String>> resultList) {
         super("Transfer Contract");

@@ -32,7 +32,7 @@ public class TabSelectionDTO {
     public String unitField;
     public String rebateField;
     public String amountField;
-    boolean isProjectionTotal;
+    private boolean isProjectionTotal;
     private String frequency = StringUtils.EMPTY;
     private String operation = StringUtils.EMPTY;
     private List<ItemIndexDto> itemList;

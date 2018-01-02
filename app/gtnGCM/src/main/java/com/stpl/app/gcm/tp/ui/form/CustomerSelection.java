@@ -156,7 +156,6 @@ public class CustomerSelection extends VerticalLayout {
     private String customerSearchSessionId = StringUtils.EMPTY;
 
     private final TradingPartnerDTO tpDto = new TradingPartnerDTO();
-    private final transient CompanyLinkDTO companyDto = new CompanyLinkDTO();
     private final ErrorLabel errorMsg = new ErrorLabel();
     private final transient CommonUtil commonUtil = CommonUtil.getInstance();
 

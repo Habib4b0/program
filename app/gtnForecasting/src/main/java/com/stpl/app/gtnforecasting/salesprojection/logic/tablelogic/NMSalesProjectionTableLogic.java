@@ -305,5 +305,5 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
             LOGGER.error(e);
         }
     }
-
+    
 }

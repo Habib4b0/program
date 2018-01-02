@@ -43,13 +43,13 @@ import java.util.Set;
  */
 public class ItemLogic {
 
-    HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
-    HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
-    Map<String, String> componentMap = new HashMap<>();
-    Map<String, String> ifpMap = new HashMap<>();
-    Map<String, String> psMap = new HashMap<>();
-     Map<Integer, String> users = new HashMap<>();
-        String userid= "";
+    private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    private final HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
+    private Map<String, String> componentMap = new HashMap<>();
+    private Map<String, String> ifpMap = new HashMap<>();
+    private Map<String, String> psMap = new HashMap<>();
+    private Map<Integer, String> users = new HashMap<>();
+    private String userid = "";
 
     public void setCfpSearch() {
         componentMap = new HashMap<>();

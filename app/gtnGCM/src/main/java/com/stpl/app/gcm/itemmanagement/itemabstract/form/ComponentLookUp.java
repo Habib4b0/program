@@ -78,19 +78,18 @@ public static final Logger LOGGER = Logger.getLogger(ComponentLookUp.class);
     public Button selectButton;
     @UiField("closeBtn")
     public Button closeButton;
-    ComponentLookUpLogic tableLogic = new ComponentLookUpLogic();
+    private final ComponentLookUpLogic tableLogic = new ComponentLookUpLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private final BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
     private final BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
     private final BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
     private String component = StringUtils.EMPTY;
-    ComponentLookUpDTO componentDto;
-    ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
+    private final ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
     private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
-    SelectionDTO selection = new SelectionDTO();
-    AbstractLogic logic = AbstractLogic.getInstance();
-    List<String> countFlag = new ArrayList<>();
-    List<String> loadDataFlag = new ArrayList<>();
+    private final SelectionDTO selection = new SelectionDTO();
+    private final AbstractLogic logic = AbstractLogic.getInstance();
+    private final List<String> countFlag = new ArrayList<>();
+    private final List<String> loadDataFlag = new ArrayList<>();
     public CustomTextField componentTextField;
 
     public ComponentLookUp(final String component, final String caption, final CustomTextField componentTextField) {

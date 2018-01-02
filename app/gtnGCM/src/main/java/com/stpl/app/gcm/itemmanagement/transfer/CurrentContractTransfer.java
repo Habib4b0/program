@@ -23,12 +23,12 @@ import java.util.List;
  */
 public class CurrentContractTransfer extends CustomComponent {
 
-    VerticalLayout mainLayout = new VerticalLayout();
+    private VerticalLayout mainLayout = new VerticalLayout();
     public CurrentContractContractSearch contractSearch;
-    SelectionDTO selection;
+    private SelectionDTO selection;
     public List selectedItemList;
-    AbstractComponentInfo componentDetails;
-    AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
+    private AbstractComponentInfo componentDetails;
+    private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
 
     public boolean isRemoveProjectionBooleanVal() {
         if (contractSearch != null) {

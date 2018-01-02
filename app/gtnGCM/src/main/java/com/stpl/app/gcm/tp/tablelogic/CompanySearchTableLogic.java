@@ -20,14 +20,13 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class CompanySearchTableLogic extends PageTableLogic {
 
-    boolean firstTime = true;
-    CompanySearchLogic logic = new CompanySearchLogic();
-    TradingPartnerDTO tpDTo = new TradingPartnerDTO();
-    int parentCompanySid = 0;
-    String searchSessionid = StringUtils.EMPTY;
-    String recordLockStatus = StringUtils.EMPTY;
-    String parentCompanyNo = StringUtils.EMPTY;
-    String parentCompanyName = StringUtils.EMPTY;
+  private  boolean firstTime = true;
+  private final  CompanySearchLogic logic = new CompanySearchLogic();
+  private  TradingPartnerDTO tpDTo = new TradingPartnerDTO();
+  private  String searchSessionid = StringUtils.EMPTY;
+  private  String recordLockStatus = StringUtils.EMPTY;
+  private  String parentCompanyNo = StringUtils.EMPTY;
+  private  String parentCompanyName = StringUtils.EMPTY;
     public boolean isProjSelected = false;
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanySearchTableLogic.class);
 

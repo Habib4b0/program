@@ -10,7 +10,6 @@ import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractContractSearchDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractComponentInfo;
-import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.util.Constants;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
@@ -24,13 +23,12 @@ import java.util.List;
  */
 public class RemoveContractSelection extends CustomComponent {
 
-    VerticalLayout mainLayout = new VerticalLayout();
-    SelectionDTO selection;
-    List selectedItemList;
-    AbstractComponentInfo componentDetails;
-    RemoveContractSearch contractSearch;
-    AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
-    final StplSecurity stplSecurity = new StplSecurity();
+    private VerticalLayout mainLayout = new VerticalLayout();
+    private SelectionDTO selection;
+    private List selectedItemList;
+    private AbstractComponentInfo componentDetails;
+    private RemoveContractSearch contractSearch;
+    private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
 
     public RemoveContractSelection(SelectionDTO selection, List selectedItemList) {
         try {

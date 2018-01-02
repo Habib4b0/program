@@ -17,10 +17,10 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class RebateTableLogic extends PageTableLogic {
 
-    RemoveDiscountDto binderDto = new RemoveDiscountDto();
-    DiscountLogic logic = new DiscountLogic();
-    boolean generate = false;
-    CustomFieldGroup discountChBinder;
+    private final RemoveDiscountDto binderDto = new RemoveDiscountDto();
+    private final DiscountLogic logic = new DiscountLogic();
+    private boolean generate = false;
+    private CustomFieldGroup discountChBinder;
 
     /**
      * Record count logic

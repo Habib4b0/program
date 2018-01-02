@@ -66,7 +66,7 @@ public class TransferContract extends VerticalLayout implements View {
 	 * The Constant serialVersionUID.
 	 */
 	private static final long serialVersionUID = 1L;
-	SessionDTO session;
+	private SessionDTO session;
 	private TransferComponents transferComponents;
 	private NewComponents newComponents;
 	private ExistingComponents existingComponents;
@@ -107,14 +107,14 @@ public class TransferContract extends VerticalLayout implements View {
 	public TextField cfpId;
 	@UiField("cfpStatus")
 	public ComboBox cfpStatus;
-	ExtFilterTable resultTable;
-	PromoteTPLogic logic = new PromoteTPLogic();
-	TreeTable contractDashBoardTable = new TreeTable();
-	TreeTable contractDashBoardTable1 = new TreeTable();
-	TreeTable contractDashBoardTable2 = new TreeTable();
-	CommonUtil commonUtil = CommonUtil.getInstance();
-	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-	PromoteTPLogic tpLogic = new PromoteTPLogic();
+    private ExtFilterTable resultTable;
+    private PromoteTPLogic logic = new PromoteTPLogic();
+    private TreeTable contractDashBoardTable = new TreeTable();
+    private TreeTable contractDashBoardTable1 = new TreeTable();
+    private TreeTable contractDashBoardTable2 = new TreeTable();
+    private CommonUtil commonUtil = CommonUtil.getInstance();
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    private PromoteTPLogic tpLogic = new PromoteTPLogic();
 	public static final String ALREADY_EXIST_IN_THE_SYSTEM = " Already exist in the system.";
 
 	public PopupDateField getStartDate() {

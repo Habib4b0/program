@@ -27,7 +27,6 @@ import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -43,7 +42,6 @@ public class RemoveContractSearch extends AbstractContractSearch {
 
     private SelectionDTO selectionDTO = new SelectionDTO();
     private final StplSecurity stplSec = new StplSecurity();
-    private Map<String, AppPermission> functionHM = new HashMap<>();
     public static final Logger LOGGER = Logger.getLogger(RemoveContractSearch.class);
 
     public RemoveContractSearch(SelectionDTO selection, List selectedItemList) {

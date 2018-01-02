@@ -20,10 +20,10 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 public class CurrentContractTableLogic extends PageTableLogic {
 
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CurrentContractTableLogic.class);
-    CurrentContractDTO currConDTO = new CurrentContractDTO();
-    PromoteTPLogic logic = new PromoteTPLogic();
-    boolean firstTime = true;
-    SessionDTO session;
+    private CurrentContractDTO currConDTO = new CurrentContractDTO();
+    private final PromoteTPLogic logic = new PromoteTPLogic();
+    private boolean firstTime = true;
+    private SessionDTO session;
 
     /**
      * Record count logic

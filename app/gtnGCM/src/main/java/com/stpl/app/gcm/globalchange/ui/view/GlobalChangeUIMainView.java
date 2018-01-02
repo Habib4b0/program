@@ -6,7 +6,6 @@ package com.stpl.app.gcm.globalchange.ui.view;
 
 import com.stpl.app.gcm.globalchange.dto.GlobalChangeDTO;
 import com.stpl.app.gcm.globalchange.ui.form.GlobalChangeIndex;
-import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.Constants;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -23,11 +22,10 @@ public class GlobalChangeUIMainView extends VerticalLayout implements View {
      * View name for navigation
      */
     public static final String NAME = StringUtils.EMPTY;
-    SessionDTO sessionDTO;
     /**
      * DTO object for DataSelection
      */
-    GlobalChangeDTO globalChangeDTO = new GlobalChangeDTO();
+    public GlobalChangeDTO globalChangeDTO = new GlobalChangeDTO();
 
     /**
      * Default Enter Method

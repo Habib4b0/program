@@ -12,7 +12,6 @@ import com.stpl.app.gcm.tp.logic.CommmonLogic;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
@@ -23,11 +22,10 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class CurrentContractTableLogic extends PageTableLogic {
 
-    ContractSelectionDTO conSelDTO = new ContractSelectionDTO();
-    List<ContractResultDTO> itemList = new ArrayList<>();
-    CommmonLogic logic = new CommmonLogic();
-    boolean firstTime = true;
-    SessionDTO session;
+    private ContractSelectionDTO conSelDTO = new ContractSelectionDTO();
+    private final CommmonLogic logic = new CommmonLogic();
+    private boolean firstTime = true;
+    private SessionDTO session;
     /**
      * The Constant LOGGER.
      */

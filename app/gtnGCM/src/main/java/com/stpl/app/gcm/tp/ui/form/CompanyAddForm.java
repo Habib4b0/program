@@ -166,7 +166,7 @@ public class CompanyAddForm extends VerticalLayout {
     private final BeanItemContainer<CompanyCrtIdentifierDTO> identifierContainer = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
     private final BeanItemContainer<CompanyCrtIdentifierDTO> tradeClassContainer = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
 
-    CompanyCrtIdentifierDTO companyCrtIdentifierDTO = new CompanyCrtIdentifierDTO();
+    private final CompanyCrtIdentifierDTO companyCrtIdentifierDTO = new CompanyCrtIdentifierDTO();
     private static final Logger LOGGER = Logger.getLogger(CompanyAddForm.class);
     /**
      * The binder.
@@ -175,15 +175,15 @@ public class CompanyAddForm extends VerticalLayout {
     /**
      * The identifier results bean.
      */
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
     /**
      * The btn remove.
      */
-    CommmonLogic commmonLogic = new CommmonLogic();
+    private final CommmonLogic commmonLogic = new CommmonLogic();
 
     private Object identifierTableBeanId;
     private Object tradeTableBeanId;
-    SessionDTO session = new SessionDTO();
+    private SessionDTO session = new SessionDTO();
 
     public CompanyAddForm() {
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/CompanyAddForm.xml"), this));

@@ -69,9 +69,9 @@ public class RsLookUp extends Window {
     public ComboBox rebateProgramType;
     @UiField("rsCategory")
     public ComboBox rsCategory;    
-    CommonUtil commonUtil=CommonUtil.getInstance();
+    private CommonUtil commonUtil=CommonUtil.getInstance();
     
-    LookUpTableLogic tableLogic = new LookUpTableLogic();
+    private LookUpTableLogic tableLogic = new LookUpTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private CustomFieldGroup binder;

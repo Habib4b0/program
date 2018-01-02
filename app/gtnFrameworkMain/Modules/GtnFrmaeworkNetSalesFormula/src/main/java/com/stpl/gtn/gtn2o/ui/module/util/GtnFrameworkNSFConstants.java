@@ -21,7 +21,7 @@ public class GtnFrameworkNSFConstants {
 	private static final String RESET_CONFIRMATION_MSG = "Are you sure you want to reset the values in the Search Criteria group box?";
 
 	private static final String[] NSF_LANDING_SCREEN_RESULT_TABLE_VISIBLE_HEADERS = new String[] {
-			"Net Sales Formula Type", "Net Sales Formula Id", "Net Sales Formula No", "Net Sales Formula Name",
+			"Net Sales Formula Type", "Net Sales Formula ID", "Net Sales Formula No", "Net Sales Formula Name",
 			"Creation Date", "Created By", "Modified Date", "Modified By" };
 
 	private static final Object[] NSF_LANDING_SCREEN_RESULT_TABLE_VISIBLE_COLUMNS = new Object[] { "formulaType",
@@ -147,11 +147,13 @@ public class GtnFrameworkNSFConstants {
 	public static final String VALUE_CHANGE_ALLOWED = "ValueChangeAllowed";
 	private static final String NET_SALES_RULE_POPUP_RESULT_TABLE = "cDRPopUpsearchResultTable";
 	private static final String NET_SALES_RULE_POPUP_DETAILS_TABLE = "cDRRulePopUpruleDetailsattachResultTable";
-
-	public static String getNsfMainView() {
+    private static final String NET_SALES_MASS_UPDATE_FIELD_ERROR_HEADER=" Information ";
+    private static final String NET_SALES_MASS_UPDATE_FIELD_ERROR_MSG=" Please select a field to Mass Update ";
+	
+    public static String getNsfMainView() {
 		return NSF_MAIN_VIEW;
 	}
-
+	
 	public static String getNoSearchCriteria() {
 		return NO_SEARCH_CRITERIA;
 	}
@@ -335,5 +337,12 @@ public class GtnFrameworkNSFConstants {
 	public static String getNetSalesRulePopupDetailsTable() {
 		return NET_SALES_RULE_POPUP_DETAILS_TABLE;
 	}
-
+	
+	public static String getNetSalesMassUpdateFieldErrorHeader() {
+		return NET_SALES_MASS_UPDATE_FIELD_ERROR_HEADER;
+	}
+	
+	public static String getNetSalesMassUpdateFieldErrorMsg() {
+		return NET_SALES_MASS_UPDATE_FIELD_ERROR_MSG;
+	}
 }

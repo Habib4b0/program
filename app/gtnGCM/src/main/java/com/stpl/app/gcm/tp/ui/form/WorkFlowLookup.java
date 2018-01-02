@@ -19,8 +19,8 @@ import org.asi.ui.customwindow.CustomWindow;
  */
 public class WorkFlowLookup extends CustomWindow {
 
-    SessionDTO session;
-    String projectionId = StringUtils.EMPTY;
+    public SessionDTO session;
+    private String projectionId = StringUtils.EMPTY;
 
     public WorkFlowLookup(SessionDTO session, String projectionId) {
         this.session = session;

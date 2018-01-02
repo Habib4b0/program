@@ -17,8 +17,8 @@ import org.vaadin.addons.lazycontainer.OrderByColumn;
  * @author kasiammal.m
  */
 public class PSSearchDTO implements BeanDAO<PSIFPDTO> {
-    CopyContractLogic logic = new CopyContractLogic();
-    PSIFPDTO PSIFPDTO = new PSIFPDTO();
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private PSIFPDTO PSIFPDTO = new PSIFPDTO();
 
     public PSSearchDTO(PSIFPDTO PSIFPDTO) {
         this.PSIFPDTO = PSIFPDTO;

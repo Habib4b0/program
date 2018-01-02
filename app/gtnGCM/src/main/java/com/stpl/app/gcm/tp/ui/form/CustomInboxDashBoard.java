@@ -31,11 +31,11 @@ import org.json.JSONException;
  */
 public class CustomInboxDashBoard extends InboxDashBoard {
 
-    String projectionId = StringUtils.EMPTY;
+    private String projectionId = StringUtils.EMPTY;
     public Button closeBtn = new Button(" CLOSE ");
-    WorkFlowLookup workFlowLookup = null;
+    private WorkFlowLookup workFlowLookup = null;
     private final WorkflowLogic searchLogic = new WorkflowLogic();
-    List<InboxDashboardDTO> inboxSearchResults = new ArrayList<>();
+    private List<InboxDashboardDTO> inboxSearchResults = new ArrayList<>();
     private static final Logger LOGGER = Logger.getLogger(CustomInboxDashBoard.class);
 
     public CustomInboxDashBoard(String projectionId, WorkFlowLookup workFlowLookup) {

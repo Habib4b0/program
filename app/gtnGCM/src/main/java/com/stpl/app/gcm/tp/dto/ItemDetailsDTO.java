@@ -13,15 +13,15 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ItemDetailsDTO implements Serializable {
 
-    String itemNo = StringUtils.EMPTY;
-    String itemName = StringUtils.EMPTY;
-    String therapyClass = StringUtils.EMPTY;
-    String brand = StringUtils.EMPTY;
-    String status = StringUtils.EMPTY;
-    String itemStartDate = StringUtils.EMPTY;
-    String itemEndDate = StringUtils.EMPTY;
-    String rebatePlan = StringUtils.EMPTY;
-    String formulaId = StringUtils.EMPTY;
+    private String itemNo = StringUtils.EMPTY;
+    private String itemName = StringUtils.EMPTY;
+    private String therapyClass = StringUtils.EMPTY;
+    private String brand = StringUtils.EMPTY;
+    private String status = StringUtils.EMPTY;
+    private String itemStartDate = StringUtils.EMPTY;
+    private String itemEndDate = StringUtils.EMPTY;
+    private String rebatePlan = StringUtils.EMPTY;
+    private String formulaId = StringUtils.EMPTY;
 
     public String getItemNo() {
         return itemNo;

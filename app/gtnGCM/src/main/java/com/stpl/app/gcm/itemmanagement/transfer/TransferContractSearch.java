@@ -8,8 +8,6 @@ package com.stpl.app.gcm.itemmanagement.transfer;
 
 import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
-import com.stpl.app.gcm.common.dao.CommonDao;
-import com.stpl.app.gcm.common.dao.impl.CommonImpl;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
@@ -49,8 +47,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class TransferContractSearch extends AbstractContractSearch {
 
-    SelectionDTO selectionDto;
-    final static CommonDao ITEMDAO = CommonImpl.getInstance();
+    private SelectionDTO selectionDto;
     public boolean isnext = false;
 
     public TransferContractSearch(SelectionDTO selection, List selectedItemList) {
