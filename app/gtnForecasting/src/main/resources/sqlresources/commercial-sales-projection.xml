@@ -979,17 +979,6 @@ FROM ST_NM_SALES_PROJECTION)
             ]]>
         </query>
     </entity>	
-    
-        <entity id="custom-view-hiearchy-no-query-order">
-        <query>
-            <![CDATA[    
-                SELECT HIERARCHY_NO FROM #SELECTED_HIERARCHY_NO
-GROUP BY HIERARCHY_NO ORDER BY MIN([INSTR]) ASC
-  OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;  
-            ]]>
-        </query>
-    </entity>
-    
     <entity id="hiearchy-no-count-query">
         <query>
             <![CDATA[    
