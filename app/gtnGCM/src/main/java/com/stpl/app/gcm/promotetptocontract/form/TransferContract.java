@@ -17,7 +17,8 @@ import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -61,7 +62,7 @@ public class TransferContract extends VerticalLayout implements View {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(TransferContract.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TransferContract.class);
 	/**
 	 * The Constant serialVersionUID.
 	 */
@@ -137,7 +138,7 @@ public class TransferContract extends VerticalLayout implements View {
 			init();
 			addContent();
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		}
 	}
 
@@ -180,7 +181,7 @@ public class TransferContract extends VerticalLayout implements View {
 					NumericConstants.TWO);
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		}
 		attachTabChangeListener();
 
@@ -214,7 +215,7 @@ public class TransferContract extends VerticalLayout implements View {
 				tabPosition = event.getTabSheet().getTabPosition(tab);
 				try {
 				} catch (Exception ex) {
-					LOGGER.error(ex);
+					LOGGER.error("",ex);
 				}
 			}
 		});
@@ -255,7 +256,7 @@ public class TransferContract extends VerticalLayout implements View {
 			cfpStatus.addItems(CommonLogic.getDropDownList("STATUS"));
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		}
 	}
 
@@ -570,33 +571,33 @@ public class TransferContract extends VerticalLayout implements View {
 				logic.callCcpInsertProcedure();
 				logic.callActualsDetailsInsertProcedure();
 			} catch (SystemException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			} catch (PortalException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			} catch (ParseException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			}
 		}
 		if (tabPosition == NumericConstants.TWO) {
 			try {
 				existingComponents.saveExistingContract();
 			} catch (SystemException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			} catch (PortalException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			} catch (ParseException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			}
 		}
 		if (tabPosition == 1) {
 			try {
 				newComponents.saveNewContract();
 			} catch (SystemException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			} catch (PortalException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			} catch (ParseException ex) {
-				java.util.logging.Logger.getLogger(TransferContract.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(TransferContract.class.getName()).error("", ex);
 			}
 		}
 	}

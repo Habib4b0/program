@@ -13,7 +13,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,7 +27,7 @@ public class ExistingLevelDataTableLogic extends PageTableLogic {
     CopyContractLogic logic = new CopyContractLogic();
     Integer id;
     List newInput = new ArrayList();
-    private static final Logger LOGGER = Logger.getLogger(ExistingLevelDataTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExistingLevelDataTableLogic.class);
 
     /**
      * Record count logic
@@ -39,7 +40,7 @@ public class ExistingLevelDataTableLogic extends PageTableLogic {
             try {
                 return Integer.valueOf(String.valueOf(logic.getComponentLevelData(levelNo, id, true, 0, 0)));
             } catch (ParseException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
         return 0;
@@ -58,7 +59,7 @@ public class ExistingLevelDataTableLogic extends PageTableLogic {
         try {
             resultList = (List<CopyComponentDTO>) logic.getComponentLevelData(levelNo, id, false, start, offset);
         } catch (ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }

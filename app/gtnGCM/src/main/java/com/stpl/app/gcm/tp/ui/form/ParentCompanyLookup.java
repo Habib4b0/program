@@ -11,12 +11,12 @@ import com.stpl.app.gcm.tp.tablelogic.CompanySearchTableLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
@@ -39,7 +39,8 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.asi.ui.addons.lazycontainer.LazyBeanItemContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -81,13 +82,13 @@ public class ParentCompanyLookup extends Window {
     /**
      * The data selection binder.
      */
-    public CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(tpDto));
+    public ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(tpDto));
     final ErrorLabel errorMsg = new ErrorLabel();
 
     /**
      * The Constant LOGGER.
      */
-    private final static Logger LOGGER = Logger.getLogger(ParentCompanyLookup.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ParentCompanyLookup.class);
     CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     public ExtPagedTable resultTable = new ExtPagedTable(companyLogic);
 
@@ -97,7 +98,7 @@ public class ParentCompanyLookup extends Window {
             this.tpDTO = tpDTO;
             init();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -109,7 +110,7 @@ public class ParentCompanyLookup extends Window {
             this.parentCompanySid = parentCompanySid;
             init();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -150,7 +151,7 @@ public class ParentCompanyLookup extends Window {
             hLayout = companyLogic.createControls();
             companySearchTableLayout.addComponent(hLayout);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
     }
@@ -201,7 +202,7 @@ public class ParentCompanyLookup extends Window {
                     }
                 }
                   catch (Exception ex) {
-                       LOGGER.error(ex);
+                       LOGGER.error("",ex);
                     }
                 return null;
             }
@@ -245,12 +246,12 @@ public class ParentCompanyLookup extends Window {
                     CommonUIUtils.getMessageNotification("Search Completed");
                 }
             } catch (FieldGroup.CommitException commit) {
-                LOGGER.error(commit);
+                LOGGER.error("",commit);
             }
         }
     }
 
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         dataSelectionBinder.bindMemberFields(this);
         dataSelectionBinder.setItemDataSource(new BeanItem<>(tpDto));
         dataSelectionBinder.setBuffered(true);

@@ -455,7 +455,7 @@ public class AbstractLogic {
             }
 
         } catch (SystemException e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
         }
         return finalResult;
 
@@ -466,7 +466,7 @@ public class AbstractLogic {
             HelperTable table = HelperTableLocalServiceUtil.getHelperTable(code);
             return table.getDescription();
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             return null;
         }
     }
@@ -1699,7 +1699,7 @@ public class AbstractLogic {
 
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
            
         } finally {
             try {
@@ -1707,18 +1707,18 @@ public class AbstractLogic {
                     rs.close();
                 }
             } catch (Exception e) {
-                 LOGGER.error(e);
+                 LOGGER.error("",e);
             }
             try {
                 statement.close();
             } catch (Exception e) {
-                 LOGGER.error(e);
+                 LOGGER.error("",e);
             }
             try {
                 connection.close();
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
            
         }
@@ -1745,12 +1745,12 @@ public class AbstractLogic {
                 objList.add(str);
             }
         } catch (Exception ex) {
-             LOGGER.error(ex);
+             LOGGER.error("",ex);
         } finally {
             try {
                 rs.close();
             } catch (SQLException ex) {
-                 LOGGER.error(ex);
+                 LOGGER.error("",ex);
             }
         }
         return objList;
@@ -1828,7 +1828,7 @@ public class AbstractLogic {
     public ComboBox loadComboBox(final ComboBox select,
             String listName, boolean isFilter) {
         select.removeAllItems();
-        final HelperDTO defaultValue = new HelperDTO(0, isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE);
+        final HelperDTO defaultValue = new HelperDTO(0, isFilter ? ConstantsUtils.SHOW_ALL : Constants.SELECT_ONE);
         select.setValidationVisible(true);
         select.setNullSelectionAllowed(true);
         select.setNullSelectionItemId(defaultValue);
@@ -1844,14 +1844,14 @@ public class AbstractLogic {
         select.setContainerDataSource(resultContainer);
         select.select(defaultValue);
         select.markAsDirty();
-        select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : select.getValue()));
+        select.setDescription((String) (select.getValue() == null ? Constants.SELECT_ONE : select.getValue()));
         select.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 if (event.getProperty() != null && event.getProperty().getValue() != null && (StringUtils.EMPTY.equals(event.getProperty().getValue()) || ConstantsUtils.NULL.equals(event.getProperty().getValue()))) {
                     select.select(defaultValue);
                 }
-                select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : ((HelperDTO) select.getValue()).getDescription()));
+                select.setDescription((String) (select.getValue() == null ? Constants.SELECT_ONE : ((HelperDTO) select.getValue()).getDescription()));
             }
         });
         return select;

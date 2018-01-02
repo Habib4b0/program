@@ -29,7 +29,7 @@ public class NewComponentSearchTableLogic extends PageTableLogic {
             try {
                 return logic.getComponentItemSearchCount(componentInfoDTO);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
         return 0;
@@ -43,7 +43,7 @@ public class NewComponentSearchTableLogic extends PageTableLogic {
         try {
             resultList = logic.getComponentItemSearchResult(componentInfoDTO);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
         return resultList;

@@ -24,7 +24,6 @@ import com.stpl.app.model.HelperTable;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -36,7 +35,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -47,7 +47,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
  */
 public class CopyContractLogic {
 
-    public static final Logger LOGGER = Logger.getLogger(CopyContractLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CopyContractLogic.class);
     private final ContractHeaderDAO dao = new ContractHeaderLogicDAOImpl();
     DateFormat format = new SimpleDateFormat("MM/dd/yyy");
     public static final String SPACE_COUNT = " COUNT";
@@ -1201,7 +1201,7 @@ public class CopyContractLogic {
                         String s = df.format(d);
                         dto.setContractStartDate(s);
                     } catch (ParseException ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 } else {
                     dto.setContractStartDate(Constants.EMPTY);

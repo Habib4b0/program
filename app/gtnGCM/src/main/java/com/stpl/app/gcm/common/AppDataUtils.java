@@ -13,7 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 
 /**
@@ -22,7 +23,7 @@ import com.stpl.app.gcm.util.xmlparser.SQlUtil;
  */
 public class AppDataUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(ItemQueries.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemQueries.class);
     final static CommonDao ITEMDAO = CommonImpl.getInstance();
     final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 
@@ -46,7 +47,7 @@ public class AppDataUtils {
                 }
                 list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
 
@@ -70,7 +71,7 @@ public class AppDataUtils {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("End of Item Update");
         return Boolean.FALSE;
@@ -86,7 +87,7 @@ public class AppDataUtils {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return sql.toString();
     }

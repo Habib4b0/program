@@ -85,6 +85,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.gtn.gtn2o.ws.constants.workflow.GtnWsBpmCommonConstants;
+import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
@@ -1507,9 +1509,10 @@ public class ForecastForm extends AbstractForm {
 			String workflowStatus = logic.getWorkflowStatus(session.getProjectionId(), screenName);
 			if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
 				 List<String> roleList = new ArrayList<>();
-				if (DSCalculationLogic.startWorkflow(session,userId)) {
-					submitProjToWorkflow(params, notes, screenName, getUploadedData);
-
+                                 GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(session,userId);
+				if (response.isHasPermission()) {
+                                      DSCalculationLogic.startAndCompleteTask(session, userId);
+				      submitProjToWorkflow(params, notes, screenName, getUploadedData);         
 				} else {
 					StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
 					if (!roleList.isEmpty()) {
@@ -1527,28 +1530,17 @@ public class ForecastForm extends AbstractForm {
 	}
 
 	private void submitProjToWorkflow(Map<String, Object> params, final String notes, final String screenName,
-			final List<NotesDTO> getUploadedData) {
-
-		List<ForecastingRulesDTO> list = DSCalculationLogic.getProjectionValues(session.getProjectionId(),
-				session.getUserId(), session.getSessionId(), screenName, session);
+			final List<NotesDTO> getUploadedData) {	
 		try {
-			for (ForecastingRulesDTO forecastingRulesDTO : list) {
-				params.put("out_" + forecastingRulesDTO.getVariableName(), forecastingRulesDTO);
-			}
-			WorkflowRuleDTO dto = new WorkflowRuleDTO();
-			params.put("out_workflowDTO", dto);
-
 			Long processId = 0L;
 			List processList = WorkflowPersistance.selectWFInstanceInfo(session.getProjectionId());
 			if (processList != null && !(processList.isEmpty())) {
 				processId = Long.valueOf(processList.get(0).toString());
 			}
 
-			VarianceCalculationLogic.submitWorkflow(session.getUserId(), processId, params);
-			String autoApproval ="";
-//                        BPMProcessBean.getProcessVariableLog(processId, "Auto_Approval");
-			String noOfUsers = "";
-//                        BPMProcessBean.getProcessVariableLog(processId, "NoOfUsers");
+			VarianceCalculationLogic.submitWorkflow( processId, session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+			String autoApproval = DSCalculationLogic.getProcessVariableLog(processId,"Auto_Approval");
+			String noOfUsers = DSCalculationLogic.getProcessVariableLog(processId,"NoOfUsers");;
 			if (!autoApproval.isEmpty() && !noOfUsers.isEmpty()) {
 
 				LOGGER.debug("autoApproval  : " + autoApproval);
@@ -1560,7 +1552,7 @@ public class ForecastForm extends AbstractForm {
 					WorkflowLogic wfLogic = new WorkflowLogic();
 					WorkflowMaster wm = wfLogic.getWorkflowMasterByProjectionId(session.getProjectionId());
 					WorkflowMasterDTO wfMasterDto = wfLogic.setWorkflowMasterDTO(session.getProjectionId(),
-							Integer.valueOf(wm.getWorkflowMasterSid()), Integer.valueOf(session.getUserId()),
+							wm.getWorkflowMasterSid(), Integer.valueOf(session.getUserId()),
 							WorkflowConstants.getApprovedStatus(), notes, session.getApprovalLevel());
 					workflowId = wfLogic.updateWorkflow(wfMasterDto);
 					approvedFlag = "Submitted and Approved";
@@ -2010,10 +2002,8 @@ public class ForecastForm extends AbstractForm {
 										if (workflowIdUpdate != null
 												&& !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
 
-											Map<String, Object> params = new HashMap<>();
-											params.put(Constant.APPROVE_FLAG, "approve");
-											VarianceCalculationLogic.submitWorkflow(session.getUserId(),
-													session.getProcessId(), params);
+											VarianceCalculationLogic.approveWorkflow(
+													session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Approved Information",
 													Constant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
@@ -2067,10 +2057,8 @@ public class ForecastForm extends AbstractForm {
 										String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
 										if (workflowIdUpdate != null
 												&& !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
-											Map<String, Object> params = new HashMap<>();
-											params.put(Constant.APPROVE_FLAG, "reject-RWC");
-											VarianceCalculationLogic.submitWorkflow(session.getUserId(),
-													session.getProcessId(), params);
+											VarianceCalculationLogic.rejectWorkFlow(
+													session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Rejected Information ",
 													Constant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
@@ -2124,10 +2112,8 @@ public class ForecastForm extends AbstractForm {
 										String workflowIdUpdate = wfLogic.updateWorkflow(wfMasterDto);
 										if (workflowIdUpdate != null
 												&& !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
-											Map<String, Object> params = new HashMap<>();
-											params.put(Constant.APPROVE_FLAG, "withdraw-RWC");
-											VarianceCalculationLogic.submitWorkflow(session.getUserId(),
-													session.getProcessId(), params);
+											VarianceCalculationLogic.withDrawWorkflow(
+													session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
 
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ",
@@ -2184,10 +2170,8 @@ public class ForecastForm extends AbstractForm {
 										if (workflowIdUpdate != null
 												&& !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
 
-											Map<String, Object> params = new HashMap<>();
-											params.put(Constant.APPROVE_FLAG, "cancel-RWC");
-											VarianceCalculationLogic.submitWorkflow(session.getUserId(),
-													session.getProcessId(), params);
+											VarianceCalculationLogic.cancelWorkFlow(
+													session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
 											callWorkflowInboxRefresh();
 											AbstractNotificationUtils.getInfoNotification("Cancel Information",
 													Constant.WORKFLOW_ID + workflowIdUpdate

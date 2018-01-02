@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -23,7 +24,7 @@ public class SummaryTableLogic extends PageTreeTableLogic {
     RemoveDiscountDto removeDiscountDto;
     DiscountLogic itemLogic = new DiscountLogic();
     boolean generate = false;
-    private static final Logger LOGGER = Logger.getLogger(SummaryTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SummaryTableLogic.class);
 
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {

@@ -20,7 +20,8 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stpl.app.gcm.common.dao.CommonDao;
 import com.stpl.app.gcm.common.dao.impl.CommonImpl;
@@ -88,7 +89,7 @@ public class CommonLogic {
 	static CommonDao DAO = CommonImpl.getInstance();
 	private final ContractDetailsDAO dao = new ContractDetailsDaoImpl();
 	private static final DiscountDAO discountDAO = new DiscountDaoImpl();
-	private static final Logger LOGGER = Logger.getLogger(CommonLogic.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CommonLogic.class);
 	private int newProjectionId;
 	private String forecastingType = StringUtils.EMPTY;
 	private int prodRelationshipId;
@@ -1215,7 +1216,7 @@ public class CommonLogic {
 			date = inputDateFormatter.parse(stringDate);
 			return outputDateFormatter.format(date);
 		} catch (ParseException ex) {
-			java.util.logging.Logger.getLogger(CommonLogic.class.getName()).log(Level.SEVERE, null, ex);
+			LoggerFactory.getLogger(CommonLogic.class.getName()).error("", ex);
 		}
 		return null;
 	}
@@ -1240,7 +1241,7 @@ public class CommonLogic {
 		try {
 			convertedValue = Integer.parseInt(value);
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 			LOGGER.error("Unable To convert to Int " + value);
 		}
 		return convertedValue;
@@ -1620,7 +1621,7 @@ public class CommonLogic {
 				LOGGER.error(" CCP insert procedure failed ");
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 		}
 
 		LOGGER.debug("Exiting generateNewProjection");
@@ -1657,14 +1658,14 @@ public class CommonLogic {
 			}
 		} catch (Exception ex) {
 
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 			return false;
 		} finally {
 			try {
 				statement.close();
 				connection.close();
 			} catch (Exception e) {
-				LOGGER.error(e);
+				LOGGER.error("",e);
 			}
 		}
 		LOGGER.debug("exiting ActualsDetailsInsertProcedure");
@@ -1813,7 +1814,7 @@ public class CommonLogic {
 
 			status = true;
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 		}
 
 		LOGGER.debug("End of insertIntoProjectionDetails method");
@@ -1843,7 +1844,7 @@ public class CommonLogic {
 			updateSaveFlag(projectionId);
 			LOGGER.debug("End of tempOperation method");
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 		}
 	}
 
@@ -1916,7 +1917,7 @@ public class CommonLogic {
 			results = discountDAO.getRebates(query);
 
 		} catch (Exception ex) {
-			java.util.logging.Logger.getLogger(CommonLogic.class.getName()).log(Level.SEVERE, null, ex);
+			LoggerFactory.getLogger(CommonLogic.class.getName()).error("", ex);
 		}
 		int size = results.size();
 		for (int i = 0; i < size; i++) {
@@ -2029,17 +2030,17 @@ public class CommonLogic {
 			LOGGER.debug("Ending " + procedureName + " Procedure");
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		} finally {
 			try {
 				statement.close();
 			} catch (Exception e) {
-				LOGGER.error(e);
+				LOGGER.error("",e);
 			}
 			try {
 				connection.close();
 			} catch (Exception e) {
-				LOGGER.error(e);
+				LOGGER.error("",e);
 			}
 		}
 		LOGGER.debug("Exiting callTableInsert");
@@ -2187,7 +2188,7 @@ public class CommonLogic {
 
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 		}
 
 		return tempList;
@@ -2336,7 +2337,7 @@ public class CommonLogic {
 			HelperTableLocalServiceUtil.executeUpdateQuery(discountQuery.toString());
 			HelperTableLocalServiceUtil.executeUpdateQuery(rebateQuery.toString());
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 		}
 	}
 
@@ -2448,7 +2449,7 @@ public class CommonLogic {
 			relationType = obj[0] != null ? String.valueOf(obj[0]) : StringUtils.EMPTY;
 			LOGGER.debug("relationType ============================== " + relationType);
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 		}
 		return relationType;
 	}

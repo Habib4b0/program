@@ -81,7 +81,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
             configureSecurityPermissions();
             setTabOperation(ConstantsUtil.CURRENT_COONTRACT);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
 
         }
 
@@ -394,7 +394,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
                                                 selection.getLookup().changeTab();
                                                 isSubmit = true;
                                             } catch (Exception ex) {
-                                                LOGGER.error(ex);
+                                                LOGGER.error("",ex);
                                             }
                                         }
 
@@ -435,7 +435,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
                         "Please select atleast one approved contract to proceed.");
             }
         } catch (Exception ez) {
-            LOGGER.error(ez);
+            LOGGER.error("",ez);
         }
         return isSubmit;
     }
@@ -537,7 +537,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
             getResetBtncur().setVisible(CommonLogic.isButtonVisibleAccess("reset2", functionHM));
             getSubmit().setVisible(CommonLogic.isButtonVisibleAccess("submit", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

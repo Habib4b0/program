@@ -57,7 +57,8 @@ import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -94,7 +95,7 @@ public class Summary extends CustomComponent {
     CustomTableHeaderDTO rightDTO;
     RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
     private BeanItemContainer<RemoveDiscountDto> promoteTpToChDtoResultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
-    public static final Logger LOGGER = Logger.getLogger(Summary.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(Summary.class);
     DiscountLogic discountLogic = new DiscountLogic();
     List contractList = new ArrayList();
     List companyList = new ArrayList();
@@ -325,7 +326,7 @@ public class Summary extends CustomComponent {
                             RemoveDiscountDto removeDto = (RemoveDiscountDto) summaryResultsTable.getValue();
                             summaryResultsTable.removeItem(removeDto);
                         } catch (Exception e) {
-                            LOGGER.error(e);
+                            LOGGER.error("",e);
                         }
                     }
 
@@ -346,7 +347,7 @@ public class Summary extends CustomComponent {
             Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(removeDiscount.getUserId()), "GCM-Customer Management", "Remove Discount", "Summary Tab");
             rebuildBtn.setVisible(CommonLogic.isButtonVisibleAccess("rebuildBtn", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

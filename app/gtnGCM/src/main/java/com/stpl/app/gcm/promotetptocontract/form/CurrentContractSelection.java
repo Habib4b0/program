@@ -22,7 +22,8 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.ui.OptionGroup;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
@@ -30,7 +31,7 @@ import com.stpl.app.gcm.util.Constants.MessageConstants;
 import static com.stpl.app.gcm.util.Converters.formatDate;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
@@ -92,7 +93,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(CurrentContractSelection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CurrentContractSelection.class);
     /**
      * The Constant serialVersionUID.
      */
@@ -220,7 +221,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
     List<CurrentContractDTO> selecteditemList = new ArrayList<>();
     BeanItemContainer<CurrentContractDTO> searchContainer = new BeanItemContainer<>(CurrentContractDTO.class);
     CurrentContractDTO binderDto = new CurrentContractDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     public ExtFilterTable compInfoTable = new ExtFilterTable();
     HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     List<String> selection = new ArrayList<>();
@@ -268,7 +269,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
             disableComponentInfoFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -458,11 +459,11 @@ public class CurrentContractSelection extends CustomComponent implements View {
             getBinder();
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
@@ -717,7 +718,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
                     try {
                         tpSearchReset();
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }
@@ -748,7 +749,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
                     try {
                         currTpSearchResultsReset();
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }
@@ -796,7 +797,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
             }
             currTradingPartnerTableLayout.removeComponent(contractExportPeriodViewTable);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         } finally {
             contractExcelFlag = false;
         }
@@ -813,7 +814,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
             }
             currTradingPartnerTableLayout.removeComponent(contractExportPeriodViewTable);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         } finally {
             contractExcelFlag = false;
         }
@@ -962,7 +963,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
                     componentStartDate.setValue(formatDate(getFromList(fieldData, NumericConstants.EIGHT)));
                 }
             } catch (ParseException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
     }
@@ -1058,7 +1059,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -1071,7 +1072,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
             submitBtn.setVisible(CommonLogic.isButtonVisibleAccess("submitBtn", functionHM));
             excelBtn1.setVisible(CommonLogic.isButtonVisibleAccess("excelBtn1", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

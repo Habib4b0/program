@@ -58,7 +58,7 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.UNITS;
 import com.stpl.app.gcm.util.Converters;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.gcm.util.ConstantsUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -88,7 +88,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -98,7 +99,7 @@ public class DiscountLogic {
 
     static CommonDao DAO = CommonImpl.getInstance();
     static DiscountDAO discountDAO = new DiscountDaoImpl();
-    private static final Logger LOGGER = Logger.getLogger(DiscountLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountLogic.class);
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
     QueryUtils queryUtils = new QueryUtils();
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0");
@@ -122,13 +123,13 @@ public class DiscountLogic {
         return list;
     }
 
-    public int getContractSearchCount(CustomFieldGroup discountChBinder, Set<Container.Filter> filters) {
+    public int getContractSearchCount(ErrorfulFieldGroup discountChBinder, Set<Container.Filter> filters) {
         int count = 0;
         count = discountDAO.getContractsCount(discountChBinder, filters);
         return count;
     }
 
-    public List<RemoveDiscountDto> getContractSearch(CustomFieldGroup discountChBinder, int startIndex,
+    public List<RemoveDiscountDto> getContractSearch(ErrorfulFieldGroup discountChBinder, int startIndex,
             int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumn) {
         LOGGER.debug("Entered contract search logic");
         List resultList;
@@ -182,7 +183,7 @@ public class DiscountLogic {
             List<RsContractDetails> contractDetails = discountDAO.getContractDetails(contractQuery);
             levelsDetails = getNewDiscountTabDto(contractDetails);
         } catch (Exception e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
         }
         return levelsDetails;
     }
@@ -205,7 +206,7 @@ public class DiscountLogic {
                 }
             }
         } catch (Exception e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
         }
         return levelsDetails;
     }
@@ -270,7 +271,7 @@ public class DiscountLogic {
                 searchList.add(removeDiscountDto);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         LOGGER.debug("Ending getprojectionValues with " + searchList.size());
         return searchList;
@@ -286,7 +287,7 @@ public class DiscountLogic {
             removeDiscountDto.setFromDate((Date) objects[0]);
             removeDiscountDto.setToDate((Date) objects[1]);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         return removeDiscountDto;
     }
@@ -298,7 +299,7 @@ public class DiscountLogic {
             String query = queryUtils.getSummaryCountQuery(removeDiscountDto);
             summaryList = discountDAO.getValues(query);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         LOGGER.debug("Ending getSummary" + summaryList.get(0));
         return summaryList;
@@ -581,7 +582,7 @@ public class DiscountLogic {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         return resultList;
     }
@@ -785,7 +786,7 @@ public class DiscountLogic {
         try {
             discountDAO.updateRebate(queryUtils.updateDate(rsSid));
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -990,7 +991,7 @@ public class DiscountLogic {
                 RsContractDetailsImpl.saveRsDetailsAttached(input, null);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
 
         DynamicQuery rsContractDetailsQuery = RsContractDetailsLocalServiceUtil.dynamicQuery();
@@ -1177,7 +1178,7 @@ public class DiscountLogic {
             try {
                 count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
             } catch (Exception ex) {
-                java.util.logging.Logger.getLogger(DiscountLogic.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(DiscountLogic.class.getName()).error("", ex);
             }
         } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.IFP.toString())) {
             inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, StringConstantsUtil.IMTD_IFP_DETAILS);
@@ -1196,7 +1197,7 @@ public class DiscountLogic {
             try {
                 count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.CFP.toString())) {
             inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, StringConstantsUtil.IMTD_CFP_DETAILS);
@@ -1213,7 +1214,7 @@ public class DiscountLogic {
             try {
                 count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
         boolean ret = count > 0;
@@ -1433,7 +1434,7 @@ public class DiscountLogic {
             try {
                 HelperTableLocalServiceUtil.executeUpdateQuery(query);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.IFP.toString())) {
             inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, StringConstantsUtil.IMTD_IFP_DETAILS);
@@ -1452,7 +1453,7 @@ public class DiscountLogic {
             try {
                 HelperTableLocalServiceUtil.executeUpdateQuery(query);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.CFP.toString())) {
             inputMap.put(StringConstantsUtil.TABLE_NAME_QUESTION, StringConstantsUtil.IMTD_CFP_DETAILS);
@@ -1471,7 +1472,7 @@ public class DiscountLogic {
             try {
                 HelperTableLocalServiceUtil.executeUpdateQuery(query);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
     }
@@ -1515,9 +1516,9 @@ public class DiscountLogic {
             try {
                 results = discountDAO.getRebates(query);
             } catch (SystemException ex) {
-                java.util.logging.Logger.getLogger(DiscountLogic.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(DiscountLogic.class.getName()).error("", ex);
             } catch (Exception ex) {
-                java.util.logging.Logger.getLogger(DiscountLogic.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(DiscountLogic.class.getName()).error("", ex);
             }
         } else if (Constants.IndicatorConstants.CFP.getConstant().equals(newDiscountTabDto.getCategory())) {
             if (selectedItemsTable && !isAdd) {
@@ -1530,7 +1531,7 @@ public class DiscountLogic {
             try {
                 results = discountDAO.getRebates(query);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         } else if (Constants.IndicatorConstants.IFP.toString().equals(newDiscountTabDto.getCategory())) {
              if (selectedItemsTable && !isAdd) {
@@ -1543,7 +1544,7 @@ public class DiscountLogic {
             try {
                 results = discountDAO.getRebates(query);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
         Object obj = null;
@@ -1765,7 +1766,7 @@ public class DiscountLogic {
             rsModel = RsModelLocalServiceUtil.addRsModel(rsModel);
             saveIntoRsDetails(rsModel, userId, tempSessionId);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
         return rsModel.getRsModelSid();
@@ -1923,7 +1924,7 @@ public class DiscountLogic {
                 actual = true;
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
 
         return actual;
@@ -1958,7 +1959,7 @@ public class DiscountLogic {
         try {
             rsModel = PsModelLocalServiceUtil.addPsModel(rsModel);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         saveIntoPsDetails(rsModel, userId, searchSessionId);
         return rsModel.getPsModelSid();
@@ -1981,7 +1982,7 @@ public class DiscountLogic {
             ifpmodel = IfpModelLocalServiceUtil.addIfpModel(ifpmodel);
             saveIntoIfpDetails(ifpmodel, userId, searchSessionId);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return ifpmodel.getIfpModelSid();
     }
@@ -2030,7 +2031,7 @@ public class DiscountLogic {
             cfpmodel = CfpModelLocalServiceUtil.addCfpModel(cfpmodel);
             saveIntoCfpDetails(cfpmodel, userId, searchSessionId);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return cfpmodel.getCfpModelSid();
     }
@@ -2130,7 +2131,7 @@ public class DiscountLogic {
                 PsContractDetailsImpl.savePsDetailsAttached(input, null);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -2525,7 +2526,7 @@ public class DiscountLogic {
             resultDate = df.parse(stringDate);
             return resultDate;
         } catch (ParseException ex) {
-            java.util.logging.Logger.getLogger(LookUpLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(LookUpLogic.class.getName()).error("", ex);
         }
         return new Date();
     }
@@ -2674,7 +2675,7 @@ public class DiscountLogic {
             String query = CommonUtil.getQuery(inputMap, queryName);
             HelperTableLocalServiceUtil.executeUpdateQuery(query);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("Exiting updateDataOperation");
     }

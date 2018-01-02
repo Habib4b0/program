@@ -13,7 +13,7 @@ import static com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractContract
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -33,14 +33,13 @@ import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.asi.ui.customcombobox.CustomComboBox;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -71,7 +70,7 @@ public class IfpLookUp extends Window {
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private BeanItemContainer<String> ifpStatusBean = new BeanItemContainer<>(String.class);
-    private CustomFieldGroup binder;
+    private ErrorfulFieldGroup binder;
     private CustomTextField parentIfpName;
     boolean flag;
     CommonUtil commonUtil = CommonUtil.getInstance();
@@ -91,7 +90,7 @@ public class IfpLookUp extends Window {
         try {
             configureFields();
         } catch (SystemException ex) {
-             LOGGER.error(ex);
+             LOGGER.error("",ex);
         }
     }
 
@@ -147,7 +146,7 @@ public class IfpLookUp extends Window {
                     }
                     if (propertyId.equals("ifpCategory")) {
                         commonUtil.loadComboBox(comboBox, UiUtils.IFP_CATEGORY, true);
-                        return ifpCategory;
+                        return comboBox;
                     }
                     if (propertyId.equals("ifpDesignation")) {
                         commonUtil.loadComboBox(comboBox, UiUtils.IFP_DESIGNATION, true);
@@ -160,7 +159,7 @@ public class IfpLookUp extends Window {
                     }
 
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
                 return null;
             }
@@ -206,12 +205,12 @@ public class IfpLookUp extends Window {
         try {
             commonUtil.loadComboBoxForGCM(ifpCategory, UiUtils.IFP_CATEGORY, false);
         } catch (Exception ex) {
-            Logger.getLogger(IfpLookUp.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(IfpLookUp.class.getName()).error("", ex);
         }
     }
 
-    private CustomFieldGroup getBinder() {
-        binder = new CustomFieldGroup(new BeanItem<>(new LookupDTO()));
+    private ErrorfulFieldGroup getBinder() {
+        binder = new ErrorfulFieldGroup(new BeanItem<>(new LookupDTO()));
         binder.bindMemberFields(this);
         binder.setBuffered(true);
         return binder;

@@ -11,7 +11,7 @@ import com.stpl.app.gcm.discount.logic.LookUpTableLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -36,7 +36,8 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -47,7 +48,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class CfpLookUp extends Window {
 
-    private static final Logger LOGGER = Logger.getLogger(CfpLookUp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CfpLookUp.class);
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
     @UiField("cfpId")
@@ -60,7 +61,7 @@ public class CfpLookUp extends Window {
     public ComboBox cfpStatus;
     @UiField("cfpType")
     public ComboBox cfpType;
-    private CustomFieldGroup binder;
+    private ErrorfulFieldGroup binder;
     @UiField("cfpStartDate")
     public PopupDateField cfpStartDate;
     @UiField("cfpEndDate")
@@ -139,7 +140,7 @@ public class CfpLookUp extends Window {
                             commonUtil.loadComboBox(comboBox, UiUtils.CFP_TYPE, true);
                             return comboBox;
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                     if (propertyId.equals("cfpCategory")) {
@@ -147,7 +148,7 @@ public class CfpLookUp extends Window {
                             commonUtil.loadComboBox(comboBox, UiUtils.CFP_CATEGORY, true);
                             return comboBox;
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                 if (propertyId.equals("cfpDesignation")) {
@@ -155,7 +156,7 @@ public class CfpLookUp extends Window {
                             commonUtil.loadComboBox(comboBox, UiUtils.CFP_DESIGNATION, true);                          
                              return comboBox;
                              } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                              }
                           
                 }
@@ -164,7 +165,7 @@ public class CfpLookUp extends Window {
                             commonUtil.loadComboBox(comboBox, UiUtils.STATUS, true);
                             return comboBox;
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                     if (propertyId.equals("cfpTradeClass")) {
@@ -172,7 +173,7 @@ public class CfpLookUp extends Window {
                             commonUtil.loadComboBox(comboBox, UiUtils.CFP_TRADE_CLASS, true);
                             return comboBox;
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error("",ex);
                         }
                     }
                     return null;
@@ -203,12 +204,12 @@ public class CfpLookUp extends Window {
             cfpStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
             cfpId.focus();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
-    private CustomFieldGroup getBinder() {
-        binder = new CustomFieldGroup(new BeanItem<>(new LookupDTO()));
+    private ErrorfulFieldGroup getBinder() {
+        binder = new ErrorfulFieldGroup(new BeanItem<>(new LookupDTO()));
         binder.bindMemberFields(this);
         binder.setBuffered(true);
         return binder;

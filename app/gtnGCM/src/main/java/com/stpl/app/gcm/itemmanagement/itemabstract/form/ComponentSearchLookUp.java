@@ -13,7 +13,7 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.ComponentLookUpLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -49,14 +49,15 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author mohamed.hameed
  */
 public class ComponentSearchLookUp extends CustomWindow {
-private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.class);
+private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLookUp.class);
     @UiField("cfpTableLayout")
     public VerticalLayout cfpTableLayout;
     @UiField("componentId")
@@ -107,7 +108,7 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
     private String component = StringUtils.EMPTY;
     ComponentLookUpDTO componentDto;
     ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection = new SelectionDTO();
     AbstractLogic logic = AbstractLogic.getInstance();
     List<String> countFlag = new ArrayList<>();
@@ -235,7 +236,7 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
         cfpTableLayout.addComponent(controlLayout);
     }
 
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
@@ -286,7 +287,7 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
                     endDate.setValue(null);
                     binder.commit();
                 } catch (FieldGroup.CommitException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 

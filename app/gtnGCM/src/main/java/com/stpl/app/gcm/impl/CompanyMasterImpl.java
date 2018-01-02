@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gcm.impl;
 
-import com.liferay.portal.kernel.dao.orm.ORMException;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.ConstantsUtils;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
@@ -17,7 +16,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +25,7 @@ import org.jboss.logging.Logger;
  */
 public class CompanyMasterImpl {
     
-    private static final Logger LOGGER = Logger.getLogger(CompanyMasterImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CompanyMasterImpl.class);
 
     public List findCompanyMaster(String companyId, String companyNo,
             String companyName, String companyStatus, String companyType,
@@ -602,7 +602,7 @@ public class CompanyMasterImpl {
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
             LOGGER.error(sql);
             return null;
         } 
@@ -629,7 +629,7 @@ public class CompanyMasterImpl {
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
             LOGGER.error(sql);
             return null;
         } 
@@ -643,7 +643,7 @@ public class CompanyMasterImpl {
                 returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             }
 
-        } catch (ORMException e) {
+        } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(query);
         } 
@@ -1065,14 +1065,6 @@ public class CompanyMasterImpl {
             LOGGER.debug(" Company search Query -- \n"+queryString.toString());
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
 
-        } catch (ORMException e) {
-            LOGGER.error(e.getMessage());
-            LOGGER.error(queryString.toString());
-            //return null;
-        } catch (NumberFormatException e) {
-            LOGGER.error(e.getMessage());
-            LOGGER.error(queryString.toString());
-            //return null;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             LOGGER.error(queryString.toString());

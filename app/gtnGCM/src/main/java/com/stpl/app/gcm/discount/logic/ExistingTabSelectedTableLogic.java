@@ -11,14 +11,15 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author santanukumar
  */
 public class ExistingTabSelectedTableLogic extends PageTableLogic {
-private static final Logger LOGGER = Logger.getLogger(ExistingTabSelectedTableLogic.class);
+private static final Logger LOGGER = LoggerFactory.getLogger(ExistingTabSelectedTableLogic.class);
     ContractsDetailsDto newDiscountTabDto = new ContractsDetailsDto();
     DiscountLogic logic = new DiscountLogic();
     boolean generate = false;
@@ -29,7 +30,7 @@ private static final Logger LOGGER = Logger.getLogger(ExistingTabSelectedTableLo
             try {
                 return logic.getItemsFromRsCount(newDiscountTabDto);
             } catch (Exception ex) {
-               LOGGER.error(ex);
+               LOGGER.error("",ex);
             }
         }
         return 0;
@@ -43,7 +44,7 @@ private static final Logger LOGGER = Logger.getLogger(ExistingTabSelectedTableLo
         try {
             resultList = logic.getItemsFromRs(newDiscountTabDto);
         } catch (Exception ex) {
-           LOGGER.error(ex);
+           LOGGER.error("",ex);
         }
         return resultList;
     }

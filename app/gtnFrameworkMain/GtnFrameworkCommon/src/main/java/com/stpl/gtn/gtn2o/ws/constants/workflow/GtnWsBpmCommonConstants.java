@@ -61,4 +61,6 @@ public class GtnWsBpmCommonConstants {
 	public static final String SUBMIT = "submit";
 
 	public static final String CONTRACT_MASTER = "CM";
+        
+        public static final String FORECAST_COMMERCIAL = "commercial";
 }

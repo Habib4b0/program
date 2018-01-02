@@ -9,7 +9,7 @@ import com.stpl.app.gcm.transfercontract.dto.ComponentDetailsDTO;
 import com.stpl.app.gcm.transfercontract.dto.DetailsDTO;
 import com.stpl.app.gcm.transfercontract.dto.TransferToDTO;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
-import com.stpl.app.gcm.util.ConstantsUtils;
+import com.stpl.app.gcm.util.Constants;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.TreeTable;
@@ -65,8 +65,8 @@ public class CrossReferenceRebates extends VerticalLayout {
     }
      public void configureFields(){
         massField.setNullSelectionAllowed(true);
-        massField.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
-        massField.addItem(ConstantsUtils.SELECT_ONE);
-        massField.select(ConstantsUtils.SELECT_ONE);
+        massField.setNullSelectionItemId(Constants.SELECT_ONE);
+        massField.addItem(Constants.SELECT_ONE);
+        massField.select(Constants.SELECT_ONE);
     }
 }

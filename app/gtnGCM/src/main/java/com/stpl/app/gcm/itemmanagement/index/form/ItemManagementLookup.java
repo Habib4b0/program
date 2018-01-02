@@ -46,7 +46,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -80,7 +81,7 @@ public class ItemManagementLookup extends CustomWindow {
     Map<String, AppPermission> functionHM = new HashMap<>();
     Integer lasttabPosition = 0;
     boolean valueChange = false;
-    public static final Logger LOGGER = Logger.getLogger(ItemManagementLookup.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ItemManagementLookup.class);
     List<Integer> addedTabList = new ArrayList<>();
     boolean addSummaryFlag = false;
     SessionDTO session = new SessionDTO();
@@ -120,7 +121,7 @@ public class ItemManagementLookup extends CustomWindow {
             addBtn.setVisible(false);
             mainTab.addTab(contractSelection.getContent(itemList, selection), "Contract Selection", null, 0);
             removeSummary.getContent(itemList, selection);
-            mainTab.addTab(itemsummary, StringConstantsUtil.SUMMARY_FIELD, null, 1);
+            mainTab.addTab(itemsummary.getContent(itemList, selection), StringConstantsUtil.SUMMARY_FIELD, null, 1);
         } else if (selection.getButtonMode().equals(ConstantsUtil.DELETE)) {
             removeContractSelection = new RemoveContractSelection(selection, itemList);
             mainTab.addTab(removeContractSelection.getContent(), Constants.CURRENT_CONTRACT_LABEL, null, 0);
@@ -165,9 +166,6 @@ public class ItemManagementLookup extends CustomWindow {
                             saveDetailsToTempTable();
                         }
 
-                        if (!tabList.contains(tabPosition)) {
-                            tabLazyLoad(tabPosition);
-                        }
                         if (selection.getButtonMode().equals(ConstantsUtil.ADD)) {
                             itemsummary.loadItemResults();
                         }
@@ -180,7 +178,7 @@ public class ItemManagementLookup extends CustomWindow {
                         }
 
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }
@@ -920,7 +918,7 @@ public class ItemManagementLookup extends CustomWindow {
                 ItemQueries.itemUpdate(input, "InsertContractDataForProjTransferSearch");
 
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error("",e);
             }
         }
     }

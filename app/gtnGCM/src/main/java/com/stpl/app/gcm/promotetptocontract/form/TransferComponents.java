@@ -92,7 +92,8 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -110,7 +111,7 @@ public class TransferComponents extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(TransferComponents.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransferComponents.class);
     /**
      * The Constant serialVersionUID.
      */
@@ -262,7 +263,7 @@ public class TransferComponents extends CustomComponent implements View {
             configureFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -307,7 +308,7 @@ public class TransferComponents extends CustomComponent implements View {
 
         } catch (Exception ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -1337,7 +1338,7 @@ public class TransferComponents extends CustomComponent implements View {
             }
             LOGGER.debug("TP Promoted Successfully as Contract Holder");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return returnList;
     }
@@ -1382,7 +1383,7 @@ public class TransferComponents extends CustomComponent implements View {
 
             transferCompPanelTableLayout.removeComponent(contractExportPeriodViewTable);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         } finally {
             contractExcelFlag = false;
         }
@@ -1405,7 +1406,7 @@ public class TransferComponents extends CustomComponent implements View {
                 createWorkSheet(excelName1, componentDetailsTable, recordCount);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         } finally {
             infoExcelFlag = false;
         }
@@ -1441,7 +1442,7 @@ public class TransferComponents extends CustomComponent implements View {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -1454,7 +1455,7 @@ public class TransferComponents extends CustomComponent implements View {
             addToTreeBtn1.setVisible(CommonLogic.isButtonVisibleAccess("addToTreeBtn1", functionHM));
             excelBtn1.setVisible(CommonLogic.isButtonVisibleAccess("excelBtn1", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
     private void setIFPValues(CurrentContractDTO dto) {

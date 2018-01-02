@@ -17,7 +17,6 @@ import com.stpl.app.adminconsole.util.ErrorCodes;
 import com.stpl.app.adminconsole.util.ResponsiveUtils;
 import com.stpl.app.adminconsole.util.ValidationUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
@@ -56,6 +55,7 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 
 
 /**

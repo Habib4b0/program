@@ -22,7 +22,8 @@ import elemental.json.JsonArray;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -35,7 +36,7 @@ public class CustomInboxDashBoard extends InboxDashBoard {
     WorkFlowLookup workFlowLookup = null;
     private final WorkflowLogic searchLogic = new WorkflowLogic();
     List<InboxDashboardDTO> inboxSearchResults = new ArrayList<>();
-    private static final Logger LOGGER = Logger.getLogger(CustomInboxDashBoard.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomInboxDashBoard.class);
 
     public CustomInboxDashBoard(String projectionId, WorkFlowLookup workFlowLookup) {
         super();
@@ -107,7 +108,7 @@ public class CustomInboxDashBoard extends InboxDashBoard {
                         JavaScript.getCurrent().execute("localStorage.setItem('" + arguments.getString(0) + "', 'false');");
                     }
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error("",e);
                 }
             }
         });

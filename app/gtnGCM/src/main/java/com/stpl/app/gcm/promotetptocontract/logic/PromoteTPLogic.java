@@ -87,7 +87,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 
@@ -100,7 +101,7 @@ public class PromoteTPLogic {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(PromoteTPLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTPLogic.class);
     public static PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
     HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private final ContractDetailsDAO dao = new ContractDetailsDaoImpl();
@@ -306,7 +307,7 @@ public class PromoteTPLogic {
         try {
             list = ItemQueries.getItemData(getSearchSelection(binderDto), "searchPromoteTpToChContractCount", null);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return getCount(list);
 
@@ -416,7 +417,7 @@ public class PromoteTPLogic {
                         dto.setFormulaId(convertNullToEmpty(obj[NumericConstants.EIGHT]));
                         componentInfoList.add(dto);
                     } catch (ParseException ex) {
-                        java.util.logging.Logger.getLogger(PromoteTPLogic.class.getName()).log(Level.SEVERE, null, ex);
+                        LoggerFactory.getLogger(PromoteTPLogic.class.getName()).error("", ex);
                     }
                 }
             }
@@ -442,7 +443,7 @@ public class PromoteTPLogic {
             }
             LOGGER.debug("End of getLevel1Hierarchy method");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return container;
     }
@@ -483,7 +484,7 @@ public class PromoteTPLogic {
                 contractList.add(contractDetails);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("End of getContractList method");
         return contractList;
@@ -514,7 +515,7 @@ public class PromoteTPLogic {
             contractQuery.setLimit(start, end);
             LOGGER.debug("End of getProcessedQuery method");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return contractQuery;
     }
@@ -541,7 +542,7 @@ public class PromoteTPLogic {
                 available = false;
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("End of isLevel2ListAvlbl method");
         return available;
@@ -555,7 +556,7 @@ public class PromoteTPLogic {
             cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
             cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("End of getCFPQueriedCount method");
         return (int) dao.contractMasterDynamicQueryCount(cfpDynamicQuery);
@@ -606,7 +607,7 @@ public class PromoteTPLogic {
             List<RsContractDetails> contractDetails = discountDAO.getContractDetails(contractQuery);
             levelsDetails = getNewDiscountTabDto(contractDetails);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return levelsDetails;
     }
@@ -629,7 +630,7 @@ public class PromoteTPLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return levelsDetails;
     }
@@ -1209,7 +1210,7 @@ public class PromoteTPLogic {
                 count = list.size();
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return count;
     }
@@ -1376,7 +1377,7 @@ public class PromoteTPLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
 
@@ -1424,7 +1425,7 @@ public class PromoteTPLogic {
 
                         componentInfoList2.add(dto);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }
@@ -1708,7 +1709,7 @@ public class PromoteTPLogic {
                 }
             }
         } catch (ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return searchList;
 
@@ -1731,7 +1732,7 @@ public class PromoteTPLogic {
             }
             LOGGER.debug("End of getLevel1Hierarchy method");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return container;
     }
@@ -1765,7 +1766,7 @@ public class PromoteTPLogic {
                 contractList.add(contractDetails);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("End of getContractList method");
         return contractList;
@@ -2233,7 +2234,7 @@ public class PromoteTPLogic {
             List<RsContractDetails> contractDetails = discountDAO.getContractDetails(contractQuery);
             levelsDetails = getNewDiscountTabDto(contractDetails);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return levelsDetails;
     }
@@ -2257,7 +2258,7 @@ public class PromoteTPLogic {
                 retList.add(tempDto);
             }
         } catch (ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
         return retList;
@@ -2471,7 +2472,7 @@ public class PromoteTPLogic {
         try {
             results = promoteTpDAO.getItems(query);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return results.size();
     }
@@ -2503,7 +2504,7 @@ public class PromoteTPLogic {
                 results = promoteTpDAO.getItems(query);
                 return setItemDetails(results, Constants.IFP);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
 
         } else if (componentvalue.equals(Constants.PRICE_SCHEDULE)) {
@@ -2528,7 +2529,7 @@ public class PromoteTPLogic {
                     results = promoteTpDAO.getItems(query1);
                     return setItemDetails(results, Constants.PS);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
 
             }
@@ -2571,7 +2572,7 @@ public class PromoteTPLogic {
                     results = promoteTpDAO.getItems(query1);
                     return setItemDetails(results, Constants.RS);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
 
             }
@@ -2604,7 +2605,7 @@ public class PromoteTPLogic {
                     searchList.add(tabDto);
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         } else if (componentType.equals(Constants.PS)) {
             int size = results.size();
@@ -2634,7 +2635,7 @@ public class PromoteTPLogic {
                     searchList.add(tabDto);
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         } else if (componentType.equals(Constants.RS)) {
             int size = results.size();
@@ -2663,7 +2664,7 @@ public class PromoteTPLogic {
                     searchList.add(tabDto);
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
         return searchList;
@@ -2746,7 +2747,7 @@ public class PromoteTPLogic {
 
                         componentInfoList.add(dto);
                     } catch (ParseException ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }
@@ -3039,7 +3040,7 @@ public class PromoteTPLogic {
                     dto.setCheckRecord(!String.valueOf(obj[NumericConstants.TWENTY_THREE]).equals(Constants.NULL) ? String.valueOf(obj[NumericConstants.TWENTY_THREE]).equals(Constants.TRUE) ? true : false : false);
                     resultList.add(dto);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         }
@@ -3119,7 +3120,7 @@ public class PromoteTPLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }
@@ -3150,7 +3151,7 @@ public class PromoteTPLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return contResultList;
 
@@ -3384,7 +3385,7 @@ public class PromoteTPLogic {
                     }
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
 

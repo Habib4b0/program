@@ -27,7 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -47,7 +48,7 @@ public class SummaryLookUp extends CustomComponent {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(SummaryLookUp.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(SummaryLookUp.class);
     final StplSecurity stplSecurity = new StplSecurity();
     Map<String, AppPermission> functionHM = new HashMap<>();
 
@@ -70,12 +71,12 @@ public class SummaryLookUp extends CustomComponent {
             rebate = new RebateSummary(itemList, selection);
             salesAndRebate = new SalesAndRebates(itemList, selection);
             mainTab.addTab(itemDetails, "Item Details", null, 0);
-            mainTab.addTab(sales, "Sales", null, 1);
-            mainTab.addTab(rebate, "Rebates", null, NumericConstants.TWO);
-            mainTab.addTab(salesAndRebate, "Sales and Rebates", null, NumericConstants.THREE);
+            mainTab.addTab(sales.getContent(itemList, selection), "Sales", null, 1);
+            mainTab.addTab(rebate.getContent(itemList, selection), "Rebates", null, NumericConstants.TWO);
+            mainTab.addTab(salesAndRebate.getContent(itemList, selection), "Sales and Rebates", null, NumericConstants.THREE);
             configureFields();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         setCompositionRoot(panel);
         return panel;
@@ -86,9 +87,6 @@ public class SummaryLookUp extends CustomComponent {
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 final TabSheet.Tab tab = (TabSheet.Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
                 tabPosition = event.getTabSheet().getTabPosition(tab);
-                if (!tabList.contains(tabPosition)) {
-                    tabLazyLoad(tabPosition);
-                }
                 if (tabPosition == 1) {
                     sales.loadResultTable();
                 } else if (tabPosition == NumericConstants.TWO) {
@@ -157,7 +155,7 @@ public class SummaryLookUp extends CustomComponent {
             }
             setFunctionHM(functionHM);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 

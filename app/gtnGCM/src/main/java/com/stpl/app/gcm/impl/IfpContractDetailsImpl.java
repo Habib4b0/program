@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gcm.impl;
 
-import com.liferay.portal.kernel.dao.orm.Query;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -13,14 +12,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Porchelvi.Gunasekara
  */
 public class IfpContractDetailsImpl {
-     private static final Logger LOGGER = Logger.getLogger(IfpContractDetailsImpl.class);
+     private static final Logger LOGGER = LoggerFactory.getLogger(IfpContractDetailsImpl.class);
     /**
      * Save the CFP Details to CFP Details Attached
      * 
@@ -129,7 +129,7 @@ public class IfpContractDetailsImpl {
 		
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {
-           LOGGER.error(e);
+           LOGGER.error("",e);
            LOGGER.error(sql);
             return null;
         } 

@@ -27,7 +27,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -38,7 +39,7 @@ public class LoadTabLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(LoadTabLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoadTabLogic.class);
     static int projectionId = 0;
     public static String forecatingType = StringUtils.EMPTY;
     public static TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();

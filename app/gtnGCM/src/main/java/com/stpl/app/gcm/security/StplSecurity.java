@@ -15,16 +15,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
+import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
 import java.util.concurrent.ConcurrentHashMap;
 
 // TODO: Auto-generated Javadoc
@@ -50,7 +52,7 @@ public class StplSecurity {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(StplSecurity.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StplSecurity.class);
     /**
      * The dao.
      */
@@ -101,8 +103,7 @@ public class StplSecurity {
      */
     public String getBusinessRoleIds(final Collection<Object> userGroupId) throws PortalException, SystemException {
         String businessRoleIds = StringUtils.EMPTY;
-        final DynamicQuery ugBusRoleDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(UsergroupBusinessrole.class);
+        final DynamicQuery ugBusRoleDynamicQuery = UsergroupBusinessroleLocalServiceUtil.dynamicQuery();
         ugBusRoleDynamicQuery.add(RestrictionsFactoryUtil.in("usergroupId", userGroupId));
         final List<UsergroupBusinessrole> list = dto.getUsergroupBusinessroleMasterList(ugBusRoleDynamicQuery);
         UsergroupBusinessrole usergroupBusinessroleMaster;
@@ -131,8 +132,7 @@ public class StplSecurity {
      */
     public List<String> getDomainIds(final Collection<Object> userGroupId) {
         List<String> domainIds = new ArrayList<>();
-        final DynamicQuery ugDomainDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(UsergroupDomainMaster.class);
+        final DynamicQuery ugDomainDynamicQuery = UsergroupDomainMasterLocalServiceUtil.dynamicQuery();
         ugDomainDynamicQuery.add(RestrictionsFactoryUtil.in("usergroupId", userGroupId));
         try {
             final List<UsergroupDomainMaster> list = dto.getUsergroupDomainMasterList(ugDomainDynamicQuery);
@@ -152,7 +152,7 @@ public class StplSecurity {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
 
         return domainIds;
@@ -190,7 +190,7 @@ public class StplSecurity {
 
         final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
         final String businessRoleIds = getBusinessRoleIds(userGroupId);
-        List<Object[]> tabPermissionList = ItemQueries.getItemData(getInput(businessRoleIds, moduleName, tabName), "buttonSecurity", null);
+        List<Object[]> tabPermissionList = ItemQueries.getItemData(getInput(businessRoleIds, moduleName, tabName), "buttonSecurityService", null);
         functionHm = listToAppPermissionMap(tabPermissionList, FUNCTION_VALUE);
         return functionHm;
     }

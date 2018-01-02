@@ -7,7 +7,6 @@ package com.stpl.ifs.util.constants;
 
 import com.stpl.app.util.service.PropertiesReader;
 import com.stpl.app.util.service.PropertiesReader.ExtProperties;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

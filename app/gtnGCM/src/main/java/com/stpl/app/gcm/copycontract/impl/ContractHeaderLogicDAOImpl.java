@@ -21,7 +21,8 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gcm.impl.CompanyMasterImpl;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import java.util.List;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 
@@ -33,7 +34,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
 
     CommonDao DAO = CommonImpl.getInstance();
     QueryUtils queryUtils = new QueryUtils();
-    public static final Logger LOGGER = Logger.getLogger(ContractHeaderLogicDAOImpl.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ContractHeaderLogicDAOImpl.class);
 
     public List<HelperTable> getHelperTableList(final DynamicQuery dynamicQuery) throws SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);

@@ -11,6 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -22,7 +24,7 @@ public class CompanySearchTableLogic extends PageTableLogic {
     CompanySearchLogic compLogic = new CompanySearchLogic();
     PromoteTpToChDto tpDTo = new PromoteTpToChDto();
     String searchSessionid = StringUtils.EMPTY;
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanySearchTableLogic.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(CompanySearchTableLogic.class);
 
     @Override
     public int getCount() {
@@ -31,7 +33,7 @@ public class CompanySearchTableLogic extends PageTableLogic {
                 return compLogic.companySearchCount(tpDTo, getFilters());
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return 0;
     }
@@ -41,7 +43,7 @@ public class CompanySearchTableLogic extends PageTableLogic {
         try {
             return compLogic.searchCompaniesLazy(tpDTo, start, offset,getFilters(), searchSessionid);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             return Collections.emptyList();
         }
     }
