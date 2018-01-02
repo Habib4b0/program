@@ -14,7 +14,6 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TAB_CURRENT_CON
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -37,7 +36,6 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.naming.Context;
@@ -57,44 +55,38 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class PromoteTPToChForm extends CustomComponent implements View {
 
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    final ErrorLabel errorMsg = new ErrorLabel();
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(PromoteTPToChForm.class);
-    StplSecurity stplSecurity = new StplSecurity();
+    private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The data selection binder.
      */
     public CustomFieldGroup promoteTpBinder;
-    boolean tabFlag = false;
     /**
      * The tab sheet.
      */
     @UiField("tabSheet")
-    TabSheet tabSheet;
-    /**
-     * The tab lazy load map.
-     */
-    Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
+    private TabSheet tabSheet;
     /**
      * The close.
      */
     @UiField("nextBtn")
-    Button nextBtn;
+    private Button nextBtn;
     @UiField("closeBtn")
-    Button closeBtn;
+    private Button closeBtn;
     @UiField("previousBtn")
-    Button previousBtn;
+    private Button previousBtn;
     @UiField("transferBtn")
-    Button transferBtn;
+    private Button transferBtn;
     /**
      * Position of the tab.
      */
-    int tabPosition = 0;
+    private int tabPosition = 0;
     private CurrentContractSelection currentContractSelection;
     private TransferContract transferContract;
     private Summary summary;
-    ExtFilterTable resultTable;
-    SessionDTO session;
-    PromoteTpToChWindow promoteWindow;
+    private final ExtFilterTable resultTable;
+    private final SessionDTO session;
+    private final PromoteTpToChWindow promoteWindow;
 
     /**
      *

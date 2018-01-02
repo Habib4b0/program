@@ -20,9 +20,9 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 public class ComponentInfo extends AbstractComponentInfo {
 
     @UiField("itemSearchGrid")
-    GridLayout itemSrGrid;
+    private GridLayout itemSrGrid;
     @UiField("rsType")
-    ComboBox rsType;
+    private ComboBox rsType;
     @UiField("rsProgramType")
     public ComboBox rsProgramType;
     @UiField("rsCategory")

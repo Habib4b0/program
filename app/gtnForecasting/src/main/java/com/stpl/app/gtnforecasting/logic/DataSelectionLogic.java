@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -2251,7 +2252,7 @@ public class DataSelectionLogic {
                                                 : sessionDTO.getProductHierarchyVersion()+ StringUtils.EMPTY);
 		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 
-		Map<String, List> resultMap = new HashMap<>();
+		Map<String, List> resultMap = new LinkedHashMap<>();
 
 		String hierarchyNoType = isCustomerHierarchy ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO";
 
@@ -2269,7 +2270,6 @@ public class DataSelectionLogic {
 			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
 															// Actual System Id
 			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY
-																// INDICATOR
 			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
 			resultMap.put(String.valueOf(object[0]), detailsList);
 

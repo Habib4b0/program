@@ -40,7 +40,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class GlobalChangeIndex extends CustomComponent implements View {
 
     private static final Logger LOGGER = Logger.getLogger(GlobalChangeIndex.class);
-    SessionDTO sessionDTO = new SessionDTO();
+    private SessionDTO sessionDTO = new SessionDTO();
     public CustomFieldGroup promoteTpToChDtoBinder;
     public CustomFieldGroup globalChangeBinder;
     @UiField("layout")
@@ -53,10 +53,9 @@ public class GlobalChangeIndex extends CustomComponent implements View {
     public ComboBox process;
     @UiField("updateType")
     public ComboBox updateType;
-    String processName;
-    String updateTypeVal;
-    SelectionDTO selection = new SelectionDTO();
-    boolean valueChange;
+    private String processName;
+    private final SelectionDTO selection = new SelectionDTO();
+    private boolean valueChange;
 
     public GlobalChangeIndex() {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/globalChange.xml"), this));

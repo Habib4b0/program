@@ -38,7 +38,7 @@ public class CustomerLookUp extends Window {
     @UiField("custType")
     public ComboBox custType;
 
-    RebateTableLogic tableLogic = new RebateTableLogic();
+    private final RebateTableLogic tableLogic = new RebateTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private final BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private final BeanItemContainer<String> custStatusBean = new BeanItemContainer<>(String.class);

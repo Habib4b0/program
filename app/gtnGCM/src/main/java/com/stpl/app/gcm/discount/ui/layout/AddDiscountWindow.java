@@ -13,7 +13,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.SystemException;
 import java.util.List;
 import org.asi.ui.customwindow.CustomWindow;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 /**
  *
@@ -21,9 +20,8 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class AddDiscountWindow extends CustomWindow {
 
-    ExtFilterTable resultTable;
-    SessionDTO session;
-    List<RemoveDiscountDto> removeList;
+    private final SessionDTO session;
+    private final List<RemoveDiscountDto> removeList;
     /**
      * The Constant LOGGER.
      */

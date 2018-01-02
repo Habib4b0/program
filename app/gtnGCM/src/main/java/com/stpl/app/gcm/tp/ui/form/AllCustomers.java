@@ -45,18 +45,17 @@ public class AllCustomers extends Window {
     @UiField("closeBtn")
     public Button closeButton;
 
-    CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
+    private final CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     public ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
     final private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
-    ExtTreeContainer<TradingPartnerDTO> resultsLazyContainer = new ExtTreeContainer<>(TradingPartnerDTO.class);
-    List<TradingPartnerDTO> resultList = new ArrayList<>();
+    private List<TradingPartnerDTO> resultList = new ArrayList<>();
     /**
      * The excel export image.
      */
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private ExtCustomTable companyViewTable;
     private ExtTreeContainer<TradingPartnerDTO> companyExcelResultBean = new ExtTreeContainer<>(TradingPartnerDTO.class);
-    List<String> companyMasterSids;
+    private final List<String> companyMasterSids;
 
     public AllCustomers(List<String> companyMasterSids) {
         this.companyMasterSids = companyMasterSids;

@@ -25,7 +25,7 @@ public class CustomerFilterGenerator implements ExtFilterGenerator {
     
     private static final Logger LOGGER = Logger.getLogger(CustomerFilterGenerator.class);
     
-    CommonUtil commonMsg = CommonUtil.getInstance();
+    private final CommonUtil commonMsg = CommonUtil.getInstance();
 
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {

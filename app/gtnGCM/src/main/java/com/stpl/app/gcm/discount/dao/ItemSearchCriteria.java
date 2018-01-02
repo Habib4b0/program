@@ -14,10 +14,10 @@ import org.vaadin.addons.lazycontainer.SearchCriteria;
  */
 public class ItemSearchCriteria implements SearchCriteria {
 
-    int lastCount;
-    boolean dirty = false;
-    boolean customDirty = false;
-    String filter = StringUtils.EMPTY;
+    private int lastCount;
+    public boolean dirty = false;
+    private final boolean customDirty = false;
+    private String filter = StringUtils.EMPTY;
 
     @Override
     public int getLastCount() {

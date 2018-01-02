@@ -6,8 +6,6 @@ package com.stpl.app.gcm.copycontract.impl;
 
 import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.QueryUtils;
-import com.stpl.app.gcm.common.dao.CommonDao;
-import com.stpl.app.gcm.common.dao.impl.CommonImpl;
 import com.stpl.app.gcm.copycontract.dao.ContractHeaderDAO;
 import com.stpl.app.gcm.copycontract.dto.CFPCompanyDTO;
 import com.stpl.app.gcm.copycontract.dto.IFPItemDTO;
@@ -31,8 +29,7 @@ import org.vaadin.addons.lazycontainer.OrderByColumn;
  */
 public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
 
-    CommonDao DAO = CommonImpl.getInstance();
-    QueryUtils queryUtils = new QueryUtils();
+    private final QueryUtils queryUtils = new QueryUtils();
     public static final Logger LOGGER = Logger.getLogger(ContractHeaderLogicDAOImpl.class);
 
     @Override

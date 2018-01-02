@@ -9,7 +9,6 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentLookUpDTO;
 import com.stpl.app.gcm.itemmanagement.index.logic.ItemLogic;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
-import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 import org.jboss.logging.Logger;
@@ -20,11 +19,10 @@ import org.jboss.logging.Logger;
  */
 public class ComponentLookUpLogic extends PageTableLogic {
 
-    ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    List<ComponentLookUpDTO> componentList = new ArrayList<>();
-    ItemLogic logic = new ItemLogic();
-    SelectionDTO selection;
-    boolean isGenerated = false;
+    private ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
+    private final ItemLogic logic = new ItemLogic();
+    private SelectionDTO selection;
+    private boolean isGenerated = false;
     public static final Logger LOGGER = Logger.getLogger(ComponentLookUpLogic.class);
     public ComponentLookUpLogic() {
         LOGGER.debug("Inside Constructor");

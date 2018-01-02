@@ -38,7 +38,7 @@ public class LoadTabLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(LoadTabLogic.class);
-    static int projectionId = 0;
+    private static int projectionId = 0;
     public static String forecatingType = StringUtils.EMPTY;
     public static TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
     public static final String VARIANCE = "Variance";
@@ -62,7 +62,7 @@ public class LoadTabLogic {
      * The unit volume.
      */
     private static final DecimalFormat PER2DECIMAL = new DecimalFormat("#,##0.00%");
-    CommonDao DAO = CommonImpl.getInstance();
+    private final CommonDao DAO = CommonImpl.getInstance();
 
     public int getLevelCount(Object parentId, TabSelectionDTO tabSelectionDTO, int projectionId, SessionDTO session) {
         LOGGER.debug("Inside getLevelCount");

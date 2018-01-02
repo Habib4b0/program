@@ -81,7 +81,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -232,15 +231,13 @@ public class TransferComponents extends CustomComponent implements View {
     private ExtTreeContainer<ComponentInfoDTO> dashBoardTreeContainer1 = new ExtTreeContainer<>(ComponentInfoDTO.class);
     private QueryUtils queryUtils = new QueryUtils();
     private DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
-    private static final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private ExtCustomTable contractExportPeriodViewTable = new ExtCustomTable();
     private List<ComponentInfoDTO> componentInformation = new ArrayList<>();
-    private String excelName = "Rebate Schedule Information";
+    public String excelName = "Rebate Schedule Information";
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private Boolean contractExcelFlag = false;
     private Boolean infoExcelFlag = false;
     private final StplSecurity stplSecurity = new StplSecurity();
-    private Map<String, AppPermission> functionHM = new HashMap<>();
 
     /**
      * Transfer Contract Constructor

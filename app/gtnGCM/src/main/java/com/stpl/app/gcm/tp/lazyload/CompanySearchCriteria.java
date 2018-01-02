@@ -16,9 +16,9 @@ import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
  */
 public class CompanySearchCriteria implements BeanSearchCriteria {
 
-    Set<Filter> filters;
-    int lastCount;
-    boolean dirty;
+    private Set<Filter> filters;
+    private int lastCount;
+    public boolean dirty;
 
     @Override
     public int getLastCount() {

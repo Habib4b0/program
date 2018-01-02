@@ -19,8 +19,8 @@ import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
 class RSSearchDTO implements BeanDAO {
  public static final Logger LOGGER = Logger.getLogger(RSSearchDTO.class);
    
-    CopyContractLogic logic = new CopyContractLogic();
-    RsIfpDto RsIfpDto = new RsIfpDto();
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private RsIfpDto RsIfpDto = new RsIfpDto();
 
     RSSearchDTO(RsIfpDto RsIfpDto) {
         this.RsIfpDto = RsIfpDto;

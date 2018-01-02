@@ -6,7 +6,6 @@
 package com.stpl.app.gcm.tp.ui.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
-import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.ui.layout.CustomTPDetailsLayout;
@@ -38,7 +37,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -73,17 +71,15 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
 
     private final BeanItemContainer<ContractResultDTO> tradingPartnerDetailsContainer;
-    CommmonLogic logic = new CommmonLogic();
-    Set checkedCount = new HashSet();
-    CommonUtil commonMsg = CommonUtil.getInstance();
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private final CommmonLogic logic = new CommmonLogic();
+    private final Set checkedCount = new HashSet();
+    private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(TradingpartnerDetails.class);
-    SessionDTO session;
-    boolean checkValue = false;
+    private final SessionDTO session;
+    private boolean checkValue = false;
 
     public TradingpartnerDetails(BeanItemContainer<ContractResultDTO> tradingPartnerDetailsContainer, SessionDTO session) {
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/tradingPartnerDetails.xml"), this));

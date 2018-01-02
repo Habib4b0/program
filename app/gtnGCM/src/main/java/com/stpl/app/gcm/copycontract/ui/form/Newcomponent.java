@@ -141,16 +141,16 @@ public class Newcomponent extends CustomComponent {
     public ExtFilterTable componentDetailsSelectedItem;
     @UiField("levelDetailsResultsTable1")
     public ExtFilterTable levelDetailsResultsTable;
-    TreeTable dashboardResultsTable;
+    private final TreeTable dashboardResultsTable;
     @UiField("componentSelectionGrid")
     public GridLayout componentSelectionGrid;
-    CopyContractLogic CopyContractLogic = new CopyContractLogic();
+    private final CopyContractLogic CopyContractLogic = new CopyContractLogic();
     private final BeanItemContainer<NewComponentDTO> componentSearchContainer = new BeanItemContainer<>(NewComponentDTO.class);
     private final BeanItemContainer<NewComponentDTO> componentResultsContainer = new BeanItemContainer<>(NewComponentDTO.class);
-    ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
+    private final ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
     private final BeanItemContainer<NewComponentDTO> contractInfoContainer = new BeanItemContainer<>(NewComponentDTO.class);
-    QueryUtils queryUtils = new QueryUtils();
-    DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    private final QueryUtils queryUtils = new QueryUtils();
+    private final DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     @UiField("dashboardid")
     public VerticalLayout dashboardLayout;
     /* Component Layout */
@@ -267,11 +267,11 @@ public class Newcomponent extends CustomComponent {
     public String selectedItems = Constants.EMPTY;
     public static final String PRICE_VAL = "([0-9|\\.|])*";
     private final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd ");
-    CommonDao DAO = CommonImpl.getInstance();
-    CommonUtil commonUtil = CommonUtil.getInstance();
-    NewComponentsDetailsSearchTableLogic tablelogic = new NewComponentsDetailsSearchTableLogic();
+    private final CommonDao DAO = CommonImpl.getInstance();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
+    private final NewComponentsDetailsSearchTableLogic tablelogic = new NewComponentsDetailsSearchTableLogic();
     public ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tablelogic);
-    CopyContractLogic logic = new CopyContractLogic();
+    private final CopyContractLogic logic = new CopyContractLogic();
     public static final String REGEX_STRING = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*";
     public static final String SELECT_ATLEAST_ONE_RECORD = "Please Select Atleast one Record at Component Details Section";
     public static final String STRING_REGEX = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*";
