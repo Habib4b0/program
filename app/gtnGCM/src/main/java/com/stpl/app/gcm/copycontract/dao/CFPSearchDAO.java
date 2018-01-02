@@ -17,8 +17,8 @@ import org.vaadin.addons.lazycontainer.OrderByColumn;
  * @author kasiammal.m
  */
 public class CFPSearchDAO implements BeanDAO<CFPCompanyDTO> {
-    CopyContractLogic logic = new CopyContractLogic();
-    CFPCompanyDTO CFPCompanyDTO;
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private final CFPCompanyDTO CFPCompanyDTO;
 
     public CFPSearchDAO(CFPCompanyDTO CFPCompanyDTO) {
         this.CFPCompanyDTO = CFPCompanyDTO;

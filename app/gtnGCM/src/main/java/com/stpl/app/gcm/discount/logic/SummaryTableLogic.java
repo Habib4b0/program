@@ -20,9 +20,9 @@ import org.jboss.logging.Logger;
  */
 public class SummaryTableLogic extends PageTreeTableLogic {
 
-    RemoveDiscountDto removeDiscountDto;
-    DiscountLogic itemLogic = new DiscountLogic();
-    boolean generate = false;
+    private RemoveDiscountDto removeDiscountDto;
+    private final DiscountLogic itemLogic = new DiscountLogic();
+    private boolean generate = false;
     private static final Logger LOGGER = Logger.getLogger(SummaryTableLogic.class);
 
     @Override

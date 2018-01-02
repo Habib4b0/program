@@ -183,7 +183,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     public static final String SEARCHICON = "searchicon";
     public ExtPagedTable contractSelectionTable = new ExtPagedTable(contractSelectionTableLogic);
     
-    Object[] CONTRACT_SELECTION_VISIBLE_COLUMN = {Constants.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO,
+    private final Object[] CONTRACT_SELECTION_VISIBLE_COLUMN = {Constants.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO,
         Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "itemStartDate",
         "itemEndDate", StringConstantsUtil.CP_START_DATE, StringConstantsUtil.CP_END_DATE, Constants.PRICE_TYPE_PROPERTY,
         StringConstantsUtil.PRICE_PROPERTY, Constants.PRICE_PROTECTION_STATUS_PROPERTY, Constants.PRICE_PROTECTION_START_DATE_PROPERTY, Constants.PRICE_PROTECTION_END_DATE_PROPERTY,
@@ -194,7 +194,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         Constants.RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_FORMULA_PROPERTY, Constants.NET_PRICE_TYPE_PROPERTY, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY,
         "cfpNO", Constants.CFP_NAME, "ifpNo", Constants.IFPNAME, "psNo", Constants.PSNAME, "rsNo", Constants.RSNAME, "rarCategory"};
 
-    String[] CONTRACT_SELECTION_HEADER = {StringUtils.EMPTY, Constants.PROJECTION_ID_HEADER, Constants.WORK_FLOW_STATUS_HEADER, Constants.CONTRACT_HOLDER_HEADER, Constants.CONTRACT_NO_HEADER,
+    private final String[] CONTRACT_SELECTION_HEADER = {StringUtils.EMPTY, Constants.PROJECTION_ID_HEADER, Constants.WORK_FLOW_STATUS_HEADER, Constants.CONTRACT_HOLDER_HEADER, Constants.CONTRACT_NO_HEADER,
         Constants.CONTRACT_NAME_HEADER, Constants.MARKET_TYPE_HEADER, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.ITEM_START_DATE,
         Constants.ITEM_END_DATE, StringConstantsUtil.CP_START_DATE_LABEL, StringConstantsUtil.CP_END_DATE_LABEL, Constants.PRICE_TYPE_LABEL,
         StringConstantsUtil.PRICE_LABEL, Constants.PRICE_PROTECTION_STATUS_LABEL, Constants.PRICE_PROTECTION_START_DATE_LABEL, Constants.PRICE_PROTECTION_END_DATE_LABEL,
@@ -205,44 +205,30 @@ public abstract class AbstractContractSearch extends CustomComponent {
         Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME,  Constants.NET_PRICE_TYPE_LABLE_NAME,  Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME,
         Constants.CFP_NO_HEADER, Constants.CFP_NAME_HEADER, Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.PS_NO_LABEL, Constants.PS_NAME_LABEL, Constants.RS_NO_HEADER, Constants.RS_NAME_LABEL, Constants.RAR_CATEGORY_HEADER};
     
-    Object[] EXCEL_CONTRACT_SELECTION_VISIBLE_COLUMN = {ConstantsUtil.PROJECTION_ID, "workFlowStatus", 
-        Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE,
-        Constants.END_DATE, ConstantsUtil.STATUS, ConstantsUtil.ITEM_START_DATE, ConstantsUtil.ITEM_END_DATE, StringConstantsUtil.CP_START_DATE, 
-        StringConstantsUtil.CP_END_DATE, StringConstantsUtil.CONTRACT_PRICE_PROPERTY, StringConstantsUtil.PRICE_PROPERTY, Constants.PRICE_PROTECTION_START_DATE_PROPERTY, Constants.PRICE_PROTECTION_END_DATE_PROPERTY, Constants.PRICE_TOLERANCE_TYPE_PROPERTY,
-        Constants.PRICE_TOLERANCE_PROPERTY, Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY, Constants.PRICE_TOLERANCE_INTERVAL, StringConstantsUtil.BASE_PRICE_PROPERTY, StringConstantsUtil.RS_START_DATE_LABEL, StringConstantsUtil.RS_END_DATE_COLUMN, 
-        Constants.FORMULA_ID_PROPERTY, Constants.REBATE_PLAN_PROPERTY, StringConstantsUtil.FORMULA_METHOD_ID_PROPERTY, Constants.REBATE_AMOUNT_PROPERTY, "cfpNO", Constants.CFP_NAME, "ifpNo", Constants.IFPNAME,
-        "psNo", Constants.PSNAME, "rsNo", Constants.RSNAME, "rarCategory"};
-    String[] EXCEL_CONTRACT_SELECTION_HEADER = {"Projection ID", "WorkFlow Status", "Contract Holder", "Contract No", "Contract Name", 
-        "Market Type", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.ITEM_START_DATE, Constants.ITEM_END_DATE,
-        StringConstantsUtil.CP_START_DATE_LABEL, StringConstantsUtil.CP_END_DATE_LABEL, StringConstantsUtil.CONTRACT_PRICE_LABEL, StringConstantsUtil.PRICE_LABEL, Constants.PRICE_PROTECTION_START_DATE_LABEL, Constants.PRICE_PROTECTION_END_DATE_LABEL, Constants.PRICE_TOLERANCE_TYPE_LABEL,
-        Constants.PRICE_TOLERANCE_LABEL, Constants.PRICE_TOLERANCE_FREQUENCY_LABEL, Constants.PRICE_TOLERANCE_INTERVAL_LABEL, StringConstantsUtil.BASE_PRICE_LABEL, StringConstantsUtil.RS_START_DATE_LABEL_CAPS, StringConstantsUtil.RS_END_DATE_LABEL, Constants.FORMULA_ID_LABEL, 
-        Constants.REBATE_PLAN_LABEL, "Formula Method Id", Constants.REBATE_AMOUNT_LABEL, "CFP No", "CFP Name", Constants.IFP_NO, Constants.IFP_NAME_LABEL, "PS No", " PS Name",
-        "RS No", "RS Name", "RAR Category"};
-    SelectionDTO selection;
+    private final SelectionDTO selection;
     public List<ItemIndexDto> selectedItemList;
     public AbstractLogic logic = AbstractLogic.getInstance();
     public BeanItemContainer<AbstractContractSearchDTO> contractExcelResultBean = new BeanItemContainer<>(AbstractContractSearchDTO.class);
     public ExtCustomTable contractExcelTable;
     public VerticalLayout contractDashboardLay = new VerticalLayout();
-    String massUpdateString = StringUtils.EMPTY;
-    String tabOperation = StringUtils.EMPTY;
+    private String massUpdateString = StringUtils.EMPTY;
+    private String tabOperation = StringUtils.EMPTY;
     protected StplSecurity stplSecurity = new StplSecurity();
     private final Map<String, AppPermission> functionHM = new HashMap<>();
     public String userId = VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString();
-    boolean isChecked = true;
-    boolean isFound = false;
+    private boolean isFound = false;
     public String contractItemName = StringUtils.EMPTY;
     public String transferSalesString = StringUtils.EMPTY;
     public boolean removeProjectionBooleanVal = false;
     public boolean isSubmit = false;
-    AddItemContractFieldFactory fieldFactory;
-    Map comboToTableMap = new HashMap();
-    Map tempTableMap = new HashMap();
-    Map startDateEndDateMap = new HashMap();
-    Map fieldAndPropertyMap = new HashMap();
-    CustomTextField.ClickListener clickLister;
+    private AddItemContractFieldFactory fieldFactory;
+    private final Map comboToTableMap = new HashMap();
+    private final Map tempTableMap = new HashMap();
+    private final Map startDateEndDateMap = new HashMap();
+    private final Map fieldAndPropertyMap = new HashMap();
+    private CustomTextField.ClickListener clickLister;
     public String dateMessage = StringUtils.EMPTY;
-    BeanItemContainer<AbstractContractSearchDTO> container = new BeanItemContainer<>(AbstractContractSearchDTO.class);
+    private final BeanItemContainer<AbstractContractSearchDTO> container = new BeanItemContainer<>(AbstractContractSearchDTO.class);
 
     public AbstractContractSearch(SelectionDTO selection, List selectedItemList) {
         this.selection = selection;
@@ -1494,6 +1480,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         columnName = Constants.NET_PRICE_TYPE_FORMULA_COLUMN_NAME;
                         value = netPriceTypeFormulaDto.getFormulaSid();
                         break;
+                    default:
+                        break;
                 }
             }
         }
@@ -1881,6 +1869,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
             case Constants.RESET_DATE_LABLE_NAME:
                 startDateVisibility();
                 startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.RESET_DATE.getConstant());
+                break;
+            default:
                 break;
         }
     }

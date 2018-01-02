@@ -19,9 +19,9 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ContractSearchTableLogic extends PageTableLogic {
 
-    ContractSearchLogic logic = new ContractSearchLogic();
-    ContractSearchDTO binderDTO;
-    boolean generate;
+    private final ContractSearchLogic logic = new ContractSearchLogic();
+    private ContractSearchDTO binderDTO;
+    private boolean generate;
 
     @Override
     public int getCount() {

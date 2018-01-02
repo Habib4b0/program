@@ -20,9 +20,9 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 public class CompanyComponentTableLogic extends PageTableLogic {
 
     private final ContractSelectionLogic logic = new ContractSelectionLogic();
-    boolean generate = false;
-    String componentSelectionValue;
-    String[] id;
+    private boolean generate = false;
+    private String componentSelectionValue;
+    private String[] id;
 
     /**
      * Record count logic

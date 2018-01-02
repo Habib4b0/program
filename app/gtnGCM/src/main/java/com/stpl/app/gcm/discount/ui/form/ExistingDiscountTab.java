@@ -1132,11 +1132,11 @@ public class ExistingDiscountTab extends CustomComponent {
                     "Please ensure the Contract has all components (Header, CFP, IFP, PS, RS).");
         }
     }
-    ContractsDetailsDto contract = new ContractsDetailsDto();
-    ContractsDetailsDto cfp = null;
-    ContractsDetailsDto ifp = null;
-    ContractsDetailsDto priceSchedule = null;
-    ContractsDetailsDto rebateSchedule = null;
+    private ContractsDetailsDto contract = new ContractsDetailsDto();
+    private ContractsDetailsDto cfp = null;
+    private ContractsDetailsDto ifp = null;
+    private ContractsDetailsDto priceSchedule = null;
+    private ContractsDetailsDto rebateSchedule = null;
     
     public void saveTree(final Collection list) {
         LOGGER.debug("Entering saveTree method");

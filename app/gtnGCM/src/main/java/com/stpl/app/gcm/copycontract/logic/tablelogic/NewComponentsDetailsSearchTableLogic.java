@@ -21,12 +21,12 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class NewComponentsDetailsSearchTableLogic extends PageTableLogic {
 
-    boolean generate = false;
-    String componentType;
-    String searchValue;
-    String componentInnerType;
-    CopyContractLogic logic = new CopyContractLogic();
-    NewComponentDTO selection = new NewComponentDTO();
+    private boolean generate = false;
+    private String componentType;
+    private String searchValue;
+    private String componentInnerType;
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private final NewComponentDTO selection = new NewComponentDTO();
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(NewComponentsDetailsSearchTableLogic.class);
 
     /**

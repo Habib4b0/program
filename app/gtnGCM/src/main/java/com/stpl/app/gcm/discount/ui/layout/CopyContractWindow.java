@@ -13,7 +13,6 @@ import com.stpl.portal.kernel.exception.SystemException;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 /**
  *
@@ -21,10 +20,9 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class CopyContractWindow extends CustomWindow {
 
-    ExtFilterTable resultTable;
-    SessionDTO session;
-    List<ContractSelectionDTO> selectedList;
-    String Count = StringUtils.EMPTY;
+    public final SessionDTO session;
+    private final List<ContractSelectionDTO> selectedList;
+    private String Count = StringUtils.EMPTY;
     /**
      * The Constant LOGGER.
      */

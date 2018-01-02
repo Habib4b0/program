@@ -13,7 +13,6 @@ import com.stpl.app.gcm.common.QueryUtils;
 import com.stpl.app.gcm.copycontract.logic.tablelogic.CopyComponentsResultLogic;
 import com.stpl.app.gcm.copycontract.logic.tablelogic.CopyComponentsSearchLogic;
 import com.stpl.app.gcm.copycontract.logic.tablelogic.ComponentInfoLogic;
-import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.model.ContractAliasMaster;
 import com.stpl.app.model.ContractMaster;
@@ -79,25 +78,24 @@ public class Copycomponents extends CustomComponent {
     public VerticalLayout contractDashBoardLayout;
     @UiField("ComponenttypeNC")
     public ComboBox ComponenttypeNC;
-    TreeTable contractDashBoardTable;
+    private TreeTable contractDashBoardTable;
     @UiField("TblLayout")
     public VerticalLayout TblLayout;
     @UiField("infolayout")
     public VerticalLayout infolayout;
-    CopyComponentsResultLogic CopyComponentsResultLogic = new CopyComponentsResultLogic();
-    CopyComponentsSearchLogic CopyComponentsSearchLogic = new CopyComponentsSearchLogic();
-    ComponentInfoLogic ComponentInfoLogic = new ComponentInfoLogic();
+    private CopyComponentsResultLogic CopyComponentsResultLogic = new CopyComponentsResultLogic();
+    private CopyComponentsSearchLogic CopyComponentsSearchLogic = new CopyComponentsSearchLogic();
+    private   ComponentInfoLogic ComponentInfoLogic = new ComponentInfoLogic();
     public ExtPagedTable contractComponent = new ExtPagedTable(CopyComponentsResultLogic);
     public ExtPagedTable componentDetailsTable = new ExtPagedTable(CopyComponentsSearchLogic);
     public ExtPagedTable contractInformationTable = new ExtPagedTable(ComponentInfoLogic);
     private final BeanItemContainer<CopyComponentDTO> copycontractResultsContainer = new BeanItemContainer<>(CopyComponentDTO.class);
     private final BeanItemContainer<CopyComponentDTO> contractComponentContainer = new BeanItemContainer<>(CopyComponentDTO.class);
     private final BeanItemContainer<CopyComponentDTO> contractInfoContainer = new BeanItemContainer<>(CopyComponentDTO.class);
-    ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
+    private ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
     public static final SimpleDateFormat dbDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    ItemQueries Queries = new ItemQueries();
-    CopyContractLogic copyContractLogic = new CopyContractLogic();
-    QueryUtils queryUtils = new QueryUtils();
+    private CopyContractLogic copyContractLogic = new CopyContractLogic();
+    private  QueryUtils queryUtils = new QueryUtils();
     @UiField("SearchfieldNC")
     public ComboBox SearchfieldNC;
     @UiField("BtnsearchNC")
@@ -175,7 +173,7 @@ public class Copycomponents extends CustomComponent {
     @UiField("ComponentDetailsTableLayout")
     public VerticalLayout ComponentDetailsTableLayout;
 
-    List<ContractSelectionDTO> selectedList;
+   private List<ContractSelectionDTO> selectedList;
     @UiField("populateBtn")
     public Button populateBtn;
     @UiField("addToTree")
@@ -211,12 +209,11 @@ public class Copycomponents extends CustomComponent {
     @UiField("rsDetailsName")
     public TextField rsDetailsName;
     @UiField("componentDetailsLayout")
-    VerticalLayout componentDetailsLayout;
-    DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
-    SimpleDateFormat sdfSource = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    TradingPartnerDAO ccDao = new TradingPartnerDAOImpl();
+    private VerticalLayout componentDetailsLayout;
+    private DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+    private TradingPartnerDAO ccDao = new TradingPartnerDAOImpl();
     private String SELECT_RECORD = "Please Select Atleast one record at Contract Component Results Section";
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private Map<String, AppPermission> functionHM = new HashMap<>();
 
     public Copycomponents(List<ContractSelectionDTO> selectedList, TreeTable contractDashBoardTable, ExtTreeContainer<CopyComponentDTO> dashBoardContainer) {
         try {

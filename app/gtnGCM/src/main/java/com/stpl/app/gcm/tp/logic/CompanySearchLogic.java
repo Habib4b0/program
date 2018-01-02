@@ -45,8 +45,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  */
 public class CompanySearchLogic {
 
-    TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
-    Converters converters=new Converters();
+    private final TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
     public static final String LAZY_LOAD_RESULTS = "lazyLoadResults";
     public static final String SEARCH_SESSION_ID = "searchSessionId";
     public static final String COMPANIES_FROM_MAIN_TABLE = "getCompaniesFromMainTable";

@@ -13,13 +13,13 @@ import java.util.Date;
  */
 public class SummaryTemDTO {
 
-    int contractSid = 0;
-    int companySid = 0;
-    int month = 0;
-    int year = 0;
-    int projectionDetSid = 0;
-    Date companyStartDate = null;
-    Date companyEndDate = null;
+    private int contractSid = 0;
+    private int companySid = 0;
+    private int month = 0;
+    private int year = 0;
+    private int projectionDetSid = 0;
+    private Date companyStartDate = null;
+    private Date companyEndDate = null;
 
     public int getContractSid() {
         return contractSid;

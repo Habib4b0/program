@@ -39,7 +39,7 @@ public class CurrentContractDTO implements Serializable {
     private Integer startIndex = 0;
     private Integer endIndex = 0;
     private Boolean isCount = false;
-    Boolean checkRecord = false;
+    private Boolean checkRecord = false;
     private String contractId = StringUtils.EMPTY;
     private String cfpContSid = StringUtils.EMPTY;
     private String ifpContSid = StringUtils.EMPTY;
@@ -58,7 +58,7 @@ public class CurrentContractDTO implements Serializable {
     private String aliasStartDate = StringUtils.EMPTY;
     private String aliasEndDate = StringUtils.EMPTY;
     private Integer hiddenId = 0;
-    String screenName = StringUtils.EMPTY;
+    private String screenName = StringUtils.EMPTY;
     private Integer cfpId = 0;
     private Integer IFPId = 0;
     private Integer psId = 0;

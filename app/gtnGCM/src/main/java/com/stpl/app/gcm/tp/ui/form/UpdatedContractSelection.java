@@ -268,7 +268,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     private Button previousBtn;
 
     @UiField("searchBtn")
-    Button searchBtn;
+    private Button searchBtn;
 
     @UiField("resetBtn")
     private Button resetBtn;
@@ -323,7 +323,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     private AddTPForm addTpForm;
     private UpdateTPForm updateTPForm;
     private SessionDTO session;
-    private String excelName = "Rebate Schedule Information";
+    public String excelName = "Rebate Schedule Information";
     private String nonAssociatedProducts = StringUtils.EMPTY;
     private int timeGap;
     private String[] excelComponentId = new String[NumericConstants.FIVE];
@@ -1384,7 +1384,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         submitAndNextLogic(false);
     }
 
-    ExtCustomTable.ColumnCheckListener checkListener = new ExtCustomTable.ColumnCheckListener() {
+    private ExtCustomTable.ColumnCheckListener checkListener = new ExtCustomTable.ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
             if (event.isChecked()) {

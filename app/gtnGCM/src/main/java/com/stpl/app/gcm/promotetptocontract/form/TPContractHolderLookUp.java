@@ -36,7 +36,6 @@ public class TPContractHolderLookUp extends Window {
 
     private final String indicator;
     private final TextField groupLookup;
-    List<String> companySids;
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = org.jboss.logging.Logger.getLogger(TPContractHolderLookUp.class);
     @UiField("resultsTableCHL")
@@ -70,9 +69,9 @@ public class TPContractHolderLookUp extends Window {
     private ComboBox contractHolderType;
     private final BeanItemContainer<ContractHolderDTO> resultContainer = new BeanItemContainer<>(ContractHolderDTO.class);
     private ContractHolderDTO selectedChHolderHierarchy;
-    List<CompanyMaster> filteredCompanies;
-    PromoteTPLogic logic = new PromoteTPLogic();
-    HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    private List<CompanyMaster> filteredCompanies;
+    private final PromoteTPLogic logic = new PromoteTPLogic();
+    private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     public static final String CONTRACT_HOLDER = "Contract Holder";
 
     public List<CompanyMaster> getFilteredCompanies() {
