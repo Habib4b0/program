@@ -20,9 +20,9 @@ import org.vaadin.addons.lazycontainer.SearchCriteria;
  */
 public class LoadDropdownListDAO implements DAO<HelperDTO> {
 
-    PromoteTPLogic logic = new PromoteTPLogic();
-    String countFlag;
-    String findFlag;
+    private final PromoteTPLogic logic = new PromoteTPLogic();
+    private final String countFlag;
+    private final String findFlag;
 
     public LoadDropdownListDAO(String countFlag, String findFlag) {
         this.countFlag = countFlag;

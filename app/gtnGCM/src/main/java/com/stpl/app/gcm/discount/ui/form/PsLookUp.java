@@ -68,14 +68,14 @@ public class PsLookUp extends Window {
     @UiField("psCategory")
     public ComboBox psCategory;
 
-    LookUpTableLogic tableLogic = new LookUpTableLogic();
+    private LookUpTableLogic tableLogic = new LookUpTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private BeanItemContainer<String> psStatusBean = new BeanItemContainer<>(String.class);
     private CustomFieldGroup binder;
     private CustomTextField parentPsName;
     public boolean flag;
-    CommonUtil commonUtil=CommonUtil.getInstance();
+    private CommonUtil commonUtil=CommonUtil.getInstance();
 
     public PsLookUp(CustomTextField parentPsName, boolean flag) {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/ps.xml"), this));

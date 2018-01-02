@@ -17,8 +17,8 @@ import org.vaadin.addons.lazycontainer.OrderByColumn;
  * @author kasiammal.m
  */
 public class IFPSearchDAO implements BeanDAO<IFPItemDTO> {
-    CopyContractLogic logic = new CopyContractLogic();
-    IFPItemDTO IFPItemDTO = new IFPItemDTO();
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private IFPItemDTO IFPItemDTO = new IFPItemDTO();
 
     public IFPSearchDAO(IFPItemDTO IFPItemDTO) {
         this.IFPItemDTO = IFPItemDTO;

@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gcm.transfercontract.logic;
 
-import com.stpl.app.gcm.common.QueryUtils;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -37,7 +36,6 @@ import org.jboss.logging.Logger;
 public class ContractSearchLogic {
 
     public static final Logger LOGGER = Logger.getLogger(ContractSearchLogic.class);
-    QueryUtils queryUtils = new QueryUtils();
 
     public List<ContractSearchDTO> getPlaceHolderContractData(ContractSearchDTO binderDTO, int start, int offset, List<SortByColumn> sortByColumns) {
         List input = getInputForContractSearch(binderDTO, start, offset, false, sortByColumns);

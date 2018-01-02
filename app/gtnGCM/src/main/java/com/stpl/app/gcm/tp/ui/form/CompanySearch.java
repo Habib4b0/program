@@ -124,15 +124,15 @@ public class CompanySearch extends VerticalLayout {
      * The Constant LOGGER.
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanySearch.class);
-    CommonUtil commonUtil = CommonUtil.getInstance();
-    String updateType = StringUtils.EMPTY;
-    CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
-    StplSecurity stplSecurity = new StplSecurity();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
+    private String updateType = StringUtils.EMPTY;
+    private final CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
+    private final StplSecurity stplSecurity = new StplSecurity();
     public ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
     private final BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
-    ExtTreeContainer<TradingPartnerDTO> resultsLazyContainer = new ExtTreeContainer<>(TradingPartnerDTO.class);
+    private final ExtTreeContainer<TradingPartnerDTO> resultsLazyContainer = new ExtTreeContainer<>(TradingPartnerDTO.class);
     public TradingPartnerDTO tpDto = new TradingPartnerDTO();
-    final ErrorLabel errorMsg = new ErrorLabel();
+    private final ErrorLabel errorMsg = new ErrorLabel();
     public static final String SEARCH_BTN = "searchBtn";
     public static final String PLEASE_SELECT_A_VALUE_IN_THE_RESULTS_LIST = "Please select a value in the Results list view then try again.";
     public static final String CHECK = "check";
@@ -144,11 +144,11 @@ public class CompanySearch extends VerticalLayout {
      * The excel export image.
      */
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    SessionDTO session = new SessionDTO();
-    int parentCompanySid;
-    ParentCompanyLookup parentCompanyLookup = null;
+    private final SessionDTO session = new SessionDTO();
+    private int parentCompanySid;
+    private ParentCompanyLookup parentCompanyLookup = null;
     private String searchSessionId = StringUtils.EMPTY;
-    CompanySearchLogic companySearchLogic = new CompanySearchLogic();
+    private final CompanySearchLogic companySearchLogic = new CompanySearchLogic();
 
     public CompanySearch(String updateType) {
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/companySearch.xml"), this));
@@ -676,7 +676,7 @@ public class CompanySearch extends VerticalLayout {
         }.getConfirmationMessage("Reset Confirmation", "Are you sure you want to reset the Results list view?");
     }
 
-    ColumnCheckListener checkListener = new ColumnCheckListener() {
+    private final ColumnCheckListener checkListener = new ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
             if (event.isChecked()) {

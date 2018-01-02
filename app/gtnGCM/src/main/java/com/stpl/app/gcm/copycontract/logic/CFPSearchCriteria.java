@@ -14,9 +14,9 @@ import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
  */
 public class CFPSearchCriteria implements BeanSearchCriteria {
 
-    Set<Container.Filter> filters;
-    int lastCount;
-    boolean dirty;
+    private Set<Container.Filter> filters;
+    private int lastCount;
+    public boolean dirty;
 
     @Override
     public int getLastCount() {

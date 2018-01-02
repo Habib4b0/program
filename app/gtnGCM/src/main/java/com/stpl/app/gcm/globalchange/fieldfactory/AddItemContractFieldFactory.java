@@ -7,7 +7,6 @@ package com.stpl.app.gcm.globalchange.fieldfactory;
 import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
-import com.stpl.app.gcm.itemmanagement.add.dto.AddItemTableDTO;
 import com.stpl.app.gcm.itemmanagement.add.form.AddContractSelection;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractContractSearchDTO;
@@ -36,11 +35,9 @@ import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
@@ -52,12 +49,11 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
  */
 public class AddItemContractFieldFactory implements TableFieldFactory {
 
-    List<AddItemTableDTO> selectedItemList = new ArrayList<>();
-    AbstractLogic logic = AbstractLogic.getInstance();
-    SelectionDTO selection;
-    public ExtPagedTable contractSelectionTable;
-    Map tempTableMap = new HashMap();
-    boolean valueChange = true;
+  private final AbstractLogic logic = AbstractLogic.getInstance();
+  private final SelectionDTO selection;
+  public ExtPagedTable contractSelectionTable;
+  private Map tempTableMap = new HashMap();
+  private boolean valueChange = true;
 
     public AddItemContractFieldFactory(final SelectionDTO selection, ExtPagedTable contractSelectionTable, Map tempTableMap) {
         this.selection = selection;

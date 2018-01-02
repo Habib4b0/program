@@ -25,7 +25,6 @@ public class TransferPDFilterGenerator implements ExtFilterGenerator {
     private static final Logger LOGGER = Logger.getLogger(TransferPDFilterGenerator.class);
     
    
-  CommmonLogic commonLogic = new CommmonLogic();
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {
              

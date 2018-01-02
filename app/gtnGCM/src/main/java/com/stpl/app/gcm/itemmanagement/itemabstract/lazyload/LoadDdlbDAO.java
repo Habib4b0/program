@@ -19,10 +19,10 @@ import org.vaadin.addons.lazycontainer.SearchCriteria;
  */
 public class LoadDdlbDAO implements DAO<HelperDTO> {
 
-    AbstractLogic logic = AbstractLogic.getInstance();
-    String countFlag;
-    String findFlag;
-    Boolean isFilter;
+    private AbstractLogic logic = AbstractLogic.getInstance();
+    private String countFlag;
+    private String findFlag;
+    private Boolean isFilter;
 
     public LoadDdlbDAO(final List input, final boolean isFilter) {
         this.countFlag = String.valueOf(input.get(0));

@@ -71,7 +71,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class PromoteTP extends VerticalLayout {
 
-    SessionDTO session = new SessionDTO();
+    private SessionDTO session = new SessionDTO();
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(PromoteTP.class);
     public PromoteTpToChDto promoteTpToChDto = new PromoteTpToChDto();
     public CustomFieldGroup promoteTpToChDtoBinder;
@@ -119,18 +119,17 @@ public class PromoteTP extends VerticalLayout {
     @UiField("errorMsg")
     public ErrorLabel errorMsg;
     private final BeanItemContainer<PromoteTpToChDto> resultsContainer = new BeanItemContainer<>(PromoteTpToChDto.class);
-    LazyBeanItemContainer<PromoteTpToChDto> resultsLazyContainer;
-    HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
-    PromoteTPLogic logic = new PromoteTPLogic();
+    private LazyBeanItemContainer<PromoteTpToChDto> resultsLazyContainer;
+    private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    private final PromoteTPLogic logic = new PromoteTPLogic();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    String updateType = PROMOTE_TRADING_PARTNER.getConstant();
+    private String updateType = PROMOTE_TRADING_PARTNER.getConstant();
     private ExtCustomTable companyViewTable;
-    int parentCompanySid;
-    String searchSessionId = StringUtils.EMPTY;
-    CompanySearchTableLogic compLogic = new CompanySearchTableLogic();
+    private String searchSessionId = StringUtils.EMPTY;
+    private final CompanySearchTableLogic compLogic = new CompanySearchTableLogic();
     public ExtPagedTable companySearchResultsTable = new ExtPagedTable(compLogic);
     public ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(promoteTpToChDto));
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
     public LazyBeanItemContainer<PromoteTpToChDto> getResultsLazyContainer() {
         return resultsLazyContainer;
     }
