@@ -36,8 +36,8 @@ public class SessionDTO implements Serializable, Cloneable {
     private List<String> phCompanyMasterSids = new ArrayList<>();
 
     private Integer companyId;
-    String forecastingType = StringUtils.EMPTY;
-    String forecastTableName = StringUtils.EMPTY;
+    private String forecastingType = StringUtils.EMPTY;
+    private String forecastTableName = StringUtils.EMPTY;
     private String companyFamilyPlanName = StringUtils.EMPTY;
     private String searchSessionId = StringUtils.EMPTY;
     private boolean checkValue;

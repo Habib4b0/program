@@ -22,10 +22,10 @@ import org.jboss.logging.Logger;
  */
 public class CopyComponentsResultLogic extends PageTableLogic {
 
-    boolean generate = false;
-    List<ContractSelectionDTO> selectedlist = new ArrayList<>();
-    CopyContractLogic logic = new CopyContractLogic();
-    int count;
+  private boolean generate = false;
+  private List<ContractSelectionDTO> selectedlist = new ArrayList<>();
+  private final CopyContractLogic logic = new CopyContractLogic();
+  private int count;
     private static final Logger LOGGER = Logger.getLogger(CopyComponentsResultLogic.class);
 
     @Override

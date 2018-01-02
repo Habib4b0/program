@@ -44,7 +44,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,21 +64,21 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class SalesTab extends VerticalLayout {
 
     @UiField("tradingPartnerSalesTableLayout")
-    VerticalLayout tradingPartnerSalesTableLayout;
+    private VerticalLayout tradingPartnerSalesTableLayout;
     @UiField("excelBtn")
     public Button excelBtn;
     @UiField("frequency")
     public ComboBox frequency;
     @UiField("history")
     public ComboBox history;
-    CustomTableHeaderDTO tableHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO tableHeader = new CustomTableHeaderDTO();
     /**
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = Logger.getLogger(SalesTab.class);
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightDTO;
-    CustomTableHeaderDTO leftDTO;
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightDTO;
+    private CustomTableHeaderDTO leftDTO;
     public ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The map left visible columns.
@@ -89,10 +88,10 @@ public class SalesTab extends VerticalLayout {
      * The map right visible columns.
      */
     private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
-    ExtFilterTreeTable leftTable;
-    ExtFilterTreeTable rightTable;
-    SalesTabTableLogic tableLogic = new SalesTabTableLogic();
-    FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
+    private ExtFilterTreeTable leftTable;
+    private ExtFilterTreeTable rightTable;
+    private SalesTabTableLogic tableLogic = new SalesTabTableLogic();
+    private FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     /**
      * The max split position.
@@ -108,14 +107,12 @@ public class SalesTab extends VerticalLayout {
     private final float splitPosition = 300;
     public TabSelectionDTO selectionDTO = new TabSelectionDTO();
     private ExtCustomTreeTable exportPeriodViewTable;
-    private ExtTreeContainer<SalesTabDTO> excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
-    LoadTabLogic tabLogic = new LoadTabLogic();
+    private ExtTreeContainer<SalesTabDTO> excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class, ExtContainer.DataStructureMode.MAP);
+    private final LoadTabLogic tabLogic = new LoadTabLogic();
     final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
-    SessionDTO session;
-    boolean load = false;
-    Date startPeriod;
-    Date endPeriod;
-    int projectionId = 0;
+    private final SessionDTO session;
+    public boolean load = false;
+    private int projectionId = 0;
 
     public SalesTab(SessionDTO session, boolean isLoad) {
         this.session = session;

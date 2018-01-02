@@ -12,7 +12,6 @@ import static com.stpl.app.gcm.copycontract.ui.form.Newcomponent.getSelectNull;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.common.HelperListUtil;
-import com.stpl.app.gcm.common.QueryUtils;
 import com.stpl.app.gcm.discount.ui.layout.CopyContractWindow;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentLookUpDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.ComponentLookUp;
@@ -37,7 +36,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.HashMap;
 import java.util.Map;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -46,8 +44,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
-import com.stpl.app.gcm.tp.dao.impl.TradingPartnerDAOImpl;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -79,8 +75,8 @@ import org.jboss.logging.Logger;
 public class CopyContractform extends CustomComponent implements View {
 
     private static final Logger LOGGER = Logger.getLogger(CopyContractform.class);
-    CopyContractWindow editWindow;
-    ExtFilterTable resultTable;
+    private CopyContractWindow editWindow;
+    private ExtFilterTable resultTable;
     @UiField("main")
     public VerticalLayout layout;
     public TabSheet tabsheet = new TabSheet();
@@ -100,15 +96,13 @@ public class CopyContractform extends CustomComponent implements View {
     public PopupDateField enddate;
     @UiField("markettype")
     public ComboBox markettype;
-    Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    boolean tabFlag = false;
-    int tabPosition = 0;
+    private int tabPosition = 0;
     private Newcomponent Newcomponent;
     private Exixtingcomponent existingcomponent;
     private Copycomponents Copycomponent;
-    List<ContractSelectionDTO> selectedList;
-    ExtTreeContainer<CopyComponentDTO> dashBoardContainer = new ExtTreeContainer<>(CopyComponentDTO.class);
+    private final List<ContractSelectionDTO> selectedList;
+    private final ExtTreeContainer<CopyComponentDTO> dashBoardContainer = new ExtTreeContainer<>(CopyComponentDTO.class);
     @UiField("populate")
     public Button populate;
     @UiField("contractid")
@@ -117,10 +111,10 @@ public class CopyContractform extends CustomComponent implements View {
     public TextField contractname;
     @UiField("contractno")
     public TextField contractno;
-    TreeTable copyContractDashBoardTable = new TreeTable();
-    TreeTable existingContractDashBoardTable = new TreeTable();
-    TreeTable newcontractDashBoardTable = new TreeTable();
-    ExtFilterTable multiContractTable = new ExtFilterTable();
+    private final TreeTable copyContractDashBoardTable = new TreeTable();
+    private final TreeTable existingContractDashBoardTable = new TreeTable();
+    private final TreeTable newcontractDashBoardTable = new TreeTable();
+    private final ExtFilterTable multiContractTable = new ExtFilterTable();
     @UiField("contracthHolder")
     public CustomTextField contracthHolder;
     @UiField("contractStatus")
@@ -131,7 +125,7 @@ public class CopyContractform extends CustomComponent implements View {
     public HorizontalLayout multiContractLayout;
     @UiField("horizontalLayoutNC1")
     public HorizontalLayout horizontalLayoutNC1;
-    String count = StringUtils.EMPTY;
+    private String count = StringUtils.EMPTY;
     @UiField("multiContractButtons")
     public HorizontalLayout multiContractButtons;
     @UiField("resetBtn")
@@ -141,10 +135,8 @@ public class CopyContractform extends CustomComponent implements View {
     @UiField("populateBtn")
     public Button populateBtn;
     private final BeanItemContainer<CopyComponentDTO> multiContractContainer = new BeanItemContainer<>(CopyComponentDTO.class);
-    QueryUtils queryUtils = new QueryUtils();
-    CommonLogic commonLogic = new CommonLogic();
-    CommonUtil commonUtil = CommonUtil.getInstance();
-    TradingPartnerDAO ccDao = new TradingPartnerDAOImpl();
+    private final CommonLogic commonLogic = new CommonLogic();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
 
     public CopyContractform(CopyContractWindow editWindow, List<ContractSelectionDTO> selectedList, String Count) {
         this.editWindow = editWindow;

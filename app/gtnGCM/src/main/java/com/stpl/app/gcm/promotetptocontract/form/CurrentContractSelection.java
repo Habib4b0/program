@@ -55,12 +55,10 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.vaadin.addons.lazycontainer.LazyBeanItemContainer;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.ExtCustomTable.ColumnCheckListener;
@@ -74,7 +72,6 @@ import de.steinwedel.messagebox.MessageBoxListener;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
-import java.util.HashMap;
 import org.apache.commons.lang.ArrayUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 
@@ -210,35 +207,30 @@ public class CurrentContractSelection extends CustomComponent implements View {
     private Label rebatePlanLevelLabel;
 
     private BeanItemContainer<ComponentInfoDTO> componentInfoContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
-    LazyBeanItemContainer<CurrentContractDTO> resultsLazyContainer;
     public CurrentContractDTO currentContractDTO = new CurrentContractDTO();
-    ExtFilterTable resultTable;
-    PromoteTPLogic logic = new PromoteTPLogic();
+    private ExtFilterTable resultTable;
+    private PromoteTPLogic logic = new PromoteTPLogic();
     public CurrentContractTableLogic tableLogic = new CurrentContractTableLogic();
     public ExtPagedTable currentTradingPartnerTable2 = new ExtPagedTable(tableLogic);
-    List<CurrentContractDTO> selecteditemList = new ArrayList<>();
-    BeanItemContainer<CurrentContractDTO> searchContainer = new BeanItemContainer<>(CurrentContractDTO.class);
-    CurrentContractDTO binderDto = new CurrentContractDTO();
+    private BeanItemContainer<CurrentContractDTO> searchContainer = new BeanItemContainer<>(CurrentContractDTO.class);
+    private CurrentContractDTO binderDto = new CurrentContractDTO();
     private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     public ExtFilterTable compInfoTable = new ExtFilterTable();
-    HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
-    List<String> selection = new ArrayList<>();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    boolean summaryRefreshed;
-    List<CompanyMaster> companyMasters;
+    public boolean summaryRefreshed;
+    public List<CompanyMaster> companyMasters;
     private String screenName = StringUtils.EMPTY;
     private List<ComponentInfoDTO> componentInformation = new ArrayList<>();
     public List<CurrentContractDTO> contractInfo = new ArrayList<>();
-    String excelName = "Rebate Schedule Information";
+    private String excelName = "Rebate Schedule Information";
     private ExtTreeContainer<ComponentInfoDTO> excelResultBean = new ExtTreeContainer<>(ComponentInfoDTO.class);
     private ExtCustomTable contractExportPeriodViewTable = new ExtCustomTable();
     public static final String NUM = "Number :";
     public static List<CurrentContractDTO> selectedContract = new ArrayList<>();
-    Boolean contractExcelFlag = false;
-    Boolean infoExcelFlag = false;
+    private Boolean contractExcelFlag = false;
+    private Boolean infoExcelFlag = false;
     private List<Integer> contractid = new ArrayList<>();
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private final StplSecurity stplSecurity = new StplSecurity();
 
     /**
      * The from date.
@@ -788,7 +780,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         componentStartDate.setEnabled(false);
         componentEndDate.setEnabled(false);
     }
-    ColumnCheckListener checkListener = new ColumnCheckListener() {
+     private ColumnCheckListener checkListener = new ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
             if (event.isChecked()) {

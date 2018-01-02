@@ -49,7 +49,6 @@ import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.ui.UI;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
@@ -72,7 +71,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
      * The Constant serialVersionUID.
      */
     private static final long serialVersionUID = 1L;
-    SessionDTO session;
+    private SessionDTO session;
     @UiField("currentTradingPartnerTableLayout")
     public VerticalLayout currentTradingPartnerTableLayout;
     @UiField("transferTradingPartnerTableLayout")
@@ -85,24 +84,23 @@ public class SummaryTPDetails extends CustomComponent implements View {
     public Button currentRemove;
     @UiField("transferRemove")
     public Button transferRemove;
-    ExtPagedFilterTable transferTradingPartnerTable = new ExtPagedFilterTable();
+    private ExtPagedFilterTable transferTradingPartnerTable = new ExtPagedFilterTable();
     private BeanItemContainer<CurrentContractDTO> transferTpResultsContainer = new BeanItemContainer<>(CurrentContractDTO.class);
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    CurrentContractDTO currentContractDTO = new CurrentContractDTO();
+    private CurrentContractDTO currentContractDTO = new CurrentContractDTO();
     public CurrentContractTableLogic tableLogic = new CurrentContractTableLogic();
     public ExtPagedTable currentTradingPartnerTable = new ExtPagedTable(tableLogic);
-    BeanItemContainer<CurrentContractDTO> currentTradingPartnerResultsContainer = new BeanItemContainer<>(CurrentContractDTO.class);
-    List<Object> selecteditemList = new ArrayList<>();
-    List<Object> selItemList = new ArrayList<>();
-    ExtFilterTable resultTable;
-    boolean isLoad = false;
-    boolean isRebateLoad = false;
-    PromoteTPLogic logic = new PromoteTPLogic();
+    private BeanItemContainer<CurrentContractDTO> currentTradingPartnerResultsContainer = new BeanItemContainer<>(CurrentContractDTO.class);
+    private List<Object> selecteditemList = new ArrayList<>();
+    private List<Object> selItemList = new ArrayList<>();
+    public ExtFilterTable resultTable;
+    public boolean isLoad = false;
+    public boolean isRebateLoad = false;
+    private PromoteTPLogic logic = new PromoteTPLogic();
     public List<CurrentContractDTO> transTpInfoList = new ArrayList<>();
-    Boolean contractExcelFlag = false;
-    Boolean infoExcelFlag = false;
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private Boolean contractExcelFlag = false;
+    private Boolean infoExcelFlag = false;
+    private final StplSecurity stplSecurity = new StplSecurity();
 
     public SummaryTPDetails() {
     }

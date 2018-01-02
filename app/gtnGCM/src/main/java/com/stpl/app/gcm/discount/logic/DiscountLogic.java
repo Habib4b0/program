@@ -97,16 +97,16 @@ import org.jboss.logging.Logger;
  */
 public class DiscountLogic {
 
-    static CommonDao DAO = CommonImpl.getInstance();
-    static DiscountDAO discountDAO = new DiscountDaoImpl();
+    private static CommonDao DAO = CommonImpl.getInstance();
+    private static DiscountDAO discountDAO = new DiscountDaoImpl();
     private static final Logger LOGGER = Logger.getLogger(DiscountLogic.class);
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
-    QueryUtils queryUtils = new QueryUtils();
+    private QueryUtils queryUtils = new QueryUtils();
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0");
     private static final DecimalFormat AMOUNT_UNITS = new DecimalFormat("#,##0");
     public static final char CHAR_PERCENT = '%';
-    DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
-    HelperListUtil helperlist = HelperListUtil.getInstance();
+    private DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+    private final HelperListUtil helperlist = HelperListUtil.getInstance();
     public static final String SPACE_OFFSET_SPACE = " OFFSET ";
     public static final String SET_COLUMN_NAME_QUESTION = "?SET_COLUMN_NAME?";
     public static final String ROWS_ONLY = " ROWS ONLY";

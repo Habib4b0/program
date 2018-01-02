@@ -19,9 +19,9 @@ import org.jboss.logging.Logger;
  */
 public class RebatePlanTableLogic extends PageTableLogic {
 private static final Logger LOGGER = Logger.getLogger(RebatePlanTableLogic.class);
-    LookupDTO binderDto = new LookupDTO();
-    DiscountLogic logic = new DiscountLogic();
-    boolean generate = false;
+    private LookupDTO binderDto = new LookupDTO();
+    private final DiscountLogic logic = new DiscountLogic();
+    private boolean generate = false;
 
     /**
      * Record count logic

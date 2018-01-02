@@ -38,7 +38,7 @@ public class CommonUtil {
     /**
      * The helper list util.
      */
-    static HelperListUtil helperListUtil = HelperListUtil.getInstance();
+    private static final HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
     private static final Logger logger = Logger.getLogger(CommonUtil.class);
 

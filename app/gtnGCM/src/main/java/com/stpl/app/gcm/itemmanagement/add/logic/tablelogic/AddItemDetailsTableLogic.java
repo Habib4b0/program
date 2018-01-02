@@ -28,12 +28,12 @@ import org.jboss.logging.Logger;
  */
 public class AddItemDetailsTableLogic extends PageTableLogic {
 
-    AddItemTableDTO binderDto = new AddItemTableDTO();
-    AbstractLogic logic =AbstractLogic.getInstance();
-    SelectionDTO selection;
-    boolean isGenerated = false;
-    boolean isSummary = false;
-    List<ItemIndexDto> selectedItemList;
+    private AddItemTableDTO binderDto = new AddItemTableDTO();
+    private final AbstractLogic logic = AbstractLogic.getInstance();
+    private SelectionDTO selection;
+    private boolean isGenerated = false;
+    public boolean isSummary = false;
+    private List<ItemIndexDto> selectedItemList;
     public static final Logger LOGGER = Logger.getLogger(AddItemDetailsTableLogic.class);
     /**
      * Record count method

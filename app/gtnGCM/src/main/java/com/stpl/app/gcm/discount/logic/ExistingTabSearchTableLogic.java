@@ -20,9 +20,9 @@ import org.jboss.logging.Logger;
 public class ExistingTabSearchTableLogic extends PageTableLogic {
 
     private static final Logger LOGGER = Logger.getLogger(ExistingTabSearchTableLogic.class);
-    ContractsDetailsDto newDiscountTabDto = new ContractsDetailsDto();
-    DiscountLogic logic = new DiscountLogic();
-    boolean generate = false;
+    private ContractsDetailsDto newDiscountTabDto = new ContractsDetailsDto();
+    private final DiscountLogic logic = new DiscountLogic();
+    private boolean generate = false;
 
     @Override
     public int getCount() {
