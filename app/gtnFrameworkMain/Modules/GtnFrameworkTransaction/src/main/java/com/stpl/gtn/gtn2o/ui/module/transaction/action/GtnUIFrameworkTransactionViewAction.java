@@ -23,7 +23,6 @@ import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.transaction.GtnWsTransactionRequest;
@@ -118,13 +117,6 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			} else {
 				loadDataFromService(componentList, wsViewName, helpercomponentList, systemId, demandTypeColumnName,
 						demandTypeColumnValue, null);
-                                System.out.println("==========inside loadDataFromService==========");
-                                System.out.println("componentList ==== " + componentList);
-                                System.out.println("wsViewName ==== " + wsViewName);
-                                System.out.println("helpercomponentList ==== " + helpercomponentList);
-                                System.out.println("systemId ==== " + systemId);
-                                System.out.println("demandTypeColumnName ==== " + demandTypeColumnName);
-                                System.out.println("demandTypeColumnValue ==== " + demandTypeColumnValue);
 			}
 			gtnLogger.info("----------Ending doAction ---------------");
 		} catch (Exception e) {
@@ -364,7 +356,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			} 
                         else if (String.valueOf(componentId).equals("itemPrice") && String.valueOf(componentId)!= null) {
                             
-                        value = "$" + callDecimalFormatForItemPrice(componentId,componentValue,String.valueOf(resultArray[4]));
+                        value = "$" + callDecimalFormatForItemPrice(componentValue,String.valueOf(resultArray[4]));
 			} 
                         else {
 				value = componentValue instanceof java.lang.Long ? new Date((Long) componentValue)
@@ -376,7 +368,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		return value;
 	}
         
-        private Object callDecimalFormatForItemPrice(Object componentId,Object componentValue,String qualifierName){
+        private Object callDecimalFormatForItemPrice(Object componentValue,String qualifierName){
             
             try {
                 

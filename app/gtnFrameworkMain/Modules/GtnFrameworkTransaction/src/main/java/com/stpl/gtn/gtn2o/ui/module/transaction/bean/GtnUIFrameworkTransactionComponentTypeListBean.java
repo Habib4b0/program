@@ -135,8 +135,8 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 		}
 		formatterMap.put(propertyId, pattern);
 	}
-        
-        public Map<String, String> getFormatterMap() {
+
+	public Map<String, String> getFormatterMap() {
 		return formatterMap == null ? formatterMap : Collections.unmodifiableMap(formatterMap);
 	}
 
