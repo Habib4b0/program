@@ -20,10 +20,10 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class LinkedCompaniesTableLogic extends PageTableLogic {
 
-    CompanySearchLogic logic = new CompanySearchLogic();
-    CompanyLinkDTO tpDTo = new CompanyLinkDTO();
-    String searchSessionid = StringUtils.EMPTY;
-    boolean firstTime = true;
+    private final CompanySearchLogic logic = new CompanySearchLogic();
+    private final CompanyLinkDTO tpDTo = new CompanyLinkDTO();
+    private String searchSessionid = StringUtils.EMPTY;
+    private boolean firstTime = true;
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanySearchTableLogic.class);
 
     @Override

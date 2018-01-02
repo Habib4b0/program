@@ -29,18 +29,18 @@ import org.asi.ui.customwindow.CustomWindow;
  */
 public class TransferTPForm extends CustomWindow {
 
-    TabSheet tabSheet = new TabSheet();
+   private TabSheet tabSheet = new TabSheet();
 
-    UpdatedContractSelection currentContractSelectionTab;
-    UpdatedContractSelection transferContractSelectionTab;
-    SummaryTab summaryTab;
-    CustomerSelection customerSelectionTab;
-    SessionDTO session;
+   private UpdatedContractSelection currentContractSelectionTab;
+   private UpdatedContractSelection transferContractSelectionTab;
+   private SummaryTab summaryTab;
+   private CustomerSelection customerSelectionTab;
+   private final SessionDTO session;
 
     private final ContractSelectionLogic logic = new ContractSelectionLogic();
-    String lastTabName = StringUtils.EMPTY;
-    int tabPosition;
-    int tabCount = 0;
+    private String lastTabName = StringUtils.EMPTY;
+    private int tabPosition;
+    private int tabCount = 0;
     private boolean automaticTabChangedFlag = false;
     private boolean salesCopyFlag = true;
     private boolean salesRemoveFlag = false;

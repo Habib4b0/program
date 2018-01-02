@@ -66,12 +66,12 @@ public class CfpLookUp extends Window {
     public PopupDateField cfpEndDate;
     @UiField("cfpCategory")
     public ComboBox cfpCategory;
-    CommonUtil commonUtil = CommonUtil.getInstance();
-    LookUpTableLogic tableLogic = new LookUpTableLogic();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
+    private final LookUpTableLogic tableLogic = new LookUpTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private final BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private final CustomTextField parentCfpName;
-    boolean flag;
+    private final boolean flag;
 
     public CfpLookUp(CustomTextField parentCfpName, boolean flag) {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/cfp.xml"), this));

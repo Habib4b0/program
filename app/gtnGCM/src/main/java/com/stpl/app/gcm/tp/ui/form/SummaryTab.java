@@ -39,7 +39,6 @@ import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.vaadin.teemu.clara.Clara;
@@ -53,10 +52,10 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class SummaryTab extends VerticalLayout {
 
     @UiField("summaryTableLayout")
-    VerticalLayout summaryTableLayout;
+    private VerticalLayout summaryTableLayout;
 
     @UiField("functionalButton")
-    Button functionalButton;
+    private Button functionalButton;
 
     @UiField("previous")
     public Button previous;
@@ -75,8 +74,7 @@ public class SummaryTab extends VerticalLayout {
     public TextField companyCategoryField = new TextField();
     public Label tradeClass = new Label("Trade Class:");
     public TextField tradeClassField = new TextField();
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private final StplSecurity stplSecurity = new StplSecurity();
     
     public static final String FUNCTIONAL_BUTTON = "functionalButton";
     public static final String CLOSE_BTN = "close";
@@ -87,19 +85,19 @@ public class SummaryTab extends VerticalLayout {
     public static final String AND_PROJECTION_NAME = " \n and Projection Name - ";
     public static final String NEW_PROJECTION_CREATED_WITH_FORECASTING = "'\n new Projection created with forecasting type -";
     
-    BeanItemContainer<ContractResultDTO> currentTPDetailsContainer = new BeanItemContainer<>(ContractResultDTO.class);
-    BeanItemContainer<ContractResultDTO> transferTPDetailsContainer = new BeanItemContainer<>(ContractResultDTO.class);
+    private final BeanItemContainer<ContractResultDTO> currentTPDetailsContainer = new BeanItemContainer<>(ContractResultDTO.class);
+    private final BeanItemContainer<ContractResultDTO> transferTPDetailsContainer = new BeanItemContainer<>(ContractResultDTO.class);
 
-    TransferTPForm ttpForm;
-    RemoveTPForm rtpform;
-    AddTPForm addTpForm;
-    UpdateTPForm updateTPForm;
-    CustomTPDetailsLayout layout;
-    SessionDTO session;
-    boolean isLoad = false;
-    boolean isRebateLoad = false;
-    String idString = ButtonId.OK.name();
-    int projectionId = 0;
+    private TransferTPForm ttpForm;
+    private RemoveTPForm rtpform;
+    private AddTPForm addTpForm;
+    private UpdateTPForm updateTPForm;
+    private CustomTPDetailsLayout layout;
+    private SessionDTO session;
+    private boolean isLoad = false;
+    private boolean isRebateLoad = false;
+    private String idString = ButtonId.OK.name();
+    private int projectionId = 0;
 
     /**
      * The history bean.

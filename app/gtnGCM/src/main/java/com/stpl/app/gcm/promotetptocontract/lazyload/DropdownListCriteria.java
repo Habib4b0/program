@@ -12,9 +12,9 @@ import org.vaadin.addons.lazycontainer.SearchCriteria;
  */
 public class DropdownListCriteria implements SearchCriteria {
 
-    String filter;
-    int lastCount;
-    boolean dirty;
+    private String filter;
+    private int lastCount;
+    public boolean dirty;
 
     @Override
     public int getLastCount() {

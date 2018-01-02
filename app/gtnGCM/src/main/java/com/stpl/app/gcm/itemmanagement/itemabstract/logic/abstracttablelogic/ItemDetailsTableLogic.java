@@ -18,9 +18,9 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ItemDetailsTableLogic extends PageTableLogic {
 
-    boolean isGenerated = false;
-    SummaryLogic logic = new SummaryLogic();
-    SelectionDTO selection;
+    private boolean isGenerated = false;
+    private final SummaryLogic logic = new SummaryLogic();
+    private SelectionDTO selection;
 
     @Override
     public int getCount() {

@@ -17,11 +17,11 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class RemoveDiscountRsSearchLogic extends PageTableLogic {
 
-    String field = "";
-    String value = "";
-    int contractSid = 0;
-    int rsSid = 0;
-    DiscountLogic logic = new DiscountLogic();
+    private String field = "";
+    private String value = "";
+    private int contractSid = 0;
+    private int rsSid = 0;
+    private final DiscountLogic logic = new DiscountLogic();
 
     @Override
     public int getCount() {

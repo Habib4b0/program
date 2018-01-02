@@ -629,9 +629,8 @@ public class SalesLogic {
 
         CommonLogic commonLogic = new CommonLogic();
         String sql;
-
-        sql = commonLogic.insertSelectedHierarchHierarchyNo(hierarchyNoSet, projSelDTO);
-
+        
+       sql = commonLogic.insertSelectedHierarchHierarchyNo(hierarchyNoSet, projSelDTO);
         return getSalesResults(projSelDTO, 0, hierarchyNoSet.size(), sql);
     }
 

@@ -20,8 +20,8 @@ import org.vaadin.addons.lazycontainer.OrderByColumn;
 public class PromoteTpSearchDao implements BeanDAO<PromoteTpToChDto> {
 
     public static final Logger LOGGER = Logger.getLogger(PromoteTpSearchDao.class);
-    PromoteTpToChDto promoteTpToChDto;
-    PromoteTPLogic logic = new PromoteTPLogic();
+    private final PromoteTpToChDto promoteTpToChDto;
+    private final PromoteTPLogic logic = new PromoteTPLogic();
 
     public PromoteTpSearchDao(PromoteTpToChDto promoteTpToChDto) {
         this.promoteTpToChDto = promoteTpToChDto;

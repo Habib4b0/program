@@ -17,7 +17,7 @@ public final class GtnFrameworkNSFMessageConstants {
 	public static final String GTN_NSF_ADD_CUSTOMER_BUTTON_MSG_HEADER = "Info";
 	public static final String GTN_NSF_ADD_DEDUCTION_BUTTON_MSG_BODY = "Please select an item to add.";
 	public static final String GTN_NSF_CRUD_BTN_MSG_HEADER = " Error.";
-	public static final String GTN_NSF_CRUD_BTN_MSG_BODY = "Please Select a record to ";
+	public static final String GTN_NSF_CRUD_BTN_MSG_BODY = "Please select an existing Net Sales Formula record to ";
 
 	private GtnFrameworkNSFMessageConstants() {
 		super();

@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class CompanySearchLogic {
 
-    PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
+    private final PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
     /**
      * The Constant LOGGER.
      */

@@ -47,7 +47,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  */
 public class DiscountDaoImpl implements DiscountDAO {
 
-    QueryUtils queryUtils = new QueryUtils();
+    private final QueryUtils queryUtils = new QueryUtils();
 
     @Override
     public List<String> getMarketType() {

@@ -2538,6 +2538,7 @@ public class CommonLogic {
 
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
+        int i=1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if (Integer.valueOf(entry.getValue().get(NumericConstants.TWO).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(NumericConstants.FOUR).toString()) 
                     && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
@@ -2547,7 +2548,7 @@ public class CommonLogic {
                     }
                     stringBuilder.append("('");
                     stringBuilder.append(entry.getKey());
-                    stringBuilder.append("')");
+                    stringBuilder.append("'," + i++ + ")");
 
                     isNotFirstElement = true;
             }
