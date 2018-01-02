@@ -25,12 +25,12 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class TransferContract extends CustomComponent {
 
-    VerticalLayout mainLayout = new VerticalLayout();
+    private VerticalLayout mainLayout = new VerticalLayout();
     public TransferContractSearch contractSearch;
-    SelectionDTO selection;
+    private SelectionDTO selection;
     public List selectedItemList;
-    AbstractComponentInfo componentDetails;
-    AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
+    private AbstractComponentInfo componentDetails;
+    private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
 
     public TransferContract(SelectionDTO selection, List selectedItemList) {
         try {

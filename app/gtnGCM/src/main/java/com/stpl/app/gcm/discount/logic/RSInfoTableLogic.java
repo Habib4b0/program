@@ -20,8 +20,8 @@ import org.jboss.logging.Logger;
 public class RSInfoTableLogic extends PageTableLogic{
 
     private static final Logger LOGGER = Logger.getLogger(RSInfoTableLogic.class);
-    DiscountLogic logic = new DiscountLogic();
-    RemoveDiscountDto removeDiscountDto =null;
+    private final DiscountLogic logic = new DiscountLogic();
+    private RemoveDiscountDto removeDiscountDto =null;
     
     /**
      * 

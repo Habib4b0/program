@@ -19,9 +19,9 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class NewComponentSearchTableLogic extends PageTableLogic {
 
-    ComponentInfoDTO componentInfoDTO = new ComponentInfoDTO();
-    PromoteTPLogic logic = new PromoteTPLogic();
-    boolean generate = false;
+    private ComponentInfoDTO componentInfoDTO = new ComponentInfoDTO();
+    private final PromoteTPLogic logic = new PromoteTPLogic();
+    private boolean generate = false;
 
     @Override
     public int getCount() {

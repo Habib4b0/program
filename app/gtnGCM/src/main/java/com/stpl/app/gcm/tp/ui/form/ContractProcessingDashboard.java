@@ -11,7 +11,6 @@ import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.tp.ui.layout.CustomTPDetailsLayout;
 
 import com.stpl.app.gcm.discount.dto.ContractsDetailsDto;
-import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.ComponentInformationDTO;
@@ -71,7 +70,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -94,11 +92,11 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class ContractProcessingDashboard extends CustomTPDetailsLayout {
 
     @UiField("componentDetailsTableLayout")
-    VerticalLayout componentDetailsTableLayout;
+    private VerticalLayout componentDetailsTableLayout;
     @UiField("addTradingPartnerTableLayout")
-    VerticalLayout addTradingPartnerTableLayout;
+    private VerticalLayout addTradingPartnerTableLayout;
     @UiField("contractDashboardTableLayout")
-    VerticalLayout contractDashboardTableLayout;
+    private VerticalLayout contractDashboardTableLayout;
 
     @UiField("cNumber")
     private TextField cNumber;
@@ -174,13 +172,12 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private Button remove;
     public ExtFilterTable addTradingPartnerTable = new ExtFilterTable();
     public TreeTable contractDashboardTable = new TreeTable();
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private final StplSecurity stplSecurity = new StplSecurity();
 
     final private BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
     private BeanItemContainer<ContractResultDTO> selectedContractContainer = new BeanItemContainer<>(ContractResultDTO.class);
     private ExtTreeContainer<ContractsDetailsDto> contractDashboardContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
-    boolean contractRefresh;
+    private boolean contractRefresh;
 
     public List parentList = new ArrayList();
     /**
@@ -203,8 +200,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     /* Current Level Value */
     public int levelValue;
     private static final Logger LOGGER = Logger.getLogger(ContractProcessingDashboard.class);
-    SessionDTO session = new SessionDTO();
-    RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
+    private SessionDTO session = new SessionDTO();
     /**
      * The table bean id.
      */
@@ -212,13 +208,13 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     /**
      * The tree bean id.
      */
-    CommmonLogic logic = new CommmonLogic();
+    private final CommmonLogic logic = new CommmonLogic();
 
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     public List<ComponentInformationDTO> componentInformation = new ArrayList<>();
     private final ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<>(ComponentInformationDTO.class);
     public String excelName = "Rebate Schedule Information";
-    CompanyComponentTableLogic tablelogic = new CompanyComponentTableLogic();
+    private final CompanyComponentTableLogic tablelogic = new CompanyComponentTableLogic();
     public ExtPagedTable componentInformationTable = new ExtPagedTable(tablelogic);
 
     public ContractProcessingDashboard(BeanItemContainer<ContractResultDTO> selectedContractContainer, SessionDTO session) {

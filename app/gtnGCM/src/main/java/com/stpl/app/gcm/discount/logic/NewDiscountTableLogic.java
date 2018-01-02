@@ -16,10 +16,10 @@ import org.jboss.logging.Logger;
  */
 public class NewDiscountTableLogic extends PageTableLogic {
 
-    ContractsDetailsDto binderDto = new ContractsDetailsDto();
-    DiscountLogic logic = new DiscountLogic();
-    boolean generate = false;
-    SessionDTO sessionDTO;
+    private ContractsDetailsDto binderDto = new ContractsDetailsDto();
+    private final DiscountLogic logic = new DiscountLogic();
+    private boolean generate = false;
+    private SessionDTO sessionDTO;
     private static final Logger LOGGER = Logger.getLogger(NewDiscountTableLogic.class);
 
     /**

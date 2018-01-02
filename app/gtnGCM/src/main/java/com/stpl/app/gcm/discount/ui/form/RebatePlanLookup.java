@@ -59,11 +59,11 @@ public class RebatePlanLookup extends CustomWindow {
     public Button selectButton;
     @UiField("closeBtn")
     public Button closeButton;
-    RebatePlanTableLogic tableLogic = new RebatePlanTableLogic();
+    private final RebatePlanTableLogic tableLogic = new RebatePlanTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     public CustomTextField componentTextField;
     private final BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
      private static final Logger LOGGER = Logger.getLogger(RebatePlanLookup.class);
 
     public RebatePlanLookup(CustomTextField componentTextField) {
