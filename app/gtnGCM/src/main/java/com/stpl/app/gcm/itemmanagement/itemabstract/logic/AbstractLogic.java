@@ -449,7 +449,20 @@ public class AbstractLogic {
                 dto.setAttachedDate(str[NumericConstants.THIRTY] == null ? null : (Date) (str[NumericConstants.THIRTY]));
                 String basePriceType = dto.getBasePriceType();
                 if (!Constants.SELECT_ONE.equals(basePriceType) && !Constants.NULL.equals(basePriceType) && !Constants.ZEROSTRING.equals(basePriceType) && !StringUtils.EMPTY.equals(basePriceType)) {
-                    dto.setBaselineWAC(Constants.MANUAL_LABLE_NAME.equals(basePriceType) ? String.valueOf(str[NumericConstants.THIRTY_FOUR]) : Constants.DATE_LABLE_NAME.equals(basePriceType) ? (Date) (str[NumericConstants.THIRTY_FIVE]) : getDescription(Integer.valueOf(str[NumericConstants.THIRTY_SIX].toString())));
+                    if (null != basePriceType) switch (basePriceType) {
+                        case Constants.MANUAL_LABLE_NAME:
+                            dto.setBaselineWAC(str[NumericConstants.THIRTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_FOUR]));
+                            break;
+                        case Constants.DATE_LABLE_NAME:
+                            dto.setBaselineWAC(str[NumericConstants.THIRTY_FIVE] == null ? StringUtils.EMPTY : (Date) (str[NumericConstants.THIRTY_FIVE]));
+                            dto.setBaselineWAC((Date) (str[NumericConstants.THIRTY_FIVE]));
+                            break;
+                        case Constants.PRICE_TYPE_LABEL:
+                            dto.setBaselineWAC(str[NumericConstants.THIRTY_SIX] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.THIRTY_SIX])) && !Constants.NULL.equals(str[NumericConstants.THIRTY_SIX]) ? getDescription(Integer.valueOf(str[NumericConstants.THIRTY_SIX].toString())) : StringUtils.EMPTY);
+                            break;
+                        default:
+                            break;
+                    }
                 }
                  
                 finalResult.add(dto);
