@@ -58,7 +58,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     public static final Logger LOGGER = Logger.getLogger(SummarySalesProjectionTransfer.class);
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO rightDTO;
-    private ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
+    private final ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The map left visible columns.
      */
@@ -157,6 +157,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
 
         resultsTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
         rightTable.addDoubleHeaderColumnCheckListener(new ExtCustomTable.DoubleHeaderColumnCheckListener() {
+            @Override
             public void doubleHeaderColumnCheck(
                     ExtCustomTable.DoubleHeaderColumnCheckEvent event) {
                 Notification.show("Current Value: " + event.isChecked()
@@ -165,6 +166,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
         });
 
         rightTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(
                     ExtCustomTable.ColumnCheckEvent event) {
                 Notification.show("Current Value: " + event.isChecked()
@@ -206,6 +208,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         return;
     }

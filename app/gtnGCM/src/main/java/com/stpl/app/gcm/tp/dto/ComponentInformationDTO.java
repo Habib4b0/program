@@ -14,47 +14,42 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ComponentInformationDTO {
 
-    /* Fields for RS */
-    String itemNo = StringUtils.EMPTY;
-    String itemName = StringUtils.EMPTY;
-    String therapeuticClass = StringUtils.EMPTY;
-    String brand = StringUtils.EMPTY;
-    String status = StringUtils.EMPTY;
-    Date startDate;
-    Date endDate;
-    String formulaId = StringUtils.EMPTY;
-    String formulaType = StringUtils.EMPTY;
-    String formulaName = StringUtils.EMPTY;
-    String rebatePlanId = StringUtils.EMPTY;
-    String rebatePlanName = StringUtils.EMPTY;
-    String rebateAmount = StringUtils.EMPTY;
-    String bundleNo = StringUtils.EMPTY;
-
-    /* Field for PS */
-    String priceType = StringUtils.EMPTY;
-    String pricePlanNo = StringUtils.EMPTY;
-    String pricePlanName = StringUtils.EMPTY;
-    String priceProtectionStatus = StringUtils.EMPTY;
-    String priceProtectionEndDate = StringUtils.EMPTY;
-    String priceProtectionStartDate = StringUtils.EMPTY;
-    String priceProtectionPriceType = StringUtils.EMPTY;
-    String priceToleranceInterval = StringUtils.EMPTY;
-    String priceToleranceFrequency = StringUtils.EMPTY;
-    String priceToleranceType = StringUtils.EMPTY;
-    String maxIncrementalChange = StringUtils.EMPTY;
-    String priceTolerance = StringUtils.EMPTY;
-    String resetEligible = StringUtils.EMPTY;
-    String resetType = StringUtils.EMPTY;
-    String resetDate = StringUtils.EMPTY;
-    String resetInterval = StringUtils.EMPTY;
-    String resetFrequency = StringUtils.EMPTY;
-
-    /* Field for CFP */
-    String companyNo = StringUtils.EMPTY;
-    String companyName = StringUtils.EMPTY;
-    String tradeClass = StringUtils.EMPTY;
-    String companyStatus = StringUtils.EMPTY;
-    Date attachedDate;
+    private String itemNo = StringUtils.EMPTY;
+    private String itemName = StringUtils.EMPTY;
+    private String therapeuticClass = StringUtils.EMPTY;
+    private String brand = StringUtils.EMPTY;
+    private String status = StringUtils.EMPTY;
+    private Date startDate;
+    private Date endDate;
+    private String formulaId = StringUtils.EMPTY;
+    private String formulaType = StringUtils.EMPTY;
+    private String formulaName = StringUtils.EMPTY;
+    private String rebatePlanId = StringUtils.EMPTY;
+    private String rebatePlanName = StringUtils.EMPTY;
+    private String rebateAmount = StringUtils.EMPTY;
+    private String bundleNo = StringUtils.EMPTY;
+    private String priceType = StringUtils.EMPTY;
+    private String pricePlanNo = StringUtils.EMPTY;
+    private String pricePlanName = StringUtils.EMPTY;
+    private String priceProtectionStatus = StringUtils.EMPTY;
+    private String priceProtectionEndDate = StringUtils.EMPTY;
+    private String priceProtectionStartDate = StringUtils.EMPTY;
+    private String priceProtectionPriceType = StringUtils.EMPTY;
+    private String priceToleranceInterval = StringUtils.EMPTY;
+    private String priceToleranceFrequency = StringUtils.EMPTY;
+    private String priceToleranceType = StringUtils.EMPTY;
+    private String maxIncrementalChange = StringUtils.EMPTY;
+    private String priceTolerance = StringUtils.EMPTY;
+    private String resetEligible = StringUtils.EMPTY;
+    private String resetType = StringUtils.EMPTY;
+    private String resetDate = StringUtils.EMPTY;
+    private String resetInterval = StringUtils.EMPTY;
+    private String resetFrequency = StringUtils.EMPTY;
+    private String companyNo = StringUtils.EMPTY;
+    private String companyName = StringUtils.EMPTY;
+    private String tradeClass = StringUtils.EMPTY;
+    private String companyStatus = StringUtils.EMPTY;
+    private Date attachedDate;
 
     public String getItemNo() {
         return itemNo;

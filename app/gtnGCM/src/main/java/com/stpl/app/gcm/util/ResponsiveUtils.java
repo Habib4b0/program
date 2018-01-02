@@ -349,6 +349,7 @@ public class ResponsiveUtils {
 
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -378,6 +379,7 @@ public class ResponsiveUtils {
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -444,6 +446,7 @@ public class ResponsiveUtils {
 
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -473,6 +476,7 @@ public class ResponsiveUtils {
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -539,6 +543,7 @@ public class ResponsiveUtils {
 
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -568,6 +573,7 @@ public class ResponsiveUtils {
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -712,6 +718,7 @@ public class ResponsiveUtils {
     public static void addButtonListenersForLandingSearch(final ExtFilterTable table, final Button prevColumn, final Button nextColumn) {
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -741,6 +748,7 @@ public class ResponsiveUtils {
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -807,6 +815,7 @@ public class ResponsiveUtils {
     public static void addButtonListeners(final CustomePagedFilterTable table, final Button prevColumn, final Button nextColumn) {
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -836,6 +845,7 @@ public class ResponsiveUtils {
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();

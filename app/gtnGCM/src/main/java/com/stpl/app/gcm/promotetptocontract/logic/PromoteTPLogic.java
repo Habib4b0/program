@@ -108,7 +108,7 @@ public class PromoteTPLogic {
     public static final String LIKE_QUOTE = " like '";
     public static final String ITEM_FAMILY_PLAN_PROPERTY = "Item Family Plan";
     public static final String LAZY_LOAD_RESULTS = "lazyLoadResults";
-    CommonDao DAO = CommonImpl.getInstance();
+    CommonDao daoImpl = CommonImpl.getInstance();
     ContractSelectionLogic logic = new ContractSelectionLogic();
     public static final String TABLE_DATA = "TableData";
     public static final String FIELD_DATA = "FieldData";
@@ -1201,7 +1201,7 @@ public class PromoteTPLogic {
         int count = 0;
         String query = getContractQuery(conSelDto, userId, sessionId, 0, 0, false);
         try {
-            List list = (List) DAO.executeSelect(query.toString());
+            List list = (List) daoImpl.executeSelect(query.toString());
             if (!list.isEmpty()) {
                 count = list.size();
             }
@@ -1344,7 +1344,7 @@ public class PromoteTPLogic {
         List<CurrentContractDTO> resultList = new ArrayList<>();
         CurrentContractDTO dto = null;
         try {
-            list = (List) DAO.executeSelect(query);
+            list = (List) daoImpl.executeSelect(query);
             int listsize = list.size();
 
             if (!list.isEmpty()) {
@@ -2241,7 +2241,7 @@ public class PromoteTPLogic {
         if (parent instanceof ComponentInfoDTO) {
             inputMap.put("?SID?", String.valueOf(((ComponentInfoDTO) parent).getInternalId()));
         }
-        List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.cfpFromCD"));
+        List<Object[]> resList = (List<Object[]>) daoImpl.executeSelect(CommonUtil.getQuery(inputMap, "ad.cfpFromCD"));
         try {
             for (Object[] temp : resList) {
                 ComponentInfoDTO tempDto = new ComponentInfoDTO();
@@ -3008,7 +3008,7 @@ public class PromoteTPLogic {
         List<CurrentContractDTO> resultList = new ArrayList<>();
         CurrentContractDTO dto = null;
 
-        list = (List) DAO.executeSelect(query);
+        list = (List) daoImpl.executeSelect(query);
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 try {
@@ -3372,7 +3372,7 @@ public class PromoteTPLogic {
         }
         if (!StringUtils.EMPTY.equals(query)) {
             try {
-                List list = (List) DAO.executeSelect(query.toString());
+                List list = (List) daoImpl.executeSelect(query.toString());
                 if (!list.isEmpty()) {
                     count = Integer.parseInt(String.valueOf(list.get(0)));
                     if (count > 0) {

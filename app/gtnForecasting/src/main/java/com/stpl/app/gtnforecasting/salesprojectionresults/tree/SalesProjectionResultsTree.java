@@ -423,18 +423,18 @@ public class SalesProjectionResultsTree {
 
     class SalesProjectionResultsTreeBuildCreteria {
 
-        String salesUnitVariable;
-        String frequency;
-        String history;
-        String actualProjection;
-        String cpIndicator;
-        boolean custom;
-        int tpLevel;
-        int customId;
-        boolean isFirst = true;
-        String pivotView;
-        int levelNo;
-        boolean isFilter;
+        private String salesUnitVariable;
+        public String frequency;
+        private String history;
+        private String actualProjection;
+        private String cpIndicator;
+        private boolean custom;
+        private int tpLevel;
+        private int customId;
+        private boolean isFirst = true;
+        private final String pivotView;
+        private int levelNo;
+        private boolean isFilter;
 
         public String getSalesUnitVariable() {
             return salesUnitVariable;

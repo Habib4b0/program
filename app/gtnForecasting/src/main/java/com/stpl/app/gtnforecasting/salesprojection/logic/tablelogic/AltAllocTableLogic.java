@@ -20,14 +20,12 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class AltAllocTableLogic extends PageTableLogic {
 
-    boolean firstTime = false;
-    AlternateHistoryDTO altHistoryDTO = new AlternateHistoryDTO();
-    AlternateHistoryLogic logic = new AlternateHistoryLogic();
-    SessionDTO session = new SessionDTO();
-    boolean isAddAll = Boolean.FALSE;
-    boolean isAvailable = Boolean.FALSE;
-    boolean checkAll = false;
-    boolean addToQueue = Boolean.FALSE;
+    private boolean firstTime = false;
+    private AlternateHistoryDTO altHistoryDTO = new AlternateHistoryDTO();
+    private final AlternateHistoryLogic logic = new AlternateHistoryLogic();
+    private SessionDTO session = new SessionDTO();
+    private boolean isAvailable = Boolean.FALSE;
+    private boolean addToQueue = Boolean.FALSE;
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(AltAllocTableLogic.class);
 
     @Override
@@ -102,7 +100,4 @@ public class AltAllocTableLogic extends PageTableLogic {
         this.isAvailable = isAvailable;
     }
 
-    public void setCheckAll(boolean checkAll) {
-        this.checkAll = checkAll;
-    }
 }

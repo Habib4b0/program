@@ -2312,7 +2312,7 @@ public class NMProjectionVarianceLogic {
                 }
             }
             return map;
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return null;
@@ -2431,9 +2431,7 @@ public class NMProjectionVarianceLogic {
             } else {
                 commonLogic.saveSelection(map, projectionID, screenName, Constant.UPDATE, "NM_PROJECTION_SELECTION");
             }
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
     }
@@ -2718,7 +2716,7 @@ public class NMProjectionVarianceLogic {
                 Object ob = list.get(0);
                 count = count + Integer.valueOf(String.valueOf(ob));
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
         return count;

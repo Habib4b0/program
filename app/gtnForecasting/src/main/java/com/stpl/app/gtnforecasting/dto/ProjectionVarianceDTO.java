@@ -224,7 +224,7 @@ public class ProjectionVarianceDTO extends ExtMapDTO implements Comparator<Proje
 
                 }
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         return value;

@@ -866,7 +866,7 @@ public class Constants {
         /**
          * The constant.
          */
-        private String constant;
+        private final String constant;
 
         /**
          * Instantiates a new indicator constants.
@@ -909,7 +909,7 @@ public class Constants {
         BASIS(BASIS_PROPERTY),
         END_DATE(Constants.END_DATE);
         /* The constant */
-        private String constant;
+        private final String constant;
 
         /**
          * Instantiates a new indicator constants.
@@ -1132,7 +1132,7 @@ public class Constants {
         SELECT_VALUE_BODY("Please enter value and try again."),
         RD_NO_SEARCH_CRITERIA_BODY("Please enter value.");
 
-        private String constant;
+        private final String constant;
 
         private MessageConstants(String constant) {
             this.constant = constant;
@@ -1158,7 +1158,7 @@ public class Constants {
         MMDDYYYY(DATE_FORMAT),
         YYYYMMDDHHMMSSSSS("yyyy-MM-dd hh:mm:ss.SSS"),
         MMDDYYYYHHMMSS("MM/dd/yyyy hh:mm:ss");
-        private String constant;
+        private final String constant;
 
         private DateFormatConstants(String constant) {
             this.constant = constant;
@@ -1305,7 +1305,7 @@ public class Constants {
         MONTHLY("Monthly"),
         MONTHS("Months"),
         QUARTERS("Quarters");
-        private String frequencyValue;
+        private final String frequencyValue;
 
         private FrequencyConstants(String frequencyValue) {
             this.frequencyValue = frequencyValue;

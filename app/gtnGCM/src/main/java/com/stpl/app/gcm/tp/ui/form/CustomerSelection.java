@@ -2,7 +2,6 @@ package com.stpl.app.gcm.tp.ui.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.CommonUtil;
-import static com.stpl.app.gcm.discount.ui.form.ExistingDiscountTab.LOGGER;
 import com.stpl.app.gcm.security.StplSecurity;
 import static com.stpl.app.gcm.security.StplSecurity.userMap;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
@@ -54,12 +53,8 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
@@ -79,106 +74,97 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class CustomerSelection extends VerticalLayout {
 
     @UiField("selectedCustomersTableLayout")
-    public VerticalLayout selectedCustomersTableLayout;
+    private VerticalLayout selectedCustomersTableLayout;
 
     @UiField("companySearchResultsLayout")
-    public VerticalLayout companySearchResultsLayout;
+    private VerticalLayout companySearchResultsLayout;
 
     @UiField("transferCustomerTableLayout")
-    public VerticalLayout transferCustomerTableLayout;
+    private VerticalLayout transferCustomerTableLayout;
 
     @UiField("selectedCustomersExport")
-    public Button selectedCustomersExport;
+    private Button selectedCustomersExport;
 
     @UiField("searchResultsExport")
-    public Button searchResultsExport;
+    private Button searchResultsExport;
 
     @UiField("transferCustomersExport")
-    public Button transferCustomersExport;
+    private Button transferCustomersExport;
     @UiField("resetBtn")
-    public Button resetBtn;
+    private Button resetBtn;
     @UiField("searchBtn")
-    public Button searchBtn;
+    private Button searchBtn;
     @UiField("listViewResetBtn")
-    public Button listViewResetBtn;
+    private Button listViewResetBtn;
     @UiField("transferBtn")
-    public Button transferBtn;
+    private Button transferBtn;
     @UiField("removeBtn")
-    public Button removeBtn;
+    private Button removeBtn;
 
     @UiField("companyId")
-    public TextField companyId;
+    private TextField companyId;
     @UiField("companyName")
-    public TextField companyName;
+    private TextField companyName;
     @UiField("companyCategory")
-    public ComboBox companyCategory;
+    private ComboBox companyCategory;
     @UiField("identifierType")
-    public ComboBox identifierType;
+    private ComboBox identifierType;
     @UiField("parentNo")
     private CustomTextField parentNo;
     @UiField("companyType")
-    public ComboBox companyType;
+    private ComboBox companyType;
     @UiField("companyNo")
-    public TextField companyNo;
+    private TextField companyNo;
     @UiField("tradeClass")
-    public ComboBox tradeClass;
+    private ComboBox tradeClass;
     @UiField("identifier")
-    public TextField identifier;
+    private TextField identifier;
     @UiField("parentName")
     private CustomTextField parentName;
 
-    ParentCompanyLookup parentCompanyLookup = null;
-    int parentCompanySid;
+    private ParentCompanyLookup parentCompanyLookup = null;
+    private int parentCompanySid;
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(CustomerSelection.class);
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    final transient StplSecurity stplSecurity = new StplSecurity();
-    transient Map<String, AppPermission> functionHM = new HashMap<>();
+    private final transient StplSecurity stplSecurity = new StplSecurity();
 
-    TransferTPForm transferTpForm;
-    SessionDTO session;
+    private final TransferTPForm transferTpForm;
+    private SessionDTO session;
 
-    transient CompanySearchLogic logic = new CompanySearchLogic();
-    transient List<IdDescriptionDTO> resultList;
-    transient CompanySearchTableLogic selectedCustomersLogic = new CompanySearchTableLogic();
-    transient CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
-    transient LinkedCompaniesTableLogic transferCustomerTableLogic = new LinkedCompaniesTableLogic();
+    private final transient CompanySearchLogic logic = new CompanySearchLogic();
+    private transient List<IdDescriptionDTO> resultList;
+    private final transient CompanySearchTableLogic selectedCustomersLogic = new CompanySearchTableLogic();
+    private final transient CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
+    private final transient LinkedCompaniesTableLogic transferCustomerTableLogic = new LinkedCompaniesTableLogic();
 
-    public ExtPagedTable selectedCustomersTable = new ExtPagedTable(selectedCustomersLogic);
-    public ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
-    public ExtPagedTable transferCustomerTable = new ExtPagedTable(transferCustomerTableLogic);
+    private final ExtPagedTable selectedCustomersTable = new ExtPagedTable(selectedCustomersLogic);
+    private final ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
+    private final ExtPagedTable transferCustomerTable = new ExtPagedTable(transferCustomerTableLogic);
 
-    private BeanItemContainer<TradingPartnerDTO> selectedCustomersContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
-    private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
-    private BeanItemContainer<CompanyLinkDTO> transferCustomerContainer = new BeanItemContainer<>(CompanyLinkDTO.class);
+    private final BeanItemContainer<TradingPartnerDTO> selectedCustomersContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
+    private final BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
+    private final BeanItemContainer<CompanyLinkDTO> transferCustomerContainer = new BeanItemContainer<>(CompanyLinkDTO.class);
 
-    boolean isPlaceholdersAssociated = false;
-    boolean transferFlag = false;
-    private String linkedCustomersSessionId = CommonUtils.createSessionId();
-    TradingPartnerDTO fromCompany;
-    TradingPartnerDTO toCompany;
+    private boolean transferFlag = false;
+    private final String linkedCustomersSessionId = CommonUtils.createSessionId();
+    private TradingPartnerDTO fromCompany;
+    private TradingPartnerDTO toCompany;
 
-    String customerSearchSessionId = StringUtils.EMPTY;
+    private String customerSearchSessionId = StringUtils.EMPTY;
 
-    public TradingPartnerDTO tpDto = new TradingPartnerDTO();
-    transient public CompanyLinkDTO companyDto = new CompanyLinkDTO();
-    final ErrorLabel errorMsg = new ErrorLabel();
-    transient CommonUtil commonUtil = CommonUtil.getInstance();
+    private final TradingPartnerDTO tpDto = new TradingPartnerDTO();
+    private final transient CompanyLinkDTO companyDto = new CompanyLinkDTO();
+    private final ErrorLabel errorMsg = new ErrorLabel();
+    private final transient CommonUtil commonUtil = CommonUtil.getInstance();
 
     /**
      * The data selection binder.
      */
-    public CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(tpDto));
-
-    @UiField("Excellayout")
-    public HorizontalLayout Excellayout;
-    @UiField("resultExcelLayout")
-    public HorizontalLayout resultExcelLayout;
-    @UiField("transferExcelLayout")
-    public HorizontalLayout transferExcelLayout;
-
+    private CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(tpDto));
+   
     public CustomerSelection(SessionDTO session, TransferTPForm form) {
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/customerSelection.xml"), this));
         this.transferTpForm = form;
@@ -220,10 +206,12 @@ public class CustomerSelection extends VerticalLayout {
             transferCustomerTableLogic.sinkItemPerPageWithPageLength(false);
 
             transferCustomerTable.setFilterGenerator(new ExtFilterGenerator() {
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Object value) {
                     return null;
                 }
 
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                     if (originatingField instanceof ComboBox) {
                         if (originatingField.getValue() != null) {
@@ -237,18 +225,22 @@ public class CustomerSelection extends VerticalLayout {
                     return null;
                 }
 
+                @Override
                 public void filterRemoved(Object propertyId) {
                     //empty
                 }
 
+                @Override
                 public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                     //empty
                 }
 
+                @Override
                 public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                     return null;
                 }
 
+                @Override
                 public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                     return null;
                 }
@@ -281,6 +273,7 @@ public class CustomerSelection extends VerticalLayout {
 
             selectedCustomersTable.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     if (event.getProperty().getValue() != null) {
                         fromCompany = (TradingPartnerDTO) event.getProperty().getValue();
@@ -291,10 +284,12 @@ public class CustomerSelection extends VerticalLayout {
             });
 
             selectedCustomersTable.setFilterGenerator(new ExtFilterGenerator() {
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Object value) {
                     return null;
                 }
                 
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                     if (originatingField instanceof ComboBox) {
                         if (originatingField.getValue() != null) {
@@ -306,18 +301,22 @@ public class CustomerSelection extends VerticalLayout {
                     return null;
                 }
                 
+                @Override
                 public void filterRemoved(Object propertyId) {
                     return;
                 }
                 
+                @Override
                 public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                     return;
                 }
                 
+                @Override
                 public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                     return null;
                 }
                 
+                @Override
                 public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 try {
                         if (propertyId.equals("companyType")) {
@@ -363,6 +362,7 @@ public class CustomerSelection extends VerticalLayout {
 
             companySearchResultsTable.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     if (event.getProperty().getValue() != null) {
                         toCompany = (TradingPartnerDTO) event.getProperty().getValue();
@@ -373,10 +373,12 @@ public class CustomerSelection extends VerticalLayout {
             });
 
              companySearchResultsTable.setFilterGenerator(new ExtFilterGenerator() {
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Object value) {
                     return null;
                 }
                 
+                @Override
                  public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                     if (originatingField instanceof ComboBox) {
                         if (originatingField.getValue() != null) {
@@ -388,18 +390,22 @@ public class CustomerSelection extends VerticalLayout {
                     return null;
                 }
                 
+                @Override
                 public void filterRemoved(Object propertyId) {
                     return;
                 }
                 
+                @Override
                 public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                     return;
                 }
                 
+                @Override
                 public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                     return null;
                 }
                 
+                @Override
                 public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                   try {
                         if (propertyId.equals("companyType")) {
@@ -445,11 +451,13 @@ public class CustomerSelection extends VerticalLayout {
 
             transferCustomerTable.setTableFieldFactory(new TableFieldFactory() {
 
+                @Override
                 public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                     if (propertyId.equals("check")) {
                         final ExtCustomCheckBox check = new ExtCustomCheckBox();
                         check.setImmediate(true);
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                            @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 if (itemId != null) {
                                     CompanyLinkDTO transferCustomerDto = (CompanyLinkDTO) itemId;
@@ -474,6 +482,7 @@ public class CustomerSelection extends VerticalLayout {
             selectedCustomersLogic.setCurrentPage(1);
             parentNo.addClickListener(new CustomTextField.ClickListener() {
 
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     parentCompanyLookup = new ParentCompanyLookup(parentNo, parentName, parentCompanySid);
                     UI.getCurrent().addWindow(parentCompanyLookup);
@@ -482,6 +491,7 @@ public class CustomerSelection extends VerticalLayout {
 
             parentName.addClickListener(new CustomTextField.ClickListener() {
 
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     parentCompanyLookup = new ParentCompanyLookup(parentNo, parentName, parentCompanySid);
                     UI.getCurrent().addWindow(parentCompanyLookup);
@@ -633,6 +643,7 @@ public class CustomerSelection extends VerticalLayout {
     @UiHandler("resetBtn")
     public void resetSearchCriteria(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -657,6 +668,7 @@ public class CustomerSelection extends VerticalLayout {
     @UiHandler("listViewResetBtn")
     public void resetListView(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -725,6 +737,7 @@ public class CustomerSelection extends VerticalLayout {
     @UiHandler("closeBtn")
     public void closeBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }

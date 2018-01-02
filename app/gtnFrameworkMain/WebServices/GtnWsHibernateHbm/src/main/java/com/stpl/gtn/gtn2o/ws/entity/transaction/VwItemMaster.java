@@ -64,10 +64,10 @@ public class VwItemMaster implements java.io.Serializable {
 	private Date firstSaleDate;
 	private String itemType;
 	private String itemId;
-	private Double baselineAmp;
+	private String baselineAmp;
 	private String dosesPerUnit;
 	private String dualPricingIndicator;
-	private Double baseCpi;
+	private String baseCpi;
 	private Date createdDate;
 	private String createdBy;
 	private Date itemStartDate;
@@ -499,11 +499,11 @@ public class VwItemMaster implements java.io.Serializable {
 		this.itemId = itemId;
 	}
 
-	public Double getBaselineAmp() {
+	public String getBaselineAmp() {
 		return baselineAmp;
 	}
 
-	public void setBaselineAmp(Double baselineAmp) {
+	public void setBaselineAmp(String baselineAmp) {
 		this.baselineAmp = baselineAmp;
 	}
 
@@ -523,11 +523,11 @@ public class VwItemMaster implements java.io.Serializable {
 		this.dualPricingIndicator = dualPricingIndicator;
 	}
 
-	public Double getBaseCpi() {
+	public String getBaseCpi() {
 		return baseCpi;
 	}
 
-	public void setBaseCpi(Double baseCpi) {
+	public void setBaseCpi(String baseCpi) {
 		this.baseCpi = baseCpi;
 	}
 

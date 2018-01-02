@@ -16,6 +16,7 @@ public final class GtnWsCalendarConfigurationConstants {
 	public static final String SAVE_CALENDAR_CONFIGURATION = "/saveCalendarConfiguration";
 	public static final String DELETE_CALENDAR_CONFIGURATION = "/deleteCalendarConfiguration";
 	public static final String LOAD_CALENDAR_CONFIGURATION = "/loadCalendarConfiguration";
+	public static final String LOAD_CALENDAR_CONFIGURATION_CALENDAR_NAME = "/loadCalendarConfigurationCalendarName";
 	public static final String COUNTRY = "COUNTRY";
 
 	private GtnWsCalendarConfigurationConstants() {

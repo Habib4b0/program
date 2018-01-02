@@ -383,7 +383,7 @@ public class CFPCompanyDTO implements Serializable {
     }
 
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate == null ? null : new Date(modifiedDate.getTime());
     }
 
     public void setModifiedDate(Date modifiedDate) {

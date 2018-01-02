@@ -88,6 +88,7 @@ public class RebateTabDTO extends ExtMapDTO implements Comparator<SalesTabDTO> {
         this.rebateProgramType = rebateProgramType;
     }
 
+    @Override
     public int compare(SalesTabDTO o1, SalesTabDTO o2) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

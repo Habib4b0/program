@@ -30,12 +30,12 @@ import org.jboss.logging.Logger;
  */
 public class PPAResultsTableLogic extends PageTreeTableLogic {
 
-    ProjectionSelectionDTO selection = new ProjectionSelectionDTO();
-    PPAProjectionResultsLogic logic = new PPAProjectionResultsLogic();
-    SessionDTO session;
-    boolean firstGenerated = false;
-    int totalCount = 0;
-    List totalList = new ArrayList();
+    protected ProjectionSelectionDTO selection = new ProjectionSelectionDTO();
+    protected PPAProjectionResultsLogic logic = new PPAProjectionResultsLogic();
+    protected SessionDTO session;
+    protected boolean firstGenerated = false;
+    protected int totalCount = 0;
+    protected List totalList = new ArrayList();
 
     public PPAProjectionResultsLogic getLogic() {
         return logic;
@@ -217,7 +217,7 @@ public class PPAResultsTableLogic extends PageTreeTableLogic {
             }
         }
     }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex);
         }
     }

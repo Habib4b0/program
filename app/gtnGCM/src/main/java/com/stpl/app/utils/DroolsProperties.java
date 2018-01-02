@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class DroolsProperties {
 
-    private static Properties properties = new Properties();
+    private static final Properties properties = new Properties();
     private static boolean isPrinted = false;
 
     private static final Logger logger = LoggerFactory.getLogger(DroolsProperties.class);

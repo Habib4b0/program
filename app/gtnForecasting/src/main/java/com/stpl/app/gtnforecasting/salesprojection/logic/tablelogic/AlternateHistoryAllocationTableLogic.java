@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic;
 
 
 import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.vaadin.data.Container;
@@ -25,13 +24,10 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class AlternateHistoryAllocationTableLogic extends PageTableLogic {
 
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
-    int levelNo;
-    String hierarchyNo;
-    AlternateHistoryDTO altHistoryDTO;
-    SessionDTO session=new SessionDTO();
-    boolean isFirst=false;
-    AlternateHistoryLogic logic = new AlternateHistoryLogic();
+    private AlternateHistoryDTO altHistoryDTO;
+    private SessionDTO session=new SessionDTO();
+    private boolean isFirst=false;
+    private final AlternateHistoryLogic logic = new AlternateHistoryLogic();
     public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(AlternateHistoryAllocationTableLogic.class);
     private Set checkedCCPSet = new HashSet();
     

@@ -6,7 +6,6 @@
  */
 package com.stpl.app.gcm.tp.ui.form;
 
-import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.gcm.security.StplSecurity;
@@ -23,7 +22,6 @@ import com.stpl.app.gcm.util.Message;
 import com.stpl.app.gcm.util.MessageUtil;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.gcm.ui.errorhandling.ErrorLabel;
-import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.util.BeanItem;
@@ -40,7 +38,6 @@ import com.vaadin.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
@@ -166,8 +163,8 @@ public class CompanyAddForm extends VerticalLayout {
     @UiField("errorMsg")
     public ErrorLabel errorMsg;
 
-    private BeanItemContainer<CompanyCrtIdentifierDTO> identifierContainer = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
-    private BeanItemContainer<CompanyCrtIdentifierDTO> tradeClassContainer = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
+    private final BeanItemContainer<CompanyCrtIdentifierDTO> identifierContainer = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
+    private final BeanItemContainer<CompanyCrtIdentifierDTO> tradeClassContainer = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
 
     CompanyCrtIdentifierDTO companyCrtIdentifierDTO = new CompanyCrtIdentifierDTO();
     private static final Logger LOGGER = Logger.getLogger(CompanyAddForm.class);
@@ -305,6 +302,7 @@ public class CompanyAddForm extends VerticalLayout {
              * Called when a Button has been clicked.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void itemClick(final ItemClickEvent event) {
                 identifierTableBeanId = event.getItemId();
                 BeanItem<?> targetItem;
@@ -338,6 +336,7 @@ public class CompanyAddForm extends VerticalLayout {
              * Called when a Button has been clicked.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void itemClick(final ItemClickEvent event) {
                 tradeTableBeanId = event.getItemId();
                 BeanItem<?> targetItem;
@@ -637,6 +636,7 @@ public class CompanyAddForm extends VerticalLayout {
     @UiHandler("infoResetBtn")
     public void infoResetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -662,6 +662,7 @@ public class CompanyAddForm extends VerticalLayout {
     public void identifierResetBtnLogic(Button.ClickEvent event) {
 
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -684,6 +685,7 @@ public class CompanyAddForm extends VerticalLayout {
     @UiHandler("identifierTableResetBtn")
     public void identifierTableResetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothsing
             }
@@ -711,6 +713,7 @@ public class CompanyAddForm extends VerticalLayout {
     @UiHandler("tradeResetBtn")
     public void tradeResetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -739,6 +742,7 @@ public class CompanyAddForm extends VerticalLayout {
     @UiHandler("tradeTableResetBtn")
     public void tradeTableResetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }

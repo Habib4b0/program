@@ -98,6 +98,7 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.util.concurrent.ExecutionException;
 
 /**
  *
@@ -273,16 +274,16 @@ public class DataSelectionForm extends ForecastDataSelection {
 		setProductRelationNullSelection();
 
 		if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
-			resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().dataselectionColumnsAccrual);
-			resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().dataSelectionHeadersAccrual);
+			resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataselectionColumnsAccrual);
+			resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeadersAccrual);
 			productLevel.setVisible(false);
 			customerLevel.setVisible(false);
 			productForecastLevelLabel.setVisible(false);
 			customerForecastLevelLabel.setVisible(false);
 			modeOptionChange(true);
 		} else {
-			resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().dataSelectionColumns);
-			resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().dataSelectionHeaders);
+			resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataSelectionColumns);
+			resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeaders);
 		}
 
 		businessUnit.setPageLength(NumericConstants.SEVEN);
@@ -434,7 +435,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			availableProduct.setFilterDecorator(new ExtDemoFilterDecorator());
 			availableProduct.setStyleName(Constant.FILTER_TABLE);
 
-		} catch (Exception ex) {
+		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
 
 			LOGGER.error(ex + " - in loadFilteredProductSelection");
 		}
@@ -1350,7 +1351,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						"No Level was selected to move. Please try again.");
 			}
 
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -1887,7 +1888,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				}
 			}
 
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -2461,7 +2462,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				DataSelectionLogic.selectedProductTableAlignmentChange(selectedProduct, selectedProductContainer);
 			}
 
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -3040,7 +3041,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						"No Level was selected to move. Please try again.");
 			}
 
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -3078,8 +3079,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 				AbstractNotificationUtils.getErrorNotification(
 						Constants.MessageConstants.NO_SEARCH_CRITERIA_TITLE.getConstant(),
 						Constants.MessageConstants.NO_SEARCH_CRITERIA_BODY.getConstant());
-				resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().dataSelectionColumns);
-				resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().dataSelectionHeaders);
+				resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataSelectionColumns);
+				resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeaders);
 			} else {
 				bindDataselectionDtoToSave();
 				dataSelectionDTO
@@ -3158,12 +3159,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 							viewDTO = new ViewDTO();
 						}
 
-					} catch (SystemException sysException) {
+					} catch (SystemException | PortalException | Property.ReadOnlyException | NumberFormatException sysException) {
 						LOGGER.error(sysException);
-					} catch (PortalException porException) {
-						LOGGER.error(porException);
-					} catch (Exception exception) {
-						LOGGER.error(exception);
 					}
 				}
 			}.getConfirmationMessage(Constants.MessageConstants.CONFIRM_DELETION_TITLE.getConstant(),
@@ -3526,7 +3523,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 										CommonUIUtils.getMessageNotification(
 												projection.getProjectionName() + " has been successfully deleted.");
 									}
-								} catch (Exception ex) {
+								} catch (Property.ReadOnlyException ex) {
 									LOGGER.error(ex + " - in deleteBtn");
 								}
 							}
@@ -3553,7 +3550,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			customerLevel.select(Constant.LEVEL + (levelNo) + " - " + selectedLevelName);
 			setSelectedCustomerLevel(Constant.LEVEL + (levelNo) + " - " + selectedLevelName);
 
-		} catch (Exception ex) {
+		} catch (NumberFormatException ex) {
 			LOGGER.error(ex + " in loadCustomerLevel");
 		}
 
@@ -3575,7 +3572,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			productLevel.select(Constant.LEVEL + (levelNo) + " - " + selectedLevelName);
 			setSelectedProductLevel(Constant.LEVEL + (levelNo) + " - " + selectedLevelName);
 
-		} catch (Exception ex) {
+		} catch (NumberFormatException ex) {
 			LOGGER.error(ex + " loadProductLevel");
 		}
 	}
@@ -3833,7 +3830,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				}
 			}
 
-		} catch (Exception ex) {
+		} catch (SystemException | IOException | ClassNotFoundException | CloneNotSupportedException | NumberFormatException ex) {
 			LOGGER.error(ex + " at triggerCustGrpOnView");
 		}
 	}
@@ -3864,7 +3861,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				}
 			}
 
-		} catch (Exception ex) {
+		} catch (SystemException | NumberFormatException ex) {
 			LOGGER.error(ex + " at triggerProdGrpOnView");
 		}
 	}
@@ -3909,7 +3906,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							dedLevel, company.getValue(), businessUnit.getValue());
 				}
 			}
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex + " in getItemSidFromHierarchy");
 		}
 		return innerLevelValues;
@@ -3935,7 +3932,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			relationship.setNullSelectionAllowed(true);
 			relationship.setInputPrompt(SELECT_ONE);
 
-		} catch (Exception ex) {
+		} catch (PortalException | SystemException | UnsupportedOperationException ex) {
 			LOGGER.error(ex);
 		}
 	}
@@ -4112,7 +4109,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 				availableCustomer.setStyleName(Constant.FILTER_TABLE);
 			}
-		} catch (Exception ex) {
+		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
 
 			LOGGER.error(ex + " level  ValueChangeListener ");
 		}
@@ -4162,7 +4159,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				productBeanList.clear();
 				setProductLevelNullSelection();
 			}
-		} catch (Exception e) {
+		} catch (InterruptedException | NumberFormatException | ExecutionException e) {
 			LOGGER.error(e.getMessage());
 		}
 	}
@@ -4196,7 +4193,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					level.setContainerDataSource(customerForecastLevelContainer);
 				}
 
-			} catch (Exception ex) {
+			} catch (InterruptedException | NumberFormatException | ExecutionException ex) {
 				
 				LOGGER.error(ex + " in customerRelation value change");
 			}
@@ -4254,7 +4251,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					productlevelDdlb.setContainerDataSource(productForecastLevelContainer);
 				}
 
-			} catch (Exception ex) {
+			} catch (InterruptedException | NumberFormatException | ExecutionException ex) {
 				LOGGER.error(ex + " in productRelation value change");
 			}
 		} else if ((value == null || SELECT_ONE.equals(String.valueOf(value)))) {
@@ -4653,7 +4650,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						productListEndSids, scrName);
 				UI.getCurrent().addWindow(saveViewPopup);
 
-			} catch (Exception e) {
+			} catch (IllegalArgumentException | NullPointerException e) {
 				LOGGER.error(e);
 			}
 		}
@@ -4704,7 +4701,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 			setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
 			dsLogic.insertToReturnDetails(projectionIdValue);
 			if (projectionIdValue != 0) {
-				SessionUtil sessionUtil = new SessionUtil();
 				final SessionDTO session = SessionUtil.createSession();
 				session.setProjectionId(projectionIdValue);
 				session.setProductLevelNumber(String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
@@ -4744,14 +4740,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 	 */
 	private void setTableHeader() {
 		if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(scrName)) {
-			resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().dataSelectionColumnReturns);
-			resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().dataSelectionHeaderReturns);
+			resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataSelectionColumnReturns);
+			resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeaderReturns);
 		} else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
-			resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().dataselectionColumnsAccrual);
-			resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().dataSelectionHeadersAccrual);
+			resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataselectionColumnsAccrual);
+			resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeadersAccrual);
 		} else {
-			resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().dataSelectionColumns);
-			resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().dataSelectionHeaders);
+			resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataSelectionColumns);
+			resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeaders);
 		}
 	}
 
@@ -4790,8 +4786,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 			setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
 
 			if (projectionIdValue != 0) {
-
-				SessionUtil sessionUtil = new SessionUtil();
 				final SessionDTO session = SessionUtil.createSession();
 				session.setScreenName(scrName);
 				// To create the temp tables with userId and session id
@@ -4836,7 +4830,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				getUI().getNavigator().navigateTo(AccrualRateProjectionView.ARP_VIEW);
 			}
 
-		} catch (Exception e) {
+		} catch (SystemException | Property.ReadOnlyException | NumberFormatException | ParseException e) {
 			LOGGER.error(e);
 		}
 
@@ -4851,7 +4845,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			dismantleCustSelection = true;
 			dismantleProdSelection = true;
 			resetButtonLogic();
-		} catch (Exception e) {
+		} catch (Property.ReadOnlyException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -4890,7 +4884,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				}
 			});
 
-		} catch (Exception e) {
+		} catch (UnsupportedOperationException e) {
 			LOGGER.error(e);
 		}
 

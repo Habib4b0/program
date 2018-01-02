@@ -41,15 +41,15 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class RemoveContractSearch extends AbstractContractSearch {
 
-    SelectionDTO selection = new SelectionDTO();
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private SelectionDTO selectionDTO = new SelectionDTO();
+    private final StplSecurity stplSec = new StplSecurity();
+    private Map<String, AppPermission> functionHM = new HashMap<>();
     public static final Logger LOGGER = Logger.getLogger(RemoveContractSearch.class);
 
     public RemoveContractSearch(SelectionDTO selection, List selectedItemList) {
         super(selection, selectedItemList);
         try {
-            this.selection = selection;
+            this.selectionDTO = selection;
             configureFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
@@ -73,8 +73,8 @@ public class RemoveContractSearch extends AbstractContractSearch {
 
             MessageBox.showPlain(Icon.INFO, "Error", "Please enter/select search criteria", ButtonId.OK);
         } else {
-            selection.setCountQueryName("Item Load contract Count");
-            selection.setDataQueryName("Load contract Item");
+            selectionDTO.setCountQueryName("Item Load contract Count");
+            selectionDTO.setDataQueryName("Load contract Item");
             searchButtonLogic(true);
         }
     }
@@ -153,8 +153,10 @@ public class RemoveContractSearch extends AbstractContractSearch {
         UI.getCurrent().addWindow(ps);
     }
 
+    @Override
     public void createFieldFactory() {
         contractSelectionTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 AbstractContractSearchDTO mainDto = (AbstractContractSearchDTO) itemId;
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
@@ -164,6 +166,7 @@ public class RemoveContractSearch extends AbstractContractSearch {
                     } else {
                         check.setVisible(true);
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                            @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 if (itemId instanceof AbstractContractSearchDTO) {
                                     AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
@@ -186,15 +189,16 @@ public class RemoveContractSearch extends AbstractContractSearch {
     }
 
     private void saveTempItemDetails(final AbstractContractSearchDTO dto) {
-        logic.getEditedItemDetails(dto, selection);
+        logic.getEditedItemDetails(dto, selectionDTO);
     }
 
+    @Override
     public Boolean submitButtonCheck() {
         return true;
     }
      private void configureSecurityPermissions() {
         try {
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), "GCM-Item Management", "Item Remove", "Contract Selection Tab");
+            Map<String, AppPermission> functionHM = stplSec.getBusinessFunctionPermission(String.valueOf(selectionDTO.getUserId()), "GCM-Item Management", "Item Remove", "Contract Selection Tab");
            getSearchBtn().setVisible(CommonLogic.isButtonVisibleAccess("search", functionHM));
             getResetBtn().setVisible(CommonLogic.isButtonVisibleAccess("reset1", functionHM));
             getPopulateBtn().setVisible(CommonLogic.isButtonVisibleAccess("populateBtn", functionHM));

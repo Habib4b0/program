@@ -19,26 +19,32 @@ public class ItemSearchCriteria implements SearchCriteria {
     boolean customDirty = false;
     String filter = StringUtils.EMPTY;
 
+    @Override
     public int getLastCount() {
         return lastCount;
     }
 
+    @Override
     public void setLastCount(int lastCount) {
         this.lastCount = lastCount;
     }
 
+    @Override
     public boolean isDirty() {
         return customDirty;
     }
 
+    @Override
     public void setDirty(boolean bln) {
         this.dirty = true;
     }
 
+    @Override
     public String getFilter() {
         return filter;
     }
 
+    @Override
     public void setFilter(String string) {
         this.filter = filter;
     }

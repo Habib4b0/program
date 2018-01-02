@@ -174,4 +174,9 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 		return automaticService;
 	}
 
+    @Override
+    public void createDeductionRelation(GtnWsRelationshipBuilderBean relationBean) throws GtnFrameworkGeneralException {
+        // Overriden method
+    }
+
 }

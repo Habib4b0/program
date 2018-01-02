@@ -20,15 +20,15 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class DataSelectionSearchLogic extends PageTableLogic {
 
-    String projectionName = StringUtils.EMPTY;
-    Object companyValueId = StringUtils.EMPTY;
-    Object thearupeticValueId = StringUtils.EMPTY;
-    String selectedProducts = StringUtils.EMPTY;
-    int productGroupId;
-    int selectedProjectionId = 0;
-    boolean loadData = false;
-    DataSelectionDTO dataSelectionDTO;
-    Object businessUnit;
+    protected String projectionName = StringUtils.EMPTY;
+    protected Object companyValueId = StringUtils.EMPTY;
+    protected Object thearupeticValueId = StringUtils.EMPTY;
+    protected String selectedProducts = StringUtils.EMPTY;
+    protected int productGroupId;
+    protected int selectedProjectionId = 0;
+    protected boolean loadData = false;
+    protected DataSelectionDTO dataSelectionDTO;
+    protected Object businessUnit;
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelectionSearchLogic.class);
 
     @Override

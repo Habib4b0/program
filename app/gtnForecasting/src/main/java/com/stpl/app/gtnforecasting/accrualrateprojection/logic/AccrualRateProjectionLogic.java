@@ -36,6 +36,7 @@ import com.stpl.ifs.util.QueryUtil;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.ComboBox;
+import javax.naming.NamingException;
 
 /**
  *
@@ -611,7 +612,7 @@ public final class AccrualRateProjectionLogic {
                 }
                 statement.execute();
             }
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         } finally {
             try {

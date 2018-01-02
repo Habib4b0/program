@@ -28,10 +28,10 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
      * The log.
      */
     private static final Logger LOGGER = Logger.getLogger(CustomTreeBuild.class);
-    SessionDTO session;
-    int customId = 0;
-    boolean isSelect = false;
-    CustomViewMaster customView = null;
+    protected SessionDTO session;
+    protected int customId = 0;
+    protected boolean isSelect = false;
+    protected CustomViewMaster customView = null;
 
     /**
      * The Constructor.
@@ -165,7 +165,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
                     if (treeTable.removeItem(treeItemId)) {
                         table.addItem(treeItemId);
                     }
-                } catch (Exception e) {
+                } catch (UnsupportedOperationException e) {
                     LOGGER.error(e);
                 }
             }
