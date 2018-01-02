@@ -67,6 +67,8 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.ItemClickEvent;
+import com.vaadin.server.BrowserWindowOpener;
+import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -79,6 +81,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
@@ -664,20 +667,18 @@ public class UpdatedContractSelection extends VerticalLayout {
                     projectionId.setData(dto);
                     projectionId.setImmediate(true);
                     projectionId.setStyleName(Reindeer.BUTTON_LINK);
-                    projectionId.addClickListener(new Button.ClickListener() {
-                        public void buttonClick(Button.ClickEvent event) {
+                    String furl = StringUtils.EMPTY;
+                    furl = Constants.HTTP + Page.getCurrent().getLocation().getHost() + ":" + Page.getCurrent().getLocation().getPort() + Constants.WEB_WORKFLOW;
 
-                            WorkFlowLookup wLookUp = new WorkFlowLookup(session, dto.getProjectionId());
-                            UI.getCurrent().addWindow(wLookUp);
-                            wLookUp.addCloseListener(new Window.CloseListener() {
+                    BrowserWindowOpener opener = new BrowserWindowOpener(furl);
+                    opener.setFeatures(Constants.HEIGHT_WIDTH);
+                    opener.setFeatures(Constants.TOOL_BAR);
+                    opener.setParameter(Constants.PROJECTION_MASTER_SID,
+                            dto.getProjectionId());
+                    opener.extend(projectionId);
+                    JavaScript.getCurrent()
+                            .execute("localStorage.setItem('" + dto.getProjectionId() + "', 'false');");
 
-                                public void windowClose(Window.CloseEvent e) {
-                                    ContractTableLogic.loadSetData(contractSeletion, session);
-                                }
-                            });
-                        }
-                    });
-                    dto.setProjectionIdLink(dto.getProjectionId());
                     return projectionId;
                 } else {
                     return null;

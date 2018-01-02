@@ -487,6 +487,11 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	public static final String APPROVEDTO_PRIVATE = "approvedDateToPrivate";
 	public static final String DEDUCTIONVALUE_ARMDDLB = "deductionvalueARMddlb";
 	public static final String FULLNAME = "fullName";
+        public static final String WORKFLOWLOOKUPSLASH = "/workFlowLookup";
+        public static final String GETGCMWORKFLOWLIST = "/getGcmWfList";
+        public static final String EQUAL = "=";
+        public static final String RECORD_BEAN = "RecordBean";
+                    
 	private static final List<String> VIEW_SAVE_FIELDS = Arrays.asList(WORKFLOWID, WORKFLOWNAME, WORKFLOW_DESC,
 			CREATEDFROM, CREATEDTO, APPROVEDFROM, APPROVEDTO, CONTRACTID, CONTRACTNO, COMPANYNO, COMPANYNAME,
 			BUSINESSUNITID, BUSINESSUNITNO, BUSINESSUNITNAME, CONTRACTNAME, ITEMNO, ITEMNAME, FORECASTDEDUCTIONVALUE,

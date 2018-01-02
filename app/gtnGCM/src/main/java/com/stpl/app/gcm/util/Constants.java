@@ -1423,5 +1423,11 @@ public class Constants {
     public static final String NS_FORMULA_TYPE_LISTNAME = "NS_FORMULA_TYPE";
     
     public static final String SEARCH_ICON = "searchicon";
-
+    
+    public static final String HTTP = "http://";
+    public static final String WEB_WORKFLOW = "/web/guest/workflow-inbox";
+    public static final String HEIGHT_WIDTH = "height=800,width=1000,resizable,scrollbars=1";
+    public static final String TOOL_BAR = "toolbar=no,scrollbars=1,location=no";
+    public static final String PROJECTION_MASTER_SID = "projectionMasterSid";  
+    
 }

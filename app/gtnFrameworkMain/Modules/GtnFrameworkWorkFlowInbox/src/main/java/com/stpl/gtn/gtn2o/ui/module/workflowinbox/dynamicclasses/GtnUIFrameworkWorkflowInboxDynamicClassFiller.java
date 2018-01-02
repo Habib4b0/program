@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkConfigureOp
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkDownloadattachmentAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkFetchHistorytoAttachmentAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkSelectBtnRecordClickTableAction;
+import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkUpdateTableJSListenerAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkWorkFlowPopupTableLoadAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkWorkflowInboxARMDeductionLevelValueAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkWorkflowInboxDeductionLevelValueAction;
@@ -66,6 +67,8 @@ public class GtnUIFrameworkWorkflowInboxDynamicClassFiller implements GtnUIDynam
 				new GtnUIFrameworkUrlDeleteButtonAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkAddJSListenerAction.class.getName(),
 				new GtnFrameworkAddJSListenerAction());
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUpdateTableJSListenerAction.class.getName(),
+				new GtnFrameworkUpdateTableJSListenerAction());
 
 	}
 

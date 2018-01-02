@@ -30,6 +30,7 @@ import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkConfigureBu
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkConfigureHistoryButtonAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkConfigureOpenButtonAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkSelectBtnRecordClickTableAction;
+import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkUpdateTableJSListenerAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.GtnFrameworkWorkflowResultTableItemClickAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.action.crud.GtnFrameworkConfigureSaveProfilelookupAction;
 import com.stpl.gtn.gtn2o.ui.module.workflowinbox.constants.GtnFrameworkWorkflowInboxClassConstants;
@@ -38,15 +39,23 @@ import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.vaadin.server.Page;
 
 public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
-
+        
 	public GtnUIFrameworkViewConfig getSearchView() {
 
 		GtnUIFrameworkViewConfig view = configProvider
 				.getViewConfig(GtnFrameworkWorkflowInboxClassConstants.SEARCH_VIEW, "V001", true);
 		addComponentList(view);
+                
+                GtnUIFrameWorkActionConfig updateTablejSListenerAction = new GtnUIFrameWorkActionConfig(
+				GtnUIFrameworkActionType.CUSTOM_ACTION);
+		updateTablejSListenerAction.addActionParameter(GtnFrameworkUpdateTableJSListenerAction.class.getName());
+                updateTablejSListenerAction.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSEARCHRESULTTABLE);
+		view.addViewAction(updateTablejSListenerAction);
+                
 		return view;
 	}
 
@@ -573,7 +582,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		jSListenerAction.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.OPENBTN);
 		jSListenerAction.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSEARCHRESULTTABLE);
 		actionConfigList.add(jSListenerAction);
-
+                
 		searchButtonComponentConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}
 
@@ -784,16 +793,49 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		searchResults.setItemPerPage(10);
 		searchResults.setSelectable(Boolean.TRUE);
 
-		searchResults.setTableColumnDataType(
-				GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxContractSearchTableColumnsDataType());
-		searchResults.setTableVisibleHeader(
-				GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxContractSearchTableHeaders());
-		searchResults.setExtraColumn(new Object[] { GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID,
-				GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS,
-				GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL,
-				GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID });
-		searchResults.setTableColumnMappingId(
-				GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxContractSearchTableColumns());
+		String pageParameters = null;
+		String projectionMasterSid = null;
+		pageParameters = Page.getCurrent().getLocation().getQuery();
+
+		if (pageParameters != null) {
+
+			String[] parameters = pageParameters.split("&");
+
+			HashMap<String, String> hm = new HashMap<>();
+
+			for (String para : parameters) {
+				String[] paraStr = para.split(GtnFrameworkWorkflowInboxClassConstants.EQUAL);
+				hm.put(paraStr[0], paraStr[1]);
+			}
+
+			projectionMasterSid = hm.get(GtnFrameworkWorkflowInboxClassConstants.PROJECTIONMASTER_SID);
+		}
+		if (projectionMasterSid != null) {
+
+			searchResults.setTableColumnDataType(
+					GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxGcmSearchTableColumnsDataType());
+			searchResults.setTableVisibleHeader(
+					GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxForecastingSearchTableHeaders());
+			searchResults.setExtraColumn(
+					GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxForecastingSearchExtraColumns());
+			searchResults.setExtraColumnDataType(GtnFrameworkWorkflowInboxTableConstants
+					.getGtnWorkflowInboxForecastingSearchTableExtracolumnsDataType());
+			searchResults.setTableColumnMappingId(
+					GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxForecastingSearchTableColumns());
+
+		} else {
+
+			searchResults.setTableColumnDataType(
+					GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxContractSearchTableColumnsDataType());
+			searchResults.setTableVisibleHeader(
+					GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxContractSearchTableHeaders());
+			searchResults.setExtraColumn(new Object[] { GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID,
+					GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS,
+					GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL,
+					GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID });
+			searchResults.setTableColumnMappingId(
+					GtnFrameworkWorkflowInboxTableConstants.getGtnWorkflowInboxContractSearchTableColumns());
+		}
 
 		searchResults.setCountUrl(
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH);
@@ -809,6 +851,9 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		fetchActionConfig.addActionParameter(GtnFrameworkConfigureOpenButtonAction.class.getName());
 		fetchActionConfig.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSEARCHRESULTTABLE);
 		fetchActionConfig.addActionParameter(true);
+		if (projectionMasterSid != null) {
+			fetchActionConfig.addActionParameter(projectionMasterSid);
+		}
 		searchResultConfig.addGtnUIFrameWorkActionConfig(fetchActionConfig);
 		searchResults.setItemClickListener(true);
 

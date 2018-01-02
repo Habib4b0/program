@@ -28,185 +28,246 @@ import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.Page;
 
 public class GtnFrameworkConfigureOpenButtonAction
-		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+        implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkConfigureOpenButtonAction.class);
+    private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkConfigureOpenButtonAction.class);
 
-	@Override
-	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		gtnLogger.debug("inside GtnFrameworkConfigureOpenButtonAction");
-	}
+    @Override
+    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
+        gtnLogger.debug("inside GtnFrameworkConfigureOpenButtonAction");
+    }
 
-	@Override
-	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-			throws GtnFrameworkGeneralException {
-		GtnWsRecordBean gtnWsRecordBean = gtnUIFrameWorkActionConfig.getActionParameter().getItemId();
-		GtnWsWorkflowInboxBean projMasterBean = new GtnWsWorkflowInboxBean();
-		GtnUIFrameworkBaseComponent opencomponent = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.OPENBTN);
-		GtnUIFrameworkBaseComponent viewcomponent = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.VIEWBTN);
-		String userType = null;
-		String portletName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
-		String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
-		try {
-			generalWSRequest.setUserId(String.valueOf(
-					GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkWorkflowInboxClassConstants.USERID)));
-			String workflowId = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID));
-			if (workflowId == null) {
-				return;
-			}
-			String status = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.STATUS));
-			String adjustmentTypeName = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPENAME));
-			String adjustmentType = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE));
-			String workflowSid = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID));
-			String noOfApprovals = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS));
-			String approvalLevel = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL));
-			String createdById = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID));
-			String projectionMasterSid = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.PROJECTIONMASTER_SID));
-			String customerHierSid = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERSID));
-			String productHierSid = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.PRODUCTHIERSID));
-			String customerHierarchyLevel = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERLEVEL));
-			String custRelationshipBuilderSid = String.valueOf(
-					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CUSTRELATIONSHIPSID));
-			String productHierarchyLevel = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.PRODHIERLEVEL));
-			String prodRelationshipBuilderSid = String
-					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.PRODRELATIONSID));
-			String configurationType = String.valueOf(gtnWsRecordBean.getPropertyValue("configurationType"));
+    @Override
+    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+            throws GtnFrameworkGeneralException {
+        GtnWsRecordBean gtnWsRecordBean = gtnUIFrameWorkActionConfig.getActionParameter().getItemId();
+        GtnWsWorkflowInboxBean projMasterBean = new GtnWsWorkflowInboxBean();
+        GtnUIFrameworkBaseComponent opencomponent = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.OPENBTN);
+        GtnUIFrameworkBaseComponent viewcomponent = GtnUIFrameworkGlobalUI
+                .getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.VIEWBTN);
+        String userType = null;
+        GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
+        String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
+        String createdById = String
+                .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID));
+        String status = String
+                .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.STATUS));
+        String adjustmentTypeName = null;
+        String adjustmentType = null;
+        String workflowSid = null;
+        String noOfApprovals = null;
+        String approvalLevel = null;
+        String projectionMasterSid = null;
+        String customerHierSid = null;
+        String productHierSid = null;
+        String customerHierarchyLevel = null;
+        String custRelationshipBuilderSid = null;
+        String productHierarchyLevel = null;
+        String prodRelationshipBuilderSid = null;
+        String configurationType = null;
+        String projectionMasterSidGcm = null;
+        String workflowSidGcm = null;
+        String noOfApprovalsGcm = null;
+        String approvalLevelGcm = null;
+        String customerHierSidGcm = null;
+        String productHierSidGcm = null;
+        String customerHierarchyLevelGcm = null;
+        String custRelationshipBuilderSidGcm = null;
+        String productHierarchyLevelGcm = null;
+        String prodRelationshipBuilderSidGcm = null;
 
-			projMasterBean.setProjectionMasterSid(Integer.valueOf(projectionMasterSid));
+        try {
 
-			String key = workflowId.replaceAll("\\d", "");
+            String projIdfromDataselection = String.valueOf(gtnUIFrameWorkActionConfig.getActionParameterList().get(3));
 
-			projMasterBean.setWorkflowId(workflowId);
+            generalWSRequest.setUserId(String.valueOf(
+                    GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkWorkflowInboxClassConstants.USERID)));
+            String workflowId = String
+                    .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID));
+            if (workflowId == null) {
+                return;
+            }
 
-			boolean isSubmitter = createdById.equals(userId);
-			if (isSubmitter) {
-				userType = GtnFrameworkWorkflowInboxClassConstants.CREATOR;
-			} else {
-				loadWebService(generalWSRequest, projMasterBean);
-				userType = GtnFrameworkWorkflowuserTypeMap.valueOf(key).getInput();
-			}
+            if (projIdfromDataselection.contains(GtnFrameworkWorkflowInboxClassConstants.RECORD_BEAN)) {
+                adjustmentTypeName = String.valueOf(
+                        gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPENAME));
+                adjustmentType = String
+                        .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE));
+                workflowSid = String
+                        .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID));
+                noOfApprovals = String
+                        .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS));
+                approvalLevel = String
+                        .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL));
+                projectionMasterSid = String.valueOf(
+                        gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.PROJECTIONMASTER_SID));
+                customerHierSid = String
+                        .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERSID));
+                productHierSid = String
+                        .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.PRODUCTHIERSID));
+                customerHierarchyLevel = String.valueOf(
+                        gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERLEVEL));
+                custRelationshipBuilderSid = String.valueOf(
+                        gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CUSTRELATIONSHIPSID));
+                productHierarchyLevel = String
+                        .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.PRODHIERLEVEL));
+                prodRelationshipBuilderSid = String
+                        .valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.PRODRELATIONSID));
+                configurationType = String.valueOf(gtnWsRecordBean.getPropertyValue("configurationType"));
+             
+                projMasterBean.setProjectionMasterSid(Integer.valueOf(projectionMasterSid));
 
-			String furl;
-			if (Page.getCurrent().getLocation().getPort() == -1) {
-				furl = GtnFrameworkWorkflowInboxClassConstants.HTTPS + Page.getCurrent().getLocation().getHost()
-						+ GtnFrameworkWorkflowMap.valueOf(key).getInput();
-			} else {
-				furl = GtnFrameworkWorkflowInboxClassConstants.HTTP + Page.getCurrent().getLocation().getHost() + ":"
-						+ Page.getCurrent().getLocation().getPort() + GtnFrameworkWorkflowMap.valueOf(key).getInput();
-			}
+            } else {
+                projectionMasterSidGcm = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(18));
+                workflowSidGcm = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(10));
+                noOfApprovalsGcm = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(11));
+                approvalLevelGcm = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(12));
+                customerHierSidGcm = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(13));
+                productHierSidGcm = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(20));
+                customerHierarchyLevelGcm = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(14));
+                custRelationshipBuilderSidGcm = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(15));
+                productHierarchyLevelGcm = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(16));
+                prodRelationshipBuilderSidGcm = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(17));
 
-			BrowserWindowOpener opener = new BrowserWindowOpener(furl);
-			opener.setFeatures(GtnFrameworkWorkflowInboxClassConstants.BROWSER_HEIGHTWIDTH);
-			opener.setFeatures(GtnFrameworkWorkflowInboxClassConstants.BROWSER_SCROLLBARS);
+            }
 
-			if (isSubmitter && (GtnFrameworkWorkflowInboxClassConstants.WITHDRAWN.equalsIgnoreCase(status)
-					|| GtnFrameworkWorkflowInboxClassConstants.REJECTED.equalsIgnoreCase(status)
-					|| GtnFrameworkWorkflowInboxClassConstants.PENDING.equals(status))) {
+            String key = workflowId.replaceAll("\\d", "");
+            String portletName = GtnFrameworkWorkflowPortletMap.valueOf(key).getInput();
 
-				GtnUIFrameworkGlobalUI.addChildComponent(GtnFrameworkWorkflowInboxClassConstants.OPEN_LAYOUT,
-						Arrays.asList(opencomponent.getComponentConfig()));
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.OPENBTN)
-						.browserExtend(opener);
+            projMasterBean.setWorkflowId(workflowId);
 
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.VIEWBTN)
-						.setComponentEnable(false);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.OPENBTN)
-						.setComponentEnable(true);
+            boolean isSubmitter = createdById.equals(userId);
+            if (isSubmitter) {
+                userType = GtnFrameworkWorkflowInboxClassConstants.CREATOR;
+            } else {
+                loadWebService(generalWSRequest, projMasterBean);
+                userType = GtnFrameworkWorkflowuserTypeMap.valueOf(key).getInput();
+            }
 
-			} else {
+            String furl;
+            if (Page.getCurrent().getLocation().getPort() == -1) {
+                furl = GtnFrameworkWorkflowInboxClassConstants.HTTPS + Page.getCurrent().getLocation().getHost()
+                        + GtnFrameworkWorkflowMap.valueOf(key).getInput();
+            } else {
+                furl = GtnFrameworkWorkflowInboxClassConstants.HTTP + Page.getCurrent().getLocation().getHost() + ":"
+                        + Page.getCurrent().getLocation().getPort() + GtnFrameworkWorkflowMap.valueOf(key).getInput();
+            }
 
-				GtnUIFrameworkGlobalUI.addChildComponent(GtnFrameworkWorkflowInboxClassConstants.VIEW_LAYOUT,
-						Arrays.asList(viewcomponent.getComponentConfig()));
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.VIEWBTN)
-						.browserExtend(opener);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.VIEWBTN)
-						.setComponentEnable(true);
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.OPENBTN)
-						.setComponentEnable(false);
-			}
+            BrowserWindowOpener opener = new BrowserWindowOpener(furl);
+            opener.setFeatures(GtnFrameworkWorkflowInboxClassConstants.BROWSER_HEIGHTWIDTH);
+            opener.setFeatures(GtnFrameworkWorkflowInboxClassConstants.BROWSER_SCROLLBARS);
 
-			opener.setParameter(GtnFrameworkWorkflowIdMap.valueOf(key).getInput(), projectionMasterSid);
-			portletName = GtnFrameworkWorkflowPortletMap.valueOf(key).getInput();
-			opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, workflowSid);
-			opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWISTATUS, status);
-			opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.USERTYPE, userType);
-			opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS, String.valueOf(noOfApprovals));
-			opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL, String.valueOf(approvalLevel));
-			opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.PORTLETNAME, portletName);
+            if (isSubmitter && (GtnFrameworkWorkflowInboxClassConstants.WITHDRAWN.equalsIgnoreCase(status)
+                    || GtnFrameworkWorkflowInboxClassConstants.REJECTED.equalsIgnoreCase(status)
+                    || GtnFrameworkWorkflowInboxClassConstants.PENDING.equals(status))) {
 
-			if (workflowId.startsWith(GtnFrameworkWorkflowInboxClassConstants.ARM)) {
-				String adjType = adjustmentTypeName.trim().replaceAll(" ", "~");
-				opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE, adjType);
-				opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.SELECTED_ADJUSTMENTTYPE,
-						adjustmentType.replaceAll(" ", "~").contains("&")
-								? adjustmentType.replaceAll(" ", "~").replace("&", "///&")
-								: adjustmentType.replaceAll(" ", "~"));
-				String configType = configurationType.trim().replaceAll(" ", "~");
-				opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CONFIGURATION_TYPE, configType);
-			}
+                GtnUIFrameworkGlobalUI.addChildComponent(GtnFrameworkWorkflowInboxClassConstants.OPEN_LAYOUT,
+                        Arrays.asList(opencomponent.getComponentConfig()));
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.OPENBTN)
+                        .browserExtend(opener);
 
-			if (workflowId.startsWith(GtnFrameworkWorkflowInboxClassConstants.CF)) {
-				opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERSID, customerHierSid);
-				opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.PRODUCTHIERSID, productHierSid);
-				opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERLEVEL, customerHierarchyLevel);
-				opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CUSTRELATIONSHIPSID,
-						custRelationshipBuilderSid);
-				opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.PRODHIERLEVEL, productHierarchyLevel);
-				opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.PRODRELATIONSID,
-						prodRelationshipBuilderSid);
-			}
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.VIEWBTN)
+                        .setComponentEnable(false);
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.OPENBTN)
+                        .setComponentEnable(true);
 
-		} catch (Exception e) {
-			gtnLogger.error(e.getMessage(), e);
-		}
+            } else {
 
-	}
+                GtnUIFrameworkGlobalUI.addChildComponent(GtnFrameworkWorkflowInboxClassConstants.VIEW_LAYOUT,
+                        Arrays.asList(viewcomponent.getComponentConfig()));
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.VIEWBTN)
+                        .browserExtend(opener);
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.VIEWBTN)
+                        .setComponentEnable(true);
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.OPENBTN)
+                        .setComponentEnable(false);
+            }
 
-	private void loadWebService(GtnWsGeneralRequest generalWSRequest, GtnWsWorkflowInboxBean projMasterBean) {
-		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		GtnWsCommonWorkflowRequest forecastRequest = new GtnWsCommonWorkflowRequest();
-		String url;
-		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-		request.setGtnWsGeneralRequest(generalWSRequest);
-		request.setGtnWSCommonWorkflowRequest(forecastRequest);
-		request.getGtnWSCommonWorkflowRequest().setGtnWorkflowInboxBean(projMasterBean);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsWorkFlowConstants.GTN_WS_OPEN_VIEW_SAVE_SERVICE
-						+ GtnFrameworkCommonStringConstants.WORKFLOW_MODULE_NAME,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		response.getGtnWSCommonWorkflowResponse().getProcessInstanceId();
-		request.getGtnWSCommonWorkflowRequest()
-				.setProcessInstanceId(response.getGtnWSCommonWorkflowResponse().getProcessInstanceId());
-		request.setGtnWSCommonWorkflowRequest(forecastRequest);
-		request.getGtnWSCommonWorkflowRequest().setGtnWorkflowInboxBean(projMasterBean);
+            if (projIdfromDataselection.contains(GtnFrameworkWorkflowInboxClassConstants.RECORD_BEAN)) {
+                opener.setParameter(GtnFrameworkWorkflowIdMap.valueOf(key).getInput(), projectionMasterSid);
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, workflowSid);
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWISTATUS, status);
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.USERTYPE, userType);
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS, String.valueOf(noOfApprovals));
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL, String.valueOf(approvalLevel));
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.PORTLETNAME, portletName);
+                if (workflowId.startsWith(GtnFrameworkWorkflowInboxClassConstants.CF)) {
+                    opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERSID, customerHierSid);
+                    opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.PRODUCTHIERSID, productHierSid);
+                    opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERLEVEL, customerHierarchyLevel);
+                    opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CUSTRELATIONSHIPSID,
+                            custRelationshipBuilderSid);
+                    opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.PRODHIERLEVEL, productHierarchyLevel);
+                    opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.PRODRELATIONSID,
+                            prodRelationshipBuilderSid);
+                }
+            } else {
+                opener.setParameter(GtnFrameworkWorkflowIdMap.valueOf(key).getInput(), projectionMasterSidGcm);
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, workflowSidGcm);
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWISTATUS, status);
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.USERTYPE, userType);
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS, String.valueOf(noOfApprovalsGcm));
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL, String.valueOf(approvalLevelGcm));
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.PORTLETNAME, portletName);
+                if (workflowId.startsWith(GtnFrameworkWorkflowInboxClassConstants.CF)) {
+                    opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERSID, customerHierSidGcm);
+                    opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.PRODUCTHIERSID, productHierSidGcm);
+                    opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERLEVEL, customerHierarchyLevelGcm);
+                    opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CUSTRELATIONSHIPSID,
+                            custRelationshipBuilderSidGcm);
+                    opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.PRODHIERLEVEL, productHierarchyLevelGcm);
+                    opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.PRODRELATIONSID,
+                            prodRelationshipBuilderSidGcm);
+                }
+            }
 
-		GtnUIFrameworkWebserviceResponse bpmresponse;
-		url = GtnWsWorkFlowConstants.GTN_WS_BPM_OPEN_VIEW_SAVE_SERVICE
-				+ GtnWsWorkFlowConstants.GTN_WS_BPM_OPEN_VIEW_SAVE_SERVICE_URI;
-		bpmresponse = wsclient.callGtnWebServiceUrl(url, GtnFrameworkCommonStringConstants.GTN_BPM, request,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		bpmresponse.getGtnWSCommonWorkflowResponse().isRoleMatched();
-	}
+            if (workflowId.startsWith(GtnFrameworkWorkflowInboxClassConstants.ARM)) {
+                String adjType = adjustmentTypeName.trim().replaceAll(" ", "~");
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPE, adjType);
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.SELECTED_ADJUSTMENTTYPE,
+                        adjustmentType.replaceAll(" ", "~").contains("&")
+                        ? adjustmentType.replaceAll(" ", "~").replace("&", "///&")
+                        : adjustmentType.replaceAll(" ", "~"));
+                String configType = configurationType.trim().replaceAll(" ", "~");
+                opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CONFIGURATION_TYPE, configType);
+            }
 
-	@Override
-	public GtnUIFrameWorkAction createInstance() {
-		return this;
-	}
+        } catch (Exception e) {
+            gtnLogger.error(e.getMessage(), e);
+        }
+
+    }
+
+    private void loadWebService(GtnWsGeneralRequest generalWSRequest, GtnWsWorkflowInboxBean projMasterBean) {
+        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+        GtnWsCommonWorkflowRequest forecastRequest = new GtnWsCommonWorkflowRequest();
+        String url;
+        GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+        request.setGtnWsGeneralRequest(generalWSRequest);
+        request.setGtnWSCommonWorkflowRequest(forecastRequest);
+        request.getGtnWSCommonWorkflowRequest().setGtnWorkflowInboxBean(projMasterBean);
+        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsWorkFlowConstants.GTN_WS_OPEN_VIEW_SAVE_SERVICE
+                + GtnFrameworkCommonStringConstants.WORKFLOW_MODULE_NAME,
+                request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+        response.getGtnWSCommonWorkflowResponse().getProcessInstanceId();
+        request.getGtnWSCommonWorkflowRequest()
+                .setProcessInstanceId(response.getGtnWSCommonWorkflowResponse().getProcessInstanceId());
+        request.setGtnWSCommonWorkflowRequest(forecastRequest);
+        request.getGtnWSCommonWorkflowRequest().setGtnWorkflowInboxBean(projMasterBean);
+
+        GtnUIFrameworkWebserviceResponse bpmresponse;
+        url = GtnWsWorkFlowConstants.GTN_WS_BPM_OPEN_VIEW_SAVE_SERVICE
+                + GtnWsWorkFlowConstants.GTN_WS_BPM_OPEN_VIEW_SAVE_SERVICE_URI;
+        bpmresponse = wsclient.callGtnWebServiceUrl(url, GtnFrameworkCommonStringConstants.GTN_BPM, request,
+                GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+        bpmresponse.getGtnWSCommonWorkflowResponse().isRoleMatched();
+    }
+
+    @Override
+    public GtnUIFrameWorkAction createInstance() {
+        return this;
+    }
 }
