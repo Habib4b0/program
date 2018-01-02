@@ -26,7 +26,7 @@ public class VwItemPricing implements java.io.Serializable {
 	private String addChgDelIndicator;
 
 	public VwItemPricing() {
-            //constructor
+		// constructor
 	}
 
 	public int getItemPricingSid() {
