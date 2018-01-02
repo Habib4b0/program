@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1494,7 +1495,6 @@ public class CFFLogic {
         builder.append(SQlUtil.getQuery("DEDUCTION_HIERARCHY_INSERT"));
         builder.replace(builder.indexOf(StringConstantsUtil.CFFMASTERSID), StringConstantsUtil.CFFMASTERSID.length() + builder.lastIndexOf(StringConstantsUtil.CFFMASTERSID), String.valueOf(session.getProjectionId()));
         builder.replace(builder.indexOf(StringConstantsUtil.RELATIONBUILDERSID), StringConstantsUtil.RELATIONBUILDERSID.length() + builder.lastIndexOf(StringConstantsUtil.RELATIONBUILDERSID), session.getDedRelationshipBuilderSid());
-       
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(builder.toString(), tempTableNames));
     }
 
@@ -1531,7 +1531,7 @@ public class CFFLogic {
 		customSql = customSql.replace("?HLDV", isCustomerHierarchy ? sessionDTO.getCustomerHierarchyVersion()+ StringUtils.EMPTY 
                 : sessionDTO.getProductHierarchyVersion()+ StringUtils.EMPTY);
         List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-        Map<String, List> resultMap = new HashMap<>();
+        Map<String, List> resultMap = new LinkedHashMap<>();
         String hierarchyNoType = isCustomerHierarchy ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO";
         RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid, hierarchyNoType, sessionDTO);
         tempList.clear();
