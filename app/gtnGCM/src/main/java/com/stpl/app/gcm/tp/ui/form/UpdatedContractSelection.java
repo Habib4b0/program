@@ -1384,7 +1384,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         submitAndNextLogic(false);
     }
 
-    ExtCustomTable.ColumnCheckListener checkListener = new ExtCustomTable.ColumnCheckListener() {
+    private ExtCustomTable.ColumnCheckListener checkListener = new ExtCustomTable.ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
             if (event.isChecked()) {

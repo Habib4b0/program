@@ -780,7 +780,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         componentStartDate.setEnabled(false);
         componentEndDate.setEnabled(false);
     }
-     ColumnCheckListener checkListener = new ColumnCheckListener() {
+     private ColumnCheckListener checkListener = new ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
             if (event.isChecked()) {

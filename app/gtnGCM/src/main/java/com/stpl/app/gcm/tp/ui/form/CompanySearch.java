@@ -676,7 +676,7 @@ public class CompanySearch extends VerticalLayout {
         }.getConfirmationMessage("Reset Confirmation", "Are you sure you want to reset the Results list view?");
     }
 
-    ColumnCheckListener checkListener = new ColumnCheckListener() {
+    private final ColumnCheckListener checkListener = new ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
             if (event.isChecked()) {

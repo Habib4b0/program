@@ -319,7 +319,7 @@ public class NewComponents extends CustomComponent implements View {
             LOGGER.error(ex);
         }
     }
-      ColumnCheckListener checkListener = new ColumnCheckListener() {
+      private ColumnCheckListener checkListener = new ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
             LOGGER.debug("Column Check VAlue=" + compItemSearchTable.getColumnCheckBox(Constants.CHECK_RECORD));
