@@ -87,15 +87,14 @@ public class CFFLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LogManager.getLogger(CFFLogic.class);
-    public CFFQueryUtils cffQueryUtils = new CFFQueryUtils();
+    private final CFFQueryUtils cffQueryUtils = new CFFQueryUtils();
     /**
      * The common utils.
      */
-    public CommonUtils commonUtils = new CommonUtils();
+    private final CommonUtils commonUtils = new CommonUtils();
     private static final CFFDAO DAO = CFFDAOImpl.getInstance();
-    public static Map<String, String> userMap = new HashMap<>();
-    private FileSelectionDTO dto = new FileSelectionDTO();
-    private DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
+    private static Map<String, String> userMap = new HashMap<>();
+    private final DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
     
     /**
      * Gets the cff details for add.
@@ -266,9 +265,7 @@ public class CFFLogic {
             cffMaster.setInboundStatus(ConstantsUtil.INBOUND_STATUS_UPDATE);
             DAO.updateCffMaster(cffMaster);
 
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("Exits update cff method");
@@ -1204,9 +1201,7 @@ public class CFFLogic {
                     NotificationUtils.getAlertNotification("Permission Denined", notiMsg.toString());
 
                 }
-            } catch (PortalException ex) {
-                java.util.logging.Logger.getLogger(CFFLogic.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SystemException ex) {
+            } catch (PortalException | SystemException ex) {
                 java.util.logging.Logger.getLogger(CFFLogic.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (sessionDTO.getWorkflowStatus() != null && sessionDTO.getWorkflowStatus().equals("Rejected")) {

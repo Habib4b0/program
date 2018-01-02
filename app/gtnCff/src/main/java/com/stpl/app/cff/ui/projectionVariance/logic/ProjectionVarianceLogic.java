@@ -78,7 +78,7 @@ public class ProjectionVarianceLogic {
 
     private static final CommonDAO commonDao = new CommonDAOImpl();
     public static final Logger LOGGER = Logger.getLogger(ProjectionVarianceLogic.class);
-    private String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     /**
      * The Constant AMOUNT.
      */
@@ -105,9 +105,9 @@ public class ProjectionVarianceLogic {
     private static final String DETAIL = "Detail";
     private static final String C = "C";
     private static final String P = "P";
-    private static String CURRENT = "Current";
-    private CommonLogic commonLogic = new CommonLogic();
-    private com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils queryUtils = new com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils();
+    private static final String CURRENT = "Current";
+    private final CommonLogic commonLogic = new CommonLogic();
+    private final com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils queryUtils = new com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils();
     private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private PVSelectionDTO selectionDTO = new PVSelectionDTO();
@@ -303,7 +303,7 @@ public class ProjectionVarianceLogic {
                 if (obj[NumericConstants.TEN] == null) {
                     comparisonLookupDTO.setCreatedBy(StringUtils.EMPTY);
                 } else {
-                    comparisonLookupDTO.setCreatedBy(new Converters().getUserFLName(new Converters().convertNullToEmpty(obj[NumericConstants.TEN].toString())));
+                    comparisonLookupDTO.setCreatedBy(Converters.getUserFLName(Converters.convertNullToEmpty(obj[NumericConstants.TEN].toString())));
                 }
                 finalList.add(comparisonLookupDTO);
 
@@ -432,7 +432,7 @@ public class ProjectionVarianceLogic {
                 if (obj[NumericConstants.TEN] == null) {
                     comparisonLookupDTO.setCreatedBy(StringUtils.EMPTY);
                 } else {
-                    comparisonLookupDTO.setCreatedBy(new Converters().getUserFLName(new Converters().convertNullToEmpty(obj[NumericConstants.TEN].toString())));
+                    comparisonLookupDTO.setCreatedBy(Converters.getUserFLName(Converters.convertNullToEmpty(obj[NumericConstants.TEN].toString())));
                 }
                 if (!isProjecionId(finalList, comparisonLookupDTO)) {
                     finalList.add(comparisonLookupDTO);
@@ -1267,7 +1267,7 @@ public class ProjectionVarianceLogic {
      */
     public List<ProjectionVarianceDTO> configureLevels(int start, int offset, PVSelectionDTO projSelDTO, int maxRecord) {
 
-        CommonLogic commonLogic = new CommonLogic();
+        CommonLogic vCommonLogic = new CommonLogic();
         List<ProjectionVarianceDTO> resultList = new ArrayList<>();
         int resultStart;
         if (maxRecord == -1) {
@@ -1277,7 +1277,7 @@ public class ProjectionVarianceLogic {
         }
         if (projSelDTO.isIsCustomHierarchy()) {
 
-            String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
+            String hierarchyIndicator = vCommonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
             List<String> hierarchyNoList = getHiearchyNoForCustomView(projSelDTO, resultStart, offset);
             for (String hierarchyNo : hierarchyNoList) {
@@ -1287,7 +1287,7 @@ public class ProjectionVarianceLogic {
         } else {
             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
 
-            List<String> hierarchyNoList = commonLogic.getHiearchyNoAsList(projSelDTO, resultStart, offset);
+            List<String> hierarchyNoList = vCommonLogic.getHiearchyNoAsList(projSelDTO, resultStart, offset);
             for (String hierarchyNo : hierarchyNoList) {
                 resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo)));
             }
@@ -1300,6 +1300,8 @@ public class ProjectionVarianceLogic {
      *
      * @param projSelDTO
      * @param hierarchyNo
+     * @param hierarchyIndicator
+     * @param levelNo
      * @param detailsList
      * @return
      */

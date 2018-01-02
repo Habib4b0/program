@@ -41,19 +41,19 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     /**
      * The available customers.
      */
-    public BeanItemContainer<Leveldto> availableCustomers;
+    protected BeanItemContainer<Leveldto> availableCustomers;
     /**
      * The selected customers.
      */
-    public BeanItemContainer<Leveldto> selectedCustomers;
+    protected BeanItemContainer<Leveldto> selectedCustomers;
     /**
      * The available products.
      */
-    public BeanItemContainer<Leveldto> availableProducts;
+    protected BeanItemContainer<Leveldto> availableProducts;
     /**
      * The selected products.
      */
-    public BeanItemContainer<Leveldto> selectedProducts;
+    protected BeanItemContainer<Leveldto> selectedProducts;
     /**
      * The save view dto.
      */
@@ -63,19 +63,19 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      */
     private final CustomFieldGroup viewBinder = new CustomFieldGroup(new BeanItem<SaveViewDTO>(saveViewDTO));
     private final ErrorLabel errorMsg = new ErrorLabel();
-    private TextField viewId = new TextField();
-    private TextField viewName = new TextField();
-    private OptionGroup viewType = new OptionGroup();
+    private final TextField viewId = new TextField();
+    private final TextField viewName = new TextField();
+    private final OptionGroup viewType = new OptionGroup();
     /**
      * The view logic.
      */
-    public ViewLogic viewLogic = new ViewLogic();
+    protected final ViewLogic viewLogic = new ViewLogic();
     /**
      * The logic.
      */
-    private CFFLogic cffLogic = new CFFLogic();
-    private List<String> customerListEndSids;
-    private List<String> productListEndSids;
+    private final CFFLogic cffLogic = new CFFLogic();
+    private final List<String> customerListEndSids;
+    private final List<String> productListEndSids;
     /**
      * The Constant LOGGER.
      */

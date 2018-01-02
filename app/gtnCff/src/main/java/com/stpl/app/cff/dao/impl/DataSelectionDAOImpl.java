@@ -322,6 +322,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      * @param hierarchyType the hierarchy type
      * @return the hierarchy data
      */
+     @Override
     public List<HierarchyLookupDTO> getHierarchyData(final String indicator,
             final String hierarchyName, final String hierarchyType) {
 
@@ -711,6 +712,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
         return ProjectionMasterLocalServiceUtil.executeQueryforchannel(parameters);
     }
 
+     @Override
     public CffMaster addCffMaster(CffMaster cffMaster) throws SystemException {
         return CffMasterLocalServiceUtil.addCffMaster(cffMaster);
 
