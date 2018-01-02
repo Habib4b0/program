@@ -39,6 +39,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.stpl.gtn.gtn2o</groupId>
+            <artifactId>GtnWsSecurity</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>${apache-poi.version}</version>

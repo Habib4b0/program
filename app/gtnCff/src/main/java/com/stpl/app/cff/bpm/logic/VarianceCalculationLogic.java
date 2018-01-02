@@ -1,12 +1,14 @@
 package com.stpl.app.cff.bpm.logic;
 
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.app.cff.bpm.service.BPMProcessBean;
-import com.stpl.ifs.ui.util.NumericConstants;
-import java.util.Map;
-import org.kie.api.task.model.Status;
-import org.kie.api.task.model.TaskSummary;
+import com.stpl.app.cff.dto.SessionDTO;
+import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.request.cff.GtnWsCFFSubmitRequest;
+import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsCFFSubmitBean;
+import com.stpl.gtn.gtn2o.ws.workflow.bean.constants.GtnWsWorkFlowConstants;
 
 public class VarianceCalculationLogic {
 
@@ -15,32 +17,55 @@ public class VarianceCalculationLogic {
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(VarianceCalculationLogic.class);
 
-    public static void submitWorkflow(final String userId, final Long processInstanceId, final Map<String, Object> params) {
-        int count = 1;
-        for (int i = 0; i < NumericConstants.FIVE && i < count; i++) {
-            try {
-                User user = UserLocalServiceUtil.getUser(Long.parseLong(userId));
+    public static void submitWorkflow(final Long processInstanceId, final SessionDTO session, String moduleName) {
+        
+        new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsWorkFlowConstants.GTN_WS_CFF_WORKFLOW_SERVICE
+                + GtnWsWorkFlowConstants.GTN_WS_CFF_SUBMIT_WORKFLOW,
+                GtnFrameworkCommonStringConstants.GTN_BPM, getWebserviceRequest(processInstanceId, session, moduleName), RelationShipFilterLogic.getGsnWsSecurityToken());
+    }
 
-                TaskSummary task = BPMProcessBean.getAvailableTask(processInstanceId);
-                LOGGER.debug("task.getName() :" + task.getName());
-                LOGGER.debug("task.getId() :" + task.getId());
-                LOGGER.debug("task.getActualOwnerId() :"+task.getActualOwnerId());
-                LOGGER.debug("user.getScreenName() : "+user.getScreenName());
-                if (task.getActualOwnerId() != null && !task.getActualOwnerId().equals(user.getScreenName())) {
-                    BPMProcessBean.claimTask(task.getId(), task.getActualOwnerId(), user.getScreenName());
-                    LOGGER.debug("Claiming the " + task.getActualOwnerId() + " to :" + user.getScreenName());
-                }
-                if (task.getStatus().equals(Status.InProgress)) {
-                    BPMProcessBean.completeTask(task.getId(), user.getScreenName(), params);
-                } else {
-                    BPMProcessBean.startTask(task.getId(), user.getScreenName());
-                    BPMProcessBean.completeTask(task.getId(), user.getScreenName(), params);
-                }
-                count = 0;
-            } catch (Exception e) {
-                count++;
-                LOGGER.error(e);
-            }
-        }
+    public static void approveWorkflow(long processId, SessionDTO session, String moduleName) {
+        new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsWorkFlowConstants.GTN_WS_CFF_WORKFLOW_SERVICE
+                + GtnWsWorkFlowConstants.GTN_WS_CFF_APPROVE_WORKFLOW,
+                GtnFrameworkCommonStringConstants.GTN_BPM, getWebserviceRequest(processId, session, moduleName), RelationShipFilterLogic.getGsnWsSecurityToken());
+    }
+
+    private static GtnUIFrameworkWebserviceRequest getWebserviceRequest(final Long processInstanceId, final SessionDTO session, String moduleName) {
+        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsCFFSubmitRequest submitRequest = new GtnWsCFFSubmitRequest();
+        GtnWsCFFSubmitBean submitBean = new GtnWsCFFSubmitBean();
+        submitBean.setProcessId(processInstanceId);
+        submitBean.setProjectionId(session.getProjectionId());
+        submitBean.setModuleName(moduleName);
+        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+        generalRequest.setUserId(session.getUserId());
+        generalRequest.setSessionId(session.getSessionId());
+        submitRequest.setGtnWsCFFSubmitBean(submitBean);
+        submitRequest.setGtnWsGeneralRequest(generalRequest);
+        gtnUIFrameworkWebserviceRequest.setGtnCffsubmitRequest(submitRequest);
+        return gtnUIFrameworkWebserviceRequest;
+    }
+
+    public static void rejectWorkFlow(long processId, SessionDTO session, String moduleName) {
+        new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsWorkFlowConstants.GTN_WS_CFF_WORKFLOW_SERVICE
+                + GtnWsWorkFlowConstants.GTN_WS_CFF_REJECT_WORKFLOW,
+                GtnFrameworkCommonStringConstants.GTN_BPM, getWebserviceRequest(processId, session, moduleName), RelationShipFilterLogic.getGsnWsSecurityToken());
+    }
+
+    public static void withDrawWorkflow(long processId, SessionDTO session, String moduleName) {
+        new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsWorkFlowConstants.GTN_WS_CFF_WORKFLOW_SERVICE
+                + GtnWsWorkFlowConstants.GTN_WS_CFF_WITHDRAW_WORKFLOW,
+                GtnFrameworkCommonStringConstants.GTN_BPM, getWebserviceRequest(processId, session, moduleName), RelationShipFilterLogic.getGsnWsSecurityToken());
+    }
+
+    public static void cancelWorkFlow(long processId, SessionDTO session, String moduleName) {
+        new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsWorkFlowConstants.GTN_WS_CFF_WORKFLOW_SERVICE
+                + GtnWsWorkFlowConstants.GTN_WS_CFF_CANCEL_WORKFLOW,
+                GtnFrameworkCommonStringConstants.GTN_BPM, getWebserviceRequest(processId, session, moduleName), RelationShipFilterLogic.getGsnWsSecurityToken());
     }
 }
