@@ -59,7 +59,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
     private Object valueChange;
     private Label Label = new Label("Transfer Sales Projection :");
     public OptionGroup transferSales = new OptionGroup();
-    CheckBox removeProjection = new CheckBox("Remove Projection Details");
+    private CheckBox removeProjection = new CheckBox("Remove Projection Details");
     private Object[] visibleColumn = {ConstantsUtil.CHECK_RECORD, Constants.PROJ_ID_LINK, Constants.WORKFLOW_STATUS, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, 
         Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, ConstantsUtil.STATUS, ConstantsUtil.ITEM_START_DATE, 
         ConstantsUtil.ITEM_END_DATE, Constants.CFP_NO, Constants.CFP_NAME, Constants.IFP_NO_COLUMN, Constants.IFPNAME, Constants.PS_NO_COLUMN, Constants.PSNAME, Constants.RS_NO_COLUMN, Constants.RSNAME, Constants.RAR_CATEGORY_COLUMN};

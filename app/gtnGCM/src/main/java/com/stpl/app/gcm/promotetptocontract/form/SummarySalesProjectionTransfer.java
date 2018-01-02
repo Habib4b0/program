@@ -49,7 +49,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class SummarySalesProjectionTransfer extends VerticalLayout implements View {
 
     @UiField("tradingPartnerSalesTableLayout")
-    VerticalLayout tradingPartnerSalesTableLayout;
+    private VerticalLayout tradingPartnerSalesTableLayout;
     @UiField("excelBtn")
     public Button excelBtn;
     /**

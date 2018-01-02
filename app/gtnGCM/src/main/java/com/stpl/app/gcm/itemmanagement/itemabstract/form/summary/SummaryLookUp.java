@@ -48,8 +48,8 @@ public class SummaryLookUp extends CustomComponent {
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = Logger.getLogger(SummaryLookUp.class);
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private final StplSecurity stplSecurity = new StplSecurity();
+    private Map<String, AppPermission> functionHM = new HashMap<>();
 
     public SummaryLookUp(List<ItemIndexDto> itemList, SelectionDTO selection) {
     }

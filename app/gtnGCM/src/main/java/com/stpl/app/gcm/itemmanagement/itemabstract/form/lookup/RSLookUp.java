@@ -55,7 +55,7 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
     @UiField("componentName")
     public TextField componentName;
     @UiField("startDate")
-    PopupDateField startDate;
+    private PopupDateField startDate;
     @UiField("componentNo")
     public TextField componentNo;
     @UiField("componentStatus_DTO")

@@ -230,7 +230,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
     private Boolean contractExcelFlag = false;
     private Boolean infoExcelFlag = false;
     private List<Integer> contractid = new ArrayList<>();
-    final StplSecurity stplSecurity = new StplSecurity();
+    private final StplSecurity stplSecurity = new StplSecurity();
 
     /**
      * The from date.
@@ -780,7 +780,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         componentStartDate.setEnabled(false);
         componentEndDate.setEnabled(false);
     }
-    ColumnCheckListener checkListener = new ColumnCheckListener() {
+     ColumnCheckListener checkListener = new ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
             if (event.isChecked()) {
