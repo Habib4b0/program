@@ -560,7 +560,6 @@ public class GtnWsRelationshipBuilderService {
 				serachResponse.setResultSet(dataTable);
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			throw new GtnFrameworkGeneralException("Exception in getFilteredValue", ex);
 		}
 		return serachResponse;
