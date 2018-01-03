@@ -19,7 +19,7 @@ import org.jboss.logging.Logger;
  */
 public class FileSelectionTableLogic extends PageTableLogic {
     private static final Logger LOGGER = Logger.getLogger(FileSelectionTableLogic.class);
-    private CFFLogic logic=new CFFLogic();
+    private final CFFLogic logic=new CFFLogic();
     private List<FileSelectionDTO> list;
     private boolean iscount=false;
     private SessionDTO sessionDTO;

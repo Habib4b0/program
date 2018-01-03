@@ -41,6 +41,7 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
      * @throws SystemException
      * @throws Exception the exception
      */
+    @Override
     public List getForecastList(final DynamicQuery query) throws SystemException {
         LOGGER.debug("In query-getForecastList started with P1:DynamicQuery query");
         return ForecastingMasterLocalServiceUtil.dynamicQuery(query);
@@ -57,6 +58,7 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
      * @return the forecast details
      * @throws Exception the exception
      */
+    @Override
     public List getForecastDetails(final String fileName, final String version, final String fileType, final String country, int year) throws SystemException {
         LOGGER.debug("In query-getForecastDetails started with P1:String fileName=" + fileName + " P2:String version=" + version + " P3:String fileType" + fileType + " P4:String country" + country);
         return ForecastingMasterLocalServiceUtil.getDetailsResults(fileName, version, fileType, country, year);
@@ -70,6 +72,7 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
      * @throws SystemException
      * @throws Exception the exception
      */
+    @Override
     public List getFilesList(final DynamicQuery query) throws SystemException {
         LOGGER.debug("In query-getFilesList started with P1:DynamicQuery query");
         return FileManagementLocalServiceUtil.dynamicQuery(query);
@@ -82,6 +85,7 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
      * @throws SystemException
      * @throws Exception the exception
      */
+    @Override
     public void updateFiles(final FileManagement file) throws SystemException {
         LOGGER.debug("In query-updateFiles started with P1:FileManagement file");
         FileManagementLocalServiceUtil.updateFileManagement(file);
@@ -94,6 +98,7 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
      * @throws SystemException
      * @throws Exception the exception
      */
+    @Override
     public void addFiles(final FileManagement file) throws SystemException {
         LOGGER.debug("In query-addFiles started with P1:FileManagement file");
         FileManagementLocalServiceUtil.addFileManagement(file);
@@ -103,19 +108,23 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
     public void addForecastDetails(ForecastingMaster master) throws SystemException {
         ForecastingMasterLocalServiceUtil.addForecastingMaster(master);
     }
+    @Override
     public void addDemandDetails(DemandForecast master) throws SystemException {
         DemandForecastLocalServiceUtil.addDemandForecast(master);
     }
 
+    @Override
     public Object executeSelectQuery(String query, Object udc1, Object udc2) throws SystemException {
         return ForecastingMasterLocalServiceUtil.executeSelectQuery(query, udc1, udc2);
     }
     
+    @Override
        public List itemIrtQualifierNameList(final DynamicQuery ifpDynamicQuery) throws PortalException,SystemException{
         return ItemQualifierLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
     }
       
 
+    @Override
     public List getBrandList(final DynamicQuery ifpDynamicQuery) throws PortalException, SystemException {
         return BrandMasterLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
     }
@@ -126,6 +135,7 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
      * @return list of HelperTable
      * @throws SystemException 
      */
+    @Override
     public List<HelperTable> getHelperTableList(final DynamicQuery query) throws PortalException,SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(query);
     }
@@ -138,10 +148,12 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
      * @throws Exception the exception
      * @table CompanyMaster
      */
+    @Override
     public List getCompanyMasterList(final DynamicQuery query) throws SystemException {
         return CompanyMasterLocalServiceUtil.dynamicQuery(query);
     }
   
+    @Override
     public int getFileManagementCount(DynamicQuery query) throws SystemException {
         return (int) FileManagementLocalServiceUtil.dynamicQueryCount(query);
     }
