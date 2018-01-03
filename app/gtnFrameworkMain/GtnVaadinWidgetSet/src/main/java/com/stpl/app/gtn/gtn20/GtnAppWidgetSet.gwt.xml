@@ -50,9 +50,13 @@
 
     <inherits name="org.asi.ui.customwindow.CustomWindowWidgetSet" />
 
-    <inherits name="org.vaadin.alump.beforeunload.gwt.BeforeUnloadWidgetSet" />
+    
 
     <inherits name="org.asi.ui.extfilteringtable.ExtFilteringTableWidgetSet" />
 
     <inherits name="org.asi.ui.custommenubar.CustomMenuBarWidgetSet" />
+
+    <inherits name="org.vaadin.alump.beforeunload.BeforeUnloadWidgetSet" />
+
+    <inherits name="com.vaadin.v7.Vaadin7WidgetSet" />
 </module>
