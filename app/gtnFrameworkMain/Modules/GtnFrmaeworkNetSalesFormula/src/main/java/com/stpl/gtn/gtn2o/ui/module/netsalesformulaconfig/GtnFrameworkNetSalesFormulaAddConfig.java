@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfi
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfSaveAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.confirmation.GtnUiFrameworkNsfSaveConfirmationAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfRuleSaveUniqueValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfSaveValidationAction;
@@ -244,18 +245,26 @@ public class GtnFrameworkNetSalesFormulaAddConfig {
 		GtnUIFrameWorkActionConfig confirmationActionConfig = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 		List<Object> alertParamsList = new ArrayList<>();
-		alertParamsList.add(" Back Confirmation ");
+		alertParamsList.add(" Save?");
 		alertParamsList.add(
-				" Are you sure you want to navigate back to the Net Sales Formula landing screen? \nYou will lose all unsaved data if you proceed ?");
+				" Do you want to save this Net Sales Formula record before returning to the Landing Screen?");
 
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfig = new ArrayList<>();
+		List<GtnUIFrameWorkActionConfig> onFailureActionConfig = new ArrayList<>();
+                GtnUIFrameWorkActionConfig backButtonActionConfig = componentConfigProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 
 		GtnUIFrameWorkActionConfig navigationActionConfig = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.NAVIGATION_ACTION);
 
-		navigationActionConfig.addActionParameter(GtnFrameworkNSFConstants.getEmpty());
+        navigationActionConfig.addActionParameter(GtnFrameworkNSFConstants.getEmpty());
+        backButtonActionConfig.addActionParameter(GtnUiFrameworkNsfSaveConfirmationAction.class.getName());
+        backButtonActionConfig.addActionParameter(viewId);
+        onSucessActionConfig.add(backButtonActionConfig);
 		onSucessActionConfig.add(navigationActionConfig);
+		onFailureActionConfig.add(navigationActionConfig);
 		alertParamsList.add(onSucessActionConfig);
+        alertParamsList.add(onFailureActionConfig);
 
 		confirmationActionConfig.setActionParameterList(alertParamsList);
 
