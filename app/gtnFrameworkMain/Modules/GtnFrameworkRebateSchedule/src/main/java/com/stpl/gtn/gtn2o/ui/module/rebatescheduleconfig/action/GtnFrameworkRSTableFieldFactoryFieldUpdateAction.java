@@ -22,7 +22,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkView;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.fieldfactory.GtnFrameworkRSValueChangeManager;
-import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkRSConstants;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.util.GtnFrameworkRSConstants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsCheckAllUpdateBean;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;

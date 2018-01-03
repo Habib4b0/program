@@ -7,7 +7,7 @@ package com.stpl.gtn.gtn2o.ui.action;
 
 import java.util.List;
 
-import com.stpl.gtn.gtn2o.ui.GtnFrameworkUIForecastingFrequencyType;
+import com.stpl.gtn.gtn2o.ui.constants.GtnFrameworkUIForecastingFrequencyType;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;

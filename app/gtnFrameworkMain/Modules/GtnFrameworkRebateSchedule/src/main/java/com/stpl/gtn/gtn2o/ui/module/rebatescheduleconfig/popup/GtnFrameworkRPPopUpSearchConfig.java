@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ui.module.popup;
+package com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.popup;
 
 import java.util.ArrayList;
 import java.util.Arrays;

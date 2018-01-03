@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ui.module.popup;
+package com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.popup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkCustomPopupSelectAction;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkLoadRuleDetailsAction;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkNetSaleRulePopupLoadAction;
-import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkRSConstants;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.util.GtnFrameworkRSConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;

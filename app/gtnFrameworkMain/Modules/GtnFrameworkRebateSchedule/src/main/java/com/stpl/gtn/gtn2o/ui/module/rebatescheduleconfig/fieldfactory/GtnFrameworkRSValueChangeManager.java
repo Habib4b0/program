@@ -2,7 +2,7 @@
 package com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.fieldfactory;
 
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
-import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkRSConstants;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.util.GtnFrameworkRSConstants;
 
 public class GtnFrameworkRSValueChangeManager {
     private GtnFrameworkRSValueChangeManager(){

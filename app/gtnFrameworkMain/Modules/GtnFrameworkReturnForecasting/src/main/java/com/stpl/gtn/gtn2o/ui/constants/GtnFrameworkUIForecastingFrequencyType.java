@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.gtn.gtn2o.ui;
+package com.stpl.gtn.gtn2o.ui.constants;
 
 /**
  *

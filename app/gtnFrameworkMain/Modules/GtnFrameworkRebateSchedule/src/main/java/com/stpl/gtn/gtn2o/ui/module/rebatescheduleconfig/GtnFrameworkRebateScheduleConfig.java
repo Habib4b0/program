@@ -11,13 +11,13 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.config.GtnUIFrameworkRootConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
-import com.stpl.gtn.gtn2o.ui.module.popup.GtnFrameworkDeductionCalendarPopUpConfig;
-import com.stpl.gtn.gtn2o.ui.module.popup.GtnFrameworkFormulaPopUpConfig;
-import com.stpl.gtn.gtn2o.ui.module.popup.GtnFrameworkNSSearchConfig;
-import com.stpl.gtn.gtn2o.ui.module.popup.GtnFrameworkNetSaleRulePopupConfig;
-import com.stpl.gtn.gtn2o.ui.module.popup.GtnFrameworkRPPopUpSearchConfig;
-import com.stpl.gtn.gtn2o.ui.module.popup.GtnFrameworkRSPopupConfig;
-import com.stpl.gtn.gtn2o.ui.module.popup.GtnFrameworkRebateSchedulePopUpConfig;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.popup.GtnFrameworkDeductionCalendarPopUpConfig;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.popup.GtnFrameworkFormulaPopUpConfig;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.popup.GtnFrameworkNSSearchConfig;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.popup.GtnFrameworkNetSaleRulePopupConfig;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.popup.GtnFrameworkRPPopUpSearchConfig;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.popup.GtnFrameworkRSPopupConfig;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.popup.GtnFrameworkRebateSchedulePopUpConfig;
 
 /**
  *

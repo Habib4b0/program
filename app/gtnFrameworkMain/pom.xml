@@ -45,7 +45,7 @@
         <jaxb.api.version>2.2.12</jaxb.api.version>
         <maven.test.skip>false</maven.test.skip>
         <skipTests>false</skipTests>
-        <stpl.portal.version>6.2.1</stpl.portal.version>
+        <stpl.portal.version>2.0.0</stpl.portal.version>
         <gtnsecurity.version>1.0</gtnsecurity.version>
         <gtnFrameworkCommon.version>1.0</gtnFrameworkCommon.version>
         <gtnlogger.version>1.0</gtnlogger.version>
@@ -125,7 +125,7 @@
                 <module>GtnFrameworkHierarchyRouteBuilder</module>
                 <module>GtnFramworkQueryGenerator</module>
                 <module>GtnNewArchSharedLibrary</module>
-                <module>GtnVaadinWidgetSet</module>
+                <!--<module>GtnVaadinWidgetSet</module>-->
                 <module>Modules</module>
                 <module>WebServices</module>
             </modules>

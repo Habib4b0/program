@@ -11,7 +11,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.fieldfactory.GtnUIFrameworkActi
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
-import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFCommonLogic;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util.GtnFrameworkNSFCommonLogic;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.netsales.constants.GtnWsNsfUriConstants;

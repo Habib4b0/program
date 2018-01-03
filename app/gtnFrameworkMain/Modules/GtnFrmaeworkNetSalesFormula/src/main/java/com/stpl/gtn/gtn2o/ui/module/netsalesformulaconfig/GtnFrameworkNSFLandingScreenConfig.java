@@ -24,9 +24,9 @@ import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkE
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfCopyAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfEditAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.confirmation.GtnUiFrameworkNsfDeleteConfirmationAction;
-import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFComboBoxTypeConstants;
-import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFConstants;
-import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFMessageConstants;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util.GtnFrameworkNSFComboBoxTypeConstants;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util.GtnFrameworkNSFConstants;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util.GtnFrameworkNSFMessageConstants;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;

@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ui.module.util;
+package com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util;
 
 import java.util.ArrayList;
 import java.util.List;
