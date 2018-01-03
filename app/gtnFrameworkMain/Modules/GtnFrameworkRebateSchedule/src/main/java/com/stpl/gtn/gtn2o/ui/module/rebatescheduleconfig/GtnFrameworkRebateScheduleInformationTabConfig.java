@@ -755,7 +755,7 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		companyType.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
 	}
-        private void addPaymentLevel(List<GtnUIFrameworkComponentConfig> componentList) {
+    private void addPaymentLevel(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkRSConstants.PAYMENT_LEVEL_LAYOUT, true, GtnFrameworkRSConstants.REBATE_OPTIONS_LAYOUT);
 		componentList.add(gtnLayout);
