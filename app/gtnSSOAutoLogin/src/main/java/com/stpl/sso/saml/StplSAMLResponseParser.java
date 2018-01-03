@@ -30,6 +30,8 @@ import org.opensaml.xml.io.UnmarshallingException;
 import org.opensaml.xml.signature.Signature;
 import org.opensaml.xml.signature.SignatureValidator;
 import org.opensaml.xml.validation.ValidationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -43,15 +45,14 @@ import com.stpl.sso.autologin.config.StplConfigReader;
  */
 public class StplSAMLResponseParser {
 
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger
-			.getLogger(StplSAMLResponseParser.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StplSAMLResponseParser.class);
 
 	public StplSAMLResponseParser() {
 
 		try {
 			DefaultBootstrap.bootstrap();
 		} catch (ConfigurationException exception) {
-			LOGGER.error(exception);
+			LOGGER.error("Exception in Bootstraping SAML",exception);
 		}
 	}
 
@@ -63,7 +64,7 @@ public class StplSAMLResponseParser {
 			Response samlResponse = unMarshallSamlResponse(element);
 			return samlResponse;
 		} catch (ParserConfigurationException | SAXException | IOException | UnmarshallingException exception) {
-			LOGGER.error(exception);
+			LOGGER.error("Exception in  SAML parsing",exception);
 		}
 		return null;
 

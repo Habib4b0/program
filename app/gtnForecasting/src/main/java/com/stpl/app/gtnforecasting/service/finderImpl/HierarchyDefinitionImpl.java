@@ -22,18 +22,18 @@ public class HierarchyDefinitionImpl {
 
     private static final Logger LOGGER = Logger.getLogger(HierarchyDefinitionImpl.class);
 
-    public List getHierarchyGroup(final String hierarchyName, final String hierarchyType, final String customerOrProduct, final String action) {
+    public List getHierarchyGroup(final String HIERARCHY_NAME, final String hierarchyType, final String customerOrProduct, final String action) {
         List list = new ArrayList();
 
         StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
         try {
 
 //            if (Constants.ButtonConstants.BTN_SEARCH.getConstant().equals(action)) {
-            queryBuilder.append("SELECT c.hierarchyDefinitionSid,c.hierarchyName,a.levelName, a.levelNo , ");
-            queryBuilder.append("b.levelNo , c.createdDate, c.modifiedDate, c.versionNo ");
-            queryBuilder.append("from HierarchyLevelDefinition a , HierarchyLevelDefinition b ,HierarchyDefinition c ");
-            queryBuilder.append("where a.hierarchyDefinitionSid = b.hierarchyDefinitionSid and a.hierarchyDefinitionSid = c.hierarchyDefinitionSid ");
-            queryBuilder.append("AND c.hierarchyCategory in (select ht.helperTableSid from HelperTable ht where ht.listName = 'HIERARCHY_CATEGORY' and ht.description like '");
+            queryBuilder.append("SELECT c.HIERARCHY_DEFINITION_SID,c.HIERARCHY_NAME,a.LEVEL_NAME, a.LEVEL_NO , ");
+            queryBuilder.append("b.LEVEL_NO , c.CREATED_DATE, c.MODIFIED_DATE, c.VERSION_NO ");
+            queryBuilder.append("from HIERARCHY_LEVEL_DEFINITION a , HIERARCHY_LEVEL_DEFINITION b ,HIERARCHY_DEFINITION c ");
+            queryBuilder.append("where a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID and a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID ");
+            queryBuilder.append("AND c.HIERARCHY_CATEGORY in (select ht.HELPER_TABLE_SID from HELPER_TABLE ht where ht.LIST_NAME = 'HIERARCHY_CATEGORY' and ht.DESCRIPTION like '");
 
             if (Constants.INDICATOR_CUSTOMER_HIERARCHY.equals(customerOrProduct)) {
                 queryBuilder.append("Customer Hierarchy");
@@ -41,16 +41,16 @@ public class HierarchyDefinitionImpl {
                 queryBuilder.append("Product Hierarchy");
             }
             queryBuilder.append("') ");
-            queryBuilder.append(" AND b.hierarchyDefinitionSid = c.hierarchyDefinitionSid ");
-            queryBuilder.append(" AND a.levelNo in (SELECT MAX(h.levelNo) FROM HierarchyLevelDefinition h WHERE h.hierarchyDefinitionSid = a.hierarchyDefinitionSid) ");
-            queryBuilder.append(" AND b.levelNo in  (SELECT MIN(h.levelNo) FROM HierarchyLevelDefinition h WHERE h.hierarchyDefinitionSid = b.hierarchyDefinitionSid) ");
-            if (hierarchyName != null && !"null".equals(hierarchyName) && !StringUtils.isEmpty(hierarchyName) && !StringUtils.isBlank(hierarchyName)) {
-                queryBuilder.append(" AND c.hierarchyName like '");
-                queryBuilder.append(hierarchyName);
+            queryBuilder.append(" AND b.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID ");
+            queryBuilder.append(" AND a.LEVEL_NO in (SELECT MAX(h.LEVEL_NO) FROM HIERARCHY_LEVEL_DEFINITION h WHERE h.HIERARCHY_DEFINITION_SID = a.HIERARCHY_DEFINITION_SID) ");
+            queryBuilder.append(" AND b.LEVEL_NO in  (SELECT MIN(h.LEVEL_NO) FROM HIERARCHY_LEVEL_DEFINITION h WHERE h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID) ");
+            if (HIERARCHY_NAME != null && !"null".equals(HIERARCHY_NAME) && !StringUtils.isEmpty(HIERARCHY_NAME) && !StringUtils.isBlank(HIERARCHY_NAME)) {
+                queryBuilder.append(" AND c.HIERARCHY_NAME like '");
+                queryBuilder.append(HIERARCHY_NAME);
                 queryBuilder.append("' ");
             }
             if (hierarchyType != null && !"null".equals(hierarchyType) && !StringUtils.isEmpty(hierarchyType) && !StringUtils.isBlank(hierarchyType)) {
-                queryBuilder.append(" AND c.hierarchyType in (select ht.helperTableSid from HelperTable ht where ht.description like '");
+                queryBuilder.append(" AND c.HIERARCHY_TYPE in (select ht.HELPER_TABLE_SID from HELPER_TABLE ht where ht.DESCRIPTION like '");
                 queryBuilder.append(hierarchyType);
                 queryBuilder.append("') ");
             }

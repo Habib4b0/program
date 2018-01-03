@@ -19,8 +19,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.jboss.logging.Logger;
 import org.opensaml.xml.security.x509.BasicX509Credential;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -41,7 +42,7 @@ import java.util.Arrays;
 public class StplConfigReader {
 
 	private static final StplConfigReader _INSTANCE = new StplConfigReader();
-	private static final Logger LOGGER = Logger.getLogger(StplConfigReader.class);
+	private static  final Logger LOGGER = LoggerFactory.getLogger(StplConfigReader.class);
 	private StpSSOPropertybean propertyBean = new StpSSOPropertybean();
 
 	private StplConfigReader() {
@@ -76,7 +77,7 @@ public class StplConfigReader {
 			}
 
 		} catch (ParserConfigurationException | SAXException | IOException ex) {
-			LOGGER.error(ex);
+			LOGGER.error("Error in Reading Config ",ex);
 		}
 	}
 

@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -18,7 +19,9 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.sql.DataSource;
-import org.jboss.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,7 +29,7 @@ import org.jboss.logging.Logger;
  */
 public class StplBPMUserCreation {
 
-    private static final Logger LOGGER = Logger.getLogger(StplBPMUserCreation.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StplBPMUserCreation.class);
     public static final String FWD_SLASH = "\\";
     public static final String BWD_SLASH = "/";
     private String encryptedValue;
