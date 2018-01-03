@@ -42,10 +42,10 @@ public class ProjectionResultsLogic {
      * The Numeric Zero Decimal Places Format.
      */
     private static final DecimalFormat NUM_ZERO = new DecimalFormat("#,##0");
-    private List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
-    private List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
-    private List<ProjectionResultsDTO> prjTotalRPUDtoList = new ArrayList<>();
-    private List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
+    private final List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
+    private final List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
+    private final List<ProjectionResultsDTO> prjTotalRPUDtoList = new ArrayList<>();
+    private final List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     
     public static final String NULL_PPAACTUAL_SALES = "+Isnull(PPA.ACTUAL_SALES, 0)";
     private static final String CURRENCY = "$";
@@ -55,7 +55,7 @@ public class ProjectionResultsLogic {
     public static final String PRC_CFF_PROJECTION_RESULTS_DISCOUNT = "Prc_cff_projection_results_discount";
     public static final String PRC_CFF_RESULTS = "PRC_CFF_RESULTS";
     
-    private Map<String,String> monthMap=new HashMap<>();
+    private final Map<String,String> monthMap=new HashMap<>();
 
     public List<ProjectionResultsDTO> getTotalDiscountLevels(ProjectionSelectionDTO projSelDTO,String group) {
         LOGGER.debug("= = = Inside getTotalDiscountLevels = = =");
@@ -1038,7 +1038,7 @@ public class ProjectionResultsLogic {
        Object[] orderedArgs = {projSelDTO.getProjectionId(), freq, StringConstantsUtil.ASSUMPTIONS};
             if (projSelDTO.isIsTotal() && projSelDTO.isIsProjectionTotal()) {
                     if (started == 0) {
-                        if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                        if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                             ProjectionResultsDTO dto = new ProjectionResultsDTO();
                             dto.setGroup("CFF Total");
                             dto.setParent(0);
@@ -1059,7 +1059,7 @@ public class ProjectionResultsLogic {
                             getProjectionTotal(orderedArgs, projSelDTO);
                         }
                         if (started == 1 && neededRecord > 0) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                 ProjectionResultsDTO exFactoryProductDto = projectionTotalList.get(0);
                                 projDTOList.add(exFactoryProductDto);
                             }
@@ -1067,7 +1067,7 @@ public class ProjectionResultsLogic {
                             neededRecord--;
                         }
                         if (started == NumericConstants.TWO && neededRecord > 0) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                 ProjectionResultsDTO exFactoryCustomerDto = projectionTotalList.get(1);
                                 projDTOList.add(exFactoryCustomerDto);
                             }
@@ -1075,7 +1075,7 @@ public class ProjectionResultsLogic {
                             neededRecord--;
                         }
                         if (started == NumericConstants.THREE && neededRecord > 0) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                 ProjectionResultsDTO demandDTO = projectionTotalList.get(NumericConstants.TWO);
                                 projDTOList.add(demandDTO);
                             }
@@ -1083,7 +1083,7 @@ public class ProjectionResultsLogic {
                             neededRecord--;
                         }
                         if (started == NumericConstants.FOUR && neededRecord > 0) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                 ProjectionResultsDTO adjustedDemandDTO = projectionTotalList.get(NumericConstants.THREE);
                                 projDTOList.add(adjustedDemandDTO);
                             }
@@ -1091,7 +1091,7 @@ public class ProjectionResultsLogic {
                             neededRecord--;
                         }
                         if (started == NumericConstants.FIVE && neededRecord > 0) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                 ProjectionResultsDTO inventoryWDSummaryDTO = projectionTotalList.get(NumericConstants.FOUR);
                                 projDTOList.add(inventoryWDSummaryDTO);
                             }
@@ -1099,7 +1099,7 @@ public class ProjectionResultsLogic {
                             neededRecord--;
                         }
                         if (started == NumericConstants.SIX && neededRecord > 0) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                 ProjectionResultsDTO inventoryWDDetailsDTO = projectionTotalList.get(NumericConstants.FIVE);
                                 projDTOList.add(inventoryWDDetailsDTO);
                             }
@@ -1107,7 +1107,7 @@ public class ProjectionResultsLogic {
                             neededRecord--;
                         }
                         if (started == NumericConstants.SEVEN && neededRecord > 0) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                 ProjectionResultsDTO perExfactoryProdDTO = projectionTotalList.get(NumericConstants.SIX);
                                 projDTOList.add(perExfactoryProdDTO);
                             }
@@ -1115,7 +1115,7 @@ public class ProjectionResultsLogic {
                             neededRecord--;
                         }
                         if (started == NumericConstants.EIGHT && neededRecord > 0) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                 ProjectionResultsDTO perExfactoryProdDTO = projectionTotalList.get(NumericConstants.SEVEN);
                                 projDTOList.add(perExfactoryProdDTO);
                             }
@@ -1123,7 +1123,7 @@ public class ProjectionResultsLogic {
                             neededRecord--;
                         }
                         if (started == NumericConstants.NINE && neededRecord > 0) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                 ProjectionResultsDTO perDemandDTO = projectionTotalList.get(NumericConstants.EIGHT);
                                 projDTOList.add(perDemandDTO);
                             }
@@ -1131,7 +1131,7 @@ public class ProjectionResultsLogic {
                             neededRecord--;
                         }
                         if (started == NumericConstants.TEN && neededRecord > 0) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                 ProjectionResultsDTO perAdjDemandDTO = projectionTotalList.get(NumericConstants.NINE);
                                 projDTOList.add(perAdjDemandDTO);
                             }
@@ -1139,7 +1139,7 @@ public class ProjectionResultsLogic {
                             neededRecord--;
                         }
                         if (started == NumericConstants.ELEVEN && neededRecord > 0) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                 ProjectionResultsDTO perInvWDSumDTO = projectionTotalList.get(NumericConstants.TEN);
                                 projDTOList.add(perInvWDSumDTO);
                             }
@@ -1147,7 +1147,7 @@ public class ProjectionResultsLogic {
                             neededRecord--;
                         }
                         if (started == NumericConstants.TWELVE && neededRecord > 0) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                 ProjectionResultsDTO perInvWDDetDTO = projectionTotalList.get(NumericConstants.ELEVEN);
                                 projDTOList.add(perInvWDDetDTO);
                             }
@@ -1157,7 +1157,7 @@ public class ProjectionResultsLogic {
                         mayBeAdded+=NumericConstants.TWELVE;
                         if (neededRecord > 0 && (salesUnits.equals(BOTH) || salesUnits.equals(SALES.getConstant()))) {
                             if (started == NumericConstants.THIRTEEN) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO contractSalesDto = projectionTotalList.get(NumericConstants.TWELVE);
                                     projDTOList.add(contractSalesDto);
                                 }
@@ -1168,7 +1168,7 @@ public class ProjectionResultsLogic {
                         }
                         if (neededRecord > 0 && (salesUnits.equals(BOTH) || salesUnits.equals(UNITS.getConstant()))) {
                             if ((salesUnits.equals(BOTH) && started == NumericConstants.FOURTEEN) || started == NumericConstants.THIRTEEN) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO unitVolDto = projectionTotalList.get(NumericConstants.THIRTEEN);
                                     projDTOList.add(unitVolDto);
                                 }
@@ -1179,7 +1179,7 @@ public class ProjectionResultsLogic {
                         }
                         if (neededRecord > 0 && !projSelDTO.getGroup().equals(TOTAL_DISCOUNT_AMOUNT.getConstant()) && !projSelDTO.getGroup().equals(TOTAL_RPU.getConstant()) && !projSelDTO.getGroup().equals(DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
                             if ((salesUnits.equals(BOTH) && started == NumericConstants.FIFTEEN) || started == NumericConstants.FOURTEEN) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO discountPerDto = projectionTotalList.get(NumericConstants.FOURTEEN);
                                     projDTOList.add(discountPerDto);
                                 }
@@ -1190,7 +1190,7 @@ public class ProjectionResultsLogic {
                         }
                         if (neededRecord > 0 && !projSelDTO.getGroup().equals(TOTAL_DISCOUNT_PERC.getConstant()) && !projSelDTO.getGroup().equals(TOTAL_DISCOUNT_AMOUNT.getConstant()) && !projSelDTO.getGroup().equals(DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
                             if ((salesUnits.equals(BOTH) && started == NumericConstants.SIXTEEN) || started == NumericConstants.FIFTEEN) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO totalRPUDto = projectionTotalList.get(NumericConstants.FIFTEEN);
                                     projDTOList.add(totalRPUDto);
                                 }
@@ -1201,7 +1201,7 @@ public class ProjectionResultsLogic {
                         }
                         if (neededRecord > 0 && !projSelDTO.getGroup().equals(TOTAL_DISCOUNT_PERC.getConstant()) && !projSelDTO.getGroup().equals(TOTAL_RPU.getConstant()) && !projSelDTO.getGroup().equals(DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
                             if ((salesUnits.equals(BOTH) && started == NumericConstants.SEVENTEEN) || started == NumericConstants.SIXTEEN) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO discountDolDto = projectionTotalList.get(NumericConstants.SIXTEEN);
                                     projDTOList.add(discountDolDto);
                                 }
@@ -1212,7 +1212,7 @@ public class ProjectionResultsLogic {
                         }
                         if (neededRecord > 0 && !projSelDTO.getGroup().equals(TOTAL_DISCOUNT_PERC.getConstant()) && !projSelDTO.getGroup().equals(TOTAL_RPU.getConstant()) && !projSelDTO.getGroup().equals(TOTAL_DISCOUNT_AMOUNT.getConstant())) {
                             if ((salesUnits.equals(BOTH) && started == NumericConstants.EIGHTEEN) || started == NumericConstants.SEVENTEEN) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO discountDolDto = projectionTotalList.get(NumericConstants.SEVENTEEN);
                                     projDTOList.add(discountDolDto);
                                 }
@@ -1223,7 +1223,7 @@ public class ProjectionResultsLogic {
                         }
                         if (neededRecord > 0) {
                             if ((salesUnits.equals(BOTH) && started == NumericConstants.NINETEEN) || started == NumericConstants.EIGHTEEN) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO netSalesDto = projectionTotalList.get(NumericConstants.EIGHTEEN);
                                     projDTOList.add(netSalesDto);
                                 }
@@ -1234,7 +1234,7 @@ public class ProjectionResultsLogic {
                         }
                         if (neededRecord > 0) {
                             if ((salesUnits.equals(BOTH) && started == NumericConstants.TWENTY) || started == NumericConstants.NINETEEN) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO netSalesDto = projectionTotalList.get(NumericConstants.NINETEEN);
                                     projDTOList.add(netSalesDto);
                                 }
@@ -1245,7 +1245,7 @@ public class ProjectionResultsLogic {
                         }
                         if (neededRecord > 0) {
                             if ((salesUnits.equals(BOTH) && started == NumericConstants.TWENTY_ONE) || started == NumericConstants.TWENTY) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO cogsDto = projectionTotalList.get(NumericConstants.TWENTY);
                                     projDTOList.add(cogsDto);
                                 }
@@ -1256,7 +1256,7 @@ public class ProjectionResultsLogic {
                         }
                         if (neededRecord > 0) {
                             if ((salesUnits.equals(BOTH) && started == NumericConstants.TWENTY_TWO) || started == NumericConstants.TWENTY_ONE) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                    
                                     ProjectionResultsDTO netProfitDto = projectionTotalList.get(NumericConstants.TWENTY_ONE);
                                     projDTOList.add(netProfitDto);
@@ -1275,7 +1275,7 @@ public class ProjectionResultsLogic {
                         //Added for CR CEL-376
                         if (neededRecord > 0) {
                             if (isExFactoryNeededInProductLevel && started == NumericConstants.ZERO) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO productViewExFactoryDTO = resultList.get(NumericConstants.ELEVEN);
                                     projDTOList.add(productViewExFactoryDTO);
                                 }
@@ -1290,7 +1290,7 @@ public class ProjectionResultsLogic {
                         }
                         if (salesUnits.equals(BOTH) || salesUnits.equals(SALES.getConstant())) {
                             if ((isExFactoryNeededInProductLevel && started == NumericConstants.ONE) || started == NumericConstants.ZERO) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     projDTOList.add(contractSalesDto);
                                 }
                                 started++;
@@ -1301,7 +1301,7 @@ public class ProjectionResultsLogic {
                         if (neededRecord > 0) {
                             if ((isExFactoryNeededInProductLevel && (started == NumericConstants.TWO || started == NumericConstants.ONE))
                                     || (started == NumericConstants.ONE || started == NumericConstants.ZERO)) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO percentageExfactoryProduct = resultList.get(NumericConstants.EIGHT);
                                     projDTOList.add(percentageExfactoryProduct);
                                 }
@@ -1323,7 +1323,7 @@ public class ProjectionResultsLogic {
                              */
                             if (((salesUnits.equals(BOTH) && (isExFactoryNeededInProductLevel && started == NumericConstants.THREE)) || (isExFactoryNeededInProductLevel && started == NumericConstants.TWO))
                                     || ((salesUnits.equals(BOTH) && started == NumericConstants.TWO) || started == NumericConstants.ONE)) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     projDTOList.add(unitVolDto);
                                 }
                                 started++;
@@ -1334,7 +1334,7 @@ public class ProjectionResultsLogic {
                         if (neededRecord > 0 && !projSelDTO.getGroup().equals(TOTAL_DISCOUNT_AMOUNT.getConstant()) && !projSelDTO.getGroup().equals(TOTAL_RPU.getConstant()) && !projSelDTO.getGroup().equals(DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
                             if (((salesUnits.equals(BOTH) && (isExFactoryNeededInProductLevel && started == NumericConstants.FOUR)) || (isExFactoryNeededInProductLevel && started == NumericConstants.THREE))
                                     || ((salesUnits.equals(BOTH) && started == NumericConstants.THREE) || started == NumericConstants.TWO)) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO discountPerDtoList = resultList.get(NumericConstants.TWO);
                                     projDTOList.add(discountPerDtoList);
                                 }
@@ -1346,7 +1346,7 @@ public class ProjectionResultsLogic {
                         if (neededRecord > 0 && !projSelDTO.getGroup().equals(TOTAL_DISCOUNT_AMOUNT.getConstant()) && !projSelDTO.getGroup().equals(TOTAL_DISCOUNT_PERC.getConstant()) && !projSelDTO.getGroup().equals(DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
                             if (((salesUnits.equals(BOTH) && (isExFactoryNeededInProductLevel && started == NumericConstants.FIVE)) || (isExFactoryNeededInProductLevel && started == NumericConstants.FOUR))
                                     || ((salesUnits.equals(BOTH) && started == NumericConstants.FOUR) || started == NumericConstants.THREE)) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO totalRPUDtoList = resultList.get(NumericConstants.THREE);
                                     projDTOList.add(totalRPUDtoList);
                                 }
@@ -1358,7 +1358,7 @@ public class ProjectionResultsLogic {
                         if (neededRecord > 0 && !projSelDTO.getGroup().equals(TOTAL_DISCOUNT_PERC.getConstant()) && !projSelDTO.getGroup().equals(TOTAL_RPU.getConstant()) && !projSelDTO.getGroup().equals(DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
                             if (((salesUnits.equals(BOTH) && (isExFactoryNeededInProductLevel && started == NumericConstants.SIX)) || (isExFactoryNeededInProductLevel && started == NumericConstants.FIVE))
                                     || ((salesUnits.equals(BOTH) && started == NumericConstants.FIVE) || started == NumericConstants.FOUR)) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO discountDolarDtoList = resultList.get(NumericConstants.FOUR);
                                     projDTOList.add(discountDolarDtoList);
                                 }
@@ -1370,7 +1370,7 @@ public class ProjectionResultsLogic {
                         if (neededRecord > 0 && !projSelDTO.getGroup().equals(TOTAL_DISCOUNT_AMOUNT.getConstant()) && !projSelDTO.getGroup().equals(TOTAL_RPU.getConstant()) && !projSelDTO.getGroup().equals(TOTAL_DISCOUNT_PERC.getConstant())) {
                             if (((salesUnits.equals(BOTH) && (isExFactoryNeededInProductLevel && started == NumericConstants.SEVEN)) || (isExFactoryNeededInProductLevel && started == NumericConstants.SIX))
                                     || ((salesUnits.equals(BOTH) && started == NumericConstants.SIX) || started == NumericConstants.FIVE)) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO discountDolarDtoList = resultList.get(NumericConstants.NINE);
                                     projDTOList.add(discountDolarDtoList);
                                 }
@@ -1382,7 +1382,7 @@ public class ProjectionResultsLogic {
                         if (neededRecord > 0) {
                             if (((salesUnits.equals(BOTH) && (isExFactoryNeededInProductLevel && started == NumericConstants.EIGHT)) || (isExFactoryNeededInProductLevel && started == NumericConstants.SEVEN))
                                     || ((salesUnits.equals(BOTH) && started == NumericConstants.SEVEN) || started == NumericConstants.SIX)) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO netSalesDto = resultList.get(NumericConstants.FIVE);
                                     projDTOList.add(netSalesDto);
                                 }
@@ -1394,7 +1394,7 @@ public class ProjectionResultsLogic {
                         if (neededRecord > 0) {
                             if (((salesUnits.equals(BOTH) && (isExFactoryNeededInProductLevel && started == NumericConstants.NINE)) || (isExFactoryNeededInProductLevel && started == NumericConstants.EIGHT))
                                     || ((salesUnits.equals(BOTH) && started == NumericConstants.EIGHT) || started == NumericConstants.SEVEN)) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO netSalesPercentageExFactoryDto = resultList.get(NumericConstants.TEN);
                                     projDTOList.add(netSalesPercentageExFactoryDto);
                                 }
@@ -1406,7 +1406,7 @@ public class ProjectionResultsLogic {
                         if (neededRecord > 0) {
                             if (((salesUnits.equals(BOTH) && (isExFactoryNeededInProductLevel && started == NumericConstants.TEN)) || (isExFactoryNeededInProductLevel && started == NumericConstants.NINE))
                                     || ((salesUnits.equals(BOTH) && started == NumericConstants.NINE) || started == NumericConstants.EIGHT)) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO cogsDto = resultList.get(NumericConstants.SIX);
                                     projDTOList.add(cogsDto);
                                 }
@@ -1418,7 +1418,7 @@ public class ProjectionResultsLogic {
                         if (neededRecord > 0) {
                             if (((salesUnits.equals(BOTH) && (isExFactoryNeededInProductLevel && started == NumericConstants.ELEVEN)) || (isExFactoryNeededInProductLevel && started == NumericConstants.TEN))
                                     || ((salesUnits.equals(BOTH) && started == NumericConstants.TEN) || started == NumericConstants.NINE)) {
-                                if (!projSelDTO.hasNonFetchableIndex("" + started)) {
+                                if (!projSelDTO.hasNonFetchableIndex(Integer.toString(started))) {
                                     ProjectionResultsDTO netProfitDto = resultList.get(NumericConstants.SEVEN);
                                     projDTOList.add(netProfitDto);
                                 }
@@ -1439,7 +1439,7 @@ public class ProjectionResultsLogic {
                             discountPerDtoList = getTotalDiscountLevels(projSelDTO, TOTAL_DISCOUNT_PERC.getConstant());
                         }
                         for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; neededRecord--, k++) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + k)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(k))) {
                                 projDTOList.add(discountPerDtoList.get(k));
                             }
                             started++;
@@ -1454,7 +1454,7 @@ public class ProjectionResultsLogic {
                             discountPerDtoList = getTotalDiscountLevels(projSelDTO, TOTAL_RPU.getConstant());
                         }
                         for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; neededRecord--, k++) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + k)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(k))) {
                                 projDTOList.add(discountPerDtoList.get(k));
                             }
                             started++;
@@ -1469,7 +1469,7 @@ public class ProjectionResultsLogic {
                             discountPerDtoList = getTotalDiscountLevels(projSelDTO, TOTAL_DISCOUNT_AMOUNT.getConstant());
                         }
                         for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; neededRecord--, k++) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + k)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(k))) {
                                 projDTOList.add(discountPerDtoList.get(k));
                             }
                             started++;
@@ -1484,7 +1484,7 @@ public class ProjectionResultsLogic {
                             discountPerDtoList = getTotalDiscountLevels(projSelDTO, DISCOUNT_PERCENTAGE_EXFACTORY.getConstant());
                         }
                         for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; neededRecord--, k++) {
-                            if (!projSelDTO.hasNonFetchableIndex("" + k)) {
+                            if (!projSelDTO.hasNonFetchableIndex(Integer.toString(k))) {
                                 projDTOList.add(discountPerDtoList.get(k));
                             }
                             started++;

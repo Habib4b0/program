@@ -29,10 +29,10 @@ import com.stpl.ifs.util.QueryUtil;
 
 public class RelationShipFilterLogic {
 
-	private GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
+	private final GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
 	private static final RelationShipFilterLogic instance = new RelationShipFilterLogic();
-	private CommonDAO daoImpl = new CommonDAOImpl();
-	private FileReadWriteService fileReadWriteService = new FileReadWriteService();
+	private final CommonDAO daoImpl = new CommonDAOImpl();
+	private final FileReadWriteService fileReadWriteService = new FileReadWriteService();
 	private static final String COMPANY_MASTER_SID = "COMPANY_MASTER.COMPANY_MASTER_SID";
 	private static final String ITEM_MASTER_SID = "ITEM_MASTER.ITEM_MASTER_SID";
 	private static final String RELATIONSHIP_BUILD_VERSION = "RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO";

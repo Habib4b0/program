@@ -671,7 +671,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
 		List<Object> alertParams = new ArrayList<>();
 		alertParams.add(GtnFrameworkNSFConstants.getNoSearchCriteria());
-		alertParams.add(GtnFrameworkNSFConstants.getPleaseEnterSearchCriteria());
+		alertParams.add(GtnFrameworkNSFConstants.getPleaseEnterSalesDeductionTabSearchCriteria());
 
 		deductionTabSearchBtnAlertActionConfig.setActionParameterList(alertParams);
 		deductionTabSearchBtnOnFailureList.add(deductionTabSearchBtnAlertActionConfig);

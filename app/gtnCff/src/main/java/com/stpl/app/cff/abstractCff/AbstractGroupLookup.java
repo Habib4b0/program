@@ -43,7 +43,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 	/**
 	 * To indicate customer or product lookup
 	 */
-	private String indicator;
+	private final String indicator;
 	/**
 	 * To label groupName TextField Differs based on indicator.
 	 */
@@ -157,11 +157,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 			public void buttonClick(Button.ClickEvent event) {
 				try {
 					btnSearchLogic();
-				} catch (PortalException ex) {
-					LOGGER.error(ex);
-					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
-							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5039));
-				} catch (SystemException ex) {
+				} catch (PortalException | SystemException ex) {
 					LOGGER.error(ex);
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5039));
@@ -187,13 +183,13 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 		if (INDICATOR_CUSTOMER_GROUP.getConstant().equals(indicator)) {
 			groupNameLabel = CUSTOMER_GROUP_NAME.getConstant();
 			groupNoLabel = CUSTOMER_GROUP_NO.getConstant();
-			resultTableColumns = TableHeaderColumnsUtil.getInstance().customerGroupLookupColumns;
-			resultTableHeaders = TableHeaderColumnsUtil.getInstance().customerGroupLookupHeaders;
+			resultTableColumns = TableHeaderColumnsUtil.CUSTOMER_GROUP_LOOKUP_COLS;
+			resultTableHeaders = TableHeaderColumnsUtil.CUST_GRP_LOOKUP_HEADERS;
 		} else if (INDICATOR_PRODUCT_GROUP.getConstant().equals(indicator)) {
 			groupNameLabel = PRODUCT_GROUP_NAME.getConstant();
 			groupNoLabel = PRODUCT_GROUP_NO.getConstant();
-			resultTableColumns = TableHeaderColumnsUtil.getInstance().productGroupLookupColumns;
-			resultTableHeaders = TableHeaderColumnsUtil.getInstance().productGroupLookupHeaders;
+			resultTableColumns = TableHeaderColumnsUtil.PROD_GRP_LOOKUP_COLS;
+			resultTableHeaders = TableHeaderColumnsUtil.PRD_GRP_LOOKUP_HEADERS;
 		}
 	}
 

@@ -32,7 +32,7 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
     /**
      * The SessionDTO
      */
-    private SessionDTO sessionDTO = new SessionDTO();
+    private final SessionDTO sessionDTO = new SessionDTO();
 
     /**
      * Constructor
@@ -55,6 +55,7 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
      *
      * @param event - View Change event
      */
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         mainForm = new ConsolidatedFinancialForecastForm(sessionDTO);
     }
