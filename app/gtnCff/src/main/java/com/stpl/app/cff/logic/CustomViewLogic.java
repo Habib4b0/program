@@ -28,16 +28,16 @@ public class CustomViewLogic {
     
     
     private Map<LevelMapKey, List<Integer>> ccpMap = null;
-    private final List<Map<LevelMapKey, List<Integer>>> level_ccpIds = new ArrayList();
+    private final List<Map<LevelMapKey, List<Integer>>> levelCcpIds = new ArrayList();
     private final Set<String> levelNoSet = new HashSet();
     
     public static final String DOT = ".";
 
-    private final Map<Integer, String> levelValue_map = new HashMap();
-    private final Map<Integer, String[]> level_table_field_names = new HashMap();
-    private final Map<String, String> table_field_helperList = new HashMap();
+    private final Map<Integer, String> levelValMap = new HashMap();
+    private final Map<Integer, String[]> levelTableFieldNames = new HashMap();
+    private final Map<String, String> tableFieldHelperList = new HashMap();
     private final List<String> listNameCollection = new ArrayList();
-    private final List<Integer> helperList_values = new ArrayList();
+    private final List<Integer> helperListValues = new ArrayList();
     private final StringBuilder tableName = new StringBuilder();
     private final StringBuilder fieldName = new StringBuilder();
     private final StringBuilder finalQuery = new StringBuilder();
@@ -49,16 +49,16 @@ public class CustomViewLogic {
     private static final Logger LOGGER = Logger.getLogger(CustomViewLogic.class.getName());
     public Map<Integer, String> getData_custom_view(String projectionId, String customViewMasterSid) {
 
-        levelValue_map.clear();
-        level_table_field_names.clear();
+        levelValMap.clear();
+        levelTableFieldNames.clear();
         tableName.setLength(0);
         fieldName.setLength(0);
-        table_field_helperList.clear();
+        tableFieldHelperList.clear();
         listNameCollection.clear();
         finalQuery.setLength(0);
         hierarchyList.clear();
-        helperList_values.clear();
-        level_ccpIds.clear();
+        helperListValues.clear();
+        levelCcpIds.clear();
         levelNoSet.clear();
         executeInsertOrUpdate(projectionId, customViewMasterSid, "CUSTOM_CCP_MAP_INSERT_QUERY");
         List<Object[]> rawList = executeQuery(projectionId, customViewMasterSid, "GET_TABLE_NAME-AND-COLUMN");
@@ -72,7 +72,7 @@ public class CustomViewLogic {
         split_ccp(rawList_ccp);
         build_executeFinalQuery(hierarchyList);
 
-        return levelValue_map;
+        return levelValMap;
 
     }
 
@@ -114,7 +114,7 @@ public class CustomViewLogic {
             } else {
                 query = "," + SQlUtil.getQuery("INSERT_CUSTOM_RELATIONSHIP_BUILDER_SUB");
             }
-            String levelVal = levelValue_map.get(Integer.valueOf(obj.getLevelValuesSid()));
+            String levelVal = levelValMap.get(Integer.valueOf(obj.getLevelValuesSid()));
             query = query.replace("[$CUSTOM_VIEW_DETAILS_SID]", String.valueOf(obj.getCustomViewDetailsSid()));
             query = query.replace("[$RELATIONSHIP_LEVEL_VALUES]", levelVal);
             query = query.replace("[$CUSTOM_HIERARCHY_NO]", obj.getHierarchyNo());
@@ -133,14 +133,14 @@ public class CustomViewLogic {
             if (levelRef.equals("User Defined")) {
                 int level_id = Integer.valueOf(obj[NumericConstants.THREE] == null ? "" : obj[NumericConstants.THREE].toString());
                 String level_value = obj[NumericConstants.FOUR] == null ? "" : obj[NumericConstants.FOUR].toString();
-                levelValue_map.put(level_id, level_value);
+                levelValMap.put(level_id, level_value);
 
             } else {
                 int level_id = Integer.valueOf(obj[NumericConstants.THREE] == null ? "" : obj[NumericConstants.THREE].toString());
                 String table = obj[0] == null ? "" : obj[0].toString();
                 String column = obj[1] == null ? "" : obj[1].toString();
                 String[] strArray = {table, column, ""};
-                level_table_field_names.put(level_id, strArray);
+                levelTableFieldNames.put(level_id, strArray);
 
                 if (tableName.length() > 0) {
                     tableName.append(",");
@@ -168,7 +168,7 @@ public class CustomViewLogic {
             it.remove();
             String key = (obj[0] == null ? "" : obj[0].toString()) + "-" + (obj[1] == null ? "" : obj[1].toString());
             String listName = obj[NumericConstants.FIVE] == null ? "" : obj[NumericConstants.FIVE].toString();
-            table_field_helperList.put(key, listName);
+            tableFieldHelperList.put(key, listName);
             listNameCollection.add(listName);
         }
 
@@ -179,16 +179,16 @@ public class CustomViewLogic {
     private List<Object[]> build_custom_query() {
          LOGGER.debug("build_custom_query for selecting the table values :");
         String query = "";
-        for (Map.Entry<Integer, String[]> entry : level_table_field_names.entrySet()) {
+        for (Map.Entry<Integer, String[]> entry : levelTableFieldNames.entrySet()) {
             Integer level_id = entry.getKey();
             String[] objArray = entry.getValue();
             String key = objArray[0] + "-" + objArray[1];
-            String list_Name = table_field_helperList.get(key);
+            String list_Name = tableFieldHelperList.get(key);
             if (list_Name == null) {
                 query = "SELECT " + objArray[1] + "," + objArray[0] + "_SID  " + " FROM " + objArray[0] + " WHERE " + objArray[0] + "_SID = " + level_id;
 
             } else {
-                helperList_values.add(level_id);
+                helperListValues.add(level_id);
             }
             if (finalQuery.length() > 0) {
                 finalQuery.append(" UNION ALL ");
@@ -207,16 +207,16 @@ public class CustomViewLogic {
             Object[] obj = it.next();
             int level_id = Integer.valueOf(obj[1] == null ? "" : obj[1].toString());
             String level_value = obj[0] == null ? "" : obj[0].toString();
-            levelValue_map.put(level_id, level_value);
+            levelValMap.put(level_id, level_value);
         }
         return;
 
     }
 
     private void updateHelperListValues() {
-        for (ListIterator<Integer> it = helperList_values.listIterator(); it.hasNext();) {
+        for (ListIterator<Integer> it = helperListValues.listIterator(); it.hasNext();) {
             Integer id = it.next();
-            levelValue_map.put(id, HelperListUtil.getInstance().getIdDescMap().get(id));
+            levelValMap.put(id, HelperListUtil.getInstance().getIdDescMap().get(id));
         }
     }
 
@@ -226,7 +226,7 @@ public class CustomViewLogic {
         if (ccpMap != null) {
             ccpMap.clear();
         }
-        level_ccpIds.clear();
+        levelCcpIds.clear();
         try {
 
             for (ListIterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
@@ -236,7 +236,7 @@ public class CustomViewLogic {
                 String level_No = obj[0].toString();
                 if (levelNoSet.add(level_No)) {
                     ccpMap = new HashMap();
-                    level_ccpIds.add(ccpMap);
+                    levelCcpIds.add(ccpMap);
                 }
                 LevelMapKey key = new LevelMapKey(level_No, level_value);
 
@@ -258,13 +258,13 @@ public class CustomViewLogic {
 
     private void formHierarchy() throws CloneNotSupportedException {
 
-        int levelCount = level_ccpIds.size();
+        int levelCount = levelCcpIds.size();
         String level_values_sid = "";
         for (int i = 0; i < levelCount; i++) {
 
             int levelHi = 0;
 
-            Map<LevelMapKey, List<Integer>> map = level_ccpIds.get(i);
+            Map<LevelMapKey, List<Integer>> map = levelCcpIds.get(i);
             for (Map.Entry<LevelMapKey, List<Integer>> entry : map.entrySet()) {
                 LevelMapKey currentKey = entry.getKey().clone();
                 List<Integer> list = entry.getValue();

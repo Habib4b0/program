@@ -60,17 +60,17 @@ public class NotesTabForm extends AbstractNotesTab {
 	private final String userName;
 	private final NotesTabLogic logic = new NotesTabLogic();
 	private NotesDTO tableBean = new NotesDTO();
-	private List<String> notesList = new ArrayList<>();
+	private final List<String> notesList = new ArrayList<>();
 	/**
 	 * The common logic.
 	 */
-	private AdditionalInfoLogic addInfoLogic = new AdditionalInfoLogic();
-	private  List<NotesDTO> removeDetailsList = new ArrayList<>();
-	private Double fileSize = 0.00;
+	private final AdditionalInfoLogic addInfoLogic = new AdditionalInfoLogic();
+	private final  List<NotesDTO> removeDetailsList = new ArrayList<>();
+	private final Double fileSize = 0.00;
 	protected final String mode = "";
 	private CffApprovalDetailsForm approvalWindow;
-	private Button close = new Button("Close");
-	private static String MODULE_NAME = "Consolidated Financial Forecast";
+	private final Button close = new Button("Close");
+	private static final String MODULE_NAME = "Consolidated Financial Forecast";
 
 	public NotesTabForm(SessionDTO sessionDTO, CustomFieldGroup binder, String moduleName,
 			CffApprovalDetailsForm approvalWindow) throws SystemException {
@@ -81,7 +81,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
 		userName = StplSecurity.userMap.get(Integer.valueOf(userId));
 
-		final String userId = String.valueOf(
+		final String vUserId = String.valueOf(
 				VaadinSession.getCurrent().getAttribute(com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.USER_ID));
 		Object[] obj = new Object[] { "documentName", "dateAdded", "userName" };
 		String[] objHeaders = new String[] { "Document Name", "Date Added", "User Name" };
@@ -93,7 +93,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		configureFields();
 		setValues(false, sessionDTO);
 
-		LOGGER.debug("userid :" + userId + " Username : " + userName);
+		LOGGER.debug("userid :" + vUserId + " Username : " + userName);
 	}
 
 	@Override
@@ -299,11 +299,13 @@ public class NotesTabForm extends AbstractNotesTab {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				AbstractNotificationUtils notification = new AbstractNotificationUtils() {
+                                        @Override
 					public void noMethod() {
 						// To change body of generated methods, choose Tools
 						// | Templates.
 					}
 
+                                        @Override
 					public void yesMethod() {
 
 						approvalWindow.close();
@@ -338,13 +340,13 @@ public class NotesTabForm extends AbstractNotesTab {
 			throws SystemException, PortalException {
 		LOGGER.debug("Entering saveAdditionalInformation");
 		int projectionId = cffmastersystemid;
-		String userId = userid;
+		String vUserId = userid;
 		String addedNotes = getAddedNotes();
 		addInfoLogic.saveNotes(projectionId, userid, addedNotes, MODULE_NAME);
 		notesList.clear();
 		List<NotesDTO> addedAttachments = getUploadedData();
 		for (NotesDTO attached : addedAttachments) {
-			addInfoLogic.saveUploadedFile(projectionId, attached.getDocumentName(), userId, fileSize, MODULE_NAME);
+			addInfoLogic.saveUploadedFile(projectionId, attached.getDocumentName(), vUserId, fileSize, MODULE_NAME);
 		}
 		attachmentsListBean.removeAllItems();
 		List<NotesDTO> removedAttachments = getRemoveDocDetailsItem();
@@ -365,8 +367,8 @@ public class NotesTabForm extends AbstractNotesTab {
 
 	public void setValues(boolean saveFlag, SessionDTO sessionDTO) throws SystemException {
 		LOGGER.debug("Inside of AdditionalInformation setValues Method");
-		String mode = sessionDTO.getAction();
-		if ("edit".equalsIgnoreCase(mode) || "view".equalsIgnoreCase(mode) || saveFlag) {
+		String vMode = sessionDTO.getAction();
+		if ("edit".equalsIgnoreCase(vMode) || "view".equalsIgnoreCase(vMode) || saveFlag) {
 			LOGGER.debug("Inside of EDIT setValues Method");
 			attachmentsListBean.removeAllItems();
 			final int projectionId = sessionDTO.getProjectionId();
@@ -378,7 +380,7 @@ public class NotesTabForm extends AbstractNotesTab {
 			internalNotes.setValue(notes);
 			internalNotes.setReadOnly(true);
 			newNote.setValue(StringUtils.EMPTY);
-			if ("view".equalsIgnoreCase(mode) || "edit".equalsIgnoreCase(mode)) {
+			if ("view".equalsIgnoreCase(vMode) || "edit".equalsIgnoreCase(vMode)) {
 				fileNameField.setReadOnly(true);
 				uploadComponent.setReadOnly(true);
 				remove.setEnabled(false);

@@ -24,7 +24,7 @@ public class ComparisonTableLogic extends PageTableLogic {
     private static final Logger LOGGER = Logger.getLogger(ComparisonTableLogic.class);
     private boolean loadData = false;
     private ComparisonLookupDTO comparisonLookup;
-    private ProjectionVarianceLogic projectionVarianceLogic = new ProjectionVarianceLogic();
+    private final ProjectionVarianceLogic projectionVarianceLogic = new ProjectionVarianceLogic();
 
     @Override
     public int getCount() {

@@ -15,7 +15,6 @@ import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
 import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
-import com.stpl.app.cff.ui.projectionVariance.dto.PVParameters;
 import com.stpl.app.cff.ui.projectionresults.logic.PRExcelLogic;
 import com.stpl.app.cff.ui.projectionresults.logic.ProjectionResultsLogic;
 import static com.stpl.app.cff.util.CommonUtils.BOTH;
@@ -70,7 +69,7 @@ import org.jboss.logging.Logger;
 public class ProjectionResults extends ForecastProjectionResults {
 
     public static final Logger LOGGER = Logger.getLogger(ProjectionResults.class);
-    private SessionDTO session;
+    private final SessionDTO session;
     private List<List<String>> discountlist = new ArrayList<>();
     private final ProjectionResultsLogic projResLogic = new ProjectionResultsLogic();
     private final Map<String, List<ProjectionResultsDTO>> resultMap = new HashMap();
@@ -81,7 +80,7 @@ public class ProjectionResults extends ForecastProjectionResults {
     private final List<String> discountKeys = new ArrayList();
     private final Map<String, List<List<ProjectionResultsDTO>>> discountMap = new HashMap<>();
     private final PRExcelLogic excelLogic = new PRExcelLogic(resultMap, projectionSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, discountMap);
-    private DataSelectionDTO dataSelectionDTO;
+    private final DataSelectionDTO dataSelectionDTO;
 
     public ProjectionResults(final SessionDTO session, final String screenName, final DataSelectionDTO dataSelectionDTO) throws PortalException, SystemException {
         super(session, screenName);
@@ -749,9 +748,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                 editBtn.setVisible(true);
             }
            
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }

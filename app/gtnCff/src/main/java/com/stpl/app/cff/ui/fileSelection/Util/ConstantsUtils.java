@@ -92,7 +92,7 @@ public final class ConstantsUtils {
      * The Constant SELECT_ONE.
      */
     public static final String SELECT_ONE = "-Select One-";
-    public final static String PROCESS_NAME="processName";
+    public static final String PROCESS_NAME="processName";
     /**
      * The Constant YES.
      */
@@ -561,151 +561,151 @@ public final class ConstantsUtils {
     /**
      * The Constant QUOTE.
      */
-    public final static String QUOTE = "\"";
+    public static final String QUOTE = "\"";
     /**
      * The Constant TECH_ERROR.
      */
-    public final static String ERROR_HEADER = "Error";
+    public static final String ERROR_HEADER = "Error";
     /**
      * The Constant TECH_ERROR_MSG.
      */
-    public final static String TECH_ERROR = "Technical Error.Please contact Administrator";
+    public static final String TECH_ERROR = "Technical Error.Please contact Administrator";
     /**
      * The Constant SAVE_FAIL_MSG.
      */
-    public final static String SAVE_FAIL_MSG = "Save Failed ";
+    public static final String SAVE_FAIL_MSG = "Save Failed ";
     /**
      * The Constant SEARCH_FAIL_MSG.
      */
-    public final static String SEARCH_FAIL_MSG = "Search Operation Failed ";
+    public static final String SEARCH_FAIL_MSG = "Search Operation Failed ";
     /**
      * The Constant EDIT_FAIL_MSG.
      */
-    public final static String EDIT_FAIL_MSG = "Edit Operation Failed";
+    public static final String EDIT_FAIL_MSG = "Edit Operation Failed";
     /**
      * The Constant VIEW_FAIL_MSG.
      */
-    public final static String VIEW_FAIL_MSG = "View Operation Failed";
+    public static final String VIEW_FAIL_MSG = "View Operation Failed";
     /**
      * The Constant RESET_FAIL_MSG.
      */
-    public final static String RESET_FAIL_MSG = "Reset Operation Failed";
+    public static final String RESET_FAIL_MSG = "Reset Operation Failed";
     /**
      * The Constant ADD_FAIL_MSG.
      */
-    public final static String ADD_FAIL_MSG = "Add Operation Failed";
+    public static final String ADD_FAIL_MSG = "Add Operation Failed";
     /**
      * The Constant DISPLAY_FAIL_MSG.
      */
-    public final static String DISPLAY_FAIL_MSG = "Display Operation Failed";
+    public static final String DISPLAY_FAIL_MSG = "Display Operation Failed";
     /**
      * The Constant UPDATE_FAIL_MSG.
      */
-    public final static String UPDATE_FAIL_MSG = "Update Operation Failed";
+    public static final String UPDATE_FAIL_MSG = "Update Operation Failed";
     /**
      * The Constant POPULATE_FAIL_MSG.
      */
-    public final static String POPULATE_FAIL_MSG = "Populate Operation Failed";
+    public static final String POPULATE_FAIL_MSG = "Populate Operation Failed";
     /**
      * The Constant NEXT_FAIL_MSG.
      */
-    public final static String NEXT_FAIL_MSG = "Next Operation Failed";
+    public static final String NEXT_FAIL_MSG = "Next Operation Failed";
     /**
      * The Constant BACK_FAIL_MSG.
      */
-    public final static String BACK_FAIL_MSG = "Back Operation Failed";
+    public static final String BACK_FAIL_MSG = "Back Operation Failed";
     /**
      * The Constant UI_FAIL_MSG.
      */
-    public final static String UI_FAIL_MSG = "UI Loading Failed";
+    public static final String UI_FAIL_MSG = "UI Loading Failed";
     /**
      * The Constant EXPORT_FAIL_MSG.
      */
-    public final static String EXPORT_FAIL_MSG = "Export Operation Failed";
+    public static final String EXPORT_FAIL_MSG = "Export Operation Failed";
     /**
      * The Constant DELETE_FAIL_MSG.
      */
-    public final static String DELETE_FAIL_MSG = "Delete Operation Failed";
+    public static final String DELETE_FAIL_MSG = "Delete Operation Failed";
     /**
      * The Constant REMOVE_FAIL_MSG.
      */
-    public final static String REMOVE_FAIL_MSG = "Remove Operation Failed";
+    public static final String REMOVE_FAIL_MSG = "Remove Operation Failed";
     /**
      * The Constant CLICK_FAIL_MSG.
      */
-    public final static String CLICK_FAIL_MSG = "Click Operation Failed";
+    public static final String CLICK_FAIL_MSG = "Click Operation Failed";
     /**
      * The Constant MOVE_FAIL_MSG.
      */
-    public final static String MOVE_FAIL_MSG = "Move Operation Failed";
+    public static final String MOVE_FAIL_MSG = "Move Operation Failed";
     /**
      * The Constant ATTACH_FAIL_MSG.
      */
-    public final static String ATTACH_FAIL_MSG = "Attach Operation Failed";
+    public static final String ATTACH_FAIL_MSG = "Attach Operation Failed";
     /**
      * The Constant DETTACH_FAIL_MSG.
      */
-    public final static String DETTACH_FAIL_MSG = "Dettach Operation Failed";
+    public static final String DETTACH_FAIL_MSG = "Dettach Operation Failed";
     /**
      * The Constant SELECT_FAIL_MSG.
      */
-    public final static String SELECT_FAIL_MSG = "Select Operation Failed";
+    public static final String SELECT_FAIL_MSG = "Select Operation Failed";
     /**
      * The Constant FILE_SELECT_FAIL_MSG.
      */
-    public final static String FILE_SELECT_FAIL_MSG = "File Select Operation Failed";
+    public static final String FILE_SELECT_FAIL_MSG = "File Select Operation Failed";
     /**
      * The Constant DROPDOWN_FAIL_MSG.
      */
-    public final static String DROPDOWN_FAIL_MSG = "Drop Down Load Operation Failed";
+    public static final String DROPDOWN_FAIL_MSG = "Drop Down Load Operation Failed";
     /**
      * The Constant ENTRY_FAIL_MSG.
      */
-    public final static String ENTRY_FAIL_MSG = "Entry Operation Failed";
+    public static final String ENTRY_FAIL_MSG = "Entry Operation Failed";
     /**
      * The Constant COPY_FAIL_MSG.
      */
-    public final static String COPY_FAIL_MSG = "Copy Operation Failed";
+    public static final String COPY_FAIL_MSG = "Copy Operation Failed";
     /**
      * The Constant CLOSE_FAIL_MSG.
      */
-    public final static String CLOSE_FAIL_MSG = "Close Operation Failed";
+    public static final String CLOSE_FAIL_MSG = "Close Operation Failed";
     /**
      * The Constant NO_RECORDS_SELECTED.
      */
-    public final static String NO_RECORDS_SELECTED = "No Records Selected";
+    public static final String NO_RECORDS_SELECTED = "No Records Selected";
     /**
      * The Constant INBOUND_STATUS.
      */
-    public final static String INBOUND_STATUS = "inboundStatus";
+    public static final String INBOUND_STATUS = "inboundStatus";
     /**
      * The Constant INBOUND_STATUS_A.
      */
-    public final static String INBOUND_STATUS_A = "A";
+    public static final String INBOUND_STATUS_A = "A";
     /**
      * The Constant INBOUND_STATUS_C.
      */
-    public final static String INBOUND_STATUS_C = "C";
+    public static final String INBOUND_STATUS_C = "C";
     /**
      * The Constant INBOUND_STATUS_D.
      */
-    public final static String INBOUND_STATUS_D = "D";
+    public static final String INBOUND_STATUS_D = "D";
     /**
      * Integer constant for Zero.
      */
-    public final static int ZERO_INT = 0;
+    public static final int ZERO_INT = 0;
     /**
      * The Constant VERSION_NO.
      */
-    public final static String VERSION_NO = "versionNo";
+    public static final String VERSION_NO = "versionNo";
     /**
      * The Constant CREATED_BY.
      */
-    public final static String CREATED_BY = "createdBy";
+    public static final String CREATED_BY = "createdBy";
     /**
      * The Constant for Dual Primary key.
      */
-    public final static String PRIMARY_KEY = "primaryKey.";
+    public static final String PRIMARY_KEY = "primaryKey.";
     /**
      * The Constant SEARCH.
      */
@@ -717,27 +717,27 @@ public final class ConstantsUtils {
     /**
      * History version
      */
-    public final static String VERSION_HIST = "history";
+    public static final String VERSION_HIST = "history";
     /**
      * Current version
      */
-    public final static String VERSION_CURRENT = "current";
+    public static final String VERSION_CURRENT = "current";
     /**
      * logic
      */
-    public final static String LOGIC = "logic";
+    public static final String LOGIC = "logic";
     /**
      * View
      */
-    public final static String VIEW = "view";
+    public static final String VIEW = "view";
       /**
      * View
      */
-    public final static String NAVIGATION_MODE="mode";
+    public static final String NAVIGATION_MODE="mode";
     /**
      * edit
      */
-    public final static String LOWERCASE_EDIT = "edit";
+    public static final String LOWERCASE_EDIT = "edit";
     /**
      * The action flag
      */
@@ -1010,20 +1010,20 @@ public final class ConstantsUtils {
     /**
      *  my style
      */
-    public final static String MY_STYLE = "mystyle";
+    public static final String MY_STYLE = "mystyle";
     
     public static final String MANUAL = "Manual";
     public static final String AUTOMATIC = "Automatic";
     
-    public final static String CUSTOMER_GROUP_MASTER = "customergroupmaster";
+    public static final String CUSTOMER_GROUP_MASTER = "customergroupmaster";
     
-    public final static String ITEM_GROUP_MASTER = "itemgroupmaster";
+    public static final String ITEM_GROUP_MASTER = "itemgroupmaster";
     
-    public final static String HIERARCHY_DEF = "hierarchydefinition";
+    public static final String HIERARCHY_DEF = "hierarchydefinition";
     
-    public final static String RELATIONSHIP_BUILDER = "relationshipbuilder";
+    public static final String RELATIONSHIP_BUILDER = "relationshipbuilder";
     
-    public final static String DEDUCTION_GROUPING = "deductiongrouping";
+    public static final String DEDUCTION_GROUPING = "deductiongrouping";
     
     public static final String COMPANY_CAPS = "COMPANY";
             
@@ -1031,63 +1031,63 @@ public final class ConstantsUtils {
 
     public static final String HIER_NAME = "HIERARCHY_NAME"; 
     
-    public final static String ADMIN_CONSOLE_MODE = "mode";
+    public static final String ADMIN_CONSOLE_MODE = "mode";
     
-   public final static String SHOW_ALL = "Show all";
+   public static final String SHOW_ALL = "Show all";
    
-   public final static String BACK_BUTTON = "backBtn";
+   public static final String BACK_BUTTON = "backBtn";
    
-   public final static String EXCEL_EXPORT_BUTTON = "excelExportDetail";
+   public static final String EXCEL_EXPORT_BUTTON = "excelExportDetail";
    
-   public final static String PROCESS_TRACKING_BUTTON = "processTracking";
+   public static final String PROCESS_TRACKING_BUTTON = "processTracking";
    
-   public final static String AUTO_UPDATE_BUTTON = "autoUpdate";
+   public static final String AUTO_UPDATE_BUTTON = "autoUpdate";
    
-   public final static String DETAILS_BUTTON = "details";
+   public static final String DETAILS_BUTTON = "details";
    
-   public final static String CLOSE_BUTTON = "close";
+   public static final String CLOSE_BUTTON = "close";
    
-   public final static String SELECT_BUTTON = "select";
+   public static final String SELECT_BUTTON = "select";
    
-   public final static String ADD_LINE_BUTTON = "addLine";
+   public static final String ADD_LINE_BUTTON = "addLine";
    
-   public final static String REMOVE_BTN = "remove";
+   public static final String REMOVE_BTN = "remove";
    
-   public final static String SAVE_BTN = "save";
+   public static final String SAVE_BTN = "save";
    
-   public final static String RESET_BTN = "reset";
+   public static final String RESET_BTN = "reset";
    
-   public final static String POPULATE_BTN = "populate";
+   public static final String POPULATE_BTN = "populate";
    
-   public final static String SEARCH_BTN = "search";
+   public static final String SEARCH_BTN = "search";
    
-   public final static String SEARCH_BUTTON = "searchBtn";
+   public static final String SEARCH_BUTTON = "searchBtn";
    
-   public final static String RESET_BUTTON = "resetBtn";
+   public static final String RESET_BUTTON = "resetBtn";
    
-   public final static String ADD_BUTTON = "addBtn";
+   public static final String ADD_BUTTON = "addBtn";
    
-   public final static String MAIN_ADD_BUTTON = "addBtn";
+   public static final String MAIN_ADD_BUTTON = "addBtn";
    
-   public final static String EDIT_BUTTON = "editBtn";
+   public static final String EDIT_BUTTON = "editBtn";
    
-   public final static String VIEW_BUTTON = "viewBtn";
+   public static final String VIEW_BUTTON = "viewBtn";
    
-   public final static String COPY_BUTTON = "copyBtn";
+   public static final String COPY_BUTTON = "copyBtn";
    
-   public final static String DELETE_BUTTON = "deleteBtn";
+   public static final String DELETE_BUTTON = "deleteBtn";
    
-   public final static String ADD_ALL_BUTTON = "addallBtn";
+   public static final String ADD_ALL_BUTTON = "addallBtn";
    
-   public final static String REMOVE_BUTTON = "removeBtn";
+   public static final String REMOVE_BUTTON = "removeBtn";
    
-   public final static String REMOVE_ALL_BUTTON = "removeallBtn";
+   public static final String REMOVE_ALL_BUTTON = "removeallBtn";
    
-   public final static String SAVE_BUTTON = "saveBtn";
+   public static final String SAVE_BUTTON = "saveBtn";
    
-    public final static String RESET_ALL_BUTTON = "resetButton";
+    public static final String RESET_ALL_BUTTON = "resetButton";
     
-    public final static String RESET_ALL_BUTTON1 = "resetbutton";
+    public static final String RESET_ALL_BUTTON1 = "resetbutton";
     
     public static final String EXCEL_CLOSE = "excelClose";
    
@@ -1125,18 +1125,18 @@ public final class ConstantsUtils {
      public static final String INVENTORY_WITHDRAWAL="Inventory Withdrawal";
      public static final String INVENTORY_WITHDRAWAL_DETAIL="Inventory Withdrawal - Forecast Detail";
      public static final String INVENTORY_WITHDRAWAL_SUMMARY="Inventory Withdrawal - Forecast Summary";
-     public final static String MODE="mode";
-     public final static String PROCESS_TYPE="PROCESS_TYPE";
+     public static final String MODE="mode";
+     public static final String PROCESS_TYPE="PROCESS_TYPE";
      public static final String CUSTOMERGTS="Customer Sales";
       /**
      * Returns
      */
     public static final String NATIONAL_ASSUMPTIONS = "National Assumptions";
     
-    public final Object[] PROCESS_MONITOR_COLUMNS = new Object[]{
+    private static final Object[] PROCESS_MONITOR_COLUMNS = new Object[]{
         PROCESS_NAME, "processType", "calender", "modifiedDate", "modifiedBy"};
     
-    public final String[] PROCESS_MONITOR_HEADER = new String[]{
+    private static final String[] PROCESS_MONITOR_HEADER = new String[]{
         "Monitor Name", "Process Type", "Calendar", "Modified Date", "Modified By"};
 
     /**
@@ -1222,7 +1222,7 @@ public final class ConstantsUtils {
         /**
          * The constant.
          */
-        private String constant;
+        private final String constant;
 
         /**
          * Instantiates a new indicator constants.

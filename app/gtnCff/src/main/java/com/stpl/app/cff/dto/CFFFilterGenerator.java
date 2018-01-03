@@ -33,10 +33,12 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
 
     private final CommonUtils commonUtils = new CommonUtils();
    
+    @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {
         return null;
     }
 
+    @Override
     public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
         if (propertyId.toString().equals("approvedBy")) {
                 if (originatingField.getValue() != null) {
@@ -56,6 +58,7 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
         return null;
     }
 
+    @Override
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
         
         final ComboBox comboBox = new ComboBox();
@@ -115,14 +118,17 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
         return null;
     }
 
+    @Override
     public void filterRemoved(Object propertyId) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
         return null;
     }

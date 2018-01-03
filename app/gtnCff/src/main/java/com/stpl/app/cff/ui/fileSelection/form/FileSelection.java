@@ -51,17 +51,17 @@ import org.jboss.logging.Logger;
  */
 public class FileSelection extends CustomComponent {
 
-    private FileSelectionTableLogic tableLogic = new FileSelectionTableLogic();
+    private final FileSelectionTableLogic tableLogic = new FileSelectionTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private VerticalLayout layout = new VerticalLayout();
-    private BeanItemContainer<FileSelectionDTO> searchContainer = new BeanItemContainer<>(FileSelectionDTO.class);
-    private SessionDTO sessionDTO;
-    private Button excelExport = new Button();
-    private CFFLogic cffLogic = new CFFLogic();
-    private SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
+    private final VerticalLayout layout = new VerticalLayout();
+    private final BeanItemContainer<FileSelectionDTO> searchContainer = new BeanItemContainer<>(FileSelectionDTO.class);
+    private final SessionDTO sessionDTO;
+    private final Button excelExport = new Button();
+    private final CFFLogic cffLogic = new CFFLogic();
+    private final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
     private static final Logger LOGGER = Logger.getLogger(FileSelection.class);
-    private ComboBox businessUnit;
-    private CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    private final ComboBox businessUnit;
+    private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
 
     public FileSelection(SessionDTO sessionDTO, ComboBox businessUnit) {
         this.setCompositionRoot(addComponent());
@@ -127,6 +127,7 @@ public class FileSelection extends CustomComponent {
                  *
                  * @param event - Mouse Click event
                  */
+                @Override
                 public void buttonClick(final Button.ClickEvent event) {
                     try {
                         LOGGER.debug("Entering EXCEL Export Button Click");
