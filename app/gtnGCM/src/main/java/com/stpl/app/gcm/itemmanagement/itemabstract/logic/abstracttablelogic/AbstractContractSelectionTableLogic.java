@@ -35,14 +35,13 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class AbstractContractSelectionTableLogic extends PageTableLogic {
 
-    AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
-    AbstractLogic logic = AbstractLogic.getInstance();
-    SelectionDTO selection;
-    boolean isGenerated = false;
-    boolean isSummary = false;
-    List<ItemIndexDto> selectedItemList;
-    List input;
-    List withStringinput = new ArrayList();
+    private final AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
+    private final AbstractLogic logic = AbstractLogic.getInstance();
+    private SelectionDTO selection;
+    private boolean isGenerated = false;
+    private List<ItemIndexDto> selectedItemList;
+    private List input;
+    private final List withStringinput = new ArrayList();
 
     @Override
     public int getCount() {
@@ -101,7 +100,7 @@ public class AbstractContractSelectionTableLogic extends PageTableLogic {
      * @param dto
      * @return Projection ID
      */
-    private Button addProjectionWorkFlowLink(final AbstractContractSearchDTO dto) {
+     private Button addProjectionWorkFlowLink(final AbstractContractSearchDTO dto) {
         final Button projectionId = new Button(dto.getProjectionId());
         projectionId.setCaption(dto.getProjectionId()); // for setting revision date in excel
         projectionId.setData(dto);

@@ -20,19 +20,21 @@ import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
  */
 public class RSAttachedItemDAO implements BeanDAO {
 private static final Logger LOGGER = Logger.getLogger(RSAttachedItemDAO.class);
-    CopyContractLogic logic = new CopyContractLogic();
-    RsIfpDto RsIfpDto = new RsIfpDto();
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private RsIfpDto RsIfpDto = new RsIfpDto();
 
     public RSAttachedItemDAO(RsIfpDto RsIfpDto) {
         this.RsIfpDto = RsIfpDto;
     }
 
+@Override
     public int count(BeanSearchCriteria bsc) {
         int count = 0;
         count = logic.getRSAttachedItemSearchCount(RsIfpDto, bsc);
         return count;
     }
 
+@Override
     public List find(BeanSearchCriteria bsc, int i, int i1, List list) {
         List<ExistingComponentDTO> resultList = new ArrayList<>();
         try {

@@ -67,14 +67,14 @@ public class IfpLookUp extends Window {
     public PopupDateField ifpStartDate;
     @UiField("ifpEndDate")
     public PopupDateField ifpEndDate;
-    LookUpTableLogic tableLogic = new LookUpTableLogic();
+    private LookUpTableLogic tableLogic = new LookUpTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private BeanItemContainer<String> ifpStatusBean = new BeanItemContainer<>(String.class);
     private CustomFieldGroup binder;
     private CustomTextField parentIfpName;
-    boolean flag;
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    private boolean flag;
+    private CommonUtil commonUtil = CommonUtil.getInstance();
 
     public IfpLookUp(CustomTextField parentIfpName, boolean flag) {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/ifp.xml"), this));
@@ -123,10 +123,12 @@ public class IfpLookUp extends Window {
         }
         resultsTable.setFilterBarVisible(Boolean.TRUE);
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -138,6 +140,7 @@ public class IfpLookUp extends Window {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 try {
                      CustomComboBox comboBox = new CustomComboBox();
@@ -169,14 +172,17 @@ public class IfpLookUp extends Window {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
@@ -208,7 +214,7 @@ public class IfpLookUp extends Window {
         ifpStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
         ifpNo.focus();
         try {
-            commonUtil.loadComboBoxForGCM(ifpCategory, UiUtils.IFP_CATEGORY, false);
+            CommonUtil.loadComboBoxForGCM(ifpCategory, UiUtils.IFP_CATEGORY, false);
         } catch (Exception ex) {
             Logger.getLogger(IfpLookUp.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -255,6 +261,7 @@ public class IfpLookUp extends Window {
     @UiHandler("resetBtn")
     public void resetButtonLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }

@@ -17,8 +17,8 @@ import org.vaadin.addons.lazycontainer.OrderByColumn;
  * @author kasiammal.m
  */
 public class CompanySearchDAO implements BeanDAO<CFPCompanyDTO> {
-    CopyContractLogic logic = new CopyContractLogic();
-    CFPCompanyDTO CFPCompanyDTO = new CFPCompanyDTO();
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private CFPCompanyDTO CFPCompanyDTO = new CFPCompanyDTO();
 
     public CompanySearchDAO() {
     }
@@ -27,12 +27,14 @@ public class CompanySearchDAO implements BeanDAO<CFPCompanyDTO> {
         this.CFPCompanyDTO = CFPCompanyDTO;
     }
 
+    @Override
     public int count(BeanSearchCriteria bsc) {
         int count = 0;
         count = logic.getCompanySearchCount(CFPCompanyDTO, bsc);
         return count;
     }
 
+    @Override
     public List<CFPCompanyDTO> find(BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list) {
         List<CFPCompanyDTO> resultList = new ArrayList<>();
         return resultList;

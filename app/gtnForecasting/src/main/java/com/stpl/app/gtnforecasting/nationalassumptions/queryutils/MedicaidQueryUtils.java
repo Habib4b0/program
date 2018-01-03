@@ -435,5 +435,11 @@ public class MedicaidQueryUtils {
         }
 
     }
+    
+    /**ALG-3140	**/
+    public void removeOverrideOnClose(SessionDTO session) throws PortalException, SystemException {
+        String customSql = "UPDATE ST_MEDICAID_URA_PROJ SET ADJUSTMENT = null";
+        DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
+    }
 
 }

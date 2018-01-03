@@ -12,7 +12,6 @@ import static com.stpl.app.gcm.copycontract.ui.form.Newcomponent.getSelectNull;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.common.HelperListUtil;
-import com.stpl.app.gcm.common.QueryUtils;
 import com.stpl.app.gcm.discount.ui.layout.CopyContractWindow;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentLookUpDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.ComponentLookUp;
@@ -37,7 +36,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.HashMap;
 import java.util.Map;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -46,8 +44,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
-import com.stpl.app.gcm.tp.dao.impl.TradingPartnerDAOImpl;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -79,8 +75,8 @@ import org.jboss.logging.Logger;
 public class CopyContractform extends CustomComponent implements View {
 
     private static final Logger LOGGER = Logger.getLogger(CopyContractform.class);
-    CopyContractWindow editWindow;
-    ExtFilterTable resultTable;
+    private CopyContractWindow editWindow;
+    private ExtFilterTable resultTable;
     @UiField("main")
     public VerticalLayout layout;
     public TabSheet tabsheet = new TabSheet();
@@ -100,15 +96,13 @@ public class CopyContractform extends CustomComponent implements View {
     public PopupDateField enddate;
     @UiField("markettype")
     public ComboBox markettype;
-    Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    boolean tabFlag = false;
-    int tabPosition = 0;
+    private int tabPosition = 0;
     private Newcomponent Newcomponent;
     private Exixtingcomponent existingcomponent;
     private Copycomponents Copycomponent;
-    List<ContractSelectionDTO> selectedList;
-    ExtTreeContainer<CopyComponentDTO> dashBoardContainer = new ExtTreeContainer<>(CopyComponentDTO.class);
+    private final List<ContractSelectionDTO> selectedList;
+    private final ExtTreeContainer<CopyComponentDTO> dashBoardContainer = new ExtTreeContainer<>(CopyComponentDTO.class);
     @UiField("populate")
     public Button populate;
     @UiField("contractid")
@@ -117,10 +111,10 @@ public class CopyContractform extends CustomComponent implements View {
     public TextField contractname;
     @UiField("contractno")
     public TextField contractno;
-    TreeTable copyContractDashBoardTable = new TreeTable();
-    TreeTable existingContractDashBoardTable = new TreeTable();
-    TreeTable newcontractDashBoardTable = new TreeTable();
-    ExtFilterTable multiContractTable = new ExtFilterTable();
+    private final TreeTable copyContractDashBoardTable = new TreeTable();
+    private final TreeTable existingContractDashBoardTable = new TreeTable();
+    private final TreeTable newcontractDashBoardTable = new TreeTable();
+    private final ExtFilterTable multiContractTable = new ExtFilterTable();
     @UiField("contracthHolder")
     public CustomTextField contracthHolder;
     @UiField("contractStatus")
@@ -131,7 +125,7 @@ public class CopyContractform extends CustomComponent implements View {
     public HorizontalLayout multiContractLayout;
     @UiField("horizontalLayoutNC1")
     public HorizontalLayout horizontalLayoutNC1;
-    String count = StringUtils.EMPTY;
+    private String count = StringUtils.EMPTY;
     @UiField("multiContractButtons")
     public HorizontalLayout multiContractButtons;
     @UiField("resetBtn")
@@ -141,10 +135,8 @@ public class CopyContractform extends CustomComponent implements View {
     @UiField("populateBtn")
     public Button populateBtn;
     private final BeanItemContainer<CopyComponentDTO> multiContractContainer = new BeanItemContainer<>(CopyComponentDTO.class);
-    QueryUtils queryUtils = new QueryUtils();
-    CommonLogic commonLogic = new CommonLogic();
-    CommonUtil commonUtil = CommonUtil.getInstance();
-    TradingPartnerDAO ccDao = new TradingPartnerDAOImpl();
+    private final CommonLogic commonLogic = new CommonLogic();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
 
     public CopyContractform(CopyContractWindow editWindow, List<ContractSelectionDTO> selectedList, String Count) {
         this.editWindow = editWindow;
@@ -160,6 +152,7 @@ public class CopyContractform extends CustomComponent implements View {
         configureSecurityPermissions();
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         return;
     }
@@ -460,6 +453,7 @@ public class CopyContractform extends CustomComponent implements View {
         }
 
         multiContractTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 Field field;
                 if (String.valueOf(Constants.CHECK).equals(propertyId)) {
@@ -483,7 +477,7 @@ public class CopyContractform extends CustomComponent implements View {
                     ComboBox status = new ComboBox();
 
                     try {
-                        commonUtil.loadComboBoxForGCM(status, UiUtils.STATUS, false);
+                        CommonUtil.loadComboBoxForGCM(status, UiUtils.STATUS, false);
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
@@ -493,7 +487,7 @@ public class CopyContractform extends CustomComponent implements View {
                     ComboBox marketType = new ComboBox();
                     getSelectNull(marketType);
                     try {
-                        commonUtil.loadComboBoxForGCM(marketType, UiUtils.CONTRACT_TYPE, false);
+                        CommonUtil.loadComboBoxForGCM(marketType, UiUtils.CONTRACT_TYPE, false);
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
@@ -504,9 +498,11 @@ public class CopyContractform extends CustomComponent implements View {
                     cHolder.addStyleName("searchicon");
                     cHolder.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                     cHolder.addClickListener(new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             ComponentLookUp lookup = new ComponentLookUp(Constants.CONTRACT_HOLDER_HEADER, "Contract Holder Lookup", cHolder);
                             lookup.addCloseListener(new Window.CloseListener() {
+                                @Override
                                 public void windowClose(Window.CloseEvent e) {
                                     if (cHolder.getData() != null) {
                                         ComponentLookUpDTO dto = (ComponentLookUpDTO) cHolder.getData();
@@ -525,7 +521,7 @@ public class CopyContractform extends CustomComponent implements View {
                     ComboBox aliasType = new ComboBox();
                     getSelectNull(aliasType);
                     try {
-                        commonUtil.loadComboBoxForGCM(aliasType, UiUtils.CONTRACT_ALIAS_TYPE, false);
+                        CommonUtil.loadComboBoxForGCM(aliasType, UiUtils.CONTRACT_ALIAS_TYPE, false);
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
@@ -534,6 +530,7 @@ public class CopyContractform extends CustomComponent implements View {
                 if ("contractId".equals(propertyId)) {
                     final TextField contractIdTextField = new TextField();
                     contractIdTextField.addBlurListener(new FieldEvents.BlurListener() {
+                        @Override
                         public void blur(FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(contractIdTextField.getValue());
                             specValidation(newValue, contractIdTextField);
@@ -545,6 +542,7 @@ public class CopyContractform extends CustomComponent implements View {
                 if (Constants.CONTRACT_NO.equals(propertyId)) {
                     final TextField contractNo = new TextField();
                     contractNo.addBlurListener(new FieldEvents.BlurListener() {
+                        @Override
                         public void blur(FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(contractNo.getValue());
                             specValidation(newValue, contractNo);
@@ -555,6 +553,7 @@ public class CopyContractform extends CustomComponent implements View {
                 if (Constants.CONTRACT_NAME.equals(propertyId)) {
                     final TextField contractName = new TextField();
                     contractName.addBlurListener(new FieldEvents.BlurListener() {
+                        @Override
                         public void blur(FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(contractName.getValue());
                             specValidation(newValue, contractName);
@@ -566,6 +565,7 @@ public class CopyContractform extends CustomComponent implements View {
                     final TextField aliasNumber = new TextField();
                     aliasNumber.setWidth("120px");
                     aliasNumber.addBlurListener(new FieldEvents.BlurListener() {
+                        @Override
                         public void blur(FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(aliasNumber.getValue());
                             specValidation(newValue, aliasNumber);
@@ -598,6 +598,7 @@ public class CopyContractform extends CustomComponent implements View {
             horizontalLayoutNC1.setVisible(false);
             multiContractTable.setColumnCheckBox(HeaderUtil.getInstance().contractSearchColumn[0], Boolean.TRUE);
             multiContractTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                     for (CopyComponentDTO temp : multiContractContainer.getItemIds()) {
                         multiContractContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());
@@ -712,6 +713,7 @@ public class CopyContractform extends CustomComponent implements View {
     @UiHandler("resetBtn")
     public void resetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -759,6 +761,7 @@ public class CopyContractform extends CustomComponent implements View {
                 return;
             }
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     // do nothing
                 }

@@ -38,11 +38,11 @@ public class CustomerLookUp extends Window {
     @UiField("custType")
     public ComboBox custType;
 
-    RebateTableLogic tableLogic = new RebateTableLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
-    private BeanItemContainer<String> custStatusBean = new BeanItemContainer<>(String.class);
-    private BeanItemContainer<String> custTypeBean = new BeanItemContainer<>(String.class);
+    private final RebateTableLogic tableLogic = new RebateTableLogic();
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
+    private final BeanItemContainer<String> custStatusBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> custTypeBean = new BeanItemContainer<>(String.class);
 
     public CustomerLookUp() {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/cust.xml"), this));

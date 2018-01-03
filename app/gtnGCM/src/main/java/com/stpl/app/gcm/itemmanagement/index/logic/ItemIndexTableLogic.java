@@ -7,13 +7,10 @@ package com.stpl.app.gcm.itemmanagement.index.logic;
 
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
-import com.stpl.portal.kernel.exception.SystemException;
 
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 
 /**
@@ -22,11 +19,11 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ItemIndexTableLogic extends PageTableLogic {
 
-    ItemIndexDto binderDto = new ItemIndexDto();
-    ItemLogic logic = new ItemLogic();
-    boolean generate = true;
-    SelectionDTO selection = new SelectionDTO();
-    List<ItemIndexDto> selecteditemList;
+    private ItemIndexDto binderDto = new ItemIndexDto();
+    private final ItemLogic logic = new ItemLogic();
+    private boolean generate = true;
+    private SelectionDTO selection = new SelectionDTO();
+    private List<ItemIndexDto> selecteditemList;
 
     /**
      * Record count logic

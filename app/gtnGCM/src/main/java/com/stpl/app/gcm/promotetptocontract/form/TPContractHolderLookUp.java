@@ -34,9 +34,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class TPContractHolderLookUp extends Window {
 
-    private String indicator;
-    private TextField groupLookup;
-    List<String> companySids;
+    private final String indicator;
+    private final TextField groupLookup;
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = org.jboss.logging.Logger.getLogger(TPContractHolderLookUp.class);
     @UiField("resultsTableCHL")
@@ -68,11 +67,11 @@ public class TPContractHolderLookUp extends Window {
     private ComboBox contractHolderStatus;
     @UiField("contractHolderType")
     private ComboBox contractHolderType;
-    private BeanItemContainer<ContractHolderDTO> resultContainer = new BeanItemContainer<>(ContractHolderDTO.class);
+    private final BeanItemContainer<ContractHolderDTO> resultContainer = new BeanItemContainer<>(ContractHolderDTO.class);
     private ContractHolderDTO selectedChHolderHierarchy;
-    List<CompanyMaster> filteredCompanies;
-    PromoteTPLogic logic = new PromoteTPLogic();
-    HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    private List<CompanyMaster> filteredCompanies;
+    private final PromoteTPLogic logic = new PromoteTPLogic();
+    private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     public static final String CONTRACT_HOLDER = "Contract Holder";
 
     public List<CompanyMaster> getFilteredCompanies() {
@@ -145,14 +144,17 @@ public class TPContractHolderLookUp extends Window {
         loadContractHolderType(contractHolderType);
         
         selectBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnLookupSelectLogic();
             }
         });
 
         resetBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // do nothing
                     }

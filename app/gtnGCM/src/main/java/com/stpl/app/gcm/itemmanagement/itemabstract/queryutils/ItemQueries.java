@@ -22,7 +22,6 @@ import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.util.dao.orm.CustomSQLUtil;
 import com.vaadin.data.Container;
@@ -47,8 +46,8 @@ import org.jboss.logging.Logger;
 public class ItemQueries {
 
     private static final Logger LOGGER = Logger.getLogger(ItemQueries.class);
-    final static CommonDao ITEMDAO = CommonImpl.getInstance();
-    final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+    private final static CommonDao ITEMDAO = CommonImpl.getInstance();
+    private final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     
     public static final String COMPANY_STATUS = "companyStatus";
     public static final String TRADE_CLASS_PROPERTY = "tradeClass";

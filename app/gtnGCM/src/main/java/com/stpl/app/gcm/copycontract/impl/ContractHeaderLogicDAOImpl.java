@@ -6,8 +6,6 @@ package com.stpl.app.gcm.copycontract.impl;
 
 import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.QueryUtils;
-import com.stpl.app.gcm.common.dao.CommonDao;
-import com.stpl.app.gcm.common.dao.impl.CommonImpl;
 import com.stpl.app.gcm.copycontract.dao.ContractHeaderDAO;
 import com.stpl.app.gcm.copycontract.dto.CFPCompanyDTO;
 import com.stpl.app.gcm.copycontract.dto.IFPItemDTO;
@@ -31,18 +29,20 @@ import org.vaadin.addons.lazycontainer.OrderByColumn;
  */
 public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
 
-    CommonDao DAO = CommonImpl.getInstance();
-    QueryUtils queryUtils = new QueryUtils();
+    private final QueryUtils queryUtils = new QueryUtils();
     public static final Logger LOGGER = Logger.getLogger(ContractHeaderLogicDAOImpl.class);
 
+    @Override
     public List<HelperTable> getHelperTableList(final DynamicQuery dynamicQuery) throws SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
+    @Override
     public List getColumnNames(String tableName) throws SystemException {
         return CompanyMasterLocalServiceUtil.getColumnNames(tableName);
     }
 
+    @Override
     public int getCFPCount(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc) {
         String query = queryUtils.getCFPcount(CFPCompanyDTO);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -50,6 +50,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         return list.size();
     }
 
+    @Override
     public List<CFPCompanyDTO> getCFPdetails(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<CFPCompanyDTO> resultLists;
         String query = queryUtils.getCFPcount(CFPCompanyDTO);
@@ -59,6 +60,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
 
     }
 
+    @Override
     public int getCompanyCount(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc) {
         String query = queryUtils.getCFPAttachedCompanies(CFPCompanyDTO);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -67,6 +69,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
 
     }
 
+    @Override
     public List getCompanydetails(CFPCompanyDTO CFPCompanyDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<CFPCompanyDTO> resultLists;
         String query = queryUtils.getCFPAttachedCompanies(CFPCompanyDTO);
@@ -75,6 +78,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         return resultLists;
     }
 
+    @Override
     public int getIFPCount(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc) {
 
         String query = queryUtils.getIFPcount(IFPItemDTO);
@@ -82,6 +86,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         return list.size();
     }
 
+    @Override
     public List getIFPdetails(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<IFPItemDTO> resultLists;
         String query = queryUtils.getIFPcount(IFPItemDTO);
@@ -90,6 +95,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         return resultLists;
     }
 
+    @Override
     public int getPSCount(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc) {
         String query = queryUtils.getPScount(PSIFPDTO);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -97,6 +103,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         return list.size();
     }
 
+    @Override
     public List getPSdetails(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<PSIFPDTO> resultLists;
         String query = queryUtils.getPScount(PSIFPDTO);
@@ -105,12 +112,14 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         return resultLists;
     }
 
+    @Override
     public int getRSCount(RsIfpDto RsIfpDto, BeanSearchCriteria bsc) {
         String query = queryUtils.getRScount(RsIfpDto);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         return list.size();
     }
 
+    @Override
     public List getRsdetails(RsIfpDto RsIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<RsIfpDto> resultLists;
         String query = queryUtils.getRScount(RsIfpDto);
@@ -119,6 +128,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         return resultLists;
     }
 
+    @Override
     public int getAttachedItemCount(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc) {
         String query = queryUtils.GetIFPAttachedItems(IFPItemDTO);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -127,6 +137,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
 
     }
 
+    @Override
     public List getIFPItemdetails(IFPItemDTO IFPItemDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<IFPItemDTO> resultLists;
         String query = queryUtils.GetIFPAttachedItems(IFPItemDTO);
@@ -135,6 +146,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         return resultLists;
     }
 
+    @Override
     public int getPSAttachedItemCount(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc) {
         String query = queryUtils.getPSItemcount(PSIFPDTO);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -142,6 +154,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         return list.size();
     }
 
+    @Override
     public List getPSAttachedItemdetails(PSIFPDTO PSIFPDTO, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<PSIFPDTO> resultLists;
         String query = queryUtils.getPSItemcount(PSIFPDTO);
@@ -150,6 +163,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         return resultLists;
     }
 
+    @Override
     public int getRSAttachedItemCount(RsIfpDto RsIfpDto, BeanSearchCriteria bsc) {
         String query = queryUtils.getRSAttachedItems(RsIfpDto);
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -157,6 +171,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         return list.size();
     }
 
+    @Override
     public List getRsItemdetails(RsIfpDto RsIfpDto, BeanSearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list, String dbColumnName, boolean asc) {
         List<RsIfpDto> resultLists;
         String query = queryUtils.getRSAttachedItems(RsIfpDto);
@@ -165,6 +180,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         return resultLists;
     }
 
+    @Override
     public void updateCFP(List<Object> input) {
         String sql = CustomSQLUtil.get("Existing.saveCFP");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
@@ -177,6 +193,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
 
     }
 
+    @Override
     public void updateIFP(List<Object> input) {
         String sql = CustomSQLUtil.get("Existing.saveIFP");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
@@ -188,6 +205,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         HelperTableLocalServiceUtil.executeUpdateQuery(sql);
     }
 
+    @Override
     public void updatePS(List<Object> input) {
         String sql = CustomSQLUtil.get("Existing.savePS");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
@@ -199,6 +217,7 @@ public class ContractHeaderLogicDAOImpl implements ContractHeaderDAO {
         HelperTableLocalServiceUtil.executeUpdateQuery(sql);
     }
 
+    @Override
     public void updateRS(List<Object> input) {
         String sql = CustomSQLUtil.get("Existing.saveRS");
         sql = sql.replaceFirst("[?]", input.get(0).toString());

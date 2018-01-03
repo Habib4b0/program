@@ -31,7 +31,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class TransferSelectionLogic {
 
-    CommonDao DAO = CommonImpl.getInstance();
+    private final CommonDao DAO = CommonImpl.getInstance();
     public static final String CMSID_QUESTION = "?CMSID?";
 
     public List<TransferFromDTO> getTransferFromDetails(TransferFromDTO parent, Map<String, Set<String>> resultList) {

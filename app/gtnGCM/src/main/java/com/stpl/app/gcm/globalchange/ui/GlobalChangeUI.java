@@ -21,7 +21,6 @@ import javax.portlet.ActionResponse;
 import javax.portlet.EventRequest;
 import javax.portlet.EventResponse;
 import javax.portlet.PortletConfig;
-import javax.portlet.PortletMode;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -35,8 +34,7 @@ import org.jboss.logging.Logger;
 @JavaScript("js/WorkflowInboxListener.js")
 public class GlobalChangeUI extends UI implements VaadinPortletSession.PortletListener {
 
-    Navigator navigator;
-    PortletMode customMode;
+    private Navigator navigator;
     /**
      * The Constant LOGGER.
      */
@@ -62,7 +60,6 @@ public class GlobalChangeUI extends UI implements VaadinPortletSession.PortletLi
             LOGGER.error(ex);
         }
 
-        customMode = new PortletMode("config");
         if (VaadinSession.getCurrent() instanceof VaadinPortletSession) {
             VaadinPortletSession portletsession = (VaadinPortletSession) VaadinSession.getCurrent();
             portletsession.addPortletListener(this);
@@ -85,20 +82,24 @@ public class GlobalChangeUI extends UI implements VaadinPortletSession.PortletLi
 
     }
 
+    @Override
     public void handleRenderRequest(RenderRequest request, RenderResponse response, UI uI) {
         PortletConfig portletConfig = (PortletConfig) request.getAttribute(JavaConstants.JAVAX_PORTLET_CONFIG);
         CommonUtils.setPortalConfig(portletConfig);
         getUI().getNavigator().navigateTo(GlobalChangeUIMainView.NAME);
     }
 
+    @Override
     public void handleActionRequest(ActionRequest request, ActionResponse response, UI uI) {
         //empty
     }
 
+    @Override
     public void handleEventRequest(EventRequest request, EventResponse response, UI uI) {
         // empty
     }
 
+    @Override
     public void handleResourceRequest(ResourceRequest request, ResourceResponse response, UI uI) {
         //empty
     }

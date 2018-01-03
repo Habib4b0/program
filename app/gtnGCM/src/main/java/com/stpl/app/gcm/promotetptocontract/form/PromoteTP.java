@@ -71,7 +71,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class PromoteTP extends VerticalLayout {
 
-    SessionDTO session = new SessionDTO();
+    private SessionDTO session = new SessionDTO();
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(PromoteTP.class);
     public PromoteTpToChDto promoteTpToChDto = new PromoteTpToChDto();
     public CustomFieldGroup promoteTpToChDtoBinder;
@@ -118,19 +118,18 @@ public class PromoteTP extends VerticalLayout {
      */
     @UiField("errorMsg")
     public ErrorLabel errorMsg;
-    private BeanItemContainer<PromoteTpToChDto> resultsContainer = new BeanItemContainer<>(PromoteTpToChDto.class);
-    LazyBeanItemContainer<PromoteTpToChDto> resultsLazyContainer;
-    HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
-    PromoteTPLogic logic = new PromoteTPLogic();
+    private final BeanItemContainer<PromoteTpToChDto> resultsContainer = new BeanItemContainer<>(PromoteTpToChDto.class);
+    private LazyBeanItemContainer<PromoteTpToChDto> resultsLazyContainer;
+    private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    private final PromoteTPLogic logic = new PromoteTPLogic();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    String updateType = PROMOTE_TRADING_PARTNER.getConstant();
+    private String updateType = PROMOTE_TRADING_PARTNER.getConstant();
     private ExtCustomTable companyViewTable;
-    int parentCompanySid;
-    String searchSessionId = StringUtils.EMPTY;
-    CompanySearchTableLogic compLogic = new CompanySearchTableLogic();
+    private String searchSessionId = StringUtils.EMPTY;
+    private final CompanySearchTableLogic compLogic = new CompanySearchTableLogic();
     public ExtPagedTable companySearchResultsTable = new ExtPagedTable(compLogic);
     public ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(promoteTpToChDto));
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
     public LazyBeanItemContainer<PromoteTpToChDto> getResultsLazyContainer() {
         return resultsLazyContainer;
     }
@@ -252,10 +251,12 @@ public class PromoteTP extends VerticalLayout {
         
             companySearchResultsTable.setFilterGenerator(new ExtFilterGenerator() {
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -267,6 +268,7 @@ public class PromoteTP extends VerticalLayout {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("tradeClass".equals(propertyId)) {
                     try {
@@ -308,15 +310,18 @@ public class PromoteTP extends VerticalLayout {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
 
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
@@ -336,6 +341,7 @@ public class PromoteTP extends VerticalLayout {
         compLogic.setContainerDataSource(resultsContainer);
 
         companySearchResultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+            @Override
             public void itemClick(ItemClickEvent event) {
                 if (event.getItemId() != null) {
                     PromoteTpToChDto tpDTO = (PromoteTpToChDto) event.getItemId();
@@ -397,6 +403,7 @@ public class PromoteTP extends VerticalLayout {
     @UiHandler("resetBtn1")
     public void resetBtn1Logic(Button.ClickEvent event) {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", " Are you sure you want to reset the Company Search to default/previous values?\n ", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals("YES")) {
                     try {
@@ -496,6 +503,7 @@ public class PromoteTP extends VerticalLayout {
     @UiHandler("resetBtn2")
     public void resetBtn2Logic(Button.ClickEvent event) {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", " Are you sure you want to reset the page to default/previous values?\n ", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals("YES")) {
                     try {

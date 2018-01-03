@@ -7,7 +7,6 @@ package com.stpl.app.gcm.itemmanagement.itemabstract.form;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.index.logic.ItemIndexTableLogic;
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -33,17 +32,17 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
  */
 public class AbstractAllItemLookup extends CustomWindow {
 
-    Panel panel = new Panel();
-    VerticalLayout layout = new VerticalLayout();
-    ItemIndexTableLogic tableLogic = new ItemIndexTableLogic();
+    private final Panel panel = new Panel();
+    private final VerticalLayout layout = new VerticalLayout();
+    private final ItemIndexTableLogic tableLogic = new ItemIndexTableLogic();
     public ExtPagedTable itemResults = new ExtPagedTable(tableLogic);
-    List<ItemIndexDto> selecteditemList = new ArrayList<>();
-    BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
-    Button close = new Button("CLOSE");
-    Button export = new Button(StringUtils.EMPTY);
+    private List<ItemIndexDto> selecteditemList = new ArrayList<>();
+    private final BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
+    private final Button close = new Button("CLOSE");
+    private final Button export = new Button(StringUtils.EMPTY);
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     private ExtCustomTable exportPeriodViewTable;
-    String excelName = "All Item Information";
+    private final String excelName = "All Item Information";
     private BeanItemContainer<ItemIndexDto> excelResultBean = new BeanItemContainer<>(ItemIndexDto.class);
 
     public AbstractAllItemLookup() {
@@ -76,12 +75,14 @@ public class AbstractAllItemLookup extends CustomWindow {
         export.addStyleName("link");
         export.setIcon(excelExportImage, "Excel Export");
         close.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 close();
             }
         });
 
         export.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 itemInfoExport();
             }

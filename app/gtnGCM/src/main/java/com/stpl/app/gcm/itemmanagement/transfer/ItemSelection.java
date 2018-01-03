@@ -12,9 +12,7 @@ import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.index.logic.ItemIndexTableLogic;
 import com.stpl.app.gcm.itemmanagement.index.logic.ItemLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
-import com.stpl.app.gcm.tp.logic.CommmonLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
@@ -70,93 +68,90 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class ItemSelection extends CustomComponent {
 
     @UiField("startingPanel")
-    Panel startingPanel;
+    private Panel startingPanel;
     @UiField("selectedItems")
-    Panel selectedItems;
+    private Panel selectedItems;
     @UiField("itemID")
-    TextField itemID;
+    private TextField itemID;
     @UiField("itemName")
-    TextField itemName;
+    private TextField itemName;
     @UiField("therapeuticClass")
-    ComboBox therapeuticClass_DTO;
+    private ComboBox therapeuticClass_DTO;
     @UiField("form")
-    ComboBox form_DTO;
+    private ComboBox form_DTO;
     @UiField("identifierType")
-    ComboBox identifierType_DTO;
+    private ComboBox identifierType_DTO;
     @UiField("itemNo")
-    TextField itemNo;
+    private TextField itemNo;
     @UiField("itemDesc")
-    TextField itemDesc;
+    private TextField itemDesc;
     @UiField("brand")
-    ComboBox brand_DTO;
+    private ComboBox brand_DTO;
     @UiField("strength")
-    ComboBox strength_DTO;
+    private ComboBox strength_DTO;
     @UiField("identifier")
-    TextField identifier;
+    private TextField identifier;
     @UiField("company")
-    ComboBox company_DTO;
+    private ComboBox company_DTO;
     @UiField("placeHolder")
-    ComboBox placeHolder_DTO;
+    private ComboBox placeHolder_DTO;
     @UiField("ndc9")
-    TextField ndc9;
+    private TextField ndc9;
     @UiField("itemCategory")
-    ComboBox itemCategory_DTO;
+    private ComboBox itemCategory_DTO;
     @UiField("itemType")
-    ComboBox itemType_DTO;
+    private ComboBox itemType_DTO;
     @UiField("resetBtn")
-    Button resetBtn;
+    private Button resetBtn;
     @UiField("searchBtn")
-    Button searchBtn;
+    private Button searchBtn;
     @UiField("results")
-    Panel results;
+    private Panel results;
     @UiField("resetBtncur")
-    Button resetBtncur;
+    private Button resetBtncur;
     @UiField("transferBtncur")
-    Button transferBtncur;
+    private Button transferBtncur;
     @UiField("exportBtncurr")
-    Button exportBtncurr;
+    private Button exportBtncurr;
     @UiField("transferItems")
-    Panel transferItems;
+    private Panel transferItems;
     @UiField("removeBtncur")
-    Button removeBtncur;
+    private Button removeBtncur;
     @UiField("exportBtncur")
-    Button exportBtncur;
+    private Button exportBtncur;
     @UiField("SelectItemTableLayout")
-    VerticalLayout selectItemTableLayout;
+    private VerticalLayout selectItemTableLayout;
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     @UiField("resultTableLayout")
-    VerticalLayout resultTableLayout;
+    private VerticalLayout resultTableLayout;
     @UiField("transferItemsTable")
-    VerticalLayout transferItemsTable;
+    private VerticalLayout transferItemsTable;
     @UiField("componentVertical")
-    VerticalLayout componentVertical;
+    private VerticalLayout componentVertical;
     @UiField("export")
-    Button export;
-    SelectionDTO selection;
-    ItemIndexTableLogic tableLogic = new ItemIndexTableLogic();
-    public ExtPagedTable itemFromLS = new ExtPagedTable(tableLogic);
-    public List<ItemIndexDto> selecteditemList = new ArrayList<>();
-    List<ItemIndexDto> selectedToBeTransferredList = new ArrayList<>();
-    BeanItemContainer<ItemIndexDto> itemViewContainer = new BeanItemContainer<>(ItemIndexDto.class);
-    BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
-    BeanItemContainer<ItemIndexDto> transferContainer = new BeanItemContainer<>(ItemIndexDto.class);
-    ItemIndexDto binderDto = new ItemIndexDto();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
-    AbstractLogic logic = AbstractLogic.getInstance();
-    ItemIndexTableLogic resultTableLogic = new ItemIndexTableLogic();
-    public ExtPagedTable itemResult = new ExtPagedTable(resultTableLogic);
-    final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
+    private Button export;
+    private final SelectionDTO selection;
+    private final ItemIndexTableLogic tableLogic = new ItemIndexTableLogic();
+    private final ExtPagedTable itemFromLS = new ExtPagedTable(tableLogic);
+    private List<ItemIndexDto> selecteditemList = new ArrayList<>();
+    private final List<ItemIndexDto> selectedToBeTransferredList = new ArrayList<>();
+    private final BeanItemContainer<ItemIndexDto> itemViewContainer = new BeanItemContainer<>(ItemIndexDto.class);
+    private final BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
+    private final BeanItemContainer<ItemIndexDto> transferContainer = new BeanItemContainer<>(ItemIndexDto.class);
+    private final ItemIndexDto binderDto = new ItemIndexDto();
+    private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private final AbstractLogic logic = AbstractLogic.getInstance();
+    private final ItemIndexTableLogic resultTableLogic = new ItemIndexTableLogic();
+    private final ExtPagedTable itemResult = new ExtPagedTable(resultTableLogic);
+    private final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
     public static final Logger LOGGER = Logger.getLogger(ItemSelection.class);
-    public ExtFilterTable transferTable = new ExtFilterTable();
-    VerticalLayout contractDashboardLay = new VerticalLayout();
-    final List<ItemIndexDto> excelList = new ArrayList<>();
-    final List<String> sidList = new ArrayList<>();
-    final List<String> fromList = new ArrayList<>();
-    final List<String> toList = new ArrayList<>();
-    CommmonLogic comLogic = new CommmonLogic();
-    final List<String> tranferredCount = new ArrayList<>();
-    final List<String> fromLsSidList = new ArrayList<>();
-    String excelName = StringUtils.EMPTY;
+    private final ExtFilterTable transferTable = new ExtFilterTable();
+    
+    private final List<ItemIndexDto> excelList = new ArrayList<>();
+    private final List<String> sidList = new ArrayList<>();
+    private final List<String> tranferredCount = new ArrayList<>();
+    private final List<String> fromLsSidList = new ArrayList<>();
+    private String excelName = StringUtils.EMPTY;
     public static final String EXCEL_EXPORT = "Excel Export";
     
     public ItemSelection(SelectionDTO selection, List<ItemIndexDto> itemList) {
@@ -439,11 +434,13 @@ public class ItemSelection extends CustomComponent {
         transferTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         transferTable.setColumnCheckBox(Constants.CHECK_RECORD, Boolean.TRUE);
         transferTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
 
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             boolean isCheck = check.getValue();
                             if (isCheck) {
@@ -462,6 +459,7 @@ public class ItemSelection extends CustomComponent {
         });
 
         transferTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = transferTable.getItemIds();
                 for (Object obj : itemList) {

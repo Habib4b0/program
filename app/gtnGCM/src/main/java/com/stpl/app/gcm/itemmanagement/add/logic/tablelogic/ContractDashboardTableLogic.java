@@ -20,11 +20,12 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
  */
 public class ContractDashboardTableLogic extends PageTreeTableLogic {
 
-    boolean isGenerated = true;
-    SummaryLogic logic = new SummaryLogic();
-    SelectionDTO selection = new SelectionDTO();
-    ContractDashboardDTO idDTO = new ContractDashboardDTO();
+    private boolean isGenerated = true;
+    private final SummaryLogic logic = new SummaryLogic();
+    private final SelectionDTO selection = new SelectionDTO();
+    private ContractDashboardDTO idDTO = new ContractDashboardDTO();
 
+    @Override
     public int getCount() {
         if (!isGenerated) {
             return logic.getConfigureCount(lastParent, selection, idDTO);
@@ -53,6 +54,7 @@ public class ContractDashboardTableLogic extends PageTreeTableLogic {
      * @param datasource
      * @return Object
      */
+    @Override
     public Object configureContainer(Object object, Container datasource) {
         ContractDashboardDTO dto = (ContractDashboardDTO) object;
         ((ExtTreeContainer<ContractDashboardDTO>) datasource).addBean(dto);

@@ -7,11 +7,9 @@
 package com.stpl.app.gcm.tp.ui.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
-import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.ContractResultDTO;
-import com.stpl.app.gcm.tp.dto.IdDescriptionDTO;
 import com.stpl.app.gcm.tp.logic.CommmonLogic;
 import com.stpl.app.gcm.tp.logic.ContractSelectionLogic;
 import com.stpl.app.gcm.tp.ui.layout.CustomTPDetailsLayout;
@@ -43,7 +41,6 @@ import com.vaadin.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -77,27 +74,23 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
     @UiField("transferRemove")
     public Button transferRemove;
 
-    SessionDTO session;
-    transient ContractSelectionLogic logic = new ContractSelectionLogic();
-    transient CommmonLogic commonLogic = new CommmonLogic();
+    private final SessionDTO session;
+    private final transient ContractSelectionLogic logic = new ContractSelectionLogic();
+    private final transient CommmonLogic commonLogic = new CommmonLogic();
     public ExtPagedFilterTable currentTradingPartnerDetailsTable = new ExtPagedFilterTable();
     public ExtPagedFilterTable transferTradingPartnerDetailsTable = new ExtPagedFilterTable();
 
-    TransferTPForm transferTpForm;
-    final transient  StplSecurity stplSecurity = new StplSecurity();
-    transient Map<String, AppPermission>  functionHM = new HashMap<>();
+    private final TransferTPForm transferTpForm;
+    private final transient StplSecurity stplSecurity = new StplSecurity();
 
-    private BeanItemContainer<ContractResultDTO> currentTPDetailsContainer;
-    private BeanItemContainer<ContractResultDTO> transferTPDetailsContainer;
-    boolean currentContractRefresh;
-    boolean transferContractRefresh;
-    boolean currentCheckValue = false;
-    boolean transferCheckValue = false;
+    private final BeanItemContainer<ContractResultDTO> currentTPDetailsContainer;
+    private final BeanItemContainer<ContractResultDTO> transferTPDetailsContainer;
+    private boolean currentContractRefresh;
+    private boolean transferContractRefresh;
+    private boolean currentCheckValue = false;
+    private boolean transferCheckValue = false;
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private boolean csvTransferFlag = false;
-
-    transient CommonUtil commonUtil=CommonUtil.getInstance();
-    transient List<IdDescriptionDTO> statusResultList = new ArrayList<>();
 
     /**
      * The Constant LOGGER.
@@ -164,10 +157,12 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
         transferTradingPartnerTableLayout.addComponent(transferTpControlLayout);
 
         currentTradingPartnerDetailsTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             currentCheckValue = check.getValue();
                             commonLogic.callCheckRecUpdate(check.getValue(), (ContractResultDTO) itemId, TAB_CURRENT_CONTRACT.getConstant(), session);
@@ -221,10 +216,12 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
         });
 
         transferTradingPartnerDetailsTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             transferCheckValue = check.getValue();
                             commonLogic.callCheckRecUpdate(check.getValue(), (ContractResultDTO) itemId, TAB_TRANSFER_CONTRACT.getConstant(), session);
@@ -289,6 +286,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
             return;
         }
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -312,6 +310,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
         }
 
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }

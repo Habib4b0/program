@@ -75,22 +75,21 @@ public static final Logger LOGGER = Logger.getLogger(ComponentLookUp.class);
     @UiField("resetBtn")
     public Button resetBtn;
     @UiField("selectBtn")
-    public Button selectBtn;
+    public Button selectButton;
     @UiField("closeBtn")
-    public Button closeBtn;
-    ComponentLookUpLogic tableLogic = new ComponentLookUpLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
-    private BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
-    private BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
+    public Button closeButton;
+    private final ComponentLookUpLogic tableLogic = new ComponentLookUpLogic();
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
+    private final BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
     private String component = StringUtils.EMPTY;
-    ComponentLookUpDTO componentDto;
-    ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
-    SelectionDTO selection = new SelectionDTO();
-    AbstractLogic logic = AbstractLogic.getInstance();
-    List<String> countFlag = new ArrayList<>();
-    List<String> loadDataFlag = new ArrayList<>();
+    private final ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
+    private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private final SelectionDTO selection = new SelectionDTO();
+    private final AbstractLogic logic = AbstractLogic.getInstance();
+    private final List<String> countFlag = new ArrayList<>();
+    private final List<String> loadDataFlag = new ArrayList<>();
     public CustomTextField componentTextField;
 
     public ComponentLookUp(final String component, final String caption, final CustomTextField componentTextField) {
@@ -138,15 +137,17 @@ public static final Logger LOGGER = Logger.getLogger(ComponentLookUp.class);
         componentStatus_DTO.setImmediate(true);
         componentTypeBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         componentType_DTO.setImmediate(true);
-        selectBtn.setImmediate(false);
-        selectBtn.setEnabled(true);
+        selectButton.setImmediate(false);
+        selectButton.setEnabled(true);
 
       
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -160,18 +161,22 @@ public static final Logger LOGGER = Logger.getLogger(ComponentLookUp.class);
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("componentStatus".equals(propertyId)) {
                     ComboBox status = new ComboBox();

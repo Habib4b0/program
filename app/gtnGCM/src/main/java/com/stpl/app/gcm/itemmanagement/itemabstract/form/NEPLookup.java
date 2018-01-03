@@ -36,7 +36,6 @@ import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
@@ -45,8 +44,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class NEPLookup extends Window {
 
-    NEPLookuptablelogic tablelogic = new NEPLookuptablelogic();
-    FormulaDTO nepDto;
+    private final NEPLookuptablelogic tablelogic = new NEPLookuptablelogic();
     private final ExtPagedTable resultTable = new ExtPagedTable(tablelogic);
     public BeanItemContainer<FormulaDTO> forumulaLookupBean = new BeanItemContainer<>(FormulaDTO.class);
     @UiField("formulaId")
@@ -79,7 +77,7 @@ public class NEPLookup extends Window {
     @UiField("vertiLayout")
     private VerticalLayout vertiLayout;
     public CustomTextField componentTextField;
-    SelectionDTO selection = new SelectionDTO();
+    private final SelectionDTO selection = new SelectionDTO();
 
     public final Object[] formulaSearchColumns = new Object[]{
         "netSalesformulaType", "formulaId", "formulaNo", "formulaName"};

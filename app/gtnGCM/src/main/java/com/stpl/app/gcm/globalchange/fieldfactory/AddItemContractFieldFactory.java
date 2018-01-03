@@ -7,7 +7,6 @@ package com.stpl.app.gcm.globalchange.fieldfactory;
 import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
-import com.stpl.app.gcm.itemmanagement.add.dto.AddItemTableDTO;
 import com.stpl.app.gcm.itemmanagement.add.form.AddContractSelection;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractContractSearchDTO;
@@ -36,11 +35,9 @@ import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
@@ -52,12 +49,11 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
  */
 public class AddItemContractFieldFactory implements TableFieldFactory {
 
-    List<AddItemTableDTO> selectedItemList = new ArrayList<>();
-    AbstractLogic logic = AbstractLogic.getInstance();
-    SelectionDTO selection;
-    public ExtPagedTable contractSelectionTable;
-    Map tempTableMap = new HashMap();
-    boolean valueChange = true;
+  private final AbstractLogic logic = AbstractLogic.getInstance();
+  private final SelectionDTO selection;
+  public ExtPagedTable contractSelectionTable;
+  private Map tempTableMap = new HashMap();
+  private boolean valueChange = true;
 
     public AddItemContractFieldFactory(final SelectionDTO selection, ExtPagedTable contractSelectionTable, Map tempTableMap) {
         this.selection = selection;
@@ -65,6 +61,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         this.tempTableMap = tempTableMap;
     }
 
+    @Override
     public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
         final AbstractContractSearchDTO mainDto = (AbstractContractSearchDTO) itemId;
         final AbstractLogic abstractLogic = AbstractLogic.getInstance();
@@ -76,6 +73,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             } else {
                 check.setVisible(true);
                 check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                    @Override
                     public void click(ExtCustomCheckBox.ClickEvent event) {
                         AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
                         dto.setCheckRecord(check.getValue());
@@ -92,9 +90,11 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             itemStatus.setImmediate(true);
             CommonUtil.getComboBoxByListName(itemStatus, UIUtils.STATUS, false);
             itemStatus.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
 
                     itemStatus.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 Object itemStatusValue = itemStatus.getValue();
@@ -134,8 +134,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             itemstartDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
 
             itemstartDate.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -183,8 +185,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             itemendDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             itemendDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             itemendDate.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -223,8 +227,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             cpstartDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             cpstartDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             cpstartDate.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -257,8 +263,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             cpendDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             cpendDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             cpendDate.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -299,8 +307,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceProtectionStartDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             priceProtectionStartDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             priceProtectionStartDate.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -333,8 +343,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceProtectionEndDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             priceProtectionEndDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             priceProtectionEndDate.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -373,8 +385,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceToleranceType.setImmediate(true);
             CommonUtil.getComboBoxByListName(priceToleranceType, "PRICE_TOLERANCE_TYPE", false);
             priceToleranceType.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     priceToleranceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -410,8 +424,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceTolerance.setImmediate(true);
             priceTolerance.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             priceTolerance.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     priceTolerance.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (priceTolerance.getValue() != null && !priceTolerance.getValue().trim().isEmpty() && valueChange) {
                                     valueChange = false;
@@ -443,8 +459,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceToleranceFrequency.setImmediate(true);
             CommonUtil.getComboBoxByListName(priceToleranceFrequency, "PRICE_TOLERANCE_FREQUENCY", false);
             priceToleranceFrequency.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     priceToleranceFrequency.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -479,8 +497,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceToleranceInterval.setImmediate(true);
             CommonUtil.getComboBoxByListName(priceToleranceInterval, "PRICE_TOLERANCE_INTERVAL", false);
             priceToleranceInterval.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     priceToleranceInterval.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (priceToleranceInterval.getValue() != null && valueChange) {
                                     valueChange = false;
@@ -514,8 +534,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             basePrice.setImmediate(true);
             basePrice.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             basePrice.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     basePrice.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (basePrice.getValue() != null && valueChange) {
                                     valueChange = false;
@@ -544,8 +566,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             price.setImmediate(true);
             price.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             price.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     price.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -574,8 +598,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             contractPrice.setImmediate(true);
             contractPrice.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             contractPrice.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     contractPrice.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (contractPrice.getValue() != null && valueChange) {
                                     valueChange = false;
@@ -608,8 +634,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             rsstartDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             rsstartDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             rsstartDate.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -641,8 +669,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             rsendDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             rsendDate.setImmediate(true);
             rsendDate.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -681,6 +711,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             formulaId.setReadOnly(true);
             formulaId.addStyleName(Constants.SEARCH_ICON);
             formulaId.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     FormulaLookUp formulaLookUp = new FormulaLookUp(formulaId);
                     formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -715,6 +746,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             rebatePlan.addStyleName(Constants.SEARCH_ICON);
             rebatePlan.setReadOnly(true);
             rebatePlan.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     final ComponentLookUp contractNum = new ComponentLookUp("Rebate Plan", "Rebate Plan Lookup", rebatePlan);
                     contractNum.addCloseListener(new Window.CloseListener() {
@@ -748,8 +780,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             formulaMethodId.setImmediate(true);
             formulaMethodId.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             formulaMethodId.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     formulaMethodId.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (formulaMethodId.getValue() != null && valueChange) {
                                     valueChange = false;
@@ -779,8 +813,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             rebateAmount.setImmediate(true);
             rebateAmount.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             rebateAmount.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     rebateAmount.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -811,8 +847,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceProtectionStatus.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(priceProtectionStatus, Constants.STATUS, false);
             priceProtectionStatus.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     priceProtectionStatus.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -845,8 +883,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             nep.setImmediate(true);
             nep.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             nep.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     nep.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -875,6 +915,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             nepFormula.setReadOnly(true);
             nepFormula.addStyleName(Constants.SEARCH_ICON);
             nepFormula.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     NEPLookup formulaLookUp = new NEPLookup(nepFormula, Constants.NEP_FORMULA_LABLE_NAME);
                     formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -909,8 +950,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             maxIncrementalChange.setImmediate(true);
             maxIncrementalChange.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             maxIncrementalChange.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     maxIncrementalChange.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -938,8 +981,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             resetEligible.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(resetEligible, Constants.LOCKED_STATUS_LISTNAME, false);
             resetEligible.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     resetEligible.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -972,8 +1017,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             resetType.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(resetType, Constants.RESET_TYPE_LISTNAME, false);
             resetType.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     resetType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1009,8 +1056,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             resetDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             resetDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             resetDate.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1042,8 +1091,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             resetInterval.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(resetInterval, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, false);
             resetInterval.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     resetInterval.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1076,8 +1127,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             resetFrequency.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(resetFrequency, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, false);
             resetFrequency.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     resetFrequency.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1110,8 +1163,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netPriceType.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(netPriceType, Constants.LOCKED_STATUS_LISTNAME, false);
             netPriceType.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     netPriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1145,6 +1200,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netPriceTypeFormula.setReadOnly(true);
             netPriceTypeFormula.addStyleName(Constants.SEARCH_ICON);
             netPriceTypeFormula.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     NEPLookup formulaLookUp = new NEPLookup(netPriceTypeFormula, Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME);
                     formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -1180,8 +1236,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             resetPriceType.setImmediate(true);
             final AbstractContractSearchDTO dto = loadPricetype(itemId, resetPriceType);
             resetPriceType.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     resetPriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1210,8 +1268,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netResetPriceType.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(netResetPriceType, Constants.LOCKED_STATUS_LISTNAME, false);
             netResetPriceType.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     netResetPriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1246,6 +1306,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netResetPriceFormulaId.setReadOnly(true);
             netResetPriceFormulaId.addStyleName(Constants.SEARCH_ICON);
             netResetPriceFormulaId.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     NEPLookup formulaLookUp = new NEPLookup(netResetPriceFormulaId, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME);
                     formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -1281,8 +1342,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             basePriceType.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(basePriceType, Constants.BASE_PRICE_TYPE_LISTNAME, false);
             basePriceType.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     basePriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1384,8 +1447,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             subsequentPeriodPriceType.setImmediate(true);
             final AbstractContractSearchDTO dto = loadPricetype(itemId, subsequentPeriodPriceType);
             subsequentPeriodPriceType.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     subsequentPeriodPriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1413,8 +1478,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netSubsequentPeriodPrice.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(netSubsequentPeriodPrice, Constants.LOCKED_STATUS_LISTNAME, false);
             netSubsequentPeriodPrice.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     netSubsequentPeriodPrice.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1450,6 +1517,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netSubsequentPriceFormulaId.setReadOnly(true);
             netSubsequentPriceFormulaId.addStyleName(Constants.SEARCH_ICON);
             netSubsequentPriceFormulaId.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     NEPLookup formulaLookUp = new NEPLookup(netSubsequentPriceFormulaId, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME);
                     formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -1486,6 +1554,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netBaselineWacFormulaId.setReadOnly(true);
             netBaselineWacFormulaId.addStyleName(Constants.SEARCH_ICON);
             netBaselineWacFormulaId.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     NEPLookup formulaLookUp = new NEPLookup(netBaselineWacFormulaId, Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME);
                     formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -1520,8 +1589,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             baselineNetWAC.setImmediate(true);
             CommonUtil.loadComboBoxForGCM(baselineNetWAC, Constants.LOCKED_STATUS_LISTNAME, false);
             baselineNetWAC.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     baselineNetWAC.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1555,8 +1626,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceType.setImmediate(true);
             final AbstractContractSearchDTO dto = loadPricetype(itemId, priceType);
             priceType.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     priceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1585,8 +1658,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             measurementPrice.setImmediate(true);
             final AbstractContractSearchDTO dto = loadPricetype(itemId, measurementPrice);
             measurementPrice.addFocusListener(new FieldEvents.FocusListener() {
+                @Override
                 public void focus(FieldEvents.FocusEvent event) {
                     measurementPrice.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;

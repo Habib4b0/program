@@ -5,7 +5,6 @@
 package com.stpl.app.gcm.promotetptocontract.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
-import com.stpl.app.gcm.promotetptocontract.dto.PromoteTpToChDto;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.logic.ContractSelectionLogic;
@@ -15,7 +14,6 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TAB_CURRENT_CON
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -34,14 +32,15 @@ import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
@@ -56,44 +55,38 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class PromoteTPToChForm extends CustomComponent implements View {
 
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    final ErrorLabel errorMsg = new ErrorLabel();
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(PromoteTPToChForm.class);
-    StplSecurity stplSecurity = new StplSecurity();
+    private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The data selection binder.
      */
     public CustomFieldGroup promoteTpBinder;
-    boolean tabFlag = false;
     /**
      * The tab sheet.
      */
     @UiField("tabSheet")
-    TabSheet tabSheet;
-    /**
-     * The tab lazy load map.
-     */
-    Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
+    private TabSheet tabSheet;
     /**
      * The close.
      */
     @UiField("nextBtn")
-    Button nextBtn;
+    private Button nextBtn;
     @UiField("closeBtn")
-    Button closeBtn;
+    private Button closeBtn;
     @UiField("previousBtn")
-    Button previousBtn;
+    private Button previousBtn;
     @UiField("transferBtn")
-    Button transferBtn;
+    private Button transferBtn;
     /**
      * Position of the tab.
      */
-    int tabPosition = 0;
+    private int tabPosition = 0;
     private CurrentContractSelection currentContractSelection;
     private TransferContract transferContract;
     private Summary summary;
-    ExtFilterTable resultTable;
-    SessionDTO session;
-    PromoteTpToChWindow promoteWindow;
+    private final ExtFilterTable resultTable;
+    private final SessionDTO session;
+    private final PromoteTpToChWindow promoteWindow;
 
     /**
      *
@@ -197,6 +190,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
      *
      * @param event
      */
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         tabSheet.setSelectedTab(0);
     }
@@ -223,6 +217,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
     @UiHandler("transferBtn")
     public void transferBtnLogic(Button.ClickEvent event) {
         MessageBox.showPlain(Icon.QUESTION, "Transfer Company Confirmation", " Are you sure you want to Promote the Selected Company?\n ", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals("YES")) {
                     try {
@@ -321,6 +316,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
     @UiHandler("closeBtn")
     public void closeButtonLogic(Button.ClickEvent event) {
         MessageBox.showPlain(Icon.QUESTION, "Close Confirmation", " Are you sure you want to close out? No values will be saved.", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals("YES")) {
                     try {
@@ -364,15 +360,14 @@ public class PromoteTPToChForm extends CustomComponent implements View {
                 statement = connection.prepareCall(statementBuilder.toString());
                 statement.execute();
             }
-        } catch (Exception ex) {
-
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
             return false;
         } finally {
             try {
                 statement.close();
                 connection.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e);
             }
         }

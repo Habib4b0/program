@@ -13,7 +13,6 @@ import com.stpl.app.gcm.copycontract.dto.ContractSelectionDTO;
 import com.stpl.app.gcm.discount.ui.form.CfpLookUp;
 import com.stpl.app.gcm.discount.ui.form.IfpLookUp;
 import com.stpl.app.gcm.discount.ui.form.PsLookUp;
-import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.promotetptocontract.form.TPContractHolderLookUp;
@@ -101,7 +100,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
@@ -141,24 +139,23 @@ public class UpdatedContractSelection extends VerticalLayout {
     private TextField rebateScheduleAlias;
 
     @UiField("marketType")
-    public ComboBox marketType;
+    private ComboBox marketType;
     @UiField("rebateScheduleType")
-    public ComboBox rebateScheduleType;
+    private ComboBox rebateScheduleType;
     @UiField("rarCategory")
-    public ComboBox rarCategory;
+    private ComboBox rarCategory;
     @UiField("rebateScheduleCategory")
-    public ComboBox rebateScheduleCategory;
+    private ComboBox rebateScheduleCategory;
     @UiField("rebateProgramType")
-    public ComboBox rebateProgramType;
+    private ComboBox rebateProgramType;
     @UiField("fieldDdlb")
-    public ComboBox fieldDdlb;
+    private ComboBox fieldDdlb;
 
     @UiField("massUpdateRadio")
-    public OptionGroup massUpdateEnableDisable;
+    private OptionGroup massUpdateEnableDisable;
     @UiField("valueDdlb")
     private ComboBox valueDdlb;
-    @UiField("valueTxt")
-    private TextField valueTxt;
+   
     @UiField("startPeriod")
     private PopupDateField startPeriod;
     @UiField("endPeriod")
@@ -173,10 +170,10 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiField("transferSalesProjection")
     private OptionGroup transferSalesProjectionOption;
     @UiField("currentTradingPartnerTableLayout")
-    public VerticalLayout currentTradingPartnerTableLayout;
+    private VerticalLayout currentTradingPartnerTableLayout;
 
     @UiField("componentSelection")
-    public ComboBox componentSelection;
+    private ComboBox componentSelection;
     @UiField("cNumber")
     private TextField cNumber;
     @UiField("status")
@@ -198,22 +195,18 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     @UiField("cNumberLabel")
     private Label cNumberLabel;
-    @UiField("statusLabel")
-    private Label statusLabel;
+   
     @UiField("rebateFrequencyLabel")
     private Label rebateFrequencyLabel;
-    @UiField("startDateLabel")
-    private Label startDateLabel;
+   
     @UiField("cIdLabel")
     private Label cIdLabel;
     @UiField("cNameLabel")
     private Label cNameLabel;
-    @UiField("typeLabel")
-    private Label typeLabel;
+   
     @UiField("basisLabel")
     private Label basisLabel;
-    @UiField("endDateLabel")
-    private Label endDateLabel;
+   
 
     // Components related to RS Component Ddlb
     @UiField("rsTypeLabel")
@@ -248,104 +241,100 @@ public class UpdatedContractSelection extends VerticalLayout {
     private Button closeBtn;
 
     @UiField("componentInformationTableLayout")
-    public VerticalLayout componentInformationTableLayout;
+    private VerticalLayout componentInformationTableLayout;
 
     /**
      * The excel btn
      */
     @UiField("excelBtn")
-    public Button excelBtn;
+    private Button excelBtn;
 
     /* The excel btn */
     @UiField("excelBtnInfo")
-    public Button excelBtnInfo;
+    private Button excelBtnInfo;
 
     @UiField("valueDdlbLabel")
-    public Label valueDdlbLabel;
+    private Label valueDdlbLabel;
 
     @UiField("comStartDateLabel")
-    public Label comStartDateLabel;
+    private Label comStartDateLabel;
 
     @UiField("comEndDateLabel")
-    public Label comEndDateLabel;
+    private Label comEndDateLabel;
 
     @UiField("submitBtn")
-    public Button submitBtn;
+    private Button submitBtn;
     @UiField("tpResetBtn")
-    public Button tpResetBtn;
+    private Button tpResetBtn;
 
     @UiField("previousBtn")
-    public Button previousBtn;
+    private Button previousBtn;
 
     @UiField("searchBtn")
-    Button searchBtn;
+    private Button searchBtn;
 
     @UiField("resetBtn")
-    public Button resetBtn;
+    private Button resetBtn;
 
 
-    final public BeanItemContainer<String> statusBean = new BeanItemContainer<>(String.class);
     private String screenName = StringUtils.EMPTY;
 
     @UiField("massUpdateSection")
-    public Panel massUpdateSection;
+    private Panel massUpdateSection;
     @UiField("cfpNo")
-    public CustomTextField cfpNo;
+    private CustomTextField cfpNo;
     @UiField("ifpNo")
-    public CustomTextField ifpNo;
+    private CustomTextField ifpNo;
     @UiField("psNo")
-    public CustomTextField psNo;
-    @UiField("allCustomers")
-    public Button allCustomers;
+    private CustomTextField psNo;
+   
     @UiField("allCustomer")
-    public ComboBox allCustomer;
+    private ComboBox allCustomer;
     @UiField("removeProjectionDetails")
-    public CheckBox removeProjectionDetails;
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private CheckBox removeProjectionDetails;
+    private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The excel export image
      */
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    CurrentContractTableLogic ContractTableLogic = new CurrentContractTableLogic();
-    public ExtPagedTable pagedTable = new ExtPagedTable(ContractTableLogic);
-    private BeanItemContainer<ContractResultDTO> pagedContainer = new BeanItemContainer<>(ContractResultDTO.class);
-    private BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
-    ContractSelectionDTO contractSeletion = null;
-    List<IdDescriptionDTO> statusResultList = new ArrayList<>();
-    ExtTreeContainer<ContractResultDTO> tradingPartnerDetailsContainer = new ExtTreeContainer<>(ContractResultDTO.class);
-    boolean summaryRefreshed;
-    private ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<>(ComponentInformationDTO.class);
-    public List<ComponentInformationDTO> componentInformation = new ArrayList<>();
-    CompanyComponentTableLogic tablelogic = new CompanyComponentTableLogic();
-    public ExtPagedTable componentInformationTable = new ExtPagedTable(tablelogic);
-    AbstractLogic abstractLogic = AbstractLogic.getInstance();
-    CommonUtil commonMsg = CommonUtil.getInstance();
-    public static final String MASS_UPDATE_ERROR = "Mass Update Error";
-    SelectionDTO selection;
+    private final CurrentContractTableLogic ContractTableLogic = new CurrentContractTableLogic();
+    private final ExtPagedTable pagedTable = new ExtPagedTable(ContractTableLogic);
+    private final BeanItemContainer<ContractResultDTO> pagedContainer = new BeanItemContainer<>(ContractResultDTO.class);
+    private final BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
+    private ContractSelectionDTO contractSeletion = null;
+    private List<IdDescriptionDTO> statusResultList = new ArrayList<>();
+    
+    private boolean summaryRefreshed;
+    private final ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<>(ComponentInformationDTO.class);
+    private final List<ComponentInformationDTO> componentInformation = new ArrayList<>();
+    private final CompanyComponentTableLogic tablelogic = new CompanyComponentTableLogic();
+    private final ExtPagedTable componentInformationTable = new ExtPagedTable(tablelogic);
+    
+    private static final String MASS_UPDATE_ERROR = "Mass Update Error";
+    
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(UpdatedContractSelection.class);
 
-    private ContractSelectionLogic logic = new ContractSelectionLogic();
+    private final ContractSelectionLogic contractSelectionLogic = new ContractSelectionLogic();
 
-    boolean isToBeMassUpdated = false;
+    
 
-    public RemoveTPForm removeTpForm;
-    public TransferTPForm transferTpForm;
-    public AddTPForm addTpForm;
-    public UpdateTPForm updateTPForm;
-    SessionDTO session;
-    String excelName = "Rebate Schedule Information";
-    String nonAssociatedProducts = StringUtils.EMPTY;
-    int timeGap;
-    String[] excelComponentId = new String[NumericConstants.FIVE];
-    String excelSelectionValue;
+    private RemoveTPForm removeTpForm;
+    private TransferTPForm transferTpForm;
+    private AddTPForm addTpForm;
+    private UpdateTPForm updateTPForm;
+    private SessionDTO session;
+    public String excelName = "Rebate Schedule Information";
+    private String nonAssociatedProducts = StringUtils.EMPTY;
+    private int timeGap;
+    private String[] excelComponentId = new String[NumericConstants.FIVE];
+    private String excelSelectionValue;
 
-    boolean isTableUpdate = false;
+    private boolean isTableUpdate = false;
 
-    boolean isComponentInformationExport = false;
+    private boolean isComponentInformationExport = false;
 
     public UpdatedContractSelection(SessionDTO session, AddTPForm form) {
         this.addTpForm = form;
@@ -422,6 +411,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             transferSalesProjectionOption.select(YES.getConstant());
             transferSalesProjectionOption.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     if (transferSalesProjectionOption.getValue().equals(YES.getConstant())) {
                         transferTpForm.setSalesCopyFlag(true);
@@ -432,6 +422,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             });
             removeProjectionDetails.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     transferTpForm.setSalesRemoveFlag(removeProjectionDetails.getValue());
                 }
@@ -493,6 +484,7 @@ public class UpdatedContractSelection extends VerticalLayout {
 
             componentSelection.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     loadComponentInformation(String.valueOf(event.getProperty().getValue()), pagedTable.getValue());
                     componentInformationTable.setFilterBarVisible(true);
@@ -555,9 +547,9 @@ public class UpdatedContractSelection extends VerticalLayout {
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (propertyId.equals(Constants.STATUS_S)) {
                     try {
-                        CustomComboBox status = new CustomComboBox();
-                        logic.setIdDescription(statusResultList, status);
-                        return status;
+                        CustomComboBox custComboStatus = new CustomComboBox();
+                        logic.setIdDescription(statusResultList, custComboStatus);
+                        return custComboStatus;
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
@@ -565,10 +557,10 @@ public class UpdatedContractSelection extends VerticalLayout {
                 }               
                 if ("rARCategory".equals(propertyId)) {
                     try {
-                        final ComboBox rarCategory = new ComboBox();
-                        commonMsg.loadComboBoxForGCM(rarCategory, "RS_UDC2", true);
-                        rarCategory.select(0);
-                        return rarCategory;
+                        final ComboBox tmpRarCategory = new ComboBox();
+                        CommonUtil.loadComboBoxForGCM(tmpRarCategory, "RS_UDC2", true);
+                        tmpRarCategory.select(0);
+                        return tmpRarCategory;
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
@@ -591,10 +583,12 @@ public class UpdatedContractSelection extends VerticalLayout {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -635,6 +629,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         
         pagedTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 
+            @Override
             public void itemClick(ItemClickEvent event) {
                 String componentSelectionValue = String.valueOf(componentSelection.getValue());
                 if (!SELECT_ONE.getConstant().equals(componentSelectionValue)) {
@@ -688,6 +683,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         });
 
         pagedTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 final ContractResultDTO dto = (ContractResultDTO) itemId;
 
@@ -698,6 +694,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     } else {
                         check.setImmediate(true);
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                            @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 logic.callCheckRecUpdate(check.getValue(), (ContractResultDTO) itemId, screenName, session);
                                 if (!check.getValue()) {
@@ -728,13 +725,14 @@ public class UpdatedContractSelection extends VerticalLayout {
                             public void focus(FieldEvents.FocusEvent event) {
                                 Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
 
+                                    @Override
                                     public void valueChange(Property.ValueChangeEvent event) {
                                         if (!isTableUpdate && compStartDate != null && compStartDate.getValue() != null) {
                                             Date enteredDate = compStartDate.getValue();
                                             Date maxEndDate = new Date(1, 1, NumericConstants.ONE_NINE_ZERO_ZERO);
                                             if (screenName.equals(TAB_TRANSFER_CONTRACT.getConstant())) {
-                                                String endDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), false, false, true);
-                                                maxEndDate = new Date(CommonLogic.convertDateFormat(endDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.DATE_FORMAT));
+                                                String tmpEndDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), false, false, true);
+                                                maxEndDate = new Date(CommonLogic.convertDateFormat(tmpEndDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.DATE_FORMAT));
                                             }
 
                                             if (enteredDate == null || (enteredDate.after(maxEndDate))) {
@@ -782,6 +780,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                             @Override
                             public void focus(FieldEvents.FocusEvent event) {
                                 Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                                    @Override
                                     public void valueChange(Property.ValueChangeEvent event) {
                                         if (!isTableUpdate) {
                                             try {
@@ -831,28 +830,28 @@ public class UpdatedContractSelection extends VerticalLayout {
                 }
 
                 if (String.valueOf(propertyId).equals(Constants.STATUS_S)) {
-                    final CustomComboBox status = new CustomComboBox();
-                    status.setImmediate(true);
+                    final CustomComboBox custComboStatus = new CustomComboBox();
+                    custComboStatus.setImmediate(true);
                     try {
-                        CommmonLogic.loaDDLBForListLoading(status, UiUtils.STATUS, false);
+                        CommmonLogic.loaDDLBForListLoading(custComboStatus, UiUtils.STATUS, false);
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
                     if (screenName.equals(TAB_TRANSFER_CONTRACT.getConstant())
                             || (session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()) && dto.getWorkflowStatus().trim().isEmpty())
                             || (session.getModuleName().equals(TRADING_PARTNER_UPDATE.getConstant()) && dto.getWorkflowStatus().trim().isEmpty())) {
-                        status.addFocusListener(new FieldEvents.FocusListener() {
+                        custComboStatus.addFocusListener(new FieldEvents.FocusListener() {
 
                             @Override
                             public void focus(FieldEvents.FocusEvent event) {
-                                status.addValueChangeListener(new Property.ValueChangeListener() {
+                                custComboStatus.addValueChangeListener(new Property.ValueChangeListener() {
 
                                     @Override
                                     public void valueChange(Property.ValueChangeEvent event) {
                                         if (!isTableUpdate) {
                                             HelperDTO helperDto = null;
-                                            if (status.getValue() != null) {
-                                                helperDto = (HelperDTO) status.getValue();
+                                            if (custComboStatus.getValue() != null) {
+                                                helperDto = (HelperDTO) custComboStatus.getValue();
                                                 int stat = helperDto.getId();
                                                 if (stat != 0) {
                                                     int count = 0;
@@ -871,14 +870,14 @@ public class UpdatedContractSelection extends VerticalLayout {
                                     }
 
                                 });
-                                status.removeFocusListener(this);
+                                custComboStatus.removeFocusListener(this);
                             }
                         });
 
                     } else {
-                        status.setEnabled(false);
+                        custComboStatus.setEnabled(false);
                     }
-                    return status;
+                    return custComboStatus;
 
                 }
 
@@ -945,7 +944,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             excelSelectionValue = componentSelectionValue;
             if (!componentSelectionValue.equals(Constants.NULL) && !SELECT_ONE.getConstant().equals(componentSelectionValue)) {
                 changeComponents(componentSelectionValue);
-                loadComponentInformationFields(Arrays.asList(logic.getComponentInformationData(componentSelectionValue, id, false, false, 0, 0, null).get(0)));
+                loadComponentInformationFields(Arrays.asList(contractSelectionLogic.getComponentInformationData(componentSelectionValue, id, false, false, 0, 0, null).get(0)));
                 loadComponentInformationTable(componentSelectionValue);
                 tablelogic.loadSetData(componentSelectionValue, id, Boolean.TRUE);
             } else {
@@ -1030,9 +1029,9 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiHandler("NextBtn")
     public void nextButtonLogic(Button.ClickEvent event) {
         LOGGER.debug("Contract selection submitAndNextLogic initiated");
-        List<String> checkData = logic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.CHECK);
+        List<String> checkData = contractSelectionLogic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.CHECK);
 
-        if (logic.isAnyDataSubmitted(session.getUserId(), session.getSessionId(), session.getModuleName(), screenName)) {
+        if (contractSelectionLogic.isAnyDataSubmitted(session.getUserId(), session.getSessionId(), session.getModuleName(), screenName)) {
             if (checkData.size() <= 0 || checkData.get(0).equals(Constants.ZEROSTRING)) {
                 changeTab();
             } else {
@@ -1062,6 +1061,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiHandler("closeBtn")
     public void closeBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -1268,7 +1268,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         final CommmonLogic logic = new CommmonLogic();
         String fieldValue = String.valueOf(fieldDdlb.getValue());
 
-        if (!this.logic.isAnyRecordSelected(session.getUserId(), session.getSessionId(), screenName)) {
+        if (!this.contractSelectionLogic.isAnyRecordSelected(session.getUserId(), session.getSessionId(), screenName)) {
             AbstractNotificationUtils.getErrorNotification(MASS_UPDATE_ERROR, "Please select at least one contract to apply the Mass Update to");
             return;
         }
@@ -1291,18 +1291,18 @@ public class UpdatedContractSelection extends VerticalLayout {
                 AbstractNotificationUtils.getErrorNotification(MASS_UPDATE_ERROR, "Please enter a Start Date to Mass Update.");
                 return;
             }
-            String endDate = StringUtils.EMPTY;
+            String tmpEndDate = StringUtils.EMPTY;
             if (session.getModuleName().equals(TRANSFER_TRADING_PARTNER.getConstant()) && TAB_TRANSFER_CONTRACT.getConstant().equals(screenName)) {
-                endDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), false, false, true);
+                tmpEndDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), false, false, true);
 
             }
-            if (endDate != StringUtils.EMPTY) {
+            if (tmpEndDate != StringUtils.EMPTY) {
                 SimpleDateFormat inputDateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
 
                 String startdate;
                 startdate = String.valueOf(inputDateFormatter.format(startPeriod.getValue()));
 
-                if (!ContractSelectionLogic.isTCStartDateGreaterThanEndDate(session.getUserId(), session.getSessionId(), endDate, startdate)) {
+                if (!ContractSelectionLogic.isTCStartDateGreaterThanEndDate(session.getUserId(), session.getSessionId(), tmpEndDate, startdate)) {
                     AbstractNotificationUtils.getErrorNotification(MASS_UPDATE_ERROR, "The Start Date must come after the End Date in current contract. Please reenter the Start Date.");
                     return;
                 }
@@ -1315,9 +1315,9 @@ public class UpdatedContractSelection extends VerticalLayout {
             }
 
             SimpleDateFormat dateFormater = new SimpleDateFormat("MM-dd-yyyy");
-            String endDate = dateFormater.format((Date) endPeriod.getValue());
+            String tmpEndDate = dateFormater.format((Date) endPeriod.getValue());
 
-            if (ContractSelectionLogic.isStartDateGreaterThanEndDate(session.getUserId(), session.getSessionId(), endDate)) {
+            if (ContractSelectionLogic.isStartDateGreaterThanEndDate(session.getUserId(), session.getSessionId(), tmpEndDate)) {
                 AbstractNotificationUtils.getErrorNotification(MASS_UPDATE_ERROR, "The End Date must come after the Start Date. Please reenter the End Date.");
                 return;
             }
@@ -1327,6 +1327,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         final Object massUpdateValueTemp = massUpdateValue;
         if (logic.isValuesPresentAlready(String.valueOf(fieldDdlb.getValue()), session.getUserId(), session.getSessionId(), screenName)) {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     return;
                 }
@@ -1382,7 +1383,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         submitAndNextLogic(false);
     }
 
-    ExtCustomTable.ColumnCheckListener checkListener = new ExtCustomTable.ColumnCheckListener() {
+    private ExtCustomTable.ColumnCheckListener checkListener = new ExtCustomTable.ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
             if (event.isChecked()) {
@@ -1418,6 +1419,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiHandler("tpResetBtn")
     public void tpResetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -1456,6 +1458,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiHandler("resetBtn")
     public void resetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -1691,12 +1694,12 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     public boolean submitAndNextLogic(final boolean isNextButtonClicked) {
         LOGGER.debug("Contract selection submitAndNextLogic initiated");
-        List<String> checkData = logic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.CHECK);
+        List<String> checkData = contractSelectionLogic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.CHECK);
         if (checkData.size() > 0 && checkData.get(0).equals(Constants.ZEROSTRING)) {
             AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please select any record to submit");
             return false;
         }
-        List<String> contractLists = logic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.STATUS_S);
+        List<String> contractLists = contractSelectionLogic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.STATUS_S);
         if (((session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant())) || (session.getModuleName().equals(TRADING_PARTNER_UPDATE.getConstant()))) && contractLists != null && !contractLists.isEmpty()) {
             AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please select Status for the following Contract records: " + CommonUtils.CollectionToString(contractLists, false));
             return false;
@@ -1712,7 +1715,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             }
         }
 
-        List<String> contractList = logic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.START_DATE);
+        List<String> contractList = contractSelectionLogic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.START_DATE);
         if (session.getModuleName().equals(TRANSFER_TRADING_PARTNER.getConstant())) {
             if (contractList != null && !contractList.isEmpty()) {
                 AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter a Status and Start Date for the following Contracts: " + CommonUtils.CollectionToString(contractList, false) + ". Then try again.");
@@ -1724,7 +1727,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         }
         if ((session.getModuleName().equals(TRADING_PARTNER_UPDATE.getConstant())) || (session.getModuleName().equals(TRANSFER_TRADING_PARTNER.getConstant())
                 || session.getModuleName().equals(PROJECTION_DETAILS_TRANSFER.getConstant())) && TAB_CURRENT_CONTRACT.getConstant().equals(screenName)) {
-            contractList = logic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.END_DATE);
+            contractList = contractSelectionLogic.getSubmitValidationData(session.getUserId(), session.getSessionId(), screenName, Constants.END_DATE);
             if (contractList != null && !contractList.isEmpty()) {
                 AbstractNotificationUtils.getErrorNotification(Constants.SUBMIT_ERROR, "Please enter an End Date for the following Contract records: " + CommonUtils.CollectionToString(contractList, false));
                 return false;
@@ -1772,7 +1775,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 String fromFlavour = CommonLogic.getForecastFlavour(fromProjectionId);
                 int toContractSid = CommonLogic.getCheckedContractSid(session.getSessionId(), screenName, true);
                 String fromCustomerEndDate = CommonLogic.getDateForCheckedContract(session.getSessionId(), false, false, true);
-                if (!logic.isSalesPresentAlready(fromProjectionId, fromCustomerEndDate, session.getCompanyMasterSids(), toContractSid, fromFlavour)) {
+                if (!contractSelectionLogic.isSalesPresentAlready(fromProjectionId, fromCustomerEndDate, session.getCompanyMasterSids(), toContractSid, fromFlavour)) {
                     AbstractNotificationUtils.getAlertNotification("No Values to Transfer", "The Contract/Company combination do not have any projected sales or units to transfer.");
                     return false;
                 } else {
@@ -1780,7 +1783,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                 }
             } else {
                 LOGGER.debug("Entering Transfer submit next checks");
-                logic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), true);
+                contractSelectionLogic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), true);
                 checkNonAssociatedProducts(isNextButtonClicked, session.getModuleName().equals(PROJECTION_DETAILS_TRANSFER.getConstant()));
             }
         } else {
@@ -1802,12 +1805,13 @@ public class UpdatedContractSelection extends VerticalLayout {
             int sourceProjectionId = CommonLogic.getProjectionIdForSubmittedContract(session.getSessionId(), false);
             int destProjectionId = CommonLogic.getProjectionIdForSubmittedContract(session.getSessionId(), true);
 
-            if (logic.isHavingAnyCommonProducts(session.getCompanyMasterSids(), session.getPhCompanyMasterSids(), sourceProjectionId, destProjectionId, sourceContractId, destContractId)) {
+            if (contractSelectionLogic.isHavingAnyCommonProducts(session.getCompanyMasterSids(), session.getPhCompanyMasterSids(), sourceProjectionId, destProjectionId, sourceContractId, destContractId)) {
 
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
 
-                        logic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
+                        contractSelectionLogic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
                         ContractTableLogic.handleFilterChange();
                     }
 
@@ -1819,15 +1823,16 @@ public class UpdatedContractSelection extends VerticalLayout {
                         + "from " + sourceContract + " to " + destinationContract + ". \n Some of the products are not associated.\n"
                         + "Are you sure you want to continue with this transfer process? ");
             } else {
-                logic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
+                contractSelectionLogic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
                 ContractTableLogic.handleFilterChange();
                 LOGGER.debug("No common products");
             }
         } else if (isHavingDifferentProducts()) {
             String companies = CommonLogic.getSelectedCompanyNames(session.getCompanyMasterSids());
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
-                    logic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
+                    contractSelectionLogic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
                     ContractTableLogic.handleFilterChange();
                 }
 
@@ -1849,8 +1854,9 @@ public class UpdatedContractSelection extends VerticalLayout {
         LOGGER.debug("Entering checkTimeGap");
         if (isTimeGapPresent()) {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
-                    logic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
+                    contractSelectionLogic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
                 }
 
                 @Override
@@ -1870,10 +1876,11 @@ public class UpdatedContractSelection extends VerticalLayout {
         String toFlavour = CommonLogic.getForecastFlavour(toProjectionId);
         int toContractSid = CommonLogic.getSelectedContractSid(session.getSessionId(), true);
         String toCustomerStartDate = CommonLogic.getDateForCheckedContract(session.getSessionId(), true, true, false);
-        if (logic.isSalesPresentAlready(toProjectionId, toCustomerStartDate, session.getCompanyMasterSids(), toContractSid, toFlavour)) {
+        if (contractSelectionLogic.isSalesPresentAlready(toProjectionId, toCustomerStartDate, session.getCompanyMasterSids(), toContractSid, toFlavour)) {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
-                    logic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
+                    contractSelectionLogic.updateSubmitFlagWithoutCheckRecord(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), false);
                 }
 
                 @Override
@@ -1890,11 +1897,11 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     private boolean isTimeGapPresent() {
         LOGGER.debug("Inside isTimeGapPresent");
-        String endDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), false, false, true);
-        Date maxEndDate = new Date(CommonLogic.convertDateFormat(endDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.DATE_FORMAT));
+        String tmpEndDate = CommonLogic.getDateForSubmittedContract(session.getSessionId(), false, false, true);
+        Date maxEndDate = new Date(CommonLogic.convertDateFormat(tmpEndDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.DATE_FORMAT));
 
-        String startDate = CommonLogic.getDateForCheckedContract(session.getSessionId(), true, true, false);
-        Date minStartDate = new Date(CommonLogic.convertDateFormat(startDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.DATE_FORMAT));
+        String tmpStartDate = CommonLogic.getDateForCheckedContract(session.getSessionId(), true, true, false);
+        Date minStartDate = new Date(CommonLogic.convertDateFormat(tmpStartDate, DEFOULT_SQL_DATE_FORMAT.getConstant(), Constants.DATE_FORMAT));
 
         Calendar startCalendar = new GregorianCalendar();
         startCalendar.setTime(maxEndDate);
@@ -1916,7 +1923,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     private void submition(boolean isNextButtonClicked) {
         LOGGER.debug("Inside Submition");
         summaryRefreshed = true;
-        logic.updateSubmitFlag(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), true);
+        contractSelectionLogic.updateSubmitFlag(session.getModuleName(), screenName, session.getUserId(), session.getSessionId(), true);
         ContractTableLogic.setCurrentPage(ContractTableLogic.getCurrentPage());
         if (!isNextButtonClicked) {
             AbstractNotificationUtils.getAlertNotification("Submit Details", "Selected Contract Holder has been submitted successfully.");
@@ -1927,7 +1934,7 @@ public class UpdatedContractSelection extends VerticalLayout {
 
     private boolean isHavingDifferentProducts() {
         LOGGER.debug("Inside isHavingDifferentProducts");
-        List<String> nonAssociatedProductsList = logic.getNonAssociatedProducts(session.getSessionId());
+        List<String> nonAssociatedProductsList = contractSelectionLogic.getNonAssociatedProducts(session.getSessionId());
         if (nonAssociatedProductsList != null && !nonAssociatedProductsList.isEmpty()) {
             nonAssociatedProducts = CommonUtils.CollectionToString(nonAssociatedProductsList, false);
             LOGGER.debug("Exiting isHavingDifferentProducts");

@@ -22,10 +22,9 @@ import org.jboss.logging.Logger;
 
 public class TransferPDFilterGenerator implements ExtFilterGenerator {
     
-    private static Logger LOGGER = Logger.getLogger(TransferPDFilterGenerator.class);
+    private static final Logger LOGGER = Logger.getLogger(TransferPDFilterGenerator.class);
     
    
-  CommmonLogic commonLogic = new CommmonLogic();
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {
              
@@ -68,7 +67,7 @@ public class TransferPDFilterGenerator implements ExtFilterGenerator {
 
                 comboBox = new ComboBox();
                 comboBox.setImmediate(true);
-                 commonLogic.loaDDLBForListLoading(comboBox,"STATUS",true);
+                 CommmonLogic.loaDDLBForListLoading(comboBox,"STATUS",true);
                 comboBox.setNullSelectionAllowed(true);
                 comboBox.setNullSelectionItemId("Show All");
                 comboBox.select(ConstantsUtils.ZERO_INT);

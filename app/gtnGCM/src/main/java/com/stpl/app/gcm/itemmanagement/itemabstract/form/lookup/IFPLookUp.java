@@ -32,8 +32,6 @@ import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
@@ -58,7 +56,7 @@ private static final Logger LOGGER = Logger.getLogger(IFPLookUp.class);
     @UiField("category")
     public TextField category;
     @UiField("startDate")
-    PopupDateField startDate;
+    private PopupDateField startDate;
     @UiField("componentNo")
     public TextField componentNo;
     @UiField("componentStatus_DTO")
@@ -74,19 +72,16 @@ private static final Logger LOGGER = Logger.getLogger(IFPLookUp.class);
     @UiField("closeBtn")
     public Button closeBtn;
     @UiField("endDate")
-    PopupDateField endDate;
-    AbstractLookUpTableLogic tableLogic = new AbstractLookUpTableLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
-    private BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
-    private BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
-    ComponentLookUpDTO componentDto;
-    ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
-    SelectionDTO selection = new SelectionDTO();
-    AbstractLogic logic = AbstractLogic.getInstance();
-    List<String> countFlag = new ArrayList<>();
-    List<String> loadDataFlag = new ArrayList<>();
+    private PopupDateField endDate;
+    private final AbstractLookUpTableLogic tableLogic = new AbstractLookUpTableLogic();
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
+    private final BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
+    private final ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
+    private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private final SelectionDTO selection = new SelectionDTO();
+    private final AbstractLogic logic = AbstractLogic.getInstance();
     public CustomTextField componentTextField;
     public Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentNo", "componentName", "componentType", "category", "designation", "planId", "planName", "componentStatus", Constants.START_DATE, Constants.END_DATE};
@@ -136,10 +131,12 @@ private static final Logger LOGGER = Logger.getLogger(IFPLookUp.class);
             }
         }
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -153,18 +150,22 @@ private static final Logger LOGGER = Logger.getLogger(IFPLookUp.class);
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if ("componentStatus".equals(propertyId)) {
                     ComboBox rsProgramType = new ComboBox();

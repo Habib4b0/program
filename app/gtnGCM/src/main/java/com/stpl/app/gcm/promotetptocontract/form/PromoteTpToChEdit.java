@@ -17,7 +17,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class PromoteTpToChEdit extends VerticalLayout {
 
-    SessionDTO session;
+    private final SessionDTO session;
     /**
      * View name for navigation.
      */
@@ -29,10 +29,10 @@ public class PromoteTpToChEdit extends VerticalLayout {
     /**
      * Binder for DataSelection.
      */
-    private CustomFieldGroup promoteTpToChBinder = new CustomFieldGroup(new BeanItem<>(promoteTpToChDto));
-    PromoteTPToChForm promoteTPToChForm;
-    PromoteTpToChWindow editWindow;
-    ExtFilterTable resultTable;
+    private final CustomFieldGroup promoteTpToChBinder = new CustomFieldGroup(new BeanItem<>(promoteTpToChDto));
+    private final PromoteTPToChForm promoteTPToChForm;
+    private final PromoteTpToChWindow editWindow;
+    private final ExtFilterTable resultTable;
 
     /**
      *

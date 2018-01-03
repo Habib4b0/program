@@ -31,7 +31,6 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -65,22 +64,22 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class RebateTab extends VerticalLayout {
 
     @UiField("tradingPartnerSalesTableLayout")
-    VerticalLayout tradingPartnerSalesTableLayout;
+    private VerticalLayout tradingPartnerSalesTableLayout;
     @UiField("excelBtn")
     public Button excelBtn;
     @UiField("frequency")
     public ComboBox frequency;
     @UiField("history")
     public ComboBox history;
-    CustomTableHeaderDTO tableHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO tableHeader = new CustomTableHeaderDTO();
     final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     /**
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = Logger.getLogger(RebateTab.class);
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightDTO;
-    CustomTableHeaderDTO leftDTO;
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightDTO;
+    private CustomTableHeaderDTO leftDTO;
     public static final String FOUR_QUARTERS = "4 Quarters";
     public static final String QUARTERLY1 = "Quarterly";
     private ExtTreeContainer<RebateTabDTO> resultBean = new ExtTreeContainer<>(RebateTabDTO.class,ExtContainer.DataStructureMode.MAP);
@@ -92,10 +91,10 @@ public class RebateTab extends VerticalLayout {
      * The map right visible columns.
      */
     private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
-    ExtFilterTreeTable leftTable;
-    ExtFilterTreeTable rightTable;
-    RebateTabTableLogic tableLogic = new RebateTabTableLogic();
-    FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
+    private ExtFilterTreeTable leftTable;
+    private ExtFilterTreeTable rightTable;
+    private final RebateTabTableLogic tableLogic = new RebateTabTableLogic();
+    private FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     /*
      * The max split position.
@@ -114,10 +113,10 @@ public class RebateTab extends VerticalLayout {
     public TabSelectionDTO selectionDTO = new TabSelectionDTO();
     private ExtCustomTreeTable exportPeriodViewTable;
     private ExtTreeContainer<RebateTabDTO> excelResultBean = new ExtTreeContainer<>(RebateTabDTO.class,ExtContainer.DataStructureMode.MAP);
-    LoadTabLogic tabLogic = new LoadTabLogic();
-    boolean load = false;
-    SessionDTO session;
-    int projectionId = 0;
+    private final LoadTabLogic tabLogic = new LoadTabLogic();
+    public boolean load = false;
+    public final SessionDTO session;
+    private int projectionId = 0;
 
     public RebateTab(SessionDTO session, boolean isLoad) {
         this.load = isLoad;
@@ -197,6 +196,7 @@ public class RebateTab extends VerticalLayout {
         resultsTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
         rightTable
                 .addDoubleHeaderColumnCheckListener(new ExtCustomTable.DoubleHeaderColumnCheckListener() {
+            @Override
             public void doubleHeaderColumnCheck(
                     ExtCustomTable.DoubleHeaderColumnCheckEvent event) {
                 Notification.show("Current Value: " + event.isChecked()
@@ -205,6 +205,7 @@ public class RebateTab extends VerticalLayout {
         });
         rightTable
                 .addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(
                     ExtCustomTable.ColumnCheckEvent event) {
                 Notification.show("Current Value: " + event.isChecked()
@@ -327,7 +328,7 @@ public class RebateTab extends VerticalLayout {
             initializeResultTable();
             leftDTO = HeaderUtils.getSalesTabLeftTableColumns(fullHeader);
             tableHeader = new CustomTableHeaderDTO();
-            rightDTO = header.getSalesAndRebateColumns(tableHeader, fullHeader, Integer.valueOf(his[0]), String.valueOf(frequency.getValue()), false);
+            rightDTO = HeaderUtils.getSalesAndRebateColumns(tableHeader, fullHeader, Integer.valueOf(his[0]), String.valueOf(frequency.getValue()), false);
             resultBean.setColumnProperties(leftDTO.getProperties());
             resultBean.setColumnProperties(rightDTO.getProperties());
             tableLogic.setTreeNodeMultiClick(false);

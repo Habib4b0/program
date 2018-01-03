@@ -37,20 +37,20 @@ import java.util.Map;
  */
 public class RemoveDiscountLookUp extends Window {
 
-    TabSheet mainTab = new TabSheet();
-    RemoveDiscount removeDiscount = new RemoveDiscount();
-    Summary summary = new Summary();
-    ContractsDetailsDto dto = new ContractsDetailsDto();
-    List<RemoveDiscountDto> selecteditemList;
-    Button closeBtn = new Button("CLOSE");
-    Button nextBtn = new Button("NEXT");
-    Button previousBtn = new Button("PREVIOUS");
-    Button removeBtn = new Button("REMOVE DISCOUNT");
-    int tabPosition;
+    private TabSheet mainTab = new TabSheet();
+    private final RemoveDiscount removeDiscount = new RemoveDiscount();
+    private final Summary summary = new Summary();
+    private final ContractsDetailsDto dto = new ContractsDetailsDto();
+    public List<RemoveDiscountDto> selecteditemList;
+    private final Button closeBtn = new Button("CLOSE");
+    private final Button nextBtn = new Button("NEXT");
+    private final Button previousBtn = new Button("PREVIOUS");
+    private final Button removeBtn = new Button("REMOVE DISCOUNT");
+    private int tabPosition;
     public TreeTable dashboardTreeTable = new TreeTable();
-    int userId;
-    int sessionId;
-    StplSecurity stplSecurity = new StplSecurity();
+    private int userId;
+    private int sessionId;
+    private final StplSecurity stplSecurity = new StplSecurity();
 
     public RemoveDiscountLookUp() {
     }
@@ -110,6 +110,7 @@ public class RemoveDiscountLookUp extends Window {
         removeBtn.setVisible(false);
         nextBtn.setImmediate(true);
         nextBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 mainTab.setSelectedTab(1);
             }
@@ -117,12 +118,14 @@ public class RemoveDiscountLookUp extends Window {
         previousBtn.setImmediate(true);
         previousBtn.setVisible(false);
         previousBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 mainTab.setSelectedTab(0);
             }
         });
         closeBtn.setImmediate(true);
         closeBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 new AbstractNotificationUtils() {
                     @Override
@@ -145,6 +148,7 @@ public class RemoveDiscountLookUp extends Window {
         });
         removeBtn.setImmediate(true);
         removeBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
 
                 new AbstractNotificationUtils() {
@@ -176,6 +180,7 @@ public class RemoveDiscountLookUp extends Window {
                                      * the message box is pressed.
                                      */
                                     @SuppressWarnings("PMD")
+                                    @Override
                                     public void buttonClicked(final ButtonId buttonId) {
                                         close();
                                         final Notification notif = new Notification("Discount removed Successfully", Notification.Type.HUMANIZED_MESSAGE);
@@ -196,6 +201,7 @@ public class RemoveDiscountLookUp extends Window {
         });
 
         mainTab.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
+            @Override
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 final TabSheet.Tab tab = (TabSheet.Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
                 tabPosition = event.getTabSheet().getTabPosition(tab);

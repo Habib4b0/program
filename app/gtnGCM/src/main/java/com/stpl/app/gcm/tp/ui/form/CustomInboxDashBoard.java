@@ -31,11 +31,11 @@ import org.json.JSONException;
  */
 public class CustomInboxDashBoard extends InboxDashBoard {
 
-    String projectionId = StringUtils.EMPTY;
+    private String projectionId = StringUtils.EMPTY;
     public Button closeBtn = new Button(" CLOSE ");
-    WorkFlowLookup workFlowLookup = null;
+    private WorkFlowLookup workFlowLookup = null;
     private final WorkflowLogic searchLogic = new WorkflowLogic();
-    List<InboxDashboardDTO> inboxSearchResults = new ArrayList<>();
+    private List<InboxDashboardDTO> inboxSearchResults = new ArrayList<>();
     private static final Logger LOGGER = Logger.getLogger(CustomInboxDashBoard.class);
 
     public CustomInboxDashBoard(String projectionId, WorkFlowLookup workFlowLookup) {
@@ -115,6 +115,7 @@ public class CustomInboxDashBoard extends InboxDashBoard {
 
         closeBtn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 closeFunction();
 
@@ -142,6 +143,7 @@ public class CustomInboxDashBoard extends InboxDashBoard {
     public void closeFunction() {
 
         MessageBox.showPlain(Icon.QUESTION, "Confirm Close", "Are you sure you want to close the Work Flow Inbox ?", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equalsIgnoreCase(CommonUtils.YES)) {
                     workFlowLookup.close();
