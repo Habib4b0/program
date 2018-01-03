@@ -55,6 +55,7 @@ public class ConsolidatedFinancialForecastUI extends UI {
 		StplSecurity.getUserName();
 	}
 
+        @Override
 	protected void init(VaadinRequest request) {
 		try {
 			LOGGER.debug("init method started");

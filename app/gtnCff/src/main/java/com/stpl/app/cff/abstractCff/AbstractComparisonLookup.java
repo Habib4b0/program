@@ -191,7 +191,7 @@ public abstract class AbstractComparisonLookup extends Window {
      * Comparison custom text field
      */
     protected CustomTextField comparison;
-    private CommonUtils commonUtil = new CommonUtils();
+    private final CommonUtils commonUtil = new CommonUtils();
 
     /**
      *
@@ -378,6 +378,7 @@ public abstract class AbstractComparisonLookup extends Window {
 
     protected void resetBtnLogic() {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }

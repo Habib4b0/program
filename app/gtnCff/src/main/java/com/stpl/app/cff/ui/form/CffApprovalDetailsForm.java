@@ -282,11 +282,13 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     AbstractNotificationUtils notification = new AbstractNotificationUtils() {
+                        @Override
                         public void noMethod() {
                             // To change body of generated methods, choose Tools
                             // | Templates.
                         }
 
+                        @Override
                         public void yesMethod() {
 
                             close();
@@ -304,11 +306,13 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         Boolean submitCkeck = approvalTab.submitCheck();
                         if (submitCkeck) {
                             new AbstractNotificationUtils() {
+                                @Override
                                 public void noMethod() {
                                     // To change body of generated methods, choose Tools
                                     // | Templates.
                                 }
 
+                                @Override
                                 public void yesMethod() {
                                     try {
                                         if (Constants.REJECTED.equals(dto.getStatusDesc())) {
@@ -392,6 +396,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
     public void rejectBtnLogic(final Button.ClickEvent event) {
         LOGGER.debug("Inside Rejected Button click event method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -434,6 +439,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
     public void cancelBtnLogic(final Button.ClickEvent event) {
         LOGGER.debug("Inside Cancelled Button click event method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -471,6 +477,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
     public void deleteBtnLogic(final Button.ClickEvent event) {
         LOGGER.debug("Inside delete Button click event method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -508,11 +515,13 @@ public class CffApprovalDetailsForm extends CustomWindow {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 AbstractNotificationUtils notification = new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // To change body of generated methods, choose Tools
                         // | Templates.
                     }
 
+                    @Override
                     public void yesMethod() {
 
                         String result = "";
@@ -592,9 +601,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
             } else {
                 closeBtn.setVisible(true);
             }
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -610,9 +617,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
             if (functionHM.get("varianceTab") != null && !((AppPermission) functionHM.get("varianceTab")).isTabFlag()) {
                 tabSheet.getTab(NumericConstants.FOUR).setVisible(Boolean.FALSE);
             }
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
