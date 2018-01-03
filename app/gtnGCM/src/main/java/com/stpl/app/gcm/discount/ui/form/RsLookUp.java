@@ -12,25 +12,25 @@ import com.stpl.app.gcm.discount.logic.LookUpTableLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.ui.ComboBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import org.asi.ui.customcombobox.CustomComboBox;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -38,7 +38,8 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -48,7 +49,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  * @author vigneshkanna
  */
 public class RsLookUp extends Window {
- private static final Logger LOGGER = Logger.getLogger(RsLookUp.class);
+ private static final Logger LOGGER = LoggerFactory.getLogger(RsLookUp.class);
     @UiField("rsTableLayout")
     public VerticalLayout rsTableLayout;
     @UiField("rsId")
@@ -74,7 +75,7 @@ public class RsLookUp extends Window {
     LookUpTableLogic tableLogic = new LookUpTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
-    private CustomFieldGroup binder;
+    private ErrorfulFieldGroup binder;
     private CustomTextField parentRsName;
 
     public RsLookUp(CustomTextField parentRsName) {
@@ -90,7 +91,7 @@ public class RsLookUp extends Window {
         try {
             configureFields();
         } catch (Exception ex) {
-         LOGGER.error(ex);
+         LOGGER.error("",ex);
         }
     }
 
@@ -141,13 +142,11 @@ public class RsLookUp extends Window {
                 try {
                 if (propertyId.equals("rsType")) {
                     CustomComboBox rsType = new CustomComboBox();
-                    rsType.setImmediate(true);
                     commonUtil.loadComboBox(rsType, UiUtils.RS_TYPE, true);
                     return rsType;
                 }
                 if (propertyId.equals("rsCategory")) {
                     CustomComboBox rsCategory = new CustomComboBox();
-                    rsCategory.setImmediate(true);
                     
                         commonUtil.loadComboBox(rsCategory, UiUtils.RS_CATEGORY, true);
                    
@@ -155,30 +154,26 @@ public class RsLookUp extends Window {
                 }
                 if (propertyId.equals("rsTradeClass")) {
                     CustomComboBox rsTradeClass = new CustomComboBox();
-                    rsTradeClass.setImmediate(true);
                      commonUtil.loadComboBox(rsTradeClass, UiUtils.RS_TRADE_CLASS, true);
                     return rsTradeClass;
                 }
                 if (propertyId.equals("rsDesignation")) {
                     CustomComboBox rsDesignation = new CustomComboBox();
-                    rsDesignation.setImmediate(true);
                       commonUtil.loadComboBox(rsDesignation, UiUtils.RS_DESIGNATION, true);
                     return rsDesignation;
                 }
                 if (propertyId.equals("rsStatus")) {
                     CustomComboBox rsStatus = new CustomComboBox();
-                    rsStatus.setImmediate(true);
                     commonUtil.loadComboBox(rsStatus, UiUtils.STATUS, true);
                     return rsStatus;
                 }
                 if (propertyId.equals("rebateProgramType")) {
                     CustomComboBox rebateProgramType = new CustomComboBox();
-                    rebateProgramType.setImmediate(true);
                      commonUtil.loadComboBox(rebateProgramType, UiUtils.REBATE_PROGRAM_TYPE, true);
                     return rebateProgramType;
                 }
                  } catch (Exception ex) {
-                     LOGGER.error(ex);
+                     LOGGER.error("",ex);
                     }
                 return null;
             }
@@ -205,20 +200,16 @@ public class RsLookUp extends Window {
         rsStatus.setNullSelectionAllowed(true);
         rsStatus.setValue(Constants.HELPER_DTO);
         rsStatus.setItemCaptionPropertyId(Constants.DESCRIPTION);
-        rsType.setImmediate(true);
         temp = new BeanItemContainer<>(HelperDTO.class);
         temp.addAll(new DiscountLogic().getDropDownList("RS_TYPE", Constants.HELPER_DTO));
         rsType.setContainerDataSource(temp);
         rsType.setNullSelectionItemId(Constants.HELPER_DTO);
         rsType.setValue(Constants.HELPER_DTO);
         rsType.setItemCaptionPropertyId(Constants.DESCRIPTION);
-        rsStartDate.setImmediate(true);
         rsStartDate.setDateFormat(Constants.DATE_FORMAT);
         rsStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
-        rsEndDate.setImmediate(true);
         rsEndDate.setDateFormat(Constants.DATE_FORMAT);
         rsEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
-        rebateProgramType.setImmediate(true);
         temp = new BeanItemContainer<>(HelperDTO.class);
         temp.addAll(new DiscountLogic().getDropDownList("REBATE_PROGRAM_TYPE", Constants.HELPER_DTO));
         rebateProgramType.setContainerDataSource(temp);
@@ -228,13 +219,13 @@ public class RsLookUp extends Window {
         try {
             commonUtil.loadComboBoxForGCM(rsCategory, UiUtils.RS_CATEGORY, false);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         rsId.focus();
     }
 
-    private CustomFieldGroup getBinder() {
-        binder = new CustomFieldGroup(new BeanItem<>(new LookupDTO()));
+    private ErrorfulFieldGroup getBinder() {
+        binder = new ErrorfulFieldGroup(new BeanItem<>(new LookupDTO()));
         binder.bindMemberFields(this);
         binder.setBuffered(true);
         return binder;

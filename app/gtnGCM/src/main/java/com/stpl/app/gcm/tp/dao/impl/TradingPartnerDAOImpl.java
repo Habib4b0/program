@@ -1,14 +1,14 @@
 package com.stpl.app.gcm.tp.dao.impl;
 
 import com.stpl.app.gcm.util.StringConstantsUtil;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.impl.CompanyMasterImpl;
+import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -35,7 +35,7 @@ public class TradingPartnerDAOImpl implements TradingPartnerDAO {
             checkRecordCondition = "CHECK_RECORD = '0' ,";
         }
         String updateQuery = "UPDATE GCM_GLOBAL_DETAILS set " + checkRecordCondition + " OPERATION = '" + udcValue + "' where USER_ID='" + userId + "' AND SESSION_ID='" + sessionId + "' AND CHECK_RECORD='1' AND SCREEN_NAME = '" + screenName + "'";
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(updateQuery);
+        HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery);
     }
 
     public List getSubmitValidationData(String userId, String sessionId, String screenName, String validationType) {
@@ -64,7 +64,7 @@ public class TradingPartnerDAOImpl implements TradingPartnerDAO {
     }
 
     public List searchCompanies(Map<String, Object> parameters) throws SystemException {
-        return CompanyMasterLocalServiceUtil.searchCompanies(parameters);
+        return CompanyMasterImpl.searchCompanies(parameters);
     }
 
     public Object executeSelectQuery(String query) {
@@ -72,19 +72,19 @@ public class TradingPartnerDAOImpl implements TradingPartnerDAO {
     }
 
     public List searchList(String query) {
-        return CompanyMasterLocalServiceUtil.executeQuery(query);
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
     public int insertCustomer(String companyMasterSid, String companyId, String companyNumber, String companyName, String linkId, String sessionId) {
 
         String query = "INSERT INTO GCM_COMPANY_LINK(COMPANY_MASTER_SID, COMPANY_ID, COMPANY_NO, COMPANY_NAME, SESSION_ID, LINK_ID) "
                 + " VALUES ('" + companyMasterSid + "', '" + companyId + "', '" + companyNumber + "', '" + companyName + "', '" + sessionId + "', '" + linkId + "')";
-        return CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        return HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
     }
 
     public int updateCustomer(String companyMasterSid, String linkId, String sessionId) {
         String query = "UPDATE GCM_COMPANY_LINK SET LINK_ID = '" + linkId + "' WHERE SESSION_ID = '" + sessionId + "'  AND COMPANY_MASTER_SID ='" + companyMasterSid + "' ";
-        return CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        return HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
     }
 
     public List searchLinkedCompanies(Map<String, Object> parameters) {
@@ -94,7 +94,7 @@ public class TradingPartnerDAOImpl implements TradingPartnerDAO {
                 queryString.append("SELECT COUNT(*) FROM (");
             }
 
-            queryString.append(CustomSQLUtil.get("tp.searchLinkedCompanies"));
+            queryString.append(SQlUtil.getQuery("tp.searchLinkedCompanies"));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("searchSessionId")));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("searchSessionId")));
 
@@ -143,17 +143,17 @@ public class TradingPartnerDAOImpl implements TradingPartnerDAO {
             }
 
         }
-        return CompanyMasterLocalServiceUtil.executeQuery(queryString.toString());
+        return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
     }
 
     public int updateCheckRecord(String fromCompanyMasterSid, String toCompanyMasterSid, boolean checkvalue, String sessionId) {
         String query = "UPDATE GCM_COMPANY_LINK SET CHECK_RECORD = '" + checkvalue + "' WHERE SESSION_ID = '" + sessionId + "'  AND COMPANY_MASTER_SID in('" + fromCompanyMasterSid + "','" + toCompanyMasterSid + "') ";
-        return CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        return HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
     }
 
     public int removeCustomerLink(String linkedCustomersSessionId) {
         String query = "UPDATE GCM_COMPANY_LINK SET LINK_ID = 'R', CHECK_RECORD = 0 WHERE SESSION_ID = '" + linkedCustomersSessionId + "'  AND CHECK_RECORD = 1 ";
-        return CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        return HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
     }
 
     public List<String> getLinkedCompaniesList(String linkedCustomersSessionId, boolean isFromCompany) {
@@ -162,7 +162,7 @@ public class TradingPartnerDAOImpl implements TradingPartnerDAO {
             operationSymbol = "=";
         }
         String query = "SELECT COMPANY_MASTER_SID FROM GCM_COMPANY_LINK WHERE SESSION_ID = '" + linkedCustomersSessionId + "'  AND LINK_ID <> 'R' AND LINK_ID " + operationSymbol + " '0'";
-        return CompanyMasterLocalServiceUtil.executeQuery(query);
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
     public List getLinkedCustomersCheckedRecordCount(String linkedCustomersSessionId) {
@@ -172,17 +172,17 @@ public class TradingPartnerDAOImpl implements TradingPartnerDAO {
 
     public List<String> getCustomersHavingCommonItems(int sourceProjectionId, int destProjectionId, int sourceContractId, int destContractId, String customerMappings) {
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
-        queryString.append(CustomSQLUtil.get("tp.getCustomersHavingCommonItems"));
+        queryString.append(SQlUtil.getQuery("tp.getCustomersHavingCommonItems"));
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(sourceProjectionId));
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(destProjectionId));
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(sourceContractId));
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(destContractId));
         queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, customerMappings);
-        return CompanyMasterLocalServiceUtil.executeQuery(String.valueOf(queryString));
+        return HelperTableLocalServiceUtil.executeSelectQuery(String.valueOf(queryString));
     }
     
     @Override
     public void insertIntoCcpMap(Map<String, Object> parameters) {
-        ProjectionMasterLocalServiceUtil.saveCcp(parameters);
+        CompanyMasterImpl.saveCcp(parameters);
     }
 }

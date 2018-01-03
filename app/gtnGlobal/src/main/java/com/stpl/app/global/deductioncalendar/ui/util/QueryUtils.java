@@ -5,13 +5,11 @@
  */
 package com.stpl.app.global.deductioncalendar.ui.util;
 
-import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.deductioncalendar.dto.DeductionDetailsDTO;
 import com.stpl.app.global.deductioncalendar.dto.TableDTO;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.xmlparser.SQLUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
@@ -27,7 +25,7 @@ public class QueryUtils {
      * @return
      */
     public String getForecastConfigQuery() {
-        String query = CustomSQLUtil.get("forecast-config");
+        String query = SQLUtil.getQuery("forecast-config");
         return query;
     }
 
@@ -43,17 +41,17 @@ public class QueryUtils {
         if (deductionDTO.getDataView().equals(ConstantsUtils.CUSTOMER)) {
             if (deductionDTO.getFilterDdlb() != null && !ConstantsUtils.NULL.equals(deductionDTO.getFilterDdlb())) {
                 if (deductionDTO.getLevelNo() == 1) {
-                    query = CustomSQLUtil.get("customercount")
+                    query = SQLUtil.getQuery("customercount")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
                             .replace(ConstantsUtils.QUESTION_FILTER," AND COMPANY_MASTER_SID='"+deductionDTO.getFilterDdlb()+"' ");
                 } else if (deductionDTO.getLevelNo() == NumericConstants.TWO) {
-                   query = CustomSQLUtil.get("brandcount")
+                   query = SQLUtil.getQuery("brandcount")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'");
 
                 } else if (deductionDTO.getLevelNo() == NumericConstants.THREE) {
-                    query = CustomSQLUtil.get("cust-brand-item-count")
+                    query = SQLUtil.getQuery("cust-brand-item-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
                             .replace(ConstantsUtils.CMID, "'"+tableDTO.getCompanySid()+"'")
@@ -63,17 +61,17 @@ public class QueryUtils {
                 if (deductionDTO.getLevelNo() == 1) {
                     query = "SELECT COUNT(DISTINCT 'Total') AS TOTAL FROM ST_DEDUCTION_CALENDAR_DETAILS";
                 } else if (deductionDTO.getLevelNo() == NumericConstants.TWO) {
-                    query = CustomSQLUtil.get("customercount")
+                    query = SQLUtil.getQuery("customercount")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
                             .replace(ConstantsUtils.QUESTION_FILTER," ");
                 } else if (deductionDTO.getLevelNo() == NumericConstants.THREE) {
-                    query = CustomSQLUtil.get("brandcount")
+                    query = SQLUtil.getQuery("brandcount")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'");
 
                 } else if (deductionDTO.getLevelNo() == NumericConstants.FOUR) {
-                    query = CustomSQLUtil.get("cust-brand-item-count")
+                    query = SQLUtil.getQuery("cust-brand-item-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
                             .replace(ConstantsUtils.CMID, "'"+tableDTO.getCompanySid()+"'")
@@ -84,18 +82,18 @@ public class QueryUtils {
             if (deductionDTO.getFilterDdlb() != null && !ConstantsUtils.NULL.equals(deductionDTO.getFilterDdlb())) {
                 
                 if (deductionDTO.getLevelNo() == 1) {
-                    query = CustomSQLUtil.get("prod-level1-count")
+                    query = SQLUtil.getQuery("prod-level1-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
                             .replace(ConstantsUtils.QUESTION_FILTER,ConstantsUtils.AND_IM_MASTER_SID +deductionDTO.getFilterDdlb());
                 } else if (deductionDTO.getLevelNo() == NumericConstants.TWO) {
-                    query = CustomSQLUtil.get("prod-level2-count")
+                    query = SQLUtil.getQuery("prod-level2-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
                             .replace(ConstantsUtils.QUESTION_BMSID,  "'"+tableDTO.getBrandSid()+"'")
                             .replace(ConstantsUtils.QUESTION_FILTER,ConstantsUtils.AND_IM_MASTER_SID +deductionDTO.getFilterDdlb());
                 } else if (deductionDTO.getLevelNo() == NumericConstants.THREE) {
-                    query = CustomSQLUtil.get("prod-level3-count")
+                    query = SQLUtil.getQuery("prod-level3-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
                             .replace(ConstantsUtils.QUESTION_BMSID,  "'"+tableDTO.getBrandSid()+"'")
@@ -107,18 +105,18 @@ public class QueryUtils {
                 if (deductionDTO.getLevelNo() == 1) {
                     query = "SELECT COUNT(DISTINCT 'Total') AS TOTAL FROM ST_DEDUCTION_CALENDAR_DETAILS";
                 } else if (deductionDTO.getLevelNo() == NumericConstants.TWO) {
-                    query = CustomSQLUtil.get("prod-level1-count")
+                    query = SQLUtil.getQuery("prod-level1-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
                             .replace(ConstantsUtils.QUESTION_FILTER," ");
                 } else if (deductionDTO.getLevelNo() == NumericConstants.THREE) {
-                    query = CustomSQLUtil.get("prod-level2-count")
+                    query = SQLUtil.getQuery("prod-level2-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
                             .replace(ConstantsUtils.QUESTION_BMSID,  "'"+tableDTO.getBrandSid()+"'")
                             .replace(ConstantsUtils.QUESTION_FILTER," ");
                 } else if (deductionDTO.getLevelNo() == NumericConstants.FOUR) {
-                    query = CustomSQLUtil.get("prod-level3-count")
+                    query = SQLUtil.getQuery("prod-level3-count")
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
                             .replace(ConstantsUtils.QUESTION_BMSID,  "'"+tableDTO.getBrandSid()+"'")
@@ -145,7 +143,7 @@ public class QueryUtils {
             if (deductionDTO.getFilterDdlb() != null && !ConstantsUtils.NULL.equals(deductionDTO.getFilterDdlb())) {
                 if (deductionDTO.getLevelNo() == 1) {
                     query = SQLUtil.getQuery("customerlevel2")
-                            .replace("?columnlist", CustomSQLUtil.get("customerlevelcolumns"))
+                            .replace("?columnlist", SQLUtil.getQuery("customerlevelcolumns"))
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
                             .replace(ConstantsUtils.QUESTION_FROM,fromDate[0])
@@ -185,7 +183,7 @@ public class QueryUtils {
                     query =getColumnListbyFreq(query, deductionDTO.getFrequency());
                 } else if (deductionDTO.getLevelNo() == NumericConstants.TWO) {
                     query = SQLUtil.getQuery("customerlevel2")
-                            .replace("?columnlist", CustomSQLUtil.get("customerlevelcolumns"))
+                            .replace("?columnlist", SQLUtil.getQuery("customerlevelcolumns"))
                             .replace(ConstantsUtils.UID, deductionDTO.getUserId())
                             .replace("?SID", "'"+deductionDTO.getSessionId()+"'")
                             .replace(ConstantsUtils.QUESTION_FROM,fromDate[0])
@@ -548,16 +546,16 @@ public class QueryUtils {
 
         switch (freq) {
             case "Annual":
-                query = query.replace(ConstantsUtils.FREQ, CustomSQLUtil.get("annualdisc"));
+                query = query.replace(ConstantsUtils.FREQ, SQLUtil.getQuery("annualdisc"));
                 break;
             case "Quarterly":
-                query = query.replace(ConstantsUtils.FREQ, CustomSQLUtil.get("quarterlydisc"));
+                query = query.replace(ConstantsUtils.FREQ, SQLUtil.getQuery("quarterlydisc"));
                 break;
             case "Semi-Annual":
-                query = query.replace(ConstantsUtils.FREQ, CustomSQLUtil.get("semidisc"));
+                query = query.replace(ConstantsUtils.FREQ, SQLUtil.getQuery("semidisc"));
                 break;
             case "Monthly":
-                query = query.replace(ConstantsUtils.FREQ, CustomSQLUtil.get("monthlydisc"));
+                query = query.replace(ConstantsUtils.FREQ, SQLUtil.getQuery("monthlydisc"));
                 break;
         }
         return query;

@@ -7,19 +7,19 @@ import com.stpl.app.security.businessRoleModuleMaster.logic.BusinessRoleModuleSe
 import com.stpl.app.security.userGrpBsnsRoleMgmt.ui.layout.ActionButtonLayout;
 import com.stpl.app.security.businessRoleModuleMaster.util.UIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.shared.ui.datefield.Resolution;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.CheckBox;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.shared.ui.datefield.Resolution;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.DateField;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.VerticalLayout;
 
 public class SearchResults extends CustomComponent {
 	private static final long serialVersionUID = 1L;

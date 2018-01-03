@@ -24,10 +24,10 @@ import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.ExtCustomTreeTable;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +37,8 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -55,7 +56,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(SummarySalesProjectionTransfer.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(SummarySalesProjectionTransfer.class);
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     CustomTableHeaderDTO rightDTO;
     private ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
@@ -199,7 +200,6 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     private void initializeResultTable() {
         resultsTable.markAsDirty();
         resultsTable.setSelectable(false);
-        resultsTable.setImmediate(true);
         resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);

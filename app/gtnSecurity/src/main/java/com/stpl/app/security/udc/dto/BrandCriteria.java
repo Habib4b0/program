@@ -6,9 +6,9 @@
 
 package com.stpl.app.security.udc.dto;
 
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.Set;
-import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
+import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 
 /**
  *

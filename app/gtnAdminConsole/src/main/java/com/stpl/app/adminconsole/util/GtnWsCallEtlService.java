@@ -5,12 +5,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import org.jboss.logging.Logger;
 
-import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 
 public class GtnWsCallEtlService {
-	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsCallEtlService.class);
+	private static final Logger LOGGER = Logger.getLogger(GtnWsCallEtlService.class);
 
 	public GtnWsCallEtlService() {
 		/**

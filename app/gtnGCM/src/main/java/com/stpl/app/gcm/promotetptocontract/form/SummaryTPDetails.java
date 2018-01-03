@@ -13,9 +13,9 @@ import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.logic.CommmonLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
@@ -23,11 +23,11 @@ import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.VerticalLayout;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -36,7 +36,8 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -44,8 +45,8 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.ui.UI;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -67,7 +68,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(TransferComponents.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransferComponents.class);
     /**
      * The Constant serialVersionUID.
      */
@@ -115,7 +116,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
             configureFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -245,7 +246,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
                 createWorkSheet("Current Customer Details", currentTradingPartnerTable, recordCount);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         } finally {
             contractExcelFlag = false;
         }
@@ -260,7 +261,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
                 createWorkSheet("Transfer Customer Details", transferTradingPartnerTable, recordCount);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         } finally {
             infoExcelFlag = false;
         }
@@ -306,7 +307,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
                         }
                         selecteditemList.clear();
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }.getConfirmationMessage("Remove Confirmation", "Are you sure you want to remove the selected Contract from the Promote COMPANY process? It will be removed and added back to the Available List of Contracts in the Current Contract Selection screen.");
@@ -338,7 +339,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
                         }
                         selItemList.clear();
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }.getConfirmationMessage("Remove Confirmation", "Are you sure you want to remove the selected Contract from the Promote COMPANY process? It will be removed and added back to the Available List of Contracts in the Transfer Contract Selection screen.");
@@ -372,7 +373,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -382,7 +383,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
             transferRemove.setVisible(CommonLogic.isButtonVisibleAccess("transferRemove", functionHM));
             currentRemove.setVisible(CommonLogic.isButtonVisibleAccess("currentRemove", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

@@ -8,13 +8,14 @@ package com.stpl.app.gcm.itemmanagement.itemabstract.form;
 import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Field;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -22,7 +23,7 @@ import org.jboss.logging.Logger;
  */
 public class FormulaLookupTableGenerator implements ExtFilterGenerator {
 
-    private static final Logger LOGGER = Logger.getLogger(FormulaLookupTableGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FormulaLookupTableGenerator.class);
 
     public FormulaLookupTableGenerator() {
        LOGGER.debug("FormulaLookupTableGenerator");
@@ -42,7 +43,7 @@ public class FormulaLookupTableGenerator implements ExtFilterGenerator {
                 return null;
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         return null;
     }
@@ -56,7 +57,7 @@ public class FormulaLookupTableGenerator implements ExtFilterGenerator {
                 return comboBox;
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return null;
     }

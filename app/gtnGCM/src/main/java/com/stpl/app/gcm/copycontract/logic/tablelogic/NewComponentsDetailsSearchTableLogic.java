@@ -9,11 +9,13 @@ package com.stpl.app.gcm.copycontract.logic.tablelogic;
 import com.stpl.app.gcm.copycontract.dto.NewComponentDTO;
 import com.stpl.app.gcm.copycontract.logic.CopyContractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentInfoDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.text.ParseException;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -27,7 +29,7 @@ public class NewComponentsDetailsSearchTableLogic extends PageTableLogic {
     String componentInnerType;
     CopyContractLogic logic = new CopyContractLogic();
     NewComponentDTO selection = new NewComponentDTO();
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(NewComponentsDetailsSearchTableLogic.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(NewComponentsDetailsSearchTableLogic.class);
 
     /**
      * Record count logic
@@ -42,7 +44,7 @@ public class NewComponentsDetailsSearchTableLogic extends PageTableLogic {
                 count = Integer.valueOf(String.valueOf(logic.getComponentInfoSelection(selection, componentType, componentInnerType, searchValue, true)));
                 return count;
             } catch (ParseException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
 
             }
         }
@@ -66,7 +68,7 @@ public class NewComponentsDetailsSearchTableLogic extends PageTableLogic {
 
             resultList = (List<ComponentInfoDTO>) logic.getComponentInfoSelection(selection, componentType, componentInnerType, searchValue, false);
         } catch (ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }

@@ -6,19 +6,20 @@
 package com.stpl.app.gcm.discount.logic;
 
 import com.stpl.app.gcm.discount.dto.LookupDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author santanukumar
  */
 public class RebatePlanTableLogic extends PageTableLogic {
-private static final Logger LOGGER = Logger.getLogger(RebatePlanTableLogic.class);
+private static final Logger LOGGER = LoggerFactory.getLogger(RebatePlanTableLogic.class);
     LookupDTO binderDto = new LookupDTO();
     DiscountLogic logic = new DiscountLogic();
     boolean generate = false;
@@ -34,7 +35,7 @@ private static final Logger LOGGER = Logger.getLogger(RebatePlanTableLogic.class
             try {
                 return logic.getRebateSearchCount(binderDto);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
         return 0;
@@ -55,7 +56,7 @@ private static final Logger LOGGER = Logger.getLogger(RebatePlanTableLogic.class
         try {
             resultList = logic.getRebateSearchResults(binderDto);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }

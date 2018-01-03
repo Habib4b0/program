@@ -5,6 +5,8 @@
  */
 package com.stpl.app.global.abstractsearch.logic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.global.abstractsearch.dto.SearchResultsDTO;
 import com.stpl.app.global.abstractsearch.ui.AbstractSearchForm;
 import com.stpl.app.global.abstractsearch.util.ConstantUtil;
@@ -16,11 +18,9 @@ import static com.stpl.app.util.ConstantsUtils.QUOTE;
 import static com.stpl.app.util.ConstantsUtils.TAB;
 import com.stpl.app.util.ExcelExportUtil;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;

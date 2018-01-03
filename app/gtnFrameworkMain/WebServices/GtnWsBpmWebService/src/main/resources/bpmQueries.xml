@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <custom-sql>
-	<sql id="getProjectionRecords">
+    <sql id="getProjectionRecords">
 		<![CDATA[
 			
 DECLARE @CNT                   INT=0,
         @I                     INT=1,
         @PROJECTION_MASTER_SID INT,
         @FORECASTING_TYPE      VARCHAR(50),
-        @PROJECTION            INT=?PROJECTION_ID,
+        @PROJECTION            INT=?,
         @START_PERIOD_SID      INT,
         @END_PERIOD_SID        INT,
         @STARTFROM             DATE,
         @PROJECTION_DATE       DATE,
         @CURR_FOR_TYPE         VARCHAR(50),
-        @USER_ID               INT=?USER_ID,
-        @SESSION_ID            INT=?SESSION_ID
+        @USER_ID               INT=?,
+        @SESSION_ID            INT=?
 DECLARE @TEMP_MASTER AS TABLE
   (
      ID                     INT IDENTITY(1, 1),
@@ -598,9 +598,9 @@ SELECT Isnull(Min(DIFF_SALES), 0)         AS MIN_DIFF_SALES,
 FROM   @TEMP_MIN_MAX
 
 		]]>
-	</sql>
+    </sql>
 
-	<sql id="getProjectionRecordsForAccrual">
+    <sql id="getProjectionRecordsForAccrual">
 		<![CDATA[
        DECLARE @CNT                   INT=0,
         @I                     INT=1,
@@ -797,11 +797,11 @@ SELECT ISNULL(Min(DIFF_AMOUNT), 0)     AS MIN_DIFF_AMOUNT,
 FROM   @TEMP_MIN_MAX 
 
                 ]]>
-	</sql>
+    </sql>
 
 
 
-	<sql id="getProjectionRecordsForReturns">
+    <sql id="getProjectionRecordsForReturns">
         <![CDATA[
             DECLARE @PROJECTION INT=?
             DECLARE @TEMP_MASTER AS TABLE
@@ -951,7 +951,7 @@ FROM   @TEMP_MIN_MAX
             FROM   @TEMP_MIN_MAX 
 
                 ]]>
-	</sql>
+    </sql>
 </custom-sql>
 
 

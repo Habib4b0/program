@@ -13,10 +13,10 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.ADD_TRADING_PAR
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.CONTRACT_SELECTION;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TAB_SUMMARY;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
@@ -74,7 +74,6 @@ public class AddTPForm extends CustomWindow {
         tabSheet = new TabSheet();
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        tabSheet.setImmediate(true);
         tabSheet.addTab(updatedContractSelection, CONTRACT_SELECTION.getConstant(), null, 0);
         tabSheet.addTab(summary, TAB_SUMMARY.getConstant(), null, 1);
         tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {

@@ -122,12 +122,6 @@
             <version>2.3.0</version>
             <scope>provided</scope>
         </dependency>-->
-        <dependency>
-            <groupId>com.liferay</groupId>
-            <artifactId>com.liferay.portal.dao.orm.custom.sql</artifactId>
-            <version>1.0.8</version>
-            <scope>provided</scope>
-        </dependency>
         <!--		<dependency>
                 <groupId>com.stpl.portal</groupId>
                 <artifactId>portal-service</artifactId>
@@ -228,31 +222,6 @@
             <version>6.2.0.Final</version>
             <scope>provided</scope>
         </dependency>
-	<dependency>
-                <groupId>com.stpl.app.bpm</groupId>
-                <artifactId>stpl-jbpm</artifactId>
-                <version>${bpm.version}</version>
-                <exclusions>
-                        <exclusion>
-                                <artifactId>dom4j</artifactId>
-                                <groupId>dom4j</groupId>
-                        </exclusion>
-                        <exclusion>
-                                <artifactId>hibernate-jpa-2.0-api</artifactId>
-                                <groupId>org.hibernate.javax.persistence</groupId>
-                        </exclusion>
-                        <exclusion>
-                                <groupId>commons-codec</groupId>
-                                <artifactId>commons-codec</artifactId>
-                        </exclusion>
-                        <exclusion>
-                                <groupId>commons-logging</groupId>
-                                <artifactId>commons-logging</artifactId>
-                        </exclusion>
-                </exclusions>
-                <scope>provided</scope>
-        </dependency>
-
         <dependency>
             <groupId>com.stpl.addons</groupId>
             <artifactId>extfilteringtable</artifactId>

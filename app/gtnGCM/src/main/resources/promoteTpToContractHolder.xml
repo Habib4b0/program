@@ -4,7 +4,7 @@ To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
 
-<Panel  xmlns:errorMsg="urn:import:com.stpl.app.gcm.ui.errorhandling" xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+<Panel  xmlns:errorMsg="urn:import:com.stpl.app.ui.errorhandling" xmlns:table="urn:import:org.asi.ui.extfilteringtable" xmlns:a="urn:import:org.asi.ui.extfilteringtable" xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
     <VerticalLayout id="promoteTpToChVerticalLayout" spacing="true"
                     margin="true" immediate="true">
          <errorMsg:ErrorLabel id="errorMsg"/>

@@ -17,11 +17,11 @@ import com.stpl.app.model.PsModel;
 import com.stpl.app.model.RsContract;
 import com.stpl.app.model.RsContractDetails;
 import com.stpl.app.model.RsModel;
-import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
+import com.vaadin.v7.data.Container;
 import java.util.List;
 import java.util.Set;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
@@ -34,10 +34,10 @@ public interface DiscountDAO {
 
     public List getMarketType();
 
-    public List<RemoveDiscountDto> getContracts(CustomFieldGroup removeDiscountDto,
+    public List<RemoveDiscountDto> getContracts(ErrorfulFieldGroup removeDiscountDto,
             int startIndex, int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumn);
 
-    public int getContractsCount(CustomFieldGroup removeDiscountDto, Set<Container.Filter> filters);
+    public int getContractsCount(ErrorfulFieldGroup removeDiscountDto, Set<Container.Filter> filters);
 
     public List<RsContractDetails> getContractDetails(DynamicQuery contractQuery) throws SystemException;
 
@@ -69,9 +69,9 @@ public interface DiscountDAO {
 
     public List<RemoveDiscountDto> getRebateSearch(String field, String value, int contractSid, int rsSid);
 
-    public List getSearchValues(CustomFieldGroup discountChBinder, int start, int offset, String moduleName, Set<Container.Filter> filters, List<SortByColumn> sortByColumns);
+    public List getSearchValues(ErrorfulFieldGroup discountChBinder, int start, int offset, String moduleName, Set<Container.Filter> filters, List<SortByColumn> sortByColumns);
 
-    public int getSearchCount(CustomFieldGroup discountChBinder, String moduleName, Set<Container.Filter> filters);
+    public int getSearchCount(ErrorfulFieldGroup discountChBinder, String moduleName, Set<Container.Filter> filters);
 
     public PsModel getPriceScheduleMaster(int modelSysId) throws SystemException, PortalException;
 

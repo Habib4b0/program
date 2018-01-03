@@ -99,4 +99,5 @@ public class GtnWsCommonWorkflowRequest implements GtnWSRequestData {
 		this.roleMatched = roleMatched;
 	}
 
+
 }

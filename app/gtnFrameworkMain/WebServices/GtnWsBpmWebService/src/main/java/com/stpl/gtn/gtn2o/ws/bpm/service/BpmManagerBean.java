@@ -24,82 +24,100 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
  * @author STPL
  */
 public class BpmManagerBean {
-	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(BpmManagerBean.class);
 
-	protected ReleaseId releaseId;
-	private Map<String, RuntimeEngine> runtimeEngineMap = new HashMap<>();
-	private Properties properties = DroolsProperties.getPropertiesData();
-	protected RuntimeManagerRegistry registry = RuntimeManagerRegistry.get();
-	@Autowired
-	private CustomUserCallBack userGroupCallback;
+    private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(BpmManagerBean.class);
 
-	public BpmManagerBean() {
-		super();
-	}
+    protected ReleaseId releaseId;
+    private Map<String, RuntimeEngine> runtimeEngineMap = new HashMap<>();
+    private Properties properties = DroolsProperties.getPropertiesData();
+    protected RuntimeManagerRegistry registry = RuntimeManagerRegistry.get();
+    @Autowired
+    private CustomUserCallBack userGroupCallback;
 
-	public BpmManagerBean(ReleaseId releaseId, Map<String, RuntimeEngine> runtimeEngineMap, Properties properties,
-			RuntimeManagerRegistry registry, CustomUserCallBack userGroupCallback) {
-		super();
-		this.releaseId = releaseId;
-		this.runtimeEngineMap = runtimeEngineMap;
-		this.properties = properties;
-		this.registry = registry;
-		this.userGroupCallback = userGroupCallback;
-	}
+    public BpmManagerBean() {
+        super();
+    }
 
-	public RuntimeEngine getRuntimeEngine(String moduleName) {
-		return runtimeEngineMap.get(moduleName);
-	}
+    public BpmManagerBean(ReleaseId releaseId, Map<String, RuntimeEngine> runtimeEngineMap, Properties properties,
+            RuntimeManagerRegistry registry, CustomUserCallBack userGroupCallback) {
+        super();
+        this.releaseId = releaseId;
+        this.runtimeEngineMap = runtimeEngineMap;
+        this.properties = properties;
+        this.registry = registry;
+        this.userGroupCallback = userGroupCallback;
+    }
 
-	public CustomUserCallBack getUserGroupCallback() {
-		return userGroupCallback;
-	}
+    public RuntimeEngine getRuntimeEngine(String moduleName) {
+        return runtimeEngineMap.get(moduleName);
+    }
 
-	public void setUserGroupCallback(CustomUserCallBack userGroupCallback) {
-		this.userGroupCallback = userGroupCallback;
-		try {
-			initContractRuntimeEngine();
-			initReturnsRuntimeEngine();
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-		}
-	}
+    public CustomUserCallBack getUserGroupCallback() {
+        return userGroupCallback;
+    }
 
-	public void initReturnsRuntimeEngine() {
-		LOGGER.info("initReturnsRuntimeEngine Started ");
-		String identifier = "com.sample:example:1.0";
-		releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", "com.stpl.app.bpm"),
-				properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"),
-				properties.getProperty("Forecasting_version", "1.0"));
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
-		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
-				.entityManagerFactory(emf).userGroupCallback(userGroupCallback);
-		if (registry.isRegistered(identifier)) {
-			registry.remove(identifier);
-		}
-		RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
-				.newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
-		runtimeEngineMap.put(GtnWsBpmCommonConstants.FORECAST_RETURNS, runtimeEngine);
+    public void setUserGroupCallback(CustomUserCallBack userGroupCallback) {
+        this.userGroupCallback = userGroupCallback;
+        try {
+            initForecastRuntimeEngine();
+            initContractRuntimeEngine();
+            initReturnsRuntimeEngine();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
 
-		LOGGER.info("initReturnsRuntimeEngine End ");
-	}
+    public void initReturnsRuntimeEngine() {
+        LOGGER.info("initReturnsRuntimeEngine Started ");
+        String identifier = "com.sample:example:1.0";
+        releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", "com.stpl.app.bpm"),
+                properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"),
+                properties.getProperty("Forecasting_version", "1.0"));
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
+        RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
+                .entityManagerFactory(emf).userGroupCallback(userGroupCallback);
+        if (registry.isRegistered(identifier)) {
+            registry.remove(identifier);
+        }
+        RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
+                .newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
+        runtimeEngineMap.put(GtnWsBpmCommonConstants.FORECAST_RETURNS, runtimeEngine);
 
-	public void initContractRuntimeEngine() {
-		LOGGER.info("initContractRuntimeEngine Started ");
-		String identifier = "com.sample:example:1.0";
-		releaseId = new ReleaseIdImpl(properties.getProperty("Contract_groupId", "com.stpl.app.bpm"),
-				properties.getProperty("Contract_artifactId", "ContractSubmissionWorkflow"),
-				properties.getProperty("Contract_version", "1.0"));
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
-		RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
-				.entityManagerFactory(emf).userGroupCallback(userGroupCallback);
-		if (registry.isRegistered(identifier)) {
-			registry.remove(identifier);
-		}
-		RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
-				.newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
-		runtimeEngineMap.put(GtnWsBpmCommonConstants.CONTRACT_MASTER, runtimeEngine);
-		LOGGER.info("initContractRuntimeEngine End ");
-	}
+        LOGGER.info("initReturnsRuntimeEngine End ");
+    }
+
+    public void initContractRuntimeEngine() {
+        LOGGER.info("initContractRuntimeEngine Started ");
+        String identifier = "com.sample:example:1.0";
+        releaseId = new ReleaseIdImpl(properties.getProperty("Contract_groupId", "com.stpl.app.bpm"),
+                properties.getProperty("Contract_artifactId", "ContractSubmissionWorkflow"),
+                properties.getProperty("Contract_version", "1.0"));
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
+        RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
+                .entityManagerFactory(emf).userGroupCallback(userGroupCallback);
+        if (registry.isRegistered(identifier)) {
+            registry.remove(identifier);
+        }
+        RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
+                .newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
+        runtimeEngineMap.put(GtnWsBpmCommonConstants.CONTRACT_MASTER, runtimeEngine);
+        LOGGER.info("initContractRuntimeEngine End ");
+    }
+
+    public void initForecastRuntimeEngine() {
+        LOGGER.info("initContractRuntimeEngine Started ");
+        String identifier = "com.sample:example:1.0";
+        releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", "com.stpl.app.bpm"), properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"), properties.getProperty("Forecasting_version", "1.0"));
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
+        RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
+                .entityManagerFactory(emf).userGroupCallback(userGroupCallback);
+        if (registry.isRegistered(identifier)) {
+            registry.remove(identifier);
+        }
+        RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
+                .newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
+        runtimeEngineMap.put(GtnWsBpmCommonConstants.FORECAST_COMMERCIAL, runtimeEngine);
+        LOGGER.info("initContractRuntimeEngine End ");
+    }
 
 }

@@ -3,12 +3,12 @@
  */
 package com.stpl.domain.global.security;
 
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.model.User;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
 import java.util.List;
 import com.stpl.app.model.UsergroupBusinessrole;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.model.User;
 import com.stpl.app.model.UsergroupDomainMaster;
 
 /** 

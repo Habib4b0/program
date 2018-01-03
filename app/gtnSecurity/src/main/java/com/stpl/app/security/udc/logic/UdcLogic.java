@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
-
 import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.security.businessRoleModuleMaster.util.CommonUtils;
@@ -24,17 +20,18 @@ import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.NotificationUtils;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.IndexedContainer;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.IndexedContainer;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
+import org.jboss.logging.Logger;
 
 public class UdcLogic {
 
-    private static final Logger LOGGER = LogManager
+    private static final Logger LOGGER = Logger
             .getLogger(UdcLogic.class.getName());
     private static final String CATEGORY = "CategoryName";
     private static final String BRAND_NAME = "brandName";
@@ -47,8 +44,7 @@ public class UdcLogic {
         List<HelperTable> list = null;
         List<String> helperList = new ArrayList<String>();
         try {
-            DynamicQuery helperQuery = DynamicQueryFactoryUtil
-                    .forClass(HelperTable.class);
+            DynamicQuery helperQuery = HelperTableLocalServiceUtil.dynamicQuery();
             helperQuery.add(RestrictionsFactoryUtil.like("listName",
                     CATEGORY));
             helperQuery.addOrder(OrderFactoryUtil.asc(CommonUtils.DESCRIPTION));
@@ -235,7 +231,7 @@ public class UdcLogic {
                 String query = " select BRAND_MASTER_SID, BRAND_ID,BRAND_NAME,DISPLAY_BRAND FROM BRAND_MASTER WHERE BRAND_ID='" + brandId
                         + "' AND INBOUND_STATUS IN ('D') "
                         + " AND RECORD_LOCK_STATUS = '0'";
-                List list = (List) BrandMasterLocalServiceUtil.executeSelectQuery(query, null, null);
+                List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (!list.isEmpty() && list.size() > 0) {
                     for (Object object : list) {
                         Object[] row = (Object[]) object;
@@ -249,7 +245,7 @@ public class UdcLogic {
 
                 } else {
                     String saveQuery = " select BRAND_MASTER_SID, BRAND_ID,BRAND_NAME,DISPLAY_BRAND FROM BRAND_MASTER WHERE BRAND_ID='" + brandId +"' AND INBOUND_STATUS <> ('D')";
-                    List savedList = (List) BrandMasterLocalServiceUtil.executeSelectQuery(saveQuery, null, null);
+                    List savedList = (List) HelperTableLocalServiceUtil.executeSelectQuery(saveQuery);
                     if (!savedList.isEmpty() && savedList.size() > 0) {
                         NotificationUtils.getWarningNotification("Duplicate", "Brand ID is already exist");
                         return "";
@@ -296,7 +292,7 @@ public class UdcLogic {
      */
     public int brandCount(String categoryValue) {
         String query = " select count(*) from brand_master where inbound_status <> 'D'";
-        List list = (List) BrandMasterLocalServiceUtil.executeSelectQuery(query, null, null);
+        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         int count = Integer.valueOf(String.valueOf(list.get(0)));
         return count;
     }
@@ -307,7 +303,7 @@ public class UdcLogic {
     public List<BrandMasterDTO> brandFind(String categoryValue, int startIndex, int offset,final List<OrderByColumn> columns) {
     	String orderQuery = getOrderByStatement(columns);
         String query = " select brand_id,BRAND_NAME,DISPLAY_BRAND, BRAND_MASTER_SID from brand_master where inbound_status <> 'D' "+orderQuery+" OFFSET " + startIndex + "ROWS FETCH NEXT " + offset + " ROWS ONLY";
-        List list = (List) BrandMasterLocalServiceUtil.executeSelectQuery(query, null, null);
+        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         List<BrandMasterDTO> finalList = getCustomizedBrandResults(list, categoryValue);
         return finalList;
     }

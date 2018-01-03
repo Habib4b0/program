@@ -36,9 +36,10 @@ import com.stpl.app.service.RsContractDetailsLocalServiceUtil;
 import com.stpl.app.service.RsContractLocalServiceUtil;
 import com.stpl.app.service.RsDetailsLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;
 
 /**
@@ -253,7 +254,7 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      * @param id to retrieve the data from ItemFamilyplanMaster table
      * @return ItemFamilyPlanMasterbased on id it is like internal is
      * @throws SystemException
-     * @throws com.stpl.portal.kernel.exception.PortalException
+     * @throws com.liferay.portal.kernel.exception.PortalException
      */
     public IfpModel getItemFamilyPlanMaster(final int systemId) throws SystemException, PortalException {
         return IfpModelLocalServiceUtil.getIfpModel(systemId);
@@ -403,7 +404,7 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      * @throws SystemException
      */
     public List rsDetailsDynamicQuery(final DynamicQuery dynamicQuery) throws SystemException {
-        return RsContractDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
+        return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
     /**
@@ -514,7 +515,7 @@ public class ContractDetailsDaoImpl implements ContractDetailsDAO {
      *
      *
      * @return contract master total row count from ContractMaster table
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public int getContractMasterCount() throws SystemException {
         return ContractMasterLocalServiceUtil.getContractMastersCount();

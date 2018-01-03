@@ -5,9 +5,9 @@
  */
 package com.stpl.app.gcm.itemmanagement.index.dto;
 
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
 import org.apache.commons.lang.StringUtils;
+import com.stpl.app.gcm.util.Constants;
 
 /**
  *
@@ -35,14 +35,14 @@ public class ItemIndexDto {
     private Integer endIndex = 0;
     private boolean isCount = false;
     private String itemDesc = StringUtils.EMPTY;
-    private String therapeuticClass=ConstantsUtils.SELECT_ONE ;
+    private String therapeuticClass=Constants.SELECT_ONE ;
     private String brand = StringUtils.EMPTY;
     private String form = StringUtils.EMPTY;
     private String strength = StringUtils.EMPTY;
     private String placeHolder = StringUtils.EMPTY;
     private String ndc9 = StringUtils.EMPTY;
-    private String itemCategory = ConstantsUtils.SELECT_ONE;
-    private String itemType = ConstantsUtils.SELECT_ONE;
+    private String itemCategory = Constants.SELECT_ONE;
+    private String itemType = Constants.SELECT_ONE;
     private String itemNameTo = StringUtils.EMPTY;
     private String itemNoTo = StringUtils.EMPTY;
     private String itemIdTo = StringUtils.EMPTY;

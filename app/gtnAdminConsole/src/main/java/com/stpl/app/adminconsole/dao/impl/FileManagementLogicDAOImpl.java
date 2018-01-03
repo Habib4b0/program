@@ -16,9 +16,10 @@ import com.stpl.app.service.FileManagementLocalServiceUtil;
 import com.stpl.app.service.ForecastingMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ItemQualifierLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.adminconsole.service.AdminConsoleImpl;
 
 
 /**
@@ -59,7 +60,7 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
      */
     public List getForecastDetails(final String fileName, final String version, final String fileType, final String country, int year) throws SystemException {
         LOGGER.debug("In query-getForecastDetails started with P1:String fileName=" + fileName + " P2:String version=" + version + " P3:String fileType" + fileType + " P4:String country" + country);
-        return ForecastingMasterLocalServiceUtil.getDetailsResults(fileName, version, fileType, country, year);
+        return new AdminConsoleImpl().getDetailsResults(fileName, version, fileType, country, year);
     }
 
     /**
@@ -108,7 +109,7 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
     }
 
     public Object executeSelectQuery(String query, Object udc1, Object udc2) throws SystemException {
-        return ForecastingMasterLocalServiceUtil.executeSelectQuery(query, udc1, udc2);
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
     
        public List itemIrtQualifierNameList(final DynamicQuery ifpDynamicQuery) throws PortalException,SystemException{

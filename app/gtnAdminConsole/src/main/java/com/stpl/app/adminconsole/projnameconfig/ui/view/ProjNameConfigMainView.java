@@ -9,11 +9,11 @@ import com.stpl.app.adminconsole.projnameconfig.dto.ProjectionNameDTO;
 import com.stpl.app.adminconsole.projnameconfig.ui.form.ProjNameConfigIndex;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.jboss.logging.Logger;
 
 /**

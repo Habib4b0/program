@@ -4,7 +4,7 @@
  */
 package com.stpl.app.gcm.promotetptocontract.form;
 
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 
 /**
  *

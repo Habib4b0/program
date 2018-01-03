@@ -3,12 +3,12 @@ package com.stpl.app.security.businessRoleModuleMaster.ui.view;
 
 import com.stpl.app.security.businessRoleModuleMaster.dto.SearchBusinessRoleModuleForm;
 import com.stpl.app.security.businessRoleModuleMaster.ui.form.SearchForm;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.UserError;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 public class BusinessRoleModuleMasterSearchView extends VerticalLayout implements View {

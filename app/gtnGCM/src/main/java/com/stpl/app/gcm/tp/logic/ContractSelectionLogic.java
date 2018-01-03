@@ -22,14 +22,15 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import static com.stpl.app.gcm.util.Converters.convertNullToEmpty;
 import static com.stpl.app.gcm.util.Converters.formatDate;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -37,7 +38,7 @@ import org.jboss.logging.Logger;
  */
 public class ContractSelectionLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(ContractSelectionLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContractSelectionLogic.class);
     TradingPartnerDAO dao = new TradingPartnerDAOImpl();
     static CommonDao DAO = CommonImpl.getInstance();
 
@@ -121,7 +122,7 @@ public class ContractSelectionLogic {
 
                         componentInfoList.add(dto);
                     } catch (ParseException ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }

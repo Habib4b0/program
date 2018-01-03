@@ -15,7 +15,6 @@ import com.stpl.app.global.dao.impl.StplSecurityDAOImpl;
 import com.stpl.app.model.CdrModel;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.NotesTabLogic;
@@ -25,13 +24,13 @@ import com.stpl.domain.global.security.StplSecurityDAO;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,7 +92,7 @@ public class CDRLogic {
         queryBuilder = buildSearchQuery(searchFields, true);
             queryBuilder = getFilterQuery(filterSet, queryBuilder);
         LOGGER.debug(queryBuilder.toString());
-        List<Object> masterData = (List<Object>) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+        List<Object> masterData = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         if (masterData != null && !masterData.isEmpty()) {
             Object ob = masterData.get(0);
             count += Integer.valueOf(String.valueOf(ob));
@@ -146,7 +145,7 @@ public class CDRLogic {
             }
         }
         queryBuilder.append(false ? StringUtils.EMPTY : (" OFFSET " + start + " ROWS FETCH NEXT " + (end) + " ROWS ONLY"));
-        final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+        final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
 
         searchList = getCustomizedSearchFormToDTO(list);
         return searchList;
@@ -203,7 +202,7 @@ public class CDRLogic {
                         java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (PortalException ex) {
                         java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    } 
 
                 }
                 if (!ConstantsUtils.NULL.equals(String.valueOf(object[NumericConstants.EIGHT])) && StringUtils.isNotBlank(String.valueOf(object[NumericConstants.EIGHT]))) {
@@ -214,7 +213,7 @@ public class CDRLogic {
                         java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (PortalException ex) {
                         java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    } 
 
                 }
 
@@ -319,7 +318,7 @@ public class CDRLogic {
                     String masterQuery = QueryUtils.getQuery(null, "insertRuleDetails-Edit");
                     String detailQuery = detailsQuery.toString().replaceFirst(ConstantsUtils.COMMA, StringUtils.EMPTY);
                     String finalQuery = masterQuery.concat(detailQuery);
-                    QueryUtils.queryBulkUpdate(finalQuery);
+                    HelperTableLocalServiceUtil.executeUpdateQuery(finalQuery);
                 }
             }
         } catch (Exception ex) {
@@ -335,7 +334,7 @@ public class CDRLogic {
             }
             String ids = idsBuilder.toString().replaceFirst(ConstantsUtils.COMMA, StringUtils.EMPTY);
             String masterQuery = "delete FROM CDR_DETAILS where " + columnSid + "  in (" + ids + ") ";
-            QueryUtils.queryBulkUpdate(masterQuery);
+            HelperTableLocalServiceUtil.executeUpdateQuery(masterQuery);
         }
     }
 
@@ -436,7 +435,7 @@ public class CDRLogic {
         String masterQuery = "delete from MASTER_DATA_FILES"
                 + " where MASTER_TABLE_SID=" + cdrModelSId + " and"
                 + " MASTER_TABLE_NAME='CDR_MODEL' ";
-        QueryUtils.queryBulkUpdate(masterQuery);
+        HelperTableLocalServiceUtil.executeUpdateQuery(masterQuery);
 
     }
 

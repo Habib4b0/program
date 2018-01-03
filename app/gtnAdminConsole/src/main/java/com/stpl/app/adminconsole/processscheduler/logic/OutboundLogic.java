@@ -17,28 +17,27 @@ import com.stpl.app.adminconsole.processscheduler.dto.RelationshipOutboundDTO;
 import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.HelperListUtil;
-import com.stpl.app.model.HierarchyDefinition;
 import com.stpl.app.model.RelationshipBuilder;
 import com.stpl.app.security.StplSecurity;
-import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.stpl.app.serviceUtils.ConstantUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextField;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.HierarchyDefinitionLocalServiceUtil;
+import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,7 +80,7 @@ public class OutboundLogic {
         getHdFilterQuery(filterSet, queryBuilder);
 
 
-        List<Object> masterData = (List<Object>) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+        List<Object> masterData = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         if (masterData != null && !masterData.isEmpty()) {
             Object ob = masterData.get(0);
             count += Integer.valueOf(String.valueOf(ob));
@@ -97,7 +96,7 @@ public class OutboundLogic {
         getHdFilterQuery(filterSet, queryBuilder);
         getHdOrderQuery(queryBuilder, columns, start, end);
 
-        final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryBuilder.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+        final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         List<HierarchyDefinitionDTO> searchList = getCustomizedHdDTO(list, isCheckAll);
         LOGGER.debug("End of loadHierarchyDefinitionResults");
         return searchList;
@@ -117,13 +116,13 @@ public class OutboundLogic {
         if (hierarchyTypeMap.isEmpty()) {
             loadHierarchyTypeMap();
         }
-        StringBuilder queryBuilder = new StringBuilder(isCount ? CustomSQLUtil.get("getHierarchyDefinitionCount") : CustomSQLUtil.get("getHierarchyDefinitionResults"));
+        StringBuilder queryBuilder = new StringBuilder(isCount ? SQlUtil.getQuery("getHierarchyDefinitionCount") : SQlUtil.getQuery("getHierarchyDefinitionResults"));
         queryBuilder.append(hierarchyTypeMap.get(hierType));
         loadHdSearchCriteriaMap();
           
         Set<String> keys = hierarchySearchCriteria.keySet();
         for (String fields : keys) {
-            if (searchFields.getField(fields) != null && searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
+            if (searchFields.getField(fields) != null && searchFields.getField(fields).getValue() != null && !ConstantsUtils.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
                     if (StringConstantUtils.HIERARCHY_CATEGORY_PROPERTY.equalsIgnoreCase(fields)) {
 
                         queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append("'");
@@ -331,7 +330,7 @@ public class OutboundLogic {
         Date creationDateFrom;
         Date creationDateTo;
         try {
-            final DynamicQuery relationBuilderDynamicQuery = DynamicQueryFactoryUtil.forClass(RelationshipBuilder.class);
+            final DynamicQuery relationBuilderDynamicQuery = RelationshipBuilderLocalServiceUtil.dynamicQuery();
 
             if (relationBuilderForm.getField(StringConstantUtils.RELATIONSHIP_TYPE_PROPERTY).getValue() != null
                     && StringUtils.isNotBlank(relationBuilderForm.getField(StringConstantUtils.RELATIONSHIP_TYPE_PROPERTY).getValue().toString())) {
@@ -404,7 +403,7 @@ public class OutboundLogic {
                             }
                         }
                         if ("hierarchyName".equals(stringFilter.getPropertyId())) {
-                            final DynamicQuery hierarchyDynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyDefinition.class);
+                            final DynamicQuery hierarchyDynamicQuery = HierarchyDefinitionLocalServiceUtil.dynamicQuery();
                             final ProjectionList projList = ProjectionFactoryUtil.projectionList();
                             projList.add(ProjectionFactoryUtil.property(ConstantsUtils.HIERARCHY_DEFINATION_SID));
                             hierarchyDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.HIERARCHY_NAME, filterString));
@@ -561,7 +560,7 @@ public class OutboundLogic {
             input = new HashMap<>();
             input.put("?HIERARCHY_DEFINITION_SID", ids);
         }
-        List list = (List) RsModelLocalServiceUtil.executeSelectQuery(CommonUtil.replacedQuery(input, queryName), StringUtils.EMPTY, StringUtils.EMPTY);
+        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(CommonUtil.replacedQuery(input, queryName));
         return list;
     }
    
@@ -585,7 +584,7 @@ public class OutboundLogic {
         }
         Set<String> keys = hierarchyCheckAllMap.keySet();
         for (String fields : keys) {
-            if (searchFields.getField(fields) != null && searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
+            if (searchFields.getField(fields) != null && searchFields.getField(fields).getValue() != null && !ConstantsUtils.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
                     if (StringConstantUtils.HIERARCHY_CATEGORY_PROPERTY.equalsIgnoreCase(fields)) {
                         queryBuilder.append(StringConstantUtils.AND_SPACE).append(hierarchySearchCriteria.get(fields)).append(" = '").append(((HelperDTO) searchFields.getField(fields).getValue()).getId()).append("'");
                     } else if (ConstantsUtils.CREATED_DATE_FROM.equalsIgnoreCase(fields)) {
@@ -600,7 +599,7 @@ public class OutboundLogic {
 
         Map<String, String> input = new HashMap<>();
         input.put("?CONDITIONS", queryBuilder.toString());
-        List list = (List) RsModelLocalServiceUtil.executeSelectQuery(CommonUtil.replacedQuery(input, "getHierarchyDefinitionOuboundCheckAllResults"), StringUtils.EMPTY, StringUtils.EMPTY);
+        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(CommonUtil.replacedQuery(input, "getHierarchyDefinitionOuboundCheckAllResults"));
        
          List<OutboundTableDTO> resultList = getCustomizedOutboundTableDTO(list);
         return resultList;
@@ -716,7 +715,7 @@ public class OutboundLogic {
         try {
             Map<String, String> input = new HashMap<>();
             input.put("?RELATIONSHIP_BUILDER_SID", ids);
-            List list = (List) RsModelLocalServiceUtil.executeSelectQuery(CommonUtil.replacedQuery(input, "getRelationshipBuilderOutbound"), StringUtils.EMPTY, StringUtils.EMPTY);
+            List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(CommonUtil.replacedQuery(input, "getRelationshipBuilderOutbound"));
             rbOutboundList=getCustomizedRbOutbound(list);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -744,10 +743,10 @@ public class OutboundLogic {
     }
          
     public Set getAllCffIds() {
-        String query = CustomSQLUtil.get("getCffOuboundSearchResults");
+        String query = SQlUtil.getQuery("getCffOuboundSearchResults");
         Set checkedCffsSet = new HashSet();
 
-        List list = (List) RsModelLocalServiceUtil.executeSelectQuery(query, StringUtils.EMPTY, StringUtils.EMPTY);
+        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 checkedCffsSet.add(String.valueOf(list.get(i)));
@@ -758,7 +757,7 @@ public class OutboundLogic {
 
     public String getFormattedIds(String query) {
         StringBuilder allIds = new StringBuilder(StringUtils.EMPTY);
-        List list = (List) RsModelLocalServiceUtil.executeSelectQuery(query, StringUtils.EMPTY, StringUtils.EMPTY);
+        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 allIds.append(",").append(String.valueOf(list.get(i)));
@@ -812,8 +811,8 @@ public class OutboundLogic {
     public List<OutboundTableDTO> getRelationShipSheduledResults() {
         List<OutboundTableDTO> rbOutboundList = new ArrayList<>();
         try {
-            String rbQuery=CustomSQLUtil.get("getRelationshipOuboundScheduleResults");
-            List list = (List) RsModelLocalServiceUtil.executeSelectQuery(rbQuery, StringUtils.EMPTY, StringUtils.EMPTY);
+            String rbQuery=SQlUtil.getQuery("getRelationshipOuboundScheduleResults");
+            List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(rbQuery);
             rbOutboundList=getCustomizedRbOutbound(list);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -872,7 +871,7 @@ public class OutboundLogic {
             input.put("?ANDQUERY", queryBuilder.toString());
             input.put("?LWHEREQUERY", queryBuilder.toString().replaceFirst("AND", "WHERE"));
 
-            List list = (List) RsModelLocalServiceUtil.executeSelectQuery(CommonUtil.replacedQuery(input, "getRelationshipOuboundCheckAllResults"), StringUtils.EMPTY, StringUtils.EMPTY);
+            List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(CommonUtil.replacedQuery(input, "getRelationshipOuboundCheckAllResults"));
             rbOutboundList = getCustomizedRbOutbound(list);
         } catch (Exception e) {
             LOGGER.error(e);

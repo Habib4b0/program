@@ -7,13 +7,11 @@ package com.stpl.app.adminconsole.util;
 
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,7 +34,7 @@ public class HelperListUtil {
     private static ResourceBundle listNameBundle = ResourceBundle.getBundle("properties.listname");
 
     private static final Logger LOGGER = Logger.getLogger(HelperListUtil.class.getName());
-
+    
     private HelperListUtil() {
 
     }
@@ -59,8 +57,7 @@ public class HelperListUtil {
         if (listNames != null && !listNames.isEmpty()) {
             try {
                 List<HelperDTO> helperList = null;
-                final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil
-                        .forClass(HelperTable.class);
+                final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
                 dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.LIST_NAME,
                         listNames));
                 dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.LIST_NAME));

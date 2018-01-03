@@ -7,12 +7,14 @@ package com.stpl.app.gcm.tp.tablelogic;
 
 import com.stpl.app.gcm.tp.dto.TradingPartnerDTO;
 import com.stpl.app.gcm.tp.logic.CompanySearchLogic;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +31,7 @@ public class CompanySearchTableLogic extends PageTableLogic {
     String parentCompanyNo = StringUtils.EMPTY;
     String parentCompanyName = StringUtils.EMPTY;
     public boolean isProjSelected = false;
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanySearchTableLogic.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(CompanySearchTableLogic.class);
 
     @Override
     public int getCount() {
@@ -38,7 +40,7 @@ public class CompanySearchTableLogic extends PageTableLogic {
                 return logic.companySearchCount(tpDTo, parentCompanyNo, parentCompanyName, getFilters(), recordLockStatus, searchSessionid);
             }
         } catch (Exception e) {
-             LOGGER.error(e);
+             LOGGER.error("",e);
         }
 
         return 0;
@@ -49,7 +51,7 @@ public class CompanySearchTableLogic extends PageTableLogic {
         try {
             return logic.searchCompaniesLazy(tpDTo, start, offset, this.getSortByColumns(), parentCompanyNo, parentCompanyName, getFilters(), recordLockStatus, searchSessionid, isProjSelected);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
             return Collections.emptyList();
         }
 

@@ -9,10 +9,10 @@ import com.stpl.app.gcm.discount.dto.LookupDTO;
 import com.stpl.app.gcm.discount.logic.RebateTableLogic;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
@@ -69,14 +69,12 @@ public class ContractHolderLookUp extends Window {
         }
 
         chStatusBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        chStatus.setImmediate(true);
         chStatus.setContainerDataSource(chStatusBean);
         chStatus.setNullSelectionAllowed(true);
         chStatus.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         chStatus.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
 
         chTypeBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        chType.setImmediate(true);
         chType.setContainerDataSource(chTypeBean);
         chType.setNullSelectionAllowed(true);
         chType.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());

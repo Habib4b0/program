@@ -6,11 +6,11 @@ package com.stpl.app.adminconsole.util;
 
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.server.Page;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

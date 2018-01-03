@@ -7,10 +7,10 @@
 package com.stpl.app.global.common.ui;
 
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
 import org.vaadin.teemu.clara.Clara;

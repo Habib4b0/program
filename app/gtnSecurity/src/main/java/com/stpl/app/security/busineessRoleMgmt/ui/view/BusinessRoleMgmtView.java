@@ -2,25 +2,21 @@ package com.stpl.app.security.busineessRoleMgmt.ui.view;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.stpl.app.security.busineessRoleMgmt.dto.BusinessroleMasterDTO;
 import com.stpl.app.security.busineessRoleMgmt.logic.BusinessRoleMgmtLogic;
 import com.stpl.app.security.busineessRoleMgmt.ui.form.SearchResults;
 import com.stpl.app.security.businessRoleModuleMaster.ui.layout.ActionButtonLayout;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.UserError;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.VerticalLayout;
+import org.jboss.logging.Logger;
 
 public class BusinessRoleMgmtView extends VerticalLayout implements View {
 
@@ -38,7 +34,7 @@ public class BusinessRoleMgmtView extends VerticalLayout implements View {
 	Table table=new Table();
 	
 	private static final Logger LOGGER =
-			 LogManager.getLogger(ActionButtonLayout.class
+			 Logger.getLogger(ActionButtonLayout.class
 			 .getName());
 	
 	

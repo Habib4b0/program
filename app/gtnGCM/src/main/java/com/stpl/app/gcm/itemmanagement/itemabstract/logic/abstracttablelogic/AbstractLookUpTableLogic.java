@@ -7,12 +7,13 @@ package com.stpl.app.gcm.itemmanagement.itemabstract.logic.abstracttablelogic;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentLookUpDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +26,7 @@ public class AbstractLookUpTableLogic extends PageTableLogic {
     AbstractLogic logic = AbstractLogic.getInstance();
     SelectionDTO selection;
     boolean isGenerated = false;
-    public static final Logger LOGGER = Logger.getLogger(AbstractLookUpTableLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AbstractLookUpTableLogic.class);
     public AbstractLookUpTableLogic() {
         LOGGER.debug("Inside Constructor");
     }

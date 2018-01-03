@@ -19,19 +19,19 @@ import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.event.FieldEvents;
+import com.vaadin.event.FieldEvents.FocusListener;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
+import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TableFieldFactory;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TableFieldFactory;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
@@ -81,7 +81,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
             configureSecurityPermissions();
             setTabOperation(ConstantsUtil.CURRENT_COONTRACT);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
 
         }
 
@@ -131,7 +131,6 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
                 final AbstractLogic abstractLogic = AbstractLogic.getInstance();
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
-                    check.setImmediate(true);
                     if (!mainDto.getWorkFlowStatus().trim().isEmpty()) {
                         check.setVisible(false);
                     } else {
@@ -153,12 +152,11 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
                 }
                 if (propertyId.equals("itemEndDate")) {
                     final PopupDateField itemendDate = new PopupDateField();
-                    itemendDate.setImmediate(true);
                     itemendDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
                     itemendDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
-                    itemendDate.addFocusListener(new FieldEvents.FocusListener() {
+                    itemendDate.addFocusListener(new FocusListener() {
 
-                        public void focus(FieldEvents.FocusEvent event) {
+                        public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                             Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
 
                                 public void valueChange(Property.ValueChangeEvent event) {
@@ -396,7 +394,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
                                                 selection.getLookup().changeTab();
                                                 isSubmit = true;
                                             } catch (Exception ex) {
-                                                LOGGER.error(ex);
+                                                LOGGER.error("",ex);
                                             }
                                         }
 
@@ -437,7 +435,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
                         "Please select atleast one approved contract to proceed.");
             }
         } catch (Exception ez) {
-            LOGGER.error(ez);
+            LOGGER.error("",ez);
         }
         return isSubmit;
     }
@@ -539,7 +537,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
             getResetBtncur().setVisible(CommonLogic.isButtonVisibleAccess("reset2", functionHM));
             getSubmit().setVisible(CommonLogic.isButtonVisibleAccess("submit", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

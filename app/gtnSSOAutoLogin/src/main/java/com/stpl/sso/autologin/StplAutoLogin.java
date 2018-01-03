@@ -8,14 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.opensaml.saml2.core.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.security.auth.AutoLogin;
-import com.stpl.portal.security.auth.AutoLoginException;
-import com.stpl.portal.service.UserLocalServiceUtil;
-import com.stpl.portal.util.PortalUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.auto.login.AutoLogin;
+import com.liferay.portal.kernel.security.auto.login.AutoLoginException;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.stpl.sso.autologin.config.StplConfigReader;
 import com.stpl.sso.kerberos.spnego.SpnegoHttpFilter;
 import com.stpl.sso.kerberos.spnego.SpnegoPrincipal;
@@ -23,7 +25,7 @@ import com.stpl.sso.saml.StplSAMLResponseParser;
 
 public class StplAutoLogin implements AutoLogin {
 
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(StplAutoLogin.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StplAutoLogin.class);
 	private final StplSAMLResponseParser samlResponseParser = new StplSAMLResponseParser();
 
 	@Override
@@ -43,12 +45,13 @@ public class StplAutoLogin implements AutoLogin {
 		if (emailAddress == null) {
 			return null;
 		}
+		LOGGER.info("Email Address is " + emailAddress);
 		String username = getUserName(emailAddress);
 		User user = null;
 		try {
 			user = getLiferayUser(request, response, emailAddress, username);
 		} catch (SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error("Unable to create User", ex);
 		}
 		return getUserString(user);
 
@@ -57,6 +60,8 @@ public class StplAutoLogin implements AutoLogin {
 	public String doSamlSSO(HttpServletRequest request, HttpServletResponse response) {
 		String emailAddress = "";
 		String samlResponseString = request.getParameter("SAMLResponse"); // constants
+
+		LOGGER.info("Saml Response is  " + samlResponseString);
 		String relayState = request.getParameter("RelayState");
 
 		if (samlResponseString == null) {
@@ -82,9 +87,9 @@ public class StplAutoLogin implements AutoLogin {
 			princ = filter.getPrincipal(request, response);
 			LOGGER.info("Pricipal -" + princ);
 		} catch (IOException | ServletException ex) {
-			LOGGER.error(ex);
-		} catch (Exception e){
-			LOGGER.error(e);
+			LOGGER.error("Exception in getting Principal ", ex);
+		} catch (Exception e) {
+			LOGGER.error("Exception in getting Principal ", e);
 		}
 		if (princ == null) {
 			return "";
@@ -134,13 +139,25 @@ public class StplAutoLogin implements AutoLogin {
 
 	private User createUser(long companyId, HttpServletRequest request, HttpServletResponse response,
 			String emailAddress, String username) {
+		String firstName = username;
+		String lastName = firstName;
+
+		if (firstName.indexOf('.') != -1) {
+			String[] nameArray = firstName.split("\\.");
+			firstName = nameArray[0];
+			lastName = nameArray[1];
+		} else if (firstName.indexOf('_') != -1) {
+			String[] nameArray = firstName.split("_");
+			firstName = nameArray[0];
+			lastName = nameArray[1];
+		}
 		try {
-			User newUser = new StplCreateUserService().addUser(request, companyId, username, "", emailAddress, username,
-					emailAddress);
+			User newUser = new StplCreateUserService().addUser(request, companyId, firstName, lastName, emailAddress,
+					username, emailAddress);
 			this.bpmLogin(request, response, username);
 			return newUser;
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("Exception in creating User through API", e);
 		}
 		return null;
 	}
@@ -164,12 +181,12 @@ public class StplAutoLogin implements AutoLogin {
 		return cookie;
 	}
 
-        private String getUserName(String emailAddress) {
+	private String getUserName(String emailAddress) {
 		String username = emailAddress.substring(0, emailAddress.indexOf("@"));
 		for (String iterable_element : StplConfigReader.getInstance().getPropertyBean().getSamlPropertyBean()
 				.getSpecialCharArray()) {
 			username = username.replace(iterable_element, ".");
-}
+		}
 		return username;
 	}
 

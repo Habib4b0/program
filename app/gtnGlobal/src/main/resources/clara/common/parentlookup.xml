@@ -1,4 +1,4 @@
-<Panel id="lookup" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:el="urn:import:com.stpl.app.ui.errorhandling"
+<Panel id="lookup" xmlns:p="urn:vaadin:parent" xmlns:el="urn:import:com.stpl.app.ui.errorhandling"
 	xmlns:c="urn:import:org.asi.ui.customcombobox"> 
 <VerticalLayout margin="true" spacing="true" >
 

@@ -9,9 +9,9 @@ import com.stpl.ifs.util.HelperDTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.vaadin.addons.lazycontainer.DAO;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
-import org.vaadin.addons.lazycontainer.SearchCriteria;
+import org.asi.ui.addons.lazycontainer.DAO;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
+import org.asi.ui.addons.lazycontainer.SearchCriteria;
 
 /**
  *

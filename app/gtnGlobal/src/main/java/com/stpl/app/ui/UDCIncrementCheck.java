@@ -1,6 +1,5 @@
 package com.stpl.app.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.logging.Logger;
@@ -10,9 +9,9 @@ import com.stpl.app.global.dao.impl.UDCIncrementalCheckDAOImpl;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.util.Constants;
 import com.stpl.app.util.ConstantsUtils;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -44,8 +43,7 @@ public final class UDCIncrementCheck {
     public static void increment(final String value,final String listName) {
         try{
          LOGGER.debug("Entering increment with DESCRIPTION value is   :::: "+value);
-        final DynamicQuery helperDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        final DynamicQuery helperDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION,
                 value));
         helperDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME,
@@ -80,8 +78,7 @@ public final class UDCIncrementCheck {
     public static void decrement(final String value,final String listName) {
         try{
          LOGGER.debug("Entering decrement with DESCRIPTION value is   :::: "+value);
-        final DynamicQuery helperDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        final DynamicQuery helperDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION,
                 value));
         helperDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME,
@@ -118,8 +115,7 @@ public final class UDCIncrementCheck {
         try{
          LOGGER.debug("Entering increment with DESCRIPTION value is   :::: "+value);
           LOGGER.debug("Entering increment with DESCRIPTION listName is   :::: "+listName);
-        final DynamicQuery helperDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        final DynamicQuery helperDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.HELPER_TABLE_SID,
                 value));
         helperDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME,
@@ -154,8 +150,7 @@ public final class UDCIncrementCheck {
     public static void decrement(final int value,final String listName) {
         try{
          LOGGER.debug("Entering decrement with DESCRIPTION value is   :::: "+value);
-        final DynamicQuery helperDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        final DynamicQuery helperDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.HELPER_TABLE_SID,
                 value));
         helperDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME,

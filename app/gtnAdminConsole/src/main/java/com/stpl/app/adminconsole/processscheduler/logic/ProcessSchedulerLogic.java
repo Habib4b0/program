@@ -8,13 +8,7 @@ package com.stpl.app.adminconsole.processscheduler.logic;
 import static com.stpl.app.adminconsole.processscheduler.logic.ManualLogic.columnName;
 import static com.stpl.app.security.StplSecurity.userMap;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -27,7 +21,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -54,7 +47,6 @@ import com.stpl.app.adminconsole.util.GtnWsCallEtlService;
 import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
 import com.stpl.app.model.HelperTable;
-import com.stpl.app.model.HierarchyDefinition;
 import com.stpl.app.model.WorkflowProfile;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.WorkflowProfileLocalServiceUtil;
@@ -63,16 +55,17 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.GtnFileUtil;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.service.HierarchyDefinitionLocalServiceUtil;
 
 /**
  *
@@ -515,15 +508,13 @@ public class ProcessSchedulerLogic {
 	 * @return the drop down list
 	 * @throws SystemException
 	 *             the system exception
-	 * @throws PortalException
-	 *             the portal exception
-	 * @throws Exception
-	 *             the exception
 	 */
 	public static List<HelperDTO> getDropDownList(final String listName) throws SystemException {
 		LOGGER.debug("Entering getDropDownList p1:" + listName);
 		final List<HelperDTO> helperList = new ArrayList<>();
-		final List<HelperTable> list = dao.getHelperTableDetailsByListName(listName);
+                DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
+                dynamicQuery.add(RestrictionsFactoryUtil.eq("listName", listName));
+                final List<HelperTable> list = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
 		if (list != null) {
 			for (int i = 0; i < list.size(); i++) {
 				final HelperTable helperTable = (HelperTable) list.get(i);
@@ -540,10 +531,7 @@ public class ProcessSchedulerLogic {
 	 *
 	 * @param resultList
 	 *            the result list
-	 * @param excelFlag
-	 * @param isCheckAll
 	 * @return the customized search results
-	 * @throws java.lang.Exception
 	 */
 	public List<ProcessSchedulerDTO> getCustomizedSearchResults(List<Object[]> resultList) {
 		List<ProcessSchedulerDTO> cffSearchDTOs = new ArrayList<>();
@@ -742,11 +730,11 @@ public class ProcessSchedulerLogic {
 	 * Retrieves all the user name and stores that in the Concurrent Hash Map.
 	 *
 	 * @return the Map
-	 * @throws com.stpl.portal.kernel.exception.SystemException
+	 * @throws com.liferay.portal.kernel.exception.SystemException
 	 */
 	public static Map<Integer, String> getUserName() throws SystemException {
 		LOGGER.debug("Enters getUserName method");
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+		DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
 		List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
 		for (User user : userList) {
 			userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getLastName() + ", " + user.getFirstName());
@@ -1116,7 +1104,7 @@ public class ProcessSchedulerLogic {
 	public static int getLazyHierarchyNameCount(final String filterText) throws SystemException {
 		final String filterText1 = StringUtils.trimToEmpty(filterText) + "%";
 		LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText" + filterText1);
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyDefinition.class);
+		final DynamicQuery dynamicQuery = HierarchyDefinitionLocalServiceUtil.dynamicQuery();
 		dynamicQuery.setProjection(ProjectionFactoryUtil.count(ConstantsUtils.HIERARCHY_DEFINITION_ID));
 		dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.HIERARCHY_NAME, filterText1));
 		dynamicQuery.add(RestrictionsFactoryUtil
@@ -1143,7 +1131,7 @@ public class ProcessSchedulerLogic {
 		LOGGER.debug("Entering getLazyHierarchyNameResults method with filterText" + filterText);
 		final List<HelperDTO> list = new ArrayList<>();
 
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyDefinition.class);
+		final DynamicQuery dynamicQuery = HierarchyDefinitionLocalServiceUtil.dynamicQuery();
 		dynamicQuery.setLimit(start, end);
 		final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
 		projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.HIERARCHY_DEFINITION_ID));

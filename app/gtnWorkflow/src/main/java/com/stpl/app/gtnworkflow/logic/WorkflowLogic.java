@@ -13,41 +13,37 @@ import com.stpl.app.gtnworkflow.util.CommonUtils;
 import com.stpl.app.gtnworkflow.util.HelperListUtil;
 import com.stpl.app.gtnworkflow.util.QueryUtils;
 import com.stpl.app.gtnworkflow.util.xmlparser.SQlUtil;
-import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.model.HistWorkflowMaster;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.ImtdIfpDetailsLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.ARMConstants;
-import com.stpl.ifs.util.constants.GlobalConstants;
 import static com.stpl.ifs.util.constants.GlobalConstants.getSelectOne;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.Role;
-import com.stpl.portal.model.User;
-import com.stpl.portal.model.UserGroup;
-import com.stpl.portal.service.RoleLocalServiceUtil;
-import com.stpl.portal.service.UserGroupLocalServiceUtil;
-import com.stpl.portal.service.UserLocalServiceUtil;
-import com.stpl.util.dao.orm.CustomSQLUtil;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.And;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.UserGroup;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserGroupLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.gtnworkflow.service.WorkflowImpl;
+import com.stpl.app.gtnworkflow.util.ConstantsUtils;
+import com.stpl.app.service.CompanyMasterLocalServiceUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.And;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -85,7 +81,7 @@ public class WorkflowLogic {
 
     public static List<HelperDTO> loadCompany() {
 
-        DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+        DynamicQuery companyDynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
         companyDynamicQuery.add(RestrictionsFactoryUtil.ilike("companyType", "manufacturer"));
         ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property("companyMasterSid"));
@@ -179,6 +175,7 @@ public class WorkflowLogic {
                     + "    PM.CUSTOMER_HIERARCHY_SID AS customerHierSid,\n"
                     + "    PM.CUSTOMER_HIERARCHY_LEVEL AS customerHierarchyLevel,\n"
                     + "    PM.CUST_RELATIONSHIP_BUILDER_SID AS custRelationshipBuilderSid,\n"
+                    + "    PM.PRODUCT_HIERARCHY_SID AS prodHierSid,\n"
                     + "    PM.PRODUCT_HIERARCHY_LEVEL AS productHierarchyLevel,\n"
                     + "    PM.PROD_RELATIONSHIP_BUILDER_SID AS prodRelationshipBuilderSid");
         }
@@ -686,8 +683,7 @@ public class WorkflowLogic {
      * @return
      */
     public User getUserInfo(long userId) {
-        DynamicQuery userSearchDynamicQuery = DynamicQueryFactoryUtil.forClass(User.class
-        );
+        DynamicQuery userSearchDynamicQuery = UserLocalServiceUtil.dynamicQuery();
         userSearchDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.USER_ID, userId));
         List<User> resultList;
 
@@ -734,8 +730,7 @@ public class WorkflowLogic {
     public HashMap<Integer, String> getStatusNameFromId() {
 
         List<HelperTable> status = new ArrayList<HelperTable>();
-        DynamicQuery ststusDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        DynamicQuery ststusDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         try {
             status = HelperTableLocalServiceUtil.dynamicQuery(ststusDynamicQuery);
         } catch (SystemException ex) {
@@ -758,8 +753,7 @@ public class WorkflowLogic {
     public HashMap<Long, String> getUserInfo() {
 
         List<User> users = new ArrayList<User>();
-        DynamicQuery userGroupDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(User.class);
+        DynamicQuery userGroupDynamicQuery = UserLocalServiceUtil.dynamicQuery();
         try {
             users = UserLocalServiceUtil.dynamicQuery(userGroupDynamicQuery);
         } catch (SystemException ex) {
@@ -783,7 +777,7 @@ public class WorkflowLogic {
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
         List<Object> resultList = new ArrayList<Object>();
         try {
-            resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
+            resultList = new WorkflowImpl().fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -813,7 +807,7 @@ public class WorkflowLogic {
                 orderBy = asc ? "ASC" : "DESC";
             }
         }
-        String query = CustomSQLUtil.get("loadWorkflowHistory");
+        String query = SQlUtil.getQuery("loadWorkflowHistory");
         query = query.replace("?", String.valueOf(workFlowMasterSystemId));
         query = query.replace("ORDER BY MODIFIED_DATE asc", StringUtils.EMPTY);
         if (parameters.get(CommonUtils.STATUS) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CommonUtils.STATUS)))) {
@@ -844,7 +838,7 @@ public class WorkflowLogic {
         List<HistWorkflowMaster> resultList = null;
         LOGGER.debug("workFlowHistorySearch" + query);
         try {
-            resultList = CompanyMasterLocalServiceUtil.executeQuery(query);
+            resultList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -895,7 +889,7 @@ public class WorkflowLogic {
         int count = 0;
         Map<String, Object> parameters = new HashMap<String, Object>();
         getParameterList(parameters, filters);
-        String query = CustomSQLUtil.get("loadWorkflowHistory");
+        String query = SQlUtil.getQuery("loadWorkflowHistory");
         query = query.replace("?", String.valueOf(workFlowMasterSystemId));
         query = query.replace("ORDER BY MODIFIED_DATE asc", StringUtils.EMPTY);
         if (parameters.get(CommonUtils.STATUS) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(CommonUtils.STATUS)))) {
@@ -917,7 +911,7 @@ public class WorkflowLogic {
         List<HistWorkflowMaster> resultList = null;
         try {
             LOGGER.debug("QUERTY" + query);
-            resultList = CompanyMasterLocalServiceUtil.executeQuery(query);
+            resultList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -995,7 +989,7 @@ public class WorkflowLogic {
      * @return
      */
     public List<UserViewDTO> UserSearch(UserViewDTO userdto) {
-        DynamicQuery userSearchDynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery userSearchDynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<UserViewDTO> userSearchresults = new ArrayList<UserViewDTO>();
         String firstName;
         String lastName;
@@ -1493,7 +1487,7 @@ public class WorkflowLogic {
         public List getDetailsForHistory(int workflowSystemId) {
         String sql = SQlUtil.getQuery("history-popup-others").toString();
         sql = sql.replace("[?WORKFLOW_MASTER_SID]", StringUtils.EMPTY + workflowSystemId);        
-        return CompanyMasterLocalServiceUtil.executeQuery(sql);
+        return HelperTableLocalServiceUtil.executeSelectQuery(sql);
     }
     
     public boolean isDuplicateView(String viewName) {

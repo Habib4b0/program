@@ -4,7 +4,8 @@
  */
 package com.stpl.app.ui.lazyload;
 
-import org.vaadin.addons.lazycontainer.SearchCriteria;
+import org.asi.ui.addons.lazycontainer.SearchCriteria;
+
 
 /**
  *

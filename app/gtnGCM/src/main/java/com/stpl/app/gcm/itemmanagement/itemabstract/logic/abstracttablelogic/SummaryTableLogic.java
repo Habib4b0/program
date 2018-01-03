@@ -12,7 +12,7 @@ import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractSummaryDTO;
 import com.stpl.app.gcm.itemmanagement.remove.logic.RemoveItemLogic;
 import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

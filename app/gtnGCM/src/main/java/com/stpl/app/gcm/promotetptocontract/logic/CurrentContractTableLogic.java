@@ -7,11 +7,13 @@ package com.stpl.app.gcm.promotetptocontract.logic;
 
 import com.stpl.app.gcm.promotetptocontract.dto.CurrentContractDTO;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.Collections;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,7 +21,7 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class CurrentContractTableLogic extends PageTableLogic {
 
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CurrentContractTableLogic.class);
+    private static final Logger  LOGGER = LoggerFactory.getLogger(CurrentContractTableLogic.class);
     CurrentContractDTO currConDTO = new CurrentContractDTO();
     PromoteTPLogic logic = new PromoteTPLogic();
     boolean firstTime = true;
@@ -51,7 +53,7 @@ public class CurrentContractTableLogic extends PageTableLogic {
         try {
             return logic.getSelectedTPContractResults(logic.getContractQuery(currConDTO, session.getUserId(), session.getSessionId(), start, offset, true));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             return Collections.emptyList();
         }
     }

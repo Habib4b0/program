@@ -27,11 +27,11 @@ import org.apache.commons.lang.StringUtils;
 import com.stpl.app.gcm.util.Constants.IndicatorConstants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.CONTRACT;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.ComboBox;
 import java.util.Date;
-import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -110,7 +110,6 @@ public class ItemLogic {
             comboBox.setNullSelectionItemId(ddlbDefaultValue);
         }
         comboBox.setNullSelectionAllowed(true);
-        comboBox.setImmediate(true);
         comboBox.setItemCaptionPropertyId("description");
         containerData.setMinFilterLength(0);
     }

@@ -27,34 +27,36 @@ import com.stpl.app.model.HelperTable;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.TableResultCustom;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.service.ImtdIfpDetailsLocalServiceUtil;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.util.dao.orm.CustomSQLUtil;
-import com.vaadin.data.Property;
-import com.vaadin.ui.ComboBox;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.NativeSelect;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.NativeSelect;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.Arrays;
-import static com.stpl.app.adminconsole.common.util.CommonUtil.convertStringToDate;
 import com.stpl.app.adminconsole.util.HelperListUtil;
 import com.stpl.app.adminconsole.dao.CommonDAO;
 import com.stpl.app.adminconsole.dao.impl.CommonDAOImpl;
 import com.stpl.ifs.ui.util.NumericConstants;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import static com.stpl.app.adminconsole.common.util.CommonUtil.convertStringToDate;
+import com.stpl.app.adminconsole.service.AdminConsoleImpl;
+import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
+import com.stpl.app.service.BrandMasterLocalServiceUtil;
+import com.stpl.app.service.HelperTableLocalService;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 
 /**
  * The Class CommonUtil.
@@ -216,7 +218,7 @@ public final class CommonUtil {
 
         final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("Entering getDropDown P1:select  and P2:listName=" + listName);
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
 
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtil.LISTNAME, listName));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(CommonUtil.DESCRIPTION));
@@ -248,7 +250,7 @@ public final class CommonUtil {
 
         final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("Entering getDropDown P1:select and P2:listName=" + listName);
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
 
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtil.LISTNAME, listName));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(CommonUtil.DESCRIPTION));
@@ -275,7 +277,7 @@ public final class CommonUtil {
 
         final List<HelperDTO> helperList = new ArrayList<>();
         LOGGER.debug("Entering getDropDown  P1:select and P2:listName=" + listName);
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         final HelperDTO fileTypeNullDto = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
         Map<Integer, String> aliasNameMap  = new HashMap<>();
         helperList.add(fileTypeNullDto);
@@ -318,7 +320,7 @@ public final class CommonUtil {
 
         LOGGER.debug("Entering getCreatedByUser()");
         final HashMap<String, String> userMap = new HashMap<>();
-        final DynamicQuery userGroupDynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+        final DynamicQuery userGroupDynamicQuery = UserLocalServiceUtil.dynamicQuery();
         final List<User> users = DAO.getUsersList(userGroupDynamicQuery);
 
         for (final Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
@@ -362,7 +364,7 @@ public final class CommonUtil {
 
         LOGGER.debug("Entering getIDFromHelper() --->> " + listName);
         int helperId = 0;
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property("helperTableSid"));
         if (listName != null && !listName.isEmpty()) {
@@ -388,7 +390,7 @@ public final class CommonUtil {
 
         final List<HelperDTO> helperList = new ArrayList<>();
 
-        final DynamicQuery brandDynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
+        final DynamicQuery brandDynamicQuery = BrandMasterLocalServiceUtil.dynamicQuery();
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property("brandMasterSid"));
         projList.add(ProjectionFactoryUtil.property(ConstantsUtils.BRAND_NAME));
@@ -421,7 +423,7 @@ public final class CommonUtil {
 
         final List<HelperDTO> helperList = new ArrayList<>();
 
-        final DynamicQuery brandDynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
+        final DynamicQuery brandDynamicQuery = BrandMasterLocalServiceUtil.dynamicQuery();
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property("brandMasterSid"));
         projList.add(ProjectionFactoryUtil.property("brandName"));
@@ -468,7 +470,7 @@ public final class CommonUtil {
 
         LOGGER.debug("Entering getIDFromHelper()");
         int helperId = 0;
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         final ProjectionList projList = ProjectionFactoryUtil.projectionList();
         projList.add(ProjectionFactoryUtil.property("helperTableSid"));
         if (description != null && !description.isEmpty()) {
@@ -490,7 +492,7 @@ public final class CommonUtil {
         List<Object> resultList = new ArrayList<>();
 
         try {
-            resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
+            resultList = new AdminConsoleImpl().fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -515,11 +517,11 @@ public final class CommonUtil {
         boolean appPermission = true;
         try {
             if (fieldStr != null) {
-                if (com.stpl.app.serviceUtils.ConstantsUtils.ADD.equals(mode)) {
+                if (ConstantsUtils.ADD.equals(mode)) {
                     appPermission = ((AppPermission) fieldHM.get(fieldStr)).isAddFlag();
-                } else if (com.stpl.app.serviceUtils.ConstantsUtils.EDIT.equals(mode)) {
+                } else if (ConstantsUtils.EDIT.equals(mode)) {
                     appPermission = ((AppPermission) fieldHM.get(fieldStr)).isEditFlag();
-                } else if (com.stpl.app.serviceUtils.ConstantsUtils.VIEW.equals(mode)) {
+                } else if (ConstantsUtils.VIEW.equals(mode)) {
                     appPermission = ((AppPermission) fieldHM.get(fieldStr)).isViewFlag();
                 } else if (ConstantsUtils.SEARCH.equals(mode)) {
                     if (((AppPermission) fieldHM.get(fieldStr)).isViewFlag() && ((AppPermission) fieldHM.get(fieldStr)).isEditFlag() && ((AppPermission) fieldHM.get(fieldStr)).isAddFlag()) {
@@ -578,13 +580,13 @@ public final class CommonUtil {
                 str = String.valueOf(obj[i]);
                 if (fieldHM.get(str) != null) {
                     final AppPermission appPermission = fieldHM.get(str);
-                    if ((com.stpl.app.serviceUtils.ConstantsUtils.ADD).equals(mode)) {
+                    if ((ConstantsUtils.ADD).equals(mode)) {
                         appPerm = appPermission.isAddFlag();
                     }
-                    if ((com.stpl.app.serviceUtils.ConstantsUtils.EDIT).equals(mode)) {
+                    if ((ConstantsUtils.EDIT).equals(mode)) {
                         appPerm = appPermission.isEditFlag();
                     }
-                    if ((com.stpl.app.serviceUtils.ConstantsUtils.VIEW).equals(mode)) {
+                    if ((ConstantsUtils.VIEW).equals(mode)) {
                         appPerm = appPermission.isViewFlag();
                     }
                     if (ConstantsUtils.SEARCH.equals(mode)) {
@@ -767,7 +769,7 @@ public final class CommonUtil {
     public static String replacedQuery(Map<String, String> input, String queryName) {
         StringBuilder queryString = new StringBuilder();
         try {
-            queryString = new StringBuilder(CustomSQLUtil.get(queryName));
+            queryString = new StringBuilder(SQlUtil.getQuery(queryName));
             if (input != null) {
                 for (Map.Entry<String, String> entry : input.entrySet()) {
                     final String string = entry.getKey();

@@ -6,9 +6,9 @@ package com.stpl.app.gcm.tp.logic;
 
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;

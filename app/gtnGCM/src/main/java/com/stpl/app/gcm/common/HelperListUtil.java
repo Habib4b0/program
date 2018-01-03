@@ -7,13 +7,13 @@ package com.stpl.app.gcm.common;
 
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.util.ConstantsUtils;
+import com.stpl.app.gcm.util.Constants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,7 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -57,7 +58,7 @@ public class HelperListUtil {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(HelperListUtil.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelperListUtil.class.getName());
 
     /**
      * Instantiates a new helper list util.
@@ -85,12 +86,12 @@ public class HelperListUtil {
      */
     public void loadValuesWithListName(String moduleName) {
         List<String> listNames = Arrays.asList(listNameBundle.getString(moduleName).split(","));
-        idHelperDTOMap.put(0, new HelperDTO(0, ConstantsUtils.SELECT_ONE));
+        idHelperDTOMap.put(0, new HelperDTO(0, Constants.SELECT_ONE));
         if (listNames != null && !listNames.isEmpty()) {
             try {
                 List<HelperDTO> helperList = null;
-                final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil
-                        .forClass(HelperTable.class);
+                final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery()
+                        ;
                 dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.LIST_NAME,
                         listNames));
                 dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.LIST_NAME));
@@ -120,7 +121,7 @@ public class HelperListUtil {
                     }
                 }
             } catch (SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
     }
@@ -198,7 +199,7 @@ public class HelperListUtil {
         if (idHelperDTOMap.get(id) != null) {
             return idHelperDTOMap.get(id).getDescription();
         }
-        return ConstantsUtils.SELECT_ONE;
+        return Constants.SELECT_ONE;
     }
 
 }

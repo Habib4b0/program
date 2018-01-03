@@ -37,34 +37,34 @@ import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.DISABLE;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.UIUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.gcm.util.UiUtils;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.GlobalConstants;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.OptionGroup;
+import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -78,7 +78,8 @@ import java.util.Map;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -177,7 +178,7 @@ public class AddContractSelection extends CustomComponent {
     protected TextField baseWacManual;
      @UiField("baseWacDate")
     public PopupDateField baseWacDate;
-    public static final Logger LOGGER = Logger.getLogger(AddContractSelection.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AddContractSelection.class);
     AddItemDetailsTableLogic addItemTableLogic = new AddItemDetailsTableLogic();
     public static final String PRICE_TOLERANCE_FREQUENCY_LABEL = "Price ToleranceFrequency";
     public ExtPagedTable addItemTable = new ExtPagedTable(addItemTableLogic);
@@ -210,7 +211,7 @@ public class AddContractSelection extends CustomComponent {
     AbstractLogic logic = AbstractLogic.getInstance();
     AddItemTableDTO binderDto = new AddItemTableDTO();
     public static final String CONFIRMATION_HEADER = "Confirmation";
-    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     SelectionDTO selection;
     BeanItemContainer<AbstractContractSearchDTO> itemContractContainer = new BeanItemContainer<>(AbstractContractSearchDTO.class);
     AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
@@ -251,7 +252,6 @@ public class AddContractSelection extends CustomComponent {
         LoadComboToTableMap();
         LoadTempToTableMap();
         loadFieldAndPropertyMap();
-        field.setImmediate(true);
         field.setNullSelectionAllowed(true);
         field.setNullSelectionItemId(Constants.SELECT_ONE);
         field.select(Constants.SELECT_ONE);
@@ -612,7 +612,7 @@ public class AddContractSelection extends CustomComponent {
                     binder.setItemDataSource(new BeanItem<>(new AddItemTableDTO()));
                     binder.commit();
                 } catch (FieldGroup.CommitException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 
@@ -664,7 +664,7 @@ public class AddContractSelection extends CustomComponent {
                         }
                         isSubmit = true;
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
 
@@ -793,7 +793,6 @@ public class AddContractSelection extends CustomComponent {
                 if (Constants.CHECK_RECORD.equals(propertyId)) {
                     CustomTextField text = new CustomTextField();
                     text.setEnabled(false);
-                    text.setImmediate(true);
                     return text;
                 }
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
@@ -823,7 +822,7 @@ public class AddContractSelection extends CustomComponent {
                 }
                 if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
                     ComboBox priceProtectionDdlb = new ComboBox();
-                    CommonUtil.loadComboBoxForGCM(priceProtectionDdlb, UIUtils.STATUS, true);
+                    CommonUtil.loadComboBoxForGCM(priceProtectionDdlb, UiUtils.STATUS, true);
                     return priceProtectionDdlb;
                 }
                 if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
@@ -1109,7 +1108,7 @@ public class AddContractSelection extends CustomComponent {
 
             UI.getCurrent().addWindow(rs);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -1137,9 +1136,9 @@ public class AddContractSelection extends CustomComponent {
     /**
      * get Binder
      *
-     * @return CustomFieldGroup
+     * @return ErrorfulFieldGroup
      */
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
@@ -1554,7 +1553,7 @@ public class AddContractSelection extends CustomComponent {
     }
 
     private void loadStatus() {
-        CommonUtil.getComboBoxByListName(massUpdateValue, UIUtils.STATUS, false);
+        CommonUtil.getComboBoxByListName(massUpdateValue, UiUtils.STATUS, false);
     }
 
     private void loadPriceTolerenceType() {
@@ -1774,7 +1773,7 @@ public class AddContractSelection extends CustomComponent {
             resetBtncur.setVisible(CommonLogic.isButtonVisibleAccess("resetBtncur", functionHM));
             submitBtncur.setVisible(CommonLogic.isButtonVisibleAccess("submitBtncur", functionHM));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
     public void loadValueddlbField() {
