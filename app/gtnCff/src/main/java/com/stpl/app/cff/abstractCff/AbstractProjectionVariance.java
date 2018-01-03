@@ -25,7 +25,6 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.data.Property;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Sizeable;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
@@ -666,6 +665,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
         LOGGER.debug("projection variance customTreeViewLogic initiated ");
         final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(sessionDTO);
         customerTreeLookup.addCloseListener(new Window.CloseListener() {
+            @Override
             public void windowClose(Window.CloseEvent e) {
                 if (customerTreeLookup.isIsSelect()) {
                     customIdToSelect = customerTreeLookup.getCustomId();
@@ -717,6 +717,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
         if (CommonLogic.editButtonValidation(customDdlb, customViewList)) {
             final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(sessionDTO, customId);
             customerTreeLookup.addCloseListener(new Window.CloseListener() {
+                @Override
                 public void windowClose(Window.CloseEvent e) {
                     customIdToSelect = customerTreeLookup.getCustomId();
                     loadCustomDDLB();

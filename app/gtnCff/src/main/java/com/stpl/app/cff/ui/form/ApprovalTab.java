@@ -196,7 +196,7 @@ public class ApprovalTab extends CustomComponent {
     /**
      * The cff binder.
      */
-    private  CustomFieldGroup cffBinder = new CustomFieldGroup(new BeanItem<ApprovalDetailsDTO>(new ApprovalDetailsDTO()));
+    private final  CustomFieldGroup cffBinder = new CustomFieldGroup(new BeanItem<ApprovalDetailsDTO>(new ApprovalDetailsDTO()));
     /**
      * The results bean.
      */
@@ -211,8 +211,8 @@ public class ApprovalTab extends CustomComponent {
      */
     private final CommonUtils commonUtils = new CommonUtils();
     private static final String ALERT = "Alert";
-    private CFFLogic cffLogic = new CFFLogic();
-    private NotesTabForm notestab;
+    private final CFFLogic cffLogic = new CFFLogic();
+    private final NotesTabForm notestab;
     
     @UiField("excelExport")
     private Button excelExport;
@@ -220,7 +220,7 @@ public class ApprovalTab extends CustomComponent {
     @UiField("bottombuttonLayout")
     private HorizontalLayout bottombuttonLayout;
     private boolean isFirst = false;
-    private CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     
     @UiField("errorLabel")
     public ErrorLabel errorLabel;
@@ -243,8 +243,8 @@ public class ApprovalTab extends CustomComponent {
     /**
      * ApprovalTab form constructor
      */
-    private CFFSearchDTO dto;
-    private SessionDTO sessionDTO;
+    private final CFFSearchDTO dto;
+    private final SessionDTO sessionDTO;
 
     public ApprovalTab(CFFSearchDTO dto, BeanItemContainer<ApprovalDetailsDTO> approvalContainer, BeanItemContainer<CFFResultsDTO> resultsBean,
             NotesTabForm notestab, SessionDTO sessionDTO) {
@@ -530,6 +530,7 @@ public class ApprovalTab extends CustomComponent {
              *
              * @param event - Mouse Click event
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 try {
                     LOGGER.debug("Entering EXCEL Export Button Click");
@@ -613,7 +614,7 @@ public class ApprovalTab extends CustomComponent {
 
     public List<Integer> getApprovedDetails(int projectionId) {
         CFFQueryUtils cffUtils = new CFFQueryUtils();
-        return cffUtils.getApprovedDetails(projectionId);
+        return CFFQueryUtils.getApprovedDetails(projectionId);
     }
 
     /**
@@ -626,6 +627,7 @@ public class ApprovalTab extends CustomComponent {
         LOGGER.debug("inside Submit method");
 
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -663,11 +665,13 @@ public class ApprovalTab extends CustomComponent {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 AbstractNotificationUtils notification = new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // To change body of generated methods, choose Tools
                         // | Templates.
                     }
 
+                    @Override
                     public void yesMethod() {
 
                         String result = "";
@@ -700,6 +704,7 @@ public class ApprovalTab extends CustomComponent {
     public void rejectBtnLogic(final Button.ClickEvent event) {
         LOGGER.debug("Inside Rejected Button click event method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -740,6 +745,7 @@ public class ApprovalTab extends CustomComponent {
     public void cancelBtnLogic(final Button.ClickEvent event) {
         LOGGER.debug("Inside Cancelled Button click event method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -775,6 +781,7 @@ public class ApprovalTab extends CustomComponent {
     public void deleteBtnLogic(final Button.ClickEvent event) {
         LOGGER.debug("Inside delete Button click event method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -811,11 +818,13 @@ public class ApprovalTab extends CustomComponent {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 AbstractNotificationUtils notification = new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // To change body of generated methods, choose Tools
                         // | Templates.
                     }
 
+                    @Override
                     public void yesMethod() {
 
                         notestab.getApprovalWindow().close();
@@ -842,6 +851,7 @@ public class ApprovalTab extends CustomComponent {
     @UiHandler("resetBtn")
     public void resetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -910,13 +920,7 @@ public class ApprovalTab extends CustomComponent {
             LOGGER.debug("Entering Approval Details createWorkSheet");
             final long recordCount = resultsBean.size();
             ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), recordCount, this, getUI(), EXCEL_HEADER);
-        } catch (NoSuchMethodException ex) {
-            LOGGER.error(ex);
-        } catch (IllegalAccessException ex) {
-            LOGGER.error(ex);
-        } catch (IllegalArgumentException ex) {
-            LOGGER.error(ex);
-        } catch (InvocationTargetException ex) {
+        } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("Ending Approval Details createWorkSheet");
@@ -1067,9 +1071,7 @@ public class ApprovalTab extends CustomComponent {
                 resetBtn.setVisible(true);
             }
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }

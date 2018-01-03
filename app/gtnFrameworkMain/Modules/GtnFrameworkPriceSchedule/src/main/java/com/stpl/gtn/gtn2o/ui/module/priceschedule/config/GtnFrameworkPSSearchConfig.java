@@ -627,7 +627,7 @@ public class GtnFrameworkPSSearchConfig {
 		GtnUIFrameWorkActionConfig changeCaptionActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CHANGE_CAPTION);
 		changeCaptionActionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON));
-		changeCaptionActionConfig.addActionParameter(Arrays.asList("Update"));
+		changeCaptionActionConfig.addActionParameter(Arrays.asList("UPDATE"));
 		psEditButtonActionConfigList.add(changeCaptionActionConfig);
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();

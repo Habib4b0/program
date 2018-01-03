@@ -413,10 +413,11 @@ public class GtnWsRelationshipBuilderHelperService {
 
 	@SuppressWarnings("unchecked")
 	public List<Object> getMasterSidList(GtnUIFrameworkWebserviceRequest gtnWsRequest,
-			List<HierarchyLevelDefinitionBean> hierarchyList) {
-		final int levelNo = Integer.parseInt(
-				gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList().get(3).getFilterValue1());
+			List<HierarchyLevelDefinitionBean> hierarchyList, int levelNo) {
 		final List<Object> masterSidList = new ArrayList<>();
+		if (gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList().size() < 4) {
+			return Collections.emptyList();
+		}
 		List<String> primaryIdList = (List<String>) gtnWsRequest.getGtnWsSearchRequest()
 				.getGtnWebServiceSearchCriteriaList().get(4).getFilterValue3();
 		int primaryKeyPosition = primaryIdList.size() - 1;

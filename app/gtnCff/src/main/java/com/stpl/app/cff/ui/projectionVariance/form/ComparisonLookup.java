@@ -34,8 +34,8 @@ import org.jboss.logging.Logger;
 public class ComparisonLookup extends AbstractComparisonLookup {
 
     private Boolean recordSelectedFlag = false;
-    private int currentProjId;
-    private List<ComparisonLookupDTO> selectedList;
+    private final int currentProjId;
+    private final List<ComparisonLookupDTO> selectedList;
     /**
      * Logger
      */
@@ -81,6 +81,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void searchBtnLogic() {
         LOGGER.debug("Inside searchBtnLogic");
         // Implement
@@ -144,6 +145,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void resetBtnLogic() {
         LOGGER.debug("Inside resetBtnLogic");
         new AbstractNotificationUtils() {
@@ -178,6 +180,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void addBtnLogic(Button.ClickEvent event) {
         LOGGER.debug("Inside addBtnLogic");
         // Implement
@@ -196,6 +199,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void projectionResetBtnLogic() {
         LOGGER.debug("Inside projectionResetBtnLogic");
         new AbstractNotificationUtils() {
@@ -220,6 +224,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void closeBtnLogic() {
         LOGGER.debug("Inside closeBtnLogic");
         if (projectionTable.getItemIds().isEmpty()) {
@@ -238,6 +243,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void removeBtnLogic(Button.ClickEvent event) {
         LOGGER.debug("Inside removeBtnLogic");
         // Implement
@@ -266,6 +272,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
              * Method called when available results value is changed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }
@@ -280,6 +287,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
              * Method called when available results value is changed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }
