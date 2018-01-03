@@ -179,7 +179,7 @@ public class ConstantsUtil {
         NET_EX_FACTORY_SALES_PER_EX_FACTORY(NET_EXFACT_SALES_PER_EXFACT),
         VAR_COGS("COGS"),
         VAR_NET_PROFITE("Net Profit");
-        private String constant;
+        private final String constant;
 
         private PVVariables(String constant) {
             this.constant = constant;
@@ -207,7 +207,7 @@ public class ConstantsUtil {
         COL_PERCENTAGE("%Change"),
         COL_ACTUALS("Actuals"),
         COL_ACCRUALS(StringConstantsUtil.ACCRUALS);
-        private String constant;
+        private final String constant;
 
         private PVVariableCategory(String constant) {
             this.constant = constant;

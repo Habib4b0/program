@@ -100,24 +100,24 @@ public class FileManagementLogic {
 	/**
 	 * The ITEM_QUAL_NAME.
 	 */
-	public static String ITEM_QUAL_NAME = "itemQualifierName";
+	protected static final String ITEM_QUAL_NAME = "itemQualifierName";
 	/**
 	 * The ITEM_QUALIFIER_SID.
 	 */
-	public final static String ITEM_QUALIFIER_SID = "itemQualifierSid";
+	protected static final String ITEM_QUALIFIER_SID = "itemQualifierSid";
 
-	private Map<String, String> monthMap = new HashMap<>();
+	private final Map<String, String> monthMap = new HashMap<>();
 
-	private HashMap<String, String> columnNames = new HashMap<>();
-	private String DOLLAR = "$";
-	private DecimalFormat dollarFormat = new DecimalFormat("#,##0.00");
-	private DecimalFormat unitsFormat = new DecimalFormat("#0.0");
-	private static DecimalFormat priceFormat = new DecimalFormat("#0.00");
+	private final HashMap<String, String> columnNames = new HashMap<>();
+	private final String dollar = "$";
+	private final DecimalFormat dollarFormat = new DecimalFormat("#,##0.00");
+	private final DecimalFormat unitsFormat = new DecimalFormat("#0.0");
+	private static final DecimalFormat PRICE_FORMAT = new DecimalFormat("#0.00");
 	private final DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 	private final DateFormat dateFormatToParse = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT_TO_PARSE);
-	public static final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
+	protected static final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
 
-	public static final String ITEM_IDENTIFIER = "ITEM_IDENTIFIER";
+	protected static final String ITEM_IDENTIFIER = "ITEM_IDENTIFIER";
 
 	/**
 	 * Gets the foecast year count.
@@ -135,7 +135,7 @@ public class FileManagementLogic {
 	 *            the new foecast year count
 	 */
 	public void setFoecastYearCount(final int itemPricingQualifierNameCount) {
-		this.foecastYearCount = itemPricingQualifierNameCount;
+		FileManagementLogic.foecastYearCount = itemPricingQualifierNameCount;
 	}
 
 	/**
@@ -147,9 +147,9 @@ public class FileManagementLogic {
 		return DAO;
 	}
 
-	public static String DEFAULT_JAVA_DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
+	public static final String DEFAULT_JAVA_DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
 	// SQL date format
-	public static String DEFAULT_SQL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
+	public static final String DEFAULT_SQL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 
 	/**
 	 * Gets the forecast year.
@@ -195,7 +195,7 @@ public class FileManagementLogic {
 			final String country) throws SystemException {
 		List<ForecastingMaster> resultsList;
 		final FileManagementDTO fileMgtDTO = new FileManagementDTO();
-		final DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+		final DateFormat vDateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 
 		Criterion criterion;
 		String sqlString = "";
@@ -223,10 +223,10 @@ public class FileManagementLogic {
 				fileMgtDTO.setForecastName(fmMaster.getForecastName());
 				fileMgtDTO.setForecastVersion(fmMaster.getForecastVer());
 				if (fmMaster.getForecastDate() != null) {
-					fileMgtDTO.setForecastDate(dateFormat.format(fmMaster.getForecastDate()));
+					fileMgtDTO.setForecastDate(vDateFormat.format(fmMaster.getForecastDate()));
 				}
 				if (fmMaster.getCreatedDate() != null) {
-					fileMgtDTO.setCreatedDate(dateFormat.format(fmMaster.getCreatedDate()));
+					fileMgtDTO.setCreatedDate(vDateFormat.format(fmMaster.getCreatedDate()));
 				}
 			}
 		} else if (ConstantsUtils.DEMAND.equals(fileType)) {
@@ -238,7 +238,7 @@ public class FileManagementLogic {
 					final Object[] obj = (Object[]) resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
 				}
 			}
 		} else if (ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY.equals(fileType)) {
@@ -250,7 +250,7 @@ public class FileManagementLogic {
 					final Object[] obj = (Object[]) resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
 				}
 			}
 		} else if (ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL.equals(fileType)) {
@@ -263,7 +263,7 @@ public class FileManagementLogic {
 					final Object[] obj = (Object[]) resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
 				}
 			}
 		} else if (ConstantsUtils.CUSTOMERGTS.equals(fileType)) {
@@ -275,7 +275,7 @@ public class FileManagementLogic {
 					final Object[] obj = (Object[]) resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
 				}
 			}
 		} else if (ConstantsUtils.ADJUSTED_DEMAND.equals(fileType)) {
@@ -287,7 +287,7 @@ public class FileManagementLogic {
 					final Object[] obj = (Object[]) resultsList1;
 					fileMgtDTO.setForecastName(String.valueOf(obj[0]));
 					fileMgtDTO.setForecastVersion(String.valueOf(obj[1]));
-					fileMgtDTO.setCreatedDate(String.valueOf(dateFormat.format(obj[NumericConstants.TWO])));
+					fileMgtDTO.setCreatedDate(String.valueOf(vDateFormat.format(obj[NumericConstants.TWO])));
 				}
 			}
 		}
@@ -401,11 +401,11 @@ public class FileManagementLogic {
 		resultsList = DAO.getFilesList(dynamicQuery);
 		if (!resultsList.isEmpty()) {
 			final FileManagement fileMgt = (FileManagement) resultsList.get(0);
-			final DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+			final DateFormat vDateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 			fileMgtDTO.setCurrentFile(fileMgt.getForecastName());
 			fileMgtDTO.setForecastVersion(fileMgt.getVersion());
 			fileMgtDTO.setEffectiveDate(fileMgt.getCreatedDate() == null ? ConstantsUtils.EMPTY
-					: dateFormat.format(fileMgt.getCreatedDate()));
+					: vDateFormat.format(fileMgt.getCreatedDate()));
 		}
 
 		LOGGER.debug("getCurrentFileInfo return FileManagementDTO fileMgtDTO");
@@ -941,11 +941,11 @@ public class FileManagementLogic {
 					Compare.Operation operation = compare.getOperation();
 					if (StringConstantsUtil.VERSION.equalsIgnoreCase(String.valueOf(compare.getPropertyId()))) {
 						int value = Integer.valueOf(String.valueOf(compare.getValue()));
-						if (operation.GREATER.toString().equalsIgnoreCase(operation.name())) {
+						if (Compare.Operation.GREATER.toString().equalsIgnoreCase(operation.name())) {
 							projectionDynamicQuery.add(RestrictionsFactoryUtil.ge(StringConstantsUtil.VERSION, value));
-						} else if (operation.LESS.toString().equalsIgnoreCase(operation.name())) {
+						} else if (Compare.Operation.LESS.toString().equalsIgnoreCase(operation.name())) {
 							projectionDynamicQuery.add(RestrictionsFactoryUtil.le(StringConstantsUtil.VERSION, value));
-						} else if (operation.EQUAL.toString().equalsIgnoreCase(operation.name())) {
+						} else if (Compare.Operation.EQUAL.toString().equalsIgnoreCase(operation.name())) {
 							projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.VERSION, value));
 						}
 					}
@@ -1460,12 +1460,12 @@ public class FileManagementLogic {
 					fmDTO.setStartDate(sdate);
 				}
 				fmDTO.setPrice(obj[NumericConstants.FIVE] == null ? " "
-						: DOLLAR + priceFormat.format(obj[NumericConstants.FIVE]));
+						: dollar + PRICE_FORMAT.format(obj[NumericConstants.FIVE]));
 				fmDTO.setUnits(obj[NumericConstants.SIX] == null ? " " : unitsFormat.format(obj[NumericConstants.SIX]));
 				fmDTO.setHiddenPrice(String.valueOf(obj[NumericConstants.FIVE]));
 				fmDTO.setHiddenUnits(String.valueOf(obj[NumericConstants.SIX]));
 				fmDTO.setDollars(obj[NumericConstants.SEVEN] == null ? " "
-						: DOLLAR + dollarFormat.format(obj[NumericConstants.SEVEN]));
+						: dollar + dollarFormat.format(obj[NumericConstants.SEVEN]));
 				boolean recordStatus = ((Boolean) obj[NumericConstants.EIGHT]).booleanValue();
 				fmDTO.setRecordLockStatus(recordStatus);
 				fmDTO.setForecastSystemId((Integer) obj[NumericConstants.NINE]);
@@ -1561,7 +1561,7 @@ public class FileManagementLogic {
 				fmDTO.setAmountWithdrawn(
 						obj[NumericConstants.EIGHT] != null ? String.valueOf(obj[NumericConstants.EIGHT]) : "");
 				fmDTO.setPrice(obj[NumericConstants.NINE] == null ? " "
-						: DOLLAR + priceFormat.format(obj[NumericConstants.NINE]));
+						: dollar + PRICE_FORMAT.format(obj[NumericConstants.NINE]));
 				fmDTO.setBatchId(obj[NumericConstants.TEN] != null ? String.valueOf(obj[NumericConstants.TEN]) : "");
 				fmDTO.setHiddenbatchId(
 						obj[NumericConstants.TEN] != null ? String.valueOf(obj[NumericConstants.TEN]) : "");
@@ -1610,7 +1610,7 @@ public class FileManagementLogic {
 				fmDTO.setAmountWithdrawn(
 						obj[NumericConstants.ELEVEN] != null ? String.valueOf(obj[NumericConstants.ELEVEN]) : "");
 				fmDTO.setPrice(obj[NumericConstants.TWELVE] != null
-						? DOLLAR + priceFormat.format(obj[NumericConstants.TWELVE]) : " ");
+						? dollar + PRICE_FORMAT.format(obj[NumericConstants.TWELVE]) : " ");
 				fmDTO.setBatchId(
 						obj[NumericConstants.THIRTEEN] != null ? String.valueOf(obj[NumericConstants.THIRTEEN]) : "");
 				fmDTO.setHiddenbatchId(
@@ -1643,7 +1643,7 @@ public class FileManagementLogic {
 				fmDTO.setPriceType(
 						obj[NumericConstants.FIVE] != null ? String.valueOf(obj[NumericConstants.FIVE]) : "");
 				fmDTO.setPrice(obj[NumericConstants.SIX] != null
-						? DOLLAR + priceFormat.format(obj[NumericConstants.SIX]) : " ");
+						? dollar + PRICE_FORMAT.format(obj[NumericConstants.SIX]) : " ");
 				fmDTO.setSalesAmount(
 						obj[NumericConstants.SEVEN] != null ? String.valueOf(obj[NumericConstants.SEVEN]) : "");
 				fmDTO.setSalesInclusion(
@@ -2552,7 +2552,7 @@ public class FileManagementLogic {
 			fmDTO.setUnitsWithdrawn(obj[NumericConstants.TEN] != null ? String.valueOf(obj[NumericConstants.TEN]) : "");
 			fmDTO.setAmountWithdrawn(
 					obj[NumericConstants.ELEVEN] != null ? String.valueOf(obj[NumericConstants.ELEVEN]) : "");
-			fmDTO.setPrice(obj[NumericConstants.TWELVE] != null ? "$" + priceFormat.format(obj[NumericConstants.TWELVE])
+			fmDTO.setPrice(obj[NumericConstants.TWELVE] != null ? "$" + PRICE_FORMAT.format(obj[NumericConstants.TWELVE])
 					: " ");
 			fmDTO.setBatchId(
 					obj[NumericConstants.THIRTEEN] != null ? String.valueOf(obj[NumericConstants.THIRTEEN]) : "");

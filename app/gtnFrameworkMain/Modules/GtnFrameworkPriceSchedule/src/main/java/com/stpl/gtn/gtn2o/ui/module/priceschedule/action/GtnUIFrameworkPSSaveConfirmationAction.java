@@ -64,7 +64,7 @@ public class GtnUIFrameworkPSSaveConfirmationAction implements GtnUIFrameWorkAct
 				GtnUIFrameWorkActionConfig changeCaptionActionConfig = new GtnUIFrameWorkActionConfig();
 				changeCaptionActionConfig.setActionType(GtnUIFrameworkActionType.CHANGE_CAPTION);
 				changeCaptionActionConfig.addActionParameter(Arrays.asList("cDRAddSaveButton"));
-				changeCaptionActionConfig.addActionParameter(Arrays.asList("Update"));
+				changeCaptionActionConfig.addActionParameter(Arrays.asList("UPDATE"));
 				onSucessActionConfig.add(changeCaptionActionConfig);
 
 				GtnUIFrameWorkActionConfig notificationActionConfig = new GtnUIFrameWorkActionConfig();

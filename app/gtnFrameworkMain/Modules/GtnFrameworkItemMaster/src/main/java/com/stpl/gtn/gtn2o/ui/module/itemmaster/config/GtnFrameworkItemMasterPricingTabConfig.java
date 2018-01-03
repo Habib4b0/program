@@ -350,7 +350,7 @@ public class GtnFrameworkItemMasterPricingTabConfig {
 		attachAction.addActionParameter(GtnFrameworkItemMasterPricingAttachAction.class.getName());
 		attachAction.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.ITEM_PRICING_QUALIFIER_NAME,
 				GtnFrameworkItemMasterStringContants.ITEM_PRICING_ITEM_PRICE, "itemPricingIdentifierStatus", "itemPricingItemUOM", "itemPricingStartDate",
-				"itemPricingEndDate", "itemPricingEntityCodeNo"));
+				"itemPricingEndDate", "itemPricingEntityCodeNo", "itemPricingEntityCodeName"));
 		actionConfigList.add(attachAction);
 		attachButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
