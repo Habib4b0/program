@@ -19,9 +19,9 @@ import org.vaadin.addons.lazycontainer.OrderByColumn;
  */
 public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
 
-    TradingPartnerDTO dto;
-    int parentCompanySid;
-    CompanySearchLogic logic = new CompanySearchLogic();
+    private TradingPartnerDTO dto;
+    public int parentCompanySid;
+    private CompanySearchLogic logic = new CompanySearchLogic();
     /**
      * The Constant LOGGER.
      */

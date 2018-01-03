@@ -24,12 +24,12 @@ import org.apache.poi.ss.util.CellUtil;
  */
 public class CustomExcelExport extends ExcelExport {
 
-    Map<String, String> formatter = null;
-    final CellStyle style1 = this.workbook.createCellStyle();
-    final CellStyle style2 = this.workbook.createCellStyle();
-    final CellStyle style3 = this.workbook.createCellStyle();
-    final CellStyle style4 = this.workbook.createCellStyle();
-    DataFormat hssfDataFormat = this.workbook.createDataFormat();
+    private Map<String, String> formatter = null;
+    private final CellStyle style1 = this.workbook.createCellStyle();
+    private final CellStyle style2 = this.workbook.createCellStyle();
+    private final CellStyle style3 = this.workbook.createCellStyle();
+    private final CellStyle style4 = this.workbook.createCellStyle();
+    private final DataFormat hssfDataFormat = this.workbook.createDataFormat();
 
     public CustomExcelExport(TableHolder tableHolder, String sheetName, String reportTitle, String exportFileName, boolean hasTotalsRow, Map<String, String> formatter) {
         super(tableHolder, new HSSFWorkbook(), sheetName, reportTitle, exportFileName, hasTotalsRow);
@@ -40,6 +40,7 @@ public class CustomExcelExport extends ExcelExport {
      * This method is ultimately used by either addDataRows() or
      * addHierarchicalDataRows() to actually add the data to the Sheet.
      *
+     * @param sheetToAddTo
      * @param rootItemId the root item id
      * @param row the row
      */

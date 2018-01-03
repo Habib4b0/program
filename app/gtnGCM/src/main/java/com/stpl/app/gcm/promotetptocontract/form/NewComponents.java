@@ -287,7 +287,6 @@ public class NewComponents extends CustomComponent implements View {
     private QueryUtils queryUtils = new QueryUtils();
     private List<ComponentInfoDTO> selecteditemList = new ArrayList<>();
     private PromoteTPLogic logic = new PromoteTPLogic();
-    private String excelName = "Component Details";
     private List<ComponentInfoDTO> compInfo = new ArrayList<>();
     private List<HelperDTO> itemStatusList = new ArrayList<>();
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
@@ -320,7 +319,7 @@ public class NewComponents extends CustomComponent implements View {
             LOGGER.error(ex);
         }
     }
-    ColumnCheckListener checkListener = new ColumnCheckListener() {
+      private ColumnCheckListener checkListener = new ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
             LOGGER.debug("Column Check VAlue=" + compItemSearchTable.getColumnCheckBox(Constants.CHECK_RECORD));

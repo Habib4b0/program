@@ -171,7 +171,7 @@ public class NewDiscountTab extends CustomComponent {
     private GridLayout psComponent;
     @UiField("rsComponent")
     private GridLayout rsComponent;
-    SessionDTO session;
+    private SessionDTO session;
     @UiField("addToTree")
     private Button addToTree;
     @UiField("rsId")
@@ -192,7 +192,7 @@ public class NewDiscountTab extends CustomComponent {
     private TextField fromCDName;
     @UiField("levelRemoveBtn")
     private Button levelRemoveBtn;
-    ContractsDetailsDto saveTreeDto;
+    private ContractsDetailsDto saveTreeDto;
     @UiField("psId")
     private TextField psId;
     @UiField("psNo")
@@ -1948,11 +1948,11 @@ public class NewDiscountTab extends CustomComponent {
                     "Please ensure the Contract has all components (Header, CFP, IFP, PS, RS).");
         }
     }
-    ContractsDetailsDto contract = new ContractsDetailsDto();
-    ContractsDetailsDto cfp = null;
-    ContractsDetailsDto ifp = null;
-    ContractsDetailsDto priceSchedule = null;
-    ContractsDetailsDto rebateSchedule = null;
+    private ContractsDetailsDto contract = new ContractsDetailsDto();
+    private ContractsDetailsDto cfp = null;
+    private ContractsDetailsDto ifp = null;
+    private ContractsDetailsDto priceSchedule = null;
+    private ContractsDetailsDto rebateSchedule = null;
 
     public void saveTree(final Collection list, int rsModelSysId, String category) {
         LOGGER.debug("Entering saveTree method");

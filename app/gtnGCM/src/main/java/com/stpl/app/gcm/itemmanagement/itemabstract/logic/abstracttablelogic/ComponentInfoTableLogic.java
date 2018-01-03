@@ -18,10 +18,10 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ComponentInfoTableLogic extends PageTableLogic {
 
-    ComponentInfoDTO binderDto = new ComponentInfoDTO();
-    AbstractLogic logic = AbstractLogic.getInstance();
-    boolean generate = true;
-    SelectionDTO selection = new SelectionDTO();
+    private ComponentInfoDTO binderDto = new ComponentInfoDTO();
+    private final AbstractLogic logic = AbstractLogic.getInstance();
+    private boolean generate = true;
+    private SelectionDTO selection = new SelectionDTO();
 
     /**
      * Record count logic

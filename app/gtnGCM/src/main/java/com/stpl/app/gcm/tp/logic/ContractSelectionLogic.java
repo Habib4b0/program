@@ -38,8 +38,8 @@ import org.jboss.logging.Logger;
 public class ContractSelectionLogic {
 
     private static final Logger LOGGER = Logger.getLogger(ContractSelectionLogic.class);
-    TradingPartnerDAO dao = new TradingPartnerDAOImpl();
-    static CommonDao daoImpl = CommonImpl.getInstance();
+    private TradingPartnerDAO dao = new TradingPartnerDAOImpl();
+    private static CommonDao daoImpl = CommonImpl.getInstance();
 
     public int getComponentInformationCount(String componentSelectionValue, String[] id, Set<Container.Filter> filters) {
         List<Object[]> componentInformationList = getComponentInformationData(componentSelectionValue, id, false, true, 0, 0, filters);

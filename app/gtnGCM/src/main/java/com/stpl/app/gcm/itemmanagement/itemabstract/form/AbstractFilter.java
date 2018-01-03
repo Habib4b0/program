@@ -28,10 +28,10 @@ public class AbstractFilter {
     private final Map<String, String> cfpSearchFilterMap = new HashMap<>();
     private final Map<String, String> ifpSearchFilterMap = new HashMap<>();
     private final Map<String, String> psSearchFilterMap = new HashMap<>();
-    Map<String, String> cfpComponentInfoMap = new HashMap<>();
-    Map<String, String> ifpComponentInfoMap = new HashMap<>();
-    Map<String, String> psComponentInfoMap = new HashMap<>();
-    Map<String, String> rsComponentInfoMap = new HashMap<>();
+    private Map<String, String> cfpComponentInfoMap = new HashMap<>();
+    private Map<String, String> ifpComponentInfoMap = new HashMap<>();
+    private Map<String, String> psComponentInfoMap = new HashMap<>();
+    private Map<String, String> rsComponentInfoMap = new HashMap<>();
     private static AbstractFilter instance;
 
     private AbstractFilter() {

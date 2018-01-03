@@ -22,19 +22,19 @@ import org.jboss.logging.Logger;
  */
 public class ComponentInfoLogic extends PageTableLogic {
 
-    String Query = StringUtils.EMPTY;
-    boolean generate = false;
-    String Component = StringUtils.EMPTY;
-    CopyContractLogic logic = new CopyContractLogic();
-    int count;
+    private String query = StringUtils.EMPTY;
+    private boolean generate = false;
+    private String component = StringUtils.EMPTY;
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private int count;
     private static final Logger LOGGER = Logger.getLogger(ComponentInfoLogic.class);
-
+    
     @Override
     public int getCount() {
         count = 0;
         try {
             if (generate) {
-                count = logic.getComponentCount(Query);
+                count = logic.getComponentCount(query);
             }
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -46,7 +46,7 @@ public class ComponentInfoLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         List<CopyComponentDTO> resultList = null;
         try {
-            resultList = logic.getComponentResults(Component, Query, start, offset);
+            resultList = logic.getComponentResults(component, query, start, offset);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -61,9 +61,9 @@ public class ComponentInfoLogic extends PageTableLogic {
         return dto;
     }
 
-    public boolean setData(String Component, String value) {
-        this.Query = value;
-        this.Component = Component;
+    public boolean setData(String component, String value) {
+        this.query = value;
+        this.component = component;
         generate = true;
         clearAll();
         setRequiredCount(true);

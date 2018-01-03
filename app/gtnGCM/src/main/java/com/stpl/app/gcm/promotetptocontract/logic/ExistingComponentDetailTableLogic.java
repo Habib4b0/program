@@ -18,9 +18,9 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ExistingComponentDetailTableLogic extends PageTableLogic {
 
-    ComponentInfoDTO newDiscountTabDto = new ComponentInfoDTO();
-    PromoteTPLogic logic = new PromoteTPLogic();
-    boolean generate = false;
+    private ComponentInfoDTO newDiscountTabDto = new ComponentInfoDTO();
+    private final PromoteTPLogic logic = new PromoteTPLogic();
+    private boolean generate = false;
 
     @Override
     public int getCount() {

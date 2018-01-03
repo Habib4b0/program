@@ -69,26 +69,26 @@ public class ParentCompanyLookup extends Window {
     public Button selectBtn;
     @UiField("companySearchTableLayout")
     public VerticalLayout companySearchTableLayout;
-    TextField parentno;
-    TextField parentName;
+    private TextField parentno;
+    private TextField parentName;
 
-    TradingPartnerDTO tpDTO;
-    int parentCompanySid;
-    TradingPartnerDTO tradingPartnerDto = new TradingPartnerDTO();
+    public TradingPartnerDTO tpDTO;
+    private int parentCompanySid;
+    private TradingPartnerDTO tradingPartnerDto = new TradingPartnerDTO();
     private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
-    LazyBeanItemContainer<TradingPartnerDTO> resultsLazyContainer;
-    CommonUtil commonUtil=CommonUtil.getInstance();
+    private LazyBeanItemContainer<TradingPartnerDTO> resultsLazyContainer;
+    private CommonUtil commonUtil=CommonUtil.getInstance();
     /**
      * The data selection binder.
      */
     public CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(tradingPartnerDto));
-    final ErrorLabel errorMsg = new ErrorLabel();
+    private final ErrorLabel errorMsg = new ErrorLabel();
 
     /**
      * The Constant LOGGER.
      */
     private final static Logger LOGGER = Logger.getLogger(ParentCompanyLookup.class);
-    CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
+    private CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     public ExtPagedTable resultTable = new ExtPagedTable(companyLogic);
 
     public ParentCompanyLookup(TradingPartnerDTO tpDTO) {

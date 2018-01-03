@@ -46,8 +46,8 @@ import org.jboss.logging.Logger;
 public class ItemQueries {
 
     private static final Logger LOGGER = Logger.getLogger(ItemQueries.class);
-    final static CommonDao ITEMDAO = CommonImpl.getInstance();
-    final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+    private final static CommonDao ITEMDAO = CommonImpl.getInstance();
+    private final static SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     
     public static final String COMPANY_STATUS = "companyStatus";
     public static final String TRADE_CLASS_PROPERTY = "tradeClass";

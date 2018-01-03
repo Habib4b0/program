@@ -4345,6 +4345,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 								dsLogic.getLevelValueDetails(session, customerRelationComboBox.getValue(), true));
 						session.setProductLevelDetails(
 								dsLogic.getLevelValueDetails(session, productRelation.getValue(), false));
+					
 						dsLogic.loadProjectionFileDetailsTabInGenerate(session);
 						ForecastWindow forecastWindow = new ForecastWindow(projectionName.getValue(), session,
 								resultTable, scrName, this, dataSelectionDTO);
