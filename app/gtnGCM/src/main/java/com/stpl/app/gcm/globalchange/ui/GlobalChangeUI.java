@@ -24,8 +24,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author alok.v
  */
-@Theme("mytheme")
-@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Theme("stpl")
+@Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet") 
 @Component(service = UI.class, property = {
     "com.liferay.portlet.display-category=Forecast and Planning",
     "javax.portlet.name=GlobalChangeManagement",
