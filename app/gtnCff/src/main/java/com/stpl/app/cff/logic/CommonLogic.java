@@ -1,6 +1,7 @@
 
 package com.stpl.app.cff.logic;
 
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
@@ -250,7 +251,8 @@ public class CommonLogic {
             Date date = new Date();
             if (customId == 0) {
                 try {
-                    CffCustomViewMaster customViewMaster = CffCustomViewMasterLocalServiceUtil.createCffCustomViewMaster(0);
+                    int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    CffCustomViewMaster customViewMaster = CffCustomViewMasterLocalServiceUtil.createCffCustomViewMaster(create);
                     customViewMaster.setCffMasterSid(session.getProjectionId());
                     customViewMaster.setViewName(viewName);
                     customViewMaster.setCreatedBy(userId);
@@ -371,7 +373,8 @@ public class CommonLogic {
     public static boolean customViewDetailsSaveLogic(int customId, List levelList) throws SystemException  {
         for (Object ob : levelList) {
             Leveldto dto = (Leveldto) ob;
-            CffCustomViewDetails customViewDetails = CffCustomViewDetailsLocalServiceUtil.createCffCustomViewDetails(0);
+            int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+            CffCustomViewDetails customViewDetails = CffCustomViewDetailsLocalServiceUtil.createCffCustomViewDetails(create);
             customViewDetails.setCffCustomViewMasterSid(customId);
             customViewDetails.setHierarchyId(dto.getHierarchyId());
             customViewDetails.setHierarchyIndicator(dto.getHierarchyIndicator());

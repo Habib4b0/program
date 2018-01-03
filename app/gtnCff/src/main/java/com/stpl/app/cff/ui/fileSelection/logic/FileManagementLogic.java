@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.ui.fileSelection.logic;
 
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Order;
@@ -312,7 +313,8 @@ public class FileManagementLogic {
 		final String userId = sessionDTO.getUserId();
 		LOGGER.debug("saveFileMgtHist started with P1:FileMananagementResultDTO fileMgtDTO and P2:String fileType="
 				+ fileType);
-		FileManagement fileManagement = FileManagementLocalServiceUtil.createFileManagement(0);
+                int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+		FileManagement fileManagement = FileManagementLocalServiceUtil.createFileManagement(create);
 		fileManagement.setForecastName(fileMgtDTO.getFileName());
 		fileManagement.setForecastSource(fileMgtDTO.getType());
 		fileManagement.setFileSource(fileMgtDTO.getFileType());
@@ -537,7 +539,8 @@ public class FileManagementLogic {
 				AdjustedDemandForecast adjustedforecast;
 				InventoryWdProjMas inventoryWdProjMas;
 				if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-					master = ForecastingMasterLocalServiceUtil.createForecastingMaster(0);
+                                    int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+					master = ForecastingMasterLocalServiceUtil.createForecastingMaster(create);
 					flag = true;
 					master.setForecastYear(beanItem.getYear().toString());
 					master.setForecastMonth(beanItem.getMonth().toString());
@@ -556,7 +559,8 @@ public class FileManagementLogic {
 					master.setModifiedDate(date);
 					DAO.addForecastDetails(master);
 				} else if (fileType.equals(ConstantsUtils.DEMAND)) {
-					forecast = DemandForecastLocalServiceUtil.createDemandForecast(0);
+                                        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+					forecast = DemandForecastLocalServiceUtil.createDemandForecast(create);
 					flag = true;
 					forecast.setForecastType(beanItem.getForecastType());
 					forecast.setForecastYear(beanItem.getForcastYear());
@@ -590,7 +594,8 @@ public class FileManagementLogic {
 					DemandForecastLocalServiceUtil.addDemandForecast(forecast);
 				} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
 					try {
-						adjustedforecast = AdjustedDemandForecastLocalServiceUtil.createAdjustedDemandForecast(0);
+                                                int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+						adjustedforecast = AdjustedDemandForecastLocalServiceUtil.createAdjustedDemandForecast(create);
 						flag = true;
 						adjustedforecast.setForecastType(beanItem.getForecastType());
 						adjustedforecast.setYear(beanItem.getForcastYear());
@@ -642,7 +647,8 @@ public class FileManagementLogic {
 						LOGGER.error(e);
 					}
 				} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-					inventoryWdProjMas = InventoryWdProjMasLocalServiceUtil.createInventoryWdProjMas(0);
+                                        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+					inventoryWdProjMas = InventoryWdProjMasLocalServiceUtil.createInventoryWdProjMas(create);
 					flag = true;
 					inventoryWdProjMas.setYear(beanItem.getYear());
 					inventoryWdProjMas.setMonth(beanItem.getMonth());

@@ -227,5 +227,29 @@ public class GtnWsCFFWorkFlowController {
         gtnWsresponse.setGtnWsGeneralResponse(generalResponse);
         return gtnWsresponse;
     }
+    
+    @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_IS_VALID_USER)
+    @ResponseBody
+    public GtnUIFrameworkWebserviceResponse isValidWorkFlowUser(
+            @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
+        GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebserviceResponse();
+        GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
+        GtnWsCFFSubmitRequest userRequest = gtnUIFrameworkWebserviceRequest
+                .getGtnCffsubmitRequest();
+        GtnWsGeneralRequest gtnWsGeneralUserRequest = userRequest.getGtnWsGeneralRequest();
+        String userId = gtnWsGeneralUserRequest.getUserId();
+        Long processInstanceId = userRequest.getProcessId();
+        User userModel = gtnWsUserRoleService.getUser(Long.parseLong(userId.trim()));
+        List<String> roleList = new ArrayList<>();
+        boolean workflowFlag = workflowLogicService.isValidWorkflowUser(userModel, roleList,
+                processInstanceId, GtnWsBpmCommonConstants.CFF);
+        GtnWsCommonWorkflowResponse wfResponse = new GtnWsCommonWorkflowResponse();
+        wfResponse.setHasPermission(workflowFlag);
+        wfResponse.setProcessInstanceId(processInstanceId.intValue());
+        generalResponse.setSucess(true);
+        gtnWsresponse.setGtnWSCommonWorkflowResponse(wfResponse);
+        gtnWsresponse.setGtnWsGeneralResponse(generalResponse);
+        return gtnWsresponse;
+    }
    
 }

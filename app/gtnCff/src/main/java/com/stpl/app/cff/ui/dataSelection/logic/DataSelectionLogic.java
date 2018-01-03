@@ -4,6 +4,7 @@
  */
 package com.stpl.app.cff.ui.dataSelection.logic;
 
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
@@ -440,17 +441,21 @@ public class DataSelectionLogic {
 		if (endLevelSids != null && !endLevelSids.isEmpty()) {
 			endLevels = dataSelectionDAO.executeQuery(parameters);
 		}
-		final CffProdHierarchy cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(0);
+                int create = NumericConstants.ZERO;
+		CffProdHierarchy cffProdHierarchy = null;
 		try {
 			if (StringConstantsUtil.UPDATE_PROPERTY.equals(indicator)) {
 				for (final String rsId : addLevels) {
+                                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                                    cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
 					cffProdHierarchy.setCffMasterSid(projectionId);
 					cffProdHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(rsId)));
 					dataSelectionDAO.addProjectionProdHierarchy(cffProdHierarchy);
 				}
 			} else if ("save".equals(indicator)) {
 				for (final Leveldto dto : levelList) {
-
+                                        create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                                    cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
 					cffProdHierarchy.setCffMasterSid(projectionId);
 					cffProdHierarchy.setRelationshipLevelSid(dto.getRelationshipLevelSid());
 					dataSelectionDAO.addProjectionProdHierarchy(cffProdHierarchy);
@@ -458,6 +463,8 @@ public class DataSelectionLogic {
 			}
 			if (endLevels != null && !endLevels.isEmpty()) {
 				for (final Object relationshipLevelSid : endLevels) {
+                                        create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                                        cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
 					cffProdHierarchy.setCffMasterSid(projectionId);
 					cffProdHierarchy.setRelationshipLevelSid(
 							UiUtils.parseStringToInteger(String.valueOf(relationshipLevelSid)));
@@ -544,8 +551,8 @@ public class DataSelectionLogic {
 		if (endLevelSids != null && !endLevelSids.isEmpty()) {
 			endLevels = dataSelectionDAO.executeQuery(parameters);
 		}
-
-		final CffCustHierarchy cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(0);
+                int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+		final CffCustHierarchy cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(create);
 		try {
 			if (StringConstantsUtil.UPDATE_PROPERTY.equals(indicator)) {
 				for (final String rsId : addLevels) {

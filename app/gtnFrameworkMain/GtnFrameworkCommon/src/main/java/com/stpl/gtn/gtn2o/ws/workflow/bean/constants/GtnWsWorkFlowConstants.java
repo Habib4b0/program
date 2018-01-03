@@ -36,4 +36,5 @@ public class GtnWsWorkFlowConstants {
         public static final String GTN_WS_CFF_REJECT_WORKFLOW = "/GtnWsCffRejectWorkflow";
         public static final String GTN_WS_CFF_WITHDRAW_WORKFLOW = "/GtnWsCffWithDrawWorkflow";
         public static final String GTN_WS_CFF_CANCEL_WORKFLOW = "/GtnWsCffCancelWorkflow";
+        public static final String GTN_WS_CFF_IS_VALID_USER = "/GtnWsCffIsValidUser";
 }

@@ -4,6 +4,7 @@
  */
 package com.stpl.app.cff.util;
 
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -81,7 +82,8 @@ public class NotesTabLogic {
 			for (NotesDTO uploadDetails : availableUploadedInformation) {
                             MasterDataFiles masterDataFiles ;
 				if (uploadDetails.getDocDetailsId() == 0) {
-                                    masterDataFiles = MasterDataFilesLocalServiceUtil.createMasterDataFiles(0);
+                                        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                                        masterDataFiles = MasterDataFilesLocalServiceUtil.createMasterDataFiles(create);
 					masterDataFiles.setMasterTableName(moduleName);
 					masterDataFiles.setMasterTableSid(moduleSystemId);
 					masterDataFiles.setFilePath(uploadDetails.getDocumentFullPath());

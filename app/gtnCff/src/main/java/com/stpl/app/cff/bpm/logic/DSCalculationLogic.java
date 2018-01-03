@@ -121,4 +121,22 @@ public class DSCalculationLogic {
         GtnWsCommonWorkflowResponse workFlowResponse = response.getGtnWSCommonWorkflowResponse();
         return workFlowResponse.getProcessVariable();
     }
+    
+    public static GtnWsCommonWorkflowResponse isValidWorkflowUser(String userId,Long processId) {
+        GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceUserRequest = new GtnUIFrameworkWebserviceRequest();
+        GtnWsCFFSubmitRequest submitUserRequest = new GtnWsCFFSubmitRequest();
+        GtnWsCFFSubmitBean submitUserBean = new GtnWsCFFSubmitBean();
+        GtnWsGeneralRequest validUserRequest = new GtnWsGeneralRequest();
+        validUserRequest.setUserId(userId);
+        submitUserRequest.setGtnWsCFFSubmitBean(submitUserBean);
+        submitUserRequest.setGtnWsGeneralRequest(validUserRequest);
+        submitUserRequest.setProcessId(processId);
+        gtnUIFrameworkWebserviceUserRequest.setGtnCffsubmitRequest(submitUserRequest);
+        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+                GtnWsWorkFlowConstants.GTN_WS_CFF_WORKFLOW_SERVICE
+                + GtnWsWorkFlowConstants.GTN_WS_CFF_IS_VALID_USER,
+                GtnFrameworkCommonStringConstants.GTN_BPM, gtnUIFrameworkWebserviceUserRequest, RelationShipFilterLogic.getGsnWsSecurityToken());
+        GtnWsCommonWorkflowResponse workFlowResponse = response.getGtnWSCommonWorkflowResponse();
+        return workFlowResponse;
+    }
 }

@@ -20,6 +20,8 @@ public class GtnWsCFFSubmitRequest implements Serializable {
     }
     private GtnWsGeneralRequest gtnWsGeneralRequest;
     private GtnWsCFFSubmitBean gtnWsCFFSubmitBean;
+    
+    private Long processId;
 
     public GtnWsCFFSubmitBean getGtnWsCFFSubmitBean() {
         return gtnWsCFFSubmitBean;
@@ -36,4 +38,13 @@ public class GtnWsCFFSubmitRequest implements Serializable {
     public void setGtnWsGeneralRequest(GtnWsGeneralRequest gtnWsGeneralRequest) {
         this.gtnWsGeneralRequest = gtnWsGeneralRequest;
     }
+
+    public Long getProcessId() {
+        return processId;
+    }
+
+    public void setProcessId(Long processId) {
+        this.processId = processId;
+    }
+    
 }
