@@ -624,6 +624,14 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		componentList.add(deductionTabSearchButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> searchActionConfigList = new ArrayList<>();
+		
+		GtnUIFrameWorkActionConfig validationActionConfigFormulaType = componentConfigProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
+
+		validationActionConfigFormulaType
+				.setFieldValues(Arrays.asList(viewId + GtnFrameworkCommonConstants.FORMULA_TYPE));
+		validationActionConfigFormulaType.addActionParameter(GtnUIFrameworkValidationType.OR);
+		
 		GtnUIFrameWorkActionConfig validationActionConfig = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
 
@@ -646,6 +654,17 @@ public class GtnFrameworkNSFDeductionTabConfig {
 						viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_ALIAS));
 		validationActionConfig.addActionParameter(GtnUIFrameworkValidationType.OR);
 
+		List<GtnUIFrameWorkActionConfig> deductionTabSearchBtnOnFailureListFormulaType = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig deductionTabSearchBtnAlertActionConfigFormulaType = componentConfigProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
+		List<Object> alertParamsList = new ArrayList<>();
+		alertParamsList.add(GtnFrameworkNSFConstants.getFormulaTypeIsMandatory());
+		alertParamsList.add(GtnFrameworkNSFConstants.getPleaseSelectFormulaType());
+
+		deductionTabSearchBtnAlertActionConfigFormulaType.setActionParameterList(alertParamsList);
+		deductionTabSearchBtnOnFailureListFormulaType.add(deductionTabSearchBtnAlertActionConfigFormulaType);
+		
 		List<GtnUIFrameWorkActionConfig> deductionTabSearchBtnOnFailureList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig deductionTabSearchBtnAlertActionConfig = componentConfigProvider
@@ -656,7 +675,11 @@ public class GtnFrameworkNSFDeductionTabConfig {
 
 		deductionTabSearchBtnAlertActionConfig.setActionParameterList(alertParams);
 		deductionTabSearchBtnOnFailureList.add(deductionTabSearchBtnAlertActionConfig);
+		
+		validationActionConfigFormulaType.addActionParameter(deductionTabSearchBtnOnFailureListFormulaType);
 		validationActionConfig.addActionParameter(deductionTabSearchBtnOnFailureList);
+		
+		searchActionConfigList.add(validationActionConfigFormulaType);
 		searchActionConfigList.add(validationActionConfig);
 
 		GtnUIFrameWorkActionConfig deductionTabSearchBtnLoadDataTableAction = componentConfigProvider

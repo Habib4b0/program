@@ -30,8 +30,8 @@
 		<property name="itemUom" type="string">
 			<column name="ITEM_UOM" not-null="true" />
 		</property>
-		<property name="itemPrice" type="double">
-			<column name="ITEM_PRICE" precision="22" scale="6"/>
+		<property name="itemPrice" type="string">
+			<column name="ITEM_PRICE" length="22" />
 		</property>
 		<property name="entityCode" type="string">
 			<column name="ENTITY_CODE" length="30" />
