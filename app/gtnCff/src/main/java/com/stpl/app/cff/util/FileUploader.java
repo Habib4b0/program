@@ -15,11 +15,9 @@ import java.io.OutputStream;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.GtnFileUtil;
 import com.vaadin.server.Page;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Upload;
 
@@ -115,6 +113,7 @@ public class FileUploader implements Upload.Receiver {
 	 * @throws Throwable
 	 *             the throwable
 	 */
+    @Override
 	protected void finalize() throws Throwable {
 		LOGGER.debug("Entering finalize method ");
 

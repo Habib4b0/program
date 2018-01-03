@@ -128,7 +128,7 @@ public class NMPVExcelLogic {
     private String groupFilterValue = StringUtils.EMPTY;
     private String viewValue = StringUtils.EMPTY;
     private static final String PRC_PROJ_RESULTS = "PRC_PROJECTION_RESULTS";
-    private static final String PRC_PV_SELECTION = "PRC_PROJECTION_VARIANCE_1";
+    private static final String PRC_PV_SELECTION = "PRC_PROJECTION_VARIANCE";
     public static final String PRC_PROJECTION_RESULTS_DISCOUNT_PROCEDURE = "PRC_PROJECTION_RESULTS_DISCOUNT";
     public static final String QUARTERLY1 = "QUARTERLY";
     public static final String PIVOT1 = "PIVOT";

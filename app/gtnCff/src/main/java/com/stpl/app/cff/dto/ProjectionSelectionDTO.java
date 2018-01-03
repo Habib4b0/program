@@ -172,8 +172,6 @@ public class ProjectionSelectionDTO {
     private boolean future;
     private boolean isChildTotal;
     //Discount projection related entries
-    private int custHierarchySid;
-    private int prodHierarchySid;
     private boolean levelFlag;
     private Integer supplementalLevelNo = 0;
     private String supplementalLevelName = StringUtils.EMPTY;
@@ -407,22 +405,6 @@ public class ProjectionSelectionDTO {
 
     public void setLevelFlag(boolean levelFlag) {
         this.levelFlag = levelFlag;
-    }
-
-    public int getCustHierarchySid() {
-        return custHierarchySid;
-    }
-
-    public void setCustHierarchySid(int custHierarchySid) {
-        this.custHierarchySid = custHierarchySid;
-    }
-
-    public int getProdHierarchySid() {
-        return prodHierarchySid;
-    }
-
-    public void setProdHierarchySid(int prodHierarchySid) {
-        this.prodHierarchySid = prodHierarchySid;
     }
 
     public List<String> getVariableList() {
@@ -907,7 +889,7 @@ public class ProjectionSelectionDTO {
 
     public List<String> getDiscountNoList() {
         List<String> discountNos = new ArrayList<>();
-        if (discountList != null && discountList.size() > 0) {
+        if (discountList != null && !discountList.isEmpty()) {
             discountNos = discountList.get(0);
         }
         return discountNos;

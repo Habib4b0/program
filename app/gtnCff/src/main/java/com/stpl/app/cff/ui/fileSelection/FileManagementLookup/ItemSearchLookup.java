@@ -104,21 +104,21 @@ public class ItemSearchLookup extends Window {
     @UiField("cssLayout")
     private CssLayout cssLayout;
     
-    private FileManagementLogic logic = new FileManagementLogic();
-    private TextField itemNumber;
-    private TextField itemLookupName;
-    private ItemSearchDTO itemSearchDTO = new ItemSearchDTO();
-    private ErrorfulFieldGroup itemSearchBinder = new ErrorfulFieldGroup(new BeanItem<ItemSearchDTO>(itemSearchDTO));
+    private final FileManagementLogic logic = new FileManagementLogic();
+    private final TextField itemNumber;
+    private final TextField itemLookupName;
+    private final ItemSearchDTO itemSearchDTO = new ItemSearchDTO();
+    private final ErrorfulFieldGroup itemSearchBinder = new ErrorfulFieldGroup(new BeanItem<ItemSearchDTO>(itemSearchDTO));
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ItemSearchLookup.class);
     private final BeanItemContainer<ItemSearchDTO> itemBean = new BeanItemContainer<>(ItemSearchDTO.class);
     
     @UiField("tableLayout")
     private VerticalLayout tableLayout;
     
-    private HorizontalLayout controlLayout = new HorizontalLayout();
-    private ItemSearchTableLogic tableLogic = new ItemSearchTableLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private CommonUtils commonUtil = new CommonUtils();
+    private final HorizontalLayout controlLayout = new HorizontalLayout();
+    private final ItemSearchTableLogic tableLogic = new ItemSearchTableLogic();
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final CommonUtils commonUtil = new CommonUtils();
 
     public ItemSearchLookup(TextField itemNo, TextField itemLookupName) {
         super("Item Search");
@@ -199,6 +199,7 @@ public class ItemSearchLookup extends Window {
             /**
              * After changing the value in ndcNumericConstants.EIGHT, function will be executed.
              */
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 ndc8.setDescription(ndc8.getValue());
             }
@@ -216,6 +217,7 @@ public class ItemSearchLookup extends Window {
              *
              * @param event
              */
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 ndc9.setDescription(ndc9.getValue());
             }
@@ -232,6 +234,7 @@ public class ItemSearchLookup extends Window {
              *
              * @param event
              */
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 identifierType.setDescription(String.valueOf((Integer) identifierType.getValue()));
             }
@@ -247,6 +250,7 @@ public class ItemSearchLookup extends Window {
              *
              * @param event
              */
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 brand.setDescription(String.valueOf((Integer) brand.getValue()));
             }
@@ -256,6 +260,7 @@ public class ItemSearchLookup extends Window {
             /**
              * button click listener
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 try {
                     ItemSearchDTO itemDto = new ItemSearchDTO();
@@ -298,6 +303,7 @@ public class ItemSearchLookup extends Window {
                     /**
                      * button click listener
                      */
+                    @Override
                     public void buttonClick(final Button.ClickEvent event) {
                         close();
 
@@ -308,6 +314,7 @@ public class ItemSearchLookup extends Window {
             /**
              * button click listener
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 if (resultsTable.getValue() == null) {
                     AbstractNotificationUtils.getErrorNotification("Select Error", "Please click on a record within the results list view");
@@ -322,6 +329,7 @@ public class ItemSearchLookup extends Window {
              *
              *
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("In configureFields resetButtonClickLogic started");
                 MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, "Are you sure you want to reset the page to default/previous values"
@@ -332,6 +340,7 @@ public class ItemSearchLookup extends Window {
                              *
                              */
                             @SuppressWarnings("PMD")
+                    @Override
                             public void buttonClicked(final ButtonId buttonId) {
                                 if (buttonId.name().equals(ConstantsUtils.YES)) {
                                     resetButtonClickLogic();
@@ -397,6 +406,7 @@ public class ItemSearchLookup extends Window {
             /**
              * called when item has clicked
              */
+            @Override
             public void itemClick(final ItemClickEvent event) {
                 try {
                     Object obj = resultsTable.getItem(event.getItemId());
@@ -413,6 +423,7 @@ public class ItemSearchLookup extends Window {
              * method to listen the action
              *
              */
+            @Override
             public void itemClick(final ItemClickEvent event) {
                 if (event.isDoubleClick()) {
                     addDoubleClick(event);

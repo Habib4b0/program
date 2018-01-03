@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUIFrameworkTableSearchCompletionAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkEnableDisableAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfCopyAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfEditAction;
@@ -240,12 +241,16 @@ public class GtnFrameworkNSFLandingScreenConfig {
 				viewId + GtnFrameworkCommonConstants.FORMULA_NAME));
 
 		searchActionConfigList.add(loadDataTableActionConfig);
-
+        
 		GtnUIFrameWorkActionConfig notificationActionConfig = componentConfigProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		notificationActionConfig.addActionParameter(GtnUIFrameworkTableSearchCompletionAction.class.getName());
 		notificationActionConfig.addActionParameter(viewId + GtnFrameworkCommonConstants.NET_SALES_SEARCH_RESULT_TABLE);
+		notificationActionConfig.addActionParameter(" Error ");
+		notificationActionConfig.addActionParameter(" There are no records that match the search criteria ");
 		searchActionConfigList.add(notificationActionConfig);
-		landingScreenSearchButtonConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
+        
+        landingScreenSearchButtonConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
 
 	}
 	private void addResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,

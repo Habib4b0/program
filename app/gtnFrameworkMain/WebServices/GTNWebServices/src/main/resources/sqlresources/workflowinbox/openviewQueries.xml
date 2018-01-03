@@ -23,5 +23,47 @@
                     ]]>
 		</query>
 	</entity>
+        
+        <entity id="getGcmWorkflowQuery">
+            <query> 
+            <![CDATA[           
+    
+	Select
+	distinct WM.WORKFLOW_ID as workflowId,
+	PM.PROJECTION_NAME as workflowName,
+	PM.PROJECTION_DESCRIPTION as workflowDesc,
+	HT_STATUS.DESCRIPTION as status,
+        GL_COMp.COMPANY_NAME as company,
+        BU_COMp.COMPANY_NAME as businessUnit,      
+	WM.CREATED_BY as createdBy,
+	WM.CREATED_DATE as creationDate,
+	WM.APPROVED_BY as approvedBy,
+	WM.APPROVED_DATE as approvedDate,
+	WM.WORKFLOW_MASTER_SID as workflowSid,
+	WM.NO_OF_APPROVAL as noOfApprovals,
+	WM.APPROVAL_LEVEL as approvalLevel,
+	PM.CUSTOMER_HIERARCHY_SID as customerHierSid,
+	PM.CUSTOMER_HIERARCHY_LEVEL as customerHierarchyLevel,
+	PM.CUST_RELATIONSHIP_BUILDER_SID as custRelationshipBuilderSid,
+	PM.PRODUCT_HIERARCHY_LEVEL as productHierarchyLevel,
+	PM.PROD_RELATIONSHIP_BUILDER_SID as prodRelationshipBuilderSid,
+	WM.PROJECTION_MASTER_SID as projectionMasterSid,
+	WM.CREATED_BY as createdById,
+	PM.PRODUCT_HIERARCHY_SID as productHierSid
+FROM
+	WORKFLOW_MASTER WM
+JOIN dbo.HELPER_TABLE HT_STATUS on
+	HT_STATUS.HELPER_TABLE_SID = WM.WORKFLOW_STATUS_ID
+JOIN PROJECTION_MASTER PM on
+	WM.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+JOIN COMPANY_MASTER GL_COMp on
+	GL_COMp.COMPANY_MASTER_SID = PM.COMPANY_MASTER_SID
+JOIN COMPANY_MASTER BU_COMp on
+	BU_COMp.COMPANY_MASTER_SID = PM.BUSINESS_UNIT
+
+
+                    ]]>
+            </query>
+        </entity>
 
 </sql>
