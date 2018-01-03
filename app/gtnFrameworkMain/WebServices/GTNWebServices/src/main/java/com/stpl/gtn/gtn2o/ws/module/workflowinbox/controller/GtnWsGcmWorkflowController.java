@@ -114,7 +114,6 @@ public class GtnWsGcmWorkflowController {
             gcmWorkflowResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
             return gcmWorkflowResponse;
         } catch (Exception e) {
-            e.printStackTrace();
             logger.error("Exception in End()----" + e.getMessage());
             return null;
 
@@ -160,5 +159,6 @@ public class GtnWsGcmWorkflowController {
     int getInt(Object value) {
 		return value == null ? 0 : (Integer) value;
 	}
+    
 
 }
