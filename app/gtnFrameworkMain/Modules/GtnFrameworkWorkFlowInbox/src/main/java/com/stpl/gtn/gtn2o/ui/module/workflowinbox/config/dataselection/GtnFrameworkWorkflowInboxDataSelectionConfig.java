@@ -43,19 +43,20 @@ import com.vaadin.server.Page;
 
 public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
-        
+
 	public GtnUIFrameworkViewConfig getSearchView() {
 
 		GtnUIFrameworkViewConfig view = configProvider
 				.getViewConfig(GtnFrameworkWorkflowInboxClassConstants.SEARCH_VIEW, "V001", true);
 		addComponentList(view);
-                
-                GtnUIFrameWorkActionConfig updateTablejSListenerAction = new GtnUIFrameWorkActionConfig(
+
+		GtnUIFrameWorkActionConfig updateTablejSListenerAction = new GtnUIFrameWorkActionConfig(
 				GtnUIFrameworkActionType.CUSTOM_ACTION);
 		updateTablejSListenerAction.addActionParameter(GtnFrameworkUpdateTableJSListenerAction.class.getName());
-                updateTablejSListenerAction.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSEARCHRESULTTABLE);
+		updateTablejSListenerAction
+				.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSEARCHRESULTTABLE);
 		view.addViewAction(updateTablejSListenerAction);
-                
+
 		return view;
 	}
 
@@ -582,7 +583,7 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		jSListenerAction.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.OPENBTN);
 		jSListenerAction.addActionParameter(GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSEARCHRESULTTABLE);
 		actionConfigList.add(jSListenerAction);
-                
+
 		searchButtonComponentConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}
 

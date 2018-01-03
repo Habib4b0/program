@@ -67,7 +67,7 @@ public class GtnUIFrameworkWorkflowInboxDynamicClassFiller implements GtnUIDynam
 				new GtnUIFrameworkUrlDeleteButtonAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkAddJSListenerAction.class.getName(),
 				new GtnFrameworkAddJSListenerAction());
-                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUpdateTableJSListenerAction.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkUpdateTableJSListenerAction.class.getName(),
 				new GtnFrameworkUpdateTableJSListenerAction());
 
 	}

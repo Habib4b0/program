@@ -54,21 +54,21 @@ public class GtnWsWorkflowQueryContants {
 	public static final String GTN_WF_ATTACHMENT_SEARCH_QUERY = " FROM DOC_DETAILS DD ";
 	public static final String GTN_WF_ATTACHMENT_SEARCH_QUERY_WHERE_CLAUSE = " DD.DOC_DETAILS_ID IN '?' ";
         
-        public static final String GET_GCM_WF_LIST = "/getGcmWfList";
-        public static final String WORKFLOWID = "workflowId";
-        public static final String WORKFLOWNAME = "workflowName";
-        public static final String WORKFLOWDESC = "workflowDesc";
-        public static final String STATUS = "status";
-        public static final String CREATEDBY = "createdBy";
-        public static final String CREATEDDATE = "creationDate";
-        public static final String APPROVEDBY = "approvedBy";
-        public static final String APPROVEDDATE = "approvedDate";   
-        public static final String GETGCMWFQUERY = "getGcmWorkflowQuery";   
-        public static final String WHERE_PROJECTIONID = "WHERE PM.PROJECTION_MASTER_SID = ";   
-        public static final String MMDDYYYY = "MM/dd/yyyy";
-        public static final String YYYYSSS = "yyyy-MM-dd hh:mm:ss.SSS";
-        public static final String MMYYYYSS = "MM/dd/yyyy hh:mm:ss";
-        public static final String WORKFLOWLOOKUPSLASH = "/workFlowLookup";
+	public static final String GET_GCM_WF_LIST = "/getGcmWfList";
+	public static final String WORKFLOWID = "workflowId";
+	public static final String WORKFLOWNAME = "workflowName";
+	public static final String WORKFLOWDESC = "workflowDesc";
+	public static final String STATUS = "status";
+	public static final String CREATEDBY = "createdBy";
+	public static final String CREATEDDATE = "creationDate";
+	public static final String APPROVEDBY = "approvedBy";
+	public static final String APPROVEDDATE = "approvedDate";
+	public static final String GETGCMWFQUERY = "getGcmWorkflowQuery";
+	public static final String WHERE_PROJECTIONID = "WHERE PM.PROJECTION_MASTER_SID = ";
+	public static final String MMDDYYYY = "MM/dd/yyyy";
+	public static final String YYYYSSS = "yyyy-MM-dd hh:mm:ss.SSS";
+	public static final String MMYYYYSS = "MM/dd/yyyy hh:mm:ss";
+	public static final String WORKFLOWLOOKUPSLASH = "/workFlowLookup";
         
         
     
