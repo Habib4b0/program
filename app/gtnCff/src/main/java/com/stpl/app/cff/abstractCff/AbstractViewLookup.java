@@ -112,6 +112,7 @@ public abstract class AbstractViewLookup extends Window {
 		HorizontalLayout searchButtonsLayout = (HorizontalLayout) UiUtils.getLayout(new HorizontalLayout());
 		btnSearch.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnSearchLogic();
 			}
@@ -154,12 +155,14 @@ public abstract class AbstractViewLookup extends Window {
 		HorizontalLayout footerButtonsLayout = (HorizontalLayout) UiUtils.getLayout(new HorizontalLayout());
 		btnSelect.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnSelectLogic();
 			}
 		});
 		btnClose.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnCloseLogic();
 			}

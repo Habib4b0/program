@@ -26,7 +26,6 @@ public class AbstractFilterLogic {
 
     public static final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
     private static AbstractFilterLogic instance;
-    private CFFLogic cffLogic = new CFFLogic();
 
     private AbstractFilterLogic() {
     }
@@ -51,7 +50,7 @@ public class AbstractFilterLogic {
                                 StringBuilder initial = new StringBuilder("where ( ( * LIKE ? )");
                                 StringBuilder temp = new StringBuilder(initial);
                                 temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, cffLogic.filterUser(stringFilter.getFilterString()));
+                                temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, CFFLogic.filterUser(stringFilter.getFilterString()));
                                 sql.append(temp);
                     }else{
                                 StringBuilder initial = new StringBuilder("where ( ( * LIKE '?' )");
@@ -67,7 +66,7 @@ public class AbstractFilterLogic {
                                 StringBuilder temp = new StringBuilder(str);
                                 temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
                                 temp.replace(temp.indexOf("*"), temp.indexOf("*") + 1, queryMap.get(stringFilter.getPropertyId().toString()));
-                                temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, cffLogic.filterUser(stringFilter.getFilterString()));
+                                temp.replace(temp.indexOf("?"), temp.indexOf("?") + 1, CFFLogic.filterUser(stringFilter.getFilterString()));
                                 sql.append(temp);
                     }else{
                                 StringBuilder temp = new StringBuilder(str);
@@ -116,7 +115,7 @@ public class AbstractFilterLogic {
                     Compare stringFilter = (Compare) filter;
                     if (!queryMap.get(stringFilter.getPropertyId().toString()).isEmpty()) {
                         Compare.Operation operation = stringFilter.getOperation();
-                        if (operation.EQUAL.toString().equals(operation.name())) {
+                        if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
                             StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
                             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
                             StringBuilder tempStart;
@@ -138,7 +137,7 @@ public class AbstractFilterLogic {
                                 sql.append(tempStart);
                             }
                         }
-                        if (operation.GREATER.toString().equals(operation.name())) {
+                        if (Compare.Operation.GREATER.toString().equals(operation.name())) {
                             StringBuilder tempStart;
                             String value = StringUtils.EMPTY;
                             int val = (Integer) stringFilter.getValue();
@@ -162,7 +161,7 @@ public class AbstractFilterLogic {
                                 sql.append(tempStart);
                             }
                         }
-                        if (operation.LESS.toString().equals(operation.name())) {
+                        if (Compare.Operation.LESS.toString().equals(operation.name())) {
                             int val = (Integer) stringFilter.getValue();
                             StringBuilder tempStart;
                             String value = StringUtils.EMPTY;
@@ -189,7 +188,7 @@ public class AbstractFilterLogic {
                         if (stringFilter.getValue() instanceof Date) {
                             Date value = (Date) stringFilter.getValue();
                             StringBuilder tempStart;
-                            if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                            if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
                                 if (sql.length() == 0) {
                                     tempStart = new StringBuilder("where ( ( * >= '?')");
                                 } else {
@@ -241,3 +240,4 @@ public class AbstractFilterLogic {
         return tempStart;
     }
 }
+

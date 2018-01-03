@@ -37,15 +37,10 @@ import com.stpl.ifs.ui.util.NumericConstants;
 public class PVExcelLogic {
 
     public static final Logger LOGGER = Logger.getLogger(PVExcelLogic.class);
-    private ProjectionVarianceDTO exFacValue, exFacVar, exFacPer, demandValue, demandVar, demandPer, invWithValue, invWithVar,
-            invWithPer, perDemandValue, perDemandVar, perDemandPer,
-            rpuValue, rpuVar, rpuPer, netSalesValue, netSalesVar,
-            netSalesPer, netProfitValue, netProfitVar, netProfitPer, adjDamandVale, adjDemandVar, adjdemandPer, iwDetialsValue, iwDetialsVar, iwDetialsPer,
-            perExFacProductValue, perExFacProductVar, perExFacProductPer, perExFacCustValue, perExFacCustVariance, perExFacCustPer, perAdjDemandValue, perAdjDemandVar, perAdjDemandPer, perInvWithSummaryValue, perInvWithSummaryVar, perInvWithSummaryPer, perIwDetialsValue, perIwDetialsVar, perIwDetialsPer, discountDollarValue, discountDollarVar, discountDollarPer, discountPerValue, discountPerVar, discountPerPercent, contractSalesValue, contractSalesVar, contractSalesPer, contractUnitValue, contractUnitVar, contractUnitPer, cogcValue, cogcVar, cogcPer, netExFactoryValue, netExFactoryVar, netExFactoryPer, discountPerExFactoryValue, discountPerExFactoryVar, discountPerExFactoryPer, netExFactorySalesValue, netExFactorySalesVar, netExFactorySalesPer, netExFactorySalesPerExFactoryValue, netExFactorySalesPerExFactoryVar, netExFactorySalesPerExFactoryPer;
 
     private final Map<String, List<ProjectionVarianceDTO>> resultMap;
-    private Map<String, List<List<ProjectionVarianceDTO>>> discountMapDetails;
-    private Map<String, Map<String, ProjectionVarianceDTO>> pivotDiscountMap = new HashMap<>();
+    private final Map<String, List<List<ProjectionVarianceDTO>>> discountMapDetails;
+    private final Map<String, Map<String, ProjectionVarianceDTO>> pivotDiscountMap = new HashMap<>();
     private final List<String> hierarchyKeys;
     private final List<String> tradingPartnerKeys;
     private final List<String> discountKeys;
@@ -61,33 +56,32 @@ public class PVExcelLogic {
     private static final String ACCRUAL = "Accrual";
     private final int index = 6;
     private int frequencyDivision;
-    private final int baseColumn_levelName_index = 3;
-    private final List<Object> procRawList_total_period = new ArrayList();
-    private final List<Object> procRawList_detail = new ArrayList();
-    private final List<Object[]> procRawList_detail_discount = new ArrayList();
-    private final List<Integer> priorList = new ArrayList();
+    private static final int BASECOLUMN_LEVELNAME_INDEX = 3;
+    private static final List<Object> PROCRAWLIST_TOTAL_PERIOD = new ArrayList();
+    private static final List<Object> PROCRAWLIST_DETAIL = new ArrayList();
+    private static final List<Object[]> PROCRAWLIST_DETAIL_DISCOUNT = new ArrayList();
+    private static final List<Integer> PRIOR_LIST = new ArrayList();
     private boolean isTotal = false;
     private String levelFilterValue = StringUtils.EMPTY;
     private String groupFilterValue = StringUtils.EMPTY;
     private String viewValue = StringUtils.EMPTY;
     private static final String PRC_PROJ_RESULTS = "PRC_PROJECTION_RESULTS";
-    private Map<String, String> discountNameMap = new HashMap<>();
+    private final Map<String, String> discountNameMap = new HashMap<>();
     public static final String TOTAL1 = "Total";
     private List<Object> pivotDiscountList = new ArrayList<>();
     private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(STRING_TWO_DECIMAL_FORMAT);
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
-    private List<Object> pivotTotalList = new ArrayList<>();
     private List<Integer> pivotPriorProjIdList;
-    private final Map<String, String> customView_relationship_hierarchy = new HashMap();
-    private PVParameters parameterDto;
+    private final Map<String, String> CUSTOM_VIEW_RELATIONSHIP_HIER = new HashMap();
+    private final PVParameters parameterDto;
     private boolean discountFlag;
     private boolean isCustomView;
     private static final String PERCENT = "%";
     private static final String PRC_CFF_RESULTS = "Prc_cff_results";
     private static final String C = "C";
     private static final String P = "P";
-    private Map<String, List<ProjectionVarianceDTO>> discountMap;
-    private ProjectionVarianceLogic logic = new ProjectionVarianceLogic();
+    private final Map<String, List<ProjectionVarianceDTO>> discountMap;
+    private final ProjectionVarianceLogic logic = new ProjectionVarianceLogic();
     private static final String VAL = "Value";
     private static final String VAR = "Var";
     private static final String PER = "Per";
@@ -127,8 +121,8 @@ public class PVExcelLogic {
         resultMap.clear();
         hierarchyKeys.clear();
         tradingPartnerKeys.clear();
-        priorList.clear();
-        priorList.addAll(selection.getProjIdList());
+        PRIOR_LIST.clear();
+        PRIOR_LIST.addAll(selection.getProjIdList());
         discountKeys.clear();
         isTotal = TOTAL1.equalsIgnoreCase(selection.getLevel());
         discountFlag = !ConstantsUtil.TOTAL_DISCOUNT.equalsIgnoreCase(selection.getDiscountLevel());
@@ -137,7 +131,7 @@ public class PVExcelLogic {
         accrualBasis = (StringConstantsUtil.ACCRUALS).equals(selection.getComparisonBasis());
         if (isCustomView) {
             selection.setHierarchyIndicator(StringUtils.EMPTY);
-            customView_relationship_hierarchy.putAll(getGroup_customViewNM());
+            CUSTOM_VIEW_RELATIONSHIP_HIER.putAll(getGroupCustomViewNM());
         }
         isRefreshNeeded(selection.getLevelFilterValue(), selection.getGroupFilter(), selection.getHierarchyIndicator(), selection.getFrequencyDivision());
         if (Constants.LabelConstants.PERIOD.toString().equalsIgnoreCase(selection.getPivotView())) {
@@ -147,11 +141,11 @@ public class PVExcelLogic {
                     getTotalDiscount(selection);
                 }
                 ProjectionVarianceDTO dto = new ProjectionVarianceDTO();
-                List<ProjectionVarianceDTO> totalList = logic.getCustPeriodVariance(procRawList_total_period, selection, dto);
+                List<ProjectionVarianceDTO> totalList = logic.getCustPeriodVariance(PROCRAWLIST_TOTAL_PERIOD, selection, dto);
                 resultMap.put(TOTAL1, totalList);
 
                 if (discountFlag) {
-                    discount_Customize();
+                    discountCustomize();
                 }
             } else {
                 executeProcedurePRCPVSELECTION();
@@ -159,21 +153,21 @@ public class PVExcelLogic {
                     parameterDto.setViewName("DETAIL_DISCOUNT");
                     calculateDiscount();
                 }
-                calculateAndCustomize_detail_period(procRawList_detail);
+                calculateAndCustomizeDetailPeriod(PROCRAWLIST_DETAIL);
             }
         } else if (isTotal) {
             getTotalRawDataPivot();
-            calculateAndCustomize_total_pivot();
+            calculateAndCustomizeTotalPivot();
         } else {
             executeProcedurePRCPVSELECTIONPIVOT();
             if (discountFlag) {
                 parameterDto.setViewName("DETAIL_DISCOUNT");
             }
-            customize_discount_pivot();
+            customizeDiscountPivot();
             if (isCustomView) {
-                calculateAndCustomize_detail_pivotForCustomView(procRawList_detail);
+                calculateDetailPivotForCustomView(PROCRAWLIST_DETAIL);
             } else {
-                calculateAndCustomize_detail_pivot(procRawList_detail);
+                calculateAndCustomizeDetailPivot(PROCRAWLIST_DETAIL);
             }
         }
     }
@@ -190,7 +184,7 @@ public class PVExcelLogic {
         return !val;
     }
 
-    private void calculateAndCustomize_detail_period(List<Object> rawList) {
+    private void calculateAndCustomizeDetailPeriod(List<Object> rawList) {
         String appendedParentKey = "";
         for (Iterator<Object> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = (Object[]) it.next();
@@ -206,14 +200,14 @@ public class PVExcelLogic {
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                getCustPeriodVariance_Details(pvList, selection, obj);
+                getCustPeriodVariancDetails(pvList, selection, obj);
                 if (isCustomView) {
-                    customhierarchyAndTP_keys(obj, key, pvList);
+                    customHierarchyAndTPKeys(obj, key, pvList);
                 } else {
 					hierarchyAndTPkeys(obj, key, pvList);
                 }
             } else {
-                updateCustPeriodVariance_Details(pvList, selection, obj);
+                updateCustPeriodVarianceDetails(pvList, selection, obj);
             }
         }
     }
@@ -222,8 +216,8 @@ public class PVExcelLogic {
 
         hierarchyKeys.add(key);
         resultMap.put(key, pvList);
-        if ("Customer".equalsIgnoreCase(String.valueOf(obj[baseColumn_levelName_index]))
-                || "Trading Partner".equalsIgnoreCase(String.valueOf(obj[baseColumn_levelName_index]))) {
+        if ("Customer".equalsIgnoreCase(String.valueOf(obj[BASECOLUMN_LEVELNAME_INDEX]))
+                || "Trading Partner".equalsIgnoreCase(String.valueOf(obj[BASECOLUMN_LEVELNAME_INDEX]))) {
             tradingPartnerKeys.add(key);
         }
     }
@@ -247,8 +241,8 @@ public class PVExcelLogic {
     public void getTotalRawData() {
         String frequency = selection.getFrequency();
         List<Integer> projectionIdList = new ArrayList();
-        procRawList_total_period.clear();
-        priorList.clear();
+        PROCRAWLIST_TOTAL_PERIOD.clear();
+        PRIOR_LIST.clear();
         pivotDiscountList.clear();
         if (frequency.equals(StringConstantsUtil.QUARTERLY_FREQ)) {
             frequency = StringConstantsUtil.QUARTERLY_LABEL;
@@ -264,15 +258,15 @@ public class PVExcelLogic {
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
         Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, null, null, null,null,selection.getSessionDTO().getDiscountUom(), ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion())? null : selection.getSessionDTO().getDeductionInclusion()};
         List< Object[]> rawList = CommonLogic.callProcedure(PRC_CFF_RESULTS, orderedArg);
-        procRawList_total_period.addAll(rawList);
+        PROCRAWLIST_TOTAL_PERIOD.addAll(rawList);
         rawList.clear();
     }
 
     public void getTotalRawDataPivot() {
         String frequency = selection.getFrequency();
         List<Integer> projectionIdList = new ArrayList();
-        procRawList_total_period.clear();
-        priorList.clear();
+        PROCRAWLIST_TOTAL_PERIOD.clear();
+        PRIOR_LIST.clear();
         pivotDiscountList.clear();
         if (frequency.equals(StringConstantsUtil.QUARTERLY_FREQ)) {
             frequency = StringConstantsUtil.QUARTERLY_LABEL;
@@ -292,7 +286,7 @@ public class PVExcelLogic {
         String projectionIds = CommonUtils.CollectionToString(projectionIdList, false);
         Object[] orderedArg = {projectionIds, frequency, StringConstantsUtil.VARIANCE1, null, null, null,null,selection.getSessionDTO().getDiscountUom(), ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion())?null : selection.getSessionDTO().getDeductionInclusion()};
         List< Object[]> gtsResult = CommonLogic.callProcedure(PRC_CFF_RESULTS, orderedArg);
-        procRawList_total_period.addAll(gtsResult);
+        PROCRAWLIST_TOTAL_PERIOD.addAll(gtsResult);
         if (!selection.getDiscountLevel().equals(ConstantsUtil.TOTAL_DISCOUNT)) {
             Object[] orderedArgDiscount = {projectionIds, frequency, StringConstantsUtil.VARIANCE1, "Pivot", null, null, selection.getDiscountLevel(), "EXCEL",selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),discountLevel,null};
             List<Object[]> discountsList = CommonLogic.callProcedure("Prc_cff_projection_results_discount", orderedArgDiscount);
@@ -301,8 +295,8 @@ public class PVExcelLogic {
     }
 
     public void executeProcedurePRCPVSELECTION() {
-        procRawList_detail.clear();
-        procRawList_detail_discount.clear();
+        PROCRAWLIST_DETAIL.clear();
+        PROCRAWLIST_DETAIL_DISCOUNT.clear();
         List<Integer> projectionIdList = new ArrayList();
         projectionIdList.add(selection.getCurrentProjId());
         projectionIdList.addAll(selection.getProjIdList());
@@ -320,7 +314,7 @@ public class PVExcelLogic {
             Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, indicator, null, selection.getExcelFilterLevelNo(), null, null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
             rawList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
         }
-        procRawList_detail.addAll(rawList);
+        PROCRAWLIST_DETAIL.addAll(rawList);
         if (discountFlag) {
              String discountLevel = !selection.getDeductionLevelFilter().isEmpty() ? CommonUtils.CollectionToString(selection.getDeductionLevelFilter(),false) : null;
              String discountLevelName = !selection.getDeductionLevelFilter().isEmpty() ? selection.getDeductionLevelValues() : selection.getDiscountLevel();
@@ -337,13 +331,13 @@ public class PVExcelLogic {
 
                 rawListDiscount = CommonLogic.callProcedure(PRC_CFF_DISCOUNT_EXCEL_EXPORT, orderedArgDiscount);
             }
-            procRawList_detail_discount.addAll(rawListDiscount);
+            PROCRAWLIST_DETAIL_DISCOUNT.addAll(rawListDiscount);
         }
     }
 
     public void executeProcedurePRCPVSELECTIONPIVOT() {
-        procRawList_detail.clear();
-        procRawList_detail_discount.clear();
+        PROCRAWLIST_DETAIL.clear();
+        PROCRAWLIST_DETAIL_DISCOUNT.clear();
         List<Integer> projectionIdList = new ArrayList();
         projectionIdList.add(selection.getCurrentProjId());
         projectionIdList.addAll(selection.getProjIdList());
@@ -371,7 +365,7 @@ public class PVExcelLogic {
                 null, selection.getExcelFilterLevelNo(), null, selection.getPivotStartDate(), order, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
             rawList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
         }
-        procRawList_detail.addAll(rawList);
+        PROCRAWLIST_DETAIL.addAll(rawList);
         if (discountFlag) {
             indicator = selection.getHierarchyIndicator();
             if (indicator.equals(StringUtils.EMPTY)) {
@@ -386,23 +380,23 @@ public class PVExcelLogic {
                     null, selection.getExcelFilterLevelNo(), null, selection.getPivotStartDate(), selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
                 rawListDiscount = CommonLogic.callProcedure(PRC_CFF_DISCOUNT_EXCEL_EXPORT, orderedArgDiscount);
             }
-            procRawList_detail_discount.addAll(rawListDiscount);
+            PROCRAWLIST_DETAIL_DISCOUNT.addAll(rawListDiscount);
 
         }
     }
 
-    private void calculateAndCustomize_total_pivot() {
+    private void calculateAndCustomizeTotalPivot() {
         if (pivotPriorProjIdList != null) {
             pivotPriorProjIdList.clear();
         }
         for (Integer projId : selection.getProjIdList()) {
             pivotPriorProjIdList.add(projId);
         }
-        List<ProjectionVarianceDTO> finalList = logic.getCustomizedPivotTotalResults(procRawList_total_period, pivotPriorProjIdList, selection, pivotDiscountList);
+        List<ProjectionVarianceDTO> finalList = logic.getCustomizedPivotTotalResults(PROCRAWLIST_TOTAL_PERIOD, pivotPriorProjIdList, selection, pivotDiscountList);
         resultMap.put(TOTAL1, finalList);
     }
 
-    private void addList_pivot(List<ProjectionVarianceDTO> pvList, Object[] obj, ProjectionVarianceDTO frequencyBasedDTO, int indexTotal, String key, String group) {
+    private void addListPivot(List<ProjectionVarianceDTO> pvList, Object[] obj, ProjectionVarianceDTO frequencyBasedDTO, int indexTotal, String key, String group) {
         List<String> periodList = new ArrayList<>(selection.getPeriodList());
         int indexForTotal = indexTotal - 1;
         int tempFrequencyDivision = selection.getFrequencyDivision();
@@ -414,7 +408,7 @@ public class PVExcelLogic {
             ProjectionVarianceDTO detail = new ProjectionVarianceDTO();
             String groupName;
             if (isCustomView) {
-                groupName = customView_relationship_hierarchy.get(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO].toString());
+                groupName = CUSTOM_VIEW_RELATIONSHIP_HIER.get(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO].toString());
                 groupName = groupName == null ? StringUtils.EMPTY : groupName;
                 detail.setHierarchyNo(obj[NumericConstants.TWO].toString());
                 detail.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
@@ -820,12 +814,12 @@ public class PVExcelLogic {
 
     private void calculateForTotal(String variableName, String varibaleCat, Object[] obj, int index, ProjectionVarianceDTO pvDTO, PVSelectionDTO selection, DecimalFormat format) {
         PVCommonLogic.customizePeriod(variableName, varibaleCat, selection, pvDTO, format, index, obj, format.equals(RATE_PER));
-        for (int j = 0; j < priorList.size(); j++) {
-            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, variableName + priorList.get(j), index, j, format.equals(RATE_PER), COLUMN_COUNT_TOTAL, format);
+        for (int j = 0; j < PRIOR_LIST.size(); j++) {
+            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, variableName + PRIOR_LIST.get(j), index, j, format.equals(RATE_PER), COLUMN_COUNT_TOTAL, format);
         }
     }
 
-    private void calculateAndCustomize_detail_pivot(List<Object> rawList) {
+    private void calculateAndCustomizeDetailPivot(List<Object> rawList) {
 
         for (Iterator<Object> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = (Object[]) it.next();
@@ -838,15 +832,15 @@ public class PVExcelLogic {
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                addList_pivot(pvList, obj, freVarianceDTO, index, key, groupId);
+                addListPivot(pvList, obj, freVarianceDTO, index, key, groupId);
 				hierarchyAndTPkeys(obj, key, pvList);
             } else {
-                updateList_pivot(pvList, obj, freVarianceDTO, index, key, groupId);
+                updateListPivot(pvList, obj, freVarianceDTO, index, key, groupId);
             }
         }
     }
 
-    private void updateList_pivot(List<ProjectionVarianceDTO> pvList, Object[] obj, ProjectionVarianceDTO frequencyBasedDTO, int indexTotal, String key, String group) {
+    private void updateListPivot(List<ProjectionVarianceDTO> pvList, Object[] obj, ProjectionVarianceDTO frequencyBasedDTO, int indexTotal, String key, String group) {
         List<String> periodList = new ArrayList<>(selection.getPeriodList());
         String groupColumn;
         if (frequencyDivision == NumericConstants.TWELVE) {
@@ -1239,7 +1233,7 @@ public class PVExcelLogic {
 
     public static final String SALES = "SALES";
 
-    public void discount_Customize() {
+    public void discountCustomize() {
 
         List<ProjectionVarianceDTO> discountDollarValuelist;
         List<ProjectionVarianceDTO> discountDollarVariancelist;
@@ -1294,6 +1288,7 @@ public class PVExcelLogic {
 
     public void getTotalPivotVariance(PVSelectionDTO selection) {
         String frequency = selection.getFrequency();
+        List<Object> pivotTotalList;
         String discountId = CommonUtils.CollectionToString(selection.getDiscountNoList(), false);
         List<String> projectionIdList = new ArrayList<>();
         pivotTotalList = new ArrayList<Object>();
@@ -1350,7 +1345,7 @@ public class PVExcelLogic {
 
     }
 
-    private Map<String, String> getGroup_customViewNM() {
+    private Map<String, String> getGroupCustomViewNM() {
         Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
         Map<String, String> customViewMap = new HashMap<>();
         Set keys = relationshipLevelDetailsMap.keySet();
@@ -1386,13 +1381,13 @@ public class PVExcelLogic {
         String lastValue = StringUtils.EMPTY;
         projSelDTO.setConversionNeeded(isConversionNeeded);
         List<ProjectionVarianceDTO> resultDto = new ArrayList<>();
-        int frequencyDivision = projSelDTO.getFrequencyDivision();
+        int vFrequencyDivision = projSelDTO.getFrequencyDivision();
         ProjectionVarianceDTO pvDTO = new ProjectionVarianceDTO();
         pvDTO.setLevelValue(projSelDTO.getLevelValue());
         pvDTO.setLevelNo(projSelDTO.getLevelNo());
         pvDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo());
         pvDTO.setParent(0);
-        List<Integer> priorList = new ArrayList<>(projSelDTO.getProjIdList());
+        List<Integer> vPriorList = new ArrayList<>(projSelDTO.getProjIdList());
         if (dataList != null && !dataList.isEmpty()) {
             for (int i = 0; i < dataList.size(); i++) {
                 final Object[] obj = (Object[]) dataList.get(i);
@@ -1404,19 +1399,19 @@ public class PVExcelLogic {
                 lastValue = String.valueOf(obj[NumericConstants.TWO]);
                 pvDTO.setGroup(lastValue);
                 String commonColumn = StringUtils.EMPTY;
-                if (frequencyDivision == NumericConstants.FOUR) {
+                if (vFrequencyDivision == NumericConstants.FOUR) {
                     commonColumn = "Q" + obj[1] + StringUtils.EMPTY + obj[0];
-                } else if (frequencyDivision == NumericConstants.TWO) {
+                } else if (vFrequencyDivision == NumericConstants.TWO) {
                     commonColumn = "S" + obj[1] + StringUtils.EMPTY + obj[0];
-                } else if (frequencyDivision == 1) {
+                } else if (vFrequencyDivision == 1) {
                     commonColumn = StringUtils.EMPTY + obj[0];
-                } else if (frequencyDivision == NumericConstants.TWELVE) {
+                } else if (vFrequencyDivision == NumericConstants.TWELVE) {
                     String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
                     commonColumn = monthName.toLowerCase() + obj[0];
                 }
                 PVCommonLogic.customizePeriod(commonColumn, indicator, projSelDTO, pvDTO, isPer ? RATE : AMOUNT, index, obj, isPer);
-                for (int j = 0; j < priorList.size(); j++) {
-                    PVCommonLogic.getPriorCommonCustomization(indicator, projSelDTO, obj, pvDTO, commonColumn + priorList.get(j), index, j, isPer, COLUMN_COUNT_DISCOUNT, isPer ? RATE : AMOUNT);
+                for (int j = 0; j < vPriorList.size(); j++) {
+                    PVCommonLogic.getPriorCommonCustomization(indicator, projSelDTO, obj, pvDTO, commonColumn + vPriorList.get(j), index, j, isPer, COLUMN_COUNT_DISCOUNT, isPer ? RATE : AMOUNT);
                 }
                 if (i == dataList.size() - 1) {
                     resultDto.add(pvDTO);
@@ -1427,7 +1422,7 @@ public class PVExcelLogic {
         return resultDto;
     }
 
-    public List<ProjectionVarianceDTO> getCustPeriodVariance_Details(List<ProjectionVarianceDTO> pvList, final PVSelectionDTO pvsdto, final Object[] obj) {
+    public List<ProjectionVarianceDTO> getCustPeriodVariancDetails(List<ProjectionVarianceDTO> pvList, final PVSelectionDTO pvsdto, final Object[] obj) {
 
         List<ProjectionVarianceDTO> projectionVarianceDTO = new ArrayList<>();
         ProjectionVarianceDTO exFacValue1 = new ProjectionVarianceDTO();
@@ -1438,7 +1433,7 @@ public class PVExcelLogic {
         //Group Column projSelDTO
         String groupName;
         if (isCustomView) {
-            groupName = customView_relationship_hierarchy.get(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO].toString());
+            groupName = CUSTOM_VIEW_RELATIONSHIP_HIER.get(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO].toString());
             groupName = groupName == null ? StringUtils.EMPTY : groupName;
             dto.setHierarchyNo(obj[NumericConstants.TWO].toString());
             dto.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
@@ -1449,49 +1444,49 @@ public class PVExcelLogic {
         dto.setGroup(groupName);
         pvList.add(dto);
 
-        ProjectionVarianceDTO demandValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO demandVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO demandPer = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vDemandValue = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vDemandVariance = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vDemandPer = new ProjectionVarianceDTO();
 
         ProjectionVarianceDTO invWithSummaryValue = new ProjectionVarianceDTO();
         ProjectionVarianceDTO invWithSummaryVar = new ProjectionVarianceDTO();
         ProjectionVarianceDTO invWithSummaryPer = new ProjectionVarianceDTO();
 
-        ProjectionVarianceDTO perExFacProductValue = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerExFactoryProdVal = new ProjectionVarianceDTO();
         ProjectionVarianceDTO perExFacProductVariance = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO perExFacProductPer = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerExFactoryProd = new ProjectionVarianceDTO();
 
-        ProjectionVarianceDTO perExFacCustValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO perExFacCustVariance = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO perExFacCustPer = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerExFactoryCustVal = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerExFactoryCustVar = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerExFactoryCustPer = new ProjectionVarianceDTO();
 
-        ProjectionVarianceDTO perDemandValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO perDemandVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO perDemandPer = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerDemandVal = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerDemandVar = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerDemandPer = new ProjectionVarianceDTO();
 
-        ProjectionVarianceDTO perAdjDemandValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO perAdjDemandVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO perAdjDemandPer = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerAdjDemandVal = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerAdjDemandVar = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerAdjDemandPer = new ProjectionVarianceDTO();
 
-        ProjectionVarianceDTO perInvWithSummaryValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO perInvWithSummaryVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO perInvWithSummaryPer = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerInvWithSummaryVal = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerInvWithSummaryVar = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerInvWithSummaryPer = new ProjectionVarianceDTO();
 
-        ProjectionVarianceDTO perIwDetialsValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO perIwDetialsVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO perIwDetialsPer = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerIwDetialsVal = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerIwDetialsVar = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vPerIwDetialsPer = new ProjectionVarianceDTO();
 
         ProjectionVarianceDTO custExFacValue = new ProjectionVarianceDTO();
         ProjectionVarianceDTO custExFacVar = new ProjectionVarianceDTO();
         ProjectionVarianceDTO custExFacPer = new ProjectionVarianceDTO();
 
-        ProjectionVarianceDTO adjDemandValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO adjDemandVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO adjDemandPer = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vAdjDemandVal = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vAdjDemandVar = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vAdjDemandPer = new ProjectionVarianceDTO();
 
         ProjectionVarianceDTO tempwDetialsValue = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO iwDetialsVar = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO iwDetialsPer = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vInvWithDetialsVar = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vInvWithDetialsPer = new ProjectionVarianceDTO();
 
         ProjectionVarianceDTO tempDiscountDollarValue = new ProjectionVarianceDTO();
         ProjectionVarianceDTO tempDiscountDollarVar = new ProjectionVarianceDTO();
@@ -1546,20 +1541,20 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                exFacValue1 = getCommonCustomizedDTO_Details(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), Constants.VALUE, obj, obj, NumericConstants.SIX, pvsdto, AMOUNT, exFacValue1, true);
+                exFacValue1 = getCommonCustomizedDTODetails(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), Constants.VALUE, obj, obj, NumericConstants.SIX, pvsdto, AMOUNT, exFacValue1, true);
                 pvList.add(exFacValue1);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                exFacVariance = getCommonCustomizedDTO_Details(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SIX, pvsdto, AMOUNT, exFacVariance, true);
+                exFacVariance = getCommonCustomizedDTODetails(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SIX, pvsdto, AMOUNT, exFacVariance, true);
                 pvList.add(exFacVariance);
 
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                exFacPercent = getCommonCustomizedDTO_Details(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), Constants.CHANGE, obj, obj, NumericConstants.SIX, pvsdto, RATE, exFacPercent, true);
+                exFacPercent = getCommonCustomizedDTODetails(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), Constants.CHANGE, obj, obj, NumericConstants.SIX, pvsdto, RATE, exFacPercent, true);
                 pvList.add(exFacPercent);
 
             }
@@ -1570,19 +1565,19 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                custExFacValue = getCommonCustomizedDTO_Details(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), Constants.VALUE, obj, obj, NumericConstants.SEVENTY_FIVE, pvsdto, AMOUNT, custExFacValue, true);
+                custExFacValue = getCommonCustomizedDTODetails(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), Constants.VALUE, obj, obj, NumericConstants.SEVENTY_FIVE, pvsdto, AMOUNT, custExFacValue, true);
                 pvList.add(custExFacValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                custExFacVar = getCommonCustomizedDTO_Details(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SEVENTY_FIVE, pvsdto, AMOUNT, custExFacVar, true);
+                custExFacVar = getCommonCustomizedDTODetails(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SEVENTY_FIVE, pvsdto, AMOUNT, custExFacVar, true);
                 pvList.add(custExFacVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                custExFacPer = getCommonCustomizedDTO_Details(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), Constants.CHANGE, obj, obj, NumericConstants.SEVENTY_FIVE, pvsdto, RATE, custExFacPer, true);
+                custExFacPer = getCommonCustomizedDTODetails(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), Constants.CHANGE, obj, obj, NumericConstants.SEVENTY_FIVE, pvsdto, RATE, custExFacPer, true);
                 pvList.add(custExFacPer);
             }
         }
@@ -1591,20 +1586,20 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                demandValue = getCommonCustomizedDTO_Details(Constants.PVVariables.DEMAND.toString(), Constants.VALUE, obj, obj, NumericConstants.FORTY_FIVE, pvsdto, AMOUNT, demandValue, true);
-                pvList.add(demandValue);
+                vDemandValue = getCommonCustomizedDTODetails(Constants.PVVariables.DEMAND.toString(), Constants.VALUE, obj, obj, NumericConstants.FORTY_FIVE, pvsdto, AMOUNT, vDemandValue, true);
+                pvList.add(vDemandValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                demandVar = getCommonCustomizedDTO_Details(Constants.PVVariables.DEMAND.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FORTY_FIVE, pvsdto, AMOUNT, demandVar, true);
-                pvList.add(demandVar);
+                vDemandVariance = getCommonCustomizedDTODetails(Constants.PVVariables.DEMAND.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FORTY_FIVE, pvsdto, AMOUNT, vDemandVariance, true);
+                pvList.add(vDemandVariance);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                demandPer = getCommonCustomizedDTO_Details(Constants.PVVariables.DEMAND.toString(), Constants.CHANGE, obj, obj, NumericConstants.FORTY_FIVE, pvsdto, RATE, demandPer, true);
-                pvList.add(demandPer);
+                vDemandPer = getCommonCustomizedDTODetails(Constants.PVVariables.DEMAND.toString(), Constants.CHANGE, obj, obj, NumericConstants.FORTY_FIVE, pvsdto, RATE, vDemandPer, true);
+                pvList.add(vDemandPer);
             }
         }
 
@@ -1613,18 +1608,18 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                adjDemandValue = getCommonCustomizedDTO_Details(Constants.PVVariables.ADJUSTED_DEMAND.toString(), Constants.VALUE, obj, obj, NumericConstants.SEVENTY_TWO, pvsdto, AMOUNT, adjDemandValue, true);
-                pvList.add(adjDemandValue);
+                vAdjDemandVal = getCommonCustomizedDTODetails(Constants.PVVariables.ADJUSTED_DEMAND.toString(), Constants.VALUE, obj, obj, NumericConstants.SEVENTY_TWO, pvsdto, AMOUNT, vAdjDemandVal, true);
+                pvList.add(vAdjDemandVal);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                adjDemandVar = getCommonCustomizedDTO_Details(Constants.PVVariables.ADJUSTED_DEMAND.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SEVENTY_TWO, pvsdto, AMOUNT, adjDemandVar, true);
-                pvList.add(adjDemandVar);
+                vAdjDemandVar = getCommonCustomizedDTODetails(Constants.PVVariables.ADJUSTED_DEMAND.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SEVENTY_TWO, pvsdto, AMOUNT, vAdjDemandVar, true);
+                pvList.add(vAdjDemandVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                adjDemandPer = getCommonCustomizedDTO_Details(Constants.PVVariables.ADJUSTED_DEMAND.toString(), Constants.CHANGE, obj, obj, NumericConstants.SEVENTY_TWO, pvsdto, RATE, adjDemandPer, true);
-                pvList.add(adjDemandPer);
+                vAdjDemandPer = getCommonCustomizedDTODetails(Constants.PVVariables.ADJUSTED_DEMAND.toString(), Constants.CHANGE, obj, obj, NumericConstants.SEVENTY_TWO, pvsdto, RATE, vAdjDemandPer, true);
+                pvList.add(vAdjDemandPer);
             }
         }
 //
@@ -1633,19 +1628,19 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                invWithSummaryValue = getCommonCustomizedDTO_Details(Constants.PVVariables.INVENTORY_SUMMARY.toString(), Constants.VALUE, obj, obj, NumericConstants.FORTY_EIGHT, pvsdto, AMOUNT, invWithSummaryValue, true);
+                invWithSummaryValue = getCommonCustomizedDTODetails(Constants.PVVariables.INVENTORY_SUMMARY.toString(), Constants.VALUE, obj, obj, NumericConstants.FORTY_EIGHT, pvsdto, AMOUNT, invWithSummaryValue, true);
                 pvList.add(invWithSummaryValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                invWithSummaryVar = getCommonCustomizedDTO_Details(Constants.PVVariables.INVENTORY_SUMMARY.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FORTY_EIGHT, pvsdto, AMOUNT, invWithSummaryVar, true);
+                invWithSummaryVar = getCommonCustomizedDTODetails(Constants.PVVariables.INVENTORY_SUMMARY.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FORTY_EIGHT, pvsdto, AMOUNT, invWithSummaryVar, true);
                 pvList.add(invWithSummaryVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                invWithSummaryPer = getCommonCustomizedDTO_Details(Constants.PVVariables.INVENTORY_SUMMARY.toString(), Constants.CHANGE, obj, obj, NumericConstants.FORTY_EIGHT, pvsdto, RATE, invWithSummaryPer, true);
+                invWithSummaryPer = getCommonCustomizedDTODetails(Constants.PVVariables.INVENTORY_SUMMARY.toString(), Constants.CHANGE, obj, obj, NumericConstants.FORTY_EIGHT, pvsdto, RATE, invWithSummaryPer, true);
                 pvList.add(invWithSummaryPer);
             }
         }
@@ -1655,20 +1650,20 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                tempwDetialsValue = getCommonCustomizedDTO_Details(Constants.PVVariables.INVENTORY_DETAILS.toString(), Constants.VALUE, obj, obj, NumericConstants.SEVENTY_EIGHT, pvsdto, AMOUNT, tempwDetialsValue, true);
+                tempwDetialsValue = getCommonCustomizedDTODetails(Constants.PVVariables.INVENTORY_DETAILS.toString(), Constants.VALUE, obj, obj, NumericConstants.SEVENTY_EIGHT, pvsdto, AMOUNT, tempwDetialsValue, true);
                 pvList.add(tempwDetialsValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                iwDetialsVar = getCommonCustomizedDTO_Details(Constants.PVVariables.INVENTORY_DETAILS.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SEVENTY_EIGHT, pvsdto, AMOUNT, iwDetialsVar, true);
-                pvList.add(iwDetialsVar);
+                vInvWithDetialsVar = getCommonCustomizedDTODetails(Constants.PVVariables.INVENTORY_DETAILS.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SEVENTY_EIGHT, pvsdto, AMOUNT, vInvWithDetialsVar, true);
+                pvList.add(vInvWithDetialsVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                iwDetialsPer = getCommonCustomizedDTO_Details(Constants.PVVariables.INVENTORY_DETAILS.toString(), Constants.CHANGE, obj, obj, NumericConstants.SEVENTY_EIGHT, pvsdto, RATE, iwDetialsPer, true);
-                pvList.add(iwDetialsPer);
+                vInvWithDetialsPer = getCommonCustomizedDTODetails(Constants.PVVariables.INVENTORY_DETAILS.toString(), Constants.CHANGE, obj, obj, NumericConstants.SEVENTY_EIGHT, pvsdto, RATE, vInvWithDetialsPer, true);
+                pvList.add(vInvWithDetialsPer);
             }
         }
 //
@@ -1677,18 +1672,18 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                perExFacProductValue = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(), Constants.VALUE, obj, obj, NumericConstants.TWENTY_ONE, pvsdto, RATE, perExFacProductValue, true);
-                pvList.add(perExFacProductValue);
+                vPerExFactoryProdVal = getCommonCustomizedDTODetails(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(), Constants.VALUE, obj, obj, NumericConstants.TWENTY_ONE, pvsdto, RATE, vPerExFactoryProdVal, true);
+                pvList.add(vPerExFactoryProdVal);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                perExFacProductVariance = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(), Constants.VARIANCE, obj, obj, NumericConstants.TWENTY_ONE, pvsdto, RATE, perExFacProductVariance, true);
+                perExFacProductVariance = getCommonCustomizedDTODetails(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(), Constants.VARIANCE, obj, obj, NumericConstants.TWENTY_ONE, pvsdto, RATE, perExFacProductVariance, true);
                 pvList.add(perExFacProductVariance);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                perExFacProductPer = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(), Constants.CHANGE, obj, obj, NumericConstants.TWENTY_ONE, pvsdto, RATE, perExFacProductPer, true);
-                pvList.add(perExFacProductPer);
+                vPerExFactoryProd = getCommonCustomizedDTODetails(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(), Constants.CHANGE, obj, obj, NumericConstants.TWENTY_ONE, pvsdto, RATE, vPerExFactoryProd, true);
+                pvList.add(vPerExFactoryProd);
             }
         }
 //        // % Of Ex factory customer
@@ -1696,18 +1691,18 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                perExFacCustValue = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(), Constants.VALUE, obj, obj, NumericConstants.EIGHTY_FOUR, pvsdto, RATE, perExFacCustValue, true);
-                pvList.add(perExFacCustValue);
+                vPerExFactoryCustVal = getCommonCustomizedDTODetails(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(), Constants.VALUE, obj, obj, NumericConstants.EIGHTY_FOUR, pvsdto, RATE, vPerExFactoryCustVal, true);
+                pvList.add(vPerExFactoryCustVal);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                perExFacCustVariance = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(), Constants.VARIANCE, obj, obj, NumericConstants.EIGHTY_FOUR, pvsdto, RATE, perExFacCustVariance, true);
-                pvList.add(perExFacCustVariance);
+                vPerExFactoryCustVar = getCommonCustomizedDTODetails(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(), Constants.VARIANCE, obj, obj, NumericConstants.EIGHTY_FOUR, pvsdto, RATE, vPerExFactoryCustVar, true);
+                pvList.add(vPerExFactoryCustVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                perExFacCustPer = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(), Constants.CHANGE, obj, obj, NumericConstants.EIGHTY_FOUR, pvsdto, RATE, perExFacCustPer, true);
-                pvList.add(perExFacCustPer);
+                vPerExFactoryCustPer = getCommonCustomizedDTODetails(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(), Constants.CHANGE, obj, obj, NumericConstants.EIGHTY_FOUR, pvsdto, RATE, vPerExFactoryCustPer, true);
+                pvList.add(vPerExFactoryCustPer);
             }
         }
 //        // % Of Demand Sales
@@ -1715,18 +1710,18 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                perDemandValue = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_DEMAND.toString(), Constants.VALUE, obj, obj, NumericConstants.FIFTY_ONE, pvsdto, RATE, perDemandValue, true);
-                pvList.add(perDemandValue);
+                vPerDemandVal = getCommonCustomizedDTODetails(Constants.PVVariables.PER_DEMAND.toString(), Constants.VALUE, obj, obj, NumericConstants.FIFTY_ONE, pvsdto, RATE, vPerDemandVal, true);
+                pvList.add(vPerDemandVal);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                perDemandVar = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_DEMAND.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FIFTY_ONE, pvsdto, RATE, perDemandVar, true);
-                pvList.add(perDemandVar);
+                vPerDemandVar = getCommonCustomizedDTODetails(Constants.PVVariables.PER_DEMAND.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FIFTY_ONE, pvsdto, RATE, vPerDemandVar, true);
+                pvList.add(vPerDemandVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                perDemandPer = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_DEMAND.toString(), Constants.CHANGE, obj, obj, NumericConstants.FIFTY_ONE, pvsdto, RATE, perDemandPer, true);
-                pvList.add(perDemandPer);
+                vPerDemandPer = getCommonCustomizedDTODetails(Constants.PVVariables.PER_DEMAND.toString(), Constants.CHANGE, obj, obj, NumericConstants.FIFTY_ONE, pvsdto, RATE, vPerDemandPer, true);
+                pvList.add(vPerDemandPer);
             }
         }
         // % Of Adjusted Demand 
@@ -1734,18 +1729,18 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                perAdjDemandValue = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(), Constants.VALUE, obj, obj, NumericConstants.EIGHTY_ONE, pvsdto, RATE, perAdjDemandValue, true);
-                pvList.add(perAdjDemandValue);
+                vPerAdjDemandVal = getCommonCustomizedDTODetails(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(), Constants.VALUE, obj, obj, NumericConstants.EIGHTY_ONE, pvsdto, RATE, vPerAdjDemandVal, true);
+                pvList.add(vPerAdjDemandVal);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                perAdjDemandVar = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(), Constants.VARIANCE, obj, obj, NumericConstants.EIGHTY_ONE, pvsdto, RATE, perAdjDemandVar, true);
-                pvList.add(perAdjDemandVar);
+                vPerAdjDemandVar = getCommonCustomizedDTODetails(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(), Constants.VARIANCE, obj, obj, NumericConstants.EIGHTY_ONE, pvsdto, RATE, vPerAdjDemandVar, true);
+                pvList.add(vPerAdjDemandVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                perAdjDemandPer = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(), Constants.CHANGE, obj, obj, NumericConstants.EIGHTY_ONE, pvsdto, RATE, perAdjDemandPer, true);
-                pvList.add(perAdjDemandPer);
+                vPerAdjDemandPer = getCommonCustomizedDTODetails(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(), Constants.CHANGE, obj, obj, NumericConstants.EIGHTY_ONE, pvsdto, RATE, vPerAdjDemandPer, true);
+                pvList.add(vPerAdjDemandPer);
             }
         }
         // % Of Inv Summary
@@ -1753,18 +1748,18 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                perInvWithSummaryValue = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(), Constants.VALUE, obj, obj, NumericConstants.FIFTY_FOUR, pvsdto, RATE, perInvWithSummaryValue, true);
-                pvList.add(perInvWithSummaryValue);
+                vPerInvWithSummaryVal = getCommonCustomizedDTODetails(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(), Constants.VALUE, obj, obj, NumericConstants.FIFTY_FOUR, pvsdto, RATE, vPerInvWithSummaryVal, true);
+                pvList.add(vPerInvWithSummaryVal);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                perInvWithSummaryVar = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FIFTY_FOUR, pvsdto, RATE, perInvWithSummaryVar, true);
-                pvList.add(perInvWithSummaryVar);
+                vPerInvWithSummaryVar = getCommonCustomizedDTODetails(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FIFTY_FOUR, pvsdto, RATE, vPerInvWithSummaryVar, true);
+                pvList.add(vPerInvWithSummaryVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                perInvWithSummaryPer = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(), Constants.CHANGE, obj, obj, NumericConstants.FIFTY_FOUR, pvsdto, RATE, perInvWithSummaryPer, true);
-                pvList.add(perInvWithSummaryPer);
+                vPerInvWithSummaryPer = getCommonCustomizedDTODetails(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(), Constants.CHANGE, obj, obj, NumericConstants.FIFTY_FOUR, pvsdto, RATE, vPerInvWithSummaryPer, true);
+                pvList.add(vPerInvWithSummaryPer);
             }
         }
         // % Of Inventry withdrawal Detials 
@@ -1772,18 +1767,18 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                perIwDetialsValue = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(), Constants.VALUE, obj, obj, NumericConstants.EIGHTY_SEVEN, pvsdto, RATE, perIwDetialsValue, true);
-                pvList.add(perIwDetialsValue);
+                vPerIwDetialsVal = getCommonCustomizedDTODetails(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(), Constants.VALUE, obj, obj, NumericConstants.EIGHTY_SEVEN, pvsdto, RATE, vPerIwDetialsVal, true);
+                pvList.add(vPerIwDetialsVal);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                perIwDetialsVar = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(), Constants.VARIANCE, obj, obj, NumericConstants.EIGHTY_SEVEN, pvsdto, RATE, perIwDetialsVar, true);
-                pvList.add(perIwDetialsVar);
+                vPerIwDetialsVar = getCommonCustomizedDTODetails(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(), Constants.VARIANCE, obj, obj, NumericConstants.EIGHTY_SEVEN, pvsdto, RATE, vPerIwDetialsVar, true);
+                pvList.add(vPerIwDetialsVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                perIwDetialsPer = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(), Constants.CHANGE, obj, obj, NumericConstants.EIGHTY_SEVEN, pvsdto, RATE, perIwDetialsPer, true);
-                pvList.add(perIwDetialsPer);
+                vPerIwDetialsPer = getCommonCustomizedDTODetails(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(), Constants.CHANGE, obj, obj, NumericConstants.EIGHTY_SEVEN, pvsdto, RATE, vPerIwDetialsPer, true);
+                pvList.add(vPerIwDetialsPer);
             }
         }
         //Contract Sales
@@ -1791,19 +1786,19 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                tempContractSalesValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), Constants.VALUE, obj, obj, NumericConstants.NINE, pvsdto, AMOUNT, tempContractSalesValue, true);
+                tempContractSalesValue = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), Constants.VALUE, obj, obj, NumericConstants.NINE, pvsdto, AMOUNT, tempContractSalesValue, true);
                 pvList.add(tempContractSalesValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                tempContractSalesVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), Constants.VARIANCE, obj, obj, NumericConstants.NINE, pvsdto, AMOUNT, tempContractSalesVar, true);
+                tempContractSalesVar = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), Constants.VARIANCE, obj, obj, NumericConstants.NINE, pvsdto, AMOUNT, tempContractSalesVar, true);
                 pvList.add(tempContractSalesVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                tempContractSalesPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), Constants.CHANGE, obj, obj, NumericConstants.NINE, pvsdto, RATE, tempContractSalesPer, true);
+                tempContractSalesPer = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), Constants.CHANGE, obj, obj, NumericConstants.NINE, pvsdto, RATE, tempContractSalesPer, true);
                 pvList.add(tempContractSalesPer);
             }
         }
@@ -1813,17 +1808,17 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                tempContractUnitValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(), Constants.VALUE, obj, obj, NumericConstants.TWELVE, pvsdto, AMOUNT_UNITS, tempContractUnitValue, true);
+                tempContractUnitValue = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(), Constants.VALUE, obj, obj, NumericConstants.TWELVE, pvsdto, AMOUNT_UNITS, tempContractUnitValue, true);
                 pvList.add(tempContractUnitValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                tempContractUnitVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(), Constants.VARIANCE, obj, obj, NumericConstants.TWELVE, pvsdto, AMOUNT_UNITS, tempContractUnitVar, true);
+                tempContractUnitVar = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(), Constants.VARIANCE, obj, obj, NumericConstants.TWELVE, pvsdto, AMOUNT_UNITS, tempContractUnitVar, true);
                 pvList.add(tempContractUnitVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                tempContractUnitPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(), Constants.CHANGE, obj, obj, NumericConstants.TWELVE, pvsdto, RATE, tempContractUnitPer, true);
+                tempContractUnitPer = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(), Constants.CHANGE, obj, obj, NumericConstants.TWELVE, pvsdto, RATE, tempContractUnitPer, true);
                 pvList.add(tempContractUnitPer);
             }
         }
@@ -1832,19 +1827,19 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                tempDiscountDollarValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_DIS_AMOUNT.toString(), Constants.VALUE, obj, obj, NumericConstants.FIFTEEN, pvsdto, AMOUNT, tempDiscountDollarValue, true);
+                tempDiscountDollarValue = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_DIS_AMOUNT.toString(), Constants.VALUE, obj, obj, NumericConstants.FIFTEEN, pvsdto, AMOUNT, tempDiscountDollarValue, true);
                 pvList.add(tempDiscountDollarValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                tempDiscountDollarVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_DIS_AMOUNT.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FIFTEEN, pvsdto, AMOUNT, tempDiscountDollarVar, true);
+                tempDiscountDollarVar = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_DIS_AMOUNT.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FIFTEEN, pvsdto, AMOUNT, tempDiscountDollarVar, true);
                 pvList.add(tempDiscountDollarVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                tempDiscountDollarPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_DIS_AMOUNT.toString(), Constants.CHANGE, obj, obj, NumericConstants.FIFTEEN, pvsdto, RATE, tempDiscountDollarPer, true);
+                tempDiscountDollarPer = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_DIS_AMOUNT.toString(), Constants.CHANGE, obj, obj, NumericConstants.FIFTEEN, pvsdto, RATE, tempDiscountDollarPer, true);
                 pvList.add(tempDiscountDollarPer);
             }
         }
@@ -1853,18 +1848,18 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                tempDiscountPerValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_DIS_RATE.toString(), Constants.VALUE, obj, obj, NumericConstants.EIGHTEEN, pvsdto, RATE, tempDiscountPerValue, true);
+                tempDiscountPerValue = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_DIS_RATE.toString(), Constants.VALUE, obj, obj, NumericConstants.EIGHTEEN, pvsdto, RATE, tempDiscountPerValue, true);
                 pvList.add(tempDiscountPerValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                tempDiscountPerVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_DIS_RATE.toString(), Constants.VARIANCE, obj, obj, NumericConstants.EIGHTEEN, pvsdto, RATE, tempDiscountPerVar, true);
+                tempDiscountPerVar = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_DIS_RATE.toString(), Constants.VARIANCE, obj, obj, NumericConstants.EIGHTEEN, pvsdto, RATE, tempDiscountPerVar, true);
                 pvList.add(tempDiscountPerVar);
 
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                tempDiscountPerPercent = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_DIS_RATE.toString(), Constants.CHANGE, obj, obj, NumericConstants.EIGHTEEN, pvsdto, RATE, tempDiscountPerPercent, true);
+                tempDiscountPerPercent = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_DIS_RATE.toString(), Constants.CHANGE, obj, obj, NumericConstants.EIGHTEEN, pvsdto, RATE, tempDiscountPerPercent, true);
                 pvList.add(tempDiscountPerPercent);
             }
         }
@@ -1873,18 +1868,18 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                tempRpuValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_RPU.toString(), Constants.VALUE, obj, obj, NumericConstants.SIXTY_THREE, pvsdto, AMOUNT, tempRpuValue, true);
+                tempRpuValue = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_RPU.toString(), Constants.VALUE, obj, obj, NumericConstants.SIXTY_THREE, pvsdto, AMOUNT, tempRpuValue, true);
                 pvList.add(tempRpuValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                tempRpuVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_RPU.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SIXTY_THREE, pvsdto, AMOUNT, tempRpuVar, true);
+                tempRpuVar = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_RPU.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SIXTY_THREE, pvsdto, AMOUNT, tempRpuVar, true);
                 pvList.add(tempRpuVar);
 
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                tempRpuPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_RPU.toString(), Constants.CHANGE, obj, obj, NumericConstants.SIXTY_THREE, pvsdto, RATE, tempRpuPer, true);
+                tempRpuPer = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_RPU.toString(), Constants.CHANGE, obj, obj, NumericConstants.SIXTY_THREE, pvsdto, RATE, tempRpuPer, true);
                 pvList.add(tempRpuPer);
             }
         }
@@ -1893,18 +1888,18 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                discountPerExfacValue = getCommonCustomizedDTO_Details(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constants.VALUE, obj, obj, NumericConstants.NINTY_THREE, pvsdto, RATE, discountPerExfacValue, true);
+                discountPerExfacValue = getCommonCustomizedDTODetails(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constants.VALUE, obj, obj, NumericConstants.NINTY_THREE, pvsdto, RATE, discountPerExfacValue, true);
                 pvList.add(discountPerExfacValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                discountPerExfacVar = getCommonCustomizedDTO_Details(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constants.VARIANCE, obj, obj, NumericConstants.NINTY_THREE, pvsdto, RATE, discountPerExfacVar, true);
+                discountPerExfacVar = getCommonCustomizedDTODetails(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constants.VARIANCE, obj, obj, NumericConstants.NINTY_THREE, pvsdto, RATE, discountPerExfacVar, true);
                 pvList.add(discountPerExfacVar);
 
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                discountPerExfacPercent = getCommonCustomizedDTO_Details(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constants.CHANGE, obj, obj, NumericConstants.NINTY_THREE, pvsdto, RATE, discountPerExfacPercent, true);
+                discountPerExfacPercent = getCommonCustomizedDTODetails(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constants.CHANGE, obj, obj, NumericConstants.NINTY_THREE, pvsdto, RATE, discountPerExfacPercent, true);
                 pvList.add(discountPerExfacPercent);
             }
         }
@@ -1913,19 +1908,19 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                tempNetSalesValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_NETSALES.toString(), Constants.VALUE, obj, obj, NumericConstants.FORTY_TWO, pvsdto, AMOUNT, tempNetSalesValue, true);
+                tempNetSalesValue = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_NETSALES.toString(), Constants.VALUE, obj, obj, NumericConstants.FORTY_TWO, pvsdto, AMOUNT, tempNetSalesValue, true);
                 pvList.add(tempNetSalesValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                tesmpNetSalesVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_NETSALES.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FORTY_TWO, pvsdto, AMOUNT, tesmpNetSalesVar, true);
+                tesmpNetSalesVar = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_NETSALES.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FORTY_TWO, pvsdto, AMOUNT, tesmpNetSalesVar, true);
                 pvList.add(tesmpNetSalesVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                tempNetSalesPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_NETSALES.toString(), Constants.CHANGE, obj, obj, NumericConstants.FORTY_TWO, pvsdto, RATE, tempNetSalesPer, true);
+                tempNetSalesPer = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_NETSALES.toString(), Constants.CHANGE, obj, obj, NumericConstants.FORTY_TWO, pvsdto, RATE, tempNetSalesPer, true);
                 pvList.add(tempNetSalesPer);
             }
         }
@@ -1934,17 +1929,17 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                netSalesExfacValue = getCommonCustomizedDTO_Details(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), Constants.VALUE, obj, obj, NumericConstants.NINETY, pvsdto, RATE, netSalesExfacValue, true);
+                netSalesExfacValue = getCommonCustomizedDTODetails(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), Constants.VALUE, obj, obj, NumericConstants.NINETY, pvsdto, RATE, netSalesExfacValue, true);
                 pvList.add(netSalesExfacValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                netSalesExfacVar = getCommonCustomizedDTO_Details(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), Constants.VARIANCE, obj, obj, NumericConstants.NINETY, pvsdto, RATE, netSalesExfacVar, true);
+                netSalesExfacVar = getCommonCustomizedDTODetails(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), Constants.VARIANCE, obj, obj, NumericConstants.NINETY, pvsdto, RATE, netSalesExfacVar, true);
                 pvList.add(netSalesExfacVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                netSalesExfacPer = getCommonCustomizedDTO_Details(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), Constants.CHANGE, obj, obj, NumericConstants.NINETY, pvsdto, RATE, netSalesExfacPer, true);
+                netSalesExfacPer = getCommonCustomizedDTODetails(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), Constants.CHANGE, obj, obj, NumericConstants.NINETY, pvsdto, RATE, netSalesExfacPer, true);
                 pvList.add(netSalesExfacPer);
             }
         }
@@ -1959,19 +1954,19 @@ public class PVExcelLogic {
                 if (pvsdto.isColValue()) {
                     pvsdto.setConversionNeeded(true);
                     pvsdto.setVarIndicator(Constants.VALUE);
-                    netExFactorySalesVal = getCommonCustomizedDTO_Details(ConstantsUtil.NET_EXFACT_SALES, Constants.VALUE, obj, obj, NumericConstants.NINTY_SIX, pvsdto, AMOUNT, netExFactorySalesVal, true);
+                    netExFactorySalesVal = getCommonCustomizedDTODetails(ConstantsUtil.NET_EXFACT_SALES, Constants.VALUE, obj, obj, NumericConstants.NINTY_SIX, pvsdto, AMOUNT, netExFactorySalesVal, true);
                     pvList.add(netExFactorySalesVal);
                 }
                 if (pvsdto.isColVariance()) {
                     pvsdto.setConversionNeeded(true);
                     pvsdto.setVarIndicator(Constants.VARIANCE);
-                    netExFactorySalesVariance = getCommonCustomizedDTO_Details(ConstantsUtil.NET_EXFACT_SALES, Constants.VARIANCE, obj, obj, NumericConstants.NINTY_SIX, pvsdto, AMOUNT, netExFactorySalesVariance, true);
+                    netExFactorySalesVariance = getCommonCustomizedDTODetails(ConstantsUtil.NET_EXFACT_SALES, Constants.VARIANCE, obj, obj, NumericConstants.NINTY_SIX, pvsdto, AMOUNT, netExFactorySalesVariance, true);
                     pvList.add(netExFactorySalesVariance);
                 }
                 if (pvsdto.isColPercentage()) {
                     pvsdto.setConversionNeeded(false);
                     pvsdto.setVarIndicator(Constants.CHANGE);
-                    netExFactorySalesPercent = getCommonCustomizedDTO_Details(ConstantsUtil.NET_EXFACT_SALES, Constants.CHANGE, obj, obj, NumericConstants.NINTY_SIX, pvsdto, RATE, netExFactorySalesPercent, true);
+                    netExFactorySalesPercent = getCommonCustomizedDTODetails(ConstantsUtil.NET_EXFACT_SALES, Constants.CHANGE, obj, obj, NumericConstants.NINTY_SIX, pvsdto, RATE, netExFactorySalesPercent, true);
                     pvList.add(netExFactorySalesPercent);
                 }
             }
@@ -1982,17 +1977,17 @@ public class PVExcelLogic {
                 pvsdto.setConversionNeeded(false);
                 if (pvsdto.isColValue()) {
                     pvsdto.setVarIndicator(Constants.VALUE);
-                    netExFactorySalesPerExFactoryVal = getCommonCustomizedDTO_Details(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT, Constants.VALUE, obj, obj, NumericConstants.NINTY_NINE, pvsdto, RATE, netExFactorySalesPerExFactoryVal, true);
+                    netExFactorySalesPerExFactoryVal = getCommonCustomizedDTODetails(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT, Constants.VALUE, obj, obj, NumericConstants.NINTY_NINE, pvsdto, RATE, netExFactorySalesPerExFactoryVal, true);
                     pvList.add(netExFactorySalesPerExFactoryVal);
                 }
                 if (pvsdto.isColVariance()) {
                     pvsdto.setVarIndicator(Constants.VARIANCE);
-                    netExFactorySalesPerExFactoryVariance = getCommonCustomizedDTO_Details(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT, Constants.VARIANCE, obj, obj, NumericConstants.NINTY_NINE, pvsdto, RATE, netExFactorySalesPerExFactoryVariance, true);
+                    netExFactorySalesPerExFactoryVariance = getCommonCustomizedDTODetails(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT, Constants.VARIANCE, obj, obj, NumericConstants.NINTY_NINE, pvsdto, RATE, netExFactorySalesPerExFactoryVariance, true);
                     pvList.add(netExFactorySalesPerExFactoryVariance);
                 }
                 if (pvsdto.isColPercentage()) {
                     pvsdto.setVarIndicator(Constants.CHANGE);
-                    netExFactorySalesPerExFactoryPercent = getCommonCustomizedDTO_Details(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT, Constants.CHANGE, obj, obj, NumericConstants.NINTY_NINE, pvsdto, RATE, netExFactorySalesPerExFactoryPercent, true);
+                    netExFactorySalesPerExFactoryPercent = getCommonCustomizedDTODetails(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT, Constants.CHANGE, obj, obj, NumericConstants.NINTY_NINE, pvsdto, RATE, netExFactorySalesPerExFactoryPercent, true);
                     pvList.add(netExFactorySalesPerExFactoryPercent);
                 }
             }
@@ -2003,19 +1998,19 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                tempCogcValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_COGS.toString(), Constants.VALUE, obj, obj, NumericConstants.SIXTY_SIX, pvsdto, AMOUNT, tempCogcValue, true);
+                tempCogcValue = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_COGS.toString(), Constants.VALUE, obj, obj, NumericConstants.SIXTY_SIX, pvsdto, AMOUNT, tempCogcValue, true);
                 pvList.add(tempCogcValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                tempCogcVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_COGS.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SIXTY_SIX, pvsdto, AMOUNT, tempCogcVar, true);
+                tempCogcVar = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_COGS.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SIXTY_SIX, pvsdto, AMOUNT, tempCogcVar, true);
                 pvList.add(tempCogcVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                tempCogcPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_COGS.toString(), Constants.CHANGE, obj, obj, NumericConstants.SIXTY_SIX, pvsdto, RATE, tempCogcPer, true);
+                tempCogcPer = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_COGS.toString(), Constants.CHANGE, obj, obj, NumericConstants.SIXTY_SIX, pvsdto, RATE, tempCogcPer, true);
                 pvList.add(tempCogcPer);
             }
         }
@@ -2024,27 +2019,28 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                tempNetProfitValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_NET_PROFITE.toString(), Constants.VALUE, obj, obj, NumericConstants.SIXTY_NINE, pvsdto, AMOUNT, tempNetProfitValue, true);
+                tempNetProfitValue = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_NET_PROFITE.toString(), Constants.VALUE, obj, obj, NumericConstants.SIXTY_NINE, pvsdto, AMOUNT, tempNetProfitValue, true);
                 pvList.add(tempNetProfitValue);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                tempNetProfitVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_NET_PROFITE.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SIXTY_NINE, pvsdto, AMOUNT, tempNetProfitVar, true);
+                tempNetProfitVar = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_NET_PROFITE.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SIXTY_NINE, pvsdto, AMOUNT, tempNetProfitVar, true);
                 pvList.add(tempNetProfitVar);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                tempNetProfitPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_NET_PROFITE.toString(), Constants.CHANGE, obj, obj, NumericConstants.SIXTY_NINE, pvsdto, RATE, tempNetProfitPer, true);
+                tempNetProfitPer = getCommonCustomizedDTODetails(Constants.PVVariables.VAR_NET_PROFITE.toString(), Constants.CHANGE, obj, obj, NumericConstants.SIXTY_NINE, pvsdto, RATE, tempNetProfitPer, true);
                 pvList.add(tempNetProfitPer);
             }
         }
         return projectionVarianceDTO;
     }
 
-    public ProjectionVarianceDTO getCommonCustomizedDTO_Details(String groupName, String varibaleCat, Object[] obj, Object[] dataObj, final int totalListPostion, PVSelectionDTO pvsdto, final DecimalFormat FORMAT, ProjectionVarianceDTO pvDTO, boolean addFlag) {
-        int frequencyDivision = pvsdto.getFrequencyDivision();
+    public ProjectionVarianceDTO getCommonCustomizedDTODetails(String groupName, String varibaleCat, Object[] obj, Object[] dataObj, final int totalListPostion, PVSelectionDTO pvsdto, final DecimalFormat FORMAT, ProjectionVarianceDTO pvDTO, boolean addFlag) {
+        int vFrequencyDiv = pvsdto.getFrequencyDivision();
+         
         if (addFlag) {
             if (pvsdto.getVarIndicator().equals(Constants.VALUE)) {
                 pvDTO.setGroup(groupName.concat(Constants.VALUE));
@@ -2054,29 +2050,29 @@ public class PVExcelLogic {
                 pvDTO.setGroup(groupName.concat(Constants.CHANGE));
             }
         }
-        List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
+        List<Integer> vPriorList = new ArrayList<>(pvsdto.getProjIdList());
         if (obj != null) {
             obj = dataObj;
             String commonColumn = StringUtils.EMPTY;
-            if (frequencyDivision == NumericConstants.FOUR) {
+            if (vFrequencyDiv == NumericConstants.FOUR) {
                 commonColumn = "Q" + obj[1] + StringUtils.EMPTY + obj[0];
-            } else if (frequencyDivision == NumericConstants.TWO) {
+            } else if (vFrequencyDiv == NumericConstants.TWO) {
                 commonColumn = "S" + obj[1] + StringUtils.EMPTY + obj[0];
-            } else if (frequencyDivision == 1) {
+            } else if (vFrequencyDiv == 1) {
                 commonColumn = StringUtils.EMPTY + obj[0];
-            } else if (frequencyDivision == NumericConstants.TWELVE) {
+            } else if (vFrequencyDiv == NumericConstants.TWELVE) {
                 String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
                 commonColumn = monthName.toLowerCase() + obj[0];
             }
             PVCommonLogic.customizePeriod(commonColumn, varibaleCat, pvsdto, pvDTO, FORMAT, totalListPostion, obj, groupName.contains("%"));
-            for (int j = 0; j < priorList.size(); j++) {
-                PVCommonLogic.getPriorCommonCustomization(varibaleCat, pvsdto, obj, pvDTO, commonColumn + priorList.get(j), totalListPostion, j, groupName.contains("%"), COLUMN_COUNT_TOTAL, FORMAT);
+            for (int j = 0; j < vPriorList.size(); j++) {
+                PVCommonLogic.getPriorCommonCustomization(varibaleCat, pvsdto, obj, pvDTO, commonColumn + vPriorList.get(j), totalListPostion, j, groupName.contains("%"), COLUMN_COUNT_TOTAL, FORMAT);
             }
         }
         return pvDTO;
     }
 
-    public void updateCustPeriodVariance_Details(List<ProjectionVarianceDTO> pvList, final PVSelectionDTO pvsdto, final Object[] obj) {
+    public void updateCustPeriodVarianceDetails(List<ProjectionVarianceDTO> pvList, final PVSelectionDTO pvsdto, final Object[] obj) {
         int listIndex = 1;
 
         //Ex fac product
@@ -2084,20 +2080,14 @@ public class PVExcelLogic {
             if (selection.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 selection.setVarIndicator(Constants.VALUE);
-                exFacValue = pvList.get(listIndex++);
-                exFacValue = getCommonCustomizedDTO_Details(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), Constants.VALUE, obj, obj, NumericConstants.SIX, pvsdto, AMOUNT, exFacValue, true);
             }
             if (selection.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 selection.setVarIndicator(Constants.VARIANCE);
-                exFacVar = pvList.get(listIndex++);
-                exFacVar = getCommonCustomizedDTO_Details(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SIX, pvsdto, AMOUNT, exFacVar, false);
             }
             if (selection.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 selection.setVarIndicator(Constants.CHANGE);
-                exFacPer = pvList.get(listIndex++);
-                exFacPer = getCommonCustomizedDTO_Details(Constants.PVVariables.EX_FACTORY_PRODUCT.toString(), Constants.CHANGE, obj, obj, NumericConstants.SIX, pvsdto, RATE, exFacPer, false);
             }
 
         }
@@ -2107,20 +2097,14 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                ProjectionVarianceDTO custExFacValue = pvList.get(listIndex++);
-                custExFacValue = getCommonCustomizedDTO_Details(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), Constants.VALUE, obj, obj, NumericConstants.SEVENTY_FIVE, pvsdto, AMOUNT, custExFacValue, false);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                ProjectionVarianceDTO custExFacVar = pvList.get(listIndex++);
-                custExFacVar = getCommonCustomizedDTO_Details(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SEVENTY_FIVE, pvsdto, AMOUNT, custExFacVar, false);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                ProjectionVarianceDTO custExFacPer = pvList.get(listIndex++);
-                custExFacPer = getCommonCustomizedDTO_Details(Constants.PVVariables.EX_FACTORY_CUSTOMER.toString(), Constants.CHANGE, obj, obj, NumericConstants.SEVENTY_FIVE, pvsdto, RATE, custExFacPer, false);
             }
         }
 
@@ -2129,20 +2113,14 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                demandValue = pvList.get(listIndex++);
-                demandValue = getCommonCustomizedDTO_Details(Constants.PVVariables.DEMAND.toString(), Constants.VALUE, obj, obj, NumericConstants.FORTY_FIVE, pvsdto, AMOUNT, demandValue, false);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                demandVar = pvList.get(listIndex++);
-                demandVar = getCommonCustomizedDTO_Details(Constants.PVVariables.DEMAND.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FORTY_FIVE, pvsdto, AMOUNT, demandVar, false);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                demandPer = pvList.get(listIndex++);
-                demandPer = getCommonCustomizedDTO_Details(Constants.PVVariables.DEMAND.toString(), Constants.CHANGE, obj, obj, NumericConstants.FORTY_FIVE, pvsdto, RATE, demandPer, false);
             }
         }
 
@@ -2151,19 +2129,12 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                adjDamandVale = pvList.get(listIndex++);
-                adjDamandVale = getCommonCustomizedDTO_Details(Constants.PVVariables.ADJUSTED_DEMAND.toString(), Constants.VALUE, obj, obj, NumericConstants.SEVENTY_TWO, pvsdto, AMOUNT, adjDamandVale, false);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                adjDemandVar = pvList.get(listIndex++);
-                adjDemandVar = getCommonCustomizedDTO_Details(Constants.PVVariables.ADJUSTED_DEMAND.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SEVENTY_TWO, pvsdto, AMOUNT, adjDemandVar, false);
-
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                adjdemandPer = pvList.get(listIndex++);
-                adjdemandPer = getCommonCustomizedDTO_Details(Constants.PVVariables.ADJUSTED_DEMAND.toString(), Constants.CHANGE, obj, obj, NumericConstants.SEVENTY_TWO, pvsdto, RATE, adjdemandPer, false);
             }
         }
 
@@ -2172,22 +2143,16 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                invWithValue = pvList.get(listIndex++);
-                invWithValue = getCommonCustomizedDTO_Details(Constants.PVVariables.INVENTORY_SUMMARY.toString(), Constants.VALUE, obj, obj, NumericConstants.FORTY_EIGHT, pvsdto, AMOUNT, invWithValue, false);
 
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                invWithVar = pvList.get(listIndex++);
-                invWithVar = getCommonCustomizedDTO_Details(Constants.PVVariables.INVENTORY_SUMMARY.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FORTY_EIGHT, pvsdto, AMOUNT, invWithVar, false);
 
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                invWithPer = pvList.get(listIndex++);
-                invWithPer = getCommonCustomizedDTO_Details(Constants.PVVariables.INVENTORY_SUMMARY.toString(), Constants.CHANGE, obj, obj, NumericConstants.FORTY_EIGHT, pvsdto, RATE, invWithPer, false);
             }
         }
 
@@ -2196,42 +2161,26 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                iwDetialsValue = pvList.get(listIndex++);
-                iwDetialsValue = getCommonCustomizedDTO_Details(Constants.PVVariables.INVENTORY_DETAILS.toString(), Constants.VALUE, obj, obj, NumericConstants.SEVENTY_EIGHT, pvsdto, AMOUNT, iwDetialsValue, false);
-
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                iwDetialsVar = pvList.get(listIndex++);
-                iwDetialsVar = getCommonCustomizedDTO_Details(Constants.PVVariables.INVENTORY_DETAILS.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SEVENTY_EIGHT, pvsdto, AMOUNT, iwDetialsVar, false);
-
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                iwDetialsPer = pvList.get(listIndex++);
-                iwDetialsPer = getCommonCustomizedDTO_Details(Constants.PVVariables.INVENTORY_DETAILS.toString(), Constants.CHANGE, obj, obj, NumericConstants.SEVENTY_EIGHT, pvsdto, RATE, iwDetialsPer, false);
             }
         }
-//            
-//          //% Of Ex Factory Product
         if (pvsdto.isVarPerExFacSales()) {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                perExFacProductValue = pvList.get(listIndex++);
-                perExFacProductValue = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(), Constants.VALUE, obj, obj, NumericConstants.TWENTY_ONE, pvsdto, RATE, perExFacProductValue, false);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                perExFacProductVar = pvList.get(listIndex++);
-                perExFacProductVar = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(), Constants.VARIANCE, obj, obj, NumericConstants.TWENTY_ONE, pvsdto, RATE, perExFacProductVar, false);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                perExFacProductPer = pvList.get(listIndex++);
-                perExFacProductPer = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_EX_FACTORY_PRODUCT.toString(), Constants.CHANGE, obj, obj, NumericConstants.TWENTY_ONE, pvsdto, RATE, perExFacProductPer, false);
 
             }
         }
@@ -2242,21 +2191,12 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                perExFacCustValue = pvList.get(listIndex++);
-                perExFacCustValue = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(), Constants.VALUE, obj, obj, NumericConstants.EIGHTY_FOUR, pvsdto, RATE, perExFacCustValue, false);
-
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                perExFacCustVariance = pvList.get(listIndex++);
-                perExFacCustVariance = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(), Constants.VARIANCE, obj, obj, NumericConstants.EIGHTY_FOUR, pvsdto, RATE, perExFacCustVariance, false);
-
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                perExFacCustPer = pvList.get(listIndex++);
-                perExFacCustPer = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_EX_FACTORY_CUSTOMER.toString(), Constants.CHANGE, obj, obj, NumericConstants.EIGHTY_FOUR, pvsdto, RATE, perExFacCustPer, false);
-
             }
         }
 //        // % Of Demand Sales
@@ -2264,21 +2204,12 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                perDemandValue = pvList.get(listIndex++);
-                perDemandValue = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_DEMAND.toString(), Constants.VALUE, obj, obj, NumericConstants.FIFTY_ONE, pvsdto, RATE, perDemandValue, false);
-
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                perDemandVar = pvList.get(listIndex++);
-                perDemandVar = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_DEMAND.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FIFTY_ONE, pvsdto, RATE, perDemandVar, false);
-
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                perDemandPer = pvList.get(listIndex++);
-                perDemandPer = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_DEMAND.toString(), Constants.CHANGE, obj, obj, NumericConstants.FIFTY_ONE, pvsdto, RATE, perDemandPer, false);
-
             }
         }
         // % Of Adjusted Demand 
@@ -2286,21 +2217,12 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                perAdjDemandValue = pvList.get(listIndex++);
-                perAdjDemandValue = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(), Constants.VALUE, obj, obj, NumericConstants.EIGHTY_ONE, pvsdto, RATE, perAdjDemandValue, false);
-
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                perAdjDemandVar = pvList.get(listIndex++);
-                perAdjDemandVar = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(), Constants.VARIANCE, obj, obj, NumericConstants.EIGHTY_ONE, pvsdto, RATE, perAdjDemandVar, false);
-
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                perAdjDemandPer = pvList.get(listIndex++);
-                perAdjDemandPer = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_ADJUSTED_DEMAND.toString(), Constants.CHANGE, obj, obj, NumericConstants.EIGHTY_ONE, pvsdto, RATE, perAdjDemandPer, false);
-
             }
         }
         // % Of Inv Summary
@@ -2308,21 +2230,12 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                perInvWithSummaryValue = pvList.get(listIndex++);
-                perInvWithSummaryValue = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(), Constants.VALUE, obj, obj, NumericConstants.FIFTY_FOUR, pvsdto, RATE, perInvWithSummaryValue, false);
-
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                perInvWithSummaryVar = pvList.get(listIndex++);
-                perInvWithSummaryVar = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FIFTY_FOUR, pvsdto, RATE, perInvWithSummaryVar, false);
-
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                perInvWithSummaryPer = pvList.get(listIndex++);
-                perInvWithSummaryPer = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_INVENORY_WITHDRAW_SUMMARY.toString(), Constants.CHANGE, obj, obj, NumericConstants.FIFTY_FOUR, pvsdto, RATE, perInvWithSummaryPer, false);
-
             }
         }
         // % Of Inventry withdrawal Detials 
@@ -2330,21 +2243,12 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                perIwDetialsValue = pvList.get(listIndex++);
-                perIwDetialsValue = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(), Constants.VALUE, obj, obj, NumericConstants.EIGHTY_SEVEN, pvsdto, RATE, perIwDetialsValue, false);
-
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                perIwDetialsVar = pvList.get(listIndex++);
-                perIwDetialsVar = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(), Constants.VARIANCE, obj, obj, NumericConstants.EIGHTY_SEVEN, pvsdto, RATE, perIwDetialsVar, false);
-
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                perIwDetialsPer = pvList.get(listIndex++);
-                perIwDetialsPer = getCommonCustomizedDTO_Details(Constants.PVVariables.PER_INVENORY_WITHDRAW_DETAILS.toString(), Constants.CHANGE, obj, obj, NumericConstants.EIGHTY_SEVEN, pvsdto, RATE, perIwDetialsPer, false);
-
             }
         }
 
@@ -2353,20 +2257,14 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                contractSalesValue = pvList.get(listIndex++);
-                contractSalesValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), Constants.VALUE, obj, obj, NumericConstants.NINE, pvsdto, AMOUNT, contractSalesValue, false);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                contractSalesVar = pvList.get(listIndex++);
-                contractSalesVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), Constants.VARIANCE, obj, obj, NumericConstants.NINE, pvsdto, AMOUNT, contractSalesVar, false);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                contractSalesPer = pvList.get(listIndex++);
-                contractSalesPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_CONTRACT_SALES.toString(), Constants.CHANGE, obj, obj, NumericConstants.NINE, pvsdto, RATE, contractSalesPer, false);
             }
         }
         //Contract Units
@@ -2374,44 +2272,27 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                contractUnitValue = pvList.get(listIndex++);
-                contractUnitValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(), Constants.VALUE, obj, obj, NumericConstants.TWELVE, pvsdto, AMOUNT_UNITS, contractUnitValue, false);
-
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                contractUnitVar = pvList.get(listIndex++);
-                contractUnitVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(), Constants.VARIANCE, obj, obj, NumericConstants.TWELVE, pvsdto, AMOUNT_UNITS, contractUnitVar, false);
-
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                contractUnitPer = pvList.get(listIndex++);
-                contractUnitPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_CONTRACT_UNITS.toString(), Constants.CHANGE, obj, obj, NumericConstants.TWELVE, pvsdto, RATE, contractUnitPer, false);
-
             }
         }
 
-//        //Discount $ 
         if (pvsdto.isVarDisAmount()) {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                discountDollarValue = pvList.get(listIndex++);
-                discountDollarValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_DIS_AMOUNT.toString(), Constants.VALUE, obj, obj, NumericConstants.FIFTEEN, pvsdto, AMOUNT, discountDollarValue, false);
-
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                discountDollarVar = pvList.get(listIndex++);
-                discountDollarVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_DIS_AMOUNT.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FIFTEEN, pvsdto, AMOUNT, discountDollarVar, false);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                discountDollarPer = pvList.get(listIndex++);
-                discountDollarPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_DIS_AMOUNT.toString(), Constants.CHANGE, obj, obj, NumericConstants.FIFTEEN, pvsdto, RATE, discountDollarPer, false);
             }
         }
         //Discount % 
@@ -2419,19 +2300,12 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                discountPerValue = pvList.get(listIndex++);
-                discountPerValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_DIS_RATE.toString(), Constants.VALUE, obj, obj, NumericConstants.EIGHTEEN, pvsdto, RATE, discountPerValue, false);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                discountPerVar = pvList.get(listIndex++);
-                discountPerVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_DIS_RATE.toString(), Constants.VARIANCE, obj, obj, NumericConstants.EIGHTEEN, pvsdto, RATE, discountPerVar, false);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                discountPerPercent = pvList.get(listIndex++);
-                discountPerPercent = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_DIS_RATE.toString(), Constants.CHANGE, obj, obj, NumericConstants.EIGHTEEN, pvsdto, RATE, discountPerPercent, false);
-
             }
         }
 
@@ -2440,18 +2314,12 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                rpuValue = pvList.get(listIndex++);
-                rpuValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_RPU.toString(), Constants.VALUE, obj, obj, NumericConstants.SIXTY_THREE, pvsdto, AMOUNT, rpuValue, false);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                rpuVar = pvList.get(listIndex++);
-                rpuVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_RPU.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SIXTY_THREE, pvsdto, AMOUNT, rpuVar, false);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                rpuPer = pvList.get(listIndex++);
-                rpuPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_RPU.toString(), Constants.CHANGE, obj, obj, NumericConstants.SIXTY_THREE, pvsdto, RATE, rpuPer, false);
             }
         }
         //DiscountPerExFactory
@@ -2459,19 +2327,12 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                discountPerExFactoryValue = pvList.get(listIndex++);
-                discountPerExFactoryValue = getCommonCustomizedDTO_Details(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constants.VALUE, obj, obj, NumericConstants.NINTY_THREE, pvsdto, RATE, discountPerExFactoryValue, false);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                discountPerExFactoryVar = pvList.get(listIndex++);
-                discountPerExFactoryVar = getCommonCustomizedDTO_Details(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constants.VARIANCE, obj, obj, NumericConstants.NINTY_THREE, pvsdto, RATE, discountPerExFactoryVar, false);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                discountPerExFactoryPer = pvList.get(listIndex++);
-                discountPerExFactoryPer = getCommonCustomizedDTO_Details(Constants.PVVariables.DISCOUNT_PER_EX_FACTORY.toString(), Constants.CHANGE, obj, obj, NumericConstants.NINTY_THREE, pvsdto, RATE, discountPerExFactoryPer, false);
-
             }
         }
         //NetSales 
@@ -2479,23 +2340,14 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                netSalesValue = pvList.get(listIndex++);
-                netSalesValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_NETSALES.toString(), Constants.VALUE, obj, obj, NumericConstants.FORTY_TWO, pvsdto, AMOUNT, netSalesValue, false);
-
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                netSalesVar = pvList.get(listIndex++);
-                netSalesVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_NETSALES.toString(), Constants.VARIANCE, obj, obj, NumericConstants.FORTY_TWO, pvsdto, AMOUNT, netSalesVar, false);
-
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                netSalesPer = pvList.get(listIndex++);
-                netSalesPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_NETSALES.toString(), Constants.CHANGE, obj, obj, NumericConstants.FORTY_TWO, pvsdto, RATE, netSalesPer, false);
-
             }
         }
 
@@ -2504,18 +2356,12 @@ public class PVExcelLogic {
             pvsdto.setConversionNeeded(false);
             if (pvsdto.isColValue()) {
                 pvsdto.setVarIndicator(Constants.VALUE);
-                netExFactoryValue = pvList.get(listIndex++);
-                netExFactoryValue = getCommonCustomizedDTO_Details(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), Constants.VALUE, obj, obj, NumericConstants.NINETY, pvsdto, RATE, netExFactoryValue, false);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                netExFactoryVar = pvList.get(listIndex++);
-                netExFactoryVar = getCommonCustomizedDTO_Details(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), Constants.VARIANCE, obj, obj, NumericConstants.NINETY, pvsdto, RATE, netExFactoryVar, false);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                netExFactoryPer = pvList.get(listIndex++);
-                netExFactoryPer = getCommonCustomizedDTO_Details(Constants.PVVariables.NET_SALES_PER_EX_FACTORY.toString(), Constants.CHANGE, obj, obj, NumericConstants.NINETY, pvsdto, RATE, netExFactoryPer, false);
             }
         }
 
@@ -2529,20 +2375,14 @@ public class PVExcelLogic {
                 if (pvsdto.isColValue()) {
                     pvsdto.setConversionNeeded(true);
                     pvsdto.setVarIndicator(Constants.VALUE);
-                    netExFactorySalesValue = pvList.get(listIndex++);
-                    netExFactorySalesValue = getCommonCustomizedDTO_Details(ConstantsUtil.NET_EXFACT_SALES, Constants.VALUE, obj, obj, NumericConstants.NINTY_SIX, pvsdto, AMOUNT, netExFactorySalesValue, true);
                 }
                 if (pvsdto.isColVariance()) {
                     pvsdto.setConversionNeeded(true);
                     pvsdto.setVarIndicator(Constants.VARIANCE);
-                    netExFactorySalesVar = pvList.get(listIndex++);
-                    netExFactorySalesVar = getCommonCustomizedDTO_Details(ConstantsUtil.NET_EXFACT_SALES, Constants.VARIANCE, obj, obj, NumericConstants.NINTY_SIX, pvsdto, AMOUNT, netExFactorySalesVar, true);
                 }
                 if (pvsdto.isColPercentage()) {
                     pvsdto.setConversionNeeded(false);
                     pvsdto.setVarIndicator(Constants.CHANGE);
-                    netExFactorySalesPer = pvList.get(listIndex++);
-                    netExFactorySalesPer = getCommonCustomizedDTO_Details(ConstantsUtil.NET_EXFACT_SALES, Constants.CHANGE, obj, obj, NumericConstants.NINTY_SIX, pvsdto, RATE, netExFactorySalesPer, true);
                 }
             }
             /**
@@ -2552,18 +2392,12 @@ public class PVExcelLogic {
                 pvsdto.setConversionNeeded(false);
                 if (pvsdto.isColValue()) {
                     pvsdto.setVarIndicator(Constants.VALUE);
-                    netExFactorySalesPerExFactoryValue = pvList.get(listIndex++);
-                    netExFactorySalesPerExFactoryValue = getCommonCustomizedDTO_Details(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT, Constants.VALUE, obj, obj, NumericConstants.NINTY_NINE, pvsdto, RATE, netExFactorySalesPerExFactoryValue, true);
                 }
                 if (pvsdto.isColVariance()) {
                     pvsdto.setVarIndicator(Constants.VARIANCE);
-                    netExFactorySalesPerExFactoryVar = pvList.get(listIndex++);
-                    netExFactorySalesPerExFactoryVar = getCommonCustomizedDTO_Details(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT, Constants.VARIANCE, obj, obj, NumericConstants.NINTY_NINE, pvsdto, RATE, netExFactorySalesPerExFactoryVar, true);
                 }
                 if (pvsdto.isColPercentage()) {
                     pvsdto.setVarIndicator(Constants.CHANGE);
-                    netExFactorySalesPerExFactoryPer = pvList.get(listIndex++);
-                    netExFactorySalesPerExFactoryPer = getCommonCustomizedDTO_Details(ConstantsUtil.NET_EXFACT_SALES_PER_EXFACT, Constants.CHANGE, obj, obj, NumericConstants.NINTY_NINE, pvsdto, RATE, netExFactorySalesPerExFactoryPer, true);
                 }
             }
         }
@@ -2573,20 +2407,14 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                cogcValue = pvList.get(listIndex++);
-                cogcValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_COGS.toString(), Constants.VALUE, obj, obj, NumericConstants.SIXTY_SIX, pvsdto, AMOUNT, cogcValue, false);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                cogcVar = pvList.get(listIndex++);
-                cogcVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_COGS.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SIXTY_SIX, pvsdto, AMOUNT, cogcVar, false);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                cogcPer = pvList.get(listIndex++);
-                cogcPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_COGS.toString(), Constants.CHANGE, obj, obj, NumericConstants.SIXTY_SIX, pvsdto, RATE, cogcPer, false);
             }
         }
         //Net Profit
@@ -2594,30 +2422,24 @@ public class PVExcelLogic {
             if (pvsdto.isColValue()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VALUE);
-                netProfitValue = pvList.get(listIndex++);
-                netProfitValue = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_NET_PROFITE.toString(), Constants.VALUE, obj, obj, NumericConstants.SIXTY_NINE, pvsdto, AMOUNT, netProfitValue, false);
             }
             if (pvsdto.isColVariance()) {
                 pvsdto.setConversionNeeded(true);
                 pvsdto.setVarIndicator(Constants.VARIANCE);
-                netProfitVar = pvList.get(listIndex++);
-                netProfitVar = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_NET_PROFITE.toString(), Constants.VARIANCE, obj, obj, NumericConstants.SIXTY_NINE, pvsdto, AMOUNT, netProfitVar, false);
             }
             if (pvsdto.isColPercentage()) {
                 pvsdto.setConversionNeeded(false);
                 pvsdto.setVarIndicator(Constants.CHANGE);
-                netProfitPer = pvList.get(listIndex++);
-                netProfitPer = getCommonCustomizedDTO_Details(Constants.PVVariables.VAR_NET_PROFITE.toString(), Constants.CHANGE, obj, obj, NumericConstants.SIXTY_NINE, pvsdto, RATE, netProfitPer, false);
                 LOGGER.debug("End of Method" + listIndex);
             }
         }
     }
 
-    private ProjectionVarianceDTO calculate_discount_Period(String varibaleCat, Object[] obj, int currentIndex, ProjectionVarianceDTO pvDTO,
+    private ProjectionVarianceDTO calculateDiscountPeriod(String varibaleCat, Object[] obj, int currentIndex, ProjectionVarianceDTO pvDTO,
             PVSelectionDTO selection, DecimalFormat format) {
-        int frequencyDivision = selection.getFrequencyDivision();
+        int vFrequencyDiv = selection.getFrequencyDivision();
         String commonColumn = StringUtils.EMPTY;
-        switch (frequencyDivision) {
+        switch (vFrequencyDiv) {
             case NumericConstants.FOUR:
                 commonColumn = "Q" + obj[NumericConstants.THREE] + StringUtils.EMPTY + obj[NumericConstants.TWO];
                 break;
@@ -2635,9 +2457,9 @@ public class PVExcelLogic {
                 break;
         }
         PVCommonLogic.customizePeriod(commonColumn, varibaleCat, selection, pvDTO, format, currentIndex, obj, format.equals(RATE_PER));
-        List<Integer> priorList = selection.getProjIdList();
-        for (int j = 0; j < priorList.size(); j++) {
-            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, commonColumn + priorList.get(j), currentIndex, j, format.equals(RATE_PER), COLUMN_COUNT_DISCOUNT, format);
+        List<Integer> vPriorList = selection.getProjIdList();
+        for (int j = 0; j < vPriorList.size(); j++) {
+            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, commonColumn + vPriorList.get(j), currentIndex, j, format.equals(RATE_PER), COLUMN_COUNT_DISCOUNT, format);
         }
         return pvDTO;
     }
@@ -2645,20 +2467,19 @@ public class PVExcelLogic {
     private void calculateDiscount() {
         String oldDiscount = StringUtils.EMPTY;
         String oldHierarchyNo = StringUtils.EMPTY;
-        int count = procRawList_detail_discount.size();
-        String commonColumn = StringUtils.EMPTY;
+        int count = PROCRAWLIST_DETAIL_DISCOUNT.size();
         String newDiscount;
         List<List<ProjectionVarianceDTO>> finaldiscountlist = new ArrayList<>();
 
-        ProjectionVarianceDTO discountDollarValue = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vDiscountDollarVal = new ProjectionVarianceDTO();
         ProjectionVarianceDTO discountDollarVariance = new ProjectionVarianceDTO();
         ProjectionVarianceDTO discountDollarPercent = new ProjectionVarianceDTO();
 
-        ProjectionVarianceDTO discountPerValue = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vDiscountPerVal = new ProjectionVarianceDTO();
         ProjectionVarianceDTO discountPerVariance = new ProjectionVarianceDTO();
-        ProjectionVarianceDTO discountPerPercent = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vDiscountPerPer = new ProjectionVarianceDTO();
 
-        ProjectionVarianceDTO rpuValue = new ProjectionVarianceDTO();
+        ProjectionVarianceDTO vRpuVal = new ProjectionVarianceDTO();
         ProjectionVarianceDTO rpuVariance = new ProjectionVarianceDTO();
         ProjectionVarianceDTO rpuPercent = new ProjectionVarianceDTO();
 
@@ -2683,7 +2504,7 @@ public class PVExcelLogic {
         List<ProjectionVarianceDTO> discountPerExfacPercentList = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            Object[] obj = (Object[]) procRawList_detail_discount.get(i);
+            Object[] obj = (Object[]) PROCRAWLIST_DETAIL_DISCOUNT.get(i);
             String parentkey;
             if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
                 parentkey = obj[0].toString();
@@ -2700,66 +2521,66 @@ public class PVExcelLogic {
                     if (selection.isVarDisAmount()) {
                         if (selection.isColValue()) {
                             selection.setConversionNeeded(true);
-                            discountDollarValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.SEVEN, discountDollarValue, selection, AMOUNT);
+                            vDiscountDollarVal = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.SEVEN, vDiscountDollarVal, selection, AMOUNT);
                         }
                         if (selection.isColVariance()) {
                              selection.setConversionNeeded(true);
-                            discountDollarVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.SEVEN, discountDollarVariance, selection, AMOUNT);
+                            discountDollarVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.SEVEN, discountDollarVariance, selection, AMOUNT);
                         }
                         if (selection.isColPercentage()) {
                              selection.setConversionNeeded(false);
-                            discountDollarPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.SEVEN, discountDollarPercent, selection, RATE_PER);
+                            discountDollarPercent = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.SEVEN, discountDollarPercent, selection, RATE_PER);
                         }
                     }
                     //Discount %
                     if (selection.isVarDisRate()) {
                         selection.setConversionNeeded(false);
                         if (selection.isColValue()) {
-                            discountPerValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.TEN, discountPerValue, selection, RATE_PER);
+                            vDiscountPerVal = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.TEN, vDiscountPerVal, selection, RATE_PER);
                         }
                         if (selection.isColVariance()) {
-                            discountPerVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.TEN, discountPerVariance, selection, RATE_PER);
+                            discountPerVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.TEN, discountPerVariance, selection, RATE_PER);
                         }
                         if (selection.isColPercentage()) {
-                            discountPerPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.TEN, discountPerPercent, selection, RATE_PER);
+                            vDiscountPerPer = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.TEN, vDiscountPerPer, selection, RATE_PER);
                         }
                     }
                     //RPU
                     if (selection.isVarRPU()) {
                         selection.setConversionNeeded(false);
                         if (selection.isColValue()) {
-                            rpuValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.THIRTEEN, rpuValue, selection, AMOUNT);
+                            vRpuVal = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.THIRTEEN, vRpuVal, selection, AMOUNT);
                         }
                         if (selection.isColVariance()) {
-                            rpuVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.THIRTEEN, rpuVariance, selection, AMOUNT);
+                            rpuVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.THIRTEEN, rpuVariance, selection, AMOUNT);
                         }
                         if (selection.isColPercentage()) {
-                            rpuPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.THIRTEEN, rpuPercent, selection, RATE_PER);
+                            rpuPercent = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.THIRTEEN, rpuPercent, selection, RATE_PER);
                         }
                     }
                     //Discount Exfactory Per Change
                     if (selection.isDiscountPerExFactory()) {
                         selection.setConversionNeeded(false);
                         if (selection.isColValue()) {
-                            discountPerExfacValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.SIXTEEN, discountPerExfacValue, selection, AMOUNT);
+                            discountPerExfacValue = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.SIXTEEN, discountPerExfacValue, selection, AMOUNT);
                         }
                         if (selection.isColVariance()) {
-                            discountPerExfacVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.SIXTEEN, discountPerExfacVariance, selection, AMOUNT);
+                            discountPerExfacVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.SIXTEEN, discountPerExfacVariance, selection, AMOUNT);
                         }
                         if (selection.isColPercentage()) {
-                            discountPerExfacPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.SIXTEEN, discountPerExfacPercent, selection, RATE_PER);
+                            discountPerExfacPercent = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.SIXTEEN, discountPerExfacPercent, selection, RATE_PER);
                         }
                     }
                 } else if (i == 0) {
-                    discountDollarValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+                    vDiscountDollarVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                     discountDollarVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                     discountDollarPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
 
-                    discountPerValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+                    vDiscountPerVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                     discountPerVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+                    vDiscountPerPer.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
 
-                    rpuValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+                    vRpuVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                     rpuVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                     rpuPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
 
@@ -2770,66 +2591,66 @@ public class PVExcelLogic {
                     if (selection.isVarDisAmount()) {
                         if (selection.isColValue()) {
                             selection.setConversionNeeded(true);
-                            discountDollarValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.SEVEN, discountDollarValue, selection, AMOUNT);
+                            vDiscountDollarVal = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.SEVEN, vDiscountDollarVal, selection, AMOUNT);
                         }
                         if (selection.isColVariance()) {
                             selection.setConversionNeeded(true);
-                            discountDollarVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.SEVEN, discountDollarVariance, selection, AMOUNT);
+                            discountDollarVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.SEVEN, discountDollarVariance, selection, AMOUNT);
                         }
                         if (selection.isColPercentage()) {
                             selection.setConversionNeeded(false);
-                            discountDollarPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.SEVEN, discountDollarPercent, selection, RATE_PER);
+                            discountDollarPercent = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.SEVEN, discountDollarPercent, selection, RATE_PER);
                         }
                     }
                     //Discount %
                     if (selection.isVarDisRate()) {
                         selection.setConversionNeeded(false);
                         if (selection.isColValue()) {
-                            discountPerValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.TEN, discountPerValue, selection, RATE_PER);
+                            vDiscountPerVal = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.TEN, vDiscountPerVal, selection, RATE_PER);
                         }
                         if (selection.isColVariance()) {
-                            discountPerVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.TEN, discountPerVariance, selection, RATE_PER);
+                            discountPerVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.TEN, discountPerVariance, selection, RATE_PER);
                         }
                         if (selection.isColPercentage()) {
-                            discountPerPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.TEN, discountPerPercent, selection, RATE_PER);
+                            vDiscountPerPer = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.TEN, vDiscountPerPer, selection, RATE_PER);
                         }
                     }
                     //RPU
                     if (selection.isVarRPU()) {
                         selection.setConversionNeeded(false);
                         if (selection.isColValue()) {
-                            rpuValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.THIRTEEN, rpuValue, selection, AMOUNT);
+                            vRpuVal = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.THIRTEEN, vRpuVal, selection, AMOUNT);
                         }
                         if (selection.isColVariance()) {
-                            rpuVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.THIRTEEN, rpuVariance, selection, AMOUNT);
+                            rpuVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.THIRTEEN, rpuVariance, selection, AMOUNT);
                         }
                         if (selection.isColPercentage()) {
-                            rpuPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.THIRTEEN, rpuPercent, selection, RATE_PER);
+                            rpuPercent = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.THIRTEEN, rpuPercent, selection, RATE_PER);
                         }
                     }
                     //Discount Exfactory Per Change
                     if (selection.isDiscountPerExFactory()) {
                         selection.setConversionNeeded(false);
                         if (selection.isColValue()) {
-                            discountPerExfacValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.SIXTEEN, discountPerExfacValue, selection, AMOUNT);
+                            discountPerExfacValue = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.SIXTEEN, discountPerExfacValue, selection, AMOUNT);
                         }
                         if (selection.isColVariance()) {
-                            discountPerExfacVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.SIXTEEN, discountPerExfacVariance, selection, AMOUNT);
+                            discountPerExfacVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.SIXTEEN, discountPerExfacVariance, selection, AMOUNT);
                         }
                         if (selection.isColPercentage()) {
-                            discountPerExfacPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.SIXTEEN, discountPerExfacPercent, selection, RATE_PER);
+                            discountPerExfacPercent = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.SIXTEEN, discountPerExfacPercent, selection, RATE_PER);
                         }
                     }
                     /*New discount means add at List */
-                    discountDollarvalueList.add(discountDollarValue);
+                    discountDollarvalueList.add(vDiscountDollarVal);
                     discountDollarVarList.add(discountDollarVariance);
                     discountDollarPerList.add(discountDollarPercent);
 
-                    discountPerValueList.add(discountPerValue);
+                    discountPerValueList.add(vDiscountPerVal);
                     discountPerVarianceList.add(discountPerVariance);
-                    discountPerPercentList.add(discountPerPercent);
+                    discountPerPercentList.add(vDiscountPerPer);
 
-                    rpuValueList.add(rpuValue);
+                    rpuValueList.add(vRpuVal);
                     rpuVarianceList.add(rpuVariance);
                     rpuPercentList.add(rpuPercent);
 
@@ -2841,15 +2662,15 @@ public class PVExcelLogic {
                 } else {
 
                     /*Empty the DTO */
-                    discountDollarValue = new ProjectionVarianceDTO();
+                    vDiscountDollarVal = new ProjectionVarianceDTO();
                     discountDollarVariance = new ProjectionVarianceDTO();
                     discountDollarPercent = new ProjectionVarianceDTO();
 
-                    discountPerValue = new ProjectionVarianceDTO();
+                    vDiscountPerVal = new ProjectionVarianceDTO();
                     discountPerVariance = new ProjectionVarianceDTO();
-                    discountPerPercent = new ProjectionVarianceDTO();
+                    vDiscountPerPer = new ProjectionVarianceDTO();
 
-                    rpuValue = new ProjectionVarianceDTO();
+                    vRpuVal = new ProjectionVarianceDTO();
                     rpuVariance = new ProjectionVarianceDTO();
                     rpuPercent = new ProjectionVarianceDTO();
 
@@ -2858,15 +2679,15 @@ public class PVExcelLogic {
                     discountPerExfacPercent = new ProjectionVarianceDTO();
 
                     oldDiscount = newDiscount;
-                    discountDollarValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+                    vDiscountDollarVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                     discountDollarVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                     discountDollarPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
 
-                    discountPerValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+                    vDiscountPerVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                     discountPerVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                    discountPerPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+                    vDiscountPerPer.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
 
-                    rpuValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+                    vRpuVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                     rpuVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                     rpuPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
 
@@ -2877,67 +2698,67 @@ public class PVExcelLogic {
                     if (selection.isVarDisAmount()) {
                         if (selection.isColValue()) {
                             selection.setConversionNeeded(true);
-                            discountDollarValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.SEVEN, discountDollarValue, selection, AMOUNT);
+                            vDiscountDollarVal = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.SEVEN, vDiscountDollarVal, selection, AMOUNT);
                         }
                         if (selection.isColVariance()) {
                             selection.setConversionNeeded(true);
-                            discountDollarVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.SEVEN, discountDollarVariance, selection, AMOUNT);
+                            discountDollarVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.SEVEN, discountDollarVariance, selection, AMOUNT);
                         }
                         if (selection.isColPercentage()) {
                             selection.setConversionNeeded(false);
-                            discountDollarPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.SEVEN, discountDollarPercent, selection, RATE_PER);
+                            discountDollarPercent = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.SEVEN, discountDollarPercent, selection, RATE_PER);
                         }
                     }
                     //Discount %
                     if (selection.isVarDisRate()) {
                         selection.setConversionNeeded(false);
                         if (selection.isColValue()) {
-                            discountPerValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.TEN, discountPerValue, selection, RATE_PER);
+                            vDiscountPerVal = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.TEN, vDiscountPerVal, selection, RATE_PER);
                         }
                         if (selection.isColVariance()) {
-                            discountPerVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.TEN, discountPerVariance, selection, RATE_PER);
+                            discountPerVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.TEN, discountPerVariance, selection, RATE_PER);
                         }
                         if (selection.isColPercentage()) {
-                            discountPerPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.TEN, discountPerPercent, selection, RATE_PER);
+                            vDiscountPerPer = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.TEN, vDiscountPerPer, selection, RATE_PER);
                         }
                     }
                     //RPU
                     if (selection.isVarRPU()) {
                         selection.setConversionNeeded(false);
                         if (selection.isColValue()) {
-                            rpuValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.THIRTEEN, rpuValue, selection, AMOUNT);
+                            vRpuVal = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.THIRTEEN, vRpuVal, selection, AMOUNT);
                         }
                         if (selection.isColVariance()) {
-                            rpuVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.THIRTEEN, rpuVariance, selection, AMOUNT);
+                            rpuVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.THIRTEEN, rpuVariance, selection, AMOUNT);
                         }
                         if (selection.isColPercentage()) {
-                            rpuPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.THIRTEEN, rpuPercent, selection, RATE_PER);
+                            rpuPercent = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.THIRTEEN, rpuPercent, selection, RATE_PER);
                         }
                     }
                     //Discount Exfactory Per Change
                     if (selection.isDiscountPerExFactory()) {
                         selection.setConversionNeeded(false);
                         if (selection.isColValue()) {
-                            discountPerExfacValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.SIXTEEN, discountPerExfacValue, selection, AMOUNT);
+                            discountPerExfacValue = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.SIXTEEN, discountPerExfacValue, selection, AMOUNT);
                         }
                         if (selection.isColVariance()) {
-                            discountPerExfacVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.SIXTEEN, discountPerExfacVariance, selection, AMOUNT);
+                            discountPerExfacVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.SIXTEEN, discountPerExfacVariance, selection, AMOUNT);
                         }
                         if (selection.isColPercentage()) {
-                            discountPerExfacPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.SIXTEEN, discountPerExfacPercent, selection, RATE_PER);
+                            discountPerExfacPercent = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.SIXTEEN, discountPerExfacPercent, selection, RATE_PER);
                         }
                     }
 
                     /*New discount means add at List */
-                    discountDollarvalueList.add(discountDollarValue);
+                    discountDollarvalueList.add(vDiscountDollarVal);
                     discountDollarVarList.add(discountDollarVariance);
                     discountDollarPerList.add(discountDollarPercent);
 
-                    discountPerValueList.add(discountPerValue);
+                    discountPerValueList.add(vDiscountPerVal);
                     discountPerVarianceList.add(discountPerVariance);
-                    discountPerPercentList.add(discountPerPercent);
+                    discountPerPercentList.add(vDiscountPerPer);
 
-                    rpuValueList.add(rpuValue);
+                    rpuValueList.add(vRpuVal);
                     rpuVarianceList.add(rpuVariance);
                     rpuPercentList.add(rpuPercent);
 
@@ -2986,15 +2807,15 @@ public class PVExcelLogic {
                 discountPerExfacPercentList = new ArrayList<>();
 
                 /*Empty the DTO */
-                discountDollarValue = new ProjectionVarianceDTO();
+                vDiscountDollarVal = new ProjectionVarianceDTO();
                 discountDollarVariance = new ProjectionVarianceDTO();
                 discountDollarPercent = new ProjectionVarianceDTO();
 
-                discountPerValue = new ProjectionVarianceDTO();
+                vDiscountPerVal = new ProjectionVarianceDTO();
                 discountPerVariance = new ProjectionVarianceDTO();
-                discountPerPercent = new ProjectionVarianceDTO();
+                vDiscountPerPer = new ProjectionVarianceDTO();
 
-                rpuValue = new ProjectionVarianceDTO();
+                vRpuVal = new ProjectionVarianceDTO();
                 rpuVariance = new ProjectionVarianceDTO();
                 rpuPercent = new ProjectionVarianceDTO();
 
@@ -3002,15 +2823,15 @@ public class PVExcelLogic {
                 discountPerExfacVariance = new ProjectionVarianceDTO();
                 discountPerExfacPercent = new ProjectionVarianceDTO();
 
-                discountDollarValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+                vDiscountDollarVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                 discountDollarVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                 discountDollarPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
 
-                discountPerValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+                vDiscountPerVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                 discountPerVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
-                discountPerPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+                vDiscountPerPer.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
 
-                rpuValue.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
+                vRpuVal.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                 rpuVariance.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
                 rpuPercent.setGroup(String.valueOf(obj[NumericConstants.FOUR]));
 
@@ -3023,65 +2844,65 @@ public class PVExcelLogic {
                 if (selection.isVarDisAmount()) {
                     if (selection.isColValue()) {
                         selection.setConversionNeeded(true);
-                        discountDollarValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.SEVEN, discountDollarValue, selection, AMOUNT);
+                        vDiscountDollarVal = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.SEVEN, vDiscountDollarVal, selection, AMOUNT);
                     }
                     if (selection.isColVariance()) {
                         selection.setConversionNeeded(true);
-                        discountDollarVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.SEVEN, discountDollarVariance, selection, AMOUNT);
+                        discountDollarVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.SEVEN, discountDollarVariance, selection, AMOUNT);
                     }
                     if (selection.isColPercentage()) {
                         selection.setConversionNeeded(false);
-                        discountDollarPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.SEVEN, discountDollarPercent, selection, RATE_PER);
+                        discountDollarPercent = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.SEVEN, discountDollarPercent, selection, RATE_PER);
                     }
                 }
                 //Discount %
                 if (selection.isVarDisRate()) {
                     selection.setConversionNeeded(false);
                     if (selection.isColValue()) {
-                        discountPerValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.TEN, discountPerValue, selection, RATE_PER);
+                        vDiscountPerVal = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.TEN, vDiscountPerVal, selection, RATE_PER);
                     }
                     if (selection.isColVariance()) {
-                        discountPerVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.TEN, discountPerVariance, selection, RATE_PER);
+                        discountPerVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.TEN, discountPerVariance, selection, RATE_PER);
                     }
                     if (selection.isColPercentage()) {
-                        discountPerPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.TEN, discountPerPercent, selection, RATE_PER);
+                        vDiscountPerPer = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.TEN, vDiscountPerPer, selection, RATE_PER);
                     }
                 }
                 //RPU
                 if (selection.isVarRPU()) {
                     selection.setConversionNeeded(false);
                     if (selection.isColValue()) {
-                        rpuValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.THIRTEEN, rpuValue, selection, AMOUNT);
+                        vRpuVal = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.THIRTEEN, vRpuVal, selection, AMOUNT);
                     }
                     if (selection.isColVariance()) {
-                        rpuVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.THIRTEEN, rpuVariance, selection, AMOUNT);
+                        rpuVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.THIRTEEN, rpuVariance, selection, AMOUNT);
                     }
                     if (selection.isColPercentage()) {
-                        rpuPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.THIRTEEN, rpuPercent, selection, RATE_PER);
+                        rpuPercent = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.THIRTEEN, rpuPercent, selection, RATE_PER);
                     }
                 }
                 //Discount Exfactory Per Change
                 if (selection.isDiscountPerExFactory()) {
                     selection.setConversionNeeded(false);
                     if (selection.isColValue()) {
-                        discountPerExfacValue = calculate_discount_Period(Constants.VALUE, obj, NumericConstants.SIXTEEN, discountPerExfacValue, selection, AMOUNT);
+                        discountPerExfacValue = calculateDiscountPeriod(Constants.VALUE, obj, NumericConstants.SIXTEEN, discountPerExfacValue, selection, AMOUNT);
                     }
                     if (selection.isColVariance()) {
-                        discountPerExfacVariance = calculate_discount_Period(Constants.VARIANCE, obj, NumericConstants.SIXTEEN, discountPerExfacVariance, selection, AMOUNT);
+                        discountPerExfacVariance = calculateDiscountPeriod(Constants.VARIANCE, obj, NumericConstants.SIXTEEN, discountPerExfacVariance, selection, AMOUNT);
                     }
                     if (selection.isColPercentage()) {
-                        discountPerExfacPercent = calculate_discount_Period(Constants.CHANGE, obj, NumericConstants.SIXTEEN, discountPerExfacPercent, selection, RATE_PER);
+                        discountPerExfacPercent = calculateDiscountPeriod(Constants.CHANGE, obj, NumericConstants.SIXTEEN, discountPerExfacPercent, selection, RATE_PER);
                     }
                 }
-                discountDollarvalueList.add(discountDollarValue);
+                discountDollarvalueList.add(vDiscountDollarVal);
                 discountDollarVarList.add(discountDollarVariance);
                 discountDollarPerList.add(discountDollarPercent);
 
-                discountPerValueList.add(discountPerValue);
+                discountPerValueList.add(vDiscountPerVal);
                 discountPerVarianceList.add(discountPerVariance);
-                discountPerPercentList.add(discountPerPercent);
+                discountPerPercentList.add(vDiscountPerPer);
 
-                rpuValueList.add(rpuValue);
+                rpuValueList.add(vRpuVal);
                 rpuVarianceList.add(rpuVariance);
                 rpuPercentList.add(rpuPercent);
 
@@ -3115,7 +2936,7 @@ public class PVExcelLogic {
         }
     }
 
-    public String getFormattedValue_Percent(DecimalFormat FORMAT, String value) {
+    public String getFormattedValuePercent(DecimalFormat FORMAT, String value) {
         if (value.contains(NULL.getConstant())) {
             value = FORMAT.format(Double.valueOf(ZERO));
         } else {
@@ -3124,8 +2945,8 @@ public class PVExcelLogic {
         return value;
     }
 
-    private void customize_discount_pivot() {
-        int count = procRawList_detail_discount.size();
+    private void customizeDiscountPivot() {
+        int count = PROCRAWLIST_DETAIL_DISCOUNT.size();
         String oldHierarchyNo = StringUtils.EMPTY;
         String discountNo;
         String newyear;
@@ -3143,7 +2964,7 @@ public class PVExcelLogic {
 
         Map<String, ProjectionVarianceDTO> periodDiscountMap = new HashMap<>();
         for (int i = 0; i < count; i++) {
-            Object[] obj = (Object[]) procRawList_detail_discount.get(i);
+            Object[] obj = (Object[]) PROCRAWLIST_DETAIL_DISCOUNT.get(i);
             if (i == 0) {
                 oldHierarchyNo = String.valueOf(obj[0]) + ("null".equals(String.valueOf(obj[obj.length - 1])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 1]));;
             }
@@ -3154,19 +2975,17 @@ public class PVExcelLogic {
             if (oldHierarchyNo.equals(newHierarchyNo)) {
                 if (oldYear.equals(newyear) && newPeriod.equals(oldPeriod)) {
                     String discount = String.valueOf(obj[NumericConstants.FOUR]).replaceAll(" ", StringUtils.EMPTY);
-                    discount = discount_Name(discount);
-                    setBase_Value(discountDto, obj, discount);
-                    discountNo = discount_No(discount);
-                    customize_PriorList(discountDto, projList, discount, obj);
+                    discount = getDiscountName(discount);
+                    setBaseValue(discountDto, obj, discount);
+                    customizePriorList(discountDto, projList, discount, obj);
 
                 } else if (i == 0) {
                     discountDto = new ProjectionVarianceDTO();
-                    commonColumn = getVisibleColumn_Header(obj);
+                    commonColumn = getVisibleColumnHeader(obj);
                     String discount = String.valueOf(obj[NumericConstants.FOUR]).replaceAll(" ", StringUtils.EMPTY);
-                    discount = discount_Name(discount);
-                    discountNo = discount_No(discount);
-                    setBase_Value(discountDto, obj, discount);
-                    customize_PriorList(discountDto, projList, discount, obj);
+                    discount = getDiscountName(discount);
+                    setBaseValue(discountDto, obj, discount);
+                    customizePriorList(discountDto, projList, discount, obj);
 
                     oldYear = newyear;
                     oldPeriod = newPeriod;
@@ -3176,12 +2995,11 @@ public class PVExcelLogic {
                     /*New discount means add at List */
                     periodDiscountMap.put(commonColumn, discountDto);
                     discountDto = new ProjectionVarianceDTO();
-                    commonColumn = getVisibleColumn_Header(obj);
+                    commonColumn = getVisibleColumnHeader(obj);
                     String discount = String.valueOf(obj[NumericConstants.FOUR]).replaceAll(" ", StringUtils.EMPTY);
-                    discount = discount_Name(discount);
-                    discountNo = discount_No(discount);
-                    setBase_Value(discountDto, obj, discount);
-                    customize_PriorList(discountDto, projList, discount, obj);
+                    discount = getDiscountName(discount);
+                    setBaseValue(discountDto, obj, discount);
+                    customizePriorList(discountDto, projList, discount, obj);
 
                     oldYear = newyear;
                     oldPeriod = newPeriod;
@@ -3193,12 +3011,11 @@ public class PVExcelLogic {
 
                 periodDiscountMap = new HashMap<>();
                 discountDto = new ProjectionVarianceDTO();
-                commonColumn = getVisibleColumn_Header(obj);
+                commonColumn = getVisibleColumnHeader(obj);
                 String discount = String.valueOf(obj[NumericConstants.FOUR]).replaceAll(" ", StringUtils.EMPTY);
-                discount = discount_Name(discount);
-                discountNo = discount_No(discount);
-                setBase_Value(discountDto, obj, discount);
-                customize_PriorList(discountDto, projList, discount, obj);
+                discount = getDiscountName(discount);
+                setBaseValue(discountDto, obj, discount);
+                customizePriorList(discountDto, projList, discount, obj);
 
                 oldYear = newyear;
                 oldPeriod = newPeriod;
@@ -3213,7 +3030,7 @@ public class PVExcelLogic {
         }
     }
 
-    private String discount_No(String discountName) {
+    private String getDiscountNo(String discountName) {
         String number = String.valueOf(discountNameMap.get(discountName));
         if ("null".equals(number) || number.equals("NoNumber")) {
             return StringUtils.EMPTY;
@@ -3221,14 +3038,14 @@ public class PVExcelLogic {
         return number;
     }
 
-    private String discount_Name(String discountName) {
+    private String getDiscountName(String discountName) {
         if ("RETURNS".equals(discountName)) {
             return "Returns";
         }
         return discountName;
     }
 
-    private void customize_PriorList(ProjectionVarianceDTO discountDto, List<Integer> projList, String discount, Object[] obj) {
+    private void customizePriorList(ProjectionVarianceDTO discountDto, List<Integer> projList, String discount, Object[] obj) {
         if (!projList.isEmpty()) {
             for (int j = 1; j <= projList.size(); j++) {
                 calculatePivotDiscountPrior(discountDto, obj, discount, "DiscountAmount", NumericConstants.SEVEN, (j * COLUMN_COUNT_DISCOUNT), projList.get(j - 1), AMOUNT,true);
@@ -3243,7 +3060,7 @@ public class PVExcelLogic {
     private void calculatePivotDiscountPrior(ProjectionVarianceDTO discountDto, Object[] obj, String discount, String discountColumn, int currentIndex, int priorIndex, int projId, DecimalFormat format,boolean isConversionNeeded) {
         String discountVarCurrent;
         selection.setConversionNeeded(isConversionNeeded);
-        String discountNo = discount_No(discount);
+        String discountNo = getDiscountNo(discount);
         boolean isPer = format.equals(RATE) || format.equals(RATE_PER);
         priorIndex = currentIndex + priorIndex;
         String visibleColumn = discountColumn + VAL + discount + discountNo + projId;
@@ -3294,7 +3111,7 @@ public class PVExcelLogic {
         }
     }
 
-    private void setBase_Value(ProjectionVarianceDTO discountDto, Object[] obj, String discount) {
+    private void setBaseValue(ProjectionVarianceDTO discountDto, Object[] obj, String discount) {
 
         calculatePivotDiscount(discountDto, obj, discount, "DiscountAmount", NumericConstants.SEVEN, selection.getCurrentProjId(), AMOUNT);
         calculatePivotDiscount(discountDto, obj, discount, "DiscountSales", NumericConstants.TEN, selection.getCurrentProjId(), RATE_PER);
@@ -3304,7 +3121,7 @@ public class PVExcelLogic {
     }
 
     private void calculatePivotDiscount(ProjectionVarianceDTO discountDto, Object[] obj, String discount, String discountColumn, int currentIndex, int projId, DecimalFormat format) {
-        String discountNo = discount_No(discount);
+        String discountNo = getDiscountNo(discount);
         boolean isPer = format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE);
         String visibleColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.FOUR]).replaceAll(" ", StringUtils.EMPTY) + discountNo + CURRENT + projId;
         String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex])));
@@ -3355,7 +3172,7 @@ public class PVExcelLogic {
         }
     }
 
-    private String getVisibleColumn_Header(Object[] obj) {
+    private String getVisibleColumnHeader(Object[] obj) {
         String commonColumn = StringUtils.EMPTY;
         if (frequencyDivision == NumericConstants.FOUR) {
             commonColumn = "Q" + obj[NumericConstants.THREE] + StringUtils.EMPTY + obj[NumericConstants.TWO];
@@ -3370,7 +3187,7 @@ public class PVExcelLogic {
         return commonColumn;
     }
 
-    private void calculateAndCustomize_detail_pivotForCustomView(List<Object> rawList) {
+    private void calculateDetailPivotForCustomView(List<Object> rawList) {
         String appendedParentKey = "";
         for (int i = 0; i < rawList.size(); i++) {
             Object[] obj = (Object[]) rawList.get(i);
@@ -3391,10 +3208,10 @@ public class PVExcelLogic {
             if (pvList == null) {
                 //To check condition total or details values
                 pvList = new ArrayList();
-                addList_pivot(pvList, obj, freVarianceDTO, index, key, groupId);
+                addListPivot(pvList, obj, freVarianceDTO, index, key, groupId);
                 appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
                 if (isCustomView && !isTotal) {
-                    customhierarchyAndTP_keys(obj, key, pvList);
+                    customHierarchyAndTPKeys(obj, key, pvList);
                 } else {
 					hierarchyAndTPkeys(obj, key, pvList);
                 }
@@ -3405,23 +3222,23 @@ public class PVExcelLogic {
                         : temp[temp.length - 1].toString();
                 if (!currValue.equals(tempValue)) {
                     pvList = new ArrayList();
-                    addList_pivot(pvList, obj, freVarianceDTO, index, key, groupId);
+                    addListPivot(pvList, obj, freVarianceDTO, index, key, groupId);
                     if (isCustomView && !isTotal) {
-                        customhierarchyAndTP_keys(obj, key, pvList);
+                        customHierarchyAndTPKeys(obj, key, pvList);
                     } else {
 						hierarchyAndTPkeys(obj, key, pvList);
                     }
                     appendedParentKey = obj[obj.length - 1] == null ? "" : "$" + obj[obj.length - 1].toString();
                 } else {
-                    updateList_pivot(pvList, obj, freVarianceDTO, index, key, groupId);
+                    updateListPivot(pvList, obj, freVarianceDTO, index, key, groupId);
                 }
             } else {
-                updateList_pivot(pvList, obj, freVarianceDTO, index, key, groupId);
+                updateListPivot(pvList, obj, freVarianceDTO, index, key, groupId);
             }
         }
     }
 
-    private void customhierarchyAndTP_keys(Object[] obj, String key, List<ProjectionVarianceDTO> pvList) {
+    private void customHierarchyAndTPKeys(Object[] obj, String key, List<ProjectionVarianceDTO> pvList) {
         String parentKey = obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString();
         String newKey;
         if (parentKey == null) {

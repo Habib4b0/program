@@ -47,10 +47,12 @@ public class CustomUserCallBack implements UserGroupCallback {
         }
     }
 
+    @Override
     public boolean existsUser(String userId) {
         return userMap.containsKey(userId) || userId.equals(StringConstantsUtil.ADMINISTRATOR);
     }
 
+    @Override
     public boolean existsGroup(String groupId) {
         if (groupId.contains(",")) {
             String[] groups = groupId.split(",");
@@ -66,6 +68,7 @@ public class CustomUserCallBack implements UserGroupCallback {
         return roleMap.containsKey(groupId);
     }
 
+    @Override
     public List<String> getGroupsForUser(String userId, List<String> roleIds, List<String> allExistingGroupIds) {
         List<String> userRoles = new ArrayList<>();
         List<Role> roles = null;

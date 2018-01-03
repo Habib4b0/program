@@ -323,7 +323,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 
 		for (int i = 0; i < componentList.size(); i++) {
 			if (componentList.get(i) != null && resultArray[i] != null) {
-				value = getValuesForComponent(componentList.get(i), resultArray[i]);
+				value = getValuesForComponent(i,componentList,resultArray);
 
 				GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(
@@ -334,8 +334,10 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 
 	}
 
-	private Object getValuesForComponent(Object componentId, Object componentValue)
+	private Object getValuesForComponent(int i,List<Object> componentList, Object[] resultArray)
 			throws GtnFrameworkGeneralException {
+            Object componentId = componentList.get(i);
+            Object componentValue =  resultArray[i];
 		Object value = null;
 		try {
 			List<String> dateColumn = Arrays.asList("firstReturn", "lastReturn", "origSaleMonth", "maxExpiredMonth",
@@ -343,13 +345,20 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
 			boolean isDate = (String.valueOf(componentId).contains("Date")
 					|| dateColumn.contains(String.valueOf(componentId))) && componentValue instanceof java.lang.String;
-			if (isDate) {
+			
+                        if (isDate) {
 				value = sdf1.parse(sdf1.format(parseDate(String.valueOf(componentValue))));
 			} else if (String.valueOf(componentId).equals("baselineAmp") && String.valueOf(componentId) != null) {
 				value = new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN).toString();
-			} else if (String.valueOf(componentId).equals("baseCpi") && String.valueOf(componentId) != null) {
+			}
+                        else if (String.valueOf(componentId).equals("baseCpi") && String.valueOf(componentId) != null) {
 				value = new BigDecimal(String.valueOf(componentValue)).setScale(3, BigDecimal.ROUND_DOWN).toString();
-			} else {
+			} 
+                        else if (String.valueOf(componentId).equals("itemPrice") && String.valueOf(componentId)!= null) {
+                            
+                        value = "$" + callDecimalFormatForItemPrice(componentValue,String.valueOf(resultArray[4]));
+			} 
+                        else {
 				value = componentValue instanceof java.lang.Long ? new Date((Long) componentValue)
 						: String.valueOf(componentValue);
 			}
@@ -358,5 +367,35 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		}
 		return value;
 	}
+        
+        private Object callDecimalFormatForItemPrice(Object componentValue,String qualifierName){
+            
+            try {
+                
+                 Object value = null;
+                if("AMP".equalsIgnoreCase(qualifierName) || "BP".equalsIgnoreCase(qualifierName)){
+                
+                    value = new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN).toString();
+
+                }
+                if("CPIURA".equalsIgnoreCase(qualifierName) || "CPI (Alt) URA".equalsIgnoreCase(qualifierName)){
+                
+                    value = new BigDecimal(String.valueOf(componentValue)).setScale(3, BigDecimal.ROUND_DOWN).toString();
+
+                }
+                if("URA".equalsIgnoreCase(qualifierName)){
+                
+                    value = new BigDecimal(String.valueOf(componentValue)).setScale(4, BigDecimal.ROUND_DOWN).toString();
+
+                }
+               return value;
+               
+            } catch (Exception ex) {
+               gtnLogger.error("Exception in getValuesForComponent() method",ex);
+            }
+            
+            return null;
+            
+        }
 
 }

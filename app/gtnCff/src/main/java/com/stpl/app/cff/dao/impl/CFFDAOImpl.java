@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class CFFDAOImpl implements CFFDAO {
 
-    private static CFFDAOImpl dao = new CFFDAOImpl();
+    private static final CFFDAOImpl dao = new CFFDAOImpl();
 
     private CFFDAOImpl() {
     }
@@ -46,6 +46,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @throws PortalException
      * @throws Exception
      */
+    @Override
     public void executeUpdateQuery(List<StringBuilder> queryList) throws SystemException, PortalException {
         AccClosureMasterLocalServiceUtil.executeUpdateQuery(queryList, null);
     }
@@ -59,6 +60,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @throws PortalException
      * @throws Exception
      */
+    @Override
     public Object executeUpdateQuery(String query) throws SystemException, PortalException {
         return HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
     }
@@ -72,6 +74,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @throws PortalException
      * @throws Exception
      */
+    @Override
     public Object executeSelectQuery(String query) throws SystemException, PortalException {
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
@@ -84,6 +87,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @throws com.stpl.portal.kernel.exception.PortalException
      * @throws SystemException
      */
+    @Override
     public List<HelperTable> getHelperTableList(final DynamicQuery query) throws PortalException, SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(query);
     }
@@ -96,6 +100,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @throws PortalException
      * @throws SystemException
      */
+    @Override
     public List<HelperTable> getHelperTableDetailsByListName(String listName) throws PortalException, SystemException {
         return HelperTableLocalServiceUtil.findByHelperTableDetails(listName);
     }
@@ -108,6 +113,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @see
      * com.stpl.app.cff.dao.CffLogicDAO#addCffMaster(com.stpl.app.cff.model.CffMaster)
      */
+    @Override
     public CffMaster addCffMaster(final CffMaster cffMaster) throws SystemException, PortalException {
         return CffMasterLocalServiceUtil.addCffMaster(cffMaster);
     }
@@ -119,6 +125,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @throws com.stpl.portal.kernel.exception.PortalException
      * @see com.stpl.app.cff.dao.CffLogicDAO#getCffMaster(int)
      */
+    @Override
     public CffMaster getCffMaster(final int cffMasterSid) throws SystemException, PortalException {
         return CffMasterLocalServiceUtil.getCffMaster(cffMasterSid);
     }
@@ -131,6 +138,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @see
      * com.stpl.app.cff.dao.CffLogicDAO#updateCffMaster(com.stpl.app.cff.model.CffMaster)
      */
+    @Override
     public CffMaster updateCffMaster(final CffMaster cffMaster) throws SystemException, PortalException {
         return CffMasterLocalServiceUtil.updateCffMaster(cffMaster);
     }
@@ -142,6 +150,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @see
      * com.stpl.app.cff.dao.CffLogicDAO#addCffDetails(com.stpl.app.cff.model.CffDetails)
      */
+    @Override
     public CffDetails addCffDetails(final CffDetails details) throws SystemException {
         return CffDetailsLocalServiceUtil.addCffDetails(details);
     }
@@ -153,6 +162,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @see
      * com.stpl.app.cff.dao.CffLogicDAO#addCffApprovalDetails(com.stpl.app.cff.model.CffApprovalDetails)
      */
+    @Override
     public CffApprovalDetails addCffApprovalDetails(final CffApprovalDetails approvalDetails) throws SystemException {
         return CffApprovalDetailsLocalServiceUtil.addCffApprovalDetails(approvalDetails);
     }
@@ -163,6 +173,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @return
      * @throws SystemException
      */
+    @Override
     public List<CffApprovalDetails> getApprovalDetails(final int cffSid) throws SystemException {
         List<CffApprovalDetails> resultList;
 
@@ -179,6 +190,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @return
      * @throws SystemException
      */
+    @Override
     public List<CffDetails> getCffDetails(final int cffSid) throws SystemException {
         List<CffDetails> resultList;
 
@@ -195,6 +207,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @return
      * @throws SystemException
      */
+    @Override
     public CffApprovalDetails updateCffApprovalDetails(final CffApprovalDetails approvalDetails) throws SystemException {
         return CffApprovalDetailsLocalServiceUtil.updateCffApprovalDetails(approvalDetails);
     }
@@ -205,6 +218,7 @@ public class CFFDAOImpl implements CFFDAO {
      * @return
      * @throws SystemException
      */
+    @Override
     public CffDetails updateCffDetails(final CffDetails cffDetails) throws SystemException {
         return CffDetailsLocalServiceUtil.updateCffDetails(cffDetails);
     }

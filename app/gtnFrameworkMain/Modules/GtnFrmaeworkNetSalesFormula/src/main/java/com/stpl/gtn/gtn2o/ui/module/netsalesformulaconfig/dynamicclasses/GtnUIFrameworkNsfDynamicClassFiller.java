@@ -4,6 +4,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnFrameworkLoadRuleDetailsAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnFrameworkNsfDeductionTabCheckAllAction;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUIFrameworkTableSearchCompletionAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkEnableDisableAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfContractSelectionAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfCopyAction;
@@ -59,6 +60,8 @@ public class GtnUIFrameworkNsfDynamicClassFiller implements GtnUIDynamicObjectFi
 				new GtnUiFrameworkNsfDeleteAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUiFrameworkNsfEditAction.class.getName(),
 				new GtnUiFrameworkNsfEditAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkTableSearchCompletionAction.class.getName(),
+				new GtnUIFrameworkTableSearchCompletionAction());
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUiFrameworkNsfFormulaTypeChangeAction.class.getName(),
 				new GtnUiFrameworkNsfFormulaTypeChangeAction());

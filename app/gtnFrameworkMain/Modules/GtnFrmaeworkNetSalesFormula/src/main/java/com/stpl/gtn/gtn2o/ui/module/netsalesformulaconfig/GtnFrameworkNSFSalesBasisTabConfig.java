@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUIFrameworkTableSearchCompletionAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfContractSelectionAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfRemoveAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfSBPopulateAction;
@@ -581,7 +582,7 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
 		List<Object> alertParams = new ArrayList<>();
 		alertParams.add(GtnFrameworkNSFConstants.getNoSearchCriteria());
-		alertParams.add(GtnFrameworkNSFConstants.getPleaseEnterSearchCriteria());
+		alertParams.add(GtnFrameworkNSFConstants.getPleaseEnterSalesDeductionTabSearchCriteria());
 
 		salesBasisSearchBtnAlertActionConfig.setActionParameterList(alertParams);
 		salesBasisSearchBtnOnFailureList.add(salesBasisSearchBtnAlertActionConfig);
@@ -605,10 +606,13 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 				viewId + GtnFrameworkCommonConstants.ITEM_NO, viewId + GtnFrameworkCommonConstants.ITEM_NAME));
 
 		searchActionConfigList.add(salesBasisTabLoadDataTableActionConfig);
-
+		
 		GtnUIFrameWorkActionConfig notificationActionConfig = componentConfigProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		notificationActionConfig.addActionParameter(GtnUIFrameworkTableSearchCompletionAction.class.getName());
 		notificationActionConfig.addActionParameter(viewId + GtnFrameworkCommonConstants.AVAILABLE_CONTRACT_TABLE);
+		notificationActionConfig.addActionParameter(" Error ");
+		notificationActionConfig.addActionParameter(" There are no values that match the entered search criteria ");
 		searchActionConfigList.add(notificationActionConfig);
 		salesBasisSearchButton.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
 

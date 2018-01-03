@@ -29,18 +29,18 @@ WHERE  CM.INBOUND_STATUS <> 'D'
 		;with CTE as(
 	select
 		IPQ.ITEM_PRICING_QUALIFIER_NAME,
-                CASE 
-                WHEN  IPQ.ITEM_PRICING_QUALIFIER_NAME='URA'
-                THEN Str(IP.ITEM_PRICE, 12,4)
+                CASE
+                WHEN IPQ.ITEM_PRICING_QUALIFIER_NAME='URA'
+                THEN CONCAT('$',LTRIM(Str(IP.ITEM_PRICE, 12,4)))
                 WHEN  IPQ.ITEM_PRICING_QUALIFIER_NAME='CPIURA'
-                THEN Str(IP.ITEM_PRICE, 12,3)
+                THEN CONCAT('$',LTRIM(Str(IP.ITEM_PRICE, 12,3)))
                 WHEN  IPQ.ITEM_PRICING_QUALIFIER_NAME='CPI (Alt) URA'
-                THEN Str(IP.ITEM_PRICE, 12,3)
+                THEN CONCAT('$',LTRIM(Str(IP.ITEM_PRICE, 12,3)))
                 WHEN IPQ.ITEM_PRICING_QUALIFIER_NAME = 'AMP'
-		THEN STR(IP.ITEM_PRICE, 12, 6)
-		WHEN IPQ.ITEM_PRICING_QUALIFIER_NAME = 'BP'
-		THEN STR(IP.ITEM_PRICE, 12, 6)
-		ELSE STR(IP.ITEM_PRICE)
+                THEN CONCAT('$',LTRIM(STR(IP.ITEM_PRICE, 12, 6)))
+                WHEN IPQ.ITEM_PRICING_QUALIFIER_NAME = 'BP'
+                THEN CONCAT('$',LTRIM(STR(IP.ITEM_PRICE, 12, 6) ))
+                ELSE CONCAT('$',LTRIM(STR(IP.ITEM_PRICE)))
                 END as ITEM_PRICE,
 		IP.PRICING_CODE_STATUS,
 		IP.ITEM_UOM,
@@ -188,7 +188,7 @@ FROM ##ITEM_PRICING_TEMP_TABLE IP
 where IP.ITEM_PRICING_SID = ?
 	]]></query>
 	</entity>
-	
+
 	<entity id="deleteInPricingTempTable">
 		<query> 
 		<![CDATA[
