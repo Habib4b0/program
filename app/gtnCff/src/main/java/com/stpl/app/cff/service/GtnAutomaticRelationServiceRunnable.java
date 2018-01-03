@@ -18,8 +18,8 @@ import com.vaadin.server.VaadinSession;
 
 public class GtnAutomaticRelationServiceRunnable implements Callable<Boolean> {
 
-    private Object value;
-    private int hierarchySid;
+    private final Object value;
+    private final int hierarchySid;
     public static final String USER_ID = "userId";
 
     public GtnAutomaticRelationServiceRunnable(Object value, int hierarchySid) {

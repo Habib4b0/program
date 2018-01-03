@@ -42,6 +42,19 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_UTIL_DATE,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_UTIL_DATE };
+        
+        
+    private static final Class<?>[] GTN_WORKFLOW_INBOX_GCM_SEARCH_TABLE_COLUMNS_DATA_TYPE = new Class<?>[]{
+        GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
+        GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
+        GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
+        GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
+        GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
+        GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
+        GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
+        GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
+        GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
+        GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING};
 
 	private static final String[] GTN_WORKFLOW_INBOX_FORECASTING_SEARCH_TABLE_HEADERS = new String[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID_NAME,
@@ -679,6 +692,10 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 	public static Class<?>[] getGtnWorkflowInboxForecastingSearchTableColumnsDataType() {
 		return GTN_WORKFLOW_INBOX_FORECASTING_SEARCH_TABLE_COLUMNS_DATA_TYPE.clone();
 	}
+        
+    public static Class<?>[] getGtnWorkflowInboxGcmSearchTableColumnsDataType() {
+        return GTN_WORKFLOW_INBOX_GCM_SEARCH_TABLE_COLUMNS_DATA_TYPE.clone();
+    }
 
 	public static String[] getGtnWorkflowInboxForecastingSearchTableHeaders() {
 		return GTN_WORKFLOW_INBOX_FORECASTING_SEARCH_TABLE_HEADERS.clone();
@@ -835,7 +852,7 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 	public static Object[] getGtnWorkflowInboxForecastingSearchExtraColumns() {
 		return GTN_WORKFLOW_INBOX_FORECASTING_SEARCH_EXTRA_COLUMNS.clone();
 	}
-
+        
 	public static Object[] getGtnWorkflowInboxArpSearchExtraColumns() {
 		return GTN_WORKFLOW_INBOX_ARP_SEARCH_EXTRA_COLUMNS.clone();
 	}

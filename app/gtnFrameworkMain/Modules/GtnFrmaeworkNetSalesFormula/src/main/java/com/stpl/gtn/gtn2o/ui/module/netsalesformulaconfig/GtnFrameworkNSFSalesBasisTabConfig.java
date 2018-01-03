@@ -582,7 +582,7 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
 		List<Object> alertParams = new ArrayList<>();
 		alertParams.add(GtnFrameworkNSFConstants.getNoSearchCriteria());
-		alertParams.add(GtnFrameworkNSFConstants.getPleaseEnterSearchCriteria());
+		alertParams.add(GtnFrameworkNSFConstants.getPleaseEnterSalesDeductionTabSearchCriteria());
 
 		salesBasisSearchBtnAlertActionConfig.setActionParameterList(alertParams);
 		salesBasisSearchBtnOnFailureList.add(salesBasisSearchBtnAlertActionConfig);

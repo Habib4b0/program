@@ -22,7 +22,7 @@ import com.stpl.util.dao.orm.CustomSQLUtil;
 public class CommonQueryUtils {
 
     private static final Logger LOGGER = Logger.getLogger(CommonQueryUtils.class);
-    private static CFFDAO DAO = CFFDAOImpl.getInstance();
+    private static final CFFDAO DAO = CFFDAOImpl.getInstance();
 
     public static List getCFFData(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside  get data");

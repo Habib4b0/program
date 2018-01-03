@@ -28,6 +28,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO {
      * @throws SystemException
      * @throws PortalException
      */
+    @Override
     public User getUserByUserId(final long userId) throws SystemException, PortalException {
         return UserLocalServiceUtil.getUser(userId);
     }

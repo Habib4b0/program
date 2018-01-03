@@ -180,7 +180,7 @@ public class CommonUtils {
     /**
      * The helper list util.
      */
-    private HelperListUtil helperListUtil = HelperListUtil.getInstance();
+    private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
     public static final String VAR_GTS = "Gross Trade Sales";
     /**
@@ -212,7 +212,7 @@ public class CommonUtils {
     
     public static final String BP_NAME = "ALLERGAN";
 
-    private static HashMap<String, String> cffColumnName = new HashMap<>();
+    private static final HashMap<String, String> cffColumnName = new HashMap<>();
     public static final String BUSINESS_PROCESS_TYPE_NONMANDATED = "Non Mandated";
     public static final String BUSINESS_PROCESS_TYPE_MANDATED = "Mandated";
     public static final String BUSINESS_PROCESS_TYPE_CHANNELS = "Channel";
@@ -641,9 +641,7 @@ public class CommonUtils {
                 }
 
             }
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return custoList;
