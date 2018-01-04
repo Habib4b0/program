@@ -47,6 +47,10 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 				GtnFrameworkOperatorType.EQUAL_TO);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
 				GtnFrameworkOperatorType.EQUAL_TO);
+		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO",
+				getHierarchyNoForRelationShip(customerHierarchyLevelDefinitionList, hierarchyLevelBean),
+				GtnFrameworkOperatorType.LIKE);
+
 		GtnFrameworkJoinClauseBean relationHIerachyJOin = querygeneratorBean.addJoinClauseBean(
 				relationShipLevelDef, "RELATIONSHIP_LEVEL_DEFINITION1", GtnFrameworkJoinType.LEFT_JOIN);
 		relationHIerachyJOin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID",
@@ -88,6 +92,31 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 		}
 		finalQuery.append(" concat(RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO");
 		finalQuery.append(custProdQuery);
+		finalQuery.append(")");
+		return finalQuery.toString();
+	}
+
+	public String getHierarchyNoForRelationShip(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
+			HierarchyLevelDefinitionBean selectedHierarchyLevelDto) {
+		StringBuilder query = new StringBuilder();
+		StringBuilder finalQuery = new StringBuilder();
+		for (int i = 0; i < selectedHierarchyLevelDto.getLevelNo() - 1; i++) {
+			HierarchyLevelDefinitionBean leveldto = hierarchyLevelDefinitionList.get(i);
+			if (leveldto.getTableName().isEmpty()) {
+				query.append(",'%'");
+				query.append(",'.'");
+				continue;
+			}
+			query.append(",");
+			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
+					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
+			query.append(singleColumnRelationBean.getActualTtableName() + "."
+					+ singleColumnRelationBean.getWhereClauseColumn());
+			query.append(",'.'");
+		}
+		finalQuery.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");
+		finalQuery.append(query);
+		query.append(",'%'");
 		finalQuery.append(")");
 		return finalQuery.toString();
 	}

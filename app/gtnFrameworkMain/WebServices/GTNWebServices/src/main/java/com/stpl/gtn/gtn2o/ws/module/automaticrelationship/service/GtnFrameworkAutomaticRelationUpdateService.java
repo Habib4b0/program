@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service;
 
-import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
@@ -22,6 +22,7 @@ import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
 import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipBuilder;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.concurrency.GtnFrameworkDeductionRelationServiceRunnable;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
@@ -42,6 +43,9 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 
 	@Autowired
 	private ApplicationContext applicationContext;
+
+	@Autowired
+	private GtnFrameworkDeductionRelationServiceRunnable deductionRelationService;
 
 	public GtnFrameworkAutomaticRelationUpdateService() {
 		super();
@@ -235,14 +239,14 @@ public class GtnFrameworkAutomaticRelationUpdateService {
         
         public boolean checkManualRelation(int relationshipBuilderSid) throws GtnFrameworkGeneralException {
             String query = gtnWsSqlService.getQuery("manualRelationCheck");
-            List<Integer> resultData = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query,
+		@SuppressWarnings("unchecked")
+		List<Integer> resultData = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query,
                     new Object[]{relationshipBuilderSid}, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
             GtnWsRelationshipBuilderBean relationBeanManual = getRelationtionshipBuilder(relationshipBuilderSid);
-            if (relationBeanManual != null) {
-                GtnFrameworkAutoupdateService automaticService = getAutomaticserviceObject(
-                        relationBeanManual.getHierarchycategory());
+		if (relationBeanManual != null) {
                 if ((int) resultData.get(0) == 1) {
-                    automaticService.createDeductionRelation(relationBeanManual);
+				deductionRelationService.saveRelationship(relationBeanManual,
+						relationBeanManual.getDeductionRelation() != null);
                 }
                 return Boolean.TRUE;
             }
