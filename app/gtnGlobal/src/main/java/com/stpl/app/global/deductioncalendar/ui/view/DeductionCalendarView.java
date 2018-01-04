@@ -13,8 +13,6 @@ import com.stpl.app.ui.NotesTabForm;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.QueryUtils;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -22,7 +20,8 @@ import com.vaadin.v7.ui.VerticalLayout;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,7 +29,7 @@ import org.jboss.logging.Logger;
  */
 public class DeductionCalendarView extends VerticalLayout implements View {
 
-    private static final Logger LOGGER = Logger.getLogger(DeductionCalendarView.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeductionCalendarView.class);
 
     public static final String NAME = "ADD";
 
@@ -84,7 +83,7 @@ public class DeductionCalendarView extends VerticalLayout implements View {
                 addComponent(dcform);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
 
     }

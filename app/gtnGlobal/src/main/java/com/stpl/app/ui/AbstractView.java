@@ -1,9 +1,10 @@
 package com.stpl.app.ui;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.UserError;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -14,7 +15,7 @@ import com.vaadin.server.UserError;
 public abstract class AbstractView extends StplVerticalLayout {
 
      /** The Constant LOGGER. */
-     private static final Logger LOGGER = Logger.getLogger(AbstractView.class);
+     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractView.class);
     
     /**
      * Constructor.
@@ -25,7 +26,7 @@ public abstract class AbstractView extends StplVerticalLayout {
         setSpacing(true);
         setComponentError(new UserError(""));
         } catch(Exception e){
-        LOGGER.error(e);
+        LOGGER.error("",e);
         }
     }
 

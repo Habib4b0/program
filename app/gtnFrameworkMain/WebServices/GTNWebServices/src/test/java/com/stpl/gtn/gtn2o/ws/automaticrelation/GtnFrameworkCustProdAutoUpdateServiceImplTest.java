@@ -2,7 +2,6 @@ package com.stpl.gtn.gtn2o.ws.automaticrelation;
 
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 
 	@Test
 	public void checkForAutoUpdate() throws InterruptedException {
-		GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(376);
+		GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(614);
 		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList;
 		try {
 			System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
@@ -51,7 +50,7 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 	public void doAutomaticUpdate() throws GtnFrameworkGeneralException {
 		try {
 		System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
-			GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(393);
+			GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(600);
 		List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = service
 				.getHierarchyBuilder(relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			String userId = "10948";

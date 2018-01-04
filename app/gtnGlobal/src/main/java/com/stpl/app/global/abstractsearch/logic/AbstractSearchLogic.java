@@ -34,7 +34,8 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class AbstractSearchLogic.
@@ -43,7 +44,7 @@ import org.jboss.logging.Logger;
  */
 public class AbstractSearchLogic {
     
-    private static final Logger LOGGER = Logger.getLogger(AbstractSearchLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchLogic.class);
     
     /** The binder. */
     ErrorfulFieldGroup binder;
@@ -153,7 +154,7 @@ public class AbstractSearchLogic {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
     
@@ -197,7 +198,7 @@ public class AbstractSearchLogic {
             }
                                    
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-           LOGGER.error(ex);
+           LOGGER.error("",ex);
         }
        return builder.toString();
     }

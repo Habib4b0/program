@@ -122,16 +122,12 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 					selectService, joinService, whereService);
 			customerQueryGenerator.generateQuery(hierarchyLevelDefinitionList, relationBean, querygeneratorBean,
 					customertUpdatedVersionNo, userId, i);
-			List<String> whereQueryList = automaticService.getRelationQueries(relationBean.getRelationshipBuilderSid(),
-					customertUpdatedVersionNo,
-					hierarchyLevelDefinitionList.subList(0, i).toArray(new HierarchyLevelDefinitionBean[i]));
 			List<Object> inputsList = new ArrayList<>();
 			inputsList.add(relationBean.getRelationshipBuilderSid());
 			inputsList.add(previousHierarchyLevelBean.getLevelNo());
 			inputsList.add(customertUpdatedVersionNo);
 			inputsList.add(customerHierarchyLevelBean.getLevelNo());
 			inputsList.add(customertUpdatedVersionNo - 1);
-			inputsList.addAll(whereQueryList);
 			hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);
 			String finalQuery = gtnWsSqlService.getReplacedQuery(inputsList, querygeneratorBean.generateQuery());
 			List<String> insertQueryInput = new ArrayList<>();
@@ -174,9 +170,5 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 		return automaticService;
 	}
 
-    @Override
-    public void createDeductionRelation(GtnWsRelationshipBuilderBean relationBean) throws GtnFrameworkGeneralException {
-        // Overriden method
-    }
 
 }

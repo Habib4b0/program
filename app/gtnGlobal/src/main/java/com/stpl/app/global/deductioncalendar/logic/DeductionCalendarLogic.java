@@ -12,9 +12,7 @@ import com.stpl.app.global.dao.CommonDao;
 import com.stpl.app.global.dao.impl.CommonDaoImpl;
 import com.stpl.app.global.dao.impl.DeductionCalendarDaoImpl;
 import com.stpl.app.global.deductioncalendar.dto.DeductionCalendarDTO;
-import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.model.DeductionCalendarMaster;
-import com.stpl.app.model.ItemQualifier;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.service.DeductionCalendarMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -33,7 +31,6 @@ import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
@@ -61,7 +58,8 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -69,7 +67,7 @@ import org.jboss.logging.Logger;
  */
 public class DeductionCalendarLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(DeductionCalendarLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeductionCalendarLogic.class);
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
     static HashMap<String, String> criteria = new HashMap<String, String>();
     NotesTabLogic notesLogic = new NotesTabLogic();
@@ -146,9 +144,9 @@ public class DeductionCalendarLogic {
             sessionDTO.setAdditionalNotes(deductionCalendarMaster.getAdditionalNotes());
             return ConstantsUtils.SUCCESS;
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         } catch (PortalException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return ConstantsUtils.FAIL;
     }
@@ -425,7 +423,7 @@ public class DeductionCalendarLogic {
            
             return resultList;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             return resultList;
         }
     }
@@ -499,7 +497,7 @@ public class DeductionCalendarLogic {
             dto.setMasterTableSid(masterSid);
             return dto;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             return null;
         }
     }
@@ -528,7 +526,7 @@ public class DeductionCalendarLogic {
             LOGGER.debug("getDeductionCalendarByIdForCopy ends");
             return dto;
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             return dto;
         }
     }

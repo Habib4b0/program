@@ -25,7 +25,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,7 +34,7 @@ import org.jboss.logging.Logger;
  */
 public class CommonUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(CommonUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtil.class);
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     private static final String[] CURRENT_MONTH = {"Jan~1", "Feb~2", "Mar~3", "Apr~4", "May~5", "Jun~6", "Jul~7", "Aug~8", "Sep~9", "Oct~10", "Nov~11", "Dec~12"};
     private static final String[] CURRENT_MONTH_HEADER = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
@@ -152,7 +153,7 @@ public class CommonUtil {
                 procedureToCall.append("}");
                 statement = connection.prepareCall(procedureToCall.toString());
                 for (int i = 0; i < noOfArgs; i++) {                    
-                    LOGGER.info(orderedArgs[i]);
+                    LOGGER.info("",orderedArgs[i]);
                     
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
@@ -161,16 +162,16 @@ public class CommonUtil {
                 
             }
         } catch (NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         } catch (SQLException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         } finally {
             try {
                 statement.close();
                 connection.close();
                 System.gc();
             } catch (SQLException ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
         LOGGER.debug(" Ending callProcedure");

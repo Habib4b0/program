@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Map;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -32,7 +33,7 @@ public class DeductionTableLogic extends PageTreeTableLogic {
      /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(DeductionTableLogic.class); 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeductionTableLogic.class); 
     /**
      * Deduction details logic instance
      */
@@ -65,7 +66,7 @@ public class DeductionTableLogic extends PageTreeTableLogic {
                     }
           }
         } catch (Exception e) {
-           LOGGER.error(e);
+           LOGGER.error("",e);
         }
         LOGGER.debug("loadData ended");
         return finalMap;
@@ -80,7 +81,7 @@ public class DeductionTableLogic extends PageTreeTableLogic {
             try {
                 count = logic.getDeductionDetailsCount(getLastParent(), deductionDTO, getTableDTO(),sessionDTO);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             } 
         }
         LOGGER.debug("Ending Deduction details records Count");

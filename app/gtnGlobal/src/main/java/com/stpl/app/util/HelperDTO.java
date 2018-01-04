@@ -4,7 +4,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -26,7 +27,7 @@ public class HelperDTO implements Serializable, Comparable<HelperDTO> {
     private String description = HelperUtils.EMPTY;
     
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger(GeneralCommonUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeneralCommonUtils.class);
     
     /**
      * Empty Constructor
@@ -134,7 +135,7 @@ public class HelperDTO implements Serializable, Comparable<HelperDTO> {
                     + ((description == null) ? 0 : description.hashCode());
             result = NumericConstants.THIRTY_ONE * result + systemId;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         return result;
     }
@@ -169,7 +170,7 @@ public class HelperDTO implements Serializable, Comparable<HelperDTO> {
                 return false;
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         return true;
     }

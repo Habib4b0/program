@@ -6,7 +6,6 @@ import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -25,7 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -175,7 +175,7 @@ public class GeneralCommonUtils {
     public static final String FORECAST_SALE_BASIS = "RS_FRCST_SALES_BASIS";
     
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger(GeneralCommonUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeneralCommonUtils.class);
     
     /** The Constant ZERO. */
     public static final int ZERO = 0;
@@ -206,7 +206,7 @@ public class GeneralCommonUtils {
             
         }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         return select;
     }
@@ -221,7 +221,7 @@ public class GeneralCommonUtils {
             
         }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         return select;
     }    
@@ -237,7 +237,7 @@ public class GeneralCommonUtils {
         select.addItem("Active");
         select.addItem("Inactive");
          } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         return select;
     }
@@ -273,7 +273,7 @@ public class GeneralCommonUtils {
 		try {
 			aDate = convertStringToDate(MMDDYYYY, strDate);
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error("",e);
 		}
         return aDate;
     }
@@ -295,7 +295,7 @@ public class GeneralCommonUtils {
         dateFormat = new SimpleDateFormat(aMask);
         date = dateFormat.parse(strDate);
          } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
         return date;
     }
@@ -321,7 +321,7 @@ public class GeneralCommonUtils {
                 final Date temp = GeneralCommonUtils.convertStringToDate(fmt.format(sdf.parse(datesVal)));
                 enterDate = temp;
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error("",e);
             }
         }
         return enterDate;

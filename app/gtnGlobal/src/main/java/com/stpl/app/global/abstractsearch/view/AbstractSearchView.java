@@ -11,13 +11,13 @@ import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.ui.AbstractView;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +25,7 @@ import org.jboss.logging.Logger;
  */
 public class AbstractSearchView extends AbstractView{
     /** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(AbstractSearchView.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchView.class);
 
 	/** The Constant NAME. */
 	public static final String NAME = "";
@@ -92,7 +92,7 @@ public class AbstractSearchView extends AbstractView{
             addComponent(new AbstractSearchForm(moduleName,sessionDTO));
               }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         table.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
     }

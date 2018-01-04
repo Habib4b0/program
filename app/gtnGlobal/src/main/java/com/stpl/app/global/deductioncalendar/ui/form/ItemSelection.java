@@ -72,7 +72,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -83,7 +84,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ItemSelection extends CustomComponent {
 
-    private static final Logger LOGGER = Logger.getLogger(ItemSelection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemSelection.class);
 
     CommonUtil commonMsg = CommonUtil.getInstance();
 
@@ -205,9 +206,9 @@ public class ItemSelection extends CustomComponent {
                 disableFieldsOnView();
             }
         } catch (SystemException ex) {
-            java.util.logging.Logger.getLogger(ItemSelection.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ItemSelection.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -340,7 +341,7 @@ public class ItemSelection extends CustomComponent {
             dateConverter();
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
     
@@ -415,7 +416,7 @@ public class ItemSelection extends CustomComponent {
         
         
         } catch (FieldGroup.CommitException ex) {
-            java.util.logging.Logger.getLogger(ItemSelection.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         }
 
     }
@@ -501,7 +502,7 @@ public class ItemSelection extends CustomComponent {
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
         } catch (PortalException portException) {
-            LOGGER.error(portException);
+            LOGGER.error("",portException);
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1011), new MessageBoxListener() {
                         /**
                          * The method is triggered when a button of the message box is
@@ -529,7 +530,7 @@ public class ItemSelection extends CustomComponent {
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
-            LOGGER.error(exception);
+            LOGGER.error("",exception);
 
         }
     }
@@ -650,7 +651,7 @@ public class ItemSelection extends CustomComponent {
                     }
                     LOGGER.debug("Ending  MOVE_RIGHT Method ");
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error("",e);
                 }
             }
         });
@@ -731,7 +732,7 @@ public class ItemSelection extends CustomComponent {
                     deductionCalendarForm.setNeedRefresh(true);
                     loadInEdit();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
                 LOGGER.debug("ENDING  Remove  Method ");
             }
@@ -768,7 +769,7 @@ public class ItemSelection extends CustomComponent {
                     deductionCalendarForm.setNeedRefresh(true);
                     loadInEdit();
                 } catch (Exception ex) {
-                    java.util.logging.Logger.getLogger(ItemSelection.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.error("",ex);
                 }
                 LOGGER.debug("ENDING  Remove All Item Method ");
             }
@@ -801,7 +802,7 @@ public class ItemSelection extends CustomComponent {
             List<Object> resultList = commonUIUtils.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.ITEM_SELECTION);
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout2, fieldItemHM, mode.equals("Copy")?"Edit":mode);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
     public  void resetBtnLogic(){

@@ -2,7 +2,7 @@ package com.stpl.app.ui;
 
 import java.util.List;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 
 import com.stpl.domain.global.udccheck.UDCIncrementalCheckDAO;
 import com.stpl.app.global.dao.impl.UDCIncrementalCheckDAOImpl;
@@ -12,6 +12,7 @@ import com.stpl.app.util.ConstantsUtils;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -25,7 +26,7 @@ public final class UDCIncrementCheck {
     private static UDCIncrementalCheckDAO dao = new UDCIncrementalCheckDAOImpl();
     
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger(UDCIncrementCheck.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UDCIncrementCheck.class);
 
     /**
      * Private Constructor to make the class as utility class.
@@ -64,7 +65,7 @@ public final class UDCIncrementCheck {
             LOGGER.debug(" Ends increment  ::::  Update Sccess ");
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
     }
@@ -100,7 +101,7 @@ public final class UDCIncrementCheck {
             }
           LOGGER.debug(" Ends decrement  ::::  Update Sccess ");
         } catch (Exception ex) {
-              LOGGER.error(ex);
+              LOGGER.error("",ex);
         }
 
     }
@@ -136,7 +137,7 @@ public final class UDCIncrementCheck {
             LOGGER.debug(" Ends increment  ::::  Update Sccess ");
 
         } catch (Exception ex) {
-              LOGGER.error(ex);
+              LOGGER.error("",ex);
         }
 
     }
@@ -172,7 +173,7 @@ public final class UDCIncrementCheck {
             }
           LOGGER.debug(" Ends decrement  ::::  Update Sccess ");
         } catch (Exception ex) {
-              LOGGER.error(ex);
+              LOGGER.error("",ex);
         }
 
     }
