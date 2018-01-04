@@ -37,7 +37,6 @@ import org.slf4j.LoggerFactory;
 public class ContractSearchLogic {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ContractSearchLogic.class);
-    QueryUtils queryUtils = new QueryUtils();
 
     public List<ContractSearchDTO> getPlaceHolderContractData(ContractSearchDTO binderDTO, int start, int offset, List<SortByColumn> sortByColumns) {
         List input = getInputForContractSearch(binderDTO, start, offset, false, sortByColumns);

@@ -22,11 +22,11 @@ import org.slf4j.LoggerFactory;
  */
 public class LinkedCompaniesTableLogic extends PageTableLogic {
 
-    CompanySearchLogic logic = new CompanySearchLogic();
-    CompanyLinkDTO tpDTo = new CompanyLinkDTO();
-    String searchSessionid = StringUtils.EMPTY;
-    boolean firstTime = true;
-    private static final Logger  LOGGER = LoggerFactory.getLogger(CompanySearchTableLogic.class);
+    private final CompanySearchLogic logic = new CompanySearchLogic();
+    private final CompanyLinkDTO tpDTo = new CompanyLinkDTO();
+    private String searchSessionid = StringUtils.EMPTY;
+    private boolean firstTime = true;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CompanySearchTableLogic.class);
 
     @Override
     public int getCount() {

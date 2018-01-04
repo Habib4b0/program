@@ -21,7 +21,7 @@ public class PMPYCalculatorDTO implements Serializable {
 
     
     
-    Map<String,String> properties=new HashMap<>();
+    protected Map<String,String> properties=new HashMap<>();
 
     public Map<String, String> getProperties() {
         return properties;

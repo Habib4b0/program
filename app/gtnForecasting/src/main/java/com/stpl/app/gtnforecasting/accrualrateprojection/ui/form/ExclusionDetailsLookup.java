@@ -68,9 +68,9 @@ public class ExclusionDetailsLookup extends Window {
 
     private final AccrualRateProjectionLogic logic = AccrualRateProjectionLogic.getInstance();
 
-    ExclusionDetailsTableLogic avalableTableLogic = new ExclusionDetailsTableLogic();
+    private final ExclusionDetailsTableLogic avalableTableLogic = new ExclusionDetailsTableLogic();
 
-    ExclusionDetailsTableLogic exclusionDetailsTableLogic = new ExclusionDetailsTableLogic();
+    private final ExclusionDetailsTableLogic exclusionDetailsTableLogic = new ExclusionDetailsTableLogic();
 
     protected ExtPagedTable availableTable = new ExtPagedTable(avalableTableLogic);
 
@@ -82,11 +82,11 @@ public class ExclusionDetailsLookup extends Window {
 
     private final BeanItemContainer<AccrualRateSelectionDTO> excludedresultBeanContainer = new BeanItemContainer<>(AccrualRateSelectionDTO.class);
 
-    public static final Logger LOGGER = Logger.getLogger(ExclusionDetailsLookup.class);
+    private static final Logger LOGGER = Logger.getLogger(ExclusionDetailsLookup.class);
     
-    boolean submitFlag = false;
+    private boolean submitFlag = false;
     
-    SessionDTO sessionDTO;
+    private final SessionDTO sessionDTO;
     
 
     public ExclusionDetailsLookup(SessionDTO sessionDTO) {

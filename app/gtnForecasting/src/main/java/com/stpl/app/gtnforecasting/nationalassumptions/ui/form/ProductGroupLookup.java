@@ -4,6 +4,8 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProductGroupLookUpDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.ProductGroupTableLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
@@ -253,7 +255,7 @@ public class ProductGroupLookup extends Window {
             } else {
                 resetTable.setVisible(false);
             }
-        } catch (Exception system) {
+        } catch (PortalException | SystemException system) {
             LOGGER.error(system);
         }
 

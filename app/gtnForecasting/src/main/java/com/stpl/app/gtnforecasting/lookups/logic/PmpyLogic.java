@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +55,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -76,8 +78,8 @@ public class PmpyLogic {
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = Logger.getLogger(PmpyLogic.class);
-    DecimalFormat doubleDecimalFormat = new DecimalFormat("#0.00");
-    DecimalFormat noDecimalFormat = new DecimalFormat("#");
+    protected DecimalFormat doubleDecimalFormat = new DecimalFormat("#0.00");
+    protected DecimalFormat noDecimalFormat = new DecimalFormat("#");
     /**
      * The Constant XLS_FORMAT.
      */
@@ -620,7 +622,7 @@ public class PmpyLogic {
             queryBuilder.append(" ) )   \n");
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             list = (List) salesProjectionDAO.executeSelectQuery(queryBuilder.toString());
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         return list;
@@ -828,17 +830,23 @@ public class PmpyLogic {
                 list.add(temp);
             }
             LOGGER.debug("Ending callSalesInsertProcedure return  staus ::::");
-        } catch (Exception ex) {
+        } catch (NumberFormatException | SQLException | NamingException ex) {
             LOGGER.error(ex);
         } finally {
-            try {
+           try {
+                if (statement != null) 
+                {
                 statement.close();
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-            try {
+                }
+                if (resList != null)
+                {
+                resList.close();
+                }
+                if (connection != null)
+                {
                 connection.close();
-            } catch (Exception e) {
+                } 
+           }catch (SQLException e) {
                 LOGGER.error(e);
             }
         }

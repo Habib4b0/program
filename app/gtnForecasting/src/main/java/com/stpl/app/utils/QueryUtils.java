@@ -110,7 +110,7 @@ public class QueryUtils {
                     if (selectedPeriodsList != null) {
                         periodsList.addAll(selectedPeriodsList);
                     }
-                    baselinePeriods = CommonUtils.collectionToString(periodsList, false, true);
+                    baselinePeriods = CommonUtils.mConvertCollectionToString(periodsList, false, true);
 
                     baselinePeriods = baselinePeriods.replace(", ", ",");
 

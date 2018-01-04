@@ -137,22 +137,30 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected final StplSecurity stplSecurity = new StplSecurity();
     protected final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
 
-    protected ExtTreeContainer<ProjectionResultsDTO> resultBeanContainer, excelResultBean = new ExtTreeContainer<>(ProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
+    protected ExtTreeContainer<ProjectionResultsDTO> resultBeanContainer = new ExtTreeContainer<>(ProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
+    protected ExtTreeContainer<ProjectionResultsDTO> excelResultBean = new ExtTreeContainer<>(ProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
     protected ProjectionResultsTableLogic tableLogic = new ProjectionResultsTableLogic();
     protected FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
-    protected boolean generated, firstGenerated = false;
+    protected boolean generated=false;
+    protected boolean firstGenerated = false;
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private final Resource graphImage = new ThemeResource(GRAPH_IMAGE_PATH.getConstant());
     protected HorizontalLayout controlLayout;
     protected ProjectionSelectionDTO projectionSelectionDTO = new ProjectionSelectionDTO();
     protected SessionDTO sessionDTO;
     protected String screenName;
-    protected int projectionId = 0, customId = 0, customIdToSelect = 0;
+    protected int projectionId = 0;
+    protected int customId = 0;
+    protected int customIdToSelect = 0;
     protected List<Leveldto> currentHierarchy = new ArrayList<>();
     final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
-    protected CustomTableHeaderDTO leftHeader, rightHeader, fullHeader = new CustomTableHeaderDTO();
+    protected CustomTableHeaderDTO leftHeader= new CustomTableHeaderDTO();
+    protected CustomTableHeaderDTO rightHeader= new CustomTableHeaderDTO();
+    protected CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     protected List<CustomViewMaster> customViewList = new ArrayList<>();
-    protected final float maxSplitPosition = 1000, minSplitPosition = 200, splitPosition = 300;
+    protected final float maxSplitPosition = 1000;
+    protected final float minSplitPosition = 200;
+    protected final float splitPosition = 300;
     protected ExtCustomTreeTable exceltable;
     protected int tradingPartnerNo = 0;
     protected boolean isTabVisible = true;
@@ -672,7 +680,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
             if (levelDdlb.getValue() != null && !SELECT_ONE.getConstant().equals(levelDdlb.getValue())) {
                 expandCollapseLevelOption(true, levelDdlb.getValue());
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -688,7 +696,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
             if (levelDdlb.getValue() != null && !SELECT_ONE.getConstant().equals(levelDdlb.getValue())) {
                 expandCollapseLevelOption(false, levelDdlb.getValue());
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }

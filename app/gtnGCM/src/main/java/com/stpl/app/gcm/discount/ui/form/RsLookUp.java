@@ -70,9 +70,9 @@ public class RsLookUp extends Window {
     public ComboBox rebateProgramType;
     @UiField("rsCategory")
     public ComboBox rsCategory;    
-    CommonUtil commonUtil=CommonUtil.getInstance();
+    private CommonUtil commonUtil=CommonUtil.getInstance();
     
-    LookUpTableLogic tableLogic = new LookUpTableLogic();
+    private LookUpTableLogic tableLogic = new LookUpTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
     private ErrorfulFieldGroup binder;
@@ -123,10 +123,12 @@ public class RsLookUp extends Window {
         resultsTable.setFilterBarVisible(Boolean.TRUE);
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -138,6 +140,7 @@ public class RsLookUp extends Window {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 try {
                 if (propertyId.equals("rsType")) {
@@ -178,14 +181,17 @@ public class RsLookUp extends Window {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
@@ -217,7 +223,7 @@ public class RsLookUp extends Window {
         rebateProgramType.setValue(Constants.HELPER_DTO);
         rebateProgramType.setItemCaptionPropertyId(Constants.DESCRIPTION);
         try {
-            commonUtil.loadComboBoxForGCM(rsCategory, UiUtils.RS_CATEGORY, false);
+            CommonUtil.loadComboBoxForGCM(rsCategory, UiUtils.RS_CATEGORY, false);
         } catch (Exception ex) {
             LOGGER.error("",ex);
         }
@@ -264,6 +270,7 @@ public class RsLookUp extends Window {
 
         new AbstractNotificationUtils() {
 
+            @Override
             public void noMethod() {
 
                 // do nothing

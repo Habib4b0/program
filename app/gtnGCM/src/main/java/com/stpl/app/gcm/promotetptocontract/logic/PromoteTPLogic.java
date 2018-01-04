@@ -42,8 +42,6 @@ import com.stpl.app.service.IfpModelLocalServiceUtil;
 import com.stpl.app.service.PsModelLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
-import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
-import com.stpl.app.gcm.tp.dao.impl.TradingPartnerDAOImpl;
 import com.stpl.app.gcm.tp.dto.IdDescriptionDTO;
 import com.stpl.app.gcm.tp.logic.ContractSelectionLogic;
 import com.stpl.app.gcm.transfercontract.util.CommonUtil;
@@ -103,18 +101,17 @@ public class PromoteTPLogic {
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTPLogic.class);
     public static PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
-    HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private final ContractDetailsDAO dao = new ContractDetailsDaoImpl();
-    DiscountDAO discountDAO = new DiscountDaoImpl();
-    TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
-    QueryUtils queryUtils = new QueryUtils();
-    DataQueryLogic dqLogic = new DataQueryLogic();
+    private final DiscountDAO discountDAO = new DiscountDaoImpl();
+    private final QueryUtils queryUtils = new QueryUtils();
+    private final DataQueryLogic dqLogic = new DataQueryLogic();
     private final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd ");
     public static final String LIKE_QUOTE = " like '";
     public static final String ITEM_FAMILY_PLAN_PROPERTY = "Item Family Plan";
     public static final String LAZY_LOAD_RESULTS = "lazyLoadResults";
-    CommonDao DAO = CommonImpl.getInstance();
-    ContractSelectionLogic logic = new ContractSelectionLogic();
+    private final CommonDao daoImpl = CommonImpl.getInstance();
+    private final ContractSelectionLogic logic = new ContractSelectionLogic();
     public static final String TABLE_DATA = "TableData";
     public static final String FIELD_DATA = "FieldData";
     public static final String VALUES = "VALUES(  ";
@@ -1205,7 +1202,7 @@ public class PromoteTPLogic {
         int count = 0;
         String query = getContractQuery(conSelDto, userId, sessionId, 0, 0, false);
         try {
-            List list = (List) DAO.executeSelect(query.toString());
+            List list = (List) daoImpl.executeSelect(query.toString());
             if (!list.isEmpty()) {
                 count = list.size();
             }
@@ -1348,7 +1345,7 @@ public class PromoteTPLogic {
         List<CurrentContractDTO> resultList = new ArrayList<>();
         CurrentContractDTO dto = null;
         try {
-            list = (List) DAO.executeSelect(query);
+            list = (List) daoImpl.executeSelect(query);
             int listsize = list.size();
 
             if (!list.isEmpty()) {
@@ -2245,7 +2242,7 @@ public class PromoteTPLogic {
         if (parent instanceof ComponentInfoDTO) {
             inputMap.put("?SID?", String.valueOf(((ComponentInfoDTO) parent).getInternalId()));
         }
-        List<Object[]> resList = (List<Object[]>) DAO.executeSelect(CommonUtil.getQuery(inputMap, "ad.cfpFromCD"));
+        List<Object[]> resList = (List<Object[]>) daoImpl.executeSelect(CommonUtil.getQuery(inputMap, "ad.cfpFromCD"));
         try {
             for (Object[] temp : resList) {
                 ComponentInfoDTO tempDto = new ComponentInfoDTO();
@@ -3012,7 +3009,7 @@ public class PromoteTPLogic {
         List<CurrentContractDTO> resultList = new ArrayList<>();
         CurrentContractDTO dto = null;
 
-        list = (List) DAO.executeSelect(query);
+        list = (List) daoImpl.executeSelect(query);
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 try {
@@ -3376,7 +3373,7 @@ public class PromoteTPLogic {
         }
         if (!StringUtils.EMPTY.equals(query)) {
             try {
-                List list = (List) DAO.executeSelect(query.toString());
+                List list = (List) daoImpl.executeSelect(query.toString());
                 if (!list.isEmpty()) {
                     count = Integer.parseInt(String.valueOf(list.get(0)));
                     if (count > 0) {

@@ -21,9 +21,8 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class AddDiscountWindow extends CustomWindow {
 
-    ExtFilterTable resultTable;
-    SessionDTO session;
-    List<RemoveDiscountDto> removeList;
+    private final SessionDTO session;
+    private final List<RemoveDiscountDto> removeList;
     /**
      * The Constant LOGGER.
      */

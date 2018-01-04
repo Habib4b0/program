@@ -217,7 +217,7 @@ public class Converters {
                     dataSelectionDTO.setFromDate(parseDate(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_FIVE]))));
                     dataSelectionDTO.setToDate(parseDate(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_SIX]))));
                 }
-            } catch (Exception ex) {
+            } catch (ParseException ex) {
                 LOGGER.error(ex);
             }
 			dataSelectionDTO.setCustomerRelationShipVersionNo((Integer) objects[NumericConstants.TWENTY_SEVEN]);
@@ -274,7 +274,7 @@ public class Converters {
 
             dataSelectionDTO.setFromPeriod(String.valueOf(objects[NumericConstants.TWENTY_ONE]));
             dataSelectionDTO.setToPeriod(String.valueOf(objects[NumericConstants.TWENTY_FOUR]));
-        } catch (Exception ex) {
+        } catch (ParseException ex) {
             LOGGER.error(ex);
         }
 

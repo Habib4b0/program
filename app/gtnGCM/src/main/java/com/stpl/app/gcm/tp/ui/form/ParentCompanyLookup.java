@@ -70,26 +70,26 @@ public class ParentCompanyLookup extends Window {
     public Button selectBtn;
     @UiField("companySearchTableLayout")
     public VerticalLayout companySearchTableLayout;
-    TextField parentno;
-    TextField parentName;
+    private TextField parentno;
+    private TextField parentName;
 
-    TradingPartnerDTO tpDTO;
-    int parentCompanySid;
-    TradingPartnerDTO tpDto = new TradingPartnerDTO();
+    public TradingPartnerDTO tpDTO;
+    private int parentCompanySid;
+    private TradingPartnerDTO tradingPartnerDto = new TradingPartnerDTO();
     private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
-    LazyBeanItemContainer<TradingPartnerDTO> resultsLazyContainer;
-    CommonUtil commonUtil=CommonUtil.getInstance();
+    private LazyBeanItemContainer<TradingPartnerDTO> resultsLazyContainer;
+    private CommonUtil commonUtil=CommonUtil.getInstance();
     /**
      * The data selection binder.
      */
-    public ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(tpDto));
-    final ErrorLabel errorMsg = new ErrorLabel();
+    public ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(tradingPartnerDto));
+    private final ErrorLabel errorMsg = new ErrorLabel();
 
     /**
      * The Constant LOGGER.
      */
     private final static Logger LOGGER = LoggerFactory.getLogger(ParentCompanyLookup.class);
-    CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
+    private CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     public ExtPagedTable resultTable = new ExtPagedTable(companyLogic);
 
     public ParentCompanyLookup(TradingPartnerDTO tpDTO) {
@@ -170,10 +170,12 @@ public class ParentCompanyLookup extends Window {
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultTable.setFilterGenerator(new ExtFilterGenerator() {
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -185,6 +187,7 @@ public class ParentCompanyLookup extends Window {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                  try {
                 if ("companyStatus".equals(propertyId)) {
@@ -207,14 +210,17 @@ public class ParentCompanyLookup extends Window {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
@@ -238,7 +244,7 @@ public class ParentCompanyLookup extends Window {
         } else {
             try {
                 dataSelectionBinder.commit();
-                companyLogic.loadSetData(tpDto, StringUtils.EMPTY,StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY);
+                companyLogic.loadSetData(tradingPartnerDto, StringUtils.EMPTY,StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY);
                 if (!companyLogic.isRecordPresent()) {
                     AbstractNotificationUtils.getErrorNotification("No Results Found",
                             "There are no results that match the search criteria. Please try again.");
@@ -253,7 +259,7 @@ public class ParentCompanyLookup extends Window {
 
     private ErrorfulFieldGroup getBinder() {
         dataSelectionBinder.bindMemberFields(this);
-        dataSelectionBinder.setItemDataSource(new BeanItem<>(tpDto));
+        dataSelectionBinder.setItemDataSource(new BeanItem<>(tradingPartnerDto));
         dataSelectionBinder.setBuffered(true);
         dataSelectionBinder.setErrorDisplay(errorMsg);
         return dataSelectionBinder;
@@ -267,6 +273,7 @@ public class ParentCompanyLookup extends Window {
              *
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 if (buttonId.name().equals("YES")) {
                     companyId.setValue(StringUtils.EMPTY);
@@ -282,10 +289,10 @@ public class ParentCompanyLookup extends Window {
     @UiHandler("selectBtn")
     public void selectBtnLogic(Button.ClickEvent event) {
         if (resultTable.getValue() != null) {
-            tpDto = (TradingPartnerDTO) resultTable.getValue();
-            parentno.setValue(tpDto.getCompanyNo());
-            parentName.setValue(tpDto.getCompanyName());
-            parentCompanySid = !StringUtils.EMPTY.equals(tpDto.getCompanySystemId()) ? Integer.parseInt(tpDto.getCompanySystemId()) : 0;
+            tradingPartnerDto = (TradingPartnerDTO) resultTable.getValue();
+            parentno.setValue(tradingPartnerDto.getCompanyNo());
+            parentName.setValue(tradingPartnerDto.getCompanyName());
+            parentCompanySid = !StringUtils.EMPTY.equals(tradingPartnerDto.getCompanySystemId()) ? Integer.parseInt(tradingPartnerDto.getCompanySystemId()) : 0;
 
             close();
         } else {

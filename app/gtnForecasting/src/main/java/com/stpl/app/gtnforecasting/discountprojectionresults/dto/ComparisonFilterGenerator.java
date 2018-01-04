@@ -12,6 +12,7 @@ import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
 import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
@@ -27,9 +28,9 @@ import org.jboss.logging.Logger;
  * @author gopinath
  */
 public class ComparisonFilterGenerator implements ExtFilterGenerator {
-    ProjectionSelectionDTO mmProjectionDTO;
-    DataSelectionLogic logic = new DataSelectionLogic();
-    DPRTableLogic mmDprLogic;
+    protected ProjectionSelectionDTO mmProjectionDTO;
+    protected DataSelectionLogic logic = new DataSelectionLogic();
+    protected DPRTableLogic mmDprLogic;
     public static final Logger LOGGER = Logger.getLogger(ComparisonFilterGenerator.class);
 
     public ComparisonFilterGenerator(ProjectionSelectionDTO mmProjectionDTO, DPRTableLogic mmDprLogic) {
@@ -90,7 +91,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 }
                 return contractType;
 
-            } catch (Exception e) {
+            } catch (Property.ReadOnlyException | UnsupportedOperationException e) {
                 LOGGER.error(e);
 
             }

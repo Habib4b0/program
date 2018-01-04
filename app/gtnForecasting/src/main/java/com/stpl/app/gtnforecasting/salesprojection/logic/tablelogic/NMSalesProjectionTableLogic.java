@@ -31,14 +31,12 @@ import org.asi.container.ExtTreeContainer;
  */
 public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
 
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
-    int levelNo;
-    String hierarchyNo;
-    boolean firstGenerated = false;
+    private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    private boolean firstGenerated = false;
     public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(NMSalesProjectionTableLogic.class);
-    ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
-    Map<String, SalesRowDto> loadDataMap = new HashMap<>();
-    SalesProjectionTree tree = null;
+    private final ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
+    private Map<String, SalesRowDto> loadDataMap = new HashMap<>();
+    private SalesProjectionTree tree = null;
 
     /**
      * Loads the table in sales projection based on start and end index.

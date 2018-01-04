@@ -287,20 +287,20 @@ public abstract class AbstractHistoryLookup extends AbstractLookup {
 
 		results.setFilterBarVisible(true);
 		if (BRAND.getConstant().equals(indicator)) {
-			results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().historyLookupBrandColumns);
-			results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().historyLookupBrandHeaders);
+			results.setVisibleColumns(TableHeaderColumnsUtil.historyLookupBrandColumns);
+			results.setColumnHeaders(TableHeaderColumnsUtil.historyLookupBrandHeaders);
 			results.setWidth("300px");
 			results.setHeight(Constant.FOUR_EIGHT_ONE_PX);
 
 		} else if (CONTRACT.getConstant().equals(indicator)) {
 			if (INDICATOR_MODULE_NON_MANDATED.getConstant().equals(moduleIndicator)) {
-				results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().historyLookupContractColumnsNm);
-				results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().historyLookupcontractHeadersNm);
+				results.setVisibleColumns(TableHeaderColumnsUtil.historyLookupContractColumnsNm);
+				results.setColumnHeaders(TableHeaderColumnsUtil.historyLookupcontractHeadersNm);
 				results.setWidth("400px");
 				results.setHeight(Constant.FOUR_EIGHT_ONE_PX);
 			} else {
-				results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().historyLookupContractColumns);
-				results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().historyLookupcontractHeaders);
+				results.setVisibleColumns(TableHeaderColumnsUtil.historyLookupContractColumns);
+				results.setColumnHeaders(TableHeaderColumnsUtil.historyLookupcontractHeaders);
 				results.setWidth("400px");
 				results.setHeight(Constant.FOUR_EIGHT_ONE_PX);
 			}

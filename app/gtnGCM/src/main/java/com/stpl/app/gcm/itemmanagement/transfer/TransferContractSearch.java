@@ -49,14 +49,13 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class TransferContractSearch extends AbstractContractSearch {
 
-    SelectionDTO selection;
-    final static CommonDao ITEMDAO = CommonImpl.getInstance();
+    private SelectionDTO selectionDto;
     public boolean isnext = false;
 
     public TransferContractSearch(SelectionDTO selection, List selectedItemList) {
         super(selection, selectedItemList);
         try {
-            this.selection = selection;
+            this.selectionDto = selection;
             configureFields();
             configureSecurityPermissions();
         } catch (Exception ex) {
@@ -83,11 +82,11 @@ public class TransferContractSearch extends AbstractContractSearch {
         } else {
 
             if (allItems.getValue().equals("YES")) {
-                selection.setCountQueryName("Item Load contract Count for transfer");
-                selection.setDataQueryName("Load contract Item For transfer");
+                selectionDto.setCountQueryName("Item Load contract Count for transfer");
+                selectionDto.setDataQueryName("Load contract Item For transfer");
             } else {
-                selection.setCountQueryName("Load Non Selected item Contract Count");
-                selection.setDataQueryName("Load Non Selected item Contract");
+                selectionDto.setCountQueryName("Load Non Selected item Contract Count");
+                selectionDto.setDataQueryName("Load Non Selected item Contract");
             }
             searchButtonLogic(true);
         }
@@ -170,15 +169,16 @@ public class TransferContractSearch extends AbstractContractSearch {
         allItems.select("YES");
     }
 
+    @Override
     public List getInput() {
         List input = new ArrayList();
-        input.add(selection.getSessionId());
+        input.add(selectionDto.getSessionId());
         input.add(ConstantsUtil.CURRENT_SUMMARY);
         if (allItems.getValue().equals("YES")) {
-            if (!selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+            if (!selectionDto.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
                 input.add(AbstractLogic.getItemIds(selectedItemList));
             } else {
-                input.add(AbstractLogic.getItemIds(selection.getTransterItemIds()));
+                input.add(AbstractLogic.getItemIds(selectionDto.getTransterItemIds()));
             }
         }
 
@@ -261,6 +261,7 @@ public class TransferContractSearch extends AbstractContractSearch {
         return input;
     }
 
+    @Override
     public List getResultsInput(SelectionDTO selection) {
         List input = new ArrayList();
         input.add(selection.getSessionId());
@@ -274,6 +275,7 @@ public class TransferContractSearch extends AbstractContractSearch {
      * @param selection
      * @return
      */
+    @Override
     public List getPopulateDateCheckInput(SelectionDTO selection) {
         List input = new ArrayList();
         input.add(selection.getSessionId());
@@ -281,8 +283,9 @@ public class TransferContractSearch extends AbstractContractSearch {
         return input;
     }
 
+    @Override
     public Boolean submitButtonCheck() {
-        List input = getSessionInput(selection);
+        List input = getSessionInput(selectionDto);
         List<Object[]> list = ItemQueries.getItemData(input, "Submit condition check", null);
         if (AbstractLogic.getCount(list) != 0) {
             return false;
@@ -292,7 +295,7 @@ public class TransferContractSearch extends AbstractContractSearch {
     }
 
     public Boolean submitBtnCheck() {
-        List input = getSessionInput(selection);
+        List input = getSessionInput(selectionDto);
         List<Object[]> list = ItemQueries.getItemData(input, "Submit check Pojection Transfer", null);
         if (AbstractLogic.getCount(list) != 0) {
             return false;
@@ -301,6 +304,7 @@ public class TransferContractSearch extends AbstractContractSearch {
         }
     }
 
+    @Override
     public Boolean massUpdateItemDetails(final List input, final SelectionDTO selection) {
         input.add(selection.getSessionId());
         input.add(ConstantsUtil.TRANSFER_CONTRACT);
@@ -308,25 +312,29 @@ public class TransferContractSearch extends AbstractContractSearch {
         return isUpdated;
     }
 
+    @Override
     public List getSessionInput(SelectionDTO selection) {
         return AbstractLogic.getTransferInput(selection);
     }
 
+    @Override
     public List getSessionSummary(SelectionDTO selection) {
         return AbstractLogic.getTransferSummary(selection);
     }
 
+    @Override
     public void updateSubmittedContract() {
         List updateInput = new ArrayList();
         updateInput.add("OPERATION");
         updateInput.add(ConstantsUtil.TRANSFER_SUMMARY);
-        updateInput.addAll(getSessionInput(selection));
+        updateInput.addAll(getSessionInput(selectionDto));
         ItemQueries.itemUpdate(updateInput, "Abstract Mass update"); // To Change The operation from Current transfer to Current summary
     }
 
+    @Override
     public boolean submit() {
         try {
-            final List input = getSessionInput(selection);
+            final List input = getSessionInput(selectionDto);
             boolean dateValid = true;
             boolean afterDateValid = true;
             String contractName = StringUtils.EMPTY;
@@ -339,7 +347,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                         Date endDate = null;
                         if (mainDto.getCheckRecord()) {
                             List queryInput = new ArrayList();
-                            queryInput.add(selection.getSessionId());
+                            queryInput.add(selectionDto.getSessionId());
                             queryInput.add(mainDto.getPriceToleranceType().getId());
                             queryInput.add(mainDto.getPriceToleranceInterval().getId());
                             queryInput.add(mainDto.getPriceTolerance());
@@ -458,7 +466,7 @@ public class TransferContractSearch extends AbstractContractSearch {
         String msg = "Are you sure you want to submit the selected contracts?";
         if (!nonApprovedSubmitCheck("SavedRejectedSubmitcheckForProjTransfer", input)) {
             if (!nonApprovedSubmitCheck("PendingSubmitcheckForProjTransfer", input)) {
-                if (!allItems.getValue().equals("YES") && selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+                if (!allItems.getValue().equals("YES") && selectionDto.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
                     msg = !(ValidationForItemInContract().isEmpty()) ? ValidationForItemInContract() : msg;
                 }
 
@@ -466,8 +474,8 @@ public class TransferContractSearch extends AbstractContractSearch {
                     @Override
                     public void yesMethod() {
                         try {
-                            List input = getResultsInput(selection);
-                            if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
+                            List input = getResultsInput(selectionDto);
+                            if (selectionDto.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
                                 ItemQueries.itemUpdate(input, "SubmittingthecontractForUPdateProjTransfer");
                             } else {
                                 ItemQueries.itemUpdate(input, "Submitting the contract For UPdate");
@@ -475,7 +483,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                             updateSubmittedContract();
                             binder.commit();
                             searchButtonLogic(true);
-                            selection.getLookup().changeTab();
+                            selectionDto.getLookup().changeTab();
                             isSubmit = true;
                         } catch (Exception ex) {
                             LOGGER.error("",ex);
@@ -530,7 +538,7 @@ public class TransferContractSearch extends AbstractContractSearch {
         }
         Map<String, String> itemName = new HashMap<>();
         List SelectedItemIds = new ArrayList();
-        List itemIds = selection.getTransterItemIds();
+        List itemIds = selectionDto.getTransterItemIds();
         for (Object object : itemIds) {
             ItemIndexDto itemDto = (ItemIndexDto) object;
             SelectedItemIds.add(itemDto.getSystemId());
@@ -570,7 +578,7 @@ public class TransferContractSearch extends AbstractContractSearch {
     public boolean submitLogic() {
         isnext = false;
         boolean isSelected = false;
-        final List input = getSessionInput(selection);
+        final List input = getSessionInput(selectionDto);
         boolean dateValid = true;
         boolean afterDateValid = true;
         String contractName = StringUtils.EMPTY;
@@ -582,7 +590,7 @@ public class TransferContractSearch extends AbstractContractSearch {
             if (mainDto.getCheckRecord()) {
                 isSelected = true;
                 List queryInput = new ArrayList();
-                queryInput.add(selection.getSessionId());
+                queryInput.add(selectionDto.getSessionId());
                 queryInput.add(mainDto.getPriceToleranceType().getId());
                 queryInput.add(mainDto.getPriceToleranceInterval().getId());
                 queryInput.add(mainDto.getPriceTolerance());
@@ -656,7 +664,7 @@ public class TransferContractSearch extends AbstractContractSearch {
 
     private void configureSecurityPermissions() {
         try {
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selection.getUserId()), "GCM-Item Management", "Item Transfer", "Transfer Contract Tab");
+            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(selectionDto.getUserId()), "GCM-Item Management", "Item Transfer", "Transfer Contract Tab");
             getSearchBtn().setVisible(CommonLogic.isButtonVisibleAccess("search", functionHM));
             getResetBtn().setVisible(CommonLogic.isButtonVisibleAccess("reset1", functionHM));
             getPopulateBtn().setVisible(CommonLogic.isButtonVisibleAccess("populateBtn", functionHM));

@@ -101,7 +101,7 @@ public class FileUploader implements Receiver {
 			new Notification("Could not open file ", e.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());
 			return null;
-		} catch (Exception ex) {
+		} catch (IOException ex) {
 			LOGGER.error(ex);
 			new Notification("Could not create ", ex.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());

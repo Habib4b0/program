@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.dao.impl;
 
+import com.liferay.portal.kernel.dao.orm.ORMException;
 import com.stpl.app.gtnforecasting.dao.DiscountProjectionForChannelsDAO;
 import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
@@ -37,36 +38,10 @@ import org.jboss.logging.Logger;
 public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<StChDiscountProjMaster> implements DiscountProjectionForChannelsDAO {
 
     private static final Logger LOGGER = Logger.getLogger(DiscountProjectionForChannelsDAOImpl.class);
-    CommonUtils commonUtils = new CommonUtils();
-    DPQueryUtils queryUtils = new DPQueryUtils();
+    protected CommonUtils commonUtils = new CommonUtils();
+    protected DPQueryUtils queryUtils = new DPQueryUtils();
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
 
-    /**
-     * To get the discount Projection Result
-     *
-     * @param projectionId
-     * @param userId
-     * @param sessionId
-     * @param frequency
-     * @param startAndEndPeriods - Used to get start year, start month, end year
-     * and end month
-     * @param hierarchyNo - Not used in custom hierarchy
-     * @param isProgram
-     * @param discountName - list of selected discounts
-     * @param year
-     * @param historyNumber
-     * @param levelNo
-     * @param hierarchyIndicator
-     * @param projectionType
-     * @param startIndex
-     * @param endIndex
-     * @param isCount
-     * @param isCustom
-     * @param customViewDetails
-     * @param isRefresh
-     * @param refreshHierarchyNumbers
-     * @return
-     */
     @Override
     public List<DiscountProjectionDTO> getDiscountProjection(
             SessionDTO session, String parentName, String year, int historyNumber, int levelNo, String hierarchyIndicator, int start, int offset, boolean isCount, boolean isCustom, List<String> customViewDetails, boolean isRefresh, String refreshHierarchyNumbers, ProjectionSelectionDTO projectionSelection) {
@@ -605,7 +580,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             String customSql = queryUtils.getLevelvalues(isLevelFilter, endLevelNo, isCustomHierarchy, projectionId, hierarchy, startLevelNo);
             List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
             return list;
-        } catch (Exception e) {
+        } catch (ORMException e) {
             LOGGER.error(e);
             return Collections.emptyList();
         } finally {

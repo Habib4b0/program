@@ -21,10 +21,9 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class CopyContractWindow extends CustomWindow {
 
-    ExtFilterTable resultTable;
-    SessionDTO session;
-    List<ContractSelectionDTO> selectedList;
-    String Count = StringUtils.EMPTY;
+    public final SessionDTO session;
+    private final List<ContractSelectionDTO> selectedList;
+    private String Count = StringUtils.EMPTY;
     /**
      * The Constant LOGGER.
      */

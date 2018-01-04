@@ -4,6 +4,10 @@
  */
 package com.stpl.app.cff.abstractCff;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.cff.util.AbstractNotificationUtils;
+import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.BTN_ADD;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.BTN_CANCEL;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.BTN_CLOSE;
@@ -14,29 +18,21 @@ import static com.stpl.app.cff.util.Constants.ButtonConstants.BTN_SEARCH;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.BTN_SELECT;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.BTN_SUBMIT;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.BTN_UPDATE;
-
-import java.sql.SQLException;
-
-import javax.naming.NamingException;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-
-import com.stpl.app.cff.util.AbstractNotificationUtils;
-import com.stpl.app.cff.util.Constants;
+import com.stpl.app.cff.util.ErrorCodeUtil;
 import com.stpl.app.cff.util.ErrorCodes;
 import com.stpl.app.cff.util.NotificationUtils;
 import com.stpl.app.cff.util.UiUtils;
-import com.stpl.app.serviceUtils.ErrorCodeUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.TextField;
+import java.sql.SQLException;
+import javax.naming.NamingException;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 
 /**
  *
@@ -311,17 +307,13 @@ public abstract class AbstractLookup extends Window {
 			public void buttonClick(Button.ClickEvent event) {
 				try {
 					btnUpdateLogic();
-				} catch (SystemException ex) {
+				} catch (SystemException | FieldGroup.CommitException ex) {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5019));
 				} catch (PortalException ex) {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
-							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5019));
-				} catch (FieldGroup.CommitException ex) {
-					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
-					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5019));
 				}
 			}
@@ -341,17 +333,13 @@ public abstract class AbstractLookup extends Window {
 			public void buttonClick(Button.ClickEvent event) {
 				try {
 					btnAddLogic();
-				} catch (SystemException ex) {
+				} catch (SystemException | FieldGroup.CommitException ex) {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5018));
 				} catch (PortalException ex) {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
-							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5018));
-				} catch (FieldGroup.CommitException ex) {
-					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
-					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5018));
 				}
 			}

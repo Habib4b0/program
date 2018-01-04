@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.tree.node;
 
+import java.util.List;
+
 /**
  *
  * @author Abishek.Ram
@@ -41,6 +43,6 @@ public interface TreeNode {
 
     public TreeNode getNthChild(int position);
 
-    public Iterable<TreeNode> getAllChildHierarchies();
+    public List<TreeNode> getAllChildHierarchies();
 
 }

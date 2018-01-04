@@ -44,8 +44,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CompanySearchLogic {
 
-    TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
-    Converters converters=new Converters();
+    private final TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
     public static final String LAZY_LOAD_RESULTS = "lazyLoadResults";
     public static final String SEARCH_SESSION_ID = "searchSessionId";
     public static final String COMPANIES_FROM_MAIN_TABLE = "getCompaniesFromMainTable";
@@ -242,7 +241,7 @@ public class CompanySearchLogic {
             parameters.put("orderBy", asc ? "ASC" : "DESC");
         }
         resultList = tpDao.searchCompanies(parameters);
-        returnList = converters.searchCompany(resultList);
+        returnList = Converters.searchCompany(resultList);
         return returnList;
     }
 
@@ -349,7 +348,7 @@ public class CompanySearchLogic {
         query.append(SQlUtil.getQuery(COMPANIES_FROM_MAIN_TABLE));
         query.append(" AND cm.COMPANY_MASTER_SID in (" + CommonUtils.CollectionToString(companyMasterSids, true) + ")");
         resultList = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
-        returnList = converters.searchCompany(resultList);
+        returnList = Converters.searchCompany(resultList);
         return returnList;
     }
     

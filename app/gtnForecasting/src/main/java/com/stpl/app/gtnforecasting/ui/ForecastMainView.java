@@ -82,7 +82,7 @@ public class ForecastMainView extends VerticalLayout implements View {
         }
         try {
             addComponent(new DataSelectionForm(dataSelectionBinder, dataSelectionDTO, screenName));
-        } catch (SystemException | PortalException exception) {
+        } catch (PortalException | SystemException exception) {
             LOGGER.error(exception.getMessage());
         }
     } // Ends here

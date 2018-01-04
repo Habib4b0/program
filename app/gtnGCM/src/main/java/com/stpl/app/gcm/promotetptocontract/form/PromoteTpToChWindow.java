@@ -17,9 +17,9 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class PromoteTpToChWindow extends CustomWindow {
 
-    SessionDTO session;
-    private PromoteTpToChDto promoteTpToChDto = new PromoteTpToChDto();
-    ExtFilterTable resultTable;
+    private final SessionDTO session;
+    private final PromoteTpToChDto promoteTpToChDto = new PromoteTpToChDto();
+    private final ExtFilterTable resultTable;
     /**
      * The Constant LOGGER.
      */

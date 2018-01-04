@@ -5,18 +5,19 @@
  */
 package com.stpl.app.cff.abstractCff;
 
-import com.stpl.app.cff.util.StringConstantsUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dto.CustomTreeBuild;
-import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
-import static com.stpl.app.cff.util.Constants.CommonConstantsForChannels.*;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.lazyLoad.ResultsTableLogic;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.CalculatePeriods.CALCULATE;
+import static com.stpl.app.cff.util.Constants.CommonConstantsForChannels.*;
 import static com.stpl.app.cff.util.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.cff.util.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.cff.util.Constants.FrequencyConstants.MONTHS;
@@ -31,29 +32,26 @@ import static com.stpl.app.cff.util.Constants.LabelConstants.TAB_PROJECTION_RESU
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.NmSPRGraphWindow;
 import com.stpl.app.cff.util.PRChart;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.parttwo.model.CffCustomViewMaster;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTreeTable;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +60,7 @@ import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.jboss.logging.Logger;
@@ -156,7 +155,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected List<CffCustomViewMaster> customViewList = new ArrayList<>();
     protected final float maxSplitPosition = 1000, minSplitPosition = NumericConstants.TWO_HUNDRED, splitPosition = 300;
     protected ExtCustomTreeTable exceltable;
-    private int tradingPartnerNo = 0;
+    private final int tradingPartnerNo = 0;
 
     protected Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
         @Override
@@ -401,7 +400,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setImmediate(true);
         periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -720,10 +718,10 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         if (projectionSelectionDTO.getActualsOrProjections().equals(BOTH.getConstant())) {
             projectionSelectionDTO.setActualsOrProjections("Actuals and Projections");
         }
-        final PRChart chart = new PRChart(chartiLst, projectionSelectionDTO, fullHeader);
-        final NmSPRGraphWindow prGraphWindow = new NmSPRGraphWindow(chart.getChart(), TAB_PROJECTION_RESULTS.getConstant());
-        UI.getCurrent().addWindow(prGraphWindow);
-        prGraphWindow.focus();
+//        final PRChart chart = new PRChart(chartiLst, projectionSelectionDTO, fullHeader);
+//        final NmSPRGraphWindow prGraphWindow = new NmSPRGraphWindow(chart.getChart(), TAB_PROJECTION_RESULTS.getConstant());
+//        UI.getCurrent().addWindow(prGraphWindow);
+//        prGraphWindow.focus();
         LOGGER.debug("graphExportLogic method ends");
     }
 

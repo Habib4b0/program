@@ -22,11 +22,11 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ItemIndexTableLogic extends PageTableLogic {
 
-    ItemIndexDto binderDto = new ItemIndexDto();
-    ItemLogic logic = new ItemLogic();
-    boolean generate = true;
-    SelectionDTO selection = new SelectionDTO();
-    List<ItemIndexDto> selecteditemList;
+    private ItemIndexDto binderDto = new ItemIndexDto();
+    private final ItemLogic logic = new ItemLogic();
+    private boolean generate = true;
+    private SelectionDTO selection = new SelectionDTO();
+    private List<ItemIndexDto> selecteditemList;
 
     /**
      * Record count logic

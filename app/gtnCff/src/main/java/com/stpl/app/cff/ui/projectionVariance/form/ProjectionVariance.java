@@ -4,13 +4,15 @@
  */
 package com.stpl.app.cff.ui.projectionVariance.form;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.abstractCff.AbstractProjectionVariance;
 import com.stpl.app.cff.dao.DataSelectionDAO;
 import com.stpl.app.cff.dao.impl.DataSelectionDAOImpl;
-import com.stpl.app.cff.dto.PVChart;
-import com.stpl.app.cff.dto.PVGraphWindow;
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.lazyLoad.VarianceTableLogic;
@@ -19,6 +21,7 @@ import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
 import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
+import static com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.SELECT_ONE;
 import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.ui.projectionVariance.dto.FilterGenerator;
 import com.stpl.app.cff.ui.projectionVariance.dto.PVParameters;
@@ -34,11 +37,12 @@ import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.DataSelectionUtil;
 import com.stpl.app.cff.util.HeaderUtils;
 import com.stpl.app.cff.util.PVQueryUtils;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.UiUtils;
 import com.stpl.app.model.ForecastConfig;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import static com.stpl.app.serviceUtils.ConstantUtil.SELECT_ONE;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -46,20 +50,13 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getSelectOne;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,6 +72,7 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -86,7 +84,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
     private boolean editFlag = false;
     private List<ComparisonLookupDTO> selectedList = new ArrayList<>();
-    private PVQueryUtils queryUtils = new PVQueryUtils();
+    private final PVQueryUtils queryUtils = new PVQueryUtils();
     
     public static final String SELECT_VARIABLES = "-Select Variables-";
     public static final String PROJECTION_VARIANCE = "Projection Variance";
@@ -103,10 +101,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private boolean firstGenerated = false;
     private List<Leveldto> currentHierarchy = new ArrayList<>();
     private Map<Integer, String> projectionMap = new HashMap<>();
-    public List<String> projNameList = new ArrayList<>();
-    public List<Integer> projIdList = new ArrayList<>();
-    private ProjectionVarianceLogic pvLogic = new ProjectionVarianceLogic();
-    public ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
+    private List<String> projNameList = new ArrayList<>();
+    private List<Integer> projIdList = new ArrayList<>();
+    private final ProjectionVarianceLogic pvLogic = new ProjectionVarianceLogic();
+    private ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainerDto = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
     private int tradingPartnerNo = 0;
     /**
      * The graph image.
@@ -114,7 +112,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private final Resource graphImage = new ThemeResource("../../icons/chart.png");
     private boolean isComparisonLookupOpened;
     private CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
-    public List<Integer> comparisonProjId = new ArrayList<>();
+    private List<Integer> comparisonProjId = new ArrayList<>();
 
     private final Map<String, List<ProjectionVarianceDTO>> resultMap = new HashMap();
     private final Map<String, Object> excelParentRecords = new HashMap();
@@ -129,7 +127,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private final PVExcelLogic excelLogic = new PVExcelLogic(resultMap, pvSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, parameterDto, discountMap, discountMapDetails);
 
 
-    private DataSelectionDTO dataSelectionDTO;
+    private final DataSelectionDTO dataSelectionDTO;
     private int columnSize = 0;
     public static final String ANULL = "null";
     public static final String DEDUCTION = "DEDUCTION";
@@ -141,7 +139,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
      
      public static final CommonLogic commonLogic = new CommonLogic();
 
-     private CommonUtils commonUtils = new CommonUtils();
+     private final CommonUtils commonUtils = new CommonUtils();
      
     public ProjectionVariance(SessionDTO sessionDTO, final DataSelectionDTO dataSelectionDTO) {
         super(sessionDTO);
@@ -153,7 +151,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         configureFields();
     }
     
-     private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
+     private final CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
             pvSelectionDTO.setDeductionLevelFilter((List) CommonLogic.getFilterValues(deductionFilterValues).get(SID));
@@ -164,7 +162,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
         }
     };
-       private CustomMenuBar.SubMenuCloseListener productlistener = new CustomMenuBar.SubMenuCloseListener() {
+       private final CustomMenuBar.SubMenuCloseListener productlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
             pvSelectionDTO.setProductLevelFilter((List) CommonLogic.getFilterValues(productFilterValues).get(SID));
@@ -174,7 +172,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         }
     };
         
-        private CustomMenuBar.SubMenuCloseListener customerlistener = new CustomMenuBar.SubMenuCloseListener() {
+        private final CustomMenuBar.SubMenuCloseListener customerlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
             pvSelectionDTO.setCustomerLevelFilter((List) CommonLogic.getFilterValues(customerFilterValues).get(SID));
@@ -379,14 +377,14 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             rightHeaderPeriod = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
             pvSelectionDTO.setRightHeaderPeriod(rightHeaderPeriod);
             alignRight();
-            resultBeanContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
-            resultBeanContainer.setColumnProperties(leftHeader.getProperties());
-            resultBeanContainer.setColumnProperties(rightHeader.getProperties());
+            resultBeanContainerDto = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
+            resultBeanContainerDto.setColumnProperties(leftHeader.getProperties());
+            resultBeanContainerDto.setColumnProperties(rightHeader.getProperties());
             tableLogic.setScreenName(screenName);
             tableLogic.sinkItemPerPageWithPageLength(false);
             List<Integer> pagelength = CommonLogic.getPageNumber();
             tableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
-            tableLogic.setContainerDataSource(resultBeanContainer);
+            tableLogic.setContainerDataSource(resultBeanContainerDto);
             tableLogic.setTreeNodeMultiClick(false);
             final ExtFilterTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
             final ExtFilterTreeTable rightTable = resultsTable.getRightFreezeAsTable();
@@ -568,10 +566,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 }
                 if (pivotView.getValue().equals("Variable")) {
                     pivotPanel.setCaption("Variable Pivot View");
-                    pivotPanel.setImmediate(true);
                 } else {
                     pivotPanel.setCaption("Period Pivot View");
-                    pivotPanel.setImmediate(true);
                 }
                 generated = true;
                 firstGenerated = true;
@@ -883,6 +879,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     @Override
     protected void resetBtnLogic() {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -1029,10 +1026,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 chartiLst.add(dto);
             }
         }
-        final PVChart chart = new PVChart(chartiLst, String.valueOf(frequency.getValue()), "", fullHeader, pvSelectionDTO);
-        final PVGraphWindow salesGraphWindow = new PVGraphWindow(chart.getChart(), PROJECTION_VARIANCE);
-        UI.getCurrent().addWindow(salesGraphWindow);
-        salesGraphWindow.focus();
+//        final PVChart chart = new PVChart(chartiLst, String.valueOf(frequency.getValue()), "", fullHeader, pvSelectionDTO);
+//        final PVGraphWindow salesGraphWindow = new PVGraphWindow(chart.getChart(), PROJECTION_VARIANCE);
+//        UI.getCurrent().addWindow(salesGraphWindow);
+//        salesGraphWindow.focus();
     }
 
     public static List<Date> getStartandTodate() {
@@ -1072,12 +1069,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         int businessProcessType = 0;
         try {
             businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, getCommercialConstant());
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(ProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(ProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
         }
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastConfig.class);
+        DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq("businessProcessType", businessProcessType));
         dynamicQuery.addOrder(OrderFactoryUtil.desc("versionNo"));
         try {
@@ -1288,11 +1283,11 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             map.put("Comparison Basis", comparisonBasis.getValue() != null ? comparisonBasis.getValue().toString() : StringUtils.EMPTY);
             map.put(Constants.DISPLAY_FORMAT_SAVE, StringUtils.join(CommonUtils.getDisplayFormatSelectedValues(displayFormatValues), Constants.COMMA));
             map.put(Constants.CUSTOMER_LEVEL_DDLB, customerlevelDdlb.getValue());
-            map.put(Constants.CUSTOMER_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(customerFilterValues).get(SID), Constants.COMMA));
+            map.put(Constants.CUSTOMER_LEVEL_VALUE, StringUtils.join(CommonLogic.getFilterValues(customerFilterValues).get(SID), Constants.COMMA));
             map.put(Constants.PRODUCT_LEVEL_DDLB, productlevelDdlb.getValue());
-            map.put(Constants.PRODUCT_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(productFilterValues).get(SID), Constants.COMMA));
+            map.put(Constants.PRODUCT_LEVEL_VALUE, StringUtils.join(CommonLogic.getFilterValues(productFilterValues).get(SID), Constants.COMMA));
             map.put(Constants.DEDUCTION_LEVEL_DDLB, productlevelDdlb.getValue());
-            map.put(Constants.DEDUCTION_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(deductionFilterValues).get(SID), Constants.COMMA));
+            map.put(Constants.DEDUCTION_LEVEL_VALUE, StringUtils.join(CommonLogic.getFilterValues(deductionFilterValues).get(SID), Constants.COMMA));
             logic.saveNMPVSelection(map, sessionDTO.getProjectionId(), PROJECTION_VARIANCE);
         } catch (Exception e) {
             LOGGER.error(e);

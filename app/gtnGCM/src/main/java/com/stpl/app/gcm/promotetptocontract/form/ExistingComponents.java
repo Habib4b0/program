@@ -76,7 +76,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -112,141 +111,135 @@ public class ExistingComponents extends CustomComponent implements View {
     private static final long serialVersionUID = 1L;
     private SessionDTO session;
     @UiField("transferCompPanelTableLayout")
-    public VerticalLayout transferCompPanelTableLayout;
+    private VerticalLayout transferCompPanelTableLayout;
     @UiField("contractDashboardResultsTableLayout")
-    public VerticalLayout contractDashboardResultsTableLayout;
+    private VerticalLayout contractDashboardResultsTableLayout;
     @UiField("componentDetailsTableLayout")
-    public VerticalLayout componentDetailsTableLayout;
+    private VerticalLayout componentDetailsTableLayout;
     @UiField("contractComponentDetailsTableLayout")
-    public VerticalLayout contractComponentDetailsTableLayout;
-    TreeTable contractDashboardResultsTable = new TreeTable();
-    public ExtFilterTable contractComponentDetailsTable = new ExtFilterTable();
+    private VerticalLayout contractComponentDetailsTableLayout;
+    private TreeTable contractDashboardResultsTable = new TreeTable();
+    private ExtFilterTable contractComponentDetailsTable = new ExtFilterTable();
     private BeanItemContainer<ComponentInfoDTO> transferCompContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
     private BeanItemContainer<ComponentInfoDTO> selectedContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
     @UiField("componentType")
-    public ComboBox componentTypeDdlb;
+    private ComboBox componentTypeDdlb;
     @UiField("searchField")
-    public ComboBox searchFieldDdlb;
+    private ComboBox searchFieldDdlb;
     @UiField("rebateScheduleId")
-    public TextField rebateScheduleId;
+    private TextField rebateScheduleId;
     @UiField("status")
-    public TextField status;
+    private TextField status;
     @UiField("rebateFrequency")
-    public TextField rebateFrequency;
+    private TextField rebateFrequency;
     @UiField("rsNumber")
-    public TextField rsNumber;
+    private TextField rsNumber;
     @UiField("startDate")
-    public TextField startDate;
+    private TextField startDate;
     @UiField("rarType")
-    public TextField rarType;
+    private TextField rarType;
     @UiField("rsType")
-    public TextField rsType;
+    private TextField rsType;
     @UiField("rsName")
-    public TextField rsName;
+    private TextField rsName;
     @UiField("endDate")
-    public TextField endDate;
+    private TextField endDate;
     @UiField("basis")
-    public TextField basis;
+    private TextField basis;
     @UiField("excelBtn1")
-    public Button excelBtn1;
+    private Button excelBtn1;
     @UiField("excelBtn2")
-    public Button excelBtn2;
+    private Button excelBtn2;
     @UiField("searchValue")
-    public TextField searchValue;
+    private TextField searchValue;
     @UiField("searchBtn1")
-    public Button searchBtn1;
+    private Button searchBtn1;
     @UiField("addToTreeBtn1")
-    public Button addToTreeBtn1;
+    private Button addToTreeBtn1;
     @UiField("removeBtn2")
-    public Button removeBtn2;
+    private Button removeBtn2;
     @UiField("populateBtn2")
-    public Button populateBtn2;
+    private Button populateBtn2;
     @UiField("cfpDetailsGrid")
-    public GridLayout cfpDetailsGrid;
+    private GridLayout cfpDetailsGrid;
     @UiField("ifpDetailsGrid")
-    public GridLayout ifpDetailsGrid;
+    private GridLayout ifpDetailsGrid;
     @UiField("psDetailsGrid")
-    public GridLayout psDetailsGrid;
+    private GridLayout psDetailsGrid;
     @UiField("rsDetailsGrid")
-    public GridLayout rsDetailsGrid;
+    private GridLayout rsDetailsGrid;
     @UiField("cfpDetailsNo")
-    public TextField cfpDetailsNo;
+    private TextField cfpDetailsNo;
     @UiField("cfpDetailsName")
-    public TextField cfpDetailsName;
+    private TextField cfpDetailsName;
     @UiField("ifpDetailsNo")
-    public TextField ifpDetailsNo;
+    private TextField ifpDetailsNo;
     @UiField("ifpDetailsName")
-    public TextField ifpDetailsName;
+    private TextField ifpDetailsName;
     @UiField("psDetailsNo")
-    public TextField psDetailsNo;
+    private TextField psDetailsNo;
     @UiField("psDetailsName")
-    public TextField psDetailsName;
+    private TextField psDetailsName;
     @UiField("rsDetailsNo")
-    public TextField rsDetailsNo;
+    private TextField rsDetailsNo;
     @UiField("rsDetailsName")
-    public TextField rsDetailsName;
+    private TextField rsDetailsName;
     @UiField("ifpId")
-    public TextField ifpId;
+    private TextField ifpId;
     @UiField("ifpNo")
-    public TextField ifpNo;
+    private TextField ifpNo;
     @UiField("ifpName")
-    public TextField ifpName;
+    private TextField ifpName;
     @UiField("ifpStatus")
-    public TextField ifpStatus;
+    private TextField ifpStatus;
     @UiField("ifpType")
-    public TextField ifpType;
+    private TextField ifpType;
     @UiField("ifpStartDate")
-    public TextField ifpStartDate;
+    private TextField ifpStartDate;
     @UiField("ifpEndDate")
-    public TextField ifpEndDate;
+    private TextField ifpEndDate;
     @UiField("psId")
-    public TextField psId;
+    private TextField psId;
     @UiField("psNo")
-    public TextField psNo;
+    private TextField psNo;
     @UiField("psName")
-    public TextField psName;
+    private TextField psName;
     @UiField("psStatus")
-    public TextField psStatus;
+    private TextField psStatus;
     @UiField("psStartDate")
-    public TextField psStartDate;
+    private TextField psStartDate;
     @UiField("psEndDate")
-    public TextField psEndDate;
+    private TextField psEndDate;
     @UiField("searchType")
-    public ComboBox searchType;
+    private ComboBox searchType;
     @UiField("componentInformationLayout1")
-    public GridLayout componentInformationLayout1;
+    private GridLayout componentInformationLayout1;
     @UiField("componentInfoIfpLayout")
-    public GridLayout componentInfoIfpLayout;
+    private GridLayout componentInfoIfpLayout;
     @UiField("componentInfoPsLayout")
-    public GridLayout componentInfoPsLayout;
-    ExtTreeContainer<ComponentInfoDTO> dashBoardTreeContainer1 = new ExtTreeContainer<>(ComponentInfoDTO.class);
+    private GridLayout componentInfoPsLayout;
+    private  ExtTreeContainer<ComponentInfoDTO> dashBoardTreeContainer1 = new ExtTreeContainer<>(ComponentInfoDTO.class);
     private BeanItemContainer<ComponentInfoDTO> componentResultsContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
-    public List parentList = new ArrayList();
-    public int levelValue;
-    ComponentInfoDTO componentInfoDTO = new ComponentInfoDTO();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    ExistingComponentSearchTableLogic availableTableLogic = new ExistingComponentSearchTableLogic();
-    public ExtPagedTable componentResultsTable = new ExtPagedTable(availableTableLogic);
-    ComponentInfoDTO newDiscountTabDto = new ComponentInfoDTO();
-    public ExtPagedFilterTable componentDetailsSelectedItem = new ExtPagedFilterTable();
-    List<Integer> newlyAddedRebates = new ArrayList<>();
-    Object treeBeanId;
+    private ExistingComponentSearchTableLogic availableTableLogic = new ExistingComponentSearchTableLogic();
+    private ExtPagedTable componentResultsTable = new ExtPagedTable(availableTableLogic);
+    private ComponentInfoDTO newDiscountTabDto = new ComponentInfoDTO();
+    private ExtPagedFilterTable componentDetailsSelectedItem = new ExtPagedFilterTable();
+    
     private ExtTreeContainer<ComponentInfoDTO> excelResultBean2 = new ExtTreeContainer<>(ComponentInfoDTO.class);
-    public List<ComponentInfoDTO> componentInformation = new ArrayList<>();
-    public List<ComponentInfoDTO> componentInfo = new ArrayList<>();
+    
     private ExtCustomTable exportPeriodViewTable = new ExtCustomTable();
     private ExtCustomTable exportPeriodViewTable2 = new ExtCustomTable();;
-    String excelName1 = "Component Results";
-    String excelName2 = "Component Details";
-    PromoteTPLogic logic = new PromoteTPLogic();
-    QueryUtils queryUtils = new QueryUtils();
-    DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
-    List<HelperDTO> itemStatusList = new ArrayList<>();
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
-    Boolean contractExcelFlag = false;
-    Boolean infoExcelFlag = false;
-    StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private String excelName1 = "Component Results";
+    private String excelName2 = "Component Details";
+    private PromoteTPLogic logic = new PromoteTPLogic();
+    private QueryUtils queryUtils = new QueryUtils();
+    private DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+    private List<HelperDTO> itemStatusList = new ArrayList<>();
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
+    private Boolean contractExcelFlag = false;
+    private Boolean infoExcelFlag = false;
+    private StplSecurity stplSecurity = new StplSecurity();
 
     public ExistingComponents(SessionDTO session, TreeTable contractDashBoardTable) {
         try {
@@ -344,6 +337,7 @@ public class ExistingComponents extends CustomComponent implements View {
         });
 
         componentResultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+            @Override
             public void itemClick(ItemClickEvent event) {
                 ComponentInfoDTO comInfoDto = (ComponentInfoDTO) event.getItemId();
                 String compType = String.valueOf(componentTypeDdlb.getValue());
@@ -495,6 +489,7 @@ public class ExistingComponents extends CustomComponent implements View {
         contractComponentDetailsTable.setColumnHeaders(Constants.getInstance().componentDetailsHeaders);
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         //empty
     }

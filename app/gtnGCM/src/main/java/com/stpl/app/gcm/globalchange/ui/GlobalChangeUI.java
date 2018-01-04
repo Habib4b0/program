@@ -8,6 +8,7 @@ import com.stpl.app.gcm.common.HelperListUtil;
 import com.stpl.app.gcm.globalchange.ui.view.GlobalChangeUIMainView;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
+import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
@@ -24,13 +25,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author alok.v
  */
-@Theme("mytheme")
-@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Theme("stpl")
+@Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet") 
 @Component(service = UI.class, property = {
     "com.liferay.portlet.display-category=Forecast and Planning",
     "javax.portlet.name=GlobalChangeManagement",
     "javax.portlet.display-name=Global Change Management",
     "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
+@JavaScript("js/WorkflowInboxListener.js")
 public class GlobalChangeUI extends UI {
 
     Navigator navigator;
@@ -43,7 +45,6 @@ public class GlobalChangeUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        try {
         addStyleName("bootstrap bootstrap-ui bootstrap-forecast bootstrap-nm");
         navigator = new Navigator(this, this);
 
@@ -67,25 +68,22 @@ public class GlobalChangeUI extends UI {
 //            VaadinPortletSession portletsession = (VaadinPortletSession) VaadinSession.getCurrent();
 //            portletsession.addPortletListener(this);
 //        }
-        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
-            @Override
-            public void error(com.vaadin.server.ErrorEvent event) {
-                // Find the final cause
-                String cause = "The Exception occured because of: ";
-                for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
-                    if (t.getCause() == null) {
-                        cause += t.getClass().getName();
-                    }
+//        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+//            @Override
+//            public void error(com.vaadin.server.ErrorEvent event) {
+//                // Find the final cause
+//                String cause = "The Exception occured because of: ";
+//                for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
+//                    if (t.getCause() == null) {
+//                        cause += t.getClass().getName();
+//                    }
+//
+//                }
+//                LOGGER.error(cause);
+//                // Do the default error handling (optional)
+//            }
+//        });
 
-                }
-                LOGGER.error("",cause);
-                // Do the default error handling (optional)
-            }
-        });
-        }catch (Exception ex) {
-            ex.printStackTrace();
-            LOGGER.error("",ex);
-        }
     }
 
-}
+    }

@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.NationalAssumptionLogic;
 import com.stpl.ifs.util.HelperDTO;
 import java.util.Collections;
@@ -47,7 +49,7 @@ public class BrandContainer implements DAO<HelperDTO> {
         try {
             LOGGER.debug("Entering BrandContainer Count method :");
             return NationalAssumptionLogic.getLazyBrandCount(searchCriteria.getFilter(), brand) + 1;
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return 0;
@@ -61,7 +63,7 @@ public class BrandContainer implements DAO<HelperDTO> {
         try {
             LOGGER.debug("Entering BrandContainer find method :");
             return NationalAssumptionLogic.getLazyBrandResults(startIndex, startIndex + offset, searchCriteria.getFilter(), brand,preBrandValue);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return Collections.emptyList();

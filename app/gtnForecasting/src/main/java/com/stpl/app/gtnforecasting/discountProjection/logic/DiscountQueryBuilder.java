@@ -663,7 +663,7 @@ public class DiscountQueryBuilder {
             return Collections.EMPTY_LIST;
         } else {
             return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames()));
-        }
+        } 
     }
     
     public List getDiscountProjectionLastLevel(final String frequency, final List<String> discountList,
@@ -1061,27 +1061,30 @@ public class DiscountQueryBuilder {
         Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
         StringBuilder stringBuilder = new StringBuilder();
 
-        boolean isNotFirstElement = false;
-        boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
+		boolean isNotFirstElement = false;
+		boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo)
+				|| "D".equals(hierarchyIndicator);
+		int i = 1;
+		for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
+			if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo
+					&& hierarchyIndicator.equals(entry.getValue().get(4).toString()))
+					&& (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
 
-        for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
-            if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
+				if (isNotFirstElement) {
+					stringBuilder.append(",\n");
+				}
+				stringBuilder.append("('");
+				stringBuilder.append(entry.getKey());
+				stringBuilder.append("'," + i++ + ")");
 
-                if (isNotFirstElement) {
-                    stringBuilder.append(",\n");
-                }
-                stringBuilder.append("('");
-                stringBuilder.append(entry.getKey());
-                stringBuilder.append("')");
-
-                isNotFirstElement = true;
-            }
-        }
-        if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
-            stringBuilder.append("('");
-            stringBuilder.append("')");
-        }
-        return stringBuilder.toString();
-    }
+				isNotFirstElement = true;
+			}
+		}
+		if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
+			stringBuilder.append("('");
+			stringBuilder.append("')");
+		}
+		return stringBuilder.toString();
+	}
 
 }

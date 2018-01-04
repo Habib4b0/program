@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.discountprojectionresults.logic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.discountprojectionresults.dto.DiscountProjectionResultsDTO;
@@ -39,25 +41,22 @@ public class MMDPRLogic {
 
     private static final DecimalFormat DOLLAR = new DecimalFormat("#");
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("0.000");
-    private final String ACTUALSRATE = "ActualsRate";
-    private final String ACTUALSAMOUNT = "ActualsAmount";
-    private final String PROJECTIONSRATE = "ProjectionsRate";
-    private final String PROJECTIONSAMOUNT = "ProjectionsAmount";
-    private final String ACTUALRPU = "ActualsRPU";
-    private final String PROJECTEDRPU = "ProjectedRPU";
-    private final String NULL = "null";
-    private final String HYPHEN = "-";
-    private final String Q = "q";
-    private final String PERCENTAGE = Constant.PERCENT;
-    private final String DOLLAR_SYMBOL = "$";
+    private static final String ACTUALSRATE = "ActualsRate";
+    private static final String ACTUALSAMOUNT = "ActualsAmount";
+    private static final String PROJECTIONSRATE = "ProjectionsRate";
+    private static final String PROJECTIONSAMOUNT = "ProjectionsAmount";
+    private static final String ACTUALRPU = "ActualsRPU";
+    private static final String PROJECTEDRPU = "ProjectedRPU";
+    private static final String NULL = "null";
+    private static final String HYPHEN = "-";
+    private static final String Q = "q";
+    private static final String PERCENTAGE = Constant.PERCENT;
+    private static final String DOLLAR_SYMBOL = "$";
     private static final String CURRENCY = "$";
-    DPRQueryUtils dqLogic = new DPRQueryUtils();
-    boolean checkFlag = true;
-    boolean conditionFlag = true;
-    boolean curFlag = false;
-    String groupValue = StringUtils.EMPTY;
-     Object[] dprOrderedArgs;
-     List<Object[]> totalPrcResultList=new ArrayList<>();
+    private final DPRQueryUtils dqLogic = new DPRQueryUtils();
+    
+    private Object[] dprOrderedArgs;
+    private final List<Object[]> totalPrcResultList=new ArrayList<>();
     /**
      * The Constant LOGGER.
      */
@@ -66,11 +65,10 @@ public class MMDPRLogic {
     private String groupName = StringUtils.EMPTY;
     private String pivotGroupName = StringUtils.EMPTY;
     private String pivotBrandName = StringUtils.EMPTY;
-    CommonLogic cmLogic = new CommonLogic();
     private String nmSupp_Level = StringUtils.EMPTY;
     public static final SimpleDateFormat FORMATDATE = new SimpleDateFormat(Constant.DATE_FORMAT);
-    HashMap<String, String> map = new HashMap<>();
-    boolean viewFlag = false;
+    private final HashMap<String, String> map = new HashMap<>();
+    private boolean viewFlag = false;
 
     public List<DiscountProjectionResultsDTO> getConfiguredMMDicountResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) {
          viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
@@ -850,7 +848,6 @@ public class MMDPRLogic {
 
             projSelDTO.setLastFlag(true);
             projSelDTO.setFilterLevelValue(Constant.CUSTOMER_SMALL);
-            conditionFlag = false;
         } else if ((Constant.DISCOUNT_SMALL.equals(projSelDTO.getPivotView())) && ((Constant.CUSTOMER_SMALL.equalsIgnoreCase(projSelDTO.getCurrentLevel()) || Constant.CONTRACT_SMALL.equalsIgnoreCase(projSelDTO.getCurrentLevel()) || Constant.BRAND_CAPS.equalsIgnoreCase(projSelDTO.getCurrentLevel())) && projSelDTO.getPivotView().equalsIgnoreCase(Constant.DISCOUNT_SMALL))) {
                 DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
                 List<DiscountProjectionResultsDTO> pivotDTO;
@@ -972,14 +969,14 @@ public class MMDPRLogic {
 
         String userId = String.valueOf(projSel.getUserId());
         String sessionId = projSel.getSessionDTO().getSessionId();
-        String managed_Medicaid = Constant.MANAGED_MEDICAID;
+        String managedMedicaid = Constant.MANAGED_MEDICAID;
         String quarterly = projSel.getFrequency();
         String frequency = StringUtils.EMPTY;
         Object object1 = null;
         Object object0 = null;
         Integer historyStartMonth = projSel.getForecastDTO().getHistoryStartMonth();
         Integer historyStartYear = projSel.getForecastDTO().getHistoryStartYear();
-        int ProjectioId = Integer.valueOf(projSel.getProjectionId());
+        int projectionId = Integer.valueOf(projSel.getProjectionId());
         if (Constant.QUARTERLY.equalsIgnoreCase(quarterly)) {
             frequency = Constant.QUARTERLY;
         } else if (SEMI_ANNUALLY.getConstant().equalsIgnoreCase(quarterly)) {
@@ -989,7 +986,7 @@ public class MMDPRLogic {
         } else if (MONTHLY.getConstant().equalsIgnoreCase(quarterly)) {
             frequency = MONTHLY.getConstant();
         }
-        Object[] orderedArgs = {ProjectioId, userId, sessionId, managed_Medicaid, frequency, object1, object0, historyStartMonth, historyStartYear};
+        Object[] orderedArgs = {projectionId, userId, sessionId, managedMedicaid, frequency, object1, object0, historyStartMonth, historyStartYear};
          List<Object[]> list;
          // Procedure called only in  Tab Change
         if (projSel.getSessionDTO().isDprRefreshReqd() ||  !CommonLogic.checkProcedureInputIsSame(orderedArgs, dprOrderedArgs)) {
@@ -1143,7 +1140,7 @@ public class MMDPRLogic {
 
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
 
@@ -1203,7 +1200,7 @@ public class MMDPRLogic {
                         double projectedSales = 0;
                         double projectedAmount = 0;
                         int year = 0;
-                        int Quarter = 0;
+                        int quarter = 0;
                         String commonColumn = StringUtils.EMPTY;
                         for (int j = 0; j < list.size(); j++) {
                             final Object[] object = (Object[]) list.get(j);
@@ -1215,7 +1212,7 @@ public class MMDPRLogic {
                             if (object[NumericConstants.SIX] != null) {
                                 selectedQuarter = (Integer) object[NumericConstants.SIX];
                             }
-                            if (year == selectedYear && Quarter == selectedQuarter) {
+                            if (year == selectedYear && quarter == selectedQuarter) {
                                 if (object[NumericConstants.TWO] != null) {
                                     Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
                                     actualSales = actualSales + aSales;
@@ -1235,7 +1232,7 @@ public class MMDPRLogic {
 
                             } else if (j == 0) {
                                 year = selectedYear;
-                                Quarter = selectedQuarter;
+                                quarter = selectedQuarter;
                                 commonColumn = Q + object[NumericConstants.SIX] + object[0];
                                 if (object[NumericConstants.TWO] != null) {
                                     Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
@@ -1290,7 +1287,7 @@ public class MMDPRLogic {
                                 projectedAmount = 0;
                                 commonColumn = Q + object[NumericConstants.SIX] + object[0];
                                 year = (Integer) object[0];
-                                Quarter = (Integer) object[NumericConstants.SIX];
+                                quarter = (Integer) object[NumericConstants.SIX];
                                 if (object[NumericConstants.TWO] != null) {
                                     Double aSales = Double.parseDouble(String.valueOf(object[NumericConstants.TWO]));
                                     actualSales = actualSales + aSales;
@@ -1341,7 +1338,7 @@ public class MMDPRLogic {
                                 projectedAmount = 0;
                                 commonColumn = Q + object[NumericConstants.SIX] + object[0];
                                 year = (Integer) object[0];
-                                Quarter = (Integer) object[NumericConstants.SIX];
+                                quarter = (Integer) object[NumericConstants.SIX];
                             }
                         }
                     }
@@ -1762,7 +1759,7 @@ public class MMDPRLogic {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         return dto;
@@ -1864,7 +1861,7 @@ public class MMDPRLogic {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         return dto;
@@ -1915,14 +1912,14 @@ public class MMDPRLogic {
         List<DiscountProjectionResultsDTO> resultList = new ArrayList<>();
         String userId = String.valueOf(projSelDTO.getUserId());
         String sessionId = projSelDTO.getSessionDTO().getSessionId();
-        String managed_Medicaid = Constant.MANAGED_MEDICAID;
+        String managedMedicaid = Constant.MANAGED_MEDICAID;
         String quarterly = projSelDTO.getFrequency();
         String frequency = StringUtils.EMPTY;
         Object object1 = null;
         Object object0 = null;
         Integer historyStartMonth = projSelDTO.getForecastDTO().getHistoryStartMonth();
         Integer historyStartYear = projSelDTO.getForecastDTO().getHistoryStartYear();
-        int ProjectioId = Integer.valueOf(projSelDTO.getProjectionId());
+        int projectionId = Integer.valueOf(projSelDTO.getProjectionId());
         if (Constant.QUARTERLY.equalsIgnoreCase(quarterly)) {
             frequency = Constant.QUARTERLY;
         } else if (SEMI_ANNUALLY.getConstant().equalsIgnoreCase(quarterly)) {
@@ -1933,7 +1930,7 @@ public class MMDPRLogic {
             frequency = MONTHLY.getConstant();
         }
 
-        Object[] orderedArgs = {ProjectioId, userId, sessionId, managed_Medicaid, frequency, object1, object0, historyStartMonth, historyStartYear};
+        Object[] orderedArgs = {projectionId, userId, sessionId, managedMedicaid, frequency, object1, object0, historyStartMonth, historyStartYear};
          List<Object[]> list;
         if (projSelDTO.getSessionDTO().isDprRefreshReqd() ||  !CommonLogic.checkProcedureInputIsSame(orderedArgs, dprOrderedArgs)) {
             // Procedure called only in  Tab Change
@@ -2335,6 +2332,7 @@ public class MMDPRLogic {
     public List<DiscountProjectionResultsDTO> getPivotManCus(DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO) {
         try {
             List list = new ArrayList();
+            boolean curFlag;
             dto.setParent(1);
             curFlag = false;
             List<DiscountProjectionResultsDTO> pivotDiscount = new ArrayList<>();
@@ -2634,7 +2632,7 @@ public class MMDPRLogic {
             list = (List) dao.executeSelectQuery(customSql.toString());
 
             return list;
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
             return Collections.emptyList();
         }

@@ -54,11 +54,13 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
 
     }
 
+@Override
     public List loadCompanyTypeDDLB(Map<String, Object> parameters) {
 
         return CompanyMasterImpl.getCompanyTypeCount(parameters);
     }
 
+@Override
     public int getCompanyTypeCount(DynamicQuery dynamicQuery) {
         try {
             return (int) CompanyMasterLocalServiceUtil.dynamicQueryCount(dynamicQuery);
@@ -68,6 +70,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         return 0;
     }
 
+@Override
     public List<Object[]> getCompanyTypes(DynamicQuery dynamicQuery) {
         try {
             return CompanyMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
@@ -90,6 +93,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
      * @param rebateId
      * @return
      */
+@Override
     public List getComponentInfo(String componentSelectionValue, String rebateId) {
         String query1;
         String query2;
@@ -119,15 +123,18 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         return new ArrayList();
     }
 
+@Override
     public Object executeSelectQuery(String query) throws SystemException, PortalException {
 
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
+@Override
     public List<HelperTable> getHelperTableList(final DynamicQuery dynamicQuery) throws SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
 
+@Override
     public void updateCFP(List<Object> input) {
         String sql = SQlUtil.getQuery("Existing.saveCFP");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
@@ -139,6 +146,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         HelperTableLocalServiceUtil.executeUpdateQuery(sql);
     }
 
+@Override
     public void updateIFP(List<Object> input) {
         String sql = SQlUtil.getQuery("Existing.saveIFP");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
@@ -150,6 +158,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         HelperTableLocalServiceUtil.executeUpdateQuery(sql);
     }
 
+@Override
     public void updatePS(List<Object> input) {
         String sql = SQlUtil.getQuery("Existing.savePS");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
@@ -161,6 +170,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         HelperTableLocalServiceUtil.executeUpdateQuery(sql);
     }
 
+@Override
     public void updateRS(List<Object> input) {
         String sql = SQlUtil.getQuery("Existing.saveRS");
         sql = sql.replaceFirst("[?]", input.get(0).toString());
@@ -172,10 +182,12 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         HelperTableLocalServiceUtil.executeUpdateQuery(sql);
     }
 
+@Override
     public List getItems(String query) throws SystemException {
         return (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
   
+@Override
       public void updateSubmitFlag(String screenName, String userId, String sessionId, boolean flag,CurrentContractDTO dto) {
     try {
         String udcValue = Constants.ZEROSTRING;
@@ -195,11 +207,11 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         if (dto.getIfpId() != null) {
             temp.setIfpModelSid(dto.getIFPId());
         }
-        if (dto.getCFPId() != null) {
-            temp.setCfpModelSid(dto.getCFPId());
+        if (dto.getCfpId() != null) {
+            temp.setCfpModelSid(dto.getCfpId());
         }
-        if (dto.getRSId() != null) {
-            temp.setRsModelSid(dto.getRSId());
+        if (dto.getRsId() != null) {
+            temp.setRsModelSid(dto.getRsId());
         }
         temp.setOperation("Promote_TP_Submit");
         temp.setSessionId(sessionId);
@@ -214,6 +226,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
     }
     }
 
+@Override
     public List getComponentInformation(String componentSelectionValue, String[] id) {
         String query1 = StringUtils.EMPTY;
         String query2 = StringUtils.EMPTY;
@@ -299,6 +312,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         return (List) ContractMasterImpl.executeSelectQueries(queries);
     }
 
+@Override
     public List startDateAndEndDateValidation(String userId, String sessionId, String screenName) {
         String query1 = "select count(*) from GCM_GLOBAL_DETAILS where USER_ID =  '" + userId + "' AND SESSION_ID =  '" + sessionId + "' and SCREEN_NAME =  '" + screenName + "' and CHECK_RECORD = '1'";
         String query2 = "select count(*) from GCM_GLOBAL_DETAILS where USER_ID = '" + userId + "' AND SESSION_ID = '" + sessionId + "' and SCREEN_NAME = '" + screenName + "' and CHECK_RECORD = '1' and END_DATE IS NOT NULL";
@@ -310,12 +324,14 @@ public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTpDAOImpl.cla
         return (List) ContractMasterImpl.executeSelectQueries(queries);
     }
 
+@Override
     public List isAnyRecordSelected(String userId, String sessionId, String screenName) {
         String query = "select count(*) from GCM_GLOBAL_DETAILS where USER_ID = '" + userId + "' AND SESSION_ID = '" + sessionId + "' and SCREEN_NAME = '" + screenName + "' and CHECK_RECORD = '1'";
 
         return (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
+@Override
     public List searchCompanies(Map<String, Object> parameters) throws SystemException {
         return CompanyMasterImpl.searchCompanies(parameters);
     }

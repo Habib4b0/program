@@ -11,7 +11,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import java.nio.file.Paths;
 
 public class GtnWsThreadLocalImpl extends ThreadLocal {
 	public static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsThreadLocalImpl.class);

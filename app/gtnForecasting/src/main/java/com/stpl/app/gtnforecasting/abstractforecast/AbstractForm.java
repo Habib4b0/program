@@ -29,7 +29,7 @@ public abstract class AbstractForm extends VerticalLayout {
 	protected static Button btnNext;
 	protected static Button btnPrev;
 	protected static Button btnClose;
-	protected Button btnRefresh;
+	private Button btnRefresh;
 	protected Button btnApprove;
 	protected Button btnReject;
 	protected Button btnWithdraw;

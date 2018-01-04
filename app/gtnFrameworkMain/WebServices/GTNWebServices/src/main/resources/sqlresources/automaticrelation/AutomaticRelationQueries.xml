@@ -295,6 +295,27 @@ WHERE
          ]]>
 		</query>
 	</entity>
+        <entity id="manualRelationCheck">
+		<query> 
+        <![CDATA[
+            SELECT
+	CASE
+		WHEN EXISTS(
+			SELECT
+				1
+			from
+				RELATIONSHIP_BUILDER RB
+                                join HIERARCHY_DEFINITION HD on HD.HIERARCHY_DEFINITION_SID = RB.HIERARCHY_DEFINITION_SID
+                                join HELPER_TABLE HT on HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY and HT.DESCRIPTION = 'Product Hierarchy'                                
+			where
+				RB.RELATIONSHIP_BUILDER_SID = ? AND RB.BUILD_TYPE = 'Manual'
+		) THEN 1
+		ELSE 0
+	END;
+        ]]>
+
+		</query>
+	</entity>
 
 
 </sql>

@@ -28,12 +28,12 @@ import org.jboss.logging.Logger;
  */
 public class NonFampTableLogic extends PageTreeTableLogic {
 
-    int levelNo;
-    String hierarchyNo;
-    boolean firstGenerated = false;
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    private int levelNo;
+    private String hierarchyNo;
+    private boolean firstGenerated = false;
+    private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final FcpResultsLogic fcpResLogic = new FcpResultsLogic();
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
      /**
      * The Constant LOGGER.
      */

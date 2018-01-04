@@ -19,11 +19,11 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ComponentInfoTableLogic extends PageTableLogic {
 
-    int userId;
-    int sessionId;
-    DiscountLogic logic = new DiscountLogic();
-    List<String> rebateList = new ArrayList();
-    ContractsDetailsDto dto;
+    private int userId;
+    private int sessionId;
+    private final DiscountLogic logic = new DiscountLogic();
+    private List<String> rebateList = new ArrayList();
+    private ContractsDetailsDto dto;
     public String indicator;
     public boolean summaryFlag;
 

@@ -14,29 +14,29 @@ import org.apache.commons.lang.StringUtils;
  */
 public class RsIfpDto implements Serializable {
 
-    public String rebateScheduleTransRefNo = StringUtils.EMPTY;
+    private String rebateScheduleTransRefNo = StringUtils.EMPTY;
     /**
      * The company familyplan system id.
      */
-    public int companyFamilyplanSystemId;
+    private int companyFamilyplanSystemId;
     /**
      * The formula method id.
      */
-    public String formulaMethodId;
+    private String formulaMethodId;
     /**
      * The payment frequency.
      */
-    public Integer paymentFrequency = 0;
+    private Integer paymentFrequency = 0;
     /**
      * The rebate schedule trans ref name.
      */
-    public String statusRebate = StringUtils.EMPTY;
-    public String RebateSchduleStatusvalue = StringUtils.EMPTY;
-    public String rebateScheduleTransRefName = StringUtils.EMPTY;
-    public String rebatenumber = StringUtils.EMPTY;
-    public String rebatetype = StringUtils.EMPTY;
-    public String RSStartdate = StringUtils.EMPTY;
-    public String RSenddate = StringUtils.EMPTY;
+    private String statusRebate = StringUtils.EMPTY;
+    private String RebateSchduleStatusvalue = StringUtils.EMPTY;
+    private String rebateScheduleTransRefName = StringUtils.EMPTY;
+    private String rebatenumber = StringUtils.EMPTY;
+    private String rebatetype = StringUtils.EMPTY;
+    private String RSStartdate = StringUtils.EMPTY;
+    private String RSenddate = StringUtils.EMPTY;
     private String therapeuticClass = StringUtils.EMPTY;
     private String brand = StringUtils.EMPTY;
     private String itemStatus = StringUtils.EMPTY;
@@ -50,31 +50,31 @@ public class RsIfpDto implements Serializable {
     /**
      * The modified date.
      */
-    public Date modifiedDate;
+    private Date modifiedDate;
     /**
      * The parent rebate schedule name.
      */
-    public String parentRebateScheduleName = StringUtils.EMPTY;
+    private String parentRebateScheduleName = StringUtils.EMPTY;
     /**
      * The item familyplan system id.
      */
-    public int itemFamilyplanSystemId;
+    private int itemFamilyplanSystemId;
     /**
      * The parent rebate schedule id.
      */
-    public String parentRebateScheduleId = StringUtils.EMPTY;
+    private String parentRebateScheduleId = StringUtils.EMPTY;
     /**
      * The rebate plan level.
      */
-    public Integer rebatePlanLevel = 0;
+    private Integer rebatePlanLevel = 0;
     /**
      * The rebate rule type.
      */
-    public Integer rebateRuleType = 0;
+    private Integer rebateRuleType = 0;
     /**
      * The inbound status.
      */
-    public String inboundStatus;
+    private String inboundStatus;
 
     public int getManfCompanyMasterSid() {
         return manfCompanyMasterSid;
@@ -86,8 +86,8 @@ public class RsIfpDto implements Serializable {
     /**
      * The rebate schedule status.
      */
-    public Integer rebateScheduleStatus = 0;
-    public int manfCompanyMasterSid;
+    private Integer rebateScheduleStatus = 0;
+    private int manfCompanyMasterSid;
 
     public Integer getManufacturer() {
         return manufacturer;
@@ -99,209 +99,209 @@ public class RsIfpDto implements Serializable {
     /**
      * The modified by.
      */
-    public String modifiedBy;
-    public Integer manufacturer;
+    private String modifiedBy;
+    private Integer manufacturer;
     /**
      * The udc6.
      */
-    public Integer udc6;
+    private Integer udc6;
     /**
      * The udc5.
      */
-    public Integer udc5;
+    private Integer udc5;
     /**
      * The udc4.
      */
-    public Integer udc4;
+    private Integer udc4;
     /**
      * The rebate schedule no.
      */
-    public String rebateScheduleNo = StringUtils.EMPTY;
+    private String rebateScheduleNo = StringUtils.EMPTY;
     /**
      * The payment method.
      */
-    public Integer paymentMethod;
+    private Integer paymentMethod;
     /**
      * The udc1.
      */
-    public Integer udc1;
+    private Integer udc1;
     /**
      * The zip code.
      */
-    public String zipCode;
+    private String zipCode;
     /**
      * The udc2.
      */
-    public Integer udc2;
+    private Integer udc2;
     /**
      * The member familyplan system id.
      */
-    public int memberFamilyplanSystemId;
+    private int memberFamilyplanSystemId;
     /**
      * The udc3.
      */
-    public Integer udc3;
+    private Integer udc3;
     /**
      * The rebate rule association.
      */
-    public String rebateRuleAssociation;
+    private String rebateRuleAssociation;
     /**
      * The internal notes.
      */
-    public String internalNotes;
+    private String internalNotes;
     /**
      * The record lock status.
      */
-    public boolean recordLockStatus;
+    private boolean recordLockStatus;
     /**
      * The rebate schedule designation.
      */
-    public Integer rebateScheduleDesignation;
+    private Integer rebateScheduleDesignation;
     /**
      * The rebate schedule trans ref id.
      */
-    public String rebateScheduleTransRefId;
+    private String rebateScheduleTransRefId;
     /**
      * The rebate schedule name.
      */
-    public String rebateScheduleName = StringUtils.EMPTY;
+    private String rebateScheduleName = StringUtils.EMPTY;
     /**
      * The rebate program type.
      */
-    public int rebateProgramType;
+    private int rebateProgramType;
     /**
      * The interest bearing basis.
      */
-    public String interestBearingBasis;
+    private String interestBearingBasis;
     /**
      * The city.
      */
-    public String city;
+    private String city;
     /**
      * The rebate processing type.
      */
-    public String rebateProcessingType;
+    private String rebateProcessingType;
     /**
      * The state.
      */
-    public String state;
+    private String state;
     /**
      * The rebate frequency.
      */
-    public Integer rebateFrequency = 0;
+    private Integer rebateFrequency = 0;
     /**
      * The rebate schedule id.
      */
-    public String rebateScheduleId = StringUtils.EMPTY;
+    private String rebateScheduleId = StringUtils.EMPTY;
     /**
      * The make payable to.
      */
-    public String makePayableTo;
+    private String makePayableTo;
     /**
      * The price schedule system id.
      */
-    public int priceScheduleSystemId;
+    private int priceScheduleSystemId;
     /**
      * The created by.
      */
-    public String createdBy;
+    private String createdBy;
     /**
      * The created date.
      */
-    public Date createdDate;
+    private Date createdDate;
     /**
      * The rebate schedule system id.
      */
-    public Integer rebateScheduleSystemId;
+    private Integer rebateScheduleSystemId;
     /**
      * The trade class.
      */
-    public Integer tradeClass;
+    private Integer tradeClass;
     /**
      * The interest bearing indicator.
      */
-    public String interestBearingIndicator;
+    private String interestBearingIndicator;
     /**
      * The payment terms.
      */
-    public Integer paymentTerms;
+    private Integer paymentTerms;
     /**
      * The address1.
      */
-    public String address1;
+    private String address1;
     /**
      * The rebate schedule type.
      */
-    public int rebateScheduleType;
+    private int rebateScheduleType;
     /**
      * The address2.
      */
-    public String address2;
+    private String address2;
     /**
      * The validation profile.
      */
-    public Integer validationProfile;
+    private Integer validationProfile;
     /**
      * The rebate schedule category.
      */
-    public Integer rebateScheduleCategory;
+    private Integer rebateScheduleCategory;
     /**
      * The calendar.
      */
-    public Integer calendar;
+    private Integer calendar;
     /**
      * The item rebate end date.
      */
-    public String itemRebateEndDate = StringUtils.EMPTY;
+    private String itemRebateEndDate = StringUtils.EMPTY;
     /**
      * The payment grace period.
      */
-    public String paymentGracePeriod = StringUtils.EMPTY;
+    private String paymentGracePeriod = StringUtils.EMPTY;
     /**
      * The batch id.
      */
-    public String batchId;
+    private String batchId;
     /**
      * The item rebate start date.
      */
-    public String itemRebateStartDate = StringUtils.EMPTY;
+    private String itemRebateStartDate = StringUtils.EMPTY;
     //Added 
     /**
      * The rebate schedule alias.
      */
-    public String rebateScheduleAlias = StringUtils.EMPTY;
+    private String rebateScheduleAlias = StringUtils.EMPTY;
     /**
      * The ifpNo
      */
-    public String ifpNo = StringUtils.EMPTY;
+    private String ifpNo = StringUtils.EMPTY;
     /**
      * TheifpName.
      */
-    public String ifpName = StringUtils.EMPTY;
+    private String ifpName = StringUtils.EMPTY;
     /**
      * The itemNo.
      */
-    public String itemNo = StringUtils.EMPTY;
+    private String itemNo = StringUtils.EMPTY;
     /**
      * The itemName.
      */
-    public String itemName = StringUtils.EMPTY;
+    private String itemName = StringUtils.EMPTY;
     /**
      * The ifpType
      */
-    public Integer ifpType = 0;
+    private Integer ifpType = 0;
     /**
      * The ifpStartDate.
      */
-    public Date ifpStartDate;
+    private Date ifpStartDate;
     /**
      * The ifpEndDate.
      */
-    public Date ifpEndDate;
+    private Date ifpEndDate;
     /**
      * The ifpNo
      */
-    public String ifpNumber = StringUtils.EMPTY;
+    private String ifpNumber = StringUtils.EMPTY;
 
     /**
      * Gets the rebate schedule trans ref no.

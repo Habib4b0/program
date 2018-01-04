@@ -13,8 +13,8 @@ import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsForecastProjectionSubmitBean;
 
 public class VarianceCalculationLogic {
 
-    static ForecastForm forecastForm;
-    static String notiMsg = "";
+    protected static ForecastForm forecastForm;
+    protected static String notiMsg = "";
     /**
      * The Constant LOGGER.
      */

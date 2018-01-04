@@ -4,6 +4,10 @@
  */
 package com.stpl.app.cff.abstractCff;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.cff.lazyLoad.GroupSearchLogic;
+import com.stpl.app.cff.util.AbstractNotificationUtils;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_GROUP;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRODUCT_GROUP;
 import static com.stpl.app.cff.util.Constants.LabelConstants.CUSTOMER_GROUP_NAME;
@@ -12,28 +16,22 @@ import static com.stpl.app.cff.util.Constants.LabelConstants.PRODUCT_GROUP_NAME;
 import static com.stpl.app.cff.util.Constants.LabelConstants.PRODUCT_GROUP_NO;
 import static com.stpl.app.cff.util.Constants.LabelConstants.RESULTS;
 import static com.stpl.app.cff.util.Constants.LabelConstants.SEARCH_CRITERIA;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-
-import com.stpl.app.cff.lazyLoad.GroupSearchLogic;
-import com.stpl.app.cff.util.AbstractNotificationUtils;
+import com.stpl.app.cff.util.ErrorCodeUtil;
 import com.stpl.app.cff.util.ErrorCodes;
 import com.stpl.app.cff.util.TableHeaderColumnsUtil;
 import com.stpl.app.cff.util.UiUtils;
-import com.stpl.app.serviceUtils.ErrorCodeUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 
 /**
  *
@@ -43,7 +41,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 	/**
 	 * To indicate customer or product lookup
 	 */
-	private String indicator;
+	private final String indicator;
 	/**
 	 * To label groupName TextField Differs based on indicator.
 	 */
@@ -157,11 +155,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 			public void buttonClick(Button.ClickEvent event) {
 				try {
 					btnSearchLogic();
-				} catch (PortalException ex) {
-					LOGGER.error(ex);
-					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
-							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5039));
-				} catch (SystemException ex) {
+				} catch (PortalException | SystemException ex) {
 					LOGGER.error(ex);
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5039));
@@ -187,13 +181,13 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 		if (INDICATOR_CUSTOMER_GROUP.getConstant().equals(indicator)) {
 			groupNameLabel = CUSTOMER_GROUP_NAME.getConstant();
 			groupNoLabel = CUSTOMER_GROUP_NO.getConstant();
-			resultTableColumns = TableHeaderColumnsUtil.getInstance().customerGroupLookupColumns;
-			resultTableHeaders = TableHeaderColumnsUtil.getInstance().customerGroupLookupHeaders;
+			resultTableColumns = TableHeaderColumnsUtil.CUSTOMER_GROUP_LOOKUP_COLS;
+			resultTableHeaders = TableHeaderColumnsUtil.CUST_GRP_LOOKUP_HEADERS;
 		} else if (INDICATOR_PRODUCT_GROUP.getConstant().equals(indicator)) {
 			groupNameLabel = PRODUCT_GROUP_NAME.getConstant();
 			groupNoLabel = PRODUCT_GROUP_NO.getConstant();
-			resultTableColumns = TableHeaderColumnsUtil.getInstance().productGroupLookupColumns;
-			resultTableHeaders = TableHeaderColumnsUtil.getInstance().productGroupLookupHeaders;
+			resultTableColumns = TableHeaderColumnsUtil.PROD_GRP_LOOKUP_COLS;
+			resultTableHeaders = TableHeaderColumnsUtil.PRD_GRP_LOOKUP_HEADERS;
 		}
 	}
 

@@ -26,6 +26,7 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.ui.Upload;
@@ -178,7 +179,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 uploader.setValue(StringUtils.EMPTY);
                 fileNameField.setValue(StringUtils.EMPTY);
             }
-        } catch (Exception ex) {
+        } catch (Property.ReadOnlyException | NumberFormatException ex) {
               LOGGER.error(ex);
         }
 
@@ -219,7 +220,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 uploader.setValue(StringUtils.EMPTY);
                 fileNameField.setValue(StringUtils.EMPTY);
             }
-        } catch (Exception ex) {
+        } catch (Property.ReadOnlyException ex) {
             LOGGER.error(ex);
         }
 
@@ -334,7 +335,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
             } else {
                 remove.setVisible(false);
             }
-        } catch (Exception system) {
+        } catch (PortalException | SystemException system) {
             LOGGER.error(system);
         }
 

@@ -27,7 +27,7 @@ public class RelationshipLevelValuesMasterBean {
 	private List<Object[]> tempList = null;
 	private final String relationshipBuilderSid;
 	private final String hierarchyNoType;
-	private List<RelationshipLevelValuesBean> queryList = new ArrayList<>();
+	private final List<RelationshipLevelValuesBean> queryList = new ArrayList<>();
 	private int defaultCount = 0;
 	private final GtnDisplayFormatMasterBean masterBean = new GtnDisplayFormatMasterBean();
 	private final StringBuilder finalQry = new StringBuilder();
@@ -46,14 +46,17 @@ public class RelationshipLevelValuesMasterBean {
 	}
 
 	public String getFinalQuery() {
+		finalQry.append(";WITH CTE AS(");
 		for (int i = 0; i < queryList.size(); i++) {
 			RelationshipLevelValuesBean query = queryList.get(i);
 			if (i != 0) {
 				finalQry.append(UNION_ALL);
 			}
 			finalQry.append(
-					query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed())));
+					query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed()))
+							.replace("?", String.valueOf(i)));
 		}
+		finalQry.append(") SELECT * FROM CTE ORDER BY SID,VALUE DESC");
 		return finalQry.toString();
 	}
 

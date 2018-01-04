@@ -1,5 +1,7 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.DataSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProductGroupLookUpDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ResultList;
@@ -17,7 +19,7 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.Constants;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -54,11 +56,13 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
@@ -587,7 +591,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
             } else {
                 deleteBtn.setVisible(false);
             }
-        } catch (Exception system) {
+        } catch (PortalException | SystemException system) {
             LOGGER.error(system);
         }
 
@@ -887,7 +891,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                     }
                     try {
                         dataSelectionBinder.commit();
-                    } catch (Exception e) {
+                    } catch (FieldGroup.CommitException e) {
                         LOGGER.error(e);
                     }
                     Object[] values = {projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue(), companyValueId == null ? 0 : companyValueId,
@@ -922,7 +926,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
 
             }
             LOGGER.debug("GenerateBtn ClickEvent ends");
-        } catch (Exception e) {
+        } catch (NumberFormatException | SQLException | NamingException e) {
             LOGGER.error(e);
         }
 

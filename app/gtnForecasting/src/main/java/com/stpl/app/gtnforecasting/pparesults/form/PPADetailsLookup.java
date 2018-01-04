@@ -121,12 +121,12 @@ public class PPADetailsLookup extends Window {
     @UiField("resetBtn")
     private Button resetBtn;
 
-    PPADetailsTableLogic tableLogic = new PPADetailsTableLogic();
+    private final PPADetailsTableLogic tableLogic = new PPADetailsTableLogic();
 
-    FreezePagedTable resultsTable = new FreezePagedTable(tableLogic);
+    private final FreezePagedTable resultsTable = new FreezePagedTable(tableLogic);
 
-    ExtFilterTable leftTable;
-    ExtFilterTable rightTable;
+    private ExtFilterTable leftTable;
+    private ExtFilterTable rightTable;
 
     private final PPAProjectionResultsLogic logic = new PPAProjectionResultsLogic();
     /**
@@ -141,20 +141,20 @@ public class PPADetailsLookup extends Window {
      * The split position.
      */
     private final float splitPosition = 300;
-    BeanItemContainer<PPADetailsDTO> resultsContainer = new BeanItemContainer<>(PPADetailsDTO.class);
-    BeanItemContainer<PPADetailsDTO> excelResultsContainer = new BeanItemContainer<>(PPADetailsDTO.class);
-    PPAHelperDTO itemDefaultValue = new PPAHelperDTO(0, Constant.SELECT_ONE, Constant.SELECT_ONE);
+    private final BeanItemContainer<PPADetailsDTO> resultsContainer = new BeanItemContainer<>(PPADetailsDTO.class);
+    private final BeanItemContainer<PPADetailsDTO> excelResultsContainer = new BeanItemContainer<>(PPADetailsDTO.class);
+    private final PPAHelperDTO itemDefaultValue = new PPAHelperDTO(0, Constant.SELECT_ONE, Constant.SELECT_ONE);
     private final PPADetailsDTO ppaDetailsDTO = new PPADetailsDTO();
     private final ExtCustomTable excelTable = new ExtCustomTable();
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    SessionDTO sessionDTO;
-    List<String> forecastPeriods = new ArrayList<>();
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    private final CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private final SessionDTO sessionDTO;
+    private List<String> forecastPeriods = new ArrayList<>();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
     private final HeaderUtils headerUtils = new HeaderUtils();
 
-    final HelperDTO defaultValue = new HelperDTO(0, Constant.SELECT_ONE);
+    private final HelperDTO defaultValue = new HelperDTO(0, Constant.SELECT_ONE);
 
-    int projectionId;
+    private final int projectionId;
 
     public PPADetailsLookup(int projectionId, SessionDTO sessionDTO)  {
         this.projectionId = projectionId;
@@ -198,10 +198,10 @@ public class PPADetailsLookup extends Window {
         tableLogic.sinkItemPerPageWithPageLength(Boolean.FALSE);
         rightTable = resultsTable.getRightFreezeAsTable();
         leftTable = resultsTable.getLeftFreezeAsTable();
-        rightTable.setVisibleColumns(headerUtils.ppaDetailsVisibleColumnRight);
-        leftTable.setVisibleColumns(headerUtils.ppaDetailsVisibleColumnLeft);
-        rightTable.setColumnHeaders(headerUtils.ppaDetailsVisibleHeaderRight);
-        leftTable.setColumnHeaders(headerUtils.ppaDetailsVisibleHeaderLeft);
+        rightTable.setVisibleColumns(HeaderUtils.PPA_DETAILS_VISIBLE_COL_RIGHT);
+        leftTable.setVisibleColumns(HeaderUtils.PPA_DETAILS_VISIBLE_COL_LEFT);
+        rightTable.setColumnHeaders(HeaderUtils.PPA_DETAILS_VISIBLE_HEADER_RIGHT);
+        leftTable.setColumnHeaders(HeaderUtils.PPA_DETAILS_VISIBLE_HEADER_LEFT);
         resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -317,7 +317,7 @@ public class PPADetailsLookup extends Window {
                 }
             });
             closeLogic();
-        } catch (Exception ex) {
+        } catch (UnsupportedOperationException ex) {
         LOGGER.error(ex);
         }
     }
@@ -344,7 +344,7 @@ public class PPADetailsLookup extends Window {
             } else {
                 MessageBox.showPlain(Icon.ERROR, Constant.ERROR, "Please Select a Value from each of the following dropdowns Contract,Customer,Brand,Item", ButtonId.OK);
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
            LOGGER.error(ex);
         }
     }
@@ -440,7 +440,7 @@ public class PPADetailsLookup extends Window {
                     excelExportLogic();
                     LOGGER.debug(" Ends  EXCEL Export Button Click ::::  ");
 
-                }   catch (Exception exception) {
+                }   catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException exception) {
 
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, Constant.ERROR, "Export Operation Failed", new MessageBoxListener() {
                         /**
@@ -472,8 +472,8 @@ public class PPADetailsLookup extends Window {
     private void createWorkSheet() throws  NoSuchMethodException, IllegalAccessException, InvocationTargetException {
             LOGGER.debug("Entering createWorkSheet");
             excelTable.setContainerDataSource(excelResultsContainer);
-            excelTable.setVisibleColumns(headerUtils.ppaDetailsVisibleColumnExcel);
-            excelTable.setColumnHeaders(headerUtils.ppaDetailsVisibleHeadersExcel);
+            excelTable.setVisibleColumns(HeaderUtils.PPA_DETAILS_VISIBLE_COL_EXCEL);
+            excelTable.setColumnHeaders(HeaderUtils.PPA_DETAILS_VIS_HEADER_EXCEL);
             List<PPADetailsDTO> resultList = (List<PPADetailsDTO>) logic.loadPPADetails(ppaDetailsDTO, sessionDTO, false, 0, NumericConstants.TEN_THOUSAND, null);
             excelResultsContainer.addAll(resultList);
             final long recordCount = excelResultsContainer.size();

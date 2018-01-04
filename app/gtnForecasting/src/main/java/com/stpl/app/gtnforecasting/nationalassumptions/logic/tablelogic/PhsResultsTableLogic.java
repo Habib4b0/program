@@ -28,12 +28,10 @@ import org.jboss.logging.Logger;
  */
 public class PhsResultsTableLogic extends PageTreeTableLogic {
 
-    int levelNo;
-    String hierarchyNo;
-    boolean firstGenerated = false;
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    private boolean firstGenerated = false;
+    private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private PhsResultsLogic phsResLogic = new PhsResultsLogic();
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
  public static final Logger LOGGER = Logger.getLogger(PhsResultsTableLogic.class);
     @Override
     public int getCount() {
@@ -68,8 +66,7 @@ public class PhsResultsTableLogic extends PageTreeTableLogic {
         if (firstGenerated) {
             list = phsResLogic.getConfiguredPhsResults(getLastParent(), start, offset, projSelDTO,sessionDTO);
         }
-        levelNo = 0;
-
+        
         int i = start;
         for (TableDTO dto : list) {
 

@@ -194,11 +194,9 @@ public class ProjectionSelectionDTO {
     private List<String> parentCcpDetailIdList = new ArrayList<>();
     private String levelFieldSelection = StringUtils.EMPTY;
     private boolean excelFlag;
-    //Discount projection related entries ends here
-    //DPR
     private String mandatedOrSupp;
-    private int custHierarchySID;
-    private int prodHierarchySID;
+    private int customerHierarchySID;
+    private int productHierarchySID;
     private boolean excel = false;
     private String relationshipLevelName = StringUtils.EMPTY;
     private String parentLevelValue;
@@ -1743,20 +1741,20 @@ public class ProjectionSelectionDTO {
         this.mandatedOrSupp = mandatedOrSupp;
     }
 
-    public int getCustHierarchySID() {
-        return custHierarchySID;
+    public int getCustomerHierarchySID() {
+        return customerHierarchySID;
     }
 
-    public void setCustHierarchySID(int custHierarchySID) {
-        this.custHierarchySID = custHierarchySID;
+    public void setCustomerHierarchySID(int customerHierarchySID) {
+        this.customerHierarchySID = customerHierarchySID;
     }
 
-    public int getProdHierarchySID() {
-        return prodHierarchySID;
+    public int getProductHierarchySID() {
+        return productHierarchySID;
     }
 
-    public void setProdHierarchySID(int prodHierarchySID) {
-        this.prodHierarchySID = prodHierarchySID;
+    public void setProductHierarchySID(int productHierarchySID) {
+        this.productHierarchySID = productHierarchySID;
     }
 
     public boolean isExcel() {

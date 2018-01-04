@@ -181,17 +181,17 @@ public class FcpResults extends CustomComponent implements View {
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAX_SPLIT_POS = 1000;
 
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 200;
+    private static final float MIN_SPLIT_POS = 200;
 
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POS = 300;
 
     /**
      * The TableVerticalLayout.
@@ -203,15 +203,12 @@ public class FcpResults extends CustomComponent implements View {
     private final CommonLogic commonLogic = new CommonLogic();
     private FcpResultsTableLogic tableLogic = new FcpResultsTableLogic();
     private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
-    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     private final FcpResultsLogic fcpLogic = new FcpResultsLogic();
     private final HelperDTO therapyDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private final HelperDTO brandDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    private LazyContainer therapeuticContainer;
     private LazyContainer brandContainer;
     private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
     private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
@@ -228,12 +225,7 @@ public class FcpResults extends CustomComponent implements View {
     @UiField("levelDdlb")
     private ComboBox levelDdlb;
 
-    private  LazyContainer ndcLevelContainer;
-    /**
-     * The table control Layout.
-     */
-    private  HorizontalLayout controlLayout;
-
+    
     /**
      * The grid layout.
      */
@@ -269,6 +261,7 @@ public class FcpResults extends CustomComponent implements View {
      * Configure fields.
      */
     private void configureFields() {
+        LazyContainer therapeuticContainer;
         try {
             CommonUtils.defaultLoad(therapeuticDdlb, brandDdlb, ndcFilterDdlb, levelDdlb);
             CommonUtils.defaultSelect(therapeuticDdlb, brandDdlb, ndcFilterDdlb, levelDdlb);
@@ -406,7 +399,7 @@ public class FcpResults extends CustomComponent implements View {
             }
             ndcFilterDdlb.setWidth("176px");
             levelDdlb.setWidth("176px");
-        } catch (Exception e) {
+        } catch (Property.ReadOnlyException | UnsupportedOperationException e) {
             LOGGER.error(e);
         }
         final StplSecurity stplSecurity = new StplSecurity();
@@ -579,9 +572,9 @@ public class FcpResults extends CustomComponent implements View {
     private void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        periodTableId.setSplitPosition(SPLIT_POS, Sizeable.Unit.PIXELS);
+        periodTableId.setMinSplitPosition(MIN_SPLIT_POS, Sizeable.Unit.PIXELS);
+        periodTableId.setMaxSplitPosition(MAX_SPLIT_POS, Sizeable.Unit.PIXELS);
         periodTableId.addStyleName("valo-theme-extfiltertable");
         periodTableId.addStyleName("table-header-center");
     }
@@ -590,6 +583,7 @@ public class FcpResults extends CustomComponent implements View {
      * Add Result Table.
      */
     private void addResultTable() {
+        HorizontalLayout controlLayout;
         tableVerticalLayout.addComponent(periodTableId);
         controlLayout = tableLogic.createControls();
         controlLayout.setSizeUndefined();
@@ -602,8 +596,11 @@ public class FcpResults extends CustomComponent implements View {
      * Configure Result Table.
      */
     private void configureResultTable() {
-        tableLogic.setPageLength(NumericConstants.HUNDRED);
+        CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+        CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
         fullHeader = new CustomTableHeaderDTO();
+        tableLogic.setPageLength(NumericConstants.HUNDRED);
+        
         leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
         rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, StringUtils.EMPTY);
         resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
@@ -780,7 +777,7 @@ public class FcpResults extends CustomComponent implements View {
             callFcpProcedure();
         }
             loadResultTable();
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("generateLogic ends ");
@@ -1032,7 +1029,7 @@ public class FcpResults extends CustomComponent implements View {
     }
 
     public void loadNdcLevels() {
-
+        LazyContainer ndcLevelContainer;
         levelDdlb.setImmediate(true);
         levelDdlb.setPageLength(NumericConstants.SEVEN);
         levelDdlb.setNullSelectionAllowed(true);
@@ -1044,7 +1041,6 @@ public class FcpResults extends CustomComponent implements View {
         ndcLevelContainer.setMinFilterLength(0);
         levelDdlb.setContainerDataSource(ndcFilterContainer);
         levelDdlb.select(levelDTO);
-
     }
 
     @UiHandler("expand")

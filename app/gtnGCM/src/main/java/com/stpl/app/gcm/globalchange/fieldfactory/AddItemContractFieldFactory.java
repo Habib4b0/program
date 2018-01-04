@@ -7,7 +7,6 @@ package com.stpl.app.gcm.globalchange.fieldfactory;
 import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
-import com.stpl.app.gcm.itemmanagement.add.dto.AddItemTableDTO;
 import com.stpl.app.gcm.itemmanagement.add.form.AddContractSelection;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractContractSearchDTO;
@@ -38,11 +37,9 @@ import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
@@ -54,12 +51,11 @@ import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
  */
 public class AddItemContractFieldFactory implements TableFieldFactory {
 
-    List<AddItemTableDTO> selectedItemList = new ArrayList<>();
-    AbstractLogic logic = AbstractLogic.getInstance();
-    SelectionDTO selection;
-    public ExtPagedTable contractSelectionTable;
-    Map tempTableMap = new HashMap();
-    boolean valueChange = true;
+  private final AbstractLogic logic = AbstractLogic.getInstance();
+  private final SelectionDTO selection;
+  public ExtPagedTable contractSelectionTable;
+  private Map tempTableMap = new HashMap();
+  private boolean valueChange = true;
 
     public AddItemContractFieldFactory(final SelectionDTO selection, ExtPagedTable contractSelectionTable, Map tempTableMap) {
         this.selection = selection;
@@ -67,6 +63,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         this.tempTableMap = tempTableMap;
     }
 
+    @Override
     public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
         final AbstractContractSearchDTO mainDto = (AbstractContractSearchDTO) itemId;
         final AbstractLogic abstractLogic = AbstractLogic.getInstance();
@@ -77,6 +74,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             } else {
                 check.setVisible(true);
                 check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                    @Override
                     public void click(ExtCustomCheckBox.ClickEvent event) {
                         AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
                         dto.setCheckRecord(check.getValue());
@@ -135,6 +133,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                 @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -184,6 +183,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                 @Override
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                      Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                       @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -221,8 +221,10 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             cpstartDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
             cpstartDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
             cpstartDate.addFocusListener(new FocusListener() {
-                public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
-                    Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+            @Override                
+            public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
+                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -256,6 +258,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             cpendDate.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -297,6 +300,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceProtectionStartDate.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -330,6 +334,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceProtectionEndDate.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -369,6 +374,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceToleranceType.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceToleranceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -405,6 +411,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceTolerance.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceTolerance.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (priceTolerance.getValue() != null && !priceTolerance.getValue().trim().isEmpty() && valueChange) {
                                     valueChange = false;
@@ -437,6 +444,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceToleranceFrequency.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceToleranceFrequency.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -472,6 +480,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceToleranceInterval.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceToleranceInterval.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (priceToleranceInterval.getValue() != null && valueChange) {
                                     valueChange = false;
@@ -506,6 +515,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             basePrice.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     basePrice.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (basePrice.getValue() != null && valueChange) {
                                     valueChange = false;
@@ -535,6 +545,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             price.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     price.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -564,6 +575,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             contractPrice.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     contractPrice.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (contractPrice.getValue() != null && valueChange) {
                                     valueChange = false;
@@ -597,6 +609,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             rsstartDate.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -629,6 +642,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             rsendDate.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -666,6 +680,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             formulaId.setReadOnly(true);
             formulaId.addStyleName(Constants.SEARCH_ICON);
             formulaId.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     FormulaLookUp formulaLookUp = new FormulaLookUp(formulaId);
                     formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -699,6 +714,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             rebatePlan.addStyleName(Constants.SEARCH_ICON);
             rebatePlan.setReadOnly(true);
             rebatePlan.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     final ComponentLookUp contractNum = new ComponentLookUp("Rebate Plan", "Rebate Plan Lookup", rebatePlan);
                     contractNum.addCloseListener(new Window.CloseListener() {
@@ -733,6 +749,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             formulaMethodId.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     formulaMethodId.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (formulaMethodId.getValue() != null && valueChange) {
                                     valueChange = false;
@@ -763,6 +780,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             rebateAmount.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     rebateAmount.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -794,6 +812,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceProtectionStatus.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceProtectionStatus.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -827,6 +846,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             nep.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     nep.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -854,6 +874,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             nepFormula.setReadOnly(true);
             nepFormula.addStyleName(Constants.SEARCH_ICON);
             nepFormula.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     NEPLookup formulaLookUp = new NEPLookup(nepFormula, Constants.NEP_FORMULA_LABLE_NAME);
                     formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -889,6 +910,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             maxIncrementalChange.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     maxIncrementalChange.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -917,6 +939,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             resetEligible.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetEligible.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -950,6 +973,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             resetType.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -986,6 +1010,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             resetDate.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1018,6 +1043,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             resetInterval.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetInterval.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1051,6 +1077,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             resetFrequency.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetFrequency.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1084,6 +1111,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netPriceType.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     netPriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1116,6 +1144,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netPriceTypeFormula.setReadOnly(true);
             netPriceTypeFormula.addStyleName(Constants.SEARCH_ICON);
             netPriceTypeFormula.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     NEPLookup formulaLookUp = new NEPLookup(netPriceTypeFormula, Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME);
                     formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -1152,6 +1181,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             resetPriceType.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     resetPriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1181,6 +1211,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netResetPriceType.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     netResetPriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1214,6 +1245,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netResetPriceFormulaId.setReadOnly(true);
             netResetPriceFormulaId.addStyleName(Constants.SEARCH_ICON);
             netResetPriceFormulaId.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     NEPLookup formulaLookUp = new NEPLookup(netResetPriceFormulaId, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME);
                     formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -1250,6 +1282,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             basePriceType.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     basePriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1349,6 +1382,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             subsequentPeriodPriceType.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     subsequentPeriodPriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1377,6 +1411,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netSubsequentPeriodPrice.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     netSubsequentPeriodPrice.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1411,6 +1446,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netSubsequentPriceFormulaId.setReadOnly(true);
             netSubsequentPriceFormulaId.addStyleName(Constants.SEARCH_ICON);
             netSubsequentPriceFormulaId.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     NEPLookup formulaLookUp = new NEPLookup(netSubsequentPriceFormulaId, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME);
                     formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -1446,6 +1482,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             netBaselineWacFormulaId.setReadOnly(true);
             netBaselineWacFormulaId.addStyleName(Constants.SEARCH_ICON);
             netBaselineWacFormulaId.addClickListener(new CustomTextField.ClickListener() {
+                @Override
                 public void click(CustomTextField.ClickEvent event) {
                     NEPLookup formulaLookUp = new NEPLookup(netBaselineWacFormulaId, Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME);
                     formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -1481,6 +1518,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             baselineNetWAC.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     baselineNetWAC.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1515,6 +1553,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             priceType.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     priceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
@@ -1544,6 +1583,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             measurementPrice.addFocusListener(new FocusListener() {
                 public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                     measurementPrice.addValueChangeListener(new Property.ValueChangeListener() {
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;

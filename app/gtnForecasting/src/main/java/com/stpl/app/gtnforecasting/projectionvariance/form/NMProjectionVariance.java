@@ -154,7 +154,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     /**
      * The selected projection.
      */
-    String screenName;
+    private final String scrnName;
     private boolean isComparisonLookupOpened;
     private final Map<String, List<ProjectionVarianceDTO>> resultMap = new HashMap();
     private boolean flag = false;
@@ -212,7 +212,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
      */
     public NMProjectionVariance(ForecastForm form, SessionDTO sessionDTO, String screenName) {
         super(sessionDTO, screenName);
-        this.screenName = screenName;
+        this.scrnName = screenName;
         LOGGER.info("ProjectionVariance Constructor initiated ");
         nonMandatedForm = form;
         session = nonMandatedForm.getSessions();
@@ -336,7 +336,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         resultBeanContainer.setColumnProperties(leftHeader.getProperties());
         resultBeanContainer.setColumnProperties(rightHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
-        tableLogic.setScreenName(screenName);
+        tableLogic.setScreenName(scrnName);
         tableLogic.setPageLength(NumericConstants.TWENTY);
         tableLogic.sinkItemPerPageWithPageLength(false);
         List<Integer> pagelength = CommonLogic.getPageNumber();
@@ -520,11 +520,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             try {
                 List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(comparisonProjId), null, null);
                 selectedList = logic.getCustomizedPVComparisonList(list);
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex);
             }
         }
-        final NMComparisonLookup comparisonLookupWindow = new NMComparisonLookup(comparison, projectionId, selectedList, screenName);
+        final NMComparisonLookup comparisonLookupWindow = new NMComparisonLookup(comparison, projectionId, selectedList, scrnName);
         UI.getCurrent().addWindow(comparisonLookupWindow);
         comparisonLookupWindow.addCloseListener(new Window.CloseListener() {
             /**
@@ -873,7 +873,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                         && (!Constant.NULL.equals(customDdlb.getValue()) && !Constant.SELECT_ONE.equals(customDdlb.getValue())));
                 generated = false;
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex);
         }
     }
@@ -974,7 +974,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setVariables(variablesValue);
         pvSelectionDTO.setHistoryNum(CommonUtils.getHistoryProjectionNum(String.valueOf(frequency.getValue()), session));
         pvSelectionDTO.setCustomId(customId);
-        pvSelectionDTO.setTabName(screenName);
+        pvSelectionDTO.setTabName(scrnName);
         pvSelectionDTO.setComparisonBasis(String.valueOf(comparisonBasis.getValue()));
         pvSelectionDTO.setView(String.valueOf(view.getValue()));
         pvSelectionDTO.setDisplayFormat(CommonUtil.getDisplayFormatSelectedValues(displayFormatValues));
@@ -1308,7 +1308,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         dynamicQuery.addOrder(OrderFactoryUtil.desc(Constant.VERSION_NO));
         try {
             resultList = dataSelectionDao.getForecastConfig(dynamicQuery);
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             java.util.logging.Logger.getLogger(CommonUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         ForecastConfig forecastConfig = null;
@@ -1704,7 +1704,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 configureFields();
                 security();
                 flag = false;
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 java.util.logging.Logger.getLogger(NMProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

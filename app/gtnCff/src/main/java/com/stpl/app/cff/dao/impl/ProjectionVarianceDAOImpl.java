@@ -1,13 +1,10 @@
 package com.stpl.app.cff.dao.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dao.ProjectionVarianceDAO;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
-import com.stpl.app.service.NmDiscountProjMasterLocalServiceUtil;
-import com.stpl.app.service.NmSalesProjectionLocalServiceUtil;
-import com.stpl.app.service.ProjectionCustHierarchyLocalServiceUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -83,34 +80,6 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
     }
 
     /**
-     * Search for projections in comparison lookup.
-     *
-     * @param workflowStatus the workflow status
-     * @param marketType the market type
-     * @param brand the brand
-     * @param projName the proj name
-     * @param contHldr the cont hldr
-     * @param ndcNo the ndc no
-     * @param ndcName the ndc name
-     * @param desc the desc
-     * @param contract the contract
-     * @param from the from
-     * @param to the to
-     * @return the list
-     * @throws SystemException the system exception
-     * @throws PortalException the portal exception
-     * @throws Exception the exception
-     */
-    @Override
-    public List searchForProjections(String workflowStatus, String marketType, String brand,
-            String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
-            String from, String to) throws SystemException, PortalException {
-
-        List list = ProjectionCustHierarchyLocalServiceUtil.getComparisonSearch(workflowStatus, marketType, brand, projName, contHldr, ndcNo, ndcName, desc, contract, from, to);
-        return list;
-    }
-
-    /**
      * Save or updates projection variance custom view hierarchies.
      *
      * @param indicator to indicate whether action is SAVE/UPDATE
@@ -120,12 +89,5 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
     public void saveProjectionVarianceView(String indicator, int projectionId) {
         return;
     }
-    @Override
-    public List getPVResultsSales(int projectionId, String frequency,List<Integer> periods, String actualsOrProjections,String parentName, String year, int levelNo, String sales) {
-        return NmSalesProjectionLocalServiceUtil.getVarianceSales(projectionId, frequency,periods, actualsOrProjections,parentName, year, levelNo, sales);
-    }
-     @Override
-    public List getPVResultsDiscount(int projectionId, String frequency,List<Integer> periods, String discountTotal,String parentName, List<String> discountList, String year, int levelNo, String sales) {
-        return NmDiscountProjMasterLocalServiceUtil.getVarianceDiscount(projectionId, frequency,periods, discountTotal,parentName, discountList, year, levelNo, sales);
-    }
+
 }

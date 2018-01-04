@@ -22,6 +22,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationT
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterFocusListnerAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingAttachAction;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingDeleteAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingFieldFactoryUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterItemPriceBlurAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterClassContants;
@@ -349,7 +350,7 @@ public class GtnFrameworkItemMasterPricingTabConfig {
 		attachAction.addActionParameter(GtnFrameworkItemMasterPricingAttachAction.class.getName());
 		attachAction.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.ITEM_PRICING_QUALIFIER_NAME,
 				GtnFrameworkItemMasterStringContants.ITEM_PRICING_ITEM_PRICE, "itemPricingIdentifierStatus", "itemPricingItemUOM", "itemPricingStartDate",
-				"itemPricingEndDate", "itemPricingEntityCodeNo"));
+				"itemPricingEndDate", "itemPricingEntityCodeNo", "itemPricingEntityCodeName"));
 		actionConfigList.add(attachAction);
 		attachButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -465,11 +466,17 @@ public class GtnFrameworkItemMasterPricingTabConfig {
 		alertParamsList.add(onSucessActionConfigList);
 		GtnUIFrameWorkActionConfig selectAction = new GtnUIFrameWorkActionConfig();
 		selectAction.setActionType(GtnUIFrameworkActionType.REMOVE_ACTION);
-
 		selectAction.addActionParameter(GtnFrameworkCommonConstants.ITEM_MASTER_PRICINGATTACH_RESULT_TABLE);
 		onSucessActionConfigList.add(selectAction);
 		confirmationActionConfig.setActionParameterList(alertParamsList);
 		actionConfigList.add(confirmationActionConfig);
+		
+		GtnUIFrameWorkActionConfig customActionConfig = new GtnUIFrameWorkActionConfig();
+		customActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customActionConfig.addActionParameter(GtnFrameworkItemMasterPricingDeleteAction.class.getName());
+		customActionConfig.addActionParameter(GtnFrameworkCommonConstants.ITEM_MASTER_PRICINGATTACH_RESULT_TABLE);
+		actionConfigList.add(customActionConfig);
+		
 		attachButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}
 

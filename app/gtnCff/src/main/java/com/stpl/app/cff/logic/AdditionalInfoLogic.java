@@ -5,17 +5,18 @@
  */
 package com.stpl.app.cff.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dao.AdditionalInfoDAO;
 import com.stpl.app.cff.dao.impl.AdditionalInfoDAOImpl;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.parttwo.model.CffAdditionalInfo;
 import com.stpl.app.parttwo.model.CffDocDetails;
+import com.stpl.app.parttwo.service.CffAdditionalInfoLocalServiceUtil;
+import com.stpl.app.parttwo.service.CffDocDetailsLocalServiceUtil;
 import com.stpl.ifs.ui.NotesDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class AdditionalInfoLogic {
     public List<NotesDTO> getAttachmentDTOList(final int projectionId, final String moduleName) throws SystemException {
         final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy");
         final List<NotesDTO> attachmentDTOList = new ArrayList<>();
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffDocDetails.class);
+        final DynamicQuery dynamicQuery = CffDocDetailsLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq("cffMasterSid", projectionId));
         List<CffDocDetails> docDetailsList;
         NotesDTO attachmentDTO;
@@ -114,7 +115,7 @@ public class AdditionalInfoLogic {
 
         final StringBuilder notes = new StringBuilder();
         notes.append(StringUtils.EMPTY);
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffAdditionalInfo.class);
+        final DynamicQuery dynamicQuery = CffAdditionalInfoLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq("cffMasterSid", projectionId));
         List<CffAdditionalInfo> notesList;
 

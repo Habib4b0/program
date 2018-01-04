@@ -68,7 +68,7 @@ public class FcpQueryUtils {
         }
         try {
             fcpList = (List) DAO.executeSelectQuery(customSql);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return fcpList;

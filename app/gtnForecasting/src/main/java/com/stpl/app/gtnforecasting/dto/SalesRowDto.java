@@ -22,7 +22,7 @@ public class SalesRowDto extends ExtMapDTO implements Comparator<SalesRowDto>{
     private String levelName = StringUtils.EMPTY;
     private String actualLevel = StringUtils.EMPTY;
     private String group = StringUtils.EMPTY;
-    String ccpid = StringUtils.EMPTY;
+    private String ccpid = StringUtils.EMPTY;
 
     private String customer = Constant.EMPTY_STRING;
     private String contract = Constant.EMPTY_STRING;
@@ -585,7 +585,7 @@ public class SalesRowDto extends ExtMapDTO implements Comparator<SalesRowDto>{
 
                 }
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         

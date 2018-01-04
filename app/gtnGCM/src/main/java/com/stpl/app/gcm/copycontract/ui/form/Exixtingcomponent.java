@@ -13,7 +13,6 @@ import static com.stpl.app.gcm.common.QueryUtils.CHAR_PERCENT;
 import com.stpl.app.gcm.copycontract.dto.CFPCompanyDTO;
 import com.stpl.app.gcm.copycontract.dto.IFPItemDTO;
 import com.stpl.app.gcm.copycontract.dto.PSIFPDTO;
-import com.stpl.app.gcm.copycontract.logic.CFPSearchCriteria;
 import com.stpl.app.gcm.copycontract.dto.CopyComponentDTO;
 import com.stpl.app.gcm.copycontract.dto.ExistingComponentDTO;
 import com.stpl.app.gcm.copycontract.dto.RsIfpDto;
@@ -43,7 +42,6 @@ import com.stpl.app.service.PsContractLocalServiceUtil;
 import com.stpl.app.service.PsModelLocalServiceUtil;
 import com.stpl.app.service.RsContractLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
-import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
@@ -93,104 +91,98 @@ public class Exixtingcomponent extends CustomComponent {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Exixtingcomponent.class);
     @UiField("componentDetailsSelectedLayout")
-    public VerticalLayout componentDetailsSelectedLayout;
+    private VerticalLayout componentDetailsSelectedLayout;
     @UiField("componentDetailsSelectedItemLayout")
-    public VerticalLayout componentDetailsSelectedItemLayout;
+    private VerticalLayout componentDetailsSelectedItemLayout;
     @UiField("levelDetailsResultsLayout")
-    public VerticalLayout levelDetailsResultsLayout;
-    public TreeTable dashboardResultsTable;
+    private VerticalLayout levelDetailsResultsLayout;
+    private final TreeTable dashboardResultsTable;
     @UiField("ComponenttypeEC")
-    public ComboBox ComponenttypeNC;
+    private ComboBox ComponenttypeNC;
     @UiField("SearchfieldEC")
-    public ComboBox SearchfieldEC;
+    private ComboBox SearchfieldEC;
     @UiField("SearchfieldECDDlb")
-    public ComboBox SearchfieldECDDlb;
+    private ComboBox SearchfieldECDDlb;
     @UiField("SearchvaluedEC")
-    public TextField SearchvaluedEC;
+    private TextField SearchvaluedEC;
     @UiField("componentInformationGrid")
-    public GridLayout componentInformationGrid;
-    private BeanItemContainer componentDetailsContainer = new BeanItemContainer(ExistingComponentDTO.class);
+    private GridLayout componentInformationGrid;
+    private final BeanItemContainer componentDetailsContainer = new BeanItemContainer(ExistingComponentDTO.class);
     public static final String PLEASE_SELECT_CORRECT_NODE = "Please Select Correct Node";
     public static final String THERE_WERE_NO_RECORDS_MATCHING = "There were no records matching the search criteria.  Please try again.";
-    TextField CFPname = new TextField();
+    private final TextField CFPname = new TextField();
     @UiField("contractDashBoardLayout")
-    public VerticalLayout contractDashBoardLayout;
-    TextField CFPno = new TextField();
-    TextField CFPid = new TextField();
-    TextField CFPstatus = new TextField();
-    TextField sdate = new TextField();
-    TextField edate = new TextField();
-    TextField CFPtype = new TextField();
-    TextField CFPcategory = new TextField();
-    TextField CFPtradeclass = new TextField();
-    TextField CFPdesignation = new TextField();
+    private VerticalLayout contractDashBoardLayout;
+    private final TextField CFPno = new TextField();
+    private final TextField CFPid = new TextField();
+    private final TextField CFPstatus = new TextField();
+    private final TextField sdate = new TextField();
+    private final TextField edate = new TextField();
+    private final TextField CFPtype = new TextField();
+    private final TextField CFPcategory = new TextField();
+    private final TextField CFPtradeclass = new TextField();
+    private final TextField CFPdesignation = new TextField();
     @UiField("componentDetails")
-    public Panel componentDetails;
+    private Panel componentDetails;
     @UiField("componentDetailsSelectedItemPanel")
-    public Panel componentDetailsSelectedItemPanel;
+    private Panel componentDetailsSelectedItemPanel;
     @UiField("contractDashBoardResults")
-    public Panel contractDashBoardResults;
+    private Panel contractDashBoardResults;
     @UiField("contractComponentDetails")
-    public Panel contractComponentDetails;
+    private Panel contractComponentDetails;
     @UiField("BtnsearchEC")
-    public Button BtnsearchEC;
+    private Button BtnsearchEC;
     @UiField("resultpop")
-    public Button resultpop;
+    private Button resultpop;
     @UiField("levelRemoveBtn")
-    public Button levelRemoveBtn;
+    private Button levelRemoveBtn;
     @UiField("levelpop")
-    public Button levelpop;
+    private Button levelpop;
     @UiField("cfpDetailsGrid")
-    public GridLayout cfpDetailsGrid;
+    private GridLayout cfpDetailsGrid;
     @UiField("ifpDetailsGrid")
-    public GridLayout ifpDetailsGrid;
+    private GridLayout ifpDetailsGrid;
     @UiField("psDetailsGrid")
-    public GridLayout psDetailsGrid;
+    private GridLayout psDetailsGrid;
     @UiField("rsDetailsGrid")
-    public GridLayout rsDetailsGrid;
+    private GridLayout rsDetailsGrid;
     @UiField("cfpDetailsNo")
-    public TextField cfpDetailsNo;
+    private TextField cfpDetailsNo;
     @UiField("cfpDetailsName")
-    public TextField cfpDetailsName;
+    private TextField cfpDetailsName;
     @UiField("ifpDetailsNo")
-    public TextField ifpDetailsNo;
+    private TextField ifpDetailsNo;
     @UiField("ifpDetailsName")
-    public TextField ifpDetailsName;
+    private TextField ifpDetailsName;
     @UiField("psDetailsNo")
-    public TextField psDetailsNo;
+    private TextField psDetailsNo;
     @UiField("psDetailsName")
-    public TextField psDetailsName;
+    private TextField psDetailsName;
     @UiField("rsDetailsNo")
-    public TextField rsDetailsNo;
+    private TextField rsDetailsNo;
     @UiField("rsDetailsName")
-    public TextField rsDetailsName;
+    private TextField rsDetailsName;
     @UiField("addToTree")
-    public Button addToTree;
-    LazyBeanItemContainer<CFPCompanyDTO> resultsLazyContainer;
-    LazyBeanItemContainer<CFPCompanyDTO> resultsLazyContainer1;
-    LazyBeanItemContainer<IFPItemDTO> resultsLazyContainer2;
-    LazyBeanItemContainer<IFPItemDTO> resultsLazyContainer3;
-    LazyBeanItemContainer<PSIFPDTO> resultsLazyContainer4;
-    LazyBeanItemContainer<RsIfpDto> resultsLazyContainer5;
-    LazyBeanItemContainer<PSIFPDTO> resultsLazyContainer6;
-    LazyBeanItemContainer<RsIfpDto> resultsLazyContainer7;
-    CFPSearchCriteria CFPSearchCriteria = new CFPSearchCriteria();
-    private final BeanItemContainer<CopyComponentDTO> contractInfoContainer = new BeanItemContainer<>(CopyComponentDTO.class);
-    ExistingComponentDTO selectedItemDto;
+    private Button addToTree;
     
-    CopyContractLogic CopyContractLogic = new CopyContractLogic();
-    ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
-    SessionDTO session;
-    DateFormat format = new SimpleDateFormat("MM/dd/yyy");
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    private LazyBeanItemContainer<CFPCompanyDTO> resultsLazyContainer1;
+    private LazyBeanItemContainer<IFPItemDTO> resultsLazyContainer3;
+    private LazyBeanItemContainer<PSIFPDTO> resultsLazyContainer6;
+    private LazyBeanItemContainer<RsIfpDto> resultsLazyContainer7;
+    private final BeanItemContainer<CopyComponentDTO> contractInfoContainer = new BeanItemContainer<>(CopyComponentDTO.class);
+    private ExistingComponentDTO selectedItemDto;
+    
+    private final CopyContractLogic CopyContractLogic = new CopyContractLogic();
+    private final ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
     public static final String SAVED_SYSTEM_ID = "savedSystemId";
-    private BeanItemContainer componentResultsContainer = new BeanItemContainer(ExistingComponentDTO.class);
-    ExistingComponentResultsTableLogic componentReseultsTableLogic = new ExistingComponentResultsTableLogic();
-    public ExtPagedTable componentResultsSearchTable = new ExtPagedTable(componentReseultsTableLogic);
-    ExistingComponentDetailsTableLogic componentDetailsTableLogic = new ExistingComponentDetailsTableLogic();
-    public ExtPagedTable componentDetailsTable = new ExtPagedTable(componentDetailsTableLogic);
-    ExistingLevelDataTableLogic componentLevelTableLogic = new ExistingLevelDataTableLogic();
-    public ExtPagedTable levelDetailsResultsTable = new ExtPagedTable(componentLevelTableLogic);
+    private final BeanItemContainer componentResultsContainer = new BeanItemContainer(ExistingComponentDTO.class);
+    private final ExistingComponentResultsTableLogic componentReseultsTableLogic = new ExistingComponentResultsTableLogic();
+    private final ExtPagedTable componentResultsSearchTable = new ExtPagedTable(componentReseultsTableLogic);
+    private final ExistingComponentDetailsTableLogic componentDetailsTableLogic = new ExistingComponentDetailsTableLogic();
+    private final ExtPagedTable componentDetailsTable = new ExtPagedTable(componentDetailsTableLogic);
+    private final ExistingLevelDataTableLogic componentLevelTableLogic = new ExistingLevelDataTableLogic();
+    private final ExtPagedTable levelDetailsResultsTable = new ExtPagedTable(componentLevelTableLogic);
 
     public Exixtingcomponent(TreeTable contractDashBoardTable,ExtTreeContainer<CopyComponentDTO> dashBoardContainer) {
         this.dashboardResultsTable = contractDashBoardTable;
@@ -242,6 +234,7 @@ public class Exixtingcomponent extends CustomComponent {
             CFPtradeclass.setEnabled(false);
             CFPdesignation.setEnabled(false);
             componentResultsSearchTable.addListener(new ItemClickEvent.ItemClickListener() {
+                @Override
                 public void itemClick(ItemClickEvent event) {
 
                     if (resultsLazyContainer1 != null) {
@@ -274,6 +267,7 @@ public class Exixtingcomponent extends CustomComponent {
             dashboardResultsTable.setHeight(NumericConstants.HUNDRED, Unit.PERCENTAGE);
             dashboardResultsTable.setPageLength(NumericConstants.FIVE);
             dashboardResultsTable.addListener(new ItemClickEvent.ItemClickListener() {
+                @Override
                 public void itemClick(ItemClickEvent event) {
                     return;
                 }

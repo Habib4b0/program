@@ -1,19 +1,17 @@
 package com.stpl.app.cff.bpm.service;
 
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.kie.internal.task.api.UserGroupCallback;
-
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.Role;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.RoleLocalServiceUtil;
-import com.stpl.portal.service.UserLocalServiceUtil;
 import org.jboss.logging.Logger;
+import org.kie.internal.task.api.UserGroupCallback;
 
 /**
  *
@@ -47,10 +45,12 @@ public class CustomUserCallBack implements UserGroupCallback {
         }
     }
 
+    @Override
     public boolean existsUser(String userId) {
         return userMap.containsKey(userId) || userId.equals(StringConstantsUtil.ADMINISTRATOR);
     }
 
+    @Override
     public boolean existsGroup(String groupId) {
         if (groupId.contains(",")) {
             String[] groups = groupId.split(",");
@@ -66,6 +66,7 @@ public class CustomUserCallBack implements UserGroupCallback {
         return roleMap.containsKey(groupId);
     }
 
+    @Override
     public List<String> getGroupsForUser(String userId, List<String> roleIds, List<String> allExistingGroupIds) {
         List<String> userRoles = new ArrayList<>();
         List<Role> roles = null;

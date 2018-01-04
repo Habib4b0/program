@@ -5,16 +5,16 @@
  */
 package com.stpl.app.cff.dto;
 
-import com.stpl.app.cff.util.StringConstantsUtil;
 import static com.stpl.app.cff.util.ConstantsUtil.SELECT_ONE;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.TextField;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.jboss.logging.Logger;
@@ -27,9 +27,9 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
     private PVSelectionDTO pvSelectionDTO;
     private ProjectionSelectionDTO sprProjectionDTO;
     private static final String ZERO = "0";
-    private boolean detailFlag;
-    private boolean prFlag = false;
-    private boolean sprFlag=false;
+    private final boolean detailFlag;
+    private final boolean prFlag = false;
+    private final boolean sprFlag=false;
     private boolean pvFlag=false;
     public boolean mmDprFlag = false;
     public static final String CUSTOM = "Custom";

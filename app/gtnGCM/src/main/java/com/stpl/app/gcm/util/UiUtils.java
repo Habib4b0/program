@@ -104,22 +104,9 @@ public class UiUtils {
 
 	public static AbstractOrderedLayout getLayout(AbstractOrderedLayout layout) {
 		resourceBundle = ResourceBundle.getBundle("configurations/default");
-		// AbstractOrderedLayout layout = null;
-		// try {
-		// layout = (AbstractOrderedLayout)
-		// Class.forName(theClass.getName()).newInstance();
-
 		layout.setMargin(Boolean.valueOf(resourceBundle.getString("layout_margin")));
 		layout.setSpacing(Boolean.valueOf(resourceBundle.getString("layout_spacing")));
 		return layout;
-		// } catch (InstantiationException ex) {
-		// LOGGER.error("",ex);
-		// } catch (IllegalAccessException ex) {
-		// LOGGER.error("",ex);
-		// } catch (ClassNotFoundException ex) {
-		// LOGGER.error("",ex);
-		// }
-		// return layout;
 	}
 
 	private static UiUtils object;

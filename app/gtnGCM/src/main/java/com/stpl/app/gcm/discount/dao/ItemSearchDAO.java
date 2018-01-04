@@ -21,8 +21,8 @@ import org.asi.ui.addons.lazycontainer.SearchCriteria;
  */
 public class ItemSearchDAO implements DAO<ContractsDetailsDto> {
 
-    DiscountLogic logic = new DiscountLogic();
-    ContractsDetailsDto removeDiscountDto = new ContractsDetailsDto();
+    private DiscountLogic logic = new DiscountLogic();
+    private ContractsDetailsDto removeDiscountDto = new ContractsDetailsDto();
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemSearchDAO.class);
 
     public ItemSearchDAO() {
@@ -33,6 +33,7 @@ public class ItemSearchDAO implements DAO<ContractsDetailsDto> {
         this.removeDiscountDto = removeDiscountDto;
     }
 
+    @Override
     public int count(SearchCriteria bsc) {
         int count = 0;
 
@@ -45,6 +46,7 @@ public class ItemSearchDAO implements DAO<ContractsDetailsDto> {
         return count;
     }
 
+    @Override
     public List<ContractsDetailsDto> find(SearchCriteria bsc, int startIndex, int offset, List<OrderByColumn> list) {
         List<ContractsDetailsDto> resultList = new ArrayList<>();
         try {

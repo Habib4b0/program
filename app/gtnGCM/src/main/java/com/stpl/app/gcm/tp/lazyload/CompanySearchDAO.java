@@ -21,13 +21,13 @@ import org.slf4j.LoggerFactory;
  */
 public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
 
-    TradingPartnerDTO dto;
-    int parentCompanySid;
-    CompanySearchLogic logic = new CompanySearchLogic();
+    private TradingPartnerDTO dto;
+    public int parentCompanySid;
+    private CompanySearchLogic logic = new CompanySearchLogic();
     /**
      * The Constant LOGGER.
      */
-    private static final Logger  LOGGER = LoggerFactory.getLogger(CompanySearchDAO.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CompanySearchDAO.class);
 
     public CompanySearchDAO(TradingPartnerDTO tpDto) {
         this.dto = tpDto;

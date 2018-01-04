@@ -23,11 +23,11 @@ public class CopyContractView extends VerticalLayout {
     /**
      * Binder for DataSelection.
      */
-    CopyContractWindow addWindow;
+    private final CopyContractWindow addWindow;
 
-    CopyContractform addDiscountForm;
-    SessionDTO session;
-    List<ContractSelectionDTO> selectedList;
+    private final CopyContractform addDiscountForm;
+    public SessionDTO session;
+    public  List<ContractSelectionDTO> selectedList;
 
     /**
      * Default constructor.

@@ -14,9 +14,9 @@ import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
  */
 public class PromteTpSearchCriteria implements BeanSearchCriteria {
 
-    Set<Container.Filter> filters;
-    int lastCount;
-    boolean dirty;
+    private Set<Container.Filter> filters;
+    private int lastCount;
+    public boolean dirty;
 
     @Override
     public Set<Container.Filter> getFilters() {

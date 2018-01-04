@@ -27,10 +27,10 @@ public class AddDiscountAddView extends VerticalLayout {
     /**
      * Binder for DataSelection.
      */
-    AddDiscountWindow addWindow;
+    private final AddDiscountWindow addWindow;
 
-    AddDiscountForm addDiscountForm;
-    SessionDTO session;
+    private final AddDiscountForm addDiscountForm;
+    private final SessionDTO session;
 
     /**
      * Default constructor.

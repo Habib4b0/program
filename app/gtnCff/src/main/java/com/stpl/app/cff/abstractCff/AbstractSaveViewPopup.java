@@ -4,19 +4,17 @@
  */
 package com.stpl.app.cff.abstractCff;
 
+import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import static com.stpl.app.cff.util.Constants.LabelConstants.PRIVATE;
 import static com.stpl.app.cff.util.Constants.LabelConstants.PUBLIC;
 import static com.stpl.app.cff.util.Constants.LabelConstants.VIEW_NAME;
-
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.UiUtils;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 /**
  *

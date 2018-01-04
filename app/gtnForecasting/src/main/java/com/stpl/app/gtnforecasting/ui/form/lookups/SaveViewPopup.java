@@ -18,7 +18,7 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.model.ForecastingViewMaster;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
