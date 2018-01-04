@@ -79,9 +79,9 @@ public class GtnUiFrameworkNsfSaveAction implements GtnUIFrameWorkAction, GtnUIF
 		nsfInfoBean.setAvailableContractSearchCriteriaList(availableCustomerTableLogic.getCurrentSearchCriteria());
 		boolean savaflag = saveToDb(nsfInfoBean);
 		if (savaflag) {
-                    if(!"netSalesFormulaAddView_backButton".equals(componentId)){
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).setCaption("UPDATE");
-                    }
+			if (!"netSalesFormulaAddView_backButton".equals(componentId)) {
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).setCaption("UPDATE");
+			}
 			GtnUIFrameWorkActionConfig notificationConfig = new GtnUIFrameWorkActionConfig();
 			notificationConfig.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 			Object msg = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "formulaName").getStringFromField()
