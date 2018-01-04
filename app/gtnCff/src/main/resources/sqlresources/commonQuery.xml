@@ -1909,7 +1909,7 @@ WHERE RELATIONSHIP_LEVEL_VALUES IN (
      <entity id="discount-join-filter">
         <query>
             <![CDATA[
-                JOIN ST_CCP_DEDUCTION_HIERARCHY SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID WHERE FILTER_CCPD=1
+                JOIN ST_CCP_DEDUCTION_HIERARCHY SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID AND FILTER_CCPD=1
             ]]>
         </query>
     </entity>

@@ -249,7 +249,7 @@ and CVD.CFF_CUSTOM_VIEW_MASTER_SID =[$CUSTOM_VIEW_MASTER_SID]
                    BEGIN
                          SELECT DISTINCT RS_CONTRACT_SID 
                  FROM   ?tableNameCCP_DEDUCTION_HIERARCHY B
-                        JOIN #SELECTED_HIERARCHY_NO CCP
+                        JOIN #SELECTED_HIERARCHY_NO_TEMP CCP
                           ON B.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND FILTER_CCPD=1
            END;
         ]]>

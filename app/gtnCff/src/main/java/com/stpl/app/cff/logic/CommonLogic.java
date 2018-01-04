@@ -3368,6 +3368,18 @@ public class CommonLogic {
         }
         return columnName;
     }
+    
+    public static String getRelJoinGenerate(String hierarchyIndicator) {
+        String columnName;
+        if (hierarchyIndicator.equalsIgnoreCase("C")) {
+            columnName = Constants.RELATIONSHIPJOIN;
+        } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
+            columnName = Constants.RELATIONSHIPJOIN;
+        } else {
+            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO ";       
+        }
+        return columnName;
+    }
 }
 
 
