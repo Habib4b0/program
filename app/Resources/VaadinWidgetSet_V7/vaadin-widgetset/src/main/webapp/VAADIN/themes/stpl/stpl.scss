@@ -1,12 +1,26 @@
-/* Import the valo theme. */
-/* This only allows us to use the mixins defined in it and does not add any styles by itself. */
 @import "../valo/valo.scss";
 
-/* This contains all of your theme. */
-/* If somebody wants to extend the theme she will include this mixin. */
 @mixin stpl {
-  /* Include all the styles from the valo theme */
   @include valo;
-
-  /* Insert your theme rules here */
+  
+  .v-window-header{
+	color: #ffffff;
+  }
+  
+  .v-window-outerheader {
+  background: #428bca;}
+  
+  
+ .v-window-closebox, .stpl .v-window-maximizebox, .stpl .v-window-restorebox{ 
+ color: #FFFFFF;
+ background: #428bca;
+ }
+ 
+ .v-popupbutton .v-popup-indicator{
+ background: transparent url(img/sprites.png) no-repeat -5px -10px;
+ }
+ 
+ .v-textfield.searchText{
+background-image: url(img/imgsearchh-icon.png);
+ }
 }
