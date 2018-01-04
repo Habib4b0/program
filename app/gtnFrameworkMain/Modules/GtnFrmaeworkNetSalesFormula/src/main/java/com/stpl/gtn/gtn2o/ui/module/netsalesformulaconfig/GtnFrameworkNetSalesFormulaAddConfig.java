@@ -17,7 +17,6 @@ import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfi
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
-import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfSaveAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.confirmation.GtnUiFrameworkNsfSaveConfirmationAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfRuleSaveUniqueValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfSaveValidationAction;
@@ -246,25 +245,35 @@ public class GtnFrameworkNetSalesFormulaAddConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 		List<Object> alertParamsList = new ArrayList<>();
 		alertParamsList.add(" Save?");
-		alertParamsList.add(
-				" Do you want to save this Net Sales Formula record before returning to the Landing Screen?");
+		alertParamsList
+				.add(" Do you want to save this Net Sales Formula record before returning to the Landing Screen?");
 
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfig = new ArrayList<>();
 		List<GtnUIFrameWorkActionConfig> onFailureActionConfig = new ArrayList<>();
-                GtnUIFrameWorkActionConfig backButtonActionConfig = componentConfigProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 
 		GtnUIFrameWorkActionConfig navigationActionConfig = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.NAVIGATION_ACTION);
 
-        navigationActionConfig.addActionParameter(GtnFrameworkNSFConstants.getEmpty());
-        backButtonActionConfig.addActionParameter(GtnUiFrameworkNsfSaveConfirmationAction.class.getName());
-        backButtonActionConfig.addActionParameter(viewId);
-        onSucessActionConfig.add(backButtonActionConfig);
+		navigationActionConfig.addActionParameter(GtnFrameworkNSFConstants.getEmpty());
+		GtnUIFrameWorkActionConfig backButtonActionConfig = componentConfigProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		backButtonActionConfig.addActionParameter(GtnUiFrameworkNsfSaveConfirmationAction.class.getName());
+		backButtonActionConfig.addActionParameter(viewId);
+		GtnUIFrameWorkActionConfig customValidationAction = new GtnUIFrameWorkActionConfig();
+		customValidationAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customValidationAction.addActionParameter(GtnUiFrameworkNsfSaveValidationAction.class.getName());
+		customValidationAction.addActionParameter(viewId);
+		GtnUIFrameWorkActionConfig uniqueValidationAction = new GtnUIFrameWorkActionConfig();
+		uniqueValidationAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		uniqueValidationAction.addActionParameter(GtnUiFrameworkNsfRuleSaveUniqueValidationAction.class.getName());
+		uniqueValidationAction.addActionParameter(viewId);
+		onSucessActionConfig.add(customValidationAction);
+		onSucessActionConfig.add(uniqueValidationAction);
+		onSucessActionConfig.add(backButtonActionConfig);
 		onSucessActionConfig.add(navigationActionConfig);
 		onFailureActionConfig.add(navigationActionConfig);
 		alertParamsList.add(onSucessActionConfig);
-        alertParamsList.add(onFailureActionConfig);
+		alertParamsList.add(onFailureActionConfig);
 
 		confirmationActionConfig.setActionParameterList(alertParamsList);
 
