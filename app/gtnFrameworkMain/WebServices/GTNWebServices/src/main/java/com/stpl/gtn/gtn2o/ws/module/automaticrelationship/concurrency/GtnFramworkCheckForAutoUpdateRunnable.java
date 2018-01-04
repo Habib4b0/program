@@ -129,18 +129,14 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 			if (!atomicBoolean.get()) {
 				GtnFrameworkQueryGeneratorBean hierarchyQuery = getCheckForUpdateQuery(currnetHierarchyLevelBean,
 						previousHierarchyLevelBean);
-				List<String> whereQueryList = getRelationQueriesForThread(relationBean.getRelationshipBuilderSid(),
-						relationBean.getVersionNo(), hierarchyLevelDefinitionList.subList(0, index)
-								.toArray(new HierarchyLevelDefinitionBean[index]));
-				inputs.addAll(whereQueryList);
+				hierarchyQuery.removeAllWhereClauseConfigList();
 				gtnHierarchyServiceBuilder.getInboundRestrictionQueryForAutoUpdate(hierarchyQuery);
-				String replacedQuery = gtnWsSqlService.getReplacedQuery(inputs, hierarchyQuery.generateQuery());
-
+				String query = gtnWsSqlService.getReplacedQuery(inputs, hierarchyQuery.generateQuery());
 				inputsForFinalQuery = new ArrayList<>();
 				inputsForFinalQuery.add(relationBean.getRelationshipBuilderSid());
 				inputsForFinalQuery.add(currnetHierarchyLevelBean.getLevelNo());
 				inputsForFinalQuery.add(relationBean.getVersionNo());
-				inputsForFinalQuery.add(replacedQuery);
+				inputsForFinalQuery.add(query);
 			}
 
 			if (!atomicBoolean.get() && inputsForFinalQuery != null)
@@ -153,6 +149,7 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 					atomicBoolean.compareAndSet(Boolean.FALSE, Boolean.TRUE);
 			}
 		} catch (GtnFrameworkGeneralException e) {
+			
 			LOGGER.error(" Error " + e.getErrorMessage());
 		}
 	}
@@ -171,22 +168,6 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 		return queryGenerartorBean;
 	}
 
-	private List<String> getRelationQueriesForThread(int relationshipSid, int versionNo,
-			HierarchyLevelDefinitionBean... hierarchyLevelDefinitionList) {
-		List<String> queryList = new ArrayList<>();
-		List<Object> input = new ArrayList<>();
-		for (HierarchyLevelDefinitionBean levelDtoRelation : hierarchyLevelDefinitionList) {
-			if (!levelDtoRelation.isUserDefined()) {
-				input.add(levelDtoRelation.getLevelNo());
-				input.add(relationshipSid);
-				input.add(versionNo);
-				String relationQuery = gtnWsSqlService.getQuery(input, "relationShipSubQueryForSubQuery");
-				queryList.add(relationQuery);
-				input.clear();
-			}
-		}
-		return queryList;
-	}
 
 	private void addJoinClause(HierarchyLevelDefinitionBean hierarchyLevelBean,
 			GtnFrameworkQueryGeneratorBean queryGenerartorBean) {
@@ -204,6 +185,10 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 				GtnFrameworkOperatorType.EQUAL_TO);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
 				GtnFrameworkOperatorType.EQUAL_TO);
+		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO",
+				getHierarchyNoForRelationShip(hierarchyLevelDefinitionList, hierarchyLevelBean),
+				GtnFrameworkOperatorType.LIKE);
+
 	}
 
 	public StringBuilder getHierarchyNo(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
@@ -228,6 +213,31 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 		finalQuery.append(tempQuery);
 		finalQuery.append(")");
 		return finalQuery;
+	}
+
+	public String getHierarchyNoForRelationShip(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
+			HierarchyLevelDefinitionBean selectedCustomerHierarchyLevelDto) {
+		StringBuilder tempQuery = new StringBuilder();
+		StringBuilder finalQuery = new StringBuilder();
+		for (int i = 0; i < selectedCustomerHierarchyLevelDto.getLevelNo(); i++) {
+			HierarchyLevelDefinitionBean leveldto = hierarchyLevelDefinitionList.get(i);
+			if (leveldto.getTableName().isEmpty()) {
+				tempQuery.append(",'%'");
+				tempQuery.append(",'.'");
+				continue;
+			}
+			tempQuery.append(",");
+			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
+					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
+			tempQuery.append(singleColumnRelationBean.getActualTtableName() + "."
+					+ singleColumnRelationBean.getWhereClauseColumn());
+			tempQuery.append(",'.'");
+		}
+		finalQuery.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");
+		finalQuery.append(tempQuery);
+		tempQuery.append(",'%'");
+		finalQuery.append(")");
+		return finalQuery.toString();
 	}
 
 }

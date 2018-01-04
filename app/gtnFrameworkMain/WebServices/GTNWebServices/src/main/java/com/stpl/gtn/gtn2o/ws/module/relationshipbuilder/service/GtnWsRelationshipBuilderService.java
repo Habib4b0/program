@@ -960,7 +960,7 @@ public class GtnWsRelationshipBuilderService {
 			autoMaticRelationService.checkAndUpdateAutomaticRelationship(
 					relationshipBuilder.getRelationshipBuilderSid(),
 					String.valueOf(relationshipBuilder.getCreatedBy()));
-                        autoMaticRelationService.checkManualRelation(relationshipBuilder.getRelationshipBuilderSid());
+			autoMaticRelationService.checkManualRelation(relationshipBuilder.getRelationshipBuilderSid());
 			rbResponse.setSuccess(true);
 		} catch (Exception e) {
 			tx.rollback();
