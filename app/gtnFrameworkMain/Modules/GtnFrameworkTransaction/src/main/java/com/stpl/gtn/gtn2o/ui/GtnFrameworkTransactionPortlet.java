@@ -11,7 +11,6 @@ import com.stpl.gtn.gtn2o.ui.module.transaction.config.GtnFrameworkTransactionIn
 import com.stpl.gtn.gtn2o.ui.module.transaction.config.GtnUIFrameworkTransactionConfig;
 import com.stpl.gtn.gtn2o.ui.module.transaction.dynamicclasses.GtnUIFrameworkTransactionDynamicClassFiller;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;

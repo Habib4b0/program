@@ -15,51 +15,50 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ContractSelectionDTO implements Serializable {
 
-    String companyNo = StringUtils.EMPTY;
-    String companyName = StringUtils.EMPTY;
-    String companyType = StringUtils.EMPTY;
-    String companyCategory = StringUtils.EMPTY;
-    String tradeClass = StringUtils.EMPTY;
-    String contractNo = StringUtils.EMPTY;
-    String contractName = StringUtils.EMPTY;
-    String contractHolder = StringUtils.EMPTY;
-    String rebateScheduleId = StringUtils.EMPTY;
-    String rebateScheduleName = StringUtils.EMPTY;
-    String rebateScheduleAlias = StringUtils.EMPTY;
-    String rebateScheduleNo = StringUtils.EMPTY;
-    String value = StringUtils.EMPTY;
-    String massField = StringUtils.EMPTY;
-    String rsNo = StringUtils.EMPTY;
-    String status = StringUtils.EMPTY;
-    String rebateFrequency = StringUtils.EMPTY;
-    String start = StringUtils.EMPTY;
-    String rarType = StringUtils.EMPTY;
-    String basis = StringUtils.EMPTY;
-    String end = StringUtils.EMPTY;
-    String startDate = StringUtils.EMPTY;
-    String endDate = StringUtils.EMPTY;
-    String rebateScheduleType = StringUtils.EMPTY;
-    String rebateProgramType = StringUtils.EMPTY;
-    String rebateScheduleCategory =StringUtils.EMPTY;
-    String marketType = StringUtils.EMPTY;
-    String rarCategory = StringUtils.EMPTY;
-    String field = StringUtils.EMPTY;
-    String componentSelection = StringUtils.EMPTY;
-    String companyStartDate = StringUtils.EMPTY;
-    String companyEndDate = StringUtils.EMPTY;
-    String CFPname = StringUtils.EMPTY;
-    String IFPname = StringUtils.EMPTY;
-    String PSname = StringUtils.EMPTY;
-    String RSname = StringUtils.EMPTY;
+    private String companyNo = StringUtils.EMPTY;
+    private String companyName = StringUtils.EMPTY;
+    private String companyType = StringUtils.EMPTY;
+    private String companyCategory = StringUtils.EMPTY;
+    private String tradeClass = StringUtils.EMPTY;
+    private String contractNo = StringUtils.EMPTY;
+    private String contractName = StringUtils.EMPTY;
+    private String contractHolder = StringUtils.EMPTY;
+    private String rebateScheduleId = StringUtils.EMPTY;
+    private String rebateScheduleName = StringUtils.EMPTY;
+    private String rebateScheduleAlias = StringUtils.EMPTY;
+    private String rebateScheduleNo = StringUtils.EMPTY;
+    private String value = StringUtils.EMPTY;
+    private String massField = StringUtils.EMPTY;
+    private String rsNo = StringUtils.EMPTY;
+    private String status = StringUtils.EMPTY;
+    private String rebateFrequency = StringUtils.EMPTY;
+    private String start = StringUtils.EMPTY;
+    private String rarType = StringUtils.EMPTY;
+    private String basis = StringUtils.EMPTY;
+    private String end = StringUtils.EMPTY;
+    private String startDate = StringUtils.EMPTY;
+    private String endDate = StringUtils.EMPTY;
+    private String rebateScheduleType = StringUtils.EMPTY;
+    private String rebateProgramType = StringUtils.EMPTY;
+    private String rebateScheduleCategory = StringUtils.EMPTY;
+    private String marketType = StringUtils.EMPTY;
+    private String rarCategory = StringUtils.EMPTY;
+    private String field = StringUtils.EMPTY;
+    private String componentSelection = StringUtils.EMPTY;
+    private String companyStartDate = StringUtils.EMPTY;
+    private String companyEndDate = StringUtils.EMPTY;
+    private String CFPname = StringUtils.EMPTY;
+    private String IFPname = StringUtils.EMPTY;
+    private String PSname = StringUtils.EMPTY;
+    private String RSname = StringUtils.EMPTY;
     private List<String> companyMasterSids = new ArrayList<>();
     private List<String> phCompanyMasterSids = new ArrayList<>();
-
-    String moduleName = StringUtils.EMPTY;
-    String screenName = StringUtils.EMPTY;
-    int CFPId = 0;
-    int IFPId = 0;
-    int PSId = 0;
-    int RSId = 0;
+    private String moduleName = StringUtils.EMPTY;
+    private String screenName = StringUtils.EMPTY;
+    private int CFPId = 0;
+    private int IFPId = 0;
+    private int PSId = 0;
+    private int RSId = 0;
     private boolean search = false;
     private boolean reset = false;
     private boolean searchInverse = false;
@@ -67,8 +66,8 @@ public class ContractSelectionDTO implements Serializable {
     private String cfpNo = StringUtils.EMPTY;
     private String ifpNo = StringUtils.EMPTY;
     private String psNo = StringUtils.EMPTY;
-    private String ContractSid = StringUtils.EMPTY;
-    private String Sessionid = StringUtils.EMPTY;
+    private String contractSid = StringUtils.EMPTY;
+    private String sessionId = StringUtils.EMPTY;
     private String userid = StringUtils.EMPTY;
 
     public boolean isSearch() {
@@ -481,19 +480,19 @@ public class ContractSelectionDTO implements Serializable {
     }
 
     public String getContractSid() {
-        return ContractSid;
+        return contractSid;
     }
 
-    public void setContractSid(String ContractSid) {
-        this.ContractSid = ContractSid;
+    public void setContractSid(String contractSid) {
+        this.contractSid = contractSid;
     }
 
-    public String getSessionid() {
-        return Sessionid;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setSessionid(String Sessionid) {
-        this.Sessionid = Sessionid;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public String getUserid() {

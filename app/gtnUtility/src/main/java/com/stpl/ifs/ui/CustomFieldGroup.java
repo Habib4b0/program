@@ -45,6 +45,4 @@ public class CustomFieldGroup extends FieldGroup {
         }
     }
 
-	
-    
 }

@@ -67,7 +67,7 @@ public class DataSelectionLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(DataSelectionLogic.class);  
-    DataSelectionQueryUtils dsQueryUtils = new DataSelectionQueryUtils();
+    protected DataSelectionQueryUtils dsQueryUtils = new DataSelectionQueryUtils();
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public ResultList searchCCP(Object companyValue,Object therapeuticClassValue, Object productGroupValue,Object businessUnit) {
         Set<DataSelectionDTO> productsList = new HashSet<>();
@@ -140,7 +140,7 @@ public class DataSelectionLogic {
                     if (!updateFlag) {
                       result= saveProducts(naProjMaster.getNaProjMasterSid(),selectedProducts);  
                     }
-                } catch (Exception e) {
+                } catch (SystemException e) {
                     LOGGER.error(e);
                     return Constant.FAIL;
                 }
@@ -159,7 +159,7 @@ public class DataSelectionLogic {
             try {
                 NaProjDetailsLocalServiceUtil
                         .addNaProjDetails(projectionprod);
-            } catch (Exception e) {
+            } catch (SystemException e) {
                 LOGGER.error(e);
                 return Constant.FAIL;
             }
@@ -193,7 +193,7 @@ public class DataSelectionLogic {
                     try {
                         NaProjDetailsLocalServiceUtil
                                 .deleteNaProjDetails(naProjID);
-                    } catch (Exception e) {
+                    } catch (PortalException | SystemException e) {
                         LOGGER.error(e);
                     }
                 }
@@ -209,7 +209,7 @@ public class DataSelectionLogic {
                 try {
                     NaProjDetailsLocalServiceUtil
                             .addNaProjDetails(projectionprod);
-                } catch (Exception e) {
+                } catch (SystemException e) {
                     LOGGER.error(e);
                 }
             } 
@@ -221,7 +221,7 @@ public class DataSelectionLogic {
         try {  
           List<Object[]> returnList= dsQueryUtils.loadResultsTable(projectionName,getSelectedProducts, companyValueId,thearupeticValueId, productGroupId,startIndex, offset,filters,sortByColumns,businessUnit);
            projectionResults= getCustomizedProjectionResults(returnList);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | ParseException ex) {
                 LOGGER.error(ex);
         }
          return projectionResults;
@@ -231,7 +231,7 @@ public class DataSelectionLogic {
         try {
             count = dsQueryUtils.loadResultsTableCount(projectionName, getSelectedProducts, companyValueId, thearupeticValueId, productGroupId, filters,businessUnit);
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | ParseException ex) {
             LOGGER.error(ex);
         }
 
@@ -265,7 +265,7 @@ public class DataSelectionLogic {
          try {
             CompanyMaster companyMaster = CompanyMasterLocalServiceUtil.getCompanyMaster(id);
             companyName = companyMaster.getCompanyName();
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                LOGGER.error(ex);
             }
          return companyName;
@@ -275,7 +275,7 @@ public class DataSelectionLogic {
          try {
             ItemGroup itemGroup = ItemGroupLocalServiceUtil.getItemGroup(id);
             productName = itemGroup.getItemGroupName();
-            }catch (Exception ex) {
+            }catch (PortalException | SystemException ex) {
                 LOGGER.error(ex.getMessage());
                 if((ex instanceof NoSuchItemGroupException) && ( ex.getMessage().contains("No ItemGroup exists with the primary key"))){
                        return StringUtils.EMPTY;
@@ -311,7 +311,7 @@ public class DataSelectionLogic {
            projMaster = NaProjMasterLocalServiceUtil.deleteNaProjMaster(projMaster.getNaProjMasterSid());
            deletedProjectionName = projMaster.getNaProjName();
 
-        } catch (Exception ex) {          
+        } catch (PortalException | SystemException ex) {          
             LOGGER.error(ex);
         }
         return deletedProjectionName;
@@ -320,7 +320,7 @@ public class DataSelectionLogic {
         User user = null;
         try {
             user = UserLocalServiceUtil.getUser(Long.valueOf(userId));
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
               LOGGER.error(ex);
         }
         return user;
@@ -334,7 +334,7 @@ public class DataSelectionLogic {
         try {
            naProjMaster=  NaProjMasterLocalServiceUtil.getNaProjMaster(projectionId);
            detailsList= NaProjDetailsLocalServiceUtil.dynamicQuery(query);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
            LOGGER.error(ex); 
         }
           finalList.add(naProjMaster);
@@ -345,7 +345,7 @@ public class DataSelectionLogic {
          ItemMaster  itemMaster= ItemMasterLocalServiceUtil.createItemMaster(0);
         try {
             itemMaster=   ItemMasterLocalServiceUtil.getItemMaster(itemMasterSid);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
            LOGGER.error(ex);
         }
         return itemMaster;
@@ -366,7 +366,7 @@ public class DataSelectionLogic {
             if (resultList != null && !resultList.isEmpty()) {
                 forecastConfig = (ForecastConfig) resultList.get(0);
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return forecastConfig;

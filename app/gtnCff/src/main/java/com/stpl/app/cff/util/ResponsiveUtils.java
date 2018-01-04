@@ -15,10 +15,10 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -313,6 +313,7 @@ public class ResponsiveUtils {
        
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -344,6 +345,7 @@ public class ResponsiveUtils {
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -416,6 +418,7 @@ public static void addButtonListeners(final Table table, final Button prevColumn
        
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -447,6 +450,7 @@ public static void addButtonListeners(final Table table, final Button prevColumn
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -518,6 +522,7 @@ public static void addButtonListeners(final ExtFilterTable table, final Button p
        
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -549,6 +554,7 @@ public static void addButtonListeners(final ExtFilterTable table, final Button p
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -699,6 +705,7 @@ public static HorizontalLayout addNaviButtonForLandingSearch(ExtFilterTable tabl
 public static void addButtonListenersForLandingSearch(final ExtFilterTable table, final Button prevColumn, final Button nextColumn) {
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -730,6 +737,7 @@ public static void addButtonListenersForLandingSearch(final ExtFilterTable table
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -800,6 +808,7 @@ public static void addButtonListenersForLandingSearch(final ExtFilterTable table
 public static void addButtonListeners(final CustomePagedFilterTable table, final Button prevColumn, final Button nextColumn) {
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -831,6 +840,7 @@ public static void addButtonListeners(final CustomePagedFilterTable table, final
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();

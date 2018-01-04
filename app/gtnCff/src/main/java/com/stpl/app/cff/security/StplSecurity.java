@@ -1,22 +1,23 @@
 package com.stpl.app.cff.security;
 
+import com.liferay.portal.kernel.dao.orm.Disjunction;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.cff.dao.StplSecurityDAO;
 import com.stpl.app.cff.dao.impl.StplSecurityDAOImpl;
 import com.stpl.app.cff.util.CommonUtils;
+import com.stpl.app.cff.util.Constants;
 import com.stpl.app.model.UsergroupBusinessrole;
 import com.stpl.app.model.UsergroupDomainMaster;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.Constants;
+import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
+import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.Disjunction;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -94,8 +95,7 @@ public StplSecurityDAO getDto() {
      */
     public String getBusinessRoleIds(final Collection<Object> userGroupId) throws PortalException, SystemException {
     	String businessRoleIds=StringUtils.EMPTY;
-        final DynamicQuery ugBusRoleDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(UsergroupBusinessrole.class);
+        final DynamicQuery ugBusRoleDynamicQuery = UsergroupBusinessroleLocalServiceUtil.dynamicQuery();
         ugBusRoleDynamicQuery.add(RestrictionsFactoryUtil.in("usergroupId", userGroupId));
             final List<UsergroupBusinessrole> list = dao.getUsergroupBusinessroleMasterList(ugBusRoleDynamicQuery);
             UsergroupBusinessrole usergroupBusinessroleMaster;
@@ -124,8 +124,7 @@ public StplSecurityDAO getDto() {
      */
     public List<String> getDomainIds(final Collection<Object> userGroupId) {
         List<String> domainIds = new ArrayList<>();
-        final DynamicQuery ugDomainDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(UsergroupDomainMaster.class);
+        final DynamicQuery ugDomainDynamicQuery = UsergroupDomainMasterLocalServiceUtil.dynamicQuery();
         ugDomainDynamicQuery.add(RestrictionsFactoryUtil.in("usergroupId", userGroupId));
         try {
             final List<UsergroupDomainMaster> list = dao.getUsergroupDomainMasterList(ugDomainDynamicQuery);
@@ -271,7 +270,7 @@ public StplSecurityDAO getDto() {
                 permissionHm.put(propertyName, appPermission);
             }        	
         }
-        if(type == Constants.ZERO || type == Constants.ONE){
+        if(type == Constants.ZERO || type == NumericConstants.ONE){
             for (; counter < listSize; counter++) {
                 final Object[] obj = (Object[]) permissionList.get(counter);
                 final String propertyName = String.valueOf(obj[0]).trim();
@@ -282,7 +281,7 @@ public StplSecurityDAO getDto() {
                 permissionHm.put(propertyName, appPermission);
             }        	
         }
-        if(type == Constants.ZERO || type ==Constants.ONE || type ==Constants.TWO){
+        if(type == Constants.ZERO || type ==NumericConstants.ONE || type ==NumericConstants.TWO){
             for (; counter < listSize; counter++) {
                 final Object[] obj = (Object[]) permissionList.get(counter);
                 final String propertyName = String.valueOf(obj[0]).trim();
@@ -317,7 +316,7 @@ public StplSecurityDAO getDto() {
      */      
     public static Map<Integer, String> getUserName() throws SystemException {
         LOGGER.debug("Enters getUserName method");
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
             userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
@@ -355,7 +354,7 @@ public StplSecurityDAO getDto() {
         final Map<String, AppPermission> permissionHm = new HashMap<>();
         int counter = 0;
         
-        if (type == Constants.ZERO || type == Constants.ONE || type == Constants.TWO) {
+        if (type == Constants.ZERO || type == NumericConstants.ONE || type == NumericConstants.TWO) {
             final int listSize = permissionList.size();
             for (; counter < listSize; counter++) {
                 final Object[] obj = (Object[]) permissionList.get(counter);

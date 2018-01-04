@@ -78,6 +78,8 @@ import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+import java.sql.SQLException;
+import javax.naming.NamingException;
 
 /**
  * The Class MedicaidUraWorkSheet.
@@ -888,7 +890,7 @@ public class MedicaidUraWorkSheet extends Window {
                                 
                         return notesField;
 
-                    } catch (Exception ex) {
+                    } catch (Property.ReadOnlyException ex) {
                         LOGGER.error(ex);
                     }
                 }
@@ -1085,7 +1087,7 @@ public class MedicaidUraWorkSheet extends Window {
                         QueryUtil.updateAdjustment(projectionDTO.getNdc9(), "updateMedicaidAdjustment",sessionDTO);
                         submitFlag = true;
                         submitMsg = false;
-                    } catch (Exception ex) {
+                    } catch (PortalException | SystemException ex) {
                         LOGGER.error(ex);
                     }
                 }
@@ -1174,7 +1176,6 @@ public class MedicaidUraWorkSheet extends Window {
                 }
                 if (!bpAdjustedValues.isEmpty()) {
                     queryUtil.saveBaseYear(bpAdjustedValues, sessionDTO, projectionDTO.getNdc9(), Constant.AMP);
-                    queryUtil.saveBaseYearNotes(bpAdjustedValues, sessionDTO, projectionDTO.getNdc9(), Constant.AMP);
                     adjustFlag = true;
                     bpAdjustedValues.clear();
                 }
@@ -1198,7 +1199,7 @@ public class MedicaidUraWorkSheet extends Window {
                     notif.show(Page.getCurrent());
                 }
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
     }
@@ -1240,7 +1241,7 @@ public class MedicaidUraWorkSheet extends Window {
         try {
             String priceType = "AMP,BEST PRICE";
             medLogic.workSheetSetupCook(projectionDTO.getNdcSid().getId(), priceType, "MEDICAID URA", projectionDTO.getNdc9(),sessionDTO);
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1252,7 +1253,8 @@ public class MedicaidUraWorkSheet extends Window {
     public void closeLogic() {
         try {
             queryUtil.updateAdjustment(projectionDTO.getNdc9(), "removeMedicaidAdjustment",sessionDTO);
-        } catch (Exception ex) {
+            queryUtil.removeOverrideOnClose(sessionDTO);
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1264,7 +1266,7 @@ public class MedicaidUraWorkSheet extends Window {
                     queryUtil.saveBaseYear(baseYear, sessionDTO, projectionDTO.getNdc9(),StringUtils.EMPTY);
                 }
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }

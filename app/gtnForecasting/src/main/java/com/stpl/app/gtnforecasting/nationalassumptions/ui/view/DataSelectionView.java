@@ -9,10 +9,8 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.ui.OptionGroup;
-import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
 
 /**
  * @author manikanta
@@ -20,14 +18,11 @@ import org.jboss.logging.Logger;
 public class DataSelectionView extends VerticalLayout implements View {
 
     private static final long serialVersionUID = 918856446098386044L;
-    @SuppressWarnings("unused")
-	private static final Logger LOGGER = Logger.getLogger(DataSelectionView.class);
     public static final String NAME = StringUtils.EMPTY;
-    TextField name = new TextField();
-    OptionGroup mode = new OptionGroup();
-    DataSelectionDTO dtoValue = new DataSelectionDTO();
-    CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem(DataSelectionDTO.class)) ;
-    SessionDTO session;
+    protected OptionGroup mode = new OptionGroup();
+    protected DataSelectionDTO dtoValue = new DataSelectionDTO();
+    protected CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem(DataSelectionDTO.class)) ;
+    protected SessionDTO session;
 
     public DataSelectionView(SessionDTO session) {
         super();

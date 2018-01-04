@@ -37,7 +37,6 @@ import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.FieldEvents.FocusEvent;
@@ -65,12 +64,14 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
@@ -457,7 +458,7 @@ public class MasterFcpWorkSheet extends Window {
                         queryUtil.updateAdjustment(projectionDTO.getNdcSid().getId(), "getFcpAdjSumbitUpdate",sessionDTO);
                         submitFlag = true;
                         submitMsg = false;
-                    } catch (Exception ex) {
+                    } catch (PortalException | SystemException ex) {
                        LOGGER.error(ex);
                     }
                 }
@@ -532,7 +533,7 @@ public class MasterFcpWorkSheet extends Window {
                     notif.show(Page.getCurrent());
                 }
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
     }
@@ -1011,7 +1012,7 @@ public class MasterFcpWorkSheet extends Window {
             String priceType = "QFSS,QNON-FAMP";
             MedicaidURAResultsLogic medLogic = new MedicaidURAResultsLogic();
             medLogic.workSheetSetupCook(projectionDTO.getNdcSid().getId(), priceType, "FCP WORKSHEET", StringUtils.EMPTY,sessionDTO);
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1019,7 +1020,7 @@ public class MasterFcpWorkSheet extends Window {
     public void closeLogic() {
         try {
             queryUtil.updateAdjustment(projectionDTO.getNdcSid().getId(), "getFcpAdjCloseUpdate",sessionDTO);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
            LOGGER.error(ex);
         }
     }

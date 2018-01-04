@@ -16,8 +16,6 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ContractSelectionTableLogic extends PageTableLogic {
 
-    ItemContractSelectionDTO binderDto = new ItemContractSelectionDTO();
-
     @Override
     public int getCount() {
         return 0;

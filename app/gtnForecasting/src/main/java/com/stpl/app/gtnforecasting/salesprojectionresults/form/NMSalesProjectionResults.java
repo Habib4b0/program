@@ -163,9 +163,9 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     /**
      * The table control Layout.
      */
-    public HorizontalLayout controlLayout;
+    protected HorizontalLayout controlLayout;
 
-    String screenName = StringUtils.EMPTY;
+    protected String screenName = StringUtils.EMPTY;
 
     /**
      * The period table id.
@@ -177,12 +177,12 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             SalesProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
     private ExtTreeContainer<SalesProjectionResultsDTO> excelResultBean = new ExtTreeContainer<>(
             SalesProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
-    CustomTableHeaderDTO rightDTO;
-    NMSalesProjectionResultsTableLogic tableLogic = new NMSalesProjectionResultsTableLogic();
+    protected CustomTableHeaderDTO rightDTO;
+    protected NMSalesProjectionResultsTableLogic tableLogic = new NMSalesProjectionResultsTableLogic();
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
-    FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
-    boolean flag = false;
-    boolean isTabVisible = true;
+    protected FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
+    protected boolean flag = false;
+    protected boolean isTabVisible = true;
 
     /**
      * Instantiates a new SALES_SMALL projection results.

@@ -1,5 +1,7 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.view;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.DataSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.form.NationalAssumptions;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.form.NationalAssumptionsForm;
@@ -25,9 +27,9 @@ public class NationalAssumptionsView extends VerticalLayout implements View {
     private static final Logger LOGGER = Logger.getLogger(NationalAssumptionsView.class);
 
     public static final String NAME = "nationalAssumptions";
-    DataSelectionDTO dtoValue = new DataSelectionDTO();
-    OptionGroup mode = new OptionGroup();
-    SessionDTO sessionDto;
+    protected DataSelectionDTO dtoValue = new DataSelectionDTO();
+    protected OptionGroup mode = new OptionGroup();
+    protected SessionDTO sessionDto;
 
     public NationalAssumptionsView(SessionDTO sessionDto) {
         super();
@@ -52,7 +54,7 @@ public class NationalAssumptionsView extends VerticalLayout implements View {
                 nationalAssumptions.reloadTable();
             }
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex);
         }
 

@@ -30,8 +30,8 @@ public class DPRTableLogic extends PageTreeTableLogic {
 
     private static final Logger LOGGER = Logger.getLogger(DPRTableLogic.class);
     private boolean firstGenerated = false;
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
-    ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
+    protected ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    protected ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
     public DPRLogic dprLogic = new DPRLogic();
     public MMDPRLogic mmdprLogic = new MMDPRLogic();    
     public NMDPRLogic nmDPRLogic = new NMDPRLogic();
@@ -185,7 +185,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
             setRecordCount(getCalculatedTotalRecordCount());
             setCurrentPage(getTotalAmountOfPages());
 
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
     }
@@ -268,7 +268,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                     recursivelyLoadExpandData(discountDTO, customTreeLevel, expandLevelNo);
                 }
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
     }

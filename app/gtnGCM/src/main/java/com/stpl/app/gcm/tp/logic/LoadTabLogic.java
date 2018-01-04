@@ -40,7 +40,7 @@ public class LoadTabLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(LoadTabLogic.class);
-    static int projectionId = 0;
+    private static int projectionId = 0;
     public static String forecatingType = StringUtils.EMPTY;
     public static TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
     public static final String VARIANCE = "Variance";
@@ -64,7 +64,7 @@ public class LoadTabLogic {
      * The unit volume.
      */
     private static final DecimalFormat PER2DECIMAL = new DecimalFormat("#,##0.00%");
-    CommonDao DAO = CommonImpl.getInstance();
+    private final CommonDao DAO = CommonImpl.getInstance();
 
     public int getLevelCount(Object parentId, TabSelectionDTO tabSelectionDTO, int projectionId, SessionDTO session) {
         LOGGER.debug("Inside getLevelCount");
@@ -88,7 +88,7 @@ public class LoadTabLogic {
             tabSelectionDTO.setParentLevel("new");
             tabSelectionDTO.setContractMasterSid(session.getContMasteSid());
         }
-        this.projectionId = projectionId;
+        LoadTabLogic.projectionId = projectionId;
         setParentLevels(tabSelectionDTO);
         setForecastingType(LoadTabLogic.projectionId);
 
@@ -455,7 +455,7 @@ public class LoadTabLogic {
             tabSelectionDTO.setContractMasterSid(session.getContMasteSid());
             tabSelectionDTO.setParentLevel("new");
         }
-        this.projectionId = projectionId;
+        LoadTabLogic.projectionId = projectionId;
         getRebateParentLevels(tabSelectionDTO);
         setForecastingType(projectionId);
         List<Object> list = getRebateCountQuery(tabSelectionDTO);
@@ -900,7 +900,7 @@ public class LoadTabLogic {
     }
 
     public void updateSalesAndDiscount(SessionDTO session) {
-        this.projectionId = session.getProjectionId();
+        LoadTabLogic.projectionId = session.getProjectionId();
 
         setForecastingType(LoadTabLogic.projectionId);
         List<String> salesColumn = CommonLogic.getApprovedProjectionResults(forecatingType, true);

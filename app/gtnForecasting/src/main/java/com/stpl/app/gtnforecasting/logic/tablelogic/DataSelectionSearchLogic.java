@@ -10,6 +10,7 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
@@ -22,9 +23,9 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 
 public class DataSelectionSearchLogic extends PageTableLogic {
 
-    int selectedProjectionId = 0;
-    boolean loadData = false;
-    DataSelectionDTO dataSelectionDTO;
+    protected int selectedProjectionId = 0;
+    protected boolean loadData = false;
+    protected DataSelectionDTO dataSelectionDTO;
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelectionSearchLogic.class);
 
     @Override
@@ -45,7 +46,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
         List<DataSelectionDTO> resultList = new ArrayList<>();
         try {
             resultList = new NonMandatedLogic().searchDSProjectionsLazy(dataSelectionDTO, start, offset, getFilters(), getSortByColumns());
-        } catch (Exception ex) {
+        } catch (SystemException | ParseException ex) {
             LOGGER.error(ex);
         }
         return resultList;

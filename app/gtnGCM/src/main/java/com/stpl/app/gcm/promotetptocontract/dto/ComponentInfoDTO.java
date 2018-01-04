@@ -104,7 +104,7 @@ public class ComponentInfoDTO implements Serializable {
     private String dashboardId = StringUtils.EMPTY;
     private String dashboardNumber = StringUtils.EMPTY;
     private String dashboardName = StringUtils.EMPTY;
-    String modelId = StringUtils.EMPTY;
+    private String modelId = StringUtils.EMPTY;
     private String companyStatus = StringUtils.EMPTY;
     private String companyStartDate = StringUtils.EMPTY;
     private String companyEndDate = StringUtils.EMPTY;

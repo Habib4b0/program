@@ -25,15 +25,14 @@ import org.slf4j.LoggerFactory;
  */
 public class CurrentContractTableLogic extends PageTableLogic {
 
-    ContractSelectionDTO conSelDTO = new ContractSelectionDTO();
-    List<ContractResultDTO> itemList = new ArrayList<>();
-    CommmonLogic logic = new CommmonLogic();
-    boolean firstTime = true;
-    SessionDTO session;
+    private ContractSelectionDTO conSelDTO = new ContractSelectionDTO();
+    private final CommmonLogic logic = new CommmonLogic();
+    private boolean firstTime = true;
+    private SessionDTO session;
     /**
      * The Constant LOGGER.
      */
-    private static final Logger  LOGGER = LoggerFactory.getLogger(CurrentContractTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CurrentContractTableLogic.class);
 
     /**
      * Record count method

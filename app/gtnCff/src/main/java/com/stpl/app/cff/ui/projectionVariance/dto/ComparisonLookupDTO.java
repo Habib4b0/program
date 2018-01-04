@@ -5,7 +5,7 @@
  */
 package com.stpl.app.cff.ui.projectionVariance.dto;
 
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

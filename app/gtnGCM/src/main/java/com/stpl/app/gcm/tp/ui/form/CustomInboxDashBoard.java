@@ -18,12 +18,12 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import elemental.json.JsonArray;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import elemental.json.JsonArray;
 
 /**
  *
@@ -31,11 +31,11 @@ import org.slf4j.LoggerFactory;
  */
 public class CustomInboxDashBoard extends InboxDashBoard {
 
-    String projectionId = StringUtils.EMPTY;
+    private String projectionId = StringUtils.EMPTY;
     public Button closeBtn = new Button(" CLOSE ");
-    WorkFlowLookup workFlowLookup = null;
+    private WorkFlowLookup workFlowLookup = null;
     private final WorkflowLogic searchLogic = new WorkflowLogic();
-    List<InboxDashboardDTO> inboxSearchResults = new ArrayList<>();
+    private List<InboxDashboardDTO> inboxSearchResults = new ArrayList<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomInboxDashBoard.class);
 
     public CustomInboxDashBoard(String projectionId, WorkFlowLookup workFlowLookup) {
@@ -101,8 +101,8 @@ public class CustomInboxDashBoard extends InboxDashBoard {
         JavaScript.getCurrent().addFunction("storageEventListener", new JavaScriptFunction() {
 
             @Override
-            public void call(JsonArray arguments) {
-                  try {
+            public void call(JsonArray arguments)  {
+                try {
                     if (arguments.getBoolean(1)) {
                         workflowInboxSearch();
                         JavaScript.getCurrent().execute("localStorage.setItem('" + arguments.getString(0) + "', 'false');");
@@ -115,6 +115,7 @@ public class CustomInboxDashBoard extends InboxDashBoard {
 
         closeBtn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 closeFunction();
 
@@ -142,6 +143,7 @@ public class CustomInboxDashBoard extends InboxDashBoard {
     public void closeFunction() {
 
         MessageBox.showPlain(Icon.QUESTION, "Confirm Close", "Are you sure you want to close the Work Flow Inbox ?", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equalsIgnoreCase(CommonUtils.YES)) {
                     workFlowLookup.close();

@@ -15,6 +15,7 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.v7.ui.VerticalLayout;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -29,11 +30,11 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
     private AccrualRateProjectionForm accrualRateProjectionForm;
 
     public static final String ARP_VIEW = "ARPVIEW";
-    String projectionName = StringUtils.EMPTY;
-    SessionDTO session;
-    String screenName;
-    final DataSelectionForm dataSelectionForm;
-    DataSelectionDTO dataSelectionDTO;
+    protected String projectionName = StringUtils.EMPTY;
+    protected SessionDTO session;
+    protected String screenName;
+    protected final DataSelectionForm dataSelectionForm;
+    protected DataSelectionDTO dataSelectionDTO;
     private static final Logger LOGGER = Logger.getLogger(AccrualRateProjectionView.class);
     private final boolean isOpenedFromWorkflow;
 
@@ -68,7 +69,7 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
             accrualRateProjectionForm = new AccrualRateProjectionForm(dataSelectionDTO, session, screenName, dataSelectionForm);
             this.addComponent(accrualRateProjectionForm);
             accrualRateProjectionForm.sales.historyDdlb.focus();
-        } catch (Exception e) {
+        } catch (ParseException e) {
             LOGGER.error(e);
         }
     }
@@ -85,7 +86,7 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
                     session.setProjectionName(dataSelectionDTO.getProjectionName());
                     session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
                     session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
-                } catch (Exception ex) {
+                } catch (ParseException ex) {
 
                     LOGGER.error(ex);
                 }

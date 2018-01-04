@@ -199,8 +199,8 @@ public class HeaderUtils {
         String commonColumn = "";
         String commonHeader = "";
         if (frequencyDivision == 1) {
-            commonColumn = "" + year;
-            commonHeader = "" + year;
+            commonColumn = Integer.toString(year);
+            commonHeader = Integer.toString(year);
         } else if (frequencyDivision == NumericConstants.FOUR) {
             commonColumn = "q" + period + "" + year;
             commonHeader = "Q" + period + " " + year;
@@ -1187,8 +1187,8 @@ public class HeaderUtils {
         String commonColumn = "";
         String commonHeader = "";
         if (frequencyDivision == 1) {
-            commonColumn = "" + year;
-            commonHeader = "" + year;
+            commonColumn = Integer.toString(year); 
+            commonHeader = Integer.toString(year);
         } else if (frequencyDivision == NumericConstants.FOUR) {
             commonColumn = "q" + period + "" + year;
             commonHeader = "Q" + period + " " + year;

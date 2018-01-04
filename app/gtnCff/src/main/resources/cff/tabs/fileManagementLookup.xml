@@ -3,7 +3,7 @@
 To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
-<Panel xmlns:p="urn:import:com.stpl.ifs.ui.errorhandling" xmlns:c="urn:import:org.asi.ui.customtextfield" styleName="parentscroll" >
+<Panel xmlns:p="urn:import:com.stpl.app.ui.errorhandling" xmlns:c="urn:import:org.asi.ui.customtextfield" styleName="parentscroll" >
 
     <VerticalLayout styleName = "width-auto">
         <HorizontalLayout spacing="true" >

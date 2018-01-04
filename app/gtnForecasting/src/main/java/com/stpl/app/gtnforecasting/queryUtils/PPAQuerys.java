@@ -143,6 +143,7 @@ public class PPAQuerys {
         LOGGER.debug("End of PPA Update");
         return Boolean.FALSE;
     }
+    
     public static String getAppQuery(List input, String queryName) {
         LOGGER.debug("Inside getAppData");
         StringBuilder sql = new StringBuilder();

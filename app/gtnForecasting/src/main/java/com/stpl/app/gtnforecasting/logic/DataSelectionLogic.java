@@ -78,6 +78,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -97,18 +98,18 @@ public class DataSelectionLogic {
 	/**
 	 * The data selection dao.
 	 */
-	DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
+	private final DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
 	public static final String RBSID = "?RBSID";
 	public static final String SELECT_CAPS = " SELECT ";
 	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelectionLogic.class);
-	int discountDdlbCount = 0;
-	CommonDAO salesProjectionDAO = new CommonDAOImpl();
+	private int discountDdlbCount = 0;
+	private final CommonDAO salesProjectionDAO = new CommonDAOImpl();
 	public static final String LEVEL_NO = "levelNo";
 	public static final String RELATIONSHIP_SID = "relationshipSid";
 	public static final String BUSINESS_UNIT_PROPERTY = "businessUnit";
 	public static final String SELECTION_AT = "@SELECTION";
-	List companiesList = new ArrayList<>();
-	RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
+	private List companiesList = new ArrayList<>();
+	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
 	/**
 	 * Gets the hierarchy group.
@@ -260,7 +261,7 @@ public class DataSelectionLogic {
 				}
 				resultList.add(leveldto);
 			}
-		} catch (Exception e) {
+		} catch (SystemException e) {
 			LOGGER.error(e);
 		}
 		return resultList;
@@ -801,7 +802,7 @@ public class DataSelectionLogic {
 				resultList.add(dto);
 			}
 
-		} catch (Exception ex) {
+		} catch (SystemException | NumberFormatException ex) {
 			LOGGER.error(ex);
 		}
 		return resultList;
@@ -830,7 +831,7 @@ public class DataSelectionLogic {
 			dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.SEVEN])));
 			dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
 			dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
-		} catch (Exception ex) {
+		} catch (SystemException | NumberFormatException ex) {
 			LOGGER.error(ex);
 
 		}
@@ -849,7 +850,7 @@ public class DataSelectionLogic {
 
 			user = dataSelectionDao.getUser(Long.valueOf(userId));
 
-		} catch (Exception ex) {
+		} catch (PortalException | SystemException | NumberFormatException ex) {
 			java.util.logging.Logger.getLogger(DataSelectionLogic.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		return user;
@@ -880,7 +881,7 @@ public class DataSelectionLogic {
 				str = dataSelectionDao.deleteProjection(screenName, projectionId);
 			}
 
-		} catch (Exception e) {
+		} catch (PortalException | SystemException e) {
 			LOGGER.error(e);
 			return str;
 		}
@@ -1241,7 +1242,7 @@ public class DataSelectionLogic {
 					resultList.add(dto);
 				}
 			}
-		} catch (Exception ex) {
+		} catch (NumberFormatException ex) {
 			LOGGER.error(ex);
 		}
 		return resultList;
@@ -1369,7 +1370,7 @@ public class DataSelectionLogic {
 					resultList.add(dto);
 				}
 			}
-		} catch (Exception ex) {
+		} catch (NumberFormatException ex) {
 			LOGGER.error(ex);
 		}
 		return resultList;
@@ -1425,7 +1426,7 @@ public class DataSelectionLogic {
 				dto.setFileEndYear(Integer.parseInt(String.valueOf(tempDate[0])));
 				dto.setFileEndMonth(Integer.parseInt(String.valueOf(tempDate[1])));
 			}
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -1455,7 +1456,7 @@ public class DataSelectionLogic {
 		try {
 			list = (List) dataSelectionDao.executeQuery(parameters);
 			return list;
-		} catch (Exception e) {
+		} catch (SystemException e) {
 			LOGGER.error(e);
 			return Collections.emptyList();
 		}
@@ -1648,7 +1649,7 @@ public class DataSelectionLogic {
 			query.add(RestrictionsFactoryUtil.ilike(Constant.DESCRIPTION, tempFilterText));
 			query.add(RestrictionsFactoryUtil.eq(Constant.LIST_NAME, Constant.RS_TYPE));
 			discountDdlbCount = dataSelectionDao.getDiscountCount(query);
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex);
 		}
 		return discountDdlbCount;
@@ -1808,7 +1809,7 @@ public class DataSelectionLogic {
 				returnList = Converters.convertItemGroupList(resultList);
 			}
 
-		} catch (Exception ex) {
+		} catch (PortalException | SystemException ex) {
 			LOGGER.error(ex);
 		}
 		return returnList;
@@ -2251,7 +2252,7 @@ public class DataSelectionLogic {
                                                 : sessionDTO.getProductHierarchyVersion()+ StringUtils.EMPTY);
 		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 
-		Map<String, List> resultMap = new HashMap<>();
+		Map<String, List> resultMap = new LinkedHashMap<>();
 
 		String hierarchyNoType = isCustomerHierarchy ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO";
 
@@ -2269,7 +2270,6 @@ public class DataSelectionLogic {
 			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
 															// Actual System Id
 			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY
-																// INDICATOR
 			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
 			resultMap.put(String.valueOf(object[0]), detailsList);
 

@@ -46,17 +46,17 @@ public class NMProjectionResultsLogic {
      * The Numeric Zero Decimal Places Format.
      */
     private static final DecimalFormat NUM_ZERO = new DecimalFormat("#,##0");
-    List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjTotalRPUDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjDisDolExfacDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalRPUDtoList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjDisDolExfacDtoList = new ArrayList<>();
+    private final List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     
     private static final String CURRENCY = "$";
-     private static final String PERCENTAGE = "%";
+    private static final String PERCENTAGE = "%";
     private static final DecimalFormat CUR_TWO = new DecimalFormat("#,##0.00");
-    int pPACount=0;
-    boolean isFirst=true;
+    private int pPACount=0;
+    private boolean isFirst=true;
 
     public List<ProjectionResultsDTO> getDiscountPer(ProjectionSelectionDTO projSelDTO) {
         LOGGER.debug("= = = Inside getDiscountPer = = =");
@@ -611,8 +611,8 @@ public class NMProjectionResultsLogic {
     public List<ProjectionResultsDTO> getProjectionPivot(ProjectionSelectionDTO projSelDTO) {
         List<ProjectionResultsDTO> projDTOList;
         CommonLogic commonLogic = new CommonLogic();
-        String CCPQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
-        CCPQuery += commonLogic.getGroupFilterJoinQuery(projSelDTO);
+        String ccpQuery = commonLogic.insertAvailableHierarchyNo(projSelDTO);
+        ccpQuery += commonLogic.getGroupFilterJoinQuery(projSelDTO);
         String cogsSelect = "DECLARE @FROM_DATE DATE\n"
                 + "     , @STARTFROM DATE\n"
                 + "     , @PROJECTION_DATE DATE\n"
@@ -631,7 +631,7 @@ public class NMProjectionResultsLogic {
                 + "FROM PERIOD\n"
                 + "WHERE PERIOD_DATE = @PROJECTION_DATE\n"
                 + "\n";
-        String gtsListQuery = cogsSelect + " \n " + CCPQuery + " \n" + getProjectionResultsPivotQuery(projSelDTO);
+        String gtsListQuery = cogsSelect + " \n " + ccpQuery + " \n" + getProjectionResultsPivotQuery(projSelDTO);
         List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(gtsListQuery, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
         List discList = getTotalRPUDollar(projSelDTO, Boolean.TRUE, 0);
         projDTOList = getCustomizedProjectionPivot(gtsList, discList, projSelDTO);
@@ -1368,15 +1368,15 @@ public class NMProjectionResultsLogic {
         }        
     }
 
-    public String getFormattedValue(DecimalFormat FORMAT, String value) {
+    public String getFormattedValue(DecimalFormat decFormat, String value) {
         if (value.contains(Constant.NULL)) {
             value = DASH.getConstant();
         } else {
             Double newValue = Double.valueOf(value);
-            if (FORMAT.toPattern().contains(Constant.PERCENT)) {
+            if (decFormat.toPattern().contains(Constant.PERCENT)) {
                 newValue = newValue / NumericConstants.HUNDRED;
             }
-            value = FORMAT.format(newValue);
+            value = decFormat.format(newValue);
         }
         return value;
     }
@@ -1745,9 +1745,9 @@ public class NMProjectionResultsLogic {
         boolean ppaFlag = Boolean.FALSE;
 
         while (iterator.hasNext() && iterator1.hasNext()) {
-            String RsNo = iterator.next();
-            String RsName = iterator1.next();
-            newList.add(RsNo + "~" + RsName);
+            String rsNo = iterator.next();
+            String rsName = iterator1.next();
+            newList.add(rsNo + "~" + rsName);
             // add FirstName and LastName to the new list here
         }
         //PPA
@@ -4162,25 +4162,25 @@ public class NMProjectionResultsLogic {
         projSelDTO.setIsTotal(true);
         String selectClause = Constant.SELECT_SMALL_SPACE;
         String customQuery;
-        String ppa_actuals;
-        String ppa_projection;
+        String ppaActuals;
+        String ppaProj;
         List<String> list = CommonLogic.getCommonSelectWhereOrderGroupByClause(Constant.TODIS_LABEL, "SALE", Constant.PPA_SMALL, "on", projSelDTO.isPpa());
         selectClause += list.get(0);
         String finalWhereCond = list.get(1);
         String orderBy = list.get(NumericConstants.THREE);
 
-            ppa_actuals = "+Isnull( PPA.ACTUAL_SALES , 0)";
-            ppa_projection = "+Isnull(PPA.PROJECTION_SALES , 0)";
+            ppaActuals = "+Isnull( PPA.ACTUAL_SALES , 0)";
+            ppaProj = "+Isnull(PPA.PROJECTION_SALES , 0)";
         selectClause += " SALE.SALES_ACTUAL_SALES as CONTRACT_ACTUAL_SALES \n"
                 + ", SALE.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES \n"
                 + ", SALE.ACTUAL_UNITS as CONTRACT_ACTUAL_UNITS \n"
                 + ", SALE.PROJECTION_UNITS as CONTRACT_PROJECTION_UNITS \n"
-                + ", TOTAL_ACTUAL_RATE=Isnull((Isnull(TODIS.ACTUAL_SALES, 0)" + ppa_actuals + ") / NULLIF(SALE.SALES_ACTUAL_SALES, 0), 0) * 100 \n"
-                + ", TOTAL_PROJECTION_RATE=Isnull((Isnull(TODIS.PROJECTION_SALES, 0)" + ppa_projection + ") / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n"
-                + ", TOTAL_ACTUAL_DOLAR=(Isnull(TODIS.ACTUAL_SALES, 0)" + ppa_actuals + ") \n"
-                + ", TOTAL_PROJECTION_DOLAR=(Isnull(TODIS.PROJECTION_SALES, 0)" + ppa_projection + ") \n"
-                + ", NET_ACTUAL_SALES=(Isnull(SALE.SALES_ACTUAL_SALES, 0)-(Isnull(TODIS.ACTUAL_SALES, 0)" + ppa_actuals + "))  \n"
-                + ", NET_PROJECTION_SALES=(Isnull(SALE.SALES_PROJECTION_SALES, 0)-(Isnull(TODIS.PROJECTION_SALES, 0)" + ppa_projection + ")) \n"
+                + ", TOTAL_ACTUAL_RATE=Isnull((Isnull(TODIS.ACTUAL_SALES, 0)" + ppaActuals + ") / NULLIF(SALE.SALES_ACTUAL_SALES, 0), 0) * 100 \n"
+                + ", TOTAL_PROJECTION_RATE=Isnull((Isnull(TODIS.PROJECTION_SALES, 0)" + ppaProj + ") / NULLIF(SALE.SALES_PROJECTION_SALES, 0), 0) * 100 \n"
+                + ", TOTAL_ACTUAL_DOLAR=(Isnull(TODIS.ACTUAL_SALES, 0)" + ppaActuals + ") \n"
+                + ", TOTAL_PROJECTION_DOLAR=(Isnull(TODIS.PROJECTION_SALES, 0)" + ppaProj + ") \n"
+                + ", NET_ACTUAL_SALES=(Isnull(SALE.SALES_ACTUAL_SALES, 0)-(Isnull(TODIS.ACTUAL_SALES, 0)" + ppaActuals + "))  \n"
+                + ", NET_PROJECTION_SALES=(Isnull(SALE.SALES_PROJECTION_SALES, 0)-(Isnull(TODIS.PROJECTION_SALES, 0)" + ppaProj + ")) \n"
                 + ", TOTAL_ACTUAL_RPU = Isnull(( Isnull(TODIS.ACTUAL_SALES, 0) ) / NULLIF(SALE.ACTUAL_UNITS, 0), 0),\n"
                 + "       TOTAL_PROJECTION_RPU = Isnull(( Isnull(TODIS.PROJECTION_SALES, 0) ) / NULLIF(SALE.PROJECTION_UNITS, 0), 0),\n"
                 + "          COGS_ACTUAL = (ISNULL(SALE.ACTUAL_UNITS, 0) * ISNULL(COGS.ITEM_PRICE, 0))\n"
@@ -4409,13 +4409,13 @@ public class NMProjectionResultsLogic {
         return customQuery;
     }
 
-    public String getFormatTwoDecimalValue(DecimalFormat FORMAT, String value, String appendChar) {
+    public String getFormatTwoDecimalValue(DecimalFormat decFormat, String value, String appendChar) {
         if (value.contains(Constant.NULL)) {
             value = "...";
         } else if (CURRENCY.equals(appendChar)) {
-            value = appendChar.concat(FORMAT.format(Double.valueOf(value)));
+            value = appendChar.concat(decFormat.format(Double.valueOf(value)));
         } else {
-            value = FORMAT.format(Double.valueOf(value)).concat(appendChar);
+            value = decFormat.format(Double.valueOf(value)).concat(appendChar);
         }
         return value;
     }

@@ -8,14 +8,14 @@ import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.ui.fileSelection.FileManagementLookup.FileManagementLookup;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.Constants;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.DateField;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.Field;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.jboss.logging.Logger;
 
@@ -25,10 +25,10 @@ import org.jboss.logging.Logger;
  */
 public class FileSelectionTableGenerator extends DefaultFieldFactory {
 
-    private BeanItemContainer searchContainer;
+    private final BeanItemContainer searchContainer;
     private CustomTextField fileName;
-    private SessionDTO session;
-    private String businessUnit;
+    private final SessionDTO session;
+    private final String businessUnit;
     private static final Logger LOGGER = Logger.getLogger(FileSelectionTableGenerator.class);
 
     public FileSelectionTableGenerator(BeanItemContainer searchContainer,SessionDTO sessionDTO,String businessUnit ){
@@ -52,6 +52,7 @@ public class FileSelectionTableGenerator extends DefaultFieldFactory {
                 /**
                  * Method used for formulaNo
                  */
+                @Override
                 public void click(final CustomTextField.ClickEvent event) {
                     String fileType = String.valueOf(searchContainer.getContainerProperty(itemId, "fileType").getValue());
                     String country = String.valueOf(searchContainer.getContainerProperty(itemId, "country").getValue());
@@ -69,6 +70,7 @@ public class FileSelectionTableGenerator extends DefaultFieldFactory {
                              * Executed by clicking Close .
                              *
                              */
+                            @Override
                             public void windowClose(final Window.CloseEvent e) {
                                 return;
                             }

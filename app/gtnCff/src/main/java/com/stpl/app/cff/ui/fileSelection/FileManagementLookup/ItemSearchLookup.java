@@ -4,7 +4,9 @@
  */
 package com.stpl.app.cff.ui.fileSelection.FileManagementLookup;
 
-import com.stpl.app.cff.ui.errorhandling.ErrorfulFieldGroup;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.dto.FileManagementFilterGenerator;
 import com.stpl.app.cff.ui.fileSelection.dto.ItemSearchDTO;
@@ -16,23 +18,21 @@ import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ValidationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.event.ItemClickEvent;
 import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.validator.RegexpValidator;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.event.ItemClickEvent;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -104,21 +104,21 @@ public class ItemSearchLookup extends Window {
     @UiField("cssLayout")
     private CssLayout cssLayout;
     
-    private FileManagementLogic logic = new FileManagementLogic();
-    private TextField itemNumber;
-    private TextField itemLookupName;
-    private ItemSearchDTO itemSearchDTO = new ItemSearchDTO();
-    private ErrorfulFieldGroup itemSearchBinder = new ErrorfulFieldGroup(new BeanItem<ItemSearchDTO>(itemSearchDTO));
+    private final FileManagementLogic logic = new FileManagementLogic();
+    private final TextField itemNumber;
+    private final TextField itemLookupName;
+    private final ItemSearchDTO itemSearchDTO = new ItemSearchDTO();
+    private final ErrorfulFieldGroup itemSearchBinder = new ErrorfulFieldGroup(new BeanItem<ItemSearchDTO>(itemSearchDTO));
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ItemSearchLookup.class);
     private final BeanItemContainer<ItemSearchDTO> itemBean = new BeanItemContainer<>(ItemSearchDTO.class);
     
     @UiField("tableLayout")
     private VerticalLayout tableLayout;
     
-    private HorizontalLayout controlLayout = new HorizontalLayout();
-    private ItemSearchTableLogic tableLogic = new ItemSearchTableLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private CommonUtils commonUtil = new CommonUtils();
+    private final HorizontalLayout controlLayout = new HorizontalLayout();
+    private final ItemSearchTableLogic tableLogic = new ItemSearchTableLogic();
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final CommonUtils commonUtil = new CommonUtils();
 
     public ItemSearchLookup(TextField itemNo, TextField itemLookupName) {
         super("Item Search");
@@ -199,6 +199,7 @@ public class ItemSearchLookup extends Window {
             /**
              * After changing the value in ndcNumericConstants.EIGHT, function will be executed.
              */
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 ndc8.setDescription(ndc8.getValue());
             }
@@ -216,6 +217,7 @@ public class ItemSearchLookup extends Window {
              *
              * @param event
              */
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 ndc9.setDescription(ndc9.getValue());
             }
@@ -232,6 +234,7 @@ public class ItemSearchLookup extends Window {
              *
              * @param event
              */
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 identifierType.setDescription(String.valueOf((Integer) identifierType.getValue()));
             }
@@ -247,6 +250,7 @@ public class ItemSearchLookup extends Window {
              *
              * @param event
              */
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 brand.setDescription(String.valueOf((Integer) brand.getValue()));
             }
@@ -256,6 +260,7 @@ public class ItemSearchLookup extends Window {
             /**
              * button click listener
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 try {
                     ItemSearchDTO itemDto = new ItemSearchDTO();
@@ -298,6 +303,7 @@ public class ItemSearchLookup extends Window {
                     /**
                      * button click listener
                      */
+                    @Override
                     public void buttonClick(final Button.ClickEvent event) {
                         close();
 
@@ -308,6 +314,7 @@ public class ItemSearchLookup extends Window {
             /**
              * button click listener
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 if (resultsTable.getValue() == null) {
                     AbstractNotificationUtils.getErrorNotification("Select Error", "Please click on a record within the results list view");
@@ -322,6 +329,7 @@ public class ItemSearchLookup extends Window {
              *
              *
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("In configureFields resetButtonClickLogic started");
                 MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, "Are you sure you want to reset the page to default/previous values"
@@ -332,6 +340,7 @@ public class ItemSearchLookup extends Window {
                              *
                              */
                             @SuppressWarnings("PMD")
+                    @Override
                             public void buttonClicked(final ButtonId buttonId) {
                                 if (buttonId.name().equals(ConstantsUtils.YES)) {
                                     resetButtonClickLogic();

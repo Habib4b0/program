@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class NonMandatedView extends VerticalLayout {
 
-    SessionDTO session;
+    protected SessionDTO session;
     /**
      * View name for navigation.
      */
@@ -36,7 +36,7 @@ public class NonMandatedView extends VerticalLayout {
      */
     private CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
 
-    ForecastForm nonMandatedForm;
+    protected ForecastForm nonMandatedForm;
 
     /**
      * Default constructor.

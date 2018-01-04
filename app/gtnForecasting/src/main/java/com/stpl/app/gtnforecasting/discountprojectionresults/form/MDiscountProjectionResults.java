@@ -81,29 +81,27 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
 
     private static final Logger LOGGER = Logger
             .getLogger(MDiscountProjectionResults.class);
-    CommonUtils commonUtils = new CommonUtils();
-    SessionDTO session;
-    String screenName = StringUtils.EMPTY;
-    final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
-    ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
-    ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
-    boolean firstGenerated = false;
-    boolean generated = false;
-    List<Object> pcNameList = null;
-    public HorizontalLayout controlLayout;
+    private final SessionDTO sessionDTO;
+    private String screenName = StringUtils.EMPTY;
+    private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
+    private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    private final ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
+    private boolean firstGenerated = false;
+    private boolean generated = false;
+    private List<Object> pcNameList = null;
     protected List<Leveldto> currentHierarchy = new ArrayList<>();
-    private ExtCustomTreeTable exceltable;
-    Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
+    private ExtCustomTreeTable excelCustomTreeTable;
+    private final Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
             levelFilterDdlbChangeOption(false);
         }
     };
-    boolean canLoad = true;
+    private boolean canLoad = true;
 
     public MDiscountProjectionResults(SessionDTO session, String screenName) {
         super(screenName, session);
-        this.session = session;
+        this.sessionDTO = session;
         this.screenName = screenName;
         projectionDTO.setSessionDTO(session);
     }
@@ -175,13 +173,13 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
     protected final List<String> loadHistory(String frequency, String period) {
         LOGGER.debug("Entering loadHistory method");
         List<String> history;
-        history = session.getFrequencyAndQuaterValue(frequency);
+        history = sessionDTO.getFrequencyAndQuaterValue(frequency);
         Integer endValue = 0;
         if (history == null || history.isEmpty()) {
-            Map<String, Integer> historyEndDetails = CommonUtils.getHistoryEndDetails(session, frequency);
-            endValue = CommonUtils.getProjections(session.getForecastDTO().getHistoryStartDate(), CommonUtils.getDate(historyEndDetails.get(HISTORY_END_MONTH), historyEndDetails.get(HISTORY_END_YEAR)), frequency);
+            Map<String, Integer> historyEndDetails = CommonUtils.getHistoryEndDetails(sessionDTO, frequency);
+            endValue = CommonUtils.getProjections(sessionDTO.getForecastDTO().getHistoryStartDate(), CommonUtils.getDate(historyEndDetails.get(HISTORY_END_MONTH), historyEndDetails.get(HISTORY_END_YEAR)), frequency);
             history = CommonUtils.getHistoryDdlbList(endValue, period);
-            session.addFrequencyAndQuater(frequency, history);
+            sessionDTO.addFrequencyAndQuater(frequency, history);
         }
         LOGGER.debug("End of loadHistory method");
         return history;
@@ -257,9 +255,9 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
         initialProjSelDTO.setProductLevelNo(projectionDTO.getProductLevelNo());
         levelFilterDdlbChangeOption(true);
         ForecastUI.EXCEL_CLOSE = true;
-        ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.DISCOUNT_PROJECTION_RESULTS, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
+        ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelCustomTreeTable), Constant.DISCOUNT_PROJECTION_RESULTS, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
         exp.export();
-        layout.removeComponent(exceltable);
+        layout.removeComponent(excelCustomTreeTable);
     }
 
     @Override
@@ -270,8 +268,8 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
         if (String.valueOf(customDdlb.getValue()) != null || !SELECT_ONE.equalsIgnoreCase(String.valueOf(customDdlb.getValue()))) {
             editBtn.setEnabled(true);
             if (customId != 0) {
-                session.setCustomId(customId);
-                Utility.loadCustomHierarchyList(session);
+                sessionDTO.setCustomId(customId);
+                Utility.loadCustomHierarchyList(sessionDTO);
             }
             if (!generated && firstGenerated) {
                 projectionDTO.setCustomFlag(true);
@@ -352,7 +350,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
         if (loadProjectionSelection()) {
             configureResultTable();
         }
-        if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction())) {
+        if (ACTION_EDIT.getConstant().equalsIgnoreCase(sessionDTO.getAction())) {
             setProjectionSelection();
         }
         addResultTable();
@@ -402,9 +400,9 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             }
         if (freqFlag && histFlag) {
             flag = true;
-            projectionId = session.getProjectionId();
-            projectionDTO.setUserId(Integer.valueOf(session.getUserId()));
-            projectionDTO.setSessionId(Integer.valueOf(session.getSessionId()));
+            projectionId = sessionDTO.getProjectionId();
+            projectionDTO.setUserId(Integer.valueOf(sessionDTO.getUserId()));
+            projectionDTO.setSessionId(Integer.valueOf(sessionDTO.getSessionId()));
             projectionDTO.setHistoryNum(historyNum);
             projectionDTO.setActualsOrProjections(actualOrProjectionsOpg.getValue().toString());
             projectionDTO.setProjectionOrder(periodOrderOpg.getValue().toString());
@@ -412,14 +410,14 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             projectionDTO.setView(viewOpg.getValue().toString());
             projectionDTO.setProjectionId(projectionId);
             projectionDTO.setMandatedOrSupp(discountOpg.getValue().toString());
-            projectionDTO.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
-            projectionDTO.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
+            projectionDTO.setCustomerLevelNo(Integer.valueOf(sessionDTO.getCustomerLevelNumber()));
+            projectionDTO.setProductLevelNo(Integer.valueOf(sessionDTO.getProductLevelNumber()));
             projectionDTO.setCustomId(customId);
-            projectionDTO.setForecastDTO(session.getForecastDTO());
-            projectionDTO.setCustHierarchySID(session.getCustomerHierarchyId());
-            projectionDTO.setProdHierarchySID(session.getProductHierarchyId());
-            projectionDTO.setCustRelationshipBuilderSid(session.getCustRelationshipBuilderSid());
-            projectionDTO.setProdRelationshipBuilderSid(session.getProdRelationshipBuilderSid());
+            projectionDTO.setForecastDTO(sessionDTO.getForecastDTO());
+            projectionDTO.setCustomerHierarchySID(sessionDTO.getCustomerHierarchyId());
+            projectionDTO.setProductHierarchySID(sessionDTO.getProductHierarchyId());
+            projectionDTO.setCustRelationshipBuilderSid(sessionDTO.getCustRelationshipBuilderSid());
+            projectionDTO.setProdRelationshipBuilderSid(sessionDTO.getProdRelationshipBuilderSid());
             projectionDTO.setForecastConfigPeriods(CommonUtils.prepareProjectionPeriodList(projectionDTO));
             projectionDTO.setTabName("M_Discount Projection Results");
             projectionDTO.setScreenName(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED);
@@ -495,11 +493,11 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             customDdlb.removeAllItems();
             customDdlb.addItem(SELECT_ONE);
             customDdlb.setNullSelectionItemId(SELECT_ONE);
-            if (session.getCustomerViewList().isEmpty()) {
-                customViewList = CommonLogic.getCustomViewList(session.getProjectionId());
-                session.setCustomerViewList(customViewList);
+            if (sessionDTO.getCustomerViewList().isEmpty()) {
+                customViewList = CommonLogic.getCustomViewList(sessionDTO.getProjectionId());
+                sessionDTO.setCustomerViewList(customViewList);
             } else {
-                customViewList = session.getCustomerViewList();
+                customViewList = sessionDTO.getCustomerViewList();
             }
             if (customViewList != null) {
                 for (CustomViewMaster obj : customViewList) {
@@ -529,7 +527,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
         tableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
         fullHeader = new CustomTableHeaderDTO();
         String viewString = String.valueOf(viewOpg.getValue());
-        projectionDTO.setMarketTypeValue(session.getMarketTypeValue());
+        projectionDTO.setMarketTypeValue(sessionDTO.getMarketTypeValue());
         leftHeader = HeaderUtils.getDiscountProjectionResultsLeftTableColumns(fullHeader, viewString);
         rightHeader = HeaderUtils.getDiscountProjectionResultsRightTableColumn(projectionDTO, fullHeader, getPcNameList());
         resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
@@ -707,6 +705,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
      * Add Result Table.
      */
     private void addResultTable() {
+        HorizontalLayout controlLayout;
         tableVerticalLayout.addComponent(resultsTable);
         controlLayout = tableLogic.createControls();
         tableLogic.sinkItemPerPageWithPageLength(false);
@@ -738,12 +737,12 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
         if (projectionDTO.isIsCustomHierarchy()) {
             levelDdlb.setEnabled(customId != 0);
             levelFilterDdlb.setEnabled(false);
-            hierarchy = session.getCustomHierarchyMap().get(customId);
+            hierarchy = sessionDTO.getCustomHierarchyMap().get(customId);
             Utility.loadLevelValueForResult(levelDdlb, null, null, hierarchy, Constant.CUSTOM_LABEL);
         } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projectionDTO.getHierarchyIndicator())) {
-            Utility.loadLevelValueForResult(levelDdlb, levelFilterDdlb, null, session.getCustomerHierarchyList(), String.valueOf(viewOpg.getValue()));
+            Utility.loadLevelValueForResult(levelDdlb, levelFilterDdlb, null, sessionDTO.getCustomerHierarchyList(), String.valueOf(viewOpg.getValue()));
         } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projectionDTO.getHierarchyIndicator())) {
-            Utility.loadLevelValueForResult(levelDdlb, levelFilterDdlb, null, session.getProductHierarchyList(), String.valueOf(viewOpg.getValue()));
+            Utility.loadLevelValueForResult(levelDdlb, levelFilterDdlb, null, sessionDTO.getProductHierarchyList(), String.valueOf(viewOpg.getValue()));
         }
         LOGGER.debug("loadLevelAndFilterValue ends ");
     }
@@ -866,21 +865,21 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
     private void configureExcelResultTable() {
         excelResultBeanContainer = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
         excelResultBeanContainer.setColumnProperties(fullHeader.getProperties());
-        exceltable = new ExtCustomTreeTable();
-        layout.addComponent(exceltable);
-        exceltable.setRefresh(false);
-        exceltable.setVisible(false);
-        exceltable.setContainerDataSource(excelResultBeanContainer);
-        exceltable.setVisibleColumns(fullHeader.getSingleColumns().toArray());
-        exceltable.setColumnHeaders(fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size()]));
-        exceltable.setDoubleHeaderVisible(true);
-        exceltable
+        excelCustomTreeTable = new ExtCustomTreeTable();
+        layout.addComponent(excelCustomTreeTable);
+        excelCustomTreeTable.setRefresh(false);
+        excelCustomTreeTable.setVisible(false);
+        excelCustomTreeTable.setContainerDataSource(excelResultBeanContainer);
+        excelCustomTreeTable.setVisibleColumns(fullHeader.getSingleColumns().toArray());
+        excelCustomTreeTable.setColumnHeaders(fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size()]));
+        excelCustomTreeTable.setDoubleHeaderVisible(true);
+        excelCustomTreeTable
                 .setDoubleHeaderVisibleColumns(fullHeader.getDoubleColumns().toArray());
-        exceltable
+        excelCustomTreeTable
                 .setDoubleHeaderColumnHeaders(fullHeader.getDoubleHeaders().toArray(new String[fullHeader.getDoubleHeaders().size()]));
 
-        exceltable.setDoubleHeaderMap(fullHeader.getDoubleHeaderMaps());
-        exceltable.setRefresh(true);
+        excelCustomTreeTable.setDoubleHeaderMap(fullHeader.getDoubleHeaderMaps());
+        excelCustomTreeTable.setRefresh(true);
     }
 
     public void saveDPR() {
@@ -893,7 +892,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             map.put("Actuals/Projections", actualOrProjectionsOpg.getValue() != null ? actualOrProjectionsOpg.getValue().toString() : StringUtils.EMPTY);
             map.put(Constant.PERIOD_ORDER,periodOrderOpg.getValue() != null ? periodOrderOpg.getValue().toString() : StringUtils.EMPTY);
             map.put("Pivot",  pivotViewOpg.getValue() != null ? pivotViewOpg.getValue().toString() : StringUtils.EMPTY);
-            CommonLogic.saveProjectionSelection(map, session.getProjectionId(), Constant.DISCOUNT_PROJECTION_RESULTS);
+            CommonLogic.saveProjectionSelection(map, sessionDTO.getProjectionId(), Constant.DISCOUNT_PROJECTION_RESULTS);
             LOGGER.debug("saveSPResults method ends");
         } catch (Exception ex) {
             LOGGER.error(ex);

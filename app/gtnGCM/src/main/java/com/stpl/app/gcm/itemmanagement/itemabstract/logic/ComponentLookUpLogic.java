@@ -21,11 +21,10 @@ import org.slf4j.LoggerFactory;
  */
 public class ComponentLookUpLogic extends PageTableLogic {
 
-    ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    List<ComponentLookUpDTO> componentList = new ArrayList<>();
-    ItemLogic logic = new ItemLogic();
-    SelectionDTO selection;
-    boolean isGenerated = false;
+    private ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
+    private final ItemLogic logic = new ItemLogic();
+    private SelectionDTO selection;
+    private boolean isGenerated = false;
     public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUpLogic.class);
     public ComponentLookUpLogic() {
         LOGGER.debug("Inside Constructor");

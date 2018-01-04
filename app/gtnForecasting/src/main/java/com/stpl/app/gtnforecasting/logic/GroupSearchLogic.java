@@ -4,6 +4,8 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -24,10 +26,10 @@ public class GroupSearchLogic extends PageTableLogic {
 
     public static final String CUSTOMER_INDICATOR = "C";
     public static final String PRODUCT_INDICATOR = "P";
-    boolean loadData = false;
+    private boolean loadData = false;
     private boolean isCustomGroup;
-    DataSelectionLogic logic = new DataSelectionLogic();
-    GroupDTO dto;
+    private final DataSelectionLogic logic = new DataSelectionLogic();
+    private GroupDTO dto;
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(GroupSearchLogic.class);
 
     @Override
@@ -36,7 +38,7 @@ public class GroupSearchLogic extends PageTableLogic {
         if (loadData) {
             try {
                 count = logic.searchGroupCount(dto, isCustomGroup, getFilters(), getSortByColumns());
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex);
             }
         }

@@ -4,6 +4,7 @@
  */
 package com.stpl.app.cff.util;
 
+import com.stpl.app.cff.util.Constants.CommonConstants;
 import static com.stpl.app.cff.util.Constants.LabelConstants.ALL_BRANDS;
 import static com.stpl.app.cff.util.Constants.LabelConstants.CONTRACTED;
 import static com.stpl.app.cff.util.Constants.LabelConstants.MODE_ADD;
@@ -11,39 +12,35 @@ import static com.stpl.app.cff.util.Constants.LabelConstants.MODE_SEARCH;
 import static com.stpl.app.cff.util.Constants.LabelConstants.TAB_ASSUMPTIONS;
 import static com.stpl.app.cff.util.Constants.LabelConstants.TAB_PPA_PROJECTION;
 import static com.stpl.app.cff.util.Constants.RegexConstants.REGEX_EXTRACT_DIGITS;
-
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.vaadin.server.Page;
+import com.vaadin.server.Sizeable;
+import com.vaadin.shared.Position;
+import com.vaadin.ui.AbstractOrderedLayout;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.Window;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.NativeSelect;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.TreeTable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
-
-import com.stpl.app.cff.util.Constants.CommonConstants;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.server.Page;
-import com.vaadin.server.Sizeable;
-import com.vaadin.shared.Position;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.AbstractOrderedLayout;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.NativeSelect;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.Window;
 
 /**
  *

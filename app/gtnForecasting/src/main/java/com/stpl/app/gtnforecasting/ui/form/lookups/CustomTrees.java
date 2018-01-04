@@ -276,7 +276,7 @@ public class CustomTrees extends Window {
 	 * Configure fields.
 	 */
 	private void configureFields() {
-		final String tableHeight = "210px";
+		final String TABLE_HEIGHT = "210px";
 		customerTable.setCaption("Customer Hierarchy");
 		productTable.setCaption("Product Hierarchy");
 		treeTable.setCaption("Tree Structure");
@@ -297,8 +297,8 @@ public class CustomTrees extends Window {
 		productTable.setSizeFull();
 		productTable.setSizeUndefined();
 		productTable.setPageLength(NumericConstants.TEN);
-		productTable.setHeight(tableHeight);
-		productTable.setWidth(tableHeight);
+		productTable.setHeight(TABLE_HEIGHT);
+		productTable.setWidth(TABLE_HEIGHT);
 		productTable.setSelectable(true);
 
 		customerTable.setContainerDataSource(customerContainer);
@@ -307,8 +307,8 @@ public class CustomTrees extends Window {
 		customerTable.setSizeFull();
 		customerTable.setSizeUndefined();
 		customerTable.setPageLength(NumericConstants.TEN);
-		customerTable.setHeight(tableHeight);
-		customerTable.setWidth(tableHeight);
+		customerTable.setHeight(TABLE_HEIGHT);
+		customerTable.setWidth(TABLE_HEIGHT);
 		customerTable.setSelectable(true);
 		customerTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 

@@ -35,10 +35,10 @@ import org.jboss.logging.Logger;
  */
 public class ProjectionResultsTableLogic extends PageTreeTableLogic {
 
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    protected ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     public  NMProjectionResultsLogic nmProjectionResultsLogic = new NMProjectionResultsLogic();
     public  MProjectionResultsLogic mProjectionResultsLogic= new MProjectionResultsLogic();
-    boolean firstGenerated = false;
+    protected boolean firstGenerated = false;
     private static final Logger LOGGER = Logger.getLogger(ProjectionResultsTableLogic.class);        
 
     @Override
@@ -64,7 +64,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
                 }
                 }
                 projSelDTO.clearNonFetchableIndex();
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex);
             }
         }
@@ -79,7 +79,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
         if (firstGenerated) {
             try {            
                 count = getCountByForecastName(getLastParent());
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex);
             }
         }

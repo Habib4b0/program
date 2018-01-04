@@ -15,7 +15,6 @@ import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import com.stpl.app.gcm.discount.logic.DiscountLogic;
 import com.stpl.app.gcm.discount.logic.ExistingTabSearchTableLogic;
 import com.stpl.app.gcm.discount.logic.ExistingTabSelectedTableLogic;
-import static com.stpl.app.gcm.discount.ui.form.NewDiscountTab.DBDate;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
@@ -64,7 +63,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +76,7 @@ import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+import static com.stpl.app.gcm.discount.ui.form.NewDiscountTab.DB_DATE;
 
 /**
  *
@@ -86,101 +85,101 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class ExistingDiscountTab extends CustomComponent {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ExistingDiscountTab.class);
-    ExistingTabSearchTableLogic availableTableLogic = new ExistingTabSearchTableLogic();
-    ExistingTabSelectedTableLogic selectedTableLogic = new ExistingTabSelectedTableLogic();
-    public ExtPagedTable componentResultsTable = new ExtPagedTable(availableTableLogic);
-    public ExtPagedTable componentDetailsSelectedItem = new ExtPagedTable(selectedTableLogic);
-    CommonLogic logic = new CommonLogic();
+    private final ExistingTabSearchTableLogic availableTableLogic = new ExistingTabSearchTableLogic();
+    private final ExistingTabSelectedTableLogic selectedTableLogic = new ExistingTabSelectedTableLogic();
+    private final ExtPagedTable componentResultsTable = new ExtPagedTable(availableTableLogic);
+    private final ExtPagedTable componentDetailsSelectedItem = new ExtPagedTable(selectedTableLogic);
+    private final CommonLogic logic = new CommonLogic();
     @UiField("levelDetailsResultsTable")
-    public ExtFilterTable levelDetailsResultsTable;
+    private  ExtFilterTable levelDetailsResultsTable;
     @UiField("dashboardResultsTable")
-    public TreeTable dashboardTreeTable;
+    private TreeTable dashboardTreeTable;
 
     @UiField("componentTypeDdlb")
     public ComboBox componentTypeDdlb;
     @UiField("searchFieldDdlb")
-    public ComboBox searchFieldDdlb;
+    private ComboBox searchFieldDdlb;
     @UiField("valueTxt")
-    public TextField valueTxt;
+    private TextField valueTxt;
     @UiField("searchBtn")
-    public Button searchBtn;
+    private Button searchBtn;
     @UiField("levelPopulateBtn")
-    public Button levelPopulateBtn;
+    private Button levelPopulateBtn;
     @UiField("addToTree")
-    public Button addToTree;
+    private Button addToTree;
     @UiField("populateBtn")
-    public Button populateBtn;
+    private Button populateBtn;
     @UiField("rsId")
-    public TextField rsId;
+    private TextField rsId;
     @UiField("statusDdlb")
-    public TextField statusDdlb;
+    private TextField statusDdlb;
     @UiField("rebateFrequencyDdlb")
-    public TextField rebateFrequencyDdlb;
+    private TextField rebateFrequencyDdlb;
     @UiField("rsNumber")
-    public TextField rsNumber;
+    private TextField rsNumber;
     @UiField("startDate_")
-    public TextField startDate_;
+    private TextField startDate_;
     @UiField("rarDdlb")
-    public TextField rarDdlb;
+    private TextField rarDdlb;
     @UiField("rsName")
-    public TextField rsName;
+    private TextField rsName;
     @UiField("rsEndDate")
-    public TextField rsEndDate;
+    private TextField rsEndDate;
     @UiField("basicDdlb")
-    public TextField basicDdlb;
+    private TextField basicDdlb;
 
     @UiField("contractNo")
-    public TextField contractNo;
+    private TextField contractNo;
     @UiField("contractName")
-    public TextField contractName;
+    private TextField contractName;
     @UiField("contractType")
-    public TextField contractType;
+    private TextField contractType;
     @UiField("startDate")
-    public TextField startDate;
+    private TextField startDate;
     @UiField("endDate")
-    public TextField endDate;
+    private TextField endDate;
     @UiField("resultsComponentTypeDdlb")
-    public ComboBox resultsComponentTypeDdlb;
+    private ComboBox resultsComponentTypeDdlb;
     @UiField("searchValueStatusDdlb")
-    public ComboBox searchValueStatusDdlb;
+    private ComboBox searchValueStatusDdlb;
     @UiField("componentResultsTable")
-    public VerticalLayout availableLayout;
+    private VerticalLayout availableLayout;
     @UiField("componentDetailsSelectedItem")
-    public VerticalLayout selectedLayout;
+    private VerticalLayout selectedLayout;
     @UiField("levelRemoveBtn")
-    public Button levelRemoveBtn;
+    private Button levelRemoveBtn;
 
     @UiField("fromCDLabelNo")
-    public Label fromCDLabelNo;
+    private Label fromCDLabelNo;
 
     @UiField("fromCDNo")
-    public TextField fromCDNo;
+    private TextField fromCDNo;
 
     @UiField("fromCDLabelName")
-    public Label fromCDLabelName;
+    private Label fromCDLabelName;
 
     @UiField("fromCDName")
-    public TextField fromCDName;
+    private TextField fromCDName;
     @UiField("componentInformationID")
-    public Label componentInformationID;
+    private Label componentInformationID;
     @UiField("componentInformationNo")
-    public Label componentInformationNo;
+    private Label componentInformationNo;
     @UiField("componentInformationName")
-    public Label componentInformationName;
+    private Label componentInformationName;
     @UiField("rebateFrequency")
-    public Label rebateFrequency;
+    private Label rebateFrequency;
     @UiField("rarType")
-    public Label rarType;
+    private Label rarType;
     @UiField("rsBasic")
-    public Label rsBasic;
+    private Label rsBasic;
     /* Current Level Value */
-    public int levelValue;
-    Object treeBeanId;
-    List<Integer> newlyAddedRebates = new ArrayList<>();
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    private int levelValue;
+    private Object treeBeanId;
+    private final List<Integer> newlyAddedRebates = new ArrayList<>();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
 
-    public List parentList = new ArrayList();
-    List<RemoveDiscountDto> removeDiscountDto;
+    private final List parentList = new ArrayList();
+    private final List<RemoveDiscountDto> removeDiscountDto;
     /**
      * The table bean.
      */
@@ -198,23 +197,22 @@ public class ExistingDiscountTab extends CustomComponent {
      * The contract member.
      */
     private ContractsDetailsDto contractDetails;
-    private BeanItemContainer<ContractsDetailsDto> componentResultsContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
+    private final BeanItemContainer<ContractsDetailsDto> componentResultsContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
     private ExtTreeContainer<ContractsDetailsDto> dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
-    private BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
-    private BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
-    ContractsDetailsDto newDiscountTabDto = new ContractsDetailsDto();
-    List<Integer> rebateList = new ArrayList<>();
-    List<HelperDTO> itemStatusList = new ArrayList<>();
-    final List<ContractsDetailsDto> cfpList = new ArrayList<>();
-    final List<ContractsDetailsDto> ifpList = new ArrayList<>();
-    final List<ContractsDetailsDto> psList = new ArrayList<>();
-    final List<ContractsDetailsDto> rsList = new ArrayList<>();
-    List<ContractsDetailsDto> ifpListforMap;
-    List<ContractsDetailsDto> psListforMap;
-    List<ContractsDetailsDto> rsListforMap;
-    StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
-    SessionDTO session;
+    private final BeanItemContainer<ContractsDetailsDto> selectedContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
+    private final BeanItemContainer<ContractsDetailsDto> availableItemContainer = new BeanItemContainer<>(ContractsDetailsDto.class);
+    private ContractsDetailsDto newDiscountTabDto = new ContractsDetailsDto();
+    private final List<Integer> rebateList = new ArrayList<>();
+    private List<HelperDTO> itemStatusList = new ArrayList<>();
+    private final List<ContractsDetailsDto> cfpList = new ArrayList<>();
+    private final List<ContractsDetailsDto> ifpList = new ArrayList<>();
+    private final List<ContractsDetailsDto> psList = new ArrayList<>();
+    private final List<ContractsDetailsDto> rsList = new ArrayList<>();
+    private List<ContractsDetailsDto> ifpListforMap;
+    private List<ContractsDetailsDto> psListforMap;
+    private List<ContractsDetailsDto> rsListforMap;
+    private final StplSecurity stplSecurity = new StplSecurity();
+    private final SessionDTO session;
 
     public ExistingDiscountTab(List<RemoveDiscountDto> removeDiscountDto,SessionDTO session) {
         this.removeDiscountDto = removeDiscountDto;
@@ -231,8 +229,8 @@ public class ExistingDiscountTab extends CustomComponent {
             contractNo.setValue(removeDiscountDto.get(0).getContractNo());
             contractName.setValue(removeDiscountDto.get(0).getContractName());
             contractType.setValue(removeDiscountDto.get(0).getMarketType());
-            startDate.setValue(removeDiscountDto.get(0).getContractstartDate() == null ? StringUtils.EMPTY : DBDate.format((Date) removeDiscountDto.get(0).getContractstartDate()));
-            endDate.setValue(removeDiscountDto.get(0).getContractendDate() == null ? StringUtils.EMPTY : DBDate.format((Date) removeDiscountDto.get(0).getContractendDate()));
+            startDate.setValue(removeDiscountDto.get(0).getContractstartDate() == null ? StringUtils.EMPTY : DB_DATE.format((Date) removeDiscountDto.get(0).getContractstartDate()));
+            endDate.setValue(removeDiscountDto.get(0).getContractendDate() == null ? StringUtils.EMPTY : DB_DATE.format((Date) removeDiscountDto.get(0).getContractendDate()));
 
             isEnable(false);
 
@@ -323,6 +321,7 @@ public class ExistingDiscountTab extends CustomComponent {
              * Called when a Button has been clicked.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void itemClick(final ItemClickEvent event) {
                 treeBeanId = event.getItemId();
                 BeanItem<?> targetItem;
@@ -376,6 +375,7 @@ public class ExistingDiscountTab extends CustomComponent {
          * Node Expand Event
          *
          */
+        @Override
         public void nodeExpand(final Tree.ExpandEvent event) {
             try {
                 LOGGER.debug("Entering StplExpandListener nodeExpand method");
@@ -465,6 +465,7 @@ public class ExistingDiscountTab extends CustomComponent {
          *
          * @param event the event
          */
+        @Override
         public void nodeCollapse(final Tree.CollapseEvent event) {
             try {
                 LOGGER.debug("Entering StplCollapseListener nodeCollapse method");
@@ -801,8 +802,8 @@ public class ExistingDiscountTab extends CustomComponent {
                     setTreeNode(srcTableBean, VerticalDropLocation.MIDDLE, treeBean);
                     returnFlag = true;
                 } else {
-                    final String message = "Cannot make a " + srcTableBean.getCategory() + " as contracts header";
-                    AbstractNotificationUtils.getWarningNotification(Constants.CRITERIA_MISMATCH, message);
+                    final String MESSAGE = "Cannot make a " + srcTableBean.getCategory() + " as contracts header";
+                    AbstractNotificationUtils.getWarningNotification(Constants.CRITERIA_MISMATCH, MESSAGE);
                 }
             } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.CONTRACT.toString())) {
                 final String message = "Cannot make a " + srcTableBean.getCategory() + " as child node";
@@ -1105,6 +1106,7 @@ public class ExistingDiscountTab extends CustomComponent {
         check = checkForAllLevels(idList, level, 0);
         if (check) {
             MessageBox.showPlain(Icon.QUESTION, "Create", "Are you sure you want to save the contract ?", new MessageBoxListener() {
+                @Override
                 public void buttonClicked(ButtonId buttonId) {
                     if (buttonId.name().equals("YES")) {
                         try {
@@ -1125,11 +1127,11 @@ public class ExistingDiscountTab extends CustomComponent {
                     "Please ensure the Contract has all components (Header, CFP, IFP, PS, RS).");
         }
     }
-    ContractsDetailsDto contract = new ContractsDetailsDto();
-    ContractsDetailsDto cfp = null;
-    ContractsDetailsDto ifp = null;
-    ContractsDetailsDto priceSchedule = null;
-    ContractsDetailsDto rebateSchedule = null;
+    private ContractsDetailsDto contract = new ContractsDetailsDto();
+    private ContractsDetailsDto cfp = null;
+    private ContractsDetailsDto ifp = null;
+    private ContractsDetailsDto priceSchedule = null;
+    private ContractsDetailsDto rebateSchedule = null;
     
     public void saveTree(final Collection list) {
         LOGGER.debug("Entering saveTree method");

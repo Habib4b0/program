@@ -5,7 +5,7 @@
 package com.stpl.app.gcm.sessionutils;
 
 import com.stpl.app.gcm.tp.dto.ContractResultDTO;
-import com.stpl.app.serviceUtils.Constants;
+import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.util.HelperDTO;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,8 +36,8 @@ public class SessionDTO implements Serializable, Cloneable {
     private List<String> phCompanyMasterSids = new ArrayList<>();
 
     private Integer companyId;
-    String forecastingType = StringUtils.EMPTY;
-    String forecastTableName = StringUtils.EMPTY;
+    private String forecastingType = StringUtils.EMPTY;
+    private String forecastTableName = StringUtils.EMPTY;
     private String companyFamilyPlanName = StringUtils.EMPTY;
     private String searchSessionId = StringUtils.EMPTY;
     private boolean checkValue;
@@ -276,6 +276,7 @@ public class SessionDTO implements Serializable, Cloneable {
         this.processName = processName;
     }
 
+    @Override
     public SessionDTO clone() throws CloneNotSupportedException {
         SessionDTO selection = (SessionDTO) super.clone();
         selection.setWorkflowId(workflowId);

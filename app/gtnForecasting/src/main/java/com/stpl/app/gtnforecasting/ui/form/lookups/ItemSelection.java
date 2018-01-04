@@ -195,7 +195,7 @@ public class ItemSelection extends CustomComponent implements View {
                     itemIdentifierType.setValue(null);
                     brand.setValue(null);
                     theraputicClass.setValue(null);
-                } catch (Exception ex) {
+                } catch (Property.ReadOnlyException ex) {
                     LOGGER.error(ex);
                 }
             }

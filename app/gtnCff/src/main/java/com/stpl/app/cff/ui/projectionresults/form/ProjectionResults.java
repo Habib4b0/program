@@ -5,27 +5,21 @@
  */
 package com.stpl.app.cff.ui.projectionresults.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.abstractCff.ForecastProjectionResults;
-import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.lazyLoad.ResultsTableLogic;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
 import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
-import com.stpl.app.cff.ui.projectionVariance.dto.PVParameters;
+import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.ui.projectionresults.logic.PRExcelLogic;
 import com.stpl.app.cff.ui.projectionresults.logic.ProjectionResultsLogic;
 import static com.stpl.app.cff.util.CommonUtils.BOTH;
 import com.stpl.app.cff.util.Constants;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.vaadin.ui.ExtCustomTable;
-import java.util.ArrayList;
-import java.util.List;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
 import static com.stpl.app.cff.util.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.cff.util.Constants.CommonConstantsForChannels.ACTION_EDIT;
 import static com.stpl.app.cff.util.Constants.CommonConstantsForChannels.ACTION_VIEW;
@@ -36,31 +30,36 @@ import static com.stpl.app.cff.util.ConstantsUtil.MONTHLY;
 import static com.stpl.app.cff.util.ConstantsUtil.QUARTERLY;
 import com.stpl.app.cff.util.DataSelectionUtil;
 import com.stpl.app.cff.util.HeaderUtils;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.v7.data.Property;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
-import java.util.Arrays;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
 import org.jboss.logging.Logger;
 
 /**
@@ -70,7 +69,7 @@ import org.jboss.logging.Logger;
 public class ProjectionResults extends ForecastProjectionResults {
 
     public static final Logger LOGGER = Logger.getLogger(ProjectionResults.class);
-    private SessionDTO session;
+    private final SessionDTO session;
     private List<List<String>> discountlist = new ArrayList<>();
     private final ProjectionResultsLogic projResLogic = new ProjectionResultsLogic();
     private final Map<String, List<ProjectionResultsDTO>> resultMap = new HashMap();
@@ -81,7 +80,7 @@ public class ProjectionResults extends ForecastProjectionResults {
     private final List<String> discountKeys = new ArrayList();
     private final Map<String, List<List<ProjectionResultsDTO>>> discountMap = new HashMap<>();
     private final PRExcelLogic excelLogic = new PRExcelLogic(resultMap, projectionSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, discountMap);
-    private DataSelectionDTO dataSelectionDTO;
+    private final DataSelectionDTO dataSelectionDTO;
 
     public ProjectionResults(final SessionDTO session, final String screenName, final DataSelectionDTO dataSelectionDTO) throws PortalException, SystemException {
         super(session, screenName);
@@ -749,9 +748,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                 editBtn.setVisible(true);
             }
            
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }

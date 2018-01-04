@@ -19,10 +19,10 @@ import org.asi.ui.addons.lazycontainer.SearchCriteria;
  */
 public class LoadDdlbDAO implements DAO<HelperDTO> {
 
-    AbstractLogic logic = AbstractLogic.getInstance();
-    String countFlag;
-    String findFlag;
-    Boolean isFilter;
+    private AbstractLogic logic = AbstractLogic.getInstance();
+    private String countFlag;
+    private String findFlag;
+    private Boolean isFilter;
 
     public LoadDdlbDAO(final List input, final boolean isFilter) {
         this.countFlag = String.valueOf(input.get(0));
@@ -30,6 +30,7 @@ public class LoadDdlbDAO implements DAO<HelperDTO> {
         this.isFilter = isFilter;
     }
 
+    @Override
     public int count(SearchCriteria criteria) {
         List<String> filterTextList = new ArrayList<>();
         String filterText = StringUtils.trimToEmpty(criteria.getFilter()) + "%";
@@ -38,6 +39,7 @@ public class LoadDdlbDAO implements DAO<HelperDTO> {
         return count;
     }
 
+    @Override
     public List<HelperDTO> find(SearchCriteria criteria, int startIndex, int offset, List<OrderByColumn> columns) {
         List<String> offSetList = new ArrayList<>();
         String filterText = StringUtils.trimToEmpty(criteria.getFilter()) + "%";

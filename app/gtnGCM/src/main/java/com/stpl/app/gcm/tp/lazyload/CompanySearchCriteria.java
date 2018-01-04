@@ -16,30 +16,36 @@ import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
  */
 public class CompanySearchCriteria implements BeanSearchCriteria {
 
-    Set<Filter> filters;
-    int lastCount;
-    boolean dirty;
+    private Set<Filter> filters;
+    private int lastCount;
+    public boolean dirty;
 
+    @Override
     public int getLastCount() {
         return lastCount;
     }
 
+    @Override
     public void setLastCount(int i) {
         this.lastCount = i;
     }
 
+    @Override
     public boolean isDirty() {
         return true;
     }
 
+    @Override
     public void setDirty(boolean bln) {
         this.dirty = bln;
     }
 
+    @Override
     public Set<Container.Filter> getFilters() {
         return filters;
     }
 
+    @Override
     public void setFilters(Set<Container.Filter> set) {
         this.filters = set;
     }

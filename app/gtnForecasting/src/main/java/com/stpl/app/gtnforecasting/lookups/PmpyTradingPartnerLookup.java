@@ -12,10 +12,10 @@ import com.stpl.app.gtnforecasting.lookups.logic.tablelogic.PmpyTradingPartnerTa
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Window;
@@ -101,12 +101,12 @@ public class PmpyTradingPartnerLookup extends Window {
     /**
      * The Constant TRADING_PARTNER_COLUMNS.
      */
-    public final Object[] tradingPartnerColumns = new Object[]{"tradingPartnerNo", "tradingPartnerName"};
+    private final Object[] tradingPartnerColumns = new Object[]{"tradingPartnerNo", "tradingPartnerName"};
 
     /**
      * The Constant TRADING_PARTNER_HEADER.
      */
-    public final String[] tradingPartnerHeaders = new String[]{"Trading Partner #", "Trading Partner Name"};
+    private final String[] tradingPartnerHeaders = new String[]{"Trading Partner #", "Trading Partner Name"};
 
     /**
      * The trading partner.
@@ -133,7 +133,7 @@ public class PmpyTradingPartnerLookup extends Window {
     private Object contractHolder;
 
     @UiField("tableLayout")
-    VerticalLayout tableLayout;
+    private VerticalLayout tableLayout;
 
     private HorizontalLayout controlLayout = new HorizontalLayout();
 

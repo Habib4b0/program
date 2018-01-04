@@ -13,8 +13,8 @@ import org.apache.commons.lang.StringUtils;
  */
 public class IdDescriptionDTO {
 
-    Integer id = new Integer(0);
-    String description = StringUtils.EMPTY;
+    private Integer id = 0;
+    private String description = StringUtils.EMPTY;
 
     public IdDescriptionDTO(int id, String description) {
         this.id = id;

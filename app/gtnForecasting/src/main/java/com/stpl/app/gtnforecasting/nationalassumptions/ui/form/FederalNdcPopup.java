@@ -221,7 +221,7 @@ public class FederalNdcPopup extends CustomComponent {
 
                     }
                     wac.setReadOnly(true);
-                } catch (Exception ex) {
+                } catch (Property.ReadOnlyException | NumberFormatException ex) {
                     LOGGER.error(ex);
                 }
             }
@@ -245,7 +245,7 @@ public class FederalNdcPopup extends CustomComponent {
                         fss.setValue(String.valueOf(fssValue));
 
                     }
-                } catch (Exception ex) {
+                } catch (Property.ReadOnlyException | NumberFormatException ex) {
                     LOGGER.error(ex);
                 }
             }
@@ -347,7 +347,7 @@ public class FederalNdcPopup extends CustomComponent {
             NationalAssumptionLogic logic = new NationalAssumptionLogic();
             List<NewNdcDTO> list = logic.getFederalTable(sessionDTO);
             federalBean.addAll(list);
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
     }

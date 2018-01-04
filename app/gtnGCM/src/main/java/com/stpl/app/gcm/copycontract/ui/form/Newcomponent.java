@@ -142,16 +142,16 @@ public class Newcomponent extends CustomComponent {
     public ExtFilterTable componentDetailsSelectedItem;
     @UiField("levelDetailsResultsTable1")
     public ExtFilterTable levelDetailsResultsTable;
-    TreeTable dashboardResultsTable;
+    private final TreeTable dashboardResultsTable;
     @UiField("componentSelectionGrid")
     public GridLayout componentSelectionGrid;
-    CopyContractLogic CopyContractLogic = new CopyContractLogic();
+    private final CopyContractLogic CopyContractLogic = new CopyContractLogic();
     private final BeanItemContainer<NewComponentDTO> componentSearchContainer = new BeanItemContainer<>(NewComponentDTO.class);
     private final BeanItemContainer<NewComponentDTO> componentResultsContainer = new BeanItemContainer<>(NewComponentDTO.class);
-    ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
+    private final ExtTreeContainer<CopyComponentDTO> dashBoardContainer;
     private final BeanItemContainer<NewComponentDTO> contractInfoContainer = new BeanItemContainer<>(NewComponentDTO.class);
-    QueryUtils queryUtils = new QueryUtils();
-    DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    private final QueryUtils queryUtils = new QueryUtils();
+    private final DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     @UiField("dashboardid")
     public VerticalLayout dashboardLayout;
     /* Component Layout */
@@ -268,11 +268,11 @@ public class Newcomponent extends CustomComponent {
     public String selectedItems = Constants.EMPTY;
     public static final String PRICE_VAL = "([0-9|\\.|])*";
     private final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd ");
-    CommonDao DAO = CommonImpl.getInstance();
-    CommonUtil commonUtil = CommonUtil.getInstance();
-    NewComponentsDetailsSearchTableLogic tablelogic = new NewComponentsDetailsSearchTableLogic();
+    private final CommonDao DAO = CommonImpl.getInstance();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
+    private final NewComponentsDetailsSearchTableLogic tablelogic = new NewComponentsDetailsSearchTableLogic();
     public ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tablelogic);
-    CopyContractLogic logic = new CopyContractLogic();
+    private final CopyContractLogic logic = new CopyContractLogic();
     public static final String REGEX_STRING = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*";
     public static final String SELECT_ATLEAST_ONE_RECORD = "Please Select Atleast one Record at Component Details Section";
     public static final String STRING_REGEX = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*";
@@ -338,6 +338,7 @@ public class Newcomponent extends CustomComponent {
                 componentDetailsSearchTable.setColumnWidth(column, NumericConstants.ONE_FIVE_ZERO);
             }
             componentDetailsSearchTable.setTableFieldFactory(new TableFieldFactory() {
+                @Override
                 public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                     Field field;
                     if (String.valueOf(Constants.CHECK).equals(propertyId)) {
@@ -350,6 +351,7 @@ public class Newcomponent extends CustomComponent {
             });
 
             componentDetailsSearchTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                     for (NewComponentDTO temp : componentSearchContainer.getItemIds()) {
                         componentSearchContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());
@@ -401,6 +403,7 @@ public class Newcomponent extends CustomComponent {
             }
 
             componentDetailsSelectedItem.setTableFieldFactory(new TableFieldFactory() {
+                @Override
                 public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                     Field field = null;
                     if (Constants.CHECK.equals(propertyId)) {
@@ -433,6 +436,7 @@ public class Newcomponent extends CustomComponent {
                 }
             });
             componentDetailsSelectedItem.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                     for (NewComponentDTO temp : componentResultsContainer.getItemIds()) {
                         componentResultsContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());
@@ -511,6 +515,7 @@ public class Newcomponent extends CustomComponent {
             componentDetailsSearchTable.setColumnWidth(column, NumericConstants.ONE_FIVE_ZERO);
         }
         componentDetailsSearchTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                 Field field;
                 if (String.valueOf(Constants.CHECK).equals(propertyId)) {
@@ -523,6 +528,7 @@ public class Newcomponent extends CustomComponent {
         });
 
         componentDetailsSearchTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 for (NewComponentDTO temp : componentSearchContainer.getItemIds()) {
                     componentSearchContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());
@@ -560,6 +566,7 @@ public class Newcomponent extends CustomComponent {
                         componentDetailsSearchTable.setColumnWidth(column, NumericConstants.ONE_FIVE_ZERO);
                     }
                     componentDetailsSearchTable.setTableFieldFactory(new TableFieldFactory() {
+                        @Override
                         public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                             Field field;
                             if (String.valueOf(Constants.CHECK).equals(propertyId)) {
@@ -571,6 +578,7 @@ public class Newcomponent extends CustomComponent {
                         }
                     });
                     componentDetailsSearchTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                        @Override
                         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                             for (NewComponentDTO temp : componentSearchContainer.getItemIds()) {
                                 componentSearchContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());
@@ -619,6 +627,7 @@ public class Newcomponent extends CustomComponent {
                         componentDetailsSearchTable.setColumnWidth(column, NumericConstants.ONE_FIVE_ZERO);
                     }
                     componentDetailsSearchTable.setTableFieldFactory(new TableFieldFactory() {
+                        @Override
                         public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                             Field field;
                             if (String.valueOf(Constants.CHECK).equals(propertyId)) {
@@ -710,6 +719,7 @@ public class Newcomponent extends CustomComponent {
                 componentDetailsSelectedItem.setColumnAlignment(Constants.START_DATE, ExtCustomTable.Align.CENTER);
                 componentDetailsSelectedItem.setColumnAlignment(Constants.END_DATE, ExtCustomTable.Align.CENTER);
                 componentDetailsSelectedItem.setTableFieldFactory(new TableFieldFactory() {
+                    @Override
                     public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
                         Field field;
 
@@ -718,9 +728,11 @@ public class Newcomponent extends CustomComponent {
                             rebatePlan.addStyleName("searchicon");
                             rebatePlan.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                             rebatePlan.addClickListener(new CustomTextField.ClickListener() {
+                                @Override
                                 public void click(CustomTextField.ClickEvent event) {
                                     RebatePlanLookup lookup = new RebatePlanLookup(rebatePlan);
                                     lookup.addCloseListener(new Window.CloseListener() {
+                                        @Override
                                         public void windowClose(Window.CloseEvent e) {
                                             return;
                                         }
@@ -734,9 +746,11 @@ public class Newcomponent extends CustomComponent {
                             formulaId.addStyleName("searchicon");
                             formulaId.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
                             formulaId.addClickListener(new CustomTextField.ClickListener() {
+                                @Override
                                 public void click(CustomTextField.ClickEvent event) {
                                     FormulaSearchLookup lookup = new FormulaSearchLookup(formulaId);
                                     lookup.addCloseListener(new Window.CloseListener() {
+                                        @Override
                                         public void windowClose(Window.CloseEvent e) {
                                             if (formulaId.getData() != null) {
                                             }
@@ -885,6 +899,7 @@ public class Newcomponent extends CustomComponent {
                 componentDetailsSelectedItem.setColumnWidth(column, NumericConstants.ONE_FIVE_ZERO);
             }
             componentDetailsSelectedItem.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                @Override
                 public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                     for (NewComponentDTO temp : componentResultsContainer.getItemIds()) {
                         componentResultsContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());

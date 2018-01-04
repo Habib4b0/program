@@ -23,11 +23,11 @@ import org.slf4j.LoggerFactory;
  */
 public class CopyComponentsResultLogic extends PageTableLogic {
 
-    boolean generate = false;
-    List<ContractSelectionDTO> selectedlist = new ArrayList<>();
-    CopyContractLogic logic = new CopyContractLogic();
-    int count;
-    private static final Logger LOGGER = LoggerFactory.getLogger(CopyComponentsResultLogic.class);
+  private boolean generate = false;
+  private List<ContractSelectionDTO> selectedlist = new ArrayList<>();
+  private final CopyContractLogic logic = new CopyContractLogic();
+  private int count;
+  private static final Logger LOGGER = LoggerFactory.getLogger(CopyComponentsResultLogic.class);
 
     @Override
     public int getCount() {

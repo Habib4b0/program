@@ -6,8 +6,8 @@ package com.stpl.app.cff.lazyLoad;
 
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
@@ -25,7 +25,7 @@ public class GroupSearchLogic extends PageTableLogic{
     private String groupName;
     private String groupNo;
     private String groupIdentifier;
-    private DataSelectionLogic logic = new DataSelectionLogic();
+    private final DataSelectionLogic logic = new DataSelectionLogic();
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(GroupSearchLogic.class);
 
     @Override

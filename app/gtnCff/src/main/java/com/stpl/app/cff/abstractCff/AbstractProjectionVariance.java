@@ -7,11 +7,12 @@ package com.stpl.app.cff.abstractCff;
 
 import com.stpl.app.cff.dto.CustomTreeBuild;
 import com.stpl.app.cff.dto.PVSelectionDTO;
-import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.lazyLoad.VarianceTableLogic;
+import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import static com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.SELECT_ONE;
+import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
 import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
@@ -20,23 +21,21 @@ import static com.stpl.app.cff.util.Constants.LabelConstants.CUSTOM;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.parttwo.model.CffCustomViewMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import static com.stpl.app.serviceUtils.ConstantUtil.SELECT_ONE;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.vaadin.data.Property;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Sizeable;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -467,7 +466,6 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     protected void initializeResultTable() {
         resultsTable.markAsDirty();
         resultsTable.setSelectable(false);
-        resultsTable.setImmediate(true);
         resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -666,6 +664,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
         LOGGER.debug("projection variance customTreeViewLogic initiated ");
         final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(sessionDTO);
         customerTreeLookup.addCloseListener(new Window.CloseListener() {
+            @Override
             public void windowClose(Window.CloseEvent e) {
                 if (customerTreeLookup.isIsSelect()) {
                     customIdToSelect = customerTreeLookup.getCustomId();
@@ -717,6 +716,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
         if (CommonLogic.editButtonValidation(customDdlb, customViewList)) {
             final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(sessionDTO, customId);
             customerTreeLookup.addCloseListener(new Window.CloseListener() {
+                @Override
                 public void windowClose(Window.CloseEvent e) {
                     customIdToSelect = customerTreeLookup.getCustomId();
                     loadCustomDDLB();

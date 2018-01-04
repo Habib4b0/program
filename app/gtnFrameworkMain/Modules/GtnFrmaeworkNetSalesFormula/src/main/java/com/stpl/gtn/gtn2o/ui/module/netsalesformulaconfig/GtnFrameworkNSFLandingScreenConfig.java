@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUIFrameworkTableSearchCompletionAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkEnableDisableAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfCopyAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfEditAction;
@@ -240,15 +241,18 @@ public class GtnFrameworkNSFLandingScreenConfig {
 				viewId + GtnFrameworkCommonConstants.FORMULA_NAME));
 
 		searchActionConfigList.add(loadDataTableActionConfig);
-
+        
 		GtnUIFrameWorkActionConfig notificationActionConfig = componentConfigProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		notificationActionConfig.addActionParameter(GtnUIFrameworkTableSearchCompletionAction.class.getName());
 		notificationActionConfig.addActionParameter(viewId + GtnFrameworkCommonConstants.NET_SALES_SEARCH_RESULT_TABLE);
+		notificationActionConfig.addActionParameter(" Error ");
+		notificationActionConfig.addActionParameter(" There are no records that match the search criteria ");
 		searchActionConfigList.add(notificationActionConfig);
-		landingScreenSearchButtonConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
+        
+        landingScreenSearchButtonConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
 
 	}
-
 	private void addResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
 			String viewId) {
 
@@ -414,7 +418,7 @@ public class GtnFrameworkNSFLandingScreenConfig {
 		List<Object> landingScreenEditAlertParamsList = new ArrayList<>();
 		landingScreenEditAlertParamsList.add(viewId + GtnFrameworkCommonConstants.NET_SALES_SEARCH_RESULT_TABLE);
 		landingScreenEditAlertParamsList.add("Edit" + GtnFrameworkNSFMessageConstants.GTN_NSF_CRUD_BTN_MSG_HEADER);
-		landingScreenEditAlertParamsList.add(GtnFrameworkNSFMessageConstants.GTN_NSF_CRUD_BTN_MSG_BODY + "Edit.");
+		landingScreenEditAlertParamsList.add(GtnFrameworkNSFMessageConstants.GTN_NSF_CRUD_BTN_MSG_BODY + "edit.");
 		landingScreenEditAlertActionConfig.setActionParameterList(landingScreenEditAlertParamsList);
 		landingScreenEditActionConfigList.add(landingScreenEditAlertActionConfig);
 
@@ -457,7 +461,7 @@ public class GtnFrameworkNSFLandingScreenConfig {
 		landingScreenViewButtonAlertParamsList.add(viewId + GtnFrameworkCommonConstants.NET_SALES_SEARCH_RESULT_TABLE);
 		landingScreenViewButtonAlertParamsList
 				.add("View" + GtnFrameworkNSFMessageConstants.GTN_NSF_CRUD_BTN_MSG_HEADER);
-		landingScreenViewButtonAlertParamsList.add(GtnFrameworkNSFMessageConstants.GTN_NSF_CRUD_BTN_MSG_BODY + "View.");
+		landingScreenViewButtonAlertParamsList.add(GtnFrameworkNSFMessageConstants.GTN_NSF_CRUD_BTN_MSG_BODY + "view.");
 		landingScreenViewButtonAlertActionConfig.setActionParameterList(landingScreenViewButtonAlertParamsList);
 		landingScreenViewButtonActionConfigList.add(landingScreenViewButtonAlertActionConfig);
 
@@ -501,7 +505,7 @@ public class GtnFrameworkNSFLandingScreenConfig {
 		List<Object> landingScreenDeleteAlertParamsList = new ArrayList<>();
 		landingScreenDeleteAlertParamsList.add(viewId + GtnFrameworkCommonConstants.NET_SALES_SEARCH_RESULT_TABLE);
 		landingScreenDeleteAlertParamsList.add("Delete" + GtnFrameworkNSFMessageConstants.GTN_NSF_CRUD_BTN_MSG_HEADER);
-		landingScreenDeleteAlertParamsList.add(GtnFrameworkNSFMessageConstants.GTN_NSF_CRUD_BTN_MSG_BODY + "Delete.");
+		landingScreenDeleteAlertParamsList.add(GtnFrameworkNSFMessageConstants.GTN_NSF_CRUD_BTN_MSG_BODY + "delete.");
 		landingScreenDeleteAlertActionConfig.setActionParameterList(landingScreenDeleteAlertParamsList);
 		landingScreenDeleteActionConfigList.add(landingScreenDeleteAlertActionConfig);
 
@@ -537,7 +541,7 @@ public class GtnFrameworkNSFLandingScreenConfig {
 		landingScreenCopyButtonAlertParamsList.add(viewId + GtnFrameworkCommonConstants.NET_SALES_SEARCH_RESULT_TABLE);
 		landingScreenCopyButtonAlertParamsList
 				.add("Copy" + GtnFrameworkNSFMessageConstants.GTN_NSF_CRUD_BTN_MSG_HEADER);
-		landingScreenCopyButtonAlertParamsList.add(GtnFrameworkNSFMessageConstants.GTN_NSF_CRUD_BTN_MSG_BODY + "Copy.");
+		landingScreenCopyButtonAlertParamsList.add(GtnFrameworkNSFMessageConstants.GTN_NSF_CRUD_BTN_MSG_BODY + "copy.");
 		landingScreenCopyButtonAlertActionConfig.setActionParameterList(landingScreenCopyButtonAlertParamsList);
 		landingScreenCopyButtonActionConfigList.add(landingScreenCopyButtonAlertActionConfig);
 
@@ -580,7 +584,7 @@ public class GtnFrameworkNSFLandingScreenConfig {
 		List<Object> landingScreenResetButtonResetParamList = new ArrayList<>();
 		landingScreenResetButtonResetParamList.add("Reset Confirmation");
 		landingScreenResetButtonResetParamList
-				.add("Are you sure you want to reset the listview to default/previous values?");
+				.add("Are you sure you want to Reset the values in the Results list view?");
 		landingScreenResetButtonResetParamList
 				.add(Arrays.asList(viewId + GtnFrameworkCommonConstants.NET_SALES_SEARCH_RESULT_TABLE));
 		Object tableDefaultValue = null;

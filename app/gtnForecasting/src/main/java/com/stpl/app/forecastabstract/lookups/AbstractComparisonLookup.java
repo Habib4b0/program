@@ -106,7 +106,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 	public final String[] comparisonResultsHeader = new String[] { "Projection Name", "Description", "Market Type",
 			"Contract Holder", Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "Created Date", "Created By" };
 	private static final Logger LOGGER = Logger.getLogger(AbstractComparisonLookup.class);
-	Button addButton = new Button(BTN_ADD.getConstant());
+	protected Button addButton = new Button(BTN_ADD.getConstant());
 
 	/**
 	 * Constructor for AbstractComparisonLookup
@@ -575,7 +575,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 						MessageBox.showPlain(Icon.INFO, Constant.ERROR, "Please select a Workflow Status", ButtonId.OK);
 					}
 
-				} catch (Exception e) {
+				} catch (PortalException | SystemException e) {
 					LOGGER.error(e);
 				}
 

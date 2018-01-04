@@ -14779,3 +14779,24 @@ div.v-layout.v-horizontal.v-widget {
 	width: 19px;
 	overflow: hidden;
 }
+
+.stpl .v-window-header {
+	color: #ffffff;
+}
+
+.stpl .v-window-outerheader {
+	background: #428bca;
+}
+
+.stpl .v-window-closebox, .stpl .stpl .v-window-maximizebox, .stpl .stpl .v-window-restorebox {
+	color: #FFFFFF;
+	background: #428bca;
+}
+
+.stpl .v-popupbutton .v-popup-indicator {
+	background: transparent url(img/sprites.png) no-repeat -5px -10px;
+}
+
+.stpl .v-textfield.searchText {
+	background-image: url(img/imgsearchh-icon.png);
+}

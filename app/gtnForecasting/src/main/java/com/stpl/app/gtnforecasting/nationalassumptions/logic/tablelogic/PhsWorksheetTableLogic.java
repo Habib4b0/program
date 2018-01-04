@@ -24,12 +24,12 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
  * @author Nadhiya
  */
 public class PhsWorksheetTableLogic extends PageTreeTableLogic {
-    int levelNo;
-    String hierarchyNo;
-    boolean firstGenerated = false;
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    private int levelNo;
+    private String hierarchyNo;
+    private boolean firstGenerated = false;
+    private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private PhsResultsLogic phsResLogic = new PhsResultsLogic();
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
 
     @Override
     public int getCount(){

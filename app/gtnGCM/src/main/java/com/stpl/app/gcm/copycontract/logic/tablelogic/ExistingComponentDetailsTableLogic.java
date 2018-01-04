@@ -10,7 +10,6 @@ import com.stpl.app.gcm.copycontract.logic.CopyContractLogic;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 import org.slf4j.Logger;
@@ -21,11 +20,10 @@ import org.slf4j.LoggerFactory;
  */
 public class ExistingComponentDetailsTableLogic extends PageTableLogic {
 
-    boolean generate = false;
-    String componentType;
-    CopyContractLogic logic = new CopyContractLogic();
-    ExistingComponentDTO dto;
-    List newInput = new ArrayList();
+    private boolean generate = false;
+    private String componentType;
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private ExistingComponentDTO dto;
     private static final Logger LOGGER = LoggerFactory.getLogger(ExistingComponentDetailsTableLogic.class);
 
     /**

@@ -22,11 +22,11 @@ import org.slf4j.LoggerFactory;
  */
 public class ExistingComponentResultsTableLogic extends PageTableLogic {
     
-    boolean generate = false;
-    String componentType;
-    CopyContractLogic logic = new CopyContractLogic();
-    List input;
-    List newInput = new ArrayList();
+    private boolean generate = false;
+    private String componentType;
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private List input;
+    private final List newInput = new ArrayList();
     private static final Logger LOGGER = LoggerFactory.getLogger(ExistingComponentResultsTableLogic.class);
 
     /**

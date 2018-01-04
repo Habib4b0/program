@@ -23,13 +23,13 @@ import org.slf4j.LoggerFactory;
  */
 public class NewComponentsDetailsSearchTableLogic extends PageTableLogic {
 
-    boolean generate = false;
-    String componentType;
-    String searchValue;
-    String componentInnerType;
-    CopyContractLogic logic = new CopyContractLogic();
-    NewComponentDTO selection = new NewComponentDTO();
-    private static final Logger  LOGGER = LoggerFactory.getLogger(NewComponentsDetailsSearchTableLogic.class);
+    private boolean generate = false;
+    private String componentType;
+    private String searchValue;
+    private String componentInnerType;
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private final NewComponentDTO selection = new NewComponentDTO();
+    private static final Logger LOGGER = LoggerFactory.getLogger(NewComponentsDetailsSearchTableLogic.class);
 
     /**
      * Record count logic

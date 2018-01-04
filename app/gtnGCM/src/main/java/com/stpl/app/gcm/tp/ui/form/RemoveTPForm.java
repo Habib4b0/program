@@ -29,11 +29,11 @@ import org.asi.ui.customwindow.CustomWindow;
  */
 public class RemoveTPForm extends CustomWindow {
 
-    UpdatedContractSelection updateContract;
-    SummaryTab summary;
-    TabSheet tabSheet = new TabSheet();
-    int tabPosition;
-    SessionDTO session;
+    private final UpdatedContractSelection updateContract;
+    private final SummaryTab summary;
+    private TabSheet tabSheet = new TabSheet();
+    private int tabPosition;
+    private final SessionDTO session;
 
     public RemoveTPForm(SessionDTO session) {
         this.session = session;
@@ -80,6 +80,7 @@ public class RemoveTPForm extends CustomWindow {
         tabSheet.addTab(summary, TAB_SUMMARY.getConstant(), null, 1);
         tabSheet.addSelectedTabChangeListener(new SelectedTabChangeListener() {
 
+            @Override
             public void selectedTabChange(SelectedTabChangeEvent event) {
                 final Tab tab = (Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
                 tabPosition = event.getTabSheet().getTabPosition(tab);

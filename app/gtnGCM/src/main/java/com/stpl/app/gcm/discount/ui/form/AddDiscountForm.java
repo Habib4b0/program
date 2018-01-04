@@ -37,41 +37,41 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class AddDiscountForm extends CustomComponent implements View {
 
-    private static final Logger  LOGGER = LoggerFactory.getLogger(AddDiscountForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddDiscountForm.class);
     /**
      * The tab flag.
      */
-    boolean tabFlag = false;
+    public boolean tabFlag = false;
     /**
      * The tab sheet.
      */
     @UiField("tabSheet")
-    TabSheet tabSheet;
+    private TabSheet tabSheet;
     /**
      * The tab lazy load map.
      */
-    Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
+    private final Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
 
     /**
      * The previous btn.
      */
     @UiField("previousBtn")
-    Button previousBtn;
+    private Button previousBtn;
     /**
      * The next btn.
      */
     @UiField("nextBtn")
-    Button nextBtn;
+    private Button nextBtn;
     /**
      * The close btn.
      */
     @UiField("closeBtn")
-    Button closeBtn;
+    private Button closeBtn;
 
     /**
      * Position of the tab.
      */
-    int tabPosition;
+    private int tabPosition;
     /**
      * Balance Report.
      */
@@ -80,19 +80,15 @@ public class AddDiscountForm extends CustomComponent implements View {
      * The Existing Discount Tab .
      */
     private ExistingDiscountTab existingDiscountTab;
-    RemoveDiscountDto removeDiscountDto;
-    AddDiscountWindow editWindow;
-    ExtFilterTable resultTable;
+    private final AddDiscountWindow editWindow;
+    private ExtFilterTable resultTable;
     public int tempTabPosition = 0;
-    boolean dsFlag = true;
-    int lastPosition;
 
     @UiField("addDiscountBtn")
     public Button addDiscountBtn;
-    SessionDTO session;
-    List<RemoveDiscountDto> removeList;
-    StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private final SessionDTO session;
+    private final List<RemoveDiscountDto> removeList;
+    private final StplSecurity stplSecurity = new StplSecurity();
 
     public AddDiscountForm(AddDiscountWindow editWindow, List<RemoveDiscountDto> removeList, SessionDTO session) {
         this.editWindow = editWindow;
@@ -240,6 +236,7 @@ public class AddDiscountForm extends CustomComponent implements View {
      *
      * @param event the event
      */
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         tabSheet.setSelectedTab(0);
     }

@@ -22,10 +22,10 @@ import org.slf4j.LoggerFactory;
  */
 public class NewDiscountSelectedTableLogic extends PageTableLogic {
 
-    ContractsDetailsDto binderDto = new ContractsDetailsDto();
-    SessionDTO sessionDTO;
-    DiscountLogic logic = new DiscountLogic();
-    boolean generate = false;
+    private ContractsDetailsDto binderDto = new ContractsDetailsDto();
+    private SessionDTO sessionDTO;
+    private final DiscountLogic logic = new DiscountLogic();
+    private boolean generate = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(NewDiscountSelectedTableLogic.class);
 
     /**

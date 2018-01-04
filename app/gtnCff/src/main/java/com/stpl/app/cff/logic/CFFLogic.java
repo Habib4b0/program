@@ -1,35 +1,24 @@
 package com.stpl.app.cff.logic;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.task.model.TaskSummary;
-
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.bpm.dto.WorkflowRuleDTO;
 import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
 import com.stpl.app.cff.bpm.logic.DSCalculationLogic;
 import com.stpl.app.cff.bpm.logic.VarianceCalculationLogic;
-import com.stpl.app.cff.bpm.service.BPMProcessBean;
 import com.stpl.app.cff.dao.CFFDAO;
 import com.stpl.app.cff.dao.DataSelectionDAO;
 import com.stpl.app.cff.dao.impl.CFFDAOImpl;
 import com.stpl.app.cff.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.cff.displayformat.main.RelationshipLevelValuesMasterBean;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
-import com.stpl.app.cff.dto.CFFDTO;
 import com.stpl.app.cff.dto.CFFResultsDTO;
 import com.stpl.app.cff.dto.CFFSearchDTO;
 import com.stpl.app.cff.dto.SessionDTO;
@@ -38,6 +27,7 @@ import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionDTO;
 import com.stpl.app.cff.util.CommonUtils;
+import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.Converters;
 import com.stpl.app.cff.util.NotificationUtils;
@@ -51,12 +41,12 @@ import com.stpl.app.parttwo.model.CffCustHierarchy;
 import com.stpl.app.parttwo.model.CffDetails;
 import com.stpl.app.parttwo.model.CffMaster;
 import com.stpl.app.parttwo.model.CffProdHierarchy;
-import com.stpl.app.parttwo.model.impl.CffApprovalDetailsImpl;
+import com.stpl.app.parttwo.service.CffApprovalDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffCustHierarchyLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffProdHierarchyLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.Constants;
+import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
@@ -64,18 +54,22 @@ import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
-import com.vaadin.data.Container;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.v7.data.Container;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -86,35 +80,16 @@ public class CFFLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LogManager.getLogger(CFFLogic.class);
+    private static final Logger LOGGER = Logger.getLogger(CFFLogic.class);
     public CFFQueryUtils cffQueryUtils = new CFFQueryUtils();
     /**
      * The common utils.
      */
-    public CommonUtils commonUtils = new CommonUtils();
+    private final CommonUtils commonUtils = new CommonUtils();
     private static final CFFDAO DAO = CFFDAOImpl.getInstance();
-    public static Map<String, String> userMap = new HashMap<>();
-    private FileSelectionDTO dto = new FileSelectionDTO();
-    private DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
+    private static Map<String, String> userMap = new HashMap<>();
+    private final DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
     
-    /**
-     * Gets the cff details for add.
-     *
-     * @return the cff details for add
-     */
-    public List<CFFResultsDTO> getCffDetailsForAdd() {
-        List<CFFResultsDTO> cffResultsDTOs = new ArrayList<>();
-        final CFFDTO cffDTO = new CFFDTO();
-        List resultsList;
-        try {
-            resultsList = cffQueryUtils.getCCPCombinationForDisplay(cffDTO);
-            cffResultsDTOs = commonUtils.getCustomizedCffResults(resultsList);
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-        }
-        return cffResultsDTOs;
-    }
-
     /**
      * Gets latest approved CCP Projection
      *
@@ -182,8 +157,7 @@ public class CFFLogic {
 
         final List<HelperDTO> helperList = new ArrayList<>();
 
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtil.LIST_NAME, listName));
         List<String> statusList = new ArrayList<>();
         statusList.add("Withdrawn");
@@ -266,9 +240,7 @@ public class CFFLogic {
             cffMaster.setInboundStatus(ConstantsUtil.INBOUND_STATUS_UPDATE);
             DAO.updateCffMaster(cffMaster);
 
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("Exits update cff method");
@@ -297,22 +269,6 @@ public class CFFLogic {
         }
         LOGGER.debug("Exits update cff method");
         return result;
-    }
-
-    /**
-     * Gets latest approved CCP Projection
-     *
-     * @return Projection List
-     */
-    public CFFResultsDTO getApprovedCFF() {
-        List resultsList;
-        try {
-            resultsList = cffQueryUtils.getApprovedCFF();
-            return commonUtils.getCustomisedLatestApprovedCff(resultsList);
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-            return new CFFResultsDTO();
-        }
     }
 
     /**
@@ -410,8 +366,9 @@ public class CFFLogic {
      * @return the string
      */
     public String submitCffApproveDetails(String userId, int cffId) {
-        final DynamicQuery cffDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(CffApprovalDetails.class);
-        final CffApprovalDetails cffApprovalDetails = new CffApprovalDetailsImpl();
+        final DynamicQuery cffDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
+        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+        final CffApprovalDetails cffApprovalDetails = CffApprovalDetailsLocalServiceUtil.createCffApprovalDetails(create);
         CffApprovalDetails cffApprovalDetailsOld;
         List<CffApprovalDetails> resultsList = new ArrayList<>();
         int approvalSequence;
@@ -549,8 +506,9 @@ public class CFFLogic {
      * @return Success message
      */
     public String rejectCffApproveDetails(String userId, int cffId) {
-        final DynamicQuery cffDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(CffApprovalDetails.class);
-        final CffApprovalDetails cffApprovalDetails = new CffApprovalDetailsImpl();
+        final DynamicQuery cffDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
+        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+        final CffApprovalDetails cffApprovalDetails = CffApprovalDetailsLocalServiceUtil.createCffApprovalDetails(create);
         CffApprovalDetails cffApprovalDetailsOld;
         List<CffApprovalDetails> resultsList = new ArrayList<>();
         int approvalSequence;
@@ -584,8 +542,9 @@ public class CFFLogic {
      * @return Success message
      */
     public String cancelCffApproveDetails(String userId, int cffId) {
-        final DynamicQuery cffDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(CffApprovalDetails.class);
-        final CffApprovalDetails cffApprovalDetails = new CffApprovalDetailsImpl();
+        final DynamicQuery cffDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
+        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+        final CffApprovalDetails cffApprovalDetails = CffApprovalDetailsLocalServiceUtil.createCffApprovalDetails(create);
         CffApprovalDetails cffApprovalDetailsOld;
         List<CffApprovalDetails> resultsList = new ArrayList<>();
         int approvalSequence;
@@ -771,7 +730,7 @@ public class CFFLogic {
     public static Map<String, String> getAllUsers() {
         List<Object> userList = new ArrayList<>();
         Map<String, String> userMap = new HashMap<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery query = UserLocalServiceUtil.dynamicQuery();
         final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
         productProjectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.USER_ID));
         productProjectionList.add(ProjectionFactoryUtil.property("firstName"));
@@ -1013,17 +972,21 @@ public class CFFLogic {
         if (endLevelSids != null && !endLevelSids.isEmpty()) {
             endLevels = dataSelectionDAO.executeQuery(parameters);
         }
-        CffProdHierarchy cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(0);
+        int create = NumericConstants.ZERO;
+        CffProdHierarchy cffProdHierarchy = null;
         try {
             if ("update".equals(indicator)) {
                 for (String rsId : addLevels) {
+                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
                     cffProdHierarchy.setCffMasterSid(projectionId);
                     cffProdHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(rsId)));
                     dataSelectionDAO.addProjectionProdHierarchy(cffProdHierarchy);
                 }
             } else if ("save".equals(indicator)) {
                 for (Leveldto dto : levelList) {
-
+                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
                     cffProdHierarchy.setCffMasterSid(projectionId);
                     cffProdHierarchy.setRelationshipLevelSid(dto.getRelationshipLevelSid());
                     dataSelectionDAO.addProjectionProdHierarchy(cffProdHierarchy);
@@ -1031,6 +994,8 @@ public class CFFLogic {
             }
             if (endLevels != null && !endLevels.isEmpty()) {
                 for (Object relationshipLevelSid : endLevels) {
+                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
                     cffProdHierarchy.setCffMasterSid(projectionId);
                     cffProdHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(relationshipLevelSid)));
                     dataSelectionDAO.addProjectionProdHierarchy(cffProdHierarchy);
@@ -1061,17 +1026,21 @@ public class CFFLogic {
         if (endLevelSids != null && !endLevelSids.isEmpty()) {
             endLevels = dataSelectionDAO.executeQuery(parameters);
         }
-
-        CffCustHierarchy cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(0);
+        int create = NumericConstants.ZERO;
+        CffCustHierarchy cffCustHierarchy = null;
         try {
             if ("update".equals(indicator)) {
                 for (String rsId : addLevels) {
+                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(create);
                     cffCustHierarchy.setCffMasterSid(projectionId);
                     cffCustHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(rsId)));
                     dataSelectionDAO.addProjectionCustHierarchy(cffCustHierarchy);
                 }
             } else if ("save".equals(indicator)) {
                 for (Leveldto levelListDto : levelList) {
+                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(create);
                     cffCustHierarchy.setCffMasterSid(projectionId);
                     cffCustHierarchy.setRelationshipLevelSid(levelListDto.getRelationshipLevelSid());
                     dataSelectionDAO.addProjectionCustHierarchy(cffCustHierarchy);
@@ -1079,6 +1048,8 @@ public class CFFLogic {
             }
             if (endLevels != null && !endLevels.isEmpty()) {
                 for (Object relationshipLevelSid : endLevels) {
+                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(create);
                     cffCustHierarchy.setCffMasterSid(projectionId);
                     cffCustHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(relationshipLevelSid)));
                     dataSelectionDAO.addProjectionCustHierarchy(cffCustHierarchy);
@@ -1087,19 +1058,6 @@ public class CFFLogic {
         } catch (Exception e) {
             LOGGER.error(e + " in saveCustomerHierarchyLogic");
         }
-    }
-
-    public void insertToCcpMap(List<String> relationshipBuilderSids, String screenName) throws SystemException {
-        List<String> relationshipBuilderSidsList = null;
-        Map<String, Object> parameters = new HashMap<>();
-        if (relationshipBuilderSids != null && !relationshipBuilderSids.isEmpty()) {
-            relationshipBuilderSidsList = new ArrayList<>(relationshipBuilderSids);
-        }
-        parameters.put(StringConstantsUtil.INDICATOR, "insertToCcpMap");
-        parameters.put("relationshipBuilderSids", relationshipBuilderSidsList);
-        parameters.put("scrennName", screenName);
-        dataSelectionDAO.saveCcp(parameters);
-
     }
 
     public void saveCcp(final List<Leveldto> customerEndLevels, final String projectionId, final GtnSmallHashMap tempTableNames) {
@@ -1183,19 +1141,17 @@ public class CFFLogic {
         if (null == sessionDTO.getWorkflowStatus()) {
             try {
                 List<String> roleList = new ArrayList<>();
-                ProcessInstance processInstance = DSCalculationLogic.startWorkflow();
-                User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
-                boolean workflowFlag = DSCalculationLogic.isValidWorkflowUser(userModel, roleList, processInstance.getId());
-                if (workflowFlag) {
-                    Long processInstanceId = processInstance.getId();
+                GtnWsCommonWorkflowResponse response = DSCalculationLogic.startWorkflow(sessionDTO,userId);
+                if (response.isHasPermission()) {
+                    Long processInstanceId = Long.valueOf(String.valueOf(response.getProcessInstanceId()));
                     try {
-                        TaskSummary taskSummary = DSCalculationLogic.startAndCompleteTask(userModel, Integer.valueOf(cffMasterSid), processInstanceId);
-                        processInstanceId = taskSummary.getProcessInstanceId();
+                        GtnWsCommonWorkflowResponse taskSummary = DSCalculationLogic.startAndCompleteTask(sessionDTO,userId);
+                        processInstanceId = Long.valueOf(String.valueOf(taskSummary.getProcessInstanceId()));
                     } catch (Exception e) {
                         LOGGER.error(e);
                     }
-                    VarianceCalculationLogic.submitWorkflow(userId, processInstanceId, params);
-                    noOfLevel = BPMProcessBean.getProcessVariableLog(processInstanceId, "NoOfUsers");
+                    VarianceCalculationLogic.submitWorkflow(processInstanceId, sessionDTO,"CFF");
+                    noOfLevel = DSCalculationLogic.getProcessVariableLog(processInstanceId, "NoOfUsers");
                 } else {
                     StringBuffer notiMsg = new StringBuffer("You dont have permission to submit a projection.");
                     if (!roleList.isEmpty()) {
@@ -1204,14 +1160,12 @@ public class CFFLogic {
                     NotificationUtils.getAlertNotification("Permission Denined", notiMsg.toString());
 
                 }
-            } catch (PortalException ex) {
-                java.util.logging.Logger.getLogger(CFFLogic.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SystemException ex) {
+            }  catch (SystemException ex) {
                 java.util.logging.Logger.getLogger(CFFLogic.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (sessionDTO.getWorkflowStatus() != null && sessionDTO.getWorkflowStatus().equals("Rejected")) {
-            VarianceCalculationLogic.submitWorkflow(userId, sessionDTO.getProcessId(), params);
-            noOfLevel = BPMProcessBean.getProcessVariableLog(sessionDTO.getProcessId(), "NoOfUsers");
+            VarianceCalculationLogic.submitWorkflow(sessionDTO.getProcessId(), sessionDTO, "CFF");
+            noOfLevel = DSCalculationLogic.getProcessVariableLog(sessionDTO.getProcessId(), "NoOfUsers");
         }
 
         return noOfLevel;
@@ -1494,7 +1448,6 @@ public class CFFLogic {
         builder.append(SQlUtil.getQuery("DEDUCTION_HIERARCHY_INSERT"));
         builder.replace(builder.indexOf(StringConstantsUtil.CFFMASTERSID), StringConstantsUtil.CFFMASTERSID.length() + builder.lastIndexOf(StringConstantsUtil.CFFMASTERSID), String.valueOf(session.getProjectionId()));
         builder.replace(builder.indexOf(StringConstantsUtil.RELATIONBUILDERSID), StringConstantsUtil.RELATIONBUILDERSID.length() + builder.lastIndexOf(StringConstantsUtil.RELATIONBUILDERSID), session.getDedRelationshipBuilderSid());
-       
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(builder.toString(), tempTableNames));
     }
 
@@ -1531,7 +1484,7 @@ public class CFFLogic {
 		customSql = customSql.replace("?HLDV", isCustomerHierarchy ? sessionDTO.getCustomerHierarchyVersion()+ StringUtils.EMPTY 
                 : sessionDTO.getProductHierarchyVersion()+ StringUtils.EMPTY);
         List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-        Map<String, List> resultMap = new HashMap<>();
+        Map<String, List> resultMap = new LinkedHashMap<>();
         String hierarchyNoType = isCustomerHierarchy ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO";
         RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid, hierarchyNoType, sessionDTO);
         tempList.clear();

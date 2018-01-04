@@ -259,7 +259,7 @@ public class NationalAssumptionLogic {
 
             }
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return Constant.SUCCESS;
@@ -341,7 +341,7 @@ public class NationalAssumptionLogic {
                 if (StringUtils.isNotBlank(queryBuilder.toString())) {
                     commonDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder.toString(), session.getCurrentTableNames()));
                 }
-            } catch (Exception e) {
+            } catch (PortalException | SystemException | NumberFormatException e) {
                 LOGGER.error(e);
             }
             return getSavedPriceTypes(session);
@@ -357,7 +357,7 @@ public class NationalAssumptionLogic {
             DataSelectionQueryUtils dsQueryUtils = new DataSelectionQueryUtils();
             List<Object[]> priceTypes = dsQueryUtils.getPriceTypesList(session);
             priceTypesDTOList = getCustomizedPriceTypeResults(priceTypes);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
 
@@ -414,44 +414,38 @@ public class NationalAssumptionLogic {
                 newNDC = resultList.get(0);
             }
 
-        } catch (Exception e) {
+        } catch (SystemException e) {
             LOGGER.error(e);
         }
         return newNDC;
     }
 
     public List<Object[]> NewNDCSetupCook(int projectionId) throws NamingException, SQLException {
-        Connection connection = null;
-        DataSource datasource;
+        DataSource datasource = null;
         ResultSet resultSet = null;
         List<Object[]> objectList = new ArrayList<>();
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+        } catch (NamingException ex)
+        {
+            LOGGER.error(ex);
+        }
             if (datasource != null) {
-                connection = datasource.getConnection();
-            } else {
-                LOGGER.debug("Failed to lookup datasource.");
-            }
-            if (connection != null) {
-                try (CallableStatement statement = connection.prepareCall(CALL_BRACKET + "PRC_NEW_NDC_POPUP" + "(?)}");) {
+                try (Connection connection = datasource.getConnection();
+                        CallableStatement statement = connection.prepareCall(CALL_BRACKET + "PRC_NEW_NDC_POPUP" + "(?)}"))
+                { 
                     statement.setInt(1, projectionId);
                     resultSet = statement.executeQuery();
                     objectList = convertResultSetToList(resultSet);
                     LOGGER.debug("After Converting objectList size" + objectList.size());
                 }
+             catch (NumberFormatException | SQLException ex)
+                    {
+                        LOGGER.error(ex);
+                    }
             }
-
-        } finally {
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-            
-        }
-        return objectList;
+       return objectList;
     }
 
     private List<Object[]> convertResultSetToList(ResultSet rs) throws SQLException {
@@ -852,30 +846,27 @@ public class NationalAssumptionLogic {
 
     public String nationalAssumptionsCook(SessionDTO session) throws NamingException, SQLException {
         LOGGER.debug("Procedure nationalAssumptionsCook starts");
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
+        DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+        } catch (NamingException ex)
+        {
+               LOGGER.error(ex);
+        }
             if (datasource != null) {
-                connection = datasource.getConnection();
-            }
-            if (connection != null) {
-                statement = connection.prepareCall(CALL_BRACKET + "PRC_NATIONAL_ASSUMPTIONS" + "(?,?,?)}");
+                try (Connection connection = datasource.getConnection();
+                      CallableStatement statement = connection.prepareCall(CALL_BRACKET + "PRC_NATIONAL_ASSUMPTIONS" + "(?,?,?)}"))
+                {
                 statement.setInt(1, session.getProjectionId());
                 statement.setInt(NumericConstants.TWO, Integer.valueOf(session.getUserId()));
                 statement.setObject(NumericConstants.THREE, session.getSessionId());
                 statement.execute();
-            }
-        } finally {
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }
+            } catch (NumberFormatException | SQLException ex)
+            {
+                    LOGGER.error(ex);
+            }   
+        } 
         LOGGER.debug("Procedure nationalAssumptionsCook ends");
         return SUCCESS.getConstant();
     }
@@ -1077,7 +1068,7 @@ public class NationalAssumptionLogic {
                 commonDAO.executeBulkUpdateQuery(customSql);
             }
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return Constant.SUCCESS;
@@ -1129,7 +1120,7 @@ public class NationalAssumptionLogic {
             String customSql = "DELETE FROM dbo.ST_MEDICAID_NEW_NDC WHERE NDC9 = '" + ndc9 + "'";
 
             commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1148,7 +1139,7 @@ public class NationalAssumptionLogic {
 
             commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1171,7 +1162,7 @@ public class NationalAssumptionLogic {
                         .deleteFederalNewNdc(itemMasterSid);
             }
             LOGGER.debug("federalMainDelete ends");
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1188,7 +1179,7 @@ public class NationalAssumptionLogic {
                         .deleteMedicaidNewNdc(ndc9);
                 LOGGER.debug("medicaidMainDelete ends");
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1234,30 +1225,28 @@ public class NationalAssumptionLogic {
 
     public String newNdcCook(SessionDTO session) throws NamingException, SQLException {
         LOGGER.debug("Procedure newNdcCook starts");
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
+        DataSource datasource = null;
+        
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+        } catch (NamingException ex)
+        {
+            LOGGER.error(ex);
+        }
             if (datasource != null) {
-                connection = datasource.getConnection();
-            }
-            if (connection != null) {
-                statement = connection.prepareCall(CALL_BRACKET + "PRC_NEW_NDC" + "(?,?,?)}");
+                try (Connection connection = datasource.getConnection();
+                                       CallableStatement statement = connection.prepareCall(CALL_BRACKET + "PRC_NEW_NDC" + "(?,?,?)}"))
+                {
                 statement.setInt(1, session.getProjectionId());
                 statement.setInt(NumericConstants.TWO, Integer.valueOf(session.getUserId()));
                 statement.setObject(NumericConstants.THREE, session.getSessionId());
                 statement.execute();
+            } catch (NumberFormatException | SQLException ex)
+            {
+                LOGGER.error(ex);
             }
-        } finally {
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
-        }
+        } 
         LOGGER.debug("Procedure newNdcCook ends");
         return SUCCESS.getConstant();
     }
@@ -1355,7 +1344,7 @@ public class NationalAssumptionLogic {
             List<Object[]> resultsList = (List<Object[]>) commonDAO.executeSelectQuery(sql);
             int count = getCount(resultsList);
             return count == 0 ? Boolean.TRUE : Boolean.FALSE;
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return Boolean.FALSE;

@@ -201,7 +201,7 @@ public class DSCalculationLogic {
                     list.add(netProfit);
                 }
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         return list;

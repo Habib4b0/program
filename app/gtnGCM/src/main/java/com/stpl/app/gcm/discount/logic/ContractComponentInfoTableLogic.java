@@ -21,9 +21,9 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ContractComponentInfoTableLogic extends PageTableLogic {
 
-    DiscountLogic logic = new DiscountLogic();
-    Object parent = null;
-    String value = StringUtils.EMPTY;
+    private final DiscountLogic logic = new DiscountLogic();
+    private Object parent = null;
+    private String value = StringUtils.EMPTY;
 
     @Override
     public int getCount() {

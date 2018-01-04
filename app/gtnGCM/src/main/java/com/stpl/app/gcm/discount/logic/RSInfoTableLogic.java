@@ -21,8 +21,8 @@ import org.slf4j.LoggerFactory;
 public class RSInfoTableLogic extends PageTableLogic{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RSInfoTableLogic.class);
-    DiscountLogic logic = new DiscountLogic();
-    RemoveDiscountDto removeDiscountDto =null;
+    private final DiscountLogic logic = new DiscountLogic();
+    private RemoveDiscountDto removeDiscountDto =null;
     
     /**
      * 

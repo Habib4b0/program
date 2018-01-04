@@ -6,18 +6,18 @@
 package com.stpl.app.cff.abstractCff;
 
 import com.stpl.app.cff.util.CommonUtils;
-import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.Constants;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.util.AbstractContainer;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.util.AbstractContainer;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.TreeTable;
 import org.asi.ui.container.ExtTreeContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -180,6 +180,7 @@ public abstract class AbstractCustomTreeView extends Window {
 
         save.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 new AbstractNotificationUtils() {
 
@@ -199,6 +200,7 @@ public abstract class AbstractCustomTreeView extends Window {
 
         select.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
 
                 if (!saveFlag) {
@@ -233,6 +235,7 @@ public abstract class AbstractCustomTreeView extends Window {
 
         close.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 customTreeCloseLogic();
             }
@@ -241,6 +244,7 @@ public abstract class AbstractCustomTreeView extends Window {
 
         addProduct.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 customTreeAddProductLogic();
             }
@@ -249,6 +253,7 @@ public abstract class AbstractCustomTreeView extends Window {
 
         removeProduct.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 customTreeRemoveProductLogic();
             }
@@ -257,6 +262,7 @@ public abstract class AbstractCustomTreeView extends Window {
         
          addDeduction.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 customTreeAddDeductionLogic();
             }
@@ -265,6 +271,7 @@ public abstract class AbstractCustomTreeView extends Window {
 
         removeDeduction.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 customTreeRemoveDeductionLogic();
             }
@@ -273,6 +280,7 @@ public abstract class AbstractCustomTreeView extends Window {
 
         addCustomer.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 customTreeAddCustomerLogic();
             }
@@ -280,6 +288,7 @@ public abstract class AbstractCustomTreeView extends Window {
         });
         removeCustomer.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 customTreeRemoveCustomerLogic();
             }

@@ -24,11 +24,11 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
  */
 public class SummaryTableLogic extends PageTreeTableLogic {
 
-    SelectionDTO selection;
-    TabSelectionDTO tabSelectionDTO;
-    boolean firstGenerated = false;
-    RemoveItemLogic logic = new RemoveItemLogic();
-    boolean isSales;
+    private SelectionDTO selection;
+    private TabSelectionDTO tabSelectionDTO;
+    private boolean firstGenerated = false;
+    private final RemoveItemLogic logic = new RemoveItemLogic();
+    private boolean isSales;
 
     @Override
     public int getCount() {

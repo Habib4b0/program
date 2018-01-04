@@ -768,7 +768,7 @@ public class PhsResultsLogic {
                 projDTOList.add(tableDTO);
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         return projDTOList;
@@ -855,7 +855,7 @@ public class PhsResultsLogic {
             if (!medicaidIndex.isEmpty()) {
                 count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? String.valueOf(medicaidIndex.get(0)) : Constant.DASH);
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException | NumberFormatException e) {
             LOGGER.error(e);
         }
         return count;

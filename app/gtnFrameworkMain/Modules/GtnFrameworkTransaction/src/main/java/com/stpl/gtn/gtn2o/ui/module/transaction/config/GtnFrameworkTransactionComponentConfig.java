@@ -25,6 +25,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameWorkTransactionTableColumnFormatAction;
 import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameWorkTransactioneRecordTypeAction;
 import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransactionAlertAction;
 import com.stpl.gtn.gtn2o.ui.module.transaction.action.GtnUIFrameworkTransactionCustomResultViewAction;
@@ -114,7 +115,8 @@ public class GtnFrameworkTransactionComponentConfig {
 				isValidComponentCondition, transactionBeanList, isInvalid);
 		getConfigurationForModules(componentBean, transactionModuleConfigBeanList);
 
-		getVisibleColumnsAndHeader(componentBean.getSearchComponent(), componentBean.getListViewComponent(), isInvalid, componentBean);
+		getVisibleColumnsAndHeader(componentBean.getSearchComponent(), componentBean.getListViewComponent(), isInvalid,
+				componentBean);
 
 		if (isInvalid) {
 			List<GtnUIFrameworkComponentConfig> staticComponentList1 = new ArrayList<>();
@@ -529,7 +531,7 @@ public class GtnFrameworkTransactionComponentConfig {
 		} else {
 			viewEnabled = setEnableFlag(tableName);
 			getValidTableConfig(searchResults, searchResultConfig, tableName, viewEnabled, viewModeComponents,
-					componentBean.getViewModeOrderComponents(), componentBean.getListViewComponent());
+					componentBean);
 		}
 		getCustomFilter(tableName, searchResults);
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
@@ -538,8 +540,9 @@ public class GtnFrameworkTransactionComponentConfig {
 	private void getValidTableConfig(GtnUIFrameworkPagedTableConfig searchResults,
 			GtnUIFrameworkComponentConfig searchResultConfig, String tableName, boolean viewEnabled,
 			List<GtnWSTransactionColumnBean> viewModeComponents,
-			List<GtnWSTransactionColumnBean> viewModeOrderComponents,
-			List<GtnWSTransactionColumnBean> listViewComponent) {
+			GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
+		List<GtnWSTransactionColumnBean> viewModeOrderComponents = componentBean.getViewModeOrderComponents();
+		List<GtnWSTransactionColumnBean> listViewComponent = componentBean.getListViewComponent();
 		if (viewEnabled) {
 			searchResults.setSelectable(true);
 			searchResults.setItemClickListener(true);
@@ -553,6 +556,14 @@ public class GtnFrameworkTransactionComponentConfig {
 					listViewComponent);
 
 			actionConfigList.add(viewActionConfig);
+
+			GtnUIFrameWorkActionConfig recordTypeAction = new GtnUIFrameWorkActionConfig();
+			recordTypeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			recordTypeAction.addActionParameter(GtnUIFrameWorkTransactionTableColumnFormatAction.class.getName());
+			recordTypeAction.addActionParameter(GtnTransactionUIConstants.SEARCH_TABLE_ID);
+			recordTypeAction.addActionParameter(GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT);
+			recordTypeAction.addActionParameter(componentBean);
+			searchResults.setRecordTypeManageActionConfig(recordTypeAction);
 			searchResultConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		}
 
@@ -611,6 +622,7 @@ public class GtnFrameworkTransactionComponentConfig {
 					componentBean.getViewModeComponents(), componentBean.getViewModeOrderComponents(),
 					componentBean.getListViewComponent(), invalidModule));
 		}
+
 		GtnUIFrameWorkActionConfig recordTypeAction = new GtnUIFrameWorkActionConfig();
 		recordTypeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		recordTypeAction.addActionParameter(GtnUIFrameWorkTransactioneRecordTypeAction.class.getName());
@@ -1126,7 +1138,8 @@ public class GtnFrameworkTransactionComponentConfig {
 				GtnUIFrameworkTransactionTabsheetBean.class);
 	}
 
-	private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String tableName, GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
+	private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String tableName,
+			GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
 		GtnUIFrameworkComponentConfig excelButtonConfig = new GtnUIFrameworkComponentConfig();
 		excelButtonConfig.setComponentType(GtnUIFrameworkComponentType.EXCEL_BUTTON);
 		excelButtonConfig.setAddToParent(true);
@@ -1220,7 +1233,7 @@ public class GtnFrameworkTransactionComponentConfig {
 		if (gtnWSTransactionColumnBean.isDecimalFormatNeeded()) {
 			componentBean.putFormatterMap(gtnWSTransactionColumnBean.getColumnID(),
 					gtnWSTransactionColumnBean.getPattern());
-		} 
+		}
 	}
 
 }

@@ -624,6 +624,14 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		componentList.add(deductionTabSearchButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> searchActionConfigList = new ArrayList<>();
+		
+		GtnUIFrameWorkActionConfig validationActionConfigFormulaType = componentConfigProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
+
+		validationActionConfigFormulaType
+				.setFieldValues(Arrays.asList(viewId + GtnFrameworkCommonConstants.FORMULA_TYPE));
+		validationActionConfigFormulaType.addActionParameter(GtnUIFrameworkValidationType.OR);
+		
 		GtnUIFrameWorkActionConfig validationActionConfig = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
 
@@ -646,17 +654,32 @@ public class GtnFrameworkNSFDeductionTabConfig {
 						viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_ALIAS));
 		validationActionConfig.addActionParameter(GtnUIFrameworkValidationType.OR);
 
+		List<GtnUIFrameWorkActionConfig> deductionTabSearchBtnOnFailureListFormulaType = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig deductionTabSearchBtnAlertActionConfigFormulaType = componentConfigProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
+		List<Object> alertParamsList = new ArrayList<>();
+		alertParamsList.add(GtnFrameworkNSFConstants.getFormulaTypeIsMandatory());
+		alertParamsList.add(GtnFrameworkNSFConstants.getPleaseSelectFormulaType());
+
+		deductionTabSearchBtnAlertActionConfigFormulaType.setActionParameterList(alertParamsList);
+		deductionTabSearchBtnOnFailureListFormulaType.add(deductionTabSearchBtnAlertActionConfigFormulaType);
+		
 		List<GtnUIFrameWorkActionConfig> deductionTabSearchBtnOnFailureList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig deductionTabSearchBtnAlertActionConfig = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
 		List<Object> alertParams = new ArrayList<>();
 		alertParams.add(GtnFrameworkNSFConstants.getNoSearchCriteria());
-		alertParams.add(GtnFrameworkNSFConstants.getPleaseEnterSearchCriteria());
+		alertParams.add(GtnFrameworkNSFConstants.getPleaseEnterSalesDeductionTabSearchCriteria());
 
 		deductionTabSearchBtnAlertActionConfig.setActionParameterList(alertParams);
 		deductionTabSearchBtnOnFailureList.add(deductionTabSearchBtnAlertActionConfig);
+		
+		validationActionConfigFormulaType.addActionParameter(deductionTabSearchBtnOnFailureListFormulaType);
 		validationActionConfig.addActionParameter(deductionTabSearchBtnOnFailureList);
+		
+		searchActionConfigList.add(validationActionConfigFormulaType);
 		searchActionConfigList.add(validationActionConfig);
 
 		GtnUIFrameWorkActionConfig deductionTabSearchBtnLoadDataTableAction = componentConfigProvider
@@ -912,7 +935,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		GtnUIFrameworkComponentConfig massUpdateDdlbConfig = componentConfigProvider.getUIFrameworkComponentConfig(
 				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		massUpdateDdlbConfig.setAuthorizationIncluded(true);
-		massUpdateDdlbConfig.setComponentName(GtnFrameworkNSFConstants.getEmpty());
+		massUpdateDdlbConfig.setComponentName("Field");
 		componentList.add(massUpdateDdlbConfig);
 
 		GtnUIFrameworkComboBoxConfig massUpdateComboBoxConfig = new GtnUIFrameworkComboBoxConfig();
@@ -941,7 +964,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		GtnUIFrameworkComponentConfig netSalesRuleConfig = componentConfigProvider.getUIFrameworkComponentConfig(
 				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELD);
 		netSalesRuleConfig.setAuthorizationIncluded(true);
-		netSalesRuleConfig.setComponentName(GtnFrameworkNSFConstants.getEmpty());
+		netSalesRuleConfig.setComponentName("Value");
 		netSalesRuleConfig.addComponentStyle(GtnFrameworkCssConstants.SEARCHICON);
 		netSalesRuleConfig.setVisible(false);
 		componentList.add(netSalesRuleConfig);
@@ -993,8 +1016,8 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		GtnUIFrameworkComponentConfig massUpdateDdlbConfig = componentConfigProvider.getUIFrameworkComponentConfig(
 				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		massUpdateDdlbConfig.setAuthorizationIncluded(true);
-		massUpdateDdlbConfig.setComponentName(GtnFrameworkNSFConstants.getEmpty());
-		massUpdateDdlbConfig.setVisible(false);
+		massUpdateDdlbConfig.setComponentName("Value");
+		massUpdateDdlbConfig.setVisible(true);
 		componentList.add(massUpdateDdlbConfig);
 
 		GtnUIFrameworkComboBoxConfig massUpdateComboBoxConfig = new GtnUIFrameworkComboBoxConfig();

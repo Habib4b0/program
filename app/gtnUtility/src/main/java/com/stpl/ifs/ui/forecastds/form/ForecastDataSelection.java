@@ -5,6 +5,7 @@
  */
 package com.stpl.ifs.ui.forecastds.form;
 
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +25,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;

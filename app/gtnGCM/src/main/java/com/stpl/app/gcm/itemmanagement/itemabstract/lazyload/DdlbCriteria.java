@@ -12,30 +12,36 @@ import org.asi.ui.addons.lazycontainer.SearchCriteria;
  */
 public class DdlbCriteria implements SearchCriteria {
 
-    String filter;
-    int lastCount;
-    boolean dirty;
+    private String filter;
+    private int lastCount;
+    public boolean dirty;
 
+    @Override
     public int getLastCount() {
         return lastCount;
     }
 
+    @Override
     public void setLastCount(int lastCount) {
         this.lastCount = lastCount;
     }
 
+    @Override
     public boolean isDirty() {
         return true;
     }
 
+    @Override
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
     }
 
+    @Override
     public String getFilter() {
         return filter;
     }
 
+    @Override
     public void setFilter(String filter) {
         this.filter = filter;
     }

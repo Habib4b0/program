@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.utils;
 
 import com.stpl.app.gtnforecasting.dto.PMPYRowDto;
-import com.stpl.ifs.ui.util.NumericConstants;
 //import com.vaadin.addon.charts.Chart;
 //import com.vaadin.addon.charts.model.ChartType;
 //import com.vaadin.addon.charts.model.Configuration;
@@ -22,7 +21,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
@@ -48,7 +46,7 @@ public class PMPYContractHolderHistoryChart {
      */
 //    public Configuration conf = chart.getConfiguration();
     /**
-     * The chart1.
+     * The chart1.O
      */
 //    public Chart chart1 = new Chart(ChartType.COLUMN);
     /**
@@ -68,8 +66,8 @@ public class PMPYContractHolderHistoryChart {
      */
     private static final Logger LOGGER = Logger.getLogger(PMPYContractHolderHistoryChart.class);
 
-    String contractName = StringUtils.EMPTY;
-    List<Object> headeres = null;
+    protected String contractName = StringUtils.EMPTY;
+    protected List<Object> headeres = null;
 
     /**
      * The Constructor.
