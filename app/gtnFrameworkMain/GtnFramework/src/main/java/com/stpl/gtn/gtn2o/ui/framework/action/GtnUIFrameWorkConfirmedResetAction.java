@@ -11,9 +11,9 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.data.Property;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.data.Property;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.VerticalLayout;
 
 public class GtnUIFrameWorkConfirmedResetAction implements GtnUIFrameWorkAction {
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkConfirmedResetAction.class);

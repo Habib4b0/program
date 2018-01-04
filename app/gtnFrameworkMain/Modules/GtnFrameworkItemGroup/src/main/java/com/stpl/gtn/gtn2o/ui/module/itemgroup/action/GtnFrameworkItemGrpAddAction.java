@@ -10,7 +10,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 
 public class GtnFrameworkItemGrpAddAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable ,GtnUIFrameworkDynamicClass{
 

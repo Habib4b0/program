@@ -12,7 +12,7 @@ import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantComm
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 
 /**
  * @author Kalpana.Ramanana

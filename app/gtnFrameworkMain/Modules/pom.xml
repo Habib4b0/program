@@ -42,15 +42,49 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.stpl.portal</groupId>
-			<artifactId>portal-service</artifactId>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.portal.kernel</artifactId>
+			<version>${stpl.portal.version}</version>
+			<scope>provided</scope>
+		</dependency>
+      <dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.util.bridges</artifactId>
+			<version>${stpl.portal.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		   <dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.util.taglib</artifactId>
+			<version>${stpl.portal.version}</version>
+			<scope>provided</scope>
+		</dependency>
+			   <dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.util.java</artifactId>
 			<version>${stpl.portal.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>
 	<properties>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
+          <build>
+        <plugins>                         
+         <plugin>
+                <groupId>biz.aQute.bnd</groupId>
+                <artifactId>bnd-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>bnd-process</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>  
+        </plugins>
+                 </build>
 </project>

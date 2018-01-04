@@ -7,8 +7,8 @@ package com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.formater;
 
 import java.util.Locale;
 
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.data.util.converter.StringToIntegerConverter;
+import com.vaadin.v7.data.util.converter.Converter;
+import com.vaadin.v7.data.util.converter.StringToIntegerConverter;
 
 /**
  *

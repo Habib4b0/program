@@ -13,7 +13,7 @@ import org.asi.container.ExtTreeContainer;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWSTreeNode;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.ui.TreeTable;
+import com.vaadin.v7.ui.TreeTable;
 
 /**
  *

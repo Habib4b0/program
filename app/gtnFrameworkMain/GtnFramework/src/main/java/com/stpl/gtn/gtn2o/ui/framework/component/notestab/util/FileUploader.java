@@ -17,7 +17,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Upload.Receiver;
+import com.vaadin.v7.ui.Upload.Receiver;
 
 public class FileUploader implements Receiver {
 	/**

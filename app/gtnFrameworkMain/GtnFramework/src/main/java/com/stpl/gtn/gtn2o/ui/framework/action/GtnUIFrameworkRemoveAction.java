@@ -4,7 +4,7 @@ import org.asi.container.ExtContainer;
 
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.vaadin.ui.AbstractSelect;
+import com.vaadin.v7.ui.AbstractSelect;
 
 public class GtnUIFrameworkRemoveAction implements GtnUIFrameWorkAction {
 

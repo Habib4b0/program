@@ -6,7 +6,7 @@
 package com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.fieldfactory;
 
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
-import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFConstants;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util.GtnFrameworkNSFConstants;
 
 /**
  *

@@ -10,11 +10,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.asi.calendarfield.CalendarField;
-import org.asi.container.ExtContainer;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
@@ -36,22 +34,24 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
 import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.AbstractSelect;
+import com.vaadin.v7.ui.AbstractSelect;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.ui.ComboBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
 import com.vaadin.ui.HasComponents;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.PopupDateField;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
-import com.vaadin.ui.Tree;
+import com.vaadin.v7.ui.Tree;
 import com.vaadin.ui.UI;
+import org.asi.container.ExtContainer;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 
 public class GtnUIFrameworkBaseComponent {
 
@@ -789,11 +789,12 @@ public class GtnUIFrameworkBaseComponent {
 	}
 
 	public void setComponentReadOnly(boolean newValue) {
-		this.component.setReadOnly(newValue);
+//		this.component.setReadOnly(newValue);
 	}
 
 	public boolean isReadOnly() {
-		return this.component.isReadOnly();
+//		return this.component.isReadOnly();
+return false;
 	}
 
 	public void closeUI() {
@@ -1013,5 +1014,5 @@ public class GtnUIFrameworkBaseComponent {
 	public void setWidth(String widthString) {
 		this.component.setWidth(widthString);
 	}
-
+        
 }

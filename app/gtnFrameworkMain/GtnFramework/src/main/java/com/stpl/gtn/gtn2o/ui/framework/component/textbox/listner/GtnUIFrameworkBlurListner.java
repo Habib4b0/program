@@ -11,22 +11,23 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.event.FieldEvents;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.v7.ui.AbstractField;
 import java.util.List;
 
 /**
  *
  * @author deepika.krishnakumar
  */
-public class GtnUIFrameworkBlurListner implements FieldEvents.BlurListener {
+public class GtnUIFrameworkBlurListner implements BlurListener {
 
 	private static final GtnUIFrameworkBlurListner TEXT_FIELD_BLUR_LISTENER = new GtnUIFrameworkBlurListner();
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void blur(FieldEvents.BlurEvent event) {
+	public void blur(BlurEvent event) {
 
 		try {
 			AbstractField<?> current = (AbstractField<?>) event.getSource();
