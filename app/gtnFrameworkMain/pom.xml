@@ -125,7 +125,7 @@
                 <module>GtnFrameworkHierarchyRouteBuilder</module>
                 <module>GtnFramworkQueryGenerator</module>
                 <module>GtnNewArchSharedLibrary</module>
-                <!--<module>GtnVaadinWidgetSet</module>-->
+                <module>GtnVaadinWidgetSet</module>
                 <module>Modules</module>
                 <module>WebServices</module>
             </modules>
@@ -227,32 +227,5 @@
 
     </profiles>
         
-    <build>
-        <plugins>                         
-<!--            <plugin>
-                <groupId>biz.aQute.bnd</groupId>
-                <artifactId>bnd-maven-plugin</artifactId>
-                <version>3.3.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>bnd-process</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>  -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <archive>
-                        <manifestFile>
-                            ${project.build.outputDirectory}/META-INF/MANIFEST.MF
-                        </manifestFile>
-                    </archive>
-                </configuration>
-            </plugin>   
-        </plugins>
-    </build>
+   
 </project>

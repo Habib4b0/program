@@ -1,7 +1,8 @@
 Bundle-Name: ${project.name}
 Bundle-Version: ${project.version}
 Bundle-SymbolicName: ${project.groupId}.${project.artifactId}
-Export-Package: com.stpl.gtn.gtn20.widgetset.gtnvaadinwidgetset
 Import-Package: !com.google*,\
     !com.vaadin.client*,\
+	!com.vaadin.v7.client*,\
     *
+Export-Package: org.vaadin.alump.beforeunload*;-noimport:=true

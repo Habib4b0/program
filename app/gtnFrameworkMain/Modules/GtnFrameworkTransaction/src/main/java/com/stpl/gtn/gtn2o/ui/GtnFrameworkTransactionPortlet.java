@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui;
 
-import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -18,15 +17,12 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.DefaultErrorHandler;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ResourceBundle;
+import javax.portlet.PortletMode;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -36,6 +32,7 @@ import org.osgi.service.component.annotations.ServiceScope;
     "com.liferay.portlet.display-category=Security",
     "javax.portlet.name=LotMaster",
     "javax.portlet.display-name=Lot Master",
+    "com.liferay.portlet.instanceable=false",
     "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class GtnFrameworkTransactionPortlet extends UI {
 
@@ -50,7 +47,6 @@ public class GtnFrameworkTransactionPortlet extends UI {
             addStyleName("bootstrap-bb");
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
-            PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
             GtnUIFrameworkRootConfig rootConfig;
             Navigator navigator = new Navigator(this, this);
             String portletName = getPorletName(themeDisplay.getURLCurrent());
@@ -114,16 +110,19 @@ public class GtnFrameworkTransactionPortlet extends UI {
     }
 
     public static String getPorletName(String portletUrl) {
-       
-        String portletName = portletUrl.split("\\?")[0].split("/")[3];
-
-        Properties prop = new Properties();
-        try {
-            prop.load(ClassLoader.getSystemClassLoader().getResourceAsStream("Portlet.properties"));
-        } catch (IOException ex) {
-            LOGGER.error(ex.getMessage());
-        }
-        return prop.getProperty(portletName);
+        String portletName=GtnFrameworkCommonStringConstants.STRING_EMPTY;
+       try{
+         portletName = portletUrl.split("\\?")[0].split("/")[3];
+        LOGGER.info("portletName"+portletName);
+        ResourceBundle listNameBundle = ResourceBundle.getBundle("properties.Portlet");
+        portletName=listNameBundle.getString(portletName);
+          
+        LOGGER.info("prop.getProperty(portletName)"+portletName);
+       }catch(Exception e){
+           LOGGER.error(portletUrl+" failed "+e.getMessage());
+                   
+       }
+        return portletName.trim();
     }
 
 }

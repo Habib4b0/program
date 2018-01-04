@@ -21,5 +21,20 @@
                         <scope>provided</scope>
 		</dependency>
 	</dependencies>
-	
+	    <build>
+        <plugins>                         
+         <plugin>
+                <groupId>biz.aQute.bnd</groupId>
+                <artifactId>bnd-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>bnd-process</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>  
+        </plugins>
+                 </build>
 </project>

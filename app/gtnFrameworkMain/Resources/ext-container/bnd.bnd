@@ -5,4 +5,4 @@ Import-Package: !com.google*,\
     !com.vaadin.client*,\
 	!com.vaadin.v7.client*,\
     *
-Export-Package: org.vaadin.alump.beforeunload*,org.asi*,org.vaadin.teemu.clara*,com.stpl.app*,de.steinwedel.messagebox*;-noimport:=true
+Export-Package: org.asi.container;-noimport:=true
