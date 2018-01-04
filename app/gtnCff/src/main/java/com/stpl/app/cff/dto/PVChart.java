@@ -37,19 +37,19 @@ public class PVChart extends Window {
     /**
      * The annual.
      */
-    public static String annual = "Annual";
+    protected static final String ANNUAL = "Annual";
     /**
      * The semi annual.
      */
-    public static String semiAnnual = "semi-Annual";
+    protected static final String SEMI_ANNUAL = "semi-Annual";
     /**
-     * The month.
+     * The MONTH.
      */
-    public static String month = "monthly";
+    protected static final String MONTH = "monthly";
     /**
-     * The quarter.
+     * The QUARTER.
      */
-    public static String quarter = "quarterly";
+    protected static final String QUARTER = "quarterly";
     /**
      * The dto.
      */
@@ -61,8 +61,8 @@ public class PVChart extends Window {
     /**
      * The history.
      */
-    public String history;
-    private CustomTableHeaderDTO rightDto;
+    private String history;
+    private final CustomTableHeaderDTO rightDto;
     /**
      * The Constant LOGGER.
      */
@@ -70,7 +70,7 @@ public class PVChart extends Window {
     /**
      * projSelDTO;
      */
-    private PVSelectionDTO projSelDTO;
+    private final PVSelectionDTO projSelDTO;
 
     /**
      * The Constructor.
@@ -137,7 +137,7 @@ public class PVChart extends Window {
             plot.setBorderWidth(0);
             if (projSelDTO.getPivotView().equals("Period")) {
                 xAxis.setCategories(visHeaders);
-                if (dto != null && dto.size() > 0) {
+                if (dto != null && !dto.isEmpty()) {
                     for (ProjectionVarianceDTO pDto : dto) {
                         ListSeries listSeries = new ListSeries();
                         listSeries.setName(pDto.getGroup());

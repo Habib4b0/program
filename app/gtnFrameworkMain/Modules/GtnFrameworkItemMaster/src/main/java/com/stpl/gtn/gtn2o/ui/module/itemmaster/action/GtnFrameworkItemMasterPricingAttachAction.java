@@ -7,9 +7,12 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.itemmaster.bean.GntWsItemPricingBean;
@@ -69,11 +72,25 @@ public class GtnFrameworkItemMasterPricingAttachAction implements GtnUIFrameWork
 						.getLogicFromPagedDataTable().startSearchProcess(new ArrayList<String>(), true);
 				GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
 			} else {
-
 				throw new GtnFrameworkValidationFailedException(
 						response.getGtnWsItemMasterResponse().getGtnWsValidationBean().getValidationMsg(), componentId);
 			}
 
+			for (int i = 0; i < componentList.size(); i++) {
+				GtnUIFrameworkBaseComponent baseComponent = GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent((String) componentList.get(i));
+				if ((baseComponent.getComponentConfig().getComponentType().equals(GtnUIFrameworkComponentType.TEXTBOX))
+						|| (baseComponent.getComponentConfig().getComponentType()
+								.equals(GtnUIFrameworkComponentType.POPUPTEXTFIELD))) {
+					boolean isReadOnly = baseComponent.isReadOnly();
+					baseComponent.setComponentReadOnly(false);
+					GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) componentList.get(i))
+							.loadFieldValue(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+					baseComponent.setComponentReadOnly(isReadOnly);
+				} else {
+					GtnUIFrameworkGlobalUI.getVaadinBaseComponent((String) componentList.get(i)).loadDateValue(null);
+				}
+			}
 		}
 	}
 

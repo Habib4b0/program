@@ -39,7 +39,7 @@ public class PrivatePublicView extends AbstractViewLookup {
     /**
      * Indicator to indicate private or public view lookup.
      */
-    private String indicator;
+    private final String indicator;
     /**
      * The view name textfield for searching the view.
      */
@@ -69,7 +69,7 @@ public class PrivatePublicView extends AbstractViewLookup {
      */
     private BeanItemContainer<ViewDTO> viewContainer;
     private ViewDTO viewDTO;
-    private String screenName;
+    private final String screenName;
     /**
      * The Constant LOGGER.
      */
@@ -129,11 +129,11 @@ public class PrivatePublicView extends AbstractViewLookup {
         //Configure the table
         results.setContainerDataSource(viewContainer);
         if (screenName.equals(ConstantsUtils.RETURNS)) {
-            results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().viewLookupColumnsReturns);
-            results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().viewLookupHeadersReturns);
+            results.setVisibleColumns(TableHeaderColumnsUtil.VIEW_LOOKUP_COLS_RETURNS);
+            results.setColumnHeaders(TableHeaderColumnsUtil.VIEW_LOOKUP_HEADER_RETURNS);
         } else {
-            results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().viewLookupColumns);
-            results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().viewLookupHeaders);
+            results.setVisibleColumns(TableHeaderColumnsUtil.VIEW_LOOKUP_COLS);
+            results.setColumnHeaders(TableHeaderColumnsUtil.VIEW_LOOKUP_HEADER);
         }
         results.setSortEnabled(true);
         results.setSelectable(true);

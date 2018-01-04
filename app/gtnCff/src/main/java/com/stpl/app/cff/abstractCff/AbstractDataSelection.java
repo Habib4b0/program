@@ -6,7 +6,6 @@ package com.stpl.app.cff.abstractCff;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 import org.apache.commons.lang.StringUtils;
@@ -124,7 +123,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	 * The company.
 	 */
 
-	public ComboBox company = new ComboBox();
+	protected ComboBox company = new ComboBox();
 	/**
 	 * The product hierarchy.
 	 */
@@ -204,11 +203,11 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	@UiField("horizontalLayout")
 	protected HorizontalLayout horizontalLayout;
 	@UiField("ProdSelectionHLayout")
-	protected HorizontalLayout ProdSelectionHLayout;
+	protected HorizontalLayout prodSelectionHLayout;
 	@UiField("productSelectionGrid2")
 	protected GridLayout productSelectionGrid2;
 	@UiField("ProdSelectionVLayout")
-	protected VerticalLayout ProdSelectionVLayout;
+	protected VerticalLayout prodSelectionVLayout;
 	@UiField("panel3")
 	protected Panel panel3;
 	@UiField("customerSelection")
@@ -371,7 +370,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	protected TextField projectionId = new TextField();
 	private final ErrorLabel errorMsg = new ErrorLabel();
 	protected TextField viewId = new TextField();
-	private TextField viewName = new TextField();
+	private final TextField viewName = new TextField();
 	protected List<String> helperTableListNames;
 	protected List<String> companiesInProdHier;
 	protected LazyBeanItemContainer<DataSelectionDTO> resultsLazyContainer;
@@ -380,10 +379,6 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	protected boolean productLevelListenerFlag = true;
 	protected String selectedCustomerLevel = StringUtils.EMPTY;
 	protected String selectedProductLevel = StringUtils.EMPTY;
-	protected Map<String, String> customerDescriptionMap = null;
-	protected Map<String, String> productDescriptionMap = null;
-	protected boolean dismantleCustomerSelection = true;
-	protected boolean dismantleProductSelection = true;
 	/**
 	 * DTO object for DataSelection.
 	 */
@@ -398,9 +393,9 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	 */
 	protected final IndexedContainer customerForecastLevelContainer = new IndexedContainer();
 	private final IndexedContainer defaultCustomerForecastLevelContainer = new IndexedContainer();
-	protected String screenName = StringUtils.EMPTY;
+	private String screenName = StringUtils.EMPTY;
 
-	private CFFLogic logic = new CFFLogic();
+	private final CFFLogic logic = new CFFLogic();
 
 	public AbstractDataSelection(CustomFieldGroup dataSelectionBinder, String screenName) {
 		setCompositionRoot(Clara.create(getClass().getResourceAsStream("/cff/tabs/dataSelection.xml"), this));
@@ -443,12 +438,14 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			businessUnit.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
 			company.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
 			publicView.addClickListener(new CustomTextField.ClickListener() {
+                                @Override
 				public void click(CustomTextField.ClickEvent event) {
 					loadPublicView();
 				}
 			});
 
 			privateView.addClickListener(new CustomTextField.ClickListener() {
+                                @Override
 				public void click(CustomTextField.ClickEvent event) {
 					loadPrivateView();
 				}
@@ -722,6 +719,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	@UiHandler("resetBtn")
 	public void resetBtn(Button.ClickEvent event) {
 		new AbstractNotificationUtils() {
+            @Override
 			public void noMethod() {
 				// do nothing
 			}
@@ -737,8 +735,6 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			public void yesMethod() {
 				try {
 					resetOne();
-					dismantleCustomerSelection = true;
-					dismantleProductSelection = true;
 					resetButtonLogic();
 				} catch (Exception ex) {
 					LOGGER.error(ex);
@@ -1019,13 +1015,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			public void click(CustomTextField.ClickEvent event) {
 				try {
 					customerHierarchyLookUp();
-				} catch (InstantiationException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
-							ex);
-				} catch (IllegalAccessException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
-							ex);
-				} catch (ClassNotFoundException ex) {
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
 					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
 							ex);
 				}
@@ -1039,6 +1029,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 				if (!selectedCustomerContainer.getItemIds().isEmpty() && customerLevelListenerFlag) {
 					final String customerLevelValue = getSelectedCustomerLevel();
 					new AbstractNotificationUtils() {
+                        @Override
 						public void noMethod() {
 							// do nothing
 							if (!StringUtils.isBlank(customerLevelValue)) {
@@ -1111,13 +1102,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			public void click(CustomTextField.ClickEvent event) {
 				try {
 					productHierarchyLookUp();
-				} catch (InstantiationException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
-							ex);
-				} catch (IllegalAccessException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
-							ex);
-				} catch (ClassNotFoundException ex) {
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
 					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
 							ex);
 				}
@@ -1131,6 +1116,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 				if (!selectedProductContainer.getItemIds().isEmpty() && productLevelListenerFlag) {
 					final String productLevelValue = getSelectedProductLevel();
 					new AbstractNotificationUtils() {
+                        @Override
 						public void noMethod() {
 							// do nothing
 							if (!StringUtils.isBlank(productLevelValue)) {

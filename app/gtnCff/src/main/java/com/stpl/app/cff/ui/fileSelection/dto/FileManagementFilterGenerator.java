@@ -64,6 +64,7 @@ public class FileManagementFilterGenerator implements ExtFilterGenerator {
                      *
                      * @param event
                      */
+                    @Override
                     public void valueChange(final Property.ValueChangeEvent event) {
                         identifierType.setDescription(String.valueOf((Integer) identifierType.getValue()));
                     }
@@ -85,6 +86,7 @@ public class FileManagementFilterGenerator implements ExtFilterGenerator {
                      *
                      * @param event
                      */
+                    @Override
                     public void valueChange(final Property.ValueChangeEvent event) {
                         brand.setDescription(String.valueOf((Integer) brand.getValue()));
                     }
