@@ -97,7 +97,7 @@ public class GtnUIFrameWorkTableRecordTypeAction implements GtnUIFrameWorkAction
 		}
 		if (depandingValue.startsWith("M")) {
 			DecimalFormat formatDecimal = new DecimalFormat("0.00");
-			return formatDecimal.format(bean.getDoublePropertyByIndex(size - 26));
+			return formatDecimal.format(bean.getDoublePropertyByIndex(12));
 		}
 		return "";
 	}

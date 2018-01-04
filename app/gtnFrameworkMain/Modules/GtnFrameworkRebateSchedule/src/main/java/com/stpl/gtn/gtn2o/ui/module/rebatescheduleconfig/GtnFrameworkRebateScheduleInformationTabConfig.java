@@ -762,8 +762,8 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 
 		GtnUIFrameworkComponentConfig companyType = configProvider.getUIFrameworkComponentConfig("paymentLevel", true,
 				GtnFrameworkRSConstants.PAYMENT_LEVELLAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
-		companyType.setAuthorizationIncluded(true);
 		companyType.setComponentName("Payment Level");
+                companyType.setAuthorizationIncluded(true);
 
 		componentList.add(companyType);
 
@@ -908,7 +908,7 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 		componentList.add(companyType);
 
 		GtnUIFrameworkComboBoxConfig companyTypeConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkRSConstants.RULE_LEVEL, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				"Evaluation_Rule_Level", GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		companyType.setGtnComboboxConfig(companyTypeConfig);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
@@ -1003,7 +1003,7 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 		componentList.add(companyType);
 
 		GtnUIFrameworkComboBoxConfig companyTypeConfig = configProvider.getComboBoxConfig(
-				GtnFrameworkRSConstants.RULE_LEVEL, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+				"Calculation_Rule_Level", GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		companyType.setGtnComboboxConfig(companyTypeConfig);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider

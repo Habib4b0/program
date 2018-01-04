@@ -23,14 +23,12 @@ import org.slf4j.LoggerFactory;
  */
 public class SalesAndRebates extends VerticalLayout {
 
-    VerticalLayout tradingPartnerSalesTableLayout = new VerticalLayout();
-    VerticalLayout tradingPartnerRebatesTableLayout = new VerticalLayout();
-    SelectionDTO session;
-    boolean isLoad;
-    ComboBox frequency;
-    List<ItemIndexDto> itemList;
-    SalesSummary sales = new SalesSummary(itemList, session);
-    RebateSummary rebate = new RebateSummary(itemList, session);
+    private final VerticalLayout tradingPartnerSalesTableLayout = new VerticalLayout();
+    private final VerticalLayout tradingPartnerRebatesTableLayout = new VerticalLayout();
+    private SelectionDTO session;
+    private List<ItemIndexDto> itemList;
+    private final SalesSummary sales = new SalesSummary(itemList, session);
+    private final RebateSummary rebate = new RebateSummary(itemList, session);
     /**
      * The Constant LOGGER.
      */

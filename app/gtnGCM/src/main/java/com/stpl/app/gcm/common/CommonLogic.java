@@ -30,7 +30,6 @@ import com.stpl.app.gcm.discount.dao.DiscountDAO;
 import com.stpl.app.gcm.discount.dao.impl.ContractDetailsDaoImpl;
 import com.stpl.app.gcm.discount.dao.impl.DiscountDaoImpl;
 import com.stpl.app.gcm.discount.dto.ContractsDetailsDto;
-import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
@@ -87,13 +86,12 @@ public class CommonLogic {
 	 * INSTANTIATE ContractDashboardLogicDAO Implementation logic.
 	 */
 	static CommonDao DAO = CommonImpl.getInstance();
-	private final ContractDetailsDAO dao = new ContractDetailsDaoImpl();
-	private static final DiscountDAO discountDAO = new DiscountDaoImpl();
+	private final ContractDetailsDAO daoImpl = new ContractDetailsDaoImpl();
+	private static final DiscountDAO DISCOUNT_DAO = new DiscountDaoImpl();
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommonLogic.class);
 	private int newProjectionId;
 	private String forecastingType = StringUtils.EMPTY;
 	private int prodRelationshipId;
-	SelectionDTO selection = new SelectionDTO();
 	public static final String DATA_POOL = "java:jboss/datasources/jdbc/appDataPool";
 	public static final String AND_PROJECTION_NAME = "\n and Projection Name - ";
 	public static final String PRC_MANDATED_SALES_INSERT = "Prc_mandated_sales_insert";
@@ -146,12 +144,10 @@ public class CommonLogic {
 	/**
 	 * Gets the contract list.
 	 *
-	 * @param contractId
-	 *            the contract id
-	 * @param level
-	 *            the level
-	 * @return the contract list
-	 */
+	 * @param contractId the contract id
+         * @param level the level
+         * @return the contract list
+         */
 	private List<ContractsDetailsDto> getContractList(final String contractId, final int level,
 			final List<ContractsDetailsDto> cfpList) throws SystemException {
 		LOGGER.debug("Entering getContractList method");
@@ -165,7 +161,7 @@ public class CommonLogic {
 		}
 		final List<ContractsDetailsDto> contractList = new ArrayList<>();
 		// TODO change the limits in the query
-		final List<ContractMaster> contractML = dao.contractMasterDynamicQuery(getProcessedQuery(contract));
+		final List<ContractMaster> contractML = daoImpl.contractMasterDynamicQuery(getProcessedQuery(contract));
 
 		ContractsDetailsDto contractDetails;
 		ContractMaster contractMaster;
@@ -192,8 +188,7 @@ public class CommonLogic {
 	/**
 	 * Method used for getProcessedQuery.
 	 *
-	 * @param contractId
-	 *            the contract id
+	 * @param contractId the contract id
 	 * @param start
 	 * @param end
 	 * @return the processed query
@@ -219,8 +214,7 @@ public class CommonLogic {
 	/**
 	 * Checks if is level2 list avlbl.
 	 *
-	 * @param contractSystemId
-	 *            the contract system id
+	 * @param contractSystemId the contract system id
 	 * @return true, if checks if is level2 list avlbl
 	 */
 	private boolean isLevel2ListAvlbl(final int contractSystemId, final String category) throws SystemException {
@@ -255,7 +249,7 @@ public class CommonLogic {
 		cfpDynamicQuery.add(RestrictionsFactoryUtil
 				.not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
 		LOGGER.debug("End of getCFPQueriedCount method");
-		return (int) dao.contractMasterDynamicQueryCount(cfpDynamicQuery);
+		return (int) daoImpl.contractMasterDynamicQueryCount(cfpDynamicQuery);
 	}
 
 	public int getIFPQueriedCount(final int contractSystemId) throws SystemException {
@@ -267,7 +261,7 @@ public class CommonLogic {
 		ifpDynamicQuery.add(RestrictionsFactoryUtil
 				.not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
 		LOGGER.debug("End of getIFPQueriedCount method");
-		return (int) dao.contractMasterDynamicQueryCount(ifpDynamicQuery);
+		return (int) daoImpl.contractMasterDynamicQueryCount(ifpDynamicQuery);
 	}
 
 	/**
@@ -286,7 +280,7 @@ public class CommonLogic {
 		psDynamicQuery.add(RestrictionsFactoryUtil
 				.not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
 		LOGGER.debug("End of getPSQueriedCount method");
-		return (int) dao.contractMasterDynamicQueryCount(psDynamicQuery);
+		return (int) daoImpl.contractMasterDynamicQueryCount(psDynamicQuery);
 	}
 
 	public int getRSQueriedCount(final int contractSystemId) throws SystemException {
@@ -298,7 +292,7 @@ public class CommonLogic {
 		rsDynamicQuery.add(RestrictionsFactoryUtil
 				.not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
 		LOGGER.debug("End of getRSQueriedCount method");
-		return (int) dao.contractMasterDynamicQueryCount(rsDynamicQuery);
+		return (int) daoImpl.contractMasterDynamicQueryCount(rsDynamicQuery);
 	}
 
 	public ExtTreeContainer<ContractsDetailsDto> getLevel2Hierarchy(final ContractsDetailsDto parent,
@@ -487,10 +481,8 @@ public class CommonLogic {
 	/**
 	 * Gets the level3 list.
 	 *
-	 * @param parent1
-	 *            the parent1
-	 * @param parent2
-	 *            the parent2
+	 * @param parent1 the parent1
+	 * @param parent2  the parent2
 	 * @return the level3 list
 	 */
 	public List<ContractsDetailsDto> getLevel3List(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
@@ -519,12 +511,9 @@ public class CommonLogic {
 	/**
 	 * Gets the level4 list.
 	 *
-	 * @param parent1
-	 *            the parent1
-	 * @param parent2
-	 *            the parent2
-	 * @param parent3
-	 *            the parent3
+	 * @param parent1 the parent1
+	 * @param parent2 the parent2
+	 * @param parent3 the parent3
 	 * @return the level4 list
 	 */
 	public List<ContractsDetailsDto> getLevel4List(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
@@ -578,8 +567,7 @@ public class CommonLogic {
 	/**
 	 * Checks if is level3 list avlbl.
 	 *
-	 * @param contractSystemId
-	 *            the contract system id
+	 * @param contractSystemId the contract system id
 	 * @return true, if checks if is level3 list avlbl
 	 */
 	public boolean isLevel3ListAvlbl(final int contractSystemId, final String category) throws SystemException {
@@ -620,8 +608,7 @@ public class CommonLogic {
 	/**
 	 * Checks if is level5 list avlbl.
 	 *
-	 * @param contractSystemId
-	 *            the contract system id
+	 * @param contractSystemId the contract system id
 	 * @return true, if checks if is level5 list avlbl
 	 */
 	private boolean isLevel5ListAvlbl(final int contractSystemId) throws SystemException {
@@ -643,7 +630,7 @@ public class CommonLogic {
 				parent1.getSystemId()));
 		cfpDynamicQuery.add(RestrictionsFactoryUtil
 				.not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
-		final List<CfpContract> cfpMasterList = dao.cfpMasterDynamicQuery(cfpDynamicQuery);
+		final List<CfpContract> cfpMasterList = daoImpl.cfpMasterDynamicQuery(cfpDynamicQuery);
 
 		ContractsDetailsDto contractMember;
 		CfpContract cfpMaster;
@@ -693,7 +680,7 @@ public class CommonLogic {
 
 			}
 		}
-		final List<IfpContract> ifpMasterList = dao.ifpMasterDynamicQuery(ifpDynamicQuery);
+		final List<IfpContract> ifpMasterList = daoImpl.ifpMasterDynamicQuery(ifpDynamicQuery);
 		ContractsDetailsDto contractMember;
 		IfpContract ifpContract;
 		for (final Iterator<IfpContract> iterator = ifpMasterList.iterator(); iterator.hasNext();) {
@@ -733,14 +720,10 @@ public class CommonLogic {
 	/**
 	 * Gets the ps list.
 	 *
-	 * @param parent1
-	 *            the parent1
-	 * @param parent2
-	 *            the parent2
-	 * @param parent3
-	 *            the parent3
-	 * @param level
-	 *            the level
+	 * @param parent1 the parent1
+	 * @param parent2 the parent2
+	 * @param parent3 the parent3
+	 * @param level	the level
 	 * @return the PS list
 	 */
 	private List<ContractsDetailsDto> getPSList(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
@@ -797,7 +780,7 @@ public class CommonLogic {
 			}
 		}
 
-		final List<PsContract> psMasterList = dao.psMasterDynamicQuery(psDynamicQuery);
+		final List<PsContract> psMasterList = daoImpl.psMasterDynamicQuery(psDynamicQuery);
 
 		ContractsDetailsDto contractMember;
 
@@ -954,7 +937,7 @@ public class CommonLogic {
 			}
 		}
 
-		final List<RsContract> rsMasterList = dao.rsMasterDynamicQuery(rsDynamicQuery);
+		final List<RsContract> rsMasterList = daoImpl.rsMasterDynamicQuery(rsDynamicQuery);
 
 		ContractsDetailsDto contractMember;
 		RsContract rsMaster;
@@ -1008,7 +991,7 @@ public class CommonLogic {
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 		productProjectionList.add(ProjectionFactoryUtil.property("description"));
 		dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
-		List resultList = discountDAO.getHelperTableListNames(dynamicQuery);
+		List resultList = DISCOUNT_DAO.getHelperTableListNames(dynamicQuery);
 		return Converters.convertNullToEmpty(resultList.get(0));
 	}
 
@@ -1251,7 +1234,7 @@ public class CommonLogic {
 		final List<HelperDTO> list = new ArrayList<>();
 
 		String query = CommonUtil.getQuery(null, "ad.loadPriceType");
-		List results = discountDAO.getRebates(query);
+		List results = DISCOUNT_DAO.getRebates(query);
 
 		HelperDTO helperTable;
 
@@ -1584,8 +1567,7 @@ public class CommonLogic {
 									 * "PRC_NM_DISCOUNT_INSERT");
 									 * callTableInsert(inputs,
 									 * "PRC_NM_PPA_INSERT");
-									 * saveTempToMain(newProjectionId, userId,
-									 * sessionId);
+									 * saveTempToMain(newProjectionId, userId,sessionId);
 									 **/
 								} else if (Constants.MANDATED.equals(moduleName.trim())) {
 									Object[] suppInputs = { newProjectionId, userId, marketType, sessionId };
@@ -1601,7 +1583,7 @@ public class CommonLogic {
 
 							LoadTabLogic loadTabLogic = new LoadTabLogic();
 							loadTabLogic.setForecastingType(newProjectionId);
-							tempList.add(swapForecastingType(loadTabLogic.forecatingType));
+							tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
 							tempList.add(loadTabLogic.getProjectionName(newProjectionId));
 							tempList.add(String.valueOf(newProjectionId));
 							tempList.add("\n New Projection created with forecasting type -" + tempList.get(0)
@@ -1638,39 +1620,26 @@ public class CommonLogic {
 	}
 
 	public boolean callActualsDetailsInsertProcedure() {
-		LOGGER.debug("calling ActualsDetailsInsertProcedure");
-		Connection connection = null;
-		DataSource datasource;
-		CallableStatement statement = null;
-		try {
-			Context initialContext = new InitialContext();
-			datasource = (DataSource) initialContext.lookup(DATA_POOL);
-			if (datasource != null) {
-				connection = datasource.getConnection();
-			} else {
-				LOGGER.debug("Failed to lookup datasource.");
-			}
-			if (connection != null) {
-
-				LOGGER.debug("Got Connection " + connection.toString() + ", ");
-				statement = connection.prepareCall("{call PRC_ACTUAL_DETAILS_POPULATION()}");
-				statement.execute();
-			}
-		} catch (Exception ex) {
-
-			LOGGER.error("",ex);
-			return false;
-		} finally {
-			try {
-				statement.close();
-				connection.close();
-			} catch (Exception e) {
-				LOGGER.error("",e);
-			}
-		}
-		LOGGER.debug("exiting ActualsDetailsInsertProcedure");
-		return true;
-	}
+        LOGGER.debug("calling ActualsDetailsInsertProcedure");
+        DataSource datasource = null;
+        try {
+            Context initialContext = new InitialContext();
+            datasource = (DataSource) initialContext.lookup(DATA_POOL);
+        } catch (Exception ex) {
+            LOGGER.error("",ex);
+        }
+        if (datasource != null) {
+            try (Connection connection = datasource.getConnection();
+                    CallableStatement statement = connection.prepareCall("{call PRC_ACTUAL_DETAILS_POPULATION()}")) {
+                statement.execute();
+            } catch (Exception ex) {
+                LOGGER.error("",ex);
+                return false;
+            }
+        }
+        LOGGER.debug("exiting ActualsDetailsInsertProcedure");
+        return true;
+    }
 
 	private int cloneProjection(int projectionId, String userId) {
 		List input = new ArrayList();
@@ -1914,7 +1883,7 @@ public class CommonLogic {
 		List<HelperDTO> searchList = new ArrayList<>();
 		String query = SQlUtil.getQuery(queryName);
 		try {
-			results = discountDAO.getRebates(query);
+			results = DISCOUNT_DAO.getRebates(query);
 
 		} catch (Exception ex) {
 			LoggerFactory.getLogger(CommonLogic.class.getName()).error("", ex);
@@ -2172,7 +2141,7 @@ public class CommonLogic {
 							}
 						}
 						loadTabLogic.setForecastingType(newProjectionId);
-						tempList.add(swapForecastingType(loadTabLogic.forecatingType));
+						tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
 						tempList.add(loadTabLogic.getProjectionName(newProjectionId));
 						tempList.add(String.valueOf(newProjectionId));
 
@@ -2268,7 +2237,7 @@ public class CommonLogic {
 					}
 					LoadTabLogic loadTabLogic = new LoadTabLogic();
 					loadTabLogic.setForecastingType(newProjectionId);
-					tempList.add(swapForecastingType(loadTabLogic.forecatingType));
+					tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
 					tempList.add(loadTabLogic.getProjectionName(newProjectionId));
 					tempList.add(String.valueOf(newProjectionId));
 					tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME
@@ -2538,7 +2507,7 @@ public class CommonLogic {
 					}
 					LoadTabLogic loadTabLogic = new LoadTabLogic();
 					loadTabLogic.setForecastingType(newProjectionId);
-					tempList.add(swapForecastingType(loadTabLogic.forecatingType));
+					tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
 					tempList.add(loadTabLogic.getProjectionName(newProjectionId));
 					tempList.add(String.valueOf(newProjectionId));
 					tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME

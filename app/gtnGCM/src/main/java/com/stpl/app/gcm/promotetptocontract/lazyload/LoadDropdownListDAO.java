@@ -20,15 +20,16 @@ import org.asi.ui.addons.lazycontainer.SearchCriteria;
  */
 public class LoadDropdownListDAO implements DAO<HelperDTO> {
 
-    PromoteTPLogic logic = new PromoteTPLogic();
-    String countFlag;
-    String findFlag;
+    private final PromoteTPLogic logic = new PromoteTPLogic();
+    private final String countFlag;
+    private final String findFlag;
 
     public LoadDropdownListDAO(String countFlag, String findFlag) {
         this.countFlag = countFlag;
         this.findFlag = findFlag;
     }
 
+    @Override
     public int count(SearchCriteria criteria) {
         List<String> filterTextList = new ArrayList<>();
         String filterText = StringUtils.trimToEmpty(criteria.getFilter()) + "%";
@@ -37,6 +38,7 @@ public class LoadDropdownListDAO implements DAO<HelperDTO> {
         return count;
     }
 
+    @Override
     public List<HelperDTO> find(SearchCriteria criteria, int startIndex, int offset, List<OrderByColumn> columns) {
         List<String> offSetList = new ArrayList<>();
         String filterText = StringUtils.trimToEmpty(criteria.getFilter()) + "%";

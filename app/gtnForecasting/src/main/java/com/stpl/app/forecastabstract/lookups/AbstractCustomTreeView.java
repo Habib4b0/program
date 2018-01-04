@@ -82,12 +82,12 @@ public abstract class AbstractCustomTreeView extends Window {
     /**
      * The Constant CUST_ID_TRANSF_COLUMNS.
      */
-    public final Object[] custIdTransfColumns = new Object[]{"level"};
+    protected final Object[] custIdTransfColumns = new Object[]{"level"};
 
     /**
      * The Constant CUST_ID_TRANSF_HEADER.
      */
-    public final String[] custIdTransfHeader = new String[]{"LEVEL"};
+    protected final String[] custIdTransfHeader = new String[]{"LEVEL"};
     @UiField("addCustomer")
     private Button addCustomer;
     @UiField("removeCustomer")
@@ -108,8 +108,8 @@ public abstract class AbstractCustomTreeView extends Window {
     private Button close;
     @UiField("deductionLayout")
     private HorizontalLayout deductionLayout;
-    boolean saveFlag = false;
-    SessionDTO sessionDto;
+    protected boolean saveFlag = false;
+    protected SessionDTO sessionDto;
 
     /**
      * Instantiates a new abstract custom tree view.

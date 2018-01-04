@@ -72,9 +72,9 @@ and open the template in the editor.
                 
                     </HorizontalLayout>
                 </Panel>
-                <Panel id="Available Contracts" caption="Available Contracts">
-                    <VerticalLayout margin="false" styleName = "width-auto"
-                                    spacing="true" >
+                <Panel id="Available Contracts" caption="Available Contracts" width="100%">
+                    <VerticalLayout margin="false" 
+                                    spacing="true"  width="100%">
                            
                         <VerticalLayout id="contractVertical" margin="false" 
                                         spacing="true" >

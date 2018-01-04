@@ -53,10 +53,10 @@ public class FormulaSearchLookup extends CustomWindow {
     public Button selectBtn;
     @UiField("closeBtn")
     public Button closeBtn;
-    FormulaLookupTableLogic tableLogic = new FormulaLookupTableLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final FormulaLookupTableLogic tableLogic = new FormulaLookupTableLogic();
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
      public CustomTextField componentTextField;
-    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
+    private final BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
      private static final Logger LOGGER = LoggerFactory.getLogger(FormulaSearchLookup.class);
     public FormulaSearchLookup(CustomTextField componentTextField) {
         super("Formula Id Lookup");

@@ -93,38 +93,37 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
     @UiField("resetBtn")
     public Button resetBtn;
     @UiField("selectBtn")
-    public Button selectBtn;
+    public Button selectButton;
     @UiField("closeBtn")
-    public Button closeBtn;
+    public Button closeButton;
     @UiField("startDate")
     public PopupDateField startDate;
     @UiField("endDate")
     public PopupDateField endDate;
-    ComponentLookUpLogic tableLogic = new ComponentLookUpLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
-    private BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
-    private BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
+    private final ComponentLookUpLogic tableLogic = new ComponentLookUpLogic();
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final BeanItemContainer<ComponentLookUpDTO> resultsContainer = new BeanItemContainer<>(ComponentLookUpDTO.class);
+    private final BeanItemContainer<String> componentStatusBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> componentTypeBean = new BeanItemContainer<>(String.class);
     private String component = StringUtils.EMPTY;
-    ComponentLookUpDTO componentDto;
-    ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
-    SelectionDTO selection = new SelectionDTO();
-    AbstractLogic logic = AbstractLogic.getInstance();
-    List<String> countFlag = new ArrayList<>();
-    List<String> loadDataFlag = new ArrayList<>();
+    private final ComponentLookUpDTO binderDto = new ComponentLookUpDTO();
+    private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
+    private final SelectionDTO selection = new SelectionDTO();
+    private final AbstractLogic logic = AbstractLogic.getInstance();
+    private final List<String> countFlag = new ArrayList<>();
+    private final List<String> loadDataFlag = new ArrayList<>();
     public CustomTextField componentTextField;
-    Object[] CFP_SEARCH_COLUMNS = new Object[]{
+    private final Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentId", StringConstantsUtil.COMPONENT_NO, StringConstantsUtil.COMPONENT_NAME, StringConstantsUtil.COMPONENT_TYPE, Constants.CATEGORY, StringConstantsUtil.DESIGNATION_PROPERTY, "planId", "planName", StringConstantsUtil.COMPONENT_STATUS_PROPERTY, "tradeClass", Constants.START_DATE, Constants.END_DATE};
-    String[] CFP_SEARCH_HEADERS = new String[]{
+    private final String[] CFP_SEARCH_HEADERS = new String[]{
         "CFP ID", "CFP No", "CFP Name", "CFP Type", "CFP Category", "CFP Designation", "CFP Plan Id", "CFP Plan Name", "CFP Status", "CFP Trade Class", "CFP Start Date", "CFP End Date"};
-    Object[] IFP_SEARCH_COLUMNS = new Object[]{
+    private final Object[] IFP_SEARCH_COLUMNS = new Object[]{
         "componentId", StringConstantsUtil.COMPONENT_NO, StringConstantsUtil.COMPONENT_NAME, StringConstantsUtil.COMPONENT_TYPE, Constants.CATEGORY, StringConstantsUtil.DESIGNATION_PROPERTY, "planId", "planName", StringConstantsUtil.COMPONENT_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE};
-    String[] IFP_SEARCH_HEADERS = new String[]{
+    private final String[] IFP_SEARCH_HEADERS = new String[]{
         Constants.IFP_ID, Constants.IFP_NO, Constants.IFP_NAME_LABEL, "IFP Type", "IFP Category", "IFP Designation", "IFP Plan Id", "IFP Plan Name", "IFP Status", "IFP Start Date", "IFP End Date"};
-    Object[] PS_SEARCH_COLUMNS = new Object[]{
+    private final Object[] PS_SEARCH_COLUMNS = new Object[]{
         StringConstantsUtil.COMPONENT_NO, StringConstantsUtil.COMPONENT_NAME, StringConstantsUtil.COMPONENT_TYPE, Constants.CATEGORY, "tradeClass", StringConstantsUtil.DESIGNATION_PROPERTY, "parentPsId", "parentPsName", StringConstantsUtil.COMPONENT_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE};
-    String[] PS_SEARCH_HEADERS = new String[]{
+     private final String[] PS_SEARCH_HEADERS = new String[]{
         "PS No", "PS Name", "PS Type", "PS Category", "PS Trade Class", "PS Designation", "Parent PS Id", "Parent PS Name", "PS Status", "PS Start Date", "PS End Date"};
 
     public ComponentSearchLookUp(final String component, final CustomTextField componentTextField) {
@@ -170,7 +169,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
         labelEndDate.setCaption(component + labelEndDate.getCaption());
         componentStatusBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
         componentTypeBean.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-        selectBtn.setEnabled(false);
+        selectButton.setEnabled(false);
         componentStatus_DTO.setNullSelectionAllowed(true);
         componentStatus_DTO.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
 
@@ -179,16 +178,19 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
              * Method called when available results value is changed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }
         });
         setFlag();
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -202,18 +204,22 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (StringConstantsUtil.COMPONENT_STATUS_PROPERTY.equals(propertyId)) {
                     final ComboBox componentStatusDdlb = new ComboBox();
@@ -329,9 +335,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(ComponentSearchLook
      */
     protected void resultsItemClick(final Object obj) {
         if (obj == null) {
-            selectBtn.setEnabled(false);
+            selectButton.setEnabled(false);
         } else {
-            selectBtn.setEnabled(true);
+            selectButton.setEnabled(true);
         }
     }
 

@@ -21,11 +21,11 @@ import org.slf4j.LoggerFactory;
  */
 public class CurrentContractTableLogic extends PageTableLogic {
 
-    private static final Logger  LOGGER = LoggerFactory.getLogger(CurrentContractTableLogic.class);
-    CurrentContractDTO currConDTO = new CurrentContractDTO();
-    PromoteTPLogic logic = new PromoteTPLogic();
-    boolean firstTime = true;
-    SessionDTO session;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CurrentContractTableLogic.class);
+    private CurrentContractDTO currConDTO = new CurrentContractDTO();
+    private final PromoteTPLogic logic = new PromoteTPLogic();
+    private boolean firstTime = true;
+    private SessionDTO session;
 
     /**
      * Record count logic

@@ -1,11 +1,10 @@
 package com.stpl.app.cff.util.converters;
 
 import com.stpl.app.cff.util.ConstantsUtil;
+import com.vaadin.v7.data.util.converter.Converter;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Locale;
-
-import com.vaadin.data.util.converter.Converter;
 import org.apache.commons.lang.StringUtils;
 
 /**

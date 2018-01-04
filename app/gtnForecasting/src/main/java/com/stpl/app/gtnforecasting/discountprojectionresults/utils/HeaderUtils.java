@@ -215,7 +215,9 @@ public class HeaderUtils {
             List headerListForExcel;
             Object leftColumn = fullHeaderDTO.getSingleColumns().get(0);
             String leftHeader = fullHeaderDTO.getSingleHeaders().get(0);
-            int tempYear, j = 0, k = 0;
+            int tempYear;
+            int j = 0;
+            int k = 0;
             int startPr = projSelDTO.getProjectionStartPeriod() == 0 ? 1 : projSelDTO.getProjectionStartPeriod();
             int lastPr = frequencyDivision;
             for (int yr = projSelDTO.getProjectionStartYear(); yr <= projSelDTO.getForecastDTO().getProjectionEndYear(); yr++) {
@@ -1272,7 +1274,9 @@ public class HeaderUtils {
             List headerListForExcel;
             Object leftColumn = fullHeaderDTO.getSingleColumns().get(0);
             String leftHeader = fullHeaderDTO.getSingleHeaders().get(0);
-            int tempYear, j = 0, k = 0;
+            int tempYear;
+            int j = 0;
+            int k = 0;
             for (int i = 0; i < periodList.size(); i++) {
                 List<Object> dmap = new ArrayList<>();
                 String commonColumn = periodList.get(i);
@@ -1772,7 +1776,9 @@ public class HeaderUtils {
             List headerListForExcel;
             Object leftColumn = fullHeaderDTO.getSingleColumns().get(0);
             String leftHeader = fullHeaderDTO.getSingleHeaders().get(0);
-            int tempYear, j = 0, k = 0;
+            int tempYear;
+            int j = 0;
+            int k = 0;
             for (int i = 0; i < periodList.size(); i++) {
                 List<Object> dmap = new ArrayList<>();
                 String commonColumn = periodList.get(i);

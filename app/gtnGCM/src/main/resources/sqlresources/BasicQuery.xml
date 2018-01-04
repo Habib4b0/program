@@ -1313,7 +1313,14 @@ AND PSC.PS_CONTRACT_SID=PS.PS_CONTRACT_SID AND IFPC.IFP_CONTRACT_SID= IFP.IFP_CO
                 
     ]]> </query>
 </entity>
+ <entity id="Submit Check one Item condition">
+        <query>
+		<![CDATA[
+                
+                SELECT COUNT(*) FROM GCM_GLOBAL_DETAILS WHERE SESSION_ID = '?' AND OPERATION = '?' AND MODULE_NAME = 'ITEM_MANAGEMENT' AND CHECK_RECORD = 1;
+                
+		]]>
+        </query>
+    </entity>
 
-    
-    
 </sql>

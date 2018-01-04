@@ -20,19 +20,21 @@ import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 class RSSearchDTO implements BeanDAO {
  public static final Logger LOGGER = LoggerFactory.getLogger(RSSearchDTO.class);
    
-    CopyContractLogic logic = new CopyContractLogic();
-    RsIfpDto RsIfpDto = new RsIfpDto();
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private RsIfpDto RsIfpDto = new RsIfpDto();
 
     RSSearchDTO(RsIfpDto RsIfpDto) {
         this.RsIfpDto = RsIfpDto;
     }
 
+ @Override
     public int count(BeanSearchCriteria bsc) {
         int count = 0;
         count = logic.getRSSearchCount(RsIfpDto, bsc);
         return count;
     }
 
+ @Override
     public List find(BeanSearchCriteria bsc, int i, int i1, List list) {
         List<RsIfpDto> resultList = new ArrayList<>();
         return resultList;

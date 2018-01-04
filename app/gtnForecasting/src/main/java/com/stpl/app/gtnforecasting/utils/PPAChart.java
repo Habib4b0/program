@@ -37,19 +37,19 @@ public class PPAChart {
     /**
      * The annual.
      */
-    public static String annual = "Annual";
+    protected static String annual = "Annual";
     /**
      * The semi annual.
      */
-    public static String semiAnnual = "semi-Annual";
+    protected static String semiAnnual = "semi-Annual";
     /**
      * The month.
      */
-    public static String month = "monthly";
+    protected static String month = "monthly";
     /**
      * The quarter.
      */
-    public static String quarter = "quarterly";
+    protected static String quarter = "quarterly";
     /**
      * The dto.
      */
@@ -61,10 +61,10 @@ public class PPAChart {
     /**
      * The history.
      */
-    public String history;
+    protected String history;
 
-    ProjectionSelectionDTO selection;
-    TableHeaderDTO fullHeader;
+    protected ProjectionSelectionDTO selection;
+    protected TableHeaderDTO fullHeader;
 
     /**
      * The Constant LOGGER.

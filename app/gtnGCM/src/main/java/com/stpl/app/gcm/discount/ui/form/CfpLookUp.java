@@ -68,12 +68,12 @@ public class CfpLookUp extends Window {
     public PopupDateField cfpEndDate;
     @UiField("cfpCategory")
     public ComboBox cfpCategory;
-    CommonUtil commonUtil = CommonUtil.getInstance();
-    LookUpTableLogic tableLogic = new LookUpTableLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
-    private CustomTextField parentCfpName;
-    boolean flag;
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
+    private final LookUpTableLogic tableLogic = new LookUpTableLogic();
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);
+    private final CustomTextField parentCfpName;
+    private final boolean flag;
 
     public CfpLookUp(CustomTextField parentCfpName, boolean flag) {
         setContent(Clara.create(getClass().getResourceAsStream("/discount/cfp.xml"), this));
@@ -118,10 +118,12 @@ public class CfpLookUp extends Window {
                 }
             }
             resultsTable.setFilterGenerator(new ExtFilterGenerator() {
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Object value) {
                     return null;
                 }
 
+                @Override
                 public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                     if (originatingField instanceof ComboBox) {
                         if (originatingField.getValue() != null) {
@@ -133,6 +135,7 @@ public class CfpLookUp extends Window {
                     return null;
                 }
 
+                @Override
                 public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                      CustomComboBox comboBox = new CustomComboBox();
                     if (propertyId.equals("cfpType")) {
@@ -179,14 +182,17 @@ public class CfpLookUp extends Window {
                     return null;
                 }
 
+                @Override
                 public void filterRemoved(Object propertyId) {
                 //empty
                 }
 
+                @Override
                 public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
 //                empty
                 }
 
+                @Override
                 public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                     return null;
                 }
@@ -249,6 +255,7 @@ public class CfpLookUp extends Window {
     @UiHandler("resetBtn")
     public void resetButtonLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }

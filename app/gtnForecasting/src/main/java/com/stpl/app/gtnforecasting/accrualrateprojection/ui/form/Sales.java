@@ -16,7 +16,6 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.NotificationUtils;
 import com.stpl.app.security.StplSecurity;
@@ -73,19 +72,19 @@ public class Sales extends CustomComponent {
     protected Button exclusionDetails;
 
     @UiField("horizontalLayout")
-    HorizontalLayout horizontalLayout;
+    private HorizontalLayout horizontalLayout;
 
     @UiField("priceBasisDdlb")
-    public ComboBox priceBasisDdlb;
+    private  ComboBox priceBasisDdlb;
 
     @UiField("historyDdlb")
     public ComboBox historyDdlb;
 
     @UiField("frequencyDdlb")
-    public ComboBox frequencyDdlb;
+    private  ComboBox frequencyDdlb;
 
     @UiField("tableVerticalLayout")
-    VerticalLayout tableLayout;
+    private VerticalLayout tableLayout;
 
     @UiField("generateBtn")
     protected Button generateBtn;
@@ -106,23 +105,19 @@ public class Sales extends CustomComponent {
      */
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
 
-    AccrualRateProjectionTableLogic tableLogic = new AccrualRateProjectionTableLogic();
-    FreezePagedTable resultsTable = new FreezePagedTable(tableLogic);
-
-    ExtContainer<AccrualRateProjectionDTO> resultsContainer = new ExtContainer(AccrualRateProjectionDTO.class);
+    private AccrualRateProjectionTableLogic tableLogic = new AccrualRateProjectionTableLogic();
+    private FreezePagedTable resultsTable = new FreezePagedTable(tableLogic);
 
     @UiField("customMenuBar")
     protected CustomMenuBar customMenuBar;
 
     protected CustomMenuBar.CustomMenuItem customMenuItem;
 
-    List<String> selectedVariables = new ArrayList();
+    private final List<String> selectedVariables = new ArrayList();
 
-    String[] variableValues = AccrualRateUtils.AccrualSalesVariables.names();
+    private final String[] variableValues = AccrualRateUtils.AccrualSalesVariables.names();
 
-    CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[variableValues.length];
-
-    CommonUtils commonUtils = new CommonUtils();
+    private final CustomMenuBar.CustomMenuItem[] customItem = new CustomMenuBar.CustomMenuItem[variableValues.length];
 
     private CustomTableHeaderDTO rightHeaderDTO;
 
@@ -130,15 +125,15 @@ public class Sales extends CustomComponent {
 
     private ExtContainer<AccrualRateProjectionDTO> resultBeanContainer;
 
-    public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
-    DSLogic dsLogic = new DSLogic();
-    SessionDTO session;
+    protected static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
+    private final DSLogic dsLogic = new DSLogic();
+    private final SessionDTO session;
 
-    AccrualRateProjectionLogic accrualRateProjectionLogic = AccrualRateProjectionLogic.getInstance();
+    protected AccrualRateProjectionLogic accrualRateProjectionLogic = AccrualRateProjectionLogic.getInstance();
 
-    final AccrualRateSelectionDTO accrualRateSelectionDTO = new AccrualRateSelectionDTO();
+    protected final AccrualRateSelectionDTO accrualRateSelectionDTO = new AccrualRateSelectionDTO();
 
-    final ExtContainer<AccrualRateProjectionDTO> excelContainer = new ExtContainer<>(AccrualRateProjectionDTO.class);
+    protected final ExtContainer<AccrualRateProjectionDTO> excelContainer = new ExtContainer<>(AccrualRateProjectionDTO.class);
     private CustomTableHeaderDTO excelHeaderDTO;
 
     private boolean isFilterLoadNeeded = true;

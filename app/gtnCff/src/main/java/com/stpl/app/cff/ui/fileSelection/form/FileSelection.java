@@ -5,7 +5,7 @@
 package com.stpl.app.cff.ui.fileSelection.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.app.cff.util.StringConstantsUtil;
+import com.stpl.app.cff.dao.CommonServiceImpl;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.lazyLoad.FileSelectionTableLogic;
 import com.stpl.app.cff.logic.CFFLogic;
@@ -16,33 +16,33 @@ import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionDTO;
 import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionTableGenerator;
 import com.stpl.app.cff.util.CommonUtils;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.ImtdIfpDetailsLocalServiceUtil;
+import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.TableResultCustom;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.converter.StringToDateConverter;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.drools.core.util.StringUtils;
-import com.stpl.ifs.ui.CommonSecurityLogic;
 import org.jboss.logging.Logger;
 
 /**
@@ -51,17 +51,17 @@ import org.jboss.logging.Logger;
  */
 public class FileSelection extends CustomComponent {
 
-    private FileSelectionTableLogic tableLogic = new FileSelectionTableLogic();
+    private final FileSelectionTableLogic tableLogic = new FileSelectionTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private VerticalLayout layout = new VerticalLayout();
-    private BeanItemContainer<FileSelectionDTO> searchContainer = new BeanItemContainer<>(FileSelectionDTO.class);
-    private SessionDTO sessionDTO;
-    private Button excelExport = new Button();
-    private CFFLogic cffLogic = new CFFLogic();
-    private SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
+    private final VerticalLayout layout = new VerticalLayout();
+    private final BeanItemContainer<FileSelectionDTO> searchContainer = new BeanItemContainer<>(FileSelectionDTO.class);
+    private final SessionDTO sessionDTO;
+    private final Button excelExport = new Button();
+    private final CFFLogic cffLogic = new CFFLogic();
+    private final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
     private static final Logger LOGGER = Logger.getLogger(FileSelection.class);
-    private ComboBox businessUnit;
-    private CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    private final ComboBox businessUnit;
+    private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
 
     public FileSelection(SessionDTO sessionDTO, ComboBox businessUnit) {
         this.setCompositionRoot(addComponent());
@@ -127,6 +127,7 @@ public class FileSelection extends CustomComponent {
                  *
                  * @param event - Mouse Click event
                  */
+                @Override
                 public void buttonClick(final Button.ClickEvent event) {
                     try {
                         LOGGER.debug("Entering EXCEL Export Button Click");
@@ -158,7 +159,6 @@ public class FileSelection extends CustomComponent {
         excelExport.setDescription("Export to excel");
         excelExport.setIconAlternateText("Excel export");
         excelExport.setHtmlContentAllowed(true);
-        excelExport.setImmediate(true);
         layout.addComponent(resultsTable);
         HorizontalLayout controls = tableLogic.createControls();
         HorizontalLayout controlLayout = CommonLogic.getResponsiveControls(controls);
@@ -256,7 +256,7 @@ public class FileSelection extends CustomComponent {
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
         List<Object> resultList = new ArrayList<>();
         try {
-            resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
+            resultList = CommonServiceImpl.getInstance().fetchFieldsForSecurity(moduleName, tabName);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }

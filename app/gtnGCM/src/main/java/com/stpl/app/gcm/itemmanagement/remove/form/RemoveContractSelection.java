@@ -24,13 +24,12 @@ import java.util.List;
  */
 public class RemoveContractSelection extends CustomComponent {
 
-    VerticalLayout mainLayout = new VerticalLayout();
-    SelectionDTO selection;
-    List selectedItemList;
-    AbstractComponentInfo componentDetails;
-    RemoveContractSearch contractSearch;
-    AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
-    final StplSecurity stplSecurity = new StplSecurity();
+    private VerticalLayout mainLayout = new VerticalLayout();
+    private SelectionDTO selection;
+    private List selectedItemList;
+    private AbstractComponentInfo componentDetails;
+    private RemoveContractSearch contractSearch;
+    private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
 
     public RemoveContractSelection(SelectionDTO selection, List selectedItemList) {
         try {
@@ -56,6 +55,7 @@ public class RemoveContractSelection extends CustomComponent {
              * Method called when available results value is changed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }

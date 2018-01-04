@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.jboss.logging.Logger;
@@ -609,7 +610,7 @@ public final class AccrualRateProjectionLogic {
                 }
                 statement.execute();
             }
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         } finally {
             try {

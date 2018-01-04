@@ -7,22 +7,19 @@ package com.stpl.app.cff.abstractCff;
 import static com.stpl.app.cff.util.Constants.LabelConstants.RESULTS;
 import static com.stpl.app.cff.util.Constants.LabelConstants.VIEW_NAME;
 import static com.stpl.app.cff.util.Constants.LabelConstants.VIEW_SEARCH;
-
-import java.util.ResourceBundle;
-
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-
 import com.stpl.app.cff.util.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.ResourceBundle;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 /**
  *
@@ -112,6 +109,7 @@ public abstract class AbstractViewLookup extends Window {
 		HorizontalLayout searchButtonsLayout = (HorizontalLayout) UiUtils.getLayout(new HorizontalLayout());
 		btnSearch.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnSearchLogic();
 			}
@@ -154,12 +152,14 @@ public abstract class AbstractViewLookup extends Window {
 		HorizontalLayout footerButtonsLayout = (HorizontalLayout) UiUtils.getLayout(new HorizontalLayout());
 		btnSelect.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnSelectLogic();
 			}
 		});
 		btnClose.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnCloseLogic();
 			}

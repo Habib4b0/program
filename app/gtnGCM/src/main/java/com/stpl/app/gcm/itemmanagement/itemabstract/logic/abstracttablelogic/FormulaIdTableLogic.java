@@ -18,10 +18,10 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class FormulaIdTableLogic extends PageTableLogic {
 
-    FormulaDTO binderDto = new FormulaDTO();
-    SelectionDTO selection;
-    boolean generate = true;
-    AbstractLogic logic = AbstractLogic.getInstance();
+    private FormulaDTO binderDto = new FormulaDTO();
+    private SelectionDTO selection;
+    private boolean generate = true;
+    private final AbstractLogic logic = AbstractLogic.getInstance();
 
     @Override
     public int getCount() {

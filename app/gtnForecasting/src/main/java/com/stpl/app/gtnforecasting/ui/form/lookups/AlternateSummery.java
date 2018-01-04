@@ -217,7 +217,7 @@ public class AlternateSummery extends CustomComponent {
             addComponent();
             configurefields();
             init();
-        } catch (Exception ex) {
+        } catch (PortalException ex) {
 
             LOGGER.error(ex);
         }

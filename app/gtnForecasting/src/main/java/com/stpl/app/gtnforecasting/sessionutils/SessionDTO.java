@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,7 +73,7 @@ public class SessionDTO implements Serializable {
     private String dedRelationshipBuilderSid = StringUtils.EMPTY;
     private Map<String, String> customerDescription = new HashMap<>();
     private Map<String, String> productDescription = new HashMap<>();
-    private Map<String, List> hierarchyLevelDetails = new HashMap<>();
+    private Map<String, List> hierarchyLevelDetails = new LinkedHashMap<>();
     private int customerHierarchyId;
     private int productHierarchyId;
     private int customerRelationId;
@@ -121,11 +122,11 @@ public class SessionDTO implements Serializable {
     private String screenName = StringUtils.EMPTY;
     private int customId;
     private Set<String> salesgroupSet;
-    boolean sprRefreshReqd = false;
-    boolean isProgramCategory = true;
+    private boolean sprRefreshReqd = false;
+    private boolean isProgramCategory = true;
     private Set<String> discountgroupSet;
     private List<List<String>> discountRSlist = new ArrayList<>();
-    boolean discountRSlistUpdated = false;
+    private boolean discountRSlistUpdated = false;
     private List<List<String>> discountlist = new ArrayList<>();
     private List<CustomViewMaster> customerViewList = new ArrayList<>();
     private final List<Thread> threadList = new ArrayList<>();
@@ -138,8 +139,8 @@ public class SessionDTO implements Serializable {
     private boolean prRefreshReqd = false;
     private int maximumCustomerLevel;
     private int maximumProductLevel;
-    List<String> selectedCustomerRelationSid;
-    List<String> selectedProductRelationSid;
+    protected List<String> selectedCustomerRelationSid;
+    protected List<String> selectedProductRelationSid;
     private String currentActiveFile = null;
     private String fileName = StringUtils.EMPTY;
     private String fileType = StringUtils.EMPTY;
@@ -158,7 +159,7 @@ public class SessionDTO implements Serializable {
     private boolean actualAdjustment = false;
     private String actualAdjustmentPeriods = StringUtils.EMPTY;
     private boolean isDeductionCustom = false;
-    List<String> selectedRsForCustom;
+    protected List<String> selectedRsForCustom;
     private int selectedDeductionLevelNo;
     private int selectedDeductionLevelNoPv;
     private int customerLastLevelNo;
@@ -308,14 +309,15 @@ public class SessionDTO implements Serializable {
         this.hierarchyLevelDetails.putAll(deductionLevelDetails);
     }
 
-    public void setHierarchyLevelDetails(Map<String, List> hierarchyLevelDetails) {
-        this.hierarchyLevelDetails = hierarchyLevelDetails;
-    }
-    public Map<String, List> getHierarchyLevelDetails() {
-        return Collections.unmodifiableMap(hierarchyLevelDetails);
-    }
+	public Map<String, List> getHierarchyLevelDetails() {
+		return hierarchyLevelDetails;
+	}
 
-    public Date getCurrentDate() {
+	public void setHierarchyLevelDetails(Map<String, List> hierarchyLevelDetails) {
+		this.hierarchyLevelDetails = hierarchyLevelDetails;
+	}
+
+	public Date getCurrentDate() {
         return currentDate;
     }
 

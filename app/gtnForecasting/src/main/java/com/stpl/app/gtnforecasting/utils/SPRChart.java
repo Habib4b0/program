@@ -34,19 +34,19 @@ public class SPRChart {
     /**
      * The annual.
      */
-    public static String annual = "Annual";
+    protected static String annual = "Annual";
     /**
      * The semi annual.
      */
-    public static String semiAnnual = "semi-Annual";
+    protected static String semiAnnual = "semi-Annual";
     /**
      * The month.
      */
-    public static String month = "monthly";
+    protected static String month = "monthly";
     /**
      * The quarter.
      */
-    public static String quarter = "quarterly";
+    protected static String quarter = "quarterly";
     /**
      * The dto.
      */
@@ -58,14 +58,14 @@ public class SPRChart {
     /**
      * The history.
      */
-    public String history;
+    protected String history;
 
-    CustomTableHeaderDTO rightDto;
+    protected CustomTableHeaderDTO rightDto;
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(SPRChart.class);
-    ProjectionSelectionDTO projSelDTO;
+    protected ProjectionSelectionDTO projSelDTO;
 
     /**
      * The Constructor.

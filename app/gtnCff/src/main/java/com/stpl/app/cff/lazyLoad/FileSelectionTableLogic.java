@@ -7,8 +7,8 @@ package com.stpl.app.cff.lazyLoad;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 import org.jboss.logging.Logger;
@@ -19,7 +19,7 @@ import org.jboss.logging.Logger;
  */
 public class FileSelectionTableLogic extends PageTableLogic {
     private static final Logger LOGGER = Logger.getLogger(FileSelectionTableLogic.class);
-    private CFFLogic logic=new CFFLogic();
+    private final CFFLogic logic=new CFFLogic();
     private List<FileSelectionDTO> list;
     private boolean iscount=false;
     private SessionDTO sessionDTO;

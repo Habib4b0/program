@@ -5,17 +5,17 @@
  */
 package com.stpl.app.cff.ui.projectionVariance.dto;
 
+import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.logic.CommonLogic;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.TextField;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.TextField;
 import java.util.List;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
-import com.stpl.app.cff.dto.ProjectionSelectionDTO;
-import com.stpl.ifs.ui.util.NumericConstants;
 
 /**
  *
@@ -23,8 +23,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
  */
 public class FilterGenerator implements ExtFilterGenerator {
 
-    private ProjectionSelectionDTO projectionSelectionDTO;
-    private boolean isTotal;
+    private final ProjectionSelectionDTO projectionSelectionDTO;
+    private final boolean isTotal;
 
     public FilterGenerator(ProjectionSelectionDTO projectionSelectionDTO, boolean isTotal) {
         this.projectionSelectionDTO = projectionSelectionDTO;

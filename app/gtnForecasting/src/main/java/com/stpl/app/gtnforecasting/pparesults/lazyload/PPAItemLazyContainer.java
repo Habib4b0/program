@@ -28,15 +28,15 @@ public class PPAItemLazyContainer implements DAO<PPAHelperDTO>{
      */
     private static final Logger LOGGER = Logger.getLogger(PPAItemLazyContainer.class);
     
-    PPAProjectionResultsLogic logic= new PPAProjectionResultsLogic();
+    protected PPAProjectionResultsLogic logic= new PPAProjectionResultsLogic();
     
-     String ddlbType= StringUtils.EMPTY;
-    PPADetailsDTO ppaDetailsDTO;
+    protected String ddlbType= StringUtils.EMPTY;
+    protected PPADetailsDTO ppaDetailsDTO;
     
     private final PPAHelperDTO defaultDTO = new PPAHelperDTO(0, Constant.SELECT_ONE,Constant.SELECT_ONE);
     
     
-    int count;
+    protected int count;
     
     public PPAItemLazyContainer(final String ddlbType,final PPADetailsDTO ppaDetailsDTO) {
         this.ddlbType=ddlbType;

@@ -5,10 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import com.stpl.app.gtnforecasting.logic.SalesProjectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import static com.stpl.app.gtnforecasting.utils.Constant.STRING_EMPTY;
-import com.stpl.ifs.ui.util.NumericConstants;
 //import com.vaadin.addon.charts.Chart;
 //import com.vaadin.addon.charts.model.ChartType;
 //import com.vaadin.addon.charts.model.Configuration;
@@ -23,15 +20,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 //import com.vaadin.addon.charts.model.YAxis;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.HorizontalLayout;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
 /**

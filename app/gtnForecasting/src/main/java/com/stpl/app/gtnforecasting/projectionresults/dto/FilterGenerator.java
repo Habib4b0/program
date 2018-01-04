@@ -25,9 +25,9 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
  */
 public class FilterGenerator implements ExtFilterGenerator {
 
-    SessionDTO session;
-    boolean isTotal;
-    ComboBox group = null;
+    protected SessionDTO session;
+    protected boolean isTotal;
+    protected ComboBox group = null;
 
     public FilterGenerator(SessionDTO session, boolean isTotal) {
         this.session = session;

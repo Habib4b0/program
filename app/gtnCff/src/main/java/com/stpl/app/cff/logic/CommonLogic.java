@@ -1,42 +1,45 @@
 
 package com.stpl.app.cff.logic;
 
-import com.stpl.app.cff.util.StringConstantsUtil;
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dao.CFFDAO;
 import com.stpl.app.cff.dao.CommonDAO;
-import com.stpl.app.cff.dao.SalesProjectionDAO;
 import com.stpl.app.cff.dao.impl.CFFDAOImpl;
 import com.stpl.app.cff.dao.impl.CommonDAOImpl;
-import com.stpl.app.cff.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.queryUtils.CFFQueryUtils;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
+import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import static com.stpl.app.cff.util.ConstantsUtil.SELECT_ONE;
 import com.stpl.app.cff.util.NotificationUtils;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
-import com.stpl.app.model.ChProjectionSelection;
 import com.stpl.app.model.CustomViewDetails;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.model.MProjectionSelection;
-import com.stpl.app.model.NmProjectionSelection;
-import com.stpl.app.model.RelationshipLevelDefinition;
 import com.stpl.app.parttwo.model.CffCustomViewDetails;
 import com.stpl.app.parttwo.model.CffCustomViewMaster;
 import com.stpl.app.parttwo.service.CffCustomViewDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffCustomViewMasterLocalServiceUtil;
+import com.stpl.app.service.ChProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.CustomViewDetailsLocalServiceUtil;
-import com.stpl.app.service.CustomViewMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyServiceImpl;
@@ -44,19 +47,11 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.HorizontalLayout;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -97,7 +92,7 @@ public class CommonLogic {
     public static final String BUILDERSID = "@BUILDERSID";
     public static final String EACH = "EACH";
     
-    private static GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
+    private static final GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
 
     /**
      * Get Customer Hierarchy
@@ -190,7 +185,7 @@ public class CommonLogic {
     public static List<CffCustomViewMaster> getCustomViewList(int projectionId) {
         List<CffCustomViewMaster> list = null;
         try {
-            DynamicQuery query = DynamicQueryFactoryUtil.forClass(CffCustomViewMaster.class);
+            DynamicQuery query = CffCustomViewMasterLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq("cffMasterSid", projectionId));
             list = commonDao.getCustomViewList(query);
         } catch (SystemException ex) {
@@ -256,7 +251,8 @@ public class CommonLogic {
             Date date = new Date();
             if (customId == 0) {
                 try {
-                    CffCustomViewMaster customViewMaster = CffCustomViewMasterLocalServiceUtil.createCffCustomViewMaster(0);
+                    int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                    CffCustomViewMaster customViewMaster = CffCustomViewMasterLocalServiceUtil.createCffCustomViewMaster(create);
                     customViewMaster.setCffMasterSid(session.getProjectionId());
                     customViewMaster.setViewName(viewName);
                     customViewMaster.setCreatedBy(userId);
@@ -360,7 +356,7 @@ public class CommonLogic {
     public static List<CustomViewMaster> getCustomViewforViewName(int projectionId, String viewName, int customId) {
         List<CustomViewMaster> list = null;
         try {
-            DynamicQuery query = DynamicQueryFactoryUtil.forClass(CffCustomViewMaster.class);
+            DynamicQuery query = CffCustomViewMasterLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq("cffMasterSid", projectionId));
             query.add(RestrictionsFactoryUtil.eq("viewName", viewName));
             if (customId != 0) {
@@ -377,7 +373,8 @@ public class CommonLogic {
     public static boolean customViewDetailsSaveLogic(int customId, List levelList) throws SystemException  {
         for (Object ob : levelList) {
             Leveldto dto = (Leveldto) ob;
-            CffCustomViewDetails customViewDetails = CffCustomViewDetailsLocalServiceUtil.createCffCustomViewDetails(0);
+            int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+            CffCustomViewDetails customViewDetails = CffCustomViewDetailsLocalServiceUtil.createCffCustomViewDetails(create);
             customViewDetails.setCffCustomViewMasterSid(customId);
             customViewDetails.setHierarchyId(dto.getHierarchyId());
             customViewDetails.setHierarchyIndicator(dto.getHierarchyIndicator());
@@ -414,7 +411,7 @@ public class CommonLogic {
     public static List<CffCustomViewDetails> getCustomViewDetails(int customId) {
         List<CffCustomViewDetails> list = null;
         try {
-            DynamicQuery query = DynamicQueryFactoryUtil.forClass(CffCustomViewDetails.class);
+            DynamicQuery query = CffCustomViewDetailsLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq("cffCustomViewMasterSid", customId));
             query.addOrder(OrderFactoryUtil.asc(StringConstantsUtil.LEVEL_NO));
             list = commonDao.getCustomViewDetailsList(query);
@@ -458,9 +455,7 @@ public class CommonLogic {
         if (customViewMasterSid != 0) {
             try {
                 cvm = commonDao.getCustomView(customViewMasterSid);
-            } catch (SystemException ex) {
-                LOGGER.error(ex);
-            } catch (PortalException ex) {
+            } catch (SystemException | PortalException ex) {
                 LOGGER.error(ex);
             }
         }
@@ -580,7 +575,7 @@ public class CommonLogic {
     public static List getRelationshipLevels(int hierarchyLevelId) {
         List list = null;
         try {
-            DynamicQuery query = DynamicQueryFactoryUtil.forClass(RelationshipLevelDefinition.class);
+            DynamicQuery query = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
             ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
             projectionListFrom.add(ProjectionFactoryUtil.property("levelName"));
@@ -862,23 +857,6 @@ public class CommonLogic {
         return discountlist;
     }
 
-    public static List<Leveldto> getLevelListDiscount(int projectionId, String hierarchyIndicator, int levelNo, int hierarchyId) {
-        List<Leveldto> listValue = new ArrayList<>();
-        try {
-            List list = CustomViewMasterLocalServiceUtil.getHierarchyLevelsForDiscount(projectionId, hierarchyIndicator, levelNo, hierarchyId);
-            if (list != null && !list.isEmpty()) {
-                for (Object list1 : list) {
-                    final Object[] obj = (Object[]) list1;
-                    Leveldto dto = getCustomizedDiscountView(obj, hierarchyIndicator, false);
-                    listValue.add(dto);
-                }
-            }
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-        }
-        return listValue;
-    }
-
     /**
      * Gets the Customized View
      *
@@ -913,7 +891,7 @@ public class CommonLogic {
      * @param screenName
      */
     public static void saveProjectionSelection(int projectionID, String screenName) {
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(NmProjectionSelection.class);
+        DynamicQuery query = NmProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PROJECTION_MASTER_SID, projectionID));
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.SCREEN_NAME, screenName));
         try {
@@ -932,7 +910,7 @@ public class CommonLogic {
      */
     public void saveProjectionSelectionMandatedDiscountProjection(Map map, int projectionID, String screenName) {
         List<MProjectionSelection> list = new ArrayList<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(MProjectionSelection.class);
+        DynamicQuery query = MProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PROJECTION_MASTER_SID, projectionID));
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.SCREEN_NAME, screenName));
         try {
@@ -986,7 +964,7 @@ public class CommonLogic {
     public static Map<Object, Object> getCHProjectionSelection(final int projectionId, final String screenName) {
         List<Object[]> list = new ArrayList<>();
         Map<Object, Object> map = new HashMap<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(ChProjectionSelection.class);
+        DynamicQuery query = ChProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PROJECTION_MASTER_SID, projectionId));
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.SCREEN_NAME, screenName));
         ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
@@ -1065,34 +1043,11 @@ public class CommonLogic {
      */
     public static Object executeSelectQuery(String query, Object udc1, Object udc2) {
 
-        return commonDao.executeSelectQuery(query, udc1, udc2);
+        return commonDao.executeSelectQuery(query);
 
     }
 
-    /**
-     * Gets the DiscountNo.
-     *
-     * @param projectionId
-     * @param priceGroupType
-     * @return object
-     */
-    public static Object executeBulkUpdateQuery(String query, Object udc1, Object udc2) {
-        return commonDao.executeBulkUpdateQuery(query, udc1, udc2);
-    }
-
-    /**
-     * Gets the DiscountNo.
-     *
-     * @param projectionId
-     * @param priceGroupType
-     * @return object
-     */
-    public static Object executeUpdateQuery(List<?> nmSalesList, Object udc1, Object udc2, Object udc3) {
-
-        return commonDao.executeUpdateQuery(nmSalesList, udc1, udc2, udc3);
-    }
-
-    public static List<String> getCommonSelectWhereOrderGroupByClause(String table1, String table2, String where) {
+      public static List<String> getCommonSelectWhereOrderGroupByClause(String table1, String table2, String where) {
         List<String> list = new ArrayList<>();
         String orderBy = " YEARS, PERIODS";
         String groupBy = " " + table1 + StringConstantsUtil.DOT_YEARS;
@@ -1482,7 +1437,7 @@ public class CommonLogic {
     public static Map<Object, Object> getMProjectionSelection(final int projectionId, final String screenName) {
         List<Object[]> list = new ArrayList<>();
         Map<Object, Object> map = new HashMap<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(MProjectionSelection.class);
+        DynamicQuery query = MProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PROJECTION_MASTER_SID, projectionId));
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.SCREEN_NAME, screenName));
         ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
@@ -1548,7 +1503,7 @@ public class CommonLogic {
     public static String getIndicator(int levelNo, int viewName) {
         List<CustomViewDetails> list = null;
         String indicator = "";
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(CustomViewDetails.class);
+        DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.CUSTOM_VIEW_MASTER_SID, viewName));
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.LEVEL_NO, levelNo));
         try {
@@ -1567,7 +1522,7 @@ public class CommonLogic {
 
     public static int getIndicatorCount(int viewName) {
         List<CustomViewDetails> list = null;
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(CustomViewDetails.class);
+        DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.CUSTOM_VIEW_MASTER_SID, viewName));
         try {
             list = commonDao.getCustomViewDetailsList(query);
@@ -1713,21 +1668,17 @@ public class CommonLogic {
         for (Map.Entry<String, String> entry : map.entrySet()) {
             query.append("INSERT \n" + "INTO\n" + "").append(tableName).append("\n" + "	(CFF_MASTER_SID, SCREEN_NAME, FIELD_NAME, FIELD_VALUES)\n" + "VALUES\n" + "	(").append(projectionID).append(", '").append(tabName).append("', '").append(entry.getKey()).append("', '").append(entry.getValue()).append("');\n");
         }
-
-        SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-        salesProjectionDAO.executeUpdateQuery(query.toString());
-
+        HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
     }
 
     public List<HelperDTO> getDropDownList(final String listType) {
         final List<HelperDTO> helperList = new ArrayList<>();
         try {
-            SalesProjectionDAO dao = new SalesProjectionDAOImpl();
             LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
-            final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+            final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
             cfpDynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like("listName", listType), RestrictionsFactoryUtil.like("listName", "ALL")));
             cfpDynamicQuery.addOrder(OrderFactoryUtil.asc("description"));
-            final List<HelperTable> list = dao.getHelperTableList(cfpDynamicQuery);
+            final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(cfpDynamicQuery);
             helperList.add(new HelperDTO(0, "-Select One-"));
             if (list != null) {
                 for (int i = 0; i < list.size(); i++) {
@@ -1740,8 +1691,6 @@ public class CommonLogic {
 
             LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
         } catch (SystemException ex) {
             LOGGER.error(ex);
         }
@@ -1752,8 +1701,7 @@ public class CommonLogic {
         String tableName = "CFF_SELECTION";
         StringBuilder query = new StringBuilder();
         query.append("SELECT FIELD_NAME, FIELD_VALUES FROM ").append(tableName).append("\n" + "WHERE CFF_MASTER_SID = ").append(projectionSelectionDTO.getProjectionId()).append("\n AND SCREEN_NAME LIKE '").append(tabName).append("';\n");
-        SalesProjectionDAO dao = new SalesProjectionDAOImpl();
-        List<Object[]> resultlist = (List) dao.executeSelectQuery(query.toString());
+        List<Object[]> resultlist = (List) HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
         Map<String, String> resultmap = new HashMap<>();
         for (Object[] list1 : resultlist) {
             resultmap.put((String) list1[0], (String) list1[1]);
@@ -1847,7 +1795,7 @@ public class CommonLogic {
     public static List getRelationshipLevelsMan(int hierarchyLevelId) {
         List list = null;
         try {
-            DynamicQuery query = DynamicQueryFactoryUtil.forClass(RelationshipLevelDefinition.class);
+            DynamicQuery query = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
             ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
             projectionListFrom.add(ProjectionFactoryUtil.property("levelName"));
@@ -1869,7 +1817,7 @@ public class CommonLogic {
     public static List<CustomViewDetails> getCustomViewDetailsMan(int customId) {
         List<CustomViewDetails> list = null;
         try {
-            DynamicQuery query = DynamicQueryFactoryUtil.forClass(CustomViewDetails.class);
+            DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.CUSTOM_VIEW_MASTER_SID, customId));
             query.addOrder(OrderFactoryUtil.asc(StringConstantsUtil.LEVEL_NO));
             list = CustomViewDetailsLocalServiceUtil.dynamicQuery(query);
@@ -1990,7 +1938,7 @@ public class CommonLogic {
         Map<Object, Object> map = new HashMap<>();
         query = "select Field_Name,Field_Values from RETURNS_PROJECTION_SELECTION\n"
                 + "where Projection_Master_Sid=" + projectionId + ";";
-            list = (List) commonDao.executeSelectQuery(query, null, null);
+            list = (List) commonDao.executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
                     Object[] obj = (Object[]) list.get(i);
@@ -2542,6 +2490,7 @@ public class CommonLogic {
 
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
+        int i=1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if (Integer.valueOf(entry.getValue().get(NumericConstants.TWO).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(NumericConstants.FOUR).toString()) 
                     && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
@@ -2551,7 +2500,7 @@ public class CommonLogic {
                     }
                     stringBuilder.append("('");
                     stringBuilder.append(entry.getKey());
-                    stringBuilder.append("')");
+                    stringBuilder.append("'," + i++ + ")");
 
                     isNotFirstElement = true;
             }
@@ -2999,18 +2948,17 @@ public class CommonLogic {
     }
      
        public static List<Object[]> getCustomerLevelValues(int projectionId, String type, PVSelectionDTO projDto) {
-        SalesProjectionDAO salesProjectionDao = new SalesProjectionDAOImpl();
         String maintableName = "CONTRACT_MASTER";
         String companyMaster = StringConstantsUtil.COMPANY_MASTER;
         List<Object[]> stockList = new ArrayList<>();
         List tableFieldNameList = new ArrayList<>();
         try {
-            tableFieldNameList = (List) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("sales-filter-customer")
+            tableFieldNameList = (List) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil.getQuery("sales-filter-customer")
                     .replace(StringConstantsUtil.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
                     .replace(LEVEL_CAPS, type));
           if(!tableFieldNameList.isEmpty()){
             
-            String userDefined= userDefinedLevel(salesProjectionDao, projectionId, type,"C");
+            String userDefined= userDefinedLevel(projectionId, type,"C");
             Object[] tableFieldName = (Object[]) tableFieldNameList.get(0);
 
             String fieldName = String.valueOf(tableFieldName[0]);
@@ -3050,29 +2998,26 @@ public class CommonLogic {
                     +" JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
           
             
-            stockList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query,projDto.getSessionDTO().getCurrentTableNames()));
+            stockList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query,projDto.getSessionDTO().getCurrentTableNames()));
             }
             return stockList;
 
 
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return stockList;
     }
 
     public static List<Object[]> getProductLevelValues(int projectionId, String type, PVSelectionDTO projectionDto) {
-        SalesProjectionDAO salesProjectionDao = new SalesProjectionDAOImpl();
         List stockList = new ArrayList<>();
         List tableFieldNameList = new ArrayList<>();
         try {
-            tableFieldNameList = (List) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("sales-filter-product")
+            tableFieldNameList = (List) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil.getQuery("sales-filter-product")
                     .replace(StringConstantsUtil.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId)).replace(LEVEL_CAPS, type));
             Object[] tableFieldName = (Object[]) tableFieldNameList.get(0);
             
-            String userDefined= userDefinedLevel(salesProjectionDao, projectionId, type,"P");
+            String userDefined= userDefinedLevel(projectionId, type,"P");
             String fieldName = String.valueOf(tableFieldName[0]);
             String tableName = String.valueOf(tableFieldName[1]);
             String mainTableName = "ITEM_MASTER";
@@ -3099,19 +3044,16 @@ public class CommonLogic {
                             .replace(StringConstantsUtil.DEDRELBUILDSID, projectionDto.getSessionDTO().getDedRelationshipBuilderSid()) + query +" JOIN ST_CCP_DEDUCTION_HIERARCHY SDPM ON SDPM.CCP_DETAILS_SID=ST_CCP_HIERARCHY.CCP_DETAILS_SID "
                     +" JOIN #HIER_DEDUCTION_PROD HD ON SDPM.DEDUCTION_HIERARCHY_NO LIKE HD.HIERARCHY_NO+'%' ");
             
-            stockList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query,projectionDto.getSessionDTO().getCurrentTableNames()));
+            stockList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query,projectionDto.getSessionDTO().getCurrentTableNames()));
             return stockList;
 
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return stockList;
     }
     
     public static List<Object[]> getDeductionLevelValues(String type, PVSelectionDTO projectionDto) {
-        SalesProjectionDAO salesProjectionDao = new SalesProjectionDAOImpl();
         List deductionValuesList = new ArrayList<>();
         StringBuilder query=new StringBuilder();
         String selectClause=" HT.DESCRIPTION,HT.HELPER_TABLE_SID ";
@@ -3180,19 +3122,17 @@ public class CommonLogic {
             }
             query.append(" GROUP BY ").append(selectClause);
             
-            deductionValuesList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(),projectionDto.getSessionDTO().getCurrentTableNames()));
+            deductionValuesList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(),projectionDto.getSessionDTO().getCurrentTableNames()));
 
         } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
             LOGGER.error(ex);
         }
         return deductionValuesList;
     }
 
-    public static String userDefinedLevel(SalesProjectionDAO salesProjectionDao, int projectionId, String type,String indicator) throws SystemException, PortalException {
+    public static String userDefinedLevel(int projectionId, String type,String indicator) throws SystemException, PortalException {
         String hierarchySid=indicator.equals("P")?"PRODUCT_HIERARCHY_SID":"CUSTOMER_HIERARCHY_SID";
-        List<String> userDefinedList= (List<String>) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("user-defined-join")
+        List<String> userDefinedList= (List<String>) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil.getQuery("user-defined-join")
                 .replace(StringConstantsUtil.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
                 .replace(LEVEL_CAPS, type).replace(StringConstantsUtil.HIERARCHY_SID_AT, hierarchySid));
        
@@ -3200,8 +3140,7 @@ public class CommonLogic {
     }
 
     private static String getPrimaryKeyColumn(String mainTableName) throws SystemException, PortalException {
-        SalesProjectionDAO salesProjectionDao = new SalesProjectionDAOImpl();
-        List primaryKeyList = (List) salesProjectionDao.executeSelectQuery(SQlUtil.getQuery("primary-Key").replace("@TABLENAME", mainTableName));
+        List primaryKeyList = (List) HelperTableLocalServiceUtil.executeSelectQuery(SQlUtil.getQuery("primary-Key").replace("@TABLENAME", mainTableName));
         return String.valueOf(primaryKeyList.get(0));
     }
 
@@ -3286,13 +3225,10 @@ public class CommonLogic {
     public static List<String[]> getDeductionLevel(int projectionId) {
         List<String[]> deductionList = new ArrayList<>();
         try {
-            SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             LOGGER.debug("projectionId " + projectionId);
             String levelQuery = SQlUtil.getQuery("deduction-loading").replace("@PROJID", String.valueOf(projectionId));
-            deductionList = (List<String[]>) salesProjectionDAO.executeSelectQuery(levelQuery);
+            deductionList = (List<String[]>) HelperTableLocalServiceUtil.executeSelectQuery(levelQuery);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
             LOGGER.error(ex);
         }
         return deductionList;

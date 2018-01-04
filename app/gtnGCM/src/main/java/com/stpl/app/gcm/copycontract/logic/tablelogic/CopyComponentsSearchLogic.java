@@ -22,11 +22,11 @@ import org.slf4j.LoggerFactory;
  */
 public class CopyComponentsSearchLogic extends PageTableLogic {
 
-    String Query = StringUtils.EMPTY;
-    boolean generate = false;
-    String Component = StringUtils.EMPTY;
-    CopyContractLogic logic = new CopyContractLogic();
-    int count;
+    private String Query = StringUtils.EMPTY;
+    private boolean generate = false;
+    private String Component = StringUtils.EMPTY;
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private int count;
     private static final Logger LOGGER = LoggerFactory.getLogger(CopyComponentsSearchLogic.class);
 
     @Override

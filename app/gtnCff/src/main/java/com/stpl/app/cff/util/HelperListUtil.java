@@ -5,17 +5,14 @@
  */
 package com.stpl.app.cff.util;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.model.HelperTable;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,7 +33,7 @@ public class HelperListUtil {
      * The object.
      */
     private static HelperListUtil object;
-    private ResourceBundle listNameBundle = ResourceBundle.getBundle("properties.listname");
+    private final ResourceBundle listNameBundle = ResourceBundle.getBundle("properties.listname");
     /**
      * The id desc map.
      */
@@ -103,12 +100,11 @@ public class HelperListUtil {
         if (listNames != null && !listNames.isEmpty()) {
             try {
                 List<HelperDTO> helperList = null;
-                final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil
-                        .forClass(HelperTable.class);
-                dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.LIST_NAME,
+                final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
+                dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtil.LIST_NAME,
                         listNames));
-                dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.LIST_NAME));
-                dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
+                dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtil.LIST_NAME));
+                dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtil.DESCRIPTION));
                 final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
                 if (list != null) {
                     String currentListName = StringUtils.EMPTY;
@@ -206,8 +202,8 @@ public class HelperListUtil {
     public void loadBusinessUnitValues() {
         try {
             List<HelperDTO> helperList = new ArrayList<>();
-            String query = CustomSQLUtil.get("loadBusinessUnitInWorkflow");
-            final List list = CompanyMasterLocalServiceUtil.executeQuery(query);
+            String query = SQlUtil.getQuery("loadBusinessUnitInWorkflow");
+            final List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (list != null) {
                 String currentListName = "Business_Unit";
                 for (int i = 0; i < list.size(); i++) {
@@ -250,16 +246,15 @@ public class HelperListUtil {
     }
     
     public void loadValuesWithid( List<String> listNames) {
-        idHelperDTOMap.put(0, new HelperDTO(0, ConstantsUtils.SELECT_ONE));
+        idHelperDTOMap.put(0, new HelperDTO(0, ConstantsUtil.SELECT_ONE));
         if (listNames != null && !listNames.isEmpty()) {
             try {
                 List<HelperDTO> helperList = null;
-                final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil
-                        .forClass(HelperTable.class);
-                dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.LIST_NAME,
+                final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
+                dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtil.LIST_NAME,
                         listNames));
-                dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.LIST_NAME));
-                dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
+                dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtil.LIST_NAME));
+                dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtil.DESCRIPTION));
                 final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
                 if (list != null) {
                     String currentListName = StringUtils.EMPTY;

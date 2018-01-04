@@ -35,6 +35,7 @@ import com.stpl.app.utils.QueryUtils;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyServiceImpl;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -80,12 +81,11 @@ import org.asi.ui.custommenubar.MenuItemDTO;
 public class CommonLogic {
 
     private static final CommonDAO commonDao = new CommonDAOImpl();
-    private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     private static final CommonQueryUtils commonQueryUtil = new CommonQueryUtils();
-    private static final boolean viewFlag = false;
+    private static final boolean VIEW_FLAG = false;
     private static String screenName = StringUtils.EMPTY;
     public static final String CCPMAP = ") CCPMAP,";
-    final static Map<String, String> fileMap = new HashMap<>();
+    private final static Map<String, String> fileMap = new HashMap<>();
     public static final String LEVEL_CAPS = "@LEVEL";
     public static final String JOIN_SPACE = " JOIN";
     public static final String JOIN = " JOIN ";
@@ -98,7 +98,7 @@ public class CommonLogic {
     public static final String SALES = "SALES";
     public static final String INVALID_LEVEL_NO = "Invalid Level No:";
     
-    GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
+    private final GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
     /**
      * The Constant LOGGER.
      */
@@ -464,7 +464,7 @@ public class CommonLogic {
                 Object ob = list.get(0);
                 count = Integer.valueOf(String.valueOf(ob));
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex);
         }
         return count;
@@ -482,7 +482,7 @@ public class CommonLogic {
                 Object ob = list.get(0);
                 count = Integer.valueOf(String.valueOf(ob));
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex);
         }
         return count;
@@ -835,7 +835,7 @@ public class CommonLogic {
         LOGGER.info("Procedure Name " + procedureName);
         try {
 			return GtnSqlUtil.getResultFromProcedure(getQuery(procedureName, orderedArgs), orderedArgs);
-		} catch (Exception e) {
+		} catch (GtnFrameworkGeneralException e) {
 			LOGGER.error(e);
 		}
         return new ArrayList<>();
@@ -890,7 +890,7 @@ public class CommonLogic {
                 }
                 objList.add(str);
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             LOGGER.error(ex);
 
         } finally {
@@ -1094,7 +1094,7 @@ public class CommonLogic {
                 }
             }
             return map;
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return null;
@@ -1119,7 +1119,7 @@ public class CommonLogic {
                 }
             }
             return map;
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return null;
@@ -1660,7 +1660,7 @@ public class CommonLogic {
         String query = StringUtils.EMPTY;
         if (!userGroup.isEmpty() && !userGroup.equals(STRING_EMPTY)) {
             query = "JOIN "
-                    + (viewFlag ? "NM_SALES_PROJECTION_MASTER" : "ST_NM_SALES_PROJECTION_MASTER ")
+                    + (VIEW_FLAG ? "NM_SALES_PROJECTION_MASTER" : "ST_NM_SALES_PROJECTION_MASTER ")
                     + " SPMG ON SPMG.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  SPMG.USER_GROUP ='" + userGroup + "'";
         }
         return query;
@@ -1723,7 +1723,7 @@ public class CommonLogic {
         }
         String query = "   JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
         if (!isPrior && (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED).equals(screenName)) {
-            query += (viewFlag ? "" : getUserSessionQueryCondition(userId, sessionId, Constant.S));
+            query += (VIEW_FLAG ? "" : getUserSessionQueryCondition(userId, sessionId, Constant.S));
         }
         return query;
     }
@@ -1826,7 +1826,7 @@ public class CommonLogic {
                 Object ob = list.get(0);
                 levelNo = Integer.valueOf(String.valueOf(ob));
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.debug(ex);
         }
 
@@ -1853,7 +1853,7 @@ public class CommonLogic {
                 Object ob = list.get(0);
                 levelNo = Integer.valueOf(String.valueOf(ob));
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex);
         }
 
@@ -2003,7 +2003,7 @@ public class CommonLogic {
                 }
             }
             return map;
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return null;
@@ -2058,7 +2058,7 @@ public class CommonLogic {
         query.add(RestrictionsFactoryUtil.eq(LEVEL_NO, levelNo));
         try {
             list = commonDao.getCustomViewDetailsList(query);
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         if (list != null && !list.isEmpty()) {
@@ -2076,7 +2076,7 @@ public class CommonLogic {
         query.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, viewName));
         try {
             list = commonDao.getCustomViewDetailsList(query);
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return list.size();
@@ -2716,9 +2716,7 @@ public class CommonLogic {
                 if (!list.isEmpty()) {
                     periodSID = String.valueOf(list.get(0));
                 }
-            } catch (PortalException ex) {
-                LOGGER.error(ex);
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex);
             }
         } else {
@@ -2807,7 +2805,7 @@ public class CommonLogic {
             query.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, customId));
             query.addOrder(OrderFactoryUtil.asc(LEVEL_NO));
             list = CustomViewDetailsLocalServiceUtil.dynamicQuery(query);
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return list;
@@ -4134,18 +4132,19 @@ public class CommonLogic {
 
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
-
+        int i=1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
 
-                    if (isNotFirstElement) {
-                        stringBuilder.append(",\n");
-                    }
-                    stringBuilder.append("('");
-                    stringBuilder.append(entry.getKey());
-                    stringBuilder.append("')");
+            	
+                if (isNotFirstElement) {
+                    stringBuilder.append(",\n");
+                }
+                stringBuilder.append("('");
+                stringBuilder.append(entry.getKey());
+                stringBuilder.append("'," + i++ + ")");
+                isNotFirstElement = true;
 
-                    isNotFirstElement = true;
                 }
             }
         if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
@@ -4155,6 +4154,7 @@ public class CommonLogic {
         return stringBuilder.toString();
     }
     
+ 
     public String getSelectedHierarchyForExpand(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
 
         if (levelNo == 0) {
@@ -4164,9 +4164,10 @@ public class CommonLogic {
         Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
         StringBuilder stringBuilder = new StringBuilder();
 
+       
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
-
+        int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             int entryLevel = Integer.valueOf(entry.getValue().get(2).toString());
             if ((entryLevel >= levelNo) && (hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
@@ -4175,8 +4176,7 @@ public class CommonLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
-                stringBuilder.append("')");
-
+                stringBuilder.append("'," + i++ + ")");
                 isNotFirstElement = true;
             }
         }
@@ -4233,7 +4233,7 @@ public class CommonLogic {
         }
         String query = "  JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.CCP_DETAILS_SID=CH.CCP_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
         if (!isPrior && (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED).equals(screenName)) {
-            query += (viewFlag ? "" : getUserSessionQueryCondition(userId, sessionId, Constant.S));
+            query += (VIEW_FLAG ? "" : getUserSessionQueryCondition(userId, sessionId, Constant.S));
         }
         return query;
     }

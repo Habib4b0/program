@@ -37,6 +37,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.DefaultFieldFactory;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
@@ -446,7 +447,7 @@ public class Allocation extends CustomComponent implements View {
 
                     }
                     
-                } catch (Exception e) {
+                } catch (Property.ReadOnlyException e) {
                     LOGGER.error(e);
                 }
 
@@ -927,7 +928,10 @@ public class Allocation extends CustomComponent implements View {
         String from_val = session.getAltFromPeriod();
         String to_val = session.getAltToPeriod();
         String frequency_val = this.frequency.getValue().toString();
-        int startFrom, yearFrom, startTo, yearTo;
+        int startFrom;
+        int yearFrom;
+        int startTo;
+        int yearTo;
 
         if (Constant.ANNUALLY.equalsIgnoreCase(frequency_val)) {
             startFrom = 0;

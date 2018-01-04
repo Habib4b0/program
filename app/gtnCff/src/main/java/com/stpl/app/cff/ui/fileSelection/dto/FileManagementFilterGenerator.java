@@ -5,16 +5,16 @@
  */
 package com.stpl.app.cff.ui.fileSelection.dto;
 
+import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.logic.FileManagementLogic;
 import com.stpl.app.cff.util.CommonUtils;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Field;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.jboss.logging.Logger;
 
@@ -64,6 +64,7 @@ public class FileManagementFilterGenerator implements ExtFilterGenerator {
                      *
                      * @param event
                      */
+                    @Override
                     public void valueChange(final Property.ValueChangeEvent event) {
                         identifierType.setDescription(String.valueOf((Integer) identifierType.getValue()));
                     }
@@ -85,6 +86,7 @@ public class FileManagementFilterGenerator implements ExtFilterGenerator {
                      *
                      * @param event
                      */
+                    @Override
                     public void valueChange(final Property.ValueChangeEvent event) {
                         brand.setDescription(String.valueOf((Integer) brand.getValue()));
                     }

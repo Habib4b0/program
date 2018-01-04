@@ -41,12 +41,14 @@ import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
@@ -472,7 +474,7 @@ public class DataSelection extends CustomComponent implements View {
                 deleteBtn.setVisible(false);
             }
 
-        } catch (Exception system) {
+        } catch (PortalException | SystemException system) {
             LOGGER.error(system);
         }
 
@@ -683,7 +685,7 @@ public class DataSelection extends CustomComponent implements View {
             } else {
                 AbstractNotificationUtils.getErrorNotification(Constant.MISSING_DATA, Constant.PLEASE_SELECT_ALL_REQUIRED_FIELDS_BEFORE);
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
 
@@ -737,7 +739,7 @@ public class DataSelection extends CustomComponent implements View {
             }
             LOGGER.debug("Add or Search option value change listener ends");
 
-        } catch (Exception e) {
+        } catch (Property.ReadOnlyException e) {
             LOGGER.error(e);
         }
     }
@@ -896,7 +898,7 @@ public class DataSelection extends CustomComponent implements View {
                 }
                 try {
                     dataSelectionBinder.commit();
-                } catch (Exception e) {
+                } catch (FieldGroup.CommitException e) {
                     LOGGER.error(e);
                 }
                 Object[] values = {projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue(), companyValueId == null ? 0 : companyValueId,
@@ -918,7 +920,7 @@ public class DataSelection extends CustomComponent implements View {
                 }
                 logic.updateProducts((Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID), insertList, removeList);
                 nationalAssumptions.getNDCSetup(String.valueOf(sessionDTO.getProjectionId()));
-            } catch (Exception ex) {
+            } catch (SQLException | NamingException ex) {
                 LOGGER.error(ex);
             } finally {
                 LOGGER.debug("Inside finally");

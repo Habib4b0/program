@@ -58,28 +58,24 @@ import org.slf4j.LoggerFactory;
  */
 public class AbstractItemDetails extends CustomComponent {
 
-    Panel itemDetailsSummary = new Panel();
-    VerticalLayout lay = new VerticalLayout();
-    ItemDetailsTableLogic itemdetailstableLogic = new ItemDetailsTableLogic();
-    public ExtPagedTable itemdetailstable = new ExtPagedTable(itemdetailstableLogic);
-    ItemDetailsTableLogic itemTransferTableLogic = new ItemDetailsTableLogic();
-    public ExtPagedTable itemTransferTable = new ExtPagedTable(itemTransferTableLogic);
-    Object[] visibleColumn = {Constants.CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp", "ifp", "ps", "rs", "rarCategory", "status", "itemstartdate", "itemenddate"};
-    String[] columnHeader = {"", "Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", "CFP Name", Constants.IFP_NAME_LABEL, "PS Name", "RS Name", "RAR Category", "Status", Constants.ITEM_START_DATE, Constants.ITEM_END_DATE};
+    private Panel itemDetailsSummary = new Panel();
+    private VerticalLayout lay = new VerticalLayout();
+    private ItemDetailsTableLogic itemdetailstableLogic = new ItemDetailsTableLogic();
+    private ExtPagedTable itemdetailstable = new ExtPagedTable(itemdetailstableLogic);
+    private ItemDetailsTableLogic itemTransferTableLogic = new ItemDetailsTableLogic();
+    private ExtPagedTable itemTransferTable = new ExtPagedTable(itemTransferTableLogic);
+    private Object[] visibleColumn = {Constants.CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, "cfp", "ifp", "ps", "rs", "rarCategory", "status", "itemstartdate", "itemenddate"};
+    private String[] columnHeader = {"", "Contract Holder", "Contract No", "Contract Name", "Market Type", "Start Date", "End Date", "CFP Name", Constants.IFP_NAME_LABEL, "PS Name", "RS Name", "RAR Category", "Status", Constants.ITEM_START_DATE, Constants.ITEM_END_DATE};
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
-    SelectionDTO selection = new SelectionDTO();
-    public AbstractLogic logic = AbstractLogic.getInstance();
-    public SummaryLogic summaryLogic = new SummaryLogic();
-    Button cancelremove = new Button("CANCEL REMOVE");
-    Button cancelremoveForTransfer = new Button("CANCEL REMOVE");
-    List<SummaryDTO> selectedItemList = new ArrayList<>();
-    List<SummaryDTO> selectedTransferItemList = new ArrayList<>();
-    ExtCustomTable contractExcelTable;
-    BeanItemContainer<SummaryDTO> contractExcelResultBean;
-    BeanItemContainer<SummaryDTO> container = new BeanItemContainer<>(SummaryDTO.class);
-    BeanItemContainer<SummaryDTO> transferContainer = new BeanItemContainer<>(SummaryDTO.class);
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private SelectionDTO selection = new SelectionDTO();
+    private AbstractLogic logic = AbstractLogic.getInstance();
+    private SummaryLogic summaryLogic = new SummaryLogic();
+    private Button cancelremove = new Button("CANCEL REMOVE");
+    private Button cancelremoveForTransfer = new Button("CANCEL REMOVE");
+    private List<SummaryDTO> selectedItemList = new ArrayList<>();
+    private List<SummaryDTO> selectedTransferItemList = new ArrayList<>();
+    private BeanItemContainer<SummaryDTO> container = new BeanItemContainer<>(SummaryDTO.class);
+    private BeanItemContainer<SummaryDTO> transferContainer = new BeanItemContainer<>(SummaryDTO.class);
     public static final Logger LOGGER = LoggerFactory.getLogger(AbstractItemDetails.class);
 
     public AbstractItemDetails(SelectionDTO selection) {
@@ -142,10 +138,12 @@ public class AbstractItemDetails extends CustomComponent {
         lay.addComponent(hlayout);
 
         itemdetailstable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             boolean isCheck = check.getValue();
 
@@ -164,6 +162,7 @@ public class AbstractItemDetails extends CustomComponent {
             }
         });
         itemdetailstable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = itemdetailstable.getItemIds();
                 for (Object obj : itemList) {
@@ -180,6 +179,7 @@ public class AbstractItemDetails extends CustomComponent {
             }
         });
         cancelremove.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (!selectedItemList.isEmpty()) {
                     new AbstractNotificationUtils() {
@@ -206,6 +206,7 @@ public class AbstractItemDetails extends CustomComponent {
             }
         });
         export.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 try {
                     selection.setOperation("CURRENT SUMMARY");
@@ -287,10 +288,12 @@ public class AbstractItemDetails extends CustomComponent {
         hlayout.addComponent(export);
         lay.addComponent(hlayout);
         itemTransferTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             boolean isCheck = check.getValue();
 
@@ -309,6 +312,7 @@ public class AbstractItemDetails extends CustomComponent {
             }
         });
         itemTransferTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = itemTransferTable.getItemIds();
                 for (Object obj : itemList) {
@@ -324,6 +328,7 @@ public class AbstractItemDetails extends CustomComponent {
             }
         });
         cancelremoveForTransfer.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (!selectedTransferItemList.isEmpty()) {
                     new AbstractNotificationUtils() {
@@ -346,6 +351,7 @@ public class AbstractItemDetails extends CustomComponent {
             }
         });
         export.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 try {
                     selection.setOperation("TRANSFER SUMMARY");

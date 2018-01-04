@@ -4,6 +4,14 @@
  */
 package com.stpl.app.cff.logic;
 
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
 import com.stpl.app.cff.dao.DataSelectionDAO;
 import com.stpl.app.cff.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.cff.dto.SaveViewDTO;
@@ -11,14 +19,6 @@ import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.parttwo.model.CffViewMaster;
 import com.stpl.app.parttwo.service.CffViewMasterLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
 import com.vaadin.server.VaadinSession;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +51,7 @@ public class ViewLogic {
      */
     public boolean isDuplicateView(final String viewName) throws SystemException {
         LOGGER.debug("Entering isDuplicateView method with viewName " + viewName);
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffViewMaster.class);
+        final DynamicQuery dynamicQuery = CffViewMasterLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.VIEW_NAME, viewName));
         final long count = dataSelection.getForecastViewMasterdynamicQueryCount(dynamicQuery);
         LOGGER.debug("End of isDuplicateView with size: " + count);
@@ -85,7 +85,8 @@ public class ViewLogic {
     public int saveForecastViewMaster(final SaveViewDTO saveViewDTO, final int projectionId) throws PortalException, SystemException {
         LOGGER.debug("Entering saveForecastViewMaster method viewBinder and projectionId='" + projectionId + "' and view id: " + String.valueOf(saveViewDTO.getViewId()));
         String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
-        CffViewMaster viewMaster = CffViewMasterLocalServiceUtil.createCffViewMaster(0);
+        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+        CffViewMaster viewMaster = CffViewMasterLocalServiceUtil.createCffViewMaster(create);
         if (saveViewDTO.getViewId() != 0) {
             viewMaster.setCffViewMasterSid(saveViewDTO.getViewId());
         }
@@ -130,7 +131,7 @@ public class ViewLogic {
         CffViewMaster updatedViewMaster = null;
         try {
             int viewId = 0;
-            DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffViewMaster.class);
+            DynamicQuery dynamicQuery = CffViewMasterLocalServiceUtil.dynamicQuery();
             dynamicQuery.add(RestrictionsFactoryUtil.eq("viewName", viewName));
             dynamicQuery.add(RestrictionsFactoryUtil.eq("viewType", viewType));
             final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
@@ -145,12 +146,11 @@ public class ViewLogic {
             objects = (Object[]) result.get(0);
             viewId = Integer.parseInt(String.valueOf(objects[0]));
             String userId = (String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID);
-            CffViewMaster viewMaster = CffViewMasterLocalServiceUtil.createCffViewMaster(0);
+            int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+            CffViewMaster viewMaster = CffViewMasterLocalServiceUtil.createCffViewMaster(create);
             try {
                 viewMaster = dataSelection.getForecastingViewMaster(viewId);
-            } catch (PortalException ex) {
-                java.util.logging.Logger.getLogger(ViewLogic.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SystemException ex) {
+            } catch (PortalException | SystemException ex) {
                 java.util.logging.Logger.getLogger(ViewLogic.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (saveViewDTO.getViewName() != null

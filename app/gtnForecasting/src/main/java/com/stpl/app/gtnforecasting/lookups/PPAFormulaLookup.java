@@ -19,6 +19,7 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
@@ -72,7 +73,7 @@ public class PPAFormulaLookup extends Window {
     private VerticalLayout tablelayout;
     
     @UiField("detailsTableLayout")
-    public VerticalLayout detailsTableLayout;
+    private VerticalLayout detailsTableLayout;
     
     @UiField("controlLayout")
     private HorizontalLayout controlLayout;
@@ -83,28 +84,28 @@ public class PPAFormulaLookup extends Window {
     @UiField("formulaType")
     private ComboBox formulaType;
     
-    FormulaTableLogic tableLogic = new FormulaTableLogic();
+    private final FormulaTableLogic tableLogic = new FormulaTableLogic();
 
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     
-    FormulaTableLogic detailstableLogic = new FormulaTableLogic();
+    private final FormulaTableLogic detailstableLogic = new FormulaTableLogic();
     
     private final ExtPagedTable detailsTable = new ExtPagedTable(detailstableLogic);
     
     
-    BeanItemContainer<RSFormulaDTO> resultsContainer = new BeanItemContainer<>(RSFormulaDTO.class);    
-    BeanItemContainer<RSFormulaDTO> detailsContainer = new BeanItemContainer<>(RSFormulaDTO.class);    
+    private final BeanItemContainer<RSFormulaDTO> resultsContainer = new BeanItemContainer<>(RSFormulaDTO.class);    
+    private final BeanItemContainer<RSFormulaDTO> detailsContainer = new BeanItemContainer<>(RSFormulaDTO.class);    
     
     private RSFormulaDTO rsFormulaDTO = new RSFormulaDTO();
     
-    CustomFieldGroup binder;
+    private CustomFieldGroup binder;
     
-    CommonUtil commonUtil = CommonUtil.getInstance();   
-    CommonUIUtils commonUIUtils = new CommonUIUtils();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();   
+    private final CommonUIUtils commonUIUtils = new CommonUIUtils();
     
     private boolean isSelected;
     
-    String propertyId;
+    private String propertyId;
     
     private boolean validatePPA=false;
     
@@ -207,7 +208,7 @@ public class PPAFormulaLookup extends Window {
             if (propertyId.equals(Constant.PPAVariables.NEP_FORMULA.getConstant())) {
                 resultsTable.setFilterFieldVisible(Constant.FORMULA_TYPE, false);
             }
-        } catch (Exception ex) {
+        } catch (FieldGroup.CommitException ex) {
             LOGGER.error(ex);
         }
     }

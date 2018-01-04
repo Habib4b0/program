@@ -36,21 +36,21 @@ import org.slf4j.LoggerFactory;
  */
 public class SummaryLookUp extends CustomComponent {
 
-    SelectionDTO selection;
-    TabSheet mainTab = new TabSheet();
-    int tabPosition = 0;
-    List<Integer> tabList = new ArrayList<>();
-    Summary sales;
-    List<ItemIndexDto> itemList;
-    Summary rebate;
-    SalesAndRebates salesAndRebate;
-    AbstractItemDetails itemDetails;
+    private SelectionDTO selection;
+    private final TabSheet mainTab = new TabSheet();
+    private int tabPosition = 0;
+    private final List<Integer> tabList = new ArrayList<>();
+    private Summary sales;
+    private List<ItemIndexDto> itemList;
+    private Summary rebate;
+    private SalesAndRebates salesAndRebate;
+    private AbstractItemDetails itemDetails;
     /**
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(SummaryLookUp.class);
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private final StplSecurity stplSecurity = new StplSecurity();
+    private Map<String, AppPermission> functionHM = new HashMap<>();
 
     public SummaryLookUp(List<ItemIndexDto> itemList, SelectionDTO selection) {
     }

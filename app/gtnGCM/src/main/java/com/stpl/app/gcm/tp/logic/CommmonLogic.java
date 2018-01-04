@@ -72,9 +72,9 @@ import org.slf4j.LoggerFactory;
  */
 public class CommmonLogic {
 
-    CommonDao DAO = CommonImpl.getInstance();
-    static HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
-    static HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
+    private final CommonDao DAO = CommonImpl.getInstance();
+    private static final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    private static final HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
     public static final Logger LOGGER = LoggerFactory.getLogger(CommmonLogic.class);
     public static final String FILTERCFP_NAME = "filter~cfpName";

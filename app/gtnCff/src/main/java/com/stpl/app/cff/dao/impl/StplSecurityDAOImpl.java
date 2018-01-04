@@ -1,16 +1,16 @@
 package com.stpl.app.cff.dao.impl;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.cff.dao.CommonServiceImpl;
 import com.stpl.app.cff.dao.StplSecurityDAO;
 import com.stpl.app.model.UsergroupBusinessrole;
 import com.stpl.app.model.UsergroupDomainMaster;
-import com.stpl.app.service.BusinessroleModuleLocalServiceUtil;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
 import java.util.List;
 
 /**
@@ -20,6 +20,8 @@ import java.util.List;
  */
 public class StplSecurityDAOImpl implements StplSecurityDAO {
 
+    private CommonServiceImpl commonService = CommonServiceImpl.getInstance();
+
     /**
      * Returns the user details corresponding to the userId
      *
@@ -28,6 +30,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO {
      * @throws SystemException
      * @throws PortalException
      */
+    @Override
     public User getUserByUserId(final long userId) throws SystemException, PortalException {
         return UserLocalServiceUtil.getUser(userId);
     }
@@ -44,17 +47,17 @@ public class StplSecurityDAOImpl implements StplSecurityDAO {
 
     @Override
     public List getBusinessroleModuleMasterFunctionList(String businessRoleIds, String moduleName) throws PortalException, SystemException {
-        return BusinessroleModuleLocalServiceUtil.getBusinessFunctionPermission(businessRoleIds, moduleName);
+        return commonService.getBusinessFunctionPermission(businessRoleIds, moduleName);
     }
 
     @Override
     public List getBusinessroleModuleMasterFieldList(String businessRoleIds, String moduleName) throws PortalException, SystemException {
-        return BusinessroleModuleLocalServiceUtil.getBusinessFieldPermission(businessRoleIds, moduleName);
+        return commonService.getBusinessFieldPermission(businessRoleIds, moduleName);
     }
 
     @Override
     public List getBusinessroleModuleMasterTabList(String businessRoleIds, String moduleName) {
-        return BusinessroleModuleLocalServiceUtil.getBusinessTabPermission(businessRoleIds, moduleName);
+        return commonService.getBusinessTabPermission(businessRoleIds, moduleName);
     }
     /**
      * Returns the list of BusinessroleModuleMaster

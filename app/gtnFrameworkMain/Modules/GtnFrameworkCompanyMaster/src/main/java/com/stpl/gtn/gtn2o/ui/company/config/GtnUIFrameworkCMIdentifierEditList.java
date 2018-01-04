@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
+import com.stpl.gtn.gtn2o.ui.company.action.GtnFrameworkCMIdentifierResetAction;
 import com.stpl.gtn.gtn2o.ui.company.constants.GtnFrameworkCompanyClassContants;
 import com.stpl.gtn.gtn2o.ui.company.constants.GtnFrameworkCompanyStringContants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
@@ -162,7 +163,8 @@ public class GtnUIFrameworkCMIdentifierEditList {
 		customAction.setFieldValues(Arrays.asList(GtnFrameworkCompanyStringContants.EDIT_ATTACH_RESULT_TABLE,
 				GtnFrameworkCompanyStringContants.EDIT_LIST_CODE_QUALIFIER,
 				GtnFrameworkCompanyStringContants.EDIT_LIST_CODE_QUALIFIER_NAME,
-				GtnFrameworkCompanyStringContants.EDIT_LIST_EFFECTIVE_DATE, "notesTextArea", "editListSaveButton"));
+				GtnFrameworkCompanyStringContants.EDIT_LIST_EFFECTIVE_DATE,
+				GtnFrameworkCompanyStringContants.EDIT_LIST_NOTES_TEXTAREA, "editListSaveButton"));
 		actionConfigList.add(customAction);
 		attachResultConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
@@ -229,8 +231,9 @@ public class GtnUIFrameworkCMIdentifierEditList {
 				"notesMainLayout");
 		componentList.add(gtnLayout);
 
-		GtnUIFrameworkComponentConfig notesTextArea = configProvider.getUIFrameworkComponentConfig("notesTextArea",
-				true, "editListNotesLayout", GtnUIFrameworkComponentType.TEXTAREA);
+		GtnUIFrameworkComponentConfig notesTextArea = configProvider.getUIFrameworkComponentConfig(
+				GtnFrameworkCompanyStringContants.EDIT_LIST_NOTES_TEXTAREA, true, "editListNotesLayout",
+				GtnUIFrameworkComponentType.TEXTAREA);
 		notesTextArea.setAuthorizationIncluded(true);
 		notesTextArea.setComponentName("Notes");
 
@@ -319,21 +322,30 @@ public class GtnUIFrameworkCMIdentifierEditList {
 		componentList.add(resetButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig resetActionConfig = configProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.RESET_ACTION);
+		GtnUIFrameWorkActionConfig resetConfirmationActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 
 		List<Object> params = new ArrayList<>();
 		params.add("Reset Confirmation");
 		params.add("Are you sure you want to reset the values in the Search Criteria group box?");
 
-		params.add(Arrays.asList(GtnFrameworkCompanyStringContants.EDIT_LIST_CODE_QUALIFIER_NAME,
-				GtnFrameworkCompanyStringContants.EDIT_LIST_CODE_QUALIFIER,
-				GtnFrameworkCompanyStringContants.EDIT_LIST_EFFECTIVE_DATE));
-		Object defaultDdlbValue = "-Select one-";
-		params.add(Arrays.asList(null, null, defaultDdlbValue));
+		List<GtnUIFrameWorkActionConfig> resetCustomActionList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig resetCustomActionConfig = new GtnUIFrameWorkActionConfig();
+		resetCustomActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		resetCustomActionConfig.addActionParameter(GtnFrameworkCMIdentifierResetAction.class.getName());
+		resetCustomActionConfig
+				.addActionParameter(Arrays.asList(GtnFrameworkCompanyStringContants.EDIT_LIST_CODE_QUALIFIER,
+						GtnFrameworkCompanyStringContants.EDIT_LIST_CODE_QUALIFIER_NAME,
+						GtnFrameworkCompanyStringContants.EDIT_LIST_EFFECTIVE_DATE,
+						GtnFrameworkCompanyStringContants.EDIT_LIST_NOTES_TEXTAREA));
+		resetCustomActionList.add(resetCustomActionConfig);
 
-		resetActionConfig.setActionParameterList(params);
-		actionConfigList.add(resetActionConfig);
+		params.add(resetCustomActionList);
+
+		resetConfirmationActionConfig.setActionParameterList(params);
+
+		actionConfigList.add(resetConfirmationActionConfig);
+
 		resetButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 	}

@@ -8,12 +8,10 @@ package com.stpl.app.gtnforecasting.projectionvariance.dto;
 import com.stpl.app.gtnforecasting.discountprojectionresults.logic.MMDPRLogic;
 import com.stpl.app.gtnforecasting.discountprojectionresults.logic.tablelogic.DPRTableLogic;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.ProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.tablelogic.ProjectionResultsTableLogic;
-import com.stpl.app.gtnforecasting.projectionvariance.logic.MProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.tablelogic.ProjectionVarianceTableLogic;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -40,33 +38,28 @@ import org.jboss.logging.Logger;
  * @author Jayaram
  */
 public class ComparisonFilterGenerator implements ExtFilterGenerator {
+    
+    private static final long serialVersionUID = 1L;
 
-    CommonLogic commonLogic = new CommonLogic();
-    CommonUtils utils = new CommonUtils();
-    PVSelectionDTO pvSelectionDTO;
-    ProjectionSelectionDTO sprProjectionDTO;
-    ProjectionResultsDTO projectionDTO;
-    MProjectionVarianceLogic pvLogic = new MProjectionVarianceLogic();
-    DataSelectionLogic logic = new DataSelectionLogic();
+    private CommonLogic commonLogic = new CommonLogic();
+    private CommonUtils utils = new CommonUtils();
+    private PVSelectionDTO pvSelectionDTO;
+    private ProjectionSelectionDTO sprProjectionDTO;
+    private DataSelectionLogic logic = new DataSelectionLogic();
     private static final String ZERO = DASH;
-    ProjectionVarianceTableLogic tableLogic;
-    DPRTableLogic mmDprLogic;
-    ProjectionSelectionDTO psDTO;
-    ProjectionResultsTableLogic prTableLogic;
-    boolean detailFlag;
-    boolean prFlag = false;
-    boolean sprFlag = false;
-    boolean pvFlag = false;
-    boolean mmDprFlag = false;
-    ComboBox contractType;
+    private ProjectionVarianceTableLogic tableLogic;
+    private ProjectionSelectionDTO psDTO;
+    private boolean detailFlag;
+    private boolean prFlag = false;
+    private boolean sprFlag = false;
+    private boolean pvFlag = false;
+    private ComboBox contractType;
 
-    String indicator = StringUtils.EMPTY;
-    int levelNo = 0;
     public static final Logger LOGGER = Logger.getLogger(ComparisonFilterGenerator.class);
     /** To reduce unwanted DB hits **/
-    Map<MultiKey,List> contractTypeList;
+    private Map<MultiKey,List> contractTypeList;
     public static final String RELATIONSHIP_LEVEL_NAME = "relationshipLevelName";
-    MultiKey multikey;
+    
 
     public ComparisonFilterGenerator(PVSelectionDTO projectionVarianceSelectionDTO, ProjectionVarianceTableLogic tableLogic, boolean detailFlag,Map<MultiKey,List> contractTypeList) {
         this.pvSelectionDTO = projectionVarianceSelectionDTO;
@@ -78,14 +71,11 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
     public ComparisonFilterGenerator(ProjectionSelectionDTO projectionDTO, ProjectionResultsTableLogic prTableLogic) {
         this.sprProjectionDTO = projectionDTO;
-        this.prTableLogic = prTableLogic;
         prFlag = true;
     }
 
     public ComparisonFilterGenerator(ProjectionSelectionDTO projectionDTO, DPRTableLogic mmDprLogic) {
         this.psDTO = projectionDTO;
-        this.mmDprLogic = mmDprLogic;
-        mmDprFlag = true;
     }
 
     @Override
@@ -108,6 +98,10 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
     @Override
     public AbstractField<?> getCustomFilterComponent(Object propertyId) {
+            String indicator = StringUtils.EMPTY;
+            int levelNo = 0;
+            MultiKey multikey;
+
         if (Constant.MARKET_TYPE.equals(propertyId)) {
             //PV Comparision
             return getMarketType();
@@ -243,10 +237,9 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                         }
                     }
                 }
-                mmDprFlag = false;
                 return contractType;
 
-            } catch (Exception e) {
+            } catch (Property.ReadOnlyException | UnsupportedOperationException e) {
                 LOGGER.error(e);
 
             }

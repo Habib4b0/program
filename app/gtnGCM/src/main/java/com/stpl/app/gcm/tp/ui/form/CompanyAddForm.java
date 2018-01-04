@@ -6,7 +6,6 @@
  */
 package com.stpl.app.gcm.tp.ui.form;
 
-import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.gcm.security.StplSecurity;
@@ -167,10 +166,10 @@ public class CompanyAddForm extends VerticalLayout {
     @UiField("errorMsg")
     public ErrorLabel errorMsg;
 
-    private BeanItemContainer<CompanyCrtIdentifierDTO> identifierContainer = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
-    private BeanItemContainer<CompanyCrtIdentifierDTO> tradeClassContainer = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
+    private final BeanItemContainer<CompanyCrtIdentifierDTO> identifierContainer = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
+    private final BeanItemContainer<CompanyCrtIdentifierDTO> tradeClassContainer = new BeanItemContainer<>(CompanyCrtIdentifierDTO.class);
 
-    CompanyCrtIdentifierDTO companyCrtIdentifierDTO = new CompanyCrtIdentifierDTO();
+    private final CompanyCrtIdentifierDTO companyCrtIdentifierDTO = new CompanyCrtIdentifierDTO();
     private static final Logger LOGGER = LoggerFactory.getLogger(CompanyAddForm.class);
     /**
      * The binder.
@@ -179,15 +178,15 @@ public class CompanyAddForm extends VerticalLayout {
     /**
      * The identifier results bean.
      */
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
     /**
      * The btn remove.
      */
-    CommmonLogic commmonLogic = new CommmonLogic();
+    private final CommmonLogic commmonLogic = new CommmonLogic();
 
     private Object identifierTableBeanId;
     private Object tradeTableBeanId;
-    SessionDTO session = new SessionDTO();
+    private SessionDTO session = new SessionDTO();
 
     public CompanyAddForm() {
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/CompanyAddForm.xml"), this));
@@ -306,6 +305,7 @@ public class CompanyAddForm extends VerticalLayout {
              * Called when a Button has been clicked.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void itemClick(final ItemClickEvent event) {
                 identifierTableBeanId = event.getItemId();
                 BeanItem<?> targetItem;
@@ -339,6 +339,7 @@ public class CompanyAddForm extends VerticalLayout {
              * Called when a Button has been clicked.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void itemClick(final ItemClickEvent event) {
                 tradeTableBeanId = event.getItemId();
                 BeanItem<?> targetItem;
@@ -638,6 +639,7 @@ public class CompanyAddForm extends VerticalLayout {
     @UiHandler("infoResetBtn")
     public void infoResetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -663,6 +665,7 @@ public class CompanyAddForm extends VerticalLayout {
     public void identifierResetBtnLogic(Button.ClickEvent event) {
 
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -685,6 +688,7 @@ public class CompanyAddForm extends VerticalLayout {
     @UiHandler("identifierTableResetBtn")
     public void identifierTableResetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothsing
             }
@@ -712,6 +716,7 @@ public class CompanyAddForm extends VerticalLayout {
     @UiHandler("tradeResetBtn")
     public void tradeResetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -740,6 +745,7 @@ public class CompanyAddForm extends VerticalLayout {
     @UiHandler("tradeTableResetBtn")
     public void tradeTableResetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }

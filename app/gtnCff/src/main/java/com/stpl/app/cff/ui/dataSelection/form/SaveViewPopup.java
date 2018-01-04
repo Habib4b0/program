@@ -4,6 +4,8 @@
  */
 package com.stpl.app.cff.ui.dataSelection.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.abstractCff.AbstractSaveViewPopup;
 import com.stpl.app.cff.dto.SaveViewDTO;
 import com.stpl.app.cff.dto.SessionDTO;
@@ -14,18 +16,16 @@ import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.parttwo.model.CffViewMaster;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.TextField;
 import java.util.List;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
@@ -41,19 +41,19 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     /**
      * The available customers.
      */
-    public BeanItemContainer<Leveldto> availableCustomers;
+    protected BeanItemContainer<Leveldto> availableCustomers;
     /**
      * The selected customers.
      */
-    public BeanItemContainer<Leveldto> selectedCustomers;
+    protected BeanItemContainer<Leveldto> selectedCustomers;
     /**
      * The available products.
      */
-    public BeanItemContainer<Leveldto> availableProducts;
+    protected BeanItemContainer<Leveldto> availableProducts;
     /**
      * The selected products.
      */
-    public BeanItemContainer<Leveldto> selectedProducts;
+    protected BeanItemContainer<Leveldto> selectedProducts;
     /**
      * The save view dto.
      */
@@ -63,19 +63,19 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      */
     private final CustomFieldGroup viewBinder = new CustomFieldGroup(new BeanItem<SaveViewDTO>(saveViewDTO));
     private final ErrorLabel errorMsg = new ErrorLabel();
-    private TextField viewId = new TextField();
-    private TextField viewName = new TextField();
-    private OptionGroup viewType = new OptionGroup();
+    private final TextField viewId = new TextField();
+    private final TextField viewName = new TextField();
+    private final OptionGroup viewType = new OptionGroup();
     /**
      * The view logic.
      */
-    public ViewLogic viewLogic = new ViewLogic();
+    protected final ViewLogic viewLogic = new ViewLogic();
     /**
      * The logic.
      */
-    private CFFLogic cffLogic = new CFFLogic();
-    private List<String> customerListEndSids;
-    private List<String> productListEndSids;
+    private final CFFLogic cffLogic = new CFFLogic();
+    private final List<String> customerListEndSids;
+    private final List<String> productListEndSids;
     /**
      * The Constant LOGGER.
      */

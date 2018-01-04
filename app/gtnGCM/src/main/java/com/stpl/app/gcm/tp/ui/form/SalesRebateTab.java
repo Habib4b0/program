@@ -21,12 +21,11 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 public class SalesRebateTab extends VerticalLayout {
 
     @UiField("tradingPartnerSalesTableLayout")
-    VerticalLayout tradingPartnerSalesTableLayout;
+    private VerticalLayout tradingPartnerSalesTableLayout;
     @UiField("tradingPartnerRebatesTableLayout")
-    VerticalLayout tradingPartnerRebatesTableLayout;
-    SessionDTO session;
-    boolean isLoad;
-    ComboBox frequency;
+    private VerticalLayout tradingPartnerRebatesTableLayout;
+    private SessionDTO session;
+    private final boolean isLoad;
     /**
      * The Constant LOGGER.
      */

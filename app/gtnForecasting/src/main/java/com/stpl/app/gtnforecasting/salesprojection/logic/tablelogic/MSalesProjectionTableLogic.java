@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic;
@@ -24,13 +26,11 @@ import org.asi.container.ExtTreeContainer;
  */
 public class MSalesProjectionTableLogic extends PageTreeTableLogic {
 
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final SalesLogic salesLogic = new SalesLogic();
-    int levelNo;
-    String hierarchyNo;
-    boolean firstGenerated = false;
+    private boolean firstGenerated = false;
     public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(MSalesProjectionTableLogic.class);
-    ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
+    private final ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
 
     /**
      * Loads the table in sales projection based on start and end index.
@@ -199,7 +199,7 @@ public class MSalesProjectionTableLogic extends PageTreeTableLogic {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
     }

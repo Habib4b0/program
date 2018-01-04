@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.stpl.app.forecastabstract.lookups.AbstractHistoryLookup;
 import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
@@ -377,7 +378,7 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
             customerDDLB.addItem(obj[0]);
             customerDDLB.setItemCaption(obj[0], String.valueOf(obj[1]));
         }
-         }catch(Exception e){
+         }catch(PortalException | SystemException | UnsupportedOperationException e){
          LOGGER.error(e);
          }
     }

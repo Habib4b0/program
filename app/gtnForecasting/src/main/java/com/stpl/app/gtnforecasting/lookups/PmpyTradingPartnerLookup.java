@@ -101,12 +101,12 @@ public class PmpyTradingPartnerLookup extends Window {
     /**
      * The Constant TRADING_PARTNER_COLUMNS.
      */
-    public final Object[] tradingPartnerColumns = new Object[]{"tradingPartnerNo", "tradingPartnerName"};
+    private final Object[] tradingPartnerColumns = new Object[]{"tradingPartnerNo", "tradingPartnerName"};
 
     /**
      * The Constant TRADING_PARTNER_HEADER.
      */
-    public final String[] tradingPartnerHeaders = new String[]{"Trading Partner #", "Trading Partner Name"};
+    private final String[] tradingPartnerHeaders = new String[]{"Trading Partner #", "Trading Partner Name"};
 
     /**
      * The trading partner.
@@ -133,7 +133,7 @@ public class PmpyTradingPartnerLookup extends Window {
     private Object contractHolder;
 
     @UiField("tableLayout")
-    VerticalLayout tableLayout;
+    private VerticalLayout tableLayout;
 
     private HorizontalLayout controlLayout = new HorizontalLayout();
 

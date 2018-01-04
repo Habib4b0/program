@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.utils;
 
 import com.stpl.app.gtnforecasting.dto.PMPYRowDto;
-import com.stpl.ifs.ui.util.NumericConstants;
 //import com.vaadin.addon.charts.Chart;
 //import com.vaadin.addon.charts.model.ChartType;
 //import com.vaadin.addon.charts.model.Configuration;
@@ -22,7 +21,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
@@ -62,7 +60,7 @@ public class PMPYTradingPartnerHistoryChart {
 
     private String tpName = StringUtils.EMPTY;
 
-    List<Object> headers = null;
+    protected List<Object> headers = null;
 
     /**
      * The Constructor.

@@ -48,6 +48,7 @@ import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 import java.text.DateFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -322,7 +323,7 @@ public class AltHistorySelection extends CustomComponent implements View {
             session.setFrequency(String.valueOf(frequency.getValue()));
             getnerateLogic();
 
-        } catch (Exception ex) {
+        } catch (ParseException ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("Ending generateBtnClick method");

@@ -6,6 +6,24 @@
 package com.stpl.app.cff.ui.projectionVariance.logic;
 
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
+import com.stpl.app.cff.dto.PVSelectionDTO;
+import com.stpl.app.cff.dto.ProjectionSelectionDTO;
+import com.stpl.app.cff.dto.SessionDTO;
+import com.stpl.app.cff.logic.CFFLogic;
+import com.stpl.app.cff.logic.CommonLogic;
+import com.stpl.app.cff.queryUtils.CommonQueryUtils;
+import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
+import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
+import com.stpl.app.cff.ui.projectionVariance.form.RunnableJob;
+import com.stpl.app.cff.util.CommonUtils;
+import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.ALL;
 import static com.stpl.app.cff.util.Constants.CommonConstants.NULL;
 import static com.stpl.app.cff.util.Constants.CommonConstants.VALUE;
@@ -14,7 +32,18 @@ import static com.stpl.app.cff.util.Constants.LabelConstants.PERCENT;
 import static com.stpl.app.cff.util.Constants.LabelConstants.PROGRAM_CATEGORY;
 import static com.stpl.app.cff.util.Constants.LabelConstants.TOTAL;
 import static com.stpl.app.cff.util.Constants.LabelConstants.TOTAL_DISCOUNT;
-
+import com.stpl.app.cff.util.ConstantsUtil;
+import com.stpl.app.cff.util.Converters;
+import com.stpl.app.cff.util.HeaderUtils;
+import com.stpl.app.cff.util.StringConstantsUtil;
+import com.stpl.app.cff.util.xmlparser.SQlUtil;
+import com.stpl.app.model.NmProjectionSelection;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.QueryUtil;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,46 +58,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
-
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.jboss.logging.Logger;
-
-import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
-import com.stpl.app.cff.dao.CommonDAO;
-import com.stpl.app.cff.dao.impl.CommonDAOImpl;
-import com.stpl.app.cff.dto.PVSelectionDTO;
-import com.stpl.app.cff.dto.ProjectionSelectionDTO;
-import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.logic.CFFLogic;
-import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.queryUtils.CommonQueryUtils;
-import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
-import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
-import com.stpl.app.cff.ui.projectionVariance.form.RunnableJob;
-import com.stpl.app.cff.util.CommonUtils;
-import com.stpl.app.cff.util.Constants;
-
-import com.stpl.app.cff.util.ConstantsUtil;
-import com.stpl.app.cff.util.Converters;
-import com.stpl.app.cff.util.HeaderUtils;
-import com.stpl.app.cff.util.StringConstantsUtil;
-import com.stpl.app.cff.util.xmlparser.SQlUtil;
-import com.stpl.app.model.NmProjectionSelection;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.stpl.ifs.util.QueryUtil;
-
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 
 /**
  *
@@ -76,9 +68,8 @@ import com.stpl.portal.kernel.exception.SystemException;
  */
 public class ProjectionVarianceLogic {
 
-    private static final CommonDAO commonDao = new CommonDAOImpl();
     public static final Logger LOGGER = Logger.getLogger(ProjectionVarianceLogic.class);
-    private String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     /**
      * The Constant AMOUNT.
      */
@@ -105,9 +96,9 @@ public class ProjectionVarianceLogic {
     private static final String DETAIL = "Detail";
     private static final String C = "C";
     private static final String P = "P";
-    private static String CURRENT = "Current";
-    private CommonLogic commonLogic = new CommonLogic();
-    private com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils queryUtils = new com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils();
+    private static final String CURRENT = "Current";
+    private final CommonLogic commonLogic = new CommonLogic();
+    private final com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils queryUtils = new com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils();
     private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private PVSelectionDTO selectionDTO = new PVSelectionDTO();
@@ -303,7 +294,7 @@ public class ProjectionVarianceLogic {
                 if (obj[NumericConstants.TEN] == null) {
                     comparisonLookupDTO.setCreatedBy(StringUtils.EMPTY);
                 } else {
-                    comparisonLookupDTO.setCreatedBy(new Converters().getUserFLName(new Converters().convertNullToEmpty(obj[NumericConstants.TEN].toString())));
+                    comparisonLookupDTO.setCreatedBy(Converters.getUserFLName(Converters.convertNullToEmpty(obj[NumericConstants.TEN].toString())));
                 }
                 finalList.add(comparisonLookupDTO);
 
@@ -363,7 +354,7 @@ public class ProjectionVarianceLogic {
         query.append(orderBy.toString());
         query.append(" OFFSET ").append(comparisonLookup.getStart()).append(" ROWS FETCH NEXT ").append(comparisonLookup.getOffset()).append(" ROWS ONLY");
         
-        List result = (List) commonDao.executeSelectQuery(query.toString(), null, null);
+        List result = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
         return getCustomizedComparisonList(result);
     }
 
@@ -432,7 +423,7 @@ public class ProjectionVarianceLogic {
                 if (obj[NumericConstants.TEN] == null) {
                     comparisonLookupDTO.setCreatedBy(StringUtils.EMPTY);
                 } else {
-                    comparisonLookupDTO.setCreatedBy(new Converters().getUserFLName(new Converters().convertNullToEmpty(obj[NumericConstants.TEN].toString())));
+                    comparisonLookupDTO.setCreatedBy(Converters.getUserFLName(Converters.convertNullToEmpty(obj[NumericConstants.TEN].toString())));
                 }
                 if (!isProjecionId(finalList, comparisonLookupDTO)) {
                     finalList.add(comparisonLookupDTO);
@@ -514,7 +505,7 @@ public class ProjectionVarianceLogic {
             query.append(andOperator).append("  BRAND LIKE ").append("'%'");
         }
 
-        List result = (List) commonDao.executeSelectQuery(query.toString(), null, null);
+        List result = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
         return CFFLogic.getCount(result);
     }
 
@@ -1267,7 +1258,7 @@ public class ProjectionVarianceLogic {
      */
     public List<ProjectionVarianceDTO> configureLevels(int start, int offset, PVSelectionDTO projSelDTO, int maxRecord) {
 
-        CommonLogic commonLogic = new CommonLogic();
+        CommonLogic vCommonLogic = new CommonLogic();
         List<ProjectionVarianceDTO> resultList = new ArrayList<>();
         int resultStart;
         if (maxRecord == -1) {
@@ -1277,7 +1268,7 @@ public class ProjectionVarianceLogic {
         }
         if (projSelDTO.isIsCustomHierarchy()) {
 
-            String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
+            String hierarchyIndicator = vCommonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
             List<String> hierarchyNoList = getHiearchyNoForCustomView(projSelDTO, resultStart, offset);
             for (String hierarchyNo : hierarchyNoList) {
@@ -1287,7 +1278,7 @@ public class ProjectionVarianceLogic {
         } else {
             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
 
-            List<String> hierarchyNoList = commonLogic.getHiearchyNoAsList(projSelDTO, resultStart, offset);
+            List<String> hierarchyNoList = vCommonLogic.getHiearchyNoAsList(projSelDTO, resultStart, offset);
             for (String hierarchyNo : hierarchyNoList) {
                 resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo)));
             }
@@ -1300,6 +1291,8 @@ public class ProjectionVarianceLogic {
      *
      * @param projSelDTO
      * @param hierarchyNo
+     * @param hierarchyIndicator
+     * @param levelNo
      * @param detailsList
      * @return
      */
@@ -2641,7 +2634,7 @@ public class ProjectionVarianceLogic {
     public Map<Object, Object> getNMProjectionSelection(final int projectionId, final String screenName) {
         List<Object[]> list = new ArrayList<>();
         Map<Object, Object> map = new HashMap<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(NmProjectionSelection.class);
+        DynamicQuery query = NmProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq("projectionMasterSid", projectionId));
         query.add(RestrictionsFactoryUtil.eq("screenName", screenName));
         ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
@@ -2681,7 +2674,7 @@ public class ProjectionVarianceLogic {
 
     public void saveNMPVSelection(Map map, int projectionID, String screenName) {
         List<NmProjectionSelection> list = new ArrayList<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(NmProjectionSelection.class);
+        DynamicQuery query = NmProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq("projectionMasterSid", projectionID));
         query.add(RestrictionsFactoryUtil.eq("screenName", screenName));
 
@@ -2712,7 +2705,7 @@ public class ProjectionVarianceLogic {
         projectionIds = projectionIds.substring(1, projectionIds.length() - 1);
         String query = SQlUtil.getQuery("get-projection-names-by-id");
         query = query.replace("@CFF_MASTER_SID", projectionIds);
-        List<Object[]> resultList = (List) commonDao.executeSelectQuery(query, null, null);
+        List<Object[]> resultList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         List<List> list = new ArrayList<>();
         if (resultList != null && !resultList.isEmpty()) {
             List projectionIdList = new ArrayList<>();
@@ -3313,7 +3306,7 @@ public class ProjectionVarianceLogic {
 
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
-
+        int i=1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
 
@@ -3322,7 +3315,7 @@ public class ProjectionVarianceLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
-                stringBuilder.append("')");
+                stringBuilder.append("'," + i++ + ")");
 
                 isNotFirstElement = true;
             }

@@ -21,7 +21,7 @@ public class DataSourceConnection {
     /**
      * The instance.
      */
-    private static DataSourceConnection instance = new DataSourceConnection();
+    private static final DataSourceConnection instance = new DataSourceConnection();
     /**
      * The connection.
      */

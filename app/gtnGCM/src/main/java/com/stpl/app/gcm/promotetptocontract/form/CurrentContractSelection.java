@@ -76,7 +76,6 @@ import de.steinwedel.messagebox.MessageBoxListener;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
-import java.util.HashMap;
 import org.apache.commons.lang.ArrayUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 
@@ -212,35 +211,30 @@ public class CurrentContractSelection extends CustomComponent implements View {
     private Label rebatePlanLevelLabel;
 
     private BeanItemContainer<ComponentInfoDTO> componentInfoContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
-    LazyBeanItemContainer<CurrentContractDTO> resultsLazyContainer;
     public CurrentContractDTO currentContractDTO = new CurrentContractDTO();
-    ExtFilterTable resultTable;
-    PromoteTPLogic logic = new PromoteTPLogic();
+    private ExtFilterTable resultTable;
+    private PromoteTPLogic logic = new PromoteTPLogic();
     public CurrentContractTableLogic tableLogic = new CurrentContractTableLogic();
     public ExtPagedTable currentTradingPartnerTable2 = new ExtPagedTable(tableLogic);
-    List<CurrentContractDTO> selecteditemList = new ArrayList<>();
-    BeanItemContainer<CurrentContractDTO> searchContainer = new BeanItemContainer<>(CurrentContractDTO.class);
-    CurrentContractDTO binderDto = new CurrentContractDTO();
+    private BeanItemContainer<CurrentContractDTO> searchContainer = new BeanItemContainer<>(CurrentContractDTO.class);
+    private CurrentContractDTO binderDto = new CurrentContractDTO();
     private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     public ExtFilterTable compInfoTable = new ExtFilterTable();
-    HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
-    List<String> selection = new ArrayList<>();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    boolean summaryRefreshed;
-    List<CompanyMaster> companyMasters;
+    public boolean summaryRefreshed;
+    public List<CompanyMaster> companyMasters;
     private String screenName = StringUtils.EMPTY;
     private List<ComponentInfoDTO> componentInformation = new ArrayList<>();
     public List<CurrentContractDTO> contractInfo = new ArrayList<>();
-    String excelName = "Rebate Schedule Information";
+    private String excelName = "Rebate Schedule Information";
     private ExtTreeContainer<ComponentInfoDTO> excelResultBean = new ExtTreeContainer<>(ComponentInfoDTO.class);
     private ExtCustomTable contractExportPeriodViewTable = new ExtCustomTable();
     public static final String NUM = "Number :";
     public static List<CurrentContractDTO> selectedContract = new ArrayList<>();
-    Boolean contractExcelFlag = false;
-    Boolean infoExcelFlag = false;
+    private Boolean contractExcelFlag = false;
+    private Boolean infoExcelFlag = false;
     private List<Integer> contractid = new ArrayList<>();
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+    private final StplSecurity stplSecurity = new StplSecurity();
 
     /**
      * The from date.
@@ -292,6 +286,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         binderDto.setCompanySystemId(dto.getCompanySystemId());
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         // empty
     }
@@ -307,21 +302,27 @@ public class CurrentContractSelection extends CustomComponent implements View {
         try {
             screenName = TAB_CURRENT_CONTRACT.getConstant();
             contractNo.setData("maxlengthvalidationhundred,maxlengthvalidationcontractno,specialchar,specialcharcontractno");
+            contractNo.setImmediate(true);
             contractNo.setValidationVisible(true);
 
             contractName.setData("maxlengthvalidationhundred,maxlengthvalidationcontractname,specialchar,specialcharcontractname");
+            contractName.setImmediate(true);
             contractName.setValidationVisible(true);
 
             rebateScheduleId.setData("maxlengthvalidation,maxlengthvalidationrebatescheduleid,specialchar,specialcharrebateschedule");
+            rebateScheduleId.setImmediate(true);
             rebateScheduleId.setValidationVisible(true);
 
             rebateScheduleName.setData("maxlengthvalidationhundred,maxlengthvalidationrebateschedule,specialchar,specialcharrebateschedulename");
+            rebateScheduleName.setImmediate(true);
             rebateScheduleName.setValidationVisible(true);
 
             rebateScheduleNo.setData("maxlengthvalidationhundred,maxlengthvalidationrsno,specialchar,specialcharrsno");
+            rebateScheduleNo.setImmediate(true);
             rebateScheduleNo.setValidationVisible(true);
 
             rebateScheduleAlias.setData("maxlengthvalidationhundred,maxlengthvalidationrsalias,specialchar,specialcharRrsalias");
+            rebateScheduleAlias.setImmediate(true);
             rebateScheduleAlias.setValidationVisible(true);
 
             massStartDate.setEnabled(false);
@@ -352,6 +353,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
             rarCategory.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
 
             componentSelection.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     String compType = String.valueOf(componentSelection.getValue());
                     if (compType.equals(Constants.COMPANY_FAMILY_PLAN)) {
@@ -489,10 +491,13 @@ public class CurrentContractSelection extends CustomComponent implements View {
         currentTradingPartnerTable2.setColumnCheckBox(Constants.CHECK_RECORD, true);
 
         currentTradingPartnerTable2.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
+                    check.setImmediate(true);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             if (check.getValue()) {
                                 CurrentContractDTO dto = (CurrentContractDTO) itemId;
@@ -513,8 +518,10 @@ public class CurrentContractSelection extends CustomComponent implements View {
                     final PopupDateField compEndDate = new PopupDateField();
                     compEndDate.setDateFormat(Constants.MM_DD_YYYY);
                     compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
+                    compEndDate.setImmediate(true);
                     compEndDate.addValueChangeListener(new Property.ValueChangeListener() {
 
+                        @Override
                         public void valueChange(Property.ValueChangeEvent event) {
                             logic.callDateUpdate(compEndDate.getValue(), (CurrentContractDTO) itemId, session, screenName, "END_DATE");
 
@@ -536,6 +543,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         });
 
         currentTradingPartnerTable2.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = currentTradingPartnerTable2.getItemIds();
                 for (Object obj : itemList) {
@@ -546,6 +554,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         });
 
         currentTradingPartnerTable2.addItemClickListener(new ItemClickEvent.ItemClickListener() {
+            @Override
             public void itemClick(ItemClickEvent event) {
                 String componentSelectionValue = String.valueOf(componentSelection.getValue());
                 if (!SELECT_ONE.getConstant().equals(componentSelectionValue)) {
@@ -713,6 +722,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
     @UiHandler("resetBtn1")
     public void resetBtn1Logic(Button.ClickEvent event) {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", " Are you sure you want to reset the Search values?\n ", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals("YES")) {
                     try {
@@ -744,6 +754,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
     public void resetBtn2Logic(Button.ClickEvent event) {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", " Are you sure you want to reset the values \n "
                 + " in the Current-Customer Details list view? ", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals("YES")) {
                     try {
@@ -771,7 +782,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
         componentStartDate.setEnabled(false);
         componentEndDate.setEnabled(false);
     }
-    ColumnCheckListener checkListener = new ColumnCheckListener() {
+     private ColumnCheckListener checkListener = new ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
             if (event.isChecked()) {

@@ -53,7 +53,7 @@ public class HelperListUtil {
     /**
      * The list name bundle.
      */
-    private static ResourceBundle listNameBundle = ResourceBundle.getBundle("properties.listname");
+    private static final ResourceBundle listNameBundle = ResourceBundle.getBundle("properties.listname");
 
     /**
      * The Constant LOGGER.
@@ -90,8 +90,7 @@ public class HelperListUtil {
         if (listNames != null && !listNames.isEmpty()) {
             try {
                 List<HelperDTO> helperList = null;
-                final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery()
-                        ;
+                final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
                 dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.LIST_NAME,
                         listNames));
                 dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.LIST_NAME));

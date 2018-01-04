@@ -212,7 +212,7 @@ public class PPAProjectionResultsDTO extends ExtMapDTO implements Comparator<PPA
 
                 }
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         return result;

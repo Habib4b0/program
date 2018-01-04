@@ -222,7 +222,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
                         bestPrice.setValue(StringUtils.EMPTY);
                     }
                     wac.setReadOnly(true);
-                } catch (Exception ex) {
+                } catch (Property.ReadOnlyException | NumberFormatException ex) {
                     LOGGER.error(ex);
                 }
             }
@@ -402,7 +402,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
             nationalAssumptionLogic.saveMedicaidNdcPopUp(sessionDTO, list, newNdcDTO);
 
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
     }
@@ -421,7 +421,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
             List<NewNdcDTO> list = logic.getNdcTable(sessionDTO);
             nDCLineExtensionBean.addAll(list);
 
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
     }

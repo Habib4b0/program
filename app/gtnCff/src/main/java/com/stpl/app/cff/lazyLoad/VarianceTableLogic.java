@@ -12,7 +12,7 @@ import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
 import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,10 +36,10 @@ public class VarianceTableLogic extends PageTreeTableLogic{
     private boolean firstGenerated = false;
     public static final Logger LOGGER = Logger.getLogger(VarianceTableLogic.class);
     private String screenName = StringUtils.EMPTY;
-    private String productHierarchyNo = StringUtils.EMPTY;
-    private String customerHierarchyNo = StringUtils.EMPTY;
-    private String deductionHierarchyNo = StringUtils.EMPTY;
-    private ProjectionVarianceLogic nmProjectionVarianceLogic = new ProjectionVarianceLogic();
+    private final String productHierarchyNo = StringUtils.EMPTY;
+    private final String customerHierarchyNo = StringUtils.EMPTY;
+    private final String deductionHierarchyNo = StringUtils.EMPTY;
+    private final ProjectionVarianceLogic nmProjectionVarianceLogic = new ProjectionVarianceLogic();
     /**
      * Load date method for loading container based on different modules
      *

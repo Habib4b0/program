@@ -65,17 +65,17 @@ public class MandatedChartUtils {
     /**
      * The history.
      */
-    public String history;
+    protected String history;
 
-    CustomTableHeaderDTO rightDto;
+    protected CustomTableHeaderDTO rightDto;
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(MandatedChartUtils.class);
 
-    String screenName;
+    protected String screenName;
 
-    ProjectionSelectionDTO projSelDTO;
+    protected ProjectionSelectionDTO projSelDTO;
 
     /**
      * The Constructor.

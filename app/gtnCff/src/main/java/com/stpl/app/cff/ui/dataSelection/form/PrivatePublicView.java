@@ -9,26 +9,26 @@ import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
-import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
-import com.stpl.ifs.ui.util.CommonUIUtils;
-import com.stpl.ifs.ui.util.converters.TextFieldConverter;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.TextField;
-import java.util.List;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.*;
+import static com.stpl.app.cff.util.Constants.LogicConstants.*;
 import com.stpl.app.cff.util.NotificationUtils;
 import com.stpl.app.cff.util.TableHeaderColumnsUtil;
 import com.stpl.app.cff.util.UiUtils;
 import com.stpl.ifs.ui.DateToStringConverter;
-import static com.stpl.app.cff.util.Constants.LogicConstants.*;
+import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
+import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.TextFieldConverter;
+import com.vaadin.ui.Button;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.TextField;
+import java.util.List;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -39,7 +39,7 @@ public class PrivatePublicView extends AbstractViewLookup {
     /**
      * Indicator to indicate private or public view lookup.
      */
-    private String indicator;
+    private final String indicator;
     /**
      * The view name textfield for searching the view.
      */
@@ -69,7 +69,7 @@ public class PrivatePublicView extends AbstractViewLookup {
      */
     private BeanItemContainer<ViewDTO> viewContainer;
     private ViewDTO viewDTO;
-    private String screenName;
+    private final String screenName;
     /**
      * The Constant LOGGER.
      */
@@ -129,11 +129,11 @@ public class PrivatePublicView extends AbstractViewLookup {
         //Configure the table
         results.setContainerDataSource(viewContainer);
         if (screenName.equals(ConstantsUtils.RETURNS)) {
-            results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().viewLookupColumnsReturns);
-            results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().viewLookupHeadersReturns);
+            results.setVisibleColumns(TableHeaderColumnsUtil.VIEW_LOOKUP_COLS_RETURNS);
+            results.setColumnHeaders(TableHeaderColumnsUtil.VIEW_LOOKUP_HEADER_RETURNS);
         } else {
-            results.setVisibleColumns(TableHeaderColumnsUtil.getInstance().viewLookupColumns);
-            results.setColumnHeaders(TableHeaderColumnsUtil.getInstance().viewLookupHeaders);
+            results.setVisibleColumns(TableHeaderColumnsUtil.VIEW_LOOKUP_COLS);
+            results.setColumnHeaders(TableHeaderColumnsUtil.VIEW_LOOKUP_HEADER);
         }
         results.setSortEnabled(true);
         results.setSelectable(true);

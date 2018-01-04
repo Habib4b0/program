@@ -295,6 +295,7 @@ public class ItemComponentDetailsDTO implements Cloneable {
         this.caseNo = caseNo;
     }
 
+    @Override
     public ItemComponentDetailsDTO clone() throws CloneNotSupportedException {
         ItemComponentDetailsDTO selection = new ItemComponentDetailsDTO();
         selection.setCheckRecord(checkRecord);

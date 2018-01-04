@@ -5,8 +5,10 @@
  */
 package com.stpl.app.cff.ui.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.app.cff.util.StringConstantsUtil;
+import com.stpl.app.cff.dao.CommonServiceImpl;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
 import com.stpl.app.cff.dto.CFFDTO;
 import com.stpl.app.cff.dto.CFFResultsDTO;
@@ -15,48 +17,45 @@ import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.queryUtils.CFFQueryUtils;
 import com.stpl.app.cff.security.StplSecurity;
-import com.stpl.app.cff.ui.table.CFFPagedFilterTable;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.stpl.app.cff.ui.table.CFFPagedFilterTable;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.ResponsiveUtils;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.TableHeaderUtils;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.service.ImtdIfpDetailsLocalServiceUtil;
+import com.stpl.app.ui.errorhandling.ErrorDisplay;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorDisplay;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportUtil;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.TableResultCustom;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.converter.StringToDateConverter;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.converter.StringToDateConverter;
+import com.vaadin.v7.data.validator.RegexpValidator;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
@@ -67,6 +66,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
@@ -196,7 +196,7 @@ public class ApprovalTab extends CustomComponent {
     /**
      * The cff binder.
      */
-    private  CustomFieldGroup cffBinder = new CustomFieldGroup(new BeanItem<ApprovalDetailsDTO>(new ApprovalDetailsDTO()));
+    private final  CustomFieldGroup cffBinder = new CustomFieldGroup(new BeanItem<ApprovalDetailsDTO>(new ApprovalDetailsDTO()));
     /**
      * The results bean.
      */
@@ -211,8 +211,8 @@ public class ApprovalTab extends CustomComponent {
      */
     private final CommonUtils commonUtils = new CommonUtils();
     private static final String ALERT = "Alert";
-    private CFFLogic cffLogic = new CFFLogic();
-    private NotesTabForm notestab;
+    private final CFFLogic cffLogic = new CFFLogic();
+    private final NotesTabForm notestab;
     
     @UiField("excelExport")
     private Button excelExport;
@@ -220,7 +220,7 @@ public class ApprovalTab extends CustomComponent {
     @UiField("bottombuttonLayout")
     private HorizontalLayout bottombuttonLayout;
     private boolean isFirst = false;
-    private CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     
     @UiField("errorLabel")
     public ErrorLabel errorLabel;
@@ -243,8 +243,8 @@ public class ApprovalTab extends CustomComponent {
     /**
      * ApprovalTab form constructor
      */
-    private CFFSearchDTO dto;
-    private SessionDTO sessionDTO;
+    private final CFFSearchDTO dto;
+    private final SessionDTO sessionDTO;
 
     public ApprovalTab(CFFSearchDTO dto, BeanItemContainer<ApprovalDetailsDTO> approvalContainer, BeanItemContainer<CFFResultsDTO> resultsBean,
             NotesTabForm notestab, SessionDTO sessionDTO) {
@@ -530,6 +530,7 @@ public class ApprovalTab extends CustomComponent {
              *
              * @param event - Mouse Click event
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 try {
                     LOGGER.debug("Entering EXCEL Export Button Click");
@@ -613,7 +614,7 @@ public class ApprovalTab extends CustomComponent {
 
     public List<Integer> getApprovedDetails(int projectionId) {
         CFFQueryUtils cffUtils = new CFFQueryUtils();
-        return cffUtils.getApprovedDetails(projectionId);
+        return CFFQueryUtils.getApprovedDetails(projectionId);
     }
 
     /**
@@ -626,6 +627,7 @@ public class ApprovalTab extends CustomComponent {
         LOGGER.debug("inside Submit method");
 
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -663,11 +665,13 @@ public class ApprovalTab extends CustomComponent {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 AbstractNotificationUtils notification = new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // To change body of generated methods, choose Tools
                         // | Templates.
                     }
 
+                    @Override
                     public void yesMethod() {
 
                         String result = "";
@@ -700,6 +704,7 @@ public class ApprovalTab extends CustomComponent {
     public void rejectBtnLogic(final Button.ClickEvent event) {
         LOGGER.debug("Inside Rejected Button click event method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -740,6 +745,7 @@ public class ApprovalTab extends CustomComponent {
     public void cancelBtnLogic(final Button.ClickEvent event) {
         LOGGER.debug("Inside Cancelled Button click event method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -775,6 +781,7 @@ public class ApprovalTab extends CustomComponent {
     public void deleteBtnLogic(final Button.ClickEvent event) {
         LOGGER.debug("Inside delete Button click event method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -811,11 +818,13 @@ public class ApprovalTab extends CustomComponent {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 AbstractNotificationUtils notification = new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // To change body of generated methods, choose Tools
                         // | Templates.
                     }
 
+                    @Override
                     public void yesMethod() {
 
                         notestab.getApprovalWindow().close();
@@ -842,6 +851,7 @@ public class ApprovalTab extends CustomComponent {
     @UiHandler("resetBtn")
     public void resetBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -910,13 +920,7 @@ public class ApprovalTab extends CustomComponent {
             LOGGER.debug("Entering Approval Details createWorkSheet");
             final long recordCount = resultsBean.size();
             ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), recordCount, this, getUI(), EXCEL_HEADER);
-        } catch (NoSuchMethodException ex) {
-            LOGGER.error(ex);
-        } catch (IllegalAccessException ex) {
-            LOGGER.error(ex);
-        } catch (IllegalArgumentException ex) {
-            LOGGER.error(ex);
-        } catch (InvocationTargetException ex) {
+        } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("Ending Approval Details createWorkSheet");
@@ -1067,9 +1071,7 @@ public class ApprovalTab extends CustomComponent {
                 resetBtn.setVisible(true);
             }
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1083,7 +1085,7 @@ public class ApprovalTab extends CustomComponent {
     public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
         List<Object> resultList = new ArrayList<>();
         try {
-            resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
+            resultList = CommonServiceImpl.getInstance().fetchFieldsForSecurity(moduleName, tabName);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
