@@ -17,11 +17,21 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
-
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
 /**
  *
  * @author Mahesh.James
  */
+@Theme("stpl")
+@Widgetset("com.stpl.gtn.gtn20.widgetset.gtnvaadinwidgetset.AppWidgetSet")
+@Component(service = UI.class, property = {
+        "com.liferay.portlet.display-category=GtnFrmaeworkNetSalesFormula",
+        "javax.portlet.name=NetSalesFormula",
+        "javax.portlet.display-name=NetSalesFormula",
+        "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class GtnFrameworkNetSalesFormulaPortlet extends UI {
 
 	private static final long serialVersionUID = 1L;

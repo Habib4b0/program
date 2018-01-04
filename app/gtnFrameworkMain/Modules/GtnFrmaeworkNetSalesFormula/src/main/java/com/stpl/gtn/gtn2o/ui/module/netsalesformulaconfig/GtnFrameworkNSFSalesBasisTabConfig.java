@@ -31,8 +31,8 @@ import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.confirmation.Gt
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.fieldfactory.GtnUIFrameWorkNsfNetSalesRulePopupSelectAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.fieldfactory.GtnUiFrameworkNsfSalesBasisTabFieldFactoryAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfSalesBasisPopulateValidationAction;
-import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFComboBoxTypeConstants;
-import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFConstants;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util.GtnFrameworkNSFComboBoxTypeConstants;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util.GtnFrameworkNSFConstants;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;

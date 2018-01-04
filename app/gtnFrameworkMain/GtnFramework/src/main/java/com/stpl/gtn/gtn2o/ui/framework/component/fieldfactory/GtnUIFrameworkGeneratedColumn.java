@@ -8,8 +8,8 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.ExtCustomTable.ColumnGenerator;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnGenerator;
 
 public class GtnUIFrameworkGeneratedColumn implements ColumnGenerator {
 

@@ -1,0 +1,8 @@
+Bundle-Name: ${project.name}
+Bundle-Version: ${project.version}
+Bundle-SymbolicName: ${project.groupId}.${project.artifactId}
+Import-Package: !com.google*,\
+    !com.vaadin.client*,\
+	!com.vaadin.v7.client*,\
+    *
+Export-Package: org.vaadin.alump.beforeunload*;-noimport:=true

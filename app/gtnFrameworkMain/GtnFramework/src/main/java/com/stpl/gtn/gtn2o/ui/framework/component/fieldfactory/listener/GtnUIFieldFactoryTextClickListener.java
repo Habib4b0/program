@@ -10,7 +10,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.fieldfactory.GtnUIFrameworkActi
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.ui.AbstractField;
 
 public class GtnUIFieldFactoryTextClickListener implements CustomTextField.ClickListener {
 

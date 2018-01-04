@@ -29,7 +29,7 @@ import com.stpl.gtn.gtn2o.ws.contractdashboard.beans.GtnWsContractDashboardSessi
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.ui.DateField;
+import com.vaadin.v7.ui.DateField;
 
 /**
  *
