@@ -19,7 +19,7 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.NaProjMasterLocalServiceUtil;
 import com.stpl.app.utils.Constants;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.exception.PortalException;

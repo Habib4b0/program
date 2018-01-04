@@ -12,7 +12,7 @@ import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.WindowMessagesName.CLOSE_CONFIRMATION;
 import static com.stpl.app.utils.Constants.WindowMessagesName.RESET_CONFIRMATION;
 import com.stpl.app.utils.ValidationUtils;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MultiSelectMode;
