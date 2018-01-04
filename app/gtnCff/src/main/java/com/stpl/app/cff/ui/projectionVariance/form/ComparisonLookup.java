@@ -1,6 +1,7 @@
 package com.stpl.app.cff.ui.projectionVariance.form;
 
-import com.stpl.app.cff.util.StringConstantsUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.abstractCff.AbstractComparisonLookup;
 import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
@@ -8,15 +9,13 @@ import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.WindowMessagesName.CONFIRMATION;
 import com.stpl.app.cff.util.ConstantsUtil;
 import static com.stpl.app.cff.util.ConstantsUtil.SELECT_ONE;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ExtCustomTable;
+import com.vaadin.v7.data.Property;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -25,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.jboss.logging.Logger;
 
@@ -34,8 +34,8 @@ import org.jboss.logging.Logger;
 public class ComparisonLookup extends AbstractComparisonLookup {
 
     private Boolean recordSelectedFlag = false;
-    private int currentProjId;
-    private List<ComparisonLookupDTO> selectedList;
+    private final int currentProjId;
+    private final List<ComparisonLookupDTO> selectedList;
     /**
      * Logger
      */
@@ -81,6 +81,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void searchBtnLogic() {
         LOGGER.debug("Inside searchBtnLogic");
         // Implement
@@ -122,10 +123,8 @@ public class ComparisonLookup extends AbstractComparisonLookup {
                 if (resultsTable.size()==0) {
                     MessageBox.showPlain(Icon.INFO, StringConstantsUtil.ERROR, "No results could be found that match the entered search criteria.", ButtonId.OK);
                     addBtn.setEnabled(false);
-                    addBtn.setImmediate(true);
                 } else {
                     addBtn.setEnabled(true);
-                    addBtn.setImmediate(true);
                     CommonUIUtils.getMessageNotification("Search Completed");
 
                 }
@@ -144,6 +143,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void resetBtnLogic() {
         LOGGER.debug("Inside resetBtnLogic");
         new AbstractNotificationUtils() {
@@ -178,6 +178,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void addBtnLogic(Button.ClickEvent event) {
         LOGGER.debug("Inside addBtnLogic");
         // Implement
@@ -196,6 +197,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void projectionResetBtnLogic() {
         LOGGER.debug("Inside projectionResetBtnLogic");
         new AbstractNotificationUtils() {
@@ -220,6 +222,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void closeBtnLogic() {
         LOGGER.debug("Inside closeBtnLogic");
         if (projectionTable.getItemIds().isEmpty()) {
@@ -238,6 +241,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void removeBtnLogic(Button.ClickEvent event) {
         LOGGER.debug("Inside removeBtnLogic");
         // Implement
@@ -266,6 +270,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
              * Method called when available results value is changed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }
@@ -280,6 +285,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
              * Method called when available results value is changed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }
@@ -351,10 +357,8 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         }
         if (resultsBean.size() > 0) {
             addBtn.setEnabled(true);
-            addBtn.setImmediate(true);
         } else {
             addBtn.setEnabled(false);
-            addBtn.setImmediate(true);
         }
     }
 
@@ -378,10 +382,8 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         }
         if (resultsBean.size() > 0) {
             addBtn.setEnabled(true);
-            addBtn.setImmediate(true);
         } else {
             addBtn.setEnabled(false);
-            addBtn.setImmediate(true);
         }
     }
     

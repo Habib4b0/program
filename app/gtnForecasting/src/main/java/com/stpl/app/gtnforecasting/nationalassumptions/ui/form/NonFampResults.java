@@ -270,7 +270,7 @@ public class NonFampResults extends Window {
                 configureResultTable();
             }
             addResultTable();
-        } catch (Exception e) {
+        } catch (Property.ReadOnlyException | UnsupportedOperationException e) {
             LOGGER.error(e);
         }
 

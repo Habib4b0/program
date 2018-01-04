@@ -89,22 +89,20 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class NMDiscountProjectionResults extends ForecastDiscountProjectionResults {
 
-    SessionDTO sessionDto;
+    private final SessionDTO sessionDto;
 
-    String screenName = StringUtils.EMPTY;
+    private String screenName = StringUtils.EMPTY;
 
-    ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
 
-    List<List<String>> discountlist = new ArrayList<>();
-    List checkedValues = new ArrayList<>();
-    boolean generated = false;
-    boolean firstGenerated = false;
-    boolean flag = false;
-    int tradingPartnerNo = 0;
-    ForecastForm form;
-    public HorizontalLayout controlLayout;
-    boolean isTabVisible = true;
-    Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
+    private List<List<String>> discountlist = new ArrayList<>();
+    private boolean generated = false;
+    private boolean firstGenerated = false;
+    private boolean flag = false;
+    private final int tradingPartnerNo = 0;
+    private final ForecastForm form;
+    private boolean isTabVisible = true;
+    private final Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
 
         @Override
         public void valueChange(Property.ValueChangeEvent event) {            
@@ -161,7 +159,9 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
 
     @Override
     protected void generateButtonLogic() {
+        List checkedValues = new ArrayList<>();
         checkedValues = getCheckedValues();
+        
         if (checkedValues.isEmpty()) {
             AbstractNotificationUtils.getErrorNotification("No variables were selected", "Please select at least one variable and try again.");
             return;
@@ -595,6 +595,8 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
      */
     @SuppressWarnings("serial")
     private void addResultTable() {
+        HorizontalLayout controlLayout;
+        
         tableVerticalLayout.addComponent(resultsTable);
         controlLayout = tableLogic.createControls();
         tableLogic.sinkItemPerPageWithPageLength(false);

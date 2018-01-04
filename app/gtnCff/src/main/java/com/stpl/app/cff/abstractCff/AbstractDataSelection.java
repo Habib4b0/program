@@ -4,27 +4,12 @@
  */
 package com.stpl.app.cff.abstractCff;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.container.ExtTreeContainer;
-import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyBeanItemContainer;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
@@ -35,24 +20,37 @@ import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.UIUtil;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.NativeSelect;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.addons.lazycontainer.LazyBeanItemContainer;
+import org.asi.ui.container.ExtTreeContainer;
+import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
@@ -124,7 +122,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	 * The company.
 	 */
 
-	public ComboBox company = new ComboBox();
+	protected ComboBox company = new ComboBox();
 	/**
 	 * The product hierarchy.
 	 */
@@ -204,11 +202,11 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	@UiField("horizontalLayout")
 	protected HorizontalLayout horizontalLayout;
 	@UiField("ProdSelectionHLayout")
-	protected HorizontalLayout ProdSelectionHLayout;
+	protected HorizontalLayout prodSelectionHLayout;
 	@UiField("productSelectionGrid2")
 	protected GridLayout productSelectionGrid2;
 	@UiField("ProdSelectionVLayout")
-	protected VerticalLayout ProdSelectionVLayout;
+	protected VerticalLayout prodSelectionVLayout;
 	@UiField("panel3")
 	protected Panel panel3;
 	@UiField("customerSelection")
@@ -371,7 +369,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	protected TextField projectionId = new TextField();
 	private final ErrorLabel errorMsg = new ErrorLabel();
 	protected TextField viewId = new TextField();
-	private TextField viewName = new TextField();
+	private final TextField viewName = new TextField();
 	protected List<String> helperTableListNames;
 	protected List<String> companiesInProdHier;
 	protected LazyBeanItemContainer<DataSelectionDTO> resultsLazyContainer;
@@ -380,10 +378,6 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	protected boolean productLevelListenerFlag = true;
 	protected String selectedCustomerLevel = StringUtils.EMPTY;
 	protected String selectedProductLevel = StringUtils.EMPTY;
-	protected Map<String, String> customerDescriptionMap = null;
-	protected Map<String, String> productDescriptionMap = null;
-	protected boolean dismantleCustomerSelection = true;
-	protected boolean dismantleProductSelection = true;
 	/**
 	 * DTO object for DataSelection.
 	 */
@@ -398,9 +392,9 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	 */
 	protected final IndexedContainer customerForecastLevelContainer = new IndexedContainer();
 	private final IndexedContainer defaultCustomerForecastLevelContainer = new IndexedContainer();
-	protected String screenName = StringUtils.EMPTY;
+	private String screenName = StringUtils.EMPTY;
 
-	private CFFLogic logic = new CFFLogic();
+	private final CFFLogic logic = new CFFLogic();
 
 	public AbstractDataSelection(CustomFieldGroup dataSelectionBinder, String screenName) {
 		setCompositionRoot(Clara.create(getClass().getResourceAsStream("/cff/tabs/dataSelection.xml"), this));
@@ -443,12 +437,14 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			businessUnit.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
 			company.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
 			publicView.addClickListener(new CustomTextField.ClickListener() {
+                                @Override
 				public void click(CustomTextField.ClickEvent event) {
 					loadPublicView();
 				}
 			});
 
 			privateView.addClickListener(new CustomTextField.ClickListener() {
+                                @Override
 				public void click(CustomTextField.ClickEvent event) {
 					loadPrivateView();
 				}
@@ -722,6 +718,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	@UiHandler("resetBtn")
 	public void resetBtn(Button.ClickEvent event) {
 		new AbstractNotificationUtils() {
+            @Override
 			public void noMethod() {
 				// do nothing
 			}
@@ -737,8 +734,6 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			public void yesMethod() {
 				try {
 					resetOne();
-					dismantleCustomerSelection = true;
-					dismantleProductSelection = true;
 					resetButtonLogic();
 				} catch (Exception ex) {
 					LOGGER.error(ex);
@@ -1019,13 +1014,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			public void click(CustomTextField.ClickEvent event) {
 				try {
 					customerHierarchyLookUp();
-				} catch (InstantiationException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
-							ex);
-				} catch (IllegalAccessException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
-							ex);
-				} catch (ClassNotFoundException ex) {
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
 					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
 							ex);
 				}
@@ -1039,6 +1028,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 				if (!selectedCustomerContainer.getItemIds().isEmpty() && customerLevelListenerFlag) {
 					final String customerLevelValue = getSelectedCustomerLevel();
 					new AbstractNotificationUtils() {
+                        @Override
 						public void noMethod() {
 							// do nothing
 							if (!StringUtils.isBlank(customerLevelValue)) {
@@ -1111,13 +1101,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			public void click(CustomTextField.ClickEvent event) {
 				try {
 					productHierarchyLookUp();
-				} catch (InstantiationException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
-							ex);
-				} catch (IllegalAccessException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
-							ex);
-				} catch (ClassNotFoundException ex) {
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
 					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
 							ex);
 				}
@@ -1131,6 +1115,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 				if (!selectedProductContainer.getItemIds().isEmpty() && productLevelListenerFlag) {
 					final String productLevelValue = getSelectedProductLevel();
 					new AbstractNotificationUtils() {
+                        @Override
 						public void noMethod() {
 							// do nothing
 							if (!StringUtils.isBlank(productLevelValue)) {

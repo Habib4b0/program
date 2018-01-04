@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.company.dynamicclasses;
 import com.stpl.gtn.gtn2o.ui.company.action.GtnFrameWorkCMEditCustomAction;
 import com.stpl.gtn.gtn2o.ui.company.action.GtnFrameWorkCMParentCompanyMandatoryAction;
 import com.stpl.gtn.gtn2o.ui.company.action.GtnFrameWorkCMViewAction;
+import com.stpl.gtn.gtn2o.ui.company.action.GtnFrameworkCMIdentifierResetAction;
 import com.stpl.gtn.gtn2o.ui.company.action.GtnFrameworkCompanyMasterEditListPopupCloseAction;
 import com.stpl.gtn.gtn2o.ui.company.action.GtnFrameworkCompanyMasterIdEditListDeleteAction;
 import com.stpl.gtn.gtn2o.ui.company.action.GtnFrameworkCompanyMasterIdentifierEditListItemClickAction;
@@ -60,6 +61,8 @@ public class GtnUIFrameworkCdrDynamicClassFiller implements GtnUIDynamicObjectFi
 				new GtnFrameworkCompanyMasterEditListPopupCloseAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCompanyMasterIdEditListDeleteAction.class.getName(),
 				new GtnFrameworkCompanyMasterIdEditListDeleteAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkCMIdentifierResetAction.class.getName(),
+				new GtnFrameworkCMIdentifierResetAction());
 
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(
 				GtnFrameworkCompanyMasterIdentifierEditListItemClickAction.class.getName(),

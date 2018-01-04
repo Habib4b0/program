@@ -55,7 +55,7 @@ public class ConstantsUtil {
         SELECT_ONE("-Select One-"),
         QUARTERS("Quarters");
 
-        private String frequencyValue;
+        private final String frequencyValue;
 
         private FrequencyConstants(String frequencyValue) {
             this.frequencyValue = frequencyValue;
@@ -114,7 +114,7 @@ public class ConstantsUtil {
         PROJECTION_END_MONTH("projectionEndMonth"),
         PROJECTION_START_DAY("projectionStartDay"),
         PROJECTION_END_DAY("projectionEndDay");
-        private String constant;
+        private final String constant;
 
         private ProjectionConstants(String constant) {
             this.constant = constant;
@@ -166,7 +166,7 @@ public class ConstantsUtil {
         NET_RESET_PRICE_TYPE_FORMULA("Net Reset Price Formula"),
         NET_PRICE_TYPE("Net Price Type"),
         NET_PRICE_TYPE_FORMULA("Net Price Type Formula");
-        private String constant;
+        private final String constant;
 
         private MassUpdateConstants(String constant) {
             this.constant = constant;

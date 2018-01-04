@@ -40,8 +40,7 @@ import org.jboss.logging.Logger;
  */
 public class CommercialDPRLogic {
 
-    Logger LOGGER = Logger.getLogger(CommercialDPRLogic.class);
-    private static final DecimalFormat DOLLAR_FORMAT = new DecimalFormat("#,##0");
+    protected Logger LOGGER = Logger.getLogger(CommercialDPRLogic.class);
     private static final DecimalFormat DOLLAR_RPU_FORMAT = new DecimalFormat("#,##0.00");
     private static final DecimalFormat UNIT_VOLUME_FORMAT = new DecimalFormat("#,##0.000");
     private static final DecimalFormat EXFAC_PER_FORMAT = new DecimalFormat("#,##0.00");

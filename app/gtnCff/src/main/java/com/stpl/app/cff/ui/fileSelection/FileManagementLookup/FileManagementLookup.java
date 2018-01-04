@@ -4,31 +4,10 @@
  */
 package com.stpl.app.cff.ui.fileSelection.FileManagementLookup;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.CommonLogic;
@@ -66,19 +45,8 @@ import com.stpl.ifs.ui.util.GtnWsCsvExportUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.AbstractValidator;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.event.FieldEvents;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
@@ -86,25 +54,54 @@ import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.validator.AbstractValidator;
+import com.vaadin.v7.data.validator.RegexpValidator;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * The Class FileManagementLookup.
@@ -164,7 +161,7 @@ public class FileManagementLookup extends Window {
 	/**
 	 * The forecast year.
 	 */
-	private final ComboBox forecastYear = new ComboBox();
+	private final ComboBox forecastYearCombo = new ComboBox();
 	/**
 	 * The file name list.
 	 */
@@ -228,7 +225,7 @@ public class FileManagementLookup extends Window {
 	 * The file type.
 	 */
 	@UiField("fileType")
-	private TextField fileType;
+	private TextField vFileType;
 	/**
 	 * The country.
 	 */
@@ -271,11 +268,11 @@ public class FileManagementLookup extends Window {
 	private BeanItemContainer<FileMananagementResultDTO> detailsBean = new BeanItemContainer<>(
 			FileMananagementResultDTO.class);
 	/**
-	 * The file mgt dto.
+	 * The file mgt helperDto.
 	 */
 	private FileMananagementResultDTO fileMgtDTO = new FileMananagementResultDTO();
 	/**
-	 * The file mgt index dto.
+	 * The file mgt index helperDto.
 	 */
 	private FileMananagementResultDTO fileMgtIndexDTO = new FileMananagementResultDTO();
 	/**
@@ -290,7 +287,7 @@ public class FileManagementLookup extends Window {
 	/**
 	 * The Constant HelperDTO.
 	 */
-	private HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
+	private HelperDTO helperDto = new HelperDTO(ConstantsUtils.SELECT_ONE);
 	/**
 	 * The selected item.
 	 */
@@ -336,14 +333,14 @@ public class FileManagementLookup extends Window {
 	private BeanItemContainer<FileMananagementResultDTO> excelTableBean;
 	private ExtFilterTable excelDetailsTable;
 	private BeanItemContainer<FileMananagementResultDTO> excelDetailsBean;
-	private FileManagementLogic logic = new FileManagementLogic();
+	private FileManagementLogic vFileMgmtLogic = new FileManagementLogic();
 	private String helperFileType;
 	private BeanItemContainer searchContainer;
 	private SessionDTO sessionDTO;
 	private boolean isdetails;
 	public static final String REGEX = "([0-9|a-z|A-Z|*\\\\ ])*";
 	private FileSelectionDTO fileselectiondto = new FileSelectionDTO();
-	private String FileType;
+	private String fileType;
 	private Object itemId;
 	private String businessUnit;
 	public static final String UNIQUE_COMBINATION_ERROR = "Unique combination error";
@@ -361,28 +358,28 @@ public class FileManagementLookup extends Window {
 		this.searchContainer = searchContainer;
 		this.itemId = itemId;
 		this.isdetails = isdetails;
-		this.FileType = fileType;
+		this.fileType = fileType;
 		this.businessUnit = businessUnit;
 		LOGGER.debug("FileManagementLookup constructor Ended");
 	}
 
 	/**
-	 * Gets the dto.
+	 * Gets the helperDto.
 	 *
-	 * @return the dto
+	 * @return the helperDto
 	 */
-	public HelperDTO getDto() {
-		return dto;
+	public HelperDTO getHelperDto() {
+		return helperDto;
 	}
 
 	/**
-	 * Sets the dto.
+	 * Sets the helperDto.
 	 *
-	 * @param dto
-	 *            the new dto
+	 * @param helperDto
+	 *            the new helperDto
 	 */
-	public void setDto(final HelperDTO dto) {
-		this.dto = dto;
+	public void setHelperDto(final HelperDTO helperDto) {
+		this.helperDto = helperDto;
 	}
 
 	/**
@@ -568,8 +565,8 @@ public class FileManagementLookup extends Window {
 	 *
 	 * @return the file type
 	 */
-	public TextField getFileType() {
-		return fileType;
+	public TextField getvFileType() {
+		return vFileType;
 	}
 
 	/**
@@ -646,38 +643,38 @@ public class FileManagementLookup extends Window {
 	}
 
 	/**
-	 * Gets the file mgt dto.
+	 * Gets the file mgt helperDto.
 	 *
-	 * @return the file mgt dto
+	 * @return the file mgt helperDto
 	 */
 	public FileMananagementResultDTO getFileMgtDTO() {
 		return fileMgtDTO;
 	}
 
 	/**
-	 * Sets the file mgt dto.
+	 * Sets the file mgt helperDto.
 	 *
 	 * @param fileMgtDTO
-	 *            the file mgt dto
+	 *            the file mgt helperDto
 	 */
 	public void setFileMgtDTO(final FileMananagementResultDTO fileMgtDTO) {
 		this.fileMgtDTO = fileMgtDTO;
 	}
 
 	/**
-	 * Gets the file mgt index dto.
+	 * Gets the file mgt index helperDto.
 	 *
-	 * @return the file mgt index dto
+	 * @return the file mgt index helperDto
 	 */
 	public FileMananagementResultDTO getFileMgtIndexDTO() {
 		return fileMgtIndexDTO;
 	}
 
 	/**
-	 * Sets the file mgt index dto.
+	 * Sets the file mgt index helperDto.
 	 *
 	 * @param fileMgtIndexDTO
-	 *            the file mgt index dto
+	 *            the file mgt index helperDto
 	 */
 	public void setFileMgtIndexDTO(final FileMananagementResultDTO fileMgtIndexDTO) {
 		this.fileMgtIndexDTO = fileMgtIndexDTO;
@@ -829,7 +826,7 @@ public class FileManagementLookup extends Window {
 		summaryPanel.addStyleName("excepttable");
 		horizLayout.setMargin(true);
 		helperFileType = fileselectiondto.getHelperfileType();
-		fileType.setValue(FileType);
+		vFileType.setValue(fileType);
 		country.addItem(ConstantsUtils.COUNTRY_US);
 		country.addItem(ConstantsUtils.COUNTRY_PR);
 		country.select(ConstantsUtils.COUNTRY_US);
@@ -846,19 +843,19 @@ public class FileManagementLookup extends Window {
 		fileName.focus();
 		fileName.setImmediate(true);
 		version.setImmediate(true);
-		forecastYear.setImmediate(true);
+		forecastYearCombo.setImmediate(true);
 		fromDate.setImmediate(true);
 		toDate.setImmediate(true);
-		fileType.setImmediate(true);
+		vFileType.setImmediate(true);
 		country.setImmediate(true);
-		forecastYear.setNullSelectionAllowed(true);
-		forecastYear.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
-		forecastYear.setPageLength(NumericConstants.SEVEN);
-		forecastYear.setInputPrompt(ConstantsUtils.SELECT_ONE);
-		forecastYear.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
-		forecastYear.markAsDirty();
-		forecastYear.select(dto);
-		forecastYear.setImmediate(true);
+		forecastYearCombo.setNullSelectionAllowed(true);
+		forecastYearCombo.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
+		forecastYearCombo.setPageLength(NumericConstants.SEVEN);
+		forecastYearCombo.setInputPrompt(ConstantsUtils.SELECT_ONE);
+		forecastYearCombo.setItemCaptionPropertyId(ConstantsUtils.DESCRIPTION);
+		forecastYearCombo.markAsDirty();
+		forecastYearCombo.select(helperDto);
+		forecastYearCombo.setImmediate(true);
 		SearchForecastddlb.setImmediate(true);
 		SearchForecastddlb.setEnabled(false);
 		SearchForecastddlb.setNullSelectionAllowed(true);
@@ -869,7 +866,7 @@ public class FileManagementLookup extends Window {
 		SearchForecastddlb.markAsDirty();
 		SearchForecastddlb.setEnabled(true);
 		getSearchForecastyear();
-		fileType.setReadOnly(true);
+		vFileType.setReadOnly(true);
 		type.addValidator(new StringLengthValidator("Type length should be less than 50 characters", 0,
 				NumericConstants.FIFTY, true));
 		type.setValidationVisible(true);
@@ -897,16 +894,6 @@ public class FileManagementLookup extends Window {
 		fromDate.setValidationVisible(true);
 		toDate.setValidationVisible(true);
 
-		// Downloader downloader = new Downloader(null, "", detailstableLogic);
-		// OnDemandFileDownloader ondfd;
-		// try {
-		// ondfd = new OnDemandFileDownloader(downloader);
-		// ondfd.extend(excelExportDetail);
-		// } catch (IOException ex) {
-		// java.util.logging.Logger.getLogger(FileManagementLookup.class.getName()).log(Level.SEVERE,
-		// null, ex);
-		// }
-
 		LOGGER.debug("configureFields ended ");
 		LOGGER.debug("Ending addItemDetailsTable");
 
@@ -923,8 +910,8 @@ public class FileManagementLookup extends Window {
 			final LazyContainer results = new LazyContainer(HelperDTO.class, new ForecastYearContainer(),
 					new ForecastYearCriteria());
 			results.setMinFilterLength(0);
-			forecastYear.setContainerDataSource(results);
-			forecastYear.select(dto);
+			forecastYearCombo.setContainerDataSource(results);
+			forecastYearCombo.select(helperDto);
 			LOGGER.debug("In getForecastYear Ended");
 		} catch (Exception e) {
 			LOGGER.error(e);
@@ -943,6 +930,7 @@ public class FileManagementLookup extends Window {
 			 *
 			 */
 			@SuppressWarnings("PMD")
+                        @Override
 			public void buttonClick(final Button.ClickEvent event) {
 				LOGGER.debug("In searchButton searchButtonClickLogic started");
 				try {
@@ -982,10 +970,10 @@ public class FileManagementLookup extends Window {
 		toDate.setValue(CommonUtils.convert2DigitTo4DigitYearFormat(toDate.getValue()));
 		String forcaste;
 		String SearchforecastYear;
-		if (forecastYear.getValue() == null || ConstantsUtils.SELECT_ONE.equals(forecastYear.getValue().toString())) {
+		if (forecastYearCombo.getValue() == null || ConstantsUtils.SELECT_ONE.equals(forecastYearCombo.getValue().toString())) {
 			forcaste = StringUtils.EMPTY;
 		} else {
-			forcaste = forecastYear.getValue().toString();
+			forcaste = forecastYearCombo.getValue().toString();
 		}
 		if (SearchForecastddlb.getValue() == null
 				|| ConstantsUtils.SELECT_ONE.equals(SearchForecastddlb.getValue().toString())) {
@@ -1000,7 +988,7 @@ public class FileManagementLookup extends Window {
 			MessageBox.showPlain(Icon.ERROR, SEARCH_ERROR,
 					"Please Enter a value within text boxes of the Search Criteria", ButtonId.OK);
 		} else {
-			resultDTO.setFileType(String.valueOf(fileType.getValue()));
+			resultDTO.setFileType(String.valueOf(vFileType.getValue()));
 			resultDTO.setCountry(String.valueOf(country.getValue()));
 			resultDTO.setFileName(String.valueOf(fileName.getValue()));
 			resultDTO.setType(String.valueOf(type.getValue()));
@@ -1033,6 +1021,7 @@ public class FileManagementLookup extends Window {
 			 *
 			 */
 			@SuppressWarnings("PMD")
+                        @Override
 			public void buttonClick(final Button.ClickEvent event) {
 				LOGGER.debug("In detailsButton detailsButtonClickLogic started");
 				try {
@@ -1084,9 +1073,9 @@ public class FileManagementLookup extends Window {
 			detailsBean.removeAllItems();
 			detailsResultDTO.setFileName(String.valueOf(fileNameList.getValue()));
 			detailsResultDTO.setVersion(finalVersion);
-			detailsResultDTO.setFileType(String.valueOf(fileType.getValue()));
+			detailsResultDTO.setFileType(String.valueOf(vFileType.getValue()));
 			detailsResultDTO.setCountry(String.valueOf(country.getValue()));
-			detailsResultDTO.setHelperType(FileType);
+			detailsResultDTO.setHelperType(fileType);
 			detailstableLogic.configureSearchData(detailsResultDTO);
 			detailsFilterTable.setFilterDecorator(new ExtDemoFilterDecorator());
 			detailsFilterTable.setFilterGenerator(new FileManagementFilterGenerator());
@@ -1098,9 +1087,9 @@ public class FileManagementLookup extends Window {
 			if (tableLogic.isResultsEmpty()) {
 				CommonUIUtils.getMessageNotification(ConstantsUtils.NO_RESULSTS);
 			} else {
-				if (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
+				if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
 					final FileManagementDTO fileManageDTO = fmLogic.getDetailsSumm(
-							String.valueOf(fileNameList.getValue()), String.valueOf(versionList.getValue()), FileType,
+							String.valueOf(fileNameList.getValue()), String.valueOf(versionList.getValue()), fileType,
 							String.valueOf(country.getValue()));
 					changeReadOnlyState();
 					forecastName.setValue(fileManageDTO.getForecastName());
@@ -1109,10 +1098,10 @@ public class FileManagementLookup extends Window {
 					createdDate.setValue(fileManageDTO.getCreatedDate());
 					makeSummaryReadOnly();
 					detailsFlag = 'Y';
-				} else if (FileType.equals(ConstantsUtils.DEMAND)
-						|| (FileType).equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
+				} else if (fileType.equals(ConstantsUtils.DEMAND)
+						|| (fileType).equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
 					final FileManagementDTO fileManageDTO = fmLogic.getDetailsSumm(
-							String.valueOf(fileNameList.getValue()), String.valueOf(versionList.getValue()), FileType,
+							String.valueOf(fileNameList.getValue()), String.valueOf(versionList.getValue()), fileType,
 							String.valueOf(country.getValue()));
 					changeReadOnlyState();
 					forecastName.setValue(fileManageDTO.getForecastName());
@@ -1120,11 +1109,11 @@ public class FileManagementLookup extends Window {
 					createdDate.setValue(fileManageDTO.getCreatedDate());
 					makeSummaryReadOnly();
 					detailsFlag = 'Y';
-				} else if (FileType.equals(ConstantsUtils.DEMAND)
-						|| (FileType).equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)
-						|| (FileType).equals(ConstantsUtils.CUSTOMERGTS)) {
+				} else if (fileType.equals(ConstantsUtils.DEMAND)
+						|| (fileType).equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)
+						|| (fileType).equals(ConstantsUtils.CUSTOMERGTS)) {
 					final FileManagementDTO fileManageDTO = fmLogic.getDetailsSumm(
-							String.valueOf(fileNameList.getValue()), String.valueOf(versionList.getValue()), FileType,
+							String.valueOf(fileNameList.getValue()), String.valueOf(versionList.getValue()), fileType,
 							String.valueOf(country.getValue()));
 					changeReadOnlyState();
 					forecastName.setValue(fileManageDTO.getForecastName());
@@ -1132,9 +1121,9 @@ public class FileManagementLookup extends Window {
 					createdDate.setValue(fileManageDTO.getCreatedDate());
 					makeSummaryReadOnly();
 					detailsFlag = 'Y';
-				} else if (FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
+				} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
 					final FileManagementDTO fileManageDTO = fmLogic.getDetailsSumm(
-							String.valueOf(fileNameList.getValue()), String.valueOf(versionList.getValue()), FileType,
+							String.valueOf(fileNameList.getValue()), String.valueOf(versionList.getValue()), fileType,
 							String.valueOf(country.getValue()));
 					changeReadOnlyState();
 					forecastName.setValue(fileManageDTO.getForecastName());
@@ -1165,6 +1154,7 @@ public class FileManagementLookup extends Window {
 			 *
 			 */
 			@SuppressWarnings("PMD")
+                        @Override
 			public void buttonClick(final Button.ClickEvent event) {
 
 				if (selectClose == true && saveflag == false) {
@@ -1179,6 +1169,7 @@ public class FileManagementLookup extends Window {
 										 *
 										 */
 										@SuppressWarnings("PMD")
+                                    @Override
 										public void buttonClicked(final ButtonId buttonId) {
 
 											if (buttonId.name().equals(ConstantsUtils.YES)) {
@@ -1246,6 +1237,7 @@ public class FileManagementLookup extends Window {
 			 *
 			 */
 			@SuppressWarnings("PMD")
+                        @Override
 			public void buttonClick(final Button.ClickEvent event) {
 				LOGGER.debug("In select.addClickListener started");
 				try {
@@ -1265,6 +1257,7 @@ public class FileManagementLookup extends Window {
 										 *
 										 */
 										@SuppressWarnings("PMD")
+                                            @Override
 										public void buttonClicked(final ButtonId buttonId) {
 
 											if (buttonId.name().equals(ConstantsUtils.YES)) {
@@ -1345,6 +1338,7 @@ public class FileManagementLookup extends Window {
 			 *
 			 */
 			@SuppressWarnings("PMD")
+                        @Override
 			public void buttonClick(final Button.ClickEvent event) {
 				LOGGER.debug("In reset.addClickListener started");
 				MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION,
@@ -1357,13 +1351,14 @@ public class FileManagementLookup extends Window {
 							 *
 							 */
 							@SuppressWarnings("PMD")
+                                @Override
 							public void buttonClicked(final ButtonId buttonId) {
 								if (buttonId.name().equals(ConstantsUtils.YES)) {
 									try {
 										fileName.setValue(ConstantsUtils.EMPTY);
 										type.setValue(ConstantsUtils.EMPTY);
 										version.setValue(ConstantsUtils.EMPTY);
-										forecastYear.select(dto);
+										forecastYearCombo.select(helperDto);
 										fromDate.setValue(null);
 										toDate.setValue(null);
 										SearchForecastddlb.select(ConstantsUtils.SELECT_ONE);
@@ -1537,7 +1532,7 @@ public class FileManagementLookup extends Window {
 				String forecastYear = beanItem.getForcastYear();
 				String forecastMonth = beanItem.getForecastMonth();
 				String companyId = beanItem.getCompanyId();
-				String itemId = beanItem.getItemId();
+				String vItemId = beanItem.getItemId();
 				String organisationKey = beanItem.getOrganizationKey();
 				String batchId = beanItem.getBatchId();
 				String week = beanItem.getWeek();
@@ -1556,31 +1551,31 @@ public class FileManagementLookup extends Window {
 					String currentBatchId = dto.getBatchId();
 					String currentWeek = dto.getWeek();
 					String currentDay = dto.getDay();
-					if (year.equals(currentYear) && (FileType.equals(ConstantsUtils.EX_FACTORY_SALES))
+					if (year.equals(currentYear) && (fileType.equals(ConstantsUtils.EX_FACTORY_SALES))
 							&& month.equals(currentMonth) && itemName.equals(currentItemName)) {
 						AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.DETAILS_ERROR,
 								UNIQUE_COMBINATION_ERROR);
 						return;
 					}
-					if ((currentForecastType.equals(forecastType) && ((FileType.equals(ConstantsUtils.DEMAND))
-							|| (FileType.equals(ConstantsUtils.ADJUSTED_DEMAND))))
+					if ((currentForecastType.equals(forecastType) && ((fileType.equals(ConstantsUtils.DEMAND))
+							|| (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND))))
 							&& currentForecastYear.equals(forecastYear) && currentForecastMonth.equals(forecastMonth)
-							&& currentItemId.equals(itemId) && currentOrganisationKey.equals(organisationKey)) {
+							&& currentItemId.equals(vItemId) && currentOrganisationKey.equals(organisationKey)) {
 						AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.DETAILS_ERROR,
 								UNIQUE_COMBINATION_ERROR);
 						return;
 					}
-					if (currentYear.equals(forecastType) && FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)
+					if (currentYear.equals(forecastType) && fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)
 							&& currentMonth.equals(month) && currentDay.equals(day) && currentWeek.equals(week)
-							&& currentItemId.equals(itemId) && currentBatchId.equals(batchId)
+							&& currentItemId.equals(vItemId) && currentBatchId.equals(batchId)
 							&& currentOrganisationKey.equals(organisationKey)) {
 						AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.DETAILS_ERROR,
 								UNIQUE_COMBINATION_ERROR);
 						return;
 					}
-					if (currentYear.equals(forecastType) && FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)
+					if (currentYear.equals(forecastType) && fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)
 							&& currentMonth.equals(month) && currentDay.equals(day) && currentWeek.equals(week)
-							&& currentCompanyId.equals(companyId) && currentItemId.equals(itemId)
+							&& currentCompanyId.equals(companyId) && currentItemId.equals(vItemId)
 							&& currentBatchId.equals(batchId) && currentOrganisationKey.equals(organisationKey)) {
 						AbstractNotificationUtils.getErrorNotification(StringConstantsUtil.DETAILS_ERROR,
 								UNIQUE_COMBINATION_ERROR);
@@ -1600,17 +1595,17 @@ public class FileManagementLookup extends Window {
 							|| (beanItem.getDollars().equals(ConstantsUtils.EMPTY))
 							|| (beanItem.getItemNo().equals(ConstantsUtils.EMPTY))
 							|| (beanItem.getItemName().equals(ConstantsUtils.EMPTY)))
-							&& FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
+							&& fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
 						AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
 								"Please Enter the value at all fields");
 						return;
 					}
 					currentSystemId.add(beanItem.getForecastSystemId());
-					if (beanItem.getForecastSystemId() == 0 && (FileType.equals(ConstantsUtils.DEMAND)
-							|| FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)
-							|| FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)
-							|| FileType.equals(ConstantsUtils.CUSTOMERGTS)
-							|| FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL))) {
+					if (beanItem.getForecastSystemId() == 0 && (fileType.equals(ConstantsUtils.DEMAND)
+							|| fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)
+							|| fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)
+							|| fileType.equals(ConstantsUtils.CUSTOMERGTS)
+							|| fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL))) {
 						insertionItemIds.add(beanItem);
 					}
 				}
@@ -1623,38 +1618,38 @@ public class FileManagementLookup extends Window {
 			final HashMap savedForecast = new HashMap();
 			List<Integer> existingSystemId = new ArrayList<>();
 
-			if (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-				dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastingMaster.class);
+			if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
+				dynamicQuery = ForecastingMasterLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery
 						.add(RestrictionsFactoryUtil.eq(ConstantsUtils.FORECAST_YEAR, String.valueOf(selectedYear)));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
-						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
+						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue().toString()));
+						fileNameList.getValue()));
 				List<ForecastingMaster> listToRemove = ForecastingMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
 				for (final Iterator<ForecastingMaster> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final ForecastingMaster itemDetail = iterator.next();
 					existingSystemId.add(itemDetail.getForecastMasterSid());
 					savedForecast.put(itemDetail.getForecastMasterSid(), itemDetail);
 				}
-			} else if (FileType.equals(ConstantsUtils.DEMAND)) {
-				dynamicQuery = DynamicQueryFactoryUtil.forClass(DemandForecast.class);
+			} else if (fileType.equals(ConstantsUtils.DEMAND)) {
+				dynamicQuery = DemandForecastLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
-						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
+						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue().toString()));
+						fileNameList.getValue()));
 				List<DemandForecast> listToRemove = DemandForecastLocalServiceUtil.dynamicQuery(dynamicQuery);
 				for (final Iterator<DemandForecast> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final DemandForecast itemDetail = iterator.next();
 					existingSystemId.add(itemDetail.getDemandForecastSid());
 					savedForecast.put(itemDetail.getDemandForecastSid(), itemDetail);
 				}
-			} else if (FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-				dynamicQuery = DynamicQueryFactoryUtil.forClass(AdjustedDemandForecast.class);
+			} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
+				dynamicQuery = AdjustedDemandForecastLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
@@ -1668,7 +1663,7 @@ public class FileManagementLookup extends Window {
 					existingSystemId.add(itemDetail.getAdjustedDemandForecastSid());
 					savedForecast.put(itemDetail.getAdjustedDemandForecastSid(), itemDetail);
 				}
-			} else if (FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
+			} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 				List<String> query = new ArrayList<>();
 				query.add(selectedFile);
 				query.add(country.getValue().toString());
@@ -1681,8 +1676,8 @@ public class FileManagementLookup extends Window {
 					savedForecast.put(itemDetail.getInventoryForecastDetailsSysId(), itemDetail);
 
 				}
-			} else if (FileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-				dynamicQuery = DynamicQueryFactoryUtil.forClass(CustomerGtsForecast.class);
+			} else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
+				dynamicQuery = CustomerGtsForecastLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
@@ -1706,20 +1701,20 @@ public class FileManagementLookup extends Window {
 						if (!beanItem.isRecordLockStatus()) {
 							if ((beanItem.getPrice().equals(beanItem.getHiddenPrice())
 									&& beanItem.getUnits().equals(beanItem.getHiddenUnits()))
-									&& FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
+									&& fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
 							} else if (beanItem.getForecastType().equals(beanItem.getHiddenForecastType())
 									&& beanItem.getForcastYear().equals(beanItem.getHiddenForecastYear())
 									&& beanItem.getForecastMonth().equals(beanItem.getHiddenForecastMonth())
 									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
 									&& beanItem.getOrganizationKey().equals(beanItem.getOrganizationKey())
-									&& FileType.equals(ConstantsUtils.DEMAND)) {
+									&& fileType.equals(ConstantsUtils.DEMAND)) {
 
 							} else if (beanItem.getForecastType().equals(beanItem.getHiddenForecastType())
 									&& beanItem.getForcastYear().equals(beanItem.getHiddenForecastYear())
 									&& beanItem.getForecastMonth().equals(beanItem.getHiddenForecastMonth())
 									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
 									&& beanItem.getOrganizationKey().equals(beanItem.getOrganizationKey())
-									&& FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
+									&& fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
 
 							} else if (beanItem.getYear().equals(beanItem.getHiddenYear())
 									&& beanItem.getMonth().equals(beanItem.getHiddenMonth())
@@ -1728,7 +1723,7 @@ public class FileManagementLookup extends Window {
 									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
 									&& beanItem.getBatchId().equals(beanItem.getHiddenbatchId())
 									&& beanItem.getOrganizationKey().equals(beanItem.getHiddenOrganisationKey())
-									&& FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
+									&& fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
 
 							} else if (beanItem.getYear().equals(beanItem.getHiddenYear())
 									&& beanItem.getMonth().equals(beanItem.getHiddenMonth())
@@ -1738,7 +1733,7 @@ public class FileManagementLookup extends Window {
 									&& beanItem.getItemId().equals(beanItem.getHiddenItemId())
 									&& beanItem.getBatchId().equals(beanItem.getHiddenbatchId())
 									&& beanItem.getOrganizationKey().equals(beanItem.getHiddenOrganisationKey())
-									&& FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
+									&& fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 
 							} else if (beanItem.getForcastYear().equals(beanItem.getHiddenForecastYear())
 									&& beanItem.getForecastMonth().equals(beanItem.getHiddenForecastMonth())
@@ -1760,6 +1755,7 @@ public class FileManagementLookup extends Window {
 			if (changeFlag) {
 				MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION,
 						"Save record " + forecastName.getValue() + "?", new MessageBoxListener() {
+                                                        @Override
 							public void buttonClicked(ButtonId buttonId) {
 								if (buttonId.name().equals(ConstantsUtils.YES)) {
 									String finalVersion;
@@ -1776,17 +1772,17 @@ public class FileManagementLookup extends Window {
 									FileManagementLogic logic = new FileManagementLogic();
 									try {
 										String msg = "fail";
-										if (FileType.equals(ConstantsUtils.DEMAND)
-												|| FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)
-												|| FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)
-												|| FileType.equals(ConstantsUtils.CUSTOMERGTS)
-												|| FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
+										if (fileType.equals(ConstantsUtils.DEMAND)
+												|| fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)
+												|| fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)
+												|| fileType.equals(ConstantsUtils.CUSTOMERGTS)
+												|| fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 											msg = logic.saveForecastDetails(insertionItemIds, selectedFile,
 													selectedFileCountry, finalVersion, fileNameList.getValue(),
-													FileType);
-										} else if (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
+													fileType);
+										} else if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
 											msg = logic.saveForecastDetails(itemIds, selectedFile, selectedFileCountry,
-													finalVersion, fileNameList.getValue(), FileType);
+													finalVersion, fileNameList.getValue(), fileType);
 										}
 
 										if (msg.equals("success")) {
@@ -1794,7 +1790,7 @@ public class FileManagementLookup extends Window {
 											Notification.show("Records saved Successfully");
 											addlineList.clear();
 											try {
-												resultDTO.setFileType(String.valueOf(fileType.getValue()));
+												resultDTO.setFileType(String.valueOf(vFileType.getValue()));
 												resultDTO.setCountry(String.valueOf(country.getValue()));
 												resultDTO.setFileName(String.valueOf(fileName.getValue()));
 												resultDTO.setType(String.valueOf(type.getValue().trim()));
@@ -2026,6 +2022,7 @@ public class FileManagementLookup extends Window {
 			 *
 			 */
 			@SuppressWarnings("PMD")
+                        @Override
 			public void valueChange(final Property.ValueChangeEvent event) {
 				LOGGER.debug("In resultsTable resultsItemClick started");
 				try {
@@ -2042,6 +2039,7 @@ public class FileManagementLookup extends Window {
 			/**
 			 * * Invoked when an error occurs.
 			 */
+                        @Override
 			public void error(final com.vaadin.server.ErrorEvent event) {
 				// empty method
 			}
@@ -2049,8 +2047,8 @@ public class FileManagementLookup extends Window {
 	}
 
 	public void setTableDefaultConfig(ExtPagedTable resultsTable) {
-		resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupResultColumns);
-		resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupResultHeader);
+		resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_RES_COLS);
+		resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_RES_HEADER);
 		resultsTable.markAsDirtyRecursive();
 		resultsTable.setImmediate(true);
 		resultsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -2076,7 +2074,7 @@ public class FileManagementLookup extends Window {
 			detailstableLogic.setContainerDataSource(detailsBean);
 			detailstableLogic.setPageLength(NumericConstants.FIFTEEN);
 			detailstableLogic.sinkItemPerPageWithPageLength(false);
-			setDetailsTableDefaultConfig(FileType, detailsFilterTable);
+			setDetailsTableDefaultConfig(fileType, detailsFilterTable);
 			detailsFilterTable.markAsDirty();
 			detailsFilterTable.setComponentError(null);
 			detailsFilterTable.setFilterBarVisible(true);
@@ -2088,7 +2086,7 @@ public class FileManagementLookup extends Window {
 			detailsFilterTable.setSelectable(true);
 
 			fileselectiondto.getHelperfileType();
-			if (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
+			if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
 				detailsFilterTable.setColumnAlignment(StringConstantsUtil.MONTH_PROPERTY, ExtCustomTable.Align.LEFT);
 				detailsFilterTable.setColumnAlignment("year", ExtCustomTable.Align.LEFT);
 				detailsFilterTable.setColumnAlignment("itemNo", ExtCustomTable.Align.LEFT);
@@ -2100,7 +2098,7 @@ public class FileManagementLookup extends Window {
 
 				detailsFilterTable.setConverter("startDate", new DateToStringConverter());
 
-			} else if (FileType.toString().equals(ConstantsUtils.DEMAND)) {
+			} else if (fileType.toString().equals(ConstantsUtils.DEMAND)) {
 				detailsFilterTable.setColumnAlignment(StringConstantsUtil.FORECAST_TYPE, ExtCustomTable.Align.LEFT);
 				detailsFilterTable.setColumnAlignment("forecastYear", ExtCustomTable.Align.LEFT);
 				detailsFilterTable.setColumnAlignment(StringConstantsUtil.FORECAST_MONTH, ExtCustomTable.Align.LEFT);
@@ -2135,7 +2133,7 @@ public class FileManagementLookup extends Window {
 				detailsFilterTable.setColumnAlignment(StringConstantsUtil.FORECAST_VERSION, ExtCustomTable.Align.LEFT);
 				detailsFilterTable.setColumnAlignment(StringConstantsUtil.COUNTRY, ExtCustomTable.Align.LEFT);
 				detailsFilterTable.setColumnAlignment(StringConstantsUtil.ORGANIZATION_KEY, ExtCustomTable.Align.LEFT);
-			} else if (FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
+			} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
 
 				detailsFilterTable.setColumnAlignment(StringConstantsUtil.ITEM_ID, ExtCustomTable.Align.LEFT);
 				detailsFilterTable.setColumnAlignment("itemName", ExtCustomTable.Align.LEFT);
@@ -2166,14 +2164,14 @@ public class FileManagementLookup extends Window {
 				detailsFilterTable.setColumnAlignment(StringConstantsUtil.ORGANIZATION_KEY, ExtCustomTable.Align.LEFT);
 
 			}
-			if (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
+			if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
 				exFactoryFieldFactory();
-			} else if (FileType.equals(ConstantsUtils.DEMAND) || FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
+			} else if (fileType.equals(ConstantsUtils.DEMAND) || fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
 				demandFieldFactory();
-			} else if (FileType.equals(ConstantsUtils.CUSTOMERGTS)) {
+			} else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
 				customerFieldFactory();
-			} else if (FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)
-					|| FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
+			} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)
+					|| fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 				inventoryFieldFactory(fileselectiondto.getFileType());
 			}
 			detailsFilterTable.setErrorHandler(new ErrorHandler() {
@@ -2182,6 +2180,7 @@ public class FileManagementLookup extends Window {
 				 *
 				 */
 				@SuppressWarnings("PMD")
+                                @Override
 				public void error(final com.vaadin.server.ErrorEvent event) {
 					// empty method
 				}
@@ -2200,23 +2199,23 @@ public class FileManagementLookup extends Window {
 		try {
 			resultsTable.removeAllItems();
 			if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupDetailsColumns);
-				resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupDetailsHeader);
+				resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_DETAILS_COLS);
+				resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_DETAILS_HEADER);
 			} else if (fileType.equals(ConstantsUtils.DEMAND)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupDemandDetailsColumns);
-				resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupDemandDetailsHeader);
+				resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_DEMAND_DETAILS_COLS);
+				resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_DEMAND_DETAILS_HEADER);
 			} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsSummaryColumns);
-				resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsSummaryHeader);
+				resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_SUMMARY_COLS);
+				resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_SUMMARY_HEADER);
 			} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsColumns);
-				resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsDetailsHeader);
+				resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_ADJ_DEMAND_DETAILS_COLS);
+				resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_HEADER);
 			} else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupCustomerColumns);
-				resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupCustomerHeader);
+				resultsTable.setVisibleColumns(CommonUIUtil.fileMgtLookupCustomerColumns);
+				resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_CUS_HEADER);
 			} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsColumns);
-				resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsHeader);
+				resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_ADJ_DEMAND_DETAILS_COLS);
+				resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_ADJ_DEMAND_DETAILS_HEADER);
 			}
 			resultsTable.markAsDirtyRecursive();
 			resultsTable.setImmediate(true);
@@ -2258,8 +2257,8 @@ public class FileManagementLookup extends Window {
 		tableLayout.addComponent(excelTable);
 		excelTable.setVisible(false);
 		excelTable.setContainerDataSource(excelTableBean);
-		excelTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupResultColumns);
-		excelTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupResultHeader);
+		excelTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_RES_COLS);
+		excelTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_RES_HEADER);
 		excelTable.markAsDirtyRecursive();
 	}
 
@@ -2273,8 +2272,8 @@ public class FileManagementLookup extends Window {
 		excelTableBean.removeAllItems();
 		if (resultsFilterTable.size() != 0) {
 			FileMananagementResultDTO excelDTO = fileObject;
-			int recordCount = (Integer) logic.getFileResults(excelDTO, 0, 0, null, null, true);
-			List<FileMananagementResultDTO> resultList = (List<FileMananagementResultDTO>) logic
+			int recordCount = (Integer) vFileMgmtLogic.getFileResults(excelDTO, 0, 0, null, null, true);
+			List<FileMananagementResultDTO> resultList = (List<FileMananagementResultDTO>) vFileMgmtLogic
 					.getFileResults(excelDTO, 0, recordCount, null, null, false);
 			excelTableBean.addAll(resultList);
 
@@ -2295,27 +2294,27 @@ public class FileManagementLookup extends Window {
 		excelDetailsTable.setVisible(false);
 		excelDetailsTable.setContainerDataSource(excelDetailsBean);
 
-		if (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupDetailsColumnsExcel);
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupDemandDetailsHeaderExcel);
-		} else if (FileType.equals(ConstantsUtils.DEMAND)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupDemandDetailsColumnsExcel);
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupDemandDetailsHeaderExcel);
-		} else if (FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtInventoryDetailsSummaryColumnsExcel);
+		if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
+			excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_DETAILS_COLS_EXCEL);
+			excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_DEMAND_DETAILS_HEADER_EXCEL);
+		} else if (fileType.equals(ConstantsUtils.DEMAND)) {
+			excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_DEMAND_DETAILS_COLS_EXCEL);
+			excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_DEMAND_DETAILS_HEADER_EXCEL);
+		} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
+			excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_INV_DETAILS_SUM_COLS_EXCEL);
 			excelDetailsTable
-					.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsSummaryHeaderExcel);
-		} else if (FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
+					.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_SUM_HEADER);
+		} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 			excelDetailsTable
-					.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsDetailsColumnsExcel);
+					.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_COLS_EXCEL);
 			excelDetailsTable
-					.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsDetailsHeaderExcel);
-		} else if (FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsColumns);
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsHeader);
-		} else if (FileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgtLookupCustomerColumns);
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgtLookupCustomerHeader);
+					.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_HEADER_EXCEL);
+		} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
+			excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_ADJ_DEMAND_DETAILS_COLS);
+			excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_ADJ_DEMAND_DETAILS_HEADER);
+		} else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
+			excelDetailsTable.setVisibleColumns(CommonUIUtil.fileMgtLookupCustomerColumns);
+			excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_CUS_HEADER);
 		}
 		excelDetailsTable.markAsDirtyRecursive();
 		LOGGER.debug("Configure ExcelDetailsTable ends");
@@ -2331,8 +2330,8 @@ public class FileManagementLookup extends Window {
 		excelDetailsBean.removeAllItems();
 		if (detailsFilterTable.size() != 0) {
 			FileMananagementResultDTO detailsDTO = (FileMananagementResultDTO) fileObject;
-			int recordCount = (Integer) logic.getDetailsResults(detailsDTO, 0, 0, null, null, true);
-			List<FileMananagementResultDTO> resultList = (List<FileMananagementResultDTO>) logic
+			int recordCount = (Integer) vFileMgmtLogic.getDetailsResults(detailsDTO, 0, 0, null, null, true);
+			List<FileMananagementResultDTO> resultList = (List<FileMananagementResultDTO>) vFileMgmtLogic
 					.getDetailsResults(detailsDTO, 0, recordCount, null, null, false);
 			excelDetailsBean.addAll(resultList);
 		}
@@ -2343,6 +2342,7 @@ public class FileManagementLookup extends Window {
 			/**
 			 * To create editable fields inside table .
 			 */
+                        @Override
 			public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 					final Component uiContext) {
 				final FileMananagementResultDTO dto = (FileMananagementResultDTO) itemId;
@@ -2375,8 +2375,9 @@ public class FileManagementLookup extends Window {
 						if (propertyId.equals(ConstantsUtils.UNITS)) {
 							final TextField unit = new TextField();
 							unit.setImmediate(true);
-							unit.addBlurListener(new FieldEvents.BlurListener() {
-								public void blur(FieldEvents.BlurEvent event) {
+							unit.addBlurListener(new BlurListener() {
+                                                                @Override
+								public void blur(BlurEvent event) {
 									LOGGER.debug("In configureFields levelValueReference.addBlurListener started ");
 
 									String unitValue = unit.getValue();
@@ -2408,8 +2409,9 @@ public class FileManagementLookup extends Window {
 						if (propertyId.equals(ConstantsUtils.PRICE)) {
 							final TextField price = new TextField();
 							price.setImmediate(true);
-							price.addBlurListener(new FieldEvents.BlurListener() {
-								public void blur(FieldEvents.BlurEvent event) {
+							price.addBlurListener(new BlurListener() {
+                                                            @Override
+								public void blur(BlurEvent event) {
 
 									LOGGER.debug(
 											"In configureFields levelValueReference.addValueChangeListener started");
@@ -2449,8 +2451,9 @@ public class FileManagementLookup extends Window {
 					if (propertyId.equals(ConstantsUtils.UNITS)) {
 						final TextField unit = new TextField();
 						unit.setImmediate(true);
-						unit.addBlurListener(new FieldEvents.BlurListener() {
-							public void blur(FieldEvents.BlurEvent event) {
+						unit.addBlurListener(new BlurListener() {
+                                                        @Override
+							public void blur(BlurEvent event) {
 								LOGGER.debug("In configureFields levelValueReference.addBlurListener  started");
 
 								String unitValue = unit.getValue();
@@ -2481,8 +2484,9 @@ public class FileManagementLookup extends Window {
 					if (propertyId.equals(ConstantsUtils.PRICE)) {
 						final TextField price = new TextField();
 						price.setImmediate(true);
-						price.addBlurListener(new FieldEvents.BlurListener() {
-							public void blur(FieldEvents.BlurEvent event) {
+						price.addBlurListener(new BlurListener() {
+                                                        @Override
+							public void blur(BlurEvent event) {
 								LOGGER.debug("In configureFields  levelValueReference.addBlurListener started");
 
 								String priceValue = price.getValue();
@@ -2513,8 +2517,9 @@ public class FileManagementLookup extends Window {
 
 						final TextField year1 = new TextField();
 						year1.setImmediate(true);
-						year1.addBlurListener(new FieldEvents.BlurListener() {
-							public void blur(FieldEvents.BlurEvent event) {
+						year1.addBlurListener(new BlurListener() {
+                                                        @Override
+							public void blur(BlurEvent event) {
 								LOGGER.debug("In configureFields levelValueReference.addBlurListener started");
 
 								String year = year1.getValue();
@@ -2533,8 +2538,9 @@ public class FileManagementLookup extends Window {
 					if (propertyId.equals(ConstantsUtils.MONTH)) {
 						final TextField month = new TextField();
 						month.setImmediate(true);
-						month.addBlurListener(new FieldEvents.BlurListener() {
-							public void blur(FieldEvents.BlurEvent event) {
+						month.addBlurListener(new BlurListener() {
+                                                        @Override
+							public void blur(BlurEvent event) {
 								LOGGER.debug("In configureFields levelValueReference.addBlurListener started");
 
 								String enteredMonth = month.getValue();
@@ -2574,6 +2580,7 @@ public class FileManagementLookup extends Window {
 							 *
 							 */
 							@SuppressWarnings("PMD")
+                                        @Override
 							public void click(CustomTextField.ClickEvent event) {
 								final ItemSearchLookup lookUp = new ItemSearchLookup(itemNo, lookupItemName);
 								try {
@@ -2583,6 +2590,7 @@ public class FileManagementLookup extends Window {
 								}
 								UI.getCurrent().addWindow(lookUp);
 								lookUp.addCloseListener(new Window.CloseListener() {
+                                                @Override
 									public void windowClose(final Window.CloseEvent e) {
 										detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME)
 												.setValue(lookupItemName.getValue().toString());
@@ -2616,6 +2624,7 @@ public class FileManagementLookup extends Window {
 	public void demandFieldFactory() {
 
 		detailsFilterTable.setTableFieldFactory(new DefaultFieldFactory() {
+                        @Override
 			public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 					final Component uiContext) {
 				final FileMananagementResultDTO dto = (FileMananagementResultDTO) itemId;
@@ -2624,10 +2633,10 @@ public class FileManagementLookup extends Window {
 				if (interfaceFlag.equals(ConstantsUtils.CHAR_N)) {
 					if (flag) {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
-							final ExtCustomCheckBox select = new ExtCustomCheckBox();
-							select.setImmediate(true);
-							select.setEnabled(false);
-							return select;
+							final ExtCustomCheckBox extCustCheckBoxSelect = new ExtCustomCheckBox();
+							extCustCheckBoxSelect.setImmediate(true);
+							extCustCheckBoxSelect.setEnabled(false);
+							return extCustCheckBoxSelect;
 						}
 						if (propertyId.equals(StringConstantsUtil.FORECAST_TYPE)) {
 							final TextField forecastType = new TextField();
@@ -2637,11 +2646,11 @@ public class FileManagementLookup extends Window {
 							return forecastType;
 						}
 						if (propertyId.equals(FORCAST_YEAR)) {
-							final TextField forecastYear = new TextField();
-							forecastYear.setImmediate(true);
-							forecastYear.setReadOnly(true);
-							forecastYear.setEnabled(false);
-							return forecastYear;
+							final TextField vForecastYear = new TextField();
+							vForecastYear.setImmediate(true);
+							vForecastYear.setReadOnly(true);
+							vForecastYear.setEnabled(false);
+							return vForecastYear;
 						}
 						if (propertyId.equals(StringConstantsUtil.FORECAST_MONTH)) {
 							final TextField forecastMonth = new TextField();
@@ -2803,25 +2812,25 @@ public class FileManagementLookup extends Window {
 							return source;
 						}
 						if (propertyId.equals(StringConstantsUtil.FORECAST_NAME)) {
-							final TextField forecastName = new TextField();
-							forecastName.setImmediate(true);
-							forecastName.setReadOnly(true);
-							forecastName.setEnabled(false);
-							return forecastName;
+							final TextField vForecastName = new TextField();
+							vForecastName.setImmediate(true);
+							vForecastName.setReadOnly(true);
+							vForecastName.setEnabled(false);
+							return vForecastName;
 						}
 						if (propertyId.equals(StringConstantsUtil.FORECAST_VERSION)) {
-							final TextField forecastVersion = new TextField();
-							forecastVersion.setImmediate(true);
-							forecastVersion.setReadOnly(true);
-							forecastVersion.setEnabled(false);
-							return forecastVersion;
+							final TextField vForecastVersion = new TextField();
+							vForecastVersion.setImmediate(true);
+							vForecastVersion.setReadOnly(true);
+							vForecastVersion.setEnabled(false);
+							return vForecastVersion;
 						}
 						if (propertyId.equals(StringConstantsUtil.COUNTRY)) {
-							final TextField country = new TextField();
-							country.setImmediate(true);
-							country.setReadOnly(true);
-							country.setEnabled(false);
-							return country;
+							final TextField vCountry = new TextField();
+							vCountry.setImmediate(true);
+							vCountry.setReadOnly(true);
+							vCountry.setEnabled(false);
+							return vCountry;
 						}
 						if (propertyId.equals(StringConstantsUtil.ORGANIZATION_KEY)) {
 							final TextField organizationKey = new TextField();
@@ -2833,10 +2842,10 @@ public class FileManagementLookup extends Window {
 
 					} else {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
-							final ExtCustomCheckBox select = new ExtCustomCheckBox();
-							select.setImmediate(true);
-							select.setEnabled(true);
-							return select;
+							final ExtCustomCheckBox extCustCheckSelect = new ExtCustomCheckBox();
+							extCustCheckSelect.setImmediate(true);
+							extCustCheckSelect.setEnabled(true);
+							return extCustCheckSelect;
 						}
 						if (propertyId.equals(StringConstantsUtil.FORECAST_TYPE)) {
 							final TextField forecastType = new TextField();
@@ -3012,25 +3021,25 @@ public class FileManagementLookup extends Window {
 							return source;
 						}
 						if (propertyId.equals(StringConstantsUtil.FORECAST_NAME)) {
-							final TextField forecastName = new TextField();
-							forecastName.setImmediate(true);
-							forecastName.setReadOnly(true);
-							forecastName.setEnabled(false);
-							return forecastName;
+							final TextField vForecastName = new TextField();
+							vForecastName.setImmediate(true);
+							vForecastName.setReadOnly(true);
+							vForecastName.setEnabled(false);
+							return vForecastName;
 						}
 						if (propertyId.equals(StringConstantsUtil.FORECAST_VERSION)) {
-							final TextField forecastVersion = new TextField();
-							forecastVersion.setImmediate(true);
-							forecastVersion.setReadOnly(true);
-							forecastVersion.setEnabled(false);
-							return forecastVersion;
+							final TextField vForecastVersion = new TextField();
+							vForecastVersion.setImmediate(true);
+							vForecastVersion.setReadOnly(true);
+							vForecastVersion.setEnabled(false);
+							return vForecastVersion;
 						}
 						if (propertyId.equals(StringConstantsUtil.COUNTRY)) {
-							final TextField country = new TextField();
-							country.setImmediate(true);
-							country.setReadOnly(true);
-							country.setEnabled(false);
-							return country;
+							final TextField vCountry = new TextField();
+							vCountry.setImmediate(true);
+							vCountry.setReadOnly(true);
+							vCountry.setEnabled(false);
+							return vCountry;
 						}
 						if (propertyId.equals(StringConstantsUtil.ORGANIZATION_KEY)) {
 							final TextField organizationKey = new TextField();
@@ -3042,10 +3051,10 @@ public class FileManagementLookup extends Window {
 					}
 				} else {
 					if (propertyId.equals(ConstantsUtils.CHECK)) {
-						final ExtCustomCheckBox select = new ExtCustomCheckBox();
-						select.setImmediate(true);
-						select.setEnabled(true);
-						return select;
+						final ExtCustomCheckBox extCustomCheckSelect = new ExtCustomCheckBox();
+						extCustomCheckSelect.setImmediate(true);
+						extCustomCheckSelect.setEnabled(true);
+						return extCustomCheckSelect;
 					}
 					if (propertyId.equals(StringConstantsUtil.FORECAST_TYPE)) {
 						final TextField forecastType = new TextField();
@@ -3054,10 +3063,10 @@ public class FileManagementLookup extends Window {
 						return forecastType;
 					}
 					if (propertyId.equals(FORCAST_YEAR)) {
-						final TextField forecastYear = new TextField();
-						forecastYear.setEnabled(true);
-						forecastYear.setImmediate(true);
-						return forecastYear;
+						final TextField vForecastYear = new TextField();
+						vForecastYear.setEnabled(true);
+						vForecastYear.setImmediate(true);
+						return vForecastYear;
 					}
 					if (propertyId.equals(StringConstantsUtil.FORECAST_MONTH)) {
 						final TextField forecastMonth = new TextField();
@@ -3186,22 +3195,22 @@ public class FileManagementLookup extends Window {
 						return source;
 					}
 					if (propertyId.equals(StringConstantsUtil.FORECAST_NAME)) {
-						final TextField forecastName = new TextField();
-						forecastName.setEnabled(true);
-						forecastName.setImmediate(true);
-						return forecastName;
+						final TextField vForecastName = new TextField();
+						vForecastName.setEnabled(true);
+						vForecastName.setImmediate(true);
+						return vForecastName;
 					}
 					if (propertyId.equals(StringConstantsUtil.FORECAST_VERSION)) {
-						final TextField forecastVersion = new TextField();
-						forecastVersion.setEnabled(true);
-						forecastVersion.setImmediate(true);
-						return forecastVersion;
+						final TextField vForecastVersion = new TextField();
+						vForecastVersion.setEnabled(true);
+						vForecastVersion.setImmediate(true);
+						return vForecastVersion;
 					}
 					if (propertyId.equals(StringConstantsUtil.COUNTRY)) {
-						final TextField country = new TextField();
-						country.setEnabled(true);
-						country.setImmediate(true);
-						return country;
+						final TextField vCountry = new TextField();
+						vCountry.setEnabled(true);
+						vCountry.setImmediate(true);
+						return vCountry;
 					}
 					if (propertyId.equals(StringConstantsUtil.ORGANIZATION_KEY)) {
 						final TextField organizationKey = new TextField();
@@ -3222,6 +3231,7 @@ public class FileManagementLookup extends Window {
 			/**
 			 * To create editable fields inside table .
 			 */
+                        @Override
 			public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 					final Component uiContext) {
 				final FileMananagementResultDTO dto = (FileMananagementResultDTO) itemId;
@@ -3230,10 +3240,10 @@ public class FileManagementLookup extends Window {
 				if (interfaceFlag.equals(ConstantsUtils.CHAR_N)) {
 					if (flag) {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
-							final ExtCustomCheckBox select = new ExtCustomCheckBox();
-							select.setImmediate(true);
-							select.setEnabled(false);
-							return select;
+							final ExtCustomCheckBox vExtCustomCheckSelect = new ExtCustomCheckBox();
+							vExtCustomCheckSelect.setImmediate(true);
+							vExtCustomCheckSelect.setEnabled(false);
+							return vExtCustomCheckSelect;
 						}
 						if (propertyId.equals("year")) {
 							final TextField year = new TextField();
@@ -3345,10 +3355,10 @@ public class FileManagementLookup extends Window {
 
 					} else {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
-							final ExtCustomCheckBox select = new ExtCustomCheckBox();
-							select.setImmediate(true);
-							select.setEnabled(true);
-							return select;
+							final ExtCustomCheckBox extCustomCheckSelect = new ExtCustomCheckBox();
+							extCustomCheckSelect.setImmediate(true);
+							extCustomCheckSelect.setEnabled(true);
+							return extCustomCheckSelect;
 						}
 						if (propertyId.equals("year")) {
 							final TextField year = new TextField();
@@ -3460,10 +3470,10 @@ public class FileManagementLookup extends Window {
 					}
 				} else {
 					if (propertyId.equals(ConstantsUtils.CHECK)) {
-						final ExtCustomCheckBox select = new ExtCustomCheckBox();
-						select.setImmediate(true);
-						select.setEnabled(true);
-						return select;
+						final ExtCustomCheckBox extCustomCheckSelect = new ExtCustomCheckBox();
+						extCustomCheckSelect.setImmediate(true);
+						extCustomCheckSelect.setEnabled(true);
+						return extCustomCheckSelect;
 					}
 					if (propertyId.equals("year")) {
 						final TextField year = new TextField();
@@ -3583,6 +3593,7 @@ public class FileManagementLookup extends Window {
 	public void customerFieldFactory() {
 
 		detailsFilterTable.setTableFieldFactory(new DefaultFieldFactory() {
+                        @Override
 			public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 					final Component uiContext) {
 				final FileMananagementResultDTO dto = (FileMananagementResultDTO) itemId;
@@ -3591,10 +3602,10 @@ public class FileManagementLookup extends Window {
 				if (interfaceFlag.equals(ConstantsUtils.CHAR_N)) {
 					if (flag) {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
-							final ExtCustomCheckBox select = new ExtCustomCheckBox();
-							select.setImmediate(true);
-							select.setEnabled(false);
-							return select;
+							final ExtCustomCheckBox ectCustomCheckSelect = new ExtCustomCheckBox();
+							ectCustomCheckSelect.setImmediate(true);
+							ectCustomCheckSelect.setEnabled(false);
+							return ectCustomCheckSelect;
 						}
 						if (propertyId.equals(FORCAST_YEAR)) {
 							return createCustField(true);
@@ -3677,10 +3688,10 @@ public class FileManagementLookup extends Window {
 
 					} else {
 						if (propertyId.equals(ConstantsUtils.CHECK)) {
-							final ExtCustomCheckBox select = new ExtCustomCheckBox();
-							select.setImmediate(true);
-							select.setEnabled(false);
-							return select;
+							final ExtCustomCheckBox extCustomCheckSelect = new ExtCustomCheckBox();
+							extCustomCheckSelect.setImmediate(true);
+							extCustomCheckSelect.setEnabled(false);
+							return extCustomCheckSelect;
 						}
 						if (propertyId.equals(FORCAST_YEAR)) {
 							return createCustField(true);
@@ -3763,10 +3774,10 @@ public class FileManagementLookup extends Window {
 					}
 				} else {
 					if (propertyId.equals(ConstantsUtils.CHECK)) {
-						final ExtCustomCheckBox select = new ExtCustomCheckBox();
-						select.setImmediate(true);
-						select.setEnabled(true);
-						return select;
+						final ExtCustomCheckBox extCustomCheckSelect = new ExtCustomCheckBox();
+						extCustomCheckSelect.setImmediate(true);
+						extCustomCheckSelect.setEnabled(true);
+						return extCustomCheckSelect;
 					}
 					if (propertyId.equals(FORCAST_YEAR)) {
 						return createCustField(false);
@@ -3893,124 +3904,23 @@ public class FileManagementLookup extends Window {
 		return isContainsSC;
 	}
 
-	// class Downloader implements OnDemandFileDownloader.OnDemandStreamResource
-	// {
-	//
-	// String fileName;
-	// String[] header;
-	// String query = null;
-	// File file;
-	// FileDetailsTableLogic detTableLogic;
-	//
-	// public Downloader(String[] header, String query, FileDetailsTableLogic
-	// detTableLogic) {
-	// this.header = header;
-	// this.query = query;
-	// this.detTableLogic = detTableLogic;
-	// }
-	//
-	// public void setHeader(String[] header) {
-	// this.header = header;
-	// }
-	//
-	// public void setQuery(String query) {
-	// this.query = query;
-	// }
-	//
-	// @Override
-	// public String getFilename() {
-	// String dirName = StringUtils.EMPTY;
-	// String outputFilePath = StringUtils.EMPTY;
-	// try {
-	// if (ConstantsUtils.CUSTOMERGTS.equals(detailsResultDTO.getHelperType()))
-	// {
-	// query =
-	// String.valueOf(logic.getCustomerSalesResults_Excel(detailsResultDTO,
-	// detTableLogic.getSortByColumns(), detTableLogic.getFilters()));
-	// } else if
-	// (ConstantsUtils.ADJUSTED_DEMAND.equals(detailsResultDTO.getHelperType()))
-	// {
-	// query =
-	// String.valueOf(logic.getAdjustedDemandDetailsResults_Excel(detailsResultDTO,
-	// detTableLogic.getSortByColumns(), detTableLogic.getFilters()));
-	// } else if
-	// (ConstantsUtils.DEMAND.equals(detailsResultDTO.getHelperType())) {
-	// query =
-	// String.valueOf(logic.getDemandDetailsResults_Excel(detailsResultDTO,
-	// detTableLogic.getSortByColumns(), detTableLogic.getFilters()));
-	// } else if
-	// (ConstantsUtils.EX_FACTORY_SALES.equals(detailsResultDTO.getHelperType()))
-	// {
-	// query = String.valueOf(logic.getForecastDetails_Excel(detailsResultDTO,
-	// detTableLogic.getSortByColumns(), detTableLogic.getFilters()));
-	// } else if
-	// (ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL.equals(detailsResultDTO.getHelperType()))
-	// {
-	// query =
-	// String.valueOf(logic.getInventoryDetailsResults_Excel(detailsResultDTO,
-	// detTableLogic.getSortByColumns(), detTableLogic.getFilters()));
-	// } else {
-	// query =
-	// String.valueOf(logic.getInventorySummaryResults_Excel(detailsResultDTO,
-	// detTableLogic.getSortByColumns(), detTableLogic.getFilters()));
-	// }
-	// dirName = "FILE_MANAGEMENT_DIR";
-	// outputFilePath = "FileManagementDetails.csv";
-	// String[] bcpHeader = configureExcelDetailsTableBCP();
-	// fileName = BCPExcelUtility.excelExport_bcpUtility("FILE_MANAGEMENT",
-	// bcpHeader, query, outputFilePath);
-	// file = new File(fileName);
-	// List<String> fileList = (List)
-	// VaadinSession.getCurrent().getAttribute(dirName);
-	// if (fileList == null) {
-	// fileList = new ArrayList<>();
-	// }
-	// String tempFileName = file.getAbsolutePath();
-	// tempFileName = tempFileName.substring(0,
-	// tempFileName.lastIndexOf(File.separator) + NumericConstants.ONE);
-	// fileList.add(tempFileName);
-	// VaadinSession.getCurrent().setAttribute(dirName, fileList);
-	// } catch (Exception ex) {
-	// LOGGER.error(ex);
-	// }
-	// return file.getName();
-	// }
-	//
-	// @Override
-	// public InputStream getStream() {
-	//
-	// try {
-	//
-	// if (file != null) {
-	// return new FileInputStream(file);
-	// } else {
-	// return null;
-	// }
-	// } catch (FileNotFoundException ex) {
-	// LOGGER.error(ex);
-	// }
-	// return null;
-	// }
-	//
-	// }
-
 	/**
 	 * To configure Excel Details Results Table
 	 */
 	private String[] configureExcelDetailsTableBCP() {
 		String[] bcpHeader;
-		if (FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-			bcpHeader = CommonUIUtil.getInstance().fileMgtLookupDetailsHeaderExcel;
-		} else if (FileType.equals(ConstantsUtils.DEMAND)) {
-			bcpHeader = CommonUIUtil.getInstance().fileMgtLookupDemandDetailsHeaderExcel;
-		} else if (FileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-			bcpHeader = CommonUIUtil.getInstance().fileMgtLookupAdjustedDemandDetailsHeader;
-		} else if (FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-			bcpHeader = CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsSummaryHeaderExcel;
-		} else if (FileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-			bcpHeader = CommonUIUtil.getInstance().fileMgtLookupInventoryDetailsDetailsHeaderExcel;
-		} else if (FileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-			bcpHeader = CommonUIUtil.getInstance().fileMgtLookupCustomerHeader;
+		if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
+			bcpHeader = CommonUIUtil.FILE_MGMT_LOOKUP_DETAILS_HEADER_EXCEL;
+		} else if (fileType.equals(ConstantsUtils.DEMAND)) {
+			bcpHeader = CommonUIUtil.FILE_MGMT_LOOKUP_DEMAND_DETAILS_HEADER_EXCEL;
+		} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
+			bcpHeader = CommonUIUtil.FILE_MGMT_LOOKUP_ADJ_DEMAND_DETAILS_HEADER;
+		} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
+			bcpHeader = CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_SUM_HEADER;
+		} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
+			bcpHeader = CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_HEADER_EXCEL;
+		} else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
+			bcpHeader = CommonUIUtil.FILE_MGMT_LOOKUP_CUS_HEADER;
 		} else {
 			bcpHeader = new String[1];
 		}
@@ -4025,39 +3935,39 @@ public class FileManagementLookup extends Window {
 				String dataQuery;
 				switch (detailsResultDTO.getHelperType()) {
 				case ConstantsUtils.CUSTOMERGTS:
-					dataQuery = String.valueOf(logic.getCustomerSalesResults(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(vFileMgmtLogic.getCustomerSalesResults(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, true));
-					countQuery = String.valueOf(logic.getCustomerSalesResults(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(vFileMgmtLogic.getCustomerSalesResults(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, true));
 					break;
 				case ConstantsUtils.ADJUSTED_DEMAND:
-					dataQuery = String.valueOf(logic.getAdjustedDemandDetailsResults(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(vFileMgmtLogic.getAdjustedDemandDetailsResults(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, true));
-					countQuery = String.valueOf(logic.getAdjustedDemandDetailsResults(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(vFileMgmtLogic.getAdjustedDemandDetailsResults(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, true));
 					break;
 				case ConstantsUtils.DEMAND:
-					dataQuery = String.valueOf(logic.getDemandDetailsResults(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(vFileMgmtLogic.getDemandDetailsResults(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, true));
-					countQuery = String.valueOf(logic.getDemandDetailsResults(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(vFileMgmtLogic.getDemandDetailsResults(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, true));
 					break;
 				case ConstantsUtils.EX_FACTORY_SALES:
-					dataQuery = String.valueOf(logic.getForecastDetails(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(vFileMgmtLogic.getForecastDetails(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, true));
-					countQuery = String.valueOf(logic.getForecastDetails(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(vFileMgmtLogic.getForecastDetails(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, true));
 					break;
 				case ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL:
-					dataQuery = String.valueOf(logic.getInventoryDetailsResults(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(vFileMgmtLogic.getInventoryDetailsResults(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, true));
-					countQuery = String.valueOf(logic.getInventoryDetailsResults(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(vFileMgmtLogic.getInventoryDetailsResults(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, true));
 					break;
 				default:
-					dataQuery = String.valueOf(logic.getInventorySummaryResults(detailsResultDTO, 0, 0,
+					dataQuery = String.valueOf(vFileMgmtLogic.getInventorySummaryResults(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, true));
-					countQuery = String.valueOf(logic.getInventorySummaryResults(detailsResultDTO, 0, 0,
+					countQuery = String.valueOf(vFileMgmtLogic.getInventorySummaryResults(detailsResultDTO, 0, 0,
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, true));
 					break;
 				}

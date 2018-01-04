@@ -67,6 +67,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 
@@ -101,7 +102,7 @@ public class SPRCommonLogic {
 			DynamicQuery query = CustomViewMasterLocalServiceUtil.dynamicQuery();
 			query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
 			list = commonDao.getCustomViewList(query);
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex);
 		}
 		return list;
@@ -444,14 +445,14 @@ public class SPRCommonLogic {
 				objectList = convertResultSetToList(rs);
 
 			}
-		} catch (Exception ex) {
+		} catch (SQLException | NamingException ex) {
 			LOGGER.error(ex);
 		} finally {
 			try {
 
 				statement.close();
 				connection.close();
-			} catch (Exception ex) {
+			} catch (SQLException ex) {
 				LOGGER.error(ex);
 			}
 		}
@@ -483,7 +484,7 @@ public class SPRCommonLogic {
 				}
 				objList.add(str);
 			}
-		} catch (Exception ex) {
+		} catch (SQLException ex) {
 			LOGGER.error(ex);
 		} finally {
 			try {
@@ -840,7 +841,7 @@ public class SPRCommonLogic {
 			query.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, customId));
 			query.addOrder(OrderFactoryUtil.asc(LEVEL_NO_PROPERTY));
 			list = commonDao.getCustomViewDetailsList(query);
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex);
 		}
 		return list;
@@ -851,7 +852,7 @@ public class SPRCommonLogic {
 		if (customViewMasterSid != 0) {
 			try {
 				cvm = commonDao.getCustomView(customViewMasterSid);
-			} catch (Exception ex) {
+			} catch (PortalException | SystemException ex) {
 				LOGGER.error(ex);
 			}
 		}
@@ -885,7 +886,7 @@ public class SPRCommonLogic {
 			}
 
 			list = commonDao.getCustomViewList(query);
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex);
 		}
 		return list;
@@ -917,7 +918,7 @@ public class SPRCommonLogic {
 							LOGGER.error(ex);
 						}
 					}
-				} catch (Exception ex) {
+				} catch (SystemException ex) {
 					LOGGER.error(ex);
 				}
 
@@ -936,7 +937,7 @@ public class SPRCommonLogic {
 						for (CustomViewDetails customDetails : detailsList) {
 							try {
 								commonDao.deleteCustomViewDetails(customDetails);
-							} catch (Exception ex) {
+							} catch (SystemException ex) {
 								LOGGER.error(ex);
 							}
 						}
@@ -1131,7 +1132,7 @@ public class SPRCommonLogic {
 		query.add(RestrictionsFactoryUtil.eq(LEVEL_NO_PROPERTY, levelNo));
 		try {
 			list = commonDao.getCustomViewDetailsList(query);
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex);
 		}
 		if (list != null && !list.isEmpty()) {
@@ -1149,7 +1150,7 @@ public class SPRCommonLogic {
 		query.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, viewName));
 		try {
 			list = commonDao.getCustomViewDetailsList(query);
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex);
 		}
 		return list.size();
@@ -1169,7 +1170,7 @@ public class SPRCommonLogic {
 		dynamicQuery.addOrder(OrderFactoryUtil.desc(Constant.VERSION_NO));
 		try {
 			resultList = dataSelectionDao.getForecastConfig(dynamicQuery);
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex);
 		}
 		ForecastConfig forecastConfig = null;
@@ -1280,7 +1281,7 @@ public class SPRCommonLogic {
 				}
 			}
 			return map;
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex);
 		}
 		return null;
@@ -1448,7 +1449,7 @@ public class SPRCommonLogic {
 				Object ob = list.get(0);
 				count = Integer.valueOf(String.valueOf(ob));
 			}
-		} catch (Exception ex) {
+		} catch (NumberFormatException ex) {
 			LOGGER.error(ex);
 		}
 		return count;
@@ -1467,7 +1468,7 @@ public class SPRCommonLogic {
 				Object ob = list.get(0);
 				index = Integer.valueOf(String.valueOf(ob));
 			}
-		} catch (Exception ex) {
+		} catch (NumberFormatException ex) {
 			LOGGER.error(ex);
 		}
 		return index;
@@ -1703,7 +1704,7 @@ public class SPRCommonLogic {
 				Object ob = list.get(0);
 				levelNo = Integer.valueOf(String.valueOf(ob));
 			}
-		} catch (Exception ex) {
+		} catch (NumberFormatException ex) {
 			LOGGER.error(ex);
 		}
 

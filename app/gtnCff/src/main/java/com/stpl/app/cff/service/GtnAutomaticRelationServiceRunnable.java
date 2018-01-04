@@ -5,27 +5,26 @@
  */
 package com.stpl.app.cff.service;
 
-import java.util.Calendar;
-import java.util.concurrent.Callable;
-
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.automaticrelationupdate.GtnFrameworkAutomaticRelationshipRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.vaadin.server.VaadinSession;
+import java.util.Calendar;
+import java.util.concurrent.Callable;
 
 public class GtnAutomaticRelationServiceRunnable implements Callable<Boolean> {
 
     private Object value;
     private int hierarchySid;
-    public static final String USER_ID = "userId";
+    private static String userId;
 
-    public GtnAutomaticRelationServiceRunnable(Object value, int hierarchySid) {
+    public GtnAutomaticRelationServiceRunnable(Object value, int hierarchySid, String userId) {
         super();
         this.value = value;
         this.hierarchySid = hierarchySid;
+        this.userId= userId;
     }
 
     public static void testWebservice() {
@@ -38,7 +37,6 @@ public class GtnAutomaticRelationServiceRunnable implements Callable<Boolean> {
 	private static GtnWsSecurityToken getGsnWsSecurityToken() {
 		GtnWsSecurityToken token = new GtnWsSecurityToken();
 		Integer sessionId = Calendar.getInstance().get(Calendar.MILLISECOND);
-		String userId = (String) VaadinSession.getCurrent().getAttribute(USER_ID);
 		token.setUserId(userId);
 		token.setSessionId(sessionId.toString());
 		return token;
@@ -53,7 +51,6 @@ public class GtnAutomaticRelationServiceRunnable implements Callable<Boolean> {
 		GtnFrameworkAutomaticRelationshipRequest relationRequest = new GtnFrameworkAutomaticRelationshipRequest();
 		relationRequest.setRelationshipBuilderSid(relationShipBuilderSid);
 		relationRequest.setHierarchyBuilderSid(hierarchySid);
-		String userId = (String) VaadinSession.getCurrent().getAttribute(USER_ID);
 		relationRequest.setUserId(userId);
 
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();

@@ -59,7 +59,7 @@ public class Summary extends VerticalLayout implements View {
 	public TextField companyCategory;
 	@UiField("tradeClass")
 	public TextField tradeClass;
-	ExtFilterTable resultTable;
+	private ExtFilterTable resultTable;
 
 	public Summary(SessionDTO session, ExtFilterTable resultTable) {
 		try {
@@ -157,6 +157,7 @@ public class Summary extends VerticalLayout implements View {
 		});
 	}
 
+        @Override
 	public void enter(ViewChangeListener.ViewChangeEvent event) {
 		// empty
 	}

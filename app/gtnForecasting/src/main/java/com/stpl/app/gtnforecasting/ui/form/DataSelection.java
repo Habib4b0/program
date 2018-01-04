@@ -23,8 +23,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.NULL;
 import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.security.StplSecurity;
-import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.gtnforecasting.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.util.service.thread.ThreadPool;
@@ -74,10 +72,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -436,7 +435,6 @@ public class DataSelection extends ForecastDataSelection {
 		if (event.getProperty().getValue() != null
 				&& !SELECT_ONE.equals(String.valueOf(event.getProperty().getValue()))) {
 			String selectedLevel = String.valueOf(event.getProperty().getValue());
-			DataSelectionLogic logic = new DataSelectionLogic();
 			setSelectedProductLevel(selectedLevel);
 			int hierarchyId = 0;
 			String hierarchyName = StringUtils.EMPTY;
@@ -581,7 +579,7 @@ public class DataSelection extends ForecastDataSelection {
 							StringUtils.EMPTY, StringUtils.EMPTY, company.getValue(), businessUnit.getValue());
 				}
 			}
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 
 			LOGGER.error(ex + " in getCompanySidFromHierarchy");
 		}
@@ -856,7 +854,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
 			}
 
-		} catch (Exception ex) {
+		} catch (Property.ReadOnlyException ex) {
 			LOGGER.error(ex + " in initializeFromDto ");
 		}
 	}
@@ -886,7 +884,7 @@ public class DataSelection extends ForecastDataSelection {
 					filterCustomerOnGroupSelect();
 				}
 			}
-		} catch (Exception ex) {
+		} catch (SystemException | NumberFormatException ex) {
 			LOGGER.error(ex + " at triggerCustGrpOnView");
 		}
 	}
@@ -934,7 +932,7 @@ public class DataSelection extends ForecastDataSelection {
 					loadFilteredProductSelection(String.valueOf(productlevelDdlb.getValue()));
 				}
 			}
-		} catch (Exception ex) {
+		} catch (SystemException | NumberFormatException ex) {
 			LOGGER.error(ex + " at triggerProdGrpOnView");
 		}
 	}
@@ -1425,7 +1423,7 @@ public class DataSelection extends ForecastDataSelection {
 							dedLevel, company.getValue(), businessUnit.getValue());
 				}
 			}
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex + " in getItemSidFromHierarchy");
 		}
 		return innerLevelValues;
@@ -1571,7 +1569,7 @@ public class DataSelection extends ForecastDataSelection {
 				availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 				availableCustomer.setStyleName(Constant.FILTER_TABLE);
 			}
-		} catch (Exception ex) {
+		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
 
 			LOGGER.error(ex + " level  ValueChangeListener ");
 		}
@@ -1674,7 +1672,7 @@ public class DataSelection extends ForecastDataSelection {
 					productDescriptionMap = relationLogic.getLevelValueMap(String.valueOf(productRelation.getValue()),
 							productHierarchyDto.getHierarchyId(), hierarchyVersionNo, relationVersionNo);
 				}
-			} catch (Exception ex) {
+			} catch (NumberFormatException ex) {
 				LOGGER.error(ex + " in productRelation value change");
 			}
 		}
@@ -1825,7 +1823,7 @@ public class DataSelection extends ForecastDataSelection {
 			availableProduct.setFilterDecorator(new ExtDemoFilterDecorator());
 			availableProduct.setStyleName(Constant.FILTER_TABLE);
 
-		} catch (Exception ex) {
+		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
 
 			LOGGER.error(ex + " - in loadFilteredProductSelection");
 		}
@@ -1911,7 +1909,7 @@ public class DataSelection extends ForecastDataSelection {
 							StringUtils.EMPTY, StringUtils.EMPTY, company.getValue(), businessUnit.getValue());
 				}
 			}
-		} catch (Exception ex) {
+		} catch (SystemException ex) {
 			LOGGER.error(ex + " in getCustomersFromHierarchy");
 		}
 		return innerLevelValues;
@@ -1995,7 +1993,7 @@ public class DataSelection extends ForecastDataSelection {
 			availableCustomer.setFilterBarVisible(true);
 			availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 			availableCustomer.setStyleName(Constant.FILTER_TABLE);
-		} catch (Exception ex) {
+		} catch (SystemException | NumberFormatException ex) {
 			LOGGER.error(ex + " filterCustomerOnGroupSelect ");
 		}
 
@@ -2456,7 +2454,7 @@ public class DataSelection extends ForecastDataSelection {
 
 			}
 			setProductBeanLisTemp(productBeanLisTemp);
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -2997,7 +2995,7 @@ public class DataSelection extends ForecastDataSelection {
 				}
 				setProductBeanLisTemp(productBeanLisTemp);
 			}
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -3521,7 +3519,7 @@ public class DataSelection extends ForecastDataSelection {
 				setProductBeanLisTemp(productBeanLisTemp);
 
 			}
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -4074,7 +4072,7 @@ public class DataSelection extends ForecastDataSelection {
 				AbstractNotificationUtils.getErrorNotification("No Product hierarchy level Selected",
 						"No Level was selected to move. Please try again.");
 			}
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			LOGGER.error(e);
 		}
 	}
@@ -4249,9 +4247,10 @@ public class DataSelection extends ForecastDataSelection {
 				new Future[] {
 						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROJECTION_DETAILS_INSERT,
 								selectionDTO.getProjectionId(), session.getCurrentTableNames(), Boolean.TRUE)) });
-		session.setHierarchyLevelDetails(new HashMap<String, List>());
+		session.setHierarchyLevelDetails(new LinkedHashMap<String, List>());
 		session.setCustomerLevelDetails(dsLogic.getLevelValueDetails(session, selectionDTO.getCustRelationshipBuilderSid(), true));
 		session.setProductLevelDetails(dsLogic.getLevelValueDetails(session, selectionDTO.getProdRelationshipBuilderSid(), false));
+
 	}
 
 	/**

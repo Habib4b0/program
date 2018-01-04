@@ -75,14 +75,14 @@ public class ForecastUI extends UI {
      */
     private Navigator navigator;
 
-    String pageParameters = null;
-    final StplSecurity stplSecurity = new StplSecurity();
-    DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
-    SessionDTO sessionDto = new SessionDTO();
+    protected String pageParameters = null;
+    protected final StplSecurity stplSecurity = new StplSecurity();
+    protected DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
+    protected SessionDTO sessionDto = new SessionDTO();
     private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
     private List<Leveldto> productHierarchyLevelDefinitionList = Collections.emptyList();
     private List<Leveldto> customerHierarchyLevelDefinitionList = Collections.emptyList();
-    final NonMandatedLogic nmLogic = new NonMandatedLogic();
+    protected final NonMandatedLogic nmLogic = new NonMandatedLogic();
     /**
      * Logger
      */
@@ -99,7 +99,7 @@ public class ForecastUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
         addStyleName("bootstrap bootstrap-ui bootstrap-forecast bootstrap-nm");
-	final String userId = "10948";
+        final String userId = request.getRemoteUser();
         beforeUnloadCloseUi();
         PortletConfig portletConfig = (PortletConfig) request.getAttribute(JavaConstants.JAVAX_PORTLET_CONFIG);
         PortletRequest portletRequest = (PortletRequest) request.getAttribute(JavaConstants.JAVAX_PORTLET_REQUEST);

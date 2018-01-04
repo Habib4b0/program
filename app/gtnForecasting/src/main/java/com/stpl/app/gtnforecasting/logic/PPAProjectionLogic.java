@@ -48,6 +48,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtListDTO;
@@ -62,8 +63,8 @@ public class PPAProjectionLogic {
     private static final Logger LOGGER = Logger.getLogger(PPAProjectionLogic.class);
     private static Thread procedureThread;
 
-    static RunnableJob runnableJob;
-    static PPAProjectionDao DAO = new PPAProjectionDaoImpl();
+    private static RunnableJob runnableJob;
+    private static final PPAProjectionDao DAO = new PPAProjectionDaoImpl();
     private static final Map<String, String> columnHeaderMap = Constant.getColumnHeaderMap();
     private static final Map<String, List<String>> populateIdentifier = Constant.getPopulateIdentifier();
     private static final Map<String, String> dbColumnIdentifier = Constant.getDatabaseColumnIdentifier();
@@ -212,7 +213,7 @@ public class PPAProjectionLogic {
 
                 }
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
 
@@ -490,7 +491,7 @@ public class PPAProjectionLogic {
                 count = configureLevelsCount(selection.getLevelNo(), selection, StringUtils.EMPTY, Boolean.FALSE, Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
             }
             selection.setLevelCount(count);
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex);
         }
         return count;
@@ -543,7 +544,7 @@ public class PPAProjectionLogic {
                 statement.setInt(NumericConstants.THREE, sessionId);
                 statement.execute();
             }
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         } finally {
             try {

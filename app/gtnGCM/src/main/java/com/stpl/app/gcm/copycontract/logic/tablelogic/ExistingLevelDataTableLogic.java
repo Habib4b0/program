@@ -22,11 +22,10 @@ import org.slf4j.LoggerFactory;
  */
 public class ExistingLevelDataTableLogic extends PageTableLogic {
 
-    boolean generate = false;
-    Integer levelNo;
-    CopyContractLogic logic = new CopyContractLogic();
-    Integer id;
-    List newInput = new ArrayList();
+    private boolean generate = false;
+    private Integer levelNo;
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private Integer id;
     private static final Logger LOGGER = LoggerFactory.getLogger(ExistingLevelDataTableLogic.class);
 
     /**

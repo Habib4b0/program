@@ -23,17 +23,17 @@ public class GlobalChangeUIMainView extends VerticalLayout implements View {
      * View name for navigation
      */
     public static final String NAME = StringUtils.EMPTY;
-    SessionDTO sessionDTO;
     /**
      * DTO object for DataSelection
      */
-    GlobalChangeDTO globalChangeDTO = new GlobalChangeDTO();
+    public GlobalChangeDTO globalChangeDTO = new GlobalChangeDTO();
 
     /**
      * Default Enter Method
      *
      * @param event
      */
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         globalChangeDTO = new GlobalChangeDTO();
     }

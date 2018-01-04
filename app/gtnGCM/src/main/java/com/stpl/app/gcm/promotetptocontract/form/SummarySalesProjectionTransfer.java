@@ -50,16 +50,16 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class SummarySalesProjectionTransfer extends VerticalLayout implements View {
 
     @UiField("tradingPartnerSalesTableLayout")
-    VerticalLayout tradingPartnerSalesTableLayout;
+    private VerticalLayout tradingPartnerSalesTableLayout;
     @UiField("excelBtn")
     public Button excelBtn;
     /**
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(SummarySalesProjectionTransfer.class);
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightDTO;
-    private ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightDTO;
+    private final ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The map left visible columns.
      */
@@ -68,16 +68,16 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
      * The map right visible columns.
      */
     private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
-    ExtFilterTreeTable leftTable;
-    ExtFilterTreeTable rightTable;
-    SalesTabTableLogic tableLogic = new SalesTabTableLogic();
-    FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
+    private ExtFilterTreeTable leftTable;
+    private ExtFilterTreeTable rightTable;
+    private final SalesTabTableLogic tableLogic = new SalesTabTableLogic();
+    private final FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
     public TabSelectionDTO selectionDTO = new TabSelectionDTO();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    SessionDTO session;
+    private final SessionDTO session;
     private ExtCustomTreeTable exportPeriodViewTable;
-    private ExtTreeContainer<SalesTabDTO> excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
-    LoadTabLogic tabLogic = new LoadTabLogic();
+    private ExtTreeContainer<SalesTabDTO> excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class, ExtContainer.DataStructureMode.MAP);
+    private final LoadTabLogic tabLogic = new LoadTabLogic();
 
     /**
      * The max split position.
@@ -91,7 +91,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
      * The split position.
      */
     private final float splitPosition = 300;
-    ExtFilterTable resultTable;
+    public ExtFilterTable resultTable;
 
     public SummarySalesProjectionTransfer(ExtFilterTable resultTable, SessionDTO session) {
         this.resultTable = resultTable;
@@ -158,6 +158,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
 
         resultsTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
         rightTable.addDoubleHeaderColumnCheckListener(new ExtCustomTable.DoubleHeaderColumnCheckListener() {
+            @Override
             public void doubleHeaderColumnCheck(
                     ExtCustomTable.DoubleHeaderColumnCheckEvent event) {
                 Notification.show("Current Value: " + event.isChecked()
@@ -166,6 +167,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
         });
 
         rightTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(
                     ExtCustomTable.ColumnCheckEvent event) {
                 Notification.show("Current Value: " + event.isChecked()
@@ -206,6 +208,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         return;
     }

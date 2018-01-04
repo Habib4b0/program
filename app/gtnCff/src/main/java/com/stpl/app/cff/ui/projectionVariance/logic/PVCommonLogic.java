@@ -7,10 +7,10 @@ package com.stpl.app.cff.ui.projectionVariance.logic;
 
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
-import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.CommonUtils;
-import static com.stpl.app.cff.util.Constants.LabelConstants.PERCENT;
+import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.CommonConstants.NULL;
+import static com.stpl.app.cff.util.Constants.LabelConstants.PERCENT;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
@@ -28,9 +28,9 @@ public class PVCommonLogic {
     private static final DecimalFormat RATE_PER = new DecimalFormat("#,##0.00");
     private static final DecimalFormat RATE_PER_THREE = new DecimalFormat("#,##0.00");
     private static final String CURRENT = "Current";
-    private static String ACCRUAL = "Accrual";
-    private static String ACTUAL = "Actual";
-    private static String accrualDASH = "-";
+    private static final String ACCRUAL = "Accrual";
+    private static final String ACTUAL = "Actual";
+    private static final String accrualDASH = "-";
     public static final Logger LOGGER = Logger.getLogger(PVCommonLogic.class);
 
     static void getPriorCommonCustomization(String variableCategory, PVSelectionDTO pvsdto, final Object[] row, ProjectionVarianceDTO projDTO, String column, int index, int priorIndex, final Boolean isPer, int columnCountTotal, DecimalFormat format) {
@@ -104,7 +104,6 @@ public class PVCommonLogic {
             value = getFormattedValue(format, value);
         } else {
             variance = String.valueOf(Double.valueOf(isNull(actualValue)) - Double.valueOf(isNull(priorVal)));
-            //value = getFormattedValue(format, variance);
             value = selectionDto.isConversionNeeded() ? CommonUtils.getConversionFormattedValue(selectionDto, variance, true) : getFormattedValue(format, variance);
 
         }

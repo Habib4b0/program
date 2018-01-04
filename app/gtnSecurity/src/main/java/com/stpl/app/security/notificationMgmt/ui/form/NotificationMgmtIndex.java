@@ -7,7 +7,6 @@ import com.stpl.app.util.MessageUtils;
 import com.stpl.app.util.NotificationUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.CustomGridLayout;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.v7.data.Property;
@@ -52,7 +51,7 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
     final Button add = new Button("ADD");
     final Button update = new Button("UPDATE");
     final Button delete = new Button("DELETE");
-    final ErrorLabel errorMsg = new ErrorLabel();
+//    final ErrorLabel errorMsg = new ErrorLabel();
     int mailNotificationSystemId;
     NotificationMgmtIndexDTO notificationMgmtIndexDTO = new NotificationMgmtIndexDTO();
     CustomFieldGroup notificationMgmtBinder = new CustomFieldGroup(new BeanItem<NotificationMgmtIndexDTO>(notificationMgmtIndexDTO));
@@ -396,7 +395,7 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
                 notificationMgmtIndexDTO));
         notificationMgmtBinder.bindMemberFields(this);
         notificationMgmtBinder.setBuffered(true);
-        notificationMgmtBinder.setErrorDisplay(errorMsg);
+//        notificationMgmtBinder.setErrorDisplay(errorMsg);
         return notificationMgmtBinder;
     }
 

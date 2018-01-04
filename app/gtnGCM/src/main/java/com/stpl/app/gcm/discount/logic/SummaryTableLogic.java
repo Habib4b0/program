@@ -21,9 +21,9 @@ import org.slf4j.LoggerFactory;
  */
 public class SummaryTableLogic extends PageTreeTableLogic {
 
-    RemoveDiscountDto removeDiscountDto;
-    DiscountLogic itemLogic = new DiscountLogic();
-    boolean generate = false;
+    private RemoveDiscountDto removeDiscountDto;
+    private final DiscountLogic itemLogic = new DiscountLogic();
+    private boolean generate = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(SummaryTableLogic.class);
 
     @Override
@@ -40,6 +40,7 @@ public class SummaryTableLogic extends PageTreeTableLogic {
         return map;
     }
 
+    @Override
     public int getCount() {
         if (generate) {
             int count = itemLogic.getConfigureSalesCount(getLastParent(), removeDiscountDto);

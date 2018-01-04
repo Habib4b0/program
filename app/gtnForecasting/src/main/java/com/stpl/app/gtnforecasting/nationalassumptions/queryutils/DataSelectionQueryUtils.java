@@ -963,7 +963,7 @@ public class DataSelectionQueryUtils {
             }
             sql += (" OFFSET ") + (startIndex) + (Constant.ROWS_FETCH_NEXT_SPACE) + (offset) + (Constant.ROWS_ONLY_SPACE);
             return (List) DAO.executeSelectQuery(sql);
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
             return Collections.emptyList();
         } finally {
@@ -999,7 +999,7 @@ public class DataSelectionQueryUtils {
                 }
             }
             return (List) DAO.executeSelectQuery(customSql);
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
             return new ArrayList();
         }

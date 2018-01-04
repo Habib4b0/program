@@ -24,9 +24,9 @@ public class PmpyTradingPartnerTableLogic extends PageTableLogic {
 
     private static final Logger LOGGER = Logger.getLogger(PmpyTradingPartnerTableLogic.class);
     private final PmpyLogic searchLogic = new PmpyLogic();
-    String tpNo;
-    String tpName;
-    Object contractHolder;
+    protected String tpNo;
+    protected String tpName;
+    protected Object contractHolder;
     private boolean isFirstLoad = false;
     private boolean isResultsEmpty;
     private boolean isReset = false;

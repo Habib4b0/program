@@ -14,7 +14,7 @@ import com.stpl.app.cff.util.ConstantsUtil;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -32,7 +32,7 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
     /**
      * The SessionDTO
      */
-    private SessionDTO sessionDTO = new SessionDTO();
+    private final SessionDTO sessionDTO = new SessionDTO();
 
     /**
      * Constructor
@@ -55,6 +55,7 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
      *
      * @param event - View Change event
      */
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         mainForm = new ConsolidatedFinancialForecastForm(sessionDTO);
     }

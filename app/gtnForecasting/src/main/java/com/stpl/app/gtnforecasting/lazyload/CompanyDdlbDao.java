@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.lazyload;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -23,13 +24,12 @@ import org.asi.ui.addons.lazycontainer.SearchCriteria;
 public class CompanyDdlbDao implements DAO<CompanyDdlbDto> {
 
     private static final Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanyDdlbDao.class);
-    DataSelectionLogic logic;
-    List<String> companySids;
-    String selectedCompanySid = "null";
-    CompanyDdlbDto companyDdlbDefault;
-    CompanyDdlbDto selectedCompanyDdlbDto;
-    String componentName = StringUtils.EMPTY;
-    CompanyDdlbDto selectedDiscount;
+    private DataSelectionLogic logic;
+    private List<String> companySids;
+    private CompanyDdlbDto companyDdlbDefault;
+    private CompanyDdlbDto selectedCompanyDdlbDto;
+    private String componentName = StringUtils.EMPTY;
+    private CompanyDdlbDto selectedDiscount;
 
     public CompanyDdlbDao(final List<String> companySids, CompanyDdlbDto companyDdlbDefault, CompanyDdlbDto selectedCompanyDdlbDto) {
         this.companySids = companySids;
@@ -48,7 +48,6 @@ public class CompanyDdlbDao implements DAO<CompanyDdlbDto> {
     public CompanyDdlbDao(final DataSelectionLogic logic, final List<String> companySids, String selectedCompanySid) {
         this.companySids = companySids;
         this.logic = logic;
-        this.selectedCompanySid = selectedCompanySid;
     }
 
     @Override
@@ -60,7 +59,7 @@ public class CompanyDdlbDao implements DAO<CompanyDdlbDto> {
             } else {
                 count = logic.getCompaniesCount(sc.getFilter(), companySids);
             }
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         count = count + 1;
@@ -76,7 +75,7 @@ public class CompanyDdlbDao implements DAO<CompanyDdlbDto> {
             } else {
                 resultList = logic.getCompaniesLazy(startIndex, startIndex + offset, sc.getFilter(), companySids, companyDdlbDefault, selectedCompanyDdlbDto);
             }
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return resultList;

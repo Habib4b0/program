@@ -59,6 +59,7 @@ public class RebateSummary extends Summary {
     }
 
     @SuppressWarnings("serial")
+ @Override
     public void loadExcelResultTable() {
         excelResultBean.removeAllItems();
         RemoveItemLogic.getIdAndForecastingType(selectionDTO, selection);
@@ -88,6 +89,7 @@ public class RebateSummary extends Summary {
         }
     }
 
+ @Override
     public void addLowerLevelsForExport(Object id) {
         List<AbstractSummaryDTO> resultList = logic.getConfiguredRebateTabResults(id, selectionDTO, true);
         loadDataToContainer(resultList, id);

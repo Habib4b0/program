@@ -4,12 +4,12 @@
  */
 package com.stpl.app.cff.dao;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.model.RelationshipLevelDefinition;
 import com.stpl.app.parttwo.model.CffCustomViewDetails;
 import com.stpl.app.parttwo.model.CffCustomViewMaster;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import java.util.List;
 
 /**
@@ -150,40 +150,12 @@ public interface CommonDAO {
     CffCustomViewDetails updateCustomViewDetails(CffCustomViewDetails customViewDetails) throws SystemException;
 
     /**
-     * Gets the Hierarchy Levels.
-     *
-     * @param projectionId
-     * @param hierarchyIndicator
-     * @param levelNo
-     * @param hierarchyLevelDefId
-     * @return
-     */
-    List getDiscountNoList(int projectionId, List<String> priceGroupType);
-
-    /**
      * Gets the DiscountNo.
      *
      * @param projectionId
      * @param priceGroupType
      * @return
      */
-    Object executeSelectQuery(String query, Object udc1, Object udc2);
+    Object executeSelectQuery(String query);
 
-    /**
-     * Gets the DiscountNo.
-     *
-     * @param projectionId
-     * @param priceGroupType
-     * @return
-     */
-    Object executeBulkUpdateQuery(String query, Object udc1, Object udc2);
-
-    /**
-     * Gets the DiscountNo.
-     *
-     * @param projectionId
-     * @param priceGroupType
-     * @return
-     */
-    Object executeUpdateQuery(List<?> nmSalesList, Object udc1, Object udc2, Object udc3);
 }

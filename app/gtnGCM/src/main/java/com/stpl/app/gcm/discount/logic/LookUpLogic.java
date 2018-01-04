@@ -38,11 +38,11 @@ public class LookUpLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscountLogic.class);
     public static final SimpleDateFormat DBDate = new SimpleDateFormat("MM/dd/yyyy");
-    QueryUtils queryUtils = new QueryUtils();
+    private final QueryUtils queryUtils = new QueryUtils();
     public static final char CHAR_PERCENT = '%';
     public static final char CHAR_ASTERISK = '*';
-    DiscountDAO discountDAO = new DiscountDaoImpl();
-    DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+    private final DiscountDAO discountDAO = new DiscountDaoImpl();
+    private final DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
 
     public int getSearchCount(ErrorfulFieldGroup discountChBinder, String moduleName, Set<Container.Filter> filters) {
         int count = 0;

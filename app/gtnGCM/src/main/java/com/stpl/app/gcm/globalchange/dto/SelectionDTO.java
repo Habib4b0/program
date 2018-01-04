@@ -49,7 +49,7 @@ public class SelectionDTO implements Cloneable {
     private boolean isIFP;
     private String buttonMode = StringUtils.EMPTY;
     private String componentScreen = StringUtils.EMPTY;
-    Set<ItemContractSelectionDTO> contractList = new HashSet<>();
+    private Set<ItemContractSelectionDTO> contractList = new HashSet<>();
     private Integer projectionId = 0;
     private ForecastDTO forecastDTO;
     private Map<String, List> FrequencyAndQuater = new HashMap<>();
@@ -67,7 +67,7 @@ public class SelectionDTO implements Cloneable {
     private String brandMasterSid = StringUtils.EMPTY;
     private String itemSid = StringUtils.EMPTY;
     private String summaryScreen = StringUtils.EMPTY;
-    SessionDTO sessionDTO = new SessionDTO();
+    private SessionDTO sessionDTO = new SessionDTO();
     private String forecastTableName = StringUtils.EMPTY;
     private String forecastSales = StringUtils.EMPTY;
     private String forecastUnits = StringUtils.EMPTY;
@@ -96,8 +96,8 @@ public class SelectionDTO implements Cloneable {
     private boolean isSubmitted;
     private Set<Container.Filter> filters;
     private String operation = StringUtils.EMPTY;
-    List<ItemIndexDto> transferItemList = new ArrayList<>();
-    List<ItemIndexDto> itemList = new ArrayList<>();
+    private List<ItemIndexDto> transferItemList = new ArrayList<>();
+    private  List<ItemIndexDto> itemList = new ArrayList<>();
     private String windowName = StringUtils.EMPTY;
     private boolean isTransfer;
     private Integer summaryProjectionId = 0;
@@ -766,6 +766,7 @@ public class SelectionDTO implements Cloneable {
         this.threadList.add(threadList);
     }
 
+    @Override
     public SelectionDTO clone() throws CloneNotSupportedException {
         SelectionDTO selection = (SelectionDTO) super.clone();
         selection.setCompany(company);

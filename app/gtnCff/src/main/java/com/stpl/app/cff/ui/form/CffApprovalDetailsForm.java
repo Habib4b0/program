@@ -5,20 +5,8 @@
  */
 package com.stpl.app.cff.ui.form;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.customwindow.CustomWindow;
-import org.asi.ui.customwindow.CustomWindowConstant;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.bpm.logic.VarianceCalculationLogic;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
 import com.stpl.app.cff.dto.CFFResultsDTO;
@@ -41,19 +29,27 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.themes.ValoTheme;
-
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.HorizontalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.customwindow.CustomWindow;
+import org.asi.ui.customwindow.CustomWindowConstant;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * CFF Approval screen
@@ -135,7 +131,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
     private CustomFieldGroup cffSearchBinder;
     private CFFLogic cffLogic = new CFFLogic();
     private Boolean isApproved = false;
-
+    public static final String CFF = "CFF";
     private boolean filterOptionLoaded = false;
 
     /**
@@ -219,7 +215,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 BottomBtnLayout.setVisible(false);
             }
             setTabSecurity();
-            tabSheet.addListener(new TabSheet.SelectedTabChangeListener() {
+            tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
                 @Override
                 public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                     int previousTabPostion = tabPosition;
@@ -232,7 +228,6 @@ public class CffApprovalDetailsForm extends CustomWindow {
                             if (Constants.REJECTED.equals(dto.getStatusDesc())) {
                                 if (!Integer.valueOf(sessionDTO.getUserId()).equals(dto.getCreatedUser())) {
                                     submitBtn.setEnabled(false);
-                                    submitBtn.setImmediate(true);
                                 } else {
                                     submitBtn.setEnabled(true);
                                 }
@@ -282,11 +277,13 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 @Override
                 public void buttonClick(Button.ClickEvent event) {
                     AbstractNotificationUtils notification = new AbstractNotificationUtils() {
+                        @Override
                         public void noMethod() {
                             // To change body of generated methods, choose Tools
                             // | Templates.
                         }
 
+                        @Override
                         public void yesMethod() {
 
                             close();
@@ -304,11 +301,13 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         Boolean submitCkeck = approvalTab.submitCheck();
                         if (submitCkeck) {
                             new AbstractNotificationUtils() {
+                                @Override
                                 public void noMethod() {
                                     // To change body of generated methods, choose Tools
                                     // | Templates.
                                 }
 
+                                @Override
                                 public void yesMethod() {
                                     try {
                                         if (Constants.REJECTED.equals(dto.getStatusDesc())) {
@@ -318,7 +317,6 @@ public class CffApprovalDetailsForm extends CustomWindow {
                                         isApproved = approvalTab.submitLogic();
                                         if (isApproved) {
                                             submitBtn.setEnabled(false);
-                                            submitBtn.setImmediate(true);
                                         }
                                         projectionResults.saveProjectionResultsSelection(sessionDTO);
                                         projectionVariance.savePvSelections(sessionDTO);
@@ -392,6 +390,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
     public void rejectBtnLogic(final Button.ClickEvent event) {
         LOGGER.debug("Inside Rejected Button click event method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -411,9 +410,8 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 cffLogic.approveCffInformation(cffMasterSystemId, userId);
 
                 result = cffLogic.approveCffApproveDetails(userId, cffMasterSystemId, CommonUtils.WORKFLOW_STATUS_REJECTED).get(0).toString();
-                Map<String, Object> params = new HashMap<>();
-                params.put(StringConstantsUtil.APPROVE_FLAG, "reject-RWC");
-                VarianceCalculationLogic.submitWorkflow(sessionDTO.getUserId(), sessionDTO.getProcessId(), params);
+                
+                VarianceCalculationLogic.rejectWorkFlow(sessionDTO.getProcessId(), sessionDTO, CFF);
                 if (!result.equals(CommonUtils.FAIL)) {
                     notestab.getApprovalWindow().close();
                     CommonUIUtils.getMessageNotification("Rejected Successfully");
@@ -434,6 +432,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
     public void cancelBtnLogic(final Button.ClickEvent event) {
         LOGGER.debug("Inside Cancelled Button click event method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -453,9 +452,8 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 cffLogic.approveCffInformation(cffMasterSystemId, userId);
 
                 result = cffLogic.approveCffApproveDetails(userId, cffMasterSystemId, CommonUtils.WORKFLOW_STATUS_CANCELLED).get(0).toString();
-                Map<String, Object> params = new HashMap<>();
-                params.put(StringConstantsUtil.APPROVE_FLAG, "cancel-RWC");
-                VarianceCalculationLogic.submitWorkflow(sessionDTO.getUserId(), sessionDTO.getProcessId(), params);
+                
+                VarianceCalculationLogic.cancelWorkFlow(sessionDTO.getProcessId(), sessionDTO, CFF);
                 if (!result.equals(CommonUtils.FAIL)) {
                     notestab.getApprovalWindow().close();
                     CommonUIUtils.getMessageNotification("Cancelled Successfully");
@@ -471,6 +469,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
     public void deleteBtnLogic(final Button.ClickEvent event) {
         LOGGER.debug("Inside delete Button click event method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -508,11 +507,13 @@ public class CffApprovalDetailsForm extends CustomWindow {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 AbstractNotificationUtils notification = new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // To change body of generated methods, choose Tools
                         // | Templates.
                     }
 
+                    @Override
                     public void yesMethod() {
 
                         String result = "";
@@ -523,9 +524,8 @@ public class CffApprovalDetailsForm extends CustomWindow {
 
                         List<Object> resultList = cffLogic.approveCffApproveDetails(userId, cffMasterSystemId, CommonUtils.WORKFLOW_STATUS_APPROVED);
                         result = resultList.get(0).toString();
-                        Map<String, Object> params = new HashMap<>();
-                        params.put(StringConstantsUtil.APPROVE_FLAG, "approve");
-                        VarianceCalculationLogic.submitWorkflow(sessionDTO.getUserId(), sessionDTO.getProcessId(), params);
+                        
+                        VarianceCalculationLogic.approveWorkflow(sessionDTO.getProcessId(),sessionDTO, CFF);
                         if (!result.equals(CommonUtils.FAIL)) {
                             if ((Boolean) resultList.get(1)) {
                                 Object[] obj = {dto.getCffMasterSid()};
@@ -592,9 +592,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
             } else {
                 closeBtn.setVisible(true);
             }
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -610,9 +608,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
             if (functionHM.get("varianceTab") != null && !((AppPermission) functionHM.get("varianceTab")).isTabFlag()) {
                 tabSheet.getTab(NumericConstants.FOUR).setVisible(Boolean.FALSE);
             }
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }

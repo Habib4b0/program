@@ -17,13 +17,14 @@ import org.asi.ui.addons.lazycontainer.OrderByColumn;
  * @author kasiammal.m
  */
 public class PSSearchDTO implements BeanDAO<PSIFPDTO> {
-    CopyContractLogic logic = new CopyContractLogic();
-    PSIFPDTO PSIFPDTO = new PSIFPDTO();
+    private final CopyContractLogic logic = new CopyContractLogic();
+    private PSIFPDTO PSIFPDTO = new PSIFPDTO();
 
     public PSSearchDTO(PSIFPDTO PSIFPDTO) {
         this.PSIFPDTO = PSIFPDTO;
     }
 
+    @Override
     public int count(BeanSearchCriteria bsc) {
 
         int count = 0;
@@ -32,6 +33,7 @@ public class PSSearchDTO implements BeanDAO<PSIFPDTO> {
 
     }
 
+    @Override
     public List<PSIFPDTO> find(BeanSearchCriteria bsc, int i, int i1, List<OrderByColumn> list) {
         List<PSIFPDTO> resultList = new ArrayList<>();
         return resultList;

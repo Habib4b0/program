@@ -20,9 +20,9 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 public class ComponentInfo extends AbstractComponentInfo {
 
     @UiField("itemSearchGrid")
-    GridLayout itemSearchGrid;
+    private GridLayout itemSrGrid;
     @UiField("rsType")
-    ComboBox rsType;
+    private ComboBox rsType;
     @UiField("rsProgramType")
     public ComboBox rsProgramType;
     @UiField("rsCategory")
@@ -38,23 +38,23 @@ public class ComponentInfo extends AbstractComponentInfo {
     }
 
     private void setVisibleContent() {
-        itemSearchGrid.removeComponent(0, 0);
-        itemSearchGrid.removeComponent(1, 0);
+        itemSrGrid.removeComponent(0, 0);
+        itemSrGrid.removeComponent(1, 0);
         List<Component> componentList = new ArrayList<>();
-        java.util.Iterator<Component> itr = itemSearchGrid.iterator();
+        java.util.Iterator<Component> itr = itemSrGrid.iterator();
         while (itr.hasNext()) {
             componentList.add(itr.next());
         }
-        itemSearchGrid.removeAllComponents();
+        itemSrGrid.removeAllComponents();
         java.util.Iterator<Component> itrList = componentList.iterator();
         while (itrList.hasNext()) {
-            itemSearchGrid.addComponent(itrList.next());
+            itemSrGrid.addComponent(itrList.next());
         }
-        itemSearchGrid.replaceComponent(rsType_DTO, rsTypeText);
-        itemSearchGrid.replaceComponent(rsProgramType_DTO, rsProgramTypeText);
-        itemSearchGrid.replaceComponent(rsCategory_DTO, rsCategoryText);
-        itemSearchGrid.replaceComponent(paymentFrequency_DTO, paymentFrequencyText);
-        itemSearchGrid.replaceComponent(rebatePlanLevel_DTO, rebatePlanLevelText);
+        itemSrGrid.replaceComponent(rsType_DTO, rsTypeText);
+        itemSrGrid.replaceComponent(rsProgramType_DTO, rsProgramTypeText);
+        itemSrGrid.replaceComponent(rsCategory_DTO, rsCategoryText);
+        itemSrGrid.replaceComponent(paymentFrequency_DTO, paymentFrequencyText);
+        itemSrGrid.replaceComponent(rebatePlanLevel_DTO, rebatePlanLevelText);
         setRsReadOnlyField(false);
         ComponentInfoDTO rsDTO = getComponentDto();
         rsTypeText.setValue(rsDTO.getRsType_Value());

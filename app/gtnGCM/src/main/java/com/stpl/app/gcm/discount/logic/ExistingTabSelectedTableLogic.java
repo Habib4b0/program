@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory;
  */
 public class ExistingTabSelectedTableLogic extends PageTableLogic {
 private static final Logger LOGGER = LoggerFactory.getLogger(ExistingTabSelectedTableLogic.class);
-    ContractsDetailsDto newDiscountTabDto = new ContractsDetailsDto();
-    DiscountLogic logic = new DiscountLogic();
-    boolean generate = false;
+    private ContractsDetailsDto newDiscountTabDto = new ContractsDetailsDto();
+    private final DiscountLogic logic = new DiscountLogic();
+    private boolean generate = false;
 
     @Override
     public int getCount() {

@@ -17,6 +17,7 @@ import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.util.QueryUtil;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,7 @@ public class SalesProjectionTree {
         } else {
             customApex = generateCPTree(customViewList);
         }
-
+    	sortTree(customApex.getAllChildHierarchies(), projSelDTO);
         setCurrentApex(customApex);
     }
 
@@ -161,6 +162,24 @@ public class SalesProjectionTree {
         return apex;
     }
 
+	private void sortTree(List<TreeNode> treeNodeList, final ProjectionSelectionDTO session) {
+		if (treeNodeList != null) {
+			Collections.sort(treeNodeList, new Comparator<TreeNode>() {
+
+				public int compare(TreeNode o1, TreeNode o2) {
+					return String
+							.valueOf(session.getSessionDTO().getHierarchyLevelDetails().get(o1.getHierachyNo()).get(0))
+							.compareToIgnoreCase((String) session.getSessionDTO().getHierarchyLevelDetails()
+									.get(o2.getHierachyNo()).get(0));
+				}
+			});
+			for (TreeNode treeNode : treeNodeList) {
+				treeNode.generateHierarchy();
+				treeNode.getHierachyNo();
+				sortTree(treeNode.getAllChildHierarchies(), session);
+			}
+		}
+	}
     private SalesBaseNode generateCPForLevelFilter(int levelFiltered, List<Object[]> availableHierarachies) {
         SalesProjectionNodeCP apex = new SalesProjectionNodeCP("");
         if (!availableHierarachies.isEmpty()) {

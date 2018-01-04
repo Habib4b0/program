@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Panel id="startingPanel" xmlns:a="urn:import:org.asi.ui.extfilteringtable" spacing="true">
-      <VerticalLayout margin="true" spacing="true" styleName="bootstrap-forecast" xmlns:errorMsg="urn:import:com.stpl.ifs.ui.errorhandling"  >
+      <VerticalLayout margin="true" spacing="true" styleName="bootstrap-forecast" xmlns:errorMsg="urn:import:com.stpl.app.ui.errorhandling"  >
       <errorMsg:ErrorLabel id="errorLB" />
         <Panel caption="NDC Search" width="100%" spacing="true">			
 

@@ -18,7 +18,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
 import static com.stpl.app.utils.Constants.LabelConstants.TOTAL;
 import static com.stpl.app.utils.Constants.LabelConstants.TOTAL_DISCOUNT;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -2307,7 +2306,7 @@ public class NMProjectionVarianceLogic {
                 }
             }
             return map;
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return null;
@@ -2426,9 +2425,7 @@ public class NMProjectionVarianceLogic {
             } else {
                 commonLogic.saveSelection(map, projectionID, screenName, Constant.UPDATE, "NM_PROJECTION_SELECTION");
             }
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
     }
@@ -2713,7 +2710,7 @@ public class NMProjectionVarianceLogic {
                 Object ob = list.get(0);
                 count = count + Integer.valueOf(String.valueOf(ob));
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
         return count;
@@ -2919,7 +2916,8 @@ public class NMProjectionVarianceLogic {
     
     
     
-    public List getHiearchyNoAsList(final ProjectionSelectionDTO projSelDTO, int start, int end) {
+    public List<String> getHiearchyNoAsList(final ProjectionSelectionDTO projSelDTO, int start, int end) {
+    
         String query = SQlUtil.getQuery("hiearchy-no-query");
         query = query.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
         query = query.replace(Constant.HIERARCHY_COLUMN_QUESTION, commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
@@ -2930,12 +2928,16 @@ public class NMProjectionVarianceLogic {
         query = query.replace(Constant.RELJOIN, commonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator()));
         query = query.replace(Constant.START_QUESTION, String.valueOf(start));
         query = query.replace(Constant.END_QUESTION, String.valueOf(end));
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
+        List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
-            return list;
+           List<String> l1=new ArrayList<>();
+           for(Object o:list)
+           {
+        	l1.add(o.toString()); 
+           }
+        	return l1;
         }
-
-        return Collections.emptyList();
+    	  return Collections.emptyList();
     }
     
     
@@ -3072,9 +3074,8 @@ public class NMProjectionVarianceLogic {
         boolean isNotFirstElement = false;
         boolean isNotFirstHierarchy = false;
         boolean isHierarchyNoNotAvailable = isHierarchyNoNotAvailable((String) list.get(0), (String) list.get(2));
-
+        int i=1;
         StringBuilder stringBuilder = new StringBuilder();
-
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if (isSameLevelHierarchyIndicator(entry, (int) list.get(1), (String) list.get(2))) {
                 if (isSplitNeeded(entry, isHierarchyNoNotAvailable, (String) list.get(0))) {
@@ -3083,11 +3084,11 @@ public class NMProjectionVarianceLogic {
                     }
                     stringBuilder.append("('");
                     stringBuilder.append(entry.getKey());
-                    stringBuilder.append("')");
+                    stringBuilder.append("'," + i++ + ")");
 
                     isNotFirstElement = true;
                 } else {
-                    if (isNotFirstHierarchy) {
+                   if (isNotFirstHierarchy) {
                         stringBuilder.append(",\n");
                     }
                     stringBuilder.append(getString(entry.getKey(), Arrays.asList((String.valueOf(list.get(0))).split("\\,"))));
@@ -3099,7 +3100,7 @@ public class NMProjectionVarianceLogic {
     }
 
     public boolean isSplitNeeded(Map.Entry<String, List> entry, boolean isHierarchyNoNotAvailable, String hierarchyNo) {
-        return !hierarchyNo.contains(",") && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo));
+        return !hierarchyNo.contains(",") || (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo));
     }
 
     public boolean isHierarchyNoNotAvailable(String hierarchyNo, String hierarchyIndicator) {
@@ -3112,12 +3113,12 @@ public class NMProjectionVarianceLogic {
 
     public String getString(String key, List<String> hierarchyNo) {
         StringBuilder stringBuilder = new StringBuilder();
+        int i=1;
         for (String str : hierarchyNo) {
             if (key.startsWith(str.trim())) {
                 stringBuilder.append("('");
                 stringBuilder.append(key);
-                stringBuilder.append("')");
-
+                stringBuilder.append("'," + i++ + ")");
                 return stringBuilder.toString();
             }
         }

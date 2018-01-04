@@ -484,6 +484,7 @@ public class DataSelectionUtil {
 		return query.toString();
 	}
 
+
 	public static List<Integer> getSelectedRelationshipLevelSids(List<Leveldto> itemIds) {
 		List<Integer> selectedRelationshipLevelSids = null;
 		if (itemIds != null && !itemIds.isEmpty()) {

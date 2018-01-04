@@ -1,5 +1,14 @@
 package com.stpl.app.cff.util;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.NoSuchUserException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.cff.dao.DataSelectionDAO;
 import com.stpl.app.cff.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
@@ -9,31 +18,7 @@ import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.queryUtils.CFFQueryUtils;
 import com.stpl.app.cff.security.StplSecurity;
-import com.stpl.app.model.HelperTable;
-import com.stpl.app.parttwo.model.CffApprovalDetails;
-import com.stpl.app.parttwo.service.CffApprovalDetailsLocalServiceUtil;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.NoSuchUserException;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.ComboBox;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import static com.stpl.app.cff.util.Constants.FrequencyConstants.*;
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.FORECAST_END_DAY;
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.FORECAST_END_PERIOD;
@@ -59,16 +44,30 @@ import static com.stpl.app.cff.util.Constants.ProjectionConstants.PROJECTION_STA
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.PROJECTION_START_PERIOD;
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.PROJECTION_START_YEAR;
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.PROJECTION_START_YEAR_DDLB;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.model.HelperTable;
+import com.stpl.app.parttwo.model.CffApprovalDetails;
+import com.stpl.app.parttwo.service.CffApprovalDetailsLocalServiceUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.stpl.ifs.util.HelperDTO;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ComboBox;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 import org.asi.ui.custommenubar.CustomMenuBar;
-import java.text.DecimalFormat;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -79,7 +78,7 @@ public class CommonUtils {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LogManager.getLogger(CommonUtils.class);
+    private static final Logger LOGGER = Logger.getLogger(CommonUtils.class);
     /**
      * The Constant CFF_MASTER_SYSTEM_ID_SESSION.
      */
@@ -180,7 +179,7 @@ public class CommonUtils {
     /**
      * The helper list util.
      */
-    private HelperListUtil helperListUtil = HelperListUtil.getInstance();
+    private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
     public static final String VAR_GTS = "Gross Trade Sales";
     /**
@@ -212,7 +211,7 @@ public class CommonUtils {
     
     public static final String BP_NAME = "ALLERGAN";
 
-    private static HashMap<String, String> cffColumnName = new HashMap<>();
+    private static final HashMap<String, String> cffColumnName = new HashMap<>();
     public static final String BUSINESS_PROCESS_TYPE_NONMANDATED = "Non Mandated";
     public static final String BUSINESS_PROCESS_TYPE_MANDATED = "Mandated";
     public static final String BUSINESS_PROCESS_TYPE_CHANNELS = "Channel";
@@ -238,7 +237,7 @@ public class CommonUtils {
      * @return the user info
      */
     public static User getUserInfo(final long userId) {
-        DynamicQuery userSearchDynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery userSearchDynamicQuery = UserLocalServiceUtil.dynamicQuery();
         userSearchDynamicQuery.add(RestrictionsFactoryUtil.eq(com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.USER_ID, userId));
         List<User> resultList;
         try {
@@ -255,51 +254,15 @@ public class CommonUtils {
     public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
         final DataSelectionDAO DAO = new DataSelectionDAOImpl();
         int code = 0;
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
-        dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
+        dynamicQuery.setProjection(ProjectionFactoryUtil.property(StringConstantsUtil.HELPER_TABLE_SID));
         List result = DAO.getHelperTableList(dynamicQuery);
         if (result != null && !result.isEmpty()) {
             code = Integer.valueOf(result.get(0).toString());
         }
         return code;
-    }
-
-    /**
-     * Gets the customized cff results.
-     *
-     * @param resultsList the results list
-     * @return the customized cff results
-     */
-    public List<CFFResultsDTO> getCustomizedCffResults(List<Object[]> resultsList) {
-        List<CFFResultsDTO> cffResultsDTOs = new ArrayList<>();
-        CFFResultsDTO cffResultsDTO;
-        String s = "";
-        HashMap<Long, String> hm = getUserInfo();
-        for (final Object[] obj : resultsList) {
-            cffResultsDTO = new CFFResultsDTO();
-            cffResultsDTO.setWorkflowId(String.valueOf(obj[0]));
-            cffResultsDTO.setProjectionName(String.valueOf(obj[1]));
-
-            s = String.valueOf(obj[NumericConstants.THREE] == null ? "" : obj[NumericConstants.THREE]);
-            s = hm.get(Long.parseLong(s.trim().equals("") ? "0" : s));
-            cffResultsDTO.setCreatedBy(s == null ? "" : s);
-
-            s = String.valueOf(obj[NumericConstants.FOUR] == null ? "" : obj[NumericConstants.FOUR]);
-            s = hm.get(Long.parseLong(s.trim().equals("") ? "0" : s));
-            cffResultsDTO.setApprovedBy(s == null ? "" : s);
-
-            s = String.valueOf(obj[NumericConstants.SIX] == null ? "" : obj[NumericConstants.SIX]);
-            cffResultsDTO.setPriorLatestEstimate(s);
-            s = String.valueOf(obj[NumericConstants.SEVEN] == null ? "" : obj[NumericConstants.SEVEN]);
-            cffResultsDTO.setPriorUpdateCycle(s);
-            cffResultsDTO.setProjectionId(Integer.valueOf(String.valueOf(obj[NumericConstants.EIGHT])));
-            cffResultsDTO.setWorkflowMasterSystemID(Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));
-            cffResultsDTOs.add(cffResultsDTO);
-
-        }
-        return cffResultsDTOs;
     }
 
     public static String[] objectListToStringArray(List<Object> objectList) {
@@ -463,8 +426,7 @@ public class CommonUtils {
     public HashMap<Long, String> getUserInfo() {
 
         List<User> users = new ArrayList<>();
-        DynamicQuery userGroupDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(User.class);
+        DynamicQuery userGroupDynamicQuery = UserLocalServiceUtil.dynamicQuery();
         try {
             users = UserLocalServiceUtil.dynamicQuery(userGroupDynamicQuery);
         } catch (SystemException ex) {
@@ -507,8 +469,7 @@ public class CommonUtils {
      */
     @SuppressWarnings("unchecked")
     public static int getCodeFromHelperTable(String description, String listName) {
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         int helperTableId = 0;
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtil.DESCRIPTION,
                 description));
@@ -533,7 +494,11 @@ public class CommonUtils {
         int id = 0;
         try {
             if (description != null && !description.equals(StringUtils.EMPTY)) {
-                List<HelperTable> helperTable = HelperTableLocalServiceUtil.findByHelperTableDetails(listName);
+                final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
+                dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtil.LIST_NAME,
+                        listName));
+                dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtil.DESCRIPTION));
+                List<HelperTable> helperTable = HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
                 for (HelperTable helperTable1 : helperTable) {
                     if (helperTable1.getDescription().equalsIgnoreCase(description)) {
                         id = helperTable1.getHelperTableSid();
@@ -641,9 +606,7 @@ public class CommonUtils {
                 }
 
             }
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return custoList;
@@ -656,7 +619,7 @@ public class CommonUtils {
      */
     public HashMap<Integer, String> getApprovalDetails() {
 
-        DynamicQuery cffApprovalDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(CffApprovalDetails.class);
+        DynamicQuery cffApprovalDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
         List<CffApprovalDetails> resultsList = new ArrayList<>();
         String s = "";
         HashMap<Long, String> userInfo = getUserInfo();

@@ -20,11 +20,11 @@ import org.slf4j.LoggerFactory;
  */
 public class CompanySearchTableLogic extends PageTableLogic {
 
-    boolean firstTime = true;
-    CompanySearchLogic compLogic = new CompanySearchLogic();
-    PromoteTpToChDto tpDTo = new PromoteTpToChDto();
-    String searchSessionid = StringUtils.EMPTY;
-    private static final Logger  LOGGER = LoggerFactory.getLogger(CompanySearchTableLogic.class);
+  private  boolean firstTime = true;
+  private final  CompanySearchLogic compLogic = new CompanySearchLogic();
+  private  PromoteTpToChDto tpDTo = new PromoteTpToChDto();
+  private  String searchSessionid = StringUtils.EMPTY;
+  private static final Logger LOGGER = LoggerFactory.getLogger(CompanySearchTableLogic.class);
 
     @Override
     public int getCount() {

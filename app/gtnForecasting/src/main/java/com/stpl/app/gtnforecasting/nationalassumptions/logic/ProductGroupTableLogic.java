@@ -21,10 +21,10 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ProductGroupTableLogic extends PageTableLogic {
 
-    String productGroupNo = StringUtils.EMPTY;
-    String productGroupName = StringUtils.EMPTY;
-    boolean loadData = false;
-    ProductGroupLookUpDTO productGroupLookUpDTO;
+    protected String productGroupNo = StringUtils.EMPTY;
+    protected String productGroupName = StringUtils.EMPTY;
+    protected boolean loadData = false;
+    protected ProductGroupLookUpDTO productGroupLookUpDTO;
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelectionSearchLogic.class);
 
     @Override

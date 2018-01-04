@@ -29,7 +29,7 @@ public class Contractselectionpopup extends Window {
  
     @UiField("contractscount")
     public ComboBox contractscount;
-    List<ContractSelectionDTO> selectedList;
+    private final List<ContractSelectionDTO> selectedList;
 
     public Contractselectionpopup(List<ContractSelectionDTO> selectedList) {
         super();

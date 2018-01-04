@@ -70,8 +70,8 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
      */
     private static final Logger LOGGER = Logger.getLogger(NMDiscountTableLoadLogic.class);
 
-    CommonLogic commonLogic = new CommonLogic();
-    DiscountQueryBuilder queryBuilder = new DiscountQueryBuilder();
+    protected CommonLogic commonLogic = new CommonLogic();
+    protected DiscountQueryBuilder queryBuilder = new DiscountQueryBuilder();
 
     public void setDiscountVariablesForLogic(SessionDTO session, ProjectionSelectionDTO projectionSelection, List<Integer> startAndEndPeriods, boolean isProgram, List<String> discountList,
             int levelNo, boolean isParent, CustomTableHeaderDTO rightDto, String hierarchyIndicator, String userGroup, List<Leveldto> currentHierarchy,
@@ -664,7 +664,6 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
     /**
      * To set the Hierarchy to refresh
      *
-     * @param hierarchyNo
      * @param tableLevelNo
      * @param b
      */

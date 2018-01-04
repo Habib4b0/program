@@ -184,7 +184,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     public static final String SEARCHICON = "searchicon";
     public ExtPagedTable contractSelectionTable = new ExtPagedTable(contractSelectionTableLogic);
     
-    Object[] CONTRACT_SELECTION_VISIBLE_COLUMN = {Constants.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO,
+    private final Object[] CONTRACT_SELECTION_VISIBLE_COLUMN = {Constants.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO,
         Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "itemStartDate",
         "itemEndDate", StringConstantsUtil.CP_START_DATE, StringConstantsUtil.CP_END_DATE, Constants.PRICE_TYPE_PROPERTY,
         StringConstantsUtil.PRICE_PROPERTY, Constants.PRICE_PROTECTION_STATUS_PROPERTY, Constants.PRICE_PROTECTION_START_DATE_PROPERTY, Constants.PRICE_PROTECTION_END_DATE_PROPERTY,
@@ -195,7 +195,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         Constants.RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_FORMULA_PROPERTY, Constants.NET_PRICE_TYPE_PROPERTY, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY,
         "cfpNO", Constants.CFP_NAME, "ifpNo", Constants.IFPNAME, "psNo", Constants.PSNAME, "rsNo", Constants.RSNAME, "rarCategory"};
 
-    String[] CONTRACT_SELECTION_HEADER = {StringUtils.EMPTY, Constants.PROJECTION_ID_HEADER, Constants.WORK_FLOW_STATUS_HEADER, Constants.CONTRACT_HOLDER_HEADER, Constants.CONTRACT_NO_HEADER,
+    private final String[] CONTRACT_SELECTION_HEADER = {StringUtils.EMPTY, Constants.PROJECTION_ID_HEADER, Constants.WORK_FLOW_STATUS_HEADER, Constants.CONTRACT_HOLDER_HEADER, Constants.CONTRACT_NO_HEADER,
         Constants.CONTRACT_NAME_HEADER, Constants.MARKET_TYPE_HEADER, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.ITEM_START_DATE,
         Constants.ITEM_END_DATE, StringConstantsUtil.CP_START_DATE_LABEL, StringConstantsUtil.CP_END_DATE_LABEL, Constants.PRICE_TYPE_LABEL,
         StringConstantsUtil.PRICE_LABEL, Constants.PRICE_PROTECTION_STATUS_LABEL, Constants.PRICE_PROTECTION_START_DATE_LABEL, Constants.PRICE_PROTECTION_END_DATE_LABEL,
@@ -206,44 +206,30 @@ public abstract class AbstractContractSearch extends CustomComponent {
         Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME,  Constants.NET_PRICE_TYPE_LABLE_NAME,  Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME,
         Constants.CFP_NO_HEADER, Constants.CFP_NAME_HEADER, Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.PS_NO_LABEL, Constants.PS_NAME_LABEL, Constants.RS_NO_HEADER, Constants.RS_NAME_LABEL, Constants.RAR_CATEGORY_HEADER};
     
-    Object[] EXCEL_CONTRACT_SELECTION_VISIBLE_COLUMN = {ConstantsUtil.PROJECTION_ID, "workFlowStatus", 
-        Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE,
-        Constants.END_DATE, ConstantsUtil.STATUS, ConstantsUtil.ITEM_START_DATE, ConstantsUtil.ITEM_END_DATE, StringConstantsUtil.CP_START_DATE, 
-        StringConstantsUtil.CP_END_DATE, StringConstantsUtil.CONTRACT_PRICE_PROPERTY, StringConstantsUtil.PRICE_PROPERTY, Constants.PRICE_PROTECTION_START_DATE_PROPERTY, Constants.PRICE_PROTECTION_END_DATE_PROPERTY, Constants.PRICE_TOLERANCE_TYPE_PROPERTY,
-        Constants.PRICE_TOLERANCE_PROPERTY, Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY, Constants.PRICE_TOLERANCE_INTERVAL, StringConstantsUtil.BASE_PRICE_PROPERTY, StringConstantsUtil.RS_START_DATE_LABEL, StringConstantsUtil.RS_END_DATE_COLUMN, 
-        Constants.FORMULA_ID_PROPERTY, Constants.REBATE_PLAN_PROPERTY, StringConstantsUtil.FORMULA_METHOD_ID_PROPERTY, Constants.REBATE_AMOUNT_PROPERTY, "cfpNO", Constants.CFP_NAME, "ifpNo", Constants.IFPNAME,
-        "psNo", Constants.PSNAME, "rsNo", Constants.RSNAME, "rarCategory"};
-    String[] EXCEL_CONTRACT_SELECTION_HEADER = {"Projection ID", "WorkFlow Status", "Contract Holder", "Contract No", "Contract Name", 
-        "Market Type", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.ITEM_START_DATE, Constants.ITEM_END_DATE,
-        StringConstantsUtil.CP_START_DATE_LABEL, StringConstantsUtil.CP_END_DATE_LABEL, StringConstantsUtil.CONTRACT_PRICE_LABEL, StringConstantsUtil.PRICE_LABEL, Constants.PRICE_PROTECTION_START_DATE_LABEL, Constants.PRICE_PROTECTION_END_DATE_LABEL, Constants.PRICE_TOLERANCE_TYPE_LABEL,
-        Constants.PRICE_TOLERANCE_LABEL, Constants.PRICE_TOLERANCE_FREQUENCY_LABEL, Constants.PRICE_TOLERANCE_INTERVAL_LABEL, StringConstantsUtil.BASE_PRICE_LABEL, StringConstantsUtil.RS_START_DATE_LABEL_CAPS, StringConstantsUtil.RS_END_DATE_LABEL, Constants.FORMULA_ID_LABEL, 
-        Constants.REBATE_PLAN_LABEL, "Formula Method Id", Constants.REBATE_AMOUNT_LABEL, "CFP No", "CFP Name", Constants.IFP_NO, Constants.IFP_NAME_LABEL, "PS No", " PS Name",
-        "RS No", "RS Name", "RAR Category"};
-    SelectionDTO selection;
+    private final SelectionDTO selection;
     public List<ItemIndexDto> selectedItemList;
     public AbstractLogic logic = AbstractLogic.getInstance();
     public BeanItemContainer<AbstractContractSearchDTO> contractExcelResultBean = new BeanItemContainer<>(AbstractContractSearchDTO.class);
     public ExtCustomTable contractExcelTable;
     public VerticalLayout contractDashboardLay = new VerticalLayout();
-    String massUpdateString = StringUtils.EMPTY;
-    String tabOperation = StringUtils.EMPTY;
-    public StplSecurity stplSecurity = new StplSecurity();
-    public Map<String, AppPermission> functionHM = new HashMap<>();
+    private String massUpdateString = StringUtils.EMPTY;
+    private String tabOperation = StringUtils.EMPTY;
+    protected StplSecurity stplSecurity = new StplSecurity();
+    private final Map<String, AppPermission> functionHM = new HashMap<>();
     public String userId = VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString();
-    boolean isChecked = true;
-    boolean isFound = false;
+    private boolean isFound = false;
     public String contractItemName = StringUtils.EMPTY;
     public String transferSalesString = StringUtils.EMPTY;
     public boolean removeProjectionBooleanVal = false;
     public boolean isSubmit = false;
-    AddItemContractFieldFactory fieldFactory;
-    Map comboToTableMap = new HashMap();
-    Map tempTableMap = new HashMap();
-    Map startDateEndDateMap = new HashMap();
-    Map fieldAndPropertyMap = new HashMap();
-    CustomTextField.ClickListener clickLister;
+    private AddItemContractFieldFactory fieldFactory;
+    private final Map comboToTableMap = new HashMap();
+    private final Map tempTableMap = new HashMap();
+    private final Map startDateEndDateMap = new HashMap();
+    private final Map fieldAndPropertyMap = new HashMap();
+    private CustomTextField.ClickListener clickLister;
     public String dateMessage = StringUtils.EMPTY;
-    BeanItemContainer<AbstractContractSearchDTO> container = new BeanItemContainer<>(AbstractContractSearchDTO.class);
+    private final BeanItemContainer<AbstractContractSearchDTO> container = new BeanItemContainer<>(AbstractContractSearchDTO.class);
 
     public AbstractContractSearch(SelectionDTO selection, List selectedItemList) {
         this.selection = selection;
@@ -291,10 +277,12 @@ public abstract class AbstractContractSearch extends CustomComponent {
         }
 
         contractSelectionTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -312,18 +300,22 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constants.CHECK_RECORD.equals(propertyId)) {
                     CustomTextField text = new CustomTextField();
@@ -443,6 +435,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         contractVertical.addComponent(controlLayout);
         contractSelectionTable.setEditable(Boolean.TRUE);
         contractSelectionTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 Collection itemList = contractSelectionTable.getItemIds();
                 for (Object obj : itemList) {
@@ -600,6 +593,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NEP_FORMULA_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -626,6 +620,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -652,6 +647,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -679,6 +675,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -705,6 +702,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         massUpdateText.removeClickListener(clickLister);
                     }
                     clickLister = new CustomTextField.ClickListener() {
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
                             NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_PRICE_TYPE_LABLE_NAME);
                             formulaLookUp.addCloseListener(new Window.CloseListener() {
@@ -1199,8 +1197,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
             AbstractContractSearchDTO dto = (AbstractContractSearchDTO) object;
             if (dto.getCheckRecord()) {
                 isChecked = false;
-                isFound = true;
-                if (!isHavingValue(massUpdateString)) {
+                isFound = isHavingValue(massUpdateString);
+                if (!isFound) {
                     isFound = false;
                     new AbstractNotificationUtils() {
                         @Override
@@ -1337,27 +1335,27 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         columnName = Constants.NEP_FORMULA_COLUMN_NAME;
                         value = nepForumulaDto.getFormulaSid();
                         break;
-                        case Constants.BASE_PRICE_TYPE_LABLE_NAME:
+                    case Constants.BASE_PRICE_TYPE_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
                         contractSelectionTable.getItem(object).getItemProperty(Constants.BASE_PRICE_PROPERTY).setValue(tempDTO);
                         columnName = Constants.BASE_PRICE_TYPE_COLUMN_NAME;
                         value = tempDTO.getId();
-                            if (Constants.MANUAL_LABLE_NAME.equals(tempDTO.getDescription())) {
-                                baseLineTextValue = baseWacManual.getValue();
-                                contractSelectionTable.getItem(object).getItemProperty("baseLineWacManual").setValue(baseLineTextValue);
-                                baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
-                               logic.updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
-                            } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
-                                contractSelectionTable.getItem(object).getItemProperty("baseLineWacDate").setValue(baseWacDate.getValue());
-                                baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
-                                baseLineValue = CommonUtils.DBDate.format(baseWacDate.getValue());
-                                logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
-                            } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
-                                baseLineValue = baseWacPriceType.getValue();
-                                contractSelectionTable.getItem(object).getItemProperty("baseLineWacPriceType").setValue(baseLineValue);
-                                baseLineColumnName = Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME;
-                                logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
-                            }
+                        if (Constants.MANUAL_LABLE_NAME.equals(tempDTO.getDescription())) {
+                            baseLineTextValue = baseWacManual.getValue();
+                            contractSelectionTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_MANUAL_LABLE_NAME).setValue(baseLineTextValue);
+                            baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
+                        } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
+                            contractSelectionTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_DATE_LABLE_NAME).setValue(baseWacDate.getValue());
+                            baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
+                            baseLineValue = CommonUtils.DBDate.format(baseWacDate.getValue());
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                        } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
+                            baseLineValue = baseWacPriceType.getValue();
+                            contractSelectionTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME).setValue(baseLineValue);
+                            baseLineColumnName = Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME;
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                        }
                         break;
                     case Constants.BASELINE_NET_WAC_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
@@ -1479,6 +1477,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         contractSelectionTable.getItem(object).getItemProperty(Constants.NET_PRICE_TYPE_FORMULA_PROPERTY).setValue(textValue);
                         columnName = Constants.NET_PRICE_TYPE_FORMULA_COLUMN_NAME;
                         value = netPriceTypeFormulaDto.getFormulaSid();
+                        break;
+                    default:
                         break;
                 }
             }
@@ -1867,6 +1867,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
             case Constants.RESET_DATE_LABLE_NAME:
                 startDateVisibility();
                 startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.RESET_DATE.getConstant());
+                break;
+            default:
                 break;
         }
     }

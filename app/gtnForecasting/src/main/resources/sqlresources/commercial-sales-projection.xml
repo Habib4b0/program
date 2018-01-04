@@ -24,7 +24,7 @@ and open the template in the editor.
                        COUNT(DISTINCT SHN.CCP_DETAILS_SID) AS ROW_COUNT INTO #ST_NM_SALES_PROJECTION
                 FROM #SELECTED_HIERARCHY_NO SHN
                 JOIN ST_NM_SALES_PROJECTION NMSP ON NMSP.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID
-                JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID 
+                JOIN PERIOD P ON P.PERIOD_SID = NMSP.PERIOD_SID
                 @UOMCODE 
                 @SALESINCLUSION 
                 GROUP BY SHN.HIERARCHY_NO,             
@@ -116,7 +116,7 @@ and open the template in the editor.
                        MAINQ.ccpcount,
                        MAINQ.hierarchy_indicator,
                        MAINQ.user_group,
-                       '' AS SEC_HIERARCHY,SALES_INCLUSION   
+                       '' AS SEC_HIERARCHY,SALES_INCLUSION   , MAINQ.INSTR
                 FROM
                   (SELECT Q.account_growth,
                           Q.product_growth,
@@ -137,7 +137,7 @@ and open the template in the editor.
                           Q.hierarchy_indicator,
                           Q.user_group,
                           Dense_rank() OVER(
-                                            ORDER BY Q.HIERARCHY_NO ASC) AS TEMP_INDEX,Q.SALES_INCLUSION
+                                            ORDER BY Q.INSTR ASC) AS TEMP_INDEX,Q.SALES_INCLUSION,Q.INSTR
                    FROM
                      (SELECT distinct 0.0 AS ACCOUNT_GROWTH,
                              0.0 AS PRODUCT_GROWTH,
@@ -156,7 +156,7 @@ and open the template in the editor.
                              UNCHECK_COUNT,
                              CCPCOUNT,
                              '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR,
-                             sh.USER_GROUP,MSPM.SALES_INCLUSION
+                             sh.USER_GROUP,MSPM.SALES_INCLUSION,INSTR
                       FROM (SELECT HIERARCHY_NO,year,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY,P.@FREVAL@,INSTR FROM #SELECTED_HIERARCHY_NO SHS CROSS JOIN PERIOD P WHERE P.PERIOD_SID BETWEEN @STAT_SALES AND @EN_SALES GROUP BY  year,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY,P.@FREVAL@,INSTR,HIERARCHY_NO) SH 
 					  left join 
 					  #ST_NM_SALES_PROJECTION_MASTER MSPM on  mspm.HIERARCHY_NO=sh.HIERARCHY_NO
@@ -179,7 +179,7 @@ and open the template in the editor.
                                        UNCHECK_COUNT,
                                        CCPCOUNT,
                                        '@HIERARCHY_INDICATOR' AS HIERARCHY_INDICATOR,
-                                       sh.USER_GROUP,MSPM.SALES_INCLUSION
+                                       sh.USER_GROUP,MSPM.SALES_INCLUSION, INSTR
                       FROM (SELECT HIERARCHY_NO,year,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY,P.@FREVAL@,INSTR FROM #SELECTED_HIERARCHY_NO SHS CROSS JOIN PERIOD P WHERE P.PERIOD_SID BETWEEN @ACTUAL_START_PERIOD AND @ACTUAL_END_PERIOD GROUP BY  year,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY,P.@FREVAL@,INSTR,HIERARCHY_NO) sh left join 
 					   #ST_NM_SALES_PROJECTION_MASTER MSPM on mspm.HIERARCHY_NO=sh.HIERARCHY_NO
                      left  JOIN #ST_NM_SALES_PROJECTION MSP ON MSPM.HIERARCHY_NO = MSP.HIERARCHY_NO 
@@ -187,7 +187,7 @@ and open the template in the editor.
                 WHERE MAINQ.TEMP_INDEX > @START
                   AND MAINQ.TEMP_INDEX <= (@START+@END)
                 ORDER BY 
-                        MAINQ.HIERARCHY_NO,
+                        MAINQ.INSTR,
                         MAINQ.YEARS,
                         MAINQ.PERIODS;
                 ]]>
@@ -199,13 +199,13 @@ and open the template in the editor.
             <![CDATA[
                 IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
-                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT)
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),INSTR INT,CCP_DETAILS_SID INT)
 
                 INSERT INTO #SELECTED_HIERARCHY_NO
-                (HIERARCHY_NO,
+                (HIERARCHY_NO,INSTR,
                 CCP_DETAILS_SID)
-                SELECT DISTINCT HIERARCHY_NO,CH.CCP_DETAILS_SID
-                FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)                
+                SELECT DISTINCT HIERARCHY_NO,INSTR,CH.CCP_DETAILS_SID
+                FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,INSTR)                
                 [?SELECTED_HIERARCHY_JOIN]
             ]]>
         </query>
@@ -216,13 +216,13 @@ and open the template in the editor.
             <![CDATA[
                 IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
-                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT,RELATIONSHIP_LEVEL_VALUES VARCHAR(50))
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),INSTR INT,CCP_DETAILS_SID INT,RELATIONSHIP_LEVEL_VALUES VARCHAR(50))
 
                 INSERT INTO #SELECTED_HIERARCHY_NO
-                (HIERARCHY_NO,
+                (HIERARCHY_NO,INSTR,
                 CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES)
-                SELECT DISTINCT A.HIERARCHY_NO,CH.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES
-                FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)                
+                SELECT DISTINCT A.HIERARCHY_NO,INSTR,CH.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES
+                FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,INSTR)                
                 [?SELECTED_HIERARCHY_JOIN]
             ]]>
         </query>
@@ -979,19 +979,18 @@ FROM ST_NM_SALES_PROJECTION)
             ]]>
         </query>
     </entity>	
-    
     <entity id="hiearchy-no-count-query">
         <query>
             <![CDATA[    
                 IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
-                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT,RELATIONSHIP_LEVEL_VALUES VARCHAR(50))
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),INSTR INT,CCP_DETAILS_SID INT,RELATIONSHIP_LEVEL_VALUES VARCHAR(50))
 
                 INSERT INTO #SELECTED_HIERARCHY_NO 
-                (HIERARCHY_NO,
+                (HIERARCHY_NO,INSTR,
                 CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES)
-                SELECT DISTINCT A.HIERARCHY_NO,CH.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES
-                FROM   (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
+                SELECT DISTINCT A.HIERARCHY_NO,INSTR,CH.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES
+                FROM   (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,INSTR)
                 JOIN ST_CCP_HIERARCHY CH ON CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO+'%'
                 [?TAB_BASED_JOIN]
             ]]>
@@ -1003,15 +1002,16 @@ FROM ST_NM_SALES_PROJECTION)
             <![CDATA[    
                 IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
-                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT,RELATIONSHIP_LEVEL_VALUES VARCHAR(50))
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),INSTR INT,CCP_DETAILS_SID INT,RELATIONSHIP_LEVEL_VALUES VARCHAR(50))
 
                 INSERT INTO #SELECTED_HIERARCHY_NO 
-                (HIERARCHY_NO,
+                (HIERARCHY_NO,INSTR,
                 CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES)
-                SELECT DISTINCT A.HIERARCHY_NO,CH.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES
-                FROM   (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
+                SELECT DISTINCT A.HIERARCHY_NO,INSTR,CH.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES
+                FROM   (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,INSTR)
                 JOIN ST_CCP_HIERARCHY CH ON CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO+'%'
                 [?TAB_BASED_JOIN]
+
             ]]>
         </query>
     </entity>	
@@ -1905,19 +1905,35 @@ WHERE P.PERIOD_SID BETWEEN @START_PERIOD_SID
  
    ]]>
     </query>
+        </entity>
+     <entity id="selected-hierarchy-no-order-values">
+        <query>
+            <![CDATA[
+                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                DROP TABLE #SELECTED_HIERARCHY_NO
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT,RN INT)
+
+                INSERT INTO #SELECTED_HIERARCHY_NO
+                (HIERARCHY_NO,
+                CCP_DETAILS_SID,RN)
+                SELECT DISTINCT HIERARCHY_NO,CH.CCP_DETAILS_SID,RN
+                FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,RN)                
+                [?SELECTED_HIERARCHY_JOIN]
+            ]]>
+        </query>
     </entity>
     <entity id="custom-view-condition-query">
         <query>
             <![CDATA[    
-      SELECT DISTINCT convert(VARCHAR(8000),HIERARCHY_NO) HIERARCHY_NO   FROM (SELECT HIERARCHY_NO = STUFF((
+      SELECT  convert(VARCHAR(8000),HIERARCHY_NO) HIERARCHY_NO  FROM (SELECT DISTINCT HIERARCHY_NO = STUFF((
 			SELECT DISTINCT ', ' + HIERARCHY_NO
 			FROM #SELECTED_HIERARCHY_NO B
 			WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
 			FOR XML PATH('')
-			), 1, 2, '')
+			), 1, 2, ''),INSTR
 FROM #SELECTED_HIERARCHY_NO A
 @RELJOIN )S
-ORDER BY HIERARCHY_NO
+ORDER BY INSTR
                 OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;   
             ]]>
         </query>
@@ -2100,11 +2116,11 @@ BEGIN
 	SET NDP.PROJECTION_SALES = CASE 
 			WHEN @BASED_ON = '1'
 				THEN SALES_UNITS_VALUE
-			ELSE SALES_UNITS_VALUE / NULLIF(WAC, 0)
+			ELSE SALES_UNITS_VALUE * WAC
 			END + IIF(@ADJUEST_METHOD = 'OVERRIDE', 0, ISNULL(NDP.PROJECTION_SALES, 0)),
 		NDP.PROJECTION_UNITS = CASE 
 			WHEN @BASED_ON = '1'
-				THEN SALES_UNITS_VALUE * WAC
+				THEN SALES_UNITS_VALUE / NULLIF(WAC, 0) 
 			ELSE SALES_UNITS_VALUE
 			END + IIF(@ADJUEST_METHOD = 'OVERRIDE', 0, ISNULL(NDP.PROJECTION_UNITS, 0))
 	FROM ST_NM_SALES_PROJECTION NDP
@@ -2118,6 +2134,26 @@ END
 
  
  
+   ]]>
+    </query>
+    </entity>
+     <entity id="sales-adjustment-query-Validation">
+<query>
+    <![CDATA[
+
+   SELECT MAX(CNT) CNT FROM(
+ SELECT DISTINCT
+	COUNT(A.CCP_DETAILS_SID) OVER (
+		PARTITION BY 
+		ITEM_MASTER_SID
+		) CNT
+FROM ST_CCP_HIERARCHY A
+JOIN ST_NM_SALES_PROJECTION_MASTER C
+ON A.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+AND CHECK_RECORD=1
+INNER JOIN CCP_DETAILS B
+	ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID)A
+
    ]]>
     </query>
     </entity>

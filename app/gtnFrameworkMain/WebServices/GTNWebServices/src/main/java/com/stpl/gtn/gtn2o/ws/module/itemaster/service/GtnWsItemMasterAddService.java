@@ -650,6 +650,17 @@ public class GtnWsItemMasterAddService {
 		}
 	}
 
+	public void deletePricingData(GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+		String query = gtnWsSqlService.getQuery("deleteInPricingTempTable");
+		query = replaceTempTableName(gtnWsRequest, query);
+		GntWsItemPricingBean pricingBean = gtnWsRequest.getGtnWsItemMasterRequest().getGtnWsItemMasterBean()
+				.getGntWsItemPricingBean();
+		Object[] params = new Object[] { pricingBean.getItemPricingSid() };
+		GtnFrameworkDataType[] typeParams = new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER };
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, typeParams);
+
+	}
+
 	private boolean validateUniqueCombination(GtnUIFrameworkWebserviceRequest gtnWsRequest)
 			throws GtnFrameworkGeneralException {
 		String query = gtnWsSqlService.getQuery("pricingUniqueValidation");

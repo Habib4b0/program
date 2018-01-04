@@ -86,7 +86,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
@@ -131,7 +130,7 @@ public class AlternateSummery extends CustomComponent {
      * The split position.
      */
     private final float splitPosition = 300;
-    public ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
     protected ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     protected ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
     protected CustomTableHeaderDTO excelHeader = new CustomTableHeaderDTO();
@@ -203,26 +202,24 @@ public class AlternateSummery extends CustomComponent {
      */
     @UiField("generateBtn")
     protected Button generate;
-    
+
     @UiField("tableLayout")
     protected VerticalLayout tableLayout;
     @UiField("expand")
     protected Button expand;
     @UiField("collapse")
     protected Button collapse;
-    
+
     @UiField("viewLabel")
-    public Label viewLabel;
-    
+    private Label viewLabel;
+
     @UiField("buttonLayout")
     protected HorizontalLayout buttonLayout;
     /*
         RESET button
-    */
-    public Button returnsResetBtn = new Button("RESET");
-    
-    public int customId = 0;
-    
+     */
+    private int customId = 0;
+
     protected boolean checkAll = false;
     /**
      * The excel export image.
@@ -236,19 +233,19 @@ public class AlternateSummery extends CustomComponent {
     protected ExtFilterTreeTable rightTable;
     protected CustomTableHeaderDTO leftHeader = null;
     protected CustomTableHeaderDTO rightHeader = null;
-    final public BeanItemContainer<String> groupBean = new BeanItemContainer<>(String.class);
-    final public BeanItemContainer<String> massGroupBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> groupBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> massGroupBean = new BeanItemContainer<>(String.class);
     protected SessionDTO session;
     protected FreezePagedTreeTable resultsTable;
-    
+
     protected MSalesProjectionTableLogic mSalesProjectionTableLogic;
     protected ExtCustomTreeTable excelTable = new ExtCustomTreeTable();
-    protected ExtTreeContainer<SalesRowDto> excelContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
+    protected ExtTreeContainer<SalesRowDto> excelContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
     /**
      * Level Filter Listener
      */
     protected Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
-        
+
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
@@ -257,72 +254,63 @@ public class AlternateSummery extends CustomComponent {
             levelFilterDdlbChangeOption();
         }
     };
-    Property.ValueChangeListener groupFilterValueChangeListener = null;
-    Property.ValueChangeListener baseLineFilterValueChangeListener = null;
-    Property.ValueChangeListener methodologyFilterValueChangeListener = null;
-    
-    ComboBox userGroupTest = new ComboBox();
+    private Property.ValueChangeListener groupFilterValueChangeListener = null;
+    private Property.ValueChangeListener baseLineFilterValueChangeListener = null;
+    private Property.ValueChangeListener methodologyFilterValueChangeListener = null;
+
     protected ComboBox metohdologyFilter = new ComboBox();
     protected ComboBox baseLineFilter = new ComboBox();
-    final public BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
-    final public BeanItemContainer<String> baseLineBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> baseLineBean = new BeanItemContainer<>(String.class);
     protected String screenName;
     @UiField("mainPanel")
-    Panel mainPanel;
+    private Panel mainPanel;
     @UiField("salesProjectionSelection")
-    Panel salesProjectionSelection;
+    private Panel salesProjectionSelection;
     @UiField("viewLayout")
-    HorizontalLayout viewLayout;
+    private HorizontalLayout viewLayout;
     @UiField("spAdjustment")
-    Panel spAdjustment;
+    private Panel spAdjustment;
     @UiField("nmFrequencyDdlb")
     protected ComboBox nmFrequencyDdlb;
     protected int customIdToSelect = 0;
     protected List<CustomViewMaster> customViewList = new ArrayList<>();
     protected final SalesLogic salesLogic = new SalesLogic();
     protected List<Leveldto> currentHierarchy = new ArrayList<>();
-    DataFormatConverter unitFormat = new DataFormatConverter("#,##0.0");
-    DataFormatConverter salesFormat = new DataFormatConverter("#,##0", DataFormatConverter.INDICATOR_DOLLAR);
-    DataFormatConverter growthFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_PERCENT);
-    String oldValue = StringUtils.EMPTY;
-    String oldGroupValue = StringUtils.EMPTY;
-    final Set<String> tableHirarechyNos = new HashSet<>();
+    private DataFormatConverter unitFormat = new DataFormatConverter("#,##0.0");
+    private DataFormatConverter salesFormat = new DataFormatConverter("#,##0", DataFormatConverter.INDICATOR_DOLLAR);
+    private DataFormatConverter growthFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_PERCENT);
+    private String oldValue = StringUtils.EMPTY;
+    private String oldGroupValue = StringUtils.EMPTY;
+    private final Set<String> tableHirarechyNos = new HashSet<>();
     private Map<Object, Boolean> checkBoxMap = new HashMap<>();
     private Map<Object, String> radioMap = new HashMap<>();
     protected boolean isSalesCalculated;
-    List<String> checkedList;
-    Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
-    List<Object> checkedDiscountsPropertyIds = new ArrayList<>();
-    
+    private List<String> checkedList;
+    private Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
+
     @UiField("GridLayoutProjection")
     protected GridLayout GridLayoutProjection;
-    
+
     @UiField("projPeriodOrdr")
     protected Label projPeriodOrdr;
     @UiField("pivotViewVar")
     protected OptionGroup pivotViewVar;
-    
-    HorizontalLayout forecastReturnsLayout = new HorizontalLayout();
-    
-    public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
-    
-    final StplSecurity stplSecurity = new StplSecurity();
-    final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
-    
-    boolean generated = false;
-    boolean firstGenerated = false;
+
+    private final StplSecurity stplSecurity = new StplSecurity();
+    private final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
+
     private static final Logger LOGGER = Logger.getLogger(AlternateSummery.class);
-    List<String> projectedPeriodList = new ArrayList();
     private SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
-    List<String> variableList;
-    
-    public AlternateSummery(SessionDTO session, String screenName, List<String> variableList)  {
+    private List<String> variableList;
+
+    public AlternateSummery(SessionDTO session, String screenName, List<String> variableList) {
         try {
             this.session = session;
             this.screenName = screenName;
             this.variableList = variableList;
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/AltenateSummeryTab.xml"), this));
-            
+
             if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
                 projectionDTO.setScreenName(screenName);
                 mSalesProjectionTableLogic = new MSalesProjectionTableLogic();
@@ -331,17 +319,17 @@ public class AlternateSummery extends CustomComponent {
             addComponent();
             configurefields();
             init();
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
-        
+
     }
 
     /**
      *
      * Configurefields.
      */
-    private void configurefields()  {
+    private void configurefields() {
         level.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
         level.setImmediate(true);
         levelFilter.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
@@ -349,14 +337,14 @@ public class AlternateSummery extends CustomComponent {
         viewDdlb.setEnabled(false);
         editBtn.setEnabled(false);
         newBtn.setEnabled(true);
-        
+
         historyDdlb.focus();
         historyDdlb.addItem(Constant.SELECT_ONE);
         historyDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
-        
+
         tableLayout.addComponent(resultsTable);
         tableLayout.addComponent(excelTable);
-        
+
         view.addItem(Constant.CUSTOMER_SMALL);
         view.addItem(Constant.PRODUCT_LABEL);
         view.addItem(Constant.CUSTOM_LABEL);
@@ -368,28 +356,28 @@ public class AlternateSummery extends CustomComponent {
         pivotViewVar.setStyleName(Constant.HORIZONTAL);
         pivotViewVar.setImmediate(true);
         excelExport.setIcon(excelExportImage);
-        
+
         excelTable.setVisible(false);
-        
+
         configureFrequency(nmFrequencyDdlb, historyDdlb);
         loadFrequency(nmFrequencyDdlb, historyDdlb);
 
         level.addItem(Constant.SELECT_ONE);
         level.setNullSelectionItemId(Constant.SELECT_ONE);
-        
+
         levelFilter.addItem(Constant.SELECT_ONE);
         levelFilter.setNullSelectionItemId(Constant.SELECT_ONE);
-        
+
         viewDdlb.addItem(Constant.SELECT_ONE);
         viewDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
-        
+
         metohdologyFilter.setContainerDataSource(methdologyBean);
         metohdologyFilter.setNullSelectionAllowed(false);
         baseLineFilter.setNullSelectionAllowed(false);
         baseLineFilter.setContainerDataSource(baseLineBean);
-        
+
         groupFilterValueChangeListener = new Property.ValueChangeListener() {
-            
+
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 LOGGER.debug("groupDdlbChangeOption ValueChangeEvent initiated ");
@@ -400,38 +388,38 @@ public class AlternateSummery extends CustomComponent {
                 LOGGER.debug("groupDdlbChangeOption ValueChangeEvent ends ");
             }
         };
-        
+
         baseLineFilterValueChangeListener = new Property.ValueChangeListener() {
-            
+
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 return;
             }
         };
-        
+
         methodologyFilterValueChangeListener = new Property.ValueChangeListener() {
-            
+
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 return;
             }
         };
-        
+
         baseLineFilter.addValueChangeListener(baseLineFilterValueChangeListener);
         metohdologyFilter.addValueChangeListener(methodologyFilterValueChangeListener);
-        
+
         loadLevelFilterValue(String.valueOf(view.getValue()));
         view.addValueChangeListener(new Property.ValueChangeListener() {
-            
+
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 loadOnViewChange();
             }
         });
-        
+
         if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.VIEW.equalsIgnoreCase(session.getAction())) {
             setProjectionSelection();
-        }        
+        }
         actualsProjections.select(Constant.BOTH);
     }
 
@@ -458,7 +446,7 @@ public class AlternateSummery extends CustomComponent {
     @UiHandler("editBtn")
     public void editHierarchyBtn(Button.ClickEvent event) {
         editHierarchyLogic();
-        
+
     }
 
     /**
@@ -487,7 +475,7 @@ public class AlternateSummery extends CustomComponent {
                 LOGGER.debug("End of resetBtn method");
             }
         }.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default/previous values?");
-        
+
     }
 
     /**
@@ -524,11 +512,11 @@ public class AlternateSummery extends CustomComponent {
         customDdlbChangeOption();
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent ends ");
     }
-    
+
     public int getTabNumber() {
         return Constant.ONE;
     }
-    
+
     @UiHandler("excelExport")
     public void excelExportListener(Button.ClickEvent event) {
         excelExportLogic();
@@ -564,7 +552,7 @@ public class AlternateSummery extends CustomComponent {
         }
         collapseButtonLogic();
     }
-    
+
     private void addComponent() {
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             variableList.clear();
@@ -581,11 +569,11 @@ public class AlternateSummery extends CustomComponent {
         actualsProjections.addItem(Constant.BOTH);
         actualsProjections.setStyleName(Constant.HORIZONTAL);
         actualsProjections.select(Constant.BOTH);
-        
+
         CommonUtils.frequenceValueChange(QUARTERLY.getConstant(), historyDdlb, session);
         historyDdlb.setValue(1);
     }
-    
+
     protected void initializeResultTable() {
         resultsTable.markAsDirty();
         resultsTable.setDoubleHeaderVisible(true);
@@ -596,7 +584,7 @@ public class AlternateSummery extends CustomComponent {
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         resultsTable.addStyleName(Constant.CENTER_CHECK);
     }
-    
+
     protected void initializeDualTable() {
         leftTable = resultsTable.getLeftFreezeAsTable();
         rightTable = resultsTable.getRightFreezeAsTable();
@@ -606,9 +594,9 @@ public class AlternateSummery extends CustomComponent {
         leftTable.setEditable(true);
         leftTable.setImmediate(true);
         rightTable.setImmediate(true);
-        
+
     }
-    
+
     protected void loadLevelFilterValue(final String view) {
         if (view.equalsIgnoreCase(PRODUCT_HIERARCHY.getConstant())) {
             int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;
@@ -633,7 +621,7 @@ public class AlternateSummery extends CustomComponent {
      * @return - Selection Map
      */
     protected Map configureSalesProjectionSelection() {
-        
+
         String history = String.valueOf(historyDdlb.getValue());
         history = history.trim();
         final String actualsOrProjections = String.valueOf(actualsProjections.getValue());
@@ -652,7 +640,7 @@ public class AlternateSummery extends CustomComponent {
         selection.put(Constant.UNITS, Constant.FALSE);
         selection.put(Constant.P_GROWTH, Constant.FALSE);
         selection.put(Constant.A_GROWTH, Constant.FALSE);
-        
+
         return selection;
     }
 
@@ -663,7 +651,7 @@ public class AlternateSummery extends CustomComponent {
      * @return
      */
     public SalesRowDto getBeanFromId(Object obj) {
-        
+
         BeanItem<?> targetItem = null;
         if (obj instanceof BeanItem<?>) {
             targetItem = (BeanItem<?>) obj;
@@ -786,11 +774,11 @@ public class AlternateSummery extends CustomComponent {
      * Opens the CustomTreePopup to create a new Custom Hierarchy
      */
     protected void customTreeViewLogic() {
-        
+
         LOGGER.debug("newCustomHierarchhy clickEvent method starts");
         final CustomTreeBuild customTree = new CustomTreeBuild(session);
         customTree.addCloseListener(new Window.CloseListener() {
-            
+
             @Override
             public void windowClose(Window.CloseEvent e) {
                 if (customTree.isIsSelect()) {
@@ -809,9 +797,9 @@ public class AlternateSummery extends CustomComponent {
     public void editHierarchyLogic() {
         LOGGER.debug("Entering editHierarchyBtn");
         if (CommonLogic.editButtonValidation(viewDdlb, customViewList)) {
-            final CustomTreeBuild customTree = new CustomTreeBuild( session, customId);
+            final CustomTreeBuild customTree = new CustomTreeBuild(session, customId);
             customTree.addCloseListener(new Window.CloseListener() {
-                
+
                 @Override
                 public void windowClose(Window.CloseEvent e) {
                     customIdToSelect = customTree.getCustomId();
@@ -828,16 +816,16 @@ public class AlternateSummery extends CustomComponent {
      * Non-Mandated.
      */
     protected void configureTableFieldFactory() {
-        
+
         final ExtCustomTable.ColumnCheckListener checkListener = new ExtCustomTable.ColumnCheckListener() {
-            
+
             @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 checkAll = event.isChecked();
                 checkClearAll(event.isChecked());
             }
         };
-        
+
         leftTable = resultsTable.getLeftFreezeAsTable();
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
             NonMandatedFilter();
@@ -875,7 +863,7 @@ public class AlternateSummery extends CustomComponent {
                                 int updatedRecordsNo = salesLogic.saveCheckedRecords(projectionDTO, getBeanFromId(itemId), checkValue, false);
                                 updateCheckForParentLevels(itemId, updatedRecordsNo, checkValue);
                                 updateCheckForChildLevels(tableHierarchyNo, itemId, checkValue);
-                                
+
                                 if (!checkValue) {
                                     ExtPagedTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
                                     leftTable.removeColumnCheckListener(checkListener);
@@ -884,7 +872,7 @@ public class AlternateSummery extends CustomComponent {
                                     checkAll = false;
                                 }
                                 resultsTable.getLeftFreezeAsTable().setRefresh(true);
-                            } catch (Exception ex) {
+                            } catch (PortalException | SystemException ex) {
                                 LOGGER.error(ex);
                             }
                         }
@@ -919,7 +907,7 @@ public class AlternateSummery extends CustomComponent {
                                         groupBean.removeAllItems();
                                         groupBean.addBean(Constant.SHOW_ALL_GROUPS);
                                         groupBean.addAll(salesLogic.loadSalesGroup(projectionDTO));
-                                    } catch (Exception ex) {
+                                    } catch (PortalException | SystemException | Property.ReadOnlyException ex) {
                                         LOGGER.error(ex);
                                     }
                                 }
@@ -931,7 +919,7 @@ public class AlternateSummery extends CustomComponent {
                 return null;
             }
         });
-        
+
         rightTable.setTableFieldFactory(new DefaultFieldFactory() {
             /**
              *
@@ -948,7 +936,7 @@ public class AlternateSummery extends CustomComponent {
                 if (!Constant.VIEW.equals(session.getAction()) && !String.valueOf(propertyId).contains(Constant.HISTORY_CAPS) && !String.valueOf(propertyId).contains(Constant.ACTUALSALES) && !String.valueOf(propertyId).contains(Constant.ACTUALUNITS)
                         && !String.valueOf(propertyId).contains(Constant.METHODOLOGY) && !String.valueOf(propertyId).contains(Constant.BASELINE) && !String.valueOf(propertyId).contains(Constant.GROUP) && !String.valueOf(propertyId).contains("Dis")
                         && !String.valueOf(propertyId).contains("ActualReturned") && !String.valueOf(propertyId).contains(Constant.ACTUALRPU)) {
-                    
+
                     final TextField textField = new TextField();
                     final SalesRowDto salesRowDto = getBeanFromId(itemId);
                     textField.setData(propertyId + "~" + salesRowDto.getHierarchyNo());
@@ -986,14 +974,14 @@ public class AlternateSummery extends CustomComponent {
                                     Double newNumber, oldNumber;
                                     newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.valueOf(newValue);
                                     oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.valueOf(oldValue);
-                                    
+
                                     Double incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
                                     String tempValue = String.valueOf(((TextField) event.getComponent()).getData());
                                     String tempArray[] = tempValue.split("-");
                                     tempValue = tempArray[NumericConstants.TWO];
                                     String tempArray1[] = tempValue.split("~");
                                     String changedProperty = tempArray1[0];
-                                    
+
                                     String changedValue = ((TextField) event.getComponent()).getValue();
                                     changedValue = StringUtils.isBlank(changedValue) || Constant.NULL.equals(changedValue) ? "0.0" : changedValue;
                                     if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equalsIgnoreCase(screenName)) {
@@ -1016,15 +1004,15 @@ public class AlternateSummery extends CustomComponent {
         });
 
         rightTable.addDoubleHeaderColumnCheckListener(new ExtCustomTable.DoubleHeaderColumnCheckListener() {
-            
+
             @Override
             public void doubleHeaderColumnCheck(ExtCustomTable.DoubleHeaderColumnCheckEvent event) {
-                
+
                 checkBoxMap.put(event.getPropertyId(), event.isChecked());
-                
+
             }
         });
-        
+
         for (Object obj : leftHeader.getSingleColumns()) {
             if (String.valueOf(obj).contains(Constant.CHECK)) {
                 leftTable.setColumnCheckBox(obj, projectionDTO.getFrequencyDivision() == NumericConstants.FOUR);
@@ -1033,7 +1021,7 @@ public class AlternateSummery extends CustomComponent {
             }
         }
         resultsTable.addStyleName("stableheader");
-        
+
     }
 
     /**
@@ -1051,7 +1039,7 @@ public class AlternateSummery extends CustomComponent {
                 dto.addBooleanProperties(Constant.CHECK, checkClear);
                 leftTable.getContainerProperty(itemID, Constant.CHECK).setValue(checkClear);
             }
-            
+
             for (String hierarchyNo : mSalesProjectionTableLogic.getAllLevels()) {
                 boolean isPresentInContainer = true;
                 Object tempId = mSalesProjectionTableLogic.getcurrentTreeData(hierarchyNo);
@@ -1066,7 +1054,7 @@ public class AlternateSummery extends CustomComponent {
                 }
             }
             mSalesProjectionTableLogic.setRefresh(true);
-            
+
         } catch (Property.ReadOnlyException | NumberFormatException ex) {
             LOGGER.error(ex);
         }
@@ -1079,7 +1067,7 @@ public class AlternateSummery extends CustomComponent {
      * @param isPresentInContainer
      */
     private void updateChecks(Object tempId, boolean isPresentInContainer) {
-        
+
         SalesRowDto tempDto = (SalesRowDto) tempId;
         boolean checkValue = tempDto.getUncheckCount() == 0;
         tempDto.addBooleanProperties(Constant.CHECK, checkValue);
@@ -1097,7 +1085,7 @@ public class AlternateSummery extends CustomComponent {
      * @param checkValue
      */
     private void updateCheckForParentLevels(Object itemId, int updatedRecordsNo, Boolean checkValue) {
-        
+
         SalesRowDto dto = (SalesRowDto) itemId;
         int newRecordsCount = updatedRecordsNo;
         if (checkValue) {
@@ -1107,9 +1095,9 @@ public class AlternateSummery extends CustomComponent {
         } else if (newRecordsCount < dto.getUncheckCount()) {
             newRecordsCount = dto.getUncheckCount();
         }
-        
+
         List<String> hierarchyNos = mSalesProjectionTableLogic.getAllParentLevels(itemId);
-        
+
         for (String hierarchyNo : hierarchyNos) {
             Object tempId = mSalesProjectionTableLogic.getcurrentTreeData(hierarchyNo);
             if (tempId == null) {
@@ -1124,7 +1112,7 @@ public class AlternateSummery extends CustomComponent {
                 } else {
                     tempDto.setUncheckCount(tempDto.getUncheckCount() + newRecordsCount);
                 }
-                
+
                 updateChecks(tempId);
             }
         }
@@ -1136,7 +1124,7 @@ public class AlternateSummery extends CustomComponent {
      * @param tempId
      */
     private void updateChecks(Object tempId) {
-        
+
         leftTable = resultsTable.getLeftFreezeAsTable();
         // To update the check
         SalesRowDto tempDto = (SalesRowDto) tempId;
@@ -1162,7 +1150,7 @@ public class AlternateSummery extends CustomComponent {
      * @param checkValue
      */
     private void updateCheckForChildLevels(String tableHierarchyNo, Object itemId, Boolean checkValue) {
-        
+
         List<String> childTableHierarchyNos = mSalesProjectionTableLogic.getAllChildLevels(itemId);
         childTableHierarchyNos.add(tableHierarchyNo);
         for (String hierarchyNo : childTableHierarchyNos) {
@@ -1172,7 +1160,7 @@ public class AlternateSummery extends CustomComponent {
             }
             if (tempId != null) {
                 SalesRowDto tempDto = (SalesRowDto) tempId;
-                
+
                 if (checkValue) {
                     tempDto.setUncheckCount(0);
                 } else {
@@ -1181,7 +1169,7 @@ public class AlternateSummery extends CustomComponent {
                 updateChecks(tempId);
             }
         }
-        
+
     }
 
     /**
@@ -1207,7 +1195,7 @@ public class AlternateSummery extends CustomComponent {
         finalHirarechyNo.addAll(getManualEntryRefreshHiearachyNo());
         return finalHirarechyNo;
     }
-    
+
     public Set<String> getReturnsCheckedRecordsHierarchyNo() {
         Set<String> finalHirarechyNo = new HashSet<>();
         for (String tableTreeLevelNo : mSalesProjectionTableLogic.getAllLevels()) {
@@ -1253,7 +1241,7 @@ public class AlternateSummery extends CustomComponent {
      * @return
      */
     protected String getSelectedHistoryPeriods() {
-        
+
         String selectedPeriods = StringUtils.EMPTY;
         List list = CommonUtils.getCurrent();
         int currentMonth = (Integer) list.get(0);
@@ -1282,15 +1270,15 @@ public class AlternateSummery extends CustomComponent {
                     condition = tempYear < currentYear;
                     break;
             }
-                if ((condition) && (checkBoxMap.get(key))) {
-                    if (!selectedPeriods.equals(StringUtils.EMPTY)) {
-                        selectedPeriods = selectedPeriods + ",";
-                    }
-                    String value = (String) key;
-                    value = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : value.replace('-', ' ');
-                    selectedPeriods = selectedPeriods + value;
+            if ((condition) && (checkBoxMap.get(key))) {
+                if (!selectedPeriods.equals(StringUtils.EMPTY)) {
+                    selectedPeriods = selectedPeriods + ",";
                 }
+                String value = (String) key;
+                value = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : value.replace('-', ' ');
+                selectedPeriods = selectedPeriods + value;
             }
+        }
         return selectedPeriods.toUpperCase();
     }
 
@@ -1300,7 +1288,7 @@ public class AlternateSummery extends CustomComponent {
      * @return
      */
     protected String getAllProjectionPeriods() {
-        
+
         String selectedPeriods = StringUtils.EMPTY;
         Date currentDate = projectionDTO.getSessionDTO().getForecastDTO().getProjectionStartDate();
         int projStartMonth = currentDate.getMonth() + 1;
@@ -1356,7 +1344,7 @@ public class AlternateSummery extends CustomComponent {
         int projStartSemi = CommonUtils.getSemiAnnual(projStartMonth);
         int projStartYear = currentDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
         String selectedFreq = projectionDTO.getFrequency();
-        
+
         for (Object key : checkBoxMap.keySet()) {
             String temp[] = ((String) key).split("-");
             int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
@@ -1378,16 +1366,16 @@ public class AlternateSummery extends CustomComponent {
                     condition = tempYear >= projStartYear;
                     break;
             }
-            
-                if ((condition) && (checkBoxMap.get(key))) {
-                    if (!selectedPeriods.equals(StringUtils.EMPTY)) {
-                        selectedPeriods = selectedPeriods + ",";
-                    }
-                    String value = (String) key;
-                    value = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : value.replace('-', ' ');
-                    selectedPeriods = selectedPeriods + value;
+
+            if ((condition) && (checkBoxMap.get(key))) {
+                if (!selectedPeriods.equals(StringUtils.EMPTY)) {
+                    selectedPeriods = selectedPeriods + ",";
                 }
+                String value = (String) key;
+                value = MONTHLY.equals(selectedFreq) ? CommonUtils.BUSINESS_PROCESS_INDICATOR_MANDATED + tempMonth + " " + tempYear : value.replace('-', ' ');
+                selectedPeriods = selectedPeriods + value;
             }
+        }
         return selectedPeriods.toUpperCase();
     }
 
@@ -1437,7 +1425,7 @@ public class AlternateSummery extends CustomComponent {
     private void configureFrequency(final ComboBox frequency, final ComboBox history) {
         frequency.addItem(MONTHLY);
         frequency.addItem(QUARTERLY.getConstant());
-        
+
         frequency.addItem(SEMI_ANNUAL.getConstant());
         frequency.addItem(ANNUAL);
         frequency.select(QUARTERLY.getConstant());
@@ -1480,7 +1468,7 @@ public class AlternateSummery extends CustomComponent {
         } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projectionDTO.getHierarchyIndicator())) {
             hierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), projectionDTO.getProductLevelNo(), projectionDTO.getProdRelationshipBuilderSid());
         }
-        
+
         if (hierarchy != null) {
             int maxLevel = hierarchy.size() - 1;
             for (Leveldto levelDto : hierarchy) {
@@ -1500,7 +1488,7 @@ public class AlternateSummery extends CustomComponent {
      * Configures the table for the excel export.
      */
     protected void configureExcelResultTable() {
-        excelContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
+        excelContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
         List<String> columnHeader = new ArrayList<>();
         List<Object> visibleColumns = new ArrayList<>();
         projectionDTO.setHierarchyIndicator(Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue())) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
@@ -1520,11 +1508,11 @@ public class AlternateSummery extends CustomComponent {
         excelTable.setVisibleColumns(visibleColumns.toArray());
         excelTable.setColumnHeaders(Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class));
         tableLayout.addComponent(excelTable);
-        
+
     }
-    
+
     protected void levelFilterDdlbChangeOption(boolean excelExport) {
-        LOGGER.debug("Excel"+excelExport);
+        LOGGER.debug("Excel" + excelExport);
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue());
         int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
@@ -1556,7 +1544,7 @@ public class AlternateSummery extends CustomComponent {
             projectionDTO.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
             projectionDTO.clearNonFetchableIndex();
             int count = 0;
-            
+
             if ("Returns".equalsIgnoreCase(screenName)) {
                 count = salesLogic.getConfiguredSalesProjectionCount(new Object(), projectionDTO, true, initialProjSelDTO);
             } else {
@@ -1625,7 +1613,7 @@ public class AlternateSummery extends CustomComponent {
     protected void expandCollapseLevelOption(boolean isExpand, Object value) {
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
         int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
-        
+
         if (levelNo > 0) {
             Object val = levelFilter.getValue();
             if (val != null) {
@@ -1646,7 +1634,7 @@ public class AlternateSummery extends CustomComponent {
             mSalesProjectionTableLogic.loadExpandData(levelNo);
         }
     }
-    
+
     private void setProjectionSelection() {
         Map<Object, Object> map = null;
         if ("Returns".equalsIgnoreCase(screenName)) {
@@ -1654,7 +1642,7 @@ public class AlternateSummery extends CustomComponent {
         } else {
             map = CommonLogic.getNMProjectionSelection(session.getProjectionId(), Constant.SALES_PROJECTION);
         }
-        
+
         if (map != null && !map.isEmpty()) {
             Object value = map.get(Constant.FREQUENCY_SMALL);
             if (value != null) {
@@ -1674,7 +1662,7 @@ public class AlternateSummery extends CustomComponent {
             if (value != null) {
                 actualsProjections.setValue(String.valueOf(value));
             }
-            
+
         }
     }
 
@@ -1693,7 +1681,7 @@ public class AlternateSummery extends CustomComponent {
             LOGGER.error(ex);
         }
     }
-    
+
     public boolean getValidation(String selectedPeriods) {
         boolean flag = true;
         if (!ANNUAL.equals(String.valueOf(nmFrequencyDdlb.getValue()))) {
@@ -1710,11 +1698,11 @@ public class AlternateSummery extends CustomComponent {
         }
         return flag;
     }
-    
+
     public boolean isSalesCalculated() {
         return isSalesCalculated;
     }
-    
+
     public boolean ismultipleDiscount() {
         boolean isOne = true;
         boolean ismultipleDiscount = false;
@@ -1746,21 +1734,19 @@ public class AlternateSummery extends CustomComponent {
      * @param isTableColumn
      * @return
      */
-    
-    
     public void NonMandatedFilter() {
         leftTable.setFilterGenerator(new ExtFilterGenerator() {
-            
+
             @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
-            
+
             @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 return null;
             }
-            
+
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constant.GROUP.equals(propertyId)) {
@@ -1795,37 +1781,37 @@ public class AlternateSummery extends CustomComponent {
                 }
                 return null;
             }
-            
+
             @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
-            
+
             @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
-            
+
             @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
         });
     }
-    
+
     public void MandatedFilter() {
         leftTable.setFilterGenerator(new ExtFilterGenerator() {
-            
+
             @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
-            
+
             @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 return null;
             }
-            
+
             @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constant.GROUP.equals(propertyId)) {
@@ -1834,19 +1820,19 @@ public class AlternateSummery extends CustomComponent {
                     metohdologyFilter.setReadOnly(true);
                     metohdologyFilter.setWidth("100%");
                     return metohdologyFilter;
-                    
+
                 } else if (Constant.BASELINE.equals(propertyId)) {
                     TextField baseLineFilter = new TextField();
                     baseLineFilter.setReadOnly(true);
                     baseLineFilter.setWidth("100%");
                     return baseLineFilter;
-                    
+
                 } else if (Constant.LEVELNAME.equals(propertyId)) {
                     TextField levelField = new TextField();
                     levelField.setReadOnly(true);
                     levelField.setWidth("100%");
                     return levelField;
-                    
+
                 } else if (Constant.CHECK.equals(propertyId)) {
                     TextField checkField = new TextField();
                     checkField.setWidth("100%");
@@ -1855,38 +1841,35 @@ public class AlternateSummery extends CustomComponent {
                 }
                 return null;
             }
-            
+
             @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
-            
+
             @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
-            
+
             @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
         });
     }
-    
-    
-    
-    
-    public void init() throws PortalException, SystemException  {
+
+    public void init() throws PortalException, SystemException {
         LOGGER.debug("Inside NMSalesProjection Screen " + session.getUserId());
         projectionDTO.setSessionDTO(session);
         projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(session, projectionDTO));
         configureProjectionDTO();
         generateBtnLogic(null);
         configureGroupDDLB();
-        
+
         securityForButton();
     }
-    
+
     protected void levelFilterDdlbChangeOption() {
         if (levelFilter.getValue() != null) {
             projectionDTO.setIsFilter(true);
@@ -1903,7 +1886,7 @@ public class AlternateSummery extends CustomComponent {
             mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
         }
     }
-    
+
     protected void excelExportLogic() {
         try {
             configureExcelResultTable();
@@ -1918,7 +1901,7 @@ public class AlternateSummery extends CustomComponent {
             LOGGER.error(e);
         }
     }
-    
+
     protected void customDdlbChangeOption() {
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent initiated ");
         customId = CommonLogic.customDdlbOptionChange(viewDdlb, editBtn, level);
@@ -1938,7 +1921,7 @@ public class AlternateSummery extends CustomComponent {
         }
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent ends ");
     }
-    
+
     protected void expandButtonLogic() {
         try {
             if (StringUtils.isNotBlank(String.valueOf(level.getValue())) || !Constant.NULL.equals(String.valueOf(level.getValue()))) {
@@ -1953,13 +1936,13 @@ public class AlternateSummery extends CustomComponent {
             LOGGER.error(e);
         }
     }
-    
+
     protected void collapseButtonLogic() {
         mSalesProjectionTableLogic.setRefresh(false);
         expandCollapseLevelOption(false, level.getValue());
         mSalesProjectionTableLogic.setRefresh(true);
     }
-    
+
     protected void resetBtnLogic() {
         if (nmFrequencyDdlb.getValue().equals(MONTHLY)
                 || (nmFrequencyDdlb.getValue().equals(QUARTERLY.getConstant()))
@@ -1970,43 +1953,42 @@ public class AlternateSummery extends CustomComponent {
         }
         actualsProjections.setValue(Constant.BOTH);
         proPeriodOrd.select(Constant.ASCENDING);
-        
+
     }
-    
+
     protected void pmpyLogic() {
         PmpyLogic pmpyLogic = new PmpyLogic();
-        
+
         boolean tpSelected = false;
         boolean hasActuals = false;
         int i = 0;
         String hierarchyNo = StringUtils.EMPTY;
-        
+
         for (SalesRowDto dto : customContainer.getBeans()) {
             if ((Boolean) dto.getPropertyValue(Constant.CHECK) && (Constant.TRADINGPARTNER.equals(dto.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(dto.getHierarchyLevel()))) {
                 tpSelected = true;
                 i++;
                 hierarchyNo = dto.getHierarchyNo();
-                
-                
+
             }
             for (Object key : dto.getProperties().keySet()) {
                 if (((Boolean) dto.getPropertyValue(Constant.CHECK) && (Constant.TRADINGPARTNER.equals(dto.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(dto.getHierarchyLevel()))) && (String.valueOf(key).contains("Actual"))) {
-                        String value = String.valueOf(dto.getProperties().get(key));
-                        if (!value.equals("-") && !value.equals("0.00") && !value.equals("$0") && !value.equals(DASH) && !value.equals("0.000000")) {
-                            hasActuals = true;
-                        }
-                        
+                    String value = String.valueOf(dto.getProperties().get(key));
+                    if (!value.equals("-") && !value.equals("0.00") && !value.equals("$0") && !value.equals(DASH) && !value.equals("0.000000")) {
+                        hasActuals = true;
                     }
-                
+
+                }
+
             }
-            
+
         }
-        
+
         if (tpSelected && i == 1) {
-            
+
             if (!hasActuals) {
                 String historyPeriods = String.valueOf(historyDdlb.getValue());
-                
+
                 hierarchyNo = " WHERE RLD1.HIERARCHY_NO like '" + hierarchyNo + "' ";
                 Object[] inputParameters = new Object[NumericConstants.TEN];
                 inputParameters[0] = session.getProjectionId();
@@ -2014,20 +1996,20 @@ public class AlternateSummery extends CustomComponent {
                 List<Object> projectionDetailsIdForPMPY = pmpyLogic.getNmProjectionDetId(inputParameters);
                 int projectionDetailsId = Integer.valueOf(projectionDetailsIdForPMPY.get(0).toString());
                 List list = pmpyLogic.getTradingPartnerInfo(projectionDetailsId);
-                
+
                 String tradeName = String.valueOf(list.get(0) != null ? list.get(0) : " ");
                 String tradeNo = String.valueOf(list.get(1) != null ? list.get(1) : " ");
                 String contractHolder = String.valueOf(list.get(NumericConstants.TWO) != null ? list.get(NumericConstants.TWO) : " ");
-                
+
                 final NMPmpyCalculator pmpyCalc = new NMPmpyCalculator(historyPeriods, projectionDetailsIdForPMPY, rightHeader, tradeName, tradeNo, contractHolder, session, projectionDTO);
                 pmpyCalc.addCloseListener(new Window.CloseListener() {
-                    
+
                     @Override
                     public void windowClose(Window.CloseEvent e) {
                         if (pmpyCalc.isImportEvent()) {
                             refreshTableData(getCheckedRecordsHierarchyNo());
                         }
-                        
+
                     }
                 });
                 getUI().addWindow(pmpyCalc);
@@ -2038,27 +2020,26 @@ public class AlternateSummery extends CustomComponent {
         } else if (tpSelected && i > 1) {
             AbstractNotificationUtils.getErrorNotification("More than one Trading Partner Selected",
                     "There are More than one trading partners selected.\n Please select only one trading partner and try again");
-            
+
         } else {
-            
+
             AbstractNotificationUtils.getErrorNotification("No Trading Partner Selected.", "Please select a Trading Partner. ");
-            
+
         }
-        
+
     }
-    
+
     protected void channelsViewChange() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     protected void generateBtnLogic(Button.ClickEvent event) {
         try {
-            
+
             LOGGER.debug("generate button click listener starts ");
-            generated = true;
-            firstGenerated = true;
+
             tableLayout.removeAllComponents();
-            mSalesProjectionTableLogic = new MSalesProjectionTableLogic();            
+            mSalesProjectionTableLogic = new MSalesProjectionTableLogic();
             resultsTable = new FreezePagedTreeTable(mSalesProjectionTableLogic);
             initializeResultTable();
             configureResultTable();
@@ -2067,13 +2048,12 @@ public class AlternateSummery extends CustomComponent {
             if (event != null) {
                 generateLogic();
             }
-            generated = false;
-            
+
         } catch (Exception e) {
             LOGGER.error(e);
         }
         LOGGER.debug("generate button click listener ends ");
-        
+
     }
 
     /**
@@ -2091,11 +2071,10 @@ public class AlternateSummery extends CustomComponent {
         leftHeader = HeaderUtils.getSalesLeftTableColumns(projectionDTO);
         rightHeader = HeaderUtils.getSalesProjectionRightTableColumns(projectionDTO, fullHeader, excelHeader);
 
-        
-        customContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
+        customContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
         customContainer.setColumnProperties(leftHeader.getProperties());
         customContainer.setColumnProperties(rightHeader.getProperties());
-        
+
         mSalesProjectionTableLogic.setContainerDataSource(customContainer);
         leftTable = resultsTable.getLeftFreezeAsTable();
         rightTable = resultsTable.getRightFreezeAsTable();
@@ -2105,10 +2084,10 @@ public class AlternateSummery extends CustomComponent {
         leftTable.setDoubleHeaderVisible(true);
         leftTable.setDoubleHeaderVisibleColumns(leftHeader.getDoubleColumns().toArray());
         leftTable.setDoubleHeaderColumnHeaders(leftHeader.getDoubleHeaders().toArray(new String[leftHeader.getDoubleHeaders().size()]));
-        
+
         rightTable.setVisibleColumns(rightHeader.getSingleColumns().toArray());
         rightTable.setColumnHeaders(rightHeader.getSingleHeaders().toArray(new String[rightHeader.getSingleHeaders().size()]));
-        
+
         for (Object obj : leftHeader.getSingleColumns()) {
             if (String.valueOf(obj).contains(Constant.GROUP)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.ONE_THREE_FIVE);
@@ -2189,14 +2168,14 @@ public class AlternateSummery extends CustomComponent {
             projectionDTO.setHistory(history);
             historyNum = Integer.valueOf(projectionDTO.getHistory());
         }
-        
+
         if (toHist) {
             projectionDTO.setForecastDTO(session.getForecastDTO());
             projectionDTO.setHistoryNum(historyNum);
             projectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(projectionDTO.getFrequency(), session));
         }
         projectionDTO.setFunctionality("Alternate_History");
-        
+
     }
 
     /**
@@ -2205,14 +2184,14 @@ public class AlternateSummery extends CustomComponent {
      * @throws PortalException
      * @throws Exception
      */
-    public void saveSalesProjection() throws PortalException{
+    public void saveSalesProjection() throws PortalException {
         try {
             salesLogic.saveNonMandatedSalesProjection(session);
         } catch (Exception e) {
             LOGGER.error(e);
         }
     }
-    
+
     private void configureGroupDDLB() throws PortalException, SystemException {
         actualsProjections.select(Constant.BOTH);
         groupBean.removeAllItems();
@@ -2222,7 +2201,7 @@ public class AlternateSummery extends CustomComponent {
         massGroupBean.addBean(Constant.SELECT_ONE);
         massGroupBean.addAll(salesLogic.loadSalesGroup(projectionDTO));
     }
-    
+
     public void securityForButton() {
         try {
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermission(userId, getCommercialConstant() + "," + UISecurityUtil.SALES_PROJECTION);
@@ -2232,14 +2211,14 @@ public class AlternateSummery extends CustomComponent {
                 collapse.setVisible(Boolean.FALSE);
                 newBtn.setVisible(Boolean.FALSE);
                 editBtn.setVisible(Boolean.FALSE);
-                
+
             }
-            
+
         } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void saveSPSave() {
         LOGGER.debug("saveSPResults method starts");
         try {
@@ -2254,7 +2233,7 @@ public class AlternateSummery extends CustomComponent {
         }
         LOGGER.debug("saveSPResults method ends");
     }
-    
+
     public void loadLevelDdlb(ComboBox ddlb, final boolean isExpCol, List<Leveldto> currentHierarchy) {
         resetDdlb(ddlb);
         if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
@@ -2268,7 +2247,7 @@ public class AlternateSummery extends CustomComponent {
             }
         }
     }
-    
+
     public void resetDdlb(ComboBox ddlb) {
         ddlb.removeAllItems();
         ddlb.addItem(SELECT_ONE.getConstant());
@@ -2276,5 +2255,5 @@ public class AlternateSummery extends CustomComponent {
         ddlb.setImmediate(true);
         ddlb.setNullSelectionItemId(SELECT_ONE.getConstant());
     }
-    
+
 }

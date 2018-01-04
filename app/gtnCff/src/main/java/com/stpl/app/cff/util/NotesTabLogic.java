@@ -4,14 +4,14 @@
  */
 package com.stpl.app.cff.util;
 
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.model.MasterDataFiles;
 import com.stpl.app.service.MasterDataFilesLocalServiceUtil;
 import com.stpl.ifs.ui.NotesDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,7 +40,7 @@ public class NotesTabLogic {
 	@SuppressWarnings("unchecked")
 	public List<NotesDTO> getAttachmentDTOList(int masterTableSid, String moduleName, String filepath) {
 		List<NotesDTO> attachmentDTOList = new ArrayList<>();
-		DynamicQuery docDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(MasterDataFiles.class);
+		DynamicQuery docDetailsDynamicQuery = MasterDataFilesLocalServiceUtil.dynamicQuery();
 		docDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq("masterTableSid", masterTableSid));
 		docDetailsDynamicQuery.add(RestrictionsFactoryUtil.ilike("masterTableName", moduleName));
 		List<MasterDataFiles> docDetailsList = null;
@@ -82,7 +82,8 @@ public class NotesTabLogic {
 			for (NotesDTO uploadDetails : availableUploadedInformation) {
                             MasterDataFiles masterDataFiles ;
 				if (uploadDetails.getDocDetailsId() == 0) {
-                                    masterDataFiles = MasterDataFilesLocalServiceUtil.createMasterDataFiles(0);
+                                        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
+                                        masterDataFiles = MasterDataFilesLocalServiceUtil.createMasterDataFiles(create);
 					masterDataFiles.setMasterTableName(moduleName);
 					masterDataFiles.setMasterTableSid(moduleSystemId);
 					masterDataFiles.setFilePath(uploadDetails.getDocumentFullPath());

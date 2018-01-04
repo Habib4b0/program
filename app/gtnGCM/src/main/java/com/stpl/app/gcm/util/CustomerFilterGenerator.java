@@ -24,9 +24,9 @@ import org.slf4j.LoggerFactory;
  */
 public class CustomerFilterGenerator implements ExtFilterGenerator {
     
-    private static Logger LOGGER = LoggerFactory.getLogger(CustomerFilterGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerFilterGenerator.class);
     
-    CommonUtil commonMsg = CommonUtil.getInstance();
+    private final CommonUtil commonMsg = CommonUtil.getInstance();
 
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {

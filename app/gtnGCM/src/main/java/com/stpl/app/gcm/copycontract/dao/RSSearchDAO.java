@@ -17,12 +17,12 @@ import org.asi.ui.addons.lazycontainer.OrderByColumn;
  */
 public class RSSearchDAO implements BeanDAO<PSIFPDTO> {
 
-    CopyContractLogic logic = new CopyContractLogic();
-
+    @Override
     public int count(BeanSearchCriteria bsc) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public List<PSIFPDTO> find(BeanSearchCriteria bsc, int i, int i1, List<OrderByColumn> list) {
         throw new UnsupportedOperationException("Not supported yet."); 
     }

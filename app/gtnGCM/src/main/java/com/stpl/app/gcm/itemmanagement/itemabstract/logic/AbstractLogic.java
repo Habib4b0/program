@@ -68,8 +68,8 @@ import org.asi.ui.addons.lazycontainer.LazyContainer;
  */
 public class AbstractLogic {
 
-    static HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
-    static HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
+    private static final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    private static final HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
     public static final Map<String, List> ddlbMap = new HashMap<>();
     public static final String DESCRIPTION = "description";
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
@@ -78,7 +78,7 @@ public class AbstractLogic {
     /**
      * The helper list util.
      */
-    HelperListUtil helperListUtil = HelperListUtil.getInstance();
+    private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
     private AbstractLogic() {
 
@@ -448,7 +448,20 @@ public class AbstractLogic {
                 dto.setAttachedDate(str[NumericConstants.THIRTY] == null ? null : (Date) (str[NumericConstants.THIRTY]));
                 String basePriceType = dto.getBasePriceType();
                 if (!Constants.SELECT_ONE.equals(basePriceType) && !Constants.NULL.equals(basePriceType) && !Constants.ZEROSTRING.equals(basePriceType) && !StringUtils.EMPTY.equals(basePriceType)) {
-                    dto.setBaselineWAC(Constants.MANUAL_LABLE_NAME.equals(basePriceType) ? String.valueOf(str[NumericConstants.THIRTY_FOUR]) : Constants.DATE_LABLE_NAME.equals(basePriceType) ? (Date) (str[NumericConstants.THIRTY_FIVE]) : getDescription(Integer.valueOf(str[NumericConstants.THIRTY_SIX].toString())));
+                    if (null != basePriceType) switch (basePriceType) {
+                        case Constants.MANUAL_LABLE_NAME:
+                            dto.setBaselineWAC(str[NumericConstants.THIRTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.THIRTY_FOUR]));
+                            break;
+                        case Constants.DATE_LABLE_NAME:
+                            dto.setBaselineWAC(str[NumericConstants.THIRTY_FIVE] == null ? StringUtils.EMPTY : (Date) (str[NumericConstants.THIRTY_FIVE]));
+                            dto.setBaselineWAC((Date) (str[NumericConstants.THIRTY_FIVE]));
+                            break;
+                        case Constants.PRICE_TYPE_LABEL:
+                            dto.setBaselineWAC(str[NumericConstants.THIRTY_SIX] != null && !Constants.ZEROSTRING.equals(String.valueOf(str[NumericConstants.THIRTY_SIX])) && !Constants.NULL.equals(str[NumericConstants.THIRTY_SIX]) ? getDescription(Integer.valueOf(str[NumericConstants.THIRTY_SIX].toString())) : StringUtils.EMPTY);
+                            break;
+                        default:
+                            break;
+                    }
                 }
                  
                 finalResult.add(dto);
@@ -831,9 +844,6 @@ public class AbstractLogic {
             case NumericConstants.FORTY_SIX:
                  input.add(compDTO.getMeasurementPrice() != 0 ? compDTO.getMeasurementPrice() : null);
                 break;
-                
-            
-            
             case NumericConstants.FORTY_SEVEN:
                 input.add(compDTO.getBaseLineWacManual()!= null && !compDTO.getBaseLineWacManual().isEmpty() ? compDTO.getBaseLineWacManual() : null);
                 break;
@@ -845,12 +855,8 @@ public class AbstractLogic {
             case NumericConstants.FORTY_NINE:
                 input.add(compDTO.getBaseLineWacPriceType()!= 0 ? compDTO.getBaseLineWacPriceType() : null);
                 break;
-                
-                
-                
-                
-                
-                
+            default:
+                break;
         }
 
         if (!selection.isIsContractUpdate()) { // Condition check for identification of - For check record =1 update values
@@ -1031,8 +1037,6 @@ public class AbstractLogic {
             case NumericConstants.FORTY_SIX:
                 input.add(dto.getMeasurementPrice() != null ? dto.getMeasurementPrice().getId() : null);
                 break;
-
-      
             case NumericConstants.FORTY_SEVEN:
                 input.add(dto.getBaseLineWacManual() != null && !dto.getBaseLineWacManual().isEmpty() ? dto.getBaseLineWacManual() : null);
                 break;
@@ -1040,9 +1044,10 @@ public class AbstractLogic {
             case NumericConstants.FORTY_EIGHT:
                 input.add(dto.getBaseLineWacDate() != null ? setQuotes(CommonUtils.DBDate.format(dto.getBaseLineWacDate())) : null);
                 break;
-
             case NumericConstants.FORTY_NINE:
                 input.add(dto.getBaseLineWacPriceType() != 0 ? dto.getBaseLineWacPriceType() : null);
+                break;
+            default:
                 break;
         }
 
@@ -1913,8 +1918,9 @@ public class AbstractLogic {
     }
     
     public String updateBaseLineWacColumn(String baseLineColumnName, Object baseLineValue, AbstractContractSearchDTO dto, SelectionDTO selection) {
+        String operation = ConstantsUtil.TRANSFER.equals(selection.getButtonMode()) ? ConstantsUtil.TRANSFER_CONTRACT : selection.getButtonMode();
         String updateQuery = "UPDATE GCM_GLOBAL_DETAILS SET " + baseLineColumnName + " ='" + baseLineValue + "' WHERE SESSION_ID ='" + selection.getSessionId() + "' "
-                + " AND OPERATION ='" + selection.getButtonMode() + "' " + Constants.AND_CHECK_RECORD;
+                + " AND OPERATION ='" + operation + "' " + Constants.AND_CHECK_RECORD;
         HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery);
         return updateQuery;
     }

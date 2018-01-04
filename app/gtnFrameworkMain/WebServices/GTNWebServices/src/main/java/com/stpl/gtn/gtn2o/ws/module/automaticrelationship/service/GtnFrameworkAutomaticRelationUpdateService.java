@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service;
 
+import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -231,5 +232,22 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		}
 		return queryList;
 	}
+        
+        public boolean checkManualRelation(int relationshipBuilderSid) throws GtnFrameworkGeneralException {
+            String query = gtnWsSqlService.getQuery("manualRelationCheck");
+            List<Integer> resultData = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query,
+                    new Object[]{relationshipBuilderSid}, new GtnFrameworkDataType[]{GtnFrameworkDataType.INTEGER});
+            GtnWsRelationshipBuilderBean relationBeanManual = getRelationtionshipBuilder(relationshipBuilderSid);
+            if (relationBeanManual != null) {
+                GtnFrameworkAutoupdateService automaticService = getAutomaticserviceObject(
+                        relationBeanManual.getHierarchycategory());
+                if ((int) resultData.get(0) == 1) {
+                    automaticService.createDeductionRelation(relationBeanManual);
+                }
+                return Boolean.TRUE;
+            }
+            LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");
+            return Boolean.FALSE;
+        }
 
 }

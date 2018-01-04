@@ -192,27 +192,27 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 				if (INDICATOR_CUSTOMER_GROUP.getConstant().equalsIgnoreCase(indicator)) {
 					groupNameLabel = CUSTOMER_GROUP_NAME.getConstant();
 					groupNoLabel = CUSTOMER_GROUP_NO.getConstant();
-					resultTableColumns = TableHeaderColumnsUtil.getInstance().accrualCustomerLookupColumns;
-					resultTableHeaders = TableHeaderColumnsUtil.getInstance().accrualCustomerLookupHeaders;
+					resultTableColumns = TableHeaderColumnsUtil.accrualCustomerLookupColumns;
+					resultTableHeaders = TableHeaderColumnsUtil.accrualCustomerLookupHeaders;
 
 				} else if (INDICATOR_PRODUCT_GROUP.getConstant().equalsIgnoreCase(indicator)) {
 					groupNameLabel = PRODUCT_GROUP_NAME.getConstant();
 					groupNoLabel = PRODUCT_GROUP_NO.getConstant();
-					resultTableColumns = TableHeaderColumnsUtil.getInstance().accrualProductLookupColumns;
-					resultTableHeaders = TableHeaderColumnsUtil.getInstance().accrualProductLookUpHeaders;
+					resultTableColumns = TableHeaderColumnsUtil.accrualProductLookupColumns;
+					resultTableHeaders = TableHeaderColumnsUtil.accrualProductLookUpHeaders;
 				}
 
 			} else {
 				if (INDICATOR_CUSTOMER_GROUP.getConstant().equalsIgnoreCase(indicator)) {
 					groupNameLabel = CUSTOMER_GROUP_NAME.getConstant();
 					groupNoLabel = CUSTOMER_GROUP_NO.getConstant();
-					resultTableColumns = TableHeaderColumnsUtil.getInstance().customerGroupLookupColumns;
-					resultTableHeaders = TableHeaderColumnsUtil.getInstance().customerGroupLookupHeaders;
+					resultTableColumns = TableHeaderColumnsUtil.customerGroupLookupColumns;
+					resultTableHeaders = TableHeaderColumnsUtil.customerGroupLookupHeaders;
 				} else if (INDICATOR_PRODUCT_GROUP.getConstant().equalsIgnoreCase(indicator)) {
 					groupNameLabel = PRODUCT_GROUP_NAME.getConstant();
 					groupNoLabel = PRODUCT_GROUP_NO.getConstant();
-					resultTableColumns = TableHeaderColumnsUtil.getInstance().productGroupLookupColumns;
-					resultTableHeaders = TableHeaderColumnsUtil.getInstance().productGroupLookupHeaders;
+					resultTableColumns = TableHeaderColumnsUtil.productGroupLookupColumns;
+					resultTableHeaders = TableHeaderColumnsUtil.productGroupLookupHeaders;
 				}
 			}
 		} catch (Exception ex) {

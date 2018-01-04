@@ -7,21 +7,6 @@ package com.stpl.app.cff.ui.dataSelection.form;
 import com.stpl.app.cff.abstractCff.AbstractHierarchyLookup;
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
-import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
-import com.stpl.ifs.ui.util.converters.TextFieldConverter;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.TextField;
-import java.text.ParseException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.*;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.*;
@@ -29,8 +14,23 @@ import static com.stpl.app.cff.util.Constants.LabelConstants.*;
 import com.stpl.app.cff.util.NotificationUtils;
 import com.stpl.app.cff.util.UiUtils;
 import com.stpl.ifs.ui.DateToStringConverter;
+import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Property;
+import com.stpl.ifs.ui.util.converters.TextFieldConverter;
+import com.vaadin.ui.Button;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.TextField;
+import java.text.ParseException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 /**
  *
  * @author mohamed.hameed
@@ -53,21 +53,21 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
     /**
      * hierarchyLookup TextField.
      */
-    private TextField hierarchyLookup;
+    private final TextField hierarchyLookup;
 
     /**
      * The search result table.
      */
     private ExtFilterTable results;
 
-    private Button selectBtn = new Button(Constants.ButtonConstants.BTN_SELECT.getConstant());
+    private final Button selectBtn = new Button(Constants.ButtonConstants.BTN_SELECT.getConstant());
     /**
      * Container for results table.
      */
     private OptionGroup hierarchyType;
 
-    private Button searchBtn = new Button(BTN_SEARCH.getConstant());
-    private Button resetBtn = new Button(BTN_RESET.getConstant());
+    private final Button searchBtn = new Button(BTN_SEARCH.getConstant());
+    private final Button resetBtn = new Button(BTN_RESET.getConstant());
     /**
      * Container for results table.
      */

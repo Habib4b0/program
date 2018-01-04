@@ -4,25 +4,17 @@
  */
 package com.stpl.app.cff.ui.form;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
-import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
-
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.cff.dao.CommonServiceImpl;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.AdditionalInfoLogic;
 import com.stpl.app.cff.security.StplSecurity;
+import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.FileUploader;
 import com.stpl.app.cff.util.NotesTabLogic;
 import com.stpl.app.cff.util.StringConstantsUtil;
-import com.stpl.app.service.ImtdIfpDetailsLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.AbstractNotesTab;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.NotesDTO;
@@ -31,16 +23,22 @@ import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
 import com.stpl.ifs.util.GtnFileUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Upload;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.event.ItemClickEvent;
+import com.vaadin.v7.ui.Upload;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -60,17 +58,17 @@ public class NotesTabForm extends AbstractNotesTab {
 	private final String userName;
 	private final NotesTabLogic logic = new NotesTabLogic();
 	private NotesDTO tableBean = new NotesDTO();
-	private List<String> notesList = new ArrayList<>();
+	private final List<String> notesList = new ArrayList<>();
 	/**
 	 * The common logic.
 	 */
-	private AdditionalInfoLogic addInfoLogic = new AdditionalInfoLogic();
-	private  List<NotesDTO> removeDetailsList = new ArrayList<>();
-	private Double fileSize = 0.00;
+	private final AdditionalInfoLogic addInfoLogic = new AdditionalInfoLogic();
+	private final  List<NotesDTO> removeDetailsList = new ArrayList<>();
+	private final Double fileSize = 0.00;
 	protected final String mode = "";
 	private CffApprovalDetailsForm approvalWindow;
-	private Button close = new Button("Close");
-	private static String MODULE_NAME = "Consolidated Financial Forecast";
+	private final Button close = new Button("Close");
+	private static final String MODULE_NAME = "Consolidated Financial Forecast";
 
 	public NotesTabForm(SessionDTO sessionDTO, CustomFieldGroup binder, String moduleName,
 			CffApprovalDetailsForm approvalWindow) throws SystemException {
@@ -81,7 +79,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
 		userName = StplSecurity.userMap.get(Integer.valueOf(userId));
 
-		final String userId = String.valueOf(
+		final String vUserId = String.valueOf(
 				VaadinSession.getCurrent().getAttribute(com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.USER_ID));
 		Object[] obj = new Object[] { "documentName", "dateAdded", "userName" };
 		String[] objHeaders = new String[] { "Document Name", "Date Added", "User Name" };
@@ -93,7 +91,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		configureFields();
 		setValues(false, sessionDTO);
 
-		LOGGER.debug("userid :" + userId + " Username : " + userName);
+		LOGGER.debug("userid :" + vUserId + " Username : " + userName);
 	}
 
 	@Override
@@ -299,11 +297,13 @@ public class NotesTabForm extends AbstractNotesTab {
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				AbstractNotificationUtils notification = new AbstractNotificationUtils() {
+                                        @Override
 					public void noMethod() {
 						// To change body of generated methods, choose Tools
 						// | Templates.
 					}
 
+                                        @Override
 					public void yesMethod() {
 
 						approvalWindow.close();
@@ -319,7 +319,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
 		List<Object> resultList = new ArrayList<>();
 		try {
-			resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
+			resultList = CommonServiceImpl.getInstance().fetchFieldsForSecurity(moduleName, tabName);
 		} catch (Exception ex) {
 			LOGGER.error(ex);
 		}
@@ -338,13 +338,13 @@ public class NotesTabForm extends AbstractNotesTab {
 			throws SystemException, PortalException {
 		LOGGER.debug("Entering saveAdditionalInformation");
 		int projectionId = cffmastersystemid;
-		String userId = userid;
+		String vUserId = userid;
 		String addedNotes = getAddedNotes();
 		addInfoLogic.saveNotes(projectionId, userid, addedNotes, MODULE_NAME);
 		notesList.clear();
 		List<NotesDTO> addedAttachments = getUploadedData();
 		for (NotesDTO attached : addedAttachments) {
-			addInfoLogic.saveUploadedFile(projectionId, attached.getDocumentName(), userId, fileSize, MODULE_NAME);
+			addInfoLogic.saveUploadedFile(projectionId, attached.getDocumentName(), vUserId, fileSize, MODULE_NAME);
 		}
 		attachmentsListBean.removeAllItems();
 		List<NotesDTO> removedAttachments = getRemoveDocDetailsItem();
@@ -365,8 +365,8 @@ public class NotesTabForm extends AbstractNotesTab {
 
 	public void setValues(boolean saveFlag, SessionDTO sessionDTO) throws SystemException {
 		LOGGER.debug("Inside of AdditionalInformation setValues Method");
-		String mode = sessionDTO.getAction();
-		if ("edit".equalsIgnoreCase(mode) || "view".equalsIgnoreCase(mode) || saveFlag) {
+		String vMode = sessionDTO.getAction();
+		if ("edit".equalsIgnoreCase(vMode) || "view".equalsIgnoreCase(vMode) || saveFlag) {
 			LOGGER.debug("Inside of EDIT setValues Method");
 			attachmentsListBean.removeAllItems();
 			final int projectionId = sessionDTO.getProjectionId();
@@ -378,7 +378,7 @@ public class NotesTabForm extends AbstractNotesTab {
 			internalNotes.setValue(notes);
 			internalNotes.setReadOnly(true);
 			newNote.setValue(StringUtils.EMPTY);
-			if ("view".equalsIgnoreCase(mode) || "edit".equalsIgnoreCase(mode)) {
+			if ("view".equalsIgnoreCase(vMode) || "edit".equalsIgnoreCase(vMode)) {
 				fileNameField.setReadOnly(true);
 				uploadComponent.setReadOnly(true);
 				remove.setEnabled(false);

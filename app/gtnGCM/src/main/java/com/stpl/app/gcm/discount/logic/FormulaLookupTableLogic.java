@@ -21,9 +21,9 @@ import org.slf4j.LoggerFactory;
 public class FormulaLookupTableLogic extends PageTableLogic {
  private static final Logger LOGGER = LoggerFactory.getLogger(DiscountLogic.class);
    
-    LookupDTO binderDto = new LookupDTO();
-    DiscountLogic logic = new DiscountLogic();
-    boolean generate = false;
+    private LookupDTO binderDto = new LookupDTO();
+    private final DiscountLogic logic = new DiscountLogic();
+    private boolean generate = false;
 
     /**
      * Record count logic

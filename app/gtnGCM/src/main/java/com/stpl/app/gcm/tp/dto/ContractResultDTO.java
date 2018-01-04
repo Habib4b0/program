@@ -5,10 +5,10 @@
  */
 package com.stpl.app.gcm.tp.dto;
 
+import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.util.HelperDTO;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
-import com.stpl.app.serviceUtils.Constants;
 
 /**
  *

@@ -1,18 +1,10 @@
 package com.stpl.app.cff.ui.dataSelection.logic;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.stpl.app.cff.dao.CommonDAO;
 import com.stpl.app.cff.dao.impl.CommonDAOImpl;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.service.FileReadWriteService;
+import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkJoinClauseBean;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
@@ -22,17 +14,28 @@ import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryB
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
+import com.vaadin.server.VaadinSession;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class RelationShipFilterLogic {
 
-	private GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
+	private final GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
 	private static final RelationShipFilterLogic instance = new RelationShipFilterLogic();
-	private CommonDAO daoImpl = new CommonDAOImpl();
-	private FileReadWriteService fileReadWriteService = new FileReadWriteService();
+	private final CommonDAO daoImpl = new CommonDAOImpl();
+	private final FileReadWriteService fileReadWriteService = new FileReadWriteService();
 	private static final String COMPANY_MASTER_SID = "COMPANY_MASTER.COMPANY_MASTER_SID";
 	private static final String ITEM_MASTER_SID = "ITEM_MASTER.ITEM_MASTER_SID";
 	private static final String RELATIONSHIP_BUILD_VERSION = "RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO";
@@ -96,7 +99,7 @@ public class RelationShipFilterLogic {
 		String finalQuery = getQueryForLinkedLevelCustomer(selectedHierarchyLevelDto, relationshipSid,
 				groupFilteredCompanies, levelHierarchyLevelDefinitionList, relationVersionNo);
 		List<Object[]> resultsRelationList = getRelationshipList(selectedHierarchyLevelDto, relationshipSid);
-		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
+		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery);
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
 			for (int i = 0; i < resultsDataList.size(); i++) {
 				Leveldto dto = (Leveldto) selectedHierarchyLevelDto.clone();
@@ -155,7 +158,7 @@ public class RelationShipFilterLogic {
 		String finalQuery = buildQueryForUserDefinedLevel(selectedHierarchyLevelDto, relationshipSid,
 				relationVersionNo);
 		List<Leveldto> resultList = new ArrayList<>();
-		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
+		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery);
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
 			for (int i = 0; i < resultsDataList.size(); i++) {
 				Leveldto dto = (Leveldto) selectedHierarchyLevelDto.clone();
@@ -201,7 +204,7 @@ public class RelationShipFilterLogic {
 				groupFilteredItems, selectedCustomerContractList, isNdc, levelHierarchyLevelDefinitionList,
 				customerHierarchyLevelList, relationVersionNo, customerRelationVersionNo, businessUnitValue);
 		List<Object[]> resultsRelationList = getRelationshipList(selectedHierarchyLevelDto, relationshipSid);
-		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
+		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery);
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
 			for (int i = 0; i < resultsDataList.size(); i++) {
 				Leveldto dto = (Leveldto) selectedHierarchyLevelDto.clone();
@@ -330,7 +333,7 @@ public class RelationShipFilterLogic {
 		getWhereQueryForCustomerAndContract(selectedCustomerContractList, customerHierarchyLevelDefinitionList,
 				queryBean, customerRelationVersionNo);
 		String finalQuery = CommonQueryUtils.getQuery(queryBean.generateQuery(), whereQueries);
-		List<Object[]> results = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
+		List<Object[]> results = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery);
 		for (Object[] object : results) {
 			customerSidSet.add(getIntegerValue(object, 0));
 			contractSidSet.add(getIntegerValue(object, 1));
@@ -507,7 +510,7 @@ public class RelationShipFilterLogic {
 		input.add(productHierarchyQuery);
 		String withTableNameQuery = QueryUtil.replaceTableNames(CommonQueryUtils.getAppQuery(input, "ccpInsertQuery"),
 				tempTableNames);
-		daoImpl.executeBulkUpdateQuery(withTableNameQuery, null, null);
+		HelperTableLocalServiceUtil.executeUpdateQuery(withTableNameQuery);
 
 	}
 
@@ -818,6 +821,15 @@ public class RelationShipFilterLogic {
 		finalQueryBean.addWhereClauseBean("ITEM_MASTER.ORGANIZATION_KEY", null, GtnFrameworkOperatorType.EQUAL_TO,
 				GtnFrameworkDataType.STRING, businessUnitValue);
 		return CommonQueryUtils.getQuery(finalQueryBean.generateQuery(), input);
+	}
+        
+        public static GtnWsSecurityToken getGsnWsSecurityToken() {
+		GtnWsSecurityToken token = new GtnWsSecurityToken();
+		Integer sessionId = Calendar.getInstance().get(Calendar.MILLISECOND);
+		String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtil.USER_ID);
+		token.setUserId(userId);
+		token.setSessionId(sessionId.toString());
+		return token;
 	}
 
 }

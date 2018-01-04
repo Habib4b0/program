@@ -125,13 +125,13 @@ public class TransferSelectionForm extends VerticalLayout {
     private final ExtTreeContainer<TransferToDTO> toResultContainer = new ExtTreeContainer<>(TransferToDTO.class);
     private final BeanItemContainer<ComponentDetailsDTO> fromCDResultContainer = new BeanItemContainer<>(ComponentDetailsDTO.class);
     private final BeanItemContainer<ComponentDetailsDTO> toCDResultContainer = new BeanItemContainer<>(ComponentDetailsDTO.class);
-    final Map<String, Set<String>> resultList;
+    private final Map<String, Set<String>> resultList;
     private final TransferSelectionLogic logic = new TransferSelectionLogic();
-    final TransferContractWindow window;
+    private final TransferContractWindow window;
     private String sComponent;
     private String sField;
     private String sValue;
-    DetailsDTO detailsDTO=new DetailsDTO();
+    private final DetailsDTO detailsDTO=new DetailsDTO();
     private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(detailsDTO));
     public TransferSelectionForm(final Map<String, Set<String>> resultList, final TransferContractWindow window) {
         this.resultList = resultList;

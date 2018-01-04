@@ -8,7 +8,6 @@ package com.stpl.app.gcm.discount.ui.form;
 
 import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonUtil;
-import com.stpl.app.gcm.common.QueryUtils;
 import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import com.stpl.app.gcm.discount.logic.DiscountLogic;
 import com.stpl.app.gcm.discount.logic.RebateTableLogic;
@@ -30,7 +29,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import com.vaadin.v7.data.util.filter.Compare;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -43,7 +41,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.Field;
-import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.TableFieldFactory;
 import com.vaadin.v7.ui.TextField;
@@ -79,7 +76,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     @UiField("marketType")
     public ComboBox marketType;
     @UiField(Constants.CONTRACT_HOLDER)
-    public CustomTextField contractHolder;
+    public CustomTextField cntHolder;
     @UiField("cfpName")
     public CustomTextField cfpName;
     @UiField("contractNo")
@@ -116,16 +113,16 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     public Button addBtn;
     @UiField("searchBtn")
     public Button searchBtn;
-    RebateTableLogic tableLogic = new RebateTableLogic();
-    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    final List<RemoveDiscountDto> selecteditemList = new ArrayList<>();
+    private final RebateTableLogic tableLogic = new RebateTableLogic();
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private final List<RemoveDiscountDto> selecteditemList = new ArrayList<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(RemoveDiscountIndex.class);
     public String screenName = StringUtils.EMPTY;
     /* The bean used to load Start Period */
     final private BeanItemContainer<String> marketTypeBean = new BeanItemContainer<>(String.class);
-    DiscountLogic discountLogic = new DiscountLogic();
-    RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    private final DiscountLogic discountLogic = new DiscountLogic();
+    private final RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
     public boolean checkAllFlag = false;
     /**
      * Binder for DataSelection.
@@ -134,13 +131,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     /**
      * Bean container for result table.
      */
-    private BeanItemContainer<RemoveDiscountDto> resultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
-
-    /**
-     * The results lazy container.
-     */
-    QueryUtils queryUtils = new QueryUtils();
-    List<String> marketTypeList = new ArrayList<>();
+    private final BeanItemContainer<RemoveDiscountDto> resultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
 
     public RemoveDiscountIndex(String screenName, SessionDTO session) {
         this.screenName = screenName;
@@ -277,19 +268,23 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
         });
         resultsTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, final Object propertyId, Component uiContext) {
 
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
@@ -300,6 +295,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
                         }
                     }
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             boolean isCheck = ((CheckBox) event.getComponent()).getValue();
                             RemoveDiscountDto dto = (RemoveDiscountDto) itemId;
@@ -325,6 +321,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
         });
 
         resultsTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 for (RemoveDiscountDto temp : resultsContainer.getItemIds()) {
                     resultsContainer.getItem(temp).getItemProperty(event.getPropertyId()).setValue(event.isChecked());
@@ -436,6 +433,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
 
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         return;
     }
@@ -577,13 +575,13 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     @UiHandler(Constants.CONTRACT_HOLDER)
     public void contractHolder(CustomTextField.ClickEvent event) {
         LOGGER.debug("Entered contractHolder method");
-        ComponentLookUp chHolder = new ComponentLookUp("Contract Holder", "Contract Holder Lookup", contractHolder);
+        ComponentLookUp chHolder = new ComponentLookUp("Contract Holder", "Contract Holder Lookup", cntHolder);
         chHolder.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-                if (contractHolder.getData() != null) {
-                    ComponentLookUpDTO object = (ComponentLookUpDTO) contractHolder.getData();
-                    contractHolder.setValue(object.getComponentName());
+                if (cntHolder.getData() != null) {
+                    ComponentLookUpDTO object = (ComponentLookUpDTO) cntHolder.getData();
+                    cntHolder.setValue(object.getComponentName());
                 }
             }
         });

@@ -4,6 +4,21 @@
  */
 package com.stpl.app.cff.ui.dataSelection.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.cff.abstractCff.AbstractDataSelection;
+import com.stpl.app.cff.dto.SessionDTO;
+import com.stpl.app.cff.logic.CFFLogic;
+import com.stpl.app.cff.queryUtils.CFFQueryUtils;
+import com.stpl.app.cff.security.StplSecurity;
+import com.stpl.app.cff.service.GtnAutomaticRelationServiceRunnable;
+import com.stpl.app.cff.ui.dataSelection.dto.CompanyDdlbDto;
+import com.stpl.app.cff.ui.dataSelection.dto.RelationshipDdlbDto;
+import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
+import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
+import com.stpl.app.cff.util.AbstractNotificationUtils;
+import com.stpl.app.cff.util.CommonUtils;
+import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_GROUP;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_HIERARCHY;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
@@ -19,37 +34,6 @@ import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_CUSTOMER_GRO
 import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_CUSTOMER_HIERARCHY_LOOKUP;
 import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_PRODUCT_GROUP_LOOKUP;
 import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_PRODUCT_HIERARCHY_LOOKUP;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-
-import com.stpl.app.cff.abstractCff.AbstractDataSelection;
-import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.logic.CFFLogic;
-import com.stpl.app.cff.queryUtils.CFFQueryUtils;
-import com.stpl.app.cff.security.StplSecurity;
-import com.stpl.app.cff.service.GtnAutomaticRelationServiceRunnable;
-import com.stpl.app.cff.ui.dataSelection.dto.CompanyDdlbDto;
-import com.stpl.app.cff.ui.dataSelection.dto.RelationshipDdlbDto;
-import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
-import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
-import com.stpl.app.cff.util.AbstractNotificationUtils;
-import com.stpl.app.cff.util.CommonUtils;
-import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.DataSelectionUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
@@ -65,15 +49,28 @@ import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.ui.ComboBox;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 
 /**
  *
@@ -90,21 +87,21 @@ public class DataSelection extends AbstractDataSelection {
 	public static final String TRADING_PARTNER = "Trading Partner";
 	public static final String COMPANY_MASTER_TABLE = "COMPANY_MASTER";
 	public static final String NULL = "null";
-	private String screenName = CommonUtils.MODULE_NAME;
+	private final String screenName = CommonUtils.MODULE_NAME;
 	private Map<String, String> customerDescriptionMap = null;
 	private Map<String, String> productDescriptionMap = null;
 	private boolean dismantleCustomerSelection = true;
 	private boolean dismantleProductSelection = true;
-	private CompanyDdlbDto discountDTO = null;
+	private final CompanyDdlbDto discountDTO = null;
 	public static Map<String, String> relationLevelValues = new HashMap<>();
-	private DataSelectionLogic dataLogic = new DataSelectionLogic();
-	private List<Integer> customerBeanList = new ArrayList<>();
-	private List<Integer> productBeanList = new ArrayList<>();
-	private SessionDTO sessionDTO;
-	private CFFLogic cffLogic = new CFFLogic();
-	private TabSheet tabSheet;
+	private final DataSelectionLogic dataLogic = new DataSelectionLogic();
+	private final List<Integer> customerBeanList = new ArrayList<>();
+	private final List<Integer> productBeanList = new ArrayList<>();
+	private final SessionDTO sessionDTO;
+	private final CFFLogic cffLogic = new CFFLogic();
+	private final TabSheet tabSheet;
 	private String topLevelName = StringUtils.EMPTY;
-	private ExecutorService service = ThreadPool.getInstance().getService();
+	private final ExecutorService service = ThreadPool.getInstance().getService();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
 	private List<Leveldto> productHierarchyLevelDefinitionList = Collections.emptyList();
@@ -259,7 +256,6 @@ public class DataSelection extends AbstractDataSelection {
 			setSelectedCustomerLevel(selectedLevel);
 			DataSelectionLogic logic = new DataSelectionLogic();
 			logic.loadCustomerForecastLevel(customerHierarchyDto.getHierarchyId(),
-					customerHierarchyDto.getHierarchyName(),
 					Integer.parseInt(customerRelationVersionComboBox.getValue().toString()));
 			String[] val = selectedLevel.split(" ");
 			int forecastLevel = Integer.parseInt(val[1]);
@@ -286,6 +282,7 @@ public class DataSelection extends AbstractDataSelection {
 		}
 	}
 
+        @Override
 	protected void levelValueChangeListener(Object value) {
 
 		LOGGER.debug("customer inner Level - ValueChangeListener  " + value);
@@ -340,7 +337,6 @@ public class DataSelection extends AbstractDataSelection {
 			setSelectedProductLevel(selectedLevel);
 			final DataSelectionLogic logic = new DataSelectionLogic();
 			logic.loadCustomerForecastLevel(productHierarchyDto.getHierarchyId(),
-					productHierarchyDto.getHierarchyName(),
 					Integer.parseInt(productRelationVersionComboBox.getValue().toString()));
 			final String[] val = selectedLevel.split(" ");
 			final int forecastLevel = Integer.parseInt(val[1]);
@@ -512,7 +508,6 @@ public class DataSelection extends AbstractDataSelection {
 		final PrivatePublicView publicViewLookup = new PrivatePublicView(INDICATOR_PUBLIC_VIEW.getConstant(),
 				publicView, PUBLIC_VIEW.getConstant(), screenName);
 		UI.getCurrent().addWindow(publicViewLookup);
-		publicViewLookup.setImmediate(true);
 		publicViewLookup.addCloseListener(new Window.CloseListener() {
 			@Override
 			public void windowClose(Window.CloseEvent e) {
@@ -536,7 +531,6 @@ public class DataSelection extends AbstractDataSelection {
 		final PrivatePublicView privateViewLookup = new PrivatePublicView(INDICATOR_PRIVATE_VIEW.getConstant(),
 				privateView, PRIVATE_VIEW.getConstant(), screenName);
 		UI.getCurrent().addWindow(privateViewLookup);
-		privateViewLookup.setImmediate(true);
 		privateViewLookup.addCloseListener(new Window.CloseListener() {
 			@Override
 			public void windowClose(Window.CloseEvent e) {
@@ -624,7 +618,7 @@ public class DataSelection extends AbstractDataSelection {
 					getCustomerHierarchyEndLevels(selectedCustomerContainer),
 					getProductHierarchyEndLevelsHierNo(selectedProductContainer), viewDTO, customerListEndSids,
 					productListEndSids, sessionDTO);
-			getUI().getCurrent().addWindow(saveViewPopup);
+			UI.getCurrent().addWindow(saveViewPopup);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
@@ -2789,6 +2783,7 @@ public class DataSelection extends AbstractDataSelection {
 	protected void deleteViewButtonLogic() {
 		final ViewDTO dto = getViewDTO();
 		new AbstractNotificationUtils() {
+                        @Override
 			public void noMethod() {
 				// do nothing
 			}
@@ -3006,7 +3001,7 @@ public class DataSelection extends AbstractDataSelection {
 					hierarchyId = productHierarchyDto.getHierarchyId();
 				}
 				if (innerProdLevels == null || innerProdLevels.isEmpty() || productHierarchyDto == null) {
-					innerProdLevels = logic.loadCustomerForecastLevel(hierarchyId, StringUtils.EMPTY,
+					innerProdLevels = logic.loadCustomerForecastLevel(hierarchyId,
 							dataSelectionDTO.getProductHierVersionNo());
 				}
 
@@ -3680,7 +3675,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	private void loadCustomerLevel(final String hierarchyId, final int hierarchyVersion) {
 		DataSelectionLogic logic = new DataSelectionLogic();
-		innerCustLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId), StringUtils.EMPTY,
+		innerCustLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId),
 				hierarchyVersion);
 		int levelNo = UiUtils.parseStringToInteger(dataSelectionDTO.getCustomerHierarchyLevel());
 		String selectedLevelName = innerCustLevels.get(levelNo - 1).getLevel();
@@ -3701,7 +3696,7 @@ public class DataSelection extends AbstractDataSelection {
 		DataSelectionLogic logic = new DataSelectionLogic();
 		String selectedLevelName = StringUtils.EMPTY;
 		customerInnerLevelContainer.removeAllItems();
-		innerCustLevels = logic.loadCustomerForecastLevel(hierarchyId, StringUtils.EMPTY, hierarchyVersion);
+		innerCustLevels = logic.loadCustomerForecastLevel(hierarchyId, hierarchyVersion);
 		for (int i = 1; i <= forecastLevel; i++) {
 			String levelName = innerCustLevels.get(i - 1).getLevel();
 			customerInnerLevelContainer.addItem(StringConstantsUtil.LEVEL_SPACE + i + " - " + levelName);
@@ -3715,7 +3710,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	private void loadProductLevel(final String hierarchyId, final int hierarchyVersion) {
 		DataSelectionLogic logic = new DataSelectionLogic();
-		innerProdLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId), StringUtils.EMPTY,
+		innerProdLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId),
 				hierarchyVersion);
 		int levelNo = UiUtils.parseStringToInteger(dataSelectionDTO.getProductHierarchyLevel());
 		String selectedLevelName = innerProdLevels.get(levelNo - 1).getLevel();
@@ -3735,7 +3730,7 @@ public class DataSelection extends AbstractDataSelection {
 		DataSelectionLogic logic = new DataSelectionLogic();
 		String selectedLevelName = StringUtils.EMPTY;
 		productInnerLevelContainer.removeAllItems();
-		innerProdLevels = logic.loadCustomerForecastLevel(hierarchyId, StringUtils.EMPTY, hierarchyVersion);
+		innerProdLevels = logic.loadCustomerForecastLevel(hierarchyId,hierarchyVersion);
 		for (int i = 1; i <= forecastLevel; i++) {
 			String levelName = innerProdLevels.get(i - 1).getLevel();
 			productInnerLevelContainer.addItem(StringConstantsUtil.LEVEL_SPACE + i + " - " + levelName);
@@ -3772,7 +3767,7 @@ public class DataSelection extends AbstractDataSelection {
 		LOGGER.debug("Logging - loadCustomerLevel hierarchyId " + hierarchyId + " innerLevel " + innerLevel);
 		try {
 			DataSelectionLogic logic = new DataSelectionLogic();
-			innerCustLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId), StringUtils.EMPTY,
+			innerCustLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId),
 					hierarchyVersion);
 			customerForecastLevelContainer.removeAllItems();
 			int levelNo = UiUtils.parseStringToInteger(innerLevel);
@@ -3795,7 +3790,7 @@ public class DataSelection extends AbstractDataSelection {
 		LOGGER.debug("Logging - loadProductLevel hierarchyId " + hierarchyId + " innerLevel " + innerLevel);
 		try {
 			DataSelectionLogic logic = new DataSelectionLogic();
-			innerProdLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId), StringUtils.EMPTY,
+			innerProdLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId),
 					hierarchyVersion);
 			int levelNo = UiUtils.parseStringToInteger(innerLevel);
 			String selectedLevelName = innerProdLevels.get(levelNo - 1).getLevel();
@@ -3880,7 +3875,7 @@ public class DataSelection extends AbstractDataSelection {
 	@Override
 	protected void loadForecastLevels(List<Leveldto> innerLevels, IndexedContainer productForecastLevelContainer,
 			ComboBox level, int hierarchySid, int hierarchyVersion) {
-		innerLevels = new DataSelectionLogic().loadCustomerForecastLevel(hierarchySid, StringUtils.EMPTY,
+		innerLevels = new DataSelectionLogic().loadCustomerForecastLevel(hierarchySid,
 				hierarchyVersion);
 		productForecastLevelContainer.removeAllItems();
 		for (int i = 1; i <= innerLevels.size(); i++) {
@@ -3895,8 +3890,8 @@ public class DataSelection extends AbstractDataSelection {
 	 */
 	class CFFDetailsInsertJobRun implements Runnable {
 
-		private int projectionId;
-		private GtnSmallHashMap tempTableNames;
+		private final int projectionId;
+		private final GtnSmallHashMap tempTableNames;
 
 		public CFFDetailsInsertJobRun(int projectionId, GtnSmallHashMap tempTableNames) {
 			this.projectionId = projectionId;
@@ -3975,7 +3970,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	private Future<Boolean> checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
 		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
-				hierarchyId);
+				hierarchyId, sessionDTO.getUserId());
 		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
 		Future<Boolean> future = customerExecutorService.submit(wsClientRunnableTarget);
 		customerExecutorService.shutdown();

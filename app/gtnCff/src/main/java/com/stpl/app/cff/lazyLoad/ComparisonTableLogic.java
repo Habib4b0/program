@@ -7,8 +7,8 @@ package com.stpl.app.cff.lazyLoad;
 
 import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
@@ -24,7 +24,7 @@ public class ComparisonTableLogic extends PageTableLogic {
     private static final Logger LOGGER = Logger.getLogger(ComparisonTableLogic.class);
     private boolean loadData = false;
     private ComparisonLookupDTO comparisonLookup;
-    private ProjectionVarianceLogic projectionVarianceLogic = new ProjectionVarianceLogic();
+    private final ProjectionVarianceLogic projectionVarianceLogic = new ProjectionVarianceLogic();
 
     @Override
     public int getCount() {
