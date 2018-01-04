@@ -61,6 +61,7 @@ public class GtnWsUdcSaveService {
 		HelperTable helperTableModel;
 		Criteria criteria = session.createCriteria(HelperTable.class);
 		criteria.add(Restrictions.eq("description", helperTableBean.getDescription()));
+        criteria.add(Restrictions.eq("listName", helperTableBean.getListName()));
 		List<HelperTable> helperTableList = (List<HelperTable>) criteria.list();
 		if (helperTableList.isEmpty()) {
 			helperTableModel = setValuesToUdcModel(gtnWsUdcInfoBean);
