@@ -97,26 +97,26 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 	}
 
 	public String getHierarchyNoForRelationShip(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
-			HierarchyLevelDefinitionBean selectedCustomerHierarchyLevelDto) {
-		StringBuilder tempQuery = new StringBuilder();
+			HierarchyLevelDefinitionBean selectedHierarchyLevelDto) {
+		StringBuilder query = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder();
-		for (int i = 0; i < selectedCustomerHierarchyLevelDto.getLevelNo() - 1; i++) {
+		for (int i = 0; i < selectedHierarchyLevelDto.getLevelNo() - 1; i++) {
 			HierarchyLevelDefinitionBean leveldto = hierarchyLevelDefinitionList.get(i);
 			if (leveldto.getTableName().isEmpty()) {
-				tempQuery.append(",'%'");
-				tempQuery.append(",'.'");
+				query.append(",'%'");
+				query.append(",'.'");
 				continue;
 			}
-			tempQuery.append(",");
+			query.append(",");
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-			tempQuery.append(singleColumnRelationBean.getActualTtableName() + "."
+			query.append(singleColumnRelationBean.getActualTtableName() + "."
 					+ singleColumnRelationBean.getWhereClauseColumn());
-			tempQuery.append(",'.'");
+			query.append(",'.'");
 		}
 		finalQuery.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");
-		finalQuery.append(tempQuery);
-		tempQuery.append(",'%'");
+		finalQuery.append(query);
+		query.append(",'%'");
 		finalQuery.append(")");
 		return finalQuery.toString();
 	}
