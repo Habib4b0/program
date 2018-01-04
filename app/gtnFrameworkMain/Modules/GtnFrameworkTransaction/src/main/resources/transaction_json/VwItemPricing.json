@@ -10,7 +10,7 @@
 "moduleDetails":[
 	{
 		"columnID": "checkRecord",
-		"columnName": " ",
+		"columnName": "      ",
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"componentType": "boolean",
@@ -66,7 +66,8 @@
 		"columnName": "Item Price",
 		"isSearchCriteria": false,
 		"isResultView": true,
-		"componentType": "text"
+		"componentType": "text",
+                "pattern":"$#0.######"
 	},
 	{
 		"columnID": "pricingCodeStatus",
