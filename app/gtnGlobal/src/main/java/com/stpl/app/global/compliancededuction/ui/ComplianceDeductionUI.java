@@ -33,9 +33,10 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -59,7 +60,7 @@ public class ComplianceDeductionUI extends UI implements VaadinPortletSession.Po
     /**
      * The logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(ComplianceDeductionUI.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComplianceDeductionUI.class);
     SessionDTO sessionDTO = new SessionDTO();
 
     /**
@@ -108,16 +109,16 @@ public class ComplianceDeductionUI extends UI implements VaadinPortletSession.Po
                         if (t.getCause() == null) // We're at final cause
                         {
                             cause.append(t.getClass().getName());
-                           LOGGER.error(t);
+                           LOGGER.error("",t);
                         }
                     }
-                    LOGGER.error(cause);
+                    LOGGER.error("",cause);
                 }
             });
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
     }

@@ -26,7 +26,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -34,7 +35,7 @@ import org.jboss.logging.Logger;
  */
 public class ResponsiveUtils {
 
-    private final static Logger LOGGER = Logger.getLogger(ResponsiveUtils.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
    
     public static Label makeLabel(String value, boolean isMandatory) {
         StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
@@ -94,7 +95,7 @@ public class ResponsiveUtils {
             }         
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
     
@@ -106,7 +107,7 @@ public class ResponsiveUtils {
                 layout.removeComponent(fieldComponent);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -118,7 +119,7 @@ public class ResponsiveUtils {
                 layout.removeComponent(fieldComponent);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
     
@@ -130,7 +131,7 @@ public class ResponsiveUtils {
                 layout.removeComponent(fieldComponent);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }   
 

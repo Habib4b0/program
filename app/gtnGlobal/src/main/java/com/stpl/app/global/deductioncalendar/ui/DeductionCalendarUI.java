@@ -20,9 +20,10 @@ import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -37,7 +38,7 @@ import org.osgi.service.component.annotations.ServiceScope;
         "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class DeductionCalendarUI extends UI {
 
-    private static final Logger LOGGER = Logger.getLogger(DeductionCalendarUI.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeductionCalendarUI.class);
     /**
      * Navigator
      */
@@ -85,17 +86,17 @@ public class DeductionCalendarUI extends UI {
                         if (t.getCause() == null) // We're at final cause
                         {
                             cause.append(t.getClass().getName());
-                            LOGGER.error(t);
+                            LOGGER.error("",t);
                         }
                     }
-                    LOGGER.error(cause);
+                    LOGGER.error("",cause);
                 }
             });
       LOGGER.info("Ending DeductionCalendar UI");
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

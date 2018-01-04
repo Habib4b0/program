@@ -5,7 +5,6 @@ import com.stpl.app.global.dao.impl.CommonDaoImpl;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -21,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class CommonUtils.
@@ -31,7 +31,7 @@ public class CommonUtils {
     /**
      * The logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(CommonUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtils.class);
     /**
      * The Constant EMPTY.
      */
@@ -198,7 +198,7 @@ public class CommonUtils {
         try {
             return checkETL(String.valueOf(userId));
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return false;
     

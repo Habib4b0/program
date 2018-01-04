@@ -7,7 +7,8 @@ package com.stpl.app.global.abstractsearch.util;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The class Validation Util.
@@ -24,7 +25,7 @@ public class ValidationUtil {
 
     public static final String HYPHEN = " - ";
     
-    private static final Logger LOGGER = Logger.getLogger(ValidationUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ValidationUtil.class);
 
     /**
      * The Constructor.
@@ -42,7 +43,7 @@ public class ValidationUtil {
             }
             return "";
         } catch (MissingResourceException e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
             return "";
         }
     }
@@ -77,7 +78,7 @@ public class ValidationUtil {
             }
             return "";
         } catch (MissingResourceException e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
             return "";
         }
     }

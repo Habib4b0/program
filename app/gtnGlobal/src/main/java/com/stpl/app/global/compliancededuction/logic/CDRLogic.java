@@ -43,7 +43,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -54,7 +55,7 @@ public class CDRLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(CDRLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CDRLogic.class);
     public static ResourceBundle constantProperties = ResourceBundle.getBundle("properties.constants");
     static HashMap<String, String> criteria = new HashMap<String, String>();
     public static final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -199,9 +200,9 @@ public class CDRLogic {
                         User createdUser = (User) securityDto.getUserByUserId(Long.valueOf(String.valueOf(object[NumericConstants.SIX])));
                         searchDto.setCreatedBy(createdUser == null ? StringUtils.EMPTY : createdUser.getFullName());
                     } catch (SystemException ex) {
-                        java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
+                        LOGGER.error("",ex);
                     } catch (PortalException ex) {
-                        java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
+                        LOGGER.error("",ex);
                     } 
 
                 }
@@ -210,9 +211,9 @@ public class CDRLogic {
                         User createdUser = (User) securityDto.getUserByUserId(Long.valueOf(String.valueOf(object[NumericConstants.EIGHT])));
                         searchDto.setModifiedBy(createdUser == null ? StringUtils.EMPTY : createdUser.getFullName());
                     } catch (SystemException ex) {
-                        java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
+                        LOGGER.error("",ex);
                     } catch (PortalException ex) {
-                        java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
+                        LOGGER.error("",ex);
                     } 
 
                 }
@@ -243,7 +244,7 @@ public class CDRLogic {
             try {
                 userMap = StplSecurity.getUserName();
             } catch (SystemException ex) {
-                java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error("",ex);
             }
             }
         if (filterSet != null) {
@@ -322,7 +323,7 @@ public class CDRLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -388,9 +389,9 @@ public class CDRLogic {
             CdrModel cdrModel1 = dao.updateCdrModel(cdrModel);
             sessionDTO.setSystemId(cdrModel1.getCdrModelSid());
         } catch (SystemException ex) {
-            java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -408,9 +409,9 @@ public class CDRLogic {
             }
             notesLogic.saveUploadedInformation(uploadedData, ConstantsUtils.CDR_MODEL, cdrModelSid);
         } catch (SystemException ex) {
-            java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -423,9 +424,9 @@ public class CDRLogic {
             ComplianceDeductionDao dao = new ComplianceDeductionDaoImpl();
             dao.deleteCdrModel(cdrModelSId);
         } catch (SystemException ex) {
-            java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(CDRLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         }
 
     }

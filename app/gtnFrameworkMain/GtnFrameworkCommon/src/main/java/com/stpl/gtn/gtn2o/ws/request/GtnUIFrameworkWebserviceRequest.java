@@ -6,6 +6,7 @@ import com.stpl.gtn.gtn2o.ws.request.balancesummaryrequest.GtnWSAdjusmentSummary
 import com.stpl.gtn.gtn2o.ws.request.balancesummaryrequest.dataselection.GtnBSTimePeriodRequest;
 import com.stpl.gtn.gtn2o.ws.request.bcp.GtnWsBcpServiceRequest;
 import com.stpl.gtn.gtn2o.ws.request.calendarconfiguration.GtnWsCalendarConfigurationRequest;
+import com.stpl.gtn.gtn2o.ws.request.cff.GtnWsCFFSubmitRequest;
 import com.stpl.gtn.gtn2o.ws.request.cfprequest.GtnWsCfpRequest;
 import com.stpl.gtn.gtn2o.ws.request.cmrequest.GtnCMasterRequest;
 import com.stpl.gtn.gtn2o.ws.request.companygroup.GtnCompanyGroupRequest;
@@ -77,6 +78,8 @@ public class GtnUIFrameworkWebserviceRequest {
 	private GtnWsItemMasterRequest gtnWsItemMasterRequest;
 
 	private GtnWsForecastProjectionSubmitRequest gtnWsForecastProjectionSubmitRequest;
+        
+	private GtnWsCFFSubmitRequest gtnCffsubmitRequest ;
 
 	private GtnWsNetSalesFormulaGeneralRequest gtnWsNetSalesGeneralRequest;
 
@@ -443,5 +446,15 @@ public class GtnUIFrameworkWebserviceRequest {
 	public void setGtnWsUdcRequest(GtnWsUdcRequest gtnWsUdcRequest) {
 		this.gtnWsUdcRequest = gtnWsUdcRequest;
 	}
+
+        public GtnWsCFFSubmitRequest getGtnCffsubmitRequest() {
+            return gtnCffsubmitRequest;
+        }
+
+        public void setGtnCffsubmitRequest(GtnWsCFFSubmitRequest gtnCffsubmitRequest) {
+            this.gtnCffsubmitRequest = gtnCffsubmitRequest;
+        }
+
+       
 
 }

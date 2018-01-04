@@ -9,7 +9,8 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.util.xmlparser.SQLUtil;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -17,7 +18,7 @@ import org.jboss.logging.Logger;
  */
 public class GlobalImpl {
 
-    private static final Logger LOGGER = Logger.getLogger(GlobalImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalImpl.class);
 
     public List getBusinessTabPermission(String businessRoleId, String moduleName) {
         String sql = StringUtils.EMPTY;

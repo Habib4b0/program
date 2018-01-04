@@ -63,7 +63,8 @@ import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -74,7 +75,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class CustomerSelection extends CustomComponent {
 
-    private static final Logger LOGGER = Logger.getLogger(CustomerSelection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerSelection.class);
     CommonUtil commonMsg = CommonUtil.getInstance();
     
     @UiField("availResultsTableLayout")
@@ -219,9 +220,9 @@ public class CustomerSelection extends CustomComponent {
             }
             LOGGER.debug("Ending init method");
         } catch (SystemException ex) {
-            java.util.logging.Logger.getLogger(CustomerSelection.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(CustomerSelection.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -230,7 +231,7 @@ public class CustomerSelection extends CustomComponent {
         customerSearchBinder.setBuffered(true);
         customerSearchBinder.bindMemberFields(this);       
         }catch (Exception ex){
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
     
@@ -311,7 +312,7 @@ public class CustomerSelection extends CustomComponent {
             selectedExportBtn.setIconAlternateText("Excel export");
             selectedExportBtn.setHtmlContentAllowed(true);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
     private void getButtonPermission(Map<String, AppPermission> functionDCHM) {
@@ -416,7 +417,7 @@ public class CustomerSelection extends CustomComponent {
                         searchButtonClickLogic();
                     }
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error("",e);
                 }
                 LOGGER.debug("Ending Search Button operation in Customer Selection");
             }
@@ -436,7 +437,7 @@ public class CustomerSelection extends CustomComponent {
                     availableCustomersTable.setFilterDecorator(new ExtDemoFilterDecorator());
                     availableCustomersTable.setFilterGenerator(new DeductionCustomerFilerGenerator());
                 } catch (FieldGroup.CommitException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 
@@ -604,7 +605,7 @@ public class CustomerSelection extends CustomComponent {
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
         } catch (PortalException portException) {
-            LOGGER.error(portException);
+            LOGGER.error("",portException);
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1011), new MessageBoxListener() {
                         /**
                          * The method is triggered when a button of the message box is
@@ -632,7 +633,7 @@ public class CustomerSelection extends CustomComponent {
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
-            LOGGER.error(exception);
+            LOGGER.error("",exception);
 
         }
     }
@@ -764,7 +765,7 @@ public class CustomerSelection extends CustomComponent {
                 printWriter.println(dto.getPriorParentCustomerNo() + ExcelExportUtil.COMMA);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
             }
     }
     protected void addItemsButtonClick() {
@@ -847,7 +848,7 @@ public class CustomerSelection extends CustomComponent {
 
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout2, fieldItemHM,mode.equals("Copy")?"Edit":mode);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 }

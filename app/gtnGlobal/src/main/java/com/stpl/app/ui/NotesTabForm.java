@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -44,6 +44,7 @@ import com.vaadin.v7.ui.Upload;
 import com.vaadin.v7.ui.Upload.Receiver;
 import com.vaadin.v7.ui.Upload.StartedEvent;
 import com.vaadin.v7.ui.Upload.SucceededEvent;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -55,7 +56,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOGGER = Logger.getLogger(NotesTabForm.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NotesTabForm.class);
 
 	private String masterTableSid;
 	private final String dbModuleName;
@@ -207,7 +208,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				fileNameField.setValue(StringUtils.EMPTY);
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		}
 
 	}
@@ -245,7 +246,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				uploader.setValue("");
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		}
 
 	}
@@ -350,7 +351,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				tableLayout.removeComponent(getRemove());
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		}
 		LOGGER.debug("Ending getFirstTab1");
 

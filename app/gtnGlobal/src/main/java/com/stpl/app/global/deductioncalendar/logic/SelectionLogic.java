@@ -7,11 +7,9 @@ package com.stpl.app.global.deductioncalendar.logic;
 
 import com.stpl.app.global.common.util.HelperListUtil;
 import com.stpl.app.global.deductioncalendar.ui.util.HeaderUtils;
-import com.stpl.app.model.HelperTable;
 import com.stpl.app.util.Constants;
 import static com.stpl.app.util.GeneralCommonUtils.ZERO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.vaadin.v7.data.Container;
@@ -30,7 +28,6 @@ import com.stpl.app.global.dao.impl.CommonDaoImpl;
 import com.stpl.app.global.deductioncalendar.dto.DeductionDetailsDTO;
 import com.stpl.app.global.deductioncalendar.dto.SelectionDTO;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.CommonUIUtils;
 import com.stpl.app.util.ConstantsUtils;
@@ -51,7 +48,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -65,7 +63,7 @@ public class SelectionLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(SelectionLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SelectionLogic.class);
     /**
      * The format double.
      */
@@ -140,7 +138,7 @@ public class SelectionLogic {
                         }
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 
@@ -152,7 +150,7 @@ public class SelectionLogic {
                         queryString.append(" AND HT_CT.HELPER_TABLE_SID = ").append(helperId).append(StringUtils.EMPTY);
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 
@@ -164,7 +162,7 @@ public class SelectionLogic {
                         queryString.append(" AND HT_CS.HELPER_TABLE_SID = ").append(helperId).append(StringUtils.EMPTY);
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         } else if (availableOrselected.equals("selected")) {
@@ -189,9 +187,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(CommonUIUtils.COMPANY_TYPE, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_TYPE, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
                     if (ConstantsUtils.CUSTOMER_STATUS.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
@@ -199,9 +197,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(CommonUIUtils.STATUS, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_STATUS, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
                     if (ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
@@ -209,9 +207,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(ConstantsUtils.COMPANY_TRADE_CLASS_LIST, filterValue);
                                 parameters.put(ConstantsUtils.TRADE_CLASS, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
                     if (ConstantsUtils.UDC1.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
@@ -219,9 +217,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(CommonUIUtils.UDC1, filterValue);
                                 parameters.put(ConstantsUtils.UDC1, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
                     if (ConstantsUtils.UDC2.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
@@ -229,9 +227,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(CommonUIUtils.UDC2, filterValue);
                                 parameters.put(ConstantsUtils.UDC2, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
                     if (ConstantsUtils.UDC3.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
@@ -239,9 +237,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(CommonUIUtils.UDC3, filterValue);
                                 parameters.put(ConstantsUtils.UDC3, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
                     if (ConstantsUtils.UDC4.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
@@ -249,9 +247,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(CommonUIUtils.UDC4, filterValue);
                                 parameters.put(ConstantsUtils.UDC4, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
                     if (ConstantsUtils.UDC5.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
@@ -259,9 +257,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(CommonUIUtils.UDC5, filterValue);
                                 parameters.put(ConstantsUtils.UDC5, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
                     if (ConstantsUtils.UDC6.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
@@ -269,9 +267,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(CommonUIUtils.UDC6, filterValue);
                                 parameters.put(ConstantsUtils.UDC6, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
                     if (ConstantsUtils.ORGANISATION_KEY.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
@@ -279,9 +277,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(CommonUIUtils.ORGANIZATION_KEY, filterValue);
                                 parameters.put(ConstantsUtils.ORGANISATION_KEY, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
                     if (ConstantsUtils.CUSTOMER_GROUP.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
@@ -289,9 +287,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(CommonUIUtils.COMPANY_GROUP, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_GROUP, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
                     
@@ -1627,7 +1625,7 @@ public class SelectionLogic {
                         }
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 
@@ -1639,7 +1637,7 @@ public class SelectionLogic {
                         queryString.append(" AND HT_CT.HELPER_TABLE_SID = ").append(helperId).append(StringUtils.EMPTY);
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 
@@ -1651,7 +1649,7 @@ public class SelectionLogic {
                         queryString.append(" AND HT_CS.HELPER_TABLE_SID = ").append(helperId).append(StringUtils.EMPTY);
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         return getFilterQuery(queryString,filterSet);
@@ -1675,9 +1673,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(CommonUIUtils.COMPANY_TYPE, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_TYPE, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
                     if (ConstantsUtils.CUSTOMER_STATUS.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
@@ -1685,9 +1683,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(CommonUIUtils.STATUS, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_STATUS, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
                     if (ConstantsUtils.TRADE_CLASS.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
@@ -1695,9 +1693,9 @@ public class SelectionLogic {
                                 int helperId = getHelperCode(ConstantsUtils.COMPANY_TRADE_CLASS_LIST, filterValue);
                                 parameters.put(ConstantsUtils.TRADE_CLASS, helperId);
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                     }
 

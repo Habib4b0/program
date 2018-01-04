@@ -11,12 +11,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 
 import com.stpl.ifs.util.GtnFileUtil;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.v7.ui.Upload.Receiver;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -27,7 +28,7 @@ public class FileUploader implements Receiver {
 	public File file;
 	public static String FILE_PATH = getFilePath();
 	String moduleName = "";
-	private static final Logger LOGGER = Logger.getLogger(FileUploader.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileUploader.class);
 
 	public FileUploader(String moduleName) {
 		this.moduleName = moduleName;
@@ -59,12 +60,12 @@ public class FileUploader implements Receiver {
 		} catch (final java.io.FileNotFoundException e) {
 			new Notification("Could not open file ", e.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());
-			LOGGER.error(e);
+			LOGGER.error("",e);
 			return null;
 		} catch (IOException ex) {
 			new Notification("Could not create ", ex.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 			return null;
 		}
 		return outputStream; // Return the output stream to write to
@@ -89,7 +90,7 @@ public class FileUploader implements Receiver {
 			}
 		} catch (IOException ex) {
 			new Notification("IOException ", ex.getMessage(), Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
-			LOGGER.error(ex);
+			LOGGER.error("",ex);
 		} finally {
 			super.finalize();
 		}

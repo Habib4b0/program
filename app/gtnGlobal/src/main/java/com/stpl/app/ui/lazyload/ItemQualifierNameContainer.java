@@ -22,7 +22,8 @@ import java.util.List;
 import org.asi.ui.addons.lazycontainer.DAO;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -34,7 +35,7 @@ public class ItemQualifierNameContainer implements DAO<HelperDTO> {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ItemQualifierNameContainer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemQualifierNameContainer.class);
 
     /**
      * Method used for get Count.
@@ -67,7 +68,7 @@ public class ItemQualifierNameContainer implements DAO<HelperDTO> {
                     msg.getButton(ButtonId.OK).focus();
                     
                 } catch (PortalException portException) {
-                    LOGGER.error(portException);
+                    LOGGER.error("",portException);
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {     
                         /**             
                          * The method is triggered when a button of the message box is    
@@ -105,7 +106,7 @@ public class ItemQualifierNameContainer implements DAO<HelperDTO> {
                     }, ButtonId.OK);       
                     msg.getButton(ButtonId.OK).focus();
                 } catch (PortalException portException) {
-                    LOGGER.error(portException);
+                    LOGGER.error("",portException);
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {     
                         /**             
                          * The method is triggered when a button of the message box is    

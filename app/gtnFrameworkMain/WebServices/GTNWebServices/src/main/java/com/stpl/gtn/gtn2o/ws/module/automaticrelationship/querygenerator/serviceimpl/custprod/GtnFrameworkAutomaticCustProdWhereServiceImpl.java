@@ -23,6 +23,7 @@ public class GtnFrameworkAutomaticCustProdWhereServiceImpl implements GtnFramewo
 	@Override
 	public void addWhereClause(GtnFrameworkQueryGeneratorBean querygeneratorBean,
 			GtnWsRelationshipBuilderBean relationBean) {
+		querygeneratorBean.removeAllWhereClauseConfigList();
 		hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);
 
 	}

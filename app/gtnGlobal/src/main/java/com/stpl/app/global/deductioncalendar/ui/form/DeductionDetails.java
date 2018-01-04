@@ -25,7 +25,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
-import com.vaadin.v7.event.FieldEvents;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -64,7 +63,8 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
@@ -74,7 +74,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
  */
 public class DeductionDetails extends CustomComponent {
 
-    private static final Logger LOGGER = Logger.getLogger(DeductionDetails.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeductionDetails.class);
 
     @UiField("dataview")
     private OptionGroup dataview;
@@ -212,9 +212,9 @@ public class DeductionDetails extends CustomComponent {
             final Map<String, AppPermission> functionDCHM = stplSecurity.getBusinessFunctionPermission(userId, ConstantsUtils.DEDUCTION_CALENDAR + ConstantsUtils.COMMA + ConstantsUtils.DEDUCTION_DETAILS);
             getButtonPermission(functionDCHM);
         } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(DeductionDetails.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         } catch (SystemException ex) {
-            java.util.logging.Logger.getLogger(DeductionDetails.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -245,12 +245,12 @@ public class DeductionDetails extends CustomComponent {
         try {
             from.setValue(sdf.parse(detailsDto.getForecastFromDate()));
         } catch (ParseException ex) {
-            java.util.logging.Logger.getLogger(DeductionDetails.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         }
         try {
             to.setValue(sdf.parse(detailsDto.getForecastToDate()));
         } catch (ParseException ex) {
-            java.util.logging.Logger.getLogger(DeductionDetails.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         }
         filterDdlb.select(null);
         allocationMethododlogyDdlb.select(null);
@@ -381,7 +381,7 @@ public class DeductionDetails extends CustomComponent {
             initialMassUpdateLoad();
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -586,7 +586,7 @@ public class DeductionDetails extends CustomComponent {
                                     }, ButtonId.OK);
                                 }
                             } catch (Exception ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error("",ex);
                             }
                         }
                     });
@@ -647,7 +647,7 @@ public class DeductionDetails extends CustomComponent {
             generatedView = detailsDto.getDataView();
             filterValue = detailsDto.getFilterDdlb();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -695,7 +695,7 @@ public class DeductionDetails extends CustomComponent {
                     loadStartAndEndPeriodDDLB();
                     generateLogic();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
 
@@ -736,7 +736,7 @@ public class DeductionDetails extends CustomComponent {
             try {
                 generateButton();
             } catch (Exception ex) {
-                java.util.logging.Logger.getLogger(DeductionDetails.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error("",ex);
             }
         }
         if (functionDCHM.get(ConstantsUtils.ADJUST) != null && !((AppPermission) functionDCHM.get(ConstantsUtils.ADJUST)).isFunctionFlag()) {
@@ -764,7 +764,7 @@ public class DeductionDetails extends CustomComponent {
                         refreshLogic();
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         });
@@ -841,7 +841,7 @@ public class DeductionDetails extends CustomComponent {
                         }
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         });
@@ -875,7 +875,7 @@ public class DeductionDetails extends CustomComponent {
                         }
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
                 LOGGER.debug("adjustButton listener method ends");
             }
@@ -1063,7 +1063,7 @@ public class DeductionDetails extends CustomComponent {
 
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error("",ex);
                     }
                 }
             }

@@ -2,10 +2,11 @@ package com.stpl.app.ui;
 
 import java.util.Date;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 
 import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.data.util.converter.DefaultConverterFactory;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -16,7 +17,7 @@ import com.vaadin.v7.data.util.converter.DefaultConverterFactory;
 public class DateToStringConverterFactory extends DefaultConverterFactory {
 
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger(DateToStringConverterFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DateToStringConverterFactory.class);
     
     /**
      * Factory method that creates the converter object and returns it.
@@ -34,7 +35,7 @@ public class DateToStringConverterFactory extends DefaultConverterFactory {
             return (Converter<PRESENTATION, MODEL>) new DateToStringConverter();
         }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
         return super.createConverter(presentationType, modelType);
