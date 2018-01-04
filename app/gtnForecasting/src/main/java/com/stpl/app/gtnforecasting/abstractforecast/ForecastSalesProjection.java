@@ -1767,7 +1767,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                 checkBoxMap.put(event.getPropertyId(), event.isChecked());
                 if (!returnsFlag) {
-                    String arr[] = rightTable.getColumnRadioButtonArray((String) event.getPropertyId());
+                String arr[] = rightTable.getColumnRadioButtonArray((String) event.getPropertyId());
                     if (arr != null) {
                         for (String a : arr) {
                             rightTable.setColumnRadioButtonDisable(a, !event.isChecked());
@@ -2386,7 +2386,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     final String adjMethodology = String.valueOf(allocMethodology.getValue());
                     final String historyPeriods;
                     final String projectionPeriods;
-
+                    
                     if (adjustPeriod.equals(Constant.ALL)) {
                         if (adjMethodology.equals(Constant.HISTORICAL_OF_BUSINESS)) {
                             historyPeriods = getSelectedHistoryPeriods();
@@ -3817,22 +3817,22 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     }
 
   public void loadAllocationDdlb(final ComboBox allocationBasis) {
-            String query;
-            Map<String, String> input = new HashMap<>();
-            List<String> outputList = new ArrayList<>();
-            input.put("Ex-Factory Sales", Constant.LabelConstants.PERC_OF_EX_FACTORY.getConstant());
-            input.put("Demand", Constant.PERCOFDEMAND);
-            input.put("Inventory Withdrawal - Forecast Detail", Constant.PERCOFINVENTORYWITHDRAWAL);
-            input.put("Inventory Withdrawal - Forecast Summary", Constant.PERCOFINVENTORYWITHDRAWAL);
-            query = SQlUtil.getQuery("get-file-type-query");
-            List<String> returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
-            for (String string : returnList) {
-                if (!"Customer Sales".equals(string) && !"Adjusted Demand".equals(string)) {
-                    outputList.add(input.get(string));
-                }
+        String query;
+        Map<String, String> input = new HashMap<>();
+        List<String> outputList = new ArrayList<>();
+        input.put("Ex-Factory Sales", Constant.LabelConstants.PERC_OF_EX_FACTORY.getConstant());
+        input.put("Demand", Constant.PERCOFDEMAND);
+        input.put("Inventory Withdrawal - Forecast Detail", Constant.PERCOFINVENTORYWITHDRAWAL);
+        input.put("Inventory Withdrawal - Forecast Summary", Constant.PERCOFINVENTORYWITHDRAWAL);
+        query = SQlUtil.getQuery("get-file-type-query");
+        List<String> returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
+        for (String string : returnList) {
+            if (!"Customer Sales".equals(string) && !"Adjusted Demand".equals(string)) {
+                outputList.add(input.get(string));
             }
-            
-            allocationBasis.addItems(outputList);
+        }
+
+        allocationBasis.addItems(outputList);
     }
-    
-}
+
+        }

@@ -157,6 +157,7 @@ public class NMPVExcelLogic {
     private static final String PER = "Per";
     private static final String P = "P";
     private static final String ALL = "ALL";
+    private final int baseColumn_hierarchyIndicator_index = 2;
 
     public NMPVExcelLogic(Map<String, List<ProjectionVarianceDTO>> resultMap, PVSelectionDTO selection,
             List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, PVParameters parameterDto) {
@@ -345,7 +346,7 @@ public class NMPVExcelLogic {
                     detail.setHierarchyNo(obj[1].toString());
                     detail.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
                 } else {
-                      groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), hierarchy.trim(),
+                      groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), obj[baseColumn_hierarchyIndicator_index].toString(),
                       selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
                 }
 
