@@ -512,9 +512,9 @@ public class ProjectionResults extends ForecastProjectionResults {
                             excelResultBean.setChildrenAllowed(itemId, true);
                             if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_DOLLAR)) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(totalKey);
-                                if (discDollar != null && !discDollar.isEmpty()) {
+                                if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(0);
-                                    if (totalList != null && !totalList.isEmpty()) {
+                                    if (totalList != null && totalList.size() > 0) {
                                         for (Iterator<ProjectionResultsDTO> itr2 = totalList.listIterator(); itr2.hasNext();) {
                                             ProjectionResultsDTO discItemId = itr2.next();
                                             itr2.remove();
@@ -527,9 +527,9 @@ public class ProjectionResults extends ForecastProjectionResults {
                             }
                             if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_PERCENT)) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(totalKey);
-                                if (discDollar != null && !discDollar.isEmpty()) {
+                                if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(1);
-                                    if (totalList != null && !totalList.isEmpty()) {
+                                    if (totalList != null && totalList.size() > 0) {
                                         for (Iterator<ProjectionResultsDTO> itr2 = totalList.listIterator(); itr2.hasNext();) {
                                             ProjectionResultsDTO discItemId = itr2.next();
                                             itr2.remove();
@@ -542,9 +542,9 @@ public class ProjectionResults extends ForecastProjectionResults {
                             }
                             if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_RPU)) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(totalKey);
-                                if (discDollar != null && !discDollar.isEmpty()) {
+                                if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(NumericConstants.TWO);
-                                    if (totalList != null && !totalList.isEmpty()) {
+                                    if (totalList != null && totalList.size() > 0) {
                                         for (Iterator<ProjectionResultsDTO> itr2 = totalList.listIterator(); itr2.hasNext();) {
                                             ProjectionResultsDTO discItemId = itr2.next();
                                             itr2.remove();
@@ -557,9 +557,9 @@ public class ProjectionResults extends ForecastProjectionResults {
                             }
                             if (itemId.getGroup().equals(Constants.LabelConstants.DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(totalKey);
-                                if (discDollar != null && !discDollar.isEmpty()) {
+                                if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(NumericConstants.THREE);
-                                    if (totalList != null && !totalList.isEmpty()) {
+                                    if (totalList != null && totalList.size() > 0) {
                                         for (Iterator<ProjectionResultsDTO> itr2 = totalList.listIterator(); itr2.hasNext();) {
                                             ProjectionResultsDTO discItemId = itr2.next();
                                             itr2.remove();
@@ -616,9 +616,9 @@ public class ProjectionResults extends ForecastProjectionResults {
                         if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_DOLLAR) || itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_PERCENT) || itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_RPU) || itemId.getGroup().equals(Constants.LabelConstants.DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
                             if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_DOLLAR)) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(key);
-                                if (discDollar != null && !discDollar.isEmpty()) {
+                                if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(0);
-                                    if (totalList != null && !totalList.isEmpty()) {
+                                    if (totalList != null && totalList.size() > 0) {
                                         for (Iterator<ProjectionResultsDTO> itr2 = totalList.listIterator(); itr2.hasNext();) {
                                             ProjectionResultsDTO discItemId = itr2.next();
                                             itr2.remove();
@@ -631,9 +631,9 @@ public class ProjectionResults extends ForecastProjectionResults {
                             }
                             if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_DISCOUNT_PERCENT)) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(key);
-                                if (discDollar != null && !discDollar.isEmpty()) {
+                                if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(1);
-                                    if (totalList != null && !totalList.isEmpty()) {
+                                    if (totalList != null && totalList.size() > 0) {
                                         for (Iterator<ProjectionResultsDTO> itr2 = totalList.listIterator(); itr2.hasNext();) {
                                             ProjectionResultsDTO discItemId = itr2.next();
                                             itr2.remove();
@@ -646,9 +646,9 @@ public class ProjectionResults extends ForecastProjectionResults {
                             }
                             if (itemId.getGroup().startsWith(StringConstantsUtil.TOTAL_RPU)) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(key);
-                                if (discDollar != null && !discDollar.isEmpty()) {
+                                if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(NumericConstants.TWO);
-                                    if (totalList != null && !totalList.isEmpty()) {
+                                    if (totalList != null && totalList.size() > 0) {
                                         for (Iterator<ProjectionResultsDTO> itr2 = totalList.listIterator(); itr2.hasNext();) {
                                             ProjectionResultsDTO discItemId = itr2.next();
                                             itr2.remove();
@@ -661,9 +661,9 @@ public class ProjectionResults extends ForecastProjectionResults {
                             }
                             if (itemId.getGroup().equals(Constants.LabelConstants.DISCOUNT_PERCENTAGE_EXFACTORY.getConstant())) {
                                 List<List<ProjectionResultsDTO>> discDollar = discountMap.get(key);
-                                if (discDollar != null && !discDollar.isEmpty()) {
+                                if (discDollar != null && discDollar.size() > 0) {
                                     List<ProjectionResultsDTO> totalList = discDollar.get(NumericConstants.THREE);
-                                    if (totalList != null && !totalList.isEmpty()) {
+                                    if (totalList != null && totalList.size() > 0) {
                                         for (Iterator<ProjectionResultsDTO> itr2 = totalList.listIterator(); itr2.hasNext();) {
                                             ProjectionResultsDTO discItemId = itr2.next();
                                             itr2.remove();

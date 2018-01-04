@@ -20,6 +20,11 @@ public final class CommonUIUtil {
     public static final String COUNTRY = "Country";
 
     /**
+     * The Constant FILE_MGT_HISTORY_RESULT_COLUMNS.
+     */
+    private static final Object[] FILE_MGMT_HIST_RES_COLS  = new Object[]{"file", "effectiveDate", "type", "version", "fromPeriod", "toPeriod"};
+
+    /**
      * The Constant FILE_MGT_HISTORY_RESULT_HEADER.
      */
     public static final String[] FILE_MGMT_HIST_RES_HEADER  = new String[]{"File", "Effective Date", "Type", StringConstantsUtil.VERSION_LABEL, "From Period", "To Period"};

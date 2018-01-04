@@ -613,6 +613,7 @@ public class ApprovalTab extends CustomComponent {
     }
 
     public List<Integer> getApprovedDetails(int projectionId) {
+        CFFQueryUtils cffUtils = new CFFQueryUtils();
         return CFFQueryUtils.getApprovedDetails(projectionId);
     }
 

@@ -1766,4 +1766,4 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
             return returnValue;
         }
 
-}
+	}

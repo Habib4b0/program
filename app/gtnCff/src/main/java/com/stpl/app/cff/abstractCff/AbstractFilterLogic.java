@@ -26,6 +26,7 @@ public class AbstractFilterLogic {
 
     public static final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
     private static AbstractFilterLogic instance;
+    private final CFFLogic cffLogic = new CFFLogic();
 
     private AbstractFilterLogic() {
     }

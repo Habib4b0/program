@@ -19,71 +19,8 @@ import org.jboss.logging.Logger;
 public class CommonQueryUtils {
 
     private static final Logger LOGGER = Logger.getLogger(CommonQueryUtils.class);
-    private static final CFFDAO DAO = CFFDAOImpl.getInstance();
+    private static CFFDAO DAO = CFFDAOImpl.getInstance();
 
-    public static List getCFFData(List input, String queryName, String quaryName2) {
-        LOGGER.debug("Inside  get data");
-        List list = new ArrayList();
-        StringBuilder sql;
-        if (queryName != null && !queryName.isEmpty()) {
-            try {
-                sql = new StringBuilder(SQlUtil.getQuery(queryName));
-                if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
-                    sql.append(" ");
-                    sql.append(SQlUtil.getQuery(quaryName2));
-                }
-                for (final Object temp : input) {
-                    sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
-                }
-                list = (List<Object[]>) DAO.executeSelectQuery(sql.toString());
-            } catch (final Exception ex) {
-                LOGGER.error(ex);
-            }
-        }
-
-        LOGGER.debug("End of get Data");
-        return list;
-    }
-
-    public static Boolean cffUpdate(List input, String queryName) {
-        LOGGER.debug("Inside CFF Update");
-        StringBuilder sql = new StringBuilder();
-        try {
-            sql = new StringBuilder(SQlUtil.getQuery(queryName));
-            for (final Object temp : input) {
-                sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
-            }
-
-            final Integer count = (Integer) DAO.executeUpdateQuery(sql.toString());
-            if (count > 0) {
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
-
-        } catch (final Exception ex) {
-            LOGGER.error(ex);
-        }
-        LOGGER.debug("End of CFF Update");
-        return Boolean.FALSE;
-    }
-
-    public static String getQuery(List input, String queryName) {
-        StringBuilder sql = null;
-        try {
-            sql = new StringBuilder();
-            sql = new StringBuilder(SQlUtil.getQuery(queryName));
-            if (!input.isEmpty()) {
-                for (final Object temp : input) {
-                    sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
-                }
-            }
-        } catch (final Exception ex) {
-            LOGGER.error(ex);
-        }
-        return sql.toString();
-    }
-    
     public static String getQuery( String query,List input) {
         StringBuilder sql =new StringBuilder();
         try {

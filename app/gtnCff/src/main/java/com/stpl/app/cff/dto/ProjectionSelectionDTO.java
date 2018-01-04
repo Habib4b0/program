@@ -889,7 +889,7 @@ public class ProjectionSelectionDTO {
 
     public List<String> getDiscountNoList() {
         List<String> discountNos = new ArrayList<>();
-        if (discountList != null && !discountList.isEmpty()) {
+        if (discountList != null && discountList.size() > 0) {
             discountNos = discountList.get(0);
         }
         return discountNos;
