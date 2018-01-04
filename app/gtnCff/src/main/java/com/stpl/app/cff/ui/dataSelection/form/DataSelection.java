@@ -92,7 +92,6 @@ public class DataSelection extends AbstractDataSelection {
 	private Map<String, String> productDescriptionMap = null;
 	private boolean dismantleCustomerSelection = true;
 	private boolean dismantleProductSelection = true;
-	private final CompanyDdlbDto discountDTO = null;
 	public static Map<String, String> relationLevelValues = new HashMap<>();
 	private final DataSelectionLogic dataLogic = new DataSelectionLogic();
 	private final List<Integer> customerBeanList = new ArrayList<>();
@@ -3027,7 +3026,7 @@ public class DataSelection extends AbstractDataSelection {
 					innerLevelValues = logic.loadInnerLevel(companyLevel.getLevel(),
 							productHierarchyDto.getHierarchyId(), selectedLevelSids, false, companyLevel.getFieldName(),
 							relationshipSid, productDescriptionMap, StringUtils.EMPTY, screenName,
-							discountDTO != null ? discountDTO.getRsModelSid() : 0, companyLevel.getLevelNo(),
+							0, companyLevel.getLevelNo(),
 							company.getValue(), businessUnit.getValue());
 				}
 			}
@@ -3158,7 +3157,7 @@ public class DataSelection extends AbstractDataSelection {
 							DataSelectionUtil.getSelectedRelationshipLevelSids(selectedProductContainer.getItemIds()),
 							true, ndcLevel.getFieldName(), relationshipSid, productDescriptionMap,
 							INDICATOR_LEVEL_NDC.getConstant(), screenName,
-							discountDTO != null ? discountDTO.getRsModelSid() : 0, ndcLevel.getLevelNo(),
+							0, ndcLevel.getLevelNo(),
 							company.getValue(), businessUnit.getValue());
 				}
 			}
@@ -3260,7 +3259,7 @@ public class DataSelection extends AbstractDataSelection {
 							DataSelectionUtil.getSelectedRelationshipLevelSids(selectedCustomerContainer.getItemIds()),
 							isNdc, tempDto.getFieldName(), relationshipSid, customerDescriptionMap,
 							DataSelectionUtil.identifyLevel(tempDto), screenName,
-							discountDTO != null ? discountDTO.getRsModelSid() : 0, tempDto.getLevelNo(),
+							0, tempDto.getLevelNo(),
 							company.getValue(), businessUnit.getValue());
 
 					if (groupFilteredCompanies != null
@@ -3317,7 +3316,7 @@ public class DataSelection extends AbstractDataSelection {
 							DataSelectionUtil.getSelectedRelationshipLevelSids(selectedCustomerContainer.getItemIds()),
 							false, customerLevelDto.getFieldName(), relationshipSid, customerDescriptionMap,
 							INDICATOR_LEVEL_CUSTOMER.getConstant(), screenName,
-							discountDTO != null ? discountDTO.getRsModelSid() : 0, customerLevelDto.getLevelNo(),
+							0, customerLevelDto.getLevelNo(),
 							company.getValue(), businessUnit.getValue());
 				}
 			}
