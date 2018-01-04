@@ -28,7 +28,6 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.validator.StringLengthValidator;
-import com.vaadin.v7.event.FieldEvents;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.navigator.View;
@@ -55,6 +54,7 @@ import com.vaadin.v7.ui.Upload;
 import com.vaadin.v7.ui.Upload.Receiver;
 import com.vaadin.v7.ui.VerticalLayout;
 import elemental.json.JsonArray;
+import org.osgi.framework.FrameworkUtil;
 
 /**
  *
@@ -153,13 +153,15 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
      *
      */
     public AbstractNotesTab(final FieldGroup binder, final String moduleName) {
-        this.binder = binder;
-        this.fileName = "Notes_History_" + moduleName.replace(" ", "");
-
-        setCompositionRoot(Clara.create(getClass().getResourceAsStream("/ui/notestabform.xml"), this));
-        intailizingObject();
-        init();
-
+        try {
+            this.binder = binder;
+            this.fileName = "Notes_History_" + moduleName.replace(" ", "");
+            setCompositionRoot(Clara.create(FrameworkUtil.getBundle(AbstractNotesTab.class).getBundleContext().getBundle().getResource("/ui/notestabform.xml").openStream(), this));
+            intailizingObject();
+            init();
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
     }
 
     private void init() {
