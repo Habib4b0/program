@@ -52,7 +52,7 @@ public class FormulaSearchLookup extends CustomWindow {
     public Button selectBtn;
     @UiField("closeBtn")
     public Button closeBtn;
-    FormulaLookupTableLogic tableLogic = new FormulaLookupTableLogic();
+    private final FormulaLookupTableLogic tableLogic = new FormulaLookupTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
      public CustomTextField componentTextField;
     private final BeanItemContainer<LookupDTO> resultsContainer = new BeanItemContainer<>(LookupDTO.class);

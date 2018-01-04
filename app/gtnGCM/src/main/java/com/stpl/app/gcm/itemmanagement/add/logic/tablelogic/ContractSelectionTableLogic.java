@@ -4,7 +4,6 @@
  */
 package com.stpl.app.gcm.itemmanagement.add.logic.tablelogic;
 
-import com.stpl.app.gcm.itemmanagement.add.dto.ItemContractSelectionDTO;
 import com.vaadin.data.Container;
 import java.util.Collections;
 import java.util.List;
@@ -15,8 +14,6 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  * @author Abishekram.r
  */
 public class ContractSelectionTableLogic extends PageTableLogic {
-
-    ItemContractSelectionDTO binderDto = new ItemContractSelectionDTO();
 
     @Override
     public int getCount() {

@@ -42,7 +42,6 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
@@ -156,7 +155,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected List<CffCustomViewMaster> customViewList = new ArrayList<>();
     protected final float maxSplitPosition = 1000, minSplitPosition = NumericConstants.TWO_HUNDRED, splitPosition = 300;
     protected ExtCustomTreeTable exceltable;
-    private int tradingPartnerNo = 0;
+    private final int tradingPartnerNo = 0;
 
     protected Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
         @Override

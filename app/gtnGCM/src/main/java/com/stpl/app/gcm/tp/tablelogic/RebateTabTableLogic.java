@@ -22,11 +22,11 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
  */
 public class RebateTabTableLogic extends PageTreeTableLogic {
 
-    boolean firstGenerated = false;
-    LoadTabLogic logic = new LoadTabLogic();
-    TabSelectionDTO tabSelectionDTO = new TabSelectionDTO();
-    int projectionId = 0;
-    SessionDTO session = new SessionDTO();
+    private boolean firstGenerated = false;
+    private final LoadTabLogic logic = new LoadTabLogic();
+    private TabSelectionDTO tabSelectionDTO = new TabSelectionDTO();
+    private int projectionId = 0;
+    private SessionDTO session = new SessionDTO();
 
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {

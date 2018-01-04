@@ -8,6 +8,8 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 
 public class GtnFrameworkRSConstants {
 
+	private static final String DESCRIPTION = "description";
+
 	private GtnFrameworkRSConstants() {
 		/**
 		 * empty constructor
@@ -107,7 +109,7 @@ public class GtnFrameworkRSConstants {
 	public static final String ATTACHED_DATE1 = "attachedDate";
 
 	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_REBATE_PLAN_VISIBLECOLUMNS = {
-			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME, RS_STATUS, RS_START_DATE,
+			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME, DESCRIPTION, RS_START_DATE,
 			RS_END_DATE1, "rsBundleNo", REBATE_PLAN_NO1, "rebatePlanName", NET_SALES_FORMULA_NAME, NET_SALES_RULE_NAME,
 			EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1,
 			ATTACHED_DATE1 };
@@ -118,7 +120,7 @@ public class GtnFrameworkRSConstants {
 			EVALUATION_RULE_BUNDLE, CALCULATION_RULE1, CALCULATION_RULE_BUNDLE, ATTACHED_DATE };
 
 	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_FORMULA_VISIBLECOLUMNS = {
-			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME, RS_STATUS, RS_START_DATE,
+			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME,  DESCRIPTION, RS_START_DATE,
 			RS_END_DATE1, "formulaType", "formulaNo", FORMULA_NAME, NET_SALES_FORMULA_NAME, NET_SALES_RULE_NAME,
 			EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1,
 			ATTACHED_DATE1 };
@@ -135,11 +137,11 @@ public class GtnFrameworkRSConstants {
 
 	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_PRICE_PROTECTION_VISIBLECOLUMNS = {
 			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME,
-			GtnFrameworkRSConstants.RS_STATUS, GtnFrameworkRSConstants.RS_START_DATE,
+			 DESCRIPTION, GtnFrameworkRSConstants.RS_START_DATE,
 			GtnFrameworkRSConstants.RS_END_DATE1 };
 
 	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_VISIBLECOLUMNS = {
-			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME, RS_STATUS, RS_START_DATE,
+			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME,  DESCRIPTION, RS_START_DATE,
 			RS_END_DATE1, "deductionName", DEDUCTION_NO, EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1,
 			CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1, ATTACHED_DATE1 };
 
@@ -150,7 +152,7 @@ public class GtnFrameworkRSConstants {
 	private static final Object[] RS_SETUP_TAB_VISIBLE_COLUMNS = { GtnFrameworkCommonConstants.CHECK_RECORD_ID,
 			"itemNo", "itemName", RS_STATUS, RS_START_DATE, RS_END_DATE1 };
 
-	private static final Object[] RS_SETUP_TAB_VISIBLE_COLUMNS_VIEW = { "itemNo", "itemName", "description",
+	private static final Object[] RS_SETUP_TAB_VISIBLE_COLUMNS_VIEW = { "itemNo", "itemName", DESCRIPTION,
 			RS_START_DATE, RS_END_DATE1 };
 
 	private static final String[] RS_SETUP_TAB_VISIBLE_HEADERS_VIEW = { GtnFrameworkCommonConstants.ITEM_NO_HEADER,
@@ -203,7 +205,7 @@ public class GtnFrameworkRSConstants {
 	public static final String REBATE_SCHEDULE_END_DATE_LAYOUT = "rebateScheduleEndDateLayout";
 	public static final String REBATE_FREQUENCYLAYOUT = "rebateFrequencylayout";
 	public static final String REBATE_SCHEDULE_INFO_INFORMATION_LAYOUT = "rebateScheduleInfoInformationLayout";
-	public static final String PAYMENT_LEVELLAYOUT = "paymentLevellayout";
+	public static final String PAYMENT_LEVEL_LAYOUT = "paymentLevellayout";
 	public static final String REBATE_SCHEDULE_STATUSLAYOUT = "rebateScheduleStatuslayout";
 	public static final String REBATE_SCHEDULE_ALIAS_ID_LAYOUT = "rebateScheduleAliasIdLayout";
 	public static final String INTEREST_BEARING_BASISLAYOUT = "interestBearingBasislayout";

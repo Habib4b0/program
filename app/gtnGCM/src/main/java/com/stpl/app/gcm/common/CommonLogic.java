@@ -29,7 +29,6 @@ import com.stpl.app.gcm.discount.dao.DiscountDAO;
 import com.stpl.app.gcm.discount.dao.impl.ContractDetailsDaoImpl;
 import com.stpl.app.gcm.discount.dao.impl.DiscountDaoImpl;
 import com.stpl.app.gcm.discount.dto.ContractsDetailsDto;
-import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
@@ -82,14 +81,13 @@ public class CommonLogic {
     /**
      * INSTANTIATE ContractDashboardLogicDAO Implementation logic.
      */
-    static CommonDao DAO = CommonImpl.getInstance();
+    private static final CommonDao DAO = CommonImpl.getInstance();
     private final ContractDetailsDAO daoImpl = new ContractDetailsDaoImpl();
     private static final DiscountDAO DISCOUNT_DAO = new DiscountDaoImpl();
     private static final Logger LOGGER = Logger.getLogger(CommonLogic.class);
     private int newProjectionId;
     private String forecastingType = StringUtils.EMPTY;
     private int prodRelationshipId;
-    SelectionDTO selection = new SelectionDTO();
     public static final String DATA_POOL = "java:jboss/datasources/jdbc/appDataPool";
     public static final String AND_PROJECTION_NAME = "\n and Projection Name - ";
     public static final String PRC_MANDATED_SALES_INSERT = "Prc_mandated_sales_insert";

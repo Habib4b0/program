@@ -49,7 +49,6 @@ import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipLevelDefinit
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.logic.GtnWsSearchQueryGenerationLogic;
-import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.concurrency.GtnFrameworkDeductionRelationServiceRunnable;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipLevelDefinitionBean;
@@ -100,8 +99,6 @@ public class GtnWsRelationshipBuilderService {
 	@Autowired
 	private GtnFrameworkAutomaticRelationUpdateService autoMaticRelationService;
 
-	@Autowired
-	private GtnFrameworkDeductionRelationServiceRunnable deductionService;
 
 	public GtnWsRelationshipBuilderService() {
 		super();
@@ -429,7 +426,6 @@ public class GtnWsRelationshipBuilderService {
 		if (hierarchyLevelDefinitionList == null || hierarchyLevelDefinitionList.isEmpty()) {
 			return searchResponse;
 		}
-		HierarchyDefinitionBean hierarchyDefinitionBean = getHierarchyDefinition(gtnWsRequest);
 		List<String> modifiedHiddenList = getModifiedHiddenIdList(gtnWsRequest);
 		if (GtnFrameworkWebserviceConstant.USER_DEFINED
 				.equals(hierarchyLevelDefinitionList.get(0).getLevelValueReference())) {
@@ -440,10 +436,7 @@ public class GtnWsRelationshipBuilderService {
 			}
 
 		} else {
-			if (levelNo != 1) {
-				return getFilteredValue2(gtnWsRequest, modifiedHiddenList);
-			}
-			return getLinkedLevelValues(gtnWsRequest, hierarchyDefinitionBean, hierarchyLevelDefinitionList);
+			return getFilteredValue2(gtnWsRequest, modifiedHiddenList, levelNo);
 		}
 
 		return searchResponse;
@@ -497,7 +490,7 @@ public class GtnWsRelationshipBuilderService {
 
 	@SuppressWarnings("unchecked")
 	public GtnSerachResponse getFilteredValue2(GtnUIFrameworkWebserviceRequest gtnWsRequest,
-			List<String> modifiedHiddenList) throws GtnFrameworkGeneralException {
+			List<String> modifiedHiddenList, int levelNo) throws GtnFrameworkGeneralException {
 		GtnSerachResponse serachResponse = new GtnSerachResponse();
 		try {
 			List<HierarchyLevelDefinitionBean> hierarchyList = gtnWsRelationshipBuilderHierarchyFileGenerator
@@ -506,8 +499,6 @@ public class GtnWsRelationshipBuilderService {
 									.get(0).getFilterValue1()),
 							Integer.parseInt(gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList()
 									.get(1).getFilterValue1()));
-			int levelNo = Integer.parseInt(
-					gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList().get(3).getFilterValue1());
 			HierarchyLevelDefinitionBean destinationHierarchyBean = gtnWsRelationshipBuilderHierarchyFileGenerator
 					.getHierarchyBeanByLevelNo(hierarchyList, levelNo);
 			if (destinationHierarchyBean != null) {
@@ -517,7 +508,8 @@ public class GtnWsRelationshipBuilderService {
 						destinationHierarchyBean.getHierarchyLevelDefinitionSid(),
 						destinationHierarchyBean.getVersionNo());
 				GtnFrameworkQueryGeneratorBean finalQueryBean = queryBaen.getQuery();
-				List<Object> primaryKeyPositionList = helperLogic.getMasterSidList(gtnWsRequest, hierarchyList);
+				List<Object> primaryKeyPositionList = helperLogic.getMasterSidList(gtnWsRequest, hierarchyList,
+						levelNo);
 
 				logger.info("finalQuery--->>" + finalQueryBean.generateQuery());
 
@@ -929,7 +921,6 @@ public class GtnWsRelationshipBuilderService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void saveRelationship(GtnWsRelationshipBuilderRequest rbRequest, GtnWsRelationshipBuilderResponse rbResponse)
 			throws GtnFrameworkGeneralException {
 		rbResponse.setSuccess(true);
@@ -969,7 +960,7 @@ public class GtnWsRelationshipBuilderService {
 			autoMaticRelationService.checkAndUpdateAutomaticRelationship(
 					relationshipBuilder.getRelationshipBuilderSid(),
 					String.valueOf(relationshipBuilder.getCreatedBy()));
-                        autoMaticRelationService.checkManualRelation(relationshipBuilder.getRelationshipBuilderSid());
+			autoMaticRelationService.checkManualRelation(relationshipBuilder.getRelationshipBuilderSid());
 			rbResponse.setSuccess(true);
 		} catch (Exception e) {
 			tx.rollback();
@@ -1250,6 +1241,8 @@ public class GtnWsRelationshipBuilderService {
 	private List<Integer> getNotInList(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		GtnWsSearchRequest searchRequest = gtnWsRequest.getGtnWsSearchRequest();
 		List<GtnWebServiceSearchCriteria> searchCriteria = searchRequest.getGtnWebServiceSearchCriteriaList();
+		if (searchCriteria.size() < 5)
+			return Collections.emptyList();
 		return (List<Integer>) searchCriteria.get(5).getFilterValue3();
 	}
 

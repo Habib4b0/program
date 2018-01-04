@@ -192,6 +192,7 @@ public class R2ETL {
     private String[] getFileName(String interfaceName, String folderPath) {
         String[] fileName = new String[2];
         try {
+            LOGGER.info("interfaceName in getFileName : "+interfaceName);
 
             String[] subKey = interfaceName.split("/");
             String interface1 = subKey[subKey.length - 2];

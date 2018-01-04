@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -87,15 +88,14 @@ public class CFFLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LogManager.getLogger(CFFLogic.class);
-    public CFFQueryUtils cffQueryUtils = new CFFQueryUtils();
+    private final CFFQueryUtils cffQueryUtils = new CFFQueryUtils();
     /**
      * The common utils.
      */
-    public CommonUtils commonUtils = new CommonUtils();
+    private final CommonUtils commonUtils = new CommonUtils();
     private static final CFFDAO DAO = CFFDAOImpl.getInstance();
-    public static Map<String, String> userMap = new HashMap<>();
-    private FileSelectionDTO dto = new FileSelectionDTO();
-    private DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
+    private static Map<String, String> userMap = new HashMap<>();
+    private final DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
     
     /**
      * Gets the cff details for add.
@@ -266,9 +266,7 @@ public class CFFLogic {
             cffMaster.setInboundStatus(ConstantsUtil.INBOUND_STATUS_UPDATE);
             DAO.updateCffMaster(cffMaster);
 
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("Exits update cff method");
@@ -1204,9 +1202,7 @@ public class CFFLogic {
                     NotificationUtils.getAlertNotification("Permission Denined", notiMsg.toString());
 
                 }
-            } catch (PortalException ex) {
-                java.util.logging.Logger.getLogger(CFFLogic.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SystemException ex) {
+            } catch (PortalException | SystemException ex) {
                 java.util.logging.Logger.getLogger(CFFLogic.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (sessionDTO.getWorkflowStatus() != null && sessionDTO.getWorkflowStatus().equals("Rejected")) {
@@ -1494,7 +1490,6 @@ public class CFFLogic {
         builder.append(SQlUtil.getQuery("DEDUCTION_HIERARCHY_INSERT"));
         builder.replace(builder.indexOf(StringConstantsUtil.CFFMASTERSID), StringConstantsUtil.CFFMASTERSID.length() + builder.lastIndexOf(StringConstantsUtil.CFFMASTERSID), String.valueOf(session.getProjectionId()));
         builder.replace(builder.indexOf(StringConstantsUtil.RELATIONBUILDERSID), StringConstantsUtil.RELATIONBUILDERSID.length() + builder.lastIndexOf(StringConstantsUtil.RELATIONBUILDERSID), session.getDedRelationshipBuilderSid());
-       
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(builder.toString(), tempTableNames));
     }
 
@@ -1531,7 +1526,7 @@ public class CFFLogic {
 		customSql = customSql.replace("?HLDV", isCustomerHierarchy ? sessionDTO.getCustomerHierarchyVersion()+ StringUtils.EMPTY 
                 : sessionDTO.getProductHierarchyVersion()+ StringUtils.EMPTY);
         List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-        Map<String, List> resultMap = new HashMap<>();
+        Map<String, List> resultMap = new LinkedHashMap<>();
         String hierarchyNoType = isCustomerHierarchy ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO";
         RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid, hierarchyNoType, sessionDTO);
         tempList.clear();

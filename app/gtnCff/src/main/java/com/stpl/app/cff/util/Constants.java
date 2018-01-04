@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Constants {
 
-    public final String[] RESON_CODES = {"Added new Trading Partner", "Added to Formulary", "Class limitation", "Decrease in Membership", "Deleted Trading Partner Other", "Increase in Membership", "New Contract Discount Rates", "Other", "Removed from Formulary"};
+    public static final String[] REASON_CODES = {"Added new Trading Partner", "Added to Formulary", "Class limitation", "Decrease in Membership", "Deleted Trading Partner Other", "Increase in Membership", "New Contract Discount Rates", "Other", "Removed from Formulary"};
     public static final String NULL = "null";
     public static final String SELECT_ONE_LABEL = "-Select One-";
     public static final String VARIABLE_LABEL = "Variable";
@@ -58,7 +58,7 @@ public class Constants {
     public static final String ERROR_NOTIFICATION_INVALID_CHILD = " as a child to ";
     public static final String DEDUCTION_HIERARCHY_INDICATOR = "D";
     public static final String DISPLAY_FORMAT_SAVE="DisplayFormat";
-    public static String COMMA=",";
+    public static final String COMMA=",";
     public static final String CUSTOMER_LEVEL_DDLB="CustomerLevel";
     public static final String CUSTOMER_LEVEL_VALUE="CustomerLevelValue";
     public static final String PRODUCT_LEVEL_DDLB="ProductLevel";
@@ -283,7 +283,7 @@ public class Constants {
         NET_SALES_PERCENTAGE_EXFACTORY("Net Sales % of Ex-Factory"),
         PRODUCT_LEVEL_EX_FACTORY("Ex-Factory Sales");
         
-        private String constant;
+        private final String constant;
 
         private LabelConstants(String constant) {
             this.constant = constant;
@@ -348,7 +348,7 @@ public class Constants {
         BTN_REJECT("REJECT"),
         BTN_WITHDRAW("WITHDRAWN"),
         BTN_REMOVE("REMOVE");
-        private String constant;
+        private final String constant;
 
         private ButtonConstants(String constant) {
             this.constant = constant;
@@ -422,7 +422,7 @@ public class Constants {
         INDICATOR_VIEW_CUSTOMER("C"),
         INDICATOR_VIEW_CUSTOM("CP"),
         INDICATOR_VIEW_PRODUCT("P");
-        private String constant;
+        private final String constant;
 
         private IndicatorConstants(String constant) {
             this.constant = constant;
@@ -478,7 +478,7 @@ public class Constants {
         NET_EX_FACTORY_SALES(NET_EXFACT_SALES),
         NET_EX_FACTORY_SALES_PER_EX_FACTORY(NET_EXFACT_SALES_PER_EXFACT);
         
-        private String constant;
+        private final String constant;
 
         private PVVariables(String constant) {
             this.constant = constant;
@@ -525,7 +525,7 @@ public class Constants {
         PER_EX_FACTORY_SALES("% of Ex-Factory Sales"),
         PER_OF_DEMAND("% of Demand"),
         PER_INVENTORY_WITHDRAW("% of Inventory Withdrawal");
-        private String constant;
+        private final String constant;
 
         private CommonConstants(String constant) {
             this.constant = constant;
@@ -559,7 +559,7 @@ public class Constants {
         QUARTERS("Quarters"),
         DEFAULT_JAVA_DATE_FORMAT("EEE MMM dd HH:mm:ss z yyyy"),
         DEFAULT_SQL_DATE_FORMAT("yyyy-MM-dd HH:mm:ss.SSS");
-        private String frequencyValue;
+        private final String frequencyValue;
 
         private FrequencyConstants(String frequencyValue) {
             this.frequencyValue = frequencyValue;
@@ -606,7 +606,7 @@ public class Constants {
         LEVEL_4("Level 4"),
         LEVEL_5("Level 5"),
         LEVEL_6("Level 6");
-        private String constant;
+        private final String constant;
 
         private LevelConstants(String constant) {
             this.constant = constant;
@@ -635,7 +635,7 @@ public class Constants {
 
         DOUBLE_CHECK("^\\d+(\\.\\d{1,2})?$"),
         REGEX_EXTRACT_DIGITS("\\D+");
-        private String constant;
+        private final String constant;
 
         private RegexConstants(String constant) {
             this.constant = constant;
@@ -658,7 +658,7 @@ public class Constants {
 
         EXCEL_IMAGE_PATH("../../icons/excel.png"),
         GRAPH_IMAGE_PATH("../../icons/chart.png");
-        private String constant;
+        private final String constant;
 
         private ResourceConstants(String constant) {
             this.constant = constant;
@@ -683,7 +683,7 @@ public class Constants {
         CURRENT_MONTH(Calendar.getInstance().get(Calendar.MONTH)),
         HISTORY_YEAR_COUNT(3),
         PROJECTION_YEAR_COUNT(3);
-        private int constant;
+        private final int constant;
 
         private CalendarConstants(int constant) {
             this.constant = constant;
@@ -734,7 +734,7 @@ public class Constants {
         SALES_CS_HEADER("Contract Sales"),
         SALES_CS_VC("-ContractSales"),
         SALES_CS_VC_TEXTFIELD("-ContractSalesDis");
-        private String constant;
+        private final String constant;
 
         private HeaderConstants(String constant) {
             this.constant = constant;
@@ -790,7 +790,7 @@ public class Constants {
         SALES_SELECT_LEVEL_COLLAPSE("There is no level selected to collapse. Please select a level to continue."),
         DP_RESET_CRITERIA("Are you sure you want to reset the ‘Discount Projection Selections’?"),
         MESSAGE_BOX("OK");
-        private String constant;
+        private final String constant;
 
         private WindowMessagesMain(String constant) {
             this.constant = constant;
@@ -852,7 +852,7 @@ public class Constants {
         SELECT_LEVEL("Select a Level"),
         CONFIRMATION("Confirmation"),
         MESSAGE_BOX("OK");
-        private String constant;
+        private final String constant;
 
         private WindowMessagesName(String constant) {
             this.constant = constant;
@@ -904,7 +904,7 @@ public class Constants {
         MESSAGE_BOX_NO("NO"),
         MESSAGE_BOX_OK("OK"),
         MESSAGE_BOX("OK");
-        private String constant;
+        private final String constant;
 
         private WindowMessagesPopups(String constant) {
             this.constant = constant;
@@ -931,6 +931,7 @@ public class Constants {
              *
              * @return the annual count
              */
+            @Override
             public int getAnnualCount() {
                 return CalendarConstants.HISTORY_YEAR_COUNT.getConstant();
             }
@@ -941,6 +942,7 @@ public class Constants {
              * @param historyYearCount historyYearCount value
              * @return the semi-annual count
              */
+            @Override
             public int getSemiAnnualCount() {
                 return (com.stpl.ifs.ui.util.NumericConstants.TWO * CalendarConstants.HISTORY_YEAR_COUNT.getConstant()) + (CalendarConstants.CURRENT_MONTH.getConstant() / com.stpl.ifs.ui.util.NumericConstants.SIX);
             }
@@ -951,6 +953,7 @@ public class Constants {
              * @param historyYearCount historyYearCount value
              * @return the Quarterly count
              */
+            @Override
             public int getQuarterCount() {
                 return (com.stpl.ifs.ui.util.NumericConstants.FOUR * CalendarConstants.HISTORY_YEAR_COUNT.getConstant()) + (CalendarConstants.CURRENT_MONTH.getConstant() / com.stpl.ifs.ui.util.NumericConstants.THREE);
             }
@@ -961,6 +964,7 @@ public class Constants {
              * @param historyYearCount historyYearCount value
              * @return the Monthly count
              */
+            @Override
             public int getMonthCount() {
                 return (com.stpl.ifs.ui.util.NumericConstants.TWELVE * CalendarConstants.HISTORY_YEAR_COUNT.getConstant()) + (CalendarConstants.CURRENT_MONTH.getConstant());
             }
@@ -970,6 +974,7 @@ public class Constants {
              *
              * @return
              */
+            @Override
             public int getCurrentQuarter() {
                 return CalendarConstants.CURRENT_MONTH.getConstant() / com.stpl.ifs.ui.util.NumericConstants.THREE + 1;
             }
@@ -979,6 +984,7 @@ public class Constants {
              *
              * @return returns the total no. of projection periods
              */
+            @Override
             public int getProjectionYear() {
                 return CalendarConstants.CURRENT_YEAR.getConstant() + CalendarConstants.PROJECTION_YEAR_COUNT.getConstant();
             }
@@ -1076,7 +1082,7 @@ public class Constants {
         CONFIRM_DELETION_TITLE("Confirm Deletion"),
         CONFIRM_DELETION_BODY("Are you sure you want to delete record ?#?"),
         NO_RECORDS_TITLE("No Matching Records");
-        private String constant;
+        private final String constant;
 
         private MessageConstants(String constant) {
             this.constant = constant;
@@ -1099,7 +1105,7 @@ public class Constants {
 
         LENGTH_500(500),
         LENGTH_200(200);
-        private int constant;
+        private final int constant;
 
         private LengthConstants(int constant) {
             this.constant = constant;
@@ -1119,7 +1125,7 @@ public class Constants {
         SPLIT_ARROW("->"),
         SPLIT_DASH("-"),
         DOT(".");
-        private String constant;
+        private final String constant;
 
         private StringConstants(String constant) {
             this.constant = constant;
@@ -1143,7 +1149,7 @@ public class Constants {
         OPTION_GROUP_HORIZONTAL(ConstantsUtils.HORIZONTAL),
         OPTION_GROUP_WIDTH("optiongroupwidth"),
         DOT(".");
-        private String constant;
+        private final String constant;
 
         private StyleConstants(String constant) {
             this.constant = constant;
@@ -1203,7 +1209,7 @@ public class Constants {
         PROJECTION_START_DAY("projectionStartDay"),
         PROJECTION_END_DAY("projectionEndDay"),
         PROJECTED("Projected");
-        private String constant;
+        private final String constant;
 
         private ProjectionConstants(String constant) {
             this.constant = constant;
@@ -1227,7 +1233,7 @@ public class Constants {
         MMDDYYYY(MM_DD_YYYY),
         YYYYMMDDHHMMSSSSS("yyyy-MM-dd hh:mm:ss.SSS"),
         MMDDYYYYHHMMSS("MM/dd/yyyy hh:mm:ss");
-        private String constant;
+        private final String constant;
 
         private DateFormatConstants(String constant) {
             this.constant = constant;
@@ -1290,7 +1296,7 @@ public class Constants {
         ENABLE(ENABLE_LABEL),
         DISABLE(DISABLE1),
         ACTUALS("Actuals");
-        private String constant;
+        private final String constant;
 
         private CommonConstantsForChannels(String constant) {
             this.constant = constant;
@@ -1343,7 +1349,7 @@ public class Constants {
         INDICATOR_ACTUALS("ACTUALS"),
         INDICATOR_PROJECTIONS("PROJECTIONS"),
         SALES_GENERATE_CONTRACT_COUNT_JOIN("?JOINCOUNTCONTRACT?");
-        private String constant;
+        private final String constant;
 
         private FinderImplIndicators(String constant) {
             this.constant = constant;
@@ -1374,7 +1380,7 @@ public class Constants {
         EIGHT("8"),
         NINE("9"),
         ZERO("0");
-        private String constant;
+        private final String constant;
 
         private NumericConstants(String constant) {
             this.constant = constant;
@@ -1397,7 +1403,7 @@ public class Constants {
 
         SALES_GTS_CS("###,###,##0.00"),
         SALES_POB("#0.00");
-        private String constant;
+        private final String constant;
 
         private DecimalFormatConstants(String constant) {
             this.constant = constant;
@@ -1425,7 +1431,7 @@ public class Constants {
         THERAPEUTIC_CLASS("therapeuticClass"),
         PROJECTION_PERIOD_ORDER("projectionPeriodorder"),
         HISTORY("history");
-        private String constant;
+        private final String constant;
 
         private ProjectionSelectionConstants(String constant) {
             this.constant = constant;
@@ -1457,7 +1463,7 @@ public class Constants {
         /**
          * The constant.
          */
-        private String constant;
+        private final String constant;
 
         /**
          * Instantiates a new MassUpdateConstants constants.
@@ -1490,9 +1496,9 @@ public class Constants {
     /**
      * The Constant Avilable Customer Header.
      */
-    public final String[] AVAILABLE_ITEMS_HEADERS = new String[]{
+    public static final String[] AVAILABLE_ITEMS_HEADERS = new String[]{
         "", "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand Name", "Item No", "Item Name", "Item Identifier Type", "Item Identifier"};
-    public final Object[] AVAILABLE_ITEMS_VISIBLE_COLUMNS = new Object[]{
+    public static final Object[] AVAILABLE_ITEMS_VISIBLE_COLUMNS = new Object[]{
         "check", "businessUnitNo", "businessUnitName", "theraputicClass", "brand", "itemNo", "itemName", "itemIdentifierType", "itemIdentifier"};
     public static final String DEFAULT_REPLACE = "?DEFAULT";
 }

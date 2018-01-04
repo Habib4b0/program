@@ -11,12 +11,15 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractFilter;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
-import com.stpl.app.gcm.tp.ui.form.WorkFlowLookup;
+import com.stpl.app.gcm.util.Constants;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.server.BrowserWindowOpener;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
@@ -31,14 +34,13 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class AbstractContractSelectionTableLogic extends PageTableLogic {
 
-    AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
-    AbstractLogic logic = AbstractLogic.getInstance();
-    SelectionDTO selection;
-    boolean isGenerated = false;
-    boolean isSummary = false;
-    List<ItemIndexDto> selectedItemList;
-    List input;
-    List withStringinput = new ArrayList();
+    private final AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
+    private final AbstractLogic logic = AbstractLogic.getInstance();
+    private SelectionDTO selection;
+    private boolean isGenerated = false;
+    private List<ItemIndexDto> selectedItemList;
+    private List input;
+    private final List withStringinput = new ArrayList();
 
     @Override
     public int getCount() {
@@ -97,26 +99,23 @@ public class AbstractContractSelectionTableLogic extends PageTableLogic {
      * @param dto
      * @return Projection ID
      */
-    private Button addProjectionWorkFlowLink(final AbstractContractSearchDTO dto) {
-        Button projectionId = new Button(dto.getProjectionId());
+     private Button addProjectionWorkFlowLink(final AbstractContractSearchDTO dto) {
+        final Button projectionId = new Button(dto.getProjectionId());
         projectionId.setCaption(dto.getProjectionId()); // for setting revision date in excel
         projectionId.setData(dto);
         projectionId.setImmediate(true);
         projectionId.setStyleName(Reindeer.BUTTON_LINK);
-        projectionId.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
+        String furl = StringUtils.EMPTY;
+        furl = Constants.HTTP + Page.getCurrent().getLocation().getHost() + ":" + Page.getCurrent().getLocation().getPort() + Constants.WEB_WORKFLOW;
 
-                WorkFlowLookup wLookUp = new WorkFlowLookup(new SessionDTO(), dto.getProjectionId());
-                UI.getCurrent().addWindow(wLookUp);
-                wLookUp.addCloseListener(new Window.CloseListener() {
-                    @Override
-                    public void windowClose(Window.CloseEvent e) {
-                        loadSetData(selection, true, selectedItemList, input);
-                    }
-                });
-            }
-        });
+        BrowserWindowOpener opener = new BrowserWindowOpener(furl);
+        opener.setFeatures(Constants.HEIGHT_WIDTH);
+        opener.setFeatures(Constants.TOOL_BAR);
+        opener.setParameter(Constants.PROJECTION_MASTER_SID,
+                dto.getProjectionId());
+        opener.extend(projectionId);
+        JavaScript.getCurrent()
+                .execute("localStorage.setItem('" + dto.getProjectionId() + "', 'false');");
 
         return projectionId;
 

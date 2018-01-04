@@ -78,7 +78,7 @@ public class ProjectionVarianceLogic {
 
     private static final CommonDAO commonDao = new CommonDAOImpl();
     public static final Logger LOGGER = Logger.getLogger(ProjectionVarianceLogic.class);
-    private String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     /**
      * The Constant AMOUNT.
      */
@@ -105,9 +105,9 @@ public class ProjectionVarianceLogic {
     private static final String DETAIL = "Detail";
     private static final String C = "C";
     private static final String P = "P";
-    private static String CURRENT = "Current";
-    private CommonLogic commonLogic = new CommonLogic();
-    private com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils queryUtils = new com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils();
+    private static final String CURRENT = "Current";
+    private final CommonLogic commonLogic = new CommonLogic();
+    private final com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils queryUtils = new com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils();
     private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private PVSelectionDTO selectionDTO = new PVSelectionDTO();
@@ -305,7 +305,7 @@ public class ProjectionVarianceLogic {
                 if (obj[NumericConstants.TEN] == null) {
                     comparisonLookupDTO.setCreatedBy(StringUtils.EMPTY);
                 } else {
-                    comparisonLookupDTO.setCreatedBy(new Converters().getUserFLName(new Converters().convertNullToEmpty(obj[NumericConstants.TEN].toString())));
+                    comparisonLookupDTO.setCreatedBy(Converters.getUserFLName(Converters.convertNullToEmpty(obj[NumericConstants.TEN].toString())));
                 }
                 finalList.add(comparisonLookupDTO);
 
@@ -434,7 +434,7 @@ public class ProjectionVarianceLogic {
                 if (obj[NumericConstants.TEN] == null) {
                     comparisonLookupDTO.setCreatedBy(StringUtils.EMPTY);
                 } else {
-                    comparisonLookupDTO.setCreatedBy(new Converters().getUserFLName(new Converters().convertNullToEmpty(obj[NumericConstants.TEN].toString())));
+                    comparisonLookupDTO.setCreatedBy(Converters.getUserFLName(Converters.convertNullToEmpty(obj[NumericConstants.TEN].toString())));
                 }
                 if (!isProjecionId(finalList, comparisonLookupDTO)) {
                     finalList.add(comparisonLookupDTO);
@@ -1269,7 +1269,7 @@ public class ProjectionVarianceLogic {
      */
     public List<ProjectionVarianceDTO> configureLevels(int start, int offset, PVSelectionDTO projSelDTO, int maxRecord) {
 
-        CommonLogic commonLogic = new CommonLogic();
+        CommonLogic vCommonLogic = new CommonLogic();
         List<ProjectionVarianceDTO> resultList = new ArrayList<>();
         int resultStart;
         if (maxRecord == -1) {
@@ -1279,7 +1279,7 @@ public class ProjectionVarianceLogic {
         }
         if (projSelDTO.isIsCustomHierarchy()) {
 
-            String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
+            String hierarchyIndicator = vCommonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
             List<String> hierarchyNoList = getHiearchyNoForCustomView(projSelDTO, resultStart, offset);
             for (String hierarchyNo : hierarchyNoList) {
@@ -1304,6 +1304,8 @@ public class ProjectionVarianceLogic {
      *
      * @param projSelDTO
      * @param hierarchyNo
+     * @param hierarchyIndicator
+     * @param levelNo
      * @param detailsList
      * @return
      */
@@ -3359,9 +3361,8 @@ public class ProjectionVarianceLogic {
         boolean isNotFirstElement = false;
         boolean isNotFirstHierarchy = false;
         boolean isHierarchyNoNotAvailable = isHierarchyNoNotAvailable((String) list.get(0), (String) list.get(2));
-
+        int i=1;
         StringBuilder stringBuilder = new StringBuilder();
-
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if (isSameLevelHierarchyIndicator(entry, (int) list.get(1), (String) list.get(2))) {
                 if (isSplitNeeded(entry, isHierarchyNoNotAvailable, (String) list.get(0))) {
@@ -3370,11 +3371,11 @@ public class ProjectionVarianceLogic {
                     }
                     stringBuilder.append("('");
                     stringBuilder.append(entry.getKey());
-                    stringBuilder.append("')");
+                    stringBuilder.append("'," + i++ + ")");
 
                     isNotFirstElement = true;
                 } else {
-                    if (isNotFirstHierarchy) {
+                   if (isNotFirstHierarchy) {
                         stringBuilder.append(",\n");
                     }
                     stringBuilder.append(getString(entry.getKey(), Arrays.asList((String.valueOf(list.get(0))).split("\\,"))));
@@ -3386,7 +3387,7 @@ public class ProjectionVarianceLogic {
     }
 
     public boolean isSplitNeeded(Map.Entry<String, List> entry, boolean isHierarchyNoNotAvailable, String hierarchyNo) {
-        return !hierarchyNo.contains(",") && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo));
+        return !hierarchyNo.contains(",") || (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo));
     }
 
     public boolean isHierarchyNoNotAvailable(String hierarchyNo, String hierarchyIndicator) {
@@ -3399,12 +3400,12 @@ public class ProjectionVarianceLogic {
 
     public String getString(String key, List<String> hierarchyNo) {
         StringBuilder stringBuilder = new StringBuilder();
+        int i=1;
         for (String str : hierarchyNo) {
             if (key.startsWith(str.trim())) {
                 stringBuilder.append("('");
                 stringBuilder.append(key);
-                stringBuilder.append("')");
-
+                stringBuilder.append("'," + i++ + ")");
                 return stringBuilder.toString();
             }
         }

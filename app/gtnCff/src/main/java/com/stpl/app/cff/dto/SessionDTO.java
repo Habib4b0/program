@@ -12,6 +12,7 @@ import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -99,9 +100,9 @@ public class SessionDTO implements Cloneable {
     private String forecastName = StringUtils.EMPTY;
     private boolean hasTradingPartner;
     private boolean isGenerated = false;
-    private GtnSmallHashMap currentTableNames = new GtnSmallHashMap();
+    private final GtnSmallHashMap currentTableNames = new GtnSmallHashMap();
     private String screenName = StringUtils.EMPTY;
-    private Map<String, List> hierarchyLevelDetails = new HashMap<>();
+    private final Map<String, List> hierarchyLevelDetails = new LinkedHashMap<>();
     private Map<Integer, List<Leveldto>> customHierarchyMap = new HashMap<>();
     private int customId;
     private Map<Integer, List<CffCustomViewDetails>> customDetailMap = new HashMap<>();
@@ -719,6 +720,7 @@ public class SessionDTO implements Cloneable {
     
     
 
+    @Override
     public SessionDTO clone() throws CloneNotSupportedException {
         SessionDTO sessiondto = (SessionDTO) super.clone();
         return sessiondto;

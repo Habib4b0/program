@@ -20,8 +20,8 @@ import org.vaadin.addons.lazycontainer.SearchCriteria;
  */
 public class ItemSearchDAO implements DAO<ContractsDetailsDto> {
 
-    DiscountLogic logic = new DiscountLogic();
-    ContractsDetailsDto removeDiscountDto = new ContractsDetailsDto();
+    private DiscountLogic logic = new DiscountLogic();
+    private ContractsDetailsDto removeDiscountDto = new ContractsDetailsDto();
     private static final Logger LOGGER = Logger.getLogger(ItemSearchDAO.class);
 
     public ItemSearchDAO() {

@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -1528,7 +1529,9 @@ public class DataSelection extends ForecastDataSelection {
 		String levelName = Constant.LEVEL_LABEL;
 
 		try {
-			customerFuture.get();
+			if (!isFirstTimeLoad() && customerFuture != null) {
+				customerFuture.get();
+			}
 			int forecastLevel = 0;
 			if (value != null && customerRelationComboBox.getValue() != null
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
@@ -1622,6 +1625,7 @@ public class DataSelection extends ForecastDataSelection {
 					customerFuture = checkAndDoAutomaticUpdate(customerRelationComboBox.getValue(),
 							customerHierarchyDto.getHierarchyId());
 				}
+				loadCustomerVersionNo(customerRelationComboBox.getValue());
 			} catch (Exception ex) {
 
 				LOGGER.error(ex + " in customerRelation value change");
@@ -1674,6 +1678,7 @@ public class DataSelection extends ForecastDataSelection {
 					productDescriptionMap = relationLogic.getLevelValueMap(String.valueOf(productRelation.getValue()),
 							productHierarchyDto.getHierarchyId(), hierarchyVersionNo, relationVersionNo);
 				}
+				loadProductVersionNo(productRelation.getValue());
 			} catch (NumberFormatException ex) {
 				LOGGER.error(ex + " in productRelation value change");
 			}
@@ -1766,7 +1771,9 @@ public class DataSelection extends ForecastDataSelection {
 			List<Leveldto> resultedLevelsList;
 			if (selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel)
 					&& !SELECT_ONE.equals(selectedLevel)) {
-				productFuture.get();
+				if (!firstTimeLoad && productFuture != null) {
+					productFuture.get();
+				}
 				int relationVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
@@ -4249,9 +4256,10 @@ public class DataSelection extends ForecastDataSelection {
 				new Future[] {
 						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROJECTION_DETAILS_INSERT,
 								selectionDTO.getProjectionId(), session.getCurrentTableNames(), Boolean.TRUE)) });
-		session.setHierarchyLevelDetails(new HashMap<String, List>());
+		session.setHierarchyLevelDetails(new LinkedHashMap<String, List>());
 		session.setCustomerLevelDetails(dsLogic.getLevelValueDetails(session, selectionDTO.getCustRelationshipBuilderSid(), true));
 		session.setProductLevelDetails(dsLogic.getLevelValueDetails(session, selectionDTO.getProdRelationshipBuilderSid(), false));
+
 	}
 
 	/**

@@ -8,7 +8,6 @@ package com.stpl.app.gcm.discount.ui.form;
 
 import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonUtil;
-import com.stpl.app.gcm.common.QueryUtils;
 import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import com.stpl.app.gcm.discount.logic.DiscountLogic;
 import com.stpl.app.gcm.discount.logic.RebateTableLogic;
@@ -76,7 +75,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     @UiField("marketType")
     public ComboBox marketType;
     @UiField(Constants.CONTRACT_HOLDER)
-    public CustomTextField cntHolder;
+    public CustomTextField contractHolder;
     @UiField("cfpName")
     public CustomTextField cfpName;
     @UiField("contractNo")
@@ -113,16 +112,16 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     public Button addBtn;
     @UiField("searchBtn")
     public Button searchBtn;
-    RebateTableLogic tableLogic = new RebateTableLogic();
+    private final RebateTableLogic tableLogic = new RebateTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    final List<RemoveDiscountDto> selecteditemList = new ArrayList<>();
+    private final List<RemoveDiscountDto> selecteditemList = new ArrayList<>();
     private static final Logger LOGGER = Logger.getLogger(RemoveDiscountIndex.class);
     public String screenName = StringUtils.EMPTY;
     /* The bean used to load Start Period */
     final private BeanItemContainer<String> marketTypeBean = new BeanItemContainer<>(String.class);
-    DiscountLogic discountLogic = new DiscountLogic();
-    RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    private final DiscountLogic discountLogic = new DiscountLogic();
+    private final RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
     public boolean checkAllFlag = false;
     /**
      * Binder for DataSelection.
@@ -132,12 +131,6 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
      * Bean container for result table.
      */
     private final BeanItemContainer<RemoveDiscountDto> resultsContainer = new BeanItemContainer<>(RemoveDiscountDto.class);
-
-    /**
-     * The results lazy container.
-     */
-    QueryUtils queryUtils = new QueryUtils();
-    List<String> marketTypeList = new ArrayList<>();
 
     public RemoveDiscountIndex(String screenName, SessionDTO session) {
         this.screenName = screenName;
@@ -584,15 +577,15 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
      * @param event the event
      */
     @UiHandler(Constants.CONTRACT_HOLDER)
-    public void contractHolder(CustomTextField.ClickEvent event) {
+    public void contractHolderLookup(CustomTextField.ClickEvent event) {
         LOGGER.debug("Entered contractHolder method");
-        ComponentLookUp chHolder = new ComponentLookUp("Contract Holder", "Contract Holder Lookup", cntHolder);
+        ComponentLookUp chHolder = new ComponentLookUp("Contract Holder", "Contract Holder Lookup", contractHolder);
         chHolder.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-                if (cntHolder.getData() != null) {
-                    ComponentLookUpDTO object = (ComponentLookUpDTO) cntHolder.getData();
-                    cntHolder.setValue(object.getComponentName());
+                if (contractHolder.getData() != null) {
+                    ComponentLookUpDTO object = (ComponentLookUpDTO) contractHolder.getData();
+                    contractHolder.setValue(object.getComponentName());
                 }
             }
         });

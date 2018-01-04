@@ -27,9 +27,9 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
     private PVSelectionDTO pvSelectionDTO;
     private ProjectionSelectionDTO sprProjectionDTO;
     private static final String ZERO = "0";
-    private boolean detailFlag;
-    private boolean prFlag = false;
-    private boolean sprFlag=false;
+    private final boolean detailFlag;
+    private final boolean prFlag = false;
+    private final boolean sprFlag=false;
     private boolean pvFlag=false;
     public boolean mmDprFlag = false;
     public static final String CUSTOM = "Custom";

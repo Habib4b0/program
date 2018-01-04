@@ -18,11 +18,11 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class LookUpTableLogic extends PageTableLogic {
 
-    LookupDTO binderDto = new LookupDTO();
-    LookUpLogic logic = new LookUpLogic();
-    boolean generate = false;
-    CustomFieldGroup discountChBinder;
-    String moduleName;
+    private final LookupDTO binderDto = new LookupDTO();
+    private final LookUpLogic logic = new LookUpLogic();
+    private boolean generate = false;
+    private CustomFieldGroup discountChBinder;
+    private String moduleName;
 
     /**
      * Record count logic

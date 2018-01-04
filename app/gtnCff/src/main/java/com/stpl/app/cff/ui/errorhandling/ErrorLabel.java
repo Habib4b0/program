@@ -32,6 +32,7 @@ public class ErrorLabel extends Label implements ErrorDisplay {
 	 *            the new error
 	 * @see com.stpl.app.ui.errorhandling.ErrorDisplay#setError(java.lang.String)
 	 */
+        @Override
 	public void setError(final String error) {
 		try {
 			LOGGER.debug("Entering setError ");
@@ -49,6 +50,7 @@ public class ErrorLabel extends Label implements ErrorDisplay {
 	 *
 	 * @see com.stpl.app.ui.errorhandling.ErrorDisplay#clearError()
 	 */
+        @Override
 	public void clearError() {
 		try {
 			LOGGER.debug("Entering clearError ");

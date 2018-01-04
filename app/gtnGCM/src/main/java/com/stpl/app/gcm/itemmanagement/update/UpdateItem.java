@@ -28,18 +28,18 @@ public class UpdateItem extends CustomComponent {
     /**
      * the Main Layout
      */
-    VerticalLayout mainLayout = new VerticalLayout();
+    private VerticalLayout mainLayout = new VerticalLayout();
     /**
      * the Update Item Search
      */
-    UpdateItemSearch contractSearch;
+    private UpdateItemSearch contractSearch;
     /**
      * the Selection DTO
      */
-    SelectionDTO selection;
-    List selectedItemList;
-    AbstractComponentInfo componentDetails;
-    AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
+   private SelectionDTO selection;
+   private List selectedItemList;
+   private AbstractComponentInfo componentDetails;
+   private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
 
     public UpdateItem(SelectionDTO selection, List selectedItemList) {
         try {

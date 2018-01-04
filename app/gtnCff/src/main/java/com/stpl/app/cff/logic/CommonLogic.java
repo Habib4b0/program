@@ -97,7 +97,7 @@ public class CommonLogic {
     public static final String BUILDERSID = "@BUILDERSID";
     public static final String EACH = "EACH";
     
-    private static GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
+    private static final GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
 
     /**
      * Get Customer Hierarchy
@@ -458,9 +458,7 @@ public class CommonLogic {
         if (customViewMasterSid != 0) {
             try {
                 cvm = commonDao.getCustomView(customViewMasterSid);
-            } catch (SystemException ex) {
-                LOGGER.error(ex);
-            } catch (PortalException ex) {
+            } catch (SystemException | PortalException ex) {
                 LOGGER.error(ex);
             }
         }
@@ -1740,9 +1738,7 @@ public class CommonLogic {
 
             LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return helperList;
@@ -2542,6 +2538,7 @@ public class CommonLogic {
 
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
+        int i=1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if (Integer.valueOf(entry.getValue().get(NumericConstants.TWO).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(NumericConstants.FOUR).toString()) 
                     && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
@@ -2551,7 +2548,7 @@ public class CommonLogic {
                     }
                     stringBuilder.append("('");
                     stringBuilder.append(entry.getKey());
-                    stringBuilder.append("')");
+                    stringBuilder.append("'," + i++ + ")");
 
                     isNotFirstElement = true;
             }
@@ -3055,9 +3052,7 @@ public class CommonLogic {
             return stockList;
 
 
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return stockList;
@@ -3102,9 +3097,7 @@ public class CommonLogic {
             stockList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query,projectionDto.getSessionDTO().getCurrentTableNames()));
             return stockList;
 
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return stockList;
@@ -3182,9 +3175,7 @@ public class CommonLogic {
             
             deductionValuesList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(),projectionDto.getSessionDTO().getCurrentTableNames()));
 
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return deductionValuesList;
@@ -3290,9 +3281,7 @@ public class CommonLogic {
             LOGGER.debug("projectionId " + projectionId);
             String levelQuery = SQlUtil.getQuery("deduction-loading").replace("@PROJID", String.valueOf(projectionId));
             deductionList = (List<String[]>) salesProjectionDAO.executeSelectQuery(levelQuery);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return deductionList;

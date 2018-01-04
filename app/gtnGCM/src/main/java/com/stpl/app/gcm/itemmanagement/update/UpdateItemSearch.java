@@ -33,7 +33,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class UpdateItemSearch extends AbstractContractSearch {
 
-    SelectionDTO selectionDto = new SelectionDTO();
+    private SelectionDTO selectionDto = new SelectionDTO();
 
     public UpdateItemSearch(SelectionDTO selection, List selectedItemList) {
         super(selection, selectedItemList);
