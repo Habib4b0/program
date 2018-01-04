@@ -75,7 +75,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     @UiField("marketType")
     public ComboBox marketType;
     @UiField(Constants.CONTRACT_HOLDER)
-    public CustomTextField cntHolder;
+    public CustomTextField contractHolder;
     @UiField("cfpName")
     public CustomTextField cfpName;
     @UiField("contractNo")
@@ -577,15 +577,15 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
      * @param event the event
      */
     @UiHandler(Constants.CONTRACT_HOLDER)
-    public void contractHolder(CustomTextField.ClickEvent event) {
+    public void contractHolderLookup(CustomTextField.ClickEvent event) {
         LOGGER.debug("Entered contractHolder method");
-        ComponentLookUp chHolder = new ComponentLookUp("Contract Holder", "Contract Holder Lookup", cntHolder);
+        ComponentLookUp chHolder = new ComponentLookUp("Contract Holder", "Contract Holder Lookup", contractHolder);
         chHolder.addCloseListener(new Window.CloseListener() {
             @Override
             public void windowClose(Window.CloseEvent e) {
-                if (cntHolder.getData() != null) {
-                    ComponentLookUpDTO object = (ComponentLookUpDTO) cntHolder.getData();
-                    cntHolder.setValue(object.getComponentName());
+                if (contractHolder.getData() != null) {
+                    ComponentLookUpDTO object = (ComponentLookUpDTO) contractHolder.getData();
+                    contractHolder.setValue(object.getComponentName());
                 }
             }
         });

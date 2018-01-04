@@ -92,11 +92,13 @@ public class GtnUIFrameWorkTransactioneRecordTypeAction implements GtnUIFrameWor
 
 	private Object setFormatter(Object propertyId, Object value,
 			GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
-		String decimalFormatPattern = componentBean.getFormatterMap(propertyId.toString());
-		if (decimalFormatPattern != null) {
-			DecimalFormat decimalFormat = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
-			decimalFormat.applyPattern(decimalFormatPattern);
-			return formatPercentValue(decimalFormat, value);
+		if (componentBean.getFormatterMap() != null) {
+			String decimalFormatPattern = componentBean.getFormatterMap(propertyId.toString());
+			if (decimalFormatPattern != null) {
+				DecimalFormat decimalFormat = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
+				decimalFormat.applyPattern(decimalFormatPattern);
+				return formatPercentValue(decimalFormat, value);
+			}
 		}
 		return value;
 	}
