@@ -41,7 +41,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -67,7 +68,7 @@ public class AlternateHistoryLogic {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(AlternateHistoryLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AlternateHistoryLogic.class);
 
     public int companySearchCount(AlternateHistoryDTO altHistoryDTO, 
             Set<Container.Filter> filters,SessionDTO session)  {
@@ -178,7 +179,7 @@ public class AlternateHistoryLogic {
         String query = queryUtils.companyValues(parameters, start, offset,  session);
             list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         }catch(Exception e){
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return getCustomizedDTO(list);
     }
@@ -374,7 +375,7 @@ public class AlternateHistoryLogic {
                 list.clear();
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return itemsList;
@@ -764,7 +765,7 @@ public class AlternateHistoryLogic {
         }
         
         } catch (Exception e) {
-           LOGGER.error(e);
+           LOGGER.error(e.getMessage());
         }
         return actualsList;
 
@@ -1071,14 +1072,14 @@ public class AlternateHistoryLogic {
                 statement.execute();
             }
         } catch (NumberFormatException | SQLException | NamingException ex) {            
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return false;
         } finally {
             try {
                 statement.close();
                 connection.close();
             } catch (SQLException e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
             }
         }
         return true;
@@ -1387,7 +1388,7 @@ public class AlternateHistoryLogic {
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
             return true;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return false;
         }
 
@@ -1455,7 +1456,7 @@ public class AlternateHistoryLogic {
             }
             return queryUtils.insertOrUpdate_customerSelection(session, parameters,value);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return false;
         }
 

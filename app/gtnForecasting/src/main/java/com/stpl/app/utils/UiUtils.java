@@ -46,6 +46,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Contains the common methods which are used to build the UI
@@ -57,7 +59,7 @@ public class UiUtils {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(UiUtils.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UiUtils.class);
 
 	/**
 	 * Object for resource bundle

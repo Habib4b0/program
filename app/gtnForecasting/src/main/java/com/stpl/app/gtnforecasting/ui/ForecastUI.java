@@ -1,5 +1,6 @@
 package com.stpl.app.gtnforecasting.ui;
 
+import com.liferay.portal.kernel.util.JavaConstants;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.ui.view.AccrualRateProjectionView;
 import com.stpl.app.gtnforecasting.bpm.persistance.WorkflowPersistance;
@@ -25,7 +26,6 @@ import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getReturnsConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.liferay.portal.kernel.util.JavaConstants;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
@@ -45,13 +45,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.alump.beforeunload.BeforeUnload;
 
 // TODO: Auto-generated Javadoc
@@ -64,10 +65,10 @@ import org.vaadin.alump.beforeunload.BeforeUnload;
 @Theme("stpl")
 @Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet")
 @Component(service = UI.class, property = {
-        "com.liferay.portlet.display-category=Forecast and Planning",
-        "javax.portlet.name=Commercial",
-        "javax.portlet.display-name=Commercial",
-        "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
+    "com.liferay.portlet.display-category=Forecast and Planning",
+    "javax.portlet.name=Commercial",
+    "javax.portlet.display-name=Commercial",
+    "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class ForecastUI extends UI {
 
     /**
@@ -86,15 +87,14 @@ public class ForecastUI extends UI {
     /**
      * Logger
      */
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ForecastUI.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ForecastUI.class);
 
     public static boolean EXCEL_CLOSE = false;
 
     /**
      * This method is used to register the navigations for different views.
      *
-	 * @param request
-	 *            the request
+     * @param request the request
      */
     @Override
     protected void init(VaadinRequest request) {
@@ -118,13 +118,13 @@ public class ForecastUI extends UI {
             Collection<Object> userGroupId = stplSecurity.getUserGroupId(Long.parseLong(userId));
             VaadinSession.getCurrent().setAttribute("businessRoleIds", stplSecurity.getBusinessRoleIds(userGroupId));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
         try {
             DataSelectionUtil.mapUsers();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         pageParameters = Page.getCurrent().getLocation().getQuery();
         String projectionId = null;
@@ -198,7 +198,7 @@ public class ForecastUI extends UI {
                                 temp.getProductHierVersionNo(), temp.getProjectionProdVersionNo()));
                 projectionName = temp.getProjectionName();
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
             sessionDto.setWorkflowId(Integer.valueOf(workflowId));
             sessionDto.setWorkflowStatus(workflowStatus);
@@ -240,11 +240,11 @@ public class ForecastUI extends UI {
 
                         Map<String, String> tempCustomerDescriptionMap;
                         Map<String, String> tempProductDescriptionMap;
-                                                int custHierarchyVersionNo = temp!=null ? temp.getCustomerHierVersionNo() : 0;
+                        int custHierarchyVersionNo = temp != null ? temp.getCustomerHierVersionNo() : 0;
                         tempCustomerDescriptionMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
                                 Integer.parseInt(dto.getCustomerHierSid()), custHierarchyVersionNo,
                                 dto.getCustomerRelationShipVersionNo());
-                                                int prodHierarchyVersionNo = temp!=null ? temp.getProductHierVersionNo() : 0;   
+                        int prodHierarchyVersionNo = temp != null ? temp.getProductHierVersionNo() : 0;
                         tempProductDescriptionMap = relationLogic.getLevelValueMap(dto.getProdRelationshipBuilderSid(),
                                 Integer.parseInt(dto.getProdHierSid()), prodHierarchyVersionNo,
                                 dto.getProductRelationShipVersionNo());
@@ -313,7 +313,7 @@ public class ForecastUI extends UI {
 
                 }
             } catch (Exception ex) {
-                Logger.getLogger(ForecastUI.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(ForecastUI.class.getName()).error(StringUtils.EMPTY, ex);
             }
         }
 
@@ -331,7 +331,7 @@ public class ForecastUI extends UI {
 //            serviec.submit(new BPMJob());
             if (projectionId != null
                     && !CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
-				getUI().getNavigator().navigateTo(ForecastWorkflowView.NAME + "/" + pageParameters);
+                getUI().getNavigator().navigateTo(ForecastWorkflowView.NAME + "/" + pageParameters);
             } else if (projectionId != null
                     && CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
                 getUI().getNavigator().navigateTo(AccrualRateProjectionView.ARP_VIEW + "/" + pageParameters);
@@ -341,19 +341,18 @@ public class ForecastUI extends UI {
                 navigator.setErrorView(view);
             }
         } catch (Exception ex) {
-            Logger.getLogger(ForecastUI.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(ForecastUI.class.getName()).error(StringUtils.EMPTY, ex);
         }
 
         // Configure the error handler for the UI
-           UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             @Override
             public void error(com.vaadin.server.ErrorEvent event) {
-				LOGGER.error(event.getThrowable());
+                LOGGER.error("Error catched in UI ", event.getThrowable());
             }
         });
-        
-    }
 
+    }
 
     /**
      * Used to invalidate the session

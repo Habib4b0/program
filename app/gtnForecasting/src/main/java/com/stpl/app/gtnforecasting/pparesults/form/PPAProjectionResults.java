@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.pparesults.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -40,8 +42,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
@@ -56,8 +56,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
@@ -71,14 +69,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -96,7 +97,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PPAProjectionResults.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionResults.class);
     /**
      * The frequency.
      */
@@ -256,7 +257,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
             try {
                 levelFilterDdlbChangeOption(false);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
     };
@@ -369,7 +370,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                     try {
                         groupChange(true);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
                 }
             });
@@ -379,7 +380,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
 
         } catch (PortalException | SystemException | Property.ReadOnlyException | NumberFormatException | UnsupportedOperationException ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -465,7 +466,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
             }
             LOGGER.debug("End of Generate Button Click");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         generated = false;
     }
@@ -732,7 +733,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                     session.setCustomerViewList(customViewList);
                     loadCustomDDLB();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             }
         });
@@ -757,7 +758,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                     session.setCustomerViewList(customViewList);
                         loadCustomDDLB();
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
                 }
             });
@@ -776,7 +777,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         try {
             viewChange(true);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("viewChangeOption ValueChangeEvent ends ");
     }
@@ -816,7 +817,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                             isGenerated = Boolean.FALSE;
                             generateButtonLogic();
                         } catch (Exception ex) {
-                            java.util.logging.Logger.getLogger(PPAProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
+                            LoggerFactory.getLogger(PPAProjectionResults.class.getName()).error( StringUtils.EMPTY, ex);
                         }
                     }
                 } else if (Constant.PRODUCT_LABEL.equals(String.valueOf(view.getValue()))) {
@@ -828,7 +829,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                         try {
                             generateButtonLogic();
                         } catch (Exception ex) {
-                            java.util.logging.Logger.getLogger(PPAProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
+                            LoggerFactory.getLogger(PPAProjectionResults.class.getName()).error( StringUtils.EMPTY, ex);
                         }
                     }
                 }
@@ -899,7 +900,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                 isGenerated = Boolean.FALSE;
                 generateButtonLogic();
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         if ("null".equals(String.valueOf(customDdlb.getValue()))) {
@@ -1006,7 +1007,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
             loadDataToContainer(levelList, dto, true, maxLevelNo);           
             excelTable.setCollapsed(dto, false);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1073,7 +1074,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
             loadDataToContainer(resultList, null, Boolean.TRUE, maxLevelNo);
         } catch (Exception ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1159,7 +1160,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
                 ppaDetailsLookup = new PPADetailsLookup(projectionId, session);
                 UI.getCurrent().addWindow(ppaDetailsLookup);
             } catch (IllegalArgumentException | NullPointerException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         ppaDetailsLookup.addCloseListener(new Window.CloseListener() {
@@ -1207,7 +1208,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
             export.export();
             verticalLayout.removeComponent(excelTable);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

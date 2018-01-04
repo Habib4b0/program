@@ -11,14 +11,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -66,7 +67,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(ForecastDataSelection.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ForecastDataSelection.class);
 	/**
 	 * The mode.
 	 */
@@ -679,7 +680,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 						}
 						resetFlag = false;
 					} catch (Exception ex) {
-						LOGGER.error(ex + " in modeOption ValueChangeListener ");
+						LOGGER.error(ex.getMessage() + " in modeOption ValueChangeListener ");
 					}
 				}
 
@@ -711,7 +712,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			productGroup.setImmediate(true);
 			addValidations();
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		LOGGER.debug("configureFields ENDS---");
 	}
@@ -956,7 +957,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 					dismantleProductSelection = true;
 					resetButtonLogic();
 				} catch (Exception ex) {
-					LOGGER.error(ex + " - in resetBtn");
+					LOGGER.error(ex.getMessage() + " - in resetBtn");
 				}
 			}
 		}.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default values?");
@@ -1551,7 +1552,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 				try {
 					customerHierarchyLookUp();
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
+					LoggerFactory.getLogger(ForecastDataSelection.class.getName()).error(StringUtils.EMPTY,
 							ex);
 				}
 			}
@@ -1648,13 +1649,13 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 				try {
 					productHierarchyLookUp();
 				} catch (InstantiationException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
+					LoggerFactory.getLogger(ForecastDataSelection.class.getName()).error(StringUtils.EMPTY,
 							ex);
 				} catch (IllegalAccessException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
+					LoggerFactory.getLogger(ForecastDataSelection.class.getName()).error(StringUtils.EMPTY,
 							ex);
 				} catch (ClassNotFoundException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
+					LoggerFactory.getLogger(ForecastDataSelection.class.getName()).error(StringUtils.EMPTY,
 							ex);
 				}
 			}

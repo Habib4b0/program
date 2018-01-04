@@ -44,7 +44,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -52,7 +53,7 @@ import org.jboss.logging.Logger;
  */
 public class ReturnsProjection extends ForecastSalesProjection {
 
-    private static final Logger LOGGER = Logger.getLogger(ReturnsProjection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReturnsProjection.class);
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
 
     public ReturnsProjection(SessionDTO session, String screenName) throws Exception  {
@@ -151,7 +152,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
                 exp.export();
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("excelExportLogic ends ");
     }
@@ -176,7 +177,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
         try {
             calculateButtonLogic();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -196,7 +197,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
             checkAllCheckBox();
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("generate button click listener ends ");
     }
@@ -244,7 +245,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -364,7 +365,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
         try {
             salesLogic.saveReturnsSalesProjection(projectionDTO.getSessionDTO());
         } catch (PortalException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
     }
@@ -379,7 +380,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
             map.put(Constant.PERIOD_ORDER, proPeriodOrd.getValue().toString());
             sprCommonLogic.saveReturnsSPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("saveSPSave method ends");
     }

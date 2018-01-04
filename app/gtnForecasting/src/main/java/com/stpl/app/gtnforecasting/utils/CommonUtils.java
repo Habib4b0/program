@@ -5,6 +5,16 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.NoSuchUserException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
@@ -17,6 +27,7 @@ import static com.stpl.app.gtnforecasting.utils.CommonUtils.getStartMonth;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.ZERO;
 import com.stpl.app.model.ForecastConfig;
+import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.ANNUALLY;
 import com.stpl.app.serviceUtils.ConstantsUtils;
@@ -51,17 +62,6 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.GlobalConstants;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.NoSuchUserException;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinPortletService;
 import com.vaadin.shared.Position;
@@ -93,12 +93,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
-import java.util.logging.Level;
+
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletSession;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.inflater.filter.AttributeFilter;
 
@@ -113,7 +114,7 @@ public class CommonUtils {
     /**
      * The log.
      */
-    private static final Logger LOGGER = Logger.getLogger(CommonUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtils.class);
     /**
      * The Constant historyBean.
      */
@@ -390,7 +391,7 @@ public class CommonUtils {
         try {
             dateTime = getDateTime(DATE_FORMAT.getConstant(), date);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return dateTime;
     }
@@ -412,7 +413,7 @@ public class CommonUtils {
                 returnValue = dateFormat.format(date);
             }
         } catch (Exception ex) {
-            LOGGER.debug(ex);
+            LOGGER.error(StringUtils.EMPTY,ex);
         }
         return returnValue;
     }
@@ -502,12 +503,12 @@ public class CommonUtils {
             LOGGER.debug("createClara method ends");
             return Clara.create(xml, controller, attributeFilters);
         } catch (IOException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             try {
                 xml.close();
             } catch (IOException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return null;
@@ -605,7 +606,7 @@ public class CommonUtils {
         try {
             businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, GlobalConstants.getCommercialConstant());
         } catch (PortalException | SystemException ex) {
-            java.util.logging.Logger.getLogger(CommonUtils.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(CommonUtils.class.getName()).error( StringUtils.EMPTY, ex);
         }
         DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq("businessProcessType", businessProcessType));
@@ -613,7 +614,7 @@ public class CommonUtils {
         try {
             resultList = dataSelectionDao.getForecastConfig(dynamicQuery);
         } catch (SystemException ex) {
-            java.util.logging.Logger.getLogger(CommonUtils.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(CommonUtils.class.getName()).error( StringUtils.EMPTY, ex);
         }
         ForecastConfig forecastConfig = null;
         if (resultList != null && !resultList.isEmpty()) {
@@ -1199,7 +1200,7 @@ public class CommonUtils {
         try {
             loggedUserDetails = UserLocalServiceUtil.getUser(Long.valueOf(userId));
         } catch (NoSuchUserException noSuchUserException) {
-            LOGGER.error(noSuchUserException);
+            LOGGER.error(StringUtils.EMPTY,noSuchUserException);
             loggedUserDetails = null;
         }
 
@@ -1357,7 +1358,7 @@ public class CommonUtils {
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return userMap;
     }
@@ -1390,7 +1391,7 @@ public class CommonUtils {
                 userMap.put(String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]), String.valueOf(array[0]));
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return userMap;
     }
@@ -1411,7 +1412,7 @@ public class CommonUtils {
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[1]));
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return userMap;
     }
@@ -1586,7 +1587,7 @@ public class CommonUtils {
             cal.setTime(date);
             monthNumber = cal.get(Calendar.MONTH) + 1;
         } catch (ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return monthNumber;
     }
@@ -1604,7 +1605,7 @@ public class CommonUtils {
             String[] months = dateFormatSymbols.getShortMonths();
             monthName = months[monthNo - 1];
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return monthName;
     }

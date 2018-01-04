@@ -1,23 +1,24 @@
 package com.stpl.app.gtnforecasting.lazyload;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.AssumptionPVDTO;
 import com.stpl.app.gtnforecasting.logic.AssumptionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
 import java.util.ArrayList;
 import java.util.List;
-import org.asi.ui.extfilteringtable.freezetable.FreezePagedFilterTable;
-import org.jboss.logging.Logger;
 import org.asi.ui.addons.lazycontainer.DAO;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
+import org.asi.ui.extfilteringtable.freezetable.FreezePagedFilterTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AssumptionPVSContainer  implements DAO<AssumptionPVDTO> {
 
-    private static final Logger LOGGER = org.jboss.logging.Logger.getLogger(AssumptionPVSContainer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AssumptionPVSContainer.class);
     private final FreezePagedFilterTable table;
     private final BeanItemContainer<AssumptionPVDTO> saveContainer;
     private final AssumptionLogic logic=new AssumptionLogic();
@@ -54,7 +55,7 @@ public class AssumptionPVSContainer  implements DAO<AssumptionPVDTO> {
             }
             resultList = logic.getPVSResult(session, pageLength*currentPage,currentPage*pageLength+offset);
         } catch (SystemException | PortalException ex) {
-           LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         return resultList;
     }

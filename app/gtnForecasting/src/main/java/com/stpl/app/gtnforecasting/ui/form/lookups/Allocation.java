@@ -40,7 +40,6 @@ import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.DefaultFieldFactory;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextField;
@@ -60,11 +59,13 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -146,7 +147,7 @@ public class Allocation extends CustomComponent implements View {
     
     private String changedProperty = StringUtils.EMPTY;
     
-    private static final Logger LOGGER = Logger.getLogger(Allocation.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Allocation.class);
     private  final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private ExtCustomTable exportTable;
     private String excelName = "All Item Information";
@@ -160,7 +161,7 @@ public class Allocation extends CustomComponent implements View {
             this.session = session;
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/allocation.xml"), this));
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -172,7 +173,7 @@ public class Allocation extends CustomComponent implements View {
             configureDetailsTable();
             configureTable();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -349,7 +350,7 @@ public class Allocation extends CustomComponent implements View {
                                 try {
                                      logic.check_available_allocationTab(dto, session, check.getValue() ? 1 : 0, start_stamp, end_stamp);
                                 } catch (Exception ex) {
-                                    LOGGER.error(ex);
+                                    LOGGER.error(ex.getMessage());
                                 }
                             }
                         });
@@ -448,7 +449,7 @@ public class Allocation extends CustomComponent implements View {
                     }
                     
                 } catch (Property.ReadOnlyException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
 
                 return null;
@@ -556,7 +557,7 @@ public class Allocation extends CustomComponent implements View {
                             try {
                                 logic.check_selected_allocationTab(dto, session, check.getValue() ? 1 : 0, start_stamp, end_stamp);
                             } catch (Exception ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
 
                             }
                         }
@@ -651,7 +652,7 @@ public class Allocation extends CustomComponent implements View {
             tableLogic.loadSetData(altDto, session, false);
             tableDetLogic.loadSetData(altDto, session, true);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("Ending addBtnClick");
     }
@@ -675,7 +676,7 @@ public class Allocation extends CustomComponent implements View {
             altDto.setReset(true);
             tableDetLogic.loadSetData(altDto, session, true);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("Ending removeBtnClick");
     }

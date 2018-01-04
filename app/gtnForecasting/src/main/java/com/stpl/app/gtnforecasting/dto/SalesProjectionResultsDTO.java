@@ -272,7 +272,7 @@ public class SalesProjectionResultsDTO extends ExtMapDTO implements Comparator<S
                 }
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
         

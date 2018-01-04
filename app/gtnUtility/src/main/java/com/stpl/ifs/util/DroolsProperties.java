@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class DroolsProperties {
@@ -15,7 +17,7 @@ public class DroolsProperties {
     private static Properties cffProperties = new Properties();
     private static boolean isPrinted = false;
 
-    private static final org.jboss.logging.Logger logger = org.jboss.logging.Logger.getLogger(DroolsProperties.class);
+    private static final Logger logger = LoggerFactory.getLogger(DroolsProperties.class);
 
     /**
      * method will return properties class

@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.projectionvariance.form.lookup;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastPVComparisonLookup;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
@@ -16,11 +18,8 @@ import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.data.Property;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -30,8 +29,10 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -47,7 +48,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
     /**
      * Logger
      */
-    private static final Logger LOGGER = Logger.getLogger(NMComparisonLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NMComparisonLookup.class);
     /**
      * Screen Name
      */
@@ -81,7 +82,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
             workFlowStatus.setNullSelectionAllowed(true);
             workFlowStatus.setNullSelectionItemId(SELECT_ONE);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -147,7 +148,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.info("Ending searchBtnLogic");
     }

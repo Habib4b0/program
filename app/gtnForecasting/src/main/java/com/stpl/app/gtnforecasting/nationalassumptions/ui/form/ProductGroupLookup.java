@@ -28,7 +28,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -47,7 +48,7 @@ public class ProductGroupLookup extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ProductGroupLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductGroupLookup.class);
 
     /**
      * The product group name.
@@ -256,7 +257,7 @@ public class ProductGroupLookup extends Window {
                 resetTable.setVisible(false);
             }
         } catch (PortalException | SystemException system) {
-            LOGGER.error(system);
+            LOGGER.error(StringUtils.EMPTY,system);
         }
 
         LOGGER.debug("ConfigureFields Methood Ended");
@@ -283,7 +284,7 @@ public class ProductGroupLookup extends Window {
 
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("searchButtonOnClick Methood Started");
     }

@@ -16,10 +16,10 @@ import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.utils.Constants;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
-import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -47,7 +47,6 @@ import com.vaadin.v7.data.validator.StringLengthValidator;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
@@ -65,11 +64,13 @@ import java.util.Map;
 import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -83,7 +84,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(DataSelectionIndex.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionIndex.class);
     /**
      * The mode option.
      */
@@ -592,7 +593,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                 deleteBtn.setVisible(false);
             }
         } catch (PortalException | SystemException system) {
-            LOGGER.error(system);
+            LOGGER.error(StringUtils.EMPTY,system);
         }
 
     }
@@ -892,7 +893,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                     try {
                         dataSelectionBinder.commit();
                     } catch (FieldGroup.CommitException e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                     }
                     Object[] values = {projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue(), companyValueId == null ? 0 : companyValueId,
                         thearupeticValueId, productGroupId,String.valueOf(businessUnit.getValue())};
@@ -927,7 +928,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
             }
             LOGGER.debug("GenerateBtn ClickEvent ends");
         } catch (NumberFormatException | SQLException | NamingException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
     }
@@ -963,7 +964,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
             LOGGER.debug("Add or Search option value change listener ends");
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -1026,7 +1027,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                 LOGGER.debug("deleteButtonClickLogic ends");
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
     }
@@ -1050,14 +1051,14 @@ public class DataSelectionIndex extends CustomComponent implements View {
                 try {
                     dataSelectionBinder.commit();
                 } catch (FieldGroup.CommitException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
                 Object[] values = {projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue(), companyValueId == null ? 0 : companyValueId,
                     thearupeticValueId, productGroupId,String.valueOf(businessUnit.getValue())};
                 try {
                     msg = logic.saveProjection(values, productSelected, false,sessionDTO);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             } else if (modeOption.getValue() != null
                     && Constants.LabelConstants.MODE_SEARCH.equals(modeOption.getValue())) {

@@ -5,6 +5,8 @@ package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.NewNdcDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.NationalAssumptionLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
@@ -21,9 +23,6 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.data.Property;
@@ -38,7 +37,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -99,7 +99,7 @@ public class FederalNdcPopup extends CustomComponent {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(FederalNdcPopup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FederalNdcPopup.class);
     private final DataFormatConverter dollarFormat = new DataFormatConverter("#,##0.0000", DataFormatConverter.INDICATOR_DOLLAR);
     private final SessionDTO sessionDTO;
 
@@ -222,7 +222,7 @@ public class FederalNdcPopup extends CustomComponent {
                     }
                     wac.setReadOnly(true);
                 } catch (Property.ReadOnlyException | NumberFormatException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             }
         });
@@ -246,7 +246,7 @@ public class FederalNdcPopup extends CustomComponent {
 
                     }
                 } catch (Property.ReadOnlyException | NumberFormatException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             }
         });
@@ -269,7 +269,7 @@ public class FederalNdcPopup extends CustomComponent {
                 reset.setVisible(false);
             }
         } catch (PortalException | SystemException portal) {
-            LOGGER.error(portal);
+            LOGGER.error(StringUtils.EMPTY,portal);
         }
 
     }
@@ -348,7 +348,7 @@ public class FederalNdcPopup extends CustomComponent {
             List<NewNdcDTO> list = logic.getFederalTable(sessionDTO);
             federalBean.addAll(list);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 

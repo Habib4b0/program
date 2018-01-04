@@ -11,6 +11,8 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.ParseException;
 import org.asi.ui.customwindow.CustomWindow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -21,7 +23,7 @@ public class NonMandatedViewWindow extends CustomWindow {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(NonMandatedViewWindow.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NonMandatedViewWindow.class);
 
     protected SessionDTO session;
     protected DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();

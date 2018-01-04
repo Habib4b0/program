@@ -6,6 +6,8 @@
 
 package com.stpl.app.gtnforecasting.projectionresults.logic.tablelogic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.ProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -18,8 +20,6 @@ import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +27,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -39,7 +40,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
     public  NMProjectionResultsLogic nmProjectionResultsLogic = new NMProjectionResultsLogic();
     public  MProjectionResultsLogic mProjectionResultsLogic= new MProjectionResultsLogic();
     protected boolean firstGenerated = false;
-    private static final Logger LOGGER = Logger.getLogger(ProjectionResultsTableLogic.class);        
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectionResultsTableLogic.class);        
 
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {
@@ -65,7 +66,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
                 }
                 projSelDTO.clearNonFetchableIndex();
             } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         LOGGER.debug("loadData ended "+map.size());
@@ -80,7 +81,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
             try {            
                 count = getCountByForecastName(getLastParent());
             } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         LOGGER.debug("getCount ended with count=" + count);

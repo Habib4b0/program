@@ -4,6 +4,8 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.NationalAssumptionsFilterGenerator;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
@@ -34,8 +36,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Resource;
@@ -52,8 +52,6 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.VerticalLayout;
@@ -69,11 +67,14 @@ import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
-import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -92,7 +93,7 @@ public class PhsResults extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PhsResults.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PhsResults.class);
 
     /**
      * The generate btn.
@@ -432,7 +433,7 @@ public class PhsResults extends CustomComponent implements View {
                 collapse.setVisible(false);
             }
         } catch (PortalException | SystemException portal) {
-            LOGGER.error(portal);
+            LOGGER.error(StringUtils.EMPTY,portal);
         }
     }
 
@@ -503,7 +504,7 @@ public class PhsResults extends CustomComponent implements View {
             try {
                 generateLogic();
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
             loadNdcFilter();
             loadNdcLevels();
@@ -760,7 +761,7 @@ public class PhsResults extends CustomComponent implements View {
             }
            loadResultTable();
         } catch (SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -772,7 +773,7 @@ public class PhsResults extends CustomComponent implements View {
             tableLogic.setProjectionResultsData(projectionDTO, sessionDTO);
             tableLogic.setRefresh(true);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -846,7 +847,7 @@ public class PhsResults extends CustomComponent implements View {
             exp.export();
             tableVerticalLayout.removeComponent(exceltable);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("excelBtn click listener ends");
     }
@@ -923,7 +924,7 @@ public class PhsResults extends CustomComponent implements View {
 
             logic.saveProjectionSelection(map, projectionId, PHS_RESULTS_SCREEN.getConstant());
         } catch (PortalException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("saveSalesProjection method ends");
 
@@ -1000,7 +1001,7 @@ public class PhsResults extends CustomComponent implements View {
                 }
             }
         } catch (Property.ReadOnlyException | NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

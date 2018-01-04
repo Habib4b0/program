@@ -14,9 +14,11 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+
 import java.io.IOException;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -61,7 +63,7 @@ public class ExportPdf {
             try {
                 pdfFile.createNewFile();
             } catch (IOException ex) {
-                Logger.getLogger(ExportPdf.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(ExportPdf.class.getName()).error(StringUtils.EMPTY, ex);
             }
         }
         Document document = new Document();
@@ -72,7 +74,7 @@ public class ExportPdf {
             document.add(notesPara);
             document.close();
         } catch (Exception ex) {
-            Logger.getLogger(ExportPdf.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(ExportPdf.class.getName()).error(StringUtils.EMPTY, ex);
         }
 
 

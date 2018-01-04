@@ -18,7 +18,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import org.jboss.logging.Logger;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +31,7 @@ public class CommonSecurityLogic {
     /**
      * Logger
      */
-    private static final Logger LOGGER = Logger.getLogger(CommonSecurityLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonSecurityLogic.class);
     /**
      * Add
      */
@@ -100,7 +102,7 @@ public class CommonSecurityLogic {
 
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -137,7 +139,7 @@ public class CommonSecurityLogic {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(StringUtils.EMPTY,e);
         }
     }
 
@@ -269,7 +271,7 @@ public class CommonSecurityLogic {
 
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return tableResultCustom;
     }
@@ -313,7 +315,7 @@ public class CommonSecurityLogic {
 
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return tableResultCustom;
     }
@@ -427,7 +429,7 @@ public class CommonSecurityLogic {
 
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -452,7 +454,7 @@ public class CommonSecurityLogic {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(StringUtils.EMPTY,e);
         }
     }
     public static TableResultCustom modifyTableResult(final Object[] obj, final String[] header, final Map<String, AppPermission> fieldHM) throws SystemException, PortalException{

@@ -30,7 +30,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class DiscountSelection.
@@ -80,7 +81,7 @@ public class DiscountSelection extends Window {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(DiscountSelection.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DiscountSelection.class);
 
 	/**
 	 * Discount Names list

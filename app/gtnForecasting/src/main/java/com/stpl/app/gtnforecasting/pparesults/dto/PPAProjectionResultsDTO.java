@@ -9,7 +9,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.Comparator;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -23,7 +24,7 @@ public class PPAProjectionResultsDTO extends ExtMapDTO implements Comparator<PPA
 
     private String levelName = StringUtils.EMPTY;
     private Integer treeLevelNo=0;
-    private static final Logger LOGGER = Logger.getLogger(PPAProjectionResultsDTO.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionResultsDTO.class);
 
     /**
      * for pivot
@@ -213,7 +214,7 @@ public class PPAProjectionResultsDTO extends ExtMapDTO implements Comparator<PPA
                 }
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return result;
     }

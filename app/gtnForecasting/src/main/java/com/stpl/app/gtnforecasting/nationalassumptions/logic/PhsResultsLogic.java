@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.logic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.queryutils.PhsQueryUtils;
@@ -17,8 +19,6 @@ import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.Lab
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -32,7 +32,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -40,7 +41,7 @@ import org.jboss.logging.Logger;
  */
 public class PhsResultsLogic {
 
-    public static final Logger LOGGER = Logger.getLogger(PhsResultsLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(PhsResultsLogic.class);
     /**
      * The Currency Zero Decimal Places Format.
      */
@@ -128,7 +129,7 @@ public class PhsResultsLogic {
                 projDTOList = getCustomizedPriceTypeChild(phsList, projSelDTO);
             }
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getPhsChild method ends ");
         return projDTOList;
@@ -165,7 +166,7 @@ public class PhsResultsLogic {
             getCustPhsChildCustomization(wac, list, projSelDTO, projDTOList, phs, phsDiscount, totalURA, amp);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return projDTOList;
     }
@@ -232,7 +233,7 @@ public class PhsResultsLogic {
             try {
                 count = getPhsParentCount(projSelDTO);
             } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
 
         }
@@ -284,7 +285,7 @@ public class PhsResultsLogic {
                 projDTOList = getCustomizedProjectionTotal(phsList);
             }
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getPhs method ends ");
         return projDTOList;
@@ -519,7 +520,7 @@ public class PhsResultsLogic {
             Map<String, String> priceTypeList = projSelDTO.getLoadPhsPriceMap();
             projDTOList = getCustPHSWorksheetChild(projSelDTO, pfsWSList, priceTypeList);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getPhsWorksheetChild method ends ");
         return projDTOList;
@@ -595,7 +596,7 @@ public class PhsResultsLogic {
             Map<String, String> priceTypeList = projSelDTO.getLoadPhsPriceMap();
             projDTOList = getCustomizedPhsWorksheet(projSelDTO, phsWSList, priceTypeList);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getPHSWorksheet method ends ");
         return projDTOList;
@@ -769,7 +770,7 @@ public class PhsResultsLogic {
             }
 
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return projDTOList;
     }
@@ -856,7 +857,7 @@ public class PhsResultsLogic {
                 count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? String.valueOf(medicaidIndex.get(0)) : Constant.DASH);
             }
         } catch (PortalException | SystemException | NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return count;
     }

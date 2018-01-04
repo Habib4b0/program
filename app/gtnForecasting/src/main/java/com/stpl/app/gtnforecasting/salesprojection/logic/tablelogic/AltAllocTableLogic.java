@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import org.asi.container.ExtContainer;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,7 +28,7 @@ public class AltAllocTableLogic extends PageTableLogic {
     private SessionDTO session = new SessionDTO();
     private boolean isAvailable = Boolean.FALSE;
     private boolean addToQueue = Boolean.FALSE;
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(AltAllocTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AltAllocTableLogic.class);
 
     @Override
     public int getCount() {
@@ -42,7 +44,7 @@ public class AltAllocTableLogic extends PageTableLogic {
  
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return count;
@@ -53,7 +55,7 @@ public class AltAllocTableLogic extends PageTableLogic {
         try {
             return logic.getAlloc(altHistoryDTO, session, addToQueue, getFilters(), start, offset, Boolean.FALSE);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
     }

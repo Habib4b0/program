@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.ppaprojection.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.dto.ForecastDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
@@ -44,8 +46,6 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.FieldEvents.FocusEvent;
@@ -69,8 +69,6 @@ import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.DefaultFieldFactory;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
@@ -104,11 +102,14 @@ import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.custommenubar.CustomMenuBar.CustomMenuItem;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -123,7 +124,7 @@ public class PPAProjection extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(PPAProjection.class);
     /**
      * The Constant serialVersionUID.
@@ -339,7 +340,7 @@ public class PPAProjection extends CustomComponent implements View {
             configurefields();
             security();
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         Panel panel = new Panel();
         panel.setContent(layout);
@@ -386,7 +387,7 @@ public class PPAProjection extends CustomComponent implements View {
                                     updateUncheckedRecords(booleanValue, itemId);
 
                                 } catch (Exception ex) {
-                                    LOGGER.error(ex);
+                                    LOGGER.error(ex.getMessage());
                                 }
 
                                 dto.addBooleanProperties(propertyId.toString(), booleanValue);
@@ -435,7 +436,7 @@ public class PPAProjection extends CustomComponent implements View {
                     try {
                         CommonUtil.getInstance().loadActiveInactiveIntergerDDLB(status, false);
                     } catch (SystemException ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
                     status.setValue(dto.getPriceProtectionStatus());
                     status.addFocusListener(new FocusListener() {
@@ -453,7 +454,7 @@ public class PPAProjection extends CustomComponent implements View {
 
                                         }
                                     } catch (NumberFormatException e) {
-                                        LOGGER.error(e);
+                                        LOGGER.error(e.getMessage());
                                     }
                                 }
                             });
@@ -635,7 +636,7 @@ public class PPAProjection extends CustomComponent implements View {
                                             savePPAProjection(propertyId.toString(), newDate, dto.getHirarechyNo(), Constant.RIGHT);
                                         }
                                     } catch (Exception e) {
-                                        LOGGER.error(e);
+                                        LOGGER.error(e.getMessage());
                                     }
                                 }
                             });
@@ -697,7 +698,7 @@ public class PPAProjection extends CustomComponent implements View {
                                         });
                                         UI.getCurrent().addWindow(formulaLookup);
                                     } catch (IllegalArgumentException | NullPointerException ex) {
-                                        LOGGER.error(ex);
+                                        LOGGER.error(ex.getMessage());
                                     }
                                 }
                             });
@@ -711,7 +712,7 @@ public class PPAProjection extends CustomComponent implements View {
                         }
                     }
                 } catch (Property.ReadOnlyException | Converter.ConversionException | UnsupportedOperationException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
                 return component;
             }
@@ -744,7 +745,7 @@ public class PPAProjection extends CustomComponent implements View {
                                  */
                                 UNCHECKED_RECORDS_SET.clear();
                             } catch (Exception ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
                             }
                         }
                     }
@@ -1262,7 +1263,7 @@ public class PPAProjection extends CustomComponent implements View {
                 loadResults(null);
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
     }
@@ -1373,7 +1374,7 @@ public class PPAProjection extends CustomComponent implements View {
                 }
             }
         } catch (SystemException | Property.ReadOnlyException | Converter.ConversionException | UnsupportedOperationException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("fieldDdlb value change listener ends");
     }
@@ -1405,7 +1406,7 @@ public class PPAProjection extends CustomComponent implements View {
                 }
             });
         } catch (IllegalArgumentException | NullPointerException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1587,7 +1588,7 @@ public class PPAProjection extends CustomComponent implements View {
             excelTable.setCollapsed(dto, false);
         } catch (Exception ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1861,7 +1862,7 @@ public class PPAProjection extends CustomComponent implements View {
 
             loadResults(null);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("groupChange Ended ");
     }
@@ -1896,7 +1897,7 @@ public class PPAProjection extends CustomComponent implements View {
                 loadLevelFilterValue();
                 loadResults(null);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         if (Constants.IndicatorConstants.INDICATOR_TIME_PERIOD_CHANGED.getConstant().equals(indicator)) {
@@ -1915,7 +1916,7 @@ public class PPAProjection extends CustomComponent implements View {
                         t.wait();
                     }
                 } catch (InterruptedException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
             }
         }
@@ -1930,7 +1931,7 @@ public class PPAProjection extends CustomComponent implements View {
         try {
             generateButtonLogic();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("Ending generateButton");
     }

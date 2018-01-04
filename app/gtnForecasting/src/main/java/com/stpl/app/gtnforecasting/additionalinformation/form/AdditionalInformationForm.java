@@ -1,5 +1,7 @@
 package com.stpl.app.gtnforecasting.additionalinformation.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.abstractforecast.AbsAdditionalInformation;
 import com.stpl.app.gtnforecasting.additionalinformation.logic.NotesTabLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
@@ -20,8 +22,6 @@ import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinSession;
@@ -40,7 +40,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -55,7 +56,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
      */
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOGGER = Logger.getLogger(AdditionalInformationForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdditionalInformationForm.class);
 
     private final NotesTabLogic logic = new NotesTabLogic();
     private NotesDTO tableBean = new NotesDTO();
@@ -180,7 +181,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 fileNameField.setValue(StringUtils.EMPTY);
             }
         } catch (Property.ReadOnlyException | NumberFormatException ex) {
-              LOGGER.error(ex);
+              LOGGER.error(ex.getMessage());
         }
 
     }
@@ -221,7 +222,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 fileNameField.setValue(StringUtils.EMPTY);
             }
         } catch (Property.ReadOnlyException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -276,7 +277,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 downloadFile(uploadedFile);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -310,7 +311,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
             removedAttachments.clear();
             loadAttachments(projectionId);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -336,7 +337,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 remove.setVisible(false);
             }
         } catch (PortalException | SystemException system) {
-            LOGGER.error(system);
+            LOGGER.error(StringUtils.EMPTY,system);
         }
 
     }

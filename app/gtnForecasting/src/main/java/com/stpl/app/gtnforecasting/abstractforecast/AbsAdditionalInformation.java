@@ -1,20 +1,20 @@
 package com.stpl.app.gtnforecasting.abstractforecast;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.additionalinformation.logic.NotesTabLogic;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.PROJECTION_ID;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import com.stpl.ifs.ui.NotesDTO;
+import com.stpl.ifs.ui.forecastds.form.ForecastDataSelection;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.json.JSONException;
-import com.stpl.ifs.ui.forecastds.form.ForecastDataSelection;
 import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.LayoutEvents;
@@ -47,6 +47,7 @@ import com.vaadin.v7.ui.Upload;
 import com.vaadin.v7.ui.Upload.Receiver;
 import elemental.json.JsonArray;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -55,11 +56,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
-import com.stpl.ifs.util.CommonUtil;
-import java.io.IOException;
 
 /**
  *
@@ -71,7 +71,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
      *
      */
     protected static final long serialVersionUID = 1L;
-    protected static final Logger LOGGER = Logger.getLogger(AbsAdditionalInformation.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(AbsAdditionalInformation.class);
     @UiField("fileNameLb")
     protected Label fileNameLb;
     @UiField("fileNameField")
@@ -305,7 +305,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
                         fileNameField.setValue(StringUtils.EMPTY);
                     }
                 } catch (Property.ReadOnlyException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
                 uploader.focus();
             }
@@ -413,7 +413,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
                 try {
                     itemClickLogic(event);
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
             }
         });
@@ -422,7 +422,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         try {
             setValues(mode.equalsIgnoreCase(ACTION_EDIT.getConstant()) || mode.equalsIgnoreCase(ACTION_VIEW.getConstant()) ? true : false);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
 
         }
 
@@ -491,14 +491,14 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             try {
                 wordFile.createNewFile();
             } catch (IOException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         if (pdfFile.exists() != true) {
             try {
                 pdfFile.createNewFile();
             } catch (IOException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
 
@@ -525,7 +525,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             pdfDownloader.setFileDownloadResource(pdfResOnEdit);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -543,7 +543,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
 
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -801,7 +801,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
                 newNote.setValue(StringUtils.EMPTY);
             }
         } catch (SystemException | Property.ReadOnlyException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("Ends of AdditionalInformation setValues Method");
     }

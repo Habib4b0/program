@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.ui.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
 import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbCriteria;
@@ -12,6 +14,7 @@ import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbDao;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
+import com.stpl.app.gtnforecasting.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.form.lookups.CustomerProductGroupLookup;
 import com.stpl.app.gtnforecasting.ui.form.lookups.HierarchyLookup;
@@ -23,7 +26,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.NULL;
 import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.gtnforecasting.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.Constants;
@@ -57,8 +59,6 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.forecastds.form.ForecastDataSelection;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
@@ -81,8 +81,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -94,7 +96,7 @@ public class DataSelection extends ForecastDataSelection {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelection.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelection.class);
 	private DataSelectionDTO selectionDTO;
 	private final SessionDTO session;
 	private boolean firstTimeLoad = true;
@@ -152,7 +154,7 @@ public class DataSelection extends ForecastDataSelection {
 				configureOnViewMode();
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -512,7 +514,7 @@ public class DataSelection extends ForecastDataSelection {
 			}
 			initializeProductHierarchy(projectionId, String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -1504,7 +1506,7 @@ public class DataSelection extends ForecastDataSelection {
 						screenName);
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 
 	}
@@ -1716,7 +1718,7 @@ public class DataSelection extends ForecastDataSelection {
 		try {
 			DataSelectionUtil.configureTimeDdlb(fromPeriod, toPeriod, null, null, MODE_ADD.getConstant(), screenName);
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -1977,7 +1979,7 @@ public class DataSelection extends ForecastDataSelection {
 									}
 								}
 							} catch (Exception ex) {
-								LOGGER.error(ex);
+								LOGGER.error(ex.getMessage());
 							}
 
 						}
@@ -2455,7 +2457,7 @@ public class DataSelection extends ForecastDataSelection {
 			}
 			setProductBeanLisTemp(productBeanLisTemp);
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -2996,7 +2998,7 @@ public class DataSelection extends ForecastDataSelection {
 				setProductBeanLisTemp(productBeanLisTemp);
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -3520,7 +3522,7 @@ public class DataSelection extends ForecastDataSelection {
 
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -4073,7 +4075,7 @@ public class DataSelection extends ForecastDataSelection {
 						"No Level was selected to move. Please try again.");
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 

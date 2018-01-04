@@ -5,6 +5,10 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
@@ -18,10 +22,6 @@ import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
@@ -35,9 +35,10 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
-import org.asi.ui.custommenubar.CustomMenuBar;
-import org.jboss.logging.Logger;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.asi.ui.custommenubar.CustomMenuBar;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class CommonUtil.
@@ -62,7 +63,7 @@ public class CommonUtil {
      */
     protected HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
-    private static final Logger logger = Logger.getLogger(CommonUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
     public static String COMMA=",";
 
     /**
@@ -454,7 +455,7 @@ public class CommonUtil {
             try {
                 futureObject.get();
             } catch (InterruptedException | ExecutionException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
     }
@@ -466,7 +467,7 @@ public class CommonUtil {
 }
 
             } catch (InterruptedException | ExecutionException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
     }

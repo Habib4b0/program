@@ -6,7 +6,8 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Vimukthi
@@ -18,7 +19,7 @@ public class NumberInterval implements Serializable {
     private final String lessThanValue;
     private final String greaterThanValue;
     private final String equalsValue;
-     private static final Logger LOGGER = Logger.getLogger(NumberInterval.class.getName());
+     private static final Logger LOGGER = LoggerFactory.getLogger(NumberInterval.class.getName());
     public NumberInterval(String lessThanValue, String greaterThanValue,
             String equalsValue) {
         this.lessThanValue = lessThanValue;
@@ -94,7 +95,7 @@ public class NumberInterval implements Serializable {
        		 }
        	   }       			   
     	}catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(StringUtils.EMPTY,e);
 		}
     	return dynamicQuery;
     }

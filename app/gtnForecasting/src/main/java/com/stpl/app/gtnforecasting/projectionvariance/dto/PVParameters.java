@@ -10,9 +10,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -238,7 +238,7 @@ public class PVParameters implements Serializable, Cloneable {
         try {
             return (PVParameters) super.clone(); //To change body of generated methods, choose Tools | Templates.
         } catch (CloneNotSupportedException ex) {
-            Logger.getLogger(PVParameters.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(PVParameters.class.getName()).error( StringUtils.EMPTY, ex);
         }
         return null;
     }

@@ -13,7 +13,8 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +26,7 @@ public class DataAssumptionstableLogic extends PageTableLogic {
     private boolean isFirstLoad = false;
     protected DataAssumptionDTO dataAssumptionDTO;
     protected SessionDTO sessionDTO;
-    private static final Logger LOGGER = Logger.getLogger(DataAssumptionstableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataAssumptionstableLogic.class);
     
     @Override
     public int getCount() {
@@ -41,7 +42,7 @@ public class DataAssumptionstableLogic extends PageTableLogic {
             }
 
         } catch (NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("DataAssumptionstableLogic Count" + count);
         return count;
@@ -62,7 +63,7 @@ public class DataAssumptionstableLogic extends PageTableLogic {
                 LOGGER.debug("DataAssumptionstableLogic loadData " + headerList.size());
 
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return headerList;

@@ -1,6 +1,5 @@
 package com.stpl.app.gtnforecasting.discountProjection.form;
 
-import com.stpl.app.gtnforecasting.discountProjection.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
 import com.stpl.app.gtnforecasting.discountProjection.logic.SupplementalDiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -8,11 +7,11 @@ import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.WindowMessagesName.CLOSE_CONFIRMATION;
 import static com.stpl.app.utils.Constants.WindowMessagesName.RESET_CONFIRMATION;
 import com.stpl.app.utils.ValidationUtils;
-import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MultiSelectMode;
@@ -33,7 +32,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -49,7 +49,7 @@ public class ParityLookup extends Window {
 	private static final long serialVersionUID = 1L;
 	
 	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(ParityLookup.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ParityLookup.class);
 	
 	/** The contract ddlb. */
 	@UiField("contractDdlb")
@@ -517,7 +517,7 @@ public class ParityLookup extends Window {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -537,7 +537,7 @@ public class ParityLookup extends Window {
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
   

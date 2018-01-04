@@ -7,7 +7,8 @@ package com.stpl.app.gtnforecasting.utils;
 
 import com.vaadin.ui.Component;
 import elemental.events.KeyboardEvent;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -15,7 +16,7 @@ import org.jboss.logging.Logger;
  */
 public class ChannelSPRGraphWindow extends StplWindow {
 
-    private static final Logger LOGGER = Logger.getLogger(ChannelSPRGraphWindow.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChannelSPRGraphWindow.class);
 
     public ChannelSPRGraphWindow(final Component component, final String title) {
         super(title);

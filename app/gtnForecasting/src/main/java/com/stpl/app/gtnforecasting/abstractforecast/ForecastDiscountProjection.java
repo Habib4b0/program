@@ -66,7 +66,8 @@ import java.util.List;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -84,7 +85,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     protected ExtFilterTreeTable excelTable = new ExtFilterTreeTable();
     /* The excel export image */
     protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    protected static final Logger LOGGER = Logger.getLogger(ForecastDiscountProjection.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(ForecastDiscountProjection.class);
     /**
      * The forecastTab VerticalLayout.
      */

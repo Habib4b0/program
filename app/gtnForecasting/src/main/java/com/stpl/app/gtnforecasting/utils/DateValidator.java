@@ -106,7 +106,7 @@ public class DateValidator extends AbstractValidator {
                 isValid = startDate.getValue().compareTo(endDate.getValue()) <= 0;
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return isValid;
     }

@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.ContractBrandDTO;
 import com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -12,12 +14,10 @@ import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.AlternateLookupSource;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
@@ -30,11 +30,12 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextField;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -49,7 +50,7 @@ public class ContractBrandLookup extends Window {
      * The Constant serialVersionUID.
      */
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(ContractBrandLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContractBrandLookup.class);
    
     @UiField("contractResultsTable")
     private ExtFilterTable contractResultsTable;
@@ -237,7 +238,7 @@ public class ContractBrandLookup extends Window {
                             nonmandatedContractSearchLogic();
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
 
                 }
@@ -250,7 +251,7 @@ public class ContractBrandLookup extends Window {
                     try {
                         brandSearchLogic();
                     } catch (PortalException | SystemException ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
                 }
             });
@@ -262,7 +263,7 @@ public class ContractBrandLookup extends Window {
                     try {
                         importButtonLogic();
                     } catch (SystemException | SQLException e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                     }
                 }
             });
@@ -286,7 +287,7 @@ public class ContractBrandLookup extends Window {
             contractHolder.setValue(StringUtils.EMPTY);
             contractName.setValue(StringUtils.EMPTY);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } 
         LOGGER.debug("Entering Configure Fields");
     }
@@ -325,7 +326,7 @@ public class ContractBrandLookup extends Window {
         try {
             searchBinder.commit();
         } catch (FieldGroup.CommitException ex) {
-            java.util.logging.Logger.getLogger(AlternateHistoryLookup.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(AlternateHistoryLookup.class.getName()).error( StringUtils.EMPTY, ex);
         }
         if (StringUtils.isEmpty(getContractHolder().getValue()) && StringUtils.isEmpty(getCustomerId().getValue())) {
             com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils.getErrorNotification(Constant.NO_SEARCH_VALUE_ENTERED, Constant.NO_SEARCH_VALUE_ENTERED_MSG);
@@ -346,11 +347,11 @@ public class ContractBrandLookup extends Window {
 
             } catch (SystemException sysException) {
 
-                LOGGER.error(sysException);
+                LOGGER.error(StringUtils.EMPTY,sysException);
 
             } catch (Exception exception) {
 
-                LOGGER.error(exception);
+                LOGGER.error(StringUtils.EMPTY,exception);
 
             }
 
@@ -388,7 +389,7 @@ public class ContractBrandLookup extends Window {
         }
         LOGGER.debug("Ending the Mandated Contract Search Logic");
         }catch(PortalException | SystemException e){
-        LOGGER.error(e);
+        LOGGER.error(e.getMessage());
         }
     }
 
@@ -403,7 +404,7 @@ public class ContractBrandLookup extends Window {
             customerDDLB.setItemCaption(obj[0], String.valueOf(obj[1]));
         }
         }catch(PortalException | SystemException | UnsupportedOperationException e){
-        LOGGER.error(e);
+        LOGGER.error(e.getMessage());
         }
     }
 

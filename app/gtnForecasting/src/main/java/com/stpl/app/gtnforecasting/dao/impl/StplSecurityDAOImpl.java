@@ -1,16 +1,16 @@
 package com.stpl.app.gtnforecasting.dao.impl;
 
-import com.stpl.app.model.UsergroupBusinessrole;
-import com.stpl.app.model.UsergroupDomainMaster;
-import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
-import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
-import com.stpl.domain.forecast.security.StplSecurityDAO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.gtnforecasting.service.finderImpl.BusinessRoleModuleImpl;
+import com.stpl.app.model.UsergroupBusinessrole;
+import com.stpl.app.model.UsergroupDomainMaster;
+import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
+import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
+import com.stpl.domain.forecast.security.StplSecurityDAO;
 import java.util.List;
 /**
  * DAO operations for Security

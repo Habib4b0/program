@@ -5,14 +5,15 @@ import java.util.Comparator;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProjectionVarianceDTO extends ExtMapDTO implements Comparator<ProjectionVarianceDTO> {
 
     /**
      * The group.
      */
-    private static final Logger LOGGER = Logger.getLogger(ProjectionVarianceDTO.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectionVarianceDTO.class);
     private String group = StringUtils.EMPTY;
     private Integer levelNo = 0;
     private String parentNode = StringUtils.EMPTY;
@@ -225,7 +226,7 @@ public class ProjectionVarianceDTO extends ExtMapDTO implements Comparator<Proje
                 }
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return value;
     }

@@ -7,16 +7,17 @@ package com.stpl.app.gtnforecasting.service.finderImpl;
 
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.serviceUtils.Constants;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.QUARTERLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.SEMI_ANNUAL;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,7 +25,7 @@ import org.jboss.logging.Logger;
  */
 public class NmSalesProjectionImpl {
     
-    private static final Logger LOGGER = Logger.getLogger(NmSalesProjectionImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NmSalesProjectionImpl.class);
 
     public List getSalesResult(Object[] inputs) {
         List list = new ArrayList();
@@ -2557,7 +2558,7 @@ if(!custom){
 
 //             LOGGER.debug("Query:\n" + queryBuilder1.toString() + "\n\nquery hit list size: " + list.size() + "\n\n\n");
         } catch (Exception ex) {
-            LOGGER.error(ex.getCause());
+            LOGGER.error(StringUtils.EMPTY,ex);
             LOGGER.error(queryBuilder1.toString());
 
         } 
@@ -2588,7 +2589,7 @@ if(!custom){
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex.getCause());
+            LOGGER.error(StringUtils.EMPTY,ex);
             LOGGER.error(sql.toString());
         } 
 
@@ -2713,7 +2714,7 @@ if(!custom){
             list =HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString()) ;
 //            LOGGER.debug("List size is -------->" + list.size());
         } catch (Exception ex) {
-            LOGGER.error(ex.getCause());
+            LOGGER.error(StringUtils.EMPTY,ex);
             LOGGER.error(queryBuilder.toString());
         } 
         return list;
@@ -2768,7 +2769,7 @@ if(!custom){
 //            LOGGER.debug("List size is -------->" + list.size());
         } catch (Exception e) {
 //            e.printStackTrace();
-            LOGGER.error(e.getCause());
+            LOGGER.error(StringUtils.EMPTY,e);
             LOGGER.error(queryBuilder.toString());
         } 
         return list;
@@ -2851,7 +2852,7 @@ if(!custom){
 //            LOGGER.debug(SALES_SMALL + "  ---  " + customQuery);
             return HelperTableLocalServiceUtil.executeSelectQuery(customQuery);
         } catch (Exception ex) {
-            LOGGER.error(ex.getCause());
+            LOGGER.error(StringUtils.EMPTY,ex);
             LOGGER.error(customQuery);
             return null;
         } 

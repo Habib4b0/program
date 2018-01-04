@@ -1,10 +1,10 @@
 package com.stpl.app.gtnforecasting.dao.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.ProjectionVarianceDAO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.service.finderImpl.NmDiscountImpl;
 import com.stpl.app.gtnforecasting.service.finderImpl.NmSalesProjectionImpl;
 import com.stpl.app.gtnforecasting.service.finderImpl.ProjectionCustHierarchyImpl;

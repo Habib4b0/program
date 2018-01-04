@@ -1,14 +1,5 @@
 package com.stpl.app.security;
 
-import com.stpl.app.gtnforecasting.dao.impl.StplSecurityDAOImpl;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.model.UsergroupBusinessrole;
-import com.stpl.app.model.UsergroupDomainMaster;
-import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.serviceUtils.Constants;
-import com.stpl.domain.forecast.security.StplSecurityDAO;
-import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -16,8 +7,17 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.gtnforecasting.dao.impl.StplSecurityDAOImpl;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.model.UsergroupBusinessrole;
+import com.stpl.app.model.UsergroupDomainMaster;
+import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
+import com.stpl.app.serviceUtils.Constants;
+import com.stpl.domain.forecast.security.StplSecurityDAO;
+import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,7 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -53,7 +54,7 @@ public class StplSecurity {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(StplSecurity.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StplSecurity.class);
 
     /**
      * The dao.
@@ -156,7 +157,7 @@ public class StplSecurity {
             }
 
         } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return domainIds;

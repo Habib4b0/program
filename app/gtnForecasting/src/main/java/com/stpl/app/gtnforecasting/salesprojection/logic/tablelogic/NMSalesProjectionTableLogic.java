@@ -21,9 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.commons.lang.StringUtils;
+
 import org.asi.container.ExtTreeContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,7 +35,7 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
 
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private boolean firstGenerated = false;
-    public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(NMSalesProjectionTableLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjectionTableLogic.class);
     private final ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
     private Map<String, SalesRowDto> loadDataMap = new HashMap<>();
     private SalesProjectionTree tree = null;
@@ -264,8 +266,8 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(NMSalesProjectionTableLogic.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(NMSalesProjectionTableLogic.class
+                    .getName()).error( StringUtils.EMPTY, ex);
         }
     }
 
@@ -302,7 +304,7 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
             setRecordCount(getCalculatedTotalRecordCount());
             setCurrentPage(getTotalAmountOfPages());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 

@@ -18,12 +18,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.ContainerLogic;
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -47,7 +48,7 @@ public class PPATableLoadLogic extends PageTreeTableLogic {
     protected ProjectionSelectionDTO selection;
     protected int pageNumber = 1;
     protected boolean isRefresh;
-    private static final Logger LOGGER = Logger.getLogger(PPAProjectionLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
 
     public boolean isIsRefresh() {
         return isRefresh;
@@ -112,7 +113,7 @@ public class PPATableLoadLogic extends PageTreeTableLogic {
         try {
             list = logic.getPPALogicData(selection, getLastParent(), start, offset, rightDto);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         int i = start;
         for (PPAProjectionDTO dto : list) {
@@ -216,7 +217,7 @@ public class PPATableLoadLogic extends PageTreeTableLogic {
         try {
             recursivelyLoadExpandData(new Object(), StringUtils.EMPTY, levelNo);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(PPATableLoadLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(PPATableLoadLogic.class.getName()).error( StringUtils.EMPTY, ex);
         }
         setRecordCount(getCalculatedTotalRecordCount());
         setCurrentPage(getTotalAmountOfPages());

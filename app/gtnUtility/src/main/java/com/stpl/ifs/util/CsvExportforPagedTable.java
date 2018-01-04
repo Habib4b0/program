@@ -17,10 +17,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is class file is having generic method for excel export
@@ -33,7 +33,7 @@ public class CsvExportforPagedTable {
     private static final String SESSION_ID = "sessionId";
     final static SimpleDateFormat dateFormat = new SimpleDateFormat(ExcelExportUtil.DATE_FORMAT, Locale.getDefault());
     public final static String QUOTE = "\"";
-    private static final Logger LOGGER = Logger.getLogger(CsvExportforPagedTable.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(CsvExportforPagedTable.class.getName());
 
     /**
      * This method is used to create a worksheet and logic for writing into the
@@ -78,7 +78,7 @@ public class CsvExportforPagedTable {
             pw.close();
             writer.close();
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(CsvExportforPagedTable.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(CsvExportforPagedTable.class.getName()).error(StringUtils.EMPTY, ex);
         }
         for (int worksheetNo = 1; worksheetNo <= worksheetCount; worksheetNo++) {
             try {
@@ -113,14 +113,14 @@ public class CsvExportforPagedTable {
                 } while (remainingCount > 0);
 
             } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(CsvExportforPagedTable.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(CsvExportforPagedTable.class.getName()).error(StringUtils.EMPTY, ex);
             } finally {
                 pw.flush();
                 pw.close();
                 try {
                     writer.close();
                 } catch (IOException ex) {
-                    java.util.logging.Logger.getLogger(CsvExportforPagedTable.class.getName()).log(Level.SEVERE, null, ex);
+                    LoggerFactory.getLogger(CsvExportforPagedTable.class.getName()).error(StringUtils.EMPTY, ex);
                 }
             }
         }
@@ -159,7 +159,7 @@ public class CsvExportforPagedTable {
             resource = new TemporaryFileDownloadResource(app, exportFileName, ExcelExportUtil.EXCEL_MIME_TYPE, fileToExport);
             app.getPage().open(resource, ExcelExportUtil.WINDOW_NAME, true);
         } catch (final FileNotFoundException e) {
-            LOGGER.error(e);
+            LOGGER.error(StringUtils.EMPTY,e);
             return false;
         }
         return true;

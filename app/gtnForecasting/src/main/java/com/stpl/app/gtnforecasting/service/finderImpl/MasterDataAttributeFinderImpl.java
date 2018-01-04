@@ -9,14 +9,15 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Abishek.Ram
  */
 public class MasterDataAttributeFinderImpl {
-private static final Logger LOGGER = Logger.getLogger(MasterDataAttributeFinderImpl.class);
+private static final Logger LOGGER = LoggerFactory.getLogger(MasterDataAttributeFinderImpl.class);
     public List getTotalLives(Object[] inputs) {
         List list = new ArrayList();
         String coundition = (String) inputs[1];
@@ -37,7 +38,7 @@ private static final Logger LOGGER = Logger.getLogger(MasterDataAttributeFinderI
 
 //            LOGGER.debug("Query:\n" + queryBuilder.toString() + "\n\nquery hit list size: " + list.size() + "\n\n");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             LOGGER.error(queryBuilder.toString());
         } 
 

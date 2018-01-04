@@ -18,9 +18,10 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is class file is having generic method for excel export
@@ -34,7 +35,7 @@ public class ExcelExportforBB {
     private static final String SESSION_ID = "sessionId";
     final static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     public final static String QUOTE = "\"";
-    private static final Logger LOGGER = Logger.getLogger(ExcelExportforBB.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExcelExportforBB.class.getName());
 
     /**
      * This method is used to create a worksheet and logic for writing into the
@@ -78,7 +79,7 @@ public class ExcelExportforBB {
             pw.close();
             writer.close();
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(obj.getClass().getName()).error(StringUtils.EMPTY, ex);
         }
         for (int worksheetNo = 1; worksheetNo <= worksheetCount; worksheetNo++) {
             try {
@@ -111,14 +112,14 @@ public class ExcelExportforBB {
                 } while (remainingCount > 0);
 
             } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(obj.getClass().getName()).error(StringUtils.EMPTY, ex);
             } finally {
                 pw.flush();
                 pw.close();
                 try {
                     writer.close();
                 } catch (IOException ex) {
-                    java.util.logging.Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, ex);
+                    LoggerFactory.getLogger(obj.getClass().getName()).error(StringUtils.EMPTY, ex);
                 }
             }
         }
@@ -141,7 +142,7 @@ public class ExcelExportforBB {
             pw.close();
             writer.close();
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(obj.getClass().getName()).error(StringUtils.EMPTY, ex);
         }
         try {
             writer = new FileWriter(tempFile, true);
@@ -172,14 +173,14 @@ public class ExcelExportforBB {
 
             }
         } catch (Exception e) {
-            java.util.logging.Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, e);
+            LoggerFactory.getLogger(obj.getClass().getName()).error(StringUtils.EMPTY, e);
         } finally {
             pw.flush();
             pw.close();
             try {
                 writer.close();
             } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(obj.getClass().getName()).error(StringUtils.EMPTY, ex);
             }
         }
         return tempFile;
@@ -202,7 +203,7 @@ public class ExcelExportforBB {
             pw.close();
             writer.close();
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(obj.getClass().getName()).error(StringUtils.EMPTY, ex);
         }
         try {
             writer = new FileWriter(tempFile, true);
@@ -230,14 +231,14 @@ public class ExcelExportforBB {
                 start = end;
             }
         } catch (Exception e) {
-            java.util.logging.Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, e);
+            LoggerFactory.getLogger(obj.getClass().getName()).error(StringUtils.EMPTY, e);
         } finally {
             pw.flush();
             pw.close();
             try {
                 writer.close();
             } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(obj.getClass().getName()).error(StringUtils.EMPTY, ex);
             }
         }
         return tempFile;
@@ -276,7 +277,7 @@ public class ExcelExportforBB {
                     = new TemporaryFileDownloadResource(app, exportFileName, ExcelExportUtil.EXCEL_MIME_TYPE, fileToExport);
             app.getPage().open(resource, ExcelExportUtil.WINDOW_NAME, true);
         } catch (final FileNotFoundException e) {
-            LOGGER.error(e);
+            LOGGER.error(StringUtils.EMPTY,e);
             return false;
         }
         return true;
@@ -328,7 +329,7 @@ public class ExcelExportforBB {
             if (method != null) {
                 value = method.invoke(myDTO, (Object[]) new String[]{variable});
             }
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return value;
         }
     }

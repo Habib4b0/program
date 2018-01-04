@@ -16,7 +16,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -32,7 +33,7 @@ public class PVCommonLogic {
     private static final String ACCRUAL = "Accrual";
     private static final String ACTUAL = "Actual";
     private static final String ACTUAL_DASH = "-";
-    private static final Logger LOGGER = Logger.getLogger(PVCommonLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PVCommonLogic.class);
 
 
     static void getPriorCommonCustomization(String variableCategory, PVSelectionDTO pvsdto, final Object[] row, ProjectionVarianceDTO projDTO, String column, int index, int priorIndex, final Boolean isPer, int columnCountTotal, DecimalFormat format) {

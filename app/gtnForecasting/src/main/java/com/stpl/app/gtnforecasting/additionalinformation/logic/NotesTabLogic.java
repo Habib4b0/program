@@ -5,6 +5,10 @@
  */
 package com.stpl.app.gtnforecasting.additionalinformation.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.PROJECTION_ID;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -13,10 +17,6 @@ import com.stpl.app.model.DocDetails;
 import com.stpl.app.service.AdditionalNotesLocalServiceUtil;
 import com.stpl.app.service.DocDetailsLocalServiceUtil;
 import com.stpl.ifs.ui.NotesDTO;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -26,7 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -45,7 +46,7 @@ public class NotesTabLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(NotesTabLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotesTabLogic.class);
 
     /**
      * Gets the attachment dto list.

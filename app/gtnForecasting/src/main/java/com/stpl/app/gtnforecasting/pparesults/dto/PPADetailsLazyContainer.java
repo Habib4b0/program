@@ -11,10 +11,11 @@ import com.stpl.ifs.util.HelperDTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
 import org.asi.ui.addons.lazycontainer.DAO;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,7 +27,7 @@ public class PPADetailsLazyContainer implements DAO<HelperDTO> {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PPADetailsLazyContainer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPADetailsLazyContainer.class);
 
     protected PPAProjectionResultsLogic logic = new PPAProjectionResultsLogic();
 
@@ -57,7 +58,7 @@ public class PPADetailsLazyContainer implements DAO<HelperDTO> {
             }
 
         } catch (Exception ex) {
-           LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -73,7 +74,7 @@ public class PPADetailsLazyContainer implements DAO<HelperDTO> {
                 returnList.add(defaultDTO);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return returnList;
     }

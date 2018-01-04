@@ -15,10 +15,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.ContainerLogic;
 import org.asi.ui.extfilteringtable.paged.logic.HierarchyString;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class PageTreeTableLogic.
@@ -129,7 +130,7 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
     /**
      * The logger.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(PageTreeTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PageTreeTableLogic.class);
 
     /**
      * Gets the control table.
@@ -400,7 +401,7 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
             try {
                 dataCount = getCount();
             } catch (Exception ex) {
-                Logger.getLogger(ContainerLogic.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(ContainerLogic.class.getName()).error(StringUtils.EMPTY, ex);
             }
             lvlMap = new LevelMap(((Indexed) getContainerDataSource()).indexOfId(getCurrentPageData(parentTreeLevel)), dataCount, getColumnIdToFilterMap());
             addlevelMap(parentTreeLevel, lvlMap);
@@ -880,11 +881,11 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
                 }
             }
         } catch (Property.ReadOnlyException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } catch (UnsupportedOperationException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -923,11 +924,11 @@ public abstract class PageTreeTableLogic extends PageTreeLogicBase {
 
             }
         } catch (Property.ReadOnlyException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } catch (UnsupportedOperationException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

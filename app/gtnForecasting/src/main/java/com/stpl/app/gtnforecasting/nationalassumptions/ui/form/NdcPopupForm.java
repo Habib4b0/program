@@ -5,6 +5,8 @@ package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.NewNdcDTO;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.*;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.*;
@@ -13,8 +15,6 @@ import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Window;
@@ -22,7 +22,8 @@ import com.vaadin.ui.themes.ValoTheme;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -69,7 +70,7 @@ public class NdcPopupForm extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(NdcPopupForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NdcPopupForm.class);
     private SessionDTO sessionDTO;
 
     public NdcPopupForm() {
@@ -113,7 +114,7 @@ public class NdcPopupForm extends Window {
                         federalNdcPopup.saveAll();
                         close();
                     } catch (PortalException | SystemException ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
                 }
 
@@ -167,7 +168,7 @@ public class NdcPopupForm extends Window {
                     }
 
                 } catch (SystemException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
 
             }
@@ -229,7 +230,7 @@ public class NdcPopupForm extends Window {
             }
 
         } catch (PortalException | SystemException portal) {
-            LOGGER.error(portal);
+            LOGGER.error(StringUtils.EMPTY,portal);
         }
     }
 

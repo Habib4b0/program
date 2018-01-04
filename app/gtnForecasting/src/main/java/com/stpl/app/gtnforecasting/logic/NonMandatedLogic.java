@@ -5,6 +5,13 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.PPAProjectionDao;
 import com.stpl.app.gtnforecasting.dao.ProjectionVarianceDAO;
@@ -35,6 +42,9 @@ import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.model.ForecastingViewMaster;
 import com.stpl.app.model.ProjectionMaster;
+import com.stpl.app.service.BrandMasterLocalServiceUtil;
+import com.stpl.app.service.CompanyMasterLocalServiceUtil;
+import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
 import com.stpl.app.utils.Constants.CommonConstants;
@@ -50,17 +60,6 @@ import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.service.BrandMasterLocalServiceUtil;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-import com.stpl.app.service.ContractMasterLocalServiceUtil;
-
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
@@ -85,7 +84,8 @@ import java.util.concurrent.Future;
 import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -120,7 +120,7 @@ public class NonMandatedLogic {
 	/**
 	 * The Constant LOGGER.
 	 */
-	public static final Logger LOGGER = Logger.getLogger(NonMandatedLogic.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(NonMandatedLogic.class);
 
 	/**
 	 * the SALES_SMALL dao.
@@ -618,12 +618,12 @@ public class NonMandatedLogic {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				LOGGER.error(e);
+				LOGGER.error(e.getMessage());
 			}
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				LOGGER.error(e);
+				LOGGER.error(e.getMessage());
 			}
 		}
 
@@ -1675,7 +1675,7 @@ public class NonMandatedLogic {
 			}
 
 		} catch (PortalException | SystemException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return "Not Saved";
 		}
 
@@ -1942,7 +1942,7 @@ public class NonMandatedLogic {
 							parameters.put(Constant.FILTER + stringFilter.getPropertyId(),
 									DataSelectionUtil.filterUser(filterString));
 						} catch (Exception ex) {
-							LOGGER.error(ex);
+							LOGGER.error(ex.getMessage());
 						}
 					}
 				} else if (filter instanceof Between) {
@@ -2331,7 +2331,7 @@ public class NonMandatedLogic {
 			salesProjDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery, inputDto.getCurrentTableNames()));
 		} catch (PortalException | SystemException e) {
 			LOGGER.error("Query:======================>" + insertQuery);
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -2346,7 +2346,7 @@ public class NonMandatedLogic {
 			insertDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery, inputDto.getCurrentTableNames()));
 		} catch (PortalException | SystemException e) {
 			LOGGER.error("Query:======================>" + insertQuery);
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -2395,7 +2395,7 @@ public class NonMandatedLogic {
 			SalesProjectionDAO deleteDAO = new SalesProjectionDAOImpl();
 			deleteDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery, inputDto.getCurrentTableNames()));
 		} catch (PortalException | SystemException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 
 	}
@@ -2462,7 +2462,7 @@ public class NonMandatedLogic {
 				workflowStatus = pm.getIsApproved();
 			}
 		} catch (PortalException | SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return workflowStatus;
 	}

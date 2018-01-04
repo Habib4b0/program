@@ -4,6 +4,10 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.AdditionalInfoDAO;
 import com.stpl.app.gtnforecasting.dao.impl.AdditionalInfoDAOImpl;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.AttachmentDTO;
@@ -16,10 +20,6 @@ import com.stpl.app.model.DocDetails;
 import com.stpl.app.service.AdditionalNotesLocalServiceUtil;
 import com.stpl.app.service.DocDetailsLocalServiceUtil;
 import com.stpl.ifs.util.CommonUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
@@ -33,7 +33,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class AdditionalInfoLogic.
@@ -45,7 +46,7 @@ public class AdditionalInfoLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(AdditionalInfoLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdditionalInfoLogic.class);
 
     /**
      * The additional info logic dao.

@@ -1,5 +1,7 @@
 package com.stpl.app.gtnforecasting.discountprojectionresults.logic.tablelogic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.discountprojectionresults.dto.DiscountProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.discountprojectionresults.logic.CommercialDPRLogic;
 import com.stpl.app.gtnforecasting.discountprojectionresults.logic.DPRLogic;
@@ -12,15 +14,14 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -28,7 +29,7 @@ import org.jboss.logging.Logger;
  */
 public class DPRTableLogic extends PageTreeTableLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(DPRTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DPRTableLogic.class);
     private boolean firstGenerated = false;
     protected ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     protected ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
@@ -75,7 +76,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                 }
                 projSelDTO.clearNonFetchableIndex();
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         LOGGER.debug("Load Data end with record=" + map.size());
@@ -106,7 +107,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("Return Count " + count);
         return count;
@@ -186,7 +187,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
             setCurrentPage(getTotalAmountOfPages());
 
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -269,7 +270,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                 }
             }
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 

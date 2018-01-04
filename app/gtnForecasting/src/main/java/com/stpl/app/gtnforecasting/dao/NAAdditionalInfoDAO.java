@@ -5,11 +5,11 @@
 package com.stpl.app.gtnforecasting.dao;
 
 
-import com.stpl.app.model.AdditionalNotes;
-import com.stpl.app.model.DocDetails;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.model.AdditionalNotes;
+import com.stpl.app.model.DocDetails;
 import java.util.List;
 
 /**

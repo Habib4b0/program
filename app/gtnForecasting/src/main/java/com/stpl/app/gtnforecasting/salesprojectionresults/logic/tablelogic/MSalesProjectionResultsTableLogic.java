@@ -19,7 +19,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,7 +31,7 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(MSalesProjectionResultsTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MSalesProjectionResultsTableLogic.class);
 
     protected ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     public NMSalesProjectionResultsLogic sprLogic = new NMSalesProjectionResultsLogic();

@@ -1,5 +1,7 @@
 package com.stpl.app.gtnforecasting.ui.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.abstractforecast.AbstractForm;
 import com.stpl.app.gtnforecasting.additionalinformation.form.AdditionalInformationForm;
 import com.stpl.app.gtnforecasting.bpm.logic.DSCalculationLogic;
@@ -71,6 +73,8 @@ import static com.stpl.app.utils.Constants.LabelConstants.TAB_SALES_PROJECTION_R
 import static com.stpl.app.utils.Constants.WindowMessagesName.CONFIRMATION;
 import com.stpl.app.utils.TableHeaderColumnsUtil;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.gtn.gtn2o.ws.constants.workflow.GtnWsBpmCommonConstants;
+import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
@@ -79,11 +83,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.gtn.gtn2o.ws.constants.workflow.GtnWsBpmCommonConstants;
-import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
-
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
@@ -101,6 +100,7 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -110,12 +110,12 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.MinimizeTray;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -125,7 +125,7 @@ import java.io.IOException;
  */
 public class ForecastForm extends AbstractForm {
 
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ForecastForm.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ForecastForm.class);
 
 	/**
 	 * The data.
@@ -268,7 +268,7 @@ public class ForecastForm extends AbstractForm {
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -467,7 +467,7 @@ public class ForecastForm extends AbstractForm {
 			}
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		attachTabChangeListener();
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)
@@ -531,7 +531,7 @@ public class ForecastForm extends AbstractForm {
 						onTabChangeForReturns();
 					}
 				} catch (InterruptedException | ExecutionException ex) {
-					LOGGER.error(ex);
+					LOGGER.error(ex.getMessage());
 				}
 			}
 		});
@@ -646,7 +646,7 @@ public class ForecastForm extends AbstractForm {
 										returnsProjection.init();
 									}
 								} catch (PortalException | SystemException | IOException | ClassNotFoundException ex) {
-									LOGGER.debug(ex);
+									LOGGER.error(StringUtils.EMPTY,ex);
 								}
 
 							}
@@ -708,7 +708,7 @@ public class ForecastForm extends AbstractForm {
 										Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
 							}
 						} catch (PortalException | SystemException | IOException | ClassNotFoundException ex) {
-							LOGGER.error(ex);
+							LOGGER.error(ex.getMessage());
 						}
 					}
 
@@ -723,7 +723,7 @@ public class ForecastForm extends AbstractForm {
 
 							data.configureOnTabLoad(session.getProjectionId(), dataSelectionDTO);
 						} catch (Exception ex) {
-							LOGGER.error(ex);
+							LOGGER.error(ex.getMessage());
 						}
 						tabSheet.setSelectedTab(0);
 						lastPosition = 0;
@@ -794,7 +794,7 @@ public class ForecastForm extends AbstractForm {
 
 			lastPosition = tabPosition;
 		} catch (PortalException | SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		LOGGER.debug("onTabChange ends");
 	}
@@ -841,14 +841,14 @@ public class ForecastForm extends AbstractForm {
 									tabPosition = 0;
 									dsFlag = true;
 								} catch (Exception e) {
-									LOGGER.error(e);
+									LOGGER.error(e.getMessage());
 								}
 
 								AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER,
 										Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
 							}
 						} catch (PortalException | SystemException | IOException | ClassNotFoundException ex) {
-							LOGGER.error(ex);
+							LOGGER.error(ex.getMessage());
 						}
 					}
 
@@ -863,7 +863,7 @@ public class ForecastForm extends AbstractForm {
 							tabPosition = 0;
 
 						} catch (Exception ex) {
-							LOGGER.error(ex);
+							LOGGER.error(ex.getMessage());
 						}
 						dsFlag = true;
 					}
@@ -877,7 +877,7 @@ public class ForecastForm extends AbstractForm {
 
 					data.setReloadAfterUpdate(Boolean.FALSE);
 				} catch (Exception ex) {
-					LOGGER.error(ex);
+					LOGGER.error(ex.getMessage());
 				}
 			}
 
@@ -887,7 +887,7 @@ public class ForecastForm extends AbstractForm {
 
 			lastPosition = tabPosition;
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -930,14 +930,14 @@ public class ForecastForm extends AbstractForm {
 									tabPosition = 0;
 									dsFlag = true;
 								} catch (Exception e) {
-									LOGGER.error(e);
+									LOGGER.error(e.getMessage());
 								}
 
 								AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER,
 										Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
 							}
 						} catch (PortalException | SystemException | IOException | ClassNotFoundException ex) {
-							LOGGER.error(ex);
+							LOGGER.error(ex.getMessage());
 						}
 					}
 
@@ -952,7 +952,7 @@ public class ForecastForm extends AbstractForm {
 							tabPosition = 0;
 
 						} catch (Exception ex) {
-							LOGGER.error(ex);
+							LOGGER.error(ex.getMessage());
 						}
 						dsFlag = true;
 					}
@@ -969,7 +969,7 @@ public class ForecastForm extends AbstractForm {
 
 						data.setReloadAfterUpdate(Boolean.FALSE);
 					} catch (Exception ex) {
-						LOGGER.error(ex);
+						LOGGER.error(ex.getMessage());
 					}
 				}
 				break;
@@ -1012,7 +1012,7 @@ public class ForecastForm extends AbstractForm {
 			lastPosition = tabPosition;
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 
 	}
@@ -1051,7 +1051,7 @@ public class ForecastForm extends AbstractForm {
 
 					additionalInformation.documentExporter();
 				} catch (Exception e) {
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
 				}
 			}
 		}
@@ -1092,7 +1092,7 @@ public class ForecastForm extends AbstractForm {
 								btnSave.setCaption("UPDATE");
 								session.setAction(Constant.EDIT_SMALL);
 							} catch (Exception ex) {
-								LOGGER.error(ex);
+								LOGGER.error(ex.getMessage());
 							}
 						}
 					}
@@ -1194,7 +1194,7 @@ public class ForecastForm extends AbstractForm {
 									viewWindow.close();
 								}
 							} catch (SystemException ex) {
-								LOGGER.error(ex);
+								LOGGER.error(ex.getMessage());
 							}
 						} else {
 							checkSaveFlag(true);
@@ -1249,7 +1249,7 @@ public class ForecastForm extends AbstractForm {
 							}
 							saveProjection();
 						} catch (IllegalArgumentException ex) {
-							LOGGER.error(ex);
+							LOGGER.error(ex.getMessage());
 						}
 						if (editWindow != null) {
 							closeEditTray(editWindow);
@@ -1383,11 +1383,11 @@ public class ForecastForm extends AbstractForm {
 								CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
 							}
 						} catch (SystemException ex) {
-							LOGGER.error(ex);
+							LOGGER.error(ex.getMessage());
 						} catch (PortalException ex) {
-							LOGGER.error(ex);
+							LOGGER.error(ex.getMessage());
 						} catch (Exception ex) {
-							LOGGER.error(ex);
+							LOGGER.error(ex.getMessage());
 						}
 					}
 				});
@@ -1465,7 +1465,7 @@ public class ForecastForm extends AbstractForm {
 			}
 			updateSaveFlag(session.getProjectionId());
 		} catch (SystemException | PortalException | InterruptedException | ExecutionException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		LOGGER.debug("Exiting SaveProjection method");
 	}
@@ -1588,7 +1588,7 @@ public class ForecastForm extends AbstractForm {
 				submitProjection(notes, screenName, getUploadedData);
 			}
 		} catch (PortalException | SystemException | NumberFormatException ex) {
-			Logger.getLogger(ForecastForm.class.getName()).log(Level.SEVERE, null, ex);
+			LoggerFactory.getLogger(ForecastForm.class.getName()).error( StringUtils.EMPTY, ex);
 		}
 	}
 
@@ -1613,7 +1613,7 @@ public class ForecastForm extends AbstractForm {
 		}
 		try {
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -1673,7 +1673,7 @@ public class ForecastForm extends AbstractForm {
 				nmSalesInsertProcedure();
 				pushMap.put(INDICATOR_REFRESH_UPDATE.getConstant(), Boolean.TRUE);
 			} catch (Exception ex) {
-				LOGGER.error(ex);
+				LOGGER.error(ex.getMessage());
 			}
 		}
 		if (INDICATOR_TIME_PERIOD_CHANGED.getConstant().equals(indicator)) {
@@ -1681,7 +1681,7 @@ public class ForecastForm extends AbstractForm {
 
 				pushMap.put(INDICATOR_TIME_PERIOD_CHANGED.getConstant(), Boolean.TRUE);
 			} catch (Exception ex) {
-				LOGGER.error(ex);
+				LOGGER.error(ex.getMessage());
 			}
 		}
 	}
@@ -1924,7 +1924,7 @@ public class ForecastForm extends AbstractForm {
 						init();
 						addContent();
 					} catch (Exception ex) {
-						LOGGER.error(ex);
+						LOGGER.error(ex.getMessage());
 					}
 				}
 
@@ -1938,7 +1938,7 @@ public class ForecastForm extends AbstractForm {
 						init();
 						addContent();
 					} catch (Exception ex) {
-						LOGGER.error(ex);
+						LOGGER.error(ex.getMessage());
 					}
 				}
 			}.getConfirmationMessage(CONFIRMATION.getConstant(), alertMsg.getString(
@@ -2017,7 +2017,7 @@ public class ForecastForm extends AbstractForm {
 													.getMessageNotification("The projection not approved properly");
 										}
 									} catch (NumberFormatException ex) {
-										LOGGER.error(ex);
+										LOGGER.error(ex.getMessage());
 									}
 								}
 							});
@@ -2072,7 +2072,7 @@ public class ForecastForm extends AbstractForm {
 													.getMessageNotification("The projection not rejected properly");
 										}
 									} catch (NumberFormatException ex) {
-										LOGGER.error(ex);
+										LOGGER.error(ex.getMessage());
 									}
 								}
 							});
@@ -2130,7 +2130,7 @@ public class ForecastForm extends AbstractForm {
 													.getMessageNotification("The projection not withdrawn properly");
 										}
 									} catch (NumberFormatException ex) {
-										LOGGER.error(ex);
+										LOGGER.error(ex.getMessage());
 									}
 								}
 							});
@@ -2187,7 +2187,7 @@ public class ForecastForm extends AbstractForm {
 													.getMessageNotification("The projection not cancelled properly");
 										}
 									} catch (NumberFormatException ex) {
-										LOGGER.error(ex);
+										LOGGER.error(ex.getMessage());
 									}
 								}
 							});
@@ -2237,7 +2237,7 @@ public class ForecastForm extends AbstractForm {
 					data.init();
 					latch.countDown();
 				} catch (Exception ex) {
-					LOGGER.error(ex);
+					LOGGER.error(ex.getMessage());
 				}
 			}
 		};
@@ -2255,7 +2255,7 @@ public class ForecastForm extends AbstractForm {
 				try {
 					th.wait();
 				} catch (InterruptedException ex) {
-					Logger.getLogger(ForecastForm.class.getName()).log(Level.SEVERE, null, ex);
+					LoggerFactory.getLogger(ForecastForm.class.getName()).error( StringUtils.EMPTY, ex);
 				}
 			}
 
@@ -2607,7 +2607,7 @@ public class ForecastForm extends AbstractForm {
 							}
 							dsLogic.deleteProjection(session.getProjectionId(), session.getUserId(), screenName);
 						} catch (IllegalArgumentException ex) {
-							LOGGER.error(ex);
+							LOGGER.error(ex.getMessage());
 						}
 						if (editWindow != null) {
 							closeEditTray(editWindow);

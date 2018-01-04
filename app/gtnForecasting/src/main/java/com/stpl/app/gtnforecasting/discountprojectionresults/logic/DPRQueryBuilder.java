@@ -15,14 +15,15 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author STPL
  */
 public class DPRQueryBuilder {
-    private static final Logger LOGGER = Logger.getLogger(DPRQueryBuilder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DPRQueryBuilder.class);
     
     public List getCCPDetailsID(int ProjectionMasterSid, String hierarchyNo, String levelNo) {
         String sql = StringUtils.EMPTY;
@@ -43,7 +44,7 @@ public class DPRQueryBuilder {
                     + "AND PCH2.PROJECTION_MASTER_SID =" + ProjectionMasterSid + " WHERE  RLD2.LEVEL_NO ='" + levelNo + "')";
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(sql);
         }
         return Collections.emptyList();
@@ -69,7 +70,7 @@ public class DPRQueryBuilder {
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(sql);
         } 
         return Collections.emptyList();
@@ -203,7 +204,7 @@ public class DPRQueryBuilder {
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(projectionQuery, session.getCurrentTableNames()));
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(projectionQuery);
         }
         return Collections.emptyList();
@@ -323,7 +324,7 @@ public class DPRQueryBuilder {
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sql, session.getCurrentTableNames()));
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(sql);
         } 
         return Collections.emptyList();
@@ -443,7 +444,7 @@ public class DPRQueryBuilder {
             return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(projectionQuery, session.getCurrentTableNames()));
         } catch (Exception e) {
           
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(projectionQuery);
         } 
         return Collections.emptyList();
@@ -548,7 +549,7 @@ public class DPRQueryBuilder {
                 sql = sql + " ORDER BY PR.YEAR,BASE,RSM.RS_NAME";
                 return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sql, sessionDto.getCurrentTableNames()));
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
                 LOGGER.error(sql);
             }
         }

@@ -51,7 +51,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -64,7 +65,7 @@ public class HeaderUtils {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(HeaderUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HeaderUtils.class);
     /**
      * The quarter.
      */
@@ -1577,7 +1578,7 @@ public class HeaderUtils {
             }
 
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("Ending getCalculatedDiscountProjectionColumns ");
         List<Object> headerContents = new ArrayList<>();
@@ -5250,7 +5251,7 @@ public class HeaderUtils {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("Ending getCalculatedDiscountProjectionColumns ");
         List<Object> headerContents = new ArrayList<>();

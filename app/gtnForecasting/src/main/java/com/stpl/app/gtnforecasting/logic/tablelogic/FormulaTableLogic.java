@@ -12,7 +12,8 @@ import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,7 +27,7 @@ public class FormulaTableLogic extends PageTableLogic{
     private final PPAProjectionLogic ppaLogic = new PPAProjectionLogic();
     private boolean isReset = false;
     private boolean isDetails = false;
-    private static final Logger LOGGER = Logger.getLogger(FormulaTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FormulaTableLogic.class);
     
     @Override
     public int getCount() {
@@ -39,7 +40,7 @@ public class FormulaTableLogic extends PageTableLogic{
                     count = (Integer) ppaLogic.loadRSFormula(rsFormulaDTO, 0, 0, true, this.getFilters());
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         count = isReset ? 0 : count;

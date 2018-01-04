@@ -9,14 +9,15 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 public abstract class AbstractNotificationUtils {
     /**
 	 * The Constant LOGGER.
 	 */
-	public static final Logger LOGGER = Logger.getLogger(AbstractNotificationUtils.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(AbstractNotificationUtils.class);
 
 	/**
 	 * Gets the confirmation message.
@@ -176,7 +177,7 @@ public abstract class AbstractNotificationUtils {
             return msg;
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return null;
         }
     }

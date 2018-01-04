@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -22,7 +23,7 @@ import org.jboss.logging.Logger;
  */
 public class ExclusionDetailsTableLogic  extends PageTableLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(ExclusionDetailsTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExclusionDetailsTableLogic.class);
 
     private final AccrualRateProjectionLogic searchLogic = AccrualRateProjectionLogic.getInstance();
 

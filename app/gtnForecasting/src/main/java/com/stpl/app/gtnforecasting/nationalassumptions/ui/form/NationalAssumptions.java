@@ -1,5 +1,7 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.BaselinePeriodDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.NewNdcDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.PriceTypeDTO;
@@ -44,8 +46,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.navigator.View;
@@ -68,7 +68,6 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.DateField;
 import com.vaadin.v7.ui.DefaultFieldFactory;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
@@ -91,7 +90,10 @@ import java.util.Set;
 import javax.naming.NamingException;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -110,7 +112,7 @@ public class NationalAssumptions extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(NationalAssumptions.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NationalAssumptions.class);
 
     /**
      * The price type ddlb.
@@ -518,7 +520,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                                 cpiCompounding.setEnabled(false);
                             }
                         } catch (PortalException | SystemException | Property.ReadOnlyException ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error(ex.getMessage());
                         }
                     } else {
                         rollingAvgResultsBean.removeAllItems();
@@ -571,7 +573,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 try {
                     callNDCPopupProcedure();
                 } catch (SQLException | NamingException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             }
 
@@ -622,7 +624,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             });
 
         } catch (PortalException | SystemException portal) {
-            LOGGER.error(portal);
+            LOGGER.error(StringUtils.EMPTY,portal);
         } 
         LOGGER.debug("End of configurefields method");
     }
@@ -869,7 +871,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             ndcPopup.setWidth(Constant.NINE_THOUSAND_PX);
             UI.getCurrent().addWindow(ndcPopup);
         } catch (SystemException | IllegalArgumentException | NullPointerException | SQLException | NamingException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -1123,7 +1125,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -1349,7 +1351,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             priceTypesBean.addAll(savedPriceTypesResults);
             resetBtnOnClick();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
 
         }
         return true;
@@ -1480,7 +1482,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             ndcPopup.setWidth(Constant.NINE_THOUSAND_PX);
             UI.getCurrent().addWindow(ndcPopup);
         } catch (SystemException | IllegalArgumentException | NullPointerException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1773,7 +1775,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 callNewNdcProcedure();
             }
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
 
         }
 
@@ -1783,7 +1785,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         try {
             logic.newNdcCook(sessionDTO);
         } catch (SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

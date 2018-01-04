@@ -5,16 +5,16 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.PMPYTradingPartnerDTO;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.numberfilter.DemoFilterDecorator;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
@@ -36,7 +36,8 @@ import elemental.events.KeyboardEvent;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -49,7 +50,7 @@ public class PMPYTradingPartnerLookup extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PMPYTradingPartnerLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PMPYTradingPartnerLookup.class);
 
     /**
      * The trading partner no.
@@ -550,11 +551,11 @@ public class PMPYTradingPartnerLookup extends Window {
                 try {
                     searchLogic();
                 } catch (SystemException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 } catch (CommitException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
 
             }

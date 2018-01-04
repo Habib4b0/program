@@ -10,6 +10,8 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastProjectionSubmitRequest;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsForecastProjectionSubmitBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VarianceCalculationLogic {
 
@@ -18,7 +20,7 @@ public class VarianceCalculationLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(VarianceCalculationLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VarianceCalculationLogic.class);
 
     public static void submitWorkflow(final Long processInstanceId, final SessionDTO session, String moduleName) {
 

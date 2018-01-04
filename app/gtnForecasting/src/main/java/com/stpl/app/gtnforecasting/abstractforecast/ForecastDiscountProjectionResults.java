@@ -31,7 +31,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.NativeSelect;
@@ -44,7 +43,9 @@ import java.util.List;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
-import org.jboss.logging.Logger;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -55,7 +56,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public abstract class ForecastDiscountProjectionResults extends CustomComponent implements View {
 
-    public static final Logger LOGGER = Logger
+    public static final Logger LOGGER = LoggerFactory
             .getLogger(ForecastDiscountProjectionResults.class);
     protected final String flavourName;
 

@@ -1,5 +1,6 @@
 package com.stpl.app.gtnforecasting.projectionvariance.form.lookup;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastPVComparisonLookup;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
@@ -16,7 +17,6 @@ import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
 import com.stpl.app.utils.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.data.Property;
@@ -31,7 +31,8 @@ import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class CustomerTreeLookup.
@@ -41,7 +42,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(MComparisonLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MComparisonLookup.class);
     /**
      * The Constant serialVersionUID.
      */
@@ -232,7 +233,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
                 AbstractNotificationUtils.getErrorNotification("No Value Selected", "Please select a projection to add. ");
             }
         } catch (Property.ReadOnlyException ex) {
-              LOGGER.error(ex);
+              LOGGER.error(ex.getMessage());
         }
     }
 
@@ -332,7 +333,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
                             "There were no records matching the search criteria.  Please try again.");
                 }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("Ending searchButtonLogic");
     }
