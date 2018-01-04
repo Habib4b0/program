@@ -205,7 +205,7 @@ public class GtnFrameworkRSConstants {
 	public static final String REBATE_SCHEDULE_END_DATE_LAYOUT = "rebateScheduleEndDateLayout";
 	public static final String REBATE_FREQUENCYLAYOUT = "rebateFrequencylayout";
 	public static final String REBATE_SCHEDULE_INFO_INFORMATION_LAYOUT = "rebateScheduleInfoInformationLayout";
-	public static final String PAYMENT_LEVELLAYOUT = "paymentLevellayout";
+	public static final String PAYMENT_LEVEL_LAYOUT = "paymentLevellayout";
 	public static final String REBATE_SCHEDULE_STATUSLAYOUT = "rebateScheduleStatuslayout";
 	public static final String REBATE_SCHEDULE_ALIAS_ID_LAYOUT = "rebateScheduleAliasIdLayout";
 	public static final String INTEREST_BEARING_BASISLAYOUT = "interestBearingBasislayout";
