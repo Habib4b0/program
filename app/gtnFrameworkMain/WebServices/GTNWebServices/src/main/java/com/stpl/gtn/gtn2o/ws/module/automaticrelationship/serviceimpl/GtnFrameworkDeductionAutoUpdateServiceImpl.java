@@ -108,8 +108,6 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 				queryGenerator.generateQuery(hierarchyLevelDefinitionList, relationBean, querygeneratorBean,
 						updatedVersionNo, userId, i);
 				List<String> firstInput = new ArrayList<>();
-				System.out.println(
-						"querygeneratorBean.generateQuery()------------>>>>>>>" + querygeneratorBean.generateQuery());
 				firstInput.add(getListToString(itemMastersidList));
 				String insertQuery = gtnWsSqlService.getReplacedQuery(firstInput,
 						querygeneratorBean.generateQuery());
