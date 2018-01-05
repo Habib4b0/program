@@ -4,6 +4,8 @@ package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.NewNdcDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.NationalAssumptionLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
@@ -20,8 +22,6 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.data.Property;
@@ -36,7 +36,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -111,7 +112,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(MedicaidNdcPopUp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MedicaidNdcPopUp.class);
     private final SessionDTO sessionDTO;
 
 
@@ -223,7 +224,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
                     }
                     wac.setReadOnly(true);
                 } catch (Property.ReadOnlyException | NumberFormatException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             }
         });
@@ -296,7 +297,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
                 reset.setVisible(false);
             }
         } catch (PortalException | SystemException portal) {
-            LOGGER.error(portal);
+            LOGGER.error(StringUtils.EMPTY,portal);
         }
     }
 
@@ -403,7 +404,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
 
             }
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -422,7 +423,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
             nDCLineExtensionBean.addAll(list);
 
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 

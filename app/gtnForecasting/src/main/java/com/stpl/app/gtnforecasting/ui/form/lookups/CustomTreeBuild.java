@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * The Class CustomTreeBuild.
  *
@@ -36,7 +38,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     private CustomViewMaster customView = null;
     private final CustomViewLogic relationBuildLogic = new CustomViewLogic();
     
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CustomTreeBuild.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomTreeBuild.class);
 
     public CustomTreeBuild(SessionDTO session) {
         this(session, 0);
@@ -174,7 +176,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
                         table.addItem(treeItemId);
                     }
                 } catch (UnsupportedOperationException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
             }
         } else {

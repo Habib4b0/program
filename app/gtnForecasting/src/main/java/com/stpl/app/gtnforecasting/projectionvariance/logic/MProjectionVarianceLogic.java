@@ -5,6 +5,14 @@
  */
 package com.stpl.app.gtnforecasting.projectionvariance.logic;
 
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
@@ -16,6 +24,7 @@ import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
 import com.stpl.app.gtnforecasting.utils.Converters;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.MProjectionSelection;
 import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import com.stpl.app.utils.Constants;
@@ -27,16 +36,6 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.Criterion;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
 import com.vaadin.v7.data.util.filter.Compare;
@@ -61,6 +60,8 @@ import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -68,7 +69,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  */
 public class MProjectionVarianceLogic {
 
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(MProjectionVarianceLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MProjectionVarianceLogic.class);
     private static final String C = Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY;
     private static final String P = "P";
     private static final String DASH = "-";
@@ -302,7 +303,7 @@ public class MProjectionVarianceLogic {
             int count = Integer.valueOf(String.valueOf(resultList.get(0)));
             return count;
         } catch (ParseException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return 0;
     }
@@ -537,7 +538,7 @@ public class MProjectionVarianceLogic {
             List<ComparisonLookupDTO> resultList = convertResultsToLookupDTO((List) salesProjectionDAO.executeSelectQuery(customSql.toString()));
             return resultList;
         } catch (ParseException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return Collections.emptyList();
@@ -641,7 +642,7 @@ public class MProjectionVarianceLogic {
             count += getProjVarianceCount(projSelDTO, parentId, isLevelCount);
             return count;
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return 0;
     }
@@ -776,7 +777,7 @@ public class MProjectionVarianceLogic {
                 count = Integer.valueOf(String.valueOf(ob));
             }
         } catch (PortalException | SystemException | NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -1113,7 +1114,7 @@ public class MProjectionVarianceLogic {
             return list;
         } catch (Exception ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return Collections.emptyList();
 
@@ -1173,7 +1174,7 @@ public class MProjectionVarianceLogic {
                     resultList = getPivotResults(parentId, selectionDTO, start, offset);
                 }
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
             }
         } else {
             selectionDTO.setLevelNo(selectionDTO.getFilterLevelNo());
@@ -1321,7 +1322,7 @@ public class MProjectionVarianceLogic {
             }
 
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         LOGGER.info("  getPeriodResults  Ends");
@@ -1875,7 +1876,7 @@ public class MProjectionVarianceLogic {
             }
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return listValue;
     }
@@ -2114,7 +2115,7 @@ public class MProjectionVarianceLogic {
             }
             return projDTOList;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
     }
@@ -4999,7 +5000,7 @@ public class MProjectionVarianceLogic {
                 }
             }
         } catch (PortalException | SystemException | UnsupportedOperationException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return contractType;
     }
@@ -5015,7 +5016,7 @@ public class MProjectionVarianceLogic {
                 customCount = Integer.valueOf(String.valueOf(ob));
             }
         } catch (PortalException | SystemException | NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return customCount;
     }
@@ -6321,7 +6322,7 @@ public class MProjectionVarianceLogic {
             programCodequeryList = (List<Object>) CommonLogic.executeSelectQuery(programCodequery, null, null);
         }
         }catch(Exception e){
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return programCodequeryList;
     }
@@ -6714,7 +6715,7 @@ public class MProjectionVarianceLogic {
                 commonLogic.saveSelection(map, projectionID, screenName, Constant.UPDATE, "M_PROJECTION_SELECTION");
             }
         } catch (SystemException | PortalException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

@@ -5,16 +5,15 @@
  */
 package com.stpl.app.gtnforecasting.dao.impl;
 
-import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
-import com.stpl.app.model.HelperTable;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.MSalesProjectionMasterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.service.finderImpl.NmSalesProjectionImpl;
 import com.stpl.app.gtnforecasting.service.finderImpl.StChSalesProjectionImpl;
+import com.stpl.app.model.HelperTable;
+import com.stpl.app.service.CompanyMasterLocalServiceUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

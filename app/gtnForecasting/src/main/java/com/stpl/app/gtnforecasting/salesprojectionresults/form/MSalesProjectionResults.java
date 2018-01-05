@@ -6,6 +6,8 @@
  */
 package com.stpl.app.gtnforecasting.salesprojectionresults.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjectionResults;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
@@ -45,8 +47,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
@@ -56,8 +56,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
@@ -68,16 +66,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
@@ -95,7 +96,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(MSalesProjectionResults.class);
     /**
      * The table control Layout.
@@ -892,7 +893,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             sprCommonLogic.saveMandatedSRPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION_RESULTS);
             LOGGER.debug("saveSPResults method ends");
         } catch (PortalException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -995,7 +996,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
                 editBtn.setVisible(Boolean.FALSE);
             }
         } catch (PortalException | SystemException ex) {
-            java.util.logging.Logger.getLogger(MSalesProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(MSalesProjectionResults.class.getName()).error( StringUtils.EMPTY, ex);
         }
     }
 

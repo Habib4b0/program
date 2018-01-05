@@ -20,6 +20,8 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.ui.VerticalLayout;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -32,7 +34,7 @@ public class ForecastMainView extends VerticalLayout implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ForecastMainView.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ForecastMainView.class);
 
     /**
      * View name for navigation.

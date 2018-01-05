@@ -5,24 +5,25 @@
  */
 package com.stpl.app.gtnforecasting.ppaprojection.logic;
 
-import com.stpl.app.gtnforecasting.dao.PPAProjectionDao;
-import com.stpl.app.gtnforecasting.dao.impl.PPAProjectionDaoImpl;
-import com.stpl.app.serviceUtils.ConstantsUtils;
-import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.dao.PPAProjectionDao;
+import com.stpl.app.gtnforecasting.dao.impl.PPAProjectionDaoImpl;
 import com.stpl.app.service.ItemPricingQualifierLocalServiceUtil;
+import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.ifs.util.HelperDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,7 +34,7 @@ public class PPAServiceSupport {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PPAServiceSupport.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAServiceSupport.class.getName());
     /**
      * The id desc map.
      */
@@ -92,7 +93,7 @@ public class PPAServiceSupport {
             }
             LOGGER.debug("Ending getPriceTypeResults in PPA  return map size :" + +priceQualifierMap.size());
         } catch (SystemException | NumberFormatException e) {
-           LOGGER.error(e);
+           LOGGER.error(e.getMessage());
         }
 
     }

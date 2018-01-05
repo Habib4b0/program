@@ -13,7 +13,8 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The class PmpyTradingPartnerTableLogic.
@@ -22,7 +23,7 @@ import org.jboss.logging.Logger;
  */
 public class PmpyTradingPartnerTableLogic extends PageTableLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(PmpyTradingPartnerTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PmpyTradingPartnerTableLogic.class);
     private final PmpyLogic searchLogic = new PmpyLogic();
     protected String tpNo;
     protected String tpName;
@@ -41,7 +42,7 @@ public class PmpyTradingPartnerTableLogic extends PageTableLogic {
             isResultsEmpty = count == 0;            
             count = isReset ? 0 : count;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -53,7 +54,7 @@ public class PmpyTradingPartnerTableLogic extends PageTableLogic {
             try {
                 list = (List)searchLogic.tradingPartnerLookUp(tpNo, tpName, contractHolder,start, offset, this.getSortByColumns(), this.getFilters(),false);
             } catch (Exception ex) {                
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return list;

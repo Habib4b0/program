@@ -2,7 +2,8 @@ package com.stpl.app.gtnforecasting.utils;
 
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -58,7 +59,7 @@ public final class HelperUtils {
     	public static final String ITEM_IRT_QUALIFIER_NAME = "ITEM_IRT_QUALIFIER_NAME";
 	      
       	/** The Constant LOGGER. */
-      	private static final Logger LOGGER = Logger.getLogger(HelperUtils.class);
+      	private static final Logger LOGGER = LoggerFactory.getLogger(HelperUtils.class);
 	
 	/**
 	 * Default Constructor.
@@ -84,7 +85,7 @@ public final class HelperUtils {
             stringOut = StringUtils.EMPTY;
         }
   } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return stringOut;
     }
@@ -97,7 +98,7 @@ public final class HelperUtils {
             stringOut = "0";
         }
   } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return Integer.valueOf(stringOut);
     }

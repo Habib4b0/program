@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.projectionresults.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastProjectionResults;
 import com.stpl.app.gtnforecasting.dto.ProjectionResultsDTO;
@@ -30,21 +32,20 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.VaadinSession;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -57,7 +58,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
     /**
      * LOGGER
      */
-    private static final Logger LOGGER = Logger.getLogger(MProjectionResults.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MProjectionResults.class);
     /**
      * discountlist
      */
@@ -201,7 +202,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
             List<ProjectionResultsDTO> resultList = tableLogic.mProjectionResultsLogic.getConfiguredProjectionResults(new Object(), 0, count, projectionSelectionDTO);
             loadDataToContainer(resultList, null);
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -468,7 +469,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
                 editBtn.setVisible(Boolean.FALSE);
             }
         } catch (PortalException | SystemException ex) {
-            java.util.logging.Logger.getLogger(MProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(MProjectionResults.class.getName()).error( StringUtils.EMPTY, ex);
         }
     }
 

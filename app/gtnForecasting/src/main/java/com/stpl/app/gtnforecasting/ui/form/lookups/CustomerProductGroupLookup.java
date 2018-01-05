@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.forecastabstract.lookups.AbstractGroupLookup;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.GroupSearchLogic;
@@ -17,8 +19,6 @@ import static com.stpl.app.utils.Constants.IndicatorConstants.*;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -26,11 +26,12 @@ import com.vaadin.v7.ui.TextField;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class CustomerProductGroupLookup.
@@ -76,7 +77,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 	 * Container for results table.
 	 */
 	private final BeanItemContainer<GroupDTO> resultBean = new BeanItemContainer<>(GroupDTO.class);
-        private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CustomTreeBuild.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(CustomTreeBuild.class);
 
 
 	public CustomerProductGroupLookup(final String indicator, final String windowName, final TextField groupLookup,
@@ -153,7 +154,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 						finalCompanySids.retainAll(sidsFromDetails);
 						setFilteredSids(finalCompanySids);
 					} catch (SystemException | NumberFormatException ex) {
-						Logger.getLogger(CustomerProductGroupLookup.class.getName()).log(Level.SEVERE, null, ex);
+						LoggerFactory.getLogger(CustomerProductGroupLookup.class.getName()).error( StringUtils.EMPTY, ex);
 					}
 				} else {
 					setFilteredSids(new ArrayList<String>());
@@ -169,7 +170,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 						finalItemSids.retainAll(sidsFromDetails);
 						setFilteredSids(finalItemSids);
 					} catch (SystemException | NumberFormatException ex) {
-						Logger.getLogger(CustomerProductGroupLookup.class.getName()).log(Level.SEVERE, null, ex);
+						LoggerFactory.getLogger(CustomerProductGroupLookup.class.getName()).error( StringUtils.EMPTY, ex);
 					}
 				} else {
 					setFilteredSids(new ArrayList<String>());
@@ -210,7 +211,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 				}
 				close();
 			} catch (SystemException | Property.ReadOnlyException | NumberFormatException ex) {
-				Logger.getLogger(CustomerProductGroupLookup.class.getName()).log(Level.SEVERE, null, ex);
+				LoggerFactory.getLogger(CustomerProductGroupLookup.class.getName()).error( StringUtils.EMPTY, ex);
 			}
 		} else {
 			AbstractNotificationUtils.getErrorNotification("Confirm Selection",

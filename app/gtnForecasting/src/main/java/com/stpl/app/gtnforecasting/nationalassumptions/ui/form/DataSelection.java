@@ -1,5 +1,7 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.DataSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProductGroupLookUpDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ResultList;
@@ -17,13 +19,11 @@ import com.stpl.app.model.NaProjMaster;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.NaProjMasterLocalServiceUtil;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.utils.Constants;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.VaadinSession;
@@ -53,7 +53,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -67,7 +68,7 @@ public class DataSelection extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(DataSelection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataSelection.class);
     /**
      * The mode option.
      */
@@ -475,7 +476,7 @@ public class DataSelection extends CustomComponent implements View {
             }
 
         } catch (PortalException | SystemException system) {
-            LOGGER.error(system);
+            LOGGER.error(StringUtils.EMPTY,system);
         }
 
     }
@@ -658,7 +659,7 @@ public class DataSelection extends CustomComponent implements View {
                     try {
                         dataSelectionBinder.commit();
                     } catch (FieldGroup.CommitException e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                     }
                     VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, Integer.parseInt(msg));
                     sessionDTO.setProjectionId(Integer.parseInt(msg));
@@ -686,7 +687,7 @@ public class DataSelection extends CustomComponent implements View {
                 AbstractNotificationUtils.getErrorNotification(Constant.MISSING_DATA, Constant.PLEASE_SELECT_ALL_REQUIRED_FIELDS_BEFORE);
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
     }
@@ -740,7 +741,7 @@ public class DataSelection extends CustomComponent implements View {
             LOGGER.debug("Add or Search option value change listener ends");
 
         } catch (Property.ReadOnlyException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
     
@@ -899,7 +900,7 @@ public class DataSelection extends CustomComponent implements View {
                 try {
                     dataSelectionBinder.commit();
                 } catch (FieldGroup.CommitException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
                 Object[] values = {projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue(), companyValueId == null ? 0 : companyValueId,
                     thearupeticValueId, productGroupId,String.valueOf(businessUnit.getValue())};
@@ -921,7 +922,7 @@ public class DataSelection extends CustomComponent implements View {
                 logic.updateProducts((Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID), insertList, removeList);
                 nationalAssumptions.getNDCSetup(String.valueOf(sessionDTO.getProjectionId()));
             } catch (SQLException | NamingException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             } finally {
                 LOGGER.debug("Inside finally");
             }
@@ -985,7 +986,7 @@ public class DataSelection extends CustomComponent implements View {
             company.setValue(model.getCompanyMasterSid());
             businessUnit.setValue(model.getBusinessUnit());
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } 
     }
 }

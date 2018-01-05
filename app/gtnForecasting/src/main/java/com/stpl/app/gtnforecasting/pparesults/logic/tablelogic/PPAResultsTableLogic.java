@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author srithar
@@ -59,7 +59,7 @@ public class PPAResultsTableLogic extends PageTreeTableLogic {
     public void setSelection(ProjectionSelectionDTO selection) {
         this.selection = selection;
     }
-    private static final Logger LOGGER = Logger
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(PPAResultsTableLogic.class);
 
     @Override
@@ -217,7 +217,7 @@ public class PPAResultsTableLogic extends PageTreeTableLogic {
         }
     }
         } catch (NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

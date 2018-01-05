@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stpl.addons.tableexport.TemporaryFileDownloadResource;
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
@@ -27,7 +28,7 @@ public class GtnWsCsvExportUtil {
 		super();
 	}
 
-	private static final Logger LOGGER = Logger.getLogger(GtnWsCsvExportUtil.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GtnWsCsvExportUtil.class);
 
 	public static final String EXCEL_MIME_TYPE = "application/vnd.ms-excel";
 

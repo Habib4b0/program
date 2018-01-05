@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +31,7 @@ public class MSalesProjectionTableLogic extends PageTreeTableLogic {
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final SalesLogic salesLogic = new SalesLogic();
     private boolean firstGenerated = false;
-    public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(MSalesProjectionTableLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(MSalesProjectionTableLogic.class);
     private final ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
 
     /**
@@ -52,7 +54,7 @@ public class MSalesProjectionTableLogic extends PageTreeTableLogic {
                     i++;
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         LOGGER.debug("loadData ended  " + map.size());
@@ -183,7 +185,7 @@ public class MSalesProjectionTableLogic extends PageTreeTableLogic {
                     levelList = CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(projSelDTO.getScreenName()) ? salesLogic.getReturnsSalesResults(projSelDTO, 0, projSelDTO.getLevelCount()) : salesLogic.getSalesResults(projSelDTO, 0, projSelDTO.getLevelCount());
 
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
                 if (levelList != null) {
                     int size = levelList.size();
@@ -200,7 +202,7 @@ public class MSalesProjectionTableLogic extends PageTreeTableLogic {
                 }
             }
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -210,7 +212,7 @@ public class MSalesProjectionTableLogic extends PageTreeTableLogic {
             setRecordCount(getCalculatedTotalRecordCount());
             setCurrentPage(getTotalAmountOfPages());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
     

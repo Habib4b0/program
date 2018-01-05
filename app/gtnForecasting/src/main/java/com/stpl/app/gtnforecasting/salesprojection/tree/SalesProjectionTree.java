@@ -22,7 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,7 +34,7 @@ public class SalesProjectionTree {
      /**
      * The Constant LOGGER.
      */
-    public static final Logger logger = Logger.getLogger(SalesProjectionTree.class);
+    public static final Logger logger = LoggerFactory.getLogger(SalesProjectionTree.class);
 
     private SalesBaseNode apex;
 

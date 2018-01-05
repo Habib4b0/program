@@ -28,7 +28,8 @@ import de.steinwedel.messagebox.MessageBoxListener;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -82,7 +83,7 @@ public class ExclusionDetailsLookup extends Window {
 
     private final BeanItemContainer<AccrualRateSelectionDTO> excludedresultBeanContainer = new BeanItemContainer<>(AccrualRateSelectionDTO.class);
 
-    private static final Logger LOGGER = Logger.getLogger(ExclusionDetailsLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExclusionDetailsLookup.class);
     
     private boolean submitFlag = false;
     
@@ -123,7 +124,7 @@ public class ExclusionDetailsLookup extends Window {
                 submitBtn.setEnabled(false);
             }
         } catch (Exception e) {
-          LOGGER.error(e);
+          LOGGER.error(e.getMessage());
         }
         LOGGER.debug(" init Ends");
     }
@@ -342,7 +343,7 @@ public class ExclusionDetailsLookup extends Window {
             availableTable.setVisibleColumns(AccrualRateUtils.getInstance().availableValuesVisibleColumns);
             availableTable.setColumnHeaders(AccrualRateUtils.getInstance().availableValuesVisibleHeaders);
         } catch (Exception e) {
-           LOGGER.error(e);
+           LOGGER.error(e.getMessage());
         }
         LOGGER.debug("configureAvailableTable ends");
 

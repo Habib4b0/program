@@ -14,6 +14,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +27,7 @@ public class ProductGroupTableLogic extends PageTableLogic {
     protected String productGroupName = StringUtils.EMPTY;
     protected boolean loadData = false;
     protected ProductGroupLookUpDTO productGroupLookUpDTO;
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelectionSearchLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionSearchLogic.class);
 
     @Override
     public int getCount() {
@@ -43,7 +45,7 @@ public class ProductGroupTableLogic extends PageTableLogic {
         try {
             resultList = new ProductGroupLogic().getProductGroups(productGroupNo, productGroupName, start, offset, getFilters(), getSortByColumns()); 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return resultList;
     }

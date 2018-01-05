@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
@@ -33,7 +34,6 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -46,7 +46,6 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.VerticalLayout;
@@ -60,9 +59,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -201,7 +202,7 @@ public class AlternateSummery extends CustomComponent {
     private Map<Object, Boolean> checkBoxMap = new HashMap<>();
     private Map<Object, String> radioMap = new HashMap<>();
     
-    private static final Logger LOGGER = Logger.getLogger(AlternateSummery.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlternateSummery.class);
 
 
     public AlternateSummery(SessionDTO session, String screenName) {
@@ -219,7 +220,7 @@ public class AlternateSummery extends CustomComponent {
             init();
         } catch (PortalException ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -837,7 +838,7 @@ public class AlternateSummery extends CustomComponent {
             List<SalesRowDto> resultList = salesLogic.getConfiguredSalesProjection(new Object(), 0, count, projectionDTO);
             loadDataToContainer(resultList, null);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -857,7 +858,7 @@ public class AlternateSummery extends CustomComponent {
             List<SalesRowDto> resultList = salesLogic.getConfiguredSalesProjection(id, 0, count, projectionDTO);
             loadDataToContainer(resultList, id);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -884,7 +885,7 @@ public class AlternateSummery extends CustomComponent {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -1007,7 +1008,7 @@ public class AlternateSummery extends CustomComponent {
                 exp.export();
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -1042,7 +1043,7 @@ public class AlternateSummery extends CustomComponent {
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
     }
@@ -1078,7 +1079,7 @@ public class AlternateSummery extends CustomComponent {
             addResultTable();
             generateLogic();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("generate button click listener ends ");
 

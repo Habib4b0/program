@@ -7,26 +7,12 @@ package com.stpl.app.gtnforecasting.utils;
 
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.pparesults.dto.PPAProjectionResultsDTO;
-import com.stpl.ifs.ui.util.NumericConstants;
-//import com.vaadin.addon.charts.Chart;
-//import com.vaadin.addon.charts.model.ChartType;
-//import com.vaadin.addon.charts.model.Configuration;
-//import com.vaadin.addon.charts.model.HorizontalAlign;
-//import com.vaadin.addon.charts.model.LayoutDirection;
-//import com.vaadin.addon.charts.model.Legend;
-//import com.vaadin.addon.charts.model.ListSeries;
-//import com.vaadin.addon.charts.model.PlotOptionsColumn;
-//import com.vaadin.addon.charts.model.Tooltip;
-//import com.vaadin.addon.charts.model.VerticalAlign;
-//import com.vaadin.addon.charts.model.XAxis;
-//import com.vaadin.addon.charts.model.YAxis;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
-import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
 import org.asi.ui.headers.TableHeaderDTO;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -69,7 +55,7 @@ public class PPAChart {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PPAChart.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAChart.class);
 
     /**
      * The Constructor.

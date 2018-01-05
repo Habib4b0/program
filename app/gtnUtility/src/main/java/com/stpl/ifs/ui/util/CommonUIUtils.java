@@ -18,14 +18,15 @@ import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 import java.util.List;
 import java.util.Map;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author manikanta
  * 
  */
 public class CommonUIUtils {
-    private static final Logger LOGGER = Logger.getLogger(CommonUIUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUIUtils.class);
 	static{
 		
 	}
@@ -176,7 +177,7 @@ public class CommonUIUtils {
                     cssLayout.removeComponent(binder.getField(fieldStr));
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
            
         }
     }

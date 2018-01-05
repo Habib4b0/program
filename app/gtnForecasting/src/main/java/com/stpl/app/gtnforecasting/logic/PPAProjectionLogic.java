@@ -6,6 +6,12 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.PPAProjectionDao;
 import com.stpl.app.gtnforecasting.dao.impl.PPAProjectionDaoImpl;
 import com.stpl.app.gtnforecasting.dto.PPAProjectionDTO;
@@ -18,19 +24,13 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.ItemPricingQualifierLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.ItemPricingQualifierLocalServiceUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.sql.CallableStatement;
@@ -52,7 +52,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtListDTO;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -60,7 +61,7 @@ import org.jboss.logging.Logger;
  */
 public class PPAProjectionLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(PPAProjectionLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
     private static Thread procedureThread;
 
     private static RunnableJob runnableJob;
@@ -214,7 +215,7 @@ public class PPAProjectionLogic {
                 }
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         LOGGER.debug("End of CustomizedPPA");
@@ -321,7 +322,7 @@ public class PPAProjectionLogic {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return true;
 
@@ -468,7 +469,7 @@ public class PPAProjectionLogic {
 
         } catch (Exception ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return list;
     }
@@ -492,7 +493,7 @@ public class PPAProjectionLogic {
             }
             selection.setLevelCount(count);
         } catch (NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -545,13 +546,13 @@ public class PPAProjectionLogic {
                 statement.execute();
             }
         } catch (SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             try {
                 statement.close();
                 connection.close();
             } catch (SQLException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
                 

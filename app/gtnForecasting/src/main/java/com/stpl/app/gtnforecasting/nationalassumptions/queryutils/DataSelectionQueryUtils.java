@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.queryutils;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.NACommonResultsDAO;
 import com.stpl.app.gtnforecasting.dao.impl.NACommonResultsDAOImpl;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
@@ -12,11 +14,9 @@ import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.Constants;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
@@ -32,10 +32,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -65,7 +65,7 @@ public class DataSelectionQueryUtils {
                             filterString = stringFilter.getFilterString();
                             parameters.put(Constant.FILTER + stringFilter.getPropertyId(), CommonUtils.filterUser(filterString));
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error(ex.getMessage());
                         }
                     }
                 } else if (filter instanceof Between) {
@@ -411,7 +411,7 @@ public class DataSelectionQueryUtils {
                             filterString = stringFilter.getFilterString();
                             parameters.put(Constant.FILTER + stringFilter.getPropertyId(), CommonUtils.filterUser(filterString));
                         } catch (Exception ex) {
-                            LOGGER.error(ex);
+                            LOGGER.error(ex.getMessage());
                         }
                     }
 
@@ -811,7 +811,7 @@ public class DataSelectionQueryUtils {
         try {
             countList = (List) DAO.executeSelectQuery(sql);
         } catch (PortalException | SystemException ex) {
-            Logger.getLogger(DataSelectionQueryUtils.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(DataSelectionQueryUtils.class.getName()).error( StringUtils.EMPTY, ex);
         }
         int count = 0;
         if (countList != null && !countList.isEmpty()) {
@@ -964,7 +964,7 @@ public class DataSelectionQueryUtils {
             sql += (" OFFSET ") + (startIndex) + (Constant.ROWS_FETCH_NEXT_SPACE) + (offset) + (Constant.ROWS_ONLY_SPACE);
             return (List) DAO.executeSelectQuery(sql);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         } finally {
         }
@@ -1000,7 +1000,7 @@ public class DataSelectionQueryUtils {
             }
             return (List) DAO.executeSelectQuery(customSql);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return new ArrayList();
         }
     }

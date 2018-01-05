@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.pparesults.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.lazyload.PriceTypeCriteria;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.pparesults.dto.PPADetailsDTO;
@@ -24,8 +26,6 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExcelExportUtil;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -37,7 +37,6 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.VerticalLayout;
@@ -50,11 +49,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTable;
-import org.jboss.logging.Logger;
-import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -65,7 +66,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class PPADetailsLookup extends Window {
 
-    private static final Logger LOGGER = Logger.getLogger(PPADetailsLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPADetailsLookup.class);
 
     @UiField("contractLabel")
     private Label contractLabel;
@@ -318,7 +319,7 @@ public class PPADetailsLookup extends Window {
             });
             closeLogic();
         } catch (UnsupportedOperationException ex) {
-        LOGGER.error(ex);
+        LOGGER.error(ex.getMessage());
         }
     }
 
@@ -345,7 +346,7 @@ public class PPADetailsLookup extends Window {
                 MessageBox.showPlain(Icon.ERROR, Constant.ERROR, "Please Select a Value from each of the following dropdowns Contract,Customer,Brand,Item", ButtonId.OK);
             }
         } catch (NumberFormatException ex) {
-           LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -456,7 +457,7 @@ public class PPADetailsLookup extends Window {
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
-                    LOGGER.error(exception);
+                    LOGGER.error(StringUtils.EMPTY,exception);
 
                 }
             }

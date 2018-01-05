@@ -27,11 +27,12 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NMProjectionResultsXLLogic {
 
-    public static final Logger LOGGER = Logger.getLogger(NMProjectionResultsXLLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(NMProjectionResultsXLLogic.class);
     private ProjectionResultsDTO salesValue;
     private ProjectionResultsDTO unitsValue;
     private ProjectionResultsDTO disDollValue;
@@ -300,7 +301,7 @@ public class NMProjectionResultsXLLogic {
             calculate(Constant.PVVariables.VAR_NET_PROFITE.toString(), Constant.VALUE, obj, NumericConstants.FORTY, NumericConstants.FORTY_ONE, netProfitValue, AMOUNT);
             pvList.add(netProfitValue);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
     }
@@ -848,7 +849,7 @@ public class NMProjectionResultsXLLogic {
                 resultMap.put(parentGroup, returnsDTO);
             }
         } catch (NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

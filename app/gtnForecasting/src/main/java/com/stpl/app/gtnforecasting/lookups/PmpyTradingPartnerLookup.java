@@ -5,17 +5,17 @@
  */
 package com.stpl.app.gtnforecasting.lookups;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.lookups.dto.PmpyTPFilterGenerator;
 import com.stpl.app.gtnforecasting.lookups.dto.PmpyTradingPartnerDTO;
 import com.stpl.app.gtnforecasting.lookups.logic.tablelogic.PmpyTradingPartnerTableLogic;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Window;
@@ -34,7 +34,8 @@ import elemental.events.KeyboardEvent;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -49,7 +50,7 @@ public class PmpyTradingPartnerLookup extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PmpyTradingPartnerLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PmpyTradingPartnerLookup.class);
 
     /**
      * The trading partner no.
@@ -464,9 +465,9 @@ public class PmpyTradingPartnerLookup extends Window {
                 try {
                     searchLogic();
                 }  catch (CommitException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
 
             }

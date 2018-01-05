@@ -6,6 +6,9 @@
 package com.stpl.app.gtnforecasting.dao.impl;
 
 import com.liferay.portal.kernel.dao.orm.ORMException;
+import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.stpl.app.gtnforecasting.dao.DiscountProjectionForChannelsDAO;
 import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
@@ -13,14 +16,11 @@ import com.stpl.app.gtnforecasting.queryUtils.DPQueryUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.StChDiscountProjMaster;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.utils.Constants.FrequencyConstants.*;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.dao.orm.Session;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -37,7 +38,7 @@ import org.jboss.logging.Logger;
  */
 public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<StChDiscountProjMaster> implements DiscountProjectionForChannelsDAO {
 
-    private static final Logger LOGGER = Logger.getLogger(DiscountProjectionForChannelsDAOImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountProjectionForChannelsDAOImpl.class);
     protected CommonUtils commonUtils = new CommonUtils();
     protected DPQueryUtils queryUtils = new DPQueryUtils();
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constant.DATE_FORMAT);
@@ -178,7 +179,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             LOGGER.debug(" Fetching Discount Data" + list.size());
             return list;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         } finally {
             LOGGER.debug(" exiting getDiscountProjection");
@@ -201,7 +202,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             List<String> list = (List<String>) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
             return list;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         } finally {
             LOGGER.debug(" exiting getHierarchyList");
@@ -309,7 +310,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
 
             return HelperTableLocalServiceUtil.executeUpdateQueryCount(customSql);
         } catch (Exception e) {
-           LOGGER.error(e);
+           LOGGER.error(e.getMessage());
             return 0;
         } finally {
             LOGGER.debug(" exiting updateCheckRecord");
@@ -330,7 +331,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                     + " TEMP where TEMP.HIERARCHY_NO='" + selectedHiearchyNo + "'";
             list = (List) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return 0;
         } finally {
             LOGGER.debug(" exiting getLevelIndex");
@@ -488,7 +489,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
            HelperTableLocalServiceUtil.executeUpdateQuery(DiscountProjectionTableUpdateQuery);
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return false;
         } finally {
             LOGGER.debug(" exiting updateInputsForAdjustment");
@@ -553,7 +554,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
            HelperTableLocalServiceUtil.executeUpdateQuery(query);
             return true;
         } catch (Exception e) {
-              LOGGER.error(e);
+              LOGGER.error(e.getMessage());
             return false;
         } finally {
             LOGGER.debug(" exiting saveDiscountProjectionListView");
@@ -581,7 +582,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
             return list;
         } catch (ORMException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         } finally {
             LOGGER.debug(" exiting getLevelvalues");
@@ -609,7 +610,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
             return list;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         } finally {
             LOGGER.debug(" exiting getLevelvalues");
@@ -682,7 +683,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             }
            HelperTableLocalServiceUtil.executeUpdateQuery(customSql.toString());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         } finally {
             LOGGER.debug(" Ending discountPopulate");
         }

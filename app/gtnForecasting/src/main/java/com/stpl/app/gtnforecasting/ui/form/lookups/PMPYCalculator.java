@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.dto.PMPYCalculationExporterDTO;
 import com.stpl.app.gtnforecasting.dto.PMPYCalculatorDTO;
@@ -27,8 +29,6 @@ import com.stpl.app.gtnforecasting.utils.PMPYTradingPartnerHistoryChart;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.event.MouseEvents;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Sizeable;
@@ -47,7 +47,6 @@ import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.validator.RegexpValidator;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.NativeSelect;
@@ -71,11 +70,13 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezeFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class PMPYCalculator.
@@ -87,7 +88,7 @@ public class PMPYCalculator extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PMPYCalculator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PMPYCalculator.class);
 
     /**
      * The space.
@@ -547,7 +548,7 @@ public class PMPYCalculator extends Window {
                         importButtonLogic();
                     } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
 
                     }
 
@@ -641,7 +642,7 @@ public class PMPYCalculator extends Window {
                             generateButtonLogic();
                         }
                     } catch (Exception e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
 
                     }
 
@@ -669,7 +670,7 @@ public class PMPYCalculator extends Window {
             });
             LOGGER.debug("End of configureFields method");
         }  catch (Property.ReadOnlyException | UnsupportedOperationException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
     }
@@ -709,7 +710,7 @@ public class PMPYCalculator extends Window {
                 return Boolean.TRUE;
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("End of isContractHistorySelected method");
         return Boolean.FALSE;
@@ -1605,7 +1606,7 @@ public class PMPYCalculator extends Window {
 
                                     } catch (Exception e) {
                                         importEvent = false;
-                                        LOGGER.error(e);
+                                        LOGGER.error(e.getMessage());
                                     }
                                 }
                             }
@@ -1660,11 +1661,11 @@ public class PMPYCalculator extends Window {
             LOGGER.debug("End of exportCalculatedExcel method");
         } catch (SystemException e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
     }

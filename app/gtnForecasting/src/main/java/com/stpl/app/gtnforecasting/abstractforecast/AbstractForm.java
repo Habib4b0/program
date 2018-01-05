@@ -16,7 +16,7 @@ import com.stpl.app.utils.UiUtils;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.VerticalLayout;
-import java.util.logging.Logger;
+
 
 /**
  *

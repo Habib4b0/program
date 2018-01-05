@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Set;
 import org.asi.container.ExtContainer;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -28,7 +30,7 @@ public class AlternateHistoryAllocationTableLogic extends PageTableLogic {
     private SessionDTO session=new SessionDTO();
     private boolean isFirst=false;
     private final AlternateHistoryLogic logic = new AlternateHistoryLogic();
-    public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(AlternateHistoryAllocationTableLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AlternateHistoryAllocationTableLogic.class);
     private Set checkedCCPSet = new HashSet();
     
     /**
@@ -52,7 +54,7 @@ public class AlternateHistoryAllocationTableLogic extends PageTableLogic {
                     i++;
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         LOGGER.debug("loadData ended  " + map.size());

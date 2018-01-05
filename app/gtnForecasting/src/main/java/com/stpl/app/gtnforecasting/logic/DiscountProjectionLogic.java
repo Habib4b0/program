@@ -20,7 +20,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getMonthForInt;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.MSalesProjectionMasterLocalServiceUtil;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.QUARTERLY;
@@ -43,16 +42,14 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author sriram
@@ -67,7 +64,7 @@ public class DiscountProjectionLogic {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(DiscountProjectionLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(DiscountProjectionLogic.class);
     public static final String JBOSS_DATA_POOL = "java:jboss/datasources/jdbc/appDataPool";
     /**
      * The Percent Two Decimal Places Format.
@@ -350,7 +347,7 @@ public class DiscountProjectionLogic {
             LOGGER.debug(" refreshHierarchyNumbers " + refreshHierarchyNumbers);
             LOGGER.debug(" isParent " + isParent);
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("Exit getDiscountProjection");
         return discountProjList;
@@ -620,7 +617,7 @@ public class DiscountProjectionLogic {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(JBOSS_DATA_POOL);
         } catch (NamingException namingEx) {
-            LOGGER.error(namingEx);
+            LOGGER.error(StringUtils.EMPTY,namingEx);
         }
         if (datasource != null) {
             try (Connection connection = datasource.getConnection();
@@ -631,7 +628,7 @@ public class DiscountProjectionLogic {
                 statement.execute();
 
             } catch (NumberFormatException | SQLException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return false;
@@ -682,7 +679,7 @@ public class DiscountProjectionLogic {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(JBOSS_DATA_POOL);
         } catch (NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         if (datasource != null) {
             try (Connection connection = datasource.getConnection();
@@ -693,7 +690,7 @@ public class DiscountProjectionLogic {
                 statement.setInt(NumericConstants.THREE, Integer.parseInt(sessionId));
                 statement.execute();
             } catch (NumberFormatException | SQLException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return true;
@@ -770,7 +767,7 @@ public class DiscountProjectionLogic {
             return rawList;
         } catch (NumberFormatException ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
 
         }
@@ -800,7 +797,7 @@ public class DiscountProjectionLogic {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(JBOSS_DATA_POOL);
         } catch (NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         if (datasource != null) {
             try (Connection connection = datasource.getConnection();
@@ -815,7 +812,7 @@ public class DiscountProjectionLogic {
                 statement.setString(NumericConstants.EIGHT, (projectionSelection.getSessionDTO().getDeductionInclusion() == null || projectionSelection.getSessionDTO().getDeductionInclusion().equals(ALL)) ? null : projectionSelection.getSessionDTO().getDeductionInclusion());
                 statement.execute();
             } catch (NumberFormatException | SQLException ex) {
-                LOGGER.debug(ex);
+                LOGGER.debug(StringUtils.EMPTY,ex);
             }
         }
         return false;
@@ -972,7 +969,7 @@ public class DiscountProjectionLogic {
             }
             return discountProj;
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.EMPTY_LIST;
         }
     }
@@ -1032,7 +1029,7 @@ public class DiscountProjectionLogic {
             }
 
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -1051,7 +1048,7 @@ public class DiscountProjectionLogic {
             detailsSid.substring(0, detailsSid.length() - 1);
             return detailsSid;
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return detailsSid;
         }
     }
@@ -1212,7 +1209,7 @@ public class DiscountProjectionLogic {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return rebateList;
     }

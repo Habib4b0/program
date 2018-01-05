@@ -1,6 +1,8 @@
 
 package com.stpl.app.gtnforecasting.salesprojection.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjection;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
@@ -31,8 +33,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
@@ -47,7 +47,8 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Mandated Sales Projection.
@@ -57,7 +58,7 @@ import org.jboss.logging.Logger;
 public class MSalesProjection extends ForecastSalesProjection {
 
     private final String scrnName;
-    private static final Logger LOGGER = Logger.getLogger(MSalesProjection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MSalesProjection.class);
     public static Map<String, Integer> rowCountMap = new HashMap<>();
     private boolean generated = false;
     private boolean firstGenerated = false;
@@ -111,7 +112,7 @@ public class MSalesProjection extends ForecastSalesProjection {
                 exp.export();
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -135,7 +136,7 @@ public class MSalesProjection extends ForecastSalesProjection {
         try {
             calculateButtonLogic();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -156,7 +157,7 @@ public class MSalesProjection extends ForecastSalesProjection {
                 generated = false;
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("generate button click listener ends ");
 
@@ -206,7 +207,7 @@ public class MSalesProjection extends ForecastSalesProjection {
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -475,7 +476,7 @@ public class MSalesProjection extends ForecastSalesProjection {
             }
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

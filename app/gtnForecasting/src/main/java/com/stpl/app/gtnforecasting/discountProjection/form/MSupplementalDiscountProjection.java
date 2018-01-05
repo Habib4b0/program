@@ -6,6 +6,8 @@
  */
 package com.stpl.app.gtnforecasting.discountProjection.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.forecastabstract.lookups.AbstractComparisonLookup;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
@@ -49,8 +51,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.FieldEvents.FocusEvent;
@@ -69,8 +69,6 @@ import com.vaadin.v7.data.validator.RegexpValidator;
 import com.vaadin.v7.data.validator.StringLengthValidator;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.DefaultFieldFactory;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextField;
@@ -83,19 +81,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.customcombobox.CustomComboBox;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
@@ -107,7 +108,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ForecastDiscountProjection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ForecastDiscountProjection.class);
     /**
      * The period table id.
      */
@@ -671,7 +672,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                     checkAll = listStr.size() != 1 ? false : (listStr.get(0) == 1);
                                     leftTable.setColumnCheckBox(Constant.CHECK, true, checkAll);
                                 } catch (Exception e) {
-                                    LOGGER.error(e);
+                                    LOGGER.error(e.getMessage());
                                 }
                                 tableLogic.setRefresh(true);
                             }
@@ -760,7 +761,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                             try {
                                 detachLisener(comboBox);
                             } catch (Exception e) {
-                                LOGGER.error(e);
+                                LOGGER.error(e.getMessage());
                             }
                         }
                     });
@@ -885,7 +886,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                     }
                                 });
                             } catch (IllegalArgumentException | NullPointerException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
                             }
                         }
                     });
@@ -1353,7 +1354,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                     allowMethod(String.valueOf(valueLookUp.getValue()));
 
                                 } catch (Property.ReadOnlyException ex) {
-                                   LOGGER.error(ex);
+                                   LOGGER.error(ex.getMessage());
                                 }
                             }
                         }.getConfirmationMessage("Submit Confirmation", "In Ndc:" + notifyContent + " are not having any prior values.Do you wish to continue.?");
@@ -1666,7 +1667,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 supplementalDiscountProjectionLogic.supplementalSave(session);
             } catch (PortalException | SystemException ex) {
 
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         } else {
             try {
@@ -1677,7 +1678,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 commonLogic.saveProjectionSelectionMandatedDiscountProjection(map, session.getProjectionId(), Constant.SUPPLEMENTAL_DISCOUNT_PROJECTION);
                 supplementalDiscountProjectionLogic.supplementalSave(session);
             } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
     }
@@ -1709,7 +1710,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 populateBtn.setVisible(Boolean.FALSE);
             }
         } catch (PortalException | SystemException ex) {
-            java.util.logging.Logger.getLogger(MSupplementalDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(MSupplementalDiscountProjection.class.getName()).error( StringUtils.EMPTY, ex);
         }
     }
 

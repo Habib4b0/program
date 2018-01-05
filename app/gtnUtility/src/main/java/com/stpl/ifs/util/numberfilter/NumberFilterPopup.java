@@ -17,7 +17,9 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextField;
-import org.jboss.logging.Logger;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Produces the number filter popup for the table
@@ -48,7 +50,7 @@ public class NumberFilterPopup extends CustomField<NumberInterval> {
     private static final String DEFAULT_OK_CAPTION = "Set";
     private static final String DEFAULT_RESET_CAPTION = "Clear";
     private static final String DEFAULT_VALUE_MARKER = "[x]";
-    private static final Logger LOGGER = Logger.getLogger(NumberFilterPopup.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(NumberFilterPopup.class.getName());
 
     /* Buttons */
     private Button ok;
@@ -111,20 +113,20 @@ public class NumberFilterPopup extends CustomField<NumberInterval> {
                     ltNow = ltInput.getValue();
                 } catch (RuntimeException e) {
                     ltNow = null;
-                    LOGGER.error(e);
+                    LOGGER.error(StringUtils.EMPTY,e);
                 }
                 try {
                     Double.valueOf(gtInput.getValue());
                     gtNow = gtInput.getValue();
                 } catch (RuntimeException e) {
                     gtNow = null;
-                    LOGGER.error(e);
+                    LOGGER.error(StringUtils.EMPTY,e);
                 }
                 try {
                     Double.valueOf(eqInput.getValue());
                     eqNow = eqInput.getValue();
                 } catch (RuntimeException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(StringUtils.EMPTY,e);
                     eqNow = null;
                 }
                 setValue(new NumberInterval(ltNow, gtNow, eqNow));

@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.discountprojectionresults.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjectionResults;
 import com.stpl.app.gtnforecasting.discountprojectionresults.dto.DiscountProjectionResultsDTO;
@@ -47,15 +49,11 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -64,23 +62,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
  * @author pvinoth
  */
-
 public class MDiscountProjectionResults extends ForecastDiscountProjectionResults {
 
-    private static final Logger LOGGER = Logger
-            .getLogger(MDiscountProjectionResults.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MDiscountProjectionResults.class);
     private final SessionDTO sessionDTO;
     private String screenName = StringUtils.EMPTY;
     private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
@@ -238,7 +237,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
                 addResultTable();
                 generateLogic();
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
             }
         } else {
             MessageBox.showPlain(Icon.ERROR, "Generate Error", "You must select a Frequency and History from the drop down list boxes.", ButtonId.OK);
@@ -374,30 +373,30 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
         Object hist = historyDdlb.getValue();
         boolean freqFlag = false;
         int historyNum = 0;
-            if ((freq != null) && (!SELECT_ONE.equals(freq.toString()))) {
-                freqFlag = true;
-                projectionDTO.setFrequency(freq.toString());
-            }
+        if ((freq != null) && (!SELECT_ONE.equals(freq.toString()))) {
+            freqFlag = true;
+            projectionDTO.setFrequency(freq.toString());
+        }
         boolean histFlag = false;
-            if ((hist != null) && (!SELECT_ONE.equals(hist.toString()))) {
-                histFlag = true;
-                projectionDTO.setHistory(hist.toString());
-                if (freq.equals(QUARTERLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
-                } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
-                    historyNum = String.valueOf(hist).endsWith("Periods") ? Integer.valueOf(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim())
-                            : Integer.valueOf(String.valueOf(hist).replace("Semi-Annual Period", StringUtils.EMPTY).trim());
+        if ((hist != null) && (!SELECT_ONE.equals(hist.toString()))) {
+            histFlag = true;
+            projectionDTO.setHistory(hist.toString());
+            if (freq.equals(QUARTERLY)) {
+                historyNum = Integer.valueOf(String.valueOf(hist).replace("Quarter", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+            } else if (freq.equals(SEMI_ANNUALLY.getConstant())) {
+                historyNum = String.valueOf(hist).endsWith("Periods") ? Integer.valueOf(String.valueOf(hist).replace("Semi-Annual Periods", StringUtils.EMPTY).trim())
+                        : Integer.valueOf(String.valueOf(hist).replace("Semi-Annual Period", StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(MONTHLY)) {
-                    historyNum = Integer.valueOf(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
+            } else if (freq.equals(MONTHLY)) {
+                historyNum = Integer.valueOf(String.valueOf(hist).replace("Month", StringUtils.EMPTY).replace(Constant.S_SMALL, StringUtils.EMPTY).trim());
 
-                } else if (freq.equals(ANNUALLY)) {
-                    String histPeriod = String.valueOf(hist);
-                    if (histPeriod.endsWith(Constant.YEAR) || histPeriod.endsWith("Years")) {
-                        historyNum = histPeriod.endsWith(Constant.YEAR) ? Integer.valueOf(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).trim()) : Integer.valueOf(String.valueOf(hist).replace("Years", StringUtils.EMPTY).trim());
-                    }
+            } else if (freq.equals(ANNUALLY)) {
+                String histPeriod = String.valueOf(hist);
+                if (histPeriod.endsWith(Constant.YEAR) || histPeriod.endsWith("Years")) {
+                    historyNum = histPeriod.endsWith(Constant.YEAR) ? Integer.valueOf(String.valueOf(hist).replace(Constant.YEAR, StringUtils.EMPTY).trim()) : Integer.valueOf(String.valueOf(hist).replace("Years", StringUtils.EMPTY).trim());
                 }
             }
+        }
         if (freqFlag && histFlag) {
             flag = true;
             projectionId = sessionDTO.getProjectionId();
@@ -618,10 +617,10 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
 
                     } else if ((event.getPropertyId().equals("MandatedDiscount") || event.getPropertyId().equals("SupplementalDiscount")) && (doubleheaderNameList != null && !doubleheaderNameList.isEmpty())) {
 
-                            int j = event.getPropertyId().equals("MandatedDiscount") ? NumericConstants.TWO : suppIndex + 1;
-                            for (int i = 0; i < doubleheaderNameList.size(); i++) {
-                                rightTable.setDoubleHeaderColumnCollapsed(rightHeader.getDoubleColumns().get(j++), !event.isExpanded());
-                            }
+                        int j = event.getPropertyId().equals("MandatedDiscount") ? NumericConstants.TWO : suppIndex + 1;
+                        for (int i = 0; i < doubleheaderNameList.size(); i++) {
+                            rightTable.setDoubleHeaderColumnCollapsed(rightHeader.getDoubleColumns().get(j++), !event.isExpanded());
+                        }
 
                     }
                     LOGGER.debug("SupplementalDiscountProjection addColumnExpandIconListener ends ");
@@ -764,7 +763,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
         if (levelNo == 0) {
             projectionDTO.setIsFilter(false);
         }
-        
+
         if (excelExport) {
             loadExcelResultTable(levelNo, hierarchyNo);
         } else {
@@ -794,7 +793,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             projectionDTO.setExcel(false);
             loadDataToContainer(resultList, null);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -823,7 +822,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             List<DiscountProjectionResultsDTO> resultList = tableLogic.dprLogic.getConfiguredDPResults(id, 0, count, projectionDTO);
             loadDataToContainer(resultList, id);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -890,12 +889,12 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             map.put(Constant.HISTORY_CAPS, historyDdlb.getValue() != null ? historyDdlb.getValue().toString() : StringUtils.EMPTY);
             map.put("Mandated/Supplemental", discountOpg.getValue() != null ? discountOpg.getValue().toString() : StringUtils.EMPTY);
             map.put("Actuals/Projections", actualOrProjectionsOpg.getValue() != null ? actualOrProjectionsOpg.getValue().toString() : StringUtils.EMPTY);
-            map.put(Constant.PERIOD_ORDER,periodOrderOpg.getValue() != null ? periodOrderOpg.getValue().toString() : StringUtils.EMPTY);
-            map.put("Pivot",  pivotViewOpg.getValue() != null ? pivotViewOpg.getValue().toString() : StringUtils.EMPTY);
+            map.put(Constant.PERIOD_ORDER, periodOrderOpg.getValue() != null ? periodOrderOpg.getValue().toString() : StringUtils.EMPTY);
+            map.put("Pivot", pivotViewOpg.getValue() != null ? pivotViewOpg.getValue().toString() : StringUtils.EMPTY);
             CommonLogic.saveProjectionSelection(map, sessionDTO.getProjectionId(), Constant.DISCOUNT_PROJECTION_RESULTS);
             LOGGER.debug("saveSPResults method ends");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -918,7 +917,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
                 editBtn.setVisible(Boolean.FALSE);
             }
         } catch (PortalException | SystemException ex) {
-            java.util.logging.Logger.getLogger(MDiscountProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(MDiscountProjectionResults.class.getName()).error("", ex);
         }
     }
 

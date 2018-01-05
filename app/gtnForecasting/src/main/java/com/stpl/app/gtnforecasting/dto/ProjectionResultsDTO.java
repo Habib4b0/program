@@ -6,18 +6,19 @@
 
 package com.stpl.app.gtnforecasting.dto;
 
-import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.Comparator;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Abhiram
  */
 public class ProjectionResultsDTO extends ExtMapDTO implements Comparator<ProjectionResultsDTO>{
-    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectionResultsDTO.class);
      /** The group. */
     private String group = StringUtils.EMPTY;
     
@@ -247,7 +248,7 @@ public class ProjectionResultsDTO extends ExtMapDTO implements Comparator<Projec
                 }
             }
         } catch (NumberFormatException e) {
-          LOGGER.error(e);
+          LOGGER.error(e.getMessage());
 
         }
         

@@ -37,7 +37,8 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -181,7 +182,7 @@ public abstract class ForecastPVComparisonLookup extends Window{
     /**
      * Logger
      */
-    private static final Logger LOGGER = Logger.getLogger(ForecastPVComparisonLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ForecastPVComparisonLookup.class);
     /**
      * Resultbean
      */
@@ -235,7 +236,7 @@ public abstract class ForecastPVComparisonLookup extends Window{
         loadAvailableResults();
         loadSelectedResults();
         }catch(Exception ex){
-          LOGGER.error(ex);
+          LOGGER.error(ex.getMessage());
         }
     }
     
@@ -462,7 +463,7 @@ public abstract class ForecastPVComparisonLookup extends Window{
             MessageBox.showPlain(Icon.INFO, "Error", "No Data is available to submit", ButtonId.OK);
         }
         }catch(Property.ReadOnlyException ex){
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
     

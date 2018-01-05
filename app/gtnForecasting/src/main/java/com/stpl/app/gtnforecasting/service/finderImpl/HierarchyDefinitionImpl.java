@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -20,7 +21,7 @@ import org.jboss.logging.Logger;
  */
 public class HierarchyDefinitionImpl {
 
-    private static final Logger LOGGER = Logger.getLogger(HierarchyDefinitionImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HierarchyDefinitionImpl.class);
 
     public List getHierarchyGroup(final String HIERARCHY_NAME, final String hierarchyType, final String customerOrProduct, final String action) {
         List list = new ArrayList();

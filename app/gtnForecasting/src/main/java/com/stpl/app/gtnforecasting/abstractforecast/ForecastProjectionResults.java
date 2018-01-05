@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.abstractforecast;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.ProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -28,8 +30,6 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -42,7 +42,6 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.OptionGroup;
@@ -54,8 +53,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -66,7 +67,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public abstract class ForecastProjectionResults extends CustomComponent {
 
-    private final static Logger LOGGER = Logger.getLogger(ForecastProjectionResults.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ForecastProjectionResults.class);
 
     @UiField("tablePanel")
     protected Panel tablePanel;
@@ -681,7 +682,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
                 expandCollapseLevelOption(true, levelDdlb.getValue());
             }
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -697,7 +698,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
                 expandCollapseLevelOption(false, levelDdlb.getValue());
             }
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

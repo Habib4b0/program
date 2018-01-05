@@ -6,6 +6,14 @@ package com.stpl.app.gtnforecasting.nationalassumptions.logic;
 
 
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.exception.NoSuchItemGroupException;
 import com.stpl.app.gtnforecasting.dao.NACommonResultsDAO;
 import com.stpl.app.gtnforecasting.dao.NADataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.NACommonResultsDAOImpl;
@@ -24,6 +32,7 @@ import com.stpl.app.model.ItemMaster;
 import com.stpl.app.model.NaProjDetails;
 import com.stpl.app.model.NaProjMaster;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
+import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ItemGroupLocalServiceUtil;
 import com.stpl.app.service.ItemMasterLocalServiceUtil;
@@ -31,15 +40,6 @@ import com.stpl.app.service.NaProjDetailsLocalServiceUtil;
 import com.stpl.app.service.NaProjMasterLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.app.exception.NoSuchItemGroupException;
-import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.vaadin.v7.data.Container;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,7 +53,8 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -66,7 +67,7 @@ public class DataSelectionLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(DataSelectionLogic.class);  
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionLogic.class);  
     protected DataSelectionQueryUtils dsQueryUtils = new DataSelectionQueryUtils();
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public ResultList searchCCP(Object companyValue,Object therapeuticClassValue, Object productGroupValue,Object businessUnit) {
@@ -86,7 +87,7 @@ public class DataSelectionLogic {
                 result.setFlag(Constant.SUCCESS);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return result;
     }
@@ -141,12 +142,12 @@ public class DataSelectionLogic {
                       result= saveProducts(naProjMaster.getNaProjMasterSid(),selectedProducts);  
                     }
                 } catch (SystemException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                     return Constant.FAIL;
                 }
                 
             } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
                 return Constant.FAIL;
             }
         return result;
@@ -160,7 +161,7 @@ public class DataSelectionLogic {
                 NaProjDetailsLocalServiceUtil
                         .addNaProjDetails(projectionprod);
             } catch (SystemException e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
                 return Constant.FAIL;
             }
         }
@@ -194,11 +195,11 @@ public class DataSelectionLogic {
                         NaProjDetailsLocalServiceUtil
                                 .deleteNaProjDetails(naProjID);
                     } catch (PortalException | SystemException e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                     }
                 }
             } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         if (!insertList.isEmpty()) {
@@ -210,7 +211,7 @@ public class DataSelectionLogic {
                     NaProjDetailsLocalServiceUtil
                             .addNaProjDetails(projectionprod);
                 } catch (SystemException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
             } 
         }
@@ -222,7 +223,7 @@ public class DataSelectionLogic {
           List<Object[]> returnList= dsQueryUtils.loadResultsTable(projectionName,getSelectedProducts, companyValueId,thearupeticValueId, productGroupId,startIndex, offset,filters,sortByColumns,businessUnit);
            projectionResults= getCustomizedProjectionResults(returnList);
         } catch (PortalException | SystemException | ParseException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
         }
          return projectionResults;
     }
@@ -232,7 +233,7 @@ public class DataSelectionLogic {
             count = dsQueryUtils.loadResultsTableCount(projectionName, getSelectedProducts, companyValueId, thearupeticValueId, productGroupId, filters,businessUnit);
 
         } catch (PortalException | SystemException | ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
         return count;
@@ -266,7 +267,7 @@ public class DataSelectionLogic {
             CompanyMaster companyMaster = CompanyMasterLocalServiceUtil.getCompanyMaster(id);
             companyName = companyMaster.getCompanyName();
             } catch (PortalException | SystemException ex) {
-               LOGGER.error(ex);
+               LOGGER.error(ex.getMessage());
             }
          return companyName;
         }
@@ -312,7 +313,7 @@ public class DataSelectionLogic {
            deletedProjectionName = projMaster.getNaProjName();
 
         } catch (PortalException | SystemException ex) {          
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return deletedProjectionName;
     }     
@@ -321,7 +322,7 @@ public class DataSelectionLogic {
         try {
             user = UserLocalServiceUtil.getUser(Long.valueOf(userId));
         } catch (PortalException | SystemException | NumberFormatException ex) {
-              LOGGER.error(ex);
+              LOGGER.error(ex.getMessage());
         }
         return user;
     }
@@ -335,7 +336,7 @@ public class DataSelectionLogic {
            naProjMaster=  NaProjMasterLocalServiceUtil.getNaProjMaster(projectionId);
            detailsList= NaProjDetailsLocalServiceUtil.dynamicQuery(query);
         } catch (PortalException | SystemException ex) {
-           LOGGER.error(ex); 
+           LOGGER.error(ex.getMessage()); 
         }
           finalList.add(naProjMaster);
           finalList.add(detailsList);
@@ -346,7 +347,7 @@ public class DataSelectionLogic {
         try {
             itemMaster=   ItemMasterLocalServiceUtil.getItemMaster(itemMasterSid);
         } catch (PortalException | SystemException ex) {
-           LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         return itemMaster;
     }
@@ -367,7 +368,7 @@ public class DataSelectionLogic {
                 forecastConfig = (ForecastConfig) resultList.get(0);
             }
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return forecastConfig;
     }
@@ -426,7 +427,7 @@ public class DataSelectionLogic {
               List list=HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
             return list;
         } catch (Exception e) {            
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
             return Collections.emptyList();
         } finally {

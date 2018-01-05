@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.forecastabstract.lookups.AbstractViewLookup;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
@@ -21,20 +23,19 @@ import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.TextField;
 import java.text.ParseException;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -57,7 +58,7 @@ public class PrivatePublicView extends AbstractViewLookup {
     private BeanItemContainer<ViewDTO> viewContainer;
     private ViewDTO viewDTO;
     private final String screenName;
-    private static final Logger LOGGER = Logger.getLogger(PrivatePublicView.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrivatePublicView.class);
 
     public PrivatePublicView(final String indicator,final String windowName, final String screenName) {
         super(windowName);
@@ -217,7 +218,7 @@ public class PrivatePublicView extends AbstractViewLookup {
                 }
             }
         } catch (SystemException | PortalException | ParseException se) {
-            LOGGER.error(se);
+            LOGGER.error(StringUtils.EMPTY,se);
         } 
         LOGGER.debug("End of btnSearchLogic method");
     }

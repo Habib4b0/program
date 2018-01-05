@@ -16,7 +16,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import com.stpl.ifs.util.ExportPdf;
@@ -66,7 +67,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
      *
      */
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(AbstractNotesTab.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractNotesTab.class);
     @UiField("fileNameLb")
     protected Label fileNameLb;
     @UiField("addBtnlayout")
@@ -160,7 +161,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
             intailizingObject();
             init();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -319,7 +320,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
                         fileNameField.setValue("");
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
                 uploader.focus();
             }
@@ -511,7 +512,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
             pdfDownloader.setFileDownloadResource(pdfResOnEdit);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -529,7 +530,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
 
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

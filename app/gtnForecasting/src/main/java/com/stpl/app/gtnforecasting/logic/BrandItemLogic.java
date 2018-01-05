@@ -5,19 +5,20 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
-import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
-import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
-import com.stpl.app.gtnforecasting.dto.CustomerProductDTO;
-import com.stpl.app.gtnforecasting.utils.Constant;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
+import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
+import com.stpl.app.gtnforecasting.dto.CustomerProductDTO;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.service.ItemMasterLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -28,7 +29,7 @@ import org.jboss.logging.Logger;
 public class BrandItemLogic {
     
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger(BrandItemLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BrandItemLogic.class);
     
     /** The data selection. */
     private static final DataSelectionDAO dataSelection = new DataSelectionDAOImpl();

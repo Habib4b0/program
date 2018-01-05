@@ -13,14 +13,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Abishek.Ram
  */
 public class StChSalesProjectionImpl  {
-      private static final Logger LOGGER = Logger.getLogger(StChSalesProjectionImpl.class);
+      private static final Logger LOGGER = LoggerFactory.getLogger(StChSalesProjectionImpl.class);
       public static ResourceBundle tableNameBundle = ResourceBundle.getBundle("properties.tablename");
     public List executeQuery(Map<String, Object> parameters) {
     

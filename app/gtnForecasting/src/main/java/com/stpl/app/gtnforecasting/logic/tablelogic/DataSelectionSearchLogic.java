@@ -5,9 +5,9 @@
  */
 package com.stpl.app.gtnforecasting.logic.tablelogic;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.text.ParseException;
@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,7 +28,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
     protected int selectedProjectionId = 0;
     protected boolean loadData = false;
     protected DataSelectionDTO dataSelectionDTO;
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelectionSearchLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionSearchLogic.class);
 
     @Override
     public int getCount() {
@@ -35,7 +37,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
             try {
                 count = new NonMandatedLogic().searchDSProjectionsCount(dataSelectionDTO, getFilters());
             }  catch (SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return count;
@@ -47,7 +49,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
         try {
             resultList = new NonMandatedLogic().searchDSProjectionsLazy(dataSelectionDTO, start, offset, getFilters(), getSortByColumns());
         } catch (SystemException | ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return resultList;
     }

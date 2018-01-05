@@ -8,23 +8,12 @@ package com.stpl.app.gtnforecasting.utils;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
-//import com.vaadin.addon.charts.Chart;
-//import com.vaadin.addon.charts.model.ChartType;
-//import com.vaadin.addon.charts.model.Configuration;
-//import com.vaadin.addon.charts.model.HorizontalAlign;
-//import com.vaadin.addon.charts.model.LayoutDirection;
-//import com.vaadin.addon.charts.model.Legend;
-//import com.vaadin.addon.charts.model.ListSeries;
-//import com.vaadin.addon.charts.model.PlotOptionsColumn;
-//import com.vaadin.addon.charts.model.Tooltip;
-//import com.vaadin.addon.charts.model.VerticalAlign;
-//import com.vaadin.addon.charts.model.XAxis;
-//import com.vaadin.addon.charts.model.YAxis;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
 import java.util.List;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -65,7 +54,7 @@ public class PVChart extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PPAChart.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAChart.class);
     /**
      * projSelDTO;
      */
@@ -198,7 +187,7 @@ public class PVChart extends Window {
 //            LOGGER.debug("End of getChart method ");
             return new Label();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return null;
         }
     }

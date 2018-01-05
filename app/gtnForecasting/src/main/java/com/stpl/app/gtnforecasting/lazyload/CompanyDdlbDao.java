@@ -12,10 +12,11 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
 import org.asi.ui.addons.lazycontainer.DAO;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -23,7 +24,7 @@ import org.asi.ui.addons.lazycontainer.SearchCriteria;
  */
 public class CompanyDdlbDao implements DAO<CompanyDdlbDto> {
 
-    private static final Logger LOGGER = org.jboss.logging.Logger.getLogger(CompanyDdlbDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDdlbDao.class);
     private DataSelectionLogic logic;
     private List<String> companySids;
     private CompanyDdlbDto companyDdlbDefault;
@@ -60,7 +61,7 @@ public class CompanyDdlbDao implements DAO<CompanyDdlbDto> {
                 count = logic.getCompaniesCount(sc.getFilter(), companySids);
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         count = count + 1;
         return count;
@@ -76,7 +77,7 @@ public class CompanyDdlbDao implements DAO<CompanyDdlbDto> {
                 resultList = logic.getCompaniesLazy(startIndex, startIndex + offset, sc.getFilter(), companySids, companyDdlbDefault, selectedCompanyDdlbDto);
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return resultList;
     }

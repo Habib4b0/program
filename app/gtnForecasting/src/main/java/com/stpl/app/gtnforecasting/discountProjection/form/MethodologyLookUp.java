@@ -16,7 +16,8 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -27,7 +28,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class MethodologyLookUp extends Window {
 
-    private static final Logger LOGGER = Logger.getLogger(MethodologyLookUp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodologyLookUp.class);
 
     @UiField("tableLayout")
     private VerticalLayout tableLayout;
@@ -86,7 +87,7 @@ public class MethodologyLookUp extends Window {
                 resultsContainer.addAll(resultList);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

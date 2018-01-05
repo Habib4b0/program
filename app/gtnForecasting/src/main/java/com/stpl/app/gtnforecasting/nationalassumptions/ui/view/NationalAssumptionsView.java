@@ -15,7 +15,8 @@ import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author manikanta
@@ -24,7 +25,7 @@ public class NationalAssumptionsView extends VerticalLayout implements View {
 
     private static final long serialVersionUID = -1L;
     @SuppressWarnings("unused")
-    private static final Logger LOGGER = Logger.getLogger(NationalAssumptionsView.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NationalAssumptionsView.class);
 
     public static final String NAME = "nationalAssumptions";
     protected DataSelectionDTO dtoValue = new DataSelectionDTO();
@@ -55,7 +56,7 @@ public class NationalAssumptionsView extends VerticalLayout implements View {
             }
 
         } catch (PortalException | SystemException | NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }

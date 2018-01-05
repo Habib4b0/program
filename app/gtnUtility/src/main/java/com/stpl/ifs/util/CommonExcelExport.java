@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
+
 import java.util.regex.Pattern;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -45,6 +45,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.ss.util.RegionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -56,7 +58,7 @@ public class CommonExcelExport extends TableExport{
      * The Constant serialVersionUID.
      */
     private static final long serialVersionUID = -8404407996727936497L;
-    private static final Logger LOGGER = Logger.getLogger(CommonExcelExport.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonExcelExport.class.getName());
 
     /**
      * The name of the sheet in the workbook the table contents will be written to.
@@ -502,14 +504,14 @@ public class CommonExcelExport extends TableExport{
             final boolean success = super.sendConvertedFileToUser(getTableHolder().getUI(), tempFile, exportFileName);
             return success;
         } catch (final IOException e) {
-            LOGGER.warning("Converting to XLS failed with IOException " + e);
+            LOGGER.warn("Converting to XLS failed with IOException " + e);
             return false;
         } finally {
             tempFile.deleteOnExit();
             try {
                 fileOut.close();
             } catch (final IOException e) {
-                LOGGER.warning("IO Exception"+e);
+                LOGGER.warn("IO Exception"+e);
             }
         }
     }
@@ -819,7 +821,7 @@ public class CommonExcelExport extends TableExport{
                            
 
                         } catch (final NumberFormatException nfe) {
-                            LOGGER.warning("NumberFormatException parsing a numeric value: " + nfe);
+                            LOGGER.warn("NumberFormatException parsing a numeric value: " + nfe);
                             sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
                         }
                     } else {
@@ -844,7 +846,7 @@ public class CommonExcelExport extends TableExport{
                             }
 
                         } catch (final NumberFormatException nfe) {
-                            LOGGER.warning("NumberFormatException parsing a numeric value: " + nfe);
+                            LOGGER.warn("NumberFormatException parsing a numeric value: " + nfe);
                             sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
                         }
 
@@ -920,7 +922,7 @@ public class CommonExcelExport extends TableExport{
                         }
                     }
                 } else {
-                    LOGGER.warning("Cannot use Table formatted property unless Table is instance of " +
+                    LOGGER.warn("Cannot use Table formatted property unless Table is instance of " +
                             "ExportableFormattedProperty");
                 }
             }

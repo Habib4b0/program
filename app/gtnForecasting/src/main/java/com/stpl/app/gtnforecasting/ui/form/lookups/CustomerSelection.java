@@ -6,6 +6,7 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
 import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.AlternateHistoryTableLogic;
@@ -18,7 +19,6 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
@@ -36,7 +36,6 @@ import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.DefaultFieldFactory;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextField;
@@ -45,14 +44,16 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -66,7 +67,7 @@ public class CustomerSelection extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(CustomerSelection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerSelection.class);
 
     private SessionDTO session;
     
@@ -127,7 +128,7 @@ public class CustomerSelection extends CustomComponent implements View {
             configureFields();
             configureTable();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -172,7 +173,7 @@ public class CustomerSelection extends CustomComponent implements View {
                             "There are no records that match the search criteria. Please try again");
                 }
             } catch (FieldGroup.CommitException ex) {
-                java.util.logging.Logger.getLogger(CustomerSelection.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(CustomerSelection.class.getName()).error( StringUtils.EMPTY, ex);
             }
         }
         LOGGER.debug("Ending search method");
@@ -203,7 +204,7 @@ public class CustomerSelection extends CustomComponent implements View {
                     customerName.setValue(StringUtils.EMPTY);
                     marketType.setValue(null);
                 } catch (Property.ReadOnlyException ex) {
-                   LOGGER.error(ex);
+                   LOGGER.error(ex.getMessage());
 
                 }
             }
@@ -433,7 +434,7 @@ public class CustomerSelection extends CustomComponent implements View {
                 logic.checkAll_selected_customerSelection(session,event.isChecked());
                 selectedcustomerTableLoic.loadSetData(customerSearchBinder, altHistoryDTO, session, Boolean.FALSE);
                 }catch(Exception e){
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
             }
         });
@@ -507,7 +508,7 @@ public class CustomerSelection extends CustomComponent implements View {
                 createWorkSheet("Available_Customer", availableCustomerTable, recordCount);
             }
         } catch (SystemException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             contractExcelFlag = false;
         }
@@ -540,7 +541,7 @@ public class CustomerSelection extends CustomComponent implements View {
                 }
             }
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | NoSuchMethodException | InvocationTargetException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -558,7 +559,7 @@ public class CustomerSelection extends CustomComponent implements View {
                 createWorkSheet("Selected_Customer", selectedCustomerTable, recordCount);
             }
         } catch (SystemException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             infoExcelFlag = false;
         }

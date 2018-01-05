@@ -11,10 +11,11 @@ import com.stpl.app.gtnforecasting.nationalassumptions.logic.NationalAssumptionL
 import com.stpl.ifs.util.HelperDTO;
 import java.util.Collections;
 import java.util.List;
-import org.jboss.logging.Logger;
 import org.asi.ui.addons.lazycontainer.DAO;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -27,7 +28,7 @@ public class BrandContainer implements DAO<HelperDTO> {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(BrandContainer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BrandContainer.class);
 
     /**
      * Method used for get Count.
@@ -50,7 +51,7 @@ public class BrandContainer implements DAO<HelperDTO> {
             LOGGER.debug("Entering BrandContainer Count method :");
             return NationalAssumptionLogic.getLazyBrandCount(searchCriteria.getFilter(), brand) + 1;
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return 0;
     }
@@ -64,7 +65,7 @@ public class BrandContainer implements DAO<HelperDTO> {
             LOGGER.debug("Entering BrandContainer find method :");
             return NationalAssumptionLogic.getLazyBrandResults(startIndex, startIndex + offset, searchCriteria.getFilter(), brand,preBrandValue);
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return Collections.emptyList();
     }

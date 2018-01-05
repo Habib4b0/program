@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +31,7 @@ public class Utility {
     /**
      * The Constant LOGGER.
      */
-    public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(Utility.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(Utility.class);
 
     public static void loadHierarchyList(final SessionDTO session) {
         int producthierarchyLevelNo = CommonUtils.isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;

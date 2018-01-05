@@ -1,19 +1,12 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.logic;
 
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils.getQuator;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.BRAND_NAME;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SHOW_ALL;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SUCCESS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.ANNUAL;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.GROWTH;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PER_OF_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PRICE_TRENDING;
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.CommonResultsDAO;
 import com.stpl.app.gtnforecasting.dao.NationalAssumptionsDAO;
 import com.stpl.app.gtnforecasting.dao.impl.CommonResultsDAOImpl;
@@ -24,6 +17,16 @@ import com.stpl.app.gtnforecasting.nationalassumptions.dto.PriceTypeDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.queryutils.DataSelectionQueryUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.queryutils.MedicaidQueryUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils.getQuator;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.BRAND_NAME;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SHOW_ALL;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SUCCESS;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.ANNUAL;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.GROWTH;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PER_OF_WAC;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PRICE_TRENDING;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -34,26 +37,18 @@ import com.stpl.app.model.ItemMaster;
 import com.stpl.app.model.MedicaidNewNdc;
 import com.stpl.app.model.NaProjDetails;
 import com.stpl.app.model.StNewNdc;
+import com.stpl.app.service.BrandMasterLocalServiceUtil;
 import com.stpl.app.service.FederalNewNdcLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.ItemMasterLocalServiceUtil;
 import com.stpl.app.service.MedicaidNewNdcLocalServiceUtil;
+import com.stpl.app.service.NaProjDetailsLocalServiceUtil;
 import com.stpl.app.service.StNewNdcLocalServiceUtil;
 import com.stpl.app.utils.CumulativeCalculationUtils;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-
-import com.stpl.app.service.BrandMasterLocalServiceUtil;
-import com.stpl.app.service.ItemMasterLocalServiceUtil;
-import com.stpl.app.service.NaProjDetailsLocalServiceUtil;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.util.BeanItem;
 import java.sql.CallableStatement;
@@ -74,7 +69,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -102,7 +98,7 @@ public class NationalAssumptionLogic {
 
     private static final NationalAssumptionsDAO DAO = new NationalAssumptionsDAOImpl();
     private static int count;
-    private static final Logger LOGGER = Logger.getLogger(NationalAssumptionLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NationalAssumptionLogic.class);
     /**
      * The Percent Two Decimal Places Format.
      */
@@ -260,7 +256,7 @@ public class NationalAssumptionLogic {
             }
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return Constant.SUCCESS;
     }
@@ -342,7 +338,7 @@ public class NationalAssumptionLogic {
                     commonDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder.toString(), session.getCurrentTableNames()));
                 }
             } catch (PortalException | SystemException | NumberFormatException e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
             }
             return getSavedPriceTypes(session);
         } else {
@@ -358,7 +354,7 @@ public class NationalAssumptionLogic {
             List<Object[]> priceTypes = dsQueryUtils.getPriceTypesList(session);
             priceTypesDTOList = getCustomizedPriceTypeResults(priceTypes);
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
         return priceTypesDTOList;
@@ -415,7 +411,7 @@ public class NationalAssumptionLogic {
             }
 
         } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return newNDC;
     }
@@ -429,7 +425,7 @@ public class NationalAssumptionLogic {
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
         } catch (NamingException ex)
         {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
             if (datasource != null) {
                 try (Connection connection = datasource.getConnection();
@@ -442,7 +438,7 @@ public class NationalAssumptionLogic {
                 }
              catch (NumberFormatException | SQLException ex)
                     {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
             }
        return objectList;
@@ -852,7 +848,7 @@ public class NationalAssumptionLogic {
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
         } catch (NamingException ex)
         {
-               LOGGER.error(ex);
+               LOGGER.error(ex.getMessage());
         }
             if (datasource != null) {
                 try (Connection connection = datasource.getConnection();
@@ -864,7 +860,7 @@ public class NationalAssumptionLogic {
                 statement.execute();
             } catch (NumberFormatException | SQLException ex)
             {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
             }   
         } 
         LOGGER.debug("Procedure nationalAssumptionsCook ends");
@@ -1069,7 +1065,7 @@ public class NationalAssumptionLogic {
             }
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return Constant.SUCCESS;
     }
@@ -1121,7 +1117,7 @@ public class NationalAssumptionLogic {
 
             commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1140,7 +1136,7 @@ public class NationalAssumptionLogic {
             commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1163,7 +1159,7 @@ public class NationalAssumptionLogic {
             }
             LOGGER.debug("federalMainDelete ends");
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1180,7 +1176,7 @@ public class NationalAssumptionLogic {
                 LOGGER.debug("medicaidMainDelete ends");
             }
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1232,7 +1228,7 @@ public class NationalAssumptionLogic {
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
         } catch (NamingException ex)
         {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
             if (datasource != null) {
                 try (Connection connection = datasource.getConnection();
@@ -1244,7 +1240,7 @@ public class NationalAssumptionLogic {
                 statement.execute();
             } catch (NumberFormatException | SQLException ex)
             {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         } 
         LOGGER.debug("Procedure newNdcCook ends");
@@ -1333,7 +1329,7 @@ public class NationalAssumptionLogic {
 			new CumulativeCalculationUtils(procedureInputs, session.getUserId(), session.getSessionId(), methodology,
 					NATIONAL_ASSUMPTIONS.getConstant(), "ST_NA_NDC11_GROWTH_FACTOR_");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -1345,7 +1341,7 @@ public class NationalAssumptionLogic {
             int count = getCount(resultsList);
             return count == 0 ? Boolean.TRUE : Boolean.FALSE;
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return Boolean.FALSE;
     }

@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.stpl.app.security.permission.model.AppPermission;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UISecurityUtil {
 	public static final String CONTRACT_HEADER_FIELD_SECURE_HM= "permissionContractMasterField";
@@ -19,7 +20,7 @@ public class UISecurityUtil {
 	
 	public static final String CONTRACT_HEADER= "Contract Header";
 	public static final String CONTRACT_DASHBOARD= "Contract Dashboard";	
-        private static final Logger LOGGER = Logger.getLogger(UISecurityUtil.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(UISecurityUtil.class);
 	
 	
 	public static TableResultCustom modifyTableResult(Object[] obj,String[] header,HashMap<String, AppPermission> fieldHM){
@@ -51,7 +52,7 @@ public class UISecurityUtil {
 		
 		}
 		catch(Exception ex){
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
 		}
 		return tblResultCustom;
 	}
@@ -84,7 +85,7 @@ public class UISecurityUtil {
 		
 		}
 		catch(Exception ex){
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
 		}
 		return tblResultCustom;
 	}
@@ -116,7 +117,7 @@ public class UISecurityUtil {
 		tblResultCustom.setObjResultHeader(objResultHeader);		
 		}
 		catch(Exception ex){
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
 		}
 		return tblResultCustom;
 	}
@@ -147,7 +148,7 @@ public class UISecurityUtil {
 		tblResultCustom.setObjResultHeader(objResultHeader);		
 		}
 		catch(Exception ex){
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
 		}
 		return tblResultCustom;
 	}

@@ -62,7 +62,6 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.VerticalLayout;
@@ -77,9 +76,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -266,7 +267,7 @@ public class AltSummeryDiscount extends CustomComponent {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(AltSummeryDiscount.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AltSummeryDiscount.class);
 /**
  * boolean for generate
  */
@@ -519,7 +520,7 @@ public class AltSummeryDiscount extends CustomComponent {
             resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("Ending configureTable ");
     }
@@ -843,7 +844,7 @@ public class AltSummeryDiscount extends CustomComponent {
             ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(excelTable), excelName, excelName, excelName + ".xls", false);
             excel.export();
         } catch (IllegalArgumentException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("excel ends");
     }
@@ -900,7 +901,7 @@ public class AltSummeryDiscount extends CustomComponent {
                     new HashMap<String,String>(), projectionSelection.getForecastConfigPeriods(),projectionSelection);
             loadDataToContainer(list, null, true);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("Exit generateButtonlogicForExcel");
     }
@@ -921,7 +922,7 @@ public class AltSummeryDiscount extends CustomComponent {
 
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
         LOGGER.debug("Ended loadDataToContainer");
@@ -1007,7 +1008,7 @@ public class AltSummeryDiscount extends CustomComponent {
             excelTable.setCollapsed(dto, false);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("Exit addLowerLevelsForExport");
     }
@@ -1227,7 +1228,7 @@ public class AltSummeryDiscount extends CustomComponent {
             }
 
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         projectionSelection.setForecastDTO(session.getForecastDTO());
@@ -1561,7 +1562,7 @@ public class AltSummeryDiscount extends CustomComponent {
 
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -1570,7 +1571,7 @@ public class AltSummeryDiscount extends CustomComponent {
         try {
             projectionSelection.setDetailsSid(logic.getDetailsId(session));
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     } 
    

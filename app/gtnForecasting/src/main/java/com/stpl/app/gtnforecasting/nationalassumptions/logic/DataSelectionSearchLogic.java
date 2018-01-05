@@ -13,6 +13,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +31,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
     protected boolean loadData = false;
     protected DataSelectionDTO dataSelectionDTO;
     protected Object businessUnit;
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelectionSearchLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionSearchLogic.class);
 
     @Override
     public int getCount() {
@@ -48,7 +50,7 @@ public class DataSelectionSearchLogic extends PageTableLogic {
         try {
             resultList = new DataSelectionLogic().getProjectionResults(projectionName, selectedProducts, companyValueId, thearupeticValueId, productGroupId, start, offset, getFilters(), getSortByColumns(),businessUnit);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return resultList;
     }

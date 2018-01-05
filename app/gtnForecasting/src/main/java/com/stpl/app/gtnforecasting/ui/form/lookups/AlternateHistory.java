@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -66,7 +68,7 @@ public class AlternateHistory extends CustomWindow {
     private AltSummeryDiscount discountSummary;
 
     private final SessionDTO session;
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(AlternateHistory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlternateHistory.class);
     private ProjectionSelectionDTO projectionSelection = new ProjectionSelectionDTO();
     private final NMDiscountTableLoadLogic tableLogic;
     private int rsModelSid = 0;
@@ -121,7 +123,7 @@ public class AlternateHistory extends CustomWindow {
             populateBtn.setVisible(false);
             previousBtn.setVisible(false);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -258,7 +260,7 @@ public class AlternateHistory extends CustomWindow {
                             nextBtn.setVisible(true);
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
                 } else {
                     prevflag = false;
@@ -362,7 +364,7 @@ public class AlternateHistory extends CustomWindow {
                     /* Below line is Used close window */
                     close();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             }
         }.getConfirmationMessage("Confirmation", "Are you sure you want to Exit ?");

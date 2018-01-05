@@ -5,6 +5,12 @@
  */
 package com.stpl.app.gtnforecasting.discountprojectionresults.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.discountprojectionresults.dto.DiscountProjectionResultsDTO;
@@ -22,12 +28,6 @@ import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -37,7 +37,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -45,7 +46,7 @@ import org.jboss.logging.Logger;
  */
 public class DPRLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(DPRLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DPRLogic.class);
     private static final DecimalFormat CUR_ZERO = new DecimalFormat("$#,##0");
     private static final DecimalFormat CUR_TWO = new DecimalFormat("$#,##0.00");
     private static final DecimalFormat PER_THREE = new DecimalFormat("#,##0.000");
@@ -2145,7 +2146,7 @@ public class DPRLogic {
 
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         dto.setDprDTOList(childList);
         return dto;
@@ -2315,7 +2316,7 @@ public class DPRLogic {
             }
             return map;
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return null;
     }

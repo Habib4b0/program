@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.discountprojectionresults.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjectionResults;
 import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
@@ -50,17 +52,16 @@ import static com.stpl.app.utils.Constants.LabelConstants.PERIOD;
 import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
 import com.stpl.app.utils.ExcelUtils;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 import com.vaadin.v7.data.Property;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -71,16 +72,16 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
-import com.stpl.ifs.ui.util.NumericConstants;
-import org.asi.ui.custommenubar.CustomMenuBar;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
@@ -363,7 +364,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         try {
             loadGroupFilter();
         } catch (SystemException | PortalException ex) {
-            java.util.logging.Logger.getLogger(NMDiscountProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(NMDiscountProjectionResults.class.getName()).error( StringUtils.EMPTY, ex);
         }
         initializeResultTable();
         if (loadProjectionSelection()) {
@@ -847,7 +848,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 sessionDto.setDiscountRSlistUpdated(true);                
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -884,7 +885,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 CommonLogic.saveProjectionSelection(map, sessionDto.getProjectionId(), Constant.DISCOUNT_PROJECTION_RESULTS);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -900,7 +901,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 editBtn.setVisible(Boolean.FALSE);
             }
         } catch (PortalException | SystemException ex) {
-            java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(NMDiscountProjection.class.getName()).error( StringUtils.EMPTY, ex);
         }
     }
 

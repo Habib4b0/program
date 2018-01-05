@@ -6,6 +6,9 @@
  */
 package com.stpl.app.gtnforecasting.discountProjection.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -13,16 +16,12 @@ import com.stpl.app.model.RsModel;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -177,7 +176,7 @@ public class NMDiscountProjectionLogic {
         
            rsModelDetailsList= RsModelLocalServiceUtil.dynamicQuery(dynamicQuery);
         } catch (SystemException ex) {
-            Logger.getLogger(NMDiscountProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(NMDiscountProjectionLogic.class.getName()).error( StringUtils.EMPTY, ex);
         }
      
      return rsModelDetailsList.get(0).getRsModelSid();

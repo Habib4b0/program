@@ -29,7 +29,8 @@ import com.vaadin.v7.ui.TextField;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -54,7 +55,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
    
     private String indicator = StringUtils.EMPTY;
     private int levelNo = 0;
-    public static final Logger LOGGER = Logger.getLogger(ComparisonFilterGenerator.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ComparisonFilterGenerator.class);
 
     public ComparisonFilterGenerator(ProjectionSelectionDTO projectionDTO, MSalesProjectionResultsTableLogic sprTableLogic) {
         this.sprProjectionDTO = projectionDTO;
@@ -227,7 +228,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 return contractType;
 
             } catch (Property.ReadOnlyException | UnsupportedOperationException e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
 
             }
 

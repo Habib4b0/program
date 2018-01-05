@@ -5,12 +5,12 @@
  */
 package com.stpl.app.gtnforecasting.dao;
 
-import com.stpl.app.model.CustomViewDetails;
-import com.stpl.app.model.CustomViewMaster;
-import com.stpl.app.model.RelationshipLevelDefinition;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.model.CustomViewDetails;
+import com.stpl.app.model.CustomViewMaster;
+import com.stpl.app.model.RelationshipLevelDefinition;
 import java.util.List;
 
 /**

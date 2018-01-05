@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.salesprojection.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjection;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
@@ -44,8 +46,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.constants.GlobalConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Window;
@@ -60,12 +60,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Commercial Sales Projection
@@ -75,7 +76,7 @@ import org.jboss.logging.Logger;
 public class NMSalesProjection extends ForecastSalesProjection {
 
     private final StplSecurity stplSecurity = new StplSecurity();
-    private static final Logger LOGGER = Logger.getLogger(NMSalesProjection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjection.class);
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
     protected NMSalesProjectionTableLogic nmSalesProjectionTableLogic;
     protected String ALL = "ALL";
@@ -189,7 +190,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 exp.export();
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -213,7 +214,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         try {
             calculateButtonLogic();
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(NMSalesProjection.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(NMSalesProjection.class.getName()).error( StringUtils.EMPTY, ex);
         }
     }
 
@@ -279,7 +280,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -446,7 +447,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 generateLogic();
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("generate button click listener ends ");
 
@@ -718,7 +719,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             }
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -738,7 +739,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             map.put(Constant.PRODUCT_LEVEL_VALUE, StringUtils.join(getProductFilterValues(), CommonUtil.COMMA));
             sprCommonLogic.saveNMSRPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("saveSPResults method ends");
     }

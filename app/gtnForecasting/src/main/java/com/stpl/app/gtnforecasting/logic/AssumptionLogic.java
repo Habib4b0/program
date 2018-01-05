@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.AssumptionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.AssumptionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.AssumptionCIDTDTO;
@@ -17,8 +19,6 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.gtnforecasting.utils.Converters;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -26,7 +26,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -42,7 +43,7 @@ public class AssumptionLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(AssumptionLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AssumptionLogic.class);
 
     /**
      * To get the Customer ID Transfer Results.

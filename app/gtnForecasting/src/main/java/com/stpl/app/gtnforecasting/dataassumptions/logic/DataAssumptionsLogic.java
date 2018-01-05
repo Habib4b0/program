@@ -22,10 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -69,7 +68,7 @@ public class DataAssumptionsLogic {
                 }
                 finalList.add(dto);
             } catch (Exception ex) {
-                Logger.getLogger(DataAssumptionsLogic.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(DataAssumptionsLogic.class.getName()).error(StringUtils.EMPTY, ex);
             }
         }
         return finalList;

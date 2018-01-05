@@ -18,7 +18,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Non FAMP Table Logic
@@ -37,7 +38,7 @@ public class NonFampTableLogic extends PageTreeTableLogic {
      /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(NonFampTableLogic.class);    
+    private static final Logger LOGGER = LoggerFactory.getLogger(NonFampTableLogic.class);    
     
      @Override
      public Map<Integer, Object> loadData(int start, int offset) {
@@ -70,7 +71,7 @@ public class NonFampTableLogic extends PageTreeTableLogic {
             try {
                 count = fcpResLogic.getConfiguredNonFampCount(getLastParent(), projSelDTO, hierarchyNo);
             } catch (Exception ex) {
-              LOGGER.error(ex);
+              LOGGER.error(ex.getMessage());
             } 
         }
         return count;

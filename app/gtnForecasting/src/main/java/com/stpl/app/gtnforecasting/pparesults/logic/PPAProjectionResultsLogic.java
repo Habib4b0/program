@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.pparesults.logic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.PPAPrjectionResultsDAO;
 import com.stpl.app.gtnforecasting.dao.impl.PPAProjectionResultsDAOImpl;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
@@ -30,9 +32,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -52,7 +51,8 @@ import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -69,7 +69,7 @@ public class PPAProjectionResultsLogic {
     private static final String M = "M";
     private static final String A = "A";
     private String indicater = StringUtils.EMPTY;
-    private static final Logger LOGGER = Logger.getLogger(PPAProjectionResultsLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionResultsLogic.class);
     private List chartList;
     private final ExecutorService service = ThreadPool.getInstance().getService();
     private List<Object[]> periodTableList=null;
@@ -678,7 +678,7 @@ public class PPAProjectionResultsLogic {
                 try {
                             resultList = ppaProjecetionResults(selection.isIsProjectionTotal(),selection, session);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             } else {
                 resultList = getProjectionPivotTotal(selection, session);
@@ -735,7 +735,7 @@ public class PPAProjectionResultsLogic {
         try {
             projDTOList = ppaProjecetionResults(selection.isIsProjectionTotal(), selection, session);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return projDTOList;
     }
@@ -1127,7 +1127,7 @@ public class PPAProjectionResultsLogic {
                 detailsDTO.setPriceChange(getFormatValue(TWO_DECIMAL, wacPriceArray[NumericConstants.ONE], PERCENTAGE));
                 resultList.add(detailsDTO);
             } catch (ParseException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         wacTableList=null;

@@ -586,7 +586,7 @@ public class SalesRowDto extends ExtMapDTO implements Comparator<SalesRowDto>{
                 }
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         
         return value;

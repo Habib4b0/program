@@ -15,7 +15,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Table Logic class that is used across all the tabs in Accrual Rate
@@ -25,7 +26,7 @@ import org.jboss.logging.Logger;
  */
 public class AccrualRateProjectionTableLogic extends PageTableLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(AccrualRateProjectionTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccrualRateProjectionTableLogic.class);
 
     private final AccrualRateProjectionLogic searchLogic = AccrualRateProjectionLogic.getInstance();
 
@@ -81,9 +82,9 @@ public class AccrualRateProjectionTableLogic extends PageTableLogic {
                     break;
             }
 
-            LOGGER.debug("Records returned: " + list == null ? null : list.size());
+            LOGGER.debug("Records returned: " + list == null ? String.valueOf(null) : String.valueOf(list.size()));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return list;
     }

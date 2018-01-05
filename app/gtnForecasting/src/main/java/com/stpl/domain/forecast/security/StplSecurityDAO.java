@@ -3,12 +3,12 @@
  */
 package com.stpl.domain.forecast.security;
 
-import com.stpl.app.model.UsergroupBusinessrole;
-import com.stpl.app.model.UsergroupDomainMaster;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
+import com.stpl.app.model.UsergroupBusinessrole;
+import com.stpl.app.model.UsergroupDomainMaster;
 import java.util.List;
 
 /** 

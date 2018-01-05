@@ -5,12 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
-import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
-import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
-import com.stpl.app.gtnforecasting.dto.SaveViewDTO;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.model.ForecastingViewMaster;
-import com.stpl.app.service.ForecastingViewMasterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
@@ -18,12 +12,19 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
+import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
+import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
+import com.stpl.app.gtnforecasting.dto.SaveViewDTO;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.model.ForecastingViewMaster;
+import com.stpl.app.service.ForecastingViewMasterLocalServiceUtil;
 import com.vaadin.server.VaadinSession;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -41,7 +42,7 @@ public class ViewLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ViewLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ViewLogic.class);
 
     /**
      * Checks if is duplicate view.
@@ -151,7 +152,7 @@ public class ViewLogic {
                 viewMaster = dataSelection.getForecastingViewMaster(viewId);
                 dataSelection.deleteForecastingViewMaster(viewId);
             } catch (PortalException | SystemException ex) {
-                java.util.logging.Logger.getLogger(ViewLogic.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(ViewLogic.class.getName()).error( StringUtils.EMPTY, ex);
             }
             if (saveViewDTO.getViewName() != null
                     && !StringUtils.isEmpty(saveViewDTO.getViewName())) {
@@ -170,7 +171,7 @@ public class ViewLogic {
             return updatedViewMaster;
 
         } catch (SystemException | NumberFormatException e) {
-           LOGGER.error(e);
+           LOGGER.error(e.getMessage());
             return updatedViewMaster;
         }
 

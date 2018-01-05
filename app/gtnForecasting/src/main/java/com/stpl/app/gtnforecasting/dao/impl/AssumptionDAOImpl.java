@@ -8,7 +8,6 @@ package com.stpl.app.gtnforecasting.dao.impl;
 import com.stpl.app.gtnforecasting.dao.AssumptionDAO;
 import com.stpl.app.gtnforecasting.dto.AssumptionPVDTO;
 import com.stpl.app.gtnforecasting.service.finderImpl.NMSalesProjectionMasterImpl;
-import com.stpl.app.service.NmSalesProjectionLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.List;
 

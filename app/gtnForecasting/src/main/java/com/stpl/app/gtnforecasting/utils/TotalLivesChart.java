@@ -6,21 +6,10 @@
 package com.stpl.app.gtnforecasting.utils;
 
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-//import com.vaadin.addon.charts.Chart;
-//import com.vaadin.addon.charts.model.ChartType;
-//import com.vaadin.addon.charts.model.Configuration;
-//import com.vaadin.addon.charts.model.HorizontalAlign;
-//import com.vaadin.addon.charts.model.LayoutDirection;
-//import com.vaadin.addon.charts.model.Legend;
-//import com.vaadin.addon.charts.model.ListSeries;
-//import com.vaadin.addon.charts.model.PlotOptionsColumn;
-//import com.vaadin.addon.charts.model.Tooltip;
-//import com.vaadin.addon.charts.model.VerticalAlign;
-//import com.vaadin.addon.charts.model.XAxis;
-//import com.vaadin.addon.charts.model.YAxis;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.ui.HorizontalLayout;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -45,7 +34,7 @@ public class TotalLivesChart extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(TotalLivesChart.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TotalLivesChart.class);
 
     private final SessionDTO session;
 
@@ -194,7 +183,7 @@ public class TotalLivesChart extends Window {
 //
 //        } catch (Exception e) {
 //
-//            LOGGER.error(e);
+//            LOGGER.error(e.getMessage());
 //        }
 //        LOGGER.debug("End of getChart method ");
         return layout;

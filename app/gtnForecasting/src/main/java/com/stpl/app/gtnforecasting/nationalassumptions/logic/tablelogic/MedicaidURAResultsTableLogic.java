@@ -20,7 +20,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,7 +34,7 @@ public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
      /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(MedicaidURAResultsTableLogic.class);    
+    private static final Logger LOGGER = LoggerFactory.getLogger(MedicaidURAResultsTableLogic.class);    
   SessionDTO sessionDTO;
     public void setProjectionResultsData(ProjectionSelectionDTO projSelDTO, int levelNo, String hierarchyNo,SessionDTO sessionDTO) {
         this.projSelDTO = projSelDTO;
@@ -75,7 +76,7 @@ public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
             try {
                 count = medResLogic.getConfiguredMedicaidResultsCount(getLastParent(), projSelDTO);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             } 
            
         }

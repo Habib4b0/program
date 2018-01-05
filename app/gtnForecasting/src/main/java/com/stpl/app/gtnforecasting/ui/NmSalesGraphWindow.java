@@ -8,7 +8,8 @@ package com.stpl.app.gtnforecasting.ui;
 import com.stpl.app.gtnforecasting.utils.StplWindow;
 import com.vaadin.ui.Component;
 import elemental.events.KeyboardEvent.KeyCode;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -21,7 +22,7 @@ public class NmSalesGraphWindow extends StplWindow {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(NmSalesGraphWindow.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NmSalesGraphWindow.class);
 
     /**
      * The Constructor.

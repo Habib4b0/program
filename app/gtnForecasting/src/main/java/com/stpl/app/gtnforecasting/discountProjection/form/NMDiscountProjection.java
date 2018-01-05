@@ -1,7 +1,43 @@
 package com.stpl.app.gtnforecasting.discountProjection.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
+import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
+import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountProjectionLogic;
+import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.NMDiscountTableLoadLogic;
+import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.dto.SaveDTO;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
+import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
+import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
+import com.stpl.app.gtnforecasting.logic.Utility;
+import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.ui.ForecastUI;
+import com.stpl.app.gtnforecasting.ui.form.lookups.AlternateHistory;
+import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
+import com.stpl.app.gtnforecasting.ui.form.lookups.DiscountSelection;
+import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import static com.stpl.app.gtnforecasting.utils.CommonUtil.stringNullCheck;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.CustomExcelNM;
+import com.stpl.app.gtnforecasting.utils.HeaderUtils;
+import com.stpl.app.gtnforecasting.utils.NotificationUtils;
+import com.stpl.app.gtnforecasting.utils.TabNameUtil;
+import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.model.CustomViewMaster;
+import com.stpl.app.security.StplSecurity;
+import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
 import static com.stpl.app.utils.Constants.ButtonConstants.SELECT;
 import static com.stpl.app.utils.Constants.CalendarConstants.CURRENT_YEAR;
@@ -38,41 +74,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM;
 import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
 import static com.stpl.app.utils.Constants.LabelConstants.REBATE_PER_UNIT;
 import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
-import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
-import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
-import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
-import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountProjectionLogic;
-import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.NMDiscountTableLoadLogic;
-import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.SaveDTO;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
-import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
-import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
-import com.stpl.app.gtnforecasting.logic.Utility;
-import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.ui.ForecastUI;
-import com.stpl.app.gtnforecasting.ui.form.lookups.AlternateHistory;
-import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
-import com.stpl.app.gtnforecasting.ui.form.lookups.DiscountSelection;
-import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.gtnforecasting.utils.CustomExcelNM;
-import com.stpl.app.gtnforecasting.utils.HeaderUtils;
-import com.stpl.app.gtnforecasting.utils.NotificationUtils;
-import com.stpl.app.gtnforecasting.utils.TabNameUtil;
-import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.model.CustomViewMaster;
-import com.stpl.app.security.StplSecurity;
-import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
-import com.stpl.app.utils.Constants;
 import com.stpl.app.utils.CumulativeCalculationUtils;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
@@ -84,8 +85,7 @@ import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
+import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.FieldEvents.FocusEvent;
@@ -108,8 +108,6 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.DefaultFieldFactory;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextField;
@@ -131,7 +129,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
@@ -139,11 +137,14 @@ import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox.ClickListener;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
@@ -260,7 +261,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(NMDiscountProjection.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NMDiscountProjection.class);
 
 	private boolean isDiscountGenerated;
 	private boolean isRateUpdatedManually = false;
@@ -610,7 +611,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						} else {
 						}
 					} catch (IllegalArgumentException | NullPointerException ex) {
-						LOGGER.error(ex);
+						LOGGER.error(ex.getMessage());
 					}
 				} else {
 
@@ -802,7 +803,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 							saveDiscountProjectionListview();
 						}
 					} catch (Exception e) {
-						LOGGER.error(e);
+						LOGGER.error(e.getMessage());
 						AbstractNotificationUtils.getErrorNotification("Multiple Variables Updated",
 								"Multiple variables for the same customer/product/time period combination have been changed.  Please only change one variable for a single customer/product/time period combination.");
 						tableLogic.getContainerDataSource().getContainerProperty(obj[0], obj[1]).setValue(focusValue);
@@ -992,7 +993,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			}
 			viewValueChangeLogic();
 		} catch (Property.ReadOnlyException | NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return false;
 	}
@@ -1046,7 +1047,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			});
 
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		LOGGER.debug("Ending configureTable ");
 	}
@@ -1417,7 +1418,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				}
 			}
 		} catch (Property.ReadOnlyException | IllegalStateException | UnsupportedOperationException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -1561,7 +1562,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			});
 
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		LOGGER.debug("Ending addFieldFactoryAndListenersForLeftTable ");
 	}
@@ -1679,7 +1680,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						isCustomHierarchy, customViewDetails, isProgram, discountList,discountIds);
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			updatedRecordCount = 0;
 		}
 		LOGGER.debug("Ending updateCheckedRecord");
@@ -1980,7 +1981,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 								+ "Please select which discount this Mass Update applies to. ");
 			}
 		} catch (Property.ReadOnlyException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 
 		}
 	}
@@ -2304,7 +2305,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				NotificationUtils.getErrorNotification("No Methodology selected", "Please select a Methodology");
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -2486,7 +2487,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				NotificationUtils.getErrorNotification("No Methodology selected", "Please select a Methodology");
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
     
@@ -2503,7 +2504,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				return false;
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return false;
 	}
@@ -3031,7 +3032,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				excel.export();
 			}
 		} catch (IllegalArgumentException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		LOGGER.debug("excel ends");
 	}
@@ -3109,7 +3110,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					projectionSelection);
 			loadDataToContainer(list, null, true);
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		LOGGER.debug("Exit generateButtonlogicForExcel");
 	}
@@ -3130,7 +3131,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 
 		}
 		LOGGER.debug("Ended loadDataToContainer");
@@ -3240,7 +3241,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			excelTable.setCollapsed(dto, false);
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		LOGGER.debug("Exit addLowerLevelsForExport");
 	}
@@ -3515,7 +3516,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			loadGroupFilterDdlb();
 
 		} catch (NumberFormatException | UnsupportedOperationException e) {
-			LOGGER.debug(e);
+			LOGGER.error(StringUtils.EMPTY,e);
 		}
 		LOGGER.debug("Exiting loadTreeTable ");
 	}
@@ -3667,7 +3668,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 							}
 						}
 					} catch (Property.ReadOnlyException e) {
-						LOGGER.error(e);
+						LOGGER.error(e.getMessage());
 
 					}
 				}
@@ -3739,7 +3740,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         map.put(Constant.DEDUCTION_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(deductionFilterValues).get(SID), CommonUtil.COMMA));
                         CommonLogic.saveProjectionSelection(map, session.getProjectionId(), TAB_DISCOUNT_PROJECTION.getConstant());
                 } catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 
 		LOGGER.debug(" Ending Save Selection ");
@@ -3791,7 +3792,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		LOGGER.debug(" saving DP screen over");
 	}
@@ -3905,7 +3906,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				historyNum = historyDdlb.getItemIds().size();
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 
 		projectionSelection.setForecastDTO(session.getForecastDTO());
@@ -4198,7 +4199,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				adjustBtn.setVisible(false);
 			}
 		} catch (PortalException | SystemException ex) {
-			java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
+			LoggerFactory.getLogger(NMDiscountProjection.class.getName()).error( StringUtils.EMPTY, ex);
 		}
 	}
 
@@ -4620,7 +4621,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						Date s2 = s.parse(o2);
 						retval = s1.compareTo(s2);
 					} catch (ParseException e) {
-						LOGGER.error(e);
+						LOGGER.error(e.getMessage());
 					}
 					return retval;
 				}
@@ -4720,7 +4721,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						Date s2 = s.parse(o2);
 						retval = s1.compareTo(s2);
 					} catch (ParseException e) {
-						LOGGER.error(e);
+						LOGGER.error(e.getMessage());
 					}
 					return retval;
 				}
@@ -4883,7 +4884,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						refreshTableData(getManualEntryRefreshHierarachyNo());
 					}
 				} catch (Exception ex) {
-					LOGGER.error(ex);
+					LOGGER.error(ex.getMessage());
 				}
 			}
 		}.getConfirmationMessage("Confirm List View Reset",
@@ -5116,7 +5117,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     projectionSelection.getSessionDTO().getSessionId(), methodology, projectionSelection.getTabName(),
                     tableName);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }

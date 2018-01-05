@@ -83,6 +83,8 @@ import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -94,7 +96,7 @@ public class DataSelection extends ForecastDataSelection {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelection.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelection.class);
 	private DataSelectionDTO selectionDTO;
 	private final SessionDTO session;
 	private boolean firstTimeLoad = true;
@@ -152,7 +154,7 @@ public class DataSelection extends ForecastDataSelection {
 				configureOnViewMode();
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -512,7 +514,7 @@ public class DataSelection extends ForecastDataSelection {
 			}
 			initializeProductHierarchy(projectionId, String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -1504,7 +1506,7 @@ public class DataSelection extends ForecastDataSelection {
 						screenName);
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 
 	}
@@ -1720,7 +1722,7 @@ public class DataSelection extends ForecastDataSelection {
 		try {
 			DataSelectionUtil.configureTimeDdlb(fromPeriod, toPeriod, null, null, MODE_ADD.getConstant(), screenName);
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -1983,7 +1985,7 @@ public class DataSelection extends ForecastDataSelection {
 									}
 								}
 							} catch (Exception ex) {
-								LOGGER.error(ex);
+								LOGGER.error(ex.getMessage());
 							}
 
 						}
@@ -2461,7 +2463,7 @@ public class DataSelection extends ForecastDataSelection {
 			}
 			setProductBeanLisTemp(productBeanLisTemp);
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -3002,7 +3004,7 @@ public class DataSelection extends ForecastDataSelection {
 				setProductBeanLisTemp(productBeanLisTemp);
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -3526,7 +3528,7 @@ public class DataSelection extends ForecastDataSelection {
 
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -4079,7 +4081,7 @@ public class DataSelection extends ForecastDataSelection {
 						"No Level was selected to move. Please try again.");
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 

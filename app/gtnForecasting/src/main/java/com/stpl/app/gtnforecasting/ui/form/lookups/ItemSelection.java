@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
@@ -19,7 +20,6 @@ import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
@@ -37,7 +37,6 @@ import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.DefaultFieldFactory;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextField;
@@ -46,14 +45,16 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -111,7 +112,7 @@ public class ItemSelection extends CustomComponent implements View {
     private final BeanItemContainer<AlternateHistoryDTO> availableItemsContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
     private final BeanItemContainer<AlternateHistoryDTO> selectedItemsContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
     private final AlternateHistoryDTO altHistoryDTO = new AlternateHistoryDTO();
-    private static final Logger LOGGER = Logger.getLogger(ItemSelection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemSelection.class);
     private final CustomFieldGroup itemSearchBinder = new CustomFieldGroup(new BeanItem<>(altHistoryDTO));
     private Boolean contractExcelFlag = false;
     private Boolean infoExcelFlag = false;
@@ -142,7 +143,7 @@ public class ItemSelection extends CustomComponent implements View {
         try {
             commonMsg.loadComboBox(theraputicClass, "THERAPEUTIC_CLASS", false);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
         itemIdentifier.setEnabled(false);        
@@ -196,7 +197,7 @@ public class ItemSelection extends CustomComponent implements View {
                     brand.setValue(null);
                     theraputicClass.setValue(null);
                 } catch (Property.ReadOnlyException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             }
         }.getConfirmationMessage("Reset", "Are you sure you want to reset the page to default/previous values?");
@@ -417,7 +418,7 @@ public class ItemSelection extends CustomComponent implements View {
                 }
             } catch (FieldGroup.CommitException ex) {
 
-                java.util.logging.Logger.getLogger(CustomerSelection.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(CustomerSelection.class.getName()).error( StringUtils.EMPTY, ex);
             }
         }
         }
@@ -454,7 +455,7 @@ public class ItemSelection extends CustomComponent implements View {
             }
             LOGGER.debug("Ending search method");
         } catch (FieldGroup.CommitException ex) {
-            java.util.logging.Logger.getLogger(ItemSelection.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(ItemSelection.class.getName()).error( StringUtils.EMPTY, ex);
         }
     }
 
@@ -465,7 +466,7 @@ public class ItemSelection extends CustomComponent implements View {
         try {
             itemSearchBinder.commit();
         } catch (FieldGroup.CommitException ex) {
-            java.util.logging.Logger.getLogger(ItemSelection.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(ItemSelection.class.getName()).error( StringUtils.EMPTY, ex);
         }
         if (logic.checkForAtleastOneCheckedItem(session, true)) {
             altHistoryDTO.setReset(Boolean.FALSE);
@@ -495,7 +496,7 @@ public class ItemSelection extends CustomComponent implements View {
             }
             LOGGER.debug("Ending Remove button method");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -551,7 +552,7 @@ public class ItemSelection extends CustomComponent implements View {
                 createWorkSheet("Available_Items", availableItemsTable, recordCount);
             }
         } catch (SystemException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             contractExcelFlag = false;
         }
@@ -571,7 +572,7 @@ public class ItemSelection extends CustomComponent implements View {
                 createWorkSheet("Selected_Items", selectedItemsTable, recordCount);
             }
         } catch (SystemException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             infoExcelFlag = false;
         }
@@ -601,7 +602,7 @@ public class ItemSelection extends CustomComponent implements View {
                 }
             }
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | NoSuchMethodException | InvocationTargetException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }    
 

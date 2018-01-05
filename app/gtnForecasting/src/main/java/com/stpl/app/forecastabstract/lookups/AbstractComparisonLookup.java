@@ -5,6 +5,8 @@
  */
 package com.stpl.app.forecastabstract.lookups;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
@@ -34,8 +36,6 @@ import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -44,7 +44,6 @@ import com.vaadin.ui.Panel;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.util.IndexedContainer;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.NativeSelect;
 import com.vaadin.v7.ui.PopupDateField;
@@ -59,8 +58,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -105,7 +106,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 	 */
 	public final String[] comparisonResultsHeader = new String[] { "Projection Name", "Description", "Market Type",
 			"Contract Holder", Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "Created Date", "Created By" };
-	private static final Logger LOGGER = Logger.getLogger(AbstractComparisonLookup.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractComparisonLookup.class);
 	protected Button addButton = new Button(BTN_ADD.getConstant());
 
 	/**
@@ -576,7 +577,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 					}
 
 				} catch (PortalException | SystemException e) {
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
 				}
 
 			}

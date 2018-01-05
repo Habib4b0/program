@@ -6,6 +6,11 @@
 
 package com.stpl.app.gtnforecasting.salesprojection.utils;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.service.ChProjectionSelectionLocalServiceUtil;
@@ -16,11 +21,6 @@ import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -164,7 +164,7 @@ public class SalesUtils {
             }
             return map;
         } catch (SystemException ex) {
-            LOGGER.debug(ex);
+            LOGGER.error(StringUtils.EMPTY,ex);
         }
         return null;
     }

@@ -5,6 +5,8 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
@@ -35,8 +37,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.FieldEvents.FocusEvent;
@@ -57,8 +57,6 @@ import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.DefaultFieldFactory;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.TextArea;
@@ -74,10 +72,13 @@ import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
-import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -95,7 +96,7 @@ public class MasterPhsWorksheet extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(MasterPhsWorksheet.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MasterPhsWorksheet.class);
     /**
      * The reset.
      */
@@ -255,7 +256,7 @@ public class MasterPhsWorksheet extends Window {
             addResultTable();
             loadResultTable();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         brandDdlb.setPageLength(NumericConstants.SEVEN);
         brandDdlb.setImmediate(true);
@@ -358,7 +359,7 @@ public class MasterPhsWorksheet extends Window {
                 close.setVisible(false);
             }
         } catch (PortalException | SystemException portal) {
-            LOGGER.error(portal);
+            LOGGER.error(StringUtils.EMPTY,portal);
         }
     }
 
@@ -471,7 +472,7 @@ public class MasterPhsWorksheet extends Window {
                                         adjustedValues.put(String.valueOf(((TextField) event.getComponent()).getData()), String.valueOf(((TextField) event.getComponent()).getValue()));
                                         valueChange = false;
                                     } catch (Exception ex) {
-                                        LOGGER.error(ex);
+                                        LOGGER.error(ex.getMessage());
                                     }
                                 }
                                 detachLisener((AbstractField) event.getComponent());
@@ -517,7 +518,7 @@ public class MasterPhsWorksheet extends Window {
                                         editedNotes.put(String.valueOf(((TextArea) event.getComponent()).getData()), formattedValue);
                                         valueTAChange = false;
                                     } catch (Exception ex) {
-                                        LOGGER.error(ex);
+                                        LOGGER.error(ex.getMessage());
                                     }
                                 }
                                 notesField.addToolTip(description);
@@ -533,7 +534,7 @@ public class MasterPhsWorksheet extends Window {
                         return notesField;
 
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
                 }
                 return null;
@@ -601,7 +602,7 @@ public class MasterPhsWorksheet extends Window {
             tableLogic.setProjectionResultsData(projectionDTO, sessionDTO);
             tableLogic.setRefresh(true);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -647,7 +648,7 @@ public class MasterPhsWorksheet extends Window {
                 }
             }
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -866,7 +867,7 @@ public class MasterPhsWorksheet extends Window {
             MedicaidURAResultsLogic medLogic = new MedicaidURAResultsLogic();
             medLogic.workSheetSetupCook(projectionDTO.getNdcSid().getId(), priceType, "PHS WORKSHEET", StringUtils.EMPTY,sessionDTO);
         } catch (SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -893,7 +894,7 @@ public class MasterPhsWorksheet extends Window {
                         submitFlag = true;
                         submitMsg = false;
                     } catch (PortalException | SystemException ex) {
-                       LOGGER.error(ex);
+                       LOGGER.error(ex.getMessage());
                     }
                 }
             }.getConfirmationMessage("Submit Confirmation ", "Are you sure you want to submit these AMP changes?");
@@ -906,7 +907,7 @@ public class MasterPhsWorksheet extends Window {
         try {
             fcpQueryUtil.updateAdjustment(projectionDTO.getNdcSid().getId(), "getPhsAdjCloseUpdate",sessionDTO);
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 }

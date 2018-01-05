@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.lookups;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.dto.PMPYCalculationExporterDTO;
 import com.stpl.app.gtnforecasting.dto.PMPYCalculatorDTO;
@@ -29,8 +31,6 @@ import static com.stpl.app.utils.Constants.ResourceConstants.GRAPH_IMAGE_PATH;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
@@ -42,7 +42,6 @@ import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.validator.RegexpValidator;
 import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
@@ -63,10 +62,12 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -80,7 +81,7 @@ public class NMPmpyCalculator extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(NMPmpyCalculator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NMPmpyCalculator.class);
 
     /**
      * The space.
@@ -333,7 +334,7 @@ public class NMPmpyCalculator extends Window {
             addStyleName(Constant.BOOTSTRAP);
             addStyleName(Constant.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -579,7 +580,7 @@ public class NMPmpyCalculator extends Window {
                         importButtonLogic();
                     } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                            
                     }
 
@@ -612,7 +613,7 @@ public class NMPmpyCalculator extends Window {
                             generateButtonLogic();
                         }
                     }  catch (Exception e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
 
                     }
 
@@ -641,7 +642,7 @@ public class NMPmpyCalculator extends Window {
             LOGGER.debug("End of configureFields method");
         } catch (Property.ReadOnlyException | UnsupportedOperationException e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
 
@@ -683,7 +684,7 @@ public class NMPmpyCalculator extends Window {
             }
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("End of isContractHistorySelected method");
         return Boolean.FALSE;
@@ -1182,7 +1183,7 @@ public class NMPmpyCalculator extends Window {
 
                                     } catch (Exception e) {
                                         importEvent = false;
-                                        LOGGER.error(e);
+                                        LOGGER.error(e.getMessage());
                                     }
                                 }
                             }
@@ -1217,11 +1218,11 @@ public class NMPmpyCalculator extends Window {
             LOGGER.debug("End of exportCalculatedExcel method");
         } catch (SystemException e) {
  
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
     }

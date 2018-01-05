@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.projectionresults.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastProjectionResults;
 import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
@@ -36,11 +38,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Property;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -56,8 +55,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -67,7 +68,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
 
     protected final StplSecurity stplSec = new StplSecurity();
 
-    private static final Logger LOGGER = Logger.getLogger(NMProjectionResults.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NMProjectionResults.class);
 
     private final NMProjectionResultsLogic projResLogic = new NMProjectionResultsLogic();
 
@@ -390,7 +391,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                 });
             }
         } catch (IllegalArgumentException ex) {
-            LOGGER.debug(ex);
+            LOGGER.error(StringUtils.EMPTY,ex);
         }
     }
 
@@ -444,7 +445,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
             exp.export();
             tableVerticalLayout.removeComponent(exceltable);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -470,7 +471,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                 discountlist = CommonLogic.getDiscountNoList(discountNames, "Program".equals(discountType), session);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -732,7 +733,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
             }
             excelParentRecords.clear();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -746,7 +747,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                 configureOnNonMandated();
                 security();
             } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
             configureFlag = Boolean.FALSE;
         }

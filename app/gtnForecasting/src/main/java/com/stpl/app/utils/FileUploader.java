@@ -55,11 +55,11 @@ public class FileUploader implements Receiver {
                 outputStream = new FileOutputStream(file);
             }
         } catch (final java.io.FileNotFoundException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             new Notification("Could not open file ", e.getMessage(), Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
             return null;
         } catch (IOException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             new Notification("Could not create ", ex.getMessage(), Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
             return null;
         }
@@ -86,7 +86,7 @@ public class FileUploader implements Receiver {
                 outputStream.close();
             }
         } catch (IOException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             new Notification("IOException ", ex.getMessage(), Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
         } finally {
             super.finalize();

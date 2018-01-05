@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,7 +21,7 @@ public class DataFormatConverter implements Converter<String, String> {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataFormatConverter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataFormatConverter.class);
 
     private String format = null;
     private String indicator = null;

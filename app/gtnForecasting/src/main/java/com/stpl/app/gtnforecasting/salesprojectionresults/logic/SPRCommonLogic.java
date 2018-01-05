@@ -5,6 +5,13 @@
  */
 package com.stpl.app.gtnforecasting.salesprojectionresults.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.CommonDAO;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
@@ -30,23 +37,16 @@ import com.stpl.app.model.NmProjectionSelection;
 import com.stpl.app.service.ChProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.CustomViewDetailsLocalServiceUtil;
 import com.stpl.app.service.CustomViewMasterLocalServiceUtil;
+import com.stpl.app.service.ForecastConfigLocalServiceUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
+import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.service.ForecastConfigLocalServiceUtil;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
@@ -64,12 +64,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Jayaram
@@ -88,7 +90,7 @@ public class SPRCommonLogic {
 	/**
 	 * The Constant LOGGER.
 	 */
-	public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(SPRCommonLogic.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(SPRCommonLogic.class);
 
 	/**
 	 * Get Custom View List
@@ -103,7 +105,7 @@ public class SPRCommonLogic {
 			query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
 			list = commonDao.getCustomViewList(query);
 		} catch (SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return list;
 	}
@@ -128,7 +130,7 @@ public class SPRCommonLogic {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return listValue;
 	}
@@ -394,7 +396,7 @@ public class SPRCommonLogic {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return listValue;
 	}
@@ -437,7 +439,6 @@ public class SPRCommonLogic {
 				procedureToCall.append("}");
 				statement = connection.prepareCall(procedureToCall.toString());
 				for (int i = 0; i < noOfArgs; i++) {
-					LOGGER.debug(orderedArgs[i]);
 					statement.setObject(i + 1, orderedArgs[i]);
 				}
 				rs = statement.executeQuery();
@@ -446,14 +447,14 @@ public class SPRCommonLogic {
 
 			}
 		} catch (SQLException | NamingException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		} finally {
 			try {
 
 				statement.close();
 				connection.close();
 			} catch (SQLException ex) {
-				LOGGER.error(ex);
+				LOGGER.error(ex.getMessage());
 			}
 		}
 		return objectList;
@@ -485,12 +486,12 @@ public class SPRCommonLogic {
 				objList.add(str);
 			}
 		} catch (SQLException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		} finally {
 			try {
 				rs.close();
 			} catch (SQLException ex) {
-				LOGGER.error(ex);
+				LOGGER.error(ex.getMessage());
 			}
 		}
 		return objList;
@@ -677,7 +678,7 @@ public class SPRCommonLogic {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return newLevelList;
 	}
@@ -823,7 +824,7 @@ public class SPRCommonLogic {
 			query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
 			list = commonDao.getRelationshipLevels(query);
 		} catch (SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return list;
 	}
@@ -842,7 +843,7 @@ public class SPRCommonLogic {
 			query.addOrder(OrderFactoryUtil.asc(LEVEL_NO_PROPERTY));
 			list = commonDao.getCustomViewDetailsList(query);
 		} catch (SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return list;
 	}
@@ -853,7 +854,7 @@ public class SPRCommonLogic {
 			try {
 				cvm = commonDao.getCustomView(customViewMasterSid);
 			} catch (PortalException | SystemException ex) {
-				LOGGER.error(ex);
+				LOGGER.error(ex.getMessage());
 			}
 		}
 		return cvm;
@@ -887,7 +888,7 @@ public class SPRCommonLogic {
 
 			list = commonDao.getCustomViewList(query);
 		} catch (SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return list;
 	}
@@ -915,11 +916,11 @@ public class SPRCommonLogic {
 							customId = customViewMaster.getCustomViewMasterSid();
 							customViewDetailsSaveLogic(customId, levelList);
 						} catch (SystemException ex) {
-							LOGGER.error(ex);
+							LOGGER.error(ex.getMessage());
 						}
 					}
 				} catch (SystemException ex) {
-					LOGGER.error(ex);
+					LOGGER.error(ex.getMessage());
 				}
 
 			} else {
@@ -938,14 +939,14 @@ public class SPRCommonLogic {
 							try {
 								commonDao.deleteCustomViewDetails(customDetails);
 							} catch (SystemException ex) {
-								LOGGER.error(ex);
+								LOGGER.error(ex.getMessage());
 							}
 						}
 
 						customViewDetailsSaveLogic(customId, levelList);
 					}
 				} catch (SystemException | PortalException ex) {
-					LOGGER.error(ex);
+					LOGGER.error(ex.getMessage());
 				}
 			}
 		}
@@ -972,7 +973,7 @@ public class SPRCommonLogic {
 		try {
 			userId = Integer.valueOf(userId1);
 		} catch (NumberFormatException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		if (userId != 0) {
 			int selectedId = Integer.valueOf(String.valueOf(value));
@@ -1031,7 +1032,7 @@ public class SPRCommonLogic {
 				commonLogic.saveSelection(map, projectionID, screenName, Constant.UPDATE, "M_PROJECTION_SELECTION");
 			}
 		} catch (SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -1055,11 +1056,11 @@ public class SPRCommonLogic {
 				commonLogic.saveSelection(map, projectionID, screenName, Constant.UPDATE, "NM_PROJECTION_SELECTION");
 			}
 		} catch (SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		} catch (PortalException ex) {
-			LOGGER.debug(ex);
+			LOGGER.error(StringUtils.EMPTY,ex);
 		} catch (Exception ex) {
-			LOGGER.debug(ex);
+			LOGGER.error(StringUtils.EMPTY,ex);
 		}
 	}
 
@@ -1086,11 +1087,11 @@ public class SPRCommonLogic {
 						"CH_PROJECTION_SELECTION");
 			}
 		} catch (SystemException ex) {
-			LOGGER.debug(ex);
+			LOGGER.error(StringUtils.EMPTY,ex);
 		} catch (PortalException ex) {
-			LOGGER.debug(ex);
+			LOGGER.error(StringUtils.EMPTY,ex);
 		} catch (Exception ex) {
-			LOGGER.debug(ex);
+			LOGGER.error(StringUtils.EMPTY,ex);
 		}
 	}
 
@@ -1133,7 +1134,7 @@ public class SPRCommonLogic {
 		try {
 			list = commonDao.getCustomViewDetailsList(query);
 		} catch (SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		if (list != null && !list.isEmpty()) {
 			for (CustomViewDetails customViewDetails : list) {
@@ -1151,7 +1152,7 @@ public class SPRCommonLogic {
 		try {
 			list = commonDao.getCustomViewDetailsList(query);
 		} catch (SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return list.size();
 	}
@@ -1163,7 +1164,7 @@ public class SPRCommonLogic {
 		try {
 			businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, getGovernmentConstant());
 		} catch (PortalException | SystemException ex) {
-			java.util.logging.Logger.getLogger(SPRCommonLogic.class.getName()).log(Level.SEVERE, null, ex);
+			LoggerFactory.getLogger(SPRCommonLogic.class.getName()).error( StringUtils.EMPTY, ex);
 		}
 		DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("businessProcessType", businessProcessType));
@@ -1171,7 +1172,7 @@ public class SPRCommonLogic {
 		try {
 			resultList = dataSelectionDao.getForecastConfig(dynamicQuery);
 		} catch (SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		ForecastConfig forecastConfig = null;
 		if (resultList != null && !resultList.isEmpty()) {
@@ -1216,7 +1217,7 @@ public class SPRCommonLogic {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return listValue;
 	}
@@ -1282,7 +1283,7 @@ public class SPRCommonLogic {
 			}
 			return map;
 		} catch (SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return null;
 	}
@@ -1431,7 +1432,7 @@ public class SPRCommonLogic {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return listValue;
 	}
@@ -1450,7 +1451,7 @@ public class SPRCommonLogic {
 				count = Integer.valueOf(String.valueOf(ob));
 			}
 		} catch (NumberFormatException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return count;
 	}
@@ -1469,7 +1470,7 @@ public class SPRCommonLogic {
 				index = Integer.valueOf(String.valueOf(ob));
 			}
 		} catch (NumberFormatException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return index;
 	}
@@ -1634,7 +1635,7 @@ public class SPRCommonLogic {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return groupList;
 	}
@@ -1650,7 +1651,7 @@ public class SPRCommonLogic {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return groupList;
 	}
@@ -1666,7 +1667,7 @@ public class SPRCommonLogic {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return groupList;
 	}
@@ -1705,7 +1706,7 @@ public class SPRCommonLogic {
 				levelNo = Integer.valueOf(String.valueOf(ob));
 			}
 		} catch (NumberFormatException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 
 		return levelNo;
@@ -1726,7 +1727,7 @@ public class SPRCommonLogic {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return newLevelList;
 	}
@@ -1774,7 +1775,7 @@ public class SPRCommonLogic {
 			LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
 
 		} catch (PortalException | SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return helperList;
 	}
@@ -1863,7 +1864,7 @@ public class SPRCommonLogic {
 			List<Object> list = (List<Object>) executeSelectQuery(str, null, null);
 			return list;
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
 		}
 	}
@@ -1889,11 +1890,11 @@ public class SPRCommonLogic {
 						"RETURNS_PROJECTION_SELECTION");
 			}
 		} catch (SystemException ex) {
-			LOGGER.debug(ex);
+			LOGGER.error(StringUtils.EMPTY,ex);
 		} catch (PortalException ex) {
-			LOGGER.debug(ex);
+			LOGGER.error(StringUtils.EMPTY,ex);
 		} catch (Exception ex) {
-			LOGGER.debug(ex);
+			LOGGER.error(StringUtils.EMPTY,ex);
 		}
 	}
 }

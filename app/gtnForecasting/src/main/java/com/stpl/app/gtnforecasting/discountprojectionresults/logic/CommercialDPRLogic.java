@@ -6,6 +6,8 @@
  */
 package com.stpl.app.gtnforecasting.discountprojectionresults.logic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.discountprojectionresults.dto.DiscountProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -21,8 +23,6 @@ import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_VIEW_PRO
 import static com.stpl.app.utils.Constants.LabelConstants.*;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -32,7 +32,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -40,7 +41,7 @@ import org.jboss.logging.Logger;
  */
 public class CommercialDPRLogic {
 
-    protected Logger LOGGER = Logger.getLogger(CommercialDPRLogic.class);
+    protected Logger LOGGER = LoggerFactory.getLogger(CommercialDPRLogic.class);
     private static final DecimalFormat DOLLAR_RPU_FORMAT = new DecimalFormat("#,##0.00");
     private static final DecimalFormat UNIT_VOLUME_FORMAT = new DecimalFormat("#,##0.000");
     private static final DecimalFormat EXFAC_PER_FORMAT = new DecimalFormat("#,##0.00");
@@ -163,7 +164,7 @@ public class CommercialDPRLogic {
                 }
             }
         } catch (Exception ex) {            
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }

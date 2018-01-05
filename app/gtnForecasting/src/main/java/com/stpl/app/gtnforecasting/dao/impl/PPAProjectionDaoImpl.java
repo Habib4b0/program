@@ -1,13 +1,12 @@
 package com.stpl.app.gtnforecasting.dao.impl;
 
-import com.stpl.app.gtnforecasting.dao.PPAProjectionDao;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.ItemPricingQualifierLocalServiceUtil;
-import com.stpl.app.service.NmSalesProjectionMasterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.dao.PPAProjectionDao;
 import com.stpl.app.gtnforecasting.service.finderImpl.NmPpaProjectionMasterImpl;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.ItemPricingQualifierLocalServiceUtil;
 import java.util.Collections;
 import java.util.List;
 

@@ -17,7 +17,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,7 +31,7 @@ public class MedicaidWorkSheetTableLogic extends PageTreeTableLogic {
     /**
      * The Constant LOGGER.
      */
-    private final Logger LOGGER = Logger.getLogger(MasterFcpWorkSheetTableLogic.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(MasterFcpWorkSheetTableLogic.class);
     private SessionDTO sessionDTO;
 
     @Override

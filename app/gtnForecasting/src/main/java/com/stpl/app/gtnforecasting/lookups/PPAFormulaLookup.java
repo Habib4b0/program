@@ -34,7 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -45,7 +46,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class PPAFormulaLookup extends Window {
 
-    private static final Logger LOGGER = Logger.getLogger(PPAFormulaLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAFormulaLookup.class);
 
 
     @UiField("formulaID")
@@ -209,7 +210,7 @@ public class PPAFormulaLookup extends Window {
                 resultsTable.setFilterFieldVisible(Constant.FORMULA_TYPE, false);
             }
         } catch (FieldGroup.CommitException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
     
@@ -358,7 +359,7 @@ public class PPAFormulaLookup extends Window {
                 detailsTable.setFilterDecorator(new ExtDemoFilterDecorator());
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
     

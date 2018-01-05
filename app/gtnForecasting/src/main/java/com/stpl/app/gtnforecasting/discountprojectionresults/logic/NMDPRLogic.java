@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.discountprojectionresults.logic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.CommonDAO;
 import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
 import com.stpl.app.gtnforecasting.discountprojectionresults.dto.DiscountProjectionResultsDTO;
@@ -33,8 +35,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.PROJECTIONS;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +48,8 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -86,7 +87,7 @@ public class NMDPRLogic {
     protected Map<MultiKey, List> customerccpId = new HashMap<>();
     protected Map<MultiKey, List> productccpId = new HashMap<>();
     protected DPRQueryBuilder queryBuilder = new DPRQueryBuilder();
-    private static final Logger LOGGER = Logger.getLogger(NMDPRLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NMDPRLogic.class);
     public static final String PROJECTION_CUST_HIERARCHY = "PROJECTION_CUST_HIERARCHY";
     public static final String PROJECTION_PROD_HIERARCHY = "PROJECTION_PROD_HIERARCHY";
 
@@ -1546,7 +1547,7 @@ public class NMDPRLogic {
             }
             return hierarchyIndicator;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return hierarchyIndicator;
         }
     }
@@ -1597,7 +1598,7 @@ public class NMDPRLogic {
 
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return finalList;
     }
@@ -1660,7 +1661,7 @@ public class NMDPRLogic {
             finalList.addAll(map.values());
             return finalList;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
     }

@@ -4,15 +4,20 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.CommonDAO;
 import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
 import com.stpl.app.gtnforecasting.dto.DiscountProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.service.finderImpl.NmDiscountImpl;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getMonthForInt;
-import com.stpl.app.model.ProjectionDetails;
 import com.stpl.app.service.ProjectionDetailsLocalServiceUtil;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
@@ -23,12 +28,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.PERIOD;
 import static com.stpl.app.utils.Constants.LabelConstants.PROJECTIONS;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gtnforecasting.service.finderImpl.NmDiscountImpl;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,9 +35,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -50,7 +50,7 @@ public class DiscountProjectionResultsLogic {
     private static final DecimalFormat DOLLAR = new DecimalFormat("#,##0");
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.0");
     private static final DecimalFormat CUR_ZERO = new DecimalFormat("$#,##0");
-    public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DiscountProjectionResultsLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(DiscountProjectionResultsLogic.class);
     private static final String ACTUALSRATE = "ActualsRate";
     private static final String ACTUALSAMOUNT = "ActualsAmount";
     private static final String PROJECTIONSRATE = "ProjectionsRate";
@@ -177,7 +177,7 @@ public class DiscountProjectionResultsLogic {
             }
             return discountProjList;
         } catch (SystemException | NumberFormatException e) {
-            Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, e);
+            LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, e);
             return Collections.emptyList();
         }
     }
@@ -262,7 +262,7 @@ public class DiscountProjectionResultsLogic {
                 }
             }
         } catch (SystemException | NumberFormatException e) {
-            Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, e);
+            LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, e);
         }
         return discountProjList;
     }
@@ -341,7 +341,7 @@ public class DiscountProjectionResultsLogic {
                 }
             }
         } catch (SystemException ex) {
-            Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, ex);
         }
         return discountProjList;
     }
@@ -567,7 +567,7 @@ public class DiscountProjectionResultsLogic {
                 }
             }
         } catch (SystemException ex) {
-            Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, ex);
         }
         return Collections.emptyList();
     }
@@ -1689,7 +1689,7 @@ public class DiscountProjectionResultsLogic {
                 }
             }
         } catch (SystemException ex) {
-            Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, ex);
         }
         return Collections.emptyList();
     }
@@ -3722,7 +3722,7 @@ public class DiscountProjectionResultsLogic {
                     try {
                         periodList = getPivotProjectionTotalDiscount(projSelDTO, pivotYearList);
                     } catch (SystemException ex) {
-                        Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, ex);
+                        LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, ex);
                     }
                     int mayBeAddedRecord = start - mayBeAdded;
                     if (mayBeAddedRecord < 0) {
@@ -3751,7 +3751,7 @@ public class DiscountProjectionResultsLogic {
                         discountDtoList = getPeriodHierarchy(projSelDTO, yearList, discountList);
                     } catch (SystemException ex) {
 
-                        Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, ex);
+                        LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, ex);
                     }
                     for (int k = 0; k < discountDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                         projDTOList.add(discountDtoList.get(k));
@@ -3843,7 +3843,7 @@ public class DiscountProjectionResultsLogic {
                         periodList = getPivotHierarchy(projSelDTO, pivotYearList);
                     } catch (SystemException ex) {
 
-                        Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, ex);
+                        LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, ex);
                     }
                     int mayBeAddedRecord = start - mayBeAdded;
                     if (mayBeAddedRecord < 0) {
@@ -4243,7 +4243,7 @@ public class DiscountProjectionResultsLogic {
                 }
             }
         } catch (SystemException | NumberFormatException e) {
-            Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, e);
+            LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, e);
         }
         return dto;
     }
@@ -4552,7 +4552,7 @@ public class DiscountProjectionResultsLogic {
                 }
             }
         } catch (SystemException | NumberFormatException e) {
-            Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, e);
+            LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, e);
         }
         return dto;
     }
@@ -6043,7 +6043,7 @@ public class DiscountProjectionResultsLogic {
                 try {
                     periodList = getPivotProjectionTotalDiscount(projSelDTO, yearList);
                 } catch (SystemException ex) {
-                    Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, ex);
+                    LoggerFactory.getLogger(DiscountProjectionResultsLogic.class.getName()).error( StringUtils.EMPTY, ex);
                 }
                 int mayBeAddedRecord = start - mayBeAdded;
                 if (mayBeAddedRecord < 0) {

@@ -12,10 +12,11 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
 import org.asi.ui.addons.lazycontainer.DAO;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,7 +27,7 @@ public class PPAItemLazyContainer implements DAO<PPAHelperDTO>{
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PPAItemLazyContainer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAItemLazyContainer.class);
     
     protected PPAProjectionResultsLogic logic= new PPAProjectionResultsLogic();
     
@@ -50,7 +51,7 @@ public class PPAItemLazyContainer implements DAO<PPAHelperDTO>{
         try {
                 count = logic.getPPAItemCount(ppaDetailsDTO,sc.getFilter(),ddlbType);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -70,7 +71,7 @@ public class PPAItemLazyContainer implements DAO<PPAHelperDTO>{
                 returnList.add(1,ppaDetailsDTO.getPpaHelperDTO());
             }
         } catch (Exception ex) {
-              LOGGER.error(ex);
+              LOGGER.error(ex.getMessage());
         }
         return returnList;
     }

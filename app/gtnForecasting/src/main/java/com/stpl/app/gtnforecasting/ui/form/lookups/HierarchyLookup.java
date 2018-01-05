@@ -22,17 +22,18 @@ import com.stpl.ifs.ui.util.converters.TextFieldConverter;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import java.text.ParseException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -45,7 +46,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(HierarchyLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HierarchyLookup.class);
     /**
      * Indicates whether it is customer lookup or product lookup.
      */
@@ -192,7 +193,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
             hrchyLookup.setValue(String.valueOf(hierarchyDto.getHierarchyName()).trim());
             try {
             } catch (Exception ex) {
-                Logger.getLogger(HierarchyLookup.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(HierarchyLookup.class.getName()).error( StringUtils.EMPTY, ex);
             }
 
             close();
