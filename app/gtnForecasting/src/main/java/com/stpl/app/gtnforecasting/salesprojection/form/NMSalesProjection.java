@@ -887,6 +887,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
       private void loadDisplayFormatDdlb() throws IllegalStateException {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
+        displayFormatDdlb.removeItems();
         displayFormatValues = displayFormatDdlb.addItem("-Select Values-", null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
