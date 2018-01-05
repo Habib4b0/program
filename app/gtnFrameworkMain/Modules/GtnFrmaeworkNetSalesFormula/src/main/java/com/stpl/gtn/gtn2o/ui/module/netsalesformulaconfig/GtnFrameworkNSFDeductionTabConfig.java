@@ -146,6 +146,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				.getPanelConfig(viewId + "deductionsTabSearchCriteriaPanel", true, parentId);
 		deductionTabSearchCriteriaPanel.setComponentName("Search Criteria");
 		deductionTabSearchCriteriaPanel.setAuthorizationIncluded(true);
+		deductionTabSearchCriteriaPanel.setEnable(false);
 		componentList.add(deductionTabSearchCriteriaPanel);
 		addFieldLayout(componentList, deductionTabSearchCriteriaPanel.getComponentId(), viewId);
 	}
@@ -203,7 +204,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				componentId, true, deductionTabContractNoLayout.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
 		contractNoConfig.setAuthorizationIncluded(true);
 		contractNoConfig.setComponentName("Contract No");
-
+		contractNoConfig.setEnable(false);
 		List<GtnUIFrameworkConditionalValidationType> conditionsList = new ArrayList<>();
 		conditionsList.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -224,7 +225,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				GtnUIFrameworkComponentType.TEXTBOX);
 		contractNameConfig.setAuthorizationIncluded(true);
 		contractNameConfig.setComponentName("Contract Name");
-
+		contractNameConfig.setEnable(false);
 		List<GtnUIFrameworkConditionalValidationType> contractNameConditionsList = new ArrayList<>();
 		contractNameConditionsList.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -246,7 +247,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				GtnUIFrameworkComponentType.TEXTBOX);
 		contractHolderConfig.setAuthorizationIncluded(true);
 		contractHolderConfig.setComponentName("Contract Holder");
-
+		contractHolderConfig.setEnable(false);
 		List<GtnUIFrameworkConditionalValidationType> conditionsList = new ArrayList<>();
 		conditionsList.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -267,6 +268,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		marketType.setAuthorizationIncluded(true);
 		marketType.setComponentName("Market Type");
+		marketType.setEnable(false);
 		componentList.add(marketType);
 
 		GtnUIFrameworkComboBoxConfig marketTypeConfig = componentConfigProvider.getComboBoxConfig(
@@ -291,7 +293,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
 		cfpNoConfig.setAuthorizationIncluded(true);
 		cfpNoConfig.setComponentName("Company Family Plan No");
-
+		cfpNoConfig.setEnable(false);
 		List<GtnUIFrameworkConditionalValidationType> conditionsList = new ArrayList<>();
 		conditionsList.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -311,7 +313,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
 		ifpNoConfig.setAuthorizationIncluded(true);
 		ifpNoConfig.setComponentName("Item Family Plan No");
-
+		ifpNoConfig.setEnable(false);
 		List<GtnUIFrameworkConditionalValidationType> conditionsList = new ArrayList<>();
 		conditionsList.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -332,7 +334,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
 		psNoConfig.setAuthorizationIncluded(true);
 		psNoConfig.setComponentName("Price Schedule No");
-
+		psNoConfig.setEnable(false);
 		List<GtnUIFrameworkConditionalValidationType> conditionsList = new ArrayList<>();
 		conditionsList.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -353,7 +355,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
 		deductionNoConfig.setAuthorizationIncluded(true);
 		deductionNoConfig.setComponentName("Deduction No");
-
+		deductionNoConfig.setEnable(false);
 		List<GtnUIFrameworkConditionalValidationType> conditionsList = new ArrayList<>();
 		conditionsList.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -374,7 +376,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
 		cfpNameConfig.setAuthorizationIncluded(true);
 		cfpNameConfig.setComponentName("Company Family Plan Name");
-
+		cfpNameConfig.setEnable(false);
 		List<GtnUIFrameworkConditionalValidationType> conditionsList = new ArrayList<>();
 		conditionsList.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -395,7 +397,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
 		ifpNameConfig.setAuthorizationIncluded(true);
 		ifpNameConfig.setComponentName("Item Family Plan Name");
-
+		ifpNameConfig.setEnable(false);
 		List<GtnUIFrameworkConditionalValidationType> conditionsList = new ArrayList<>();
 		conditionsList.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -416,7 +418,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
 		psNameConfig.setAuthorizationIncluded(true);
 		psNameConfig.setComponentName("Price Schedule Name");
-
+		psNameConfig.setEnable(false);
 		List<GtnUIFrameworkConditionalValidationType> conditionsList = new ArrayList<>();
 		conditionsList.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -437,7 +439,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
 		deductionNameConfig.setAuthorizationIncluded(true);
 		deductionNameConfig.setComponentName("Deduction Name");
-
+		deductionNameConfig.setEnable(false);
 		List<GtnUIFrameworkConditionalValidationType> conditionsList = new ArrayList<>();
 		conditionsList.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
@@ -482,7 +484,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		GtnUIFrameworkComponentConfig deductionSubType = componentConfigProvider.getUIFrameworkComponentConfig(
 				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		deductionSubType.setAuthorizationIncluded(true);
-		deductionSubType.setComponentName("Deduction Type");
+		deductionSubType.setComponentName("Deduction Sub-Type");
 		componentList.add(deductionSubType);
 
 		GtnUIFrameworkComboBoxConfig deductionSubTypeConfig = componentConfigProvider.getComboBoxConfig(
@@ -533,7 +535,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
 		deductionAliasConfig.setAuthorizationIncluded(true);
 		deductionAliasConfig.setComponentName("Deduction Alias");
-
+		deductionAliasConfig.setEnable(false);
 		List<GtnUIFrameworkConditionalValidationType> conditionsList = new ArrayList<>();
 		conditionsList.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
