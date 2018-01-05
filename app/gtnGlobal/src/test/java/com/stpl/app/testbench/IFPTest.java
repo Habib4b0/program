@@ -6,7 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.vaadin.testbench.TestBenchTestCase;
@@ -17,7 +16,6 @@ import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.testbench.elements.NotificationElement;
 import com.vaadin.testbench.elements.OptionGroupElement;
 import com.vaadin.testbench.elements.TabSheetElement;
-import com.vaadin.testbench.elements.TableElement;
 import com.vaadin.testbench.elements.TextFieldElement;
 import com.vaadin.testbench.elements.WindowElement;
 

@@ -5,7 +5,6 @@ import org.jboss.logging.Logger;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.UserError;
 
-// TODO: Auto-generated Javadoc
 /**
  * Customized VerticalLayout Component.
  *
@@ -34,6 +33,7 @@ public abstract class AbstractView extends StplVerticalLayout {
      *
      * @param event ViewChangeEvent
      */
+     @Override
     public void enter(final ViewChangeEvent event) {
 		LOGGER.debug("Entering into abstractview class");
     }

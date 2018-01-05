@@ -26,23 +26,7 @@ public class CommonUtilsTest {
     private static final Logger LOGGER = Logger.getLogger(CommonUtilsTest.class);
     
     public CommonUtilsTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-
+        super();
     }
 
     /**

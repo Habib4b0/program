@@ -10,356 +10,356 @@ public final class Constants {
     /**
      * The Constant ZERO.
      */
-    public final static int ZERO = 0;
+    public static final int ZERO = 0;
     /**
      * The Constant ONE.
      */
-    public final static int ONE = 1;
+    public static final int ONE = 1;
     /**
      * The Constant TWO.
      */
-    public final static int TWO = 2;
+    public static final int TWO = 2;
     /**
      * The Constant THREE.
      */
-    public final static int THREE = 3;
+    public static final int THREE = 3;
     /**
      * The Constant FOUR.
      */
-    public final static int FOUR = 4;
+    public static final int FOUR = 4;
     /**
      * The Constant FIVE.
      */
-    public final static int FIVE = 5;
+    public static final int FIVE = 5;
     /**
      * The Constant SIX.
      */
-    public final static int SIX = 6;
+    public static final int SIX = 6;
     /**
      * The Constant SEVEN.
      */
-    public final static int SEVEN = 7;
+    public static final int SEVEN = 7;
     /**
      * The Constant EIGHT.
      */
-    public final static int EIGHT = 8;
+    public static final int EIGHT = 8;
     /**
      * The Constant NINE.
      */
-    public final static int NINE = 9;
+    public static final int NINE = 9;
     /**
      * The Constant TEN.
      */
-    public final static int TEN = 10;
+    public static final int TEN = 10;
     /**
      * The Constant ELEVEN.
      */
-    public final static int ELEVEN = 11;
+    public static final int ELEVEN = 11;
     /**
      * The Constant TWELVE.
      */
-    public final static int TWELVE = 12;
+    public static final int TWELVE = 12;
     /**
      * The Constant THIRTEEN.
      */
-    public final static int THIRTEEN = 13;
+    public static final int THIRTEEN = 13;
     /**
      * The Constant FOURTEEN.
      */
-    public final static int FOURTEEN = 14;
+    public static final int FOURTEEN = 14;
     /**
      * The Constant FIFTEEN.
      */
-    public final static int FIFTEEN = 15;
+    public static final int FIFTEEN = 15;
     /**
      * The Constant SIXTEEN.
      */
-    public final static int SIXTEEN = 16;
+    public static final int SIXTEEN = 16;
     /**
      * The Constant SEVENTEEN.
      */
-    public final static int SEVENTEEN = 17;
+    public static final int SEVENTEEN = 17;
     /**
      * The Constant EIGHTEEN.
      */
-    public final static int EIGHTEEN = 18;
+    public static final int EIGHTEEN = 18;
     /**
      * The Constant NINETEEN.
      */
-    public final static int NINETEEN = 19;
+    public static final int NINETEEN = 19;
     /**
      * The Constant TWENTY.
      */
-    public final static int TWENTY = 20;
+    public static final int TWENTY = 20;
     /**
      * The Constant TWENTY_ONE.
      */
-    public final static int TWENTY_ONE = 21;
+    public static final int TWENTY_ONE = 21;
     /**
      * The Constant TWENTY_TWO.
      */
-    public final static int TWENTY_TWO = 22;
+    public static final int TWENTY_TWO = 22;
     /**
      * The Constant TWENTY_THREE.
      */
-    public final static int TWENTY_THREE = 23;
+    public static final int TWENTY_THREE = 23;
     /**
      * The Constant TWENTY_FOUR.
      */
-    public final static int TWENTY_FOUR = 24;
+    public static final int TWENTY_FOUR = 24;
     /**
      * The Constant TWENTY_FIVE.
      */
-    public final static int TWENTY_FIVE = 25;
+    public static final int TWENTY_FIVE = 25;
     /**
      * The Constant TWENTY_SIX.
      */
-    public final static int TWENTY_SIX = 26;
+    public static final int TWENTY_SIX = 26;
     /**
      * The Constant TWENTY_SEVEN.
      */
-    public final static int TWENTY_SEVEN = 27;
+    public static final int TWENTY_SEVEN = 27;
     /**
      * The Constant TWENTY_EIGHT.
      */
-    public final static int TWENTY_EIGHT = 28;
+    public static final int TWENTY_EIGHT = 28;
     /**
      * The Constant TWENTY_NINE.
      */
-    public final static int TWENTY_NINE = 29;
+    public static final int TWENTY_NINE = 29;
     /**
      * The Constant THIRTY.
      */
-    public final static int THIRTY = 30;
+    public static final int THIRTY = 30;
     /**
      * The Constant THIRTY_ONE.
      */
-    public final static int THIRTY_ONE = 31;
+    public static final int THIRTY_ONE = 31;
     /**
      * The Constant THIRTY_TWO.
      */
-    public final static int THIRTY_TWO = 32;
+    public static final int THIRTY_TWO = 32;
     /**
      * The Constant THIRTY_THREE.
      */
-    public final static int THIRTY_THREE = 33;
+    public static final int THIRTY_THREE = 33;
     /**
      * The Constant THIRTY_FOUR.
      */
-    public final static int THIRTY_FOUR = 34;
+    public static final int THIRTY_FOUR = 34;
     /**
      * The Constant THIRTY_FIVE.
      */
-    public final static int THIRTY_FIVE = 35;
+    public static final int THIRTY_FIVE = 35;
     /**
      * The Constant THIRTY_SIX.
      */
-    public final static int THIRTY_SIX = 36;
+    public static final int THIRTY_SIX = 36;
     /**
      * The Constant THIRTY_SEVEN.
      */
-    public final static int THIRTY_SEVEN = 37;
+    public static final int THIRTY_SEVEN = 37;
     /**
      * The Constant THIRTY_EIGHT.
      */
-    public final static int THIRTY_EIGHT = 38;
+    public static final int THIRTY_EIGHT = 38;
     /**
      * The Constant THIRTY_NINE.
      */
-    public final static int THIRTY_NINE = 39;
+    public static final int THIRTY_NINE = 39;
     /**
      * The Constant FORTY.
      */
-    public final static int FORTY = 40;
+    public static final int FORTY = 40;
     /**
      * The Constant FORTY_ONE.
      */
-    public final static int FORTY_ONE = 41;
+    public static final int FORTY_ONE = 41;
     /**
      * The Constant FORTY_TWO.
      */
-    public final static int FORTY_TWO = 42;
+    public static final int FORTY_TWO = 42;
     /**
      * The Constant FORTY_THREE.
      */
-    public final static int FORTY_THREE = 43;
+    public static final int FORTY_THREE = 43;
     /**
      * The Constant FORTY_FOUR.
      */
-    public final static int FORTY_FOUR = 44;
+    public static final int FORTY_FOUR = 44;
     /**
      * The Constant FORTY_FIVE.
      */
-    public final static int FORTY_FIVE = 45;
+    public static final int FORTY_FIVE = 45;
     /**
      * The Constant FORTY_SIX.
      */
-    public final static int FORTY_SIX = 46;
+    public static final int FORTY_SIX = 46;
     /**
      * The Constant FORTY_SEVEN.
      */
-    public final static int FORTY_SEVEN = 47;
+    public static final int FORTY_SEVEN = 47;
     /**
      * The Constant FORTY_EIGHT.
      */
-    public final static int FORTY_EIGHT = 48;
+    public static final int FORTY_EIGHT = 48;
     /**
      * The Constant FORTY_NINE.
      */
-    public final static int FORTY_NINE = 49;
+    public static final int FORTY_NINE = 49;
     /**
      * The Constant FIFTY.
      */
-    public final static int FIFTY = 50;
+    public static final int FIFTY = 50;
     /**
      * The Constant TRIPLE_NINE.
      */
-    public final static int TRIPLE_NINE = 999;
+    public static final int TRIPLE_NINE = 999;
     /**
      * The one s.
      */
-    public final static String ONE_S = "1";
+    public static final String ONE_S = "1";
     /**
      * The y.
      */
-    public final static String YEE = "Y";
+    public static final String YEE = "Y";
     /**
      * CFP Start Date.
      */
-    public final static String CFP_START_DATE = "CFP Start Date";
+    public static final String CFP_START_DATE = "CFP Start Date";
     /**
      * CP Start Date.
      */
-    public final static String CP_START_DATE = "CP Start Date";
+    public static final String CP_START_DATE = "CP Start Date";
     /**
      * The Constant PRICE_PROTECTION_START_DATE.
      */
-    public final static String PRICE_PROTECTION_START_DATE = "Price Protection Start Date";
-    public final static String PRICE_PROTECTION_STATUS = "Price Protection Status";
-    public final static String PRICE_PROTECTION_PRICE_TYPE = "Price Protection Price Type";
-    public final static String NEP = "NEP";
-    public final static String NEP_FORMULA = "NEP Formula";
-    public final static String PRICE_TOLERANCE_INTERVAL = "Price Tolerance Interval";
-    public final static String PRICE_TOLERANCE_FREQUENCY = "Price Tolerance Frequency";
-    public final static String PRICE_TOLERANCE_TYPE = "Price Tolerance Type";
-    public final static String MAX_INCREMENTAL_CHANGE = "Max Incremental Change";
-    public final static String RESET_ELIGIBLE = "Reset Eligible";
-    public final static String RESET_TYPE = "Reset Type";
-    public final static String RESET_DATE = "Reset Date";
-    public final static String RESET_INTERVAL = "Reset Interval";
-    public final static String RESET_FREQUENCY = "Reset Frequency";
-    public final static String NET_PRICE_TYPE = "Net Price Type";
-    public final static String NET_PRICE_TYPE_FORMULA = "Net Price Type Formula";
+    public static final String PRICE_PROTECTION_START_DATE = "Price Protection Start Date";
+    public static final String PRICE_PROTECTION_STATUS = "Price Protection Status";
+    public static final String PRICE_PROTECTION_PRICE_TYPE = "Price Protection Price Type";
+    public static final String NEP = "NEP";
+    public static final String NEP_FORMULA = "NEP Formula";
+    public static final String PRICE_TOLERANCE_INTERVAL = "Price Tolerance Interval";
+    public static final String PRICE_TOLERANCE_FREQUENCY = "Price Tolerance Frequency";
+    public static final String PRICE_TOLERANCE_TYPE = "Price Tolerance Type";
+    public static final String MAX_INCREMENTAL_CHANGE = "Max Incremental Change";
+    public static final String RESET_ELIGIBLE = "Reset Eligible";
+    public static final String RESET_TYPE = "Reset Type";
+    public static final String RESET_DATE = "Reset Date";
+    public static final String RESET_INTERVAL = "Reset Interval";
+    public static final String RESET_FREQUENCY = "Reset Frequency";
+    public static final String NET_PRICE_TYPE = "Net Price Type";
+    public static final String NET_PRICE_TYPE_FORMULA = "Net Price Type Formula";
     /**
      * The Constant PRICE_PROTECTION_END_DATE.
      */
-    public final static String PRICE_PROTECTION_END_DATE = "Price Protection End Date";
+    public static final String PRICE_PROTECTION_END_DATE = "Price Protection End Date";
     /**
      * The Constant CONTRACT_PRICE.
      */
-    public final static String CONTRACT_PRICE = "Contract Price";
+    public static final String CONTRACT_PRICE = "Contract Price";
     /**
      * The Constant DISABLE.
      */
-    public final static String DISABLE = "Disable";
+    public static final String DISABLE = "Disable";
     /**
      * The Constant ENABLE.
      */
-    public final static String ENABLE = "Enable";
+    public static final String ENABLE = "Enable";
     /**
      * The Constant PRICE_TOLERENCE.
      */
-    public final static String PRICE_TOLERENCE = "Price Tolerance";
+    public static final String PRICE_TOLERENCE = "Price Tolerance";
     /**
      * The Constant PRICE.
      */
-    public final static String PRICE = "Price";
+    public static final String PRICE = "Price";
     
-      public final static String SUGGESTED_PRICE = "Suggested Price";
+      public static final String SUGGESTED_PRICE = "Suggested Price";
     /**
      * The Constant BASE_PRICE.
      */
-    public final static String BASE_PRICE = "Base Price";
+    public static final String BASE_PRICE = "Base Price";
     /**
      * The Constant CP_END_DATE.
      */
-    public final static String CP_END_DATE = "CP End Date";
+    public static final String CP_END_DATE = "CP End Date";
     /**
      * Drop down select one option.
      */
-    public final static String SELECT_ONE = "-Select One-";
+    public static final String SELECT_ONE = "-Select One-";
     /**
      * Date Format.
      */
-    public final static String DATE_FORMAT = "MM/dd/yyyy";
+    public static final String DATE_FORMAT = "MM/dd/yyyy";
     /**
      * The Constant PS_NAME.
      */
-    public final static String PS_NAME = "priceScheduleName";
+    public static final String PS_NAME = "priceScheduleName";
     /**
      * The Constant PS_STATUS.
      */
-    public final static String PS_STATUS = "priceScheduleStatus";
+    public static final String PS_STATUS = "priceScheduleStatus";
 
     /**
      * The Constant PS_ID.
      */
-    public final static String PS_ID = "priceScheduleId";
-    public final static String PS_ID_COLUMN = "psId";
+    public static final String PS_ID = "priceScheduleId";
+    public static final String PS_ID_COLUMN = "psId";
     /**
      * The Constant PS_TYPE.
      */
-    public final static String PS_TYPE = "priceScheduleType";
+    public static final String PS_TYPE = "priceScheduleType";
     /**
      * The Constant PS_NO.
      */
-    public final static String PS_NO = "priceScheduleNo";
+    public static final String PS_NO = "priceScheduleNo";
     /**
      * The Constant PS_NAME_SEARCH.
      */
-    public final static String PS_NAME_SEARCH = "psName";
+    public static final String PS_NAME_SEARCH = "psName";
     /**
      * The Constant PS_STATUS_SEARCH.
      */
-    public final static String PS_STATUS_SEARCH = "psStatus";
+    public static final String PS_STATUS_SEARCH = "psStatus";
 
     /**
      * The Constant PS_ID_SEARCH.
      */
-    public final static String PS_ID_SEARCH = "psId";
+    public static final String PS_ID_SEARCH = "psId";
     /**
      * The Constant PS_TYPE_SEARCH.
      */
-    public final static String PS_TYPE_SEARCH = "psType";
+    public static final String PS_TYPE_SEARCH = "psType";
     /**
      * The Constant PS_NO_SEARCH.
      */
-    public final static String PS_NO_SEARCH = "psNo";
+    public static final String PS_NO_SEARCH = "psNo";
     /**
      * The Constant PS_NO.
      */
-    public final static String EMPTY_STRING = "priceScheduleNo";
+    public static final String EMPTY_STRING = "priceScheduleNo";
     /**
      * The Constant CFP_STATUS.
      */
-    public final static String CFP_STATUS = "CFP Status";
+    public static final String CFP_STATUS = "CFP Status";
     /**
      * The Constant CFP_END_DATE.
      */
-    public final static String CFP_END_DATE = "CFP End Date";
+    public static final String CFP_END_DATE = "CFP End Date";
     /**
      * The Constant QUOTE.
      */
-    public final static String QUOTE = "\"";
+    public static final String QUOTE = "\"";
     /**
      * The Constant REVISION_DATE.
      */
-    public final static String REVISION_DATE = "Revision Date";
+    public static final String REVISION_DATE = "Revision Date";
 
     /**
      * The Constant EDIT_LIST.
      */
-    public final static String EDIT_LIST = "EDIT LIST";
+    public static final String EDIT_LIST = "EDIT LIST";
     
     public static final String CUSTOMER_SELECTION = "Customer Selection";
 
@@ -383,9 +383,9 @@ public final class Constants {
 
     public static final String SHOW_ALL = "Show All";
     
-    public final static String SYS_SCHEMA = "sys.schema.jndi.name";
+    public static final String SYS_SCHEMA = "sys.schema.jndi.name";
     
-    public final static String INFRA_DATA_POOL = "java:jboss/datasources/jdbc/infraDataPool";
+    public static final String INFRA_DATA_POOL = "java:jboss/datasources/jdbc/infraDataPool";
     
     /**
      * The Constructor.

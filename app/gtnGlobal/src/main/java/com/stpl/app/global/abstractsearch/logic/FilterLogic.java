@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 
 /**
@@ -100,7 +99,7 @@ public class FilterLogic {
                     Compare stringFilter = (Compare) filter;
                     if (!queryMap.get(stringFilter.getPropertyId().toString()).isEmpty()) {
                         Compare.Operation operation = stringFilter.getOperation();
-                        if (operation.EQUAL.toString().equals(operation.name())) {
+                        if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
                             StringBuilder Startstr = new StringBuilder("AND ( * ='?')");
                             StringBuilder intStartstr = new StringBuilder("where ( ( * = '?' )");
                             StringBuilder tempStart;
@@ -122,7 +121,7 @@ public class FilterLogic {
                                 sql.append(tempStart);
                             }
                         }
-                        if (operation.GREATER.toString().equals(operation.name())) {
+                        if (Compare.Operation.GREATER.toString().equals(operation.name())) {
                             StringBuilder tempStart;
                             int val = (Integer) stringFilter.getValue();
                             String value=String.valueOf(val);
@@ -146,7 +145,7 @@ public class FilterLogic {
                                 sql.append(tempStart);
                             }
                         }
-                        if (operation.LESS.toString().equals(operation.name())) {
+                        if (Compare.Operation.LESS.toString().equals(operation.name())) {
                             int val = (Integer) stringFilter.getValue();
                             StringBuilder tempStart;
                             String value=String.valueOf(val);
@@ -174,7 +173,7 @@ public class FilterLogic {
                         if (stringFilter.getValue() instanceof Date) {
                             Date value = (Date) stringFilter.getValue();
                             StringBuilder tempStart;
-                            if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                            if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
                                 if (sql.length() == 0) {
                                     tempStart = new StringBuilder("where ( ( * >= '?')");
                                 } else {

@@ -33,7 +33,7 @@ public class SQLUtil {
             File file = new File(url.getFile().replace("%20", " "));
             this.files = file.listFiles();
             getResources();
-        } catch (Exception e) {
+        } catch (IOException | JAXBException e) {
             LOGGER.error(e);
         }
 
@@ -66,12 +66,12 @@ public class SQLUtil {
 
     }
 
-    private Map<String, String> getQUERY_MAP() {
+    private Map<String, String> getQueryMap() {
         return QUERY_MAP;
     }
 
     public static String getQuery(String sqlId) {
-        return SQLUtil.getContext().getQUERY_MAP().get(sqlId);
+        return SQLUtil.getContext().getQueryMap().get(sqlId);
     }
 
 }

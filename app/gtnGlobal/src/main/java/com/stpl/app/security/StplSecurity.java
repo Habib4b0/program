@@ -29,7 +29,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class holds the logic to grant permission to Users.
  *
@@ -50,7 +49,7 @@ public class StplSecurity {
     private static final Logger LOGGER = Logger.getLogger(StplSecurity.class);
    
    /** The dao. */
-  final private StplSecurityDAO dao = new StplSecurityDAOImpl();
+        private final StplSecurityDAO dao = new StplSecurityDAOImpl();
 	 
  	/** The domain ids1. */
  	private static final List<String> DOMAINIDS1 = null;
@@ -144,7 +143,7 @@ public StplSecurityDAO getDto() {
             	 domainIds=DOMAINIDS1;
             }
 
-        } catch (Exception e) {
+        } catch (SystemException e) {
             LOGGER.error(e);
         }
 

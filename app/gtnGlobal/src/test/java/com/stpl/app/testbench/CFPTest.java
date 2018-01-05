@@ -16,20 +16,18 @@ import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.testbench.elements.NotificationElement;
 import com.vaadin.testbench.elements.OptionGroupElement;
 import com.vaadin.testbench.elements.TabSheetElement;
-import com.vaadin.testbench.elements.TableElement;
 import com.vaadin.testbench.elements.TextFieldElement;
 import com.vaadin.testbench.elements.WindowElement;
 
 public class CFPTest extends TestBenchTestCase{	
-	String cfpName="cfp234";
-	String editcfpName="Editcfp234";
+	private String cfpName="cfp234";
+	private String editcfpName="Editcfp234";
 
 	@Before
 	public void setUp() {
 		
 		setDriver(new FirefoxDriver());			
 		getDriver().get("https://galderma-test.sysbiz.org/");
-		//getDriver().get("http://localhost:8081/c/portal/login?p_l_id=17401");		
 		findElement(By.id("_58_login")).sendKeys("admin");
 		findElement(By.id("_58_password")).sendKeys("admin");
 		findElement(By.className("btn-primary")).click();		
@@ -69,12 +67,10 @@ public class CFPTest extends TestBenchTestCase{
 	 @Test
 	public void cfpTest3() throws Exception {
 
-		
 		$(ButtonElement.class).caption("ADD").first().click();
 
 		// Tab 1
 		$(TextFieldElement.class).get(3).sendKeys("cfp234");
-		String cfpId = $(TextFieldElement.class).get(3).getValue();
 		$(TextFieldElement.class).get(4).sendKeys("cfp234");
 		$(TextFieldElement.class).get(5).sendKeys("cfp234");
 		$(ComboBoxElement.class).get(0).selectByText("Active");		
@@ -145,13 +141,10 @@ public class CFPTest extends TestBenchTestCase{
 			
 			$(TextFieldElement.class).get(3).clear();
 			$(TextFieldElement.class).get(3).sendKeys(editcfpName);
-			String cfpId = $(TextFieldElement.class).get(0).getValue();
 			$(ComboBoxElement.class).get(2).selectByText("Acute");
 			$(ComboBoxElement.class).get(3).selectByText("Clinic");
 			$(TabSheetElement.class).first().openTab(2);			
 			findElement(By.xpath("//div[@class='v-table-caption-container v-table-caption-container-align-left']")).click();
-			String cfpNo=$(TextFieldElement.class).get(3).getText();
-			String cfpNames=$(TextFieldElement.class).get(5).getText();
 			$(ButtonElement.class).caption("UPDATE").first().click();
 
 	 }
