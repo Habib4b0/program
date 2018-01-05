@@ -914,7 +914,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				Arrays.asList(GtnFrameworkNSFConstants.getEnable(), GtnFrameworkNSFConstants.getDisable()));
 		massUpdateConfig.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE));
 		massUpdateOptionGroupConfig.setDefaultSelection(GtnFrameworkNSFConstants.getDisable());
-		massUpdateConfig.setGtnUIFrameworkOptionGroupConfig(massUpdateOptionGroupConfig);
+	    massUpdateConfig.setGtnUIFrameworkOptionGroupConfig(massUpdateOptionGroupConfig);
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.MASSFIELD_ENABLEDISABLE_ACTION);
@@ -942,7 +942,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		massUpdateComboBoxConfig.setItemValues(Arrays.asList(GtnFrameworkNSFConstants.getAddSubtractIndicator(),
 				GtnFrameworkNSFConstants.getNetSalesRuleNo()));
 		massUpdateDdlbConfig.setGtnComboboxConfig(massUpdateComboBoxConfig);
-
+		massUpdateDdlbConfig.setEnable(false);
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -967,6 +967,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		netSalesRuleConfig.setComponentName("Value");
 		netSalesRuleConfig.addComponentStyle(GtnFrameworkCssConstants.SEARCHICON);
 		netSalesRuleConfig.setVisible(false);
+		netSalesRuleConfig.setEnable(false);
 		componentList.add(netSalesRuleConfig);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
@@ -1018,6 +1019,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		massUpdateDdlbConfig.setAuthorizationIncluded(true);
 		massUpdateDdlbConfig.setComponentName("Value");
 		massUpdateDdlbConfig.setVisible(true);
+		massUpdateDdlbConfig.setEnable(false);
 		componentList.add(massUpdateDdlbConfig);
 
 		GtnUIFrameworkComboBoxConfig massUpdateComboBoxConfig = new GtnUIFrameworkComboBoxConfig();
@@ -1040,6 +1042,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		massUpdatePopulateButtonConfig.setAuthorizationIncluded(true);
 		massUpdatePopulateButtonConfig.setComponentName("POPULATE");
 		massUpdatePopulateButtonConfig.addComponentStyle(GtnFrameworkCssConstants.NO_MARGIN);
+		massUpdatePopulateButtonConfig.setEnable(false);
 		componentList.add(massUpdatePopulateButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
