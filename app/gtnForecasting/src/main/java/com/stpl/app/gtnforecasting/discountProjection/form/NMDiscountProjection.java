@@ -86,9 +86,8 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.QueryUtil;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
-import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents;
 import com.vaadin.event.FieldEvents.BlurListener;
-import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
@@ -611,7 +610,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						} else {
 						}
 					} catch (IllegalArgumentException | NullPointerException ex) {
-						LOGGER.error(ex.getMessage());
+						LOGGER.error("",ex);
 					}
 				} else {
 
@@ -637,7 +636,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	private FocusListener focusListener = new FocusListener() {
 		@Override
-		public void focus(FocusEvent event) {
+		public void focus(FieldEvents.FocusEvent event) {
 			Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
 			if ("left".equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
 				focusValue = String
@@ -654,7 +653,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	BlurListener blurListener = new BlurListener() {
 		@Override
-		public void blur(BlurEvent event) {
+		public void blur(FieldEvents.BlurEvent event) {
 			Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
 			if ("left".equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
 				blurValue = String
@@ -803,7 +802,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 							saveDiscountProjectionListview();
 						}
 					} catch (Exception e) {
-						LOGGER.error(e.getMessage());
+						LOGGER.error("",e);
 						AbstractNotificationUtils.getErrorNotification("Multiple Variables Updated",
 								"Multiple variables for the same customer/product/time period combination have been changed.  Please only change one variable for a single customer/product/time period combination.");
 						tableLogic.getContainerDataSource().getContainerProperty(obj[0], obj[1]).setValue(focusValue);
@@ -1539,6 +1538,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					if (property.equals(Constant.CHECKRECORD)) {
 						final ExtCustomCheckBox check = new ExtCustomCheckBox();
 						check.setEnabled(!ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()));
+						check.setImmediate(true);
 						check.setData(new Object[] { itemId, propertyId });
 						check.addClickListener(clickListener);
 						return check;
@@ -3032,7 +3032,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				excel.export();
 			}
 		} catch (IllegalArgumentException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error("",e);
 		}
 		LOGGER.debug("excel ends");
 	}
@@ -4079,7 +4079,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			startPeriod.setReadOnly(false);
 			value.setReadOnly(false);
 			endPeriod.setReadOnly(false);
-			populateBtn.setEnabled(false);
 			populateBtn.setEnabled(true);
 		} else if (DISABLE.getConstant().equals(fieldValue)) {
 			fieldDdlb.setReadOnly(true);
@@ -4621,7 +4620,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						Date s2 = s.parse(o2);
 						retval = s1.compareTo(s2);
 					} catch (ParseException e) {
-						LOGGER.error(e.getMessage());
+						LOGGER.error("",e);
 					}
 					return retval;
 				}
@@ -4721,7 +4720,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						Date s2 = s.parse(o2);
 						retval = s1.compareTo(s2);
 					} catch (ParseException e) {
-						LOGGER.error(e.getMessage());
+						LOGGER.error("",e);
 					}
 					return retval;
 				}
@@ -4884,7 +4883,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						refreshTableData(getManualEntryRefreshHierarachyNo());
 					}
 				} catch (Exception ex) {
-					LOGGER.error(ex.getMessage());
+					LOGGER.error("",ex);
 				}
 			}
 		}.getConfirmationMessage("Confirm List View Reset",
@@ -5117,7 +5116,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     projectionSelection.getSessionDTO().getSessionId(), methodology, projectionSelection.getTabName(),
                     tableName);
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error("",ex);
         }
 
     }
@@ -5315,6 +5314,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     protected void loadDisplayFormatDdlb() {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
+        displayFormatDdlb.removeItems();
         displayFormatValues = displayFormatDdlb.addItem(SELECT_VALUES, null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);

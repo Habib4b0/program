@@ -2208,6 +2208,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private void loadDisplayFormatDdlb() throws IllegalStateException {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
+        displayFormatDdlb.removeItems();
         displayFormatValues = displayFormatDdlb.addItem(SELECT_VALUES_LABEL, null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);

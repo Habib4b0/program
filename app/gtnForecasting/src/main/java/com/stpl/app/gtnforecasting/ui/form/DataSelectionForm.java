@@ -4108,7 +4108,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				availableCustomer.setStyleName(Constant.FILTER_TABLE);
 			}
 		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
-
+			
 			LOGGER.error(ex + " level  ValueChangeListener ");
 		}
 	}
