@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -98,7 +99,6 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import java.util.concurrent.ExecutionException;
 
 /**
  *
@@ -4110,7 +4110,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				availableCustomer.setStyleName(Constant.FILTER_TABLE);
 			}
 		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
-
+			
 			LOGGER.error(ex + " level  ValueChangeListener ");
 		}
 	}
