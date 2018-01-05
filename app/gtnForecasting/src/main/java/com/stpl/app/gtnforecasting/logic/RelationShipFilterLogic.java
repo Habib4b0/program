@@ -291,7 +291,7 @@ public class RelationShipFilterLogic {
 			List<String> groupFilteredItems) {
 		GtnFrameworkQueryGeneratorBean queryBean = getQueryForLinkedLevel(selectedHierarchyLevelDto,
 				Collections.<String>emptyList());
-		addGroupFilterCondition(selectedHierarchyLevelDto, Collections.<String>emptyList(), queryBean);
+		addGroupFilterCondition(selectedHierarchyLevelDto, groupFilteredItems, queryBean);
 		return queryBean;
 	}
 
@@ -351,8 +351,8 @@ public class RelationShipFilterLogic {
 		GtnFrameworkHierarchyQueryBean queryBaen = fileReadWriteService.getQueryFromFile(
 				selectedHierarchyLevelDto.getHierarchyId(), selectedHierarchyLevelDto.getHierarchyLevelDefnId(),
 				selectedHierarchyLevelDto.getHierarchyVersionNo());
-		GtnFrameworkQueryGeneratorBean finalQueryBean = queryBaen.getQuery();
-		return finalQueryBean;
+		return queryBaen.getQuery();
+
 	}
 
 	public void addGroupFilterCondition(Leveldto selectedHierarchyLevelDto, List<String> groupFilteredItems,
@@ -570,10 +570,10 @@ public class RelationShipFilterLogic {
 			List<Leveldto> customerHierarchyLevelDefinitionList, List<Leveldto> productHierarchyLevelDefinitionList,
 			int customerRelationVersionNo, int productRelationVersionNo) {
 		String customerHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, "SELECTED_CUST_HIERARCHY_NO", Boolean.FALSE,
+				customerHierarchyLevelDefinitionList, Boolean.FALSE,
 				customerRelationVersionNo);
 		String productHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedProductList,
-				productHierarchyLevelDefinitionList, "SELECTED_PROD_HIERARCHY_NO", Boolean.TRUE,
+				productHierarchyLevelDefinitionList, Boolean.TRUE,
 				productRelationVersionNo);
 		List<String> input = new ArrayList<>();
 		input.add(customerHierarchyQuery);
@@ -607,10 +607,10 @@ public class RelationShipFilterLogic {
 			int projectionId, String deductionLevel, String dedValue, int customerRelationVersionNo,
 			int productRelationVersionNo) {
 		String customerHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, "SELECTED_CUST_HIERARCHY_NO", Boolean.FALSE,
+				customerHierarchyLevelDefinitionList, Boolean.FALSE,
 				customerRelationVersionNo);
 		String productHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedProductList,
-				productHierarchyLevelDefinitionList, "SELECTED_PROD_HIERARCHY_NO", Boolean.TRUE,
+				productHierarchyLevelDefinitionList, Boolean.TRUE,
 				productRelationVersionNo);
 		List<Object> input = new ArrayList<>();
 		input.add(customerHierarchyQuery);
@@ -626,7 +626,7 @@ public class RelationShipFilterLogic {
 	}
 
 	private String getCustomerAndContractHierarchyQuery(List<Leveldto> selectedRelationLevelList,
-			List<Leveldto> hierarchyLevelDefinitionList, String tempTableName, boolean isProduct,
+			List<Leveldto> hierarchyLevelDefinitionList, boolean isProduct,
 			int relationVersionNo) {
 		int relationSid = Integer.parseInt(selectedRelationLevelList.get(0).getRelationShipBuilderId());
 		List<Object> input = new ArrayList<>();
@@ -640,17 +640,17 @@ public class RelationShipFilterLogic {
 				hierarchyLevelDefinitionList.toArray(new Leveldto[hierarchyLevelDefinitionList.size()])));
 		GtnFrameworkQueryGeneratorBean queryBean = getCustomerContractSidQuery(selectedRelationLevelList,
 				hierarchyLevelDefinitionList, isProduct);
-		queryBean.addSelectClauseBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO", null, Boolean.TRUE, null);
-		getParentHierarchyCondition(queryBean, tempTableName);
+		queryBean.addSelectClauseBean(RELATIONSHIP_BUILD_HIERARCHY_NO, null, Boolean.TRUE, null);
+		getParentHierarchyCondition(queryBean);
 		getWhereQueryForCustomerAndContract(selectedRelationLevelList, hierarchyLevelDefinitionList, queryBean,
 				relationVersionNo);
 		return QueryUtils.getQuery(queryBean.generateQuery(), input);
 	}
 
-	private void getParentHierarchyCondition(GtnFrameworkQueryGeneratorBean queryBean, String tempTableName) {
+	private void getParentHierarchyCondition(GtnFrameworkQueryGeneratorBean queryBean) {
 		GtnFrameworkJoinClauseBean relationJoin = queryBean.addJoinClauseBean(RELATIONSHIP_LEVEL_DEFN,
 				RELATIONSHIP_LEVEL_DEFN, GtnFrameworkJoinType.JOIN);
-		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO", null,
+		relationJoin.addConditionBean(RELATIONSHIP_BUILD_HIERARCHY_NO, null,
 				GtnFrameworkOperatorType.LIKE);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
 				GtnFrameworkOperatorType.EQUAL_TO);
