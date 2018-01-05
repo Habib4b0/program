@@ -4144,7 +4144,7 @@ public class CommonLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
-                stringBuilder.append("'," + i++ + ")");
+                stringBuilder.append("',").append(i++).append(")");
                 isNotFirstElement = true;
 
                 }
