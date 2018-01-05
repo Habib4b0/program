@@ -301,9 +301,9 @@ public class GtnCommonUtil {
 	}
 
 	private static Object getFormattedColumn(List<String> columnFormatList, Object value, int index) {
-
+            
 		if (columnFormatList != null && !columnFormatList.isEmpty()) {
-			String format = columnFormatList.get(index);
+                        String format = columnFormatList.get(index);
 			if (format != null) {
 				DecimalFormat columnFormat = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
 				columnFormat.applyPattern(format);
