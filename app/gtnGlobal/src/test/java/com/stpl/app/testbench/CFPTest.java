@@ -20,8 +20,8 @@ import com.vaadin.testbench.elements.TextFieldElement;
 import com.vaadin.testbench.elements.WindowElement;
 
 public class CFPTest extends TestBenchTestCase{	
-	private String cfpName="cfp234";
-	private String editcfpName="Editcfp234";
+	private final String cfpName="cfp234";
+	private final String editcfpName="Editcfp234";
 
 	@Before
 	public void setUp() {

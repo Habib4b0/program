@@ -10,10 +10,6 @@ import com.vaadin.ui.ComboBox;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.jboss.logging.Logger;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

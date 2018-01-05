@@ -252,7 +252,7 @@ public class ItemSelection extends CustomComponent {
             String mode = sessionDTO.getMode();
 
             List<Object> resultList = commonUIUtils.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.ITEM_SELECTION);
-            Object[] objColumn = headerUtils.ITEM_COLS;
+            Object[] objColumn = HeaderUtils.ITEM_COLS;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode.equals("Copy")?"Edit":mode);
             
             availableItemTable.setVisibleColumns(tableResultCustom.getObjResult());
@@ -267,7 +267,7 @@ public class ItemSelection extends CustomComponent {
             availableItemTable.setFilterDecorator(new ExtDemoFilterDecorator());
             availableItemTable.addStyleName("filtertable");
             availableItemTable.addStyleName("table-header-normal");
-            Arrays.asList(headerUtils.ITEM_COLS);
+            Arrays.asList(HeaderUtils.ITEM_COLS);
             availableItemTable.setColumnAlignment(ConstantsUtils.ITEM_START_DATE, ExtPagedTable.Align.CENTER);
             availableItemTable.setColumnAlignment(ConstantsUtils.ITEM_END_DATE, ExtPagedTable.Align.CENTER);
             availableItemTable.setColumnAlignment(ConstantsUtils.PACKAGE_SIZE_INTRO_DATE, ExtPagedTable.Align.CENTER);
@@ -458,7 +458,7 @@ public class ItemSelection extends CustomComponent {
     private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         final int recordCount = isSelected ? selectionLogic.getSelectedTableCount(sessionDTO,null):selectionLogic.getAvailableTableCount(binder,null,null);
-        ExcelExportforBB.createWorkSheet(headerUtils.ITEM_HEADERS, recordCount, this, getUI(), TabNameUtil.ITEM_SELECTION_EXPORT);
+        ExcelExportforBB.createWorkSheet(HeaderUtils.ITEM_HEADERS, recordCount, this, getUI(), TabNameUtil.ITEM_SELECTION_EXPORT);
         LOGGER.debug("Ending createWorkSheet");
     }
     

@@ -11,7 +11,6 @@ import com.stpl.app.global.abstractsearch.util.MessageUtil;
 import com.stpl.app.global.abstractsearch.util.UIUtils;
 import com.stpl.app.global.abstractsearch.util.ValidationUtil;
 import com.stpl.app.global.common.dto.SessionDTO;
-import com.stpl.app.global.common.util.CommonUtil;
 import com.stpl.app.global.compliancededuction.logic.CDRLogic;
 import com.stpl.app.global.compliancededuction.ui.util.ComplianceDeductionFilterGenerator;
 import com.stpl.app.global.compliancededuction.ui.view.CDRView;

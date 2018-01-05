@@ -62,7 +62,7 @@ public class SelectionLogic {
 
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
-    private static HashMap<String, String> criteria = new HashMap<String, String>();
+    private static final HashMap<String, String> criteria = new HashMap<String, String>();
     /**
      * The Constant LOGGER.
      */
