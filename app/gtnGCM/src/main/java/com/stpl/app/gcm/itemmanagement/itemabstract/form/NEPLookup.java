@@ -11,15 +11,18 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.dto.FormulaDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.NEPLookuptablelogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.app.gtnworkflow.util.CommonUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -125,7 +128,7 @@ public class NEPLookup extends Window {
         pageLength.add(NumericConstants.HUNDRED);
         tablelogic.getControlConfig().setPageLengthsAndCaptions(pageLength);
         tableLayout.addComponent(resultTable);
-        CommonUtils.getResponsiveControls(tablelogic.createControls(), controlLayout);
+        getResponsiveControls(tablelogic.createControls(), controlLayout);
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultTable.setFilterGenerator(new FormulaLookupTableGenerator());
         tablelogic.setContainerDataSource(forumulaLookupBean);
@@ -191,7 +194,7 @@ public class NEPLookup extends Window {
             AbstractNotificationUtils.getErrorNotification("No Matching Records",
                     "There were no records matching the search criteria.  Please try again.");
         } else {
-            CommonUtils.successNotification("Search Completed");
+            successNotification("Search Completed");
         }
 
         
@@ -217,5 +220,31 @@ public class NEPLookup extends Window {
         }.getConfirmationMessage("Confirmation", "Are you sure you want to reset the values in the Formula Search?");
     }
     
+    public static void getResponsiveControls(HorizontalLayout tempLayout, HorizontalLayout controlBar) {
+
+        controlBar.setStyleName("responsivePagedTable");
+        HorizontalLayout pageSize = (HorizontalLayout) tempLayout.getComponent(0);
+        HorizontalLayout pageManagement = (HorizontalLayout) tempLayout.getComponent(1);
+
+        CssLayout cssLayout = new CssLayout();
+        cssLayout.setSizeFull();
+        cssLayout.addComponent(pageSize.getComponent(0));
+        cssLayout.addComponent(pageSize.getComponent(0));
+        for (int index = 0; index < NumericConstants.EIGHT; index++) {
+            cssLayout.addComponent(pageManagement.getComponent(0));
+        }
+        controlBar.addComponent(cssLayout);
+
+    }
+
+    public static void successNotification(final String message) {
+      
+            final Notification notif = new Notification(message,
+                    Notification.Type.HUMANIZED_MESSAGE);
+            notif.setPosition(Position.MIDDLE_CENTER);
+            notif.setStyleName("mystyle");
+            notif.setDelayMsec(NumericConstants.THOUSAND);
+            notif.show(Page.getCurrent());
+    }
 
 }

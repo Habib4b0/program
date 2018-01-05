@@ -76,7 +76,7 @@ public class CommonQueryUtils {
         try {
             sql = new StringBuilder();
             sql = new StringBuilder(CustomSQLUtil.get(queryName));
-            if (input.size() > 0) {
+            if (!input.isEmpty()) {
                 for (final Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }

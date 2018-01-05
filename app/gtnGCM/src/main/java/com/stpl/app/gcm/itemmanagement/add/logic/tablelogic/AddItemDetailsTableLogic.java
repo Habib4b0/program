@@ -9,13 +9,13 @@ import com.stpl.app.gcm.itemmanagement.add.dto.AddItemTableDTO;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractContractSearchDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
-import com.stpl.app.gcm.sessionutils.SessionDTO;
-import com.stpl.app.gcm.tp.ui.form.WorkFlowLookup;
+import com.stpl.app.gcm.util.Constants;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.server.BrowserWindowOpener;
+import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.themes.Reindeer;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -104,25 +104,22 @@ public class AddItemDetailsTableLogic extends PageTableLogic {
     }
 
     private Button addProjectionWorkFlowLink(final AbstractContractSearchDTO dto) {
-        Button projectionId = new Button(dto.getProjectionId());
+        final Button projectionId = new Button(dto.getProjectionId());
         projectionId.setCaption(dto.getProjectionId()); // for setting revision date in excel
         projectionId.setData(dto);
         projectionId.setImmediate(true);
         projectionId.setStyleName(Reindeer.BUTTON_LINK);
-        projectionId.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
+        String furl = StringUtils.EMPTY;
+        furl = Constants.HTTP + Page.getCurrent().getLocation().getHost() + ":" + Page.getCurrent().getLocation().getPort() + Constants.WEB_WORKFLOW;
 
-                WorkFlowLookup wLookUp = new WorkFlowLookup(new SessionDTO(), dto.getProjectionId());
-                UI.getCurrent().addWindow(wLookUp);
-                wLookUp.addCloseListener(new Window.CloseListener() {
-                    @Override
-                    public void windowClose(Window.CloseEvent e) {
-                        loadSetData(binderDto, selection, false, selectedItemList);
-                    }
-                });
-            }
-        });
+        BrowserWindowOpener opener = new BrowserWindowOpener(furl);
+        opener.setFeatures(Constants.HEIGHT_WIDTH);
+        opener.setFeatures(Constants.TOOL_BAR);
+        opener.setParameter(Constants.PROJECTION_MASTER_SID,
+                dto.getProjectionId());
+        opener.extend(projectionId);
+        JavaScript.getCurrent()
+                .execute("localStorage.setItem('" + dto.getProjectionId() + "', 'false');");
 
         return projectionId;
 
