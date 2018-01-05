@@ -2315,13 +2315,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             final String HISTORY_PERIODS = null;
             final String projectionPeriods;
 
-            if (adjType.equals(incrementVariable) || adjType.equals("Override")) {
+			if (adjType.equals(Constant.LabelConstants.INCREMENTAL) || adjType.equals("Override")) {
                 if (adjBasis.equals("Percentage")) {
                     AbstractNotificationUtils.getErrorNotification("Incorrect Type&Basis entered",
                             "Please enter a correct adjustment type and adjustment basis ");
                     return;
                 }
-                if (adjBasis.equals("Amount") && adjType.equals(incrementVariable)) {
+				if (adjBasis.equals("Amount") && adjType.equals(Constant.LabelConstants.INCREMENTAL)) {
                     AbstractNotificationUtils.getErrorNotification("Incorrect Type&Basis entered",
                             "Please enter a correct adjustment type and adjustment basis ");
                     return;
