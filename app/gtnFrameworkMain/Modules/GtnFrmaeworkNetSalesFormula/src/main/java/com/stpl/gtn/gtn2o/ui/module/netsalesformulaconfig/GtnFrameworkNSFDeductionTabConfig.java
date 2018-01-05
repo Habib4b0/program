@@ -220,18 +220,18 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parentId);
 		componentList.add(deductionTabContractNameLayout);
 
-		GtnUIFrameworkComponentConfig contractNameConfig = componentConfigProvider.getUIFrameworkComponentConfig(
+		GtnUIFrameworkComponentConfig deductionTabContractNameConfig = componentConfigProvider.getUIFrameworkComponentConfig(
 				componentId, true, deductionTabContractNameLayout.getComponentId(),
 				GtnUIFrameworkComponentType.TEXTBOX);
-		contractNameConfig.setAuthorizationIncluded(true);
-		contractNameConfig.setComponentName("Contract Name");
-		contractNameConfig.setEnable(false);
+		deductionTabContractNameConfig.setAuthorizationIncluded(true);
+		deductionTabContractNameConfig.setComponentName("Contract Name");
+		deductionTabContractNameConfig.setEnable(false);
 		List<GtnUIFrameworkConditionalValidationType> contractNameConditionsList = new ArrayList<>();
 		contractNameConditionsList.add(GtnUIFrameworkConditionalValidationType.NOT_EMPTY);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = new GtnUIFrameworkValidationConfig();
 		gtnUIFrameworkValidationConfig.setConditionList(contractNameConditionsList);
-		contractNameConfig.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
-		componentList.add(contractNameConfig);
+		deductionTabContractNameConfig.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
+		componentList.add(deductionTabContractNameConfig);
 
 	}
 
