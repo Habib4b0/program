@@ -664,7 +664,7 @@
     },
     {
         "columnID": "accrualUdc1",
-        "columnName": "Accrual UDC1",
+        "columnName": "Accrual Deduction UDC1",
         "isSearchCriteria": false,
         "isResultView": true,
         "componentType": "text",
@@ -673,7 +673,7 @@
     },
     {
         "columnID": "accrualUdc2",
-        "columnName": "Accrual UDC2",
+        "columnName": "Accrual Deduction UDC2",
         "isSearchCriteria": false,
         "isResultView": true,
         "componentType": "text",
@@ -682,7 +682,7 @@
     },
     {
         "columnID": "accrualUdc3",
-        "columnName": "Accrual UDC3",
+        "columnName": "Accrual Deduction UDC3",
         "isSearchCriteria": false,
         "isResultView": true,
         "componentType": "text",
@@ -691,7 +691,7 @@
     },
     {
         "columnID": "accrualUdc4",
-        "columnName": "Accrual UDC4",
+        "columnName": "Accrual Deduction UDC4",
         "isSearchCriteria": false,
         "isResultView": true,
         "componentType": "text",
@@ -700,7 +700,7 @@
     },
     {
         "columnID": "accrualUdc5",
-        "columnName": "Accrual UDC5",
+        "columnName": "Accrual Deduction UDC5",
         "isSearchCriteria": false,
         "isResultView": true,
         "componentType": "text",
@@ -709,7 +709,7 @@
     },
     {
         "columnID": "accrualUdc6",
-        "columnName": "Accrual UDC6",
+        "columnName": "Accrual Deduction UDC6",
         "isSearchCriteria": false,
         "isResultView": true,
         "componentType": "text",
@@ -724,6 +724,16 @@
         "componentType": "date",
         "viewModeIndex": 52,
         "listViewIndex": 48
+    },
+     {
+        "columnID": "accrualInboundInterfaceId",
+        "columnName": "Accrual Inbound Interface ID",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text",
+        "onlyValidComponent": false,
+        "viewModeIndex": 13,
+        "listViewIndex": 49
     },
     {
         "columnID": "modifiedBy",
@@ -742,7 +752,7 @@
         "componentType": "date",
         "expressionType": "DATE_BETWEEN",
         "columnAlignment": "CENTER",
-        "onlyValidComponent": true,
+        "onlyValidComponent": false,
         "viewModeIndex": 54,
         "listViewIndex": 55
     },
@@ -775,7 +785,7 @@
     },
     {
         "columnID": "addChgDelIndicator",
-        "columnName": "Add Chg Del Indicator",
+        "columnName": "Add Change Delete Indicator",
         "isSearchCriteria": false,
         "isResultView": true,
         "componentType": "text",
@@ -783,16 +793,7 @@
         "listViewIndex": 56,
         "isInvalidComponent": true
     },
-    {
-        "columnID": "accrualInboundInterfaceId",
-        "columnName": "Accrual Inbound Interface ID",
-        "isSearchCriteria": false,
-        "isResultView": true,
-        "componentType": "text",
-        "onlyValidComponent": true,
-        "viewModeIndex": 13,
-        "listViewIndex": 49
-    },
+   
     {
         "viewModeIndexFlag": true
     }

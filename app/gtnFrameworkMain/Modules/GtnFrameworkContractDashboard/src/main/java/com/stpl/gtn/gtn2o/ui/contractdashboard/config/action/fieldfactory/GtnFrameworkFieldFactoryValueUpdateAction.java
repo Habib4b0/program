@@ -40,7 +40,24 @@ public class GtnFrameworkFieldFactoryValueUpdateAction implements GtnUIFrameWork
 		request.setGtnWsContractDashboardRequest(cdRequest);
 		cdRequest.setSystemId(Integer.parseInt(String.valueOf(parameters.get(2))));
 		cdRequest.setPopulateField(String.valueOf(parameters.get(3)));
-		cdRequest.setPopulateValue(parameters.get(4));
+		if (String.valueOf(parameters.get(4)).endsWith("%")) {
+
+			Object perValue = String.valueOf(parameters.get(4)).substring(0,
+					String.valueOf(parameters.get(4)).length() - 1);
+
+			cdRequest.setPopulateValue(perValue);
+		}
+
+		else if (String.valueOf(parameters.get(4)).startsWith("$")) {
+
+			Object dollarValue = String.valueOf(parameters.get(4)).substring(1);
+
+			cdRequest.setPopulateValue(dollarValue);
+		} else {
+
+			cdRequest.setPopulateValue(parameters.get(4));
+
+		}
 		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
 		generalWSRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		generalWSRequest.setSessionId(GtnUIFrameworkGlobalUI.getCurrentSessionBean().getSessionId());

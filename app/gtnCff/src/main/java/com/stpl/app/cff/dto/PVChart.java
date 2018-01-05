@@ -137,7 +137,7 @@ public class PVChart extends Window {
             plot.setBorderWidth(0);
             if (projSelDTO.getPivotView().equals("Period")) {
                 xAxis.setCategories(visHeaders);
-                if (dto != null && dto.size() > 0) {
+                if (dto != null && !dto.isEmpty()) {
                     for (ProjectionVarianceDTO pDto : dto) {
                         ListSeries listSeries = new ListSeries();
                         listSeries.setName(pDto.getGroup());

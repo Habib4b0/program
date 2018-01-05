@@ -31,6 +31,7 @@ import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.fieldfactory.Gt
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.fieldfactory.GtnUiFrameworkNsfSalesBasisTabFieldFactoryAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfPopulateValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfRuleSaveUniqueValidationAction;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfSalesBasisPopulateValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfSaveValidationAction;
 
 public class GtnUIFrameworkNsfDynamicClassFiller implements GtnUIDynamicObjectFiller {
@@ -90,6 +91,8 @@ public class GtnUIFrameworkNsfDynamicClassFiller implements GtnUIDynamicObjectFi
 				new GtnUiFrameworkNsfDeductionMassFieldValueChangeAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUiFrameworkNsfRemoveAction.class.getName(),
 				new GtnUiFrameworkNsfRemoveAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUiFrameworkNsfSalesBasisPopulateValidationAction.class.getName(),
+				new GtnUiFrameworkNsfSalesBasisPopulateValidationAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUiFrameworkNsfDeductionPopulateAction.class.getName(),
 				new GtnUiFrameworkNsfDeductionPopulateAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUiFrameworkNsfTabTableResetAction.class.getName(),
