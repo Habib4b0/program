@@ -19,7 +19,8 @@ import java.util.List;
 import org.asi.ui.addons.lazycontainer.DAO;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,7 +34,7 @@ public class ManufacturerIdContainer implements DAO<HelperDTO> {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ManufacturerIdContainer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ManufacturerIdContainer.class);
 
     /**
      * Method used for get Count.
@@ -61,7 +62,7 @@ public class ManufacturerIdContainer implements DAO<HelperDTO> {
                         }          
                     }, ButtonId.OK);       
                     msg.getButton(ButtonId.OK).focus();
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
         } catch (SystemException ex) { 
         
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
@@ -103,9 +104,9 @@ public class ManufacturerIdContainer implements DAO<HelperDTO> {
                         }          
                     }, ButtonId.OK);       
                     msg.getButton(ButtonId.OK).focus();
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {     
                         /**             

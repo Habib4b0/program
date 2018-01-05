@@ -15,7 +15,8 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.data.util.BeanItem;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -37,7 +38,7 @@ public class CDRView extends VerticalLayout implements View {
      */
     SessionDTO sessionDTO;
     CDRForm cdrForm;
-    private static final Logger LOGGER = Logger.getLogger(CDRView.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CDRView.class);
 
     /**
      * The Constructor.

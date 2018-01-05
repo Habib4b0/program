@@ -13,7 +13,8 @@ import com.stpl.ifs.util.QueryUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -21,7 +22,7 @@ import org.jboss.logging.Logger;
  */
 public class QueryUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(QueryUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QueryUtils.class);
     final static CommonDao ITEMDAO = CommonDaoImpl.getInstance();
 
     public static List getGroupList() {
@@ -47,7 +48,7 @@ public class QueryUtils {
                 LOGGER.debug("sql-->>" + sql);
                 list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error("",ex);
             }
         }
 
@@ -67,7 +68,7 @@ public class QueryUtils {
       }
         } catch (Exception ex) {
             LOGGER.debug("Iniside Exception Query "+sql);
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return sql.toString();
     }
@@ -80,7 +81,7 @@ public class QueryUtils {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return sql.toString();
     }    

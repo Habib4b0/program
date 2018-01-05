@@ -25,7 +25,7 @@ public class ItemSelectionTableLogic extends PageTableLogic {
     boolean loadData = false;
     SessionDTO sessionDTO;
     SelectionLogic selectionLogic=new SelectionLogic();
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ItemSelectionAvailableTableLogic.class);
+    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(ItemSelectionAvailableTableLogic.class);
 
     @Override
     public int getCount() {

@@ -1,9 +1,9 @@
-Bundle-Name: ${project.name}
-Bundle-Version: ${project.version}
-Bundle-SymbolicName: ${project.groupId}.${project.artifactId}
+Bundle-Name: gtn-apiII
+Bundle-Version: gtn-apiII
+Bundle-SymbolicName: 1.0.0
 Export-Package:\
-	com.stpl.app.exception,\
-	com.stpl.app.model,\
-	com.stpl.app.service*
+	com.stpl.app.parttwo.exception,\
+	com.stpl.app.parttwo.model,\
+	com.stpl.app.parttwo.service*
 Import-Package: *
 -includeresource: META-INF/service.xml=../gtnService/service.xml

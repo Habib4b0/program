@@ -5,8 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.ui.form;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
 import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbCriteria;
@@ -14,7 +12,6 @@ import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbDao;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
-import com.stpl.app.gtnforecasting.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.form.lookups.CustomerProductGroupLookup;
 import com.stpl.app.gtnforecasting.ui.form.lookups.HierarchyLookup;
@@ -26,6 +23,7 @@ import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.NULL;
 import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.gtnforecasting.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.Constants;
@@ -59,6 +57,8 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.forecastds.form.ForecastDataSelection;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
@@ -81,8 +81,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
-import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1528,7 +1528,9 @@ public class DataSelection extends ForecastDataSelection {
 		String levelName = Constant.LEVEL_LABEL;
 
 		try {
-			customerFuture.get();
+			if (!isFirstTimeLoad() && customerFuture != null) {
+				customerFuture.get();
+			}
 			int forecastLevel = 0;
 			if (value != null && customerRelationComboBox.getValue() != null
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
@@ -1622,6 +1624,7 @@ public class DataSelection extends ForecastDataSelection {
 					customerFuture = checkAndDoAutomaticUpdate(customerRelationComboBox.getValue(),
 							customerHierarchyDto.getHierarchyId());
 				}
+				loadCustomerVersionNo(customerRelationComboBox.getValue());
 			} catch (Exception ex) {
 
 				LOGGER.error(ex + " in customerRelation value change");
@@ -1674,6 +1677,7 @@ public class DataSelection extends ForecastDataSelection {
 					productDescriptionMap = relationLogic.getLevelValueMap(String.valueOf(productRelation.getValue()),
 							productHierarchyDto.getHierarchyId(), hierarchyVersionNo, relationVersionNo);
 				}
+				loadProductVersionNo(productRelation.getValue());
 			} catch (NumberFormatException ex) {
 				LOGGER.error(ex + " in productRelation value change");
 			}
@@ -1766,7 +1770,9 @@ public class DataSelection extends ForecastDataSelection {
 			List<Leveldto> resultedLevelsList;
 			if (selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel)
 					&& !SELECT_ONE.equals(selectedLevel)) {
-				productFuture.get();
+				if (!firstTimeLoad && productFuture != null) {
+					productFuture.get();
+				}
 				int relationVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));

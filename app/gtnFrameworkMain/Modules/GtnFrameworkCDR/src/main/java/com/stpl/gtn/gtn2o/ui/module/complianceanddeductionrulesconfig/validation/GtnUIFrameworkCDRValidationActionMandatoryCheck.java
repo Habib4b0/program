@@ -10,7 +10,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.ui.AbstractField;
 
 public class GtnUIFrameworkCDRValidationActionMandatoryCheck implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
 

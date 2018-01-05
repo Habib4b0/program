@@ -40,7 +40,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
@@ -57,7 +58,7 @@ public class CDRForm extends StplCustomComponent {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(CDRForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CDRForm.class);
     /**
      * The TabSheet
      */
@@ -110,7 +111,7 @@ public class CDRForm extends StplCustomComponent {
             componentConfiguration();
             configureFields();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -210,7 +211,7 @@ public class CDRForm extends StplCustomComponent {
                                     notesTabForm.resetBtnLogic(ruleInfo.getNoteshistory());
                                 }
                             } catch (Exception ex) {
-                                java.util.logging.Logger.getLogger(CDRForm.class.getName()).log(Level.SEVERE, null, ex);
+                                LOGGER.error("",ex);
                             }
                         }
                     }
@@ -272,7 +273,7 @@ public class CDRForm extends StplCustomComponent {
                                         notif.show(Page.getCurrent());
 
                                     } catch (Exception ex) {
-                                        LOGGER.error(ex);
+                                        LOGGER.error("",ex);
                                     }
                                 }
                             }
@@ -341,7 +342,7 @@ public class CDRForm extends StplCustomComponent {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("Ending configurePermission");
     }

@@ -17,7 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
-import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFConstants;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util.GtnFrameworkNSFConstants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
@@ -79,7 +79,9 @@ public class GtnUiFrameworkNsfSaveAction implements GtnUIFrameWorkAction, GtnUIF
 		nsfInfoBean.setAvailableContractSearchCriteriaList(availableCustomerTableLogic.getCurrentSearchCriteria());
 		boolean savaflag = saveToDb(nsfInfoBean);
 		if (savaflag) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).setCaption("UPDATE");
+			if (!"netSalesFormulaAddView_backButton".equals(componentId)) {
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).setCaption("UPDATE");
+			}
 			GtnUIFrameWorkActionConfig notificationConfig = new GtnUIFrameWorkActionConfig();
 			notificationConfig.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 			Object msg = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "formulaName").getStringFromField()

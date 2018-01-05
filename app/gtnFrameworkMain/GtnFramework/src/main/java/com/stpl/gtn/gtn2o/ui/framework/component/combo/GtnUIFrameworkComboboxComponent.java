@@ -21,11 +21,11 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
-import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.AbstractSelect;
-import com.vaadin.ui.AbstractSelect.NewItemHandler;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.AbstractSelect;
+import com.vaadin.v7.ui.AbstractSelect.NewItemHandler;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 
 public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent {

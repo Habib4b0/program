@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -28,7 +29,7 @@ import org.jboss.logging.Logger;
  */
 public class DeductionDetailsLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(DeductionDetailsLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeductionDetailsLogic.class);
     QueryUtils queryUtils = new QueryUtils();
     DecimalFormat DEC_FORMAT = new DecimalFormat("###0.00");
 
@@ -54,7 +55,7 @@ public class DeductionDetailsLogic {
                 return null;
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             return null;
         }
     }
@@ -86,7 +87,7 @@ public class DeductionDetailsLogic {
             LOGGER.debug("End of getDeductionDetailsCount");
             return count;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
             return 0;
         }
     }
@@ -323,7 +324,7 @@ public class DeductionDetailsLogic {
             LOGGER.debug("Ending getCustomizedResultList with list size " + resultList.size());
             return resultList;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             return Collections.emptyList();
         }
     }
@@ -360,7 +361,7 @@ public class DeductionDetailsLogic {
             }
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -386,7 +387,7 @@ public class DeductionDetailsLogic {
             List list=HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(qry,sessionDTO.getCurrentTableNames()));
             return count/Integer.valueOf(list.get(0).toString());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             return 0;
         }
     }

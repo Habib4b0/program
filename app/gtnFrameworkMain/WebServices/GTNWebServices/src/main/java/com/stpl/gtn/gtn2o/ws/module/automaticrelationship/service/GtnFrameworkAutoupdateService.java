@@ -18,5 +18,4 @@ public interface GtnFrameworkAutoupdateService {
 	public void doAutomaticUpdate(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
 			GtnWsRelationshipBuilderBean relationBean, String userId) throws GtnFrameworkGeneralException;
         
-        public void createDeductionRelation(GtnWsRelationshipBuilderBean relationBean) throws GtnFrameworkGeneralException;
 }

@@ -6,8 +6,8 @@ import com.stpl.gtn.gtn2o.ui.framework.component.fieldfactory.GtnUIFrameworkActi
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.ExtCustomTable.ColumnCheckEvent;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckEvent;
 
 public class GtnUIFrameworkDataTableColumnCheckListener implements ExtCustomTable.ColumnCheckListener {
 

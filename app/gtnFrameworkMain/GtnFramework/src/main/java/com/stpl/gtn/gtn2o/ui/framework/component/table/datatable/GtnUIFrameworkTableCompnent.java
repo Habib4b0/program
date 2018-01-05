@@ -35,10 +35,10 @@ import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.event.ItemClickEvent;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.VerticalLayout;
 
 public class GtnUIFrameworkTableCompnent implements GtnUIFrameworkComponent, GtnUIFrameworkComponentActionable {
 

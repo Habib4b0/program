@@ -8,10 +8,12 @@ import com.stpl.gtn.gtn2o.ui.framework.component.fieldfactory.GtnUIFrameworkActi
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.event.FieldEvents;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
+import com.vaadin.v7.ui.AbstractField;
 
-public class GtnUIFieldFactoryFocusListener implements FieldEvents.FocusListener {
+
+public class GtnUIFieldFactoryFocusListener implements FocusListener {
 
 	private static GtnUIFieldFactoryFocusListener gtnUIFieldFactoryFocusListener = new GtnUIFieldFactoryFocusListener();
 	/**
@@ -20,7 +22,7 @@ public class GtnUIFieldFactoryFocusListener implements FieldEvents.FocusListener
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void focus(FieldEvents.FocusEvent event) {
+	public void focus(FocusEvent event) {
 		try {
 			AbstractField<?> current = (AbstractField<?>) event.getSource();
 			GtnUIFrameworkComponentData componentData = (GtnUIFrameworkComponentData) current.getData();

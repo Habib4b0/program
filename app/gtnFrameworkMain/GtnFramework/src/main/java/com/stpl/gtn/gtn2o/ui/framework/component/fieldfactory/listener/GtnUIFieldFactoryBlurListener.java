@@ -8,17 +8,18 @@ import com.stpl.gtn.gtn2o.ui.framework.component.fieldfactory.GtnUIFrameworkActi
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.event.FieldEvents;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.v7.ui.AbstractField;
 
-public class GtnUIFieldFactoryBlurListener implements FieldEvents.BlurListener {
+public class GtnUIFieldFactoryBlurListener implements BlurListener {
 
 	private static GtnUIFieldFactoryBlurListener gtnUIFieldFactoryBlurListener = new GtnUIFieldFactoryBlurListener();
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void blur(FieldEvents.BlurEvent event) {
+	public void blur(BlurEvent event) {
 
 		try {
 			AbstractField<?> current = (AbstractField<?>) event.getSource();

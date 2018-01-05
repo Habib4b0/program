@@ -9,7 +9,18 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
 
+@Theme("stpl")
+@Widgetset("com.stpl.gtn.gtn20.widgetset.gtnvaadinwidgetset.AppWidgetSet")
+@Component(service = UI.class, property = {
+        "com.liferay.portlet.display-category=GTN-BUILDINGBLOCKS",
+        "javax.portlet.name=GtnFrameworkItemMaster",
+        "javax.portlet.display-name=Item Master",
+        "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class GtnFrameworkItemMaster extends UI {
 
 	private static final long serialVersionUID = 1L;

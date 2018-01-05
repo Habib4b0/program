@@ -166,7 +166,6 @@ public class GtnWsModuleAuthorizationServiceTest {
 			moduleSecurityService.updateModuleFlagInModuleMaster(gtnWsRequest);
 		} catch (GtnFrameworkGeneralException e) {
 			Assert.fail("Exception while updateModuleFlagInModuleMaster records.");
-			e.printStackTrace();
 		}
 	}
 

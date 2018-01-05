@@ -6,9 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 
 import com.vaadin.v7.data.util.converter.Converter;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -21,7 +22,7 @@ public class DateToStringConverter implements Converter<String, Date> {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(DateToStringConverter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DateToStringConverter.class);
 
     private String formatValue = "MM/dd/yyyy";
 
@@ -57,7 +58,7 @@ public class DateToStringConverter implements Converter<String, Date> {
             }
             parsedValue = getFormat(locale).parse(values, parsePosition);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
         return parsedValue;
@@ -82,7 +83,7 @@ public class DateToStringConverter implements Converter<String, Date> {
             final SimpleDateFormat dateFormat = new SimpleDateFormat(formatValue);
             dateStr = dateFormat.format(value);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return dateStr;
     }

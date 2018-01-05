@@ -51,7 +51,8 @@ import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
@@ -133,7 +134,7 @@ public class RuleInformation extends CustomComponent {
     /**
      * The logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(RuleInformation.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RuleInformation.class);
     /**
      * The binder.
      */
@@ -239,9 +240,9 @@ public class RuleInformation extends CustomComponent {
                         }
                     }
                 } catch (FieldGroup.CommitException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error("",ex);
                 }
             }
         });
@@ -268,7 +269,7 @@ public class RuleInformation extends CustomComponent {
                                         deletedRuleInfoIds.add(eventDto.getCdrDetailsSid());
                                     }
                                 } catch (Exception ex) {
-                                    java.util.logging.Logger.getLogger(RuleInformation.class.getName()).log(Level.SEVERE, null, ex);
+                                    LOGGER.error("",ex);
                                 }
                             }
                         }
@@ -312,7 +313,7 @@ public class RuleInformation extends CustomComponent {
                                     loadSavedRulesDetails(CDRLogic.getSavedRuleDetails(sessionDTO.getSystemId()));
                                 }
                             } catch (Exception ex) {
-                                java.util.logging.Logger.getLogger(RuleInformation.class.getName()).log(Level.SEVERE, null, ex);
+                                LOGGER.error("",ex);
                             }
                         }
                     }
@@ -404,8 +405,8 @@ public class RuleInformation extends CustomComponent {
             list.add(cdrBinerDto);
             list.add(resultsContainer.getItemIds());
         } catch (Exception ex) {
-            LOGGER.error(ex);
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
+            LOGGER.error("",ex);
         }
         return list;
     }
@@ -574,7 +575,7 @@ public class RuleInformation extends CustomComponent {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         LOGGER.debug("Ending configurePermission");
 

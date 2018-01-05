@@ -21,7 +21,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnUIFrameWorkDesignationTypeChangeAction;
-import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkRSConstants;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.util.GtnFrameworkRSConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkRegexStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -32,6 +32,7 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
  * @author Mahesh.James
  */
 public class GtnFrameworkRebateScheduleInformationTabConfig {
+    
 
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
@@ -754,20 +755,19 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		companyType.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
 	}
-
-	private void addPaymentLevel(List<GtnUIFrameworkComponentConfig> componentList) {
+    private void addPaymentLevel(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
-				GtnFrameworkRSConstants.PAYMENT_LEVELLAYOUT, true, GtnFrameworkRSConstants.REBATE_OPTIONS_LAYOUT);
+				GtnFrameworkRSConstants.PAYMENT_LEVEL_LAYOUT, true, GtnFrameworkRSConstants.REBATE_OPTIONS_LAYOUT);
 		componentList.add(gtnLayout);
 
-		GtnUIFrameworkComponentConfig companyType = configProvider.getUIFrameworkComponentConfig("paymentLevel", true,
-				GtnFrameworkRSConstants.PAYMENT_LEVELLAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
+		GtnUIFrameworkComponentConfig companyType = configProvider.getUIFrameworkComponentConfig("paymentLevel",
+				true,GtnFrameworkRSConstants.PAYMENT_LEVEL_LAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
 		companyType.setComponentName("Payment Level");
-                companyType.setAuthorizationIncluded(true);
+		companyType.setAuthorizationIncluded(true);
 
 		componentList.add(companyType);
 
-		GtnUIFrameworkComboBoxConfig companyTypeConfig = configProvider.getComboBoxConfig("PAYMENT_LEVEL",
+		GtnUIFrameworkComboBoxConfig companyTypeConfig = configProvider.getComboBoxConfig("Payment_Level",
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		companyType.setGtnComboboxConfig(companyTypeConfig);
@@ -775,6 +775,7 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		companyType.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
 	}
+
 
 	private void addPaymentFrequency(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(

@@ -37,9 +37,9 @@ import com.stpl.gtn.gtn2o.ws.response.pagetreetable.GtnWsPagedTreeTableResponse;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 
 /**
  *
@@ -121,7 +121,6 @@ public class GtnUIFrameworkPagedTreeTableComponent implements GtnUIFrameworkComp
 			GtnUIFrameworkPagedTreeTableConfig tableConfig) {
 		resultsTable.markAsDirty();
 		resultsTable.setSelectable(false);
-		resultsTable.setImmediate(true);
 		resultsTable.setSplitPosition(tableConfig.getSplitPosition(), Sizeable.Unit.PIXELS);
 		resultsTable.setMinSplitPosition(tableConfig.getMinSplitPosition(), Sizeable.Unit.PIXELS);
 		resultsTable.setMaxSplitPosition(tableConfig.getMaxSplitPosition(), Sizeable.Unit.PIXELS);

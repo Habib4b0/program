@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.themes.ValoTheme;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import com.stpl.app.global.deductioncalendar.dto.DeductionCalendarDTO;
@@ -52,6 +52,7 @@ import de.steinwedel.messagebox.MessageBoxListener;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -59,7 +60,7 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
  */
 public class DeductionCalendarForm extends StplCustomComponent implements AddBaseForm {
 
-    private static final Logger LOGGER = Logger.getLogger(DeductionCalendarForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeductionCalendarForm.class);
 
     CommonUtil commonMsg = CommonUtil.getInstance();
 
@@ -195,7 +196,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                 saveBtn.setCaption("UPDATE");
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
     }
 
@@ -264,7 +265,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                 notesTabForm.setNotesHistoryValue(sessionDTO.getAdditionalNotes());
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
 
     }
@@ -312,7 +313,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
-                    LOGGER.error(exception);
+                    LOGGER.error("",exception);
                 }
                 LOGGER.debug("Ending Deduction Calendar back button operation from Add");
             }
@@ -422,7 +423,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
-                    LOGGER.error(exception);
+                    LOGGER.error("",exception);
                 }
                 LOGGER.debug("Ending Deduction Calendar Save button operation from Add");
 
@@ -561,7 +562,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
             }
 
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(DeductionCalendarForm.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("",ex);
         }
     }
 }

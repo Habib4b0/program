@@ -6,13 +6,12 @@ import com.stpl.app.global.deductioncalendar.logic.DeductionCalendarLogic;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.ImtdIfpDetailsLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.global.service.GlobalImpl;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
@@ -34,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
 import org.vaadin.alump.beforeunload.BeforeUnload;
 
 // TODO: Auto-generated Javadoc
@@ -193,7 +193,7 @@ public class CommonUIUtils {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(CommonUIUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUIUtils.class);
 
     public static final String MMDDYYYY = "MM/dd/yyyy";
 
@@ -220,7 +220,7 @@ public class CommonUIUtils {
             notif.show(Page.getCurrent());
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -282,7 +282,7 @@ public class CommonUIUtils {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -335,7 +335,7 @@ public class CommonUIUtils {
             date = inputDateFormatter.parse(stringDate);
             return outputDateFormatter.format(date);
         } catch (ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return null;
     }
@@ -411,7 +411,7 @@ public class CommonUIUtils {
         try {
             resultList = new GlobalImpl().fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
         }
         return resultList;
     }
@@ -427,10 +427,10 @@ public class CommonUIUtils {
             return id == 0 ? StringUtils.EMPTY : hDTO.getDescription();
         } catch (PortalException ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             return StringUtils.EMPTY;
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error("",ex);
             return StringUtils.EMPTY;
         }
 

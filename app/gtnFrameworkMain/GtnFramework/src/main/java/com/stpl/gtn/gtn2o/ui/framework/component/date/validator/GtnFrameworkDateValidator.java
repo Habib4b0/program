@@ -7,7 +7,7 @@ import java.util.List;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.vaadin.data.validator.AbstractValidator;
+import com.vaadin.v7.data.validator.AbstractValidator;
 
 public class GtnFrameworkDateValidator extends AbstractValidator<Date> {
 

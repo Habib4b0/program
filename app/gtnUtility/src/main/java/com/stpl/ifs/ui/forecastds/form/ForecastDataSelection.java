@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -680,7 +678,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 						}
 						resetFlag = false;
 					} catch (Exception ex) {
-						LOGGER.error(ex.getMessage() + " in modeOption ValueChangeListener ");
+						LOGGER.error(ex + " in modeOption ValueChangeListener ");
 					}
 				}
 
@@ -957,7 +955,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 					dismantleProductSelection = true;
 					resetButtonLogic();
 				} catch (Exception ex) {
-					LOGGER.error(ex.getMessage() + " - in resetBtn");
+					LOGGER.error(ex + " - in resetBtn");
 				}
 			}
 		}.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default values?");
@@ -1767,4 +1765,4 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
             return returnValue;
         }
 
-}
+	}
