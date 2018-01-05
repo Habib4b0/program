@@ -682,6 +682,8 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
         internalNotes.setReadOnly(false);
         internalNotes.setValue("");
         internalNotes.setReadOnly(true);
+        fileNameField.setValue("");
+        uploader.setValue(StringUtils.EMPTY);        
         table.removeAllItems();
     }
 
