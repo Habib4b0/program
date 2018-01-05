@@ -133,7 +133,8 @@ import com.vaadin.ui.themes.ValoTheme;
  */
 public abstract class ForecastSalesProjection extends CustomComponent implements View {
 
-    private static final String PLEASE_SELECT_A_PROJECTION_PERIOD = "Please select a Projection Period.";
+    private static final String SELECTED_FREQ_IS_NOT_VALID = "selectedFreq is not valid: ";
+	private static final String PLEASE_SELECT_A_PROJECTION_PERIOD = "Please select a Projection Period.";
 	/**
      * View name for navigation.
      */
@@ -2526,7 +2527,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     condition = tempYear < currentYear;
                     break;
                 default:
-                    LOGGER.warn("selectedFreq is not valid: " + selectedFreq);
+                    LOGGER.warn(SELECTED_FREQ_IS_NOT_VALID + selectedFreq);
                     break;
             }
             if ((condition) && (checkBoxMap.get(key))) {
@@ -2577,7 +2578,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         condition = tempYear >= projStartYear;
                         break;
                     default:
-                        LOGGER.warn("selectedFreq is not valid: " + selectedFreq);
+                        LOGGER.warn(SELECTED_FREQ_IS_NOT_VALID + selectedFreq);
                         break;
                 }
                 if (condition) {
@@ -2628,7 +2629,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     condition = tempYear >= projStartYear;
                     break;
                 default:
-                    LOGGER.warn("selectedFreq is not valid: " + selectedFreq);
+                    LOGGER.warn(SELECTED_FREQ_IS_NOT_VALID + selectedFreq);
                     break;
             }
 
