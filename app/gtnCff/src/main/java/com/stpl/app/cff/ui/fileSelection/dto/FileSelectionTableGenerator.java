@@ -55,7 +55,6 @@ public class FileSelectionTableGenerator extends DefaultFieldFactory {
                 @Override
                 public void click(final CustomTextField.ClickEvent event) {
                     String fileType = String.valueOf(searchContainer.getContainerProperty(itemId, "fileType").getValue());
-                    String country = String.valueOf(searchContainer.getContainerProperty(itemId, "country").getValue());
 
                     try {
                         final FileManagementLookup lookUp = new FileManagementLookup(session, false, fileType, searchContainer, itemId,businessUnit);
