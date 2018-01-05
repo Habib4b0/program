@@ -81,14 +81,20 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ItemManagementIndex extends CustomComponent {
 
-    
+    @UiField("itemId")
+    private TextField itemId;
+    @UiField("itemName")
+    private TextField itemName;
     @UiField("therapeuticClass")
     private ComboBox therapeuticClass;
     @UiField("form")
     private ComboBox form_DTO;
     @UiField("identifierType")
     private ComboBox identifierType_DTO;
-    
+    @UiField("itemNo")
+    private TextField itemNo; 
+    @UiField("itemDesc")
+    private TextField itemDesc;
     @UiField("brand")
     private ComboBox brand_DTO;
     @UiField("strength")
@@ -99,7 +105,8 @@ public class ItemManagementIndex extends CustomComponent {
     private ComboBox company_DTO;
     @UiField("placeHolder")
     private ComboBox placeHolder_DTO;
-    
+    @UiField("ndc9")
+    private TextField ndc9;
     @UiField("itemCategory")
     private ComboBox itemCategory;
     @UiField("itemType")
@@ -137,7 +144,7 @@ public class ItemManagementIndex extends CustomComponent {
     private final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
     
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
-    
+
     private final StplSecurity stplSecurity = new StplSecurity();
     
     private final CommonUtil commonUtil = CommonUtil.getInstance();
@@ -203,6 +210,11 @@ public class ItemManagementIndex extends CustomComponent {
         getBinder();
         identifier.setEnabled(false);
         identifier.setImmediate(true);
+        itemId.setImmediate(true);
+        itemName.setImmediate(true);
+        itemNo.setImmediate(true);
+        itemDesc.setImmediate(true);
+        ndc9.setImmediate(true);
     }
 
     private void configureTable() {
@@ -708,7 +720,7 @@ public class ItemManagementIndex extends CustomComponent {
 
         if (list == null || list.isEmpty()) {
             return false;
-        }
+    }
         return true;
     }
 

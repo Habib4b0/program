@@ -11,7 +11,6 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractFilter;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
-import com.stpl.app.gcm.tp.ui.form.WorkFlowLookup;
 import com.stpl.app.gcm.util.Constants;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;

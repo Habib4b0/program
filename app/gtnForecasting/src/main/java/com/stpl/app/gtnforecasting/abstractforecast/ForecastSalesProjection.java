@@ -133,7 +133,9 @@ import com.vaadin.ui.themes.ValoTheme;
  */
 public abstract class ForecastSalesProjection extends CustomComponent implements View {
 
-    /**
+    private static final String SELECTED_FREQ_IS_NOT_VALID = "selectedFreq is not valid: ";
+	private static final String PLEASE_SELECT_A_PROJECTION_PERIOD = "Please select a Projection Period.";
+	/**
      * View name for navigation.
      */
     public static final String NAME = StringUtils.EMPTY;
@@ -438,6 +440,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected int uncheckRecordCount;
 
     public static final String SELECT_ALL_LABEL = "Select All";
+
 
     /**
      * Level Filter Listener
@@ -2301,7 +2304,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         }
         
 
-        if ((Constant.ACTUAL).equals(variable.getValue())) {
+
+		if ((Constant.ACTUAL).equals(variable.getValue())) {
             final String adjValue = String.valueOf(adjustment.getValue());
             final String adjType = String.valueOf(type.getValue());
             final String adjBasis = String.valueOf(basis.getValue());
@@ -2311,13 +2315,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             final String HISTORY_PERIODS = null;
             final String projectionPeriods;
 
-            if (adjType.equals("Incremental") || adjType.equals("Override")) {
+			if (adjType.equals(Constant.LabelConstants.INCREMENTAL) || adjType.equals("Override")) {
                 if (adjBasis.equals("Percentage")) {
                     AbstractNotificationUtils.getErrorNotification("Incorrect Type&Basis entered",
                             "Please enter a correct adjustment type and adjustment basis ");
                     return;
                 }
-                if (adjBasis.equals("Amount") && adjType.equals("Incremental")) {
+				if (adjBasis.equals("Amount") && adjType.equals(Constant.LabelConstants.INCREMENTAL)) {
                     AbstractNotificationUtils.getErrorNotification("Incorrect Type&Basis entered",
                             "Please enter a correct adjustment type and adjustment basis ");
                     return;
@@ -2329,7 +2333,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 projectionPeriods = getSelectedProjectionPeriods();
                 if (String.valueOf(projectionPeriods).equals(StringUtils.EMPTY)) {
                     AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES,
-                            "Please select a Projection Period.");
+                            PLEASE_SELECT_A_PROJECTION_PERIOD);
                     return;
                 }
 
@@ -2407,13 +2411,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         }
                         projectionPeriods = getSelectedProjectionPeriods();
                         if (String.valueOf(projectionPeriods).equals(StringUtils.EMPTY)) {
-                            AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, "Please select a Projection Period.");
+                            AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, PLEASE_SELECT_A_PROJECTION_PERIOD);
                             return;
                         }
                     } else {
                         historyPeriods = getSelectedProjectionPeriods();
                         if (String.valueOf(historyPeriods).equals(StringUtils.EMPTY)) {
-                            AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, "Please select a Projection Period.");
+                            AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, PLEASE_SELECT_A_PROJECTION_PERIOD);
                             return;
                         }
                         projectionPeriods = getSelectedProjectionPeriods();
@@ -2425,7 +2429,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     String confirmMessage = "Confirm Incremental adjustment";
                     String messageBody = StringUtils.EMPTY;
 
-                    if (adjType.equals("Incremental")) {
+					if (adjType.equals(Constant.LabelConstants.INCREMENTAL)) {
                         confirmMessage = "Confirm Incremental adjustment";
                         if (basis.getValue().equals(Constant.LabelConstants.AMOUNT)) {
                             if (variable.getValue().equals(Constant.UNIT)) {
@@ -2523,7 +2527,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     condition = tempYear < currentYear;
                     break;
                 default:
-                    LOGGER.warn("selectedFreq is not valid: " + selectedFreq);
+                    LOGGER.warn(SELECTED_FREQ_IS_NOT_VALID + selectedFreq);
                     break;
             }
             if ((condition) && (checkBoxMap.get(key))) {
@@ -2574,7 +2578,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         condition = tempYear >= projStartYear;
                         break;
                     default:
-                        LOGGER.warn("selectedFreq is not valid: " + selectedFreq);
+                        LOGGER.warn(SELECTED_FREQ_IS_NOT_VALID + selectedFreq);
                         break;
                 }
                 if (condition) {
@@ -2625,7 +2629,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     condition = tempYear >= projStartYear;
                     break;
                 default:
-                    LOGGER.warn("selectedFreq is not valid: " + selectedFreq);
+                    LOGGER.warn(SELECTED_FREQ_IS_NOT_VALID + selectedFreq);
                     break;
             }
 

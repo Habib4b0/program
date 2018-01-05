@@ -105,11 +105,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.stpl.app</groupId>
-            <artifactId>gtnWorkflow</artifactId>
-            <version>1.0</version>
-            <type>jar</type>
-        </dependency> 
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>clara</artifactId>
+            <version>1.1.0</version>
+        </dependency>
         <dependency>
             <groupId>org.vaadin.alump.beforeunload.galderma</groupId>
             <artifactId>beforeunload-addon</artifactId>
