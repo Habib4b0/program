@@ -292,8 +292,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     @UiField("allCustomer")
 
     private ComboBox allCustomer;
-    @UiField("removeProjectionDetails")
-    private CheckBox removeProjectionDetails;
+
     private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The excel export image
@@ -337,6 +336,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     private boolean isTableUpdate = false;
 
     private boolean isComponentInformationExport = false;
+    CheckBox removeProjectionDetails = new CheckBox("Remove Projection Details");
 
     public UpdatedContractSelection(SessionDTO session, AddTPForm form) {
         this.addTpForm = form;
@@ -376,6 +376,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     private void initContractSelection(SessionDTO session) {
         this.session = session;
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/contractSelectionUpdated.xml"), this));
+        transferSalesProjectionOptionLayout.addComponent(removeProjectionDetails);
         configureFields();
         contractSeletion = new ContractSelectionDTO();
         contractSeletion.setCompanyMasterSids(session.getCompanyMasterSids());
