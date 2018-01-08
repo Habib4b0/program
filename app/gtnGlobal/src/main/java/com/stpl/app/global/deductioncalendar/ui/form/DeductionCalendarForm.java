@@ -44,12 +44,12 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Notification;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.ui.TextField;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.slf4j.LoggerFactory;
@@ -62,7 +62,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeductionCalendarForm.class);
 
-    CommonUtil commonMsg = CommonUtil.getInstance();
+    private final CommonUtil commonMsg = CommonUtil.getInstance();
 
     @UiField("tabSheet")
     private TabSheet tabSheet;
@@ -79,7 +79,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
      * The company logic.
      */
     @UiField("errorMsg")
-    public ErrorLabel errorMsg;
+    private ErrorLabel errorMsg;
 
     @UiField("saveBtn")
     private Button saveBtn;
@@ -93,23 +93,21 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
     @UiField("deductionCalendarDesc")
     private TextField deductionCalendarDesc;
 
-    private TextField masterTableSid = new TextField();
-
     @UiField("categoryDdlb")
     private ComboBox categoryDdlb;
 
-    CustomerSelection customerSelection;
-    DeductionDetails deductiondetails;
-    ItemSelection itemSelection;
-    NotesTabForm notesTabForm;
-    SessionDTO sessionDTO;
-    public String tabName;
-    SelectionLogic selectionLogic = new SelectionLogic();
+    private CustomerSelection customerSelection;
+    private DeductionDetails deductiondetails;
+    private ItemSelection itemSelection;
+    private NotesTabForm notesTabForm;
+    private final SessionDTO sessionDTO;
+    private String tabName;
+    private final SelectionLogic selectionLogic = new SelectionLogic();
 
-    DeductionDetailsDTO detailsDto = new DeductionDetailsDTO();
-    DeductionDetailsLogic logic = new DeductionDetailsLogic();
-    DeductionCalendarLogic deductionCalendarLogic = new DeductionCalendarLogic();
-    DeductionCalendarDTO dto = new DeductionCalendarDTO();
+    private DeductionDetailsDTO detailsDto = new DeductionDetailsDTO();
+    private final DeductionDetailsLogic logic = new DeductionDetailsLogic();
+    private final DeductionCalendarLogic deductionCalendarLogic = new DeductionCalendarLogic();
+    private DeductionCalendarDTO dto = new DeductionCalendarDTO();
 
     private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(dto));
     /**
@@ -196,7 +194,8 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                 saveBtn.setCaption("UPDATE");
             }
         } catch (Exception ex) {
-            LOGGER.error("",ex);
+            ex.printStackTrace();
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -264,8 +263,9 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                 itemSelection.loadInEdit();
                 notesTabForm.setNotesHistoryValue(sessionDTO.getAdditionalNotes());
             }
-        } catch (Exception ex) {
-            LOGGER.error("",ex);
+        } catch (PortalException | SystemException ex) {
+            ex.printStackTrace();
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -291,7 +291,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(ConstantsUtils.YES)) {
                                 LOGGER.debug("NavigateTo AbstractSearchView page");
-                                AbstractSearchView.flag = false;
+                                AbstractSearchView.setFlag(false); 
                                 deductionCalendarLogic.deleteTempSeletionTable(sessionDTO);
                                 deductionCalendarLogic.deleteTempDeductionDetails(sessionDTO);
                                 getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
@@ -313,7 +313,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
-                    LOGGER.error("",exception);
+                    LOGGER.error(exception.getMessage());
                 }
                 LOGGER.debug("Ending Deduction Calendar back button operation from Add");
             }
@@ -408,7 +408,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                             }
                         }
                     }, ButtonId.YES, ButtonId.NO);
-                } catch (Exception exception) {
+                } catch (FieldGroup.CommitException exception) {
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1003), new MessageBoxListener() {
                         /**
                          * The method is triggered when a button of the message
@@ -423,7 +423,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
-                    LOGGER.error("",exception);
+                    LOGGER.error(exception.getMessage());
                 }
                 LOGGER.debug("Ending Deduction Calendar Save button operation from Add");
 
@@ -438,6 +438,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
             /**
              * Back button UI error handler
              */
+            @Override
             public void error(final com.vaadin.server.ErrorEvent event) {
                 LOGGER.error(String.valueOf(event));
             }
@@ -465,6 +466,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
              * Adds the button click listener.
              *
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 String errorMessage = MessageUtil.getMessage(Message.DC_RESET_ALL_MESSAGE);
                 MessageBox.showPlain(Icon.QUESTION, MessageUtil.getMessage(Message.DC_RESET_ALL_HEADER), errorMessage, new MessageBoxListener() {
@@ -474,6 +476,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                      *
                      */
                     @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals(ConstantsUtils.YES)) {
                             LOGGER.debug("Entering reset Button in Deduction Calendar Form");
@@ -485,18 +488,18 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                     private void resetButtonClickLogic() {
                         final String mode = sessionDTO.getMode();
 
-                        DeductionCalendarDTO dto = new DeductionCalendarDTO();
+                        DeductionCalendarDTO sessionDto = new DeductionCalendarDTO();
                         if (!((ConstantsUtils.COPY).equals(mode) || (ConstantsUtils.ADD).equals(mode))) {
-                            dto = deductionCalendarLogic.getDeductionCalendarById(sessionDTO.getSystemId(), dto);
+                            sessionDto = deductionCalendarLogic.getDeductionCalendarById(sessionDTO.getSystemId(), sessionDto);
                         }
                         if ((ConstantsUtils.COPY).equals(mode)) {
-                            dto = deductionCalendarLogic.getDeductionCalendarByIdForCopy(sessionDTO.getSystemId(), dto);
+                            sessionDto = deductionCalendarLogic.getDeductionCalendarByIdForCopy(sessionDTO.getSystemId(), sessionDto);
                         }
 
-                        deductionCalendarNo.setValue(dto.getDeductionCalendarNo());
-                        deductionCalendarName.setValue(dto.getDeductionCalendarName());
-                        deductionCalendarDesc.setValue(dto.getDeductionCalendarDesc());
-                        categoryDdlb.setValue(dto.getCategoryDdlb());
+                        deductionCalendarNo.setValue(sessionDto.getDeductionCalendarNo());
+                        deductionCalendarName.setValue(sessionDto.getDeductionCalendarName());
+                        deductionCalendarDesc.setValue(sessionDto.getDeductionCalendarDesc());
+                        categoryDdlb.setValue(sessionDto.getCategoryDdlb());
                         if (TabNameUtil.CUSTOMER_SELECTION.equals(tabSheet.getSelectedTab().getCaption())) {
                             customerSelection.selectedCustomersTable.setFilterDecorator(new ExtDemoFilterDecorator());
                             customerSelection.selectedCustomersTable.setFilterGenerator(new DeductionCustomerFilerGenerator());
@@ -524,7 +527,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                             deductiondetails.resetFields();
                         } else if (TabNameUtil.ADDITIONAL_INFO.equals(tabSheet.getSelectedTab().getCaption())) {
                             if (!mode.equals("Add")) {
-                                notesTabForm.resetBtnLogic(dto.getInternalNotes());
+                                notesTabForm.resetBtnLogic(sessionDto.getInternalNotes());
                             } else {
                                 notesTabForm.resetAddMode();
                             }
@@ -562,7 +565,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
             }
 
         } catch (Exception ex) {
-            LOGGER.error("",ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 }

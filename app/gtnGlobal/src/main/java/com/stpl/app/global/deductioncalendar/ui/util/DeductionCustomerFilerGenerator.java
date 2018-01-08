@@ -126,7 +126,7 @@ public class DeductionCustomerFilerGenerator implements ExtFilterGenerator {
                 return comboBox;
             }
         } catch (Exception ex) {
-            LOGGER.error("",ex);
+            LOGGER.error(ex.getMessage());
         } 
         return null;
     }

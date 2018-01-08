@@ -44,13 +44,10 @@ public final class ErrorCodeUtil {
                         return resouceBundle.getString(key);
                     }
                     return "";
-		} catch(NullPointerException e){
-                        LOGGER.error("",e);
+		} catch(NullPointerException | MissingResourceException e){
+                        LOGGER.error(e.getMessage());
                         return "";
-                }catch (MissingResourceException e) {
-                        LOGGER.error("",e);
-			return "";
-		}
+                }
 	}
 
 	/**

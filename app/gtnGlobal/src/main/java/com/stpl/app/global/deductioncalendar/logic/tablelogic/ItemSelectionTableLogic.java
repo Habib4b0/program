@@ -21,11 +21,9 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ItemSelectionTableLogic extends PageTableLogic {
 
-    int selectedProjectionId = 0;
-    boolean loadData = false;
-    SessionDTO sessionDTO;
-    SelectionLogic selectionLogic=new SelectionLogic();
-    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(ItemSelectionAvailableTableLogic.class);
+    private final SessionDTO sessionDTO;
+    private final SelectionLogic selectionLogic=new SelectionLogic();
+    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ItemSelectionAvailableTableLogic.class);
 
     @Override
     public int getCount() {

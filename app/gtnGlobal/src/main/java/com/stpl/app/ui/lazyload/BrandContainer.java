@@ -51,6 +51,7 @@ public class BrandContainer implements DAO<HelperDTO> {
         this.brand=brand;
     }
     
+    @Override
     public int count(final SearchCriteria searchCriteria) {
         try {
             LOGGER.debug("Entering CompanyQualifierNameDAO Count method :");
@@ -64,12 +65,13 @@ public class BrandContainer implements DAO<HelperDTO> {
                      * @param buttonId The buttonId of the pressed button.  
                      */           
                     @SuppressWarnings("PMD")  
+                @Override
                     public void buttonClicked(final ButtonId buttonId) {   
                         // Do Nothing   
                     }        
                 }, ButtonId.OK);    
                 msg.getButton(ButtonId.OK).focus();
-                LOGGER.error("",ex);
+                LOGGER.error(ex.getMessage());
         } catch (SystemException ex) {
         	final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {   
@@ -80,6 +82,7 @@ public class BrandContainer implements DAO<HelperDTO> {
                  * @param buttonId The buttonId of the pressed button.  
                  */           
                 @SuppressWarnings("PMD")  
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {   
                     // Do Nothing   
                 }        
@@ -92,6 +95,7 @@ public class BrandContainer implements DAO<HelperDTO> {
     /**
      * Method used for get the results.
      */
+    @Override
     public List<HelperDTO> find(final SearchCriteria searchCriteria, final int startIndex, final int offset, final List<OrderByColumn> list) {
         try {
             LOGGER.debug("Entering CompanyQualifierNameDAO find method :");
@@ -105,14 +109,15 @@ public class BrandContainer implements DAO<HelperDTO> {
                      * @param buttonId The buttonId of the pressed button.  
                      */           
                     @SuppressWarnings("PMD")  
+                @Override
                     public void buttonClicked(final ButtonId buttonId) {   
                         // Do Nothing   
                     }        
                 }, ButtonId.OK);    
                 msg.getButton(ButtonId.OK).focus();
-                LOGGER.error("",ex);
+                LOGGER.error(ex.getMessage());
         } catch (SystemException ex) {
-        	LOGGER.error("",ex);
+        	LOGGER.error(ex.getMessage());
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {   
                 /**         
@@ -122,6 +127,7 @@ public class BrandContainer implements DAO<HelperDTO> {
                  * @param buttonId The buttonId of the pressed button.  
                  */           
                 @SuppressWarnings("PMD")  
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {   
                     // Do Nothing   
                 }        

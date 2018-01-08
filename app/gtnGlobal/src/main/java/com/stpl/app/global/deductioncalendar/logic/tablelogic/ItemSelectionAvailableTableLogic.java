@@ -22,11 +22,14 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ItemSelectionAvailableTableLogic  extends PageTableLogic {
 
-    int selectedProjectionId = 0;
-    boolean loadData = false;
-    ErrorfulFieldGroup binder;
-    SelectionLogic selectionLogic=new SelectionLogic();
-    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(ItemSelectionAvailableTableLogic.class);
+    public ItemSelectionAvailableTableLogic() {
+        super();
+    }
+
+    private boolean loadData = false;
+    private ErrorfulFieldGroup binder;
+    private final SelectionLogic selectionLogic=new SelectionLogic();
+    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ItemSelectionAvailableTableLogic.class);
 
     @Override
     public int getCount() {

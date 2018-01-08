@@ -40,7 +40,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.slf4j.Logger;
@@ -56,10 +55,10 @@ public class CDRLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(CDRLogic.class);
-    public static ResourceBundle constantProperties = ResourceBundle.getBundle("properties.constants");
-    static HashMap<String, String> criteria = new HashMap<String, String>();
-    public static final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
-    public static final SimpleDateFormat commonDate = new SimpleDateFormat("MM-dd-yyy");
+    private static final ResourceBundle CONSTANT_PROPERTIES = ResourceBundle.getBundle("properties.constants");
+    private static final HashMap<String, String> CRITERIA = new HashMap<String, String>();
+    public static final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat COMMON_DATE = new SimpleDateFormat("MM-dd-yyy");
     private final StplSecurityDAO securityDto = new StplSecurityDAOImpl();
 
     /**
@@ -153,11 +152,11 @@ public class CDRLogic {
     }
 
     private void loadCriteriaInMap() {
-        criteria.clear();
-        criteria.put(ConstantsUtils.COMBO1, "RULE_TYPE");
-        criteria.put(ConstantsUtils.TEXT6, "RULE_NO");
-        criteria.put(ConstantsUtils.TEXT7, "RULE_NAME");
-        criteria.put(ConstantsUtils.COMBO6, "RULE_CATEGORY");
+        CRITERIA.clear();
+        CRITERIA.put(ConstantsUtils.COMBO1, "RULE_TYPE");
+        CRITERIA.put(ConstantsUtils.TEXT6, "RULE_NO");
+        CRITERIA.put(ConstantsUtils.TEXT7, "RULE_NAME");
+        CRITERIA.put(ConstantsUtils.COMBO6, "RULE_CATEGORY");
     }
 
     private StringBuilder buildSearchQuery(ErrorfulFieldGroup searchFields, boolean isCount) {
@@ -166,17 +165,17 @@ public class CDRLogic {
                 + "RULE_NAME,RULE_CATEGORY,CREATED_DATE,\n"
                 + "CREATED_BY,MODIFIED_DATE,MODIFIED_BY ";
         queryBuilder.append(" SELECT " + query + " FROM CDR_MODEL  WHERE");
-        if (criteria.isEmpty()) {
+        if (CRITERIA.isEmpty()) {
             loadCriteriaInMap();
         }
-        Set<String> keys = criteria.keySet();
+        Set<String> keys = CRITERIA.keySet();
         for (String fields : keys) {
 
             if ((ConstantsUtils.COMBO1.equals(fields) || ConstantsUtils.COMBO6.equals(fields)) && searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString())) {
-                queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(String.valueOf(((com.stpl.app.util.HelperDTO) searchFields.getField(fields).getValue()).getId())).append(ConstantsUtils.SINGLE_QUOTE);
+                queryBuilder.append(ConstantsUtils.AND).append(CRITERIA.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(String.valueOf(((com.stpl.app.util.HelperDTO) searchFields.getField(fields).getValue()).getId())).append(ConstantsUtils.SINGLE_QUOTE);
 
             } else if (searchFields.getField(fields).getValue() != null && !ConstantUtil.SELECT_ONE.equals(searchFields.getField(fields).getValue().toString()) && !searchFields.getField(fields).getValue().toString().trim().isEmpty()) {
-                queryBuilder.append(ConstantsUtils.AND).append(criteria.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildSearchCriteria(searchFields.getField(fields).getValue().toString())).append(ConstantsUtils.SINGLE_QUOTE);
+                queryBuilder.append(ConstantsUtils.AND).append(CRITERIA.get(fields)).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildSearchCriteria(searchFields.getField(fields).getValue().toString())).append(ConstantsUtils.SINGLE_QUOTE);
             }
         }
         queryBuilder = new StringBuilder(queryBuilder.toString().replace("WHERE AND", " WHERE "));
@@ -199,10 +198,8 @@ public class CDRLogic {
                     try {
                         User createdUser = (User) securityDto.getUserByUserId(Long.valueOf(String.valueOf(object[NumericConstants.SIX])));
                         searchDto.setCreatedBy(createdUser == null ? StringUtils.EMPTY : createdUser.getFullName());
-                    } catch (SystemException ex) {
-                        LOGGER.error("",ex);
-                    } catch (PortalException ex) {
-                        LOGGER.error("",ex);
+                    } catch (SystemException | PortalException ex) {
+                        LOGGER.error(ex.getMessage());
                     } 
 
                 }
@@ -210,11 +207,9 @@ public class CDRLogic {
                     try {
                         User createdUser = (User) securityDto.getUserByUserId(Long.valueOf(String.valueOf(object[NumericConstants.EIGHT])));
                         searchDto.setModifiedBy(createdUser == null ? StringUtils.EMPTY : createdUser.getFullName());
-                    } catch (SystemException ex) {
-                        LOGGER.error("",ex);
-                    } catch (PortalException ex) {
-                        LOGGER.error("",ex);
-                    } 
+                    } catch (SystemException | PortalException ex) {
+                        LOGGER.error(ex.getMessage());
+                    }
 
                 }
 
@@ -240,41 +235,34 @@ public class CDRLogic {
 
     private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
         Map<Integer, String> userMap = StplSecurity.userMap;
-                if (userMap.isEmpty()) {
-            try {
-                userMap = StplSecurity.getUserName();
-            } catch (SystemException ex) {
-                LOGGER.error("",ex);
-            }
-            }
         if (filterSet != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (Container.Filter filter : filterSet) {
                 if (filter instanceof SimpleStringFilter) {
                     SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     if (!"createdBy".equals(stringFilter.getPropertyId().toString()) && !"modifiedBy".equals(stringFilter.getPropertyId().toString())) {
-                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                        stringBuilder.append(ConstantsUtils.AND).append(CONSTANT_PROPERTIES.getString(stringFilter.getPropertyId().toString())).append(ConstantsUtils.LIKE_QUOTE).append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
                     } else {
-                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(stringFilter.getPropertyId().toString())).append(" like '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
+                        stringBuilder.append(ConstantsUtils.AND).append(CONSTANT_PROPERTIES.getString(stringFilter.getPropertyId().toString())).append(" like '").append(CommonUtil.buildFilterCriteria(stringFilter.getFilterString())).append("'");
                     }
                 } else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
                     Date startValue = (Date) betweenFilter.getStartValue();
                     Date endValue = (Date) betweenFilter.getEndValue();
                     if (startValue != null) {
-                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(betweenFilter.getPropertyId().toString())).append(" >= '").append(dateFormat.format(startValue)).append("' ");
+                        stringBuilder.append(ConstantsUtils.AND).append(CONSTANT_PROPERTIES.getString(betweenFilter.getPropertyId().toString())).append(" >= '").append(dateFormat.format(startValue)).append("' ");
                     }
                     if (endValue != null) {
-                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(betweenFilter.getPropertyId().toString())).append(" <= '").append(dateFormat.format(endValue)).append("' ");
+                        stringBuilder.append(ConstantsUtils.AND).append(CONSTANT_PROPERTIES.getString(betweenFilter.getPropertyId().toString())).append(" <= '").append(dateFormat.format(endValue)).append("' ");
                     }
                 } else if (filter instanceof Compare) {
                     Compare compare = (Compare) filter;
                     Compare.Operation operation = compare.getOperation();
                     Date value = (Date) compare.getValue();
                     if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(compare.getPropertyId().toString())).append(" >= '").append(dateFormat.format(value)).append("' ");
+                        stringBuilder.append(ConstantsUtils.AND).append(CONSTANT_PROPERTIES.getString(compare.getPropertyId().toString())).append(" >= '").append(dateFormat.format(value)).append("' ");
                     } else {
-                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(compare.getPropertyId().toString())).append(" <= '").append(dateFormat.format(value)).append("' ");
+                        stringBuilder.append(ConstantsUtils.AND).append(CONSTANT_PROPERTIES.getString(compare.getPropertyId().toString())).append(" <= '").append(dateFormat.format(value)).append("' ");
                     }
                 }
 
@@ -307,9 +295,9 @@ public class CDRLogic {
                                 append(ConstantsUtils.SINGLE_QUOTE).append(value).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA).
                                 append(ConstantsUtils.SINGLE_QUOTE).append(object.getComparisonDdlb() != null ? object.getComparisonDdlb().getId() : 0).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA)
                                 .append(ConstantsUtils.SINGLE_QUOTE).append(object.getLogicalOperatorDdlb() != null ? object.getLogicalOperatorDdlb().getId() : 0).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA)
-                                .append(ConstantsUtils.SINGLE_QUOTE).append(DBDate.format(new Date())).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA)
+                                .append(ConstantsUtils.SINGLE_QUOTE).append(DB_DATE.format(new Date())).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA)
                                 .append(ConstantsUtils.SINGLE_QUOTE).append(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA)
-                                .append(ConstantsUtils.SINGLE_QUOTE).append(DBDate.format(new Date())).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA)
+                                .append(ConstantsUtils.SINGLE_QUOTE).append(DB_DATE.format(new Date())).append(ConstantsUtils.SINGLE_QUOTE).append(ConstantsUtils.COMMA)
                                 .append(ConstantsUtils.SINGLE_QUOTE).append(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO).append(ConstantsUtils.SINGLE_QUOTE)
                                 .append(")");
                     }
@@ -323,7 +311,7 @@ public class CDRLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error("",ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -348,13 +336,13 @@ public class CDRLogic {
      */
     List getInputForModelInsert(final CDRDto binderDto, final SessionDTO sessionDTO) {
         List queryList = new ArrayList();
-        queryList.add(binderDto.getRuleType_DTO().getId());
+        queryList.add(binderDto.getRuleTypeDto().getId());
         queryList.add(binderDto.getRuleNo());
         queryList.add(binderDto.getRuleName());
-        queryList.add(binderDto.getRuleCategory_DTO() != null ? binderDto.getRuleCategory_DTO().getId() : 0);
-        queryList.add(DBDate.format(new Date()));
+        queryList.add(binderDto.getRuleCategoryDto() != null ? binderDto.getRuleCategoryDto().getId() : 0);
+        queryList.add(DB_DATE.format(new Date()));
         queryList.add(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO);
-        queryList.add(DBDate.format(new Date()));
+        queryList.add(DB_DATE.format(new Date()));
         queryList.add(sessionDTO.getUserId() != null ? sessionDTO.getUserId() : ConstantsUtils.ZERO);
         return queryList;
     }
@@ -362,8 +350,7 @@ public class CDRLogic {
     public static List getSavedRuleDetails(final int systemId) {
         List list = new ArrayList();
         list.add(systemId);
-        List ruleInfoList = QueryUtils.querySelect(list, "getRuleInfo-Edit", null);
-        return ruleInfoList;
+        return QueryUtils.querySelect(list, "getRuleInfo-Edit", null);
     }
 
     public void updateRuleModelEditLogic(CDRDto binderDto, SessionDTO sessionDTO, String notes) {
@@ -379,8 +366,8 @@ public class CDRLogic {
             }
             cdrModel.setRuleNo(binderDto.getRuleNo());
             cdrModel.setRuleName(binderDto.getRuleName());
-            cdrModel.setRuleType(binderDto.getRuleType_DTO() == null ? 0 : binderDto.getRuleType_DTO().getId());
-            cdrModel.setRuleCategory(binderDto.getRuleCategory_DTO() == null ? 0 : binderDto.getRuleCategory_DTO().getId());
+            cdrModel.setRuleType(binderDto.getRuleTypeDto() == null ? 0 : binderDto.getRuleTypeDto().getId());
+            cdrModel.setRuleCategory(binderDto.getRuleCategoryDto() == null ? 0 : binderDto.getRuleCategoryDto().getId());
             cdrModel.setModifiedBy(Integer.valueOf(sessionDTO.getUserId()));
             cdrModel.setModifiedDate(new Date());
             if (!notes.isEmpty() && !ConstantsUtils.NULL.equals(notes)) {
@@ -388,10 +375,8 @@ public class CDRLogic {
             }
             CdrModel cdrModel1 = dao.updateCdrModel(cdrModel);
             sessionDTO.setSystemId(cdrModel1.getCdrModelSid());
-        } catch (SystemException ex) {
-            LOGGER.error("",ex);
-        } catch (PortalException ex) {
-            LOGGER.error("",ex);
+        } catch (SystemException | PortalException ex) {
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -408,10 +393,8 @@ public class CDRLogic {
                 }
             }
             notesLogic.saveUploadedInformation(uploadedData, ConstantsUtils.CDR_MODEL, cdrModelSid);
-        } catch (SystemException ex) {
-            LOGGER.error("",ex);
-        } catch (PortalException ex) {
-            LOGGER.error("",ex);
+        } catch (SystemException | PortalException ex) {
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -423,10 +406,8 @@ public class CDRLogic {
         try {
             ComplianceDeductionDao dao = new ComplianceDeductionDaoImpl();
             dao.deleteCdrModel(cdrModelSId);
-        } catch (SystemException ex) {
-            LOGGER.error("",ex);
-        } catch (PortalException ex) {
-            LOGGER.error("",ex);
+        } catch (SystemException | PortalException ex) {
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -449,8 +430,7 @@ public class CDRLogic {
     public static int getCount(List<Object[]> list) {
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            return obj == null ? 0 : (Integer) obj;
         }
         return 0;
     }

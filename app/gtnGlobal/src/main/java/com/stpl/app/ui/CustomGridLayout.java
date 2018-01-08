@@ -42,7 +42,7 @@ public class CustomGridLayout extends GridLayout {
             this.addComponent(fieldComponent);
         }
         } catch(Exception e){
-        LOGGER.error("",e);
+        LOGGER.error(e.getMessage());
         }
     }
 
@@ -64,8 +64,8 @@ public class CustomGridLayout extends GridLayout {
             this.addComponent(labelComponent, columnLabel, rowLabel);
             this.addComponent(fieldComponent, columnField, rowField);
         }
-            } catch (Exception e) {
-            LOGGER.error("",e);
+            } catch (OutOfBoundsException | OverlapsException e) {
+            LOGGER.error(e.getMessage());
         }
     }
 

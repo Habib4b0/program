@@ -1,7 +1,6 @@
 
 package com.stpl.app.global.abstractsearch.util;
 
-// TODO: Auto-generated Javadoc
 
 import com.stpl.app.util.ConstantsUtils;
 
@@ -9,6 +8,13 @@ import com.stpl.app.util.ConstantsUtils;
  * The Class UIUtils.
  */
 public final class UIUtils {
+
+    /**
+     * @return the WITHOUT_IDEN_SEARCH
+     */
+    public static Object[] getWithoutIdenSearch() {
+        return WITHOUT_IDEN_SEARCH.clone();
+    }
     
      /** The ALL list type. */
 	public static final String DEDUCTION_CALENDAR_CATEGORY = "DEDUCTION_CALENDAR_CATEGORY";
@@ -210,11 +216,11 @@ public final class UIUtils {
     
     public static final String NS_FORMULA_TYPE= "NS_FORMULA_TYPE";
     
-    public static String DEDUCTION_TYPE="RS_TYPE";
+    public static final String DEDUCTION_TYPE="RS_TYPE";
     
-    public static String DEDUCTION_SUB_TYPE="REBATE_PROGRAM_TYPE";
+    public static final String DEDUCTION_SUB_TYPE="REBATE_PROGRAM_TYPE";
     
-    public static String DEDUCTION_CATEGORY="RS_CATEGORY";
+    public static final String DEDUCTION_CATEGORY="RS_CATEGORY";
     
     public static final String LINE_TYPE = "LINE_TYPE";
     
@@ -222,15 +228,15 @@ public final class UIUtils {
     
     public static final String KEYWORD= "KEYWORD";
     
-    public static String OPERATOR="OPERATOR";
+    public static final String OPERATOR="OPERATOR";
     
-    public static String COMPARISON="COMPARISON";
+    public static final String COMPARISON="COMPARISON";
     
-    public static String LOGICAL_OPERATOR="LOGICAL_OPERATOR";
+    public static final String LOGICAL_OPERATOR="LOGICAL_OPERATOR";
     
 	/** The Constant WITHOUT_IDEN_SEARCH. */
 
-public static final Object[] WITHOUT_IDEN_SEARCH = new Object[] { ConstantsUtils.SYSTEM_ID, ConstantsUtils.ITEM_ID,
+private static final Object[] WITHOUT_IDEN_SEARCH = new Object[] { ConstantsUtils.SYSTEM_ID, ConstantsUtils.ITEM_ID,
 			ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAME, ConstantsUtils.ITEM_DESC, ConstantsUtils.ITEM_STATUS, ConstantsUtils.ITEM_TYPE,ConstantsUtils.THERAPEUTIC_CLASS,
 			ConstantsUtils.BRAND, ConstantsUtils.NDC9, ConstantsUtils.NDC8, ConstantsUtils.FORM, ConstantsUtils.STRENGTH
 			 };

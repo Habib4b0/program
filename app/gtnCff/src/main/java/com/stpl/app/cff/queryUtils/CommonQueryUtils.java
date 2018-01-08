@@ -53,7 +53,7 @@ public class CommonQueryUtils {
         if (queryName != null && !queryName.isEmpty()) {
             try {
                 sql = new StringBuilder(SQlUtil.getQuery(queryName));
-                if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) { 
+                if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
                     sql.append(" ");
                     sql.append(SQlUtil.getQuery(quaryName2));
                 }
@@ -109,7 +109,7 @@ public class CommonQueryUtils {
         }
         return sql.toString();
     }
-    
+
     public static StringBuilder getSqlQuery(List input, String queryName) {
         StringBuilder sql = null;
         try {
@@ -124,16 +124,15 @@ public class CommonQueryUtils {
         }
         return sql;
     }
-    
+
     public static String getAppDataQuery(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside item get data");
-        List list = new ArrayList();
         StringBuilder sql = null;
         LOGGER.debug("queryName - - >> " + queryName);
         if (queryName != null && !queryName.isEmpty()) {
             try {
                 sql = new StringBuilder(SQlUtil.getQuery(queryName));
-                if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) { 
+                if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
                     sql.append(" ");
                     sql.append(SQlUtil.getQuery(quaryName2));
                 }

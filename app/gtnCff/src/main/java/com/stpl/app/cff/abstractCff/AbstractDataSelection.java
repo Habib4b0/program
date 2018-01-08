@@ -736,7 +736,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 					resetOne();
 					resetButtonLogic();
 				} catch (Exception ex) {
-					LOGGER.error(ex);
+					LOGGER.error("",ex);
 				}
 			}
 		}.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default values?");

@@ -52,7 +52,7 @@ public class StplSecurity {
     private static final Logger LOGGER = LoggerFactory.getLogger(StplSecurity.class);
    
    /** The dao. */
-  final private StplSecurityDAO dao = new StplSecurityDAOImpl();
+        private final StplSecurityDAO dao = new StplSecurityDAOImpl();
 	 
  	/** The domain ids1. */
  	private static final List<String> DOMAINIDS1 = null;
@@ -144,8 +144,8 @@ public StplSecurityDAO getDto() {
             	 domainIds=DOMAINIDS1;
             }
 
-        } catch (Exception e) {
-            LOGGER.error("",e);
+        } catch (SystemException e) {
+            LOGGER.error(e.getMessage());
         }
 
         return domainIds;

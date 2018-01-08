@@ -1,3 +1,4 @@
+
 package com.stpl.app.util;
 
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -135,7 +136,7 @@ public class HelperDTO implements Serializable, Comparable<HelperDTO> {
                     + ((description == null) ? 0 : description.hashCode());
             result = NumericConstants.THIRTY_ONE * result + systemId;
         } catch (Exception e) {
-            LOGGER.error("",e);
+            LOGGER.error(e.getMessage());
         }
         return result;
     }
@@ -170,7 +171,7 @@ public class HelperDTO implements Serializable, Comparable<HelperDTO> {
                 return false;
             }
         } catch (Exception e) {
-            LOGGER.error("",e);
+            LOGGER.error(e.getMessage());
         }
         return true;
     }

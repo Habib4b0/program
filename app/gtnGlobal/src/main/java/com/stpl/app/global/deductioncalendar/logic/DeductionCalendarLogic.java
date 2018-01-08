@@ -69,10 +69,9 @@ public class DeductionCalendarLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeductionCalendarLogic.class);
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
-    static HashMap<String, String> criteria = new HashMap<String, String>();
-    NotesTabLogic notesLogic = new NotesTabLogic();
-    final static CommonDao DAO = CommonDaoImpl.getInstance();
-    static int itemQualifierNameCount = 0;
+    private final NotesTabLogic notesLogic = new NotesTabLogic();
+    public static final CommonDao DAO = CommonDaoImpl.getInstance();
+    private static int itemQualifierNameCount = 0;
 
     public static CustomTableHeaderDTO getCalculatedSalesAllocationRight(CustomTableHeaderDTO fullHeaderDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
@@ -143,10 +142,8 @@ public class DeductionCalendarLogic {
             sessionDTO.setSystemId(result.getDeductionCalendarMasterSid());
             sessionDTO.setAdditionalNotes(deductionCalendarMaster.getAdditionalNotes());
             return ConstantsUtils.SUCCESS;
-        } catch (SystemException ex) {
-            LOGGER.error("",ex);
-        } catch (PortalException ex) {
-            LOGGER.error("",ex);
+        } catch (SystemException | PortalException ex) {
+            LOGGER.error(ex.getMessage());
         }
         return ConstantsUtils.FAIL;
     }
@@ -218,7 +215,7 @@ public class DeductionCalendarLogic {
                     Compare stringFilter = (Compare) filter;
                         Compare.Operation operation = stringFilter.getOperation();
                         Date value = (Date) stringFilter.getValue();
-                        if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                        if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
                             filterCriteria.put(String.valueOf(stringFilter.getPropertyId()) + ConstantsUtils.START, format.format(value));
                         } else {
                             filterCriteria.put(String.valueOf(stringFilter.getPropertyId()) + ConstantsUtils.END, format.format(value));
@@ -258,14 +255,10 @@ public class DeductionCalendarLogic {
         List resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
 
         if (isCount) {
-            int count = (Integer) resultList.get(0);
-            return count;
+            return (Integer) resultList.get(0);
         } else {
-
             return getCustomizedDeductionResults(resultList);
-
         }
-
     }
 
     public String getDeductionCalendarQuery(Map<String, String> searchCriteria, int start, int offset, String column, String orderBy, Map<String, Object> parameters, boolean isCount) {
@@ -422,8 +415,8 @@ public class DeductionCalendarLogic {
                 }
            
             return resultList;
-        } catch (Exception ex) {
-            LOGGER.error("",ex);
+        } catch (SystemException | NumberFormatException ex) {
+            LOGGER.error(ex.getMessage());
             return resultList;
         }
     }
@@ -496,16 +489,15 @@ public class DeductionCalendarLogic {
             dto.setInternalNotes(deductionCalendarMaster.getAdditionalNotes());
             dto.setMasterTableSid(masterSid);
             return dto;
-        } catch (Exception ex) {
-            LOGGER.error("",ex);
+        } catch (PortalException | SystemException ex) {
+            LOGGER.error(ex.getMessage());
             return null;
         }
     }
 
     public String parseDateLogic(Object object) {
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        String date = formatter.format(object);
-        return date;
+        return formatter.format(object);
     }
 
     public void saveDeductionDetails(SessionDTO sessionDTO) {
@@ -526,7 +518,7 @@ public class DeductionCalendarLogic {
             LOGGER.debug("getDeductionCalendarByIdForCopy ends");
             return dto;
         } catch (PortalException | SystemException ex) {
-            LOGGER.error("",ex);
+            LOGGER.error(ex.getMessage());
             return dto;
         }
     }
