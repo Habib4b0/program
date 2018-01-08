@@ -104,7 +104,7 @@ public class CommonUtils {
      * @return String - The description for the specific listtype id
      */
     public static final CommonUtils commonUtils = new CommonUtils();
-    final static CommonDao DAO = CommonDaoImpl.getInstance();
+    public static final CommonDao DAO = CommonDaoImpl.getInstance();
         
     /**
      * To get the combo box select.

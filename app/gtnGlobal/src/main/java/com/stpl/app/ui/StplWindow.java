@@ -2,7 +2,6 @@ package com.stpl.app.ui;
 
 import com.vaadin.ui.Window;
 
-// TODO: Auto-generated Javadoc
 /**
  * Customized window  component.
  * @author

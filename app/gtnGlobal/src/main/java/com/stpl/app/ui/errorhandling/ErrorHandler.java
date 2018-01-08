@@ -8,7 +8,6 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.Label;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class contains method to handle the error from UOI component.
  *
@@ -43,6 +42,7 @@ public class ErrorHandler extends DefaultErrorHandler {
      *
      * @param event the event
      */
+    @Override
     public void error(final ErrorEvent event) {
         try{
       

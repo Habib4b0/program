@@ -25,6 +25,7 @@ import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.data.util.converter.Converter;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
@@ -121,7 +122,7 @@ public class DeductionDetails extends CustomComponent {
     @UiField("adjustment")
     private TextField adjustment;
 
-    private Button refreshBtn = new Button("REFRESH");
+    private final Button refreshBtn = new Button("REFRESH");
 
     @UiField("adjustBtn")
     private Button adjustBtn;
@@ -134,65 +135,62 @@ public class DeductionDetails extends CustomComponent {
 
     protected CustomTableHeaderDTO leftHeader = null;
     protected CustomTableHeaderDTO rightHeader = null;
-    DeductionDetailsLogic logic = new DeductionDetailsLogic();
+    private final DeductionDetailsLogic logic = new DeductionDetailsLogic();
     protected CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    DeductionTableLogic tableLogic = new DeductionTableLogic();
+    private final DeductionTableLogic tableLogic = new DeductionTableLogic();
     protected FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
-    DeductionDetailsDTO detailsDto = new DeductionDetailsDTO();
-    TableDTO tableDTO = new TableDTO();
-    ExtPagedTreeTable leftTable;
-    ExtPagedTreeTable rightTable;
-    SimpleDateFormat sdf = new SimpleDateFormat(ConstantsUtils.YMD_FORMAT1);
+    private DeductionDetailsDTO detailsDto = new DeductionDetailsDTO();
+    private final TableDTO tableDTO = new TableDTO();
+    private ExtPagedTreeTable leftTable;
+    private ExtPagedTreeTable rightTable;
+    private final SimpleDateFormat sdf = new SimpleDateFormat(ConstantsUtils.YMD_FORMAT1);
 
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-    Set<String> childLevelSet = new HashSet<>();
+    private final Set<String> childLevelSet = new HashSet<>();
 
-    Set<String> refreshSet = new HashSet<>();
+    private final Set<String> refreshSet = new HashSet<>();
 
-    boolean refreshFlag = false;
+  
+    private boolean checkAll = false;
 
-    boolean checkAll = false;
-
-    List<Object> checkBoxList = new ArrayList();
+    private final List<Object> checkBoxList = new ArrayList();
     /**
      * The max split position.
      */
-    private final float maxSplitPosition = 1000;
+    private static final float MAX_SPLIT_POS = 1000;
 
     /**
      * The min split position.
      */
-    private final float minSplitPosition = 200;
+    private static final float MIN_SPLIT_POS = 200;
 
     /**
      * The split position.
      */
-    private final float splitPosition = 300;
+    private static final float SPLIT_POS = 300;
     @UiField("tableVerticalLayout")
-    public VerticalLayout tableVerticalLayout;
+    private  VerticalLayout tableVerticalLayout;
     /**
      * The table control Layout.
      */
-    public HorizontalLayout controlLayout;
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class, ExtContainer.DataStructureMode.MAP);
-    HeaderUtils headerUtils = new HeaderUtils();
+    private  HorizontalLayout controlLayout;
+    private final ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class, ExtContainer.DataStructureMode.MAP);
 
-    DecimalFormat DEC_FORMAT = new DecimalFormat("###0.00");
+    private final DecimalFormat DEC_FORMAT = new DecimalFormat("###0.00");
 
-    String oldValue;
+    private String oldValue;
 
-    SessionDTO sessionDTO;
+    private final SessionDTO sessionDTO;
 
     private String generatedView;
 
     private String filterValue;
-    String mode;
-    DataFormatConverter DEC_TWO = new DataFormatConverter("##0.00", true);
+    private final DataFormatConverter DEC_TWO = new DataFormatConverter("##0.00", true);
+
 
     public DeductionDetails(final SessionDTO sessionDTO) {
         this.sessionDTO = sessionDTO;
-        this.mode = this.sessionDTO.getMode();
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/declarativeui/deduction_calendar/deductionDetails.xml"), this));
         init();
         detailsDto.setUserId(sessionDTO.getUserId());
@@ -211,9 +209,7 @@ public class DeductionDetails extends CustomComponent {
             final String userId = sessionDTO.getUserId();
             final Map<String, AppPermission> functionDCHM = stplSecurity.getBusinessFunctionPermission(userId, ConstantsUtils.DEDUCTION_CALENDAR + ConstantsUtils.COMMA + ConstantsUtils.DEDUCTION_DETAILS);
             getButtonPermission(functionDCHM);
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(DeductionDetails.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(DeductionDetails.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -317,6 +313,7 @@ public class DeductionDetails extends CustomComponent {
             massUpdate.addItem("Disable");
             massUpdate.select("Disable");
             massUpdate.addListener(new Property.ValueChangeListener() {
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
 
                     if (ConstantsUtils.ENABLE.equals(massUpdate.getValue())) {
@@ -380,7 +377,7 @@ public class DeductionDetails extends CustomComponent {
             configureResultTable();
             initialMassUpdateLoad();
 
-        } catch (Exception e) {
+        } catch (Property.ReadOnlyException | Converter.ConversionException | UnsupportedOperationException | ParseException e) {
             LOGGER.error(e);
         }
     }
@@ -393,9 +390,9 @@ public class DeductionDetails extends CustomComponent {
         resultsTable.markAsDirty();
         resultsTable.setSelectable(false);
         resultsTable.setImmediate(true);
-        resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
-        resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
+        resultsTable.setSplitPosition(SPLIT_POS, Sizeable.Unit.PIXELS);
+        resultsTable.setMinSplitPosition(MIN_SPLIT_POS, Sizeable.Unit.PIXELS);
+        resultsTable.setMaxSplitPosition(MAX_SPLIT_POS, Sizeable.Unit.PIXELS);
         resultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         resultsTable.addStyleName("table-header-center");
     }
@@ -404,8 +401,8 @@ public class DeductionDetails extends CustomComponent {
         tableLogic.setPageLength(NumericConstants.TEN);
         fullHeader = new CustomTableHeaderDTO();
         detailsDto.setFrequency(frequencyDdlb.getValue() == null ? ConstantsUtils.QUARTERLY : String.valueOf(frequencyDdlb.getValue()));
-        leftHeader = headerUtils.getLeftDeductionDetailsHeader(fullHeader);
-        rightHeader = headerUtils.getRightDeductionDetailsHeader(fullHeader, detailsDto);
+        leftHeader = HeaderUtils.getLeftDeductionDetailsHeader(fullHeader);
+        rightHeader = HeaderUtils.getRightDeductionDetailsHeader(fullHeader, detailsDto);
         resultBeanContainer.setColumnProperties(leftHeader.getProperties());
         resultBeanContainer.setColumnProperties(rightHeader.getProperties());
         tableLogic.setTableDTO(tableDTO);
@@ -479,6 +476,7 @@ public class DeductionDetails extends CustomComponent {
                     }
                     checkBox.setImmediate(true);
                     checkBox.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             boolean check = checkBox.getValue();
                             int updatedRecordsNo = 0;
@@ -514,6 +512,7 @@ public class DeductionDetails extends CustomComponent {
              */
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 checkAll = event.isChecked();
                 logic.checkTempTable(checkAll, sessionDTO);
@@ -548,6 +547,7 @@ public class DeductionDetails extends CustomComponent {
     private void configureFieldsForRightTables(final ExtPagedTreeTable rightTable) {
         rightTable.setEditable(true);
         rightTable.setTableFieldFactory(new TableFieldFactory() {
+            @Override
             public Field<?> createField(Container container, final Object itemId, final Object propertyId, Component uiContext) {
                 if (!"Total".equalsIgnoreCase(getBeanFromId(itemId).getGroup())) {
                     final TextField textField = new TextField();
@@ -567,14 +567,15 @@ public class DeductionDetails extends CustomComponent {
                     });
                     textField.addBlurListener(new FieldEvents.BlurListener() {
 
+                        @Override
                         public void blur(FieldEvents.BlurEvent event) {
                             try {
                                 String currentLevel = tableLogic.getTreeLevelonCurrentPage(itemId) + "~" + propertyId;
                                 if (refreshSet.isEmpty() || !refreshSet.contains(currentLevel)) {
-                                    String value = String.valueOf(((TextField) event.getComponent()).getValue());
+                                    String val = String.valueOf(((TextField) event.getComponent()).getValue());
                                     String getData = String.valueOf(((TextField) event.getComponent()).getData());
-                                    logic.UpdateTempTable(detailsDto, value, getData, getBeanFromId(itemId), sessionDTO);
-                                    getBeanFromId(itemId).addStringProperties(propertyId, DEC_FORMAT.format(Double.valueOf(value)));
+                                    logic.updateTempTable(detailsDto, val, getData, getBeanFromId(itemId), sessionDTO);
+                                    getBeanFromId(itemId).addStringProperties(propertyId, DEC_FORMAT.format(Double.valueOf(val)));
                                     setRefreshSet(itemId, propertyId);
                                 } else {
                                     MessageBox.showPlain(Icon.ERROR, "Refresh", "Please click refresh button", new MessageBoxListener() {
@@ -587,7 +588,7 @@ public class DeductionDetails extends CustomComponent {
                                         }
                                     }, ButtonId.OK);
                                 }
-                            } catch (Exception ex) {
+                            } catch (NumberFormatException ex) {
                                 LOGGER.error(ex);
                             }
                         }
@@ -696,7 +697,7 @@ public class DeductionDetails extends CustomComponent {
                     }
                     loadStartAndEndPeriodDDLB();
                     generateLogic();
-                } catch (Exception ex) {
+                } catch (ParseException ex) {
                     LOGGER.error(ex);
                 }
             }
@@ -781,6 +782,7 @@ public class DeductionDetails extends CustomComponent {
 
     private void populateButton() {
         populate.addClickListener(new ClickListener() {
+            @Override
             public void buttonClick(ClickEvent event) {
                 try {
                     String query = "";
@@ -805,7 +807,7 @@ public class DeductionDetails extends CustomComponent {
                             AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Start period cannot be greater than end period");
                         } else if (refreshSet.isEmpty()) {
                             String updateValue = value.getValue();
-                            String sqlID = StringUtils.EMPTY;
+                            String sqlID;
                             String selectedSID = StringUtils.isNotBlank(filterValue) && !ConstantsUtils.NULL.equalsIgnoreCase(filterValue)
                                     ? (ConstantsUtils.CUSTOMER.equalsIgnoreCase(generatedView) ? " AND CD.Company_master_sid=" + filterValue : " AND CD.item_master_sid=" + filterValue)
                                     : StringUtils.EMPTY;
@@ -819,6 +821,9 @@ public class DeductionDetails extends CustomComponent {
                                 case ConstantsUtils.PRODUCT:
                                     sqlID = "mass-populate-item";
                                     break;
+                                default: 
+                                    sqlID = StringUtils.EMPTY;
+
 
                             }
                             boolean isCheck = logic.isCheckedDetails(sessionDTO, generatedView, StringUtils.isNotBlank(filterValue) && !ConstantsUtils.NULL.equalsIgnoreCase(filterValue) ? filterValue : "");
@@ -842,7 +847,7 @@ public class DeductionDetails extends CustomComponent {
                             AbstractNotificationUtils.getErrorNotification("Refresh", "Please click refresh button");
                         }
                     }
-                } catch (Exception ex) {
+                } catch (NumberFormatException ex) {
                     LOGGER.error(ex);
                 }
             }
@@ -1031,6 +1036,7 @@ public class DeductionDetails extends CustomComponent {
              * @param buttonId The buttonId of the pressed button.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals("OK")) {
                     try {
