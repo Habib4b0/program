@@ -455,7 +455,7 @@ public class Leveldto implements Cloneable, Comparable<Leveldto> {
 	public static List<Object> getBeanByLevelNo(List<Leveldto> selectedCustomerContractList, int i) {
 		List<Object> finalList = new ArrayList<>();
 		List<Leveldto> levelBeanList = new ArrayList<>();
-		List<String> sidList = new ArrayList<>();
+		Set<String> sidList = new HashSet<>();
 		for (Leveldto leveldto : selectedCustomerContractList) {
 			if (i == leveldto.getLevelNo() && !"User Defined".equals(leveldto.getLevelValueReference())) {
 				levelBeanList.add(leveldto);

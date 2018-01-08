@@ -1725,7 +1725,7 @@ public class SalesLogic {
         } else {
             CommonLogic commonLogic = new CommonLogic();
 
-            String hierarchyInserQuery = SQlUtil.getQuery("selected-hierarchy-no");
+            String hierarchyInserQuery = SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
 
             String hiearchyIndicator = salesDTO.getHierarchyIndicator();
@@ -2147,7 +2147,7 @@ public class SalesLogic {
             }
 
             CommonLogic commonLogic = new CommonLogic();
-            String hierarchyInserQuery =  projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-custom-view") : SQlUtil.getQuery("selected-hierarchy-no");
+            String hierarchyInserQuery =  projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-custom-view") : SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_CUSTOMERPARENT,salesDTO.getSecHierarchyNo()); 
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_PRODUCTPARENT, salesDTO.getHierarchyNo()); 

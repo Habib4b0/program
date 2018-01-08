@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.module.companymaster.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
+import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnWsCMasterQualifierBean;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -48,6 +49,9 @@ public class GtnWsCMasterAddQualifier {
 
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
+	
+	@Autowired
+	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	public org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -147,13 +151,12 @@ public class GtnWsCMasterAddQualifier {
 	public GtnUIFrameworkWebserviceResponse deleteCmpnyQualifier(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest, GtnUIFrameworkWebserviceResponse gtnResponse) {
 		logger.info("Entering DeleteCmpnyQualifier");
-		Object[] saveData = { gtnWsRequest.getGtnCMasterRequest().getGtnCMasterQualifierBean().getUserId(), new Date(),
-				gtnWsRequest.getGtnCMasterRequest().getGtnCMasterQualifierBean().getCompanyQualifierSid() };
-		GtnFrameworkDataType[] saveDataHeader = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.DATE,
-				GtnFrameworkDataType.INTEGER };
+		int countUpdate = 0;
+		List<Object> qualifierIdCriteria = new ArrayList<>();
+		qualifierIdCriteria.add(gtnWsRequest.getGtnCMasterRequest().getGtnCMasterQualifierBean().getUserId());
+		qualifierIdCriteria.add(gtnWsRequest.getGtnCMasterRequest().getGtnCMasterQualifierBean().getCompanyQualifierSid());
 		try {
-			String insertQuery = gtnWsSqlService.getQuery(" getCompanyQualifierDeleteQuery");
-			gtnGeneralServiceController.executeUpdateQuery(insertQuery, saveData, saveDataHeader);
+			countUpdate=gtnSqlQueryEngine.executeInsertOrUpdateQuery(gtnWsSqlService.getQuery(qualifierIdCriteria,"getCompanyQualifierDeleteQuery"));
 		} catch (GtnFrameworkGeneralException ex) {
 			logger.error("Exception in executig query-", ex);
 			gtnResponse.getGtnWsGeneralResponse().setSucess(false);
@@ -161,7 +164,10 @@ public class GtnWsCMasterAddQualifier {
 		} finally {
 			logger.info("Exit DeleteCmpnyQualifier");
 		}
+		if(countUpdate>0)
+		{
 		gtnResponse.getGtnWsGeneralResponse().setSucess(true);
+		}
 		return gtnResponse;
 	}
 
