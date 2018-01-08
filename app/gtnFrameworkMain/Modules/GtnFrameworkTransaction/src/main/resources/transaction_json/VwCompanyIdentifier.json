@@ -10,7 +10,7 @@
 "moduleDetails":[
 	{
 		"columnID": "checkRecord",
-		"columnName": " ",
+		"columnName": "      ",
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"componentType": "boolean",

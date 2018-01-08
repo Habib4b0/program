@@ -1,6 +1,5 @@
 package com.stpl.app.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.logging.Logger;
@@ -13,8 +12,8 @@ import com.stpl.app.util.ConstantsUtils;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.stpl.portal.kernel.exception.SystemException;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class contains methods to modify the Helper Table.
  *
@@ -23,7 +22,7 @@ import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 public final class UDCIncrementCheck {
 
     /** The dao. */
-    private static UDCIncrementalCheckDAO dao = new UDCIncrementalCheckDAOImpl();
+    private static final UDCIncrementalCheckDAO dao = new UDCIncrementalCheckDAOImpl();
     
     /** The Constant LOGGER. */
     private static final Logger LOGGER = Logger.getLogger(UDCIncrementCheck.class);
@@ -65,7 +64,7 @@ public final class UDCIncrementCheck {
             
             LOGGER.debug(" Ends increment  ::::  Update Sccess ");
 
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
 
@@ -102,7 +101,7 @@ public final class UDCIncrementCheck {
                 dao.updateHelperTable(helper);
             }
           LOGGER.debug(" Ends decrement  ::::  Update Sccess ");
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
               LOGGER.error(ex);
         }
 
@@ -139,7 +138,7 @@ public final class UDCIncrementCheck {
             
             LOGGER.debug(" Ends increment  ::::  Update Sccess ");
 
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
               LOGGER.error(ex);
         }
 
@@ -176,7 +175,7 @@ public final class UDCIncrementCheck {
                 dao.updateHelperTable(helper);
             }
           LOGGER.debug(" Ends decrement  ::::  Update Sccess ");
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
               LOGGER.error(ex);
         }
 

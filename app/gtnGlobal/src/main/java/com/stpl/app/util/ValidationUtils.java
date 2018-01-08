@@ -1,6 +1,5 @@
 package com.stpl.app.util;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class contains String constants used for validation.
  *
@@ -87,17 +86,17 @@ public final class ValidationUtils {
     public static final String SEARCH_CHAR_VALID = "([0-9|a-z|A-Z|\\_|\\$|\\.|\\*|\\s])*";
     
     /** The special character. */
-    public static String specialCharacter = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*";
+    public static final String SPECIAL_CHARACTER = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*";
     
     /** The special character message. */
-    public static String specialCharacterMessage = "Allowed Special characters are @,#,.,%,$,&,_,-,(,),/,!";
+    public static final String SPECIAL_CHARACTER_MESSAGE = "Allowed Special characters are @,#,.,%,$,&,_,-,(,),/,!";
     
-    public static String alphaNumericChars = "([0-9|a-z|A-Z|\\ |\\*])*";
+    public static final String ALPHA_NUMERIC_CHAR = "([0-9|a-z|A-Z|\\ |\\*])*";
     
-    public static String alphaNumericCharsMessage = "Special Characters are not allowed in ";
+    public static final String ALPHA_NUMERIC_CHARAC_MSG = "Special Characters are not allowed in ";
     
     public static final String REBATE_SCHEDULE_AMT = "(^[0-9]{1,22}+(\\.[0-9]{1,6}+)?$)";   
-    public static String DATE_VALIDATION = "^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$";
+    public static final String DATE_VALIDATION = "^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$";
     
     public static final String REBATE_SCHEDULE_AMT_DOUBLE = "(^[0-9]{1,45}+(\\.[0-9]{1,6}+)?$)";
     

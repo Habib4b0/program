@@ -33,6 +33,7 @@ import com.stpl.ifs.util.GtnFileUtil;
 import com.stpl.ifs.util.TableResultCustom;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
+import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.event.ItemClickEvent;
@@ -61,7 +62,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	private final String dbModuleName;
 	private final ErrorfulFieldGroup binder;
 	private final String moduleName;
-	final String userId;
+	private final String userId;
 	private final String userName;
 	private final NotesTabLogic logic = new NotesTabLogic();
 	private NotesDTO tableBean = new NotesDTO();
@@ -70,8 +71,8 @@ public class NotesTabForm extends AbstractNotesTab {
 	protected final boolean isAddMode;
 	protected final boolean isEditMode;
 	protected final boolean isViewMode;
-	CommonUIUtils commonUiUtil = new CommonUIUtils();
-	CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+	private final CommonUIUtils commonUiUtil = new CommonUIUtils();
+	private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
 
 	public NotesTabForm(ErrorfulFieldGroup binder, String moduleName, String dbModuleName, String masterTableSid,
 			String mode) throws SystemException, PortalException {
@@ -87,15 +88,15 @@ public class NotesTabForm extends AbstractNotesTab {
 		this.isEditMode = "Edit".equalsIgnoreCase(mode);
 		this.isViewMode = "View".equalsIgnoreCase(mode);
 		final StplSecurity stplSecurity = new StplSecurity();
-		final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
-		final Map<String, AppPermission> fieldNotesHM = stplSecurity.getFieldOrColumnPermission(userId,
+		final String vUserId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
+		final Map<String, AppPermission> fieldNotesHM = stplSecurity.getFieldOrColumnPermission(vUserId,
 				moduleName + "," + ConstantsUtils.NOTES, false);
 
-		final Map<String, AppPermission> functionNotesHM = stplSecurity.getBusinessFunctionPermission(userId,
+		final Map<String, AppPermission> functionNotesHM = stplSecurity.getBusinessFunctionPermission(vUserId,
 				moduleName + "," + ConstantsUtils.NOTES);
 		getNotesTab(fieldNotesHM, functionNotesHM);
 
-		final Map<String, AppPermission> fieldNotesTableHM = stplSecurity.getFieldOrColumnPermission(userId,
+		final Map<String, AppPermission> fieldNotesTableHM = stplSecurity.getFieldOrColumnPermission(vUserId,
 				moduleName + "," + ConstantsUtils.NOTES, false);
 		List<Object> resultList = commonUiUtil.getFieldsForSecurity(moduleName, ConstantsUtils.NOTES);
 		Object[] obj = new Object[] { "documentName", "dateAdded", "userName" };
@@ -114,7 +115,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				tableLayout.setVisible(false);
 			}
 		}
-		LOGGER.debug("userid :" + userId + " Username : " + userName);
+		LOGGER.debug("userid :" + vUserId + " Username : " + userName);
 		if (isViewMode) {
 			removeAndDisablingComponents();
 		}
@@ -206,7 +207,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				uploader.setValue(StringUtils.EMPTY);
 				fileNameField.setValue(StringUtils.EMPTY);
 			}
-		} catch (Exception ex) {
+		} catch (Property.ReadOnlyException | NumberFormatException ex) {
 			LOGGER.error(ex);
 		}
 
@@ -244,7 +245,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				AbstractNotificationUtils.getErrorNotification("No File Name", "Please Enter a valid File Name");
 				uploader.setValue("");
 			}
-		} catch (Exception ex) {
+		} catch (Property.ReadOnlyException ex) {
 			LOGGER.error(ex);
 		}
 
