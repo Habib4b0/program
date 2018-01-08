@@ -3,7 +3,6 @@ package com.stpl.app.ui.errorhandling;
 import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class contains methods to Display/Clear error message.
  * @author
@@ -36,6 +35,7 @@ public class ErrorfulFieldGroup extends FieldGroup {
      *
      * @throws CommitException the commit exception
      */    
+    @Override
     public void commit() throws CommitException {
         try {
             super.commit();

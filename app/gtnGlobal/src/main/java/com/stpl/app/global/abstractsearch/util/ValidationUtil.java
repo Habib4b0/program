@@ -18,9 +18,9 @@ public class ValidationUtil {
     /**
      * The resouce bundle.
      */
-    public static ResourceBundle resouceBundle = ResourceBundle.getBundle("properties.validation");
+    public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("properties.validation");
     
-    public static ResourceBundle label = ResourceBundle.getBundle("properties.labelname");
+    public static final ResourceBundle LABEL = ResourceBundle.getBundle("properties.labelname");
 
     public static final String HYPHEN = " - ";
     
@@ -37,8 +37,8 @@ public class ValidationUtil {
      */
     public static String getMC(final String key) {
         try {
-            if (key !=null && resouceBundle.containsKey(key)) {
-                return resouceBundle.getString(key);
+            if (key !=null && RESOURCE_BUNDLE.containsKey(key)) {
+                return RESOURCE_BUNDLE.getString(key);
             }
             return "";
         } catch (MissingResourceException e) {
@@ -72,8 +72,8 @@ public class ValidationUtil {
 
     public static String getLC(final String key) {
         try {
-            if (key != null && label.containsKey(key)) {
-                return label.getString(key);
+            if (key != null && LABEL.containsKey(key)) {
+                return LABEL.getString(key);
             }
             return "";
         } catch (MissingResourceException e) {
