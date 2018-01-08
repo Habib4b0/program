@@ -1,6 +1,5 @@
 package com.stpl.app.util;
 
-// TODO: Auto-generated Javadoc
 
 import org.apache.commons.lang.StringUtils;
 

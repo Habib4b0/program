@@ -5,7 +5,6 @@
  */
 package com.stpl.app.global.deductioncalendar.ui.util;
 
-import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.deductioncalendar.dto.DeductionDetailsDTO;
 import com.stpl.app.global.deductioncalendar.dto.TableDTO;
 import com.stpl.app.util.ConstantsUtils;
@@ -27,8 +26,7 @@ public class QueryUtils {
      * @return
      */
     public String getForecastConfigQuery() {
-        String query = CustomSQLUtil.get("forecast-config");
-        return query;
+        return CustomSQLUtil.get("forecast-config");
     }
 
     /**
@@ -558,6 +556,8 @@ public class QueryUtils {
                 break;
             case "Monthly":
                 query = query.replace(ConstantsUtils.FREQ, CustomSQLUtil.get("monthlydisc"));
+                break;
+            default:
                 break;
         }
         return query;

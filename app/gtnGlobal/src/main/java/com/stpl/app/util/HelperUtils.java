@@ -3,7 +3,6 @@ package com.stpl.app.util;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class contains the constants and common utility method.
  *
