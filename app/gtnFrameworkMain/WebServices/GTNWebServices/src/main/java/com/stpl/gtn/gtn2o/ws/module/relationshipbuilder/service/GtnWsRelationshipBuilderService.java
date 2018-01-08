@@ -556,8 +556,7 @@ public class GtnWsRelationshipBuilderService {
 				List<Object[]> result = executeQuery(query, primaryKeyPositionList.toArray(), datatypes);
 
 				String nextPrimayKey = keyBean.getActualColumnName();
-				GtnUIFrameworkDataTable dataTable = setLevelValueBean(result, destinationHierarchyBean, nextPrimayKey,
-						modifiedHiddenList);
+				GtnUIFrameworkDataTable dataTable = setLevelValueBean(result, destinationHierarchyBean, nextPrimayKey);
 				serachResponse.setCount(dataTable.getDataTable().size());
 				serachResponse.setResultSet(dataTable);
 			}
@@ -1184,7 +1183,7 @@ public class GtnWsRelationshipBuilderService {
 	}
 
 	private GtnUIFrameworkDataTable setLevelValueBean(List<Object[]> result,
-			HierarchyLevelDefinitionBean destinationHierarchyBean, String nextPrimayKey, List<Integer> hiddenIdList) {
+			HierarchyLevelDefinitionBean destinationHierarchyBean, String nextPrimayKey) {
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		if (result != null && !result.isEmpty()) {
 			for (int i = 0; i < result.size(); i++) {
