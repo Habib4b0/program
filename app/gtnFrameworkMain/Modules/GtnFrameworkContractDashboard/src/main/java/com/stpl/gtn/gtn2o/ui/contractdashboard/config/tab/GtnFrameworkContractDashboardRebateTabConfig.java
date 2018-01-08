@@ -1704,7 +1704,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				Arrays.asList(GtnWsContractDashboardContants.CURRENT, GtnWsContractDashboardContants.HISTORY,
 						GtnWsContractDashboardContants.FUTURE, GtnWsContractDashboardContants.PENDING));
 		componentOptionConfig.setIsMultiSelect(true);
-		componentOptionConfig.setDefaultSelection(GtnWsContractDashboardContants.CURRENT);
+		componentOptionConfig.setDefaultSelection(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY);
 		componentConfig.setGtnUIFrameworkOptionGroupConfig(componentOptionConfig);
 
 		GtnUIFrameWorkActionConfig tableLoadActionConfig = new GtnUIFrameWorkActionConfig();
