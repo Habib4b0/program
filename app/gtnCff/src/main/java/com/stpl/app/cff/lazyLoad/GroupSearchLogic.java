@@ -25,7 +25,7 @@ public class GroupSearchLogic extends PageTableLogic{
     private String groupName;
     private String groupNo;
     private String groupIdentifier;
-    private DataSelectionLogic logic = new DataSelectionLogic();
+    private final DataSelectionLogic logic = new DataSelectionLogic();
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(GroupSearchLogic.class);
 
     @Override

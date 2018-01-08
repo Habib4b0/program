@@ -25,10 +25,10 @@ import org.jboss.logging.Logger;
  */
 public class FileSelectionTableGenerator extends DefaultFieldFactory {
 
-    private BeanItemContainer searchContainer;
+    private final BeanItemContainer searchContainer;
     private CustomTextField fileName;
-    private SessionDTO session;
-    private String businessUnit;
+    private final SessionDTO session;
+    private final String businessUnit;
     private static final Logger LOGGER = Logger.getLogger(FileSelectionTableGenerator.class);
 
     public FileSelectionTableGenerator(BeanItemContainer searchContainer,SessionDTO sessionDTO,String businessUnit ){
@@ -52,9 +52,9 @@ public class FileSelectionTableGenerator extends DefaultFieldFactory {
                 /**
                  * Method used for formulaNo
                  */
+                @Override
                 public void click(final CustomTextField.ClickEvent event) {
                     String fileType = String.valueOf(searchContainer.getContainerProperty(itemId, "fileType").getValue());
-                    String country = String.valueOf(searchContainer.getContainerProperty(itemId, "country").getValue());
 
                     try {
                         final FileManagementLookup lookUp = new FileManagementLookup(session, false, fileType, searchContainer, itemId,businessUnit);
@@ -69,6 +69,7 @@ public class FileSelectionTableGenerator extends DefaultFieldFactory {
                              * Executed by clicking Close .
                              *
                              */
+                            @Override
                             public void windowClose(final Window.CloseEvent e) {
                                 return;
                             }

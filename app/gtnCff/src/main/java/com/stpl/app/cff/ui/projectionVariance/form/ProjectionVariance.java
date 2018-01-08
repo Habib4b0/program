@@ -86,7 +86,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
     private boolean editFlag = false;
     private List<ComparisonLookupDTO> selectedList = new ArrayList<>();
-    private PVQueryUtils queryUtils = new PVQueryUtils();
+    private final PVQueryUtils queryUtils = new PVQueryUtils();
     
     public static final String SELECT_VARIABLES = "-Select Variables-";
     public static final String PROJECTION_VARIANCE = "Projection Variance";
@@ -103,10 +103,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private boolean firstGenerated = false;
     private List<Leveldto> currentHierarchy = new ArrayList<>();
     private Map<Integer, String> projectionMap = new HashMap<>();
-    public List<String> projNameList = new ArrayList<>();
-    public List<Integer> projIdList = new ArrayList<>();
-    private ProjectionVarianceLogic pvLogic = new ProjectionVarianceLogic();
-    public ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
+    private List<String> projNameList = new ArrayList<>();
+    private List<Integer> projIdList = new ArrayList<>();
+    private final ProjectionVarianceLogic pvLogic = new ProjectionVarianceLogic();
+    private ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainerDto = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
     private int tradingPartnerNo = 0;
     /**
      * The graph image.
@@ -114,7 +114,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private final Resource graphImage = new ThemeResource("../../icons/chart.png");
     private boolean isComparisonLookupOpened;
     private CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
-    public List<Integer> comparisonProjId = new ArrayList<>();
+    private List<Integer> comparisonProjId = new ArrayList<>();
 
     private final Map<String, List<ProjectionVarianceDTO>> resultMap = new HashMap();
     private final Map<String, Object> excelParentRecords = new HashMap();
@@ -129,7 +129,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private final PVExcelLogic excelLogic = new PVExcelLogic(resultMap, pvSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, parameterDto, discountMap, discountMapDetails);
 
 
-    private DataSelectionDTO dataSelectionDTO;
+    private final DataSelectionDTO dataSelectionDTO;
     private int columnSize = 0;
     public static final String ANULL = "null";
     public static final String DEDUCTION = "DEDUCTION";
@@ -141,7 +141,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
      
      public static final CommonLogic commonLogic = new CommonLogic();
 
-     private CommonUtils commonUtils = new CommonUtils();
+     private final CommonUtils commonUtils = new CommonUtils();
      
     public ProjectionVariance(SessionDTO sessionDTO, final DataSelectionDTO dataSelectionDTO) {
         super(sessionDTO);
@@ -153,7 +153,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         configureFields();
     }
     
-     private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
+     private final CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
             pvSelectionDTO.setDeductionLevelFilter((List) CommonLogic.getFilterValues(deductionFilterValues).get(SID));
@@ -164,7 +164,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
         }
     };
-       private CustomMenuBar.SubMenuCloseListener productlistener = new CustomMenuBar.SubMenuCloseListener() {
+       private final CustomMenuBar.SubMenuCloseListener productlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
             pvSelectionDTO.setProductLevelFilter((List) CommonLogic.getFilterValues(productFilterValues).get(SID));
@@ -174,7 +174,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         }
     };
         
-        private CustomMenuBar.SubMenuCloseListener customerlistener = new CustomMenuBar.SubMenuCloseListener() {
+        private final CustomMenuBar.SubMenuCloseListener customerlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
             pvSelectionDTO.setCustomerLevelFilter((List) CommonLogic.getFilterValues(customerFilterValues).get(SID));
@@ -379,14 +379,14 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             rightHeaderPeriod = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
             pvSelectionDTO.setRightHeaderPeriod(rightHeaderPeriod);
             alignRight();
-            resultBeanContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
-            resultBeanContainer.setColumnProperties(leftHeader.getProperties());
-            resultBeanContainer.setColumnProperties(rightHeader.getProperties());
+            resultBeanContainerDto = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
+            resultBeanContainerDto.setColumnProperties(leftHeader.getProperties());
+            resultBeanContainerDto.setColumnProperties(rightHeader.getProperties());
             tableLogic.setScreenName(screenName);
             tableLogic.sinkItemPerPageWithPageLength(false);
             List<Integer> pagelength = CommonLogic.getPageNumber();
             tableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
-            tableLogic.setContainerDataSource(resultBeanContainer);
+            tableLogic.setContainerDataSource(resultBeanContainerDto);
             tableLogic.setTreeNodeMultiClick(false);
             final ExtFilterTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
             final ExtFilterTreeTable rightTable = resultsTable.getRightFreezeAsTable();
@@ -883,6 +883,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     @Override
     protected void resetBtnLogic() {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -1072,9 +1073,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         int businessProcessType = 0;
         try {
             businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, getCommercialConstant());
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(ProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(ProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
         }
         DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastConfig.class);
@@ -1288,11 +1287,11 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             map.put("Comparison Basis", comparisonBasis.getValue() != null ? comparisonBasis.getValue().toString() : StringUtils.EMPTY);
             map.put(Constants.DISPLAY_FORMAT_SAVE, StringUtils.join(CommonUtils.getDisplayFormatSelectedValues(displayFormatValues), Constants.COMMA));
             map.put(Constants.CUSTOMER_LEVEL_DDLB, customerlevelDdlb.getValue());
-            map.put(Constants.CUSTOMER_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(customerFilterValues).get(SID), Constants.COMMA));
+            map.put(Constants.CUSTOMER_LEVEL_VALUE, StringUtils.join(CommonLogic.getFilterValues(customerFilterValues).get(SID), Constants.COMMA));
             map.put(Constants.PRODUCT_LEVEL_DDLB, productlevelDdlb.getValue());
-            map.put(Constants.PRODUCT_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(productFilterValues).get(SID), Constants.COMMA));
+            map.put(Constants.PRODUCT_LEVEL_VALUE, StringUtils.join(CommonLogic.getFilterValues(productFilterValues).get(SID), Constants.COMMA));
             map.put(Constants.DEDUCTION_LEVEL_DDLB, productlevelDdlb.getValue());
-            map.put(Constants.DEDUCTION_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(deductionFilterValues).get(SID), Constants.COMMA));
+            map.put(Constants.DEDUCTION_LEVEL_VALUE, StringUtils.join(CommonLogic.getFilterValues(deductionFilterValues).get(SID), Constants.COMMA));
             logic.saveNMPVSelection(map, sessionDTO.getProjectionId(), PROJECTION_VARIANCE);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -1859,7 +1858,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     
     
       private String getParentKeyforCustom(ProjectionVarianceDTO itemId, String key, String parentKey) {
-        String parentKeyCustom = parentKey;
+        String parentKeyCustom;
         if (itemId.getParentHierarchyNo() == null) {
             parentKeyCustom = key;
         } else {

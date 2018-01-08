@@ -10,7 +10,7 @@
 "moduleDetails":[
 	{
 		"columnID": "checkRecord",
-		"columnName": " ",
+		"columnName": "      ",
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"componentType": "boolean",
@@ -521,7 +521,7 @@
 		"isResultView": true,
 		"componentType": "text",
         "decimalFormatNeeded":true,
-		"pattern":"#0.000000"
+		"pattern":"$#0.000000"
 	},
 	{
 		"columnID": "baseCpiPeriod",
@@ -538,7 +538,7 @@
 		"isResultView": true,
 		"componentType": "text",
         "decimalFormatNeeded":true,
-		"pattern":"#0.000"
+		"pattern":"$#0.000"
 	},
 	{
 		"columnID": "addChgDelIndicator",

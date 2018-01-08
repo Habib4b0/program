@@ -25,12 +25,13 @@ public class PVCommonLogic {
 
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private static final String ZERO = "0";
-    private static final DecimalFormat RATE_PER = new DecimalFormat("#,##0.00");
-    private static final DecimalFormat RATE_PER_THREE = new DecimalFormat("#,##0.00");
+  private static final String PER_FORMAT = "#,##0.00";
+    private static final DecimalFormat RATE_PER = new DecimalFormat(PER_FORMAT);
+    private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(PER_FORMAT);
     private static final String CURRENT = "Current";
-    private static String ACCRUAL = "Accrual";
-    private static String ACTUAL = "Actual";
-    private static String accrualDASH = "-";
+    private static final String ACCRUAL = "Accrual";
+    private static final String ACTUAL = "Actual";
+    private static final String accrualDASH = "-";
     public static final Logger LOGGER = Logger.getLogger(PVCommonLogic.class);
 
     static void getPriorCommonCustomization(String variableCategory, PVSelectionDTO pvsdto, final Object[] row, ProjectionVarianceDTO projDTO, String column, int index, int priorIndex, final Boolean isPer, int columnCountTotal, DecimalFormat format) {
@@ -104,7 +105,6 @@ public class PVCommonLogic {
             value = getFormattedValue(format, value);
         } else {
             variance = String.valueOf(Double.valueOf(isNull(actualValue)) - Double.valueOf(isNull(priorVal)));
-            //value = getFormattedValue(format, variance);
             value = selectionDto.isConversionNeeded() ? CommonUtils.getConversionFormattedValue(selectionDto, variance, true) : getFormattedValue(format, variance);
 
         }
@@ -112,7 +112,7 @@ public class PVCommonLogic {
     }
 
     public static String getPerChange(String actualValue, String priorVal, DecimalFormat format) {
-        DecimalFormat formatter = new DecimalFormat("#,##0.00");
+        DecimalFormat formatter = new DecimalFormat(PER_FORMAT);
         Double val = Double.valueOf(isNull(actualValue));
         Double val1 = Double.valueOf(isNull(priorVal));
         String value;

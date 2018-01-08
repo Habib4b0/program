@@ -318,13 +318,13 @@ public class GtnWsRelationshipBuilderService {
 	}
 
 	public GtnUIFrameworkDataTable getUserDefinedLevelValues(GtnUIFrameworkWebserviceRequest gtnWsRequest,
-			List<String> modifiedHiddenIdList, int levelNo) throws GtnFrameworkGeneralException {
+			List<Integer> modifiedHiddenIdList, int levelNo) throws GtnFrameworkGeneralException {
 		GtnUIFrameworkDataTable datTableData = new GtnUIFrameworkDataTable();
 		List<HierarchyLevelValuesBean> heirarchyLevelValueBeanList = getHistHierarchyLevelDefinitionValuesByLevelNo(
 				gtnWsRequest, levelNo);
 		for (int i = 0; i < heirarchyLevelValueBeanList.size(); i++) {
 			final HierarchyLevelValuesBean valueBean = heirarchyLevelValueBeanList.get(i);
-			if (!modifiedHiddenIdList.contains(String.valueOf(valueBean.getHierarchyLevelValuesSid()))) {
+			if (!modifiedHiddenIdList.contains(valueBean.getHierarchyLevelValuesSid())) {
 				HierarchyLevelsBean levelValuesDTO = new HierarchyLevelsBean();
 				levelValuesDTO.setLevelValue(valueBean.getLevelValues());
 				levelValuesDTO.setHiddenId(String.valueOf(valueBean.getHierarchyLevelValuesSid()));
@@ -426,7 +426,7 @@ public class GtnWsRelationshipBuilderService {
 		if (hierarchyLevelDefinitionList == null || hierarchyLevelDefinitionList.isEmpty()) {
 			return searchResponse;
 		}
-		List<String> modifiedHiddenList = getModifiedHiddenIdList(gtnWsRequest);
+		List<Integer> modifiedHiddenList = getModifiedHiddenIdList(gtnWsRequest);
 		if (GtnFrameworkWebserviceConstant.USER_DEFINED
 				.equals(hierarchyLevelDefinitionList.get(0).getLevelValueReference())) {
 			if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
@@ -490,7 +490,7 @@ public class GtnWsRelationshipBuilderService {
 
 	@SuppressWarnings("unchecked")
 	public GtnSerachResponse getFilteredValue2(GtnUIFrameworkWebserviceRequest gtnWsRequest,
-			List<String> modifiedHiddenList, int levelNo) throws GtnFrameworkGeneralException {
+			List<Integer> modifiedHiddenList, int levelNo) throws GtnFrameworkGeneralException {
 		GtnSerachResponse serachResponse = new GtnSerachResponse();
 		try {
 			List<HierarchyLevelDefinitionBean> hierarchyList = gtnWsRelationshipBuilderHierarchyFileGenerator
@@ -519,12 +519,14 @@ public class GtnWsRelationshipBuilderService {
 				getInboundRestriction(hierarchyList, finalQueryBean);
 
 				List<Integer> notInList = getNotInList(gtnWsRequest);
+				notInList.addAll(modifiedHiddenList);
 				if (!notInList.isEmpty()) {
 					String notInQueryStr = keyBean.getActualTtableName() + "." + keyBean.getWhereClauseColumn();
 					finalQueryBean.addWhereClauseBean(notInQueryStr, null, GtnFrameworkOperatorType.NOT_IN,
 							GtnFrameworkDataType.IN_LIST, notInList);
 					primaryKeyPositionList.add(notInList);
 				}
+
 
 				GtnFrameworkDataType[] datatypes = new GtnFrameworkDataType[primaryKeyPositionList.size()];
 				for (int i = 0; i < datatypes.length; i++) {
@@ -554,8 +556,7 @@ public class GtnWsRelationshipBuilderService {
 				List<Object[]> result = executeQuery(query, primaryKeyPositionList.toArray(), datatypes);
 
 				String nextPrimayKey = keyBean.getActualColumnName();
-				GtnUIFrameworkDataTable dataTable = setLevelValueBean(result, destinationHierarchyBean, nextPrimayKey,
-						modifiedHiddenList);
+				GtnUIFrameworkDataTable dataTable = setLevelValueBean(result, destinationHierarchyBean, nextPrimayKey);
 				serachResponse.setCount(dataTable.getDataTable().size());
 				serachResponse.setResultSet(dataTable);
 			}
@@ -584,15 +585,16 @@ public class GtnWsRelationshipBuilderService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<String> getModifiedHiddenIdList(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		List<String> modifiedHiddenIdList = new ArrayList<>();
+	public List<Integer> getModifiedHiddenIdList(GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		List<Integer> modifiedHiddenIdList = new ArrayList<>();
 		if (gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList().size() > 2 && gtnWsRequest
 				.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList().get(2).getFilterValue3() != null) {
 			for (Map<String, Object> levelBeanMap : (List<Map<String, Object>>) gtnWsRequest.getGtnWsSearchRequest()
 					.getGtnWebServiceSearchCriteriaList().get(2).getFilterValue3()) {
 				GtnWsRecordBean levelBean = new ObjectMapper().convertValue(levelBeanMap, GtnWsRecordBean.class);
 				modifiedHiddenIdList.add(
-						levelBean.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.HIDDEN_ID.ordinal()));
+						levelBean.getIntegerPropertyByIndex(
+								GtnWsRelationshipBuilderKeyConstant.HIDDEN_ID.ordinal()));
 			}
 		}
 		return modifiedHiddenIdList;
@@ -960,7 +962,7 @@ public class GtnWsRelationshipBuilderService {
 			autoMaticRelationService.checkAndUpdateAutomaticRelationship(
 					relationshipBuilder.getRelationshipBuilderSid(),
 					String.valueOf(relationshipBuilder.getCreatedBy()));
-                        autoMaticRelationService.checkManualRelation(relationshipBuilder.getRelationshipBuilderSid());
+			autoMaticRelationService.checkManualRelation(relationshipBuilder.getRelationshipBuilderSid());
 			rbResponse.setSuccess(true);
 		} catch (Exception e) {
 			tx.rollback();
@@ -1181,12 +1183,11 @@ public class GtnWsRelationshipBuilderService {
 	}
 
 	private GtnUIFrameworkDataTable setLevelValueBean(List<Object[]> result,
-			HierarchyLevelDefinitionBean destinationHierarchyBean, String nextPrimayKey, List<String> hiddenIdList) {
+			HierarchyLevelDefinitionBean destinationHierarchyBean, String nextPrimayKey) {
 		GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
 		if (result != null && !result.isEmpty()) {
 			for (int i = 0; i < result.size(); i++) {
 				Object[] obj = result.get(i);
-				if (!hiddenIdList.contains(String.valueOf(obj[1]))) {
 					HierarchyLevelsBean levelValuesDTO = new HierarchyLevelsBean();
 					levelValuesDTO.setLevelValue(String.valueOf(obj[0]));
 					levelValuesDTO.setHiddenId(String.valueOf(obj[1]));
@@ -1200,7 +1201,6 @@ public class GtnWsRelationshipBuilderService {
 					GtnUIFrameworkDataRow newDataRow = new GtnUIFrameworkDataRow();
 					newDataRow.setColList(getLevelBeanAsList(levelValuesDTO));
 					dataTable.addDataRow(newDataRow);
-				}
 			}
 		}
 		return dataTable;

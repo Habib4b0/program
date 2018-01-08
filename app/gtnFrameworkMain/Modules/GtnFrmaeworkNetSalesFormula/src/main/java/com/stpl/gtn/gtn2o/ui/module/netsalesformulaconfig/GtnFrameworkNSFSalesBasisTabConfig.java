@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUIFrameworkTableSearchCompletionAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfContractSelectionAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfRemoveAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfSBPopulateAction;
@@ -29,7 +30,7 @@ import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkS
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.confirmation.GtnUiFrameworkNsfTabTableResetConfirmationAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.fieldfactory.GtnUIFrameWorkNsfNetSalesRulePopupSelectAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.fieldfactory.GtnUiFrameworkNsfSalesBasisTabFieldFactoryAction;
-import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfPopulateValidationAction;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfSalesBasisPopulateValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFComboBoxTypeConstants;
 import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFConstants;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
@@ -581,7 +582,7 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
 		List<Object> alertParams = new ArrayList<>();
 		alertParams.add(GtnFrameworkNSFConstants.getNoSearchCriteria());
-		alertParams.add(GtnFrameworkNSFConstants.getPleaseEnterSearchCriteria());
+		alertParams.add(GtnFrameworkNSFConstants.getPleaseEnterSalesDeductionTabSearchCriteria());
 
 		salesBasisSearchBtnAlertActionConfig.setActionParameterList(alertParams);
 		salesBasisSearchBtnOnFailureList.add(salesBasisSearchBtnAlertActionConfig);
@@ -605,10 +606,13 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 				viewId + GtnFrameworkCommonConstants.ITEM_NO, viewId + GtnFrameworkCommonConstants.ITEM_NAME));
 
 		searchActionConfigList.add(salesBasisTabLoadDataTableActionConfig);
-
+		
 		GtnUIFrameWorkActionConfig notificationActionConfig = componentConfigProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		notificationActionConfig.addActionParameter(GtnUIFrameworkTableSearchCompletionAction.class.getName());
 		notificationActionConfig.addActionParameter(viewId + GtnFrameworkCommonConstants.AVAILABLE_CONTRACT_TABLE);
+		notificationActionConfig.addActionParameter(" Error ");
+		notificationActionConfig.addActionParameter(" There are no values that match the entered search criteria ");
 		searchActionConfigList.add(notificationActionConfig);
 		salesBasisSearchButton.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
 
@@ -881,7 +885,7 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 
 		String componentId = viewId + "massUpdateOptionGroup";
 		GtnUIFrameworkComponentConfig salesBasisTabMassUpdateOptionGroupLayout = componentConfigProvider
-				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parentId);
+				.getHorizontalLayoutConfig(componentId +GtnFrameworkCommonStringConstants.LAYOUT, true, parentId);
 		componentList.add(salesBasisTabMassUpdateOptionGroupLayout);
 
 		GtnUIFrameworkComponentConfig salesBasisTabMassUpdateOptionGroup = componentConfigProvider
@@ -903,7 +907,7 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.MASSFIELD_ENABLEDISABLE_ACTION);
-		customAction.setFieldValues(Arrays.asList(viewId + "massUpdateDdlb", viewId + "massUpdateNetSalesRuleNo",
+		customAction.setFieldValues(Arrays.asList(viewId +"massUpdateDdlb", viewId + "massUpdateNetSalesRuleNo",
 				viewId + "massUpdatePopulateButton"));
 		actionConfigList.add(customAction);
 		salesBasisTabMassUpdateOptionGroup.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -912,7 +916,7 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 	private void addSalesBasisTabMassUpdateDdlb(List<GtnUIFrameworkComponentConfig> componentList, String parentId,
 			String viewId) {
 
-		String componentId = viewId + "massUpdateDdlb";
+		String componentId = viewId +"massUpdateDdlb";
 		GtnUIFrameworkComponentConfig salesBasisTabMassUpdateDdlbLayout = componentConfigProvider
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parentId);
 		salesBasisTabMassUpdateDdlbLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
@@ -1004,7 +1008,7 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig populateValidationAction = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		Object customClassName = GtnUiFrameworkNsfPopulateValidationAction.class.getName();
+		Object customClassName = GtnUiFrameworkNsfSalesBasisPopulateValidationAction.class.getName();
 		populateValidationAction.setActionParameterList(Arrays.asList(customClassName, true));
 
 		actionConfigList.add(populateValidationAction);
