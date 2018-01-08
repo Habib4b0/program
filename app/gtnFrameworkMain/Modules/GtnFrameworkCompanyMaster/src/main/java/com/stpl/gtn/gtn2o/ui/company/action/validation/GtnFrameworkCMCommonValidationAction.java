@@ -127,23 +127,23 @@ public class GtnFrameworkCMCommonValidationAction implements GtnUIFrameWorkActio
 
 		if (companyId.isEmpty()) {
 			fieldMsg.append(appender).append("Company ID");
-			appender = " , ";
+			appender = ",";
 		}
 		if (companyNo.isEmpty()) {
-			fieldMsg.append(appender).append("Company NO");
-			appender = " , ";
+			fieldMsg.append(appender).append("Company No");
+			appender = ",";
 		}
 		if (companyName.isEmpty()) {
 			fieldMsg.append(appender).append("Company Name");
-			appender = " , ";
+			appender = ",";
 		}
 		if (status == null || status == 0) {
 			fieldMsg.append(appender).append("Company Status");
-			appender = " , ";
+			appender = ",";
 		}
 		if (startDate == null) {
 			fieldMsg.append(appender).append("Company Start Date");
-			appender = " , ";
+			appender = ",";
 		}
 		if (companyType == null || companyType == 0) {
 			fieldMsg.append(appender).append("Company Type");
