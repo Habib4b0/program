@@ -999,7 +999,8 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 	}
 
 	private void setFileNameToField(JsonArray arguments)  {
-		String value = String.valueOf(arguments.get(0));
+              elemental.json.impl.JreJsonString jsonstring=arguments.get(0);
+		String value =jsonstring.asString() ;
 		if (!"".equals(value)) {
 
 			fileUpload = GtnFileNameUtils.getFile(fileUploadPath + value);
