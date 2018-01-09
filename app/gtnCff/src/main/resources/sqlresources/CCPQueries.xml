@@ -37,12 +37,12 @@ and open the template in the editor.
     <entity id="custom-view-hiearchy-no-query">
         <query>
             <![CDATA[    
-                SELECT
-                    DISTINCT SHN.HIERARCHY_NO
-                FROM
-                    #SELECTED_HIERARCHY_NO SHN
-                ORDER BY SHN.HIERARCHY_NO
-                OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;        
+                 SELECT 
+                   HIERARCHY_NO 
+                 FROM 
+                   #SELECTED_HIERARCHY_NO
+                 GROUP BY HIERARCHY_NO ORDER BY MIN([INSTR]) ASC
+                 OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;        
             ]]>
         </query>
     </entity>	

@@ -252,8 +252,7 @@ WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
                     LEVEL_NAME,
                     LEVEL_NO,
                     RELATIONSHIP_LEVEL_VALUES
-                    ?DISPLAYFORMATCOLUMN,
-                    ? AS SID
+                    ?DISPLAYFORMATCOLUMN
                 FROM
                     RELATIONSHIP_LEVEL_DEFINITION RLD
                 JOIN ST_CCP_HIERARCHY CH ON CH.?HIERARCHY_NO LIKE RLD.HIERARCHY_NO+'%'
