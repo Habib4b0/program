@@ -68,7 +68,7 @@ public class GtnUIFrameWorkContractTableRecordTypeAction implements GtnUIFrameWo
                 if (GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[8].equals(propertyId)) {
                     value = getFieldValue(record);
                 }
-                if ((GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[17].equals(propertyId)) && !priceprotectionpricingTable.getExtPagedTable().isReadOnly()) {
+                if ((GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[17].equals(propertyId)) && (!(priceprotectionpricingTable.getExtPagedTable().isReadOnly()))) {
                     value = getFieldValuePriceTolerance(record);
                 } else {
                     Class<?> type = tableBaseComponent.getTableColumnProperty(propertyId.toString());
