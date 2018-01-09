@@ -15,6 +15,7 @@ import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAu
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutoupdateService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
+import org.junit.Ignore;
 
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)

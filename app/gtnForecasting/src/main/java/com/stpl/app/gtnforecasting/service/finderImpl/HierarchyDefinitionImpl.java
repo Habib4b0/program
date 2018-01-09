@@ -30,7 +30,7 @@ public class HierarchyDefinitionImpl {
         try {
 
 //            if (Constants.ButtonConstants.BTN_SEARCH.getConstant().equals(action)) {
-            queryBuilder.append("SELECT c.HIERARCHY_DEFINITION_SID,c.HIERARCHY_NAME,a.LEVEL_NAME, a.LEVEL_NO , ");
+            queryBuilder.append("SELECT distinct c.HIERARCHY_DEFINITION_SID,c.HIERARCHY_NAME,a.LEVEL_NAME, a.LEVEL_NO , ");
             queryBuilder.append("b.LEVEL_NO , c.CREATED_DATE, c.MODIFIED_DATE, c.VERSION_NO ");
             queryBuilder.append("from HIERARCHY_LEVEL_DEFINITION a , HIERARCHY_LEVEL_DEFINITION b ,HIERARCHY_DEFINITION c ");
             queryBuilder.append("where a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID and a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID ");
