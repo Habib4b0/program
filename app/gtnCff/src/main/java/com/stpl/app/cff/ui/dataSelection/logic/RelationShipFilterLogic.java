@@ -384,7 +384,7 @@ public class RelationShipFilterLogic {
 		for (int i = startPosition; i < maxlevelNo; i++) {
 			List<Object> dataList = Leveldto.getBeanByLevelNo(modifiableList, i + 1);
 
-			List<String> masterSids = (List<String>) dataList.get(0);
+			Set<String> masterSids = (Set<String>) dataList.get(0);
 			List<Leveldto> levelBeanList = (List<Leveldto>) dataList.get(1);
 			if (levelBeanList.isEmpty())
 				continue;
@@ -397,7 +397,7 @@ public class RelationShipFilterLogic {
 
 			whereClauseFieldName = keyListBean.getWhereClauseColumn();
 			queryBean.addWhereClauseBean(keyListBean.getActualTtableName() + "." + whereClauseFieldName, null,
-					GtnFrameworkOperatorType.IN, GtnFrameworkDataType.LIST, masterSids);
+					GtnFrameworkOperatorType.IN, GtnFrameworkDataType.LIST, new ArrayList<>(masterSids));
 		}
 	}
 
