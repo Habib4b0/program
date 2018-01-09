@@ -17,11 +17,12 @@ public class GtnFrameworkNSFConstants {
 	private static final String NSF_MAIN_VIEW = "netSalesFormulaMainView";
 	private static final String NO_SEARCH_CRITERIA = "No Search Criteria";
 	private static final String PLEASE_ENTER_SEARCH_CRITERIA = "Please enter Search Criteria";
-    private static final String PLEASE_ENTER_SALES_DEDUCTION_TAB_SEARCH_CRITERIA = "No search criteria were found. Please enter search criteria and try again";
+	private static final String PLEASE_ENTER_SALES_DEDUCTION_TAB_SEARCH_CRITERIA = "No search criteria were found. Please enter search criteria and try again";
 	private static final String FORMULA_TYPE_IS_MANDATORY = "Formula Type is Mandatory";
 	private static final String PLEASE_SELECT_FORMULA_TYPE = "Please select Formula Type";
 	private static final String RESET_CONFIRMATION = "Reset Confirmation";
 	private static final String RESET_CONFIRMATION_MSG = "Are you sure you want to reset the values in the Search Criteria group box?";
+	private static final String RESET_CONFIRMATION_MSG_FOR_AVAILABLE_DEDUCTION = "Are you sure you want to reset the values in the 'Available Deductions' group box?";
 
 	private static final String[] NSF_LANDING_SCREEN_RESULT_TABLE_VISIBLE_HEADERS = new String[] {
 			"Net Sales Formula Type", "Net Sales Formula ID", "Net Sales Formula No", "Net Sales Formula Name",
@@ -151,16 +152,15 @@ public class GtnFrameworkNSFConstants {
 	public static final String VALUE_CHANGE_ALLOWED = "ValueChangeAllowed";
 	private static final String NET_SALES_RULE_POPUP_RESULT_TABLE = "cDRPopUpsearchResultTable";
 	private static final String NET_SALES_RULE_POPUP_DETAILS_TABLE = "cDRRulePopUpruleDetailsattachResultTable";
-    private static final String NET_SALES_MASS_UPDATE_FIELD_ERROR_HEADER=" Information ";
-    private static final String NET_SALES_MASS_UPDATE_FIELD_ERROR_MSG=" Please select a field to Mass Update ";
-    private static final String NET_SALES_MASS_UPDATE_VALUE_ERROR_MSG=" Please select a value to Mass Update ";
-	
-    
+	private static final String NET_SALES_MASS_UPDATE_FIELD_ERROR_HEADER = " Information ";
+	private static final String NET_SALES_MASS_UPDATE_FIELD_ERROR_MSG = " Please select a field to Mass Update ";
+	private static final String NET_SALES_MASS_UPDATE_VALUE_ERROR_MSG = " Please select a value to Mass Update ";
+
 	public static String getNsfMainView() {
 		return NSF_MAIN_VIEW;
 	}
-	
-    public static String getFormulaTypeIsMandatory() {
+
+	public static String getFormulaTypeIsMandatory() {
 		return FORMULA_TYPE_IS_MANDATORY;
 	}
 
@@ -175,9 +175,10 @@ public class GtnFrameworkNSFConstants {
 	public static String getPleaseEnterSearchCriteria() {
 		return PLEASE_ENTER_SEARCH_CRITERIA;
 	}
-    public static String getPleaseEnterSalesDeductionTabSearchCriteria() {
-        return PLEASE_ENTER_SALES_DEDUCTION_TAB_SEARCH_CRITERIA;
-    }
+
+	public static String getPleaseEnterSalesDeductionTabSearchCriteria() {
+		return PLEASE_ENTER_SALES_DEDUCTION_TAB_SEARCH_CRITERIA;
+	}
 
 	public static String getResetConfirmation() {
 		return RESET_CONFIRMATION;
@@ -185,6 +186,10 @@ public class GtnFrameworkNSFConstants {
 
 	public static String getResetConfirmationMsg() {
 		return RESET_CONFIRMATION_MSG;
+	}
+
+	public static String getResetConfirmationMsgForAvailableDeduction() {
+		return RESET_CONFIRMATION_MSG_FOR_AVAILABLE_DEDUCTION;
 	}
 
 	public static String[] getNsfLandingScreenResultTableVisibleHeaders() {
@@ -354,20 +359,19 @@ public class GtnFrameworkNSFConstants {
 	public static String getNetSalesRulePopupDetailsTable() {
 		return NET_SALES_RULE_POPUP_DETAILS_TABLE;
 	}
-	
+
 	public static String getNetSalesMassUpdateFieldErrorHeader() {
 		return NET_SALES_MASS_UPDATE_FIELD_ERROR_HEADER;
 	}
-	
+
 	public static String getNetSalesMassUpdateFieldErrorMsg() {
 		return NET_SALES_MASS_UPDATE_FIELD_ERROR_MSG;
 	}
-	
 
 	public static String getPopulateButtonCheckRecordSalesBasisErrorMsg() {
 		return POPULATE_BUTTON_CHECK_RECORD_SALES_BASIS_ERROR_MSG;
 	}
-	
+
 	public static String getNetSalesMassUpdateValueErrorMsg() {
 		return NET_SALES_MASS_UPDATE_VALUE_ERROR_MSG;
 	}
