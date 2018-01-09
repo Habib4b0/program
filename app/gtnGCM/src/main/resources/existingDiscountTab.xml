@@ -33,7 +33,7 @@ and open the template in the editor.
         <Panel id="contractProcessingDashboard" caption="Contract Processing Dashboard">
             <VerticalLayout width="100%">
                  <HorizontalLayout width="100%">
-                <VerticalLayout spacing="true"  width="60%">
+                <VerticalLayout spacing="true">
                     <Panel id="componentSelection" caption="Component Selection" width="100%" height="30%">
                         <VerticalLayout styleName="width-auto">
                                 <HorizontalLayout id="componentSelectionLayout" spacing="true" margin="true" immediate="true" >
@@ -108,13 +108,13 @@ and open the template in the editor.
                     </Panel>
                 </VerticalLayout>
                 
-                <VerticalLayout spacing="true" width="40%" height="100%">
+                <VerticalLayout spacing="true" height="100%">
                     <Panel id="contractDashBoardResults" caption="Contract DashBoard Results" width="100%" height="100%">
                         <VerticalLayout>
                             <TreeTable id="dashboardResultsTable" 
                                           styleName="table-header-normal"  pageLength="8" immediate="true" />
                         
-                            <HorizontalLayout spcing="true" margin="true">
+                            <HorizontalLayout spacing="true" margin="true">
                                 <Button id="levelRemoveBtn" caption="REMOVE" />
                                  <Button id="levelPopulateBtn" caption="POPULATE" />
                             </HorizontalLayout>
