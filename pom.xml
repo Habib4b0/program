@@ -74,13 +74,13 @@
 				<module>app/gtnServicePartI_L7</module>
 				<module>app/gtnHierarchyRouteBuilder</module>
 				<module>app/gtnGlobal</module>
-				<module>app/gtnTransaction</module>
+				<!--<module>app/gtnTransaction</module>-->
 				<module>app/gtnSecurity</module>
 				<module>app/gtnForecasting</module>
 				<module>app/gtnAdminConsole</module>
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
-				<module>app/gtnUtilities</module>
+				<!--<module>app/gtnUtilities</module>-->
 			</modules>
 			<activation>
 				<property>

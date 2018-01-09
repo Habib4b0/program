@@ -318,12 +318,12 @@
             <scope>provided</scope>
         </dependency>-->
         
-        <dependency>
+<!--        <dependency>
             <groupId>com.stpl.app</groupId>
             <artifactId>gtnWorkflow</artifactId>
             <version>1.0</version>
             <type>jar</type>
-        </dependency>
+        </dependency>-->
          <dependency>
             <groupId>com.stpl.addons</groupId>
             <artifactId>ErrorLabel</artifactId>

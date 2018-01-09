@@ -139,7 +139,7 @@
             </properties>
             <build>
                 <defaultGoal>
-                    clean install com.stpl.gtn.gtn2o:WarReleasePlugin:Release 
+                    clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release 
                 </defaultGoal>
                 <plugins>
                     <plugin>
