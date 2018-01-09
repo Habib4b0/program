@@ -429,7 +429,7 @@ public class GtnWsAllListConfig {
 
 			connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
 					.getService(ConnectionProvider.class).getConnection();
-			sqlQuery.append("select userId,firstName +' '+middleName+' '+lastName as fullName from "
+			sqlQuery.append("select userId,ISNULL(firstName, '') +' '+ISNULL(middleName, '')+' '+ISNULL(lastName, '') from "
 					+ connection.getCatalog() + ".dbo.User_");
 			List<Object[]> resultList = null;
 

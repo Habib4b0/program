@@ -34,6 +34,7 @@ public class DateToStringConverter implements Converter<String, Date> {
      * @param locale the locale
      * @return the date
      */
+    @Override
     public Date convertToModel(final String value, final Class<? extends Date> targetType,
             final Locale locale) {
         String values = value;
@@ -57,8 +58,8 @@ public class DateToStringConverter implements Converter<String, Date> {
                         + "' to " + getModelType().getName());
             }
             parsedValue = getFormat(locale).parse(values, parsePosition);
-        } catch (Exception ex) {
-            LOGGER.error("",ex);
+        } catch (ConversionException ex) {
+            LOGGER.error(ex.getMessage());
         }
 
         return parsedValue;
@@ -72,6 +73,7 @@ public class DateToStringConverter implements Converter<String, Date> {
      * @param locale the locale
      * @return the string
      */
+    @Override
     public String convertToPresentation(final Date value,
             final Class<? extends String> targetType, final Locale locale) {
         String dateStr = "";
@@ -83,7 +85,7 @@ public class DateToStringConverter implements Converter<String, Date> {
             final SimpleDateFormat dateFormat = new SimpleDateFormat(formatValue);
             dateStr = dateFormat.format(value);
         } catch (Exception ex) {
-            LOGGER.error("",ex);
+            LOGGER.error(ex.getMessage());
         }
         return dateStr;
     }
@@ -93,6 +95,7 @@ public class DateToStringConverter implements Converter<String, Date> {
      *
      * @return the model type
      */
+    @Override
     public Class<Date> getModelType() {
         return Date.class;
     }
@@ -102,6 +105,7 @@ public class DateToStringConverter implements Converter<String, Date> {
      *
      * @return the presentation type
      */
+    @Override
     public Class<String> getPresentationType() {
         return String.class;
     }

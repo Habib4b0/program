@@ -26,6 +26,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO{
 	 * @throws SystemException
 	 * @throws PortalException
 	 */
+        @Override
 	public User getUserByUserId(final long userId)throws SystemException,PortalException{
 		return UserLocalServiceUtil.getUser(userId);
 	}
@@ -35,6 +36,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO{
 	 * @return list of UsergroupBusinessroleMaster
 	 * @throws SystemException
 	 */
+        @Override
 	public List<UsergroupBusinessrole> getUsergroupBusinessroleMasterList(final DynamicQuery query)throws PortalException, SystemException{
 		return UsergroupBusinessroleLocalServiceUtil.dynamicQuery(query);
 	}
@@ -45,6 +47,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO{
 	 * @return list of UsergroupDomainMaster
 	 * @throws SystemException
 	 */
+        @Override
 	public List<UsergroupDomainMaster> getUsergroupDomainMasterList(final DynamicQuery query)throws SystemException{
 		return UsergroupDomainMasterLocalServiceUtil.dynamicQuery(query);
 	}
@@ -56,6 +59,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO{
 	 * @return list of BusinessroleModuleMaster
 	 * @throws SystemException
 	 * @throws PortalException
+         * @Override
 	 */public List getBusinessroleModuleMasterTabList(final String businessRoleIds,final String moduleName){
 		return new GlobalImpl().getBusinessTabPermission(businessRoleIds, moduleName);
 	}
@@ -68,6 +72,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO{
 	 * @throws SystemException
 	 * @throws PortalException
 	 */
+        @Override
 	public List getBusinessroleModuleMasterFieldList(final String businessRoleIds,final String moduleName) throws PortalException, SystemException {
 		return new GlobalImpl().getBusinessFieldPermission(businessRoleIds, moduleName);
 	}
@@ -80,6 +85,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO{
 	 * @throws SystemException
 	 * @throws PortalException
 	 */
+        @Override
 	public List getBusinessroleModuleMasterFunctionList(final String businessRoleIds,final String moduleName)  throws PortalException, SystemException{
 		return new GlobalImpl().getBusinessFunctionPermission(businessRoleIds, moduleName);
 	}

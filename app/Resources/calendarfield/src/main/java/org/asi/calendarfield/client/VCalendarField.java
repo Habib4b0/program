@@ -111,8 +111,6 @@ public class VCalendarField extends FlowPanel implements Field, HasEnabled{
 
             @Override
             public void onCancel() {
-                // TODO Auto-generated method stub
-
             }
         });
         headerCalendarPanel.setFocusOutListener(new VCalendarFieldrPanel.FocusOutListener() {

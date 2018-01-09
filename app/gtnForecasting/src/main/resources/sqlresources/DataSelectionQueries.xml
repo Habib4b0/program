@@ -1026,7 +1026,8 @@ where
                         JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
                     AND RLD.HIERARCHY_NO IN (?)
                     AND RLD.VERSION_NO = ?
-                    AND HLD.VERSION_NO = ?               
+                    AND HLD.VERSION_NO = ?      
+                     order by RLD.LEVEL_NO asc;         
             ]]>
             </query>
         </entity>

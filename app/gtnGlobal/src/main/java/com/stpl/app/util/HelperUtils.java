@@ -84,7 +84,7 @@ public final class HelperUtils {
             stringOut = StringUtils.EMPTY;
         }
   } catch (Exception e) {
-            LOGGER.error("",e);
+            LOGGER.error(e.getMessage());
         }
         return stringOut;
     }
@@ -97,7 +97,7 @@ public final class HelperUtils {
             stringOut = "0";
         }
   } catch (Exception e) {
-            LOGGER.error("",e);
+            LOGGER.error(e.getMessage());
         }
         return Integer.valueOf(stringOut);
     }

@@ -35,108 +35,111 @@ import org.json.JSONException;
  */
 public class GtnFrameworkUpdateTableJSListenerAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-    private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkAddJSListenerAction.class);
+	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkAddJSListenerAction.class);
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-            throws GtnFrameworkGeneralException {
-        // Empty Method
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		// Empty Method
 
-    }
+	}
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-            throws GtnFrameworkGeneralException {
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
 
-        List<Object> actionParams = gtnUIFrameWorkActionConfig.getActionParameterList();
-        final GtnUIFrameworkBaseComponent table = GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(actionParams.get(1).toString());
+		List<Object> actionParams = gtnUIFrameWorkActionConfig.getActionParameterList();
+		final GtnUIFrameworkBaseComponent table = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(actionParams.get(1).toString());
 
-        final String url = GtnFrameworkWorkflowInboxClassConstants.WORKFLOWLOOKUPSLASH + GtnFrameworkWorkflowInboxClassConstants.GETGCMWORKFLOWLIST;
-        String pageParameters = null;
-        String projectionMasterSid = null;
-        pageParameters = Page.getCurrent().getLocation().getQuery();
+		final String url = GtnFrameworkWorkflowInboxClassConstants.WORKFLOWLOOKUPSLASH
+				+ GtnFrameworkWorkflowInboxClassConstants.GETGCMWORKFLOWLIST;
+		String pageParameterss = null;
+		String projectionmasterSid = null;
+		pageParameterss = Page.getCurrent().getLocation().getQuery();
 
-        if (pageParameters != null) {
+		if (pageParameterss != null) {
 
-            String[] parameters = pageParameters.split("&");
+			String[] parameterss = pageParameterss.split("&");
 
-            HashMap<String, String> hm = new HashMap<>();
+			HashMap<String, String> hmm = new HashMap<>();
 
-            for (String para : parameters) {
-                String[] paraStr = para.split(GtnFrameworkWorkflowInboxClassConstants.EQUAL);
-                hm.put(paraStr[0], paraStr[1]);
-            }
+			for (String paraa : parameterss) {
+				String[] paraStrr = paraa.split(GtnFrameworkWorkflowInboxClassConstants.EQUAL);
+				hmm.put(paraStrr[0], paraStrr[1]);
+			}
 
-            projectionMasterSid = hm.get(GtnFrameworkWorkflowInboxClassConstants.PROJECTIONMASTER_SID);
-        }
-        if (projectionMasterSid != null) {
+			projectionmasterSid = hmm.get(GtnFrameworkWorkflowInboxClassConstants.PROJECTIONMASTER_SID);
+		}
+		if (projectionmasterSid != null) {
 
-            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.SUMMARY_SEARCH_MAIN_INNERLAYOUT)
-                    .setComponentEnable(false);
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.SUMMARY_SEARCH_MAIN_INNERLAYOUT)
+					.setComponentEnable(false);
 
-            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUTTONMAIN_LAYOUT)
-                    .setComponentEnable(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkWorkflowInboxClassConstants.BUTTONMAIN_LAYOUT)
+					.setComponentEnable(false);
 
-            JavaScript.getCurrent().addFunction("storageEventListener", new JavaScriptFunction() {
-                /**
-                 *
-                 */
-                private static final long serialVersionUID = 1L;
+			JavaScript.getCurrent().addFunction("storageEventListener", new JavaScriptFunction() {
+				/**
+				 *
+				 */
+				private static final long serialVersionUID = 1L;
 
-                @Override
-                public void call(JSONArray arguments) throws JSONException {
-                    try {
+				@Override
+				public void call(JSONArray arguments) throws JSONException {
+					try {
 
-                        table.getLogicFromPagedDataTable()
-                                .setCurrentPage(table.getLogicFromPagedDataTable().getCurrentPage());
+						table.getLogicFromPagedDataTable()
+								.setCurrentPage(table.getLogicFromPagedDataTable().getCurrentPage());
 
-                        if (arguments.getBoolean(1)) {
+						if (arguments.getBoolean(1)) {
 
-                            JavaScript.getCurrent().execute("localStorage.setItem('" + arguments.getString(0) + "', 'false');");
-                        }
+							JavaScript.getCurrent()
+									.execute("localStorage.setItem('" + arguments.getString(0) + "', 'false');");
+						}
 
-                    } catch (Exception e) {
-                        gtnLogger.error(e.getMessage());
-                    }
+					} catch (Exception e) {
+						gtnLogger.error(e.getMessage());
+					}
 
-                }
-            });
+				}
+			});
 
-            loadDataFromService(url, table, projectionMasterSid);
-        }
+			loadDataFromService(url, table, projectionmasterSid);
+		}
 
-    }
+	}
 
-    private void loadDataFromService(String url, GtnUIFrameworkBaseComponent tableComponentId, String projectionMasterSid) {
-        try {
-            GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-            GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-            GtnWsCommonWorkflowRequest forecastRequest = new GtnWsCommonWorkflowRequest();
-            GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
-            GtnWsWorkflowInboxBean projMasterBean = new GtnWsWorkflowInboxBean();
-            projMasterBean.setProjectionMasterSid(Integer.valueOf(projectionMasterSid));
-            request.setGtnWsGeneralRequest(generalRequest);
-            request.setGtnWSCommonWorkflowRequest(forecastRequest);
-            request.getGtnWSCommonWorkflowRequest().setGtnWorkflowInboxBean(projMasterBean);
-            GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(url, request,
-                    GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-            request.setGtnWSCommonWorkflowRequest(forecastRequest);
-            request.getGtnWSCommonWorkflowRequest().setGtnWorkflowInboxBean(projMasterBean);
-            GtnWsCommonWorkflowResponse workflowResponse = response.getGtnWSCommonWorkflowResponse();
-            List<GtnWsRecordBean> resultBeanList = workflowResponse.getResultList();
-            tableComponentId.loadContainer(tableComponentId.getComponentId(),
-                    resultBeanList);
+	private void loadDataFromService(String url, GtnUIFrameworkBaseComponent tableComponentId,
+			String projectionMasterSid) {
+		try {
+			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+			GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+			GtnWsCommonWorkflowRequest forecastRequest = new GtnWsCommonWorkflowRequest();
+			GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
+			GtnWsWorkflowInboxBean projMasterBean = new GtnWsWorkflowInboxBean();
+			projMasterBean.setProjectionMasterSid(Integer.valueOf(projectionMasterSid));
+			request.setGtnWsGeneralRequest(generalRequest);
+			request.setGtnWSCommonWorkflowRequest(forecastRequest);
+			request.getGtnWSCommonWorkflowRequest().setGtnWorkflowInboxBean(projMasterBean);
+			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(url, request,
+					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+			request.setGtnWSCommonWorkflowRequest(forecastRequest);
+			request.getGtnWSCommonWorkflowRequest().setGtnWorkflowInboxBean(projMasterBean);
+			GtnWsCommonWorkflowResponse workflowResponse = response.getGtnWSCommonWorkflowResponse();
+			List<GtnWsRecordBean> resultBeanList = workflowResponse.getResultList();
+			tableComponentId.loadContainer(tableComponentId.getComponentId(), resultBeanList);
 
-        } catch (Exception exception) {
-            gtnLogger.error(exception.getMessage(), exception);
-        }
+		} catch (Exception exception) {
+			gtnLogger.error(exception.getMessage(), exception);
+		}
 
-    }
+	}
 
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-        return this;
-    }
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
 
 }

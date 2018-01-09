@@ -53,8 +53,8 @@ public class CommonUtil {
      */
     HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
-    private static Logger LOGGER = LoggerFactory.getLogger(CommonUtil.class);
-    final static CommonDao DAO = CommonDaoImpl.getInstance();
+    private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
+    public static final CommonDao DAO = CommonDaoImpl.getInstance();
     
     public static final String PRICE_TOLERANCE_FRERQUENCY = "PRICE_TOLERANCE_FREQUENCY";
     /**
@@ -179,8 +179,8 @@ public class CommonUtil {
                     tempObj.addValidator(new RegexpValidator(ValidationUtil.getMessage(rules[NumericConstants.TWO]), ValidationUtil.getMessage(rules[NumericConstants.THREE])));
                 }
             }
-        } catch (Exception e) {
-            LOGGER.error("",e);
+        } catch (NumberFormatException e) {
+            logger.error(e.getMessage());
         }
     }
 
