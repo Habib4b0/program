@@ -141,7 +141,7 @@ public class PPAProjectionLogic {
      * @return
      * @throws com.stpl.portal.kernel.exception.PortalException
      */
-    public Object getPPAProjectionResults(ProjectionSelectionDTO selection, CustomTableHeaderDTO ridhtdto, int start, int offset)  {
+    public Object getPPAProjectionResults(ProjectionSelectionDTO selection, CustomTableHeaderDTO ridhtdto, int start, int offset) {
         List list = null;
         printselection();
         List<Object> finalList = (List) configureLevel(selection, start, offset, selection.getHierarchyNo(), ridhtdto);
@@ -180,10 +180,10 @@ public class PPAProjectionLogic {
                 Object[] str = list.get(i);
                 if (str[0].toString().equalsIgnoreCase(String.valueOf(levelNo))) {
                     if (i == 0) {
-                        dto = setdata(str, visibleColumn,  dtoList);
+                        dto = setdata(str, visibleColumn, dtoList);
                     } else if (i > 0 && !dto.getHirarechyNo().equals(str[NumericConstants.ELEVEN])) {
                         result.add(dto);
-                        dto = setdata(str,  visibleColumn, dtoList);
+                        dto = setdata(str, visibleColumn, dtoList);
                     } else {
                         String quater = str[NumericConstants.THREE].toString();
                         String year = str[NumericConstants.FOUR].toString();
@@ -199,15 +199,15 @@ public class PPAProjectionLogic {
                             flag = Boolean.TRUE;
                         }
                         if ((isColumn(visibleColumn, quater, year, Constant.PRICECAP)) && (str[NumericConstants.EIGHT].toString() != null || !str[NumericConstants.EIGHT].equals(Constant.NULL))) {
-                                if (flag) {
-                                    dto.addStringProperties(Constant.Q_SMALL + quater + year + Constant.PRICECAP, CommonUtils.PERCENTFORMAT.format(Double.valueOf(str[NumericConstants.EIGHT].toString()) / NumericConstants.HUNDRED));
-                                } else {
-                                    dto.addStringProperties(Constant.Q_SMALL + quater + year + Constant.PRICECAP, Constant.DASH_NO_DATA);
-                                }
+                            if (flag) {
+                                dto.addStringProperties(Constant.Q_SMALL + quater + year + Constant.PRICECAP, CommonUtils.PERCENTFORMAT.format(Double.valueOf(str[NumericConstants.EIGHT].toString()) / NumericConstants.HUNDRED));
+                            } else {
+                                dto.addStringProperties(Constant.Q_SMALL + quater + year + Constant.PRICECAP, Constant.DASH_NO_DATA);
+                            }
                         }
                         if ((isColumn(visibleColumn, quater, year, Constant.RESET_SMALL)) && (flag)) {
-                                int value = Integer.valueOf((str[NumericConstants.NINE] == null) ? DASH : str[NumericConstants.NINE].toString());
-                                dto.addBooleanProperties(Constant.Q_SMALL + quater + year + Constant.RESET_SMALL, value >= dto.getCCPCount());
+                            int value = Integer.valueOf((str[NumericConstants.NINE] == null) ? DASH : str[NumericConstants.NINE].toString());
+                            dto.addBooleanProperties(Constant.Q_SMALL + quater + year + Constant.RESET_SMALL, value >= dto.getCCPCount());
 
                         }
                     }
@@ -313,7 +313,7 @@ public class PPAProjectionLogic {
                     PPAQuerys.ppaUpdate(input, "PPA.saveLeftTableFields");
                 } else if (propertyId.contains(Constant.CHECK_RECORD)) {
                     if ((dto.getValue() != null) && (Boolean.valueOf(dto.getValue().toString()))) {
-                        input = getInputForSaveCheckRecord(projectionId, dto, Constant.STRING_ONE,  selection);
+                        input = getInputForSaveCheckRecord(projectionId, dto, Constant.STRING_ONE, selection);
                     } else {
                         input = getInputForSaveCheckRecord(projectionId, dto, DASH, selection);
                     }
@@ -352,9 +352,8 @@ public class PPAProjectionLogic {
         return input;
     }
 
-
     private static List getInputForSaveCheckRecord(int projectionId, SaveDTO dto, String value, ProjectionSelectionDTO selection) {
-         String ccpQuery = new CommonLogic().insertAvailableHierarchyNo(selection);
+        String ccpQuery = new CommonLogic().insertAvailableHierarchyNo(selection);
         List input = new ArrayList();
         input.add(ccpQuery);
         input.add(value);
@@ -369,7 +368,7 @@ public class PPAProjectionLogic {
         List result = new ArrayList();
         List finalList = new ArrayList();
         Set<String> hirarechyNos = new HashSet<>();
-        List<Leveldto> levelList = CommonLogic.getConditionalLevelList(selection.getProjectionId(), Constant.PPA, start, offset, selection.getHierarchyIndicator(), selection.getLevelNo(), hirarechyNo, selection.getProductHierarchyNo(), selection.getCustomerHierarchyNo(), selection.isIsFilter(), false, selection.isIsCustomHierarchy(), selection.getCustomId(), selection.getGroupFilter(), selection.getUserId(), selection.getSessionId(), selection.getCustRelationshipBuilderSid(), selection.getProdRelationshipBuilderSid(), false, true, selection.getDiscountNoList(),selection);
+        List<Leveldto> levelList = CommonLogic.getConditionalLevelList(selection.getProjectionId(), Constant.PPA, start, offset, selection.getHierarchyIndicator(), selection.getLevelNo(), hirarechyNo, selection.getProductHierarchyNo(), selection.getCustomerHierarchyNo(), selection.isIsFilter(), false, selection.isIsCustomHierarchy(), selection.getCustomId(), selection.getGroupFilter(), selection.getUserId(), selection.getSessionId(), selection.getCustRelationshipBuilderSid(), selection.getProdRelationshipBuilderSid(), false, true, selection.getDiscountNoList(), selection);
         for (int i = 0; i < levelList.size(); i++) {
             Leveldto levelDto = levelList.get(i);
             PPAProjectionDTO dto = new PPAProjectionDTO();
@@ -504,7 +503,7 @@ public class PPAProjectionLogic {
 
     public int configureLevelsCount(int levelNo, ProjectionSelectionDTO selection, String hierarchyNo, boolean isFilter, String parentHierarchyInd) {
 
-        return CommonLogic.getLevelListCount(selection.getProjectionId(), Constant.PPA, parentHierarchyInd, levelNo, hierarchyNo, StringUtils.EMPTY, StringUtils.EMPTY, isFilter, Boolean.FALSE, 0, selection.getGroupFilter(), selection.getUserId(), selection.getSessionId(), selection.getCustRelationshipBuilderSid(), selection.getProdRelationshipBuilderSid(),  selection.getDiscountNoList(),selection);
+        return CommonLogic.getLevelListCount(selection.getProjectionId(), Constant.PPA, parentHierarchyInd, levelNo, hierarchyNo, StringUtils.EMPTY, StringUtils.EMPTY, isFilter, Boolean.FALSE, 0, selection.getGroupFilter(), selection.getUserId(), selection.getSessionId(), selection.getCustRelationshipBuilderSid(), selection.getProdRelationshipBuilderSid(), selection.getDiscountNoList(), selection);
 
     }
 
@@ -523,47 +522,30 @@ public class PPAProjectionLogic {
 
     public static Boolean nonMandatedPPAProjectionInsert(final int projectionId, final int userId, final int sessionId) {
 
-
-                
-                Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
+        DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup("java:jboss/datasources/jdbc/appDataPool");
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            }
-            if (connection != null) {
+        } catch (NamingException ex) {
+            LOGGER.debug("nonMandatedPPAProjectionInsert: " + ex);
+        }
+        if (datasource != null) {
+            try (Connection connection = datasource.getConnection();
+                    CallableStatement statement = connection.prepareCall("{call PRC_NM_PPA_INSERT(?,?,?)}")) {
                 LOGGER.debug(" Executing Discount Insert procedure ");
-                statement = connection.prepareCall("{call PRC_NM_PPA_INSERT(?,?,?)}");
-                LOGGER.debug("Projection ID--> "+projectionId);
-                LOGGER.debug("User Id      --> "+userId);
-                LOGGER.debug("Session ID   --> "+sessionId);
+                LOGGER.debug("Projection ID--> " + projectionId);
+                LOGGER.debug("User Id      --> " + userId);
+                LOGGER.debug("Session ID   --> " + sessionId);
                 statement.setInt(1, projectionId);
                 statement.setInt(NumericConstants.TWO, userId);
                 statement.setInt(NumericConstants.THREE, sessionId);
                 statement.execute();
-            }
-        } catch (SQLException | NamingException ex) {
-            LOGGER.error(ex);
-        } finally {
-            try {
-                statement.close();
-                connection.close();
             } catch (SQLException ex) {
                 LOGGER.error(ex);
             }
         }
-                
-                
-                
-                
-                
-
         return Boolean.TRUE;
     }
-
 
     public static void waitForPPAProcedure() {
         LOGGER.debug("Inside  waitForProcedure Method");
@@ -594,8 +576,7 @@ public class PPAProjectionLogic {
         return "''";
     }
 
-
-    public static int getPriceTypeCount(final String filterText, final HelperDTO priceType) throws SystemException  {
+    public static int getPriceTypeCount(final String filterText, final HelperDTO priceType) throws SystemException {
         final String filter = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         LOGGER.debug("Entering getLazyPriceTypeCount method with filterText :" + filterText);
         List<Object[]> qualifierList;

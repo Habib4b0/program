@@ -24,9 +24,9 @@ import com.vaadin.ui.Upload.Receiver;
  */
 public class FileUploader implements Receiver {
 	private FileOutputStream outputStream;
-	public File file;
-	public static String FILE_PATH = getFilePath();
-	String moduleName = "";
+	private File file;
+	public static final String FILE_PATH = getFilePath();
+	private String moduleName = "";
 	private static final Logger LOGGER = Logger.getLogger(FileUploader.class);
 
 	public FileUploader(String moduleName) {
@@ -40,6 +40,7 @@ public class FileUploader implements Receiver {
 	 * @param mimeType
 	 * @return
 	 */
+        @Override
 	public OutputStream receiveUpload(String filename, String mimeType) {
 		try {
 
@@ -81,6 +82,7 @@ public class FileUploader implements Receiver {
 	/**
 	 * method should be called at the end
 	 */
+        @Override
 	protected void finalize() throws Throwable {
 		try {
 

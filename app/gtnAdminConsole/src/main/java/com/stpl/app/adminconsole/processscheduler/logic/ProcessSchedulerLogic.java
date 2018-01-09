@@ -683,36 +683,29 @@ public class ProcessSchedulerLogic {
 	}
 
 	public static List<Object[]> cffOutboundProcedure(String ids) throws NamingException, SQLException {
-		Connection connection = null;
-		DataSource datasource;
-		ResultSet resultSet = null;
+		DataSource datasource = null;
+		ResultSet resultSet;
 		List<Object[]> objectList = new ArrayList<>();
 		try {
 			Context initialContext = new InitialContext();
 			datasource = (DataSource) initialContext.lookup("java:jboss/datasources/jdbc/appDataPool");
+                } catch (NamingException ex)
+                {
+                    LOGGER.debug(ex);
+                }
 			if (datasource != null) {
-				connection = datasource.getConnection();
-			} else {
-				LOGGER.debug("Failed to lookup datasource.");
-			}
-			if (connection != null) {
-				try (CallableStatement statement = connection.prepareCall("{call " + "PRC_CFF_OUTBOUND" + "(?)}");) {
+                            try (Connection connection = datasource.getConnection();
+                                    CallableStatement statement = connection.prepareCall("{call " + "PRC_CFF_OUTBOUND" + "(?)}"))
+                            {
 					statement.setString(1, ids);
 					resultSet = statement.executeQuery();
 					objectList = convertResultSetToList(resultSet);
 					LOGGER.debug("After Converting objectList size " + objectList.size());
-				}
+				} catch (SQLException ex)
+                                {
+                                    LOGGER.debug(ex);
+                                }
 			}
-
-		} finally {
-			if (resultSet != null) {
-				resultSet.close();
-			}
-			if (connection != null) {
-				connection.close();
-			}
-			System.gc();
-		}
 		return objectList;
 	}
 

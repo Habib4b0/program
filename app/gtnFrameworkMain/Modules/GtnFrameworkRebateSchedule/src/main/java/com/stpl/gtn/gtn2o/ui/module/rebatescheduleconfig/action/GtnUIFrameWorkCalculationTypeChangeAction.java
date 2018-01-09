@@ -56,7 +56,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 		if ("null".equals(calculationType) || "".equals(calculationType) || calculationType.equals("-Select One-")) {
 			isEditable = isEditMode();
 			if (!isEditable) {
-				tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, Integer.class,
+				tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, String.class,
 						Date.class, Date.class };
 
 				tableHeader = new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
@@ -64,7 +64,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 						GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE };
 
 				visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
-						GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.RS_STATUS,
+						GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.DESCRIPTION,
 						GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1);
 				fieldFactoryColumnList = Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID,
 						GtnFrameworkRSConstants.RS_STATUS, GtnFrameworkRSConstants.RS_START_DATE,
@@ -86,7 +86,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 			}
 
 		} else if (calculationType.equals("Rebate Plan")) {
-			tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, Integer.class, Date.class,
+			tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, String.class, Date.class,
 					Date.class, String.class, String.class, String.class, String.class, String.class, String.class,
 					String.class, String.class, String.class, Date.class };
 
@@ -99,7 +99,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 					GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE, GtnFrameworkRSConstants.ATTACHED_DATE };
 
 			visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
-					GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.RS_STATUS,
+					GtnFrameworkCommonConstants.ITEM_NAME,GtnFrameworkRSConstants.DESCRIPTION,
 					GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1, "rsBundleNo",
 					"rebatePlanNo", "rebatePlanName", GtnFrameworkCommonConstants.NET_SALES_FORMULA_NAME,
 					GtnFrameworkRSConstants.NET_SALES_RULE_NAME, GtnFrameworkRSConstants.EVALUATION_RULE_NAME,
@@ -118,7 +118,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 					GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE2));
 		} else if (calculationType.equals("Formula")) {
 
-			tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, Integer.class, Date.class,
+			tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, String.class, Date.class,
 					Date.class, String.class, String.class, String.class, String.class, String.class, String.class,
 					String.class, String.class, String.class, Date.class };
 
@@ -131,7 +131,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 					GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE, GtnFrameworkRSConstants.ATTACHED_DATE };
 
 			visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
-					GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.RS_STATUS,
+					GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.DESCRIPTION,
 					GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1, "formulaType",
 					"formulaNo", "formulaName", GtnFrameworkCommonConstants.NET_SALES_FORMULA_NAME,
 					GtnFrameworkRSConstants.NET_SALES_RULE_NAME, GtnFrameworkRSConstants.EVALUATION_RULE_NAME,
@@ -149,7 +149,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 					GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.CALCULATION_RULE1,
 					GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE2));
 		} else if (calculationType.equals("Deduction Calendar")) {
-			tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, Integer.class, Date.class,
+			tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, String.class, Date.class,
 					Date.class, String.class, String.class, String.class, String.class, String.class, String.class,
 					Date.class };
 
@@ -161,7 +161,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 					GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE, GtnFrameworkRSConstants.ATTACHED_DATE };
 
 			visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
-					GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.RS_STATUS,
+					GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.DESCRIPTION,
 					GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1, "deductionName",
 					"deductionNo", GtnFrameworkRSConstants.EVALUATION_RULE_NAME,
 					GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE1, GtnFrameworkRSConstants.CALCULATION_RULE_NAME,
@@ -176,7 +176,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 					GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.CALCULATION_RULE1,
 					GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE2));
 		} else{
-			tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, Integer.class, Date.class,
+			tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, String.class, Date.class,
 					Date.class };
 
 			tableHeader = new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
@@ -184,7 +184,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 					GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE };
 
 			visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
-					GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.RS_STATUS,
+					GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.DESCRIPTION,
 					GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1);
 
 			fieldFactoryColumnList = Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID,

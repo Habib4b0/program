@@ -220,9 +220,9 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parentId);
 		componentList.add(deductionTabContractNameLayout);
 
-		GtnUIFrameworkComponentConfig deductionTabContractNameConfig = componentConfigProvider.getUIFrameworkComponentConfig(
-				componentId, true, deductionTabContractNameLayout.getComponentId(),
-				GtnUIFrameworkComponentType.TEXTBOX);
+		GtnUIFrameworkComponentConfig deductionTabContractNameConfig = componentConfigProvider
+				.getUIFrameworkComponentConfig(componentId, true, deductionTabContractNameLayout.getComponentId(),
+						GtnUIFrameworkComponentType.TEXTBOX);
 		deductionTabContractNameConfig.setAuthorizationIncluded(true);
 		deductionTabContractNameConfig.setComponentName("Contract Name");
 		deductionTabContractNameConfig.setEnable(false);
@@ -626,14 +626,14 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		componentList.add(deductionTabSearchButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> searchActionConfigList = new ArrayList<>();
-		
+
 		GtnUIFrameWorkActionConfig validationActionConfigFormulaType = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
 
 		validationActionConfigFormulaType
 				.setFieldValues(Arrays.asList(viewId + GtnFrameworkCommonConstants.FORMULA_TYPE));
 		validationActionConfigFormulaType.addActionParameter(GtnUIFrameworkValidationType.OR);
-		
+
 		GtnUIFrameWorkActionConfig validationActionConfig = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
 
@@ -666,7 +666,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 
 		deductionTabSearchBtnAlertActionConfigFormulaType.setActionParameterList(alertParamsList);
 		deductionTabSearchBtnOnFailureListFormulaType.add(deductionTabSearchBtnAlertActionConfigFormulaType);
-		
+
 		List<GtnUIFrameWorkActionConfig> deductionTabSearchBtnOnFailureList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig deductionTabSearchBtnAlertActionConfig = componentConfigProvider
@@ -677,10 +677,10 @@ public class GtnFrameworkNSFDeductionTabConfig {
 
 		deductionTabSearchBtnAlertActionConfig.setActionParameterList(alertParams);
 		deductionTabSearchBtnOnFailureList.add(deductionTabSearchBtnAlertActionConfig);
-		
+
 		validationActionConfigFormulaType.addActionParameter(deductionTabSearchBtnOnFailureListFormulaType);
 		validationActionConfig.addActionParameter(deductionTabSearchBtnOnFailureList);
-		
+
 		searchActionConfigList.add(validationActionConfigFormulaType);
 		searchActionConfigList.add(validationActionConfig);
 
@@ -812,7 +812,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 
 		List<Object> params = new ArrayList<>();
 		params.add(GtnFrameworkNSFConstants.getResetConfirmation());
-		params.add(GtnFrameworkNSFConstants.getResetConfirmationMsg());
+		params.add(GtnFrameworkNSFConstants.getResetConfirmationMsgForAvailableDeduction());
 
 		params.add(Arrays.asList(viewId + GtnFrameworkCommonConstants.AVAILABLE_DEDUCTIONS_TABLE));
 		Object tableDefaultValue = null;
@@ -916,7 +916,7 @@ public class GtnFrameworkNSFDeductionTabConfig {
 				Arrays.asList(GtnFrameworkNSFConstants.getEnable(), GtnFrameworkNSFConstants.getDisable()));
 		massUpdateConfig.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE));
 		massUpdateOptionGroupConfig.setDefaultSelection(GtnFrameworkNSFConstants.getDisable());
-	    massUpdateConfig.setGtnUIFrameworkOptionGroupConfig(massUpdateOptionGroupConfig);
+		massUpdateConfig.setGtnUIFrameworkOptionGroupConfig(massUpdateOptionGroupConfig);
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.MASSFIELD_ENABLEDISABLE_ACTION);
@@ -1209,8 +1209,8 @@ public class GtnFrameworkNSFDeductionTabConfig {
 
 		GtnUIFrameworkExcelButtonConfig gtnUIFrameworkExcelButtonConfig = componentConfigProvider
 				.getExcelBtnconfig("Deductions", true, viewId + "selectedDeductionsResultTable", false);
-		 gtnUIFrameworkExcelButtonConfig
-			.setExcludeColumnsList(Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID));
+		gtnUIFrameworkExcelButtonConfig
+				.setExcludeColumnsList(Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID));
 		selectedDeductionsTableExcelButtonConfig.setGtnUIFrameworkExcelButtonConfig(gtnUIFrameworkExcelButtonConfig);
 		GtnUIFrameWorkActionConfig excelAction = new GtnUIFrameWorkActionConfig();
 		excelAction.setActionType(GtnUIFrameworkActionType.EXCEL_EXPORT_CSV_ACTION);
