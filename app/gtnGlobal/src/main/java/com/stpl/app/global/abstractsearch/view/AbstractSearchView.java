@@ -29,13 +29,13 @@ public class AbstractSearchView extends AbstractView{
 
 	/** The Constant NAME. */
 	public static final String NAME = "";
-        public String moduleName;
+        private final String moduleName;
 
 	/** The table. */
 	private final ExtFilterTable table = new ExtFilterTable();
         /** The Boolean */
-       public static boolean flag = false;
-       SessionDTO sessionDTO; 
+       private static boolean flag = false;
+       private SessionDTO sessionDTO; 
 
 	/**
 	 * Gets the table.
@@ -91,8 +91,8 @@ public class AbstractSearchView extends AbstractView{
             removeAllComponents();
             addComponent(new AbstractSearchForm(moduleName,sessionDTO));
               }
-        } catch (Exception ex) {
-            LOGGER.error("",ex);
+        } catch (SystemException ex) {
+            LOGGER.error(ex.getMessage());
         }
         table.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
     }

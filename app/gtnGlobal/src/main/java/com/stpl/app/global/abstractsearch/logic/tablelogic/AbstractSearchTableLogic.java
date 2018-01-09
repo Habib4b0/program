@@ -5,6 +5,8 @@
  */
 package com.stpl.app.global.abstractsearch.logic.tablelogic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.global.abstractsearch.dto.SearchResultsDTO;
 import com.stpl.app.global.abstractsearch.logic.AbstractSearchLogic;
 import com.stpl.app.global.abstractsearch.ui.AbstractSearchForm;
@@ -22,6 +24,10 @@ import org.slf4j.LoggerFactory;
  * @author Sibi
  */
 public class AbstractSearchTableLogic extends PageTableLogic {
+
+    public AbstractSearchTableLogic() {
+        super();
+    }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchTableLogic.class);
     
@@ -42,8 +48,8 @@ public class AbstractSearchTableLogic extends PageTableLogic {
             }
             isResultsEmpty = count == 0;            
             count = isReset ? 0 : count;
-        } catch (Exception ex) {
-            LOGGER.error("",ex);
+        } catch (PortalException | SystemException ex) {
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -54,8 +60,8 @@ public class AbstractSearchTableLogic extends PageTableLogic {
         if (isFirstLoad) {
             try {
                 list = searchLogic.getSearchResultsBasedOnModules(binder, abstractSearchForm, start, offset, false, this.getSortByColumns(), this.getFilters(), moduleName);
-            } catch (Exception ex) {   
-                LOGGER.error("",ex);
+            } catch (PortalException | SystemException ex) {   
+                LOGGER.error(ex.getMessage());
             }
         }
         return list;

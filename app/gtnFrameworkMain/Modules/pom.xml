@@ -73,7 +73,7 @@
 	</properties>
           <build>
         <plugins>                         
-         <plugin>
+             <plugin>
                 <groupId>biz.aQute.bnd</groupId>
                 <artifactId>bnd-maven-plugin</artifactId>
                 <version>3.3.0</version>
@@ -84,6 +84,18 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>  
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>
+                            ${project.build.outputDirectory}/META-INF/MANIFEST.MF
+                        </manifestFile>
+                    </archive>
+                </configuration>
             </plugin>  
         </plugins>
                  </build>

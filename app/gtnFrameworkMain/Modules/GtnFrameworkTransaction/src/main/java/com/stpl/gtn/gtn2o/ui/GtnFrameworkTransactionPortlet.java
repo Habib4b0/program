@@ -21,7 +21,6 @@ import com.vaadin.ui.UI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javax.portlet.PortletMode;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
@@ -30,8 +29,8 @@ import org.osgi.service.component.annotations.ServiceScope;
 @Component(service = UI.class, property = {
     "com.liferay.portlet.display-category=Security",
     "javax.portlet.name=LotMaster",
-    "javax.portlet.display-name=Lot Master",
-    "com.liferay.portlet.instanceable=false",
+    "javax.portlet.display-name=Transaction Management",
+    "com.liferay.portlet.instanceable=true",
     "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class GtnFrameworkTransactionPortlet extends UI {
 
@@ -71,7 +70,7 @@ public class GtnFrameworkTransactionPortlet extends UI {
             GtnUIFrameworkEngine frameworkEngine = new GtnUIFrameworkEngine();
             frameworkEngine.buildVaadinScreen(rootConfig, navigator, request, this, portletName,
                     new GtnUIFrameworkTransactionDynamicClassFiller());
-        } catch (GtnFrameworkGeneralException e) {
+        } catch (Exception e) {
             LOGGER.error("Error in init Method GtnFrameworkTransactionPortlet", e);
         }
         UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {

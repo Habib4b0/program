@@ -24,6 +24,7 @@ public class UDCIncrementalCheckDAOImpl implements UDCIncrementalCheckDAO{
      * @return list of HelperTable
      * @throws SystemException 
      */
+    @Override
     public List<HelperTable> getHelperTableList(final DynamicQuery query) throws SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(query);
     }
@@ -34,6 +35,7 @@ public class UDCIncrementalCheckDAOImpl implements UDCIncrementalCheckDAO{
      * @return HelperTable modal object
      * @throws SystemException 
      */
+    @Override
     public HelperTable updateHelperTable(final HelperTable helperTable) throws SystemException {
         return HelperTableLocalServiceUtil.updateHelperTable(helperTable);
     }

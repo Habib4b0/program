@@ -4,8 +4,8 @@
  */
 package com.stpl.app.cff.ui.dataSelection.logic;
 
-import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.util.dao.orm.CustomSQLUtil;
 import com.stpl.app.cff.dao.CommonDAO;
 import com.stpl.app.cff.dao.DataSelectionDAO;
 import com.stpl.app.cff.dao.impl.CommonDAOImpl;
@@ -31,25 +32,22 @@ import com.stpl.app.cff.util.DataSelectionUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.UiUtils;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
+import com.stpl.app.model.BrandMaster;
+import com.stpl.app.model.CcpDetails;
+import com.stpl.app.model.CompanyGroupDetails;
 import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.model.ForecastConfig;
+import com.stpl.app.model.HelperTable;
+import com.stpl.app.model.ItemGroupDetails;
 import com.stpl.app.model.ItemMaster;
+import com.stpl.app.model.RelationshipBuilder;
+import com.stpl.app.model.RelationshipLevelDefinition;
 import com.stpl.app.parttwo.model.CffCustHierarchy;
 import com.stpl.app.parttwo.model.CffDetails;
 import com.stpl.app.parttwo.model.CffProdHierarchy;
 import com.stpl.app.parttwo.service.CffCustHierarchyLocalServiceUtil;
-import com.stpl.app.parttwo.service.CffDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffProdHierarchyLocalServiceUtil;
-import com.stpl.app.service.BrandMasterLocalServiceUtil;
-import com.stpl.app.service.CcpDetailsLocalServiceUtil;
-import com.stpl.app.service.CompanyGroupDetailsLocalServiceUtil;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.ItemGroupDetailsLocalServiceUtil;
-import com.stpl.app.service.ItemMasterLocalServiceUtil;
-import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
-import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
@@ -311,10 +309,10 @@ public class DataSelectionLogic {
 	public List<String> filterForGroup(List<String> levelNo, int hierarchyId) {
 		final List<String> values = new ArrayList<>();
 		List result = null;
-		final DynamicQuery dynamicQuery = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(RelationshipLevelDefinition.class);
 
 		dynamicQuery.add(PropertyFactoryUtil.forName(StringConstantsUtil.RELATIONSHIP_BUILDER_SID)
-				.in(RelationshipBuilderLocalServiceUtil.dynamicQuery()
+				.in(DynamicQueryFactoryUtil.forClass(RelationshipBuilder.class)
 						.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.HIERARCHY_DEFINITION_SID, hierarchyId))
 						.setProjection(ProjectionFactoryUtil.property(StringConstantsUtil.RELATIONSHIP_BUILDER_SID))));
 
@@ -328,7 +326,7 @@ public class DataSelectionLogic {
 		productProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.RELATIONSHIP_LEVEL_SID));
 
 		dynamicQuery.setProjection(productProjectionList);
-		result = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery(dynamicQuery);
+		result = dataSelectionDaoImpl.getCustomerForecastLevel(dynamicQuery);
 		for (int i = 0; i < result.size(); i++) {
 			final Object[] obj = (Object[]) result.get(i);
 			values.add(String.valueOf(obj[0]));
@@ -345,7 +343,7 @@ public class DataSelectionLogic {
 			sids.add(Integer.parseInt(sid));
 		}
 
-		final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
 		dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.COMPANY_MASTER_SID, sids));
 		final List<CompanyMaster> companies = dataSelectionDaoImpl.getCompanyMasterList(dynamicQuery);
 		return companies;
@@ -359,7 +357,7 @@ public class DataSelectionLogic {
 			sids.add(Integer.parseInt(sid));
 		}
 		if (itemSids != null && !itemSids.isEmpty()) {
-			final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
+			final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
 			dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.ITEM_MASTER_SID, sids));
 			items = dataSelectionDaoImpl.getItemMaster(dynamicQuery);
 		}
@@ -397,7 +395,7 @@ public class DataSelectionLogic {
 	private void deleteProductHierarchyLevels(final int projectionId, final List<String> removeLevels)
 			throws SystemException {
 		List<CffProdHierarchy> details;
-		final DynamicQuery dynamicQuery = CffProdHierarchyLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffProdHierarchy.class);
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(CFF_MASTER_SID, projectionId));
 		dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.RELATIONSHIP_LEVEL_SID,
 				UiUtils.convertStringListToParsedIngeter(removeLevels)));
@@ -410,7 +408,7 @@ public class DataSelectionLogic {
 	public void updateProductHierarchyLogic(final List<Leveldto> levelList, final List<String> endLevelSids,
 			final int projectionId, DataSelectionDTO dataSelectionDTO) throws SystemException {
 		List<CffProdHierarchy> details;
-		final DynamicQuery dynamicQuery = CffProdHierarchyLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffProdHierarchy.class);
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(CFF_MASTER_SID, projectionId));
 		details = dataSelectionDaoImpl.findProdHierarchyByProjectionId(dynamicQuery);
 		for (final CffProdHierarchy cust : details) {
@@ -441,21 +439,17 @@ public class DataSelectionLogic {
 		if (endLevelSids != null && !endLevelSids.isEmpty()) {
 			endLevels = vDataSelectionDao.executeQuery(parameters);
 		}
-                int create = NumericConstants.ZERO;
-		CffProdHierarchy cffProdHierarchy = null;
+		final CffProdHierarchy cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(0);
 		try {
 			if (StringConstantsUtil.UPDATE_PROPERTY.equals(indicator)) {
 				for (final String rsId : addLevels) {
-                                    create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
-                                    cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
 					cffProdHierarchy.setCffMasterSid(projectionId);
 					cffProdHierarchy.setRelationshipLevelSid(UiUtils.parseStringToInteger(String.valueOf(rsId)));
 					vDataSelectionDao.addProjectionProdHierarchy(cffProdHierarchy);
 				}
 			} else if ("save".equals(indicator)) {
 				for (final Leveldto dto : levelList) {
-                                        create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
-                                    cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
+
 					cffProdHierarchy.setCffMasterSid(projectionId);
 					cffProdHierarchy.setRelationshipLevelSid(dto.getRelationshipLevelSid());
 					vDataSelectionDao.addProjectionProdHierarchy(cffProdHierarchy);
@@ -463,8 +457,6 @@ public class DataSelectionLogic {
 			}
 			if (endLevels != null && !endLevels.isEmpty()) {
 				for (final Object relationshipLevelSid : endLevels) {
-                                        create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
-                                        cffProdHierarchy = CffProdHierarchyLocalServiceUtil.createCffProdHierarchy(create);
 					cffProdHierarchy.setCffMasterSid(projectionId);
 					cffProdHierarchy.setRelationshipLevelSid(
 							UiUtils.parseStringToInteger(String.valueOf(relationshipLevelSid)));
@@ -508,7 +500,7 @@ public class DataSelectionLogic {
 	private void deleteCustomerHierarchyLevels(final int projectionId, final List<String> removeLevels)
 			throws SystemException {
 		List<CffCustHierarchy> details;
-		final DynamicQuery dynamicQuery = CffCustHierarchyLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffCustHierarchy.class);
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(CFF_MASTER_SID, projectionId));
 		dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.RELATIONSHIP_LEVEL_SID,
 				UiUtils.convertStringListToParsedIngeter(removeLevels)));
@@ -521,7 +513,7 @@ public class DataSelectionLogic {
 	public void updateCustomerHierarchyLogic(final List<Leveldto> levelList, final List<String> endLevelSids,
 			final int projectionId) throws SystemException {
 		List<CffCustHierarchy> details;
-		final DynamicQuery dynamicQuery = CffCustHierarchyLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffCustHierarchy.class);
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(CFF_MASTER_SID, projectionId));
 		details = dataSelectionDaoImpl.findCustHierarchyByProjectionId(dynamicQuery);
 		for (final CffCustHierarchy cust : details) {
@@ -551,8 +543,8 @@ public class DataSelectionLogic {
 		if (endLevelSids != null && !endLevelSids.isEmpty()) {
 			endLevels = vDataSelectionDao.executeQuery(parameters);
 		}
-                int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
-		final CffCustHierarchy cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(create);
+
+		final CffCustHierarchy cffCustHierarchy = CffCustHierarchyLocalServiceUtil.createCffCustHierarchy(0);
 		try {
 			if (StringConstantsUtil.UPDATE_PROPERTY.equals(indicator)) {
 				for (final String rsId : addLevels) {
@@ -612,7 +604,7 @@ public class DataSelectionLogic {
 	 */
 	private void deleteProjectionDetails(final int projectionId) throws SystemException {
 		List<CffDetails> details;
-		final DynamicQuery dynamicQuery = CffDetailsLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CffDetails.class);
 		dynamicQuery.add(RestrictionsFactoryUtil.eq(CFF_MASTER_SID, projectionId));
 		details = dataSelectionDaoImpl.findProjDetailsByProjectionId(dynamicQuery);
 		for (final CffDetails detail : details) {
@@ -840,7 +832,9 @@ public class DataSelectionLogic {
 	public User getUserByID(String userId) {
 		User user = null;
 		try {
+
 			user = dataSelectionDaoImpl.getUser(Long.valueOf(userId));
+
 		} catch (final PortalException ex) {
 			java.util.logging.Logger.getLogger(DataSelectionLogic.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (final SystemException ex) {
@@ -852,7 +846,7 @@ public class DataSelectionLogic {
 	}
 
 	public List<String> getCustomerGroupDetails(int companyGroupSid) throws SystemException {
-		final DynamicQuery dynamicQuery = CompanyGroupDetailsLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyGroupDetails.class);
 
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("companyGroupSid", companyGroupSid));
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
@@ -868,7 +862,7 @@ public class DataSelectionLogic {
 	}
 
 	public List<String> getItemGroupDetails(int itemGroupSid) throws SystemException {
-		final DynamicQuery dynamicQuery = ItemGroupDetailsLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemGroupDetails.class);
 
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("itemGroupSid", itemGroupSid));
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
@@ -926,7 +920,7 @@ public class DataSelectionLogic {
 			companies.add(companyDdlbDefault);
 		}
 		if (companySids != null && !companySids.isEmpty()) {
-			final DynamicQuery helper = HelperTableLocalServiceUtil.dynamicQuery();
+			final DynamicQuery helper = DynamicQueryFactoryUtil.forClass(HelperTable.class);
 			final ProjectionList helperProjectionList = ProjectionFactoryUtil.projectionList();
 			helperProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.HELPER_TABLE_SID));
 			helper.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.LIST_NAME, "COMP_TYPE"));
@@ -935,7 +929,7 @@ public class DataSelectionLogic {
 			final List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
 			companyId = Integer.valueOf(String.valueOf(companyTypeIds.get(0)));
-			final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
+			final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
 			filterText = StringUtils.trimToEmpty(filterText) + "%";
 			dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.COMPANY_MASTER_SID,
 					UiUtils.convertStringListToIngeter(companySids)));
@@ -983,7 +977,7 @@ public class DataSelectionLogic {
 	public int getCompaniesCount(String filterText, final List<String> companySids) throws SystemException {
 		int count = 0;
 		if (companySids != null && !companySids.isEmpty()) {
-			final DynamicQuery helper = HelperTableLocalServiceUtil.dynamicQuery();
+			final DynamicQuery helper = DynamicQueryFactoryUtil.forClass(HelperTable.class);
 			final ProjectionList helperProjectionList = ProjectionFactoryUtil.projectionList();
 			helperProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.HELPER_TABLE_SID));
 			helper.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.LIST_NAME, "COMP_TYPE"));
@@ -992,7 +986,7 @@ public class DataSelectionLogic {
 			final List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
 			companyId = Integer.valueOf(String.valueOf(companyTypeIds.get(0)));
-			final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
+			final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
 			filterText = StringUtils.trimToEmpty(filterText) + "%";
 			dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.COMPANY_MASTER_SID,
 					UiUtils.convertStringListToIngeter(companySids)));
@@ -1012,7 +1006,7 @@ public class DataSelectionLogic {
 		List<ItemMaster> resultList = null;
 		final List<Integer> itemSids = getItemIdFromCompanyInCCp(companySids, 0);
 		if (!itemSids.isEmpty()) {
-			final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
+			final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
 			dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.ITEM_MASTER_SID, itemSids));
 			final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 			productProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.ITEM_MASTER_SID));
@@ -1026,7 +1020,7 @@ public class DataSelectionLogic {
 		List<ItemMaster> resultList = null;
 		final List<Integer> itemSids = getItemIdFromCompanyInCCp(null, companySid);
 		if (!itemSids.isEmpty()) {
-			final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
+			final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
 			dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.ITEM_MASTER_SID, itemSids));
 			final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 			productProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.ITEM_MASTER_SID));
@@ -1038,7 +1032,7 @@ public class DataSelectionLogic {
 
 	public List<Integer> getItemIdFromCompanyInCCp(final List<String> companySids, final int companySid)
 			throws SystemException {
-		final DynamicQuery dynamicQuery = CcpDetailsLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CcpDetails.class);
 		if (companySids != null && !companySids.isEmpty()) {
 			dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.COMPANY_MASTER_SID,
 					UiUtils.convertStringListToIngeter(companySids)));
@@ -1058,9 +1052,9 @@ public class DataSelectionLogic {
 	}
 
 	public List<Integer> getItemSidsFromAllBrand() throws SystemException {
-		final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
-		dynamicQuery.add(PropertyFactoryUtil.forName("brandMasterSid").in(BrandMasterLocalServiceUtil
-                        .dynamicQuery().setProjection(ProjectionFactoryUtil.property("brandMasterSid"))));
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+		dynamicQuery.add(PropertyFactoryUtil.forName("brandMasterSid").in(DynamicQueryFactoryUtil
+				.forClass(BrandMaster.class).setProjection(ProjectionFactoryUtil.property("brandMasterSid"))));
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 		productProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.ITEM_MASTER_SID));
 		dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
@@ -1075,7 +1069,7 @@ public class DataSelectionLogic {
 	public List<ItemMaster> getItemMaster(final List<String> itemSidsFromHierarchy) throws SystemException {
 		List<ItemMaster> resultList = null;
 		if (itemSidsFromHierarchy != null && !itemSidsFromHierarchy.isEmpty()) {
-			final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
+			final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
 			dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.ITEM_MASTER_SID,
 					UiUtils.convertStringListToIngeter(itemSidsFromHierarchy)));
 			resultList = dataSelectionDaoImpl.getItemMaster(dynamicQuery);
@@ -1085,7 +1079,7 @@ public class DataSelectionLogic {
 
 	public ForecastConfig getTimePeriod(String screenName) throws SystemException {
 		List<ForecastConfig> resultList = null;
-		final DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastConfig.class);
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 			screenName = "Commercial";
 		} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
@@ -1233,7 +1227,7 @@ public class DataSelectionLogic {
 	}
 
 	private DynamicQuery getRelationshipSidDynamicQuery(String filterText, final int hierarchyDefinitionSid) {
-		final DynamicQuery dynamicQuery = RelationshipBuilderLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(RelationshipBuilder.class);
 		filterText = StringUtils.trimToEmpty(filterText) + "%";
 		dynamicQuery
 				.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.HIERARCHY_DEFINITION_SID, hierarchyDefinitionSid));
@@ -1249,7 +1243,7 @@ public class DataSelectionLogic {
 	public List<RelationshipDdlbDto> getRelationshipSids(final RelationshipDdlbDto defaultRelationshipDdlbDto,
 			final int hierarchyDefinitionSid) throws SystemException, PortalException {
 		final List<RelationshipDdlbDto> returnList = new ArrayList<>();
-		final DynamicQuery dynamicQuery = RelationshipBuilderLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(RelationshipBuilder.class);
 		dynamicQuery
 				.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.HIERARCHY_DEFINITION_SID, hierarchyDefinitionSid));
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
@@ -1281,7 +1275,7 @@ public class DataSelectionLogic {
 			inputs.add(lowestLevelNo);
 			inputs.add(relationShipVersion);
 			inputs.add(hierarchyVersion);
-			String query = StringUtils.EMPTY;
+			String query;
 			if (!String.valueOf(businessUnit).equals("null") && !String.valueOf(businessUnit).equals("0")
 					&& !String.valueOf(businessUnit).isEmpty()) {
 				query = relationLogic.getChildLevelQueryForProduct(selectedLevelDto, relationShipVersion,
@@ -1362,7 +1356,7 @@ public class DataSelectionLogic {
 	}
 
 	public void setForcastFileDate(DataSelectionDTO dto) {
-		String query = SQlUtil.getQuery("getFileEndDate");
+		String query = CustomSQLUtil.get("getFileEndDate");
 		query = query.replace("[?BUSINESS_UNIT]", StringUtils.EMPTY + dto.getBusinessUnitSystemId());
 		final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
 		if (list != null && !list.isEmpty()) {
@@ -1447,7 +1441,7 @@ public class DataSelectionLogic {
 	}
 
 	private DynamicQuery getRelationshipSidDynamicQuery(final int hierarchyDefinitionSid) {
-		final DynamicQuery dynamicQuery = RelationshipBuilderLocalServiceUtil.dynamicQuery();
+		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(RelationshipBuilder.class);
 		dynamicQuery
 				.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.HIERARCHY_DEFINITION_SID, hierarchyDefinitionSid));
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
@@ -1473,7 +1467,7 @@ public class DataSelectionLogic {
 	public List<CompanyDdlbDto> getCompanies(final List<String> companySids) throws SystemException {
 		final List<CompanyDdlbDto> companies = new ArrayList<>();
 		if (companySids != null && !companySids.isEmpty()) {
-			final DynamicQuery helper = HelperTableLocalServiceUtil.dynamicQuery();
+			final DynamicQuery helper = DynamicQueryFactoryUtil.forClass(HelperTable.class);
 			final ProjectionList helperProjectionList = ProjectionFactoryUtil.projectionList();
 			helperProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.HELPER_TABLE_SID));
 			helper.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.LIST_NAME, "COMPANY_TYPE"));
@@ -1482,7 +1476,7 @@ public class DataSelectionLogic {
 			final List<Object[]> companyTypeIds = HelperTableLocalServiceUtil.dynamicQuery(helper);
 			int companyId = 0;
 			companyId = Integer.valueOf(String.valueOf(companyTypeIds.get(0)));
-			final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
+			final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
 			dynamicQuery.add(RestrictionsFactoryUtil.in(StringConstantsUtil.COMPANY_MASTER_SID,
 					UiUtils.convertStringListToIngeter(companySids)));
 			final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
@@ -1584,6 +1578,23 @@ public class DataSelectionLogic {
 		}
 	}
 
+	public int getDiscountCount(String filterText) {
+		try {
+			final DynamicQuery query = HelperTableLocalServiceUtil.dynamicQuery();
+			filterText = StringUtils.trimToEmpty(filterText) + "%";
+			final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
+			productProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.HELPER_TABLE_SID));
+			productProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.DESCRIPTION1));
+			query.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
+			query.add(RestrictionsFactoryUtil.ilike(StringConstantsUtil.DESCRIPTION1, filterText));
+			query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.LIST_NAME, "RS_TYPE"));
+			discountDdlbCount =(int) HelperTableLocalServiceUtil.dynamicQueryCount(query);
+		} catch (final Exception ex) {
+			LOGGER.error(ex);
+		}
+		return discountDdlbCount;
+	}
+
 	/**
 	 * Gets a list of companies
 	 *
@@ -1605,7 +1616,7 @@ public class DataSelectionLogic {
 			discounts.add(discountDdlbDefault);
 		}
 		CompanyDdlbDto discountDdlbDto;
-		final DynamicQuery query = HelperTableLocalServiceUtil.dynamicQuery();
+		final DynamicQuery query = DynamicQueryFactoryUtil.forClass(HelperTable.class);
 		filterText = StringUtils.trimToEmpty(filterText) + "%";
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 		productProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.HELPER_TABLE_SID));

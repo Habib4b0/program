@@ -8,7 +8,6 @@ import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.data.util.converter.DefaultConverterFactory;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * Factory Class to create Converter Object.
  *
@@ -28,6 +27,7 @@ public class DateToStringConverterFactory extends DefaultConverterFactory {
      * @param modelType the model type
      * @return Converter Object
      */
+    @Override
     public <PRESENTATION, MODEL> Converter<PRESENTATION, MODEL> createConverter(
             final Class<PRESENTATION> presentationType, final Class<MODEL> modelType) {
         try{
@@ -35,7 +35,7 @@ public class DateToStringConverterFactory extends DefaultConverterFactory {
             return (Converter<PRESENTATION, MODEL>) new DateToStringConverter();
         }
         } catch (Exception ex) {
-            LOGGER.error("",ex);
+            LOGGER.error(ex.getMessage());
         }
 
         return super.createConverter(presentationType, modelType);
