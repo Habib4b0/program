@@ -9,16 +9,25 @@ import org.hibernate.validator.constraints.NotBlank;
 import com.stpl.app.util.HelperDTO;
 import com.stpl.app.util.HelperUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 /**
  * The Class SearchCriteriaDTO.
  */
 public class SearchCriteriaDTO implements Serializable {
+  
+    private static final Logger LOGGER = Logger.getLogger(SearchCriteriaDTO.class); 
 
     /**
      * The Constant serialVersionUID.
      */
     private static final long serialVersionUID = 3584109928269363711L;
+    
+
+    public SearchCriteriaDTO() {
+        LOGGER.debug("Inside SearchCriteriaDTO: Overidden method");
+        
+    }
 
     /**
      * The item no.

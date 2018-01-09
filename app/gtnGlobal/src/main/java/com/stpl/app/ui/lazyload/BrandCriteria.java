@@ -13,6 +13,10 @@ import org.vaadin.addons.lazycontainer.SearchCriteria;
  * @author Asha
  */
 public class BrandCriteria implements SearchCriteria {
+
+    public BrandCriteria() {
+        super();
+    }
     /** The search text. */
 	private String searchText;
 

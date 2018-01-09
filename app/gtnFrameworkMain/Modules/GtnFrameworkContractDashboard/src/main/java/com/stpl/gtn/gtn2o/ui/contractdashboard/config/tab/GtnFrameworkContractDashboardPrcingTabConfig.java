@@ -844,7 +844,7 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				Arrays.asList(GtnWsContractDashboardContants.CURRENT, GtnWsContractDashboardContants.HISTORY,
 						GtnWsContractDashboardContants.FUTURE, GtnWsContractDashboardContants.PENDING));
 		cdPricingTabRecordOptionConfig.setIsMultiSelect(true);
-		cdPricingTabRecordOptionConfig.setDefaultSelection(GtnWsContractDashboardContants.CURRENT);
+		cdPricingTabRecordOptionConfig.setDefaultSelection(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY);
 		cdPricingTabRecordComponentConfig.setGtnUIFrameworkOptionGroupConfig(cdPricingTabRecordOptionConfig);
 
 		GtnUIFrameWorkActionConfig cdPricingTabRecordTableLoadActionConfig = new GtnUIFrameWorkActionConfig();
@@ -1431,7 +1431,7 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				Arrays.asList(GtnWsContractDashboardContants.CURRENT, GtnWsContractDashboardContants.HISTORY,
 						GtnWsContractDashboardContants.FUTURE, GtnWsContractDashboardContants.PENDING));
 		pricingRecordOptionConfig.setIsMultiSelect(true);
-		pricingRecordOptionConfig.setDefaultSelection(GtnWsContractDashboardContants.CURRENT);
+		pricingRecordOptionConfig.setDefaultSelection(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY);
 		pricingRecordConfig.setGtnUIFrameworkOptionGroupConfig(pricingRecordOptionConfig);
 
 		GtnUIFrameWorkActionConfig pricingRecordLoadActionConfig = new GtnUIFrameWorkActionConfig();

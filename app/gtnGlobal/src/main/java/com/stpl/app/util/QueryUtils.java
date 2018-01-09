@@ -23,7 +23,7 @@ import org.jboss.logging.Logger;
 public class QueryUtils {
 
     private static final Logger LOGGER = Logger.getLogger(QueryUtils.class);
-    final static CommonDao ITEMDAO = CommonDaoImpl.getInstance();
+    public static final CommonDao ITEMDAO = CommonDaoImpl.getInstance();
 
     public static List getGroupList() {
         return new ArrayList();

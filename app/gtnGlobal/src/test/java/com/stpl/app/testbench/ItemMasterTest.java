@@ -14,7 +14,6 @@ import com.vaadin.testbench.elements.ComboBoxElement;
 import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.testbench.elements.NotificationElement;
 import com.vaadin.testbench.elements.TabSheetElement;
-import com.vaadin.testbench.elements.TableElement;
 import com.vaadin.testbench.elements.TextFieldElement;
 import com.vaadin.testbench.elements.WindowElement;
 
@@ -104,7 +103,7 @@ public class ItemMasterTest extends TestBenchTestCase {
 		$(ButtonElement.class).caption("Attach").first().click();
 		String imNo=$(TextFieldElement.class).get(4).getText();
 		String imNames=$(TextFieldElement.class).get(6).getText();
-		$(ButtonElement.class).caption("SAVE").first().click();;
+		$(ButtonElement.class).caption("SAVE").first().click();
 		$(WindowElement.class).first().$(ButtonElement.class).caption("Yes")
 		.first().click();
 		Assert.assertEquals(imNo+","+imNames +" has been successfully saved"
@@ -131,7 +130,7 @@ public class ItemMasterTest extends TestBenchTestCase {
 
 		$(ButtonElement.class).caption("SEARCH").first().click();
 		findElement(By.xpath("//div[@class='v-scrollable v-table-body-wrapper v-table-body']"))
-        .findElement(By.tagName("tbody")).findElement(By.xpath(".//tr[1]")).click();;
+        .findElement(By.tagName("tbody")).findElement(By.xpath(".//tr[1]")).click();
 		$(ButtonElement.class).caption("EDIT").first().click();
 		$(TabSheetElement.class).first().openTab(0);
 		$(TextFieldElement.class).get(4).clear();
