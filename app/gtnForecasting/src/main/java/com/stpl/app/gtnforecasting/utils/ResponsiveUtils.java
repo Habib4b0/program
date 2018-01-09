@@ -26,7 +26,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -34,7 +35,7 @@ import org.jboss.logging.Logger;
  */
 public class ResponsiveUtils {
 
-    private final static Logger LOGGER = Logger.getLogger(ResponsiveUtils.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
     public static final String SPAN_STYLECOLOR = " <span style=\"color: #ed473b; padding: 0 0.2em;\">*</span>";
     public static Label makeLabel(String value, boolean isMandatory) {
         StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
@@ -107,7 +108,7 @@ public class ResponsiveUtils {
 
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -119,7 +120,7 @@ public class ResponsiveUtils {
                 layout.removeComponent(fieldComponent);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -131,7 +132,7 @@ public class ResponsiveUtils {
                 layout.removeComponent(fieldComponent);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -142,7 +143,7 @@ public class ResponsiveUtils {
                 layout.removeComponent(fieldComponent);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 

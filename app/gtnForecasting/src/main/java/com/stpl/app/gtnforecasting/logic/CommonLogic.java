@@ -1,5 +1,12 @@
 package com.stpl.app.gtnforecasting.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.CommonDAO;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
@@ -8,6 +15,7 @@ import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.queryUtils.CommonQueryUtils;
 import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
+import com.stpl.app.gtnforecasting.service.finderImpl.CustomViewMasterImpl;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
@@ -22,6 +30,7 @@ import com.stpl.app.model.CustomViewDetails;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.model.NmProjectionSelection;
+import com.stpl.app.service.ChProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.CustomViewDetailsLocalServiceUtil;
 import com.stpl.app.service.CustomViewMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -41,15 +50,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gtnforecasting.service.finderImpl.CustomViewMasterImpl;
-import com.stpl.app.service.ChProjectionSelectionLocalServiceUtil;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
@@ -69,10 +69,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.custommenubar.MenuItemDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -102,7 +104,7 @@ public class CommonLogic {
     /**
      * The Constant LOGGER.
      */
-    public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CommonLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CommonLogic.class);
 
     /**
      * Get Customer Hierarchy
@@ -154,7 +156,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return listValue;
     }
@@ -197,7 +199,7 @@ public class CommonLogic {
             query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
             list = commonDao.getCustomViewList(query);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return list;
     }
@@ -233,7 +235,7 @@ public class CommonLogic {
         try {
             userId = Integer.valueOf(userId1);
         } catch (NumberFormatException ex) {
-            LOGGER.debug(ex.getCause());
+            LOGGER.error(StringUtils.EMPTY,ex.getCause());
         }
         if (userId != 0) {
             int selectedId = Integer.valueOf(String.valueOf(value));
@@ -270,7 +272,7 @@ public class CommonLogic {
                         customViewDetailsSaveLogic(customId, levelList);
                     }
                 } catch (SystemException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
 
             } else {
@@ -294,7 +296,7 @@ public class CommonLogic {
                             try {
                                 commonDao.deleteCustomViewDetails(customDetails);
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
                             }
                         }
                         if (session.getCustomDetailMap().containsKey(customId)) {
@@ -304,7 +306,7 @@ public class CommonLogic {
                         customViewDetailsSaveLogic(customId, levelList);
                     }
                 } catch (SystemException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             }
         }
@@ -339,7 +341,7 @@ public class CommonLogic {
 
             list = commonDao.getCustomViewList(query);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return list;
     }
@@ -374,7 +376,7 @@ public class CommonLogic {
             query.addOrder(OrderFactoryUtil.asc(LEVEL_NO));
             list = commonDao.getCustomViewDetailsList(query);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return list;
     }
@@ -426,7 +428,7 @@ public class CommonLogic {
             try {
                 cvm = commonDao.getCustomView(customViewMasterSid);
             } catch (SystemException | PortalException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return cvm;
@@ -447,7 +449,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return listValue;
     }
@@ -465,7 +467,7 @@ public class CommonLogic {
                 count = Integer.valueOf(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -483,7 +485,7 @@ public class CommonLogic {
                 count = Integer.valueOf(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -755,7 +757,7 @@ public class CommonLogic {
             query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
             list = commonDao.getRelationshipLevels(query);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return list;
     }
@@ -801,7 +803,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return newLevelList;
     }
@@ -819,7 +821,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return newLevelList;
     }
@@ -836,7 +838,7 @@ public class CommonLogic {
         try {
 			return GtnSqlUtil.getResultFromProcedure(getQuery(procedureName, orderedArgs), orderedArgs);
 		} catch (GtnFrameworkGeneralException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
         return new ArrayList<>();
     }
@@ -891,13 +893,13 @@ public class CommonLogic {
                 objList.add(str);
             }
         } catch (SQLException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
 
         } finally {
             try {
                 rs.close();
             } catch (SQLException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
         } 
         }
         return objList;
@@ -946,7 +948,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return listValue;
     }
@@ -997,7 +999,7 @@ public class CommonLogic {
                 commonQueryUtil.saveSelection(map, projectionID, screenName, Constant.UPDATE);
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1095,7 +1097,7 @@ public class CommonLogic {
             }
             return map;
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return null;
     }
@@ -1120,7 +1122,7 @@ public class CommonLogic {
             }
             return map;
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return null;
     }
@@ -1212,7 +1214,7 @@ public class CommonLogic {
                 commonQueryUtil.saveSelection(map, projectionID, screenName, Constant.UPDATE);
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1744,7 +1746,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return groupList;
     }
@@ -1760,7 +1762,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return groupList;
     }
@@ -1775,7 +1777,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return groupList;
     }
@@ -1827,7 +1829,7 @@ public class CommonLogic {
                 levelNo = Integer.valueOf(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
-            LOGGER.debug(ex);
+            LOGGER.error(StringUtils.EMPTY,ex);
         }
 
         return levelNo;
@@ -1854,7 +1856,7 @@ public class CommonLogic {
                 levelNo = Integer.valueOf(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
         return levelNo;
@@ -1971,7 +1973,7 @@ public class CommonLogic {
             String levelQuery = SQlUtil.getQuery("deduction-loading").replace("@PROJID", String.valueOf(projectionId));
             deductionList = (List<String[]>) salesProjectionDAO.executeSelectQuery(levelQuery);
         } catch (SystemException | PortalException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return deductionList;
     }
@@ -2004,7 +2006,7 @@ public class CommonLogic {
             }
             return map;
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return null;
     }
@@ -2032,7 +2034,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return listValue;
     }
@@ -2059,7 +2061,7 @@ public class CommonLogic {
         try {
             list = commonDao.getCustomViewDetailsList(query);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         if (list != null && !list.isEmpty()) {
             for (CustomViewDetails customViewDetails : list) {
@@ -2077,7 +2079,7 @@ public class CommonLogic {
         try {
             list = commonDao.getCustomViewDetailsList(query);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return list.size();
     }
@@ -2214,7 +2216,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return listValue;
     }
@@ -2232,7 +2234,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return listValue;
     }
@@ -2417,7 +2419,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return newLevelList;
     }
@@ -2658,7 +2660,7 @@ public class CommonLogic {
             LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return helperList;
     }
@@ -2687,7 +2689,7 @@ public class CommonLogic {
             date = inputDateFormatter.parse(stringDate);
             return outputDateFormatter.format(date);
         } catch (ParseException ex) {
-            java.util.logging.Logger.getLogger(CommonLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(CommonLogic.class.getName()).error( StringUtils.EMPTY, ex);
         }
         return null;
     }
@@ -2717,7 +2719,7 @@ public class CommonLogic {
                     periodSID = String.valueOf(list.get(0));
                 }
             } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         } else {
             periodSID = DASH;
@@ -2787,7 +2789,7 @@ public class CommonLogic {
             query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
             list = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery(query);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return list;
     }
@@ -2806,7 +2808,7 @@ public class CommonLogic {
             query.addOrder(OrderFactoryUtil.asc(LEVEL_NO));
             list = CustomViewDetailsLocalServiceUtil.dynamicQuery(query);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return list;
     }
@@ -2831,7 +2833,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return listValue;
     }
@@ -2914,7 +2916,7 @@ public class CommonLogic {
             }
             return map;
         } catch (Exception ex) {
-            LOGGER.debug(ex);
+            LOGGER.error(StringUtils.EMPTY,ex);
         }
         return null;
     }
@@ -4142,7 +4144,7 @@ public class CommonLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
-                stringBuilder.append("'," + i++ + ")");
+                stringBuilder.append("',").append(i++).append(")");
                 isNotFirstElement = true;
 
                 }
@@ -4681,7 +4683,7 @@ public class CommonLogic {
 
             }
         } catch (SystemException | PortalException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return stockList;
     }
@@ -4728,7 +4730,7 @@ public class CommonLogic {
                 return stockList;
             }
         } catch (SystemException | PortalException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return stockList;
     }
@@ -4805,7 +4807,7 @@ public class CommonLogic {
             deductionValuesList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(),projectionDto.getSessionDTO().getCurrentTableNames()));
 
         } catch (SystemException | PortalException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return deductionValuesList;
     }

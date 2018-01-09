@@ -1,9 +1,10 @@
 package com.stpl.app.ui;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -14,7 +15,7 @@ import com.vaadin.ui.GridLayout;
 public class CustomGridLayout extends GridLayout {
      
      /** The Constant LOGGER. */
-     private static final Logger LOGGER = Logger.getLogger(CustomGridLayout.class);
+     private static final Logger LOGGER = LoggerFactory.getLogger(CustomGridLayout.class);
 
     /**
      * Parameterized Constructor.
@@ -41,7 +42,7 @@ public class CustomGridLayout extends GridLayout {
             this.addComponent(fieldComponent);
         }
         } catch(Exception e){
-        LOGGER.error(e);
+        LOGGER.error(e.getMessage());
         }
     }
 
@@ -63,8 +64,8 @@ public class CustomGridLayout extends GridLayout {
             this.addComponent(labelComponent, columnLabel, rowLabel);
             this.addComponent(fieldComponent, columnField, rowField);
         }
-            } catch (Exception e) {
-            LOGGER.error(e);
+            } catch (OutOfBoundsException | OverlapsException e) {
+            LOGGER.error(e.getMessage());
         }
     }
 

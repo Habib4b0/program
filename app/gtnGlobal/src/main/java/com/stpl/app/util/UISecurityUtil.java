@@ -5,10 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.app.security.permission.model.AppPermission;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.util.Arrays;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -18,7 +17,7 @@ import org.jboss.logging.Logger;
  */
 public final class UISecurityUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(UISecurityUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UISecurityUtil.class);
 
     /**
      * The Constant ITEM_MASTER_FIELD_SECURE_HM.

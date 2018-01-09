@@ -290,11 +290,11 @@ public class UpdatedContractSelection extends VerticalLayout {
     private CustomTextField psNo;
    
     @UiField("allCustomer")
-    public ComboBox allCustomer;
-//    @UiField("removeProjectionDetails")
-//    public CheckBox removeProjectionDetails;
-    final StplSecurity stplSecurity = new StplSecurity();
-    Map<String, AppPermission> functionHM = new HashMap<>();
+
+    private ComboBox allCustomer;
+    @UiField("removeProjectionDetails")
+    private CheckBox removeProjectionDetails;
+    private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The excel export image
      */
@@ -337,7 +337,6 @@ public class UpdatedContractSelection extends VerticalLayout {
     private boolean isTableUpdate = false;
 
     private boolean isComponentInformationExport = false;
-    CheckBox removeProjectionDetails = new CheckBox("Remove Projection Details");
 
     public UpdatedContractSelection(SessionDTO session, AddTPForm form) {
         this.addTpForm = form;
@@ -377,7 +376,6 @@ public class UpdatedContractSelection extends VerticalLayout {
     private void initContractSelection(SessionDTO session) {
         this.session = session;
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/contractSelectionUpdated.xml"), this));
-        transferSalesProjectionOptionLayout.addComponent(removeProjectionDetails);
         configureFields();
         contractSeletion = new ContractSelectionDTO();
         contractSeletion.setCompanyMasterSids(session.getCompanyMasterSids());
@@ -1536,7 +1534,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             }
 
             ExcelExportforBB.createFileContent(visibleColumns, searchList, printWriter);
-        } catch (Exception e) {
+        } catch (ParseException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             LOGGER.error("",e);
         }
     }
@@ -1547,7 +1545,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             if (componentInformationContainer.size() > 0) {
                 createWorkSheetInfo("Component_Information", componentInformationTable);
             }
-        } catch (Exception e) {
+        } catch (SystemException | PortalException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             LOGGER.error(e + "at excel export");
         }
     }
@@ -1982,7 +1980,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
             excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHM));
         }
-            catch (Exception ex) {
+            catch (PortalException | SystemException ex) {
             LOGGER.error("",ex);
         }
     }
@@ -1997,7 +1995,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
             NextBtn.setVisible(CommonLogic.isButtonVisibleAccess("NextBtn", functionHM));
             closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", functionHM));
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error("",ex);
         }
     }
@@ -2027,7 +2025,7 @@ public class UpdatedContractSelection extends VerticalLayout {
 
             }
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error("",ex);
         }
     }
@@ -2043,7 +2041,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
             excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHM));
         }
-            catch (Exception ex) {
+            catch (PortalException | SystemException ex) {
             LOGGER.error("",ex);
         }
     }

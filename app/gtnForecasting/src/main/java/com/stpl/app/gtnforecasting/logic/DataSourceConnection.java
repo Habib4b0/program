@@ -10,7 +10,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -35,7 +36,7 @@ public final class DataSourceConnection {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(DataSourceConnection.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceConnection.class);
 
 	/**
 	 * Instantiates a new data source connection.

@@ -1,7 +1,14 @@
 package com.stpl.app.utils;
 
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.LabelConstants.SALES_PROJ;
+import com.stpl.gtn.gtn2o.ws.bean.bcp.GtnWsBcpServiceBean;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.ifs.ui.util.GtnUiBcpServiceUtil;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.StandaloneParser;
+import com.stpl.ifs.util.constants.ForecastingConstants;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -11,17 +18,12 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.lang.StringUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.gtn.gtn2o.ws.bean.bcp.GtnWsBcpServiceBean;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.ifs.ui.util.GtnUiBcpServiceUtil;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.ui.util.StandaloneParser;
-import com.stpl.ifs.util.constants.ForecastingConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 public class CumulativeCalculationUtils {
 
 	private final Object[] procedureInputList;
-	public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger
+	public static final Logger LOGGER = LoggerFactory
 			.getLogger(CumulativeCalculationUtils.class);
 	private String tabName = StringUtils.EMPTY;
 	boolean salesFlag = false;
@@ -78,7 +80,7 @@ public class CumulativeCalculationUtils {
 					GtnWebServiceUrlConstants.GTN_BCP_SERVICE + GtnWebServiceUrlConstants.CALCULATE);
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException
 				| BadPaddingException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 	private static String getDecryptedPassword(String secret) throws NoSuchAlgorithmException, NoSuchPaddingException,

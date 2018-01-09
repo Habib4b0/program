@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.logic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.queryutils.MedicaidQueryUtils;
@@ -25,8 +27,6 @@ import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.Lab
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -40,7 +40,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -51,7 +52,7 @@ public class MedicaidURAResultsLogic {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(MedicaidURAResultsLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(MedicaidURAResultsLogic.class);
     /**
      * The Currency Zero Decimal Places Format.
      */
@@ -197,7 +198,7 @@ public class MedicaidURAResultsLogic {
                 }
             }
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getMedicaid method ends ");
         return projDTOList;
@@ -222,7 +223,7 @@ public class MedicaidURAResultsLogic {
 
             }
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getMedicaidChild method ends ");
         return projDTOList;
@@ -240,7 +241,7 @@ public class MedicaidURAResultsLogic {
             }
             projDTOList = getCustPriceTypeChild(medicaidList, projSelDTO);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getPriceTypeChild method ends ");
         return projDTOList;
@@ -539,7 +540,7 @@ public class MedicaidURAResultsLogic {
             }
 
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return projDTOList;
     }
@@ -676,7 +677,7 @@ public class MedicaidURAResultsLogic {
             List<Object[]> medicaidList = queryUtil.loadMedicaidWorksheet(sessionDTO, projSelDTO.getNdc9(), projSelDTO.isAdjust());
             projDTOList = getCustMedicaidWorksheetChild(projSelDTO, medicaidList, priceTypeList);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getMedicaidChild method ends ");
         return projDTOList;
@@ -819,7 +820,7 @@ public class MedicaidURAResultsLogic {
             List<Object[]> medicaidList = queryUtil.loadMedicaidWorksheet(sessionDTO, projSelDTO.getNdc9(), projSelDTO.isAdjust());
             projDTOList = getCustomizedMedicaidWorksheet(projSelDTO, medicaidList, priceTypeList);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getMedicaidWorksheet method ends ");
         return projDTOList;
@@ -1014,7 +1015,7 @@ public class MedicaidURAResultsLogic {
                     count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? String.valueOf(medicaidIndex.get(0)) : Constant.DASH);
                 }
             } catch (NumberFormatException e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
             }
         }
         return count;

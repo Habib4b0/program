@@ -22,7 +22,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,7 +31,7 @@ import org.jboss.logging.Logger;
  */
 public class DPRQueryUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(DPRQueryUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DPRQueryUtils.class);
     public static final String Q_FINALQ = ") Q) FINALQ\n";
     public List getSumNMPivotValue(int projectionId, String freq, ProjectionSelectionDTO projSelDTO) {
 
@@ -57,7 +58,7 @@ public class DPRQueryUtils {
             list = (List) salesProjectionDAO.executeSelectQuery(str);
             return list;
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
 
         }
@@ -95,7 +96,7 @@ public class DPRQueryUtils {
             list = (List) salesProjectionDAO.executeSelectQuery(str);
             return list;
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
 
         }
@@ -129,7 +130,7 @@ public class DPRQueryUtils {
             list = (List) salesProjectionDAO.executeSelectQuery(query);
             return list;
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
 
         }
@@ -244,7 +245,7 @@ public class DPRQueryUtils {
             query=QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames());
             list = (List) salesProjectionDAO.executeSelectQuery(query);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return list;
@@ -346,7 +347,7 @@ public class DPRQueryUtils {
             list = (List) salesProjectionDAO.executeSelectQuery(query);
             return list;
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
 
@@ -460,7 +461,7 @@ public class DPRQueryUtils {
             }
 
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return list;
@@ -579,7 +580,7 @@ public class DPRQueryUtils {
             query=QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames());
             list = (List) salesProjectionDAO.executeSelectQuery(query);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return list;
@@ -692,7 +693,7 @@ public class DPRQueryUtils {
             list = (List) salesProjectionDAO.executeSelectQuery(query);
             return list;
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
 
@@ -812,7 +813,7 @@ public class DPRQueryUtils {
             }
 
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return list;
@@ -835,7 +836,7 @@ public class DPRQueryUtils {
 
             return listInte;
         } catch (PortalException | SystemException | NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
     }
@@ -925,7 +926,7 @@ public class DPRQueryUtils {
             query=QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames());
             list = (List) salesProjectionDAO.executeSelectQuery(query);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return list;
@@ -1020,7 +1021,7 @@ public class DPRQueryUtils {
             query=QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames());
             list = (List) salesProjectionDAO.executeSelectQuery(query);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return list;
@@ -1071,7 +1072,7 @@ public class DPRQueryUtils {
             }
 
         } catch (PortalException | SystemException | NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -1103,7 +1104,7 @@ public class DPRQueryUtils {
 
             return list;
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
     }
@@ -1243,7 +1244,7 @@ public class DPRQueryUtils {
 
             return list;
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
     }
@@ -1374,7 +1375,7 @@ public class DPRQueryUtils {
             return list;
 
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
 
@@ -1470,7 +1471,7 @@ public class DPRQueryUtils {
 
             return list;
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
 
@@ -1553,7 +1554,7 @@ public class DPRQueryUtils {
             list = (List) salesProjectionDAO.executeSelectQuery(str);
             return list;
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
     }
@@ -1574,7 +1575,7 @@ public class DPRQueryUtils {
 
             return list;
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
     }
@@ -1595,7 +1596,7 @@ public class DPRQueryUtils {
             }
             return list;
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
     }
@@ -1613,7 +1614,7 @@ public class DPRQueryUtils {
 
             return list;
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
     }

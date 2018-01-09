@@ -5,8 +5,15 @@
  */
 package com.stpl.app.gtnforecasting.dao.impl;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
-import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
+import com.stpl.app.gtnforecasting.service.finderImpl.ForecastingViewMasterImpl;
+import com.stpl.app.gtnforecasting.service.finderImpl.HierarchyDefinitionImpl;
+import com.stpl.app.gtnforecasting.service.finderImpl.ProjectionMasterImpl;
 import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.ForecastingViewMaster;
 import com.stpl.app.model.ProjectionCustDetails;
@@ -36,17 +43,11 @@ import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.app.gtnforecasting.service.finderImpl.ForecastingViewMasterImpl;
-import com.stpl.app.gtnforecasting.service.finderImpl.HierarchyDefinitionImpl;
-import com.stpl.app.gtnforecasting.service.finderImpl.ProjectionMasterImpl;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -55,7 +56,7 @@ import java.util.Map;
  * @author lokeshwari
  */
 public class DataSelectionDAOImpl implements DataSelectionDAO {
-
+private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImpl.class);
     /**
      * Find view by name.
      *
@@ -392,7 +393,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
         try {
             return HierarchyDefinitionLocalServiceUtil.dynamicQuery(query);
         } catch (SystemException ex) {
-                LOGGER.error(ex); 
+                LOGGER.error(ex.getMessage()); 
         }
         return Collections.emptyList();
     }

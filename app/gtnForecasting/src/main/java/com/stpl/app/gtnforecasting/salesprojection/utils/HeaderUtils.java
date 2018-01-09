@@ -30,7 +30,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -38,7 +39,7 @@ import org.jboss.logging.Logger;
  */
 public class HeaderUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(HeaderUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HeaderUtils.class);
 
     /**
      * The PMPY Available Product columns.
@@ -394,7 +395,7 @@ public class HeaderUtils {
         }
         projSelDTO.setProjectedList(massPopulateList);
             } catch (NumberFormatException e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
             }
         }
         projSelDTO.setHeaderMapForExcel(periodListMapForExcel);//Added for tabwise excel export

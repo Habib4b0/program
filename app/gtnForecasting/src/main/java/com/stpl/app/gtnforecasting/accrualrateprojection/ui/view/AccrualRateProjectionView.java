@@ -19,7 +19,8 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -35,7 +36,7 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
     protected String screenName;
     protected final DataSelectionForm dataSelectionForm;
     protected DataSelectionDTO dataSelectionDTO;
-    private static final Logger LOGGER = Logger.getLogger(AccrualRateProjectionView.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccrualRateProjectionView.class);
     private final boolean isOpenedFromWorkflow;
 
     public AccrualRateProjectionView(String projectionName, SessionDTO session, final String screenName, final DataSelectionForm dataSelectionForm, final boolean isOpenedFromWorkflow) {
@@ -70,7 +71,7 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
             this.addComponent(accrualRateProjectionForm);
             accrualRateProjectionForm.sales.historyDdlb.focus();
         } catch (ParseException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
     
@@ -88,13 +89,13 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
                     session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
                 } catch (ParseException ex) {
 
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             } else {
                 dataSelectionDTO = new DataSelectionDTO();
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
     }

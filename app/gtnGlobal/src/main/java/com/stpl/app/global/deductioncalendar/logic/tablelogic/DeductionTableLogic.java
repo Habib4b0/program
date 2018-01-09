@@ -17,31 +17,33 @@ import java.util.List;
 import java.util.Map;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author gopinath
  */
 public class DeductionTableLogic extends PageTreeTableLogic {
-    boolean firstGenerated = false;
-    DeductionDetailsDTO deductionDTO;
-    SessionDTO sessionDTO;
-    TableDTO tableDTO ;
+
+    public DeductionTableLogic() {
+        super();
+    }
+    
+    private boolean firstGenerated = false;
+    private DeductionDetailsDTO deductionDTO;
+    private SessionDTO sessionDTO;
+    private TableDTO tableDTO ;
   
      /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(DeductionTableLogic.class); 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeductionTableLogic.class); 
     /**
      * Deduction details logic instance
      */
-    private DeductionDetailsLogic logic = new DeductionDetailsLogic();
-    /**
-     * 
-     * @param levelNo
-     * @param hierarchyNo 
-     */
+    private final DeductionDetailsLogic logic = new DeductionDetailsLogic();
+   
     public void setProjectionResultsData(DeductionDetailsDTO deductionDTO,SessionDTO sessionDTO) {
         this.deductionDTO = deductionDTO;
         this.sessionDTO = sessionDTO;
@@ -65,7 +67,7 @@ public class DeductionTableLogic extends PageTreeTableLogic {
                     }
           }
         } catch (Exception e) {
-           LOGGER.error(e);
+           LOGGER.error(e.getMessage());
         }
         LOGGER.debug("loadData ended");
         return finalMap;
@@ -80,7 +82,7 @@ public class DeductionTableLogic extends PageTreeTableLogic {
             try {
                 count = logic.getDeductionDetailsCount(getLastParent(), deductionDTO, getTableDTO(),sessionDTO);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             } 
         }
         LOGGER.debug("Ending Deduction details records Count");

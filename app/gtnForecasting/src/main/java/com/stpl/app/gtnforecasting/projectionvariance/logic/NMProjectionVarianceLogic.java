@@ -4,6 +4,30 @@
  */
 package com.stpl.app.gtnforecasting.projectionvariance.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.dao.CommonDAO;
+import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
+import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
+import com.stpl.app.gtnforecasting.queryUtils.PVQueryUtils;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.Converters;
+import com.stpl.app.gtnforecasting.utils.HeaderUtils;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.model.NmProjectionSelection;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
 import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.CommonConstants.VALUE;
@@ -17,12 +41,10 @@ import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM;
 import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
 import static com.stpl.app.utils.Constants.LabelConstants.TOTAL;
 import static com.stpl.app.utils.Constants.LabelConstants.TOTAL_DISCOUNT;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.QueryUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Container.Filter;
 import com.vaadin.v7.data.util.filter.Between;
@@ -42,36 +64,15 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
-import com.stpl.app.gtnforecasting.dao.CommonDAO;
-import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
-import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
-import com.stpl.app.gtnforecasting.queryUtils.PVQueryUtils;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.gtnforecasting.utils.Converters;
-import com.stpl.app.gtnforecasting.utils.HeaderUtils;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.model.NmProjectionSelection;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.stpl.ifs.util.QueryUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author Mohamed.hameed
  */
 public class NMProjectionVarianceLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(NMProjectionVarianceLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NMProjectionVarianceLogic.class);
     /**
      * The Constant AMOUNT.
      */
@@ -1383,7 +1384,7 @@ public class NMProjectionVarianceLogic {
             LOGGER.info("Ending getConfiguredProjectionVariance");
             return list;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return Collections.emptyList();
 
@@ -1398,7 +1399,7 @@ public class NMProjectionVarianceLogic {
             count += getProjVarianceCount(projSelDTO, baseVariables, parentId, isLevelCount);
             return count;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return 0;
     }
@@ -2156,7 +2157,7 @@ public class NMProjectionVarianceLogic {
 
             return projectionVarianceDTO;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
     }
@@ -2307,7 +2308,7 @@ public class NMProjectionVarianceLogic {
             }
             return map;
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return null;
     }
@@ -2426,7 +2427,7 @@ public class NMProjectionVarianceLogic {
                 commonLogic.saveSelection(map, projectionID, screenName, Constant.UPDATE, "NM_PROJECTION_SELECTION");
             }
         } catch (SystemException | PortalException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

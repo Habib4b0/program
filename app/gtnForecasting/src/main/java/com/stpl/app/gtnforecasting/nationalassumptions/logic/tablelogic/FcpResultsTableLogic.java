@@ -18,7 +18,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The FCP Results Table Logic .
@@ -34,7 +35,7 @@ public class FcpResultsTableLogic extends PageTreeTableLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(FcpResultsTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FcpResultsTableLogic.class);
 
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {

@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -23,7 +24,7 @@ import org.jboss.logging.Logger;
  */
 public class ProductGroupLogic {
 
-    public static final Logger LOGGER = Logger.getLogger(ProductGroupLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ProductGroupLogic.class);
 
     /**
      * This method is used to get product groups search
@@ -67,7 +68,7 @@ public class ProductGroupLogic {
             count = DataSelectionQueryUtils.loadProductGroupsCount(productGroupNo, productGroupName, filters);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return count;
 

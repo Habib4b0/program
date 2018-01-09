@@ -83,6 +83,8 @@ import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -94,7 +96,7 @@ public class DataSelection extends ForecastDataSelection {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelection.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelection.class);
 	private DataSelectionDTO selectionDTO;
 	private final SessionDTO session;
 	private boolean firstTimeLoad = true;
@@ -152,7 +154,7 @@ public class DataSelection extends ForecastDataSelection {
 				configureOnViewMode();
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -512,7 +514,7 @@ public class DataSelection extends ForecastDataSelection {
 			}
 			initializeProductHierarchy(projectionId, String.valueOf(dataSelectionDTO.getProductHierarchyLevel()));
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -1504,7 +1506,7 @@ public class DataSelection extends ForecastDataSelection {
 						screenName);
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 
 	}
@@ -1526,7 +1528,9 @@ public class DataSelection extends ForecastDataSelection {
 		String levelName = Constant.LEVEL_LABEL;
 
 		try {
-			customerFuture.get();
+			if (!isFirstTimeLoad() && customerFuture != null) {
+				customerFuture.get();
+			}
 			int forecastLevel = 0;
 			if (value != null && customerRelationComboBox.getValue() != null
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
@@ -1620,6 +1624,7 @@ public class DataSelection extends ForecastDataSelection {
 					customerFuture = checkAndDoAutomaticUpdate(customerRelationComboBox.getValue(),
 							customerHierarchyDto.getHierarchyId());
 				}
+				loadCustomerVersionNo(customerRelationComboBox.getValue());
 			} catch (Exception ex) {
 
 				LOGGER.error(ex + " in customerRelation value change");
@@ -1672,6 +1677,7 @@ public class DataSelection extends ForecastDataSelection {
 					productDescriptionMap = relationLogic.getLevelValueMap(String.valueOf(productRelation.getValue()),
 							productHierarchyDto.getHierarchyId(), hierarchyVersionNo, relationVersionNo);
 				}
+				loadProductVersionNo(productRelation.getValue());
 			} catch (NumberFormatException ex) {
 				LOGGER.error(ex + " in productRelation value change");
 			}
@@ -1716,7 +1722,7 @@ public class DataSelection extends ForecastDataSelection {
 		try {
 			DataSelectionUtil.configureTimeDdlb(fromPeriod, toPeriod, null, null, MODE_ADD.getConstant(), screenName);
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -1764,7 +1770,9 @@ public class DataSelection extends ForecastDataSelection {
 			List<Leveldto> resultedLevelsList;
 			if (selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel)
 					&& !SELECT_ONE.equals(selectedLevel)) {
-				productFuture.get();
+				if (!firstTimeLoad && productFuture != null) {
+					productFuture.get();
+				}
 				int relationVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
@@ -1977,7 +1985,7 @@ public class DataSelection extends ForecastDataSelection {
 									}
 								}
 							} catch (Exception ex) {
-								LOGGER.error(ex);
+								LOGGER.error(ex.getMessage());
 							}
 
 						}
@@ -2455,7 +2463,7 @@ public class DataSelection extends ForecastDataSelection {
 			}
 			setProductBeanLisTemp(productBeanLisTemp);
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -2996,7 +3004,7 @@ public class DataSelection extends ForecastDataSelection {
 				setProductBeanLisTemp(productBeanLisTemp);
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -3520,7 +3528,7 @@ public class DataSelection extends ForecastDataSelection {
 
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -4073,7 +4081,7 @@ public class DataSelection extends ForecastDataSelection {
 						"No Level was selected to move. Please try again.");
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 

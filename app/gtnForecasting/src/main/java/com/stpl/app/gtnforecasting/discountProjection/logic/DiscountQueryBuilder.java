@@ -23,7 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class just copied from NmDiscountProjMasterFinderImpl.
@@ -32,7 +33,7 @@ import org.jboss.logging.Logger;
  */
 public class DiscountQueryBuilder {
 
-    private static final Logger LOGGER = Logger.getLogger(DiscountQueryBuilder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountQueryBuilder.class);
 
     public static final String PROGRAM = "Program";
     public static final String PROGRAM_CATEGORY = "Program Category";
@@ -137,7 +138,7 @@ public class DiscountQueryBuilder {
 
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(masterTableUpdateQuery);
             LOGGER.error(discountProjectionTableUpdateQuery);
             return false;
@@ -159,7 +160,7 @@ public class DiscountQueryBuilder {
             }
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query,session.getCurrentTableNames()));
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(query);
         }
     }
@@ -214,7 +215,7 @@ public class DiscountQueryBuilder {
             return HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
             return 0;
         }
@@ -413,7 +414,7 @@ public class DiscountQueryBuilder {
             }
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
         }
     }
@@ -470,7 +471,7 @@ public class DiscountQueryBuilder {
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
             return true;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
             return false;
         }
@@ -521,7 +522,7 @@ public class DiscountQueryBuilder {
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
             return Boolean.TRUE;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
             return Boolean.FALSE;
         }
@@ -547,7 +548,7 @@ public class DiscountQueryBuilder {
             }
             return (List<String>) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
             return Collections.emptyList();
         }
@@ -575,7 +576,7 @@ public class DiscountQueryBuilder {
 
             list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(customSql);
             return -1;
         }
@@ -603,7 +604,7 @@ public class DiscountQueryBuilder {
             List result = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sb.toString(), session.getCurrentTableNames()));
             return result;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(sb.toString());
             return Collections.emptyList();
         }

@@ -13,13 +13,15 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.ParseException;
 import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ForecastEditWindow extends CustomWindow {
 
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ForecastEditWindow.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ForecastEditWindow.class);
 
     protected SessionDTO session;
     private DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();

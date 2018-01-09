@@ -19,7 +19,8 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.custommenubar.CustomMenuBar;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility Class that contains the Constants, Utility Methods and Header
@@ -29,7 +30,7 @@ import org.jboss.logging.Logger;
  */
 public class AccrualRateUtils {
     
-    private final static Logger LOGGER = Logger.getLogger(AccrualRateUtils.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(AccrualRateUtils.class);
 
     public static final String ADJUSTED_DEMAND = "Forecasted Adjusted Demand";
     public static final String DEMAND = "Forecasted Demand";

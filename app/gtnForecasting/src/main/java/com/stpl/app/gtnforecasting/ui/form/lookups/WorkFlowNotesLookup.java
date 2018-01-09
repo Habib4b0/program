@@ -49,7 +49,8 @@ import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
@@ -59,7 +60,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
  */
 public class WorkFlowNotesLookup extends Window {
 
-    private static final Logger LOGGER = Logger.getLogger(WorkFlowNotesLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WorkFlowNotesLookup.class);
 
     @UiField("fileNameField")
     private TextField fileNameField;
@@ -192,7 +193,7 @@ public class WorkFlowNotesLookup extends Window {
                         fileNameField.setValue(StringUtils.EMPTY);
                     }
                 } catch (Property.ReadOnlyException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
                 uploader.focus();
             }
@@ -254,7 +255,7 @@ public class WorkFlowNotesLookup extends Window {
                 try {
                     itemClickLogic(event);
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
             }
         });
@@ -330,7 +331,7 @@ public class WorkFlowNotesLookup extends Window {
                 fileNameField.setValue(StringUtils.EMPTY);
             }
         } catch (Property.ReadOnlyException | NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -370,7 +371,7 @@ public class WorkFlowNotesLookup extends Window {
                 fileNameField.setValue(StringUtils.EMPTY);
             }
         } catch (Property.ReadOnlyException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -425,7 +426,7 @@ public class WorkFlowNotesLookup extends Window {
                 downloadFile(uploadedFile);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -454,7 +455,7 @@ public class WorkFlowNotesLookup extends Window {
                 Page.getCurrent().open(res, "_blank", true);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 }

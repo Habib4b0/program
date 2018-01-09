@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.ForecastDTO;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
@@ -23,7 +24,6 @@ import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.util.IndexedContainer;
@@ -41,10 +41,11 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -55,7 +56,7 @@ public class DataSelectionUtil {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelectionUtil.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionUtil.class);
 
 	public static Map<String, String> userMap = new HashMap<>();
 	public static Map<String, String> userIdMap = new HashMap<>();
@@ -93,7 +94,7 @@ public class DataSelectionUtil {
 			cal1.setTime(date);
 
 		} catch (ParseException ex) {
-			Logger.getLogger(DataSelectionIndex.class.getName()).log(Level.SEVERE, null, ex);
+			LoggerFactory.getLogger(DataSelectionIndex.class.getName()).error( StringUtils.EMPTY, ex);
 		}
 		return date;
 	}
@@ -129,7 +130,7 @@ public class DataSelectionUtil {
 			cal1.setTime(date);
 
 		} catch (ParseException ex) {
-			Logger.getLogger(DataSelectionIndex.class.getName()).log(Level.SEVERE, null, ex);
+			LoggerFactory.getLogger(DataSelectionIndex.class.getName()).error( StringUtils.EMPTY, ex);
 		}
 		return date;
 	}
@@ -581,7 +582,7 @@ public class DataSelectionUtil {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 

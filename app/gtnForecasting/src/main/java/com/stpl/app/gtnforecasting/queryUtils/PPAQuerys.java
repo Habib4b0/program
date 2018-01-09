@@ -10,11 +10,11 @@ import com.stpl.app.gtnforecasting.dao.impl.PPAProjectionDaoImpl;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.util.QueryUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -22,7 +22,7 @@ import org.jboss.logging.Logger;
  */
 public class PPAQuerys {
 
-    private static final Logger LOGGER = Logger.getLogger(PPAQuerys.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAQuerys.class);
     final static PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
     private static GtnSmallHashMap replaceTableName = new GtnSmallHashMap();
     public static List getGroupList() {
@@ -56,7 +56,7 @@ public class PPAQuerys {
             }
             list = (List<Object[]>) PPADAO.executeSelect(QueryUtil.replaceTableNames(sql.toString(), replaceTableName));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of  getPPAData");
         return list;
@@ -87,7 +87,7 @@ public class PPAQuerys {
             
             list = (List<Object[]>) PPADAO.executeSelect(QueryUtil.replaceTableNames(sql.toString(), replaceTableName));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of getPPAData");
         return list;
@@ -105,7 +105,7 @@ public class PPAQuerys {
             return (Boolean) PPADAO.executeUpdate(QueryUtil.replaceTableNames(sql.toString(), replaceTableName));
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of PPA Update");
         return Boolean.FALSE;
@@ -119,7 +119,7 @@ public class PPAQuerys {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return QueryUtil.replaceTableNames(sql.toString(), replaceTableName);
     }
@@ -138,7 +138,7 @@ public class PPAQuerys {
             return (Boolean) PPADAO.executeUpdate(QueryUtil.replaceTableNames(sql.toString(), replaceTableName));
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of PPA Update");
         return Boolean.FALSE;
@@ -154,7 +154,7 @@ public class PPAQuerys {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of getAppData");
         return sql.toString();
@@ -176,7 +176,7 @@ public class PPAQuerys {
             }
             list = (List<Object[]>) PPADAO.executeSelect(QueryUtil.replaceTableNames(sql.toString(), replaceTableName));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of getPPAData");
         return list;

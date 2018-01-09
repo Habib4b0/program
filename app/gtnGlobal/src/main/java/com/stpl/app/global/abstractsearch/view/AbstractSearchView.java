@@ -11,13 +11,13 @@ import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.ui.AbstractView;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,17 +25,17 @@ import org.jboss.logging.Logger;
  */
 public class AbstractSearchView extends AbstractView{
     /** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(AbstractSearchView.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchView.class);
 
 	/** The Constant NAME. */
 	public static final String NAME = "";
-        public String moduleName;
+        private final String moduleName;
 
 	/** The table. */
 	private final ExtFilterTable table = new ExtFilterTable();
         /** The Boolean */
-       public static boolean flag = false;
-       SessionDTO sessionDTO; 
+       private static boolean flag = false;
+       private SessionDTO sessionDTO; 
 
 	/**
 	 * Gets the table.
@@ -91,8 +91,8 @@ public class AbstractSearchView extends AbstractView{
             removeAllComponents();
             addComponent(new AbstractSearchForm(moduleName,sessionDTO));
               }
-        } catch (Exception ex) {
-            LOGGER.error(ex);
+        } catch (SystemException ex) {
+            LOGGER.error(ex.getMessage());
         }
         table.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
     }

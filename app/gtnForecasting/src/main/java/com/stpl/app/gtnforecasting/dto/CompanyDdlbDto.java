@@ -6,7 +6,8 @@
 package com.stpl.app.gtnforecasting.dto;
 
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -16,7 +17,7 @@ public class CompanyDdlbDto {
      /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(CompanyDdlbDto.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDdlbDto.class);
     
     private String companyName = StringUtils.EMPTY;
     private int companyMasterSid;
@@ -24,7 +25,6 @@ public class CompanyDdlbDto {
     private int rsModelSid;
     
      public CompanyDdlbDto(int rsModelSid, String rsNo,boolean flag) {
-         LOGGER.debug(flag);
          this.rsNo = rsNo;
          this.rsModelSid = rsModelSid;
     }

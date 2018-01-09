@@ -11,8 +11,10 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.ui.VerticalLayout;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
+
+
 
 /**
  *
@@ -47,7 +49,7 @@ public class NonMandatedView extends VerticalLayout {
         try {
 
         } catch (Exception ex) {
-            Logger.getLogger(NonMandatedView.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(NonMandatedView.class.getName()).error( StringUtils.EMPTY, ex);
         }
         addComponent(nonMandatedForm);
         enter();

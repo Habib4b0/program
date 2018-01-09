@@ -6,6 +6,8 @@ package com.stpl.app.gtnforecasting.nationalassumptions.queryutils;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.CommonResultsDAO;
 import com.stpl.app.gtnforecasting.dao.impl.CommonResultsDAOImpl;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
@@ -14,9 +16,6 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-
 import com.vaadin.server.VaadinSession;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -24,7 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -40,7 +40,7 @@ public class MedicaidQueryUtils {
     /**
      * The Constant LOGGER.
      */
-    private final Logger LOGGER = Logger.getLogger(MedicaidQueryUtils.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(MedicaidQueryUtils.class);
 
     public List loadMedicaidResultsTable(int projMasterId, int brandSid, String queryName, String ndc9Level, int therapeuticSid) {
         List medicaidList = new ArrayList();
@@ -67,7 +67,7 @@ public class MedicaidQueryUtils {
             }
             medicaidList = (List) DAO.executeSelectQuery(customSql);
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return medicaidList;
     }

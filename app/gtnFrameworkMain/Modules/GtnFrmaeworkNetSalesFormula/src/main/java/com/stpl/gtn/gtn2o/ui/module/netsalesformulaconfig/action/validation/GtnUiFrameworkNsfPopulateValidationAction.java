@@ -31,8 +31,8 @@ public class GtnUiFrameworkNsfPopulateValidationAction implements GtnUIFrameWork
 		boolean isCheck = GtnFrameworkNSFCommonLogic.confirmCheckRecord(isSalesBasic,
 				"/" + GtnWsNsfUriConstants.NSF_VALIDATION_SERVICE + "/"
 						+ GtnWsNsfUriConstants.NSF_POPULATE_VALIDATION_SERVICE);
-		String field=GtnUIFrameworkGlobalUI.getVaadinBaseComponent("netSalesFormulaAddView_selectedDeductionsmassUpdateDdlb").getStringFromField();
-		String value=GtnUIFrameworkGlobalUI.getVaadinBaseComponent("netSalesFormulaAddView_selectedDeductionsAddSubtractDdlb").getStringFromField();
+		String fieldDeductions=GtnUIFrameworkGlobalUI.getVaadinBaseComponent("netSalesFormulaAddView_selectedDeductionsmassUpdateDdlb").getStringFromField();
+		String valueDeductions=GtnUIFrameworkGlobalUI.getVaadinBaseComponent("netSalesFormulaAddView_selectedDeductionsAddSubtractDdlb").getStringFromField();
 		
 		
 		if (!isCheck) {
@@ -45,27 +45,27 @@ public class GtnUiFrameworkNsfPopulateValidationAction implements GtnUIFrameWork
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
 			throw new GtnFrameworkSkipActionException("Please check a record.");
 		}
-		else if(field.isEmpty())
+		else if(fieldDeductions.isEmpty())
 		{
 			GtnUIFrameWorkActionConfig alertActionConfigForField = new GtnUIFrameWorkActionConfig();
 			alertActionConfigForField.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 			List<Object> alertParamsForField = new ArrayList<>();
 			alertParamsForField.add(GtnFrameworkNSFConstants.getPopulateButtonCheckRecordErrorHeader());
-			alertParamsForField.add("Please Select a Field to Mass Update");
+			alertParamsForField.add(GtnFrameworkNSFConstants.getNetSalesMassUpdateFieldErrorMsg());
 			alertActionConfigForField.setActionParameterList(alertParamsForField);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfigForField);
 		}
-		else if(value.isEmpty())
+		else if(valueDeductions.isEmpty())
 		{
 			GtnUIFrameWorkActionConfig alertActionConfigForValue = new GtnUIFrameWorkActionConfig();
 			alertActionConfigForValue.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 			List<Object> alertParamsForValue = new ArrayList<>();
 			alertParamsForValue.add(GtnFrameworkNSFConstants.getPopulateButtonCheckRecordErrorHeader());
-			alertParamsForValue.add("Please Select a Value to Mass Update");
+			alertParamsForValue.add(GtnFrameworkNSFConstants.getNetSalesMassUpdateValueErrorMsg());
 			alertActionConfigForValue.setActionParameterList(alertParamsForValue);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfigForValue);
 		}
-
+		
 	}
 
 	@Override

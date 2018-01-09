@@ -1,5 +1,7 @@
 package com.stpl.app.gtnforecasting.ui.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualDataSelectionDTO;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.ui.view.AccrualRateProjectionView;
@@ -9,6 +11,7 @@ import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 import com.stpl.app.gtnforecasting.logic.tablelogic.DataSelectionSearchLogic;
+import com.stpl.app.gtnforecasting.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionUtil;
 import com.stpl.app.gtnforecasting.ui.ForecastEditWindow;
@@ -29,7 +32,6 @@ import com.stpl.app.gtnforecasting.utils.NotificationUtils;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.gtnforecasting.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_CUSTOMER_GROUP;
@@ -65,8 +67,6 @@ import com.stpl.ifs.ui.util.UIUtil;
 import com.stpl.ifs.util.HelperDTO;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
@@ -87,6 +87,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -94,7 +95,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import java.util.concurrent.ExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -110,7 +112,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelectionForm.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionForm.class);
 
 	/**
 	 * The Constant NAME.*
@@ -1348,7 +1350,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			}
 
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -1885,7 +1887,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			}
 
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -2459,7 +2461,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			}
 
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -3038,7 +3040,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			}
 
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -3156,7 +3158,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						}
 
 					} catch (SystemException | PortalException | Property.ReadOnlyException | NumberFormatException sysException) {
-						LOGGER.error(sysException);
+						LOGGER.error(sysException.getMessage());
 					}
 				}
 			}.getConfirmationMessage(Constants.MessageConstants.CONFIRM_DELETION_TITLE.getConstant(),
@@ -3341,7 +3343,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 						Exception e) {
 
-							LOGGER.error(e);
+							LOGGER.error(e.getMessage());
 						}
 					} else {
 						tempSession.setIsNewFileCalculationNeeded(false);
@@ -3929,7 +3931,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			relationship.setInputPrompt(SELECT_ONE);
 
 		} catch (PortalException | SystemException | UnsupportedOperationException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -4012,7 +4014,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			}
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -4106,7 +4108,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				availableCustomer.setStyleName(Constant.FILTER_TABLE);
 			}
 		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
-
+			
 			LOGGER.error(ex + " level  ValueChangeListener ");
 		}
 	}
@@ -4482,7 +4484,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			LOGGER.debug("generateBtn click listener ends ");
 
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		UI.getCurrent().setFocusedComponent(UI.getCurrent());
 	}
@@ -4495,7 +4497,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			DataSelectionUtil.configureTimeDdlb(fromPeriod, toPeriod, null, null, MODE_ADD.getConstant(), screenName);
 		} catch (Exception ex) {
 
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -4645,7 +4647,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				UI.getCurrent().addWindow(saveViewPopup);
 
 			} catch (IllegalArgumentException | NullPointerException e) {
-				LOGGER.error(e);
+				LOGGER.error(e.getMessage());
 			}
 		}
 	}
@@ -4723,7 +4725,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			LOGGER.debug("generateBtn click listener ends ");
 
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		UI.getCurrent().setFocusedComponent(UI.getCurrent());
 	}
@@ -4825,7 +4827,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			}
 
 		} catch (SystemException | Property.ReadOnlyException | NumberFormatException | ParseException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 
 	}
@@ -4840,7 +4842,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			dismantleProdSelection = true;
 			resetButtonLogic();
 		} catch (Property.ReadOnlyException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -4873,13 +4875,13 @@ public class DataSelectionForm extends ForecastDataSelection {
 						}
 
 					} catch (Exception e) {
-						LOGGER.error(e);
+						LOGGER.error(e.getMessage());
 					}
 				}
 			});
 
 		} catch (UnsupportedOperationException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 
 	}
@@ -4962,7 +4964,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				resultResetBtn.setVisible(true);
 			}
 		} catch (PortalException | SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 
 	}

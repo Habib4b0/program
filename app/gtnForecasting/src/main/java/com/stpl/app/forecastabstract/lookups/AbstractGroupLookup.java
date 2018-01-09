@@ -5,6 +5,8 @@
  */
 package com.stpl.app.forecastabstract.lookups;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.logic.GroupSearchLogic;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.ErrorCodeUtil;
@@ -22,8 +24,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.SEARCH_CRITERIA;
 import com.stpl.app.utils.TableHeaderColumnsUtil;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
@@ -37,6 +37,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -76,7 +78,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 	/**
 	 * The logger.
 	 */
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(AbstractGroupLookup.class);
 	/**
 	 * Button for Reset
@@ -128,7 +130,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 			configureResultTable(results, StringUtils.EMPTY);
 			return mainLayout;
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 			return null;
 		}
 	}
@@ -148,7 +150,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 			configureResultTable(results, StringUtils.EMPTY);
 			return mainLayout;
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 			return null;
 		}
 	}
@@ -165,7 +167,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 				try {
 					btnSearchLogic();
 				} catch (PortalException | SystemException ex) {
-					LOGGER.error(ex);
+					LOGGER.error(ex.getMessage());
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5039));
 				}
@@ -216,7 +218,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 

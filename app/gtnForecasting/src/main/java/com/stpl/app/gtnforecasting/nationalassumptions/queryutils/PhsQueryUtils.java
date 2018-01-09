@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.queryutils;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.CommonResultsDAO;
 import com.stpl.app.gtnforecasting.dao.impl.CommonResultsDAOImpl;
 import static com.stpl.app.gtnforecasting.nationalassumptions.logic.CommonLogic.LOGGER;
@@ -13,9 +15,6 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-
 import com.vaadin.server.VaadinSession;
 import java.util.ArrayList;
 import java.util.HashMap;

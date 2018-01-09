@@ -6,11 +6,12 @@
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.serviceUtils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
-import com.stpl.app.serviceUtils.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -18,7 +19,7 @@ import com.stpl.app.serviceUtils.Constants;
  */
 public class NmPpaProjectionMasterImpl {
     
-    private static final Logger LOGGER = Logger.getLogger(NmPpaProjectionMasterImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NmPpaProjectionMasterImpl.class);
     public List getPPAProjectionList(Integer projectionId, int levelNo, String parent, boolean last, int startIndex, int endIndex, boolean isCount, String levelName) {
       
         StringBuilder sql = new StringBuilder();
@@ -80,7 +81,7 @@ public class NmPpaProjectionMasterImpl {
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
 //            LOGGER.debug("resultList.size--->>>" + resultList.size());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
         }
         
@@ -163,7 +164,7 @@ public class NmPpaProjectionMasterImpl {
             int a = HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
 //            LOGGER.debug("a--->>>>" + a);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
         }
     }
@@ -477,7 +478,7 @@ public class NmPpaProjectionMasterImpl {
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
 //            LOGGER.debug("resultList.size--->>>" + resultList.size());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
         }
         
@@ -510,7 +511,7 @@ public class NmPpaProjectionMasterImpl {
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
 //            LOGGER.debug("resultList.size--->>>" + resultList.size());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
         }
         
@@ -541,7 +542,7 @@ public class NmPpaProjectionMasterImpl {
             resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString()); 
 //            LOGGER.debug("resultList.size--->>>" + resultList.size());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error(sql.toString());
         }
         

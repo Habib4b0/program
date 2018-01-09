@@ -8,17 +8,16 @@ package com.stpl.app.gtnforecasting.service.finderImpl;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author Abishek.Ram
  */
 public class ForecastingViewMasterImpl {
-     public static final Logger LOGGER = Logger
+     public static final Logger LOGGER = LoggerFactory
             .getLogger(ForecastingViewMasterImpl.class);
     public List findViewByName(String viewName, String forecastType, String userId, String viewType) {
         Session session = null;

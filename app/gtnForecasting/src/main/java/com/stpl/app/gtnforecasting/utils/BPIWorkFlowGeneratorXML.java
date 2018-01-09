@@ -20,7 +20,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,7 +36,7 @@ import org.xml.sax.SAXException;
  */
 public class BPIWorkFlowGeneratorXML {
     
-    private static final Logger LOGGER = Logger.getLogger(BPIWorkFlowGeneratorXML.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BPIWorkFlowGeneratorXML.class);
 
     /**
      * Method to generate BPIWF_ID to be generated
@@ -141,7 +142,7 @@ public class BPIWorkFlowGeneratorXML {
                 
             }
         } catch (IOException | ParserConfigurationException | DOMException | SAXException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         
         return hm;
@@ -282,7 +283,7 @@ public class BPIWorkFlowGeneratorXML {
                 
             }
         } catch (IOException | ParserConfigurationException | TransformerException | DOMException | SAXException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         
         return null;

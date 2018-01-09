@@ -30,7 +30,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -41,7 +42,7 @@ public class FcpResultsLogic {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(FcpResultsLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(FcpResultsLogic.class);
     /**
      * The Currency Zero Decimal Places Format.
      */
@@ -167,7 +168,7 @@ public class FcpResultsLogic {
                 projDTOList = getCustomizedFcp(fcpList);
             }
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getFcp method ends ");
         return projDTOList;
@@ -189,7 +190,7 @@ public class FcpResultsLogic {
                 projDTOList = getCustPivotFcpChild(fcpList, projSelDTO);
             }
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getFcpChild method ends ");
         return projDTOList;
@@ -355,7 +356,7 @@ public class FcpResultsLogic {
 
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         for (String columns : columnList) {
             fcpDTO.addStringProperties(columns, CommonUtils.getFormattedValue(PERCENTAGE.getConstant().equalsIgnoreCase(projSelDTO.getVariables()) ? PER_TWO : CUR_FOUR, Constant.NULL));
@@ -478,7 +479,7 @@ public class FcpResultsLogic {
             }
 
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return projDTOList;
     }
@@ -560,7 +561,7 @@ public class FcpResultsLogic {
                 projDTOList = getCustomizedNonFamp(nonFampList, projSelDTO);
             }
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getNonFamp method ends ");
         return projDTOList;
@@ -779,7 +780,7 @@ public class FcpResultsLogic {
             projDTOList = getCustFcpWorksheetChild(projSelDTO, fcpQtrList, fcpYearlist, priceTypeList);
 
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getFcpWorksheetChild method ends ");
         return projDTOList;
@@ -862,7 +863,7 @@ public class FcpResultsLogic {
             Map<String, String> priceTypeList = queryUtil.getFcpPriceTypeNameDynamic("FCP");
             projDTOList = getCustomizedFcpWorksheet(projSelDTO, fcpQtrList, fcpYearlist, priceTypeList);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getFcpWorksheet method ends ");
         return projDTOList;
@@ -995,7 +996,7 @@ public class FcpResultsLogic {
                 count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? String.valueOf(medicaidIndex.get(0)) : Constant.DASH);
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return count;
     }

@@ -14,7 +14,8 @@ import java.util.List;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -57,7 +58,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
     private final int currentProjId;
 
     private final List<ComparisonLookupDTO> selectedList;
-    private static final Logger LOGGER = Logger.getLogger(ComparisonLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComparisonLookup.class);
   
     public ComparisonLookup(final String windowName, final CustomTextField comparisonLookup,final int currentProjId, List<ComparisonLookupDTO> selectedList) {
         super(windowName, comparisonLookup);

@@ -24,7 +24,6 @@ import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,8 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class AbstractSearchLogic.
@@ -42,15 +42,19 @@ import org.jboss.logging.Logger;
  * @author pvinoth
  */
 public class AbstractSearchLogic {
+
+    public AbstractSearchLogic() {
+        super();
+    }
     
-    private static final Logger LOGGER = Logger.getLogger(AbstractSearchLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchLogic.class);
     
     /** The binder. */
-    ErrorfulFieldGroup binder;
+    private ErrorfulFieldGroup binder;
     
     /** The module name. */
-    String moduleName;
-    private static ResourceBundle excelProperties = ResourceBundle.getBundle("properties.excelheader");
+    private String moduleName;
+    private static final ResourceBundle EXCEL_PROPERTIES = ResourceBundle.getBundle("properties.excelheader");
 
     /**
      * Check search criteria.
@@ -84,7 +88,7 @@ public class AbstractSearchLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void excelExportLogic(String moduleName, ExtFilterTable resultTable, AbstractSearchForm obj,ErrorfulFieldGroup binder) throws PortalException, ParseException, NoSuchMethodException, SystemException, IllegalAccessException,  InvocationTargetException {
+    public void excelExportLogic(String moduleName, ExtFilterTable resultTable, AbstractSearchForm obj,ErrorfulFieldGroup binder) throws PortalException,  NoSuchMethodException, SystemException, IllegalAccessException,  InvocationTargetException {
         createWorkSheet(moduleName,resultTable, obj, binder);
     }
     
@@ -99,7 +103,7 @@ public class AbstractSearchLogic {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    private void createWorkSheet(String moduleName,ExtFilterTable resultTable, AbstractSearchForm obj, ErrorfulFieldGroup binder) throws SystemException, PortalException, ParseException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
+    private void createWorkSheet(String moduleName,ExtFilterTable resultTable, AbstractSearchForm obj, ErrorfulFieldGroup binder) throws SystemException, PortalException,  NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
 
         long recordCount = 0;
         if (resultTable.size() != 0) {
@@ -134,7 +138,7 @@ public class AbstractSearchLogic {
                         List printableDto= new ArrayList<>();
                         for (int rowCount = 0; rowCount < reultList.size(); rowCount++) {
                             searchResultsDTO = (SearchResultsDTO) reultList.get(rowCount);
-                            printableDto.add(getStringRows(searchResultsDTO,excelProperties.getString("deductionExcelHeader").split(",")));
+                            printableDto.add(getStringRows(searchResultsDTO,EXCEL_PROPERTIES.getString("deductionExcelHeader").split(",")));
                          }                    
                         printCsv(printableDto,printWriter);                         
                     
@@ -146,14 +150,14 @@ public class AbstractSearchLogic {
                     List printableDto= new ArrayList<>();
                     for (int rowCount = 0; rowCount < resultList.size(); rowCount++) {
                         searchResultsDTO = (SearchResultsDTO) resultList.get(rowCount);
-                        printableDto.add(getStringRows(searchResultsDTO,excelProperties.getString("cdrExcelHeader").split(",")));
+                        printableDto.add(getStringRows(searchResultsDTO,EXCEL_PROPERTIES.getString("cdrExcelHeader").split(",")));
                      }                    
                     printCsv(printableDto,printWriter);                     
                     
                 }
             }
-        } catch (Exception e) {
-            LOGGER.error(e);
+        } catch (SystemException e) {
+            LOGGER.error(e.getMessage());
         }
     }
     
@@ -197,7 +201,7 @@ public class AbstractSearchLogic {
             }
                                    
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-           LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
        return builder.toString();
     }
@@ -230,7 +234,7 @@ public class AbstractSearchLogic {
      * @return
      * @throws Exception
      */
-    public int getCountBasedOnModules(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws SystemException, ParseException, PortalException {
+    public int getCountBasedOnModules(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws SystemException,  PortalException {
         int count;
         switch (moduleName) {
             case ConstantUtil.COMPLIANCE_DEDUCTION_RULES:   
@@ -261,7 +265,7 @@ public class AbstractSearchLogic {
      * @return
      * @throws Exception
      */
-    public List getSearchResultsBasedOnModules(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws PortalException, SystemException, ParseException {
+    public List getSearchResultsBasedOnModules(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws PortalException, SystemException {
         List list;
         switch (moduleName) {
             case ConstantUtil.COMPLIANCE_DEDUCTION_RULES:   

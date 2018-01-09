@@ -1,6 +1,5 @@
 package com.stpl.app.ui;
 
-// TODO: Auto-generated Javadoc
 /**
  * Custom Exception Class.
  *

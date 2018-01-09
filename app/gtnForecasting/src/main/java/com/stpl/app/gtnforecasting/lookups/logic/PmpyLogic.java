@@ -5,6 +5,13 @@
  */
 package com.stpl.app.gtnforecasting.lookups.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.TemporaryFileDownloadResource;
 import com.stpl.app.gtnforecasting.dao.PPAProjectionDao;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
@@ -23,20 +30,13 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.CcpDetailsLocalServiceUtil;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-import com.stpl.app.utils.Constants;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.ProjectionDetailsLocalServiceUtil;
+import com.stpl.app.utils.Constants;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.server.Page;
 import com.vaadin.ui.UI;
 import com.vaadin.v7.data.Container;
@@ -65,7 +65,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The class PmpyLogic.
@@ -77,7 +78,7 @@ public class PmpyLogic {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(PmpyLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(PmpyLogic.class);
     protected DecimalFormat doubleDecimalFormat = new DecimalFormat("#0.00");
     protected DecimalFormat noDecimalFormat = new DecimalFormat("#");
     /**
@@ -286,7 +287,7 @@ public class PmpyLogic {
 
         } catch (Exception ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of getPmpyData");
         return list;
@@ -573,7 +574,7 @@ public class PmpyLogic {
             tempFile.deleteOnExit();
             LOGGER.debug("End of export method");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -623,7 +624,7 @@ public class PmpyLogic {
             SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
             list = (List) salesProjectionDAO.executeSelectQuery(queryBuilder.toString());
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return list;
     }
@@ -651,7 +652,7 @@ public class PmpyLogic {
         try {
             list = CcpDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         if (!list.isEmpty()) {
             Object[] obj = (Object[]) list.get(0);
@@ -671,7 +672,7 @@ public class PmpyLogic {
             try {
                 list = CompanyMasterLocalServiceUtil.dynamicQuery(dynamicQuery1);
             } catch (SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
             if (!list.isEmpty()) {
 
@@ -694,7 +695,7 @@ public class PmpyLogic {
                 try {
                     list = CompanyMasterLocalServiceUtil.dynamicQuery(dynamicQuery2);
                 } catch (SystemException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
                 if (!list.isEmpty()) {
                     contractHolder = (String) list.get(0);
@@ -719,7 +720,7 @@ public class PmpyLogic {
         try {
             list = callNmPmpyProcedure(inputs);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
         List<Object> propertyList = (List<Object>) inputs[NumericConstants.FOUR];
@@ -831,7 +832,7 @@ public class PmpyLogic {
             }
             LOGGER.debug("Ending callSalesInsertProcedure return  staus ::::");
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
            try {
                 if (statement != null) 
@@ -847,7 +848,7 @@ public class PmpyLogic {
                 connection.close();
                 } 
            }catch (SQLException e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
             }
         }
         return list;
@@ -877,7 +878,7 @@ public class PmpyLogic {
             spLogic.callManualEntry(projectionSelectionDTO, changeProperty);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -893,7 +894,7 @@ public class PmpyLogic {
             return (Boolean) PPADAO.executeUpdate(sql.toString());
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of pmpy Update ");
         return Boolean.FALSE;
@@ -904,7 +905,7 @@ public class PmpyLogic {
             File tempFile = File.createTempFile(FILE_NAME, XLS_FORMAT);
             return tempFile;
         } catch (IOException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return null;
     }

@@ -22,13 +22,14 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.lang.reflect.InvocationTargetException;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
@@ -54,7 +55,7 @@ public class DataAssumptions extends CustomComponent {
     protected HorizontalLayout excelButtonLayout;
 
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    private static final Logger LOGGER = Logger.getLogger(DataAssumptions.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataAssumptions.class);
     protected DataAssumptionstableLogic tableLogic = new DataAssumptionstableLogic();
     private final ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
     public BeanItemContainer<DataAssumptionDTO> resultsContainer = new BeanItemContainer<>(DataAssumptionDTO.class);
@@ -113,7 +114,7 @@ public class DataAssumptions extends CustomComponent {
                     try {
                        createWorkSheet();
                     } catch (Exception e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                     }
                 }
             });
@@ -124,7 +125,7 @@ public class DataAssumptions extends CustomComponent {
         try {
             CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(),TableHeaderColumnsUtil.dataAssumptionsColumnsExcel , tableLogic, "Data Assumptions");
         } catch (PortalException | SystemException | IllegalAccessException | IllegalArgumentException | NoSuchFieldException | NoSuchMethodException | InvocationTargetException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 }

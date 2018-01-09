@@ -1,6 +1,7 @@
 package com.stpl.app.gtnforecasting.projectionvariance.form;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastProjectionVariance;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
@@ -47,28 +48,27 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 import com.vaadin.v7.data.Property.ValueChangeEvent;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+
 import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 /**
  * The Class ProjectionVariance.
@@ -82,7 +82,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(MProjectionVariance.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MProjectionVariance.class);
     /**
      * The excel export image.
      */
@@ -206,7 +206,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         configureBaseVariables();
         configureResultTable();
         }catch(Exception e){
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -902,7 +902,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
             exp.export();
             tableVerticalLayout.removeComponent(excelTable);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -1128,9 +1128,9 @@ public class MProjectionVariance extends ForecastProjectionVariance {
                 editViewBtn.setVisible(Boolean.FALSE);
             }
         } catch (com.liferay.portal.kernel.exception.PortalException ex) {
-            java.util.logging.Logger.getLogger(MProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(MProjectionVariance.class.getName()).error( StringUtils.EMPTY, ex);
         } catch (SystemException ex) {
-            java.util.logging.Logger.getLogger(MProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(MProjectionVariance.class.getName()).error( StringUtils.EMPTY, ex);
         }
     }
 

@@ -14,7 +14,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 public class GtnSqlUtil {
@@ -22,7 +23,7 @@ public class GtnSqlUtil {
 
 	}
 
-	private static final Logger LOGGER = Logger.getLogger(GtnSqlUtil.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GtnSqlUtil.class);
 	public static final String DATA_POOL = "java:jboss/datasources/jdbc/appDataPool";
 
 	public static boolean procedureCallService(String sqlQuery, Object[] paramArray) {
@@ -143,13 +144,13 @@ public class GtnSqlUtil {
                 objList.add(str);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
 
         } finally {
             try {
                 rs.close();
             } catch (SQLException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return objList;

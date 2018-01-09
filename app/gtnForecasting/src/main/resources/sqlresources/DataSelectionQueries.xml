@@ -543,18 +543,6 @@ WHERE
 	<entity id="ccpInsertQuery">
 		<query> 
         <![CDATA[    
-        IF Object_id('TEMPDB..#SELECTED_CUST_HIERARCHY_NO') IS NOT NULL
-  DROP TABLE #SELECTED_CUST_HIERARCHY_NO
-
-
-CREATE TABLE #SELECTED_CUST_HIERARCHY_NO
-  (
-     HIERARCHY_NO    VARCHAR(50), 
-)
-	INSERT into #SELECTED_CUST_HIERARCHY_NO
-	VALUES ?
-	
-	        
   IF Object_id('tempdb..#COMP_CONT') IS NOT NULL DROP
 						TABLE
 							#COMP_CONT CREATE
@@ -577,15 +565,6 @@ CREATE TABLE #SELECTED_CUST_HIERARCHY_NO
 		  IF Object_id('TEMPDB..#SELECTED_PROD_HIERARCHY_NO') IS NOT NULL
   DROP TABLE #SELECTED_PROD_HIERARCHY_NO
 
-
-CREATE TABLE #SELECTED_PROD_HIERARCHY_NO
-  (
-     HIERARCHY_NO    VARCHAR(50), 
-)
-	INSERT into #SELECTED_PROD_HIERARCHY_NO
-	VALUES ?
-	
-		
 		 IF Object_id('tempdb..#ITEM') IS NOT NULL DROP
 						TABLE
 							#ITEM CREATE
@@ -627,16 +606,7 @@ INSERT
 	<entity id="ccpInsertQueryForARP">
 		<query> 
         <![CDATA[    
-        IF Object_id('TEMPDB..#SELECTED_CUST_HIERARCHY_NO') IS NOT NULL
-  DROP TABLE #SELECTED_CUST_HIERARCHY_NO
-
-
-CREATE TABLE #SELECTED_CUST_HIERARCHY_NO
-  (
-     HIERARCHY_NO    VARCHAR(50), 
-)
-	INSERT into #SELECTED_CUST_HIERARCHY_NO
-	VALUES ?
+       
 	
 	        
   IF Object_id('tempdb..#COMP_CONT') IS NOT NULL DROP
@@ -662,13 +632,6 @@ CREATE TABLE #SELECTED_CUST_HIERARCHY_NO
   DROP TABLE #SELECTED_PROD_HIERARCHY_NO
 
 
-CREATE TABLE #SELECTED_PROD_HIERARCHY_NO
-  (
-     HIERARCHY_NO    VARCHAR(50), 
-)
-	INSERT into #SELECTED_PROD_HIERARCHY_NO
-	VALUES ?
-	
 		
 		 IF Object_id('tempdb..#ITEM') IS NOT NULL DROP
 						TABLE
@@ -1063,7 +1026,8 @@ where
                         JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
                     AND RLD.HIERARCHY_NO IN (?)
                     AND RLD.VERSION_NO = ?
-                    AND HLD.VERSION_NO = ?               
+                    AND HLD.VERSION_NO = ?      
+                     order by RLD.LEVEL_NO asc;         
             ]]>
             </query>
         </entity>

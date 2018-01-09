@@ -1,5 +1,10 @@
 package com.stpl.app.gtnforecasting.projectionvariance.form;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastProjectionVariance;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
@@ -37,6 +42,7 @@ import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.model.ForecastConfig;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.HeaderConstants.HEADER_LEVEL;
@@ -48,12 +54,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
@@ -62,7 +62,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -75,14 +74,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
@@ -106,7 +107,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(NMProjectionVariance.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NMProjectionVariance.class);
 
 
     private CommonLogic commonLogic = new CommonLogic();
@@ -521,7 +522,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(comparisonProjId), null, null);
                 selectedList = logic.getCustomizedPVComparisonList(list);
             } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         final NMComparisonLookup comparisonLookupWindow = new NMComparisonLookup(comparison, projectionId, selectedList, scrnName);
@@ -647,7 +648,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 LOGGER.info("Time taken to export :" + (end - start));
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -874,7 +875,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 generated = false;
             }
         } catch (NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1301,7 +1302,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         try {
             businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, getCommercialConstant());
         } catch (PortalException | SystemException ex) {
-            java.util.logging.Logger.getLogger(NMProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(NMProjectionVariance.class.getName()).error( StringUtils.EMPTY, ex);
         }
         DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq("businessProcessType", businessProcessType));
@@ -1309,7 +1310,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         try {
             resultList = dataSelectionDao.getForecastConfig(dynamicQuery);
         } catch (SystemException ex) {
-            java.util.logging.Logger.getLogger(CommonUtils.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(CommonUtils.class.getName()).error( StringUtils.EMPTY, ex);
         }
         ForecastConfig forecastConfig = null;
         if (resultList != null && !resultList.isEmpty()) {
@@ -1384,7 +1385,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             session.setDiscountRSlistUpdated(true);
             session.setDiscountRSlist(discountlist);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -1524,7 +1525,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             map.put(Constant.DEDUCTION_LEVEL_VALUE, StringUtils.join(commonLogic.getFilterValues(deductionFilterValues).get(SID), CommonUtil.COMMA));
             logic.saveNMPVSelection(map, projectionId, TAB_PROJECTION_VARIANCE.getConstant());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.info("savePVSelections method ends");
 
@@ -1705,7 +1706,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 security();
                 flag = false;
             } catch (PortalException | SystemException ex) {
-                java.util.logging.Logger.getLogger(NMProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerFactory.getLogger(NMProjectionVariance.class.getName()).error( StringUtils.EMPTY, ex);
             }
         }
     }
@@ -2125,7 +2126,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
             excelParentRecords.clear();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -2207,6 +2208,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private void loadDisplayFormatDdlb() throws IllegalStateException {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
+        displayFormatDdlb.removeItems();
         displayFormatValues = displayFormatDdlb.addItem(SELECT_VALUES_LABEL, null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);

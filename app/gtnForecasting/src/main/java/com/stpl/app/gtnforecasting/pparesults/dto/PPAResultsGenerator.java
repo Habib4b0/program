@@ -67,7 +67,7 @@ public class PPAResultsGenerator implements ExtFilterGenerator {
                 groupDdlb.setPageLength(NumericConstants.SEVEN);
                 return groupDdlb;
             } catch (UnsupportedOperationException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return null;

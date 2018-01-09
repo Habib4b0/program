@@ -13,7 +13,8 @@ import com.stpl.ifs.util.QueryUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -21,8 +22,8 @@ import org.jboss.logging.Logger;
  */
 public class QueryUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(QueryUtils.class);
-    final static CommonDao ITEMDAO = CommonDaoImpl.getInstance();
+    private static final Logger LOGGER = LoggerFactory.getLogger(QueryUtils.class);
+    public static final CommonDao ITEMDAO = CommonDaoImpl.getInstance();
 
     public static List getGroupList() {
         return new ArrayList();
@@ -47,14 +48,39 @@ public class QueryUtils {
                 LOGGER.debug("sql-->>" + sql);
                 list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
 
         LOGGER.debug("End of item get Data");
         return list;
     }
-    
+
+    public static Boolean queryUpdate(List input, String queryName) {
+        LOGGER.debug("Inside Item Update");
+        StringBuilder sql = new StringBuilder();
+        try {
+            LOGGER.debug("queryName - - >>" + queryName);
+            sql = new StringBuilder(SQLUtil.getQuery(queryName));
+            for (Object temp : input) {
+                sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+            }
+
+            LOGGER.debug("sql-->>" + sql);
+            Integer count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
+            if (count > 0) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        LOGGER.debug("End of Item Update");
+        return Boolean.FALSE;
+    }
+
     public static String getQuery(List input, String queryName) {
         StringBuilder sql = new StringBuilder();
         LOGGER.debug("QueryName "+queryName);
@@ -67,7 +93,7 @@ public class QueryUtils {
       }
         } catch (Exception ex) {
             LOGGER.debug("Iniside Exception Query "+sql);
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return sql.toString();
     }
@@ -80,10 +106,29 @@ public class QueryUtils {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return sql.toString();
-    }    
+    }
+
+    public static Boolean queryBulkUpdate(String queryName) {
+        LOGGER.debug("Inside Item Bulk Update");
+        try {
+            LOGGER.debug("query - - >>" + queryName);
+            Integer count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(queryName.toString());
+            if (count > 0) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        LOGGER.debug("End of Bulk Item Update");
+        return Boolean.FALSE;
+    }
+    
     
     /**
      * To create temp tables dynamically. It will return the tables created with

@@ -1,10 +1,49 @@
 package com.stpl.app.gtnforecasting.salesprojection.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.dao.CommonDAO;
+import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
+import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
+import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
+import com.stpl.app.gtnforecasting.dto.ContractBrandDTO;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.dto.SalesRowDto;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.getCustomViewDetails;
+import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
+import com.stpl.app.gtnforecasting.logic.DataSourceConnection;
 import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.dataSelection;
+import com.stpl.app.gtnforecasting.salesprojection.form.MSalesProjection;
+import com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils;
 import static com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils.getMonthForInt;
+import com.stpl.app.gtnforecasting.salesprojection.utils.QueryUtils;
+import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
+import com.stpl.app.gtnforecasting.salesprojectionresults.logic.NMSalesProjectionResultsLogic;
+import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.utils.AlternateLookupSource;
+import com.stpl.app.gtnforecasting.utils.CommonQueryUtils;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.STRING_EMPTY;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getCommonColumnHeader;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.model.ChProjectionSelection;
+import com.stpl.app.model.CompanyMaster;
+import com.stpl.app.model.CustomViewDetails;
+import com.stpl.app.service.ChProjectionSelectionLocalServiceUtil;
+import com.stpl.app.service.CompanyMasterLocalServiceUtil;
+import com.stpl.app.service.ContractMasterLocalServiceUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
+import com.stpl.app.serviceUtils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.FinderImplIndicators.INDICATOR;
@@ -43,56 +82,14 @@ import static com.stpl.app.utils.Constants.LabelConstants.SALES_PROJ;
 import static com.stpl.app.utils.Constants.LabelConstants.SPRDASH;
 import static com.stpl.app.utils.Constants.StringConstants.PERCENT;
 import static com.stpl.app.utils.Constants.StringConstants.SPLIT_ARROW;
-
-
-import com.stpl.app.gtnforecasting.dao.CommonDAO;
-import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
-import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
-import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
-import com.stpl.app.gtnforecasting.dto.ContractBrandDTO;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.SalesRowDto;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
-import com.stpl.app.gtnforecasting.logic.DataSourceConnection;
-import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.dataSelection;
-import com.stpl.app.gtnforecasting.salesprojection.form.MSalesProjection;
-import com.stpl.app.gtnforecasting.salesprojection.utils.QueryUtils;
-import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
-import com.stpl.app.gtnforecasting.salesprojectionresults.logic.NMSalesProjectionResultsLogic;
-import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.utils.AlternateLookupSource;
-import com.stpl.app.gtnforecasting.utils.CommonQueryUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.model.ChProjectionSelection;
-import com.stpl.app.model.CompanyMaster;
-import com.stpl.app.model.CustomViewDetails;
-import com.stpl.app.service.ChProjectionSelectionLocalServiceUtil;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.Constants;
 import com.stpl.app.utils.CumulativeCalculationUtils;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-import com.stpl.app.service.ContractMasterLocalServiceUtil;
-import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.QueryUtil;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.sql.CallableStatement;
@@ -120,6 +117,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -139,7 +138,7 @@ public class SalesLogic {
     private String  start;
     private String end;
     protected final CommonQueryUtils commonQueryUtils = CommonQueryUtils.getInstance();
-    public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(SalesLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(SalesLogic.class);
     protected SalesProjectionDAO salesAllocationDAO = new SalesProjectionDAOImpl();
     protected ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.tablename");
     public static final String ACTUAL_SALES = "-ActualSales";
@@ -1292,13 +1291,13 @@ public class SalesLogic {
                 statement.execute();
             }
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             try {
                 statement.close();
                 connection.close();
             } catch (SQLException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return true;
@@ -1555,7 +1554,7 @@ public class SalesLogic {
                 logic.saveSelection(projectionSelectionDTO, projectionId, String.valueOf(projectionSelectionDTO.get(Constant.SCREEN_NAME)), Constant.UPDATE, "CH_PROJECTION_SELECTION");
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1588,7 +1587,7 @@ public class SalesLogic {
                 salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder1.toString(), projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
             }
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1608,7 +1607,7 @@ public class SalesLogic {
 
             salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder1.toString(), projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1726,7 +1725,7 @@ public class SalesLogic {
         } else {
             CommonLogic commonLogic = new CommonLogic();
 
-            String hierarchyInserQuery = SQlUtil.getQuery("selected-hierarchy-no");
+            String hierarchyInserQuery = SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
 
             String hiearchyIndicator = salesDTO.getHierarchyIndicator();
@@ -2148,7 +2147,7 @@ public class SalesLogic {
             }
 
             CommonLogic commonLogic = new CommonLogic();
-            String hierarchyInserQuery =  projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-custom-view") : SQlUtil.getQuery("selected-hierarchy-no");
+            String hierarchyInserQuery =  projectionSelectionDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-custom-view") : SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_CUSTOMERPARENT,salesDTO.getSecHierarchyNo()); 
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_PRODUCTPARENT, salesDTO.getHierarchyNo()); 
@@ -2253,13 +2252,13 @@ public class SalesLogic {
             }
             LOGGER.debug("Ending callManualEntryProcedure return  staus ::::" + status);
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             try {
                 statement.close();
                 connection.close();
             } catch (SQLException e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
             }
         }
         return status;
@@ -2523,7 +2522,7 @@ public class SalesLogic {
                 salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
             }
         } catch (PortalException | SystemException | NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -2787,7 +2786,7 @@ public class SalesLogic {
             }
 
         } catch (SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             statement.close();
             connection.close();
@@ -2828,7 +2827,7 @@ public class SalesLogic {
                 thread.start();
             }
         } catch (PortalException | SystemException | SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return isSalesCalculated;
     }
@@ -3025,7 +3024,7 @@ public class SalesLogic {
                 statement.execute();
             }
         } catch (NumberFormatException | SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             statement.close();
             connection.close();
@@ -3219,7 +3218,7 @@ public class SalesLogic {
                 return obj.doubleValue() != 0.0;
             }
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return false;
         }
     }
@@ -3274,7 +3273,7 @@ public class SalesLogic {
             query.setProjection(ProjectionFactoryUtil.distinct(projectionListFrom));
             list = commonDao.getRelationshipLevels(query);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return list;
     }
@@ -3340,7 +3339,7 @@ public class SalesLogic {
             }
         } catch (PortalException | SystemException ex) {
             LOGGER.debug("Query Error--> " + query);
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -3399,7 +3398,7 @@ public class SalesLogic {
             list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(queryResult, projSelDTO.getSessionDTO().getCurrentTableNames()));
         } catch (Exception e) {
             LOGGER.debug("Query Error-->  " + queryResult);
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return convertReturnsSalesResults(projSelDTO, list);
     }
@@ -3493,7 +3492,7 @@ public class SalesLogic {
             salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery, sessionDTO.getCurrentTableNames()));
 
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -3513,7 +3512,7 @@ public class SalesLogic {
             }
         } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.debug("queryToUpdateCheckRecord---> " + queryBuilder.toString());
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -3532,7 +3531,7 @@ public class SalesLogic {
             DataSelectionLogic dsLogic = new DataSelectionLogic();
             isSalesCalculated = dsLogic.callReturnsCalculateProcedure(projectionSelectionDTO.getProjectionId(), String.valueOf(projectionSelectionDTO.getUserId()), String.valueOf(projectionSelectionDTO.getSessionDTO().getSessionId()), String.valueOf(projectionSelectionDTO.getFrequency()), SalesUtils.RETURNS_SALES_CALCULATE_PRO_NAME);
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("calculateReturnsProjection ends ");
         return isSalesCalculated;
@@ -3583,13 +3582,13 @@ public class SalesLogic {
             }
 
         } catch (SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             try {
                 statement.close();
                 connection.close();
             } catch (SQLException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         LOGGER.debug("In callRefreshProcedure ends");
@@ -3794,7 +3793,7 @@ public class SalesLogic {
                 return (List<Integer>) salesAllocationDAO.executeSelectQuery(QueryUtil.replaceTableNames(queryBuilder.toString(), sessionDTO.getCurrentTableNames()));
             }
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return Collections.emptyList();
     }
@@ -4160,7 +4159,7 @@ public class SalesLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return listValue;
     }
@@ -4345,7 +4344,7 @@ public class SalesLogic {
                 count = Integer.valueOf(String.valueOf(ob));
             }
         } catch (NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -4363,7 +4362,7 @@ private void cumulativeCalculation(ProjectionSelectionDTO projectionSelectionDTO
 					projectionSelectionDTO.getSessionDTO().getSessionId(), methodology,
 					projectionSelectionDTO.getTabName(), tableName);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -4431,12 +4430,12 @@ private void cumulativeCalculation(ProjectionSelectionDTO projectionSelectionDTO
             }
             statement.execute();
         } catch (SQLException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             try {
                 connection.close();
             } catch (SQLException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
 

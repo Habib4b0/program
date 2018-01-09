@@ -13,6 +13,8 @@ import com.stpl.ifs.util.QueryUtil;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +27,7 @@ public class CommonQueryUtils {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CommonQueryUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonQueryUtils.class);
 
     /**
      * Logic to Save projection selection section in all screens
@@ -78,7 +80,7 @@ public class CommonQueryUtils {
             List<Object[]> list = (List<Object[]>) commonDao.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()), null, null);
             return list;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         }
     }

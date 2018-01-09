@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -28,9 +29,9 @@ import org.jboss.logging.Logger;
  */
 public class DeductionDetailsLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(DeductionDetailsLogic.class);
-    QueryUtils queryUtils = new QueryUtils();
-    DecimalFormat DEC_FORMAT = new DecimalFormat("###0.00");
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeductionDetailsLogic.class);
+    private final QueryUtils queryUtils = new QueryUtils();
+    private final DecimalFormat DEC_FORMAT = new DecimalFormat("###0.00");
 
     /**
      * Method for getting start and end period from forecast configuration
@@ -54,7 +55,7 @@ public class DeductionDetailsLogic {
                 return null;
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return null;
         }
     }
@@ -85,8 +86,8 @@ public class DeductionDetailsLogic {
             count =  (list == null || list.isEmpty() ) ? 0 : Integer.valueOf(String.valueOf(list.get(0)));
             LOGGER.debug("End of getDeductionDetailsCount");
             return count;
-        } catch (Exception e) {
-            LOGGER.error(e);
+        } catch (NumberFormatException e) {
+            LOGGER.error(e.getMessage());
             return 0;
         }
     }
@@ -179,6 +180,8 @@ public class DeductionDetailsLogic {
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
+                            default:
+                                break;
 
                         }
                         lastValue = String.valueOf(obj[0]);
@@ -245,6 +248,8 @@ public class DeductionDetailsLogic {
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
+                            default: 
+                                break;
 
                         }
                         lastValue = String.valueOf(obj[0]);
@@ -286,6 +291,8 @@ public class DeductionDetailsLogic {
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
+                            default:
+                                break;
 
                         }
                         
@@ -322,8 +329,8 @@ public class DeductionDetailsLogic {
             }
             LOGGER.debug("Ending getCustomizedResultList with list size " + resultList.size());
             return resultList;
-        } catch (Exception ex) {
-            LOGGER.error(ex);
+        } catch (NumberFormatException ex) {
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
     }
@@ -349,7 +356,7 @@ public class DeductionDetailsLogic {
      * @param value
      * @param getData
      */
-    public void UpdateTempTable(DeductionDetailsDTO deductionDTO, String value, String getData, TableDTO dto,SessionDTO sessionDTO) {
+    public void updateTempTable(DeductionDetailsDTO deductionDTO, String value, String getData, TableDTO dto,SessionDTO sessionDTO) {
         try {
             Object[] obj = getData.split("~");
             String query = StringUtils.EMPTY;
@@ -360,7 +367,7 @@ public class DeductionDetailsLogic {
             }
             HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -385,8 +392,8 @@ public class DeductionDetailsLogic {
             String qry="SELECT COUNT(DISTINCT \"YEAR\") FROM ST_DEDUCTION_CALENDAR_DETAILS ";
             List list=HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(qry,sessionDTO.getCurrentTableNames()));
             return count/Integer.valueOf(list.get(0).toString());
-        } catch (Exception ex) {
-            LOGGER.error(ex);
+        } catch (NumberFormatException ex) {
+            LOGGER.error(ex.getMessage());
             return 0;
         }
     }
@@ -518,8 +525,7 @@ public class DeductionDetailsLogic {
                     .replace("?UID", dto.getUserId())
                     .replace("?SID", "'" + dto.getSessionId() + "'");
         }
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-        return list;
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
     public Double getCount(DeductionDetailsDTO detailsDTO, TableDTO dto, String filterValue,SessionDTO sessionDTO) {

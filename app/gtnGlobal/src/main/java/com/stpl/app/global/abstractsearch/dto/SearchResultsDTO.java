@@ -15,6 +15,10 @@ import java.util.Date;
  */
 public class SearchResultsDTO implements Serializable {
 
+    public SearchResultsDTO() {
+        super();
+    }
+
     private static final long serialVersionUID = -2456121686748264335L;
     private HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
     private String systemID = StringUtils.EMPTY;//Holds the systemID of the respective module
@@ -155,10 +159,10 @@ public class SearchResultsDTO implements Serializable {
     private Date comEndDate;
     private Date comTradeStartDate;
     private Date comTradeEndDate;
-    private Date ComParentSDate;
-    private Date ComParentEDate;
+    private Date comParentStartDate;
+    private Date comParentEndDate;
     private Date priorParentStartDate;
-    private String ParentEndDate;
+    private String prntEndDate;
 
     // Company Family Plan
     private String parentCompanyFamilyPlanName = StringUtils.EMPTY;
@@ -262,7 +266,7 @@ public class SearchResultsDTO implements Serializable {
     private String secondaryRebatePlanNo = StringUtils.EMPTY;
     private String secondaryRebatePlanName = StringUtils.EMPTY;
     private String parentPriceScheduleId = StringUtils.EMPTY;
-    private String ParentPriceScheduleName = StringUtils.EMPTY;
+    private String parentPSName = StringUtils.EMPTY;
     private String rebateNsfName =  StringUtils.EMPTY;
     private String rebateRuleName = StringUtils.EMPTY;
     private Date rpCreatedDate;
@@ -310,12 +314,12 @@ public class SearchResultsDTO implements Serializable {
         this.parentPriceScheduleId = parentPriceScheduleId;
     }
 
-    public String getParentPriceScheduleName() {
-        return ParentPriceScheduleName;
+    public String getParentPSName() {
+        return parentPSName;
     }
 
-    public void setParentPriceScheduleName(String ParentPriceScheduleName) {
-        this.ParentPriceScheduleName = ParentPriceScheduleName;
+    public void setParentPSName(String parentPSName) {
+        this.parentPSName = parentPSName;
     }
     public HelperDTO getDto() {
         return dto;
@@ -1374,20 +1378,20 @@ public class SearchResultsDTO implements Serializable {
         this.comTradeEndDate = comTradeEndDate;
     }
 
-    public Date getComParentSDate() {
-        return ComParentSDate;
+    public Date getComParentStartDate() {
+        return comParentStartDate;
     }
 
-    public void setComParentSDate(Date ComParentSDate) {
-        this.ComParentSDate = ComParentSDate;
+    public void setComParentStartDate(Date comParentStartDate) {
+        this.comParentStartDate = comParentStartDate;
     }
 
-    public Date getComParentEDate() {
-        return ComParentEDate;
+    public Date getComParentEndDate() {
+        return comParentEndDate;
     }
 
-    public void setComParentEDate(Date ComParentEDate) {
-        this.ComParentEDate = ComParentEDate;
+    public void setComParentEndDate(Date comParentEndDate) {
+        this.comParentEndDate = comParentEndDate;
     }
 
     public Date getPriorParentStartDate() {
@@ -1398,12 +1402,12 @@ public class SearchResultsDTO implements Serializable {
         this.priorParentStartDate = priorParentStartDate;
     }
 
-    public String getParentEndDate() {
-        return ParentEndDate;
+    public String getPrntEndDate() {
+        return prntEndDate;
     }
 
-    public void setParentEndDate(String ParentEndDate) {
-        this.ParentEndDate = ParentEndDate;
+    public void setPrntEndDate(String prntEndDate) {
+        this.prntEndDate = prntEndDate;
     }
 
     public String getParentCompanyFamilyPlanName() {

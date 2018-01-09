@@ -20,7 +20,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeLogicBase;
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Supplemental Table Logic .
@@ -32,7 +33,7 @@ public class SupplementalTableLogic extends PageTreeTableLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(SupplementalTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SupplementalTableLogic.class);
 
     private boolean firstGenerated = false;
     private final SupplementalDiscountProjectionLogic sdpLogic = new SupplementalDiscountProjectionLogic();

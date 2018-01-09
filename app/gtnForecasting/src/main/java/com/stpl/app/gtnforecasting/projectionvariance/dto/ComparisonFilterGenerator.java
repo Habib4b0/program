@@ -31,7 +31,8 @@ import java.util.Map;
 import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -55,7 +56,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
     private boolean pvFlag = false;
     private ComboBox contractType;
 
-    public static final Logger LOGGER = Logger.getLogger(ComparisonFilterGenerator.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ComparisonFilterGenerator.class);
     /** To reduce unwanted DB hits **/
     private Map<MultiKey,List> contractTypeList;
     public static final String RELATIONSHIP_LEVEL_NAME = "relationshipLevelName";
@@ -240,7 +241,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 return contractType;
 
             } catch (Property.ReadOnlyException | UnsupportedOperationException e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
 
             }
 

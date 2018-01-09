@@ -16,7 +16,8 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Field;
 import java.util.Map;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,7 +25,7 @@ import org.jboss.logging.Logger;
  */
 public class DeductionFilterGenerator implements ExtFilterGenerator {
 
-    private static Logger LOGGER = Logger.getLogger(DeductionFilterGenerator.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(DeductionFilterGenerator.class);
 
     private final CommonUtil commonUtil = CommonUtil.getInstance();
 
@@ -70,10 +71,8 @@ public class DeductionFilterGenerator implements ExtFilterGenerator {
             }
 
         } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-        }
+            LOGGER.error(ex.getMessage());
+        } 
         return null;
     }
 

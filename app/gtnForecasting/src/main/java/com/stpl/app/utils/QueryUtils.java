@@ -5,32 +5,30 @@
  */
 package com.stpl.app.utils;
 
+import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.utils.Constants.CommonConstants.CONTRACT_DETAILS;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
-
+import com.stpl.app.utils.Constants.StringConstants;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.QueryUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
-
-import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.utils.Constants.StringConstants;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.QueryUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -39,7 +37,7 @@ import com.stpl.ifs.util.QueryUtil;
 public class QueryUtils {
 
     private static final CommonDAOImpl commonDao = new CommonDAOImpl();
-    private static final Logger LOGGER = Logger.getLogger(QueryUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QueryUtils.class);
     public static final String CONTRACT_HOLDER = "contractHolder";
     public static final String TILT = "~";
 
@@ -126,7 +124,7 @@ public class QueryUtils {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         } finally {
             LOGGER.debug(" exiting updateInputsForCalc");
         }
@@ -491,7 +489,7 @@ public class QueryUtils {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return sql.toString();
     }
@@ -504,7 +502,7 @@ public class QueryUtils {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return sql.toString();
     }
@@ -795,7 +793,7 @@ public class QueryUtils {
             }
             list = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of getPPAData");
         return list;
@@ -813,7 +811,7 @@ public class QueryUtils {
             int count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
             return count > 0 ? Boolean.TRUE : Boolean.FALSE;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of updateAppData");
         return Boolean.FALSE;
@@ -856,7 +854,7 @@ public class QueryUtils {
             }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return sql;
     }
@@ -873,7 +871,7 @@ public class QueryUtils {
             int count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(sql.toString(), session.getCurrentTableNames()));
             return count > 0 ? Boolean.TRUE : Boolean.FALSE;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of updateAppDataUsingSessionTables");
         return Boolean.FALSE;

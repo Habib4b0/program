@@ -1,12 +1,11 @@
 package com.stpl.app.gtnforecasting.bpm.logic;
 
+import com.liferay.portal.kernel.model.User;
 import com.stpl.app.bpm.dto.ForecastingRulesDTO;
 import com.stpl.app.gtnforecasting.bpm.persistance.WorkflowPersistance;
+import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.model.User;
-import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastConstants;
@@ -16,19 +15,19 @@ import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastProjectionSubmitReque
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsForecastProjectionSubmitBean;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.DroolsProperties;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-//import org.kie.api.runtime.process.ProcessInstance;
-//import org.kie.api.task.model.TaskSummary;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 public class DSCalculationLogic {
 
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DSCalculationLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DSCalculationLogic.class);
     private static final Properties properties = DroolsProperties.getPropertiesData();
 
     public static boolean isValidWorkflowUser(User userModel, List<String> roleList, long processIntanceId) {
@@ -57,7 +56,7 @@ public class DSCalculationLogic {
 //				}
 //			}
 //		} catch (Exception e) {
-//                    LOGGER.error(e);
+//                    LOGGER.error(e.getMessage());
 //		}
 
         return returnflag;
@@ -110,7 +109,7 @@ public class DSCalculationLogic {
 //			String workflowId = properties.getProperty("ARP_WorkflowId", "ARPWorkflow.ARPWorkflow");
 //			processInstance = BPMProcessBean.startProcess(workflowId, null);
 //		} catch (Exception e) {
-//			LOGGER.error(e);
+//			LOGGER.error(e.getMessage());
 //		}
 //                User userModel = UserLocalServiceUtil.getUser(Long.parseLong(session.getUserId()));
 //                List<String> roleList = new ArrayList<>();
@@ -121,7 +120,7 @@ public class DSCalculationLogic {
 //                        processInstanceId = taskSummary.getProcessInstanceId();
 //                        session.setProcessId(processInstanceId);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 //		return processInstance;
         return false;
@@ -139,7 +138,7 @@ public class DSCalculationLogic {
 //			BPMProcessBean.completeTask(taskSummary.getId(), userModel.getScreenName(), null);
 //			WorkflowPersistance.insertWFInstanceInfo(projectionId, processInstanceId);
 //		} catch (Exception e) {
-//			LOGGER.error(e);
+//			LOGGER.error(e.getMessage());
 //		}
 //		return taskSummary;
 //	}
@@ -202,7 +201,7 @@ public class DSCalculationLogic {
                 }
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return list;
     }
@@ -223,7 +222,7 @@ public class DSCalculationLogic {
                 list.add(accrualRate);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return list;
     }

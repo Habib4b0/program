@@ -9,16 +9,26 @@ import java.util.Date;
 import com.stpl.app.util.HelperDTO;
 import com.stpl.app.util.HelperUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class SearchCriteriaDTO.
  */
 public class SearchCriteriaDTO implements Serializable {
+  
+    private static final Logger LOGGER = LoggerFactory.getLogger(SearchCriteriaDTO.class); 
 
     /**
      * The Constant serialVersionUID.
      */
     private static final long serialVersionUID = 3584109928269363711L;
+    
+
+    public SearchCriteriaDTO() {
+        LOGGER.debug("Inside SearchCriteriaDTO: Overidden method");
+        
+    }
 
     /**
      * The item no.

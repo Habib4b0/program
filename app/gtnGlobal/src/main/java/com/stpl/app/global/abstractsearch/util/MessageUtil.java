@@ -8,7 +8,8 @@ package com.stpl.app.global.abstractsearch.util;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The class Message Util
@@ -16,11 +17,11 @@ import org.jboss.logging.Logger;
  */
 public final class MessageUtil {
     /** The resouce bundle. */
-	public static ResourceBundle resouceBundle = ResourceBundle.getBundle("properties.message");
+	public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("properties.message");
 
 	public static final String HYPHEN = " - ";
         
-        private static final Logger LOGGER = Logger.getLogger(MessageUtil.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(MessageUtil.class);
 
 	/**
 	 * The Constructor.
@@ -36,11 +37,11 @@ public final class MessageUtil {
 	public static String getErrorCode(final String key) {
 		try {
 	            if (key != null && key.contains(key)) {
-                        return resouceBundle.getString(key);
+                        return RESOURCE_BUNDLE.getString(key);
                     }
                     return "";
 		} catch (MissingResourceException e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
 			return "";
 		}
 	}

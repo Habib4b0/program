@@ -29,7 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -37,7 +38,7 @@ import org.jboss.logging.Logger;
  */
 public class PPAProjectionLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(PPAProjectionLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
     private static Thread procedureThread;
     private static RunnableJob runnableJob;
     CommonLogic commonLogic=new CommonLogic();
@@ -436,7 +437,7 @@ public class PPAProjectionLogic {
 
         } catch (Exception ex) {
 
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return list;
     }
@@ -461,7 +462,7 @@ public class PPAProjectionLogic {
 
             selection.setLevelCount(count);
         } catch (NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }

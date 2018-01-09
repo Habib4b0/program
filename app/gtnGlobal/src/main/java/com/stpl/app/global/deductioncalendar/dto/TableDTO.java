@@ -9,7 +9,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.Comparator;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -52,7 +53,11 @@ public class TableDTO extends ExtMapDTO implements Comparator<TableDTO> {
 
     private Integer ccpCount = 0;
     
-    private static final Logger LOGGER = Logger.getLogger(TableDTO.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TableDTO.class);
+
+    public TableDTO() {
+        super();
+    }
 
 
     @Override
@@ -76,8 +81,8 @@ public class TableDTO extends ExtMapDTO implements Comparator<TableDTO> {
 
                 }
             }
-        } catch (Exception e) {
-            LOGGER.error(e);
+        } catch (NumberFormatException e) {
+            LOGGER.error(e.getMessage());
         }
 
         return value;

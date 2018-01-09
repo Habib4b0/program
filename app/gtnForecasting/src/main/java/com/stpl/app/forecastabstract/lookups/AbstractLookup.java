@@ -5,6 +5,8 @@
  */
 package com.stpl.app.forecastabstract.lookups;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.ErrorCodeUtil;
@@ -21,8 +23,6 @@ import static com.stpl.app.utils.Constants.ButtonConstants.BTN_SELECT;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_SUBMIT;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_UPDATE;
 import com.stpl.app.utils.UiUtils;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Window;
@@ -34,6 +34,8 @@ import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -68,7 +70,7 @@ public abstract class AbstractLookup extends Window {
 	/**
 	 * The logger.
 	 */
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(AbstractLookup.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractLookup.class);
 
 	/**
 	 * Constructor for AbstractLookup

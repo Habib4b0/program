@@ -24,10 +24,11 @@ import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Field;
-import org.jboss.logging.Logger; 
+import org.slf4j.Logger; 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -36,13 +37,13 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 public class ItemMasterGenerate implements ExtFilterGenerator {
 
     final com.stpl.app.global.abstractsearch.util.CommonUtils abstractCommonsUtil = new com.stpl.app.global.abstractsearch.util.CommonUtils();
-    private HelperDTO dto = new HelperDTO(ConstantsUtils.SHOW_ALL);
+    private final HelperDTO dto = new HelperDTO(ConstantsUtils.SHOW_ALL);
     /** The logger. */
-    private static final Logger LOGGER = Logger.getLogger(ItemMasterGenerate.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemMasterGenerate.class);
     /**
      * The common util.
      */
-    private CommonUtil commonUtil = CommonUtil.getInstance();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
 
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {
@@ -172,8 +173,7 @@ public class ItemMasterGenerate implements ExtFilterGenerator {
                 }
                 
                 if ("itemSystemID".equals(propertyId)) {
-                   NumberFilterPopup popup = new NumberFilterPopup();
-                   return popup;
+                   return new NumberFilterPopup();
                 }
                 
                 if ("itemIrtQualifierName".equals(propertyId)) {
@@ -184,7 +184,7 @@ public class ItemMasterGenerate implements ExtFilterGenerator {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return null;
     }

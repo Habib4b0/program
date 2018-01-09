@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.salesprojectionresults.logic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
@@ -37,12 +39,10 @@ import static com.stpl.app.utils.Constants.LabelConstants.SALES_PERC_OF_EX_FACTO
 import static com.stpl.app.utils.Constants.LabelConstants.SPRDASH;
 import static com.stpl.app.utils.Constants.LabelConstants.UNITS;
 import static com.stpl.app.utils.Constants.LabelConstants.UNIT_VOL;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,7 +52,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -93,7 +94,7 @@ public class NMSalesProjectionResultsLogic {
 	/**
 	 * The Constant LOGGER.
 	 */
-	public static final Logger LOGGER = Logger.getLogger(NMSalesProjectionResultsLogic.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjectionResultsLogic.class);
 
 	public List<List> generateSalesProjectionResults(Object[] selections, String salesOrUnits, String actualOrProj,
 			List<Object> headerList, String pivotView) {
@@ -332,7 +333,7 @@ public class NMSalesProjectionResultsLogic {
 			}
 			LOGGER.debug("generateSalesProjectionResults method ends");
 		} catch (SystemException | PortalException | GtnFrameworkGeneralException | NumberFormatException se) {
-			LOGGER.error(se);
+			LOGGER.error(StringUtils.EMPTY,se);
 		}
 		return finalList;
 	}
@@ -395,7 +396,7 @@ public class NMSalesProjectionResultsLogic {
 			}
 			LOGGER.debug("getGTSResult method ends");
 		} catch (GtnFrameworkGeneralException | NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return gtsList;
 	}
@@ -2001,7 +2002,7 @@ public class NMSalesProjectionResultsLogic {
 				count = commonLogic.getCount(projSelDTO);
 			}
 		} catch (IllegalArgumentException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return count;
 	}

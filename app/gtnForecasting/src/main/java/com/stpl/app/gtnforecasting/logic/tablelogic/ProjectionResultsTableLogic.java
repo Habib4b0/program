@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -31,7 +33,7 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
     /**
      * The Constant LOGGER.
      */
-    public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ProjectionResultsTableLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionResultsTableLogic.class);
 
     @Override
     public GtnSmallHashMap loadData(int start, int offset) {

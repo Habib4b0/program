@@ -28,6 +28,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -38,7 +40,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     public NMSalesProjectionResultsLogic sprLogic = new NMSalesProjectionResultsLogic();
     boolean firstGenerated = false;
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(NMSalesProjectionResultsTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjectionResultsTableLogic.class);
     private SalesProjectionResultsTree tree;
     private Map<String, SalesProjectionResultsDTO> loadDataMap = new HashMap<>();
     private String pivotValue = StringUtils.EMPTY;
@@ -58,7 +60,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
                 projSelDTO.clearNonFetchableIndex();
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("loadData ends with record size=" + map.size());
         return map;
@@ -92,7 +94,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
             }
 
         } catch (NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("count= " + count);
         return count;

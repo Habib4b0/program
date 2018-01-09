@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,7 +32,7 @@ public class GroupSearchLogic extends PageTableLogic {
     private boolean isCustomGroup;
     private final DataSelectionLogic logic = new DataSelectionLogic();
     private GroupDTO dto;
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(GroupSearchLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroupSearchLogic.class);
 
     @Override
     public int getCount() {
@@ -39,7 +41,7 @@ public class GroupSearchLogic extends PageTableLogic {
             try {
                 count = logic.searchGroupCount(dto, isCustomGroup, getFilters(), getSortByColumns());
             } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return count;
@@ -51,7 +53,7 @@ public class GroupSearchLogic extends PageTableLogic {
         try {
             resultList = logic.searchGroup(dto, isCustomGroup, getFilters(), getSortByColumns(), start, offset);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return resultList;
     }

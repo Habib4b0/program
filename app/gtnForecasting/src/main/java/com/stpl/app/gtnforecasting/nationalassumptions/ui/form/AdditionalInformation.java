@@ -3,6 +3,8 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.AttachmentDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.AdditionalInfoLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
@@ -17,8 +19,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.LayoutEvents;
@@ -50,7 +50,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -69,7 +70,7 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(AdditionalInformation.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdditionalInformation.class);
 
     /**
      * The excel export image.
@@ -237,7 +238,7 @@ public class AdditionalInformation extends CustomComponent {
             configureFields();
             LOGGER.debug("AdditionalInformation Constructor ends");
         } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -362,7 +363,7 @@ public class AdditionalInformation extends CustomComponent {
                     }
                     LOGGER.debug("uploadSucceeded method in addSucceededListener ends");
                 } catch (Property.ReadOnlyException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
             }
 
@@ -484,7 +485,7 @@ public class AdditionalInformation extends CustomComponent {
                             documentExporter();
                         }
                     } catch (SystemException | Property.ReadOnlyException e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                     }
                 }
             }.getConfirmationMessage("New note confirmation", "Are you sure you want to add this note");
@@ -533,7 +534,7 @@ public class AdditionalInformation extends CustomComponent {
                             tableBean = (AttachmentDTO) null;
 
                         } catch (Exception e) {
-                            LOGGER.error(e);
+                            LOGGER.error(e.getMessage());
                         }
                     }
                 }.getConfirmationMessage(Constant.REMOVE_ATTACHMENT, "Are you sure you want to delete this Attachment?");

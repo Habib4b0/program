@@ -24,12 +24,12 @@ import com.stpl.app.gcm.util.Constants.IndicatorConstants;
 import static com.stpl.app.gcm.util.Constants.MessageConstants.NO_TP_SELECTED_BODY;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.ui.CustomFieldGroup;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
@@ -46,7 +46,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
-import com.vaadin.ui.TabSheet;
 import com.vaadin.v7.ui.TableFieldFactory;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
@@ -64,7 +63,6 @@ import java.util.Date;
 import java.util.Map;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.customwindow.MinimizeTray;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
@@ -84,14 +82,20 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ItemManagementIndex extends CustomComponent {
 
-    
+    @UiField("itemId")
+    private TextField itemId;
+    @UiField("itemName")
+    private TextField itemName;
     @UiField("therapeuticClass")
     private ComboBox therapeuticClass;
     @UiField("form")
     private ComboBox form_DTO;
     @UiField("identifierType")
     private ComboBox identifierType_DTO;
-    
+    @UiField("itemNo")
+    private TextField itemNo; 
+    @UiField("itemDesc")
+    private TextField itemDesc;
     @UiField("brand")
     private ComboBox brand_DTO;
     @UiField("strength")
@@ -102,7 +106,8 @@ public class ItemManagementIndex extends CustomComponent {
     private ComboBox company_DTO;
     @UiField("placeHolder")
     private ComboBox placeHolder_DTO;
-    
+    @UiField("ndc9")
+    private TextField ndc9;
     @UiField("itemCategory")
     private ComboBox itemCategory;
     @UiField("itemType")
@@ -131,7 +136,7 @@ public class ItemManagementIndex extends CustomComponent {
     private final ItemLogic logic = new ItemLogic();
     private final AbstractLogic abstractLogic = AbstractLogic.getInstance();
     private ItemIndexDto binderDto = new ItemIndexDto();
-    private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
+    private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
     private final SelectionDTO selection;
     
     private final ItemIndexTableLogic tableLogic = new ItemIndexTableLogic();
@@ -140,7 +145,7 @@ public class ItemManagementIndex extends CustomComponent {
     private final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
     
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
-    
+
     private final StplSecurity stplSecurity = new StplSecurity();
     
     private final CommonUtil commonUtil = CommonUtil.getInstance();
@@ -205,6 +210,12 @@ public class ItemManagementIndex extends CustomComponent {
         loadAllDdlb();
         getBinder();
         identifier.setEnabled(false);
+        identifier.setImmediate(true);
+        itemId.setImmediate(true);
+        itemName.setImmediate(true);
+        itemNo.setImmediate(true);
+        itemDesc.setImmediate(true);
+        ndc9.setImmediate(true);
     }
 
     private void configureTable() {
@@ -654,12 +665,13 @@ public class ItemManagementIndex extends CustomComponent {
             placeHolder_DTO.setNullSelectionItemId(showAll);
         }
         placeHolder_DTO.setNullSelectionAllowed(true);
+        placeHolder_DTO.setImmediate(true);
         placeHolder_DTO.setItemCaptionPropertyId("description");
         container.addAll(placeHolderList);
         placeHolder_DTO.select(dto);
     }
 
-    private ErrorfulFieldGroup getBinder() {
+    private CustomFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);
@@ -709,7 +721,7 @@ public class ItemManagementIndex extends CustomComponent {
 
         if (list == null || list.isEmpty()) {
             return false;
-        }
+    }
         return true;
     }
 

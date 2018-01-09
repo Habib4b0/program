@@ -8,7 +8,8 @@ import com.stpl.ifs.util.constants.GlobalConstants;
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -20,7 +21,7 @@ import org.w3c.dom.NodeList;
  */
 public class StandaloneParser {
     
-    private static final Logger LOGGER = Logger.getLogger(StandaloneParser.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(StandaloneParser.class.getName());
     private String server;
     private String schema;
     private String user;
@@ -95,7 +96,7 @@ public class StandaloneParser {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
     

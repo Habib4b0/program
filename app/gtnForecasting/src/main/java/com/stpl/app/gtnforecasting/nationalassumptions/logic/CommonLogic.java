@@ -6,6 +6,12 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.logic;
 
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.NACommonResultsDAO;
 import com.stpl.app.gtnforecasting.dao.NADataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.NACommonResultsDAOImpl;
@@ -15,30 +21,26 @@ import com.stpl.app.gtnforecasting.nationalassumptions.ui.form.FcpResults;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.*;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.NaProjectionSelection;
 import com.stpl.app.service.NaProjectionSelectionLocalServiceUtil;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import org.jboss.logging.Logger;
+import org.apache.commons.lang.StringUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Nadhiya
  */
 public class CommonLogic {
-     public static final Logger LOGGER = Logger.getLogger(CommonLogic.class);
+     public static final Logger LOGGER = LoggerFactory.getLogger(CommonLogic.class);
        
       public static NADataSelectionDAO dataSelection = new NADataSelectionDAOImpl();
         public void saveProjectionSelection(Map map, int projectionID, String screenName) throws PortalException {
@@ -55,7 +57,7 @@ public class CommonLogic {
             }
             
         } catch (PortalException | SystemException ex) {
-              LOGGER.error(ex);
+              LOGGER.error(ex.getMessage());
         }
     }
         /** Get projection selection
@@ -84,7 +86,7 @@ public class CommonLogic {
             }
             return map;
         } catch (SystemException ex) {
-             LOGGER.error(ex);
+             LOGGER.error(ex.getMessage());
         }
         return null;
     }
@@ -123,7 +125,7 @@ public class CommonLogic {
             return temp;
         } catch (PortalException | SystemException e) {
            
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return null;
         }
     }
@@ -154,7 +156,7 @@ public class CommonLogic {
                 ht = new HelperDTO(0, SELECT_ONE.getConstant());
             }
         } catch (PortalException | SystemException ex) {
-            java.util.logging.Logger.getLogger(FcpResults.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(FcpResults.class.getName()).error( StringUtils.EMPTY, ex);
         }
         return ht;
 
@@ -177,7 +179,7 @@ public class CommonLogic {
             }
 
         } catch (PortalException | SystemException ex) {
-            java.util.logging.Logger.getLogger(FcpResults.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(FcpResults.class.getName()).error( StringUtils.EMPTY, ex);
         }
         return ht;
 

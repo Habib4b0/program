@@ -16,7 +16,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import org.apache.commons.io.output.NullOutputStream;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -48,7 +49,7 @@ public class FileUploader implements Receiver {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(FileUploader.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileUploader.class);
 
 	/**
 	 * The user id.
@@ -97,12 +98,12 @@ public class FileUploader implements Receiver {
 				return outputStream;
 			}
 		} catch (final java.io.FileNotFoundException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			new Notification("Could not open file ", e.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());
 			return null;
 		} catch (IOException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 			new Notification("Could not create ", ex.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());
 			return null;
@@ -128,7 +129,7 @@ public class FileUploader implements Receiver {
 				outputStream.close();
 			}
 		} catch (IOException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		LOGGER.debug("End of finalize method");
 		super.finalize();

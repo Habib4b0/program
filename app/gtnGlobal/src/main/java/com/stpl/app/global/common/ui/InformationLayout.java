@@ -51,7 +51,7 @@ public class InformationLayout extends VerticalLayout {
     private Panel panel;
 
       
-    public static ResourceBundle labelBundle = ResourceBundle.getBundle("properties.labelname");
+    public static final ResourceBundle LABEL_BUNDLE = ResourceBundle.getBundle("properties.labelname");
     
    /**
     * Constructor for the information layout. 
@@ -93,7 +93,7 @@ public class InformationLayout extends VerticalLayout {
     */
     private void configureLabels(final String moduleName,final boolean isVisibleFlag) {        
 
-        String infomationValues = labelBundle.getString(moduleName+"_information_label");
+        String infomationValues = LABEL_BUNDLE.getString(moduleName+"_information_label");
         String[] values = infomationValues.split(",");
         idLabel.setValue(values[0].trim());
         noLabel.setValue(values[1].trim());
@@ -103,7 +103,7 @@ public class InformationLayout extends VerticalLayout {
             descLabel.setVisible(true);
             descLabel.setValue(values[NumericConstants.THREE].trim());
         }
-        String panelValues = labelBundle.getString(moduleName+"_panel_caption");
+        String panelValues = LABEL_BUNDLE.getString(moduleName+"_panel_caption");
         panel.setCaption(panelValues);
     }
     

@@ -11,10 +11,11 @@ import com.stpl.app.gtnforecasting.nationalassumptions.logic.NationalAssumptionL
 import com.stpl.ifs.util.HelperDTO;
 import java.util.Collections;
 import java.util.List;
-import org.jboss.logging.Logger;
 import org.asi.ui.addons.lazycontainer.DAO;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -28,7 +29,7 @@ public class NdcFilterContainer implements DAO<HelperDTO>{
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(NdcFilterContainer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NdcFilterContainer.class);
 
     /**
      * Method used for get Count.
@@ -58,7 +59,7 @@ public class NdcFilterContainer implements DAO<HelperDTO>{
             LOGGER.debug("Entering Count method :");
             return NationalAssumptionLogic.getLazyNdcFilterCount(searchCriteria.getFilter(),brandMasterSid,itemFlag,therapeutic) + 1;
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return 0;
     }
@@ -72,7 +73,7 @@ public class NdcFilterContainer implements DAO<HelperDTO>{
             LOGGER.debug("Entering find method :");
             return NationalAssumptionLogic.getLazyNdcFilterResults(startIndex, startIndex + offset, searchCriteria.getFilter(), itemFlag,brandMasterSid,therapeutic,isFilter);
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return Collections.emptyList();
     }

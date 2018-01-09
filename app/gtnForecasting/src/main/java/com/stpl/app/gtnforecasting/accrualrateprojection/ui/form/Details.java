@@ -6,6 +6,8 @@
  */
 package com.stpl.app.gtnforecasting.accrualrateprojection.ui.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualRateProjectionDTO;
 import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualRateSelectionDTO;
@@ -22,8 +24,6 @@ import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -31,7 +31,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,10 +41,12 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.custommenubar.CustomMenuBar.CustomMenuItem;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -57,7 +58,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class Details extends CustomComponent {
 
-    private static final Logger LOGGER = Logger.getLogger(Details.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Details.class);
 
     @UiField("frequencyDdlb")
     private ComboBox frequencyDdlb;
@@ -369,7 +370,7 @@ public class Details extends CustomComponent {
                 loadFromAndToPeriods();
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -458,7 +459,7 @@ public class Details extends CustomComponent {
             }
             tableVerticalLayout.removeComponent(excelTable);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -620,7 +621,7 @@ public class Details extends CustomComponent {
             }
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

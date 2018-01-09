@@ -5,21 +5,22 @@
  */
 package com.stpl.app.gtnforecasting.lazyload;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.logic.PPAProjectionLogic;
 import com.stpl.app.serviceUtils.ErrorCodeUtil;
 import com.stpl.app.serviceUtils.ErrorCodes;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.SystemException;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 import java.util.Collections;
 import java.util.List;
-import org.jboss.logging.Logger;
 import org.asi.ui.addons.lazycontainer.DAO;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -31,7 +32,7 @@ public class PriceTypeLazyContainer implements DAO<HelperDTO> {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PriceTypeLazyContainer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PriceTypeLazyContainer.class);
 
     /**
      * Method used for get Count.

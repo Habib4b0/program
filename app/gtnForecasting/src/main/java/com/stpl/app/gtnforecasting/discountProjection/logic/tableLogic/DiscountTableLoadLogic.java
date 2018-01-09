@@ -20,7 +20,8 @@ import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DiscountTableLoadLogic extends PageTreeTableLogic {
 
@@ -35,7 +36,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(DiscountTableLoadLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountTableLoadLogic.class);
 
     public void setDiscountVariablesForLogic(SessionDTO session, ProjectionSelectionDTO projectionSelection, List<Integer> startAndEndPeriods,
             int levelNo, boolean isParent, CustomTableHeaderDTO rightDto, String hierarchyIndicator, List<Leveldto> currentHierarchy,
@@ -184,7 +185,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
 
             LOGGER.debug("Exiting loadData method ------------------------------------------------------" + list.size());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return list;
     }
@@ -301,7 +302,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
                 return 0;
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return Integer.valueOf(list.get(0).toString());
     }

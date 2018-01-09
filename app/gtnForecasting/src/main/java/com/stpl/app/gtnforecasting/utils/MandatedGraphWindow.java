@@ -8,14 +8,15 @@ package com.stpl.app.gtnforecasting.utils;
 
 import com.vaadin.ui.Component;
 import elemental.events.KeyboardEvent;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author sooriya.lakshmanan
  */
 public class MandatedGraphWindow extends StplWindow{
-    private static final Logger LOGGER = Logger.getLogger(MandatedGraphWindow.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MandatedGraphWindow.class);
     public MandatedGraphWindow(final Component component, final String title) {
 		super(title);
 

@@ -5,11 +5,11 @@
  */
 package com.stpl.app.gtnforecasting.accrualrateprojection.logic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualDataSelectionDTO;
 import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.LOGGER;
 import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.dataSelection;
-
-
-import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualDataSelectionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -23,8 +23,6 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.ui.ComboBox;
 import java.text.ParseException;
@@ -58,7 +56,7 @@ public class DSLogic {
 
             HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery.toString());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -197,7 +195,7 @@ public class DSLogic {
             return Collections.emptyList();
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
         } finally {
             LOGGER.debug("End of getCcpMap method");
@@ -231,7 +229,7 @@ public class DSLogic {
             insertQuery = insertQuery.replace("@SELECTION", String.valueOf(parameters.get("SELECTION")));
             HelperTableLocalServiceUtil.executeUpdateQuery(insertQuery);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -248,7 +246,7 @@ public class DSLogic {
             deductionValue.select(String.valueOf(list.get(1)));
             deductionValue.setImmediate(true);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
     }
@@ -378,7 +376,7 @@ public class DSLogic {
             }
             return map;
         } catch (Exception ex) {
-            LOGGER.debug(ex);
+            LOGGER.error("",ex);
         }
         return null;
     }
@@ -466,7 +464,7 @@ public class DSLogic {
             }
             return fileFlag;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return false;
         }
     }

@@ -21,7 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +30,7 @@ import org.jboss.logging.Logger;
  */
 public class NMProjectionResultsLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(NMProjectionResultsLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NMProjectionResultsLogic.class);
     /**
      * The Currency Zero Decimal Places Format.
      */
@@ -1914,7 +1915,7 @@ public class NMProjectionResultsLogic {
             resultList.add(netSalesDto);
             return resultList;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
     }
@@ -1972,7 +1973,7 @@ public class NMProjectionResultsLogic {
             LOGGER.info("= = = Ending getCOGSandNetProfit = = = = = =");
             return projDTOList;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
     }
@@ -2591,7 +2592,7 @@ public class NMProjectionResultsLogic {
             }
             return resultList;
         } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
 
             return Collections.emptyList();
         }

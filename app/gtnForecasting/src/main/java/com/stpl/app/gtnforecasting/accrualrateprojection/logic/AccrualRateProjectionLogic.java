@@ -34,7 +34,8 @@ import java.util.concurrent.CountDownLatch;
 import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -42,7 +43,7 @@ import org.jboss.logging.Logger;
  */
 public final class AccrualRateProjectionLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(AccrualRateProjectionLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccrualRateProjectionLogic.class);
 
     private static AccrualRateProjectionLogic accrualRateProjectionLogic;
     public static List<String> selectedCompanyList = new ArrayList<>();
@@ -222,7 +223,7 @@ public final class AccrualRateProjectionLogic {
             }
             query = query.replace("#SELECTED_RATE_BASIS", rateBasis);
         } catch (Exception e) {           
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             LOGGER.error("ARP DETAILS QUERY: " + query);
         }        
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, accrualRateSelectionDTO.getSessionDto().getCurrentTableNames()));
@@ -611,13 +612,13 @@ public final class AccrualRateProjectionLogic {
                 statement.execute();
             }
         } catch (SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             try {
                 statement.close();
                 connection.close();
             } catch (SQLException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
     }
@@ -742,7 +743,7 @@ public final class AccrualRateProjectionLogic {
                 }
             }
         } catch (Exception e) {
-               LOGGER.error(e);
+               LOGGER.error(e.getMessage());
         }
         return resultList;
     }
@@ -897,7 +898,7 @@ public final class AccrualRateProjectionLogic {
                 setSelectedCompanyList(listComSid);
             }
         } catch (Exception e) {
-              LOGGER.error(e);
+              LOGGER.error(e.getMessage());
         }
         return resultList;
     }

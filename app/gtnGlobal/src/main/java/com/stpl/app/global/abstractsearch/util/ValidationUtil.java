@@ -7,7 +7,8 @@ package com.stpl.app.global.abstractsearch.util;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The class Validation Util.
@@ -18,13 +19,13 @@ public class ValidationUtil {
     /**
      * The resouce bundle.
      */
-    public static ResourceBundle resouceBundle = ResourceBundle.getBundle("properties.validation");
+    public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("properties.validation");
     
-    public static ResourceBundle label = ResourceBundle.getBundle("properties.labelname");
+    public static final ResourceBundle LABEL = ResourceBundle.getBundle("properties.labelname");
 
     public static final String HYPHEN = " - ";
     
-    private static final Logger LOGGER = Logger.getLogger(ValidationUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ValidationUtil.class);
 
     /**
      * The Constructor.
@@ -37,12 +38,12 @@ public class ValidationUtil {
      */
     public static String getMC(final String key) {
         try {
-            if (key !=null && resouceBundle.containsKey(key)) {
-                return resouceBundle.getString(key);
+            if (key !=null && RESOURCE_BUNDLE.containsKey(key)) {
+                return RESOURCE_BUNDLE.getString(key);
             }
             return "";
         } catch (MissingResourceException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return "";
         }
     }
@@ -72,12 +73,12 @@ public class ValidationUtil {
 
     public static String getLC(final String key) {
         try {
-            if (key != null && label.containsKey(key)) {
-                return label.getString(key);
+            if (key != null && LABEL.containsKey(key)) {
+                return LABEL.getString(key);
             }
             return "";
         } catch (MissingResourceException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return "";
         }
     }

@@ -6,21 +6,18 @@
 
 package com.stpl.app.gtnforecasting.dao.impl;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.CommonDAO;
+import com.stpl.app.gtnforecasting.service.finderImpl.NMSalesProjectionMasterImpl;
+import com.stpl.app.gtnforecasting.service.finderImpl.NmDiscountImpl;
 import com.stpl.app.model.CustomViewDetails;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.model.RelationshipLevelDefinition;
 import com.stpl.app.service.CustomViewDetailsLocalServiceUtil;
 import com.stpl.app.service.CustomViewMasterLocalServiceUtil;
-import com.stpl.app.service.NmDiscountProjMasterLocalServiceUtil;
-import com.stpl.app.service.NmSalesProjectionMasterLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gtnforecasting.service.finderImpl.NMSalesProjectionMasterImpl;
-import com.stpl.app.gtnforecasting.service.finderImpl.NmDiscountImpl;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;
 
 /**

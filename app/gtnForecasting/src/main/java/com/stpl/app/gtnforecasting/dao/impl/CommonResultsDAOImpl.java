@@ -5,9 +5,9 @@ package com.stpl.app.gtnforecasting.dao.impl;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import com.stpl.app.gtnforecasting.dao.CommonResultsDAO;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.dao.CommonResultsDAO;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;
 

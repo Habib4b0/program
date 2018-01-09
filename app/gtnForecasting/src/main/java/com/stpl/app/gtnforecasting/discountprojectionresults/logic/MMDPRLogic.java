@@ -31,7 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -60,7 +61,7 @@ public class MMDPRLogic {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(MMDPRLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(MMDPRLogic.class);
 
     private String groupName = StringUtils.EMPTY;
     private String pivotGroupName = StringUtils.EMPTY;
@@ -353,14 +354,14 @@ public class MMDPRLogic {
                             try {
 
                             } catch (Exception ex) {
-                              LOGGER.error(ex); 
+                              LOGGER.error(ex.getMessage()); 
                             }
                         }
 
                         try {
 
                         } catch (Exception ex) {
-                            LOGGER.error(ex); 
+                            LOGGER.error(ex.getMessage()); 
                         }
                         int mayBeAddedRecord = start - mayBeAdded;
                         if (mayBeAddedRecord < 0) {
@@ -1141,7 +1142,7 @@ public class MMDPRLogic {
             }
 
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return dto;
@@ -1760,7 +1761,7 @@ public class MMDPRLogic {
             }
 
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return dto;
     }
@@ -1862,7 +1863,7 @@ public class MMDPRLogic {
             }
 
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return dto;
     }
@@ -2408,7 +2409,7 @@ public class MMDPRLogic {
             }
             return pivotDiscount;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return Collections.emptyList();
 
         }
@@ -2633,7 +2634,7 @@ public class MMDPRLogic {
 
             return list;
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
 

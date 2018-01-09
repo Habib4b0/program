@@ -50,6 +50,7 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.TextField;
@@ -58,6 +59,7 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,7 +72,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -207,13 +210,7 @@ public final class AbstractSearchForm extends CustomComponent {
      * The ErrorLabel.
      */
     @UiField("errorMsg")
-    public ErrorLabel errorMsg;
-
-    /**
-     * Layout
-     */
-    @UiField("searchLayout")
-    private VerticalLayout searchLayout;
+    private ErrorLabel errorMsg;
 
     /**
      * The Label
@@ -245,11 +242,6 @@ public final class AbstractSearchForm extends CustomComponent {
     @UiField("label5")
     private Label label5;
 
-    /**
-     * The Label
-     */
-    @UiField("label6")
-    private Label label6;
 
     /**
      * The Label
@@ -329,7 +321,7 @@ public final class AbstractSearchForm extends CustomComponent {
     private Button reset;
 
     @UiField("excel")
-    public Button excel;
+    private Button excel;
 
     @UiField("tableLayout")
     private VerticalLayout tableLayout;
@@ -338,23 +330,21 @@ public final class AbstractSearchForm extends CustomComponent {
     private HorizontalLayout controlLayout;
 
     @UiField("exportBtn")
-    public Button exportBtn;
+    private Button exportBtn;
 
-    AbstractSearchTableLogic tableLogic = new AbstractSearchTableLogic();
+    private AbstractSearchTableLogic tableLogic = new AbstractSearchTableLogic();
     private ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<SearchResultsDTO> resultBean = new BeanItemContainer<>(SearchResultsDTO.class);
-    CommonUtil commonUtil = CommonUtil.getInstance();
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
-    private static final Logger LOGGER = Logger.getLogger(AbstractSearchForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchForm.class);
     private final AbstractSearchLogic searchLogic = new AbstractSearchLogic();
-    public static ResourceBundle columnBundle = ResourceBundle.getBundle("properties.tableColumns");
+    private static ResourceBundle columnBundle = ResourceBundle.getBundle("properties.tableColumns");
     private String moduleName = StringUtils.EMPTY;
-    final CommonUtils commonsUtil = new CommonUtils();
+    private final CommonUtils commonsUtil = new CommonUtils();
     /**
      * The SessionDTO.
      */
-    SessionDTO sessionDTO;
-    CommonUtil commonMsg = CommonUtil.getInstance();
+    private SessionDTO sessionDTO;
     /**
      * The binder.
      */
@@ -364,7 +354,7 @@ public final class AbstractSearchForm extends CustomComponent {
      * The Constructor.
      *
      * @param moduleName
-     * @throws com.liferay.portal.kernel.exception.SystemException
+     * @throws com.stpl.portal.kernel.exception.SystemException
      */
     public AbstractSearchForm(String moduleName) throws SystemException {
         super();
@@ -373,8 +363,8 @@ public final class AbstractSearchForm extends CustomComponent {
         try {
             this.moduleName = moduleName;
             init();
-        } catch (Exception e) {
-            LOGGER.error(e);
+        } catch (PortalException | SystemException e) {
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -387,16 +377,16 @@ public final class AbstractSearchForm extends CustomComponent {
         this.sessionDTO = sessionDTO;
         try {
             init();
-        } catch (Exception e) {
-            LOGGER.error(e);
+        } catch (PortalException | SystemException e) {
+            LOGGER.error(e.getMessage());
         }
     }
 
     /**
      * Inits the.
      *
-     * @throws com.liferay.portal.kernel.exception.PortalException
-     * @throws com.liferay.portal.kernel.exception.SystemException
+     * @throws com.stpl.portal.kernel.exception.PortalException
+     * @throws com.stpl.portal.kernel.exception.SystemException
      */
     public void init() throws PortalException, SystemException {
         configureFields();
@@ -411,11 +401,11 @@ public final class AbstractSearchForm extends CustomComponent {
      */
     public ErrorfulFieldGroup getBinder() {
         final SearchCriteriaDTO bean = new SearchCriteriaDTO();
-        final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(bean));
-        binder.setBuffered(true);
-        binder.bindMemberFields(this);
-        binder.setErrorDisplay(errorMsg);
-        return binder;
+        final ErrorfulFieldGroup errFieldBinder = new ErrorfulFieldGroup(new BeanItem<>(bean));
+        errFieldBinder.setBuffered(true);
+        errFieldBinder.bindMemberFields(this);
+        errFieldBinder.setErrorDisplay(errorMsg);
+        return errFieldBinder;
     }
 
     /**
@@ -445,8 +435,8 @@ public final class AbstractSearchForm extends CustomComponent {
             excel.setIconAlternateText("Excel export");
             excel.setHtmlContentAllowed(true);
             LOGGER.debug(" Exits configureFields() ");
-        } catch (Exception e) {
-            LOGGER.error(e);
+        } catch (PortalException | SystemException | IllegalAccessException | IllegalArgumentException | SecurityException e) {
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -524,6 +514,7 @@ public final class AbstractSearchForm extends CustomComponent {
                                      * pressed button.
                                      */
                                     @SuppressWarnings("PMD")
+                                    @Override
                                     public void buttonClicked(final ButtonId buttonId) {
                                         // Do Nothing
                                     }
@@ -545,8 +536,8 @@ public final class AbstractSearchForm extends CustomComponent {
                 }
                 resultTable.setValue(null);
             }
-        } catch (Exception e) {
-            LOGGER.error(e);
+        } catch (Property.ReadOnlyException | NumberFormatException e) {
+            LOGGER.error(e.getMessage());
 
         }
     }
@@ -555,11 +546,9 @@ public final class AbstractSearchForm extends CustomComponent {
         try {
 
             final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-            boolean etlCheck = commonsUtil.checkETLUser(Integer.valueOf(userId));
-
-            return etlCheck;
-        } catch (Exception ex) {
-            LOGGER.error(ex);
+            return commonsUtil.checkETLUser(Integer.valueOf(userId));
+        } catch (NumberFormatException ex) {
+            LOGGER.error(ex.getMessage());
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1015), new MessageBoxListener() {
                 /**
                  * The method is triggered when a button of the message box is
@@ -568,6 +557,7 @@ public final class AbstractSearchForm extends CustomComponent {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
@@ -596,6 +586,7 @@ public final class AbstractSearchForm extends CustomComponent {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
@@ -624,7 +615,7 @@ public final class AbstractSearchForm extends CustomComponent {
                 tableLogic.clearAll();
                 tableLogic.getFilters().clear();
                 resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
-                LOGGER.error(commit);
+                LOGGER.error(commit.getMessage());
             } catch (Exception exception) {
                 final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004), new MessageBoxListener() {
                     /**
@@ -634,12 +625,13 @@ public final class AbstractSearchForm extends CustomComponent {
                      * @param buttonId The buttonId of the pressed button.
                      */
                     @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         // Do Nothing
                     }
                 }, ButtonId.OK);
                 msg.getButton(ButtonId.OK).focus();
-                LOGGER.error(exception);
+                LOGGER.error(exception.getMessage());
             }
         }
 
@@ -659,6 +651,7 @@ public final class AbstractSearchForm extends CustomComponent {
              *
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 if (buttonId.name().equalsIgnoreCase(ConstantUtil.YES_VARIABLE)) {
                     LOGGER.debug("Entering Reset operation");
@@ -705,6 +698,7 @@ public final class AbstractSearchForm extends CustomComponent {
              *
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 if (buttonId.name().equalsIgnoreCase(ConstantUtil.YES_VARIABLE)) {
                     LOGGER.debug("Entering Reset operation");
@@ -788,8 +782,8 @@ public final class AbstractSearchForm extends CustomComponent {
                     tempObj.addValidator(new RegexpValidator(ValidationUtil.getMessage(rules[NumericConstants.TWO]), ValidationUtil.getMessage(rules[NumericConstants.THREE])));
                 }
             }
-        } catch (Exception e) {
-            LOGGER.error(e);
+        } catch (NumberFormatException e) {
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -806,7 +800,7 @@ public final class AbstractSearchForm extends CustomComponent {
                 tempObj.setValue(ValidationUtil.getLabel(key));
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -1060,6 +1054,7 @@ public final class AbstractSearchForm extends CustomComponent {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
@@ -1080,6 +1075,7 @@ public final class AbstractSearchForm extends CustomComponent {
                          * @param buttonId The buttonId of the pressed button.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing
                         }
@@ -1119,6 +1115,7 @@ public final class AbstractSearchForm extends CustomComponent {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
@@ -1149,10 +1146,8 @@ public final class AbstractSearchForm extends CustomComponent {
             binder.getErrorDisplay().clearError();
             binder.commit();
             searchLogic.excelExportLogic(moduleName, resultTable, this, binder);
-        } catch (FieldGroup.CommitException commit) {
-            LOGGER.error(commit);
-        } catch (Exception e) {
-            LOGGER.error(e);
+        } catch (FieldGroup.CommitException | PortalException | SystemException | IllegalAccessException | NoSuchMethodException | InvocationTargetException commit) {
+            LOGGER.error(commit.getMessage());
         }
 
     }
@@ -1198,6 +1193,7 @@ public final class AbstractSearchForm extends CustomComponent {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
@@ -1213,6 +1209,7 @@ public final class AbstractSearchForm extends CustomComponent {
                      * @param buttonId The buttonId of the pressed button.
                      */
                     @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         // Do Nothing
                     }
@@ -1227,6 +1224,7 @@ public final class AbstractSearchForm extends CustomComponent {
                      * @param buttonId The buttonId of the pressed button.
                      */
                     @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equalsIgnoreCase(ConstantUtil.YES_VARIABLE)) {
                             sessionDTO.setMode(ConstantUtil.COPY);
@@ -1258,6 +1256,7 @@ public final class AbstractSearchForm extends CustomComponent {
                      * @param buttonId The buttonId of the pressed button.
                      */
                     @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         // Do Nothing
                     }
@@ -1272,6 +1271,7 @@ public final class AbstractSearchForm extends CustomComponent {
                      *
                      * @param buttonId The buttonId of the pressed button.
                      */
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         // Do Nothing
                         try {
@@ -1285,8 +1285,8 @@ public final class AbstractSearchForm extends CustomComponent {
                                 resultTable.removeItem(resultTable.getValue());
                                 cdrLogic.deleteCDRRecords(Integer.valueOf(searchForm.getSystemID()));
                             }
-                        } catch (Exception e) {
-                            LOGGER.error(e);
+                        } catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
                         }
                     }
                 }, ButtonId.YES, ButtonId.NO);
@@ -1302,6 +1302,7 @@ public final class AbstractSearchForm extends CustomComponent {
                      * @param buttonId The buttonId of the pressed button.
                      */
                     @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         // Do Nothing
                     }
@@ -1316,6 +1317,7 @@ public final class AbstractSearchForm extends CustomComponent {
                      *
                      * @param buttonId The buttonId of the pressed button.
                      */
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         try {
                             if (buttonId.name().equalsIgnoreCase(ConstantUtil.YES_VARIABLE)) {
@@ -1323,8 +1325,8 @@ public final class AbstractSearchForm extends CustomComponent {
                                 resultTable.removeItem(resultTable.getValue());
                                 selLogic.deleteDedutionCalendar(Integer.valueOf(searchForm.getSystemID()));
                             }
-                        } catch (Exception e) {
-                            LOGGER.error(e);
+                        } catch (NumberFormatException e) {
+                            LOGGER.error(e.getMessage());
                         }
 
                     }

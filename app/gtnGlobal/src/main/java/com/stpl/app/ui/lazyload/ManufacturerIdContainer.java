@@ -19,7 +19,8 @@ import java.util.List;
 import org.asi.ui.addons.lazycontainer.DAO;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -27,13 +28,13 @@ import org.jboss.logging.Logger;
  */
 public class ManufacturerIdContainer implements DAO<HelperDTO> {
 
-    private HelperDTO manufactureId;
+    private final HelperDTO manufactureId;
     private boolean filerGeneraterFlag = false;
   
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ManufacturerIdContainer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ManufacturerIdContainer.class);
 
     /**
      * Method used for get Count.
@@ -43,6 +44,7 @@ public class ManufacturerIdContainer implements DAO<HelperDTO> {
         this.filerGeneraterFlag = filterGeneraterFlag;
     }
 
+    @Override
     public int count(final SearchCriteria searchCriteria) {
         try {
             LOGGER.debug("Entering ManufacturerIdDAO Count method :");
@@ -56,12 +58,13 @@ public class ManufacturerIdContainer implements DAO<HelperDTO> {
                          * @param buttonId The buttonId of the pressed button.      
                          */             
                         @SuppressWarnings("PMD")      
+                @Override
                         public void buttonClicked(final ButtonId buttonId) {   
                             // Do Nothing        
                         }          
                     }, ButtonId.OK);       
                     msg.getButton(ButtonId.OK).focus();
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
         } catch (SystemException ex) { 
         
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
@@ -73,6 +76,7 @@ public class ManufacturerIdContainer implements DAO<HelperDTO> {
                          * @param buttonId The buttonId of the pressed button.      
                          */             
                         @SuppressWarnings("PMD")      
+                @Override
                         public void buttonClicked(final ButtonId buttonId) {   
                             // Do Nothing        
                         }          
@@ -85,6 +89,7 @@ public class ManufacturerIdContainer implements DAO<HelperDTO> {
     /**
      * Method used for get the results.
      */
+    @Override
     public List<HelperDTO> find(final SearchCriteria searchCriteria, final int startIndex, final int offset, final List<OrderByColumn> list) {
         try {
             LOGGER.debug("Entering ManufacturerIdDAO find method :");
@@ -98,14 +103,15 @@ public class ManufacturerIdContainer implements DAO<HelperDTO> {
                          * @param buttonId The buttonId of the pressed button.      
                          */             
                         @SuppressWarnings("PMD")      
+                @Override
                         public void buttonClicked(final ButtonId buttonId) {   
                             // Do Nothing        
                         }          
                     }, ButtonId.OK);       
                     msg.getButton(ButtonId.OK).focus();
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {     
                         /**             
@@ -115,6 +121,7 @@ public class ManufacturerIdContainer implements DAO<HelperDTO> {
                          * @param buttonId The buttonId of the pressed button.      
                          */             
                         @SuppressWarnings("PMD")      
+                @Override
                         public void buttonClicked(final ButtonId buttonId) {   
                             // Do Nothing        
                         }          

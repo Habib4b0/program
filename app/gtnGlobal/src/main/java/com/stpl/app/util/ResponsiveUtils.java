@@ -26,7 +26,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -34,7 +35,7 @@ import org.jboss.logging.Logger;
  */
 public class ResponsiveUtils {
 
-    private final static Logger LOGGER = Logger.getLogger(ResponsiveUtils.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
    
     public static Label makeLabel(String value, boolean isMandatory) {
         StringBuilder sb = new StringBuilder(StringUtils.EMPTY);
@@ -42,8 +43,7 @@ public class ResponsiveUtils {
         if (isMandatory) {
             sb.append(ConstantsUtils.SPAN_STYLE);
         }
-        Label label = new Label(sb.toString(), ContentMode.HTML);
-        return label;
+        return new Label(sb.toString(), ContentMode.HTML);
     }
     
     public static Label makeLabel(Label label, boolean isMandatory) {
@@ -94,7 +94,7 @@ public class ResponsiveUtils {
             }         
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
     
@@ -106,7 +106,7 @@ public class ResponsiveUtils {
                 layout.removeComponent(fieldComponent);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -118,7 +118,7 @@ public class ResponsiveUtils {
                 layout.removeComponent(fieldComponent);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
     
@@ -130,7 +130,7 @@ public class ResponsiveUtils {
                 layout.removeComponent(fieldComponent);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }   
 
@@ -395,6 +395,7 @@ public class ResponsiveUtils {
        
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -426,6 +427,7 @@ public class ResponsiveUtils {
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -498,6 +500,7 @@ public static void addButtonListeners(final Table table, final Button prevColumn
        
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -529,6 +532,7 @@ public static void addButtonListeners(final Table table, final Button prevColumn
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -600,6 +604,7 @@ public static void addButtonListeners(final ExtFilterTable table, final Button p
        
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -631,6 +636,7 @@ public static void addButtonListeners(final ExtFilterTable table, final Button p
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -792,6 +798,7 @@ public static void addNaviButtonForLandingSearchWithDeclarativeUI(ExtFilterTable
 public static void addButtonListenersForLandingSearch(final ExtFilterTable table, final Button prevColumn, final Button nextColumn) {
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -823,6 +830,7 @@ public static void addButtonListenersForLandingSearch(final ExtFilterTable table
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -893,6 +901,7 @@ public static void addButtonListenersForLandingSearch(final ExtFilterTable table
 public static void addButtonListeners(final CustomePagedFilterTable table, final Button prevColumn, final Button nextColumn) {
         prevColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();
@@ -924,6 +933,7 @@ public static void addButtonListeners(final CustomePagedFilterTable table, final
 
         nextColumn.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 List<Object> visibleColumnsList = new ArrayList<>(Arrays.asList(table.getVisibleColumns()));
                 List<Object> collapsedColumns = new ArrayList<>();

@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.salesprojectionresults.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.AbstractForm;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjectionResults;
@@ -39,8 +41,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.constants.GlobalConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
@@ -55,8 +55,6 @@ import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
 import de.steinwedel.messagebox.ButtonId;
@@ -68,15 +66,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -89,7 +90,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(NMSalesProjectionResults.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjectionResults.class);
 
     private final List<Object> possibleKeyList = new ArrayList<>();
     private boolean sales;
@@ -585,7 +586,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             }
             LOGGER.info("loadTable method ends");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return container;
     }
@@ -667,7 +668,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             }
             LOGGER.info("addLowerLevels method ends");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -698,7 +699,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 sprCommonLogic.saveNMSRPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION_RESULTS);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.info("saveSPResults method ends");
     }
@@ -1305,7 +1306,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             }
 
         } catch (PortalException | SystemException ex) {
-            java.util.logging.Logger.getLogger(NMSalesProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(NMSalesProjectionResults.class.getName()).error( StringUtils.EMPTY, ex);
         }
 
     }

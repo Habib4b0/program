@@ -326,8 +326,8 @@ public class GtnUIFrameworkCMIdentifierEditList {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 
 		List<Object> params = new ArrayList<>();
-		params.add("Reset Confirmation");
-		params.add("Are you sure you want to reset the values in the Search Criteria group box?");
+		params.add("Confirmation");
+		params.add("Are you sure you want to reset the page to default/previous values?");
 
 		List<GtnUIFrameWorkActionConfig> resetCustomActionList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig resetCustomActionConfig = new GtnUIFrameWorkActionConfig();

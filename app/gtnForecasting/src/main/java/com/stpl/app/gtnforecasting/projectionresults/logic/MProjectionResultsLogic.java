@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.projectionresults.logic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.ProjectionResultsDTO;
@@ -14,14 +16,12 @@ import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.*;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getCommonColumnHeader;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.utils.Constants.LabelConstants.BOTH;
 import static com.stpl.app.utils.Constants.LabelConstants.SALES;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -37,7 +38,7 @@ import org.jboss.logging.Logger;
  */
 public class MProjectionResultsLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(MProjectionResultsLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MProjectionResultsLogic.class);
 
     /**
      * The Percent Two Decimal Places Format.

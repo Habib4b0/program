@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.forecastabstract.lookups.AbstractSaveViewPopup;
 import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualDataSelectionDTO;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
@@ -17,14 +19,12 @@ import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.model.ForecastingViewMaster;
-import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
@@ -34,10 +34,11 @@ import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import java.text.ParseException;
 import java.util.List;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -74,7 +75,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(SaveViewPopup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SaveViewPopup.class);
 
     private DataSelectionDTO dataselectionDtoToSave;
 
@@ -180,7 +181,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                 }
             }
         } catch (SystemException | PortalException sysException) {
-            LOGGER.error(sysException);
+            LOGGER.error(StringUtils.EMPTY,sysException);
         } 
         LOGGER.debug("End of btnAddLogic");
     }
@@ -286,7 +287,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                     }
             }
         } catch (PortalException | SystemException | Property.ReadOnlyException | FieldGroup.CommitException | ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of saveView");
     }
@@ -321,7 +322,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                 }
             }
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -329,7 +330,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
         try {
             viewBinder.commit();
         } catch (FieldGroup.CommitException ex) {
-            java.util.logging.Logger.getLogger(SaveViewPopup.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(SaveViewPopup.class.getName()).error( StringUtils.EMPTY, ex);
         }
 
         if (viewName.getValue() != null && !String.valueOf(viewName.getValue()).equals(StringUtils.EMPTY)) {

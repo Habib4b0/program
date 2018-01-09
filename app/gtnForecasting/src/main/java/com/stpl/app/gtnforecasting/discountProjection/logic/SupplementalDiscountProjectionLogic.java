@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.discountProjection.logic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.discountProjection.dto.DiscountProjectionDTO;
@@ -22,8 +24,6 @@ import static com.stpl.app.utils.Constants.CommonConstants.*;
 import static com.stpl.app.utils.Constants.LabelConstants.*;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.ui.ComboBox;
@@ -37,9 +37,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -52,7 +53,7 @@ public class SupplementalDiscountProjectionLogic {
      */
     private static final DecimalFormat CUR_FOUR_DECIMAL = new DecimalFormat("$#,##0.0000");
     private static final DecimalFormat PER_THREE_DECIMAL = new DecimalFormat("#,##0.000");
-    private static final Logger LOGGER = Logger.getLogger(SupplementalDiscountProjectionLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SupplementalDiscountProjectionLogic.class);
     protected SalesProjectionDAO dao = new SalesProjectionDAOImpl();
     protected ProjectionSelectionDTO projectionSelectionDTO = new ProjectionSelectionDTO();
     protected List<String> levelName = new ArrayList<>();
@@ -507,7 +508,7 @@ public class SupplementalDiscountProjectionLogic {
                 queryToUpdateCheckRecord(checkValue, projSelDto.getSessionDTO(), ccpDetailsId);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -525,7 +526,7 @@ public class SupplementalDiscountProjectionLogic {
             queryBuilder.append(" Update ST_M_SUPPLEMENTAL_DISC_MASTER SET CHECK_RECORD =" + checkValue + " WHERE CCP_DETAILS_SID IN (" + ccpDetailsId + ")") ;
             dao.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder.toString(),sessionDto.getCurrentTableNames()));
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -540,7 +541,7 @@ public class SupplementalDiscountProjectionLogic {
                 return (List<Integer>) dao.executeSelectQuery(QueryUtil.replaceTableNames(queryBuilder.toString(),sessionDTO.getCurrentTableNames()));
             }
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return Collections.emptyList();
     }
@@ -619,7 +620,7 @@ public class SupplementalDiscountProjectionLogic {
                 }
             }
         } catch (UnsupportedOperationException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return select;
     }
@@ -701,7 +702,7 @@ public class SupplementalDiscountProjectionLogic {
 
             }
         } catch (UnsupportedOperationException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return select;
     }
@@ -741,7 +742,7 @@ public class SupplementalDiscountProjectionLogic {
             }
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -763,7 +764,7 @@ public class SupplementalDiscountProjectionLogic {
                 value = Integer.valueOf(String.valueOf(list.get(i)));
             }
         } catch (PortalException | SystemException | NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return value;
     }
@@ -855,7 +856,7 @@ public class SupplementalDiscountProjectionLogic {
             }
 
         } catch (PortalException | SystemException | Property.ReadOnlyException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -939,7 +940,7 @@ public class SupplementalDiscountProjectionLogic {
             dao.executeUpdateQuery(queryList);
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -976,7 +977,7 @@ public class SupplementalDiscountProjectionLogic {
 
             dao.executeUpdateQuery(deleteQuery);
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1061,7 +1062,7 @@ public class SupplementalDiscountProjectionLogic {
             queryList.add(query);
             dao.executeUpdateQuery(queryList);
         } catch (PortalException | SystemException | ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1112,7 +1113,7 @@ public class SupplementalDiscountProjectionLogic {
 
             returnList.addAll((List<String>) CommonLogic.executeSelectQuery(queryBuilder.toString(), null, null));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return returnList;
     }
@@ -1192,7 +1193,7 @@ public class SupplementalDiscountProjectionLogic {
                     try {
                         dto.setContractEndDate(String.valueOf(obj[NumericConstants.NINE] == null ? StringUtils.EMPTY : sd.format(sd.parse(date))));
                     } catch (ParseException ex) {
-                        java.util.logging.Logger.getLogger(SupplementalDiscountProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
+                        LoggerFactory.getLogger(SupplementalDiscountProjectionLogic.class.getName()).error( StringUtils.EMPTY, ex);
                     }
 
                     dto.addBooleanProperties(Constant.CHECK, false);
@@ -1410,7 +1411,7 @@ public class SupplementalDiscountProjectionLogic {
                 queryList = (List<Object>) CommonLogic.executeSelectQuery(queryBuilder.toString(), null, null);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return queryList;
     }
@@ -1460,7 +1461,7 @@ public class SupplementalDiscountProjectionLogic {
                     }
                 }
             } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
     }
@@ -1521,7 +1522,7 @@ public class SupplementalDiscountProjectionLogic {
                     methodologyUpdate(saveDto, session, ob, value, tempStr, true);
                 }
             } catch (PortalException | SystemException | NumberFormatException e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
             }
         }
     }
@@ -1556,7 +1557,7 @@ public class SupplementalDiscountProjectionLogic {
         try {
             dao.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames()));
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1587,7 +1588,7 @@ public class SupplementalDiscountProjectionLogic {
         try {
             dao.executeUpdateQuery(QueryUtil.replaceTableNames(query.toString(), session.getCurrentTableNames()));
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1602,7 +1603,7 @@ public class SupplementalDiscountProjectionLogic {
                     + "                                 AND QUARTER = " + saveDto.getPeriod() + ") \n");
             methodologyCount = (List<Object>) dao.executeSelectQuery(QueryUtil.replaceTableNames(queryToCheckNdc.toString(), session.getCurrentTableNames()));
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return !methodologyCount.isEmpty() ? methodologyCount.size() : 0;
     }
@@ -1715,7 +1716,7 @@ public class SupplementalDiscountProjectionLogic {
             query.append("SELECT DISTINCT PROJECTION_DETAILS_SID from PROJECTION_DETAILS WHERE PROJECTION_MASTER_SID = " + session.getProjectionId());
             return (List<String>) dao.executeSelectQuery(query.toString());
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return Collections.emptyList();
     }
@@ -1755,7 +1756,7 @@ public class SupplementalDiscountProjectionLogic {
             }
             dao.executeUpdateQuery(strList);
         } catch (PortalException | SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -1795,7 +1796,7 @@ public class SupplementalDiscountProjectionLogic {
 
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return dropDownList;
     }
@@ -1824,7 +1825,7 @@ public class SupplementalDiscountProjectionLogic {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return convertFormulaList(dropDownList);

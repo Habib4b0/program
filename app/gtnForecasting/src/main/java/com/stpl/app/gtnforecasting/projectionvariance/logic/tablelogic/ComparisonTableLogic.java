@@ -19,7 +19,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -27,27 +28,27 @@ import org.jboss.logging.Logger;
  */
 public class ComparisonTableLogic extends PageTableLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(ComparisonTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComparisonTableLogic.class);
     protected boolean loadData = false;
     protected ComparisonLookupDTO comparisonLookup;
     protected String notNeededProjectionIds = StringUtils.EMPTY;
     protected ComparisonLookupDTO lookUpDTO;
     protected SessionDTO sessionDTO;
-    protected String screenName=StringUtils.EMPTY;
-    protected MProjectionVarianceLogic projectionVarianceLogic=new MProjectionVarianceLogic();
+    protected String screenName = StringUtils.EMPTY;
+    protected MProjectionVarianceLogic projectionVarianceLogic = new MProjectionVarianceLogic();
 
     @Override
     public int getCount() {
         int count = 0;
         if (loadData) {
             try {
-               if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                    count =  projectionVarianceLogic.getProjectionCount(lookUpDTO,notNeededProjectionIds, getFilters());
+                if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
+                    count = projectionVarianceLogic.getProjectionCount(lookUpDTO, notNeededProjectionIds, getFilters());
                 } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-                    count = new NMProjectionVarianceLogic().getComparisonCount(comparisonLookup, getFilters(),screenName);
+                    count = new NMProjectionVarianceLogic().getComparisonCount(comparisonLookup, getFilters(), screenName);
                 }
             } catch (PortalException | SystemException ex) {
-                               LOGGER.log(Logger.Level.ERROR, ex);
+                LOGGER.error(StringUtils.EMPTY, ex);
             }
         }
         return count;
@@ -57,14 +58,14 @@ public class ComparisonTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         List<ComparisonLookupDTO> resultList = new ArrayList<>();
         try {
-             if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                resultList = projectionVarianceLogic.getProjection(lookUpDTO,notNeededProjectionIds,start,offset, getSortByColumns(), getFilters());
+            if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
+                resultList = projectionVarianceLogic.getProjection(lookUpDTO, notNeededProjectionIds, start, offset, getSortByColumns(), getFilters());
             } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-                resultList = new NMProjectionVarianceLogic().getComparisonResults(comparisonLookup, start, offset, getFilters(), getSortByColumns(),screenName);
+                resultList = new NMProjectionVarianceLogic().getComparisonResults(comparisonLookup, start, offset, getFilters(), getSortByColumns(), screenName);
             }
         } catch (PortalException | SystemException ex) {
-          
-            LOGGER.log(Logger.Level.ERROR, ex);
+
+            LOGGER.error(StringUtils.EMPTY, ex);
         }
         return resultList;
     }
@@ -77,7 +78,7 @@ public class ComparisonTableLogic extends PageTableLogic {
     }
 
     public boolean fireSetData(final ComparisonLookupDTO comparisonLookup, boolean isReset, String screenName) {
-        this.comparisonLookup=comparisonLookup;
+        this.comparisonLookup = comparisonLookup;
         this.screenName = screenName;
         clearAll();
         setRequiredCount(true);
@@ -98,12 +99,12 @@ public class ComparisonTableLogic extends PageTableLogic {
     protected void createCurrentPageEnd() {
         setRefresh(Boolean.TRUE);
     }
-    
-    public boolean fireSetData(ComparisonLookupDTO lookUpDTO ,SessionDTO sessionDTO,String notNeededProjectionIds, boolean isReset, String screenName) {
+
+    public boolean fireSetData(ComparisonLookupDTO lookUpDTO, SessionDTO sessionDTO, String notNeededProjectionIds, boolean isReset, String screenName) {
         this.lookUpDTO = lookUpDTO;
         this.sessionDTO = sessionDTO;
         this.screenName = screenName;
-        this.notNeededProjectionIds=notNeededProjectionIds;
+        this.notNeededProjectionIds = notNeededProjectionIds;
         clearAll();
         setRequiredCount(true);
         loadData = !isReset;

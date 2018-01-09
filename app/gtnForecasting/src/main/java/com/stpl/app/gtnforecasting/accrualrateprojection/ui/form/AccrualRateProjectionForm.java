@@ -5,6 +5,10 @@
  */
 package com.stpl.app.gtnforecasting.accrualrateprojection.ui.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.bpm.dto.WorkflowRuleDTO;
 import com.stpl.app.gtnforecasting.abstractforecast.AbstractForm;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
@@ -35,6 +39,7 @@ import static com.stpl.app.utils.Constants.ButtonConstants.BTN_PREVIOUS;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.LabelConstants.TAB_DATA_SELECTION;
+import com.stpl.gtn.gtn2o.ws.constants.workflow.GtnWsBpmCommonConstants;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
@@ -42,11 +47,6 @@ import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.gtn.gtn2o.ws.constants.workflow.GtnWsBpmCommonConstants;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.JavaScript;
@@ -67,7 +67,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -75,7 +76,7 @@ import org.jboss.logging.Logger;
  */
 public class AccrualRateProjectionForm extends AbstractForm {
 
-    private static final Logger LOGGER = Logger.getLogger(AccrualRateProjectionForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccrualRateProjectionForm.class);
 
     public Sales sales;
 
@@ -148,7 +149,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
         try {
             saveLogic(true);
         } catch (SystemException | PortalException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -183,7 +184,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                         getUI().getNavigator().navigateTo(ForecastMainView.NAME);
 
                     } catch (Exception exception) {
-                        LOGGER.error(exception);
+                        LOGGER.error("",exception);
                     }
                 }
             }
@@ -235,11 +236,11 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
                                 }
                             } catch (SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
                             } catch (PortalException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
                             } catch (Exception ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
                             }
                         }
                     });
@@ -344,7 +345,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                 }
                                 CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
                             } catch (NumberFormatException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
                             }
                         }
                     });
@@ -394,7 +395,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                 }
                                 CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
                             } catch (NumberFormatException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
                             }
                         }
                     });
@@ -443,7 +444,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                 }
                                 CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
                             } catch (NumberFormatException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
                             }
                         }
                     });
@@ -493,7 +494,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     CommonUIUtils.getMessageNotification("The projection not cancelled properly");
                                 }
                             } catch (NumberFormatException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
                             }
                         }
                     });
@@ -595,7 +596,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             try {
                 latch.await();
             } catch (InterruptedException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
             sales.saveTabSelection();
             rates.saveTabSelection();
@@ -773,7 +774,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
 //                        processInstanceId = taskSummary.getProcessInstanceId();
 //                        session.setProcessId(processInstanceId);
                     } catch (Exception e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                     }
                     String workflowId = submitProjToWorkflow(params, notes, screenName, getUploadedData);
                     showSubmitNotification(workflowId);
@@ -809,7 +810,7 @@ String noOfUsers ="";
                 workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
             }
         } catch (NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return workflowId;
     }
@@ -917,7 +918,7 @@ String noOfUsers ="";
             }
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

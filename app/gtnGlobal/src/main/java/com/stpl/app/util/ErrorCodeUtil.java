@@ -5,7 +5,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import com.liferay.portal.kernel.dao.orm.ORMException;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class ErrorCodeUtil.
@@ -20,7 +21,7 @@ public final class ErrorCodeUtil {
 	public static final String HYPHEN = " - ";
         
         
-        private static final Logger LOGGER = Logger.getLogger(ErrorCodeUtil.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(ErrorCodeUtil.class);
 
 
 	/**
@@ -43,13 +44,10 @@ public final class ErrorCodeUtil {
                         return resouceBundle.getString(key);
                     }
                     return "";
-		} catch(NullPointerException e){
-                        LOGGER.error(e);
+		} catch(NullPointerException | MissingResourceException e){
+                        LOGGER.error(e.getMessage());
                         return "";
-                }catch (MissingResourceException e) {
-                        LOGGER.error(e);
-			return "";
-		}
+                }
 	}
 
 	/**

@@ -6,7 +6,6 @@ import com.stpl.app.adminconsole.archive.logic.ArchiveLogic;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.ResponsiveUtils;
-import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Property;
@@ -41,6 +40,7 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
 import com.stpl.app.adminconsole.util.CommonUtils;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
 
 public class ArchiveIndex extends CustomComponent implements View {
 

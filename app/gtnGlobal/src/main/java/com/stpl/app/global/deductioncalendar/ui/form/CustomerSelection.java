@@ -63,7 +63,8 @@ import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -74,8 +75,8 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class CustomerSelection extends CustomComponent {
 
-    private static final Logger LOGGER = Logger.getLogger(CustomerSelection.class);
-    CommonUtil commonMsg = CommonUtil.getInstance();
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerSelection.class);
+    private final CommonUtil commonMsg = CommonUtil.getInstance();
     
     @UiField("availResultsTableLayout")
     protected VerticalLayout availResultsTableLayout;
@@ -113,17 +114,17 @@ public class CustomerSelection extends CustomComponent {
     /**
      * Selection Table Logic
      */
-    SelectionTableLogic availableTableLogic = new SelectionTableLogic();
+    private final SelectionTableLogic availableTableLogic = new SelectionTableLogic();
     
-    SelectionTableLogic selectionTableLogic = new SelectionTableLogic();
+    private final SelectionTableLogic selectionTableLogic = new SelectionTableLogic();
     /**
      * Available Customer ExtPagedTable
      */
-    ExtPagedTable availableCustomersTable = new ExtPagedTable(availableTableLogic);
+    private final ExtPagedTable availableCustomersTable = new ExtPagedTable(availableTableLogic);
     /**
      * Selected Customer ExtPagedTable
      */
-    ExtPagedTable selectedCustomersTable = new ExtPagedTable(selectionTableLogic);
+    protected ExtPagedTable selectedCustomersTable = new ExtPagedTable(selectionTableLogic);
 
     @UiField("customerNo")
     private TextField customerNo;
@@ -177,21 +178,19 @@ public class CustomerSelection extends CustomComponent {
     
     private final FieldGroup customerSearchBinder = new ErrorfulFieldGroup(new BeanItem(customerSelectionDTO));
     
-    CommonUtil commonutil = CommonUtil.getInstance();
+    private final SelectionLogic selLogic = new SelectionLogic();
     
-    SelectionLogic selLogic = new SelectionLogic();
+    private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     
-    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    private final com.stpl.app.util.CommonUIUtils commonUIUtils = new com.stpl.app.util.CommonUIUtils();
     
-    com.stpl.app.util.CommonUIUtils commonUIUtils = new com.stpl.app.util.CommonUIUtils();
+    private final SessionDTO sessionDTO;
     
-    SessionDTO sessionDTO;
+    private String availableOrselected = StringUtils.EMPTY;
     
-    public String availableOrselected = StringUtils.EMPTY;
+    private Boolean excelEligible = false;
     
-    public Boolean excelEligible = false;
-    
-    DeductionCalendarForm deductionCalendarForm;
+    private final DeductionCalendarForm deductionCalendarForm;
     private final HeaderUtils headerUtils = new HeaderUtils();
 
     public CustomerSelection(SessionDTO sessionDTO, DeductionCalendarForm deductionCalendarForm) {
@@ -218,10 +217,8 @@ public class CustomerSelection extends CustomComponent {
                 disableFieldsOnView();
             }
             LOGGER.debug("Ending init method");
-        } catch (SystemException ex) {
-            java.util.logging.Logger.getLogger(CustomerSelection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(CustomerSelection.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SystemException | PortalException ex) {
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -229,8 +226,8 @@ public class CustomerSelection extends CustomComponent {
         try{
         customerSearchBinder.setBuffered(true);
         customerSearchBinder.bindMemberFields(this);       
-        }catch (Exception ex){
-            LOGGER.error(ex);
+        }catch (FieldGroup.BindException ex){
+            LOGGER.error(ex.getMessage());
         }
     }
     
@@ -254,7 +251,7 @@ public class CustomerSelection extends CustomComponent {
             String mode = sessionDTO.getMode();
 
             List<Object> resultList = commonUIUtils.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.CUSTOMER_SELECTION);
-            Object[] objColumn = headerUtils.customerColumns;
+            Object[] objColumn = HeaderUtils.CUSTOMER_COLS;
 
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode.equals("Copy")?"Edit":mode);
             
@@ -287,7 +284,7 @@ public class CustomerSelection extends CustomComponent {
             selectedCustomersTable.setFilterGenerator(new DeductionCustomerFilerGenerator());
             selectedCustomersTable.addStyleName("filtertable");
             selectedCustomersTable.addStyleName("table-header-normal");
-            Arrays.asList(headerUtils.customerColumns);
+            Arrays.asList(HeaderUtils.CUSTOMER_COLS);
             for (Object list1 : availableCustomersTable.getVisibleColumns()) {
                 if(list1.equals("tradeClassStartDate") || list1.equals("tradeClassStartDate") ||
                         list1.equals("customerStartDate") || list1.equals("customerEndDate") ||
@@ -310,8 +307,8 @@ public class CustomerSelection extends CustomComponent {
             selectedExportBtn.setDescription("Export to excel");
             selectedExportBtn.setIconAlternateText("Excel export");
             selectedExportBtn.setHtmlContentAllowed(true);
-        } catch (Exception e) {
-            LOGGER.error(e);
+        } catch (PortalException | SystemException e) {
+            LOGGER.error(e.getMessage());
         }
     }
     private void getButtonPermission(Map<String, AppPermission> functionDCHM) {
@@ -351,6 +348,7 @@ public class CustomerSelection extends CustomComponent {
              * Adds the button click listener.
              *
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 MessageBox.showPlain(Icon.QUESTION, MessageUtil.getMessage(Message.DC_RESET_HEADER), MessageUtil.getMessage(Message.DC_RESET_MESSAGE), new MessageBoxListener() {
                     /**
@@ -359,6 +357,7 @@ public class CustomerSelection extends CustomComponent {
                      *
                      */
                     @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals(ConstantsUtils.YES)) {
                             LOGGER.debug("Entering reset Button operation in Customer Selection");
@@ -400,6 +399,7 @@ public class CustomerSelection extends CustomComponent {
              * Adds the button click listener.
              *
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("Entering Search Button operation in Customer Selection");
                 try {
@@ -416,7 +416,7 @@ public class CustomerSelection extends CustomComponent {
                         searchButtonClickLogic();
                     }
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
                 LOGGER.debug("Ending Search Button operation in Customer Selection");
             }
@@ -436,7 +436,7 @@ public class CustomerSelection extends CustomComponent {
                     availableCustomersTable.setFilterDecorator(new ExtDemoFilterDecorator());
                     availableCustomersTable.setFilterGenerator(new DeductionCustomerFilerGenerator());
                 } catch (FieldGroup.CommitException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             }
 
@@ -451,6 +451,7 @@ public class CustomerSelection extends CustomComponent {
             /**
              * Called when button has clicked .
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("Entering Add Button operation in Customer Selection");
                 final Set<SelectionDTO> selectionDTO = (Set<SelectionDTO>) availableCustomersTable.getValue();
@@ -474,6 +475,7 @@ public class CustomerSelection extends CustomComponent {
             /**
              * Called when button has clicked .
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("Entering Add All Button operation in Customer Selection");
                 if (availableResultsContainer.size() > 0) {
@@ -507,6 +509,7 @@ public class CustomerSelection extends CustomComponent {
             /**
              * Called when button has clicked .
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("Entering Remove Button operation in Customer Selection");
                 if (selectedCustomersTable.getValue()==null) {
@@ -530,6 +533,7 @@ public class CustomerSelection extends CustomComponent {
             /**
              * Called when button has clicked .
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("Entering Remove All Button operation in Customer Selection");
                 if (selectedResultsContainer.size() > 0) {
@@ -564,7 +568,7 @@ public class CustomerSelection extends CustomComponent {
         customerSelectionDTO.setUserId(sessionDTO.getUserId());
         customerSelectionDTO.setSessionId(sessionDTO.getUiSessionId());
         final int recordCount = (Integer) selLogic.getCustomerSearchResult(customerSelectionDTO,0,0,true,null,null,availableOrselected);
-        ExcelExportforBB.createWorkSheet(headerUtils.customerHeaders, recordCount, this, getUI(), TabNameUtil.CUSTOMER_SELECTION_EXPORT);
+        ExcelExportforBB.createWorkSheet(HeaderUtils.CUSTOMER_HEADERS, recordCount, this, getUI(), TabNameUtil.CUSTOMER_SELECTION_EXPORT);
         LOGGER.debug("Ending createWorkSheet");
     }
     
@@ -598,13 +602,14 @@ public class CustomerSelection extends CustomComponent {
                          * @param buttonId The buttonId of the pressed button.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
         } catch (PortalException portException) {
-            LOGGER.error(portException);
+            LOGGER.error(portException.getMessage());
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1011), new MessageBoxListener() {
                         /**
                          * The method is triggered when a button of the message box is
@@ -613,12 +618,13 @@ public class CustomerSelection extends CustomComponent {
                          * @param buttonId The buttonId of the pressed button.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
-        } catch (Exception exception) {
+        } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException exception) {
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1011), new MessageBoxListener() {
                         /**
                          * The method is triggered when a button of the message box is
@@ -627,12 +633,13 @@ public class CustomerSelection extends CustomComponent {
                          * @param buttonId The buttonId of the pressed button.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
-            LOGGER.error(exception);
+            LOGGER.error(exception.getMessage());
 
         }
     }
@@ -764,7 +771,7 @@ public class CustomerSelection extends CustomComponent {
                 printWriter.println(dto.getPriorParentCustomerNo() + ExcelExportUtil.COMMA);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             }
     }
     protected void addItemsButtonClick() {
@@ -847,7 +854,7 @@ public class CustomerSelection extends CustomComponent {
 
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout2, fieldItemHM,mode.equals("Copy")?"Edit":mode);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 }

@@ -5,6 +5,15 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.dao.CommonDAO;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
@@ -31,8 +40,19 @@ import com.stpl.app.model.ProjectionCustHierarchy;
 import com.stpl.app.model.ProjectionDetails;
 import com.stpl.app.model.ProjectionMaster;
 import com.stpl.app.model.ProjectionProdHierarchy;
+import com.stpl.app.service.BrandMasterLocalServiceUtil;
+import com.stpl.app.service.CcpDetailsLocalServiceUtil;
+import com.stpl.app.service.CompanyGroupDetailsLocalServiceUtil;
+import com.stpl.app.service.CompanyMasterLocalServiceUtil;
+import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-
+import com.stpl.app.service.ItemGroupDetailsLocalServiceUtil;
+import com.stpl.app.service.ItemMasterLocalServiceUtil;
+import com.stpl.app.service.ProjectionCustHierarchyLocalServiceUtil;
+import com.stpl.app.service.ProjectionDetailsLocalServiceUtil;
+import com.stpl.app.service.ProjectionProdHierarchyLocalServiceUtil;
+import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
+import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.stpl.app.utils.Constants.IndicatorConstants;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.app.utils.UiUtils;
@@ -46,29 +66,6 @@ import com.stpl.ifs.util.QueryUtil;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
-
-import com.stpl.app.service.BrandMasterLocalServiceUtil;
-import com.stpl.app.service.CcpDetailsLocalServiceUtil;
-import com.stpl.app.service.CompanyGroupDetailsLocalServiceUtil;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-import com.stpl.app.service.ForecastConfigLocalServiceUtil;
-import com.stpl.app.service.ItemGroupDetailsLocalServiceUtil;
-import com.stpl.app.service.ItemMasterLocalServiceUtil;
-import com.stpl.app.service.ProjectionCustHierarchyLocalServiceUtil;
-import com.stpl.app.service.ProjectionDetailsLocalServiceUtil;
-import com.stpl.app.service.ProjectionProdHierarchyLocalServiceUtil;
-import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
-import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
-
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.ui.TreeTable;
 import java.sql.Connection;
@@ -82,10 +79,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class DataSelectionLogic.
@@ -101,7 +100,7 @@ public class DataSelectionLogic {
 	private final DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
 	public static final String RBSID = "?RBSID";
 	public static final String SELECT_CAPS = " SELECT ";
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelectionLogic.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionLogic.class);
 	private int discountDdlbCount = 0;
 	private final CommonDAO salesProjectionDAO = new CommonDAOImpl();
 	public static final String LEVEL_NO = "levelNo";
@@ -209,7 +208,7 @@ public class DataSelectionLogic {
 				resultList.add(leveldto);
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return resultList;
 	}
@@ -262,7 +261,7 @@ public class DataSelectionLogic {
 				resultList.add(leveldto);
 			}
 		} catch (SystemException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return resultList;
 	}
@@ -547,7 +546,7 @@ public class DataSelectionLogic {
 				HelperTableLocalServiceUtil.executeUpdateQuery(insertQuery);
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -665,7 +664,7 @@ public class DataSelectionLogic {
 				HelperTableLocalServiceUtil.executeUpdateQuery(insertQuery);
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -738,7 +737,7 @@ public class DataSelectionLogic {
 
 			resultss.add(resultList);
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return resultss;
 	}
@@ -771,7 +770,7 @@ public class DataSelectionLogic {
 
 			resultss.add(resultList);
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return resultss;
 	}
@@ -803,7 +802,7 @@ public class DataSelectionLogic {
 			}
 
 		} catch (SystemException | NumberFormatException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return resultList;
 	}
@@ -832,7 +831,7 @@ public class DataSelectionLogic {
 			dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
 			dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
 		} catch (SystemException | NumberFormatException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 
 		}
 		return dto;
@@ -851,7 +850,7 @@ public class DataSelectionLogic {
 			user = dataSelectionDao.getUser(Long.valueOf(userId));
 
 		} catch (PortalException | SystemException | NumberFormatException ex) {
-			java.util.logging.Logger.getLogger(DataSelectionLogic.class.getName()).log(Level.SEVERE, null, ex);
+			LoggerFactory.getLogger(DataSelectionLogic.class.getName()).error( StringUtils.EMPTY, ex);
 		}
 		return user;
 	}
@@ -882,7 +881,7 @@ public class DataSelectionLogic {
 			}
 
 		} catch (PortalException | SystemException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return str;
 		}
 		return str;
@@ -1243,7 +1242,7 @@ public class DataSelectionLogic {
 				}
 			}
 		} catch (NumberFormatException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return resultList;
 	}
@@ -1371,7 +1370,7 @@ public class DataSelectionLogic {
 				}
 			}
 		} catch (NumberFormatException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return resultList;
 	}
@@ -1427,7 +1426,7 @@ public class DataSelectionLogic {
 				dto.setFileEndMonth(Integer.parseInt(String.valueOf(tempDate[1])));
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -1457,7 +1456,7 @@ public class DataSelectionLogic {
 			list = (List) dataSelectionDao.executeQuery(parameters);
 			return list;
 		} catch (SystemException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
 		}
 	}
@@ -1577,7 +1576,7 @@ public class DataSelectionLogic {
 			list = (List) spDAO.executeSelectQuery(queryString.toString(), null, null);
 			return list;
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 			return Collections.emptyList();
 		}
 	}
@@ -1603,7 +1602,7 @@ public class DataSelectionLogic {
 					+ definedValue + " and LEVEL_NAME='Market Type'";
 			return (List<Object>) commonDAO.executeSelectQuery(str, null, null);
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
 		}
 	}
@@ -1632,7 +1631,7 @@ public class DataSelectionLogic {
 					+ "WHERE RL.LEVEL_NAME = 'MARKET TYPE'\n" + "AND LIST_NAME = 'CONTRACT_TYPE'";
 			return (List<Object>) salesProjDAO.executeSelectQuery(str, null, null);
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
 		}
 	}
@@ -1650,7 +1649,7 @@ public class DataSelectionLogic {
 			query.add(RestrictionsFactoryUtil.eq(Constant.LIST_NAME, Constant.RS_TYPE));
 			discountDdlbCount = dataSelectionDao.getDiscountCount(query);
 		} catch (SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return discountDdlbCount;
 	}
@@ -1775,7 +1774,7 @@ public class DataSelectionLogic {
 			return list;
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 			return Collections.emptyList();
 		}
 	}
@@ -1810,7 +1809,7 @@ public class DataSelectionLogic {
 			}
 
 		} catch (PortalException | SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return returnList;
 	}
@@ -1928,7 +1927,7 @@ public class DataSelectionLogic {
 					+ " and  LEVEL_NAME in('Customer','Trading Partner')";
 			return (List<Object>) resultDAO.executeSelectQuery(str, null, null);
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
 		}
 	}
@@ -1940,7 +1939,7 @@ public class DataSelectionLogic {
 			customSql = customSql.replace("?PROJECTION_ID", String.valueOf(projectionId));
 			obj = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return obj;
 	}
@@ -2465,7 +2464,7 @@ public class DataSelectionLogic {
 			query.append("'");
 			HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 
 	}

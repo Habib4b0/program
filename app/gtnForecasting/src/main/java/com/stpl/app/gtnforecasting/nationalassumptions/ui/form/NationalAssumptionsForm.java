@@ -4,6 +4,8 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.additionalinformation.form.AdditionalInformationForm;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.DataSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.CommonLogic;
@@ -22,8 +24,6 @@ import com.stpl.app.utils.QueryUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
@@ -32,7 +32,6 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
-import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.OptionGroup;
@@ -42,7 +41,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import javax.naming.NamingException;
-import org.jboss.logging.Logger;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -63,7 +64,7 @@ public class NationalAssumptionsForm extends CustomComponent {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(NationalAssumptionsForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NationalAssumptionsForm.class);
 
     /**
      * The tabSheet.
@@ -265,7 +266,7 @@ public class NationalAssumptionsForm extends CustomComponent {
                 saveBtn.setVisible(false);
             }
         } catch (PortalException | SystemException portal) {
-            LOGGER.error(portal);
+            LOGGER.error(StringUtils.EMPTY,portal);
         } 
     }
 
@@ -320,7 +321,7 @@ public class NationalAssumptionsForm extends CustomComponent {
                                     tabSheet.setSelectedTab(tempTabPosition);
                                     dsFlag = true;
                             } catch (Exception ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
                             }
                         }
 
@@ -405,7 +406,7 @@ public class NationalAssumptionsForm extends CustomComponent {
             additionalInformation.setUploderValue();
             lastPosition = tabPosition;
         } catch (SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
     /**
@@ -439,7 +440,7 @@ public class NationalAssumptionsForm extends CustomComponent {
             }
             UI.getCurrent().setFocusedComponent(UI.getCurrent());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -466,7 +467,7 @@ public class NationalAssumptionsForm extends CustomComponent {
                                     }
                                     tabSheet.setSelectedTab(lastPosition + i);
                                 } catch (Exception ex) {
-                                    LOGGER.error(ex);
+                                    LOGGER.error(ex.getMessage());
                                 }
                             }
 
@@ -531,7 +532,7 @@ public class NationalAssumptionsForm extends CustomComponent {
             }
             UI.getCurrent().setFocusedComponent(UI.getCurrent());
         } catch (SQLException | NamingException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -552,7 +553,7 @@ public class NationalAssumptionsForm extends CustomComponent {
                         dataSelection.updateDataSelection();
                         saveProjection();
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
                 }
 
@@ -581,7 +582,7 @@ public class NationalAssumptionsForm extends CustomComponent {
                     try {
                         saveProjection();
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
                 }
 
@@ -610,7 +611,7 @@ public class NationalAssumptionsForm extends CustomComponent {
                     com.stpl.app.gtnforecasting.logic.CommonLogic.dropDynamicTables(sessionDTO.getUserId(),sessionDTO.getSessionId());
                     sessionDTO.resetCurrentTableNames();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
                 getUI().getNavigator().navigateTo(DataSelectionView.NAME);
             }
@@ -643,7 +644,7 @@ public class NationalAssumptionsForm extends CustomComponent {
         saveBtn.setCaption("UPDATE");
     }
         catch(PortalException e){
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 

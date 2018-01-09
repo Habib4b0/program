@@ -20,7 +20,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.ContainerLogic;
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -32,7 +33,7 @@ public class PhsResultsTableLogic extends PageTreeTableLogic {
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private PhsResultsLogic phsResLogic = new PhsResultsLogic();
     private SessionDTO sessionDTO;
- public static final Logger LOGGER = Logger.getLogger(PhsResultsTableLogic.class);
+ public static final Logger LOGGER = LoggerFactory.getLogger(PhsResultsTableLogic.class);
     @Override
     public int getCount() {
         int count = 0;
@@ -41,7 +42,7 @@ public class PhsResultsTableLogic extends PageTreeTableLogic {
             try {
                 count = phsResLogic.getConfiguredPhsResultsCount(getLastParent(), projSelDTO);
             } catch (Exception ex) {
-               LOGGER.error(ex);
+               LOGGER.error(ex.getMessage());
             }
         }
         return count;

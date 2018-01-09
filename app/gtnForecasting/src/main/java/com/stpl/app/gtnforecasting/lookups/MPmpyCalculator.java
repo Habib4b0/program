@@ -3,6 +3,8 @@
  */
 package com.stpl.app.gtnforecasting.lookups;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -24,8 +26,6 @@ import static com.stpl.app.utils.Constants.WindowMessagesName.RESET_CONFIRMATION
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Alignment;
@@ -37,7 +37,6 @@ import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.ui.ComboBox;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
@@ -52,10 +51,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
@@ -87,7 +88,7 @@ public class MPmpyCalculator extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(MPmpyCalculator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MPmpyCalculator.class);
 
     /**
      * The excel btn.
@@ -442,7 +443,7 @@ public class MPmpyCalculator extends Window {
                         availableProductsBean.removeAllItems();
                         selectedProductsBean.removeAllItems();
                     } catch (PortalException | SystemException | NumberFormatException ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
                 }
             });
@@ -476,7 +477,7 @@ public class MPmpyCalculator extends Window {
                         availableProductsBean.addAll(loadProductsTable(customerSid, contractSid));
                         selectedProductsBean.removeAllItems();
                     } catch (PortalException | SystemException | NumberFormatException ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
                 }
             });
@@ -488,7 +489,7 @@ public class MPmpyCalculator extends Window {
                     try {
                         moveAllProducts();
                     } catch (PortalException | SystemException ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
 
                 }
@@ -695,7 +696,7 @@ public class MPmpyCalculator extends Window {
             });
            
         } catch (PortalException | SystemException | Property.ReadOnlyException | UnsupportedOperationException ex) {            
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -1128,7 +1129,7 @@ public class MPmpyCalculator extends Window {
             pmpyLogic.export(exporterDto);
             LOGGER.debug("End of exportCalculatedExcel method");
         }  catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
     

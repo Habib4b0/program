@@ -4,6 +4,8 @@
  */
 package com.stpl.app.gtnforecasting.abstractforecast;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -25,8 +27,6 @@ import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
@@ -61,7 +61,8 @@ import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -292,7 +293,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     /**
      * Logger for ForecastProjectionVariance
      */
-    private static final Logger LOGGER = Logger.getLogger(ForecastProjectionVariance.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ForecastProjectionVariance.class);
     /**
      * Table logic class instance
      */
@@ -531,7 +532,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         try {
             expandCollapseLevelOption(true, levelDdlb.getValue());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -541,7 +542,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         try {
             expandCollapseLevelOption(false, levelDdlb.getValue());
         } catch (Exception ex) {
-           LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -607,7 +608,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
                 MessageBox.showPlain(Icon.INFO, "Error", alertMsg.getString("PV_MSG_ID_01"), ButtonId.OK);
             }
         } catch (NumberFormatException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 

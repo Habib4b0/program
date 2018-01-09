@@ -9,8 +9,6 @@ import static com.stpl.app.gtnforecasting.dao.impl.DiscountProjectionForChannels
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
-import com.stpl.app.model.HelperTable;
-import com.stpl.app.service.ChSalesProjectionMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.Date;

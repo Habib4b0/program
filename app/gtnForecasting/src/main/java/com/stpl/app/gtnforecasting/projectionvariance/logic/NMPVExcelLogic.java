@@ -30,7 +30,8 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -38,7 +39,7 @@ import org.jboss.logging.Logger;
  */
 public class NMPVExcelLogic {
 
-    public static final Logger LOGGER = Logger.getLogger(NMPVExcelLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(NMPVExcelLogic.class);
     private ProjectionVarianceDTO exFacValue;
     private ProjectionVarianceDTO exFacVar;
     private ProjectionVarianceDTO exFacPer;
@@ -714,7 +715,7 @@ public class NMPVExcelLogic {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
     }

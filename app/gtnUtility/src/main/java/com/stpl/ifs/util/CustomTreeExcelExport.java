@@ -15,7 +15,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.Table;
 import java.util.Collection;
 import java.util.Date;
-import java.util.logging.Logger;
+
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.ss.usermodel.Cell;
@@ -23,12 +23,14 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author Abhiram
  */
 public class CustomTreeExcelExport extends ExcelExport {
-    private static final Logger LOGGER = Logger.getLogger(CustomTreeExcelExport.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomTreeExcelExport.class.getName());
     /**
      * At minimum, we need a Table to export. Everything else has default settings.
      *
@@ -234,7 +236,7 @@ public class CustomTreeExcelExport extends ExcelExport {
                                 sheetCell.setCellValue(d);
 
                         } catch (final NumberFormatException nfe) {
-                            LOGGER.warning("NumberFormatException parsing a numeric value: " + nfe);
+                            LOGGER.warn("NumberFormatException parsing a numeric value: " + nfe);
                             sheetCell.setCellValue(createHelper.createRichTextString(value.toString()));
                         }
                     }

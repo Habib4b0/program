@@ -199,7 +199,7 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 		fieldToColumnDetailsMap.put("netSalesRuleSysId",
 				configProvider.getColumnStringConfig("NET_SALES_RULE", GtnFrameworkWebserviceConstant.IMTD_RSD));
 		fieldToColumnDetailsMap.put("netSalesFormulaName", configProvider
-				.getColumnStringConfig("RS_DETAILS_NET_SALES_FORMULA_NAME", GtnFrameworkWebserviceConstant.IMTD_RSD));
+				.getColumnStringConfig("NET_SALES_FORMULA_NAME","NET_SALES_FORMULA"));
 		fieldToColumnDetailsMap.put("netSalesFormulaSysId", configProvider
 				.getColumnStringConfig("NET_SALES_FORMULA_MASTER_SID", GtnFrameworkWebserviceConstant.IMTD_RSD));
 		fieldToColumnDetailsMap.put("formulaSysId",

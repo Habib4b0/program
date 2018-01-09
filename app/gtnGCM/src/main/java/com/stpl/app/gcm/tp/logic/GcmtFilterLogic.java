@@ -4,11 +4,13 @@
  */
 package com.stpl.app.gcm.tp.logic;
 
+import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gtnworkflow.util.AbstractFilterLogic.DBDate;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
 import com.vaadin.v7.data.util.filter.Compare;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +24,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  */
 public class GcmtFilterLogic {
 
+    public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private static GcmtFilterLogic instance;
 
     private GcmtFilterLogic() {

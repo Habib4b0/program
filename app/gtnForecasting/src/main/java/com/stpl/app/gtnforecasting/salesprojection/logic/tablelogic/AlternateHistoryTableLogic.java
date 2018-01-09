@@ -15,6 +15,8 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.Collections;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -28,7 +30,7 @@ public class AlternateHistoryTableLogic extends PageTableLogic {
     private final AlternateHistoryLogic logic = new AlternateHistoryLogic();
     private SessionDTO session;
     private boolean isAvailable = Boolean.FALSE;
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(AlternateHistoryTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlternateHistoryTableLogic.class);
   
 
     @Override
@@ -53,7 +55,7 @@ public class AlternateHistoryTableLogic extends PageTableLogic {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return count;
@@ -78,7 +80,7 @@ public class AlternateHistoryTableLogic extends PageTableLogic {
                 return Collections.emptyList();
             } 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
       

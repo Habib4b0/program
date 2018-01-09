@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.salesprojection.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
@@ -44,8 +46,6 @@ import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.FieldEvents.FocusEvent;
@@ -69,8 +69,6 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.DefaultFieldFactory;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
@@ -87,15 +85,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -300,7 +301,7 @@ public class AlternateSummery extends CustomComponent {
     private final StplSecurity stplSecurity = new StplSecurity();
     private final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
 
-    private static final Logger LOGGER = Logger.getLogger(AlternateSummery.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlternateSummery.class);
     private SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
     private List<String> variableList;
 
@@ -320,7 +321,7 @@ public class AlternateSummery extends CustomComponent {
             configurefields();
             init();
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -873,7 +874,7 @@ public class AlternateSummery extends CustomComponent {
                                 }
                                 resultsTable.getLeftFreezeAsTable().setRefresh(true);
                             } catch (PortalException | SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
                             }
                         }
                     });
@@ -908,7 +909,7 @@ public class AlternateSummery extends CustomComponent {
                                         groupBean.addBean(Constant.SHOW_ALL_GROUPS);
                                         groupBean.addAll(salesLogic.loadSalesGroup(projectionDTO));
                                     } catch (PortalException | SystemException | Property.ReadOnlyException ex) {
-                                        LOGGER.error(ex);
+                                        LOGGER.error(ex.getMessage());
                                     }
                                 }
                             }
@@ -992,7 +993,7 @@ public class AlternateSummery extends CustomComponent {
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     tableHirarechyNos.add(mSalesProjectionTableLogic.getTreeLevelonCurrentPage(itemId));
                                 } catch (Exception ex) {
-                                    LOGGER.error(ex);
+                                    LOGGER.error(ex.getMessage());
                                 }
                             }
                         }
@@ -1056,7 +1057,7 @@ public class AlternateSummery extends CustomComponent {
             mSalesProjectionTableLogic.setRefresh(true);
 
         } catch (Property.ReadOnlyException | NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1553,7 +1554,7 @@ public class AlternateSummery extends CustomComponent {
             List<SalesRowDto> resultList = salesLogic.getConfiguredSalesProjection(new Object(), 0, count, projectionDTO);
             loadDataToContainer(resultList, null);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -1573,7 +1574,7 @@ public class AlternateSummery extends CustomComponent {
             List<SalesRowDto> resultList = salesLogic.getConfiguredSalesProjection(id, 0, count, projectionDTO);
             loadDataToContainer(resultList, id);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -1600,7 +1601,7 @@ public class AlternateSummery extends CustomComponent {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -1678,7 +1679,7 @@ public class AlternateSummery extends CustomComponent {
             groupBean.addBean(Constant.SHOW_ALL_GROUPS);
             groupBean.addAll(salesLogic.loadSalesGroup(projectionDTO));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1898,7 +1899,7 @@ public class AlternateSummery extends CustomComponent {
                 exp.export();
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -1933,7 +1934,7 @@ public class AlternateSummery extends CustomComponent {
                 AbstractNotificationUtils.getErrorNotification("No Level Selected", "Please select a Level from the drop down.");
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -2050,7 +2051,7 @@ public class AlternateSummery extends CustomComponent {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("generate button click listener ends ");
 
@@ -2188,7 +2189,7 @@ public class AlternateSummery extends CustomComponent {
         try {
             salesLogic.saveNonMandatedSalesProjection(session);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -2215,7 +2216,7 @@ public class AlternateSummery extends CustomComponent {
             }
 
         } catch (PortalException | SystemException ex) {
-            java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerFactory.getLogger(NMDiscountProjection.class.getName()).error( StringUtils.EMPTY, ex);
         }
     }
 
@@ -2229,7 +2230,7 @@ public class AlternateSummery extends CustomComponent {
             map.put(Constant.PERIOD_ORDER, proPeriodOrd.getValue().toString());
             sprCommonLogic.saveNMSRPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("saveSPResults method ends");
     }

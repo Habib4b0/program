@@ -16,14 +16,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Abishek.Ram
  */
 public class ProjectionMasterImpl {
-public static final Logger LOGGER = Logger.getLogger(ProjectionMasterImpl.class);
+public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl.class);
     public List searchDsProjection(Map<String, Object> parameters) {
         List resultList = null;
         String accProjJoin = "@ACCRUALPROJJOIN";

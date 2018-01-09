@@ -5,6 +5,8 @@
  */
 package com.stpl.app.global.abstractsearch.logic.tablelogic;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.global.abstractsearch.dto.SearchResultsDTO;
 import com.stpl.app.global.abstractsearch.logic.AbstractSearchLogic;
 import com.stpl.app.global.abstractsearch.ui.AbstractSearchForm;
@@ -14,7 +16,8 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -22,7 +25,11 @@ import org.jboss.logging.Logger;
  */
 public class AbstractSearchTableLogic extends PageTableLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(AbstractSearchTableLogic.class);
+    public AbstractSearchTableLogic() {
+        super();
+    }
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchTableLogic.class);
     
     private final AbstractSearchLogic searchLogic = new AbstractSearchLogic();
     private AbstractSearchForm abstractSearchForm;    
@@ -41,8 +48,8 @@ public class AbstractSearchTableLogic extends PageTableLogic {
             }
             isResultsEmpty = count == 0;            
             count = isReset ? 0 : count;
-        } catch (Exception ex) {
-            LOGGER.error(ex);
+        } catch (PortalException | SystemException ex) {
+            LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -53,8 +60,8 @@ public class AbstractSearchTableLogic extends PageTableLogic {
         if (isFirstLoad) {
             try {
                 list = searchLogic.getSearchResultsBasedOnModules(binder, abstractSearchForm, start, offset, false, this.getSortByColumns(), this.getFilters(), moduleName);
-            } catch (Exception ex) {   
-                LOGGER.error(ex);
+            } catch (PortalException | SystemException ex) {   
+                LOGGER.error(ex.getMessage());
             }
         }
         return list;

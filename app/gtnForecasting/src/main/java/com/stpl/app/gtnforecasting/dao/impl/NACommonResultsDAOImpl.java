@@ -5,9 +5,9 @@
  */
 package com.stpl.app.gtnforecasting.dao.impl;
 
-import com.stpl.app.gtnforecasting.dao.NACommonResultsDAO;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.dao.NACommonResultsDAO;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;
 

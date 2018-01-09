@@ -5,11 +5,11 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.TemporaryFileDownloadResource;
 import com.stpl.app.gtnforecasting.dto.PMPYCalculationExporterDTO;
 import com.stpl.app.gtnforecasting.dto.PMPYCalculatorDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.Page;
 import com.vaadin.ui.UI;
 import java.io.File;
@@ -23,7 +23,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -66,7 +67,7 @@ public class PMPYCalculationExporter {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PMPYCalculationExporter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PMPYCalculationExporter.class);
 
     /**
      * Export the calculation to workSheet.
@@ -273,7 +274,7 @@ public class PMPYCalculationExporter {
             File tempFile = File.createTempFile(FILE_NAME, XLS_FORMAT);
             return tempFile;
         } catch (IOException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return null;
     }

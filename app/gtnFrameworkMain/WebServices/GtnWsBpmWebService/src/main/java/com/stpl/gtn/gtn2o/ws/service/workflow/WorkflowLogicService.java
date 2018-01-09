@@ -101,7 +101,7 @@ public class WorkflowLogicService {
     public ProcessInstance startWorkflow(String moduleKey, String defaultValue, String moduleName) {
         ProcessInstance processInstance = null;
         try {
-            Properties properties = DroolsProperties.getPropertiesData();
+            Properties properties = moduleName.equals(GtnWsBpmCommonConstants.CFF)? DroolsProperties.getCffPropertiesData() : DroolsProperties.getPropertiesData();
             String workflowId = properties.getProperty(moduleKey, defaultValue);
             processInstance = bpmProcessBean.startProcess(workflowId, null, moduleName);
         } catch (Exception e) {
@@ -153,7 +153,7 @@ public class WorkflowLogicService {
             LOGGER.debug(GtnFrameworkWebserviceConstant.TASK_SUMMARY + taskSummary.getId());
             bpmProcessBean.startTask(taskSummary.getId(), userModel.getScreenName(), moduleName);
             bpmProcessBean.completeTask(taskSummary.getId(), userModel.getScreenName(), null, moduleName);
-            insertWFInstanceInfo(projectionId, processInstanceId);
+            insertWFInstanceInfo(projectionId, processInstanceId, moduleName.equals(GtnWsBpmCommonConstants.CFF));
         } catch (Exception e) {
             LOGGER.error("Exception in startAndCompleteTask() method." + e);
         }
@@ -178,10 +178,14 @@ public class WorkflowLogicService {
         return taskSummary;
     }
 
-    public boolean insertWFInstanceInfo(int projectionId, long processInstanceId) {
+    public boolean insertWFInstanceInfo(int projectionId, long processInstanceId, boolean isCffModule) {
         try {
-
-            String customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (PROJECTION_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(?,?)";
+            String customSql = null;
+            if(isCffModule){
+                customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (CFF_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(?,?)";
+            }else{
+                customSql = "INSERT INTO WORKFLOW_PROCESS_INFO (PROJECTION_MASTER_SID,PROCESS_INSTANCE_ID) VALUES(?,?)";
+            }            
             Object[] queryParams = {projectionId, processInstanceId};
             return databaseService.executeUpdate(customSql, queryParams) > 0;
 

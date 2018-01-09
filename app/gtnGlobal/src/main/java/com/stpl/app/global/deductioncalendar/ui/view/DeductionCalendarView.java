@@ -5,16 +5,15 @@
  */
 package com.stpl.app.global.deductioncalendar.ui.view;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.deductioncalendar.dto.DeductionCalendarDTO;
 import com.stpl.app.global.deductioncalendar.logic.DeductionCalendarLogic;
 import com.stpl.app.global.deductioncalendar.ui.form.DeductionCalendarForm;
-import com.stpl.app.ui.NotesTabForm;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.QueryUtils;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -22,7 +21,8 @@ import com.vaadin.v7.ui.VerticalLayout;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,18 +30,17 @@ import org.jboss.logging.Logger;
  */
 public class DeductionCalendarView extends VerticalLayout implements View {
 
-    private static final Logger LOGGER = Logger.getLogger(DeductionCalendarView.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeductionCalendarView.class);
 
     public static final String NAME = "ADD";
 
-    DeductionCalendarForm dcform;
+    private DeductionCalendarForm dcform;
     
-    NotesTabForm notesTabForm;
     private String sessionID = StringUtils.EMPTY;
-    SessionDTO sessionDTO;
-    DeductionCalendarLogic deductionCalendarLogic = new DeductionCalendarLogic();
-    DeductionCalendarDTO dto = new DeductionCalendarDTO();
-    ErrorfulFieldGroup binder;
+    private final SessionDTO sessionDTO;
+    private final DeductionCalendarLogic deductionCalendarLogic = new DeductionCalendarLogic();
+    private DeductionCalendarDTO dto = new DeductionCalendarDTO();
+    private ErrorfulFieldGroup binder;
 
     public DeductionCalendarView(final SessionDTO sessionDTO) {
         super();
@@ -83,8 +82,8 @@ public class DeductionCalendarView extends VerticalLayout implements View {
                 dcform = new DeductionCalendarForm(sessionDTO, binder);
                 addComponent(dcform);
             }
-        } catch (Exception e) {
-            LOGGER.error(e);
+        } catch (PortalException | SystemException e) {
+            LOGGER.error(e.getMessage());
         }
 
     }

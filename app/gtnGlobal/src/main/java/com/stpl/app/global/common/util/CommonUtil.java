@@ -33,7 +33,8 @@ import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.custommenubar.MenuItemDTO;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class CommonUtil.
@@ -52,8 +53,8 @@ public class CommonUtil {
      */
     HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
-    private static Logger logger = Logger.getLogger(CommonUtil.class);
-    final static CommonDao DAO = CommonDaoImpl.getInstance();
+    private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
+    public static final CommonDao DAO = CommonDaoImpl.getInstance();
     
     public static final String PRICE_TOLERANCE_FRERQUENCY = "PRICE_TOLERANCE_FREQUENCY";
     /**
@@ -178,8 +179,8 @@ public class CommonUtil {
                     tempObj.addValidator(new RegexpValidator(ValidationUtil.getMessage(rules[NumericConstants.TWO]), ValidationUtil.getMessage(rules[NumericConstants.THREE])));
                 }
             }
-        } catch (Exception e) {
-            logger.error(e);
+        } catch (NumberFormatException e) {
+            logger.error(e.getMessage());
         }
     }
 

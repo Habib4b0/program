@@ -9,15 +9,16 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.List;
-import org.jboss.logging.Logger;
-
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author Abishek.Ram
  */
 public class NMSalesProjectionMasterImpl {
 
-    private static final Logger LOGGER = Logger
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(NMSalesProjectionMasterImpl.class);
 
     public Object executeSelectQuery(String query, Object udc1, Object udc2) {
@@ -79,7 +80,7 @@ public class NMSalesProjectionMasterImpl {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex.getCause());
+            LOGGER.error(StringUtils.EMPTY,ex);
             LOGGER.error(sql.toString());
         } 
 

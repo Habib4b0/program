@@ -8,7 +8,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
-import org.jboss.logging.Logger;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
 
 
 
@@ -86,7 +87,7 @@ public abstract class AbstractActionButtonLayout extends HorizontalLayout{
 					notif.setStyleName("mystyle");
 					notif.show(Page.getCurrent());
 				} catch (CommitException e) {
-                                    Logger.getLogger(AbstractActionButtonLayout.class).error(e);
+                                    LoggerFactory.getLogger(AbstractActionButtonLayout.class).error(StringUtils.EMPTY,e);
                             }
 			}
 		});
@@ -114,7 +115,7 @@ public abstract class AbstractActionButtonLayout extends HorizontalLayout{
 				notif.setStyleName("mystyle");
 				notif.show(Page.getCurrent());
                                 } catch (Exception e) {
-				Logger.getLogger(AbstractActionButtonLayout.class).error(e);
+				LoggerFactory.getLogger(AbstractActionButtonLayout.class).error(StringUtils.EMPTY,e);
                             }
 			}
 		});
@@ -135,7 +136,7 @@ public abstract class AbstractActionButtonLayout extends HorizontalLayout{
 				binder.discard();
 				getUI().getNavigator().navigateTo("");
                                 } catch (Exception e) {
-				Logger.getLogger(AbstractActionButtonLayout.class).error(e);
+				LoggerFactory.getLogger(AbstractActionButtonLayout.class).error(StringUtils.EMPTY,e);
                             }
 			}
 		});

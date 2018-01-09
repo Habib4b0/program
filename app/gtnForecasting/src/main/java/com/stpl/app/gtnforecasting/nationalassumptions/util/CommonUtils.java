@@ -1,5 +1,13 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.util;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO;
@@ -19,14 +27,6 @@ import com.stpl.app.service.ItemMasterLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Component;
@@ -47,7 +47,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.inflater.filter.AttributeFilter;
 
@@ -61,7 +62,7 @@ public class CommonUtils {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(CommonUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtils.class);
     /**
      * The current year.
      */
@@ -130,12 +131,12 @@ public class CommonUtils {
             LOGGER.debug("createClara method ends");
             return Clara.create(xml, controller, attributeFilters);
         } catch (IOException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             try {
                 xml.close();
             } catch (IOException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             }
         }
         return null;
@@ -327,7 +328,7 @@ public class CommonUtils {
             results.add(dto);
         }
          } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return results;
     }
@@ -379,7 +380,7 @@ public class CommonUtils {
         try {
             resultList = ItemMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
         } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
        
         HelperDTO hDTO = null;
@@ -400,7 +401,7 @@ public class CommonUtils {
             }
             return id == 0 ? StringUtils.EMPTY : helperTable.getDescription();
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return StringUtils.EMPTY;
         }
 
@@ -453,7 +454,7 @@ public class CommonUtils {
             sessionDto.setToDate(toDate);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }

@@ -15,6 +15,8 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.TextField;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -22,7 +24,7 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
  */
 public class FilterGenerator implements ExtFilterGenerator {
 
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(FilterGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FilterGenerator.class);
     
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {
@@ -54,7 +56,7 @@ public class FilterGenerator implements ExtFilterGenerator {
                 CommonUtil.getInstance().loadComboBox(formulaType, "NS_FORMULA_TYPE", false);
                 return formulaType;
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         } else if (Constant.DEDUCTION_TYPE.equals(propertyId)) {
             try {
@@ -62,7 +64,7 @@ public class FilterGenerator implements ExtFilterGenerator {
                 CommonUtil.getInstance().loadComboBox(deductionType, Constant.RS_TYPE, false);
                 return deductionType;
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         } else if (Constant.DEDUCTION_SUB_TYPE.equals(propertyId)) {
             try {
@@ -70,7 +72,7 @@ public class FilterGenerator implements ExtFilterGenerator {
                 CommonUtil.getInstance().loadComboBox(deductionSubType, "REBATE_PROGRAM_TYPE", false);
                 return deductionSubType;
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         } else if (Constant.DEDUCTION_CATEGORY.equals(propertyId)) {
             try {
@@ -78,7 +80,7 @@ public class FilterGenerator implements ExtFilterGenerator {
                 CommonUtil.getInstance().loadComboBox(deductionCategory, "RS_CATEGORY", false);
                 return deductionCategory;
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return null;

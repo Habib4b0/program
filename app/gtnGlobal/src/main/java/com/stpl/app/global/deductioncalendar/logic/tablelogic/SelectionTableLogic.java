@@ -15,7 +15,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -28,7 +29,7 @@ public class SelectionTableLogic extends PageTableLogic {
     private final SelectionLogic selectionLogic = new SelectionLogic();
     private String tabName = StringUtils.EMPTY;
     private String availableOrselected = StringUtils.EMPTY;
-    private static final Logger LOGGER = Logger.getLogger(SelectionTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SelectionTableLogic.class);
     
     /**
      * Returns the number of records available for the given search criteria.

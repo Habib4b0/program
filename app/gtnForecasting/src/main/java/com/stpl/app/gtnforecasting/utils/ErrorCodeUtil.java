@@ -5,8 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.liferay.portal.kernel.dao.orm.ORMException;
+import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import java.io.IOException;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -46,7 +46,7 @@ public class ErrorCodeUtil {
         try {
             return resouceBundle.getString(key);
         } catch (MissingResourceException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return StringUtils.EMPTY;
         }
     }

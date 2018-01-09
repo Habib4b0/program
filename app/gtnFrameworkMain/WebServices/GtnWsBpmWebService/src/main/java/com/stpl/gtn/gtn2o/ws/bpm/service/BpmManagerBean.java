@@ -30,6 +30,7 @@ public class BpmManagerBean {
     protected ReleaseId releaseId;
     private Map<String, RuntimeEngine> runtimeEngineMap = new HashMap<>();
     private Properties properties = DroolsProperties.getPropertiesData();
+    private Properties cffproperties = DroolsProperties.getCffPropertiesData();
     protected RuntimeManagerRegistry registry = RuntimeManagerRegistry.get();
     @Autowired
     private CustomUserCallBack userGroupCallback;
@@ -62,6 +63,7 @@ public class BpmManagerBean {
             initForecastRuntimeEngine();
             initContractRuntimeEngine();
             initReturnsRuntimeEngine();
+            initCFFRuntimeEngine();
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
@@ -105,7 +107,7 @@ public class BpmManagerBean {
     }
 
     public void initForecastRuntimeEngine() {
-        LOGGER.info("initContractRuntimeEngine Started ");
+        LOGGER.info("init Forecast RuntimeEngine Started ");
         String identifier = "com.sample:example:1.0";
         releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", "com.stpl.app.bpm"), properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"), properties.getProperty("Forecasting_version", "1.0"));
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
@@ -118,6 +120,22 @@ public class BpmManagerBean {
                 .newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
         runtimeEngineMap.put(GtnWsBpmCommonConstants.FORECAST_COMMERCIAL, runtimeEngine);
         LOGGER.info("initContractRuntimeEngine End ");
+    }
+    
+    public void initCFFRuntimeEngine() {
+        LOGGER.info("Init CffRuntime Engine Started ");
+        String identifier = "com.sample:example:1.0";
+        releaseId = new ReleaseIdImpl(cffproperties.getProperty("CFF_groupId", "com.stpl.app.bpm"), cffproperties.getProperty("CFF_artifactId","CFFWorkflow"), cffproperties.getProperty("CFF_version","1.0"));
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
+        RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
+                .entityManagerFactory(emf).userGroupCallback(userGroupCallback);
+        if (registry.isRegistered(identifier)) {
+            registry.remove(identifier);
+        }
+        RuntimeEngine runtimeEngine = RuntimeManagerFactory.Factory.get()
+                .newSingletonRuntimeManager(builder.get(), identifier).getRuntimeEngine(null);
+        runtimeEngineMap.put(GtnWsBpmCommonConstants.CFF, runtimeEngine);
+        LOGGER.info("init CffRuntime RuntimeEngine End ");
     }
 
 }

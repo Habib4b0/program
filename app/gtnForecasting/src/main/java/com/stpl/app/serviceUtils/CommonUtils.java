@@ -1,19 +1,16 @@
 package com.stpl.app.serviceUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import org.jboss.logging.Logger;
-
-//import com.stpl.ifs.util.HelperDTO;
-
 import com.vaadin.v7.ui.NativeSelect;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -157,7 +154,7 @@ public class CommonUtils {
     public static final String FORECAST_SALE_BASIS = "RS_FRCST_SALES_BASIS";
     
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger(CommonUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtils.class);
     
     /** The Constant ZERO. */
     public static final int ZERO = 0;

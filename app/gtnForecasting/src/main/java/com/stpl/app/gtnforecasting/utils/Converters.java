@@ -5,6 +5,9 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.model.CompanyGroup;
 import com.stpl.app.utils.Constants.CommonConstants;
@@ -13,16 +16,14 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -35,7 +36,7 @@ public class Converters {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(Converters.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Converters.class);
 
     /**
      * Gets the customized views.
@@ -218,7 +219,7 @@ public class Converters {
                     dataSelectionDTO.setToDate(parseDate(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_SIX]))));
                 }
             } catch (ParseException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
 			dataSelectionDTO.setCustomerRelationShipVersionNo((Integer) objects[NumericConstants.TWENTY_SEVEN]);
 			dataSelectionDTO.setProductRelationShipVersionNo((Integer) objects[NumericConstants.TWENTY_EIGHT]);
@@ -275,7 +276,7 @@ public class Converters {
             dataSelectionDTO.setFromPeriod(String.valueOf(objects[NumericConstants.TWENTY_ONE]));
             dataSelectionDTO.setToPeriod(String.valueOf(objects[NumericConstants.TWENTY_FOUR]));
         } catch (ParseException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
         dataSelectionDTO.setModifiedBy(String.valueOf(objects[NumericConstants.TWENTY_TWO]));

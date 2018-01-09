@@ -14,8 +14,10 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Logger;
+
 import org.asi.ui.container.ExtTreeContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author Nandhakumar
@@ -24,7 +26,7 @@ public abstract class HierarchyTreeExport  implements Serializable{
     
 
     private static final long serialVersionUID = -2972527330991334117L;
-    private static final Logger LOGGER = Logger.getLogger(HierarchyTreeExport.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(HierarchyTreeExport.class.getName());
 
     public static String EXCEL_MIME_TYPE = "application/vnd.ms-excel";
     public static String CSV_MIME_TYPE = "text/cvs";
@@ -112,7 +114,7 @@ public abstract class HierarchyTreeExport  implements Serializable{
                     new TemporaryFileDownloadResource(app, exportFileName, mimeType, fileToExport);
             app.getPage().open(resource, null, false);
         } catch (final FileNotFoundException e) {
-            LOGGER.warning("Sending file to user failed with FileNotFoundException " + e);
+            LOGGER.warn("Sending file to user failed with FileNotFoundException " + e);
             return false;
         }
         return true;
