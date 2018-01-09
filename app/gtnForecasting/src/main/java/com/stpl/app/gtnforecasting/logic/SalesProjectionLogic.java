@@ -588,66 +588,43 @@ public class SalesProjectionLogic {
         List list = null;
 
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
-        Connection connection = null;
-        CallableStatement statement = null;
-        ResultSet resList = null;
-        try {
-            connection = dataSourceConnection.getConnection();
-
-            LOGGER.debug("Entering callSalesInsertProcedure  ::::");
-
-            if (connection != null) {
-                statement = connection.prepareCall("{call Nm_sales_pmpy (?,?,?,?)}");
-
+        try (Connection connection = dataSourceConnection.getConnection();
+                CallableStatement statement = connection.prepareCall("{call Nm_sales_pmpy (?,?,?,?)}")
+                 )
+        {
+                LOGGER.debug("Starting callSalesInsertProcedure return  staus ::::");
                 statement.setInt(1, Integer.parseInt((String) inputs[0]));  //PROJECTION_MASTER_SID
                 statement.setString(NumericConstants.TWO, String.valueOf(inputs[1]));   //@PROJECTION_DETAILS_SID
                 statement.setInt(NumericConstants.THREE, Integer.parseInt((String) inputs[NumericConstants.TWO])); //CONTRACT_HOLDER_SID
                 statement.setInt(NumericConstants.FOUR, Integer.parseInt((String) inputs[NumericConstants.THREE]));   //TRADING_PARTNER_SID
-
-                resList = statement.executeQuery();
-            }
-
-            list = new ArrayList();
-
-            Object[] temp = null;
-            while (resList.next()) {
-
-                temp = new Object[NumericConstants.FIVE];
-
-                temp[0] = resList.getString(1);
-                temp[1] = resList.getString(NumericConstants.TWO);
-                temp[NumericConstants.TWO] = resList.getString(NumericConstants.THREE);
-                temp[NumericConstants.THREE] = resList.getString(NumericConstants.FOUR);
-                temp[NumericConstants.FOUR] = resList.getString(NumericConstants.FIVE);
-                list.add(temp);
-
-            }
-
+                list = calculateResultSet(statement);
             LOGGER.debug("Ending callSalesInsertProcedure return  staus ::::");
         } catch (NumberFormatException | SQLException | NamingException ex) {
                LOGGER.error(ex);
             LOGGER.error(new Date() + ex.getMessage());
-        } finally {
-            try {
-                if (statement != null) 
-                {
-                statement.close();
-                }
-                if (resList != null)
-                {
-                resList.close();
-                }
-                if (connection != null)
-                {
-                connection.close();
-                }
-            } catch (SQLException e) {
-               LOGGER.error(e);
-            }
-        }
-
+        } 
         return list;
+    }
 
+    private List calculateResultSet(final CallableStatement statement) throws SQLException {
+        Object[] temp;
+         List list = new ArrayList();
+        try (ResultSet resList = statement.executeQuery())
+        {
+        while (resList.next()) {
+            temp = new Object[NumericConstants.FIVE];
+            temp[0] = resList.getString(1);
+            temp[1] = resList.getString(NumericConstants.TWO);
+            temp[NumericConstants.TWO] = resList.getString(NumericConstants.THREE);
+            temp[NumericConstants.THREE] = resList.getString(NumericConstants.FOUR);
+            temp[NumericConstants.FOUR] = resList.getString(NumericConstants.FIVE);
+            list.add(temp);
+        }
+        } catch (SQLException ex)
+        {
+            LOGGER.debug(ex);
+        }
+        return list;
     }
 
     public List<PMPYRowDto> getPMPYResultList(Object[] inputs) {

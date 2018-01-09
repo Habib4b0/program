@@ -2429,7 +2429,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     String confirmMessage = "Confirm Incremental adjustment";
                     String messageBody = StringUtils.EMPTY;
 
-					if (adjType.equals(Constant.LabelConstants.INCREMENTAL)) {
+					if (adjType.equals("Incremental")) {
                         confirmMessage = "Confirm Incremental adjustment";
                         if (basis.getValue().equals(Constant.LabelConstants.AMOUNT)) {
                             if (variable.getValue().equals(Constant.UNIT)) {
@@ -2556,7 +2556,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         int projStartSemi = CommonUtils.getSemiAnnual(projStartMonth);
         int projStartYear = currentDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;
         String selectedFreq = projectionDTO.getFrequency();
-        for (Object key : rightHeader.getDoubleColumns()) {
+        for (Object key : rightHeader.getDoubleProjectedColumns()) {
             if (!String.valueOf(key).equals(Constant.GROUP)) {
                 String temp[] = ((String) key).split("-");
                 int tempYear = Integer.parseInt(ANNUAL.equals(selectedFreq) ? temp[0] : temp[1]);
