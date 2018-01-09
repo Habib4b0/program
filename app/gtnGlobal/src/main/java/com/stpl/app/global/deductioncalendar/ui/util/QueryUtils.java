@@ -557,6 +557,8 @@ public class QueryUtils {
             case "Monthly":
                 query = query.replace(ConstantsUtils.FREQ, SQLUtil.getQuery("monthlydisc"));
                 break;
+            default:
+                break;
         }
         return query;
 

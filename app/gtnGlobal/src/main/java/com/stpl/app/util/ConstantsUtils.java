@@ -1,6 +1,5 @@
 package com.stpl.app.util;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class contains the Universal String Constant.
  */
@@ -2194,116 +2193,116 @@ public final class ConstantsUtils {
     /**
      * The session id.
      */
-    public final static String TEMP_ID = "tempId";
+    public static final String TEMP_ID = "tempId";
 
     /**
      * The session id.
      */
-    public final static String IFP_SYS_ID = "ifpId";
+    public static final String IFP_SYS_ID = "ifpId";
 
     /**
      * The session id.
      */
-    public final static String PREV_IFP_SYS_ID = "prevIfpId";
+    public static final String PREV_IFP_SYS_ID = "prevIfpId";
 
     /**
      * The session id.
      */
-    public final static String IFP_IDENTIFIER = "ifpIdentifer";
+    public static final String IFP_IDENTIFIER = "ifpIdentifer";
 
     /**
      * The session id.
      */
-    public final static String IFP_EDIT_IDENT = "ifpEditIdent";
+    public static final String IFP_EDIT_IDENT = "ifpEditIdent";
 
     /**
      * The Constant HELPER_TABLE_SID.
      */
-    public final static String HELPER_TABLE_SID = "helperTableSid";
+    public static final String HELPER_TABLE_SID = "helperTableSid";
 
     /**
      * The Constant ITEM_IDENTIFIER_HEADER.
      */
-    public final static String ITEM_IDENTIFIER_HEADER = "Item Identifier";
+    public static final String ITEM_IDENTIFIER_HEADER = "Item Identifier";
 
     /**
      * The Constant ITEM_IDENTIFIER_HEADER.
      */
-    public final static String ITEM_QUALIFIER_NAME_HEADER = "Item Qualifier Name";
+    public static final String ITEM_QUALIFIER_NAME_HEADER = "Item Qualifier Name";
 
     /**
      * The company crt qualifier ID.
      */
-    public final static String COMPANY_QUALIFIER_SID = "companyQualifierSid";
-    public final static String MASTER_SID = "masterSid";
-    public final static String MASTER_TYPE = "masterType";
+    public static final String COMPANY_QUALIFIER_SID = "companyQualifierSid";
+    public static final String MASTER_SID = "masterSid";
+    public static final String MASTER_TYPE = "masterType";
 
     /**
      * The Constant COMPANY_SEARCH_FORM.
      */
-    public final static String COMPANY_SEARCH_FORM = "COMPANY_SEARCH_FORM";
-    public final static String ITEM_SEARCH_FORM = "ITEM_SEARCH_FORM";
-    public static String ITEM_QUAL_NAME = "itemQualifierName";
-    public final static String ITEM_PRICING_QUAL_NAME = "itemPricingQualifierName";
-    public final static String BRAND_MASTER_SID = "brandMasterSid";
-    public final static String REBATE_PLAN_SEARCH_FORM = "REBATE_PLAN_SEARCH_FORM";
-    public final static String CFP_SEARCH_FORM = "CFP_SEARCH_FORM";
-    public final static String IFP_SEARCH_FORM = "IFP_SEARCH_FORM";
-    public final static String RS_SEARCH_FORM = "RS_SEARCH_FORM";
-    public final static String PS_SEARCH_FORM = "PS_SEARCH_FORM";
-    public final static String IM_SEARCH_FORM = "IM_SEARCH_FORM";
-    public static Object UDC = "udc";
+    public static final String COMPANY_SEARCH_FORM = "COMPANY_SEARCH_FORM";
+    public static final String ITEM_SEARCH_FORM = "ITEM_SEARCH_FORM";
+    public static final String ITEM_QUAL_NAME = "itemQualifierName";
+    public static final String ITEM_PRICING_QUAL_NAME = "itemPricingQualifierName";
+    public static final String BRAND_MASTER_SID = "brandMasterSid";
+    public static final String REBATE_PLAN_SEARCH_FORM = "REBATE_PLAN_SEARCH_FORM";
+    public static final String CFP_SEARCH_FORM = "CFP_SEARCH_FORM";
+    public static final String IFP_SEARCH_FORM = "IFP_SEARCH_FORM";
+    public static final String RS_SEARCH_FORM = "RS_SEARCH_FORM";
+    public static final String PS_SEARCH_FORM = "PS_SEARCH_FORM";
+    public static final String IM_SEARCH_FORM = "IM_SEARCH_FORM";
+    public static final Object UDC = "udc";
     /**
      * The user id.
      */
-    public final static String USERS_ID = "usersSid";
-    public final static String MANUFACTURE_CM_SID = "manfCompanyMasterSid";
-    public final static String COMPANY_IDENTIFIER_SID = "companyIdentifierSid";
-    public final static String COMPANY_IDENTIFIERID = "companyIdentifier";
-    public final static String PARENT_COMPANY_IDENTIFIER_SID = "parentCompanyMasterSid";
-    public final static String PARENT_COMPANY_SYS_ID = "parentCompanySysId";
-    public final static String PARENT_TEST_ID = "parenttestId";
-    public final static String COMPANY_MASTER = "COMPANY_MASTER";
-    public final static String CDR_MODEL = "CDR_MODEL";
+    public static final String USERS_ID = "usersSid";
+    public static final String MANUFACTURE_CM_SID = "manfCompanyMasterSid";
+    public static final String COMPANY_IDENTIFIER_SID = "companyIdentifierSid";
+    public static final String COMPANY_IDENTIFIERID = "companyIdentifier";
+    public static final String PARENT_COMPANY_IDENTIFIER_SID = "parentCompanyMasterSid";
+    public static final String PARENT_COMPANY_SYS_ID = "parentCompanySysId";
+    public static final String PARENT_TEST_ID = "parenttestId";
+    public static final String COMPANY_MASTER = "COMPANY_MASTER";
+    public static final String CDR_MODEL = "CDR_MODEL";
     /**
      * The view btn.
      */
-    public final static String VIEW_BTN = "View";
+    public static final String VIEW_BTN = "View";
 
-    public final static String ITEM_PRICING_VALUE = "itemPricingValue";
+    public static final String ITEM_PRICING_VALUE = "itemPricingValue";
 
-    public final static String ITEM_MASTER = "ITEM_MASTER";
+    public static final String ITEM_MASTER = "ITEM_MASTER";
 
     /**
      * The edit list.
      */
-    public final static String EDITLIST = "Edit List";
+    public static final String EDITLIST = "Edit List";
 
     /**
      * The select one.
      */
-    public final static String SHOW_ALL = "Show all";
+    public static final String SHOW_ALL = "Show all";
 
     /**
      * The system id.
      */
-    public final static String ITEM_MASTER_SYSTEM_ID = "itemMasterSid";
+    public static final String ITEM_MASTER_SYSTEM_ID = "itemMasterSid";
     /**
      * entity code
      */
-    public final static String ENTITY_CODE_NAME = "entityCodeName";
+    public static final String ENTITY_CODE_NAME = "entityCodeName";
 
-    public final static String ENTITYCODENAME = "Entity Code Name";
+    public static final String ENTITYCODENAME = "Entity Code Name";
 
     /**
      * The company start date.
      */
-    public final static String COMP_START_DATE = "compStartDate";
+    public static final String COMP_START_DATE = "compStartDate";
 
     /**
      * The company end date.
      */
-    public final static String COMP_END_DATE = "compEndDate";
+    public static final String COMP_END_DATE = "compEndDate";
 
     /**
      * The session id.
@@ -2910,8 +2909,39 @@ public final class ConstantsUtils {
     public static final String DC_CREATION_DATE_START ="dcCreationDatestart";
     public static final String DC_MODIFIED_DATE_START ="dcModifiedDatestart";
     public static final String DC_MODIFIED_DATE_END ="dcModifiedDateend";
-    public static final String PACKAGE_SIZE_INTRO_GREATER =" AND IM.package_Size_Intro_Date >= '";
-
+    
+    //Constants for SelectionLogic.java
+    public static final String PACKAGE_SIZE_INTRO = " AND IM.package_Size_Intro_Date >= '";
+    public static final String IM_PACKAGE_SIZE_INTRO_DATE_LESSER_THAN = " AND IM.package_Size_Intro_Date <= '";
+    public static final String IM_ACQUISITION_DATE = " AND IM.acquisition_Date >= '";
+    public static final String IM_ACQUISITION_DATE_LESSER_THAN = " AND IM.acquisition_Date <= '";
+    public static final String IM_PEDIATRIC_EXCLUSIVE_START_DATE = " AND IM.pediatric_Exclusive_Start_Date >= '";
+    public static final String IM_PEDIATRIC_EXCLUSIVE_START_DATE_LESSER_THAN = " AND IM.pediatric_Exclusive_Start_Date <= '";
+    public static final String IM_PEDIATRIC_EXCLUSIVE_END_DATE = " AND IM.pediatric_Exclusive_End_Date >= '";
+    public static final String IM_PEDIATRIC_EXCLUSIVE_END_DATE_LESSER_THAN = " AND IM.pediatric_Exclusive_End_Date <= '";
+    public static final String IM_CLOTTING_FACTOR_START_DATE = " AND IM.clotting_Factor_Start_Date >= '" ;
+    public static final String IM_CLOTTING_FACTOR_START_DATE_LESSER_THAN = " AND IM.clotting_Factor_Start_Date <= '";
+    public static final String IM_CLOTTING_FACTOR_END_DATE = " AND IM.clotting_Factor_End_Date >= '";
+    public static final String IM_CLOTTING_FACTOR_END_DATE_LESSER_THAN = " AND IM.clotting_Factor_End_Date <= '";
+    public static final String IM_AUTHORIZED_GENERIC_START_DATE = " AND IM.authorized_Generic_Start_Date >= '";
+    public static final String IM_AUTHORIZED_GENERIC_START_DATE_LESSER_THAN = " AND IM.authorized_Generic_Start_Date <= '";
+    public static final String IM_AUTHORIZED_GENERIC_END_DATE = " AND IM.authorized_Generic_End_Date >= '";
+    public static final String IM_AUTHORIZED_GENERIC_END_DATE_LESSER_THAN = " AND IM.authorized_Generic_End_Date <= '";
+    public static final String IM_FIRST_SALE_DATE = " AND IM.first_Sale_Date >= '";
+    public static final String IM_FIRST_SALE_DATE_LESSER_THAN = " AND IM.first_Sale_Date <= '";
+    public static final String IM_NEW_FORMULATION_END_DATE = " AND IM.new_Formulation_End_Date >= '";
+    public static final String IM_NEW_FORMULATION_END_DATE_LESSER_THAN = " AND IM.new_Formulation_End_Date <= '";
+    public static final String IM_DISCONTINUATION_DATE = " AND IM.discontinuation_Date >= '";
+    public static final String IM_DISCONTINUATION_DATE_LESSER_THAN = " AND IM.discontinuation_Date <= '";
+    public static final String IM_LAST_LOT_EXPIRATION_DATE = " AND IM.last_Lot_Expiration_Date >= '";
+    public static final String IM_LAST_LOT_EXPIRATION_DATE_LESSER_THAN = " AND IM.last_Lot_Expiration_Date <= '";
+    public static final String IM_MARKET_TERMINATION_DATE = " AND IM.market_Termination_Date >= '";
+    public static final String IM_MARKET_TERMINATION_DATE_LESSER_THAN = " AND IM.market_Termination_Date <= '";
+    public static final String IM_NEW_FORMULATION_START_DATE = " AND IM.new_Formulation_Start_Date >= '";
+    public static final String IM_NEW_FORMULATION_START_DATE_LESSER_THAN = " AND IM.new_Formulation_Start_Date <= '";
+    public static final String IM_BASE_CPI_PERIOD = " AND IM.BASE_CPI_PERIOD >= '";
+    public static final String IM_BASE_CPI_PERIOD_LESSER_THAN = " AND IM.BASE_CPI_PERIOD <= '";
+    
     /**
      * Constructor
      */

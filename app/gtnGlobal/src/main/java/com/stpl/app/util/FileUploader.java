@@ -25,9 +25,9 @@ import org.slf4j.LoggerFactory;
  */
 public class FileUploader implements Receiver {
 	private FileOutputStream outputStream;
-	public File file;
-	public static String FILE_PATH = getFilePath();
-	String moduleName = "";
+	private File file;
+	public static final String FILE_PATH = getFilePath();
+	private String moduleName = "";
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileUploader.class);
 
 	public FileUploader(String moduleName) {
@@ -41,6 +41,7 @@ public class FileUploader implements Receiver {
 	 * @param mimeType
 	 * @return
 	 */
+        @Override
 	public OutputStream receiveUpload(String filename, String mimeType) {
 		try {
 
@@ -60,12 +61,12 @@ public class FileUploader implements Receiver {
 		} catch (final java.io.FileNotFoundException e) {
 			new Notification("Could not open file ", e.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());
-			LOGGER.error("",e);
+			LOGGER.error(e.getMessage());
 			return null;
 		} catch (IOException ex) {
 			new Notification("Could not create ", ex.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());
-			LOGGER.error("",ex);
+			LOGGER.error(ex.getMessage());
 			return null;
 		}
 		return outputStream; // Return the output stream to write to
@@ -82,6 +83,7 @@ public class FileUploader implements Receiver {
 	/**
 	 * method should be called at the end
 	 */
+        @Override
 	protected void finalize() throws Throwable {
 		try {
 
@@ -90,7 +92,7 @@ public class FileUploader implements Receiver {
 			}
 		} catch (IOException ex) {
 			new Notification("IOException ", ex.getMessage(), Notification.Type.ERROR_MESSAGE).show(Page.getCurrent());
-			LOGGER.error("",ex);
+			LOGGER.error(ex.getMessage());
 		} finally {
 			super.finalize();
 		}

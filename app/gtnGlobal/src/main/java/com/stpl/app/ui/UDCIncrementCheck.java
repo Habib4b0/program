@@ -11,6 +11,7 @@ import com.stpl.app.util.Constants;
 import com.stpl.app.util.ConstantsUtils;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,7 @@ import org.slf4j.LoggerFactory;
 public final class UDCIncrementCheck {
 
     /** The dao. */
-    private static UDCIncrementalCheckDAO dao = new UDCIncrementalCheckDAOImpl();
+    private static final UDCIncrementalCheckDAO dao = new UDCIncrementalCheckDAOImpl();
     
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(UDCIncrementCheck.class);
@@ -64,8 +65,8 @@ public final class UDCIncrementCheck {
             
             LOGGER.debug(" Ends increment  ::::  Update Sccess ");
 
-        } catch (Exception ex) {
-            LOGGER.error("",ex);
+        } catch (SystemException ex) {
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -100,8 +101,8 @@ public final class UDCIncrementCheck {
                 dao.updateHelperTable(helper);
             }
           LOGGER.debug(" Ends decrement  ::::  Update Sccess ");
-        } catch (Exception ex) {
-              LOGGER.error("",ex);
+        } catch (SystemException ex) {
+              LOGGER.error(ex.getMessage());
         }
 
     }
@@ -136,8 +137,8 @@ public final class UDCIncrementCheck {
             
             LOGGER.debug(" Ends increment  ::::  Update Sccess ");
 
-        } catch (Exception ex) {
-              LOGGER.error("",ex);
+        } catch (SystemException ex) {
+              LOGGER.error(ex.getMessage());
         }
 
     }
@@ -172,8 +173,8 @@ public final class UDCIncrementCheck {
                 dao.updateHelperTable(helper);
             }
           LOGGER.debug(" Ends decrement  ::::  Update Sccess ");
-        } catch (Exception ex) {
-              LOGGER.error("",ex);
+        } catch (SystemException ex) {
+              LOGGER.error(ex.getMessage());
         }
 
     }

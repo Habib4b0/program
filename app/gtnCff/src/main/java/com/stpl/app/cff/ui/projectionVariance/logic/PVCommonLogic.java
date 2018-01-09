@@ -25,8 +25,9 @@ public class PVCommonLogic {
 
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private static final String ZERO = "0";
-    private static final DecimalFormat RATE_PER = new DecimalFormat("#,##0.00");
-    private static final DecimalFormat RATE_PER_THREE = new DecimalFormat("#,##0.00");
+    private static final String PER_FORMAT = "#,##0.00";
+    private static final DecimalFormat RATE_PER = new DecimalFormat(PER_FORMAT);
+    private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(PER_FORMAT);
     private static final String CURRENT = "Current";
     private static final String ACCRUAL = "Accrual";
     private static final String ACTUAL = "Actual";
@@ -111,7 +112,7 @@ public class PVCommonLogic {
     }
 
     public static String getPerChange(String actualValue, String priorVal, DecimalFormat format) {
-        DecimalFormat formatter = new DecimalFormat("#,##0.00");
+        DecimalFormat formatter = new DecimalFormat(PER_FORMAT);
         Double val = Double.valueOf(isNull(actualValue));
         Double val1 = Double.valueOf(isNull(priorVal));
         String value;

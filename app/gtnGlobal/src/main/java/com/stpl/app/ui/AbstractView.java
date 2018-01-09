@@ -26,7 +26,7 @@ public abstract class AbstractView extends StplVerticalLayout {
         setSpacing(true);
         setComponentError(new UserError(""));
         } catch(Exception e){
-        LOGGER.error("",e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -35,6 +35,7 @@ public abstract class AbstractView extends StplVerticalLayout {
      *
      * @param event ViewChangeEvent
      */
+     @Override
     public void enter(final ViewChangeEvent event) {
 		LOGGER.debug("Entering into abstractview class");
     }

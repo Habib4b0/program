@@ -71,10 +71,8 @@ public class DeductionFilterGenerator implements ExtFilterGenerator {
             }
 
         } catch (SystemException ex) {
-            LOGGER.error("",ex);
-        } catch (Exception ex) {
-            LOGGER.error("",ex);
-        }
+            LOGGER.error(ex.getMessage());
+        } 
         return null;
     }
 

@@ -29,7 +29,7 @@ import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
@@ -136,7 +136,7 @@ public class ItemManagementIndex extends CustomComponent {
     private final ItemLogic logic = new ItemLogic();
     private final AbstractLogic abstractLogic = AbstractLogic.getInstance();
     private ItemIndexDto binderDto = new ItemIndexDto();
-    private final CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     private final SelectionDTO selection;
     
     private final ItemIndexTableLogic tableLogic = new ItemIndexTableLogic();
@@ -671,7 +671,7 @@ public class ItemManagementIndex extends CustomComponent {
         placeHolder_DTO.select(dto);
     }
 
-    private CustomFieldGroup getBinder() {
+    private ErrorfulFieldGroup getBinder() {
         binder.bindMemberFields(this);
         binder.setItemDataSource(new BeanItem<>(binderDto));
         binder.setBuffered(true);

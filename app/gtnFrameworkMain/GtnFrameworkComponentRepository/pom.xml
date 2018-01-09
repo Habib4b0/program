@@ -1,32 +1,32 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>GtnFrameworkComponentRepository</artifactId>
-	<name>GtnFrameworkComponentRepository</name>
-	<description>Project to provide component configuration</description>
-	<parent>
-		<groupId>com.stpl.gtn.gtn2o</groupId>
-		<artifactId>Gtn-All-Parent</artifactId>
-		<version>1.0</version>
-	</parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>GtnFrameworkComponentRepository</artifactId>
+    <name>GtnFrameworkComponentRepository</name>
+    <description>Project to provide component configuration</description>
+    <parent>
+        <groupId>com.stpl.gtn.gtn2o</groupId>
+        <artifactId>Gtn-All-Parent</artifactId>
+        <version>1.0</version>
+    </parent>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.stpl.gtn.gtn2o</groupId>
-			<artifactId>GtnFramework</artifactId>
-			<version>${gtnFramework.version}</version>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>com.stpl.gtn.gtn2o</groupId>
+            <artifactId>GtnFramework</artifactId>
+            <version>${gtnFramework.version}</version>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
-<build>
-    <finalName>${project.artifactId}</finalName>
+    <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>  
             <plugin>
                 <groupId>biz.aQute.bnd</groupId>
@@ -51,7 +51,7 @@
                         </manifestFile>
                     </archive>
                 </configuration>
-            </plugin> 
+            </plugin>   
         </plugins>
     </build>
 </project>

@@ -42,9 +42,13 @@ public class DeductionCalendarUI extends UI {
     /**
      * Navigator
      */
-    Navigator navigator;
+    private Navigator navigator;
     
-    SessionDTO sessionDTO=new SessionDTO();
+    private final SessionDTO sessionDTO=new SessionDTO();
+
+    public DeductionCalendarUI() {
+        super();
+    }
 
     @Override
     protected void init(VaadinRequest request) {
@@ -86,7 +90,7 @@ public class DeductionCalendarUI extends UI {
                         if (t.getCause() == null) // We're at final cause
                         {
                             cause.append(t.getClass().getName());
-                            LOGGER.error("",t);
+                            LOGGER.error(t.getMessage());
                         }
                     }
                     LOGGER.error("",cause);
@@ -94,9 +98,7 @@ public class DeductionCalendarUI extends UI {
             });
       LOGGER.info("Ending DeductionCalendar UI");
         } catch (SystemException ex) {
-            LOGGER.error("",ex);
-        } catch (Exception ex) {
-            LOGGER.error("",ex);
-        }
+            LOGGER.error(ex.getMessage());
+        } 
     }
 }

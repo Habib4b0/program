@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ItemQualifierNameContainer implements DAO<HelperDTO> {
 
-    private boolean editListFlag;
+    private final boolean editListFlag;
     /**
      * The Constant LOGGER.
      */
@@ -43,13 +43,15 @@ public class ItemQualifierNameContainer implements DAO<HelperDTO> {
     public ItemQualifierNameContainer(final boolean editListFlag){
         this.editListFlag=editListFlag;
     }
+    @Override
     public int count(final SearchCriteria searchCriteria) {
         try {
             if(editListFlag){
                 return DeductionCalendarLogic.getLazyItemQualifierNameCount(searchCriteria.getFilter(),editListFlag)+NumericConstants.TWO;
             }
-            else
+            else {
                 return DeductionCalendarLogic.getLazyItemQualifierNameCount(searchCriteria.getFilter(),editListFlag)+1;
+            }
         } catch (SystemException ex) {
                     final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                     LOGGER.error(errorMsg);
@@ -61,6 +63,7 @@ public class ItemQualifierNameContainer implements DAO<HelperDTO> {
                          * @param buttonId The buttonId of the pressed button.  
                          */           
                         @SuppressWarnings("PMD")  
+                @Override
                         public void buttonClicked(final ButtonId buttonId) {   
                             // Do Nothing   
                         }        
@@ -68,7 +71,7 @@ public class ItemQualifierNameContainer implements DAO<HelperDTO> {
                     msg.getButton(ButtonId.OK).focus();
                     
                 } catch (PortalException portException) {
-                    LOGGER.error("",portException);
+                    LOGGER.error(portException.getMessage());
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {     
                         /**             
                          * The method is triggered when a button of the message box is    
@@ -77,6 +80,7 @@ public class ItemQualifierNameContainer implements DAO<HelperDTO> {
                          * @param buttonId The buttonId of the pressed button.      
                          */             
                         @SuppressWarnings("PMD")      
+                @Override
                         public void buttonClicked(final ButtonId buttonId) {   
                             // Do Nothing        
                         }          
@@ -86,6 +90,7 @@ public class ItemQualifierNameContainer implements DAO<HelperDTO> {
         return 0;
     }
 
+    @Override
     public List<HelperDTO> find(final SearchCriteria searchCriteria, final int startIndex, final int offset, final List<OrderByColumn> list) {
          try {
             return DeductionCalendarLogic.getLazyItemQualifierNameResults(startIndex, startIndex + offset, searchCriteria.getFilter(),editListFlag);
@@ -100,13 +105,14 @@ public class ItemQualifierNameContainer implements DAO<HelperDTO> {
                          * @param buttonId The buttonId of the pressed button.      
                          */             
                         @SuppressWarnings("PMD")      
+                @Override
                         public void buttonClicked(final ButtonId buttonId) {   
                             // Do Nothing        
                         }          
                     }, ButtonId.OK);       
                     msg.getButton(ButtonId.OK).focus();
                 } catch (PortalException portException) {
-                    LOGGER.error("",portException);
+                    LOGGER.error(portException.getMessage());
                     final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1010), new MessageBoxListener() {     
                         /**             
                          * The method is triggered when a button of the message box is    
@@ -115,6 +121,7 @@ public class ItemQualifierNameContainer implements DAO<HelperDTO> {
                          * @param buttonId The buttonId of the pressed button.      
                          */             
                         @SuppressWarnings("PMD")      
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {   
                             // Do Nothing        
                         }          

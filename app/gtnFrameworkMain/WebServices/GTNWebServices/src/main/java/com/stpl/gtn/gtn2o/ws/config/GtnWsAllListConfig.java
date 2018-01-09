@@ -300,7 +300,7 @@ public class GtnWsAllListConfig {
 		comboBoxQueryMap.put("CompanyManufacture",
 				"SELECT COMPANY_MASTER_SID,COMPANY_ID FROM Company_master cm JOIN DBO.HELPER_TABLE HT ON HT.HELPER_TABLE_SID=cm.COMPANY_TYPE WHERE ht.LIST_NAME='COMPANY_TYPE' AND ht.DESCRIPTION= 'Manufacturer'");
 		comboBoxQueryMap.put("CompanyOrganizationKey",
-				"SELECT CM.COMPANY_MASTER_SID, CM.COMPANY_ID FROM COMPANY_MASTER CM JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = CM.COMPANY_TYPE WHERE HT.LIST_NAME LIKE 'COMPANY_TYPE' AND HT.DESCRIPTION LIKE 'BUSINESS UNIT'");
+				"SELECT CM.COMPANY_MASTER_SID, CM.COMPANY_NO+' - '+CM.COMPANY_ID FROM COMPANY_MASTER CM JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = CM.COMPANY_TYPE WHERE HT.LIST_NAME LIKE 'COMPANY_TYPE' AND HT.DESCRIPTION LIKE 'BUSINESS UNIT'");
 		comboBoxQueryMap.put("hierarchyName",
 				"select  HIERARCHY_DEFINITION_SID,HIERARCHY_NAME from dbo.HIERARCHY_DEFINITION WHERE HIERARCHY_NAME NOT Like 'Deduction%'");
 		comboBoxQueryMap.put("forecastConfigFrequency",
@@ -429,7 +429,7 @@ public class GtnWsAllListConfig {
 
 			connection = sysSessionFactory.getSessionFactoryOptions().getServiceRegistry()
 					.getService(ConnectionProvider.class).getConnection();
-			sqlQuery.append("select userId,firstName +' '+middleName+' '+lastName as fullName from "
+			sqlQuery.append("select userId,ISNULL(firstName, '') +' '+ISNULL(middleName, '')+' '+ISNULL(lastName, '') from "
 					+ connection.getCatalog() + ".dbo.User_");
 			List<Object[]> resultList = null;
 

@@ -16,6 +16,10 @@ public class ManufactureIdCriteria implements SearchCriteria {
 	/** The search text. */
 	private String searchText;
 
+    public ManufactureIdCriteria() {
+        super();
+    }
+
 	/** The description. */
 	private String description;
 

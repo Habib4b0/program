@@ -337,55 +337,52 @@ public class GtnWsCalendarConfigurationLogic {
 	public void getCalendarConfigurationCalendarName(GtnWsCalendarConfigurationRequest ccRequest,
 			GtnWsCalendarConfigurationResponse ccResponse) throws GtnFrameworkGeneralException {
 		ccResponse.setSuccess(true);
-		String calendarNameTemp = null;
 		String calendarName=ccRequest.getCalendarName();
 		int calendarId=ccRequest.getCalendarId();
 		boolean calendarNameAlreadyExists=false;
 		try (Session session = getController().getSessionFactory().openSession()) {
 			Criteria cr = session.createCriteria(CalendarConfigMaster.class);
 			List<CalendarConfigMaster> resultList = cr.list();
-			calendarNameAlreadyExists = checkCalendarNameAlreadyExists(calendarNameTemp, calendarName, calendarId,
-					calendarNameAlreadyExists, resultList);
+			calendarNameAlreadyExists = checkCalendarNameAlreadyExists(calendarName, calendarId,resultList);
 			ccResponse.setCalendarNameExists(calendarNameAlreadyExists);
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Exception in getCalendarConfigurationHolidays", e);
 		}
 	}
 
-	private boolean checkCalendarNameAlreadyExists(String calendarNameTemp, String calendarName, int calendarId,
-			boolean calendarNameAlreadyExists, List<CalendarConfigMaster> resultList) {
+	private boolean checkCalendarNameAlreadyExists(String calendarName, int calendarId,List<CalendarConfigMaster> resultList) {
+		boolean calendarNameInModeCheck;
 		if((calendarId==0)){
-		calendarNameAlreadyExists = checkForCalendarNameInAddMode(calendarName, calendarNameAlreadyExists, resultList);
+			calendarNameInModeCheck = checkForCalendarNameInAddMode(calendarName,resultList);
 		}
 		else{
-			calendarNameAlreadyExists = checkForCalendarNameNonAddMode(calendarNameTemp, calendarName, calendarId,
-					calendarNameAlreadyExists, resultList);
+			calendarNameInModeCheck = checkForCalendarNameNonAddMode(calendarName, calendarId,resultList);
 		}
-		return calendarNameAlreadyExists;
+		return calendarNameInModeCheck;
 	}
 
-	private boolean checkForCalendarNameNonAddMode(String calendarNameTemp, String calendarName, int calendarId,
-			boolean calendarNameAlreadyExists, List<CalendarConfigMaster> resultList) {
+	private boolean checkForCalendarNameNonAddMode(String calendarName, int calendarId,List<CalendarConfigMaster> resultList) {
+		boolean calendarNameInNonAddModeCheck = false;
+		String tempCalendarName ="";
 		for (CalendarConfigMaster calendarConfigMaster : resultList) {
 			if(calendarId==calendarConfigMaster.getCalendarConfigMasterSid()){
-				calendarNameTemp=calendarConfigMaster.getCalendarName();
+				tempCalendarName=calendarConfigMaster.getCalendarName();
 			}
 		}
-		if(!calendarNameTemp.equals(calendarName)){
-			calendarNameAlreadyExists = checkForCalendarNameInAddMode(calendarName, calendarNameAlreadyExists,
-					resultList);
-		}
-		return calendarNameAlreadyExists;
+			if (!tempCalendarName.equals(calendarName)) {
+				calendarNameInNonAddModeCheck = checkForCalendarNameInAddMode(calendarName, resultList);
+			}
+		return calendarNameInNonAddModeCheck;
 	}
 
-	private boolean checkForCalendarNameInAddMode(String calendarName, boolean calendarNameAlreadyExists,
-			List<CalendarConfigMaster> resultList) {
+	private boolean checkForCalendarNameInAddMode(String calendarName,List<CalendarConfigMaster> resultList) {
+		boolean calendarNameInAddModeCheck = false;
 		for (CalendarConfigMaster calendarConfigMaster : resultList) {
 			if(calendarName.equalsIgnoreCase(calendarConfigMaster.getCalendarName())){
-				calendarNameAlreadyExists=true;
+				calendarNameInAddModeCheck=true;
 				break;
 				}
 			}
-		return calendarNameAlreadyExists;
+		return calendarNameInAddModeCheck;
 	}
 }
