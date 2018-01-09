@@ -8,7 +8,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 
 public class GtnFrameworkRSConstants {
 
-	private static final String DESCRIPTION = "description";
+	public static final String DESCRIPTION = "description";
 
 	private GtnFrameworkRSConstants() {
 		/**
@@ -150,7 +150,7 @@ public class GtnFrameworkRSConstants {
 			GtnFrameworkRSConstants.RS_END_DATE };
 
 	private static final Object[] RS_SETUP_TAB_VISIBLE_COLUMNS = { GtnFrameworkCommonConstants.CHECK_RECORD_ID,
-			"itemNo", "itemName", RS_STATUS, RS_START_DATE, RS_END_DATE1 };
+			"itemNo", "itemName", DESCRIPTION, RS_START_DATE, RS_END_DATE1 };
 
 	private static final Object[] RS_SETUP_TAB_VISIBLE_COLUMNS_VIEW = { "itemNo", "itemName", DESCRIPTION,
 			RS_START_DATE, RS_END_DATE1 };

@@ -9,6 +9,8 @@ import com.stpl.app.global.abstractsearch.dto.SearchResultsDTO;
 import com.stpl.app.global.abstractsearch.logic.AbstractSearchLogic;
 import com.stpl.app.global.abstractsearch.ui.AbstractSearchForm;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
 import java.util.ArrayList;
@@ -21,6 +23,10 @@ import org.jboss.logging.Logger;
  * @author Sibi
  */
 public class AbstractSearchTableLogic extends PageTableLogic {
+
+    public AbstractSearchTableLogic() {
+        super();
+    }
 
     private static final Logger LOGGER = Logger.getLogger(AbstractSearchTableLogic.class);
     
@@ -41,7 +47,7 @@ public class AbstractSearchTableLogic extends PageTableLogic {
             }
             isResultsEmpty = count == 0;            
             count = isReset ? 0 : count;
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return count;
@@ -53,7 +59,7 @@ public class AbstractSearchTableLogic extends PageTableLogic {
         if (isFirstLoad) {
             try {
                 list = searchLogic.getSearchResultsBasedOnModules(binder, abstractSearchForm, start, offset, false, this.getSortByColumns(), this.getFilters(), moduleName);
-            } catch (Exception ex) {   
+            } catch (PortalException | SystemException ex) {   
                 LOGGER.error(ex);
             }
         }

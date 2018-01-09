@@ -125,50 +125,41 @@ public class CommonUtil {
      */
     public static List<Object[]> callProcedure(String procedureName, Object[] orderedArgs) {
         LOGGER.debug(" Inside callProcedure with Procedure Name " + procedureName);
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
+
+        DataSource datasource = null;
+
         List<Object[]> objectList = new ArrayList<>();
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            }
-            if (connection != null) {
-                StringBuilder procedureToCall = new StringBuilder("{call ");
-                procedureToCall.append(procedureName);
-                int noOfArgs = orderedArgs.length;
-                for (int i = 0; i < noOfArgs; i++) {
-                    if (i == 0) {
-                        procedureToCall.append("(");
-                    }
-                    procedureToCall.append("?,");
-                    if (i == noOfArgs - 1) {
-                        procedureToCall.append(ConstantsUtils.CLOSE_PARENTHESIS);
-                    }
+        } catch (NamingException ex) {
+            LOGGER.debug(ex);
+        }
+        if (datasource != null) {
+
+            StringBuilder procedureToCall = new StringBuilder("{call ");
+            procedureToCall.append(procedureName);
+            int noOfArgs = orderedArgs.length;
+            for (int i = 0; i < noOfArgs; i++) {
+                if (i == 0) {
+                    procedureToCall.append("(");
                 }
-                procedureToCall.replace(procedureToCall.lastIndexOf(ConstantUtil.COMMA), procedureToCall.lastIndexOf(ConstantUtil.COMMA) + 1, StringUtils.EMPTY);
-                procedureToCall.append("}");
-                statement = connection.prepareCall(procedureToCall.toString());
-                for (int i = 0; i < noOfArgs; i++) {                    
+                procedureToCall.append("?,");
+                if (i == noOfArgs - 1) {
+                    procedureToCall.append(ConstantsUtils.CLOSE_PARENTHESIS);
+                }
+            }
+            procedureToCall.replace(procedureToCall.lastIndexOf(ConstantUtil.COMMA), procedureToCall.lastIndexOf(ConstantUtil.COMMA) + 1, StringUtils.EMPTY);
+            procedureToCall.append("}");
+            try (Connection connection = datasource.getConnection();
+                    CallableStatement statement = connection.prepareCall(procedureToCall.toString())) {
+                for (int i = 0; i < noOfArgs; i++) {
                     LOGGER.info(orderedArgs[i]);
-                    
+
                     statement.setObject(i + 1, orderedArgs[i]);
                 }
-          
-                 statement.execute();
-                
-            }
-        } catch (NamingException ex) {
-            LOGGER.error(ex);
-        } catch (SQLException ex) {
-            LOGGER.error(ex);
-        } finally {
-            try {
-                statement.close();
-                connection.close();
-                System.gc();
+
+                statement.execute();
             } catch (SQLException ex) {
                 LOGGER.error(ex);
             }

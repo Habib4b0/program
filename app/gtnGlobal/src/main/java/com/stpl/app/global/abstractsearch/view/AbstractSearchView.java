@@ -11,7 +11,6 @@ import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.ui.AbstractView;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import java.text.SimpleDateFormat;
@@ -29,13 +28,13 @@ public class AbstractSearchView extends AbstractView{
 
 	/** The Constant NAME. */
 	public static final String NAME = "";
-        public String moduleName;
+        private final String moduleName;
 
 	/** The table. */
 	private final ExtFilterTable table = new ExtFilterTable();
         /** The Boolean */
-       public static boolean flag = false;
-       SessionDTO sessionDTO; 
+       private static boolean flag = false;
+       private SessionDTO sessionDTO; 
 
 	/**
 	 * Gets the table.
@@ -91,7 +90,7 @@ public class AbstractSearchView extends AbstractView{
             removeAllComponents();
             addComponent(new AbstractSearchForm(moduleName,sessionDTO));
               }
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         table.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);

@@ -15,6 +15,8 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
@@ -230,8 +232,8 @@ public class PromoteTPToChForm extends CustomComponent implements View {
                         int selectedProjectionId = Integer.parseInt(String.valueOf(projCOntractIds.get(0)[0]));
                         session.setFromProjectionId(selectedProjectionId);
                         session.setContractMasterSid(String.valueOf(session.getContractSystemId()));
-                        List<String> existingProjection = logic.copyProjection(selectedProjectionId, false, null, null, null,session);
-                        List<String> projectionWithNewContract = logic.generateNewProjection(userId, sessionId, selectedProjectionId, masterids, true, false,session);
+                        List<String> existingProjection = logic.copyProjection(selectedProjectionId, false, null, null, null, session);
+                        List<String> projectionWithNewContract = logic.generateNewProjection(userId, sessionId, selectedProjectionId, masterids, true, false, session);
                         String copiedToProjId = String.valueOf(projectionWithNewContract.get(NumericConstants.TWO));
                         Integer copiedFromProjId = Integer.valueOf(String.valueOf(existingProjection.get(NumericConstants.TWO)));
                         CommonLogic.insertInputsBeforeTranfer(selectedProjectionId, copiedFromProjId, Integer.valueOf(copiedToProjId), Integer.valueOf(copiedToProjId), session.getContMasteSid(), Integer.valueOf(session.getContractMasterSid()), session.getCompanyMasterSid(), DBDate.format(new Date()), DBDate.format(new Date()), true, sessionId, true);
@@ -338,37 +340,29 @@ public class PromoteTPToChForm extends CustomComponent implements View {
 
     public boolean callCcpInsertProcedure() {
         LOGGER.debug("calling CcpInsertProcedure");
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
+        DataSource datasource = null;
         String sessionValue = session.getSessionId();
         int sessionIdValue = Integer.valueOf(sessionValue);
 
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup("java:jboss/datasources/jdbc/appDataPool");
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            } else {
-                LOGGER.debug("Failed to lookup datasource.");
-            }
-            if (connection != null) {
+        } catch (NamingException ex) {
+            LOGGER.debug(ex);
+        }
+        if (datasource != null) {
 
+            StringBuilder statementBuilder = new StringBuilder("{call PRC_CCP_POPULATION('");
+            statementBuilder.append(sessionIdValue).append("')}");
+
+            try (Connection connection = datasource.getConnection();
+                    CallableStatement statement = connection.prepareCall(statementBuilder.toString())) {
                 LOGGER.debug("Got Connection " + connection.toString() + ", ");
-                StringBuilder statementBuilder = new StringBuilder("{call PRC_CCP_POPULATION('");
-                statementBuilder.append(sessionIdValue).append("')}");
-                statement = connection.prepareCall(statementBuilder.toString());
                 statement.execute();
-            }
-        } catch (SQLException | NamingException ex) {
-            LOGGER.error(ex);
-            return false;
-        } finally {
-            try {
-                statement.close();
-                connection.close();
-            } catch (SQLException e) {
-                LOGGER.error(e);
+
+            } catch (SQLException ex) {
+                LOGGER.error(ex);
+                return false;
             }
         }
         LOGGER.debug("exiting CcpInsertProcedure");
@@ -380,7 +374,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
             Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(session.getUserId()), "GCM-Customer Management", "Promote Customer", "SummaryTab");
             closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", functionHM));
             nextBtn.setVisible(CommonLogic.isButtonVisibleAccess("nextBtn", functionHM));
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }

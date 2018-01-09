@@ -5,12 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import java.util.Arrays;
 import org.jboss.logging.Logger;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class contains the constants and method related to security.
  *

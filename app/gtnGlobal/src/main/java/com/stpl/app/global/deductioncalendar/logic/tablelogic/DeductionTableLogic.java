@@ -24,10 +24,15 @@ import org.jboss.logging.Logger;
  * @author gopinath
  */
 public class DeductionTableLogic extends PageTreeTableLogic {
-    boolean firstGenerated = false;
-    DeductionDetailsDTO deductionDTO;
-    SessionDTO sessionDTO;
-    TableDTO tableDTO ;
+
+    public DeductionTableLogic() {
+        super();
+    }
+    
+    private boolean firstGenerated = false;
+    private DeductionDetailsDTO deductionDTO;
+    private SessionDTO sessionDTO;
+    private TableDTO tableDTO ;
   
      /**
      * The Constant LOGGER.
@@ -36,12 +41,8 @@ public class DeductionTableLogic extends PageTreeTableLogic {
     /**
      * Deduction details logic instance
      */
-    private DeductionDetailsLogic logic = new DeductionDetailsLogic();
-    /**
-     * 
-     * @param levelNo
-     * @param hierarchyNo 
-     */
+    private final DeductionDetailsLogic logic = new DeductionDetailsLogic();
+   
     public void setProjectionResultsData(DeductionDetailsDTO deductionDTO,SessionDTO sessionDTO) {
         this.deductionDTO = deductionDTO;
         this.sessionDTO = sessionDTO;
