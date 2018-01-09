@@ -10,7 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.addons.tableexport.TableHolder;
@@ -23,7 +24,7 @@ import com.stpl.ifs.util.GtnFileUtil;
 public class SchedulerExcelEport extends ExcelExport {
 
 	String serverPAth = "";
-	private static final Logger LOGGER = Logger.getLogger(SchedulerExcelEport.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerExcelEport.class);
 
 	public SchedulerExcelEport(final TableHolder tableHolder, final String sheetName, final String reportTitle,
 			final String exportFileName, final boolean hasTotalsRow, final String serverPAth) {
@@ -47,14 +48,14 @@ public class SchedulerExcelEport extends ExcelExport {
 			workbook.write(fileOut);
 
 		} catch (final IOException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return false;
 		} finally {
 			tempFile.deleteOnExit();
 			try {
 				fileOut.close();
 			} catch (final IOException e) {
-				LOGGER.error(e);
+				LOGGER.error(e.getMessage());
 			}
 		}
 		return true;

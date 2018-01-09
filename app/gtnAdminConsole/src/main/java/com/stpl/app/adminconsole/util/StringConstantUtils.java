@@ -5,7 +5,8 @@
  */
 package com.stpl.app.adminconsole.util;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StringConstantUtils {
     
@@ -222,7 +223,7 @@ public class StringConstantUtils {
     public static final String BRAND = "brand";
     public static final String FORECAST_VERSION = "forecastVersion";
     public static final String DFSOURCE = "DF.SOURCE";
-    private static final Logger LOGGER = Logger.getLogger(StringConstantUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StringConstantUtils.class);
 
     public StringConstantUtils() {
         LOGGER.debug("StringConstantUtils");

@@ -37,7 +37,8 @@ import de.steinwedel.messagebox.MessageBoxListener;
 import java.util.List;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class ProjNameConfigIndex.
@@ -49,7 +50,7 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ProjNameConfigIndex.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjNameConfigIndex.class);
     /**
      * The forecast binder.
      */
@@ -371,7 +372,7 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
                                 availableResultsBean.removeAllItems();
 
                             } catch (Exception e) {
-                                LOGGER.error(e);
+                                LOGGER.error(e.getMessage());
                                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4002));
                             }
                         }
@@ -392,7 +393,7 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
                     final List<ProjectionNameDTO> availableNameResults = nameConfigLogic.getAvailableNameTemplate(businessProces);
                     availableResultsBean.addAll(availableNameResults);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                   LOGGER.error(ex.getMessage());
                 }
             }
 

@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,7 +31,7 @@ public class ArchiveLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ArchiveLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveLogic.class);
 
     /**
      * The dao.

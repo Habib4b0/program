@@ -14,7 +14,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -58,7 +59,7 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
  */
 public class processSchedulerForm extends CustomComponent {
 
-    private static final Logger LOGGER = Logger.getLogger(processSchedulerForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(processSchedulerForm.class);
 
     @UiField("frequencyRadio")
     private OptionGroup frequencyRadio;
@@ -184,7 +185,7 @@ public class processSchedulerForm extends CustomComponent {
             setButtonLevelSecurity(functionHM);
             LOGGER.debug("Ending Init");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -401,7 +402,7 @@ public class processSchedulerForm extends CustomComponent {
 
                         LOGGER.debug("Ending Double click event");
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                       LOGGER.error(ex.getMessage());
                     }
                 }
             }
@@ -543,7 +544,7 @@ public class processSchedulerForm extends CustomComponent {
                 AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.ERROR_HEADER), confirmationMessage.getString(MSG_ID_061));
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -664,7 +665,7 @@ public class processSchedulerForm extends CustomComponent {
                 }
 
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
                 AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.ERROR_HEADER), processSchedulerDTO.getProcessDisplayName() + confirmationMessage.getString("MSG_ID_046"));
             }
         }

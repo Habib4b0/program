@@ -19,7 +19,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.stpl.app.adminconsole.dao.HelperTableDAO;
 import com.stpl.app.adminconsole.dao.impl.HelperTableDAOImpl;
 import com.stpl.app.model.BrandMaster;
@@ -79,7 +80,7 @@ public final class CommonUtil {
 
     private static HelperTableDAO helperTableDAO = new HelperTableDAOImpl();
 
-    private static final Logger LOGGER = Logger.getLogger(CommonUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtil.class);
 
     private static final Date NULLOBJECT = null;
     
@@ -494,7 +495,7 @@ public final class CommonUtil {
         try {
             resultList = new AdminConsoleImpl().fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         return resultList;
     }
@@ -508,7 +509,7 @@ public final class CommonUtil {
 
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -536,7 +537,7 @@ public final class CommonUtil {
             }
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -657,7 +658,7 @@ public final class CommonUtil {
 
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -675,7 +676,7 @@ public final class CommonUtil {
             }
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -781,7 +782,7 @@ public final class CommonUtil {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return queryString.toString();
     }

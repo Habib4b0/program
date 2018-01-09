@@ -20,7 +20,8 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -239,7 +240,7 @@ public class FileManagementLookup extends Window {
 
 	private FileMananagementResultDTO fileMgtIndexDTO = new FileMananagementResultDTO();
 
-	private static final Logger LOGGER = Logger.getLogger(FileManagementLookup.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementLookup.class);
 
 	private static final BeanItem<?> NULLITEM = null;
 
@@ -545,7 +546,7 @@ public class FileManagementLookup extends Window {
 			configureFields();
 			LOGGER.debug("init method Ended");
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 					ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4011));
 		}
@@ -739,7 +740,7 @@ public class FileManagementLookup extends Window {
 								"Please select record to delete");
 					}
 				} catch (Exception e) {
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
 				}
 			}
 		});
@@ -791,7 +792,7 @@ public class FileManagementLookup extends Window {
 										massUpdate.select(ConstantsUtils.DISABLE);
 
 									} catch (Exception e) {
-										LOGGER.error(e);
+										LOGGER.error(e.getMessage());
 										AbstractNotificationUtils.getErrorNotification(
 												ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 												ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4006));
@@ -835,7 +836,7 @@ public class FileManagementLookup extends Window {
 										batchId.setValue(ConstantsUtils.EMPTY);
 										custCountry.setValue(ConstantsUtils.EMPTY);
 									} catch (Exception e) {
-										LOGGER.error(e);
+										LOGGER.error(e.getMessage());
 										AbstractNotificationUtils.getErrorNotification(
 												ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 												ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4006));
@@ -1295,7 +1296,7 @@ public class FileManagementLookup extends Window {
 			commonUtils.loadComboBox(deductionCategory, "RS_CATEGORY", false);
 			commonUtils.loadComboBox(deductionProgramType, "REBATE_PROGRAM_TYPE", false);
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 
 		getForecastYear();
@@ -1381,7 +1382,7 @@ public class FileManagementLookup extends Window {
 				try {
 					lookUp.init();
 				} catch (Exception ex) {
-					LOGGER.error(ex);
+					LOGGER.error(ex.getMessage());
 				}
 				UI.getCurrent().addWindow(lookUp);
 				lookUp.addCloseListener(new Window.CloseListener() {
@@ -1412,7 +1413,7 @@ public class FileManagementLookup extends Window {
 			forecastYear.select(dto);
 			LOGGER.debug("In getForecastYear Ended");
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 					ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4008));
 		}
@@ -1428,7 +1429,7 @@ public class FileManagementLookup extends Window {
 				try {
 					searchButtonClickLogic();
 				} catch (Exception e) {
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4005));
 				}
@@ -1532,11 +1533,11 @@ public class FileManagementLookup extends Window {
 					}
 				} catch (SystemException e) {
 					String errorMsg = ErrorCodeUtil.getErrorMessage(e);
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							errorMsg);
 				} catch (Exception e) {
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4009));
 				}
@@ -1728,7 +1729,7 @@ public class FileManagementLookup extends Window {
 					excel.export();
 					tableLayout.removeComponent(excelTable);
 				} catch (Exception ex) {
-					LOGGER.error(ex);
+					LOGGER.error(ex.getMessage());
 				}
 				LOGGER.debug("In configureFields excelExportResult.addClickListener Ended");
 			}
@@ -1789,7 +1790,7 @@ public class FileManagementLookup extends Window {
 			}
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -1846,7 +1847,7 @@ public class FileManagementLookup extends Window {
 						}
 					}
 				} catch (Exception e) {
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4007));
 				}
@@ -1882,7 +1883,7 @@ public class FileManagementLookup extends Window {
 										fromDate.setValue(null);
 										toDate.setValue(null);
 									} catch (Exception e) {
-										LOGGER.error(e);
+										LOGGER.error(e.getMessage());
 										AbstractNotificationUtils.getErrorNotification(
 												ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 												ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4006));
@@ -2389,11 +2390,11 @@ public class FileManagementLookup extends Window {
 													loadResultsTable();
 
 												} catch (Exception ex) {
-													LOGGER.error(ex);
+													LOGGER.error(ex.getMessage());
 												}
 											}
 										} catch (Exception ex) {
-											LOGGER.error(ex);
+											LOGGER.error(ex.getMessage());
 										}
 									}
 								}
@@ -2406,7 +2407,7 @@ public class FileManagementLookup extends Window {
 			}
 			LOGGER.debug("Ending Save Button Logic");
 		} catch (SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -2477,7 +2478,7 @@ public class FileManagementLookup extends Window {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -2625,7 +2626,7 @@ public class FileManagementLookup extends Window {
 				try {
 					resultsItemClick(event.getProperty().getValue());
 				} catch (Exception e) {
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4007));
 				}
@@ -2838,7 +2839,7 @@ public class FileManagementLookup extends Window {
 			resultsTable.setHeight("450px");
 			resultsTable.setColumnAlignment("version", ExtCustomTable.Align.CENTER);
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -3203,7 +3204,7 @@ public class FileManagementLookup extends Window {
 								try {
 									lookUp.init();
 								} catch (Exception ex) {
-									LOGGER.error(ex);
+									LOGGER.error(ex.getMessage());
 								}
 								UI.getCurrent().addWindow(lookUp);
 								lookUp.addCloseListener(new Window.CloseListener() {
@@ -3242,7 +3243,7 @@ public class FileManagementLookup extends Window {
 								try {
 									lookUp.init();
 								} catch (Exception ex) {
-									LOGGER.error(ex);
+									LOGGER.error(ex.getMessage());
 								}
 								UI.getCurrent().addWindow(lookUp);
 								lookUp.addCloseListener(new Window.CloseListener() {
@@ -3815,7 +3816,7 @@ public class FileManagementLookup extends Window {
 								try {
 									lookUp.init();
 								} catch (Exception ex) {
-									LOGGER.error(ex);
+									LOGGER.error(ex.getMessage());
 								}
 								UI.getCurrent().addWindow(lookUp);
 								lookUp.addCloseListener(new Window.CloseListener() {

@@ -17,7 +17,8 @@ import java.util.List;
 import org.asi.ui.addons.lazycontainer.DAO;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -28,7 +29,7 @@ public class ForecastYearContainer implements DAO<HelperDTO> {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ForecastYearContainer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ForecastYearContainer.class);
 
     /**
      *
@@ -40,7 +41,7 @@ public class ForecastYearContainer implements DAO<HelperDTO> {
             return FileManagementLogic.getForecastYearCount(searchCriteria.getFilter());
         } catch (SystemException ex) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
         }
         return 0;
@@ -59,7 +60,7 @@ public class ForecastYearContainer implements DAO<HelperDTO> {
             return FileManagementLogic.getForecastYearResults(startIndex, startIndex + offset, searchCriteria.getFilter());
         } catch (SystemException ex) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
         }
         return Collections.emptyList();

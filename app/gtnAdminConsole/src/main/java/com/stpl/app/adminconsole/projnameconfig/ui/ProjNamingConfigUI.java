@@ -17,7 +17,8 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -34,7 +35,7 @@ public class ProjNamingConfigUI extends UI {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ProjNamingConfigUI.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjNamingConfigUI.class);
 
     /**
      * (non-Javadoc).
@@ -79,13 +80,13 @@ public class ProjNamingConfigUI extends UI {
         } catch (SystemException ex) {
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         } catch (PortalException ex) {
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4011));
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         } catch (Exception ex) {
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4011));
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
 
     }

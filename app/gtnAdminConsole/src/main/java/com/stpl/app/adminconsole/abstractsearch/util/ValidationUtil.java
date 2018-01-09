@@ -7,7 +7,8 @@ package com.stpl.app.adminconsole.abstractsearch.util;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -21,7 +22,7 @@ public class ValidationUtil {
 
     public static final String HYPHEN = " - ";
 
-    private static final Logger LOGGER = Logger.getLogger(ValidationUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ValidationUtil.class);
 
     /**
      * Gets the Message Code of the key.
@@ -33,7 +34,7 @@ public class ValidationUtil {
         try {
             return resouceBundle.getString(key);
         } catch (MissingResourceException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return "";
         }
     }
@@ -65,7 +66,7 @@ public class ValidationUtil {
         try {
             return label.getString(key);
         } catch (MissingResourceException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return "";
         }
     }

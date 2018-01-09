@@ -16,7 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -27,7 +28,7 @@ public class ManualLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ManualLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ManualLogic.class);
     static HashMap<String, String> columnName=new HashMap<String, String>();
 
     public List getSearchResult(boolean count, int start, int offset, boolean scheduler, final List<SortByColumn> orderByColumns) {
@@ -59,7 +60,7 @@ public class ManualLogic {
 
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
     }

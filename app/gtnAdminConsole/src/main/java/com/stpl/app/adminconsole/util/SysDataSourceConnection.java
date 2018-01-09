@@ -10,7 +10,8 @@ import java.sql.SQLException;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -18,13 +19,13 @@ import org.jboss.logging.Logger;
  */
 public class SysDataSourceConnection {
     private static DataSource dataSource;
-     private static final Logger LOGGER = Logger.getLogger(SysDataSourceConnection.class);
+     private static final Logger LOGGER = LoggerFactory.getLogger(SysDataSourceConnection.class);
     static {
         try {
             dataSource = (DataSource) new InitialContext().lookup(System.getProperty(ConstantsUtils.SYS_SCHEMA));
         }
         catch (NamingException e) { 
-           LOGGER.error(e);
+           LOGGER.error(e.getMessage());
         }
     }
 

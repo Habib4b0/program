@@ -13,7 +13,8 @@ import com.stpl.app.model.WorkflowProfile;
 import com.stpl.app.util.service.ArmSchedulerSynchronizer;
 import com.stpl.app.util.service.SchedulerSynchronizer;
 import com.stpl.ifs.ui.util.NumericConstants;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -24,7 +25,7 @@ import org.quartz.JobExecutionException;
  */
 public class QuartzJob implements Job {
 
-    private static final Logger LOGGER = Logger.getLogger(QuartzJob.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuartzJob.class);
     private final String one = "1";
 
     @Override
@@ -41,7 +42,7 @@ public class QuartzJob implements Job {
                     Thread thread = new Thread(expThread);
                     thread.start();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                   LOGGER.error(ex.getMessage());
                 }
             } else if ("CFF_OUTBOUND_INTERFACE".equalsIgnoreCase(profile.getProcessName())) {
                 try {
@@ -61,7 +62,7 @@ public class QuartzJob implements Job {
                     }
                     process.unlock();
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                   LOGGER.error(ex.getMessage());
                 }
            } else if ("ACCRUAL_RATE_PROJECTION_INTERFACE".equalsIgnoreCase(profile.getProcessName())) {
             try {
@@ -72,7 +73,7 @@ public class QuartzJob implements Job {
                 logic.updateLastRun(profile.getProcessSid(), true);
                 arpProcess.unlock();
             } catch (Exception ex) {
-                LOGGER.error(ex);
+               LOGGER.error(ex.getMessage());
             }
             } else if (ConstantsUtils.ADJ_RESERVER_DETAIL_INTERFACE.equals(profile.getProcessName()) || ConstantsUtils.ADJ_GTN_DETAIL_INTERFACE.equals(profile.getProcessName())) {
             try {
@@ -83,19 +84,19 @@ public class QuartzJob implements Job {
                 logic.updateLastRun(profile.getProcessSid(), true);
                 adjOutboundProcess.unlock();
             } catch (Exception ex) {
-                LOGGER.error(ex);
+               LOGGER.error(ex.getMessage());
             }
         } else {
             try {
                     logic.runJob(getFtpBundleValue(), profile.getScriptName());
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
             }
             try {
                 logic.updateLastRun(profile.getProcessSid(), true);
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
             }
 
         } else {
@@ -107,14 +108,14 @@ public class QuartzJob implements Job {
                 logic.deleteUnsavedProjections("ForecastTempTableDrop");
             LOGGER.debug("Ending delete Job");
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
             }
         }
         try {
         	System.out.println("Ending Quartz Job "+context.getJobDetail().getKey().getName() + " Next Fire Time ");
             QuartzListener.printJobsForJobKey(context.getJobDetail().getKey());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
     }
 }
     public static final String AUTOMATIC_SCHEDULER = " Automatic Scheduler ";

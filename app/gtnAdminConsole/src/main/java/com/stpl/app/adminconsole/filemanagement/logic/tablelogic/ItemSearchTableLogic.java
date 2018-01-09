@@ -13,15 +13,15 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author vinodhini
  */
 public class ItemSearchTableLogic extends PageTableLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(FileResultsTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileResultsTableLogic.class);
     final FileManagementLogic searchLogic = new FileManagementLogic();
     ItemSearchDTO resultDTO;
     private boolean isFirstLoad = false;
@@ -38,7 +38,7 @@ public class ItemSearchTableLogic extends PageTableLogic {
             isResultsEmpty = count == 0;
             count = isReset ? 0 : count;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -50,7 +50,7 @@ public class ItemSearchTableLogic extends PageTableLogic {
             try {
                 list = (List) searchLogic.getItemSearchResults(resultDTO, start, offset, this.getSortByColumns(), this.getFilters(), false);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+               LOGGER.error(ex.getMessage());
             }
         }
         return list;

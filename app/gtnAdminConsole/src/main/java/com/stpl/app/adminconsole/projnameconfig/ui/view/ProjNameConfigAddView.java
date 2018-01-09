@@ -11,7 +11,8 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.v7.ui.VerticalLayout;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -23,7 +24,7 @@ public class ProjNameConfigAddView extends VerticalLayout implements View{
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ProjNameConfigAddView.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjNameConfigAddView.class);
      /**
      * The Constant NAME.
      */
@@ -61,7 +62,7 @@ public class ProjNameConfigAddView extends VerticalLayout implements View{
             configAddForm = new ProjNameConfigAddForm();
             addComponent(configAddForm);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 

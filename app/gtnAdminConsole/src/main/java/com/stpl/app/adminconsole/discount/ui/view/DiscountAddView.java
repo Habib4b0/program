@@ -3,8 +3,8 @@ package com.stpl.app.adminconsole.discount.ui.view;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.discount.dto.DiscountSearchDTO;
 import com.stpl.app.adminconsole.discount.logic.DiscountLogic;
-import org.jboss.logging.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.stpl.app.adminconsole.discount.ui.form.DiscountAddForm;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
@@ -25,7 +25,7 @@ public class DiscountAddView extends VerticalLayout implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(DiscountAddView.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountAddView.class);
 
     /**
      * The selected results bean.
@@ -107,7 +107,7 @@ public class DiscountAddView extends VerticalLayout implements View {
                 discountAddForm.groupInfo(new DiscountSearchDTO(), true);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
