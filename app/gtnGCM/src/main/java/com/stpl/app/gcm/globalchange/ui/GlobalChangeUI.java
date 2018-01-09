@@ -63,11 +63,6 @@ public class GlobalChangeUI extends UI {
             LOGGER.error("",ex);
         }
 
-//        customMode = new PortletMode("config");
-//        if (VaadinSession.getCurrent() instanceof VaadinPortletSession) {
-//            VaadinPortletSession portletsession = (VaadinPortletSession) VaadinSession.getCurrent();
-//            portletsession.addPortletListener(this);
-//        }
         UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             @Override
             public void error(com.vaadin.server.ErrorEvent event) {
