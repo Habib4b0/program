@@ -162,6 +162,7 @@ public class DiscountProjectionLogic {
      * @param isExcelExport
      * @param isRefresh
      * @param refreshHierarchyNumbers
+     * @param forecastConfigList
      * @return
      */
     public List getDiscountProjection(SessionDTO session, String frequency, List<Integer> startAndEndPeriods,
