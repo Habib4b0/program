@@ -4926,7 +4926,7 @@ public class CommonLogic {
         }
     }
     
-       public String getSelectedHierarchyDeduction(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
+       public String getSelectedHierarchyDeduction(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo,boolean isCount) {
 
         if (levelNo == 0) {
             throw new IllegalArgumentException(INVALID_LEVEL_NO + levelNo);
@@ -4937,7 +4937,7 @@ public class CommonLogic {
 
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
-
+        int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable)) {
 
@@ -4946,7 +4946,7 @@ public class CommonLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getValue().get(3).toString());
-                stringBuilder.append("')");
+                stringBuilder.append(isCount ? "')" : "'," + i++ + ")");
 
                 isNotFirstElement = true;
             }
