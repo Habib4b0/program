@@ -10,10 +10,6 @@ import com.vaadin.ui.ComboBox;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.jboss.logging.Logger;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -26,23 +22,7 @@ public class CommonUtilsTest {
     private static final Logger LOGGER = Logger.getLogger(CommonUtilsTest.class);
     
     public CommonUtilsTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-
+        super();
     }
 
     /**

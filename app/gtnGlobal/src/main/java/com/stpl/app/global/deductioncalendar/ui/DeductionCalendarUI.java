@@ -30,9 +30,13 @@ public class DeductionCalendarUI extends UI {
     /**
      * Navigator
      */
-    Navigator navigator;
+    private Navigator navigator;
     
-    SessionDTO sessionDTO=new SessionDTO();
+    private final SessionDTO sessionDTO=new SessionDTO();
+
+    public DeductionCalendarUI() {
+        super();
+    }
 
     @Override
     protected void init(VaadinRequest request) {

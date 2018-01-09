@@ -7,7 +7,6 @@ import org.jboss.logging.Logger;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.DefaultConverterFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * Factory Class to create Converter Object.
  *
@@ -27,6 +26,7 @@ public class DateToStringConverterFactory extends DefaultConverterFactory {
      * @param modelType the model type
      * @return Converter Object
      */
+    @Override
     public <PRESENTATION, MODEL> Converter<PRESENTATION, MODEL> createConverter(
             final Class<PRESENTATION> presentationType, final Class<MODEL> modelType) {
         try{
