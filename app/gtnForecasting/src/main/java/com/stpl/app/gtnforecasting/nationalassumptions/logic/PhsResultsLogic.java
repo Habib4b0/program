@@ -527,12 +527,12 @@ public class PhsResultsLogic {
 
     public List<TableDTO> getCustPHSWorksheetChild(ProjectionSelectionDTO projSelDTO, List<Object[]> pfsWSList, Map<String, String> priceTypeList) {
         List<TableDTO> projDTOList = new ArrayList<>();
-        
+
         boolean phsPrice = false;
         boolean totalUra = false;
         boolean isAMPExpanded = false;
         List<String> priceList = projSelDTO.getPriceTypeList();
-        
+
         if ("PHS Price".equalsIgnoreCase(projSelDTO.getGroup())) {
             phsPrice = true;
         } else if (priceList.contains(TOTAL_URA.getConstant()) && (projSelDTO.getGroup().equals(TOTAL_URA.getConstant()) || projSelDTO.getGroup().equals(priceTypeList.get(Constant.PHS_TOTAL_URA)))) {
@@ -540,7 +540,7 @@ public class PhsResultsLogic {
         } else if (Constant.AMP.equalsIgnoreCase(projSelDTO.getGroup())) {
             isAMPExpanded = true;
         }
-        
+
         if (phsPrice) {
 
             TableDTO histFss = new TableDTO();
@@ -645,29 +645,23 @@ public class PhsResultsLogic {
     }
 
     public String getPhsCook(String priceBasis, SessionDTO session) throws SQLException, NamingException {
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
+        DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCECONTEXT);
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            }
-            if (connection != null) {
-                statement = connection.prepareCall("{call " + "PRC_MASTER_PHS_WORKSHEET " + "(?,?,?,?)}");
+        } catch (NamingException ex) {
+            LOGGER.debug(ex);
+        }
+        if (datasource != null) {
+            try (Connection connection = datasource.getConnection();
+                    CallableStatement statement = connection.prepareCall("{call " + "PRC_MASTER_PHS_WORKSHEET " + "(?,?,?,?)}")) {
                 statement.setInt(1, session.getProjectionId());
                 statement.setObject(NumericConstants.TWO, priceBasis);
                 statement.setInt(NumericConstants.THREE, Integer.valueOf(session.getUserId()));
                 statement.setObject(NumericConstants.FOUR, session.getSessionId());
                 statement.execute();
-            }
-        } finally {
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
+            } catch (SQLException ex) {
+                LOGGER.debug(ex);
             }
         }
         return SUCCESS.getConstant();
