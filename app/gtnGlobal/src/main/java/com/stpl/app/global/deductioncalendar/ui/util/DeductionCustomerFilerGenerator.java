@@ -24,7 +24,7 @@ import org.jboss.logging.Logger;
  */
 public class DeductionCustomerFilerGenerator implements ExtFilterGenerator {
     
-    private static Logger LOGGER = Logger.getLogger(DeductionCustomerFilerGenerator.class);
+    private static final Logger LOGGER = Logger.getLogger(DeductionCustomerFilerGenerator.class);
     
     CommonUtil commonMsg = CommonUtil.getInstance();
 

@@ -22,20 +22,17 @@ public class ErrorCodeUtilTest {
    /**
      * List to execute negative test case
      */
-    List<String> assertNegativeList;
+    private List<String> assertNegativeList;
     
     /**
      * List to execute negative test case
      */
-    List<String> assertPositiveList;
+    private List<String> assertPositiveList;
     
-    private String ERROR_CODE_1000="Technical Error, Please contact Administrator";
-    private String ERROR_CODE_1001="Error";
-    private String ERROR_CODE_1002="Populate Operation Failed";
-    private String CODE_1017="1017 - Technical Error, Please contact Administrator";
-    private String CODE_1018="1018 - Technical Error, Please contact Administrator";
-    private String CODE_1019="1019 - Technical Error, Please contact Administrator";
-    List<Exception> exception;
+    private static final String ERROR_CODE_1000="Technical Error, Please contact Administrator";
+    private static final String ERROR_CODE_1001="Error";
+    private static final String ERROR_CODE_1002="Populate Operation Failed";
+    private List<Exception> exception;
     
     
     /**

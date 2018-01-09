@@ -6,7 +6,6 @@ import java.io.Serializable;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
-// TODO: Auto-generated Javadoc
 /**
  * DTO class holds the properties of Helper Table.
  *
