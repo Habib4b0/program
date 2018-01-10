@@ -3246,8 +3246,7 @@ public class ProjectionVarianceLogic {
     private String getJoinForDP(String deductionJoin) {
         String sql = SQlUtil.getQuery("discount-join");
         sql = sql.replace("?DEDJOIN", deductionJoin);
-        sql += " JOIN RS_CONTRACT RSC ON RSC.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n ";
-        sql += " AND FILTER_CCPD=1 \n ";
+        sql += "LEFT JOIN RS_CONTRACT RSC ON RSC.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n ";
         return sql;
     }
     

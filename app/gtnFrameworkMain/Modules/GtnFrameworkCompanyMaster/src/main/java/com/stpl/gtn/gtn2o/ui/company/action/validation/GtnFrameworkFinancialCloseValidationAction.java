@@ -134,7 +134,14 @@ public class GtnFrameworkFinancialCloseValidationAction
 								&& ("false".equals(String.valueOf(gtnCMasterFinancialCloseBean[0])))))) {
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 			alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			Object closeMsg = GtnFrameworkCompanyStringContants.GTN_FINANCIAL_CLOSE_CLOSE_MSG + openOrClose;
+			Object closeMsg;
+			if("open".equalsIgnoreCase(openOrClose))
+			{
+				closeMsg = GtnFrameworkCompanyStringContants.GTN_FINANCIAL_CLOSE_CLOSE_MSG_OPEN + openOrClose;
+			}
+			else{
+			   closeMsg = GtnFrameworkCompanyStringContants.GTN_FINANCIAL_CLOSE_CLOSE_MSG + openOrClose;
+			}
 			alertActionConfig.setActionParameterList(Arrays.asList(openOrClose, closeMsg));
 
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);

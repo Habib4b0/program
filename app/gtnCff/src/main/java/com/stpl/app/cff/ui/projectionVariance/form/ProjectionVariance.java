@@ -1858,7 +1858,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     
     
       private String getParentKeyforCustom(ProjectionVarianceDTO itemId, String key, String parentKey) {
-        String parentKeyCustom = parentKey;
+        String parentKeyCustom;
         if (itemId.getParentHierarchyNo() == null) {
             parentKeyCustom = key;
         } else {

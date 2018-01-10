@@ -70,6 +70,12 @@ public class SelectionDTO {
     private Date itemStartDate;
     private Date itemEndDate;
 
+    public SelectionDTO() {
+        super();
+    }
+    
+    
+
     public Date getItemStartDate() {
         return itemStartDate;
     }

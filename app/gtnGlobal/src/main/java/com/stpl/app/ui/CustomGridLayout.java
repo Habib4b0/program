@@ -5,7 +5,6 @@ import org.jboss.logging.Logger;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 
-// TODO: Auto-generated Javadoc
 /**
  * Customized GridLayout Component.
  *
@@ -63,7 +62,7 @@ public class CustomGridLayout extends GridLayout {
             this.addComponent(labelComponent, columnLabel, rowLabel);
             this.addComponent(fieldComponent, columnField, rowField);
         }
-            } catch (Exception e) {
+            } catch (OutOfBoundsException | OverlapsException e) {
             LOGGER.error(e);
         }
     }

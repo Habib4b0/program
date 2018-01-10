@@ -1279,7 +1279,7 @@ public class DataSelectionLogic {
 			inputs.add(lowestLevelNo);
 			inputs.add(relationShipVersion);
 			inputs.add(hierarchyVersion);
-			String query = StringUtils.EMPTY;
+			String query;
 			if (!String.valueOf(businessUnit).equals("null") && !String.valueOf(businessUnit).equals("0")
 					&& !String.valueOf(businessUnit).isEmpty()) {
 				query = relationLogic.getChildLevelQueryForProduct(selectedLevelDto, relationShipVersion,

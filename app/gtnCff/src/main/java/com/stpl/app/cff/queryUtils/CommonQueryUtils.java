@@ -193,7 +193,6 @@ public class CommonQueryUtils {
     
     public static String getAppDataQuery(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside item get data");
-        List list = new ArrayList();
         StringBuilder sql = null;
         LOGGER.debug("queryName - - >> " + queryName);
         if (queryName != null && !queryName.isEmpty()) {

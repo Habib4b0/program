@@ -10,7 +10,6 @@ import org.jboss.logging.Logger;
 
 import com.vaadin.data.util.converter.Converter;
 
-// TODO: Auto-generated Javadoc
 /**
  * Utility class to convert Date to String format.
  *
@@ -33,6 +32,7 @@ public class DateToStringConverter implements Converter<String, Date> {
      * @param locale the locale
      * @return the date
      */
+    @Override
     public Date convertToModel(final String value, final Class<? extends Date> targetType,
             final Locale locale) {
         String values = value;
@@ -56,7 +56,7 @@ public class DateToStringConverter implements Converter<String, Date> {
                         + "' to " + getModelType().getName());
             }
             parsedValue = getFormat(locale).parse(values, parsePosition);
-        } catch (Exception ex) {
+        } catch (ConversionException ex) {
             LOGGER.error(ex);
         }
 
@@ -71,6 +71,7 @@ public class DateToStringConverter implements Converter<String, Date> {
      * @param locale the locale
      * @return the string
      */
+    @Override
     public String convertToPresentation(final Date value,
             final Class<? extends String> targetType, final Locale locale) {
         String dateStr = "";
@@ -92,6 +93,7 @@ public class DateToStringConverter implements Converter<String, Date> {
      *
      * @return the model type
      */
+    @Override
     public Class<Date> getModelType() {
         return Date.class;
     }
@@ -101,6 +103,7 @@ public class DateToStringConverter implements Converter<String, Date> {
      *
      * @return the presentation type
      */
+    @Override
     public Class<String> getPresentationType() {
         return String.class;
     }
