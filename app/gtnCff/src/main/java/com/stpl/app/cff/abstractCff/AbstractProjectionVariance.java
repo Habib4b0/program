@@ -89,7 +89,6 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     @UiField("pivotView")
     protected OptionGroup pivotView;
     
-    public OptionGroup variableCategory;
     /**
      * The variable category.
      */
@@ -100,7 +99,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     /**
      * The variables.
      */
-    public OptionGroup variables = new OptionGroup();
+    protected OptionGroup variables = new OptionGroup();
     @UiField("customMenuBar")
     protected CustomMenuBar customMenuBar;
     protected CustomMenuBar.CustomMenuItem customMenuItem;
@@ -325,7 +324,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     /**
      * The table control Layout.
      */
-    public HorizontalLayout controlLayout;
+    protected HorizontalLayout controlLayout;
     protected List<CffCustomViewMaster> customViewList = new ArrayList<>();
     /**
      * Property file for alert message
