@@ -3329,7 +3329,9 @@ public class CommonLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getValue().get(3).toString());
-                stringBuilder.append("'," + i++ + ")");
+                stringBuilder.append("', ");
+                stringBuilder.append(i++);
+                stringBuilder.append( " )");
 
                 isNotFirstElement = true;
             }
