@@ -65,9 +65,7 @@ and open the template in the editor.
                     <ComboBox id="fieldDdlb" immediate="true" width="150px"/>
                     <Label caption="Value:" contentMode="HTML" />
                     <TextField id="massUpdateValue" immediate="true" width="150px"/>
-                    <Label caption="Start Date: " contentMode="HTML" />
                     <PopupDateField id="massStartDate" dateFormat="dd/mm/yyyy" />
-                    <Label caption="End Date: " contentMode="HTML" />
                     <PopupDateField id="massEndDate" dateFormat="dd/mm/yyyy" />
                     <Button id="populateBtn" caption="POPULATE" />
                 </GridLayout>
