@@ -27,11 +27,11 @@ public class ApprovalDetailsDTO {
     }
 
     public Date getApprovedDate() {
-        return approvedDate;
+        return approvedDate == null ? null : (Date) approvedDate.clone();
     }
 
     public void setApprovedDate(Date approvedDate) {
-        this.approvedDate = approvedDate;
+        this.approvedDate = approvedDate == null ? null : (Date) approvedDate.clone();
     }
 
     public String getApprovalSequence() {

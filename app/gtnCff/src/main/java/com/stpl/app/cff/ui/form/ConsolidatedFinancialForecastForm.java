@@ -383,7 +383,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				public void buttonClick(final Button.ClickEvent event) {
 					try {
 						LOGGER.debug("Entering EXCEL Export Button Click");
-						ConsolidatedFinancialForecastUI.EXCEL_CLOSE = true;
+						ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
 						CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(),
 								TableHeaderUtils.getInstance().resultTableVisibleColumnExcel, tableLogic,
 								"Consolidated_Financial_Forecast");

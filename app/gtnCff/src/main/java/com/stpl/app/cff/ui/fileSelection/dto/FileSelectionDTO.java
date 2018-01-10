@@ -50,19 +50,19 @@ public class FileSelectionDTO {
     }
 
     public Date getActiveFromDate() {
-        return activeFromDate;
+        return activeFromDate == null ? null : (Date) activeFromDate.clone();
     }
 
     public void setActiveFromDate(Date activeFromDate) {
-        this.activeFromDate = activeFromDate;
+        this.activeFromDate = activeFromDate == null ? null : (Date) activeFromDate.clone();
     }
 
     public Date getActiveToDate() {
-        return activeToDate;
+        return activeToDate == null ? null : (Date) activeToDate.clone();
     }
 
     public void setActiveToDate(Date activeToDate) {
-        this.activeToDate = activeToDate;
+        this.activeToDate = activeToDate == null ? null : (Date) activeToDate.clone();
     }
     
     public String getCountry() {
