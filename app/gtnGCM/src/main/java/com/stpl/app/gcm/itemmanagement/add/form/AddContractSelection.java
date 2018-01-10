@@ -228,7 +228,7 @@ public class AddContractSelection extends CustomComponent {
      */
     public Component getContent(List<ItemIndexDto> selecteditemList, final SelectionDTO selection) {
         this.selection = selection;
-        this.selecteditemList = selecteditemList;
+        this.selecteditemList = selecteditemList == null ? selecteditemList : new ArrayList<>(selecteditemList);
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(Clara.create(getClass().getResourceAsStream("/item/itemContractSelection.xml"), this));
         massUpdateRadio.addItems("Enable", DISABLE.getConstant());

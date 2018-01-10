@@ -77,19 +77,19 @@ public class SelectionDTO {
     
 
     public Date getItemStartDate() {
-        return itemStartDate;
+        return itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     public void setItemStartDate(Date itemStartDate) {
-        this.itemStartDate = itemStartDate;
+        this.itemStartDate = itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     public Date getItemEndDate() {
-        return itemEndDate;
+        return itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     public void setItemEndDate(Date itemEndDate) {
-        this.itemEndDate = itemEndDate;
+        this.itemEndDate = itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
     private String itemStatus=StringUtils.EMPTY;
     private String therapeuticClass=StringUtils.EMPTY;
@@ -487,11 +487,11 @@ public class SelectionDTO {
     }
 
     public Date getPackageSizeIntroDate() {
-        return packageSizeIntroDate;
+        return packageSizeIntroDate == null ? null : (Date) packageSizeIntroDate.clone();
     }
 
     public void setPackageSizeIntroDate(Date packageSizeIntroDate) {
-        this.packageSizeIntroDate = packageSizeIntroDate;
+        this.packageSizeIntroDate = packageSizeIntroDate == null ? null : (Date) packageSizeIntroDate.clone();
     }
     
     public String getuP() {
@@ -543,11 +543,11 @@ public class SelectionDTO {
     }
 
     public Date getAcquisitionDate() {
-        return acquisitionDate;
+        return acquisitionDate == null ? null : (Date) acquisitionDate.clone();
     }
 
     public void setAcquisitionDate(Date acquisitionDate) {
-        this.acquisitionDate = acquisitionDate;
+        this.acquisitionDate = acquisitionDate == null ? null : (Date) acquisitionDate.clone();
     }
     public String getAuthorizedGeneric() {
         return authorizedGeneric;
@@ -558,27 +558,27 @@ public class SelectionDTO {
     }
 
     public Date getAuthorizedGenericStartDate() {
-        return authorizedGenericStartDate;
+        return authorizedGenericStartDate == null ? null : (Date) authorizedGenericStartDate.clone();
     }
 
     public void setAuthorizedGenericStartDate(Date authorizedGenericStartDate) {
-        this.authorizedGenericStartDate = authorizedGenericStartDate;
+        this.authorizedGenericStartDate = authorizedGenericStartDate == null ? null : (Date) authorizedGenericStartDate.clone();
     }
 
     public Date getAuthorizedGenericEndDate() {
-        return authorizedGenericEndDate;
+        return authorizedGenericEndDate == null ? null : (Date) authorizedGenericEndDate.clone();
     }
 
     public void setAuthorizedGenericEndDate(Date authorizedGenericEndDate) {
-        this.authorizedGenericEndDate = authorizedGenericEndDate;
+        this.authorizedGenericEndDate = authorizedGenericEndDate == null ? null : (Date) authorizedGenericEndDate.clone();
     }
 
     public Date getFirstSaleDate() {
-        return firstSaleDate;
+        return firstSaleDate == null ? null : (Date) firstSaleDate.clone();
     }
 
     public void setFirstSaleDate(Date firstSaleDate) {
-        this.firstSaleDate = firstSaleDate;
+        this.firstSaleDate = firstSaleDate == null ? null : (Date) firstSaleDate.clone();
     }
     
     public String getItemTypeIndicator() {
@@ -606,43 +606,43 @@ public class SelectionDTO {
     }
 
     public Date getMarketTerminationDate() {
-        return marketTerminationDate;
+        return marketTerminationDate == null ? null : (Date) marketTerminationDate.clone();
     }
 
     public void setMarketTerminationDate(Date marketTerminationDate) {
-        this.marketTerminationDate = marketTerminationDate;
+        this.marketTerminationDate = marketTerminationDate == null ? null : (Date) marketTerminationDate.clone();
     }
 
     public Date getNewFormulationStartDate() {
-        return newFormulationStartDate;
+        return newFormulationStartDate == null ? null : (Date) newFormulationStartDate.clone();
     }
 
     public void setNewFormulationStartDate(Date newFormulationStartDate) {
-        this.newFormulationStartDate = newFormulationStartDate;
+        this.newFormulationStartDate = newFormulationStartDate == null ? null : (Date) newFormulationStartDate.clone();
     }
 
     public Date getNewFormulationEndDate() {
-        return newFormulationEndDate;
+        return newFormulationEndDate == null ? null : (Date) newFormulationEndDate.clone();
     }
 
     public void setNewFormulationEndDate(Date newFormulationEndDate) {
-        this.newFormulationEndDate = newFormulationEndDate;
+        this.newFormulationEndDate = newFormulationEndDate == null ? null : (Date) newFormulationEndDate.clone();
     }
 
     public Date getPediatricExclusiveStartDate() {
-        return pediatricExclusiveStartDate;
+        return pediatricExclusiveStartDate == null ? null : (Date) pediatricExclusiveStartDate.clone();
     }
 
     public void setPediatricExclusiveStartDate(Date pediatricExclusiveStartDate) {
-        this.pediatricExclusiveStartDate = pediatricExclusiveStartDate;
+        this.pediatricExclusiveStartDate = pediatricExclusiveStartDate == null ? null : (Date) pediatricExclusiveStartDate.clone();
     }
 
     public Date getPediatricExclusiveEndDate() {
-        return pediatricExclusiveEndDate;
+        return pediatricExclusiveEndDate == null ? null : (Date) pediatricExclusiveEndDate.clone();
     }
 
     public void setPediatricExclusiveEndDate(Date pediatricExclusiveEndDate) {
-        this.pediatricExclusiveEndDate = pediatricExclusiveEndDate;
+        this.pediatricExclusiveEndDate = pediatricExclusiveEndDate == null ? null : (Date) pediatricExclusiveEndDate.clone();
     }
     
     public String getNewFormulationIndicator() {
@@ -830,19 +830,19 @@ public class SelectionDTO {
     }
 
     public Date getDiscontinuationDate() {
-        return discontinuationDate;
+        return discontinuationDate == null ? null : (Date) discontinuationDate.clone();
     }
 
     public void setDiscontinuationDate(Date discontinuationDate) {
-        this.discontinuationDate = discontinuationDate;
+        this.discontinuationDate = discontinuationDate == null ? null : (Date) discontinuationDate.clone();
     }
 
     public Date getLastLotExpirationDate() {
-        return lastLotExpirationDate;
+        return lastLotExpirationDate == null ? null : (Date) lastLotExpirationDate.clone();
     }
 
     public void setLastLotExpirationDate(Date lastLotExpirationDate) {
-        this.lastLotExpirationDate = lastLotExpirationDate;
+        this.lastLotExpirationDate = lastLotExpirationDate == null ? null : (Date) lastLotExpirationDate.clone();
     }
 
     public String getPsNDC9() {
@@ -886,11 +886,11 @@ public class SelectionDTO {
     }
 
     public Date getBaseYearCPI() {
-        return baseYearCPI;
+        return baseYearCPI == null ? null : (Date) baseYearCPI.clone();
     }
 
     public void setBaseYearCPI(Date baseYearCPI) {
-        this.baseYearCPI = baseYearCPI;
+        this.baseYearCPI = baseYearCPI == null ? null : (Date) baseYearCPI.clone();
     }
 
     public String getPsUP() {
@@ -1062,59 +1062,59 @@ public class SelectionDTO {
     }
 
     public Date getTradeClassStartDate() {
-        return tradeClassStartDate;
+        return tradeClassStartDate == null ? null : (Date) tradeClassStartDate.clone();
     }
 
     public void setTradeClassStartDate(Date tradeClassStartDate) {
-        this.tradeClassStartDate = tradeClassStartDate;
+        this.tradeClassStartDate = tradeClassStartDate == null ? null : (Date) tradeClassStartDate.clone();
     }
 
     public Date getTradeClassEndDate() {
-        return tradeClassEndDate;
+        return tradeClassEndDate == null ? null : (Date) tradeClassEndDate.clone();
     }
 
     public void setTradeClassEndDate(Date tradeClassEndDate) {
-        this.tradeClassEndDate = tradeClassEndDate;
+        this.tradeClassEndDate = tradeClassEndDate == null ? null : (Date) tradeClassEndDate.clone();
     }
 
     public Date getCustomerStartDate() {
-        return customerStartDate;
+        return customerStartDate == null ? null : (Date) customerStartDate.clone();
     }
 
     public void setCustomerStartDate(Date customerStartDate) {
-        this.customerStartDate = customerStartDate;
+        this.customerStartDate = customerStartDate == null ? null : (Date) customerStartDate.clone();
     }
 
     public Date getCustomerEndDate() {
-        return customerEndDate;
+        return customerEndDate == null ? null : (Date) customerEndDate.clone();
     }
 
     public void setCustomerEndDate(Date customerEndDate) {
-        this.customerEndDate = customerEndDate;
+        this.customerEndDate = customerEndDate == null ? null : (Date) customerEndDate.clone();
     }
 
     public Date getParentStartDate() {
-        return parentStartDate;
+        return parentStartDate == null ? null : (Date) parentStartDate.clone();
     }
 
     public void setParentStartDate(Date parentStartDate) {
-        this.parentStartDate = parentStartDate;
+        this.parentStartDate = parentStartDate == null ? null : (Date) parentStartDate.clone();
     }
 
     public Date getParentEndDate() {
-        return parentEndDate;
+        return parentEndDate == null ? null : (Date) parentEndDate.clone();
     }
 
     public void setParentEndDate(Date parentEndDate) {
-        this.parentEndDate = parentEndDate;
+        this.parentEndDate = parentEndDate == null ? null : (Date) parentEndDate.clone();
     }
 
     public Date getPriorParentStartDate() {
-        return priorParentStartDate;
+        return priorParentStartDate == null ? null : (Date) priorParentStartDate.clone();
     }
 
     public void setPriorParentStartDate(Date priorParentStartDate) {
-        this.priorParentStartDate = priorParentStartDate;
+        this.priorParentStartDate = priorParentStartDate == null ? null : (Date) priorParentStartDate.clone();
     }
     
 }

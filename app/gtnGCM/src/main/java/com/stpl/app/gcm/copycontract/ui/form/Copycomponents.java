@@ -218,7 +218,7 @@ public class Copycomponents extends CustomComponent {
     public Copycomponents(List<ContractSelectionDTO> selectedList, TreeTable contractDashBoardTable, ExtTreeContainer<CopyComponentDTO> dashBoardContainer) {
         try {
             this.dashBoardContainer = dashBoardContainer;
-            this.selectedList = selectedList;
+            this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
             this.contractDashBoardTable = contractDashBoardTable;
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/CopyComponents.xml"), this));
             contractDashBoardLayout.addComponent(contractDashBoardTable);

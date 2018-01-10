@@ -105,19 +105,19 @@ public class CurrentContractDTO implements Serializable {
     }
 
     public Date getContStartDate() {
-        return contStartDate;
+        return contStartDate == null ? null : (Date) contStartDate.clone();
     }
 
     public void setContStartDate(Date contStartDate) {
-        this.contStartDate = contStartDate;
+        this.contStartDate = contStartDate == null ? null : (Date) contStartDate.clone();
     }
 
     public Date getContEndDate() {
-        return contEndDate;
+        return contEndDate == null ? null : (Date) contEndDate.clone();
     }
 
     public void setContEndDate(Date contEndDate) {
-        this.contEndDate = contEndDate;
+        this.contEndDate = contEndDate == null ? null : (Date) contEndDate.clone();
     }
 
     public Boolean getSearch() {
@@ -233,11 +233,11 @@ public class CurrentContractDTO implements Serializable {
     }
 
     public Date getCompanyEndDate() {
-        return companyEndDate;
+        return companyEndDate == null ? null : (Date) companyEndDate.clone();
     }
 
     public void setCompanyEndDate(Date companyEndDate) {
-        this.companyEndDate = companyEndDate;
+        this.companyEndDate = companyEndDate == null ? null : (Date) companyEndDate.clone();
     }
 
     public String getCompanySystemId() {
@@ -395,7 +395,7 @@ public class CurrentContractDTO implements Serializable {
         this.contractId = memberId;
         this.contractNo = memberNo;
         this.childrenAllowed = childrenAllowed;
-        this.sub = subList;
+        this.sub = subList == null ? subList : new ArrayList<>(subList);
     }
     private Integer systemId = 0;
     /**
@@ -579,11 +579,11 @@ public class CurrentContractDTO implements Serializable {
     }
 
     public List<CurrentContractDTO> getSub() {
-        return sub;
+        return sub == null ? sub : new ArrayList<>(sub);
     }
 
     public void setSub(List<CurrentContractDTO> sub) {
-        this.sub = sub;
+        this.sub = sub == null ? sub : new ArrayList<>(sub);
     }
 
     public Integer getModelSysId() {
