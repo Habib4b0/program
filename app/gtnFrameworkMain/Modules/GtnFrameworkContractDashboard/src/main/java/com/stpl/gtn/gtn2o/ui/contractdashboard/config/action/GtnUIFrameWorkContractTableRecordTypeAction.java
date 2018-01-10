@@ -27,90 +27,100 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
  */
 public class GtnUIFrameWorkContractTableRecordTypeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-    private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkContractTableRecordTypeAction.class);
+	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkContractTableRecordTypeAction.class);
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-            throws GtnFrameworkGeneralException {
-        // No Need to Implement. Its an unused method.
-    }
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		// No Need to Implement. Its an unused method.
+	}
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
-            throws GtnFrameworkGeneralException {
-        try {
-            List<Object> params = gtnUIFrameWorkActionConfig.getActionParameterList();
-            GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent((String) params.get(1));
-            GtnUIFrameworkComponentData tableComponentData = tableBaseComponent.getComponentData();
-            for (GtnWsRecordBean record : tableComponentData.getDataTableRecordList()) {
-                manageTableRecordType(record, tableBaseComponent);
-            }
-        } catch (GtnFrameworkValidationFailedException e) {
-            gtnLogger.error("Exception in GtnUIFrameWorkContractTableRecordTypeAction", e);
-        }
-    }
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		try {
+			List<Object> params = gtnUIFrameWorkActionConfig.getActionParameterList();
+			GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent((String) params.get(1));
+			GtnUIFrameworkComponentData tableComponentData = tableBaseComponent.getComponentData();
+			for (GtnWsRecordBean record : tableComponentData.getDataTableRecordList()) {
+				manageTableRecordType(record, tableBaseComponent);
+			}
+		} catch (GtnFrameworkValidationFailedException e) {
+			gtnLogger.error("Exception in GtnUIFrameWorkContractTableRecordTypeAction", e);
+		}
+	}
 
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-        return this;
-    }
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
 
-    private void manageTableRecordType(GtnWsRecordBean record, GtnUIFrameworkBaseComponent tableBaseComponent)
-            throws GtnFrameworkValidationFailedException {
-        try {
-            List<Object> recordHeader = tableBaseComponent.getTableRecordHeader();
-            GtnUIFrameworkBaseComponent priceprotectionpricingTable = GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent(GtnFrameworkContractDashboardContants.PRICING_TAB_PRICING_TABLE);
-            for (int i = 0; i < recordHeader.size(); i++) {
-                Object propertyId = recordHeader.get(i);
-                Object value = record.getPropertyValueByIndex(i);
-                if (GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[8].equals(propertyId)) {
-                    value = getFieldValue(record);
-                }
-                if ((GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[17].equals(propertyId)) && (!(priceprotectionpricingTable.getExtPagedTable().isReadOnly()))) {
-                    value = getFieldValuePriceTolerance(record);
-                } else {
-                    Class<?> type = tableBaseComponent.getTableColumnProperty(propertyId.toString());
-                    value = GtnUIFrameworkGlobalUI.getConvertedPropertyValue(type, value);
-                }
-                GtnWsRecordBean.addProperties(i, value, record.getProperties());
-            }
-        } catch (GtnFrameworkValidationFailedException e) {
-            gtnLogger.error("Exception in manageTableRecordType", e);
-        }
-    }
+	private void manageTableRecordType(GtnWsRecordBean record, GtnUIFrameworkBaseComponent tableBaseComponent)
+			throws GtnFrameworkValidationFailedException {
+		try {
+			List<Object> recordHeader = tableBaseComponent.getTableRecordHeader();
+			for (int i = 0; i < recordHeader.size(); i++) {
+				Object propertyId = recordHeader.get(i);
+				Object value = record.getPropertyValueByIndex(i);
+				if (GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[8].equals(propertyId)) {
+					value = getFieldValue(record);
+				}
+				if (GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[17].equals(propertyId)) {
+					value = getFieldValuePriceTolerance(record);
+				} else {
+					Class<?> type = tableBaseComponent.getTableColumnProperty(propertyId.toString());
+					value = GtnUIFrameworkGlobalUI.getConvertedPropertyValue(type, value);
+				}
+				GtnWsRecordBean.addProperties(i, value, record.getProperties());
+			}
+		} catch (GtnFrameworkValidationFailedException e) {
+			gtnLogger.error("Exception in manageTableRecordType", e);
+		}
+	}
 
-    private Object getFieldValue(GtnWsRecordBean contractTableRecordBean) {
-        String depandingValue = contractTableRecordBean.getStringPropertyByIndex(51);
-        if (depandingValue.startsWith("P")) {
-            return contractTableRecordBean.getPropertyValueByIndex(52);
-        }
-        if (depandingValue.startsWith("D")) {
-            Object value = contractTableRecordBean.getPropertyValueByIndex(53);
-            if (value != null && Long.class.isAssignableFrom(value.getClass())) {
-                value = new Date((Long) value);
-            }
-            return value;
-        }
-        if (depandingValue.startsWith("M")) {
-            return contractTableRecordBean.getStringPropertyByIndex(54).trim();
-        }
-        return "";
-    }
+	private Object getFieldValue(GtnWsRecordBean contractTableRecordBean) {
+		String depandingValue = contractTableRecordBean.getStringPropertyByIndex(52);
+		if (depandingValue.startsWith("P")) {
+			return contractTableRecordBean.getPropertyValueByIndex(53);
+		}
+		if (depandingValue.startsWith("D")) {
+			Object value = contractTableRecordBean.getPropertyValueByIndex(54);
+			if (value != null && Long.class.isAssignableFrom(value.getClass())) {
+				value = new Date((Long) value);
+			}
+			return value;
+		}
+		if (depandingValue.startsWith("M")) {
+			return contractTableRecordBean.getStringPropertyByIndex(55).trim();
+		}
+		return "";
+	}
 
-    private Object getFieldValuePriceTolerance(GtnWsRecordBean bean) {
-        String depandingValue = bean.getStringPropertyByIndex(48);
-        if (!(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY.equals(depandingValue)) && (!(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY.equals(bean.getPropertyValueByIndex(22)))) && (bean.getIndex(GtnFrameworkContractDashboardContants.PRICE_TOLERANCE) == 22)) {
-            DecimalFormat formatDecimal = new DecimalFormat(GtnFrameworkContractDashboardContants.TWODECIMAL_ZERO);
-            if (depandingValue.startsWith(GtnFrameworkContractDashboardContants.PER) || depandingValue.startsWith(GtnFrameworkContractDashboardContants.PERCENTAGE)) {
-                return formatDecimal.format(bean.getDoublePropertyByIndex(22)) + GtnFrameworkContractDashboardContants.PERCENTAGE;
-            }
-            if (depandingValue.startsWith(GtnFrameworkContractDashboardContants.DOL)) {
-                return GtnFrameworkContractDashboardContants.DOLLER + formatDecimal.format(bean.getDoublePropertyByIndex(22));
+	private Object getFieldValuePriceTolerance(GtnWsRecordBean bean) {
+		GtnUIFrameworkBaseComponent priceprotectionpricingTable = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkContractDashboardContants.PRICING_TAB_PRICING_TABLE);
+		String depandingValue = null;
+		if (!(priceprotectionpricingTable.getExtPagedTable().isReadOnly())) {
+			depandingValue = bean.getStringPropertyByIndex(48);
+		} else {
+			depandingValue = bean.getStringPropertyByIndex(56);
+		}
+		if (!(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY.equals(depandingValue))
+				&& (!(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY.equals(bean.getPropertyValueByIndex(22))))
+				&& (bean.getIndex(GtnFrameworkContractDashboardContants.PRICE_TOLERANCE) == 22)) {
+			DecimalFormat formatDecimal = new DecimalFormat(GtnFrameworkContractDashboardContants.TWODECIMAL_ZERO);
+			if (depandingValue.startsWith(GtnFrameworkContractDashboardContants.PER)
+					|| depandingValue.startsWith(GtnFrameworkContractDashboardContants.PERCENTAGE)) {
+				return formatDecimal.format(bean.getDoublePropertyByIndex(22))
+						+ GtnFrameworkContractDashboardContants.PERCENTAGE;
+			}
+			if (depandingValue.startsWith(GtnFrameworkContractDashboardContants.DOL)) {
+				return GtnFrameworkContractDashboardContants.DOLLER
+						+ formatDecimal.format(bean.getDoublePropertyByIndex(22));
 
-            }
-        }
-        return GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY;
-    }
+			}
+		}
+		return GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY;
+	}
 }

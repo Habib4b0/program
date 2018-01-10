@@ -35,7 +35,7 @@ public class RelationshipLevelValuesMasterBean {
 
 	public RelationshipLevelValuesMasterBean(List<Object[]> tempList, String relationshipBuilderSid,
 			String hierarchyNoType, SessionDTO sessionDTO) {
-		this.tempList = tempList;
+		this.tempList = tempList == null ? tempList : new ArrayList<>(tempList);
 		this.relationshipBuilderSid = relationshipBuilderSid;
 		this.hierarchyNoType = hierarchyNoType;
 		if (!"D".equals(hierarchyNoType)) {
@@ -54,7 +54,7 @@ public class RelationshipLevelValuesMasterBean {
 			finalQry.append(
 					query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed())));
 		}
-		finalQry.append(" ORDER BY LEVEL_NO,VALUE ");
+		finalQry.append(" ORDER BY LEVEL_NO,VALUE DESC");
 		return finalQry.toString();
 	}
 
