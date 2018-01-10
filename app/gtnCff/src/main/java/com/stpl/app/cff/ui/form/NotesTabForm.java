@@ -79,7 +79,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		this.moduleName = moduleName;
 		this.approvalWindow = approvalWindow;
 		userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-		userName = StplSecurity.userMap.get(Integer.valueOf(userId));
+		userName = StplSecurity.getUserMap().get(Integer.valueOf(userId));
 
 		final String vUserId = String.valueOf(
 				VaadinSession.getCurrent().getAttribute(com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.USER_ID));

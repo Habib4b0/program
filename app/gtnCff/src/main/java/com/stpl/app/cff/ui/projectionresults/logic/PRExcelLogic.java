@@ -99,9 +99,9 @@ public class PRExcelLogic {
             List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, Map<String, List<List<ProjectionResultsDTO>>> discountMap) {
         this.resultMap = resultMap;
         this.selection = selection;
-        this.hierarchyKeys = hierarchyKeys;
-        this.tradingPartnerKeys = tradingPartnerKeys;
-        this.discountKeys = discountKeys;
+        this.hierarchyKeys = hierarchyKeys == null ? hierarchyKeys : new ArrayList<>(hierarchyKeys);
+        this.tradingPartnerKeys = tradingPartnerKeys == null ? tradingPartnerKeys : new ArrayList<>(tradingPartnerKeys);
+        this.discountKeys = discountKeys == null ? discountKeys : new ArrayList<>(discountKeys);
         this.discountMap=discountMap;
        
     }

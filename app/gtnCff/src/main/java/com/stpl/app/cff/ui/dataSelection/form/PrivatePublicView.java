@@ -129,11 +129,11 @@ public class PrivatePublicView extends AbstractViewLookup {
         //Configure the table
         results.setContainerDataSource(viewContainer);
         if (screenName.equals(ConstantsUtils.RETURNS)) {
-            results.setVisibleColumns(TableHeaderColumnsUtil.VIEW_LOOKUP_COLS_RETURNS);
-            results.setColumnHeaders(TableHeaderColumnsUtil.VIEW_LOOKUP_HEADER_RETURNS);
+            results.setVisibleColumns(TableHeaderColumnsUtil.getViewLookupColsReturnsList());
+            results.setColumnHeaders(TableHeaderColumnsUtil.getViewLookupHeaderReturnsList());
         } else {
-            results.setVisibleColumns(TableHeaderColumnsUtil.VIEW_LOOKUP_COLS);
-            results.setColumnHeaders(TableHeaderColumnsUtil.VIEW_LOOKUP_HEADER);
+            results.setVisibleColumns(TableHeaderColumnsUtil.getViewLookupColsList());
+            results.setColumnHeaders(TableHeaderColumnsUtil.getViewLookupHeaderList());
         }
         results.setSortEnabled(true);
         results.setSelectable(true);

@@ -197,7 +197,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
             tabSheet.markAsDirty();
             tabSheet.markAsDirtyRecursive();
             dataSelection = new DataSelection(binder, dataSelectionDTO, tabSheet, sessionDTO);
-            fileSelection = new FileSelection(sessionDTO, dataSelection.businessUnit);
+            fileSelection = new FileSelection(sessionDTO, dataSelection.getBusinessUnit());
             projectionResults = new ProjectionResults(sessionDTO, CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED, dataSelectionDTO);
             projectionVariance = new ProjectionVariance(sessionDTO, dataSelectionDTO);
             notestab = new NotesTabForm(sessionDTO, cffSearchBinder, StringConstantsUtil.CONSOLIDATED_FINANCIAL_FORECAST, this);
