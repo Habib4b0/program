@@ -2,8 +2,8 @@ package com.stpl.app.adminconsole.discount.ui;
 
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUIUtil;
-import org.jboss.logging.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.stpl.app.adminconsole.discount.ui.view.DiscountAddView;
 import com.stpl.app.adminconsole.discount.ui.view.DiscountSearchView;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
@@ -31,7 +31,7 @@ public class DiscountUI extends UI {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(DiscountUI.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountUI.class);
     SessionDTO sessionDTO = new SessionDTO();
 
     /**
@@ -57,7 +57,7 @@ public class DiscountUI extends UI {
             navigator.addView(DiscountSearchView.NAME, new DiscountSearchView(sessionDTO));
             navigator.addView(DiscountAddView.NAME, new DiscountAddView(sessionDTO));
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4011));
         }
         LOGGER.info("init method Ended");

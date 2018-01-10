@@ -4,7 +4,8 @@
  */
 package com.stpl.app.adminconsole.filemanagement.ui;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.filemanagement.ui.view.FileManagementIndexView;
@@ -38,7 +39,7 @@ public class FileManagementUI extends UI {
 	private Navigator navigator;
 
 	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(FileManagementUI.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementUI.class);
 
         SessionDTO sessionDTO = new SessionDTO();
 
@@ -67,7 +68,7 @@ public class FileManagementUI extends UI {
 			VaadinSession.getCurrent().setConverterFactory(new DateToStringConverterFactory());
 			LOGGER.info("init method Ended");
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 

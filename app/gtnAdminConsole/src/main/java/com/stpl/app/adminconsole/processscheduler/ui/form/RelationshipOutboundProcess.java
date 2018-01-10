@@ -60,7 +60,8 @@ import org.asi.ui.addons.lazycontainer.LazyContainer;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -71,7 +72,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class RelationshipOutboundProcess extends Window {
 
-    private static final Logger LOGGER = Logger.getLogger(RelationshipOutboundProcess.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RelationshipOutboundProcess.class);
     
     @UiField("hierarchyNameDDLB")
     private ComboBox hierarchyNameDDLB;
@@ -103,7 +104,7 @@ public class RelationshipOutboundProcess extends Window {
         try {
             init();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -144,7 +145,7 @@ public class RelationshipOutboundProcess extends Window {
             final LazyContainer hierarchyNameContainer = new LazyContainer(HelperDTO.class, new HierarchyNameContainer(null), new HierarchyNameCriteria());
             commonsUtil.loadLazyComboBox(hierarchyNameDDLB, hierarchyNameContainer);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -215,7 +216,7 @@ public class RelationshipOutboundProcess extends Window {
                     }
 
                 } catch (Exception exception) {
-                    LOGGER.error(exception);
+                    LOGGER.error(exception.getMessage());
 
                 }
                 return null;
@@ -272,10 +273,10 @@ public class RelationshipOutboundProcess extends Window {
                 tableLogic.getFilters().clear();
                 resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
                 resultTable.setFilterGenerator(new OutboundFilterGenerator());
-                LOGGER.error(commit);
+                LOGGER.error(commit.getMessage());
             } catch (Exception exception) {
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
-                LOGGER.error(exception);
+                LOGGER.error(exception.getMessage());
             }
         }
 
@@ -295,7 +296,7 @@ public class RelationshipOutboundProcess extends Window {
             resultTable.setSelectable(true);
             resultTable.markAsDirtyRecursive();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -336,7 +337,7 @@ public class RelationshipOutboundProcess extends Window {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("processTrackingBtn click listener ends");
 
@@ -351,7 +352,7 @@ public class RelationshipOutboundProcess extends Window {
                 rbCsvList = outboundLogic.getRelationShipOutboundResults(checkedIds);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         recordCount = rbCsvList.size();
         ExcelExportforBB.createWorkSheet(CommonUIUtil.getInstance().relationshipOutboundExcelHeader, recordCount, this, UI.getCurrent(), csvName);
@@ -364,7 +365,7 @@ public class RelationshipOutboundProcess extends Window {
                 ExcelExportforBB.createFileContent(CommonUIUtil.getInstance().relationshipOutboundExcelColumns, rbCsvList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 

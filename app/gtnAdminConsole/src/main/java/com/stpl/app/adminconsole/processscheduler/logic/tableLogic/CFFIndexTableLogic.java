@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.processscheduler.dto.ProcessSchedulerDTO;
@@ -26,7 +27,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
     /**
      * The logger.
      */
-    private static final Logger LOGGER = Logger.getLogger(CFFIndexTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CFFIndexTableLogic.class);
     private ProcessSchedulerDTO binderDto;
     /**
      * The Cff logic
@@ -53,7 +54,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
                 count = cffLogic.getSearchCount(binderDto, sessionDTO);
             } catch (Exception ex) {
 
-                LOGGER.error(ex);
+               LOGGER.error(ex.getMessage());
             }
         }
         return count;
@@ -70,7 +71,7 @@ public class CFFIndexTableLogic extends PageTableLogic {
             binderDto.setOrderByColumns(getSortByColumns());
             return cffLogic.getSearchResults(binderDto, sessionDTO);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         return new ArrayList();
     }

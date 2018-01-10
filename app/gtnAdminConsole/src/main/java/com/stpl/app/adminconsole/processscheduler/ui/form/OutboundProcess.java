@@ -17,7 +17,8 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stpl.app.adminconsole.common.util.CommonUIUtil;
 import com.stpl.app.adminconsole.processscheduler.dto.FtpProperties;
@@ -38,7 +39,7 @@ import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
  */
 public class OutboundProcess {
 
-    private static final Logger LOGGER = Logger.getLogger(OutboundProcess.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OutboundProcess.class);
     private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
     private ExtTreeContainer<OutboundTableDTO> excelResultBeanContainer = new ExtTreeContainer<>(OutboundTableDTO.class,ExtContainer.DataStructureMode.MAP);
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
@@ -79,7 +80,7 @@ public class OutboundProcess {
             LOGGER.debug("__________Total Time taken==in seconds==" + TimeUnit.MILLISECONDS.toSeconds(endTime - startTime));
             LOGGER.debug("__________Ending AutomatedOutbound_____________" + processName);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -127,7 +128,7 @@ public class OutboundProcess {
                 SchedulerCSVEport.createWorkSheet(recordCount, this, filePath, csvName + format_time.format(new Date()));
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
 
     }
@@ -146,7 +147,7 @@ public class OutboundProcess {
                     SchedulerCSVEport.createFileContent(CommonUIUtil.getInstance().relationshipOutboundExcelColumns, rbCsvList, printWriter);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -164,7 +165,7 @@ public class OutboundProcess {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("getFtpBundleValue===================>ends");
         return ftpProperties;

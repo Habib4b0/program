@@ -16,7 +16,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,7 +25,7 @@ import org.jboss.logging.Logger;
  */
 public class AbstractSearchTableLogic extends PageTableLogic {
     
-    private static final Logger LOGGER = Logger.getLogger(AbstractSearchTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchTableLogic.class);
     
     private final AbstractSearchLogic searchLogic = new AbstractSearchLogic();
     private String moduleName;
@@ -44,11 +45,11 @@ public class AbstractSearchTableLogic extends PageTableLogic {
             isResultsEmpty = count == 0;            
             count = isReset ? 0 : count;
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         } catch (ParseException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         } catch (PortalException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         return count;
     }
@@ -60,7 +61,7 @@ public class AbstractSearchTableLogic extends PageTableLogic {
             try {
                 list = searchLogic.getSearchResultsBasedOnModules(binder,  start, offset, false, this.getSortByColumns(), this.getFilters(), moduleName,searchType);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+               LOGGER.error(ex.getMessage());
             }
         }
         return list;

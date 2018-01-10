@@ -49,7 +49,8 @@ import java.util.List;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -59,7 +60,7 @@ import org.jboss.logging.Logger;
  */
 public class ProjNameConfigAddForm extends CustomComponent implements View {
 
-    private static final Logger LOGGER = Logger.getLogger(ProjNameConfigAddForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjNameConfigAddForm.class);
 
     public CustomFieldGroup nameBinder;
 
@@ -531,7 +532,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
                                 resetBtnLogic();
 
                             } catch (Exception e) {
-                                LOGGER.error(e);
+                                LOGGER.error(e.getMessage());
                                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4002));
                             }
                         }
@@ -564,7 +565,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
                                 } catch (SystemException ex) {
                                     final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
                                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
-                                    LOGGER.error(ex);
+                                   LOGGER.error(ex.getMessage());
                                 } 
 
                             }
@@ -572,7 +573,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
                     }, ButtonId.YES, ButtonId.NO);
 
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                   LOGGER.error(ex.getMessage());
                 }
             }
         });

@@ -18,7 +18,8 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
@@ -155,7 +156,7 @@ public class FileManagementIndex extends CustomComponent implements View {
 
     private CommonUtil commonUtil = new CommonUtil();
 
-    private static final Logger LOGGER = Logger.getLogger(FileManagementIndex.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementIndex.class);
     private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
     private SessionDTO sessionDTO;
 
@@ -235,11 +236,11 @@ public class FileManagementIndex extends CustomComponent implements View {
         try {
             init();
         } catch (PortalException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
 
     }
@@ -276,7 +277,7 @@ public class FileManagementIndex extends CustomComponent implements View {
             commonSecurity.removeSearchComponentOnPermission(resultList, selectFileCssLayout, fieldItemHM);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("Ending getFirstTab1");
     }
@@ -351,7 +352,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                                             try {
                                                 saveOnClick();
                                             } catch (Exception ex) {
-                                                LOGGER.error(ex);
+                                               LOGGER.error(ex.getMessage());
                                             }
                                         } else {
                                         }
@@ -368,11 +369,11 @@ public class FileManagementIndex extends CustomComponent implements View {
                     }
                     LOGGER.debug("In configureFields saveOnClick Ended");
                 } catch (SystemException ex) {
-                    LOGGER.error(ex);
+                   LOGGER.error(ex.getMessage());
                 } catch (PortalException ex) {
-                    LOGGER.error(ex);
+                   LOGGER.error(ex.getMessage());
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                   LOGGER.error(ex.getMessage());
                 }
             }
         });
@@ -429,7 +430,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                     excel.export();
 
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
                 LOGGER.debug("In configureFields selectedResultsExcelExport.addClickListener Ended");
             }
@@ -471,9 +472,9 @@ public class FileManagementIndex extends CustomComponent implements View {
                     }
 
                 } catch (SystemException ex) {
-                    LOGGER.error(ex);
+                   LOGGER.error(ex.getMessage());
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                   LOGGER.error(ex.getMessage());
                 }
 
             }
@@ -689,11 +690,11 @@ public class FileManagementIndex extends CustomComponent implements View {
                     } catch (SystemException e) {
 
                         final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                         AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
                     } catch (Exception e) {
 
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                         AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4007));
                     }
                 }
@@ -770,10 +771,10 @@ public class FileManagementIndex extends CustomComponent implements View {
                             sendMailOnFileActivation();
                         } catch (SystemException e) {
                             final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
-                            LOGGER.error(e);
+                            LOGGER.error(e.getMessage());
                             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
                         } catch (Exception e) {
-                            LOGGER.error(e);
+                            LOGGER.error(e.getMessage());
                             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4002));
                         }
                     }
@@ -852,7 +853,7 @@ public class FileManagementIndex extends CustomComponent implements View {
             List<FileManagementDTO> processList = logic.getSearchResult(fileType);
             String msg = email.sendMailonFileActivation(false, processList);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
     

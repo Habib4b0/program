@@ -5,7 +5,8 @@
 package com.stpl.app.adminconsole.filemanagement.ui.view;
 
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stpl.app.adminconsole.filemanagement.ui.form.FileManagementIndex;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
@@ -28,7 +29,7 @@ public class FileManagementIndexView extends VerticalLayout implements View {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(FileManagementIndexView.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(FileManagementIndexView.class);
     SessionDTO sessionDTO;
 
     /**
@@ -44,7 +45,7 @@ public class FileManagementIndexView extends VerticalLayout implements View {
         LOGGER.debug("FileManagementIndexView Constructor Ended");
         }
         catch(Exception e){
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 

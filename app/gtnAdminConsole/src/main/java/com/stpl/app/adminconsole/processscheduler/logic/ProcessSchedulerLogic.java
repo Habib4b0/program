@@ -31,7 +31,8 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.AbstractFilterLogic;
@@ -77,7 +78,7 @@ public class ProcessSchedulerLogic {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(ProcessSchedulerLogic.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProcessSchedulerLogic.class);
 	public static final  String QUOTE = "\"";
 	public static final  String FTP_PROPERTIES_PATH = "conf/BPI Configuration/FTPConfiguration.properties";
         public static final  String ETL_PROPERTIES_PATH = "etl/Interface_Job/EtlConfiguration.properties";
@@ -113,7 +114,7 @@ public class ProcessSchedulerLogic {
 				return getCustomizedSchedulerProcessing(list);
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 			return Collections.emptyList();
 		}
 	}
@@ -209,7 +210,7 @@ public class ProcessSchedulerLogic {
 			LOGGER.debug("Ending getProcessScheduleByID");
 			return dto;
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 			return null;
 		}
 	}
@@ -274,7 +275,7 @@ public class ProcessSchedulerLogic {
 			LOGGER.debug("Ending update");
 		} catch (Exception ex) {
 
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -293,7 +294,7 @@ public class ProcessSchedulerLogic {
 			}
 			LOGGER.debug("runShellScript===================>ends1");
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		LOGGER.debug("runJob ends");
 	}
@@ -318,7 +319,7 @@ public class ProcessSchedulerLogic {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		LOGGER.debug("getFtpBundleValue===================>ends");
 		return ftpProperties;
@@ -332,7 +333,7 @@ public class ProcessSchedulerLogic {
 			fileIS = GtnFileUtil.getFileInputStream(bpiPropLoc);
 			prop.load(fileIS);
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		LOGGER.debug("getPropertyFile===================>ends");
 		return prop;
@@ -353,9 +354,9 @@ public class ProcessSchedulerLogic {
 				WorkflowProfileLocalServiceUtil.updateWorkflowProfile(profile);
 
 			} catch (PortalException ex) {
-				LOGGER.error(ex);
+				LOGGER.error(ex.getMessage());
 			} catch (SystemException ex) {
-				LOGGER.error(ex);
+				LOGGER.error(ex.getMessage());
 			}
 
 			LOGGER.debug("ends updateLastRun");
@@ -754,7 +755,7 @@ public class ProcessSchedulerLogic {
 			HelperTableLocalServiceUtil.executeUpdateQuery(deleteQuery);
 		} catch (Exception ex) {
 			LOGGER.debug("Intial Session Delete QUERY ERROR--> " + deleteQuery);
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -776,7 +777,7 @@ public class ProcessSchedulerLogic {
 			}
 			HelperTableLocalServiceUtil.executeUpdateQuery(query);
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		LOGGER.debug("End of deleteTempCffOutbound method");
 	}
@@ -937,7 +938,7 @@ public class ProcessSchedulerLogic {
 				HelperTableLocalServiceUtil.executeUpdateQuery(sb.toString());
 				LOGGER.debug("Ending cffOutboundInsertProc");
 			} catch (Exception ex) {
-				LOGGER.error(ex);
+				LOGGER.error(ex.getMessage());
 			}
 		}
 	}
@@ -1022,7 +1023,7 @@ public class ProcessSchedulerLogic {
 			runJob(getFtpBundleValue(), "Arp_Outbound_Intf.sh");
 			LOGGER.debug("Ends callSriptForArp method");
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		} finally {
 			arpProcess.unlock();
 		}
@@ -1060,7 +1061,7 @@ public class ProcessSchedulerLogic {
 			query = query.replace("?SEARCHFILTER", getSearchCriteria(cffSearchBinder));
 			HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -1076,7 +1077,7 @@ public class ProcessSchedulerLogic {
 			query = query.replace("[?SESSION_ID]", sessionId);
 			HelperTableLocalServiceUtil.executeUpdateQuery(query);
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 

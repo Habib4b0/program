@@ -15,8 +15,8 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
 import com.stpl.app.adminconsole.dao.FileManagementLogicDAO;
@@ -75,7 +75,7 @@ import com.vaadin.v7.ui.ComboBox;
  */
 public class FileManagementLogic {
 
-	private static final Logger LOGGER = Logger.getLogger(FileManagementLogic.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementLogic.class);
 
 	private static final Criterion NULLCREATION = null;
 
@@ -766,7 +766,7 @@ public class FileManagementLogic {
 
 							AdjustedDemandForecastLocalServiceUtil.addAdjustedDemandForecast(adjustedforecast);
 						} catch (Exception e) {
-							LOGGER.error(e);
+							LOGGER.error(e.getMessage());
 						}
 					} else if (fileType.getDescription().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
 						inventoryWdProjMas = InventoryWdProjMasLocalServiceUtil.createInventoryWdProjMas(0);
@@ -877,7 +877,7 @@ public class FileManagementLogic {
 
 							CustomerGtsForecastLocalServiceUtil.addCustomerGtsForecast(custForecast);
 						} catch (Exception e) {
-							LOGGER.error(e);
+							LOGGER.error(e.getMessage());
 						}
 					}
 				}
@@ -888,7 +888,7 @@ public class FileManagementLogic {
 				return "fail";
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return "success";
 	}
@@ -1507,7 +1507,7 @@ public class FileManagementLogic {
 			}
 
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return object;
 	}
@@ -1523,7 +1523,7 @@ public class FileManagementLogic {
 				Date parseDate = dateFormatToParse.parse((String) source);
 				return parseDate;
 			} catch (ParseException ex) {
-				LOGGER.error(ex);
+				LOGGER.error(ex.getMessage());
 			}
 		}
 		return null;
@@ -2268,7 +2268,7 @@ public class FileManagementLogic {
 
 			return sql;
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 
 			return null;
 		}
@@ -2911,7 +2911,7 @@ public class FileManagementLogic {
 			date = inputDateFormatter.parse(stringDate);
 			return outputDateFormatter.format(date);
 		} catch (ParseException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return null;
 	}
@@ -3185,7 +3185,7 @@ public class FileManagementLogic {
 			int allBUCount = (Integer) getFileResults(dto, 0, 0, null, null, true);
 			return allBUCount > currentBUCount ? true : false;
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return true;
 
 		}
@@ -4121,7 +4121,7 @@ public class FileManagementLogic {
 
 		} catch (Exception ex) {
 
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 			return Collections.emptyList();
 		}
 	}

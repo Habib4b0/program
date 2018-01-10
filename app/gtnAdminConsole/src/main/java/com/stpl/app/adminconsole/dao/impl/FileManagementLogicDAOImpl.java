@@ -2,8 +2,8 @@ package com.stpl.app.adminconsole.dao.impl;
 
 import java.util.List;
 
-import org.jboss.logging.Logger;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.stpl.app.adminconsole.dao.FileManagementLogicDAO;
 import com.stpl.app.model.DemandForecast;
 import com.stpl.app.model.FileManagement;
@@ -32,7 +32,7 @@ public class FileManagementLogicDAOImpl implements FileManagementLogicDAO {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(FileManagementLogicDAOImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementLogicDAOImpl.class);
 
     /**
      * To get the list of forecasts from ForecastingMaster table.

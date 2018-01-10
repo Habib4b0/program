@@ -6,7 +6,8 @@ import com.stpl.app.adminconsole.common.util.CommonUtil;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.stpl.app.adminconsole.discount.dto.DiscountSearchDTO;
 import com.stpl.app.adminconsole.discount.logic.DiscountLogic;
 import com.stpl.app.adminconsole.discount.ui.view.DiscountAddView;
@@ -122,7 +123,7 @@ public class DiscountAddForm extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(DiscountAddForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountAddForm.class);
     /**
      * The error msg.
      */
@@ -545,7 +546,7 @@ public class DiscountAddForm extends CustomComponent implements View {
                 disableComponentsOnViewMode();
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("init Method Ended ");
     }
@@ -841,7 +842,7 @@ public class DiscountAddForm extends CustomComponent implements View {
                 Notification.show("No Results found");
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1019,7 +1020,7 @@ public class DiscountAddForm extends CustomComponent implements View {
             LOGGER.debug(" saveButtonClick method Ended");
             return idList;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return idList;
     }
@@ -1227,7 +1228,7 @@ public class DiscountAddForm extends CustomComponent implements View {
                                 }
                             } catch (Exception e) {
 
-                                LOGGER.error(e);
+                                LOGGER.error(e.getMessage());
                                 MessageBox.showPlain(Icon.ERROR, "Required Fields Missing", CommonUtil.NOT_ALL_REQUIRED_FIELDS, ButtonId.OK);
                             }
 
@@ -1240,7 +1241,7 @@ public class DiscountAddForm extends CustomComponent implements View {
             }
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             MessageBox.showPlain(Icon.ERROR, "Required Fields Missing", CommonUtil.NOT_ALL_REQUIRED_FIELDS, ButtonId.OK);
         }
     }
@@ -1263,7 +1264,7 @@ public class DiscountAddForm extends CustomComponent implements View {
             commonSecurity.removeComponentOnPermission(resultList, cssLayout, fieldItemHM, mode);
             commonSecurity.removeComponentOnPermission(resultList, searchCssLayout, fieldItemHM, mode);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("Ending getFirstTab1");
     }

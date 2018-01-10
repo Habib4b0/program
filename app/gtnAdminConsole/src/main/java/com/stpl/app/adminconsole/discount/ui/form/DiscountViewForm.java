@@ -1,6 +1,7 @@
 package com.stpl.app.adminconsole.discount.ui.form;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.stpl.app.adminconsole.discount.dto.DiscountSearchDTO;
 import com.stpl.app.adminconsole.discount.ui.view.DiscountSearchView;
 import com.stpl.app.adminconsole.util.ResponsiveUtils;
@@ -32,7 +33,7 @@ public class DiscountViewForm extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(DiscountAddForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountAddForm.class);
     /**
      * The error msg.
      */
