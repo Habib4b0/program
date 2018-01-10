@@ -182,18 +182,21 @@ public class GtnFrameworkContractDashboardMainConfig {
 
 	private void addButtonLayout(List<GtnUIFrameworkComponentConfig> cdMainComponentList, String cdMainTabPrefix,
 			List<String> componentIdList, String parent) {
-		GtnUIFrameworkComponentConfig layoutConfig = commonConfig
-				.getHorizontalLayoutConfig(cdMainTabPrefix + "searchButtonlayout", true, parent);
-		layoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		cdMainComponentList.add(layoutConfig);
-		addSearchButtonComponent(cdMainComponentList, cdMainTabPrefix, componentIdList, layoutConfig.getComponentId());
-		addResetButtonComponent(cdMainComponentList, cdMainTabPrefix, componentIdList, layoutConfig.getComponentId());
+		GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getCssLayoutConfig(
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SEARCH_BUTTONLAYOUT, true, parent);
+		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);                
+		cdMainComponentList.add(gtnLayout);
+		addSearchButtonComponent(cdMainComponentList, cdMainTabPrefix, componentIdList, gtnLayout.getComponentId());
+		addResetButtonComponent(cdMainComponentList, cdMainTabPrefix, componentIdList, gtnLayout.getComponentId());
 	}
 
 	private void addSearchButtonComponent(List<GtnUIFrameworkComponentConfig> cdMainComponentList,
 			String cdMainTabPrefix, List<String> componentIdList, String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getHorizontalLayoutConfig(cdMainTabPrefix + "gtnSearch01Layout", true,
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SEARCH_BUTTONLAYOUT);
+		cdMainComponentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig searchButtonConfig = commonConfig.getUIFrameworkComponentConfig(
-				cdMainTabPrefix + "gtnSearch", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				cdMainTabPrefix + "gtnSearch", true, cdMainTabPrefix + "gtnSearch01Layout", GtnUIFrameworkComponentType.BUTTON);
 		searchButtonConfig.setAuthorizationIncluded(true);
 		searchButtonConfig.setComponentName("Search");
 		cdMainComponentList.add(searchButtonConfig);
@@ -207,8 +210,11 @@ public class GtnFrameworkContractDashboardMainConfig {
 
 	private void addResetButtonComponent(List<GtnUIFrameworkComponentConfig> cdMainComponentList,
 			String cdMainTabPrefix, List<String> componentIdList, String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getHorizontalLayoutConfig(cdMainTabPrefix + "gtnReset01Layout", true,
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SEARCH_BUTTONLAYOUT);
+		cdMainComponentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig resetButtonConfig = commonConfig.getUIFrameworkComponentConfig(
-				cdMainTabPrefix + "gtnReset", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				cdMainTabPrefix + "gtnReset", true, cdMainTabPrefix + "gtnReset01Layout", GtnUIFrameworkComponentType.BUTTON);
 		resetButtonConfig.setAuthorizationIncluded(true);
 		resetButtonConfig.setComponentName("Reset");
 		cdMainComponentList.add(resetButtonConfig);
@@ -1302,18 +1308,21 @@ public class GtnFrameworkContractDashboardMainConfig {
 
 	private void addSaveButtonLayout(List<GtnUIFrameworkComponentConfig> cdMainComponentList, String cdMainTabPrefix,
 			String parent) {
-		GtnUIFrameworkComponentConfig layoutConfig = commonConfig
-				.getHorizontalLayoutConfig(cdMainTabPrefix + "saveButtonlayout", true, parent);
-		layoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		cdMainComponentList.add(layoutConfig);
-		addSaveButtonComponent(cdMainComponentList, cdMainTabPrefix, layoutConfig.getComponentId());
-		addRemoveFromTreeButtonComponent(cdMainComponentList, cdMainTabPrefix, layoutConfig.getComponentId());
+		GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getCssLayoutConfig(
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SAVE_BUTTONLAYOUT, true, parent);
+		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);  
+		cdMainComponentList.add(gtnLayout);
+		addSaveButtonComponent(cdMainComponentList, cdMainTabPrefix, gtnLayout.getComponentId());
+		addRemoveFromTreeButtonComponent(cdMainComponentList, cdMainTabPrefix, gtnLayout.getComponentId());
 	}
 
 	private void addSaveButtonComponent(List<GtnUIFrameworkComponentConfig> cdMainComponentList, String cdMainTabPrefix,
 			String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getHorizontalLayoutConfig(cdMainTabPrefix + "gtnSave01Layout", true,
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SAVE_BUTTONLAYOUT);
+		cdMainComponentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig saveButtonConfig = commonConfig.getUIFrameworkComponentConfig(
-				cdMainTabPrefix + "gtnSave", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				cdMainTabPrefix + "gtnSave", true, cdMainTabPrefix + "gtnSave01Layout", GtnUIFrameworkComponentType.BUTTON);
 		saveButtonConfig.setAuthorizationIncluded(true);
 		saveButtonConfig.setComponentName("Save");
 		cdMainComponentList.add(saveButtonConfig);
@@ -1332,8 +1341,11 @@ public class GtnFrameworkContractDashboardMainConfig {
 
 	private void addRemoveFromTreeButtonComponent(List<GtnUIFrameworkComponentConfig> cdMainComponentList,
 			String namespaceprefix, String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getHorizontalLayoutConfig(namespaceprefix + "gtnRemove01Layout", true,
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SAVE_BUTTONLAYOUT);
+		cdMainComponentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig removeFromTreeBtnConfig = commonConfig.getUIFrameworkComponentConfig(
-				namespaceprefix + "removeFromTreeBtn", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				namespaceprefix + "removeFromTreeBtn", true, namespaceprefix + "gtnRemove01Layout", GtnUIFrameworkComponentType.BUTTON);
 		removeFromTreeBtnConfig.setAuthorizationIncluded(true);
 		removeFromTreeBtnConfig.setComponentName("Remove");
 		cdMainComponentList.add(removeFromTreeBtnConfig);
@@ -1355,13 +1367,13 @@ public class GtnFrameworkContractDashboardMainConfig {
 
 	private void addProcessButtonLayout(List<GtnUIFrameworkComponentConfig> cdMainComponentList, String cdMainTabPrefix,
 			String parent) {
-		GtnUIFrameworkComponentConfig layoutConfig = commonConfig
-				.getHorizontalLayoutConfig(cdMainTabPrefix + "processButtonlayout", true, parent);
-		layoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		cdMainComponentList.add(layoutConfig);
-		addProcessButtonComponent(cdMainComponentList, cdMainTabPrefix, layoutConfig.getComponentId());
-		addRebuildButtonComponent(cdMainComponentList, cdMainTabPrefix, layoutConfig.getComponentId());
-		addProcessExcelButtonComponent(cdMainComponentList, cdMainTabPrefix, layoutConfig.getComponentId());
+		GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getCssLayoutConfig(
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_PROCESS_BUTTONLAYOUT, true, parent);
+		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);  
+		cdMainComponentList.add(gtnLayout);
+		addProcessButtonComponent(cdMainComponentList, cdMainTabPrefix, gtnLayout.getComponentId());
+		addRebuildButtonComponent(cdMainComponentList, cdMainTabPrefix, gtnLayout.getComponentId());
+		addProcessExcelButtonComponent(cdMainComponentList, cdMainTabPrefix, gtnLayout.getComponentId());
 	}
 
 	private void addProcessExcelButtonComponent(List<GtnUIFrameworkComponentConfig> cdMainComponentList,
@@ -1379,8 +1391,11 @@ public class GtnFrameworkContractDashboardMainConfig {
 
 	private void addProcessButtonComponent(List<GtnUIFrameworkComponentConfig> cdMainComponentList,
 			String cdMainTabPrefix, String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getHorizontalLayoutConfig(cdMainTabPrefix + "gtnProcess01Layout", true,
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_PROCESS_BUTTONLAYOUT);
+		cdMainComponentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig cdMainProcessBtnConfig = commonConfig.getUIFrameworkComponentConfig(
-				cdMainTabPrefix + "gtnProcess", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				cdMainTabPrefix + "gtnProcess", true, cdMainTabPrefix + "gtnProcess01Layout", GtnUIFrameworkComponentType.BUTTON);
 		cdMainProcessBtnConfig.setAuthorizationIncluded(true);
 		cdMainProcessBtnConfig.setComponentName("Process");
 		cdMainComponentList.add(cdMainProcessBtnConfig);
@@ -1433,8 +1448,11 @@ public class GtnFrameworkContractDashboardMainConfig {
 
 	private void addRebuildButtonComponent(List<GtnUIFrameworkComponentConfig> cdMainComponentList,
 			String cdMainTabPrefix, String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getHorizontalLayoutConfig(cdMainTabPrefix + "gtnRebuild01Layout", true,
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_PROCESS_BUTTONLAYOUT);
+		cdMainComponentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig cdMainRebuildBtnConfig = commonConfig.getUIFrameworkComponentConfig(
-				cdMainTabPrefix + "rebuildBtn", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				cdMainTabPrefix + "rebuildBtn", true, cdMainTabPrefix + "gtnRebuild01Layout", GtnUIFrameworkComponentType.BUTTON);
 		cdMainRebuildBtnConfig.setAuthorizationIncluded(true);
 		cdMainRebuildBtnConfig.setComponentName("Rebuild");
 		cdMainComponentList.add(cdMainRebuildBtnConfig);
