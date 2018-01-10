@@ -275,7 +275,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
              *
              */
             private static final long serialVersionUID = 1L;
-
             @Override
             public void call(JsonArray arguments) {
                  try {
