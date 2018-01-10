@@ -123,11 +123,11 @@ public class ProjectionVarianceLogic {
     private static final int COLUMN_COUNT_TOTAL = NumericConstants.NINTY_SIX;
 
     public List getChartList() {
-        return chartList;
+        return chartList == null ? chartList : new ArrayList<>(chartList);
     }
 
     public void setChartList(List chartList) {
-        this.chartList = chartList;
+        this.chartList = chartList == null ? chartList : new ArrayList<>(chartList);
     }
 
     public PVSelectionDTO getSelectionDTO() {
