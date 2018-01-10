@@ -697,6 +697,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 			dataSelectionDTO.setProductHierarchyLevel(String.valueOf(productForecastLevel));
 			dataSelectionDTO.setProductHierarchy(productHierarchy.getValue());
 			dataSelectionDTO.setCustomerHierarchy(customerHierarchy.getValue());
+			dataSelectionDTO.setCustomerGroup(customerGroup.getValue());
+			dataSelectionDTO.setProductGroup(productGroup.getValue());
 			if (customerHierarchyDto != null) {
 				int custHierarchyVersionNo = Integer
 						.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
