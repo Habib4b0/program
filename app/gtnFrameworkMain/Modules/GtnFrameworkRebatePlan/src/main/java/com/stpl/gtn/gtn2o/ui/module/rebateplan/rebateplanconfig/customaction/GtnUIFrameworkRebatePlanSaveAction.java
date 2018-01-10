@@ -275,7 +275,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 			ruleDetailBean.setAdjustmentValue5itemPricingQualifier(getStringValueForNewItem(18, ruleDetail));
 
                         loadFormula(formulaList, ruleDetailBean, ruleDetail);
-                        
+                        System.out.println("getRPFormula(formulaList)"+getRPFormulaForCalculation(formulaList));
 			ruleDetailBean.setItemPricingQualifierSid(getRPFormula(formulaList));
 			ruleDetailBeanList.add(ruleDetailBean);
 		}
@@ -306,7 +306,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 			addValue5(formulaList, ruleDetailBean);
 		}
 	}
-
+        
 	private void loadNotesTab(List<NotesTabBean> noteBeanList, List<NotesDTO> notesDTOs)
 			throws GtnFrameworkGeneralException {
 		try {
@@ -399,6 +399,32 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 		}
 		return finalFormula.toString();
 	}
+        
+	public String getRPFormulaForCalculation(List<String[]> formulaList) {
+		StringBuilder finalFormula = new StringBuilder();
+                String firstLastString="";
+		for (int i = 0; i < formulaList.size(); i++) {
+			String[] str = formulaList.get(i);
+			finalFormula.insert(0, "(");
+			for (int j = 0; j < str.length; j++) {
+				if (j == 1 && j != str.length - 1) {
+					finalFormula.append("(");
+				}
+                                String percentString = j == 1 ? str[j] : ("*".concat(firstLastString.concat("/100")));
+                                String formulaName = str[j].equals("%") ? percentString : str[j];
+				finalFormula.append(formulaName);
+				if (j == str.length - 1) {
+					finalFormula.append(")");
+                                        firstLastString=finalFormula.toString();
+				}
+			}
+			if (i != 0) {
+				finalFormula.append(")");
+                                firstLastString=finalFormula.toString();
+			}
+		}
+		return finalFormula.toString();
+	}
 
 	public void addDefaultValue(List<String[]> formulaList, GtnWsRebatePlanRuleDetailBean ruleDetailBean,
 			final GtnWsRecordBean ruleDetail) throws GtnFrameworkValidationFailedException {
@@ -433,7 +459,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 							: ruleDetailBean.getAdjustmentValue2itemPricingQualifier() });
 		}
 	}
-
+        
 	public void addValue3(List<String[]> formulaList, GtnWsRebatePlanRuleDetailBean ruleDetailBean) {
 		if (getIsEmpty(ruleDetailBean.getOperatorType3()) && getIsEmpty(ruleDetailBean.getAdjustmentOperator3())
 				&& getIsEmpty(ruleDetailBean.getAdjustmentValue3itemPricingQualifier())) {
@@ -445,7 +471,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 							: ruleDetailBean.getAdjustmentValue3itemPricingQualifier() });
 		}
 	}
-
+        
 	public void addValue4(List<String[]> formulaList, GtnWsRebatePlanRuleDetailBean ruleDetailBean) {
 		if (getIsEmpty(ruleDetailBean.getOperatorType4()) && getIsEmpty(ruleDetailBean.getAdjustmentOperator4())
 				&& getIsEmpty(ruleDetailBean.getAdjustmentValue4itemPricingQualifier())) {
@@ -469,7 +495,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 							: ruleDetailBean.getAdjustmentValue5itemPricingQualifier() });
 		}
 	}
-
+        
 	private boolean getIsEmpty(String value) {
 		return value != null && !value.equals("null") && !value.isEmpty();
 
