@@ -7,7 +7,8 @@ package com.stpl.app.adminconsole.util;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,13 +20,13 @@ public class MessageUtil {
 
     public static final String HYPHEN = " - ";
 
-    private static final Logger LOGGER = Logger.getLogger(MessageUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MessageUtil.class);
 
     public static String getErrorCode(final String key) {
         try {
             return resouceBundle.getString(key);
         } catch (MissingResourceException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return "";
         }
     }

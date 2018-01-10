@@ -13,7 +13,8 @@ import com.vaadin.ui.Window;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -95,7 +96,7 @@ public class FileMgmtCustomer extends Window {
     @UiField("close")
     private Button close;
     FileManagementLogic logic = new FileManagementLogic();
-    public static final Logger LOGGER = Logger.getLogger(FileMgmtCustomer.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(FileMgmtCustomer.class);
 
     public FileMgmtCustomer() {
         LOGGER.debug("FileMgmtCustomer");
@@ -120,7 +121,7 @@ public class FileMgmtCustomer extends Window {
 
             LOGGER.debug("init method Ended");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
     }

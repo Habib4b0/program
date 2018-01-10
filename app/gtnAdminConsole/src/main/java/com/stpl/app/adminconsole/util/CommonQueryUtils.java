@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,7 +27,7 @@ public class CommonQueryUtils {
      * @param queryName - Framed SQL Query
      * @return List<Object[]> result list
      */
-    private static final Logger LOGGER = Logger.getLogger(CommonQueryUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonQueryUtils.class);
     static CommonDAO dao = new CommonDAOImpl();
  
     public static Object executeSelectQuery(List input, String queryName) {
@@ -36,7 +37,7 @@ public class CommonQueryUtils {
                 returnList = (List<Object[]>) dao.executeSelectQuery(input, queryName, null);
             }
         } catch (Exception e) {
-             LOGGER.error(e);
+             LOGGER.error(e.getMessage());
         }
         return returnList;
     }
@@ -57,7 +58,7 @@ public class CommonQueryUtils {
             }
             list = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(queryName);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of getPPAData");
         return list;
@@ -75,7 +76,7 @@ public class CommonQueryUtils {
             int count = (Integer) HelperTableLocalServiceUtil.executeUpdateQueryCount(sql.toString());
             return count > 0 ? Boolean.TRUE : Boolean.FALSE;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of updateAppData");
         return Boolean.FALSE;

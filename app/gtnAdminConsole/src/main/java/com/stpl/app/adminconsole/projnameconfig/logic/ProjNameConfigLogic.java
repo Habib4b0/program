@@ -23,7 +23,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class ProjNameConfigLogic.
@@ -35,7 +36,7 @@ public class ProjNameConfigLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ProjNameConfigLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjNameConfigLogic.class);
 
     
     public List<ProjectionNameDTO> getBusinessProcessAttributes() {

@@ -44,7 +44,8 @@ import com.vaadin.ui.Notification;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -113,7 +114,7 @@ public class ItemSearchLookup extends Window {
     private ItemSearchDTO itemSearchDTO = new ItemSearchDTO();
     private ErrorfulFieldGroup itemSearchBinder = new ErrorfulFieldGroup(new BeanItem<>(itemSearchDTO));
     private final ErrorLabel errorMsg = new ErrorLabel();
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ItemSearchLookup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemSearchLookup.class);
     private final BeanItemContainer<ItemSearchDTO> itemBean = new BeanItemContainer<>(ItemSearchDTO.class);
     @UiField("tableLayout")
     private VerticalLayout tableLayout;
@@ -186,7 +187,7 @@ public class ItemSearchLookup extends Window {
             isSelected=true;
             close();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
         LOGGER.debug(" addItemsButtonClick method Ended");
@@ -284,7 +285,7 @@ public class ItemSearchLookup extends Window {
                     }
 
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                   LOGGER.error(ex.getMessage());
                 }
 
             }
@@ -397,7 +398,7 @@ public class ItemSearchLookup extends Window {
                     itemId = dto.getItemId();
                     masterSid = Integer.valueOf(dto.getSystemId());
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
             }
         });

@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HelperListUtil {
 
@@ -33,7 +34,7 @@ public class HelperListUtil {
 
     private static ResourceBundle listNameBundle = ResourceBundle.getBundle("properties.listname");
 
-    private static final Logger LOGGER = Logger.getLogger(HelperListUtil.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelperListUtil.class.getName());
     
     private HelperListUtil() {
 
@@ -88,7 +89,7 @@ public class HelperListUtil {
                     }
                 }
             } catch (SystemException ex) {
-                LOGGER.error(ex);
+               LOGGER.error(ex.getMessage());
             }
         }
     }

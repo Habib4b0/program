@@ -26,7 +26,8 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.matchers.GroupMatcher;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.model.WorkflowProfile;
 import com.stpl.app.service.WorkflowProfileLocalServiceUtil;
@@ -42,7 +43,7 @@ public class QuartzListener implements ServletContextListener {
 
 	private static Scheduler scheduler = null;
 	protected static String ACTION_JOB_DATA_MAP_KEY = "jobData";
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(QuartzListener.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(QuartzListener.class);
 
 
 	/**
@@ -77,7 +78,7 @@ public class QuartzListener implements ServletContextListener {
 				list = WorkflowProfileLocalServiceUtil.dynamicQuery(query);
 
 			} catch (SystemException ex) {
-				LOGGER.error(ex);
+				LOGGER.error(ex.getMessage());
 			}
 			// Setup the Job class and the Job group
 
@@ -90,7 +91,7 @@ public class QuartzListener implements ServletContextListener {
 			printJobList();
 
 		} catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -103,7 +104,7 @@ public class QuartzListener implements ServletContextListener {
 		try {
 			scheduler.shutdown();
 		} catch (SchedulerException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -118,7 +119,7 @@ public class QuartzListener implements ServletContextListener {
 			printJobList();
 
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 
 	}
@@ -178,7 +179,7 @@ public class QuartzListener implements ServletContextListener {
 			}
 
 		} catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
 		}
 
 	}
@@ -330,7 +331,7 @@ public class QuartzListener implements ServletContextListener {
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		printStr.append("--End printing Jobs--\n");
 		System.out.println(printStr.toString());
@@ -361,7 +362,7 @@ public class QuartzListener implements ServletContextListener {
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -399,7 +400,7 @@ public class QuartzListener implements ServletContextListener {
 			scheduler.scheduleJob(trigger2);
 
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 

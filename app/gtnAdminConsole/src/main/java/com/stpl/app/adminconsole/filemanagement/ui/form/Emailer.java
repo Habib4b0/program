@@ -15,7 +15,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,7 +25,7 @@ import org.jboss.logging.Logger;
  * Class created to send mail using java mail
  */
 public class Emailer {
-    private static final Logger LOGGER = Logger.getLogger(Emailer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Emailer.class);
 
      final static String FROM = "support@bpitechnologies.com";
     final static Properties properties = new Properties();
@@ -65,7 +66,7 @@ public class Emailer {
             Transport.send(message);
             LOGGER.debug("Mail sent succesfully.!");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             ret = "error";
         }
         return ret;
@@ -99,7 +100,7 @@ public class Emailer {
                 LOGGER.debug("Mail sent succesfully.!");
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             e.printStackTrace();
             ret = "error";
         }

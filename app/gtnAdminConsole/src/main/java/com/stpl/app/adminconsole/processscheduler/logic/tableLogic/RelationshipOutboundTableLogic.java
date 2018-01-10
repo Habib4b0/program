@@ -12,7 +12,8 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -20,7 +21,7 @@ import org.jboss.logging.Logger;
  */
 public class RelationshipOutboundTableLogic extends PageTableLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(RelationshipOutboundTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RelationshipOutboundTableLogic.class);
     private final OutboundLogic searchLogic = new OutboundLogic();
     private boolean isCheckAll;
     private ErrorfulFieldGroup binder;
@@ -38,7 +39,7 @@ public class RelationshipOutboundTableLogic extends PageTableLogic {
             isResultsEmpty = count == 0;
             count = isReset ? 0 : count;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         
         return count;
@@ -51,7 +52,7 @@ public class RelationshipOutboundTableLogic extends PageTableLogic {
             try {
                 list = searchLogic.getRelationshipSearchResults(binder, start, offset, false, this.getSortByColumns(), this.getFilters(), isCheckAll);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+               LOGGER.error(ex.getMessage());
             }
         }
         return list;

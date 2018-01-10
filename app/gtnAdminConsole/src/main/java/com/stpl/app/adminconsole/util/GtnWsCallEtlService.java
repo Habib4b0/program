@@ -5,12 +5,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
 public class GtnWsCallEtlService {
-	private static final Logger LOGGER = Logger.getLogger(GtnWsCallEtlService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GtnWsCallEtlService.class);
 
 	public GtnWsCallEtlService() {
 		/**

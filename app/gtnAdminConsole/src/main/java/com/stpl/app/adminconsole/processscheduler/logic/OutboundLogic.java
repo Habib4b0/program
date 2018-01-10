@@ -50,7 +50,8 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -61,7 +62,7 @@ public class OutboundLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(OutboundLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OutboundLogic.class);
     private HelperListUtil helperListUtil = HelperListUtil.getInstance();
     public final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
     private static HashMap<String, String> hierarchySearchCriteria = new HashMap<>();
@@ -173,7 +174,7 @@ public class OutboundLogic {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return searchResultsList;
     }
@@ -498,7 +499,7 @@ public class OutboundLogic {
             resultList = dao.getRelationshipBuilderList(relationBuilderDynamicQuery);
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         if (isCheckQuery) {
             return resultList;
@@ -691,7 +692,7 @@ public class OutboundLogic {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("getCustomizedOutboundTableDTO return List<OutboundTableDTO> OutboundTableResults=" + OutboundTableResults.size());
         return OutboundTableResults;
@@ -718,7 +719,7 @@ public class OutboundLogic {
             List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(CommonUtil.replacedQuery(input, "getRelationshipBuilderOutbound"));
             rbOutboundList=getCustomizedRbOutbound(list);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return rbOutboundList;
     } 
@@ -815,7 +816,7 @@ public class OutboundLogic {
             List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(rbQuery);
             rbOutboundList=getCustomizedRbOutbound(list);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return rbOutboundList;
     } 
@@ -874,7 +875,7 @@ public class OutboundLogic {
             List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(CommonUtil.replacedQuery(input, "getRelationshipOuboundCheckAllResults"));
             rbOutboundList = getCustomizedRbOutbound(list);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return rbOutboundList;
     }

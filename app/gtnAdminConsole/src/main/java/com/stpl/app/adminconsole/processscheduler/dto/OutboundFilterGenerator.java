@@ -17,7 +17,8 @@ import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Field;
 import java.util.Map;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +26,7 @@ import org.jboss.logging.Logger;
  */
 public class OutboundFilterGenerator implements ExtFilterGenerator {
 
-    private static final Logger LOGGER = Logger.getLogger(OutboundFilterGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OutboundFilterGenerator.class);
 
     private final CommonUtils commonUtil = CommonUtils.getInstance();
 
@@ -89,7 +90,7 @@ public class OutboundFilterGenerator implements ExtFilterGenerator {
 
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         return null;
     }
