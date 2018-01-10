@@ -881,15 +881,10 @@ public class GtnFrameworkComplianceAndDeductionRulesLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig changeCaptionActionConfig = gtnFrameworkConfigurationFactory
 				.buildActionConfig(GtnUIFrameworkActionType.CHANGE_CAPTION);
-		// Map<String, String> captionMap = new HashMap<>();
-		// captionMap.put(GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON,
-		// "SAVE");
 		changeCaptionActionConfig
 				.addActionParameter(Arrays.asList(new String[] { GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON }));
 		changeCaptionActionConfig.addActionParameter(Arrays.asList(new String[] { "SAVE" }));
 
-		// changeCaptionActionConfig.setActionParameterList(Arrays.asList(new
-		// Object[] { captionMap }));
 		actionConfigList.add(changeCaptionActionConfig);
 
 		cDRCopyButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
