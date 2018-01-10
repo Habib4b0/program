@@ -41,6 +41,8 @@ import com.vaadin.ui.AbstractComponent;
 import com.vaadin.v7.ui.AbstractSelect;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.DateField;
+
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.ui.HasComponents;
@@ -789,12 +791,22 @@ public class GtnUIFrameworkBaseComponent {
 	}
 
 	public void setComponentReadOnly(boolean newValue) {
-//		this.component.setReadOnly(newValue);
+		if(this.component instanceof  Field<?>) {
+			(( Field<?>)this.component).setReadOnly(newValue);
+		}else if(this.component instanceof  DateField) {
+		((DateField)this.component).setReadOnly(newValue);
+		}
+		
 	}
 
 	public boolean isReadOnly() {
-//		return this.component.isReadOnly();
-return false;
+		boolean isReadable=true;
+		if(this.component instanceof  Field<?>) {
+			isReadable=(( Field<?>)this.component).isReadOnly();
+		}else if(this.component instanceof  DateField) {
+			isReadable=((DateField)this.component).isReadOnly();
+			}
+		return isReadable;
 	}
 
 	public void closeUI() {
