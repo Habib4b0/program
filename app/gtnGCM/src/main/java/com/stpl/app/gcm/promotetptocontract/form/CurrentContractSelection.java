@@ -320,8 +320,9 @@ public class CurrentContractSelection extends CustomComponent implements View {
             rebateScheduleAlias.setData("maxlengthvalidationhundred,maxlengthvalidationrsalias,specialchar,specialcharRrsalias");
             rebateScheduleAlias.setImmediate(true);
             rebateScheduleAlias.setValidationVisible(true);
-
-            massStartDate.setEnabled(false);
+            massUpdateValue.setVisible(false);
+            massStartDate.setVisible(false);
+            massEndDate.setEnabled(false);
             massStartDate.setDateFormat(Constants.DATE_FORMAT);
             massEndDate.setDateFormat(Constants.DATE_FORMAT);
             massUpdateRadio.setImmediate(true);
@@ -602,6 +603,10 @@ public class CurrentContractSelection extends CustomComponent implements View {
     public void massUpdateEnDisLogic(Property.ValueChangeEvent event) {
         LOGGER.debug(" massUpdate ValueChangeEvent initiated ");
         if ("Disable".equals(massUpdateRadio.getValue())) {
+            fieldDdlb.setValue(null);
+            massStartDate.setValue(null);
+            massEndDate.setValue(null);
+            massUpdateValue.setValue(null);
             enableOrDisable(false);
         } else {
             enableOrDisable(true);
