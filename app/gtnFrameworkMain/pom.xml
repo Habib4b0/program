@@ -50,6 +50,7 @@
         <gtnFrameworkCommon.version>1.0</gtnFrameworkCommon.version>
         <gtnlogger.version>1.0</gtnlogger.version>
         <gtnFramework.version>1.0</gtnFramework.version>
+        <jackson.version>1.9.13</jackson.version>
         <gtnFrameworkComponentRepository.version>1.0</gtnFrameworkComponentRepository.version>
         <gtnQueryEngine.version>1.0</gtnQueryEngine.version>
         <gtnHiberNateHbm.version>1.0</gtnHiberNateHbm.version>

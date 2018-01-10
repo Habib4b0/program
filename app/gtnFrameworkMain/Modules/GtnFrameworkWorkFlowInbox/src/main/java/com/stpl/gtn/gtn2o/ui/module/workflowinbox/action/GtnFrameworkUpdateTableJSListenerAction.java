@@ -24,10 +24,10 @@ import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsWorkflowInboxBean;
 import com.vaadin.server.Page;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
+import elemental.json.JsonArray;
 import java.util.HashMap;
 import java.util.List;
-import org.json.JSONArray;
-import org.json.JSONException;
+
 
 /**
  *
@@ -86,9 +86,10 @@ public class GtnFrameworkUpdateTableJSListenerAction implements GtnUIFrameWorkAc
 				 */
 				private static final long serialVersionUID = 1L;
 
-				@Override
-				public void call(JSONArray arguments) throws JSONException {
-					try {
+
+                            @Override
+                            public void call(JsonArray arguments) {
+                               	try {
 
 						table.getLogicFromPagedDataTable()
 								.setCurrentPage(table.getLogicFromPagedDataTable().getCurrentPage());
@@ -102,8 +103,7 @@ public class GtnFrameworkUpdateTableJSListenerAction implements GtnUIFrameWorkAc
 					} catch (Exception e) {
 						gtnLogger.error(e.getMessage());
 					}
-
-				}
+                            }
 			});
 
 			loadDataFromService(url, table, projectionmasterSid);
