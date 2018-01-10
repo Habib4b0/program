@@ -252,22 +252,25 @@ public class GtnFrameworkContractDashboardProcessConfig {
 
 	private void addSubmitButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			String parent) {
-		GtnUIFrameworkComponentConfig layoutConfig = commonConfig
-				.getHorizontalLayoutConfig(namspacePrefix + "submitButtonlayout", true, parent);
-		layoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		componentList.add(layoutConfig);
-		addBackButtonComponent(componentList, layoutConfig.getComponentId());
-		addSubmitButtonComponent(componentList, layoutConfig.getComponentId());
-		addWithdrowButtonComponent(componentList, layoutConfig.getComponentId());
-		addApproveButtonComponent(componentList, layoutConfig.getComponentId());
-		addRejectButtonComponent(componentList, layoutConfig.getComponentId());
-		addCancelButtonComponent(componentList, layoutConfig.getComponentId());
-		addCloseButtonComponent(componentList, layoutConfig.getComponentId());
+		GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getCssLayoutConfig(
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SUBMIT_BUTTONLAYOUT, true, parent);
+		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);  
+		componentList.add(gtnLayout);
+		addBackButtonComponent(componentList, gtnLayout.getComponentId(), namspacePrefix);
+		addSubmitButtonComponent(componentList, gtnLayout.getComponentId(), namspacePrefix);
+		addWithdrowButtonComponent(componentList, gtnLayout.getComponentId(), namspacePrefix);
+		addApproveButtonComponent(componentList, gtnLayout.getComponentId(), namspacePrefix);
+		addRejectButtonComponent(componentList, gtnLayout.getComponentId(), namspacePrefix);
+		addCancelButtonComponent(componentList, gtnLayout.getComponentId(), namspacePrefix);
+		addCloseButtonComponent(componentList, gtnLayout.getComponentId(), namspacePrefix);
 	}
 
-	private void addBackButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent) {
+	private void addBackButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent, String namspacePrefix) {
+                GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getHorizontalLayoutConfig(namspacePrefix + "gtnBack01Layout", true,
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SUBMIT_BUTTONLAYOUT);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig buttonConfig = commonConfig.getUIFrameworkComponentConfig(
-				GtnWsContractDashboardContants.CONTRACT_BACK_BTN, true, parent, GtnUIFrameworkComponentType.BUTTON);
+				GtnWsContractDashboardContants.CONTRACT_BACK_BTN, true, namspacePrefix + "gtnBack01Layout", GtnUIFrameworkComponentType.BUTTON);
 		buttonConfig.setComponentName("Back");
 		buttonConfig.setAuthorizationIncluded(true);
 		componentList.add(buttonConfig);
@@ -297,9 +300,12 @@ public class GtnFrameworkContractDashboardProcessConfig {
 
 	}
 
-	private void addCloseButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent) {
+	private void addCloseButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent, String namspacePrefix) {
+                GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getHorizontalLayoutConfig(namspacePrefix + "gtnClose01Layout", true,
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SUBMIT_BUTTONLAYOUT);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig buttonConfig = commonConfig.getUIFrameworkComponentConfig(
-				GtnWsContractDashboardContants.CONTRACT_CLOSE_BTN, true, parent, GtnUIFrameworkComponentType.BUTTON);
+				GtnWsContractDashboardContants.CONTRACT_CLOSE_BTN, true, namspacePrefix + "gtnClose01Layout", GtnUIFrameworkComponentType.BUTTON);
 		buttonConfig.setComponentName("Close");
 		buttonConfig.setAuthorizationIncluded(true);
 		componentList.add(buttonConfig);
@@ -313,9 +319,12 @@ public class GtnFrameworkContractDashboardProcessConfig {
 
 	}
 
-	private void addSubmitButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent) {
+	private void addSubmitButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent, String namspacePrefix) {
+                GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getHorizontalLayoutConfig(namspacePrefix + "gtnSubmit01Layout", true,
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SUBMIT_BUTTONLAYOUT);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig buttonConfig = commonConfig.getUIFrameworkComponentConfig(
-				GtnWsContractDashboardContants.CONTRACT_SUBMIT_BTN, true, parent, GtnUIFrameworkComponentType.BUTTON);
+				GtnWsContractDashboardContants.CONTRACT_SUBMIT_BTN, true, namspacePrefix + "gtnSubmit01Layout", GtnUIFrameworkComponentType.BUTTON);
 		buttonConfig.setComponentName("Submit");
 		buttonConfig.setAuthorizationIncluded(true);
 		componentList.add(buttonConfig);
@@ -336,9 +345,12 @@ public class GtnFrameworkContractDashboardProcessConfig {
 		buttonConfig.addGtnUIFrameWorkActionConfig(submitWorkflowInboxRefreshAction);
 	}
 
-	private void addWithdrowButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent) {
+	private void addWithdrowButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent, String namspacePrefix) {
+                GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getHorizontalLayoutConfig(namspacePrefix + "gtnWithdraw01Layout", true,
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SUBMIT_BUTTONLAYOUT);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig buttonConfig = commonConfig.getUIFrameworkComponentConfig(
-				GtnWsContractDashboardContants.CONTRACT_WITHDRAW_BTN, true, parent, GtnUIFrameworkComponentType.BUTTON);
+				GtnWsContractDashboardContants.CONTRACT_WITHDRAW_BTN, true, namspacePrefix + "gtnWithdraw01Layout", GtnUIFrameworkComponentType.BUTTON);
 		buttonConfig.setComponentName("Withdrawal");
 		buttonConfig.setAuthorizationIncluded(true);
 		componentList.add(buttonConfig);
@@ -365,9 +377,12 @@ public class GtnFrameworkContractDashboardProcessConfig {
 		buttonConfig.addGtnUIFrameWorkActionConfig(confirmActionConfig);
 	}
 
-	private void addApproveButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent) {
+	private void addApproveButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent, String namspacePrefix) {
+                GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getHorizontalLayoutConfig(namspacePrefix + "gtnApprove01Layout", true,
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SUBMIT_BUTTONLAYOUT);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig buttonConfig = commonConfig.getUIFrameworkComponentConfig(
-				GtnWsContractDashboardContants.CONTRACT_APPROVE_BTN, true, parent, GtnUIFrameworkComponentType.BUTTON);
+				GtnWsContractDashboardContants.CONTRACT_APPROVE_BTN, true, namspacePrefix + "gtnApprove01Layout", GtnUIFrameworkComponentType.BUTTON);
 		buttonConfig.setComponentName("Approve");
 		buttonConfig.setAuthorizationIncluded(true);
 		componentList.add(buttonConfig);
@@ -393,9 +408,12 @@ public class GtnFrameworkContractDashboardProcessConfig {
 		buttonConfig.addGtnUIFrameWorkActionConfig(confirmActionConfig);
 	}
 
-	private void addRejectButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent) {
+	private void addRejectButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent, String namspacePrefix) {
+                GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getHorizontalLayoutConfig(namspacePrefix + "gtnReject01Layout", true,
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SUBMIT_BUTTONLAYOUT);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig buttonConfig = commonConfig.getUIFrameworkComponentConfig(
-				GtnWsContractDashboardContants.CONTRACT_REJECT_BTN, true, parent, GtnUIFrameworkComponentType.BUTTON);
+				GtnWsContractDashboardContants.CONTRACT_REJECT_BTN, true, namspacePrefix + "gtnReject01Layout", GtnUIFrameworkComponentType.BUTTON);
 		buttonConfig.setComponentName("Reject");
 		buttonConfig.setAuthorizationIncluded(true);
 		componentList.add(buttonConfig);
@@ -421,9 +439,12 @@ public class GtnFrameworkContractDashboardProcessConfig {
 		buttonConfig.addGtnUIFrameWorkActionConfig(confirmActionConfig);
 	}
 
-	private void addCancelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent) {
+	private void addCancelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parent, String namspacePrefix) {
+                GtnUIFrameworkComponentConfig gtnLayout = commonConfig.getHorizontalLayoutConfig(namspacePrefix + "gtnCancel01Layout", true,
+				GtnFrameworkContractDashboardContants.CONTRACT_DASHBOARD_SUBMIT_BUTTONLAYOUT);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig buttonConfig = commonConfig.getUIFrameworkComponentConfig(
-				GtnWsContractDashboardContants.CONTRACT_CANCEL_BTN, true, parent, GtnUIFrameworkComponentType.BUTTON);
+				GtnWsContractDashboardContants.CONTRACT_CANCEL_BTN, true, namspacePrefix + "gtnCancel01Layout", GtnUIFrameworkComponentType.BUTTON);
 		buttonConfig.setComponentName("Cancel");
 		buttonConfig.setAuthorizationIncluded(true);
 		componentList.add(buttonConfig);

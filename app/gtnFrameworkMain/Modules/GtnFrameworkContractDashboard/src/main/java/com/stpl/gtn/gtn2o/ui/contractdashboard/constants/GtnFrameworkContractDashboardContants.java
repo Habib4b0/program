@@ -305,6 +305,10 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String PERCENTAGE = "%";
 	public static final String DOL = "dol";
 	public static final String DOLLER = "$";
+        public static final String CONTRACT_DASHBOARD_SEARCH_BUTTONLAYOUT = "contractDashboardSearchButtonlayout";
+        public static final String CONTRACT_DASHBOARD_SAVE_BUTTONLAYOUT = "contractDashboardSaveButtonlayout";
+        public static final String CONTRACT_DASHBOARD_PROCESS_BUTTONLAYOUT = "contractDashboardProcessButtonlayout";
+        public static final String CONTRACT_DASHBOARD_SUBMIT_BUTTONLAYOUT = "contractDashboardSubmitButtonlayout";
 
 	private static final String[] PP_MASS_POPULATE_FIELD = { PRICE_PROTECTION_STATUS, PRICE_PROTECTION_START_DATE,
 			PRICE_PROTECTION_END_DATE, PRICE_PROTECTION_PRICE_TYPE, NEP, NEP_FORMULA, BASE_PRICE, BASELINE_NET_WAC,
