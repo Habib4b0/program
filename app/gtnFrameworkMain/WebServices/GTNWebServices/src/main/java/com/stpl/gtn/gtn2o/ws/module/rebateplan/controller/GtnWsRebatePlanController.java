@@ -525,6 +525,7 @@ public class GtnWsRebatePlanController {
 			rpTier.setSecondaryRebatePlanName(ruleDetailBean.getSecondaryRebatePlanNameDesc());
 			if (ruleDetailBean.getItemPricingQualifierSid() != null) {
 				rpTier.setItemPricingQualifierSid(ruleDetailBean.getItemPricingQualifierSid());
+                                rpTier.setFormulaCalculation(ruleDetailBean.getFormulaForCalculation());
 			}
 			if (ruleDetailBean.getReturnRateSid() != null) {
 				rpTier.setHelperTableReturnRateSid(session.get(HelperTable.class, ruleDetailBean.getReturnRateSid()));
