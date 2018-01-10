@@ -42,6 +42,7 @@ public class GtnUIFrameworkEngine {
 		registerErrorHandler(ui);
 		setPortletNameAsUIId(request, ui);
 		gtnLogger.info("Entering into buildvaadinScreen() of GtnUIFrameworkEngine");
+                gtnLogger.info("request.getRemoteUser()"+request.getRemoteUser());
 
 		GtnUIFrameworkGlobalUI.initGlobalUI(request.getRemoteUser());
 		GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkCommonStringConstants.MODULE_NAME, subModuleName);

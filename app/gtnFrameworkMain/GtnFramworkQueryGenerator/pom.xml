@@ -32,7 +32,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin> 
+            </plugin>  
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -44,9 +44,9 @@
                         </manifestFile>
                     </archive>
                 </configuration>
-            </plugin> 
+            </plugin>  
         </plugins>
-    </build>
+                 </build>
     <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
