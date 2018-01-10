@@ -92,8 +92,9 @@ public class SummaryLookUp extends CustomComponent {
                 } else if (tabPosition == NumericConstants.TWO) {
                     rebate.loadResultTable();
                 } else if (tabPosition == NumericConstants.THREE) {
-                    sales.loadResultTable();
-                    rebate.loadResultTable();
+                    salesAndRebate.loadTable();
+//                    sales.loadResultTable();
+//                    rebate.loadResultTable();
                 }
             }
         });
