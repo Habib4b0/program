@@ -25,7 +25,7 @@ public class DataSourceConnection {
     /**
      * The connection.
      */
-    public Connection connection;
+    private Connection connection;
     /**
      * The datasource context.
      */

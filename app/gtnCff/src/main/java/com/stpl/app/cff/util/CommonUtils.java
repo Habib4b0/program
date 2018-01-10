@@ -561,7 +561,7 @@ public class CommonUtils {
         List<CFFSearchDTO> cffSearchDTOs = new ArrayList<>();
         CFFSearchDTO cffSearchDTOLoop;
         SimpleDateFormat form = new SimpleDateFormat("MM/dd/YYYY");
-        Map<Integer, String> userInfo = StplSecurity.userMap;
+        Map<Integer, String> userInfo = StplSecurity.getUserMap();
         for (Object[] obj : resultList) {
             cffSearchDTOLoop = new CFFSearchDTO();
             cffSearchDTOLoop.setFinancialForecastId(String.valueOf(obj[0]));
