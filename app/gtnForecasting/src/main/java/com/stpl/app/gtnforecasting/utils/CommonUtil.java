@@ -549,7 +549,7 @@ public class CommonUtil {
     }
     
     private static boolean displayFormatConditionCheck(List<Object> relationshipValues, Object[] displayFormatIndex) {
-        return !nullCheck(relationshipValues) && !nullCheck(displayFormatIndex) && !relationshipValues.isEmpty() && relationshipValues.size() > NumericConstants.FIVE;
+        return !nullCheck(relationshipValues) && !nullCheck(displayFormatIndex) && !relationshipValues.isEmpty() && relationshipValues.size() > NumericConstants.FIVE && !nullCheck(((List<Object>)relationshipValues.get(5)).get(1));
     }
     
     private static boolean getLevelName(Object value) {
@@ -566,6 +566,8 @@ public class CommonUtil {
                 formattedName += " - ";
             }
             formattedName += value;
+        } else {
+            formattedName += levelName.get(0);
         }
         return formattedName;
     }
