@@ -54,7 +54,7 @@ public class RelationshipLevelValuesMasterBean {
 			finalQry.append(
 					query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed())));
 		}
-		finalQry.append(" ORDER BY LEVEL_NO,VALUE ");
+		finalQry.append(" ORDER BY LEVEL_NO,VALUE DESC");
 		return finalQry.toString();
 	}
 

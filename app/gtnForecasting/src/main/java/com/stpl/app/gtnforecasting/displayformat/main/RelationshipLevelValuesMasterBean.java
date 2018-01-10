@@ -46,18 +46,16 @@ public class RelationshipLevelValuesMasterBean {
 	}
 
 	public String getFinalQuery() {
-		finalQry.append(";WITH CTE AS(");
 		for (int i = 0; i < queryList.size(); i++) {
 			RelationshipLevelValuesBean query = queryList.get(i);
 			if (i != 0) {
 				finalQry.append(UNION_ALL);
 			}
 			finalQry.append(
-					query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed()))
-							.replace("?", String.valueOf(i)));
+					query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed())));
 		}
-		finalQry.append(") SELECT * FROM CTE ORDER BY SID,VALUE DESC");
-		return finalQry.toString();
+		finalQry.append("ORDER BY LEVEL_NO,VALUE DESC");
+             	return finalQry.toString();
 	}
 	public String getDeductionFinalQuery() {
 		for (int i = 0; i < queryList.size(); i++) {
