@@ -127,7 +127,7 @@
                 <module>GtnNewArchSharedLibrary</module>
                 <module>GtnVaadinWidgetSet</module>
                 <module>Modules</module>
-                <module>WebServices</module>
+<!--                <module>WebServices</module>-->
             </modules>
             <activation>
                 <property>
@@ -139,7 +139,7 @@
             </properties>
             <build>
                 <defaultGoal>
-                    clean install com.stpl.gtn.gtn2o:WarReleasePlugin:Release 
+                    clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release 
                 </defaultGoal>
                 <plugins>
                     <plugin>

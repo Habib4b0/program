@@ -279,7 +279,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             @Override
             public void call(JsonArray arguments) {
                  try {
-                    String value = String.valueOf(arguments.get(0));
+                    String value = String.valueOf(arguments.get(0).asString());
                     if (StringUtils.isNotEmpty(value)) {
 
                         fileUpload = CommonUtil.getFilePath(fileUploadPath + value);

@@ -66,17 +66,21 @@
 		<profile>
 			<id>Release-Build</id>
 			<modules>
-				<module>app/gtnPartI</module>
-				<module>app/gtnPartII</module>
-				<module>app/gtnSharedLibrary</module>
+                                <module>app/Resources</module>
+				<module>app/gtnProperties</module>
+				<module>app/gtnUtility</module>
+				<module>app/util-service</module>
+				<module>app/gtnServicePartII_L7</module>
+				<module>app/gtnServicePartI_L7</module>
+				<module>app/gtnHierarchyRouteBuilder</module>
 				<module>app/gtnGlobal</module>
-				<module>app/gtnTransaction</module>
+				<!--<module>app/gtnTransaction</module>-->
 				<module>app/gtnSecurity</module>
 				<module>app/gtnForecasting</module>
 				<module>app/gtnAdminConsole</module>
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
-				<module>app/gtnUtilities</module>
+				<!--<module>app/gtnUtilities</module>-->
 			</modules>
 			<activation>
 				<property>
@@ -88,7 +92,7 @@
 			</properties>
 			<build>
 				<defaultGoal>
-                    clean install com.stpl.gtn.gtn2o:WarReleasePlugin:Release 
+                    clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release 
                 </defaultGoal>
 				<plugins>
 					<plugin>
