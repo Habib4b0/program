@@ -450,7 +450,7 @@ public class GtnFrameworkComplianceAndDeductionRulesLandingScreenConfig {
 	private void addAddButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig cDRAddButtonConfig = gtnFrameworkConfigurationFactory.buildComponentConfig(
 				"complianceAndDeductionRulesAddButton", "ADD", true, GtnUIFrameworkComponentType.BUTTON);
-		cDRAddButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
+//		cDRAddButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		cDRAddButtonConfig.setAuthorizationIncluded(true);
 		cDRAddButtonConfig.setParentComponentId(GtnFrameworkCommonConstants.ACTION_BUTTON_LAYOUT);
 		componentList.add(cDRAddButtonConfig);
@@ -523,10 +523,13 @@ public class GtnFrameworkComplianceAndDeductionRulesLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig changeCaptionActionConfig = gtnFrameworkConfigurationFactory
 				.buildActionConfig(GtnUIFrameworkActionType.CHANGE_CAPTION);
-		Map<String, String> captionMap = new HashMap<>();
-		captionMap.put(GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON, "SAVE");
+//		Map<String, String> captionMap = new HashMap<>();
+//		captionMap.put(GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON, "SAVE");
+                changeCaptionActionConfig.addActionParameter(Arrays.asList(new String[] { GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON }));
+                changeCaptionActionConfig.addActionParameter(Arrays.asList(new String[] { "SAVE" }));
 
-		changeCaptionActionConfig.setActionParameterList(Arrays.asList(new Object[] { captionMap }));
+
+//		changeCaptionActionConfig.setActionParameterList(Arrays.asList(new Object[] { captionMap }));
 		actionConfigList.add(changeCaptionActionConfig);
 
 		cDRAddButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -629,10 +632,12 @@ public class GtnFrameworkComplianceAndDeductionRulesLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig changeCaptionActionConfig = gtnFrameworkConfigurationFactory
 				.buildActionConfig(GtnUIFrameworkActionType.CHANGE_CAPTION);
-		Map<String, String> captionMap = new HashMap<>();
-		captionMap.put(GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON, "UPDATE");
+//		Map<String, String> captionMap = new HashMap<>();
+//		captionMap.put(GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON, "UPDATE");
+                changeCaptionActionConfig.addActionParameter(Arrays.asList(new String[] { GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON }));
+                changeCaptionActionConfig.addActionParameter(Arrays.asList(new String[] { "UPDATE" }));
 
-		changeCaptionActionConfig.setActionParameterList(Arrays.asList(new Object[] { captionMap }));
+//		changeCaptionActionConfig.setActionParameterList(Arrays.asList(new Object[] { captionMap }));
 		actionConfigList.add(changeCaptionActionConfig);
 
 		cDREditButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -735,10 +740,12 @@ public class GtnFrameworkComplianceAndDeductionRulesLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig changeCaptionActionConfig = gtnFrameworkConfigurationFactory
 				.buildActionConfig(GtnUIFrameworkActionType.CHANGE_CAPTION);
-		Map<String, String> captionMap = new HashMap<>();
-		captionMap.put(GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON, "SAVE");
-
-		changeCaptionActionConfig.setActionParameterList(Arrays.asList(new Object[] { captionMap }));
+//		Map<String, String> captionMap = new HashMap<>();
+//		captionMap.put(GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON, "SAVE");
+//
+//		changeCaptionActionConfig.setActionParameterList(Arrays.asList(new Object[] { captionMap }));
+                changeCaptionActionConfig.addActionParameter(Arrays.asList(new String[] { GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON }));
+                changeCaptionActionConfig.addActionParameter(Arrays.asList(new String[] { "SAVE" }));
 		actionConfigList.add(changeCaptionActionConfig);
 
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -867,7 +874,7 @@ public class GtnFrameworkComplianceAndDeductionRulesLandingScreenConfig {
 				GtnFrameworkCommonConstants.CDR_INFO_GTN_RESET_BUTTON, GtnFrameworkCommonConstants.NOTES_TAB };
 
 		disableAction.addActionParameter(GtnFrameworkCommonConstants.RULE_INFORMATION_RULE_TYPE);
-		disableAction.getActionParameterList().addAll(Arrays.asList(disableField));
+		disableAction.addActionParameter(Arrays.asList(disableField));
 		actionConfigList.add(disableAction);
 
 		GtnUIFrameWorkActionConfig visibleAction = new GtnUIFrameWorkActionConfig();
@@ -883,10 +890,12 @@ public class GtnFrameworkComplianceAndDeductionRulesLandingScreenConfig {
 
 		GtnUIFrameWorkActionConfig changeCaptionActionConfig = gtnFrameworkConfigurationFactory
 				.buildActionConfig(GtnUIFrameworkActionType.CHANGE_CAPTION);
-		Map<String, String> captionMap = new HashMap<>();
-		captionMap.put(GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON, "SAVE");
+//		Map<String, String> captionMap = new HashMap<>();
+//		captionMap.put(GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON, "SAVE");
+                changeCaptionActionConfig.addActionParameter(Arrays.asList(new String[] { GtnFrameworkCommonConstants.CDR_ADD_SAVE_BUTTON }));
+                changeCaptionActionConfig.addActionParameter(Arrays.asList(new String[] { "SAVE" }));
 
-		changeCaptionActionConfig.setActionParameterList(Arrays.asList(new Object[] { captionMap }));
+//		changeCaptionActionConfig.setActionParameterList(Arrays.asList(new Object[] { captionMap }));
 		actionConfigList.add(changeCaptionActionConfig);
 
 		cDRCopyButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
