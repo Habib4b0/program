@@ -2088,9 +2088,9 @@ public class CommonLogic {
                 setNewProjectionId(newProjectionId);
                 setForecastingType(String.valueOf(projectionMasterRow[NumericConstants.TWO]));
                 cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, true, session);
-                for (Object relationshipLevelSid : relationshipBuilderSids) {
-                    updateCustomerOrProductHierarchy(false, newProjectionId, String.valueOf(relationshipLevelSid));
-                }
+//                for (Object relationshipLevelSid : relationshipBuilderSids) {  //  FOREIGN KEY constraint , twice insert is happening in PROJECTION_PROD_HIERARCHY , PROJECTION_CUST_HIERARCHY
+//                    updateCustomerOrProductHierarchy(false, newProjectionId, String.valueOf(relationshipLevelSid));
+//                }
                 if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, session)) {
                     String marketType = StringUtils.EMPTY;
                     Object[] inputs = new Object[NumericConstants.FOUR];

@@ -235,7 +235,7 @@ public class CFFResultsDTO {
      * @return created Date
      */
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
     
     /**
@@ -243,14 +243,14 @@ public class CFFResultsDTO {
      * @param createdDate 
      */
     public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
     /**
      * Gets Approval date
      * @return the approval Date
      */
     public Date getApprovalDate() {
-        return approvalDate;
+        return approvalDate == null ? null : (Date) approvalDate.clone();
     }
     
     /**
@@ -258,7 +258,7 @@ public class CFFResultsDTO {
      * @param approvalDate 
      */
     public void setApprovalDate(Date approvalDate) {
-        this.approvalDate = approvalDate;
+        this.approvalDate = approvalDate == null ? null : (Date) approvalDate.clone();
     }
 
     
