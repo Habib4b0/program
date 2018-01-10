@@ -11,7 +11,8 @@ import com.vaadin.server.StreamResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinResponse;
 import java.io.IOException;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,7 +20,7 @@ import org.jboss.logging.Logger;
  */
 public class OnDemandFileDownloader extends FileDownloader {
     
-    private static final Logger LOGGER = Logger.getLogger(OnDemandFileDownloader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OnDemandFileDownloader.class);
     public static final int BUFFER_SIZE = 1024 * 4;
 
     /**
@@ -55,7 +56,7 @@ public class OnDemandFileDownloader extends FileDownloader {
             falg = super.handleConnectorRequest(request, response, path);
         } catch (Exception e) {
             System.out.println("No record Found to Export :"+e);
-               LOGGER.info(e);
+               LOGGER.info(e.getMessage());
         }
         return falg;
     }

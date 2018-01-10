@@ -14,7 +14,8 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox.ClickListener;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -67,7 +68,7 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
  */
 public class CFFSearchLookUp extends Window {
 
-    private static final Logger LOGGER = Logger.getLogger(CFFSearchLookUp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CFFSearchLookUp.class);
 
     private ProcessSchedulerDTO psDTO = new ProcessSchedulerDTO();
 
@@ -360,7 +361,7 @@ public class CFFSearchLookUp extends Window {
             });
             LOGGER.debug("Exists ConsolidatedFinancialForecastForm Configure Field method");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -396,7 +397,7 @@ public class CFFSearchLookUp extends Window {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -463,7 +464,7 @@ public class CFFSearchLookUp extends Window {
             resultTable.setImmediate(true);
             resultTable.setColumnCheckBox(CHECK_RECORD, true, false);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -478,7 +479,7 @@ public class CFFSearchLookUp extends Window {
             resultTable.setImmediate(true);
             resultTable.setSelectable(true);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -519,7 +520,7 @@ public class CFFSearchLookUp extends Window {
                         "Please select a CFF for Outbound.");
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
             com.stpl.ifs.ui.util.AbstractNotificationUtils.getErrorNotification(MessageUtil.getMessage(Message.ERROR_HEADER), displayName + confirmationMessage.getString("MSG_ID_046"));
         } finally {
             process.unlock();

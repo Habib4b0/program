@@ -15,7 +15,8 @@ import java.util.List;
 import org.asi.ui.addons.lazycontainer.DAO;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -28,7 +29,7 @@ public class HierarchyNameContainer implements DAO<HelperDTO> {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(HierarchyNameContainer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HierarchyNameContainer.class);
 
     /**
      * The manufacture id.
@@ -94,7 +95,7 @@ public class HierarchyNameContainer implements DAO<HelperDTO> {
             LOGGER.debug("Entering HierarchyNameContainer find method :");
             return ProcessSchedulerLogic.getLazyHierarchyNameResults(startIndex, startIndex + offset, searchCriteria.getFilter());
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
             final String errorMsg = ErrorCodeUtil.getErrorMessage(ex);
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
         }

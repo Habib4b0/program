@@ -15,36 +15,34 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${springmvc}</version>
-            <scope>provided</scope>
+            
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.databind.version}</version>
-            <scope>provided</scope>
+            
         </dependency>
-
-
         <dependency>
             <groupId>com.stpl.gtn.gtn2o</groupId>
             <artifactId>GtnWsSecurity</artifactId>
             <version>${gtnsecurity.version}</version>
             <type>jar</type>
-            <scope>provided</scope>
+            
         </dependency>
         <dependency>
             <groupId>com.stpl.gtn.gtn2o</groupId>
             <artifactId>GtnFrameworkPropertyManager</artifactId>
             <version>${GtnFrameworkPropertyManager.version}</version>
             <type>jar</type>
-            <scope>provided</scope>
+            
         </dependency>
         <dependency>
             <groupId>com.stpl.gtn.gtn2o</groupId>
             <artifactId>GtnLogger</artifactId>
             <version>1.0</version>
             <type>jar</type>
-            <scope>provided</scope>
+            
         </dependency>
     </dependencies>
 
@@ -53,7 +51,9 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
-        
+<!--    <profiles>
+        <profile>
+            <id>OSGI-BUILD</id>-->
     <build>
         <plugins>  
             <plugin>
@@ -82,4 +82,6 @@
             </plugin> 
         </plugins>
     </build>
+<!--        </profile>
+    </profiles>-->
 </project>

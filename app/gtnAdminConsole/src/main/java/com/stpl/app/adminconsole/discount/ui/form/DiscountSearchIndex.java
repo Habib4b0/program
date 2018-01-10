@@ -4,7 +4,8 @@ import com.stpl.addons.tableexport.ExcelExport;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.stpl.app.adminconsole.archive.ui.form.ArchiveIndex;
 import com.stpl.app.adminconsole.discount.dto.DiscountSearchDTO;
 import com.stpl.app.adminconsole.discount.logic.DiscountLogic;
@@ -70,7 +71,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ArchiveIndex.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveIndex.class);
     /**
      * The error msg.
      */
@@ -658,7 +659,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
                     }
 
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4005));
                 }
                 LOGGER.debug("In configureFields search Button Listener Ended");
@@ -694,7 +695,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
                         VaadinSession.getCurrent().setAttribute(CommonUtil.LOGIC, "edit");
                         getUI().getNavigator().navigateTo(DiscountAddView.NAME);
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                       LOGGER.error(ex.getMessage());
                     }
                 }
 
@@ -747,7 +748,7 @@ public class DiscountSearchIndex extends CustomComponent implements View {
                             try {
                                 resetButtonClickLogic();
                             } catch (Exception e) {
-                                LOGGER.error(e);
+                                LOGGER.error(e.getMessage());
                                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4002));
                             }
                         }
@@ -924,13 +925,13 @@ public class DiscountSearchIndex extends CustomComponent implements View {
 
                                 } catch (SystemException e) {
                                     final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
-                                    LOGGER.error(e);
+                                    LOGGER.error(e.getMessage());
                                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
                                 } catch (PortalException e) {
-                                    LOGGER.error(e);
+                                    LOGGER.error(e.getMessage());
                                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
                                 } catch (Exception e) {
-                                    LOGGER.error(e);
+                                    LOGGER.error(e.getMessage());
                                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
                                 }
                             }

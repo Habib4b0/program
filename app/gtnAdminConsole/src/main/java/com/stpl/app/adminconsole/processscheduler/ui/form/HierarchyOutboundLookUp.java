@@ -2,7 +2,8 @@ package com.stpl.app.adminconsole.processscheduler.ui.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.adminconsole.common.util.CommonUIUtil;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stpl.app.adminconsole.processscheduler.dto.HierarchyDefinitionDTO;
 import com.stpl.app.adminconsole.processscheduler.dto.OutboundFilterGenerator;
@@ -60,7 +61,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public final class HierarchyOutboundLookUp extends Window {
 
-    private static final Logger LOGGER = Logger.getLogger(HierarchyOutboundLookUp.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HierarchyOutboundLookUp.class);
 
     @UiField("errorMsg")
     private ErrorLabel errorMsg;
@@ -211,7 +212,7 @@ public final class HierarchyOutboundLookUp extends Window {
                     }
 
                 } catch (Property.ReadOnlyException | Converter.ConversionException exception) {
-                    LOGGER.error(exception);
+                   LOGGER.error(exception.getMessage());
 
                 }
                 return null;
@@ -259,7 +260,7 @@ public final class HierarchyOutboundLookUp extends Window {
             CommonUtils commonUtil = CommonUtils.getInstance();
             commonUtil.loadComboBox(hierarchyCategory, CommonUIUtil.HIERARCHY_CATEGORY, false);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -280,7 +281,7 @@ public final class HierarchyOutboundLookUp extends Window {
             }
 
         } catch (Exception exception) {
-            LOGGER.error(exception);
+           LOGGER.error(exception.getMessage());
         }
     }
 
@@ -299,7 +300,7 @@ public final class HierarchyOutboundLookUp extends Window {
             resultTable.setCurrentPage(resultTable.getCurrentPage());
             resultTable.markAsDirtyRecursive();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -338,7 +339,7 @@ public final class HierarchyOutboundLookUp extends Window {
 
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("outboundBtn click listener ends");
     }

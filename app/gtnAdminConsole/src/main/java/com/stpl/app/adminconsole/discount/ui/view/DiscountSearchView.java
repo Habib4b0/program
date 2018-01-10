@@ -31,7 +31,7 @@ public class DiscountSearchView extends VerticalLayout implements View {
             addComponent(new AbstractSearchForm(ConstantsUtils.DEDUCTION_GROUPING, sessionDTO));
             setStyleName("bootstrap");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -48,7 +48,7 @@ public class DiscountSearchView extends VerticalLayout implements View {
             setSpacing(true);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
 
     }

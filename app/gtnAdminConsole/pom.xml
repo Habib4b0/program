@@ -154,12 +154,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging</artifactId>
-            <version>${org.jboss.logging.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>de.steinwedel.vaadin.addon</groupId>
             <artifactId>messagebox</artifactId>
             <version>${de.steinwedel.vaadin.addon.version}</version>
@@ -216,6 +210,11 @@
             <artifactId>util-java</artifactId>
             <version>${com.stpl.portal.version}</version>
             <scope>provided</scope>
+        </dependency>
+       <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.2</version>
         </dependency>
         <dependency>
             <groupId>org.vaadin.addons</groupId>

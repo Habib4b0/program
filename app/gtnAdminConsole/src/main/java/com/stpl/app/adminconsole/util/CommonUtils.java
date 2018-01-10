@@ -52,7 +52,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.addons.lazycontainer.LazyContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -108,7 +109,7 @@ public class CommonUtils {
      * The Constant MMDDYYYY.
      */
     public static final String MMDDYYYY = "MM/dd/yyyy";
-    private static final Logger LOGGER = Logger.getLogger(CommonUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtils.class);
 
     /**
      * The helper list util.
@@ -222,7 +223,7 @@ public class CommonUtils {
                 select.addItem(helperDTO);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         return select;
     }
@@ -417,7 +418,7 @@ public class CommonUtils {
         try {
             return checkETL(String.valueOf(userId));
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         return false;
 
@@ -453,7 +454,7 @@ public class CommonUtils {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -467,9 +468,9 @@ public class CommonUtils {
             resultList = DAO.getHelperTableList(helperDynamicQuery);
 
         } catch (PortalException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         return resultList;
     }
@@ -645,7 +646,7 @@ public class CommonUtils {
             notif.show(Page.getCurrent());
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
     public static HashMap<Long, String> setUserInfo() {
@@ -655,7 +656,7 @@ public class CommonUtils {
         try {
             users = UserLocalServiceUtil.dynamicQuery(userGroupDynamicQuery);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
 
         for (User user : users) {
