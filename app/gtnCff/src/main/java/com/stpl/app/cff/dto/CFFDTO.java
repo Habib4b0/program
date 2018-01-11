@@ -36,11 +36,11 @@ public class CFFDTO {
     }
 
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public int getCreatedBy() {
@@ -68,11 +68,11 @@ public class CFFDTO {
     }
 
     public Date getApprovedDate() {
-        return approvedDate;
+        return approvedDate == null ? null : (Date) approvedDate.clone();
     }
 
     public void setApprovedDate(Date approvedDate) {
-        this.approvedDate = approvedDate;
+        this.approvedDate = approvedDate == null ? null : (Date) approvedDate.clone();
     }
 
     public String getApprovedBy() {
@@ -116,11 +116,11 @@ public class CFFDTO {
     }
 
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     public String getProjectionIds() {

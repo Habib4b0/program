@@ -1,6 +1,5 @@
 package com.stpl.app.util;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class contains the String constants used in functions.
  * @author 

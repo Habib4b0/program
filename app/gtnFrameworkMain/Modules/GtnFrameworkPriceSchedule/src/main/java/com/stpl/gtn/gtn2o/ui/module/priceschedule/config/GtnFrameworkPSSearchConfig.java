@@ -139,7 +139,7 @@ public class GtnFrameworkPSSearchConfig {
 				GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO, true,
 				GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO_LAYOUT, GtnUIFrameworkComponentType.TEXTBOX);
 		priceScheduleNo.setAuthorizationIncluded(true);
-		priceScheduleNo.setComponentName("Price Schedule NO");
+		priceScheduleNo.setComponentName("Price Schedule No");
 
 		GtnUIFrameworkValidationConfig priceScheduleNoValidationConfig = new GtnUIFrameworkValidationConfig();
 		List<GtnUIFrameworkConditionalValidationType> conditions = new ArrayList<>();

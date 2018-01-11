@@ -54,6 +54,10 @@ public class TableDTO extends ExtMapDTO implements Comparator<TableDTO> {
     
     private static final Logger LOGGER = Logger.getLogger(TableDTO.class);
 
+    public TableDTO() {
+        super();
+    }
+
 
     @Override
     public int compare(TableDTO obj1, TableDTO obj2) {
@@ -76,7 +80,7 @@ public class TableDTO extends ExtMapDTO implements Comparator<TableDTO> {
 
                 }
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
 

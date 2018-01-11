@@ -886,32 +886,29 @@ public class MedicaidURAResultsLogic {
         return projDTOList;
     }
 
-    public String medicaidProcSetupDataCook(SessionDTO session, String priceBasis) throws NamingException, SQLException {
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
+        public String medicaidProcSetupDataCook(SessionDTO session, String priceBasis) throws NamingException, SQLException {
+        DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+        } catch (NamingException namEx)
+        {
+            LOGGER.debug("Inside medicaidProcSetupDataCook: " + namEx);
+        }
             if (datasource != null) {
-                connection = datasource.getConnection();
-            }
-            if (connection != null) {
-                statement = connection.prepareCall("{call PRC_MEDICAID_URA_WORKSHEET(?,?,?,?)}");
+                try (Connection connection = datasource.getConnection();
+                        CallableStatement statement = connection.prepareCall("{call PRC_MEDICAID_URA_WORKSHEET(?,?,?,?)}"))
+                {
                 statement.setInt(1, session.getProjectionId());
                 statement.setObject(NumericConstants.TWO, priceBasis);
                 statement.setInt(NumericConstants.THREE, Integer.valueOf(session.getUserId()));
                 statement.setObject(NumericConstants.FOUR, session.getSessionId());
                 statement.execute();
+            } catch (SQLException ex)
+            {
+                LOGGER.debug("Inside medicaidProcSetupDataCook: " + ex);
             }
-        } finally {
-            if (statement != null) {
-                statement.close();
             }
-            if (connection != null) {
-                connection.close();
-            }
-        }
         return "Success";
     }
 
@@ -1021,43 +1018,33 @@ public class MedicaidURAResultsLogic {
     }
 
     public String workSheetSetupCook(int itemMasterSid, String priceType, String workSheet, String ndc9, SessionDTO session) throws NamingException, SQLException {
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
+        DataSource datasource = null;
         boolean status;
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+        } catch (NamingException namingExcep)
+        {
+            LOGGER.debug("workSheetSetupCook: "+ namingExcep);
+        }
             if (datasource != null) {
-                connection = datasource.getConnection();
-            } else {
-                LOGGER.debug("Failed in datasource.");
-            }
-            if (connection != null) {
-                LOGGER.debug("Got Connection " + connection.toString()
-                        + ", itemMasterSid==========>" + itemMasterSid);
-
-                statement = connection.prepareCall("{call PRC_NA_ADJUSTMENT(?,?,?,?,?,?)}");
+                try (Connection connection = datasource.getConnection();
+                      CallableStatement statement = connection.prepareCall("{call PRC_NA_ADJUSTMENT(?,?,?,?,?,?)}"))
+                {
                 statement.setObject(1, itemMasterSid);
                 statement.setObject(NumericConstants.TWO, priceType);
                 statement.setObject(NumericConstants.THREE, workSheet);
                 statement.setObject(NumericConstants.FOUR, session.getUserId());
                 statement.setObject(NumericConstants.FIVE, session.getSessionId());
                 statement.setObject(NumericConstants.SIX, ndc9);
-
                 status = statement.execute();
                 LOGGER.debug("procedure call ended  status--------->" + status);
+            } catch (SQLException ex)
+            {
+                LOGGER.debug("workSheetSetupCook: "+ ex);
             }
-        } finally {
-            if (statement != null) {
-                statement.close();
             }
-            if (connection != null) {
-                connection.close();
-            }
-        }
         return "SUCCESS";
-
     }
 
     public List<TableDTO> getWorksheetOverrideData(List<Object[]> list, ProjectionSelectionDTO projSelDTO, TableDTO medicaidDTO, String groupIndicator, DecimalFormat format) {

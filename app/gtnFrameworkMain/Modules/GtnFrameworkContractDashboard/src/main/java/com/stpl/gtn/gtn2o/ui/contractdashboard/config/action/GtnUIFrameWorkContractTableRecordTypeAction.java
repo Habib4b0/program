@@ -26,6 +26,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
  * @author STPL
  */
 public class GtnUIFrameWorkContractTableRecordTypeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnUIFrameWorkContractTableRecordTypeAction.class);
 
 	@Override
@@ -79,32 +80,44 @@ public class GtnUIFrameWorkContractTableRecordTypeAction implements GtnUIFrameWo
 	}
 
 	private Object getFieldValue(GtnWsRecordBean contractTableRecordBean) {
-		String depandingValue = contractTableRecordBean.getStringPropertyByIndex(51);
+		String depandingValue = contractTableRecordBean.getStringPropertyByIndex(52);
 		if (depandingValue.startsWith("P")) {
-			return contractTableRecordBean.getPropertyValueByIndex(52);
+			return contractTableRecordBean.getPropertyValueByIndex(53);
 		}
 		if (depandingValue.startsWith("D")) {
-			Object value = contractTableRecordBean.getPropertyValueByIndex(53);
+			Object value = contractTableRecordBean.getPropertyValueByIndex(54);
 			if (value != null && Long.class.isAssignableFrom(value.getClass())) {
 				value = new Date((Long) value);
 			}
 			return value;
 		}
 		if (depandingValue.startsWith("M")) {
-			return contractTableRecordBean.getStringPropertyByIndex(54).trim();
+			return contractTableRecordBean.getStringPropertyByIndex(55).trim();
 		}
 		return "";
 	}
 
 	private Object getFieldValuePriceTolerance(GtnWsRecordBean bean) {
-		String depandingValue = bean.getStringPropertyByIndex(48);
-		if (!(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY.equals(depandingValue ))&&(!(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY.equals(bean.getPropertyValueByIndex(22))))&&(bean.getIndex(GtnFrameworkContractDashboardContants.PRICE_TOLERANCE) == 22)) {						
+		GtnUIFrameworkBaseComponent priceprotectionpricingTable = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkContractDashboardContants.PRICING_TAB_PRICING_TABLE);
+		String depandingValue = null;
+		if (!(priceprotectionpricingTable.getExtPagedTable().isReadOnly())) {
+			depandingValue = bean.getStringPropertyByIndex(48);
+		} else {
+			depandingValue = bean.getStringPropertyByIndex(56);
+		}
+		if (!(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY.equals(depandingValue))
+				&& (!(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY.equals(bean.getPropertyValueByIndex(22))))
+				&& (bean.getIndex(GtnFrameworkContractDashboardContants.PRICE_TOLERANCE) == 22)) {
 			DecimalFormat formatDecimal = new DecimalFormat(GtnFrameworkContractDashboardContants.TWODECIMAL_ZERO);
-			if (depandingValue.startsWith(GtnFrameworkContractDashboardContants.PER) || depandingValue.startsWith(GtnFrameworkContractDashboardContants.PERCENTAGE)) {
-				return formatDecimal.format(bean.getDoublePropertyByIndex(22)) + GtnFrameworkContractDashboardContants.PERCENTAGE;
+			if (depandingValue.startsWith(GtnFrameworkContractDashboardContants.PER)
+					|| depandingValue.startsWith(GtnFrameworkContractDashboardContants.PERCENTAGE)) {
+				return formatDecimal.format(bean.getDoublePropertyByIndex(22))
+						+ GtnFrameworkContractDashboardContants.PERCENTAGE;
 			}
 			if (depandingValue.startsWith(GtnFrameworkContractDashboardContants.DOL)) {
-				return GtnFrameworkContractDashboardContants.DOLLER + formatDecimal.format(bean.getDoublePropertyByIndex(22));
+				return GtnFrameworkContractDashboardContants.DOLLER
+						+ formatDecimal.format(bean.getDoublePropertyByIndex(22));
 
 			}
 		}
