@@ -76,9 +76,9 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		loadNotesTab(beanList, rsInfoBean);
 		Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
 		if (mode == GtnUIFrameworkModeType.VIEW) {
-			isEditable = true;
+			isEditable = false;
 			setTableHeaderAndVisibleColumn(isEditable);
-			setTableEnableDisable(false);
+			setTableEnableDisable(isEditable);
 		} else if (mode.equals("EDIT")) {
 			isEditable = true;
 			setTableHeaderAndVisibleColumn(isEditable);
@@ -188,12 +188,30 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 			rsRebateSetupTabResultDataTable.setTableColumns(visibleColumns);
 			rsRebateSetupTabResultDataTable.setTableColumnHeaders(tableHeader);
 		} else {
-			GtnUIFrameworkBaseComponent rsRebateSetupTabResultDataTableForView = GtnUIFrameworkGlobalUI
+			String calculationType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("calculationType1")
+					.getCaptionFromComboBox();
+			String[] tableHeader;
+			Object[] visibleColumns;
+			if (calculationType.equals("Rebate Plan")) {
+				tableHeader = GtnFrameworkRSConstants.getRsSetUpTabCalculationTypeRebatePlanTableHeadersforView();
+				visibleColumns = GtnFrameworkRSConstants.getRsSetUPTabCalculationTypeRebatePlanVisibleColumnsforView();
+			} else if (calculationType.equals("Formula")) {
+				tableHeader = GtnFrameworkRSConstants.getRsSetUpTabCalculationTypeFormulaTableHeadersforView();
+				visibleColumns = GtnFrameworkRSConstants.getRsSetUPTabCalculationTypeFormulaVisibleColumnsforView();
+			} else if (calculationType.equals("Deduction Calendar")) {
+				tableHeader = GtnFrameworkRSConstants
+						.getRsSetUpTabCalculationTypeDeductionCalendarTableHeadersforView();
+				visibleColumns = GtnFrameworkRSConstants
+						.getRsSetUpTabCalculationTypeDeductionCalendarVisibleColumnsforView();
+			} else {
+				tableHeader = GtnFrameworkRSConstants.getRsSetupTabVisibleHeadersView();
+				visibleColumns = GtnFrameworkRSConstants.getRsSetupTabVisibleColumnsView();
+			}
+			GtnUIFrameworkBaseComponent rsRebateSetupTabResultDataTable = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE);
-			rsRebateSetupTabResultDataTableForView
-					.setTableColumns(GtnFrameworkRSConstants.getRsSetupTabVisibleColumnsView());
-			rsRebateSetupTabResultDataTableForView
-					.setTableColumnHeaders(GtnFrameworkRSConstants.getRsSetupTabVisibleHeadersView());
+			rsRebateSetupTabResultDataTable.setTableColumns(visibleColumns);
+			rsRebateSetupTabResultDataTable.setTableColumnHeaders(tableHeader);
+
 		}
 
 	}
