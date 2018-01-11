@@ -27,11 +27,12 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.IndexedContainer;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UdcLogic {
 
-    private static final Logger LOGGER = Logger
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(UdcLogic.class.getName());
     private static final String CATEGORY = "CategoryName";
     private static final String BRAND_NAME = "brandName";
@@ -50,7 +51,7 @@ public class UdcLogic {
             helperQuery.addOrder(OrderFactoryUtil.asc(CommonUtils.DESCRIPTION));
             list = dao.getListName(helperQuery);
         } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -73,7 +74,7 @@ public class UdcLogic {
             list = dao.getDescrition(listName);
         } catch (SystemException e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -98,7 +99,7 @@ public class UdcLogic {
             list = dao.getDescrition(listName);
         } catch (SystemException e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -264,7 +265,7 @@ public class UdcLogic {
 
             return "fail";
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return "fail";
         }
 
@@ -278,9 +279,9 @@ public class UdcLogic {
 
         } catch (RuntimeException e) {
             AbstractNotificationUtils.getErrorNotification("Error", "This Value is already in use hence it cannot be deleted");
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return helperTable;
     }
@@ -355,7 +356,7 @@ public class UdcLogic {
 
             return brandTable;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return brandTable;
     }

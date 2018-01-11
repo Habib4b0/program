@@ -24,7 +24,8 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.v7.ui.Table;
 import com.stpl.app.security.businessRoleModuleMaster.util.CommonUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * 
  * @author suthan
@@ -33,7 +34,7 @@ public class ButtonLayout extends HorizontalLayout {
 
 	private static final long serialVersionUID = -8493167007955745933L;
 	private ErrorfulFieldGroup binder;
-	private static final Logger LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ButtonLayout.class.getName());
 	BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
 	Table table;
@@ -141,15 +142,15 @@ public class ButtonLayout extends HorizontalLayout {
 					}
 				} catch (SystemException e) {
 					// TODO Auto-generated catch block
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
                                    
 				}  catch (CommitException e) {
 					// TODO Auto-generated catch block
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
                                       
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
                                       
 				}
 

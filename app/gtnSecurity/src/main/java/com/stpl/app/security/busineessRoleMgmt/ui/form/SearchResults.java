@@ -17,13 +17,14 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SearchResults extends CustomComponent {
 
 	private static final long serialVersionUID = 1L;
         
-        private static final Logger LOGGER = Logger.getLogger(SearchResults.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(SearchResults.class);
 
 	final ErrorLabel errorMsg = new ErrorLabel();
 	final Label space = new Label("&nbsp;", ContentMode.HTML);
@@ -98,7 +99,7 @@ public class SearchResults extends CustomComponent {
 								selectedItem));
 						
 					} catch (CommitException e) {
-                                             LOGGER.error(e);
+                                             LOGGER.error(e.getMessage());
 					}
 				} else {
 					binder.setItemDataSource(new BeanItem<BusinessroleMasterDTO>(new BusinessroleMasterDTO()));

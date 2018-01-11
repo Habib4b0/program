@@ -28,11 +28,12 @@ import com.vaadin.v7.ui.NativeSelect;
 import com.vaadin.ui.Notification;
 import com.vaadin.v7.ui.TwinColSelect;
 import com.vaadin.v7.ui.VerticalLayout;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SearchForm extends CustomComponent {
     private static final long serialVersionUID = 8893447767363695369L;
-    private static final Logger LOGGER = Logger
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(SearchForm.class.getName());
     final ErrorLabel errorMsg = new ErrorLabel();
     final Label space = new Label("&nbsp;", ContentMode.HTML);
@@ -182,7 +183,7 @@ public class SearchForm extends CustomComponent {
 	                     notif.show(Page.getCurrent());
 					}
 				} catch (Exception e) {
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
 				}
 			}
 		});

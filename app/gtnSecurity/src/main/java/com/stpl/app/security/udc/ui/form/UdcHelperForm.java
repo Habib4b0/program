@@ -57,7 +57,8 @@ import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Map;
 import org.asi.ui.addons.lazycontainer.LazyBeanItemContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UdcHelperForm extends CustomComponent implements View {
 
@@ -93,7 +94,7 @@ public class UdcHelperForm extends CustomComponent implements View {
     Button btnDelete = new Button("Delete");
     Button btnSave1 = new Button("Add");
 
-    private static final Logger LOGGER = Logger
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(UdcHelperForm.class.getName());
 
     BeanItemContainer<HelperForm> searchResultbeans;
@@ -227,10 +228,8 @@ public class UdcHelperForm extends CustomComponent implements View {
                 }
             });
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
+        } catch (PortalException | SystemException ex) {
+            LOGGER.error(ex.getMessage());
         }
         return table;
     }
@@ -424,12 +423,12 @@ public class UdcHelperForm extends CustomComponent implements View {
                     displayBrand.setValue(StringUtils.EMPTY);
                         
                     } catch (Exception e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
 
                     }
 
                 } catch (CommitException e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
 
                 }
             }
@@ -552,7 +551,7 @@ public class UdcHelperForm extends CustomComponent implements View {
                     }
 
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
 
                 }
 
@@ -587,9 +586,9 @@ public class UdcHelperForm extends CustomComponent implements View {
             }
 
         } catch (PortalException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -605,7 +604,7 @@ public class UdcHelperForm extends CustomComponent implements View {
         try {
             resultList = new SecurityImpl().fetchFieldsForSecurity(moduleName, tabName, null, null, null);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return resultList;
     }

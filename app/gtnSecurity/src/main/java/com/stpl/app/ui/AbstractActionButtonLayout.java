@@ -9,13 +9,14 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractActionButtonLayout extends HorizontalLayout{
 
 	private static final long serialVersionUID = 1L;
         
-        private static final Logger LOGGER = Logger.getLogger(AbstractActionButtonLayout.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(AbstractActionButtonLayout.class);
 
 	protected ErrorfulFieldGroup binder;
 	protected boolean enableDelete=false;
@@ -61,7 +62,7 @@ public abstract class AbstractActionButtonLayout extends HorizontalLayout{
 					notif.setStyleName("mystyle");
 					notif.show(Page.getCurrent());
 				} catch (CommitException e) {
-                                     LOGGER.error(e);
+                                     LOGGER.error(e.getMessage());
 					
 				}
 			}

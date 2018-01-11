@@ -14,7 +14,8 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.v7.ui.Table;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author arankumar
@@ -24,7 +25,7 @@ public abstract class AbstractSearchButtonLayout  extends HorizontalLayout{
 
 	private static final long serialVersionUID = 1L;
         
-        private static final Logger LOGGER = Logger.getLogger(AbstractSearchButtonLayout.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchButtonLayout.class);
 
 	
 	private ErrorfulFieldGroup binder;
@@ -72,7 +73,7 @@ public abstract class AbstractSearchButtonLayout  extends HorizontalLayout{
 					notif.setStyleName("mystyle");
 					notif.show(Page.getCurrent());
 				} catch (CommitException e) {
-                                     LOGGER.error(e);
+                                     LOGGER.error(e.getMessage());
 					
 				}
 			}
