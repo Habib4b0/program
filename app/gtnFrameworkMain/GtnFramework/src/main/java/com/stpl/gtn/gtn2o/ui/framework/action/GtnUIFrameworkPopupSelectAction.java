@@ -60,6 +60,8 @@ public class GtnUIFrameworkPopupSelectAction implements GtnUIFrameWorkAction {
 			} else {
 				newValue = dto.getPropertyValueByIndex(Integer.parseInt(inputColumIds.get(i)));
 			}
+                          GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponentFromParent(outputFieldIds.get(i), componentId).getComponentData().setCustomData(dto); 
 			if (vaadinField != null) {
 				boolean isReadOnly = vaadinField.isReadOnly();
 				vaadinField.setReadOnly(false);

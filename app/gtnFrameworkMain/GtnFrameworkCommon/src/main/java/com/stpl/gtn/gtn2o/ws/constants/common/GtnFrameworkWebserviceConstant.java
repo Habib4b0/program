@@ -181,7 +181,8 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String PS_NET_B_SUBSEQ_PERIOD_PRICE = "psNetBSubseqPeriodPrice";
 	public static final String PS_NET_RESET_PRICE_FORMULA_NAME = "psNetResetPriceFormulaName";
 	public static final String PS_NET_RESET_PRICE_FORMULA_ID = "psNetResetPriceFormulaId";
-	public static final String NET_RESET_PRICE_FORMULA_ID = "NET_RESET_PRICE_FORMULA_ID";        
+	public static final String NET_RESET_PRICE_FORMULA_ID = "NET_RESET_PRICE_FORMULA_ID"; 
+        public static final String NET_PRICE_TYPE_FORMULA = "NET_PRICE_TYPE_FORMULA";
 	public static final String PS_NET_RESET_PRICE_FORMULA_ID_ONE = "psNetResetPriceFormulaId1";
 	public static final String PS_NET_SUBSEQUENT_PRICE_FORMULA_ID_ONE = "psNetBSubseqPriceFormulaId1";
 	public static final String PS_NET_BASE_PRICE_FORMULA_ID_ONE = "psNetBasePriceFormulaId1";
