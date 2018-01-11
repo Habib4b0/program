@@ -17,7 +17,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -224,7 +225,7 @@ public class AbstractSearchForm extends CustomComponent {
     private final Map<String, String> SecuritymoduleName = new HashMap<>();
     private CommonUtils commonUtil = CommonUtils.getInstance();
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
-    private static final Logger LOGGER = Logger.getLogger(AbstractSearchForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchForm.class);
     private final AbstractSearchLogic searchLogic = new AbstractSearchLogic();
     public static ResourceBundle columnBundle = ResourceBundle.getBundle("properties.tableColumns");
     private DiscountLogic discountLogic = new DiscountLogic();
@@ -332,7 +333,7 @@ public class AbstractSearchForm extends CustomComponent {
             excel.setHtmlContentAllowed(true);
             LOGGER.debug("Exits configureFields() ");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -349,7 +350,7 @@ public class AbstractSearchForm extends CustomComponent {
                 tempObj.setValue(ValidationUtil.getLabel(key));
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -403,7 +404,7 @@ public class AbstractSearchForm extends CustomComponent {
                 }
             resultTable.setValue(null);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
     }
@@ -416,7 +417,7 @@ public class AbstractSearchForm extends CustomComponent {
 
             return etlCheck;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
             AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1015));
         }
         return false;
@@ -460,10 +461,10 @@ public class AbstractSearchForm extends CustomComponent {
                 tableLogic.clearAll();
                 tableLogic.getFilters().clear();
                 resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
-                LOGGER.error(commit);
+                LOGGER.error(commit.getMessage());
             } catch (Exception exception) {
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
-                LOGGER.error(exception);
+                LOGGER.error(exception.getMessage());
             }
         }
 
@@ -513,10 +514,10 @@ public class AbstractSearchForm extends CustomComponent {
                 tableLogic.clearAll();
                 tableLogic.getFilters().clear();
                 resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
-                LOGGER.error(commit);
+                LOGGER.error(commit.getMessage());
             } catch (Exception exception) {
                 AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1004));
-                LOGGER.error(exception);
+                LOGGER.error(exception.getMessage());
             }
         }
 
@@ -570,7 +571,7 @@ public class AbstractSearchForm extends CustomComponent {
                 getUI().getNavigator().navigateTo(DiscountAddView.NAME);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -655,10 +656,10 @@ public class AbstractSearchForm extends CustomComponent {
                                     LOGGER.error(errorMsg);
                                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg);
                                 } catch (PortalException e) {
-                                    LOGGER.error(e);
+                                    LOGGER.error(e.getMessage());
                                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
                                 } catch (Exception e) {
-                                    LOGGER.error(e);
+                                    LOGGER.error(e.getMessage());
                                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_4004));
                                 }
 
@@ -771,9 +772,9 @@ public class AbstractSearchForm extends CustomComponent {
             excelExport.export();
             tableLayout.removeComponent(excelTable);
         } catch (FieldGroup.CommitException commit) {
-            LOGGER.error(commit);
+            LOGGER.error(commit.getMessage());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
     }
@@ -857,7 +858,7 @@ public class AbstractSearchForm extends CustomComponent {
                         getUI().getNavigator().navigateTo(DiscountAddView.NAME);
                     }
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
 
                 }
             }
@@ -893,7 +894,7 @@ public class AbstractSearchForm extends CustomComponent {
                             }
                     }
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
             }
         });
@@ -919,7 +920,7 @@ public class AbstractSearchForm extends CustomComponent {
                         viewLogic();
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                   LOGGER.error(ex.getMessage());
                 }
                 resultTable.unselect(resultTable.getValue());
             }
@@ -954,7 +955,7 @@ public class AbstractSearchForm extends CustomComponent {
                                             sessionDTO.setVersionNo(searchForm.getVersionNo());
                                             sessionDTO.setLogic("copy");
                                         } catch (Exception e) {
-                                            LOGGER.error(e);
+                                            LOGGER.error(e.getMessage());
                                         }
                                     }
                                 }
@@ -1024,11 +1025,11 @@ public class AbstractSearchForm extends CustomComponent {
                         resultTable.removeItem(resultTable.getValue());
                         resultTable.unselect(resultTable.getValue());
                     } catch (SystemException e) {
-                        LOGGER.error(errorMsg);
+                        LOGGER.error(errorMsg.getErrorMessage().toString());
                     } catch (PortalException e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                     } catch (Exception e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                     }
 
                 }

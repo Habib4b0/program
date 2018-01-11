@@ -14,7 +14,8 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.v7.ui.VerticalLayout;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class ProjNameConfigMainView.
@@ -35,7 +36,7 @@ public class ProjNameConfigMainView extends VerticalLayout implements View {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ProjNameConfigMainView.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjNameConfigMainView.class);
 
     /**
      * The forecast binder.

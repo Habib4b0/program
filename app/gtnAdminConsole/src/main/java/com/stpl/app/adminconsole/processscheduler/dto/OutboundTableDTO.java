@@ -7,7 +7,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.Comparator;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class Table DTO.
@@ -45,7 +46,7 @@ public class OutboundTableDTO extends ExtMapDTO implements Comparator<OutboundTa
     private String hierarchyCategory = StringUtils.EMPTY;
     private String nooflevels = StringUtils.EMPTY;
     private String version = StringUtils.EMPTY;
-    private static final Logger LOGGER = Logger.getLogger(OutboundTableDTO.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OutboundTableDTO.class);
 
     public String getGroup() {
         return group;
@@ -205,7 +206,7 @@ public class OutboundTableDTO extends ExtMapDTO implements Comparator<OutboundTa
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
 

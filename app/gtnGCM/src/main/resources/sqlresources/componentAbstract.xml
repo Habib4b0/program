@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <sql>
-    <entity id="RS count">        
-        <query>
+    <entity id="RS count">          <query>
 		<![CDATA[
           SELECT COUNT(*) FROM ( SELECT DISTINCT IM.ITEM_NO                        AS ITEM_NO,
                 IM.ITEM_NAME                      AS ITEM_NAME,
@@ -46,10 +45,8 @@ FROM   RS_CONTRACT RS_CONT
               ? ) A
 
 		]]>
-        </query> 
-    </entity>  
-    <entity id="RS query">        
-        <query>
+    </query></entity>  
+    <entity id="RS query">          <query>
 		<![CDATA[
              SELECT DISTINCT IM.ITEM_NO                        AS ITEM_NO,
                 IM.ITEM_NAME                      AS ITEM_NAME,
@@ -95,10 +92,8 @@ FROM   RS_CONTRACT RS_CONT
 ORDER  BY IM.ITEM_MASTER_SID 
  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
 		]]>
-        </query> 
-    </entity>
-    <entity id="RS text">        
-        <query>
+    </query></entity>
+    <entity id="RS text">          <query>
 		<![CDATA[
 SELECT DISTINCT RS_CONT.RS_ID,
                 RS_CONT.RS_NO,
@@ -131,10 +126,8 @@ FROM   RS_CONTRACT RS_CONT
 WHERE  RS_CONT.RS_CONTRACT_SID LIKE '?' 
  
 		]]>
-        </query> 
-    </entity>  
-    <entity id="PS count">        
-        <query>
+    </query></entity>  
+    <entity id="PS count">          <query>
 		<![CDATA[
             SELECT COUNT( DISTINCT IM.ITEM_MASTER_SID)
 FROM   PS_CONTRACT PS_C
@@ -186,10 +179,8 @@ FROM   PS_CONTRACT PS_C
     
          
 		]]>
-        </query> 
-    </entity>  
-    <entity id="PS query">        
-        <query>
+    </query></entity>  
+    <entity id="PS query">          <query>
 		<![CDATA[
                SELECT 
 DISTINCT IM.ITEM_NO AS ITEM_NO,
@@ -284,10 +275,8 @@ FROM   PS_CONTRACT PS_C
               ON PTT.HELPER_TABLE_SID = PS_D.PRICE_TOLERANCE_TYPE  ? 
 ORDER BY IM.ITEM_MASTER_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
 		]]>
-        </query> 
-    </entity>
-    <entity id="PS text">        
-        <query>
+    </query></entity>
+    <entity id="PS text">          <query>
 		<![CDATA[
               SELECT PS.PS_ID,PS.PS_NO,
        PS_C.PS_NAME,
@@ -303,10 +292,8 @@ FROM   PS_CONTRACT PS_C
 WHERE  PS_C.PS_CONTRACT_SID LIKE '?'
 
 		]]>
-        </query> 
-    </entity>
-    <entity id="IFP count">        
-        <query>
+    </query></entity>
+    <entity id="IFP count">          <query>
 		<![CDATA[
              SELECT Count(*)
 FROM   (SELECT DISTINCT IM.ITEM_NO       AS NO,
@@ -333,10 +320,8 @@ FROM   (SELECT DISTINCT IM.ITEM_NO       AS NO,
 
 
 		]]>
-        </query> 
-    </entity>  
-    <entity id="IFP query">        
-        <query>
+    </query></entity>  
+    <entity id="IFP query">          <query>
 		<![CDATA[
                 SELECT DISTINCT IM.ITEM_NO       AS NO,
        IM.ITEM_NAME        AS NAME,
@@ -362,10 +347,8 @@ FROM   IFP_CONTRACT IFP_C
 
 ORDER BY IM.ITEM_MASTER_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
 		]]>
-        </query> 
-    </entity>
-    <entity id="IFP text">        
-        <query>
+    </query></entity>
+    <entity id="IFP text">          <query>
 		<![CDATA[
               SELECT IFP.IFP_ID,IFP.IFP_NO,
        IFP.IFP_NAME,
@@ -382,10 +365,8 @@ WHERE  IFP_C.IFP_CONTRACT_SID LIKE '?'
 
 
 		]]>
-        </query> 
-    </entity>
-    <entity id="CFP count">        
-        <query>
+    </query></entity>
+    <entity id="CFP count">          <query>
 		<![CDATA[
                  SELECT Count(*)
 FROM   (
@@ -412,10 +393,8 @@ FROM   CFP_CONTRACT CFP_C
          ON TRAD.HELPER_TABLE_SID = CFP_D.TRADE_CLASS 
     ? ) CFP 
 		]]>
-        </query> 
-    </entity>  
-    <entity id="CFP query">        
-        <query>
+    </query></entity>  
+    <entity id="CFP query">          <query>
 		<![CDATA[
            SELECT DISTINCT CM.COMPANY_NO            AS NO,
                 CM.COMPANY_NAME         AS NAME,
@@ -440,10 +419,8 @@ FROM   CFP_CONTRACT CFP_C
          ?
 ORDER BY CM.COMPANY_NO OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
 		]]>
-        </query> 
-    </entity>
-    <entity id="CFP text">        
-        <query>
+    </query></entity>
+    <entity id="CFP text">          <query>
 		<![CDATA[
              SELECT CFP.CFP_ID,
        CFP.CFP_NO,
@@ -463,6 +440,5 @@ WHERE  CFP_C.CFP_CONTRACT_SID LIKE '?'
 
 
 		]]>
-        </query> 
-    </entity>
+    </query></entity>
 </sql>

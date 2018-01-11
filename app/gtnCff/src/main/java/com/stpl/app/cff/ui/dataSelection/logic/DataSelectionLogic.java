@@ -14,7 +14,6 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.util.dao.orm.CustomSQLUtil;
 import com.stpl.app.cff.dao.CommonDAO;
 import com.stpl.app.cff.dao.DataSelectionDAO;
 import com.stpl.app.cff.dao.impl.CommonDAOImpl;
@@ -1356,7 +1355,7 @@ public class DataSelectionLogic {
 	}
 
 	public void setForcastFileDate(DataSelectionDTO dto) {
-		String query = CustomSQLUtil.get("getFileEndDate");
+		String query = SQlUtil.getQuery("getFileEndDate");
 		query = query.replace("[?BUSINESS_UNIT]", StringUtils.EMPTY + dto.getBusinessUnitSystemId());
 		final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
 		if (list != null && !list.isEmpty()) {

@@ -1,6 +1,6 @@
 package com.stpl.app.adminconsole.archive.ui.form;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 import com.stpl.app.adminconsole.archive.dto.ArchiveDTO;
 import com.stpl.app.adminconsole.archive.logic.ArchiveLogic;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
@@ -41,10 +41,11 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
 import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
+import org.slf4j.LoggerFactory;
 
 public class ArchiveIndex extends CustomComponent implements View {
 
-    private static final Logger LOGGER = Logger.getLogger(ArchiveIndex.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveIndex.class);
 
     public final Object[] archiveTable = new Object[]{"fieldName"};
 
@@ -253,9 +254,9 @@ public class ArchiveIndex extends CustomComponent implements View {
                         valueBean.removeAllItems();
                         valueBean.addAll(list);
                     } catch (SystemException ex) {
-                        LOGGER.error(ex);
+                       LOGGER.error(ex.getMessage());
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                       LOGGER.error(ex.getMessage());
                     }
                 }
             }
@@ -379,11 +380,11 @@ public class ArchiveIndex extends CustomComponent implements View {
                         resultsBean.removeAllItems();
                         resultsBean.addAll(list);
                     } catch (SystemException ex) {
-                        LOGGER.error(ex);
-                        java.util.logging.Logger.getLogger(ArchiveIndex.class.getName()).log(Level.SEVERE, null, ex);
+                       LOGGER.error(ex.getMessage());
+                        LoggerFactory.getLogger(ArchiveIndex.class.getName()).error(ex.getMessage());
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
-                        java.util.logging.Logger.getLogger(ArchiveIndex.class.getName()).log(Level.SEVERE, null, ex);
+                       LOGGER.error(ex.getMessage());
+                        LoggerFactory.getLogger(ArchiveIndex.class.getName()).error(ex.getMessage());
                     }
                 } else {
                     IndexedContainer con = new IndexedContainer();

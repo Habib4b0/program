@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -23,7 +24,7 @@ import org.jboss.logging.Logger;
 public class QueryReader {
 
     private static ResourceBundle queryNameBundle = ResourceBundle.getBundle("properties.GlPosting-Queries");
-    private static final Logger LOGGER = Logger.getLogger(QueryReader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QueryReader.class);
     final static CommonDAO dao = new CommonDAOImpl();
 
     public static String getQuery(String key) {
@@ -49,7 +50,7 @@ public class QueryReader {
                 returnList = (List<Object[]>) dao.executeSelectQuery(queryString.toString(), null, null);
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return returnList;
     }
@@ -72,7 +73,7 @@ public class QueryReader {
                 LOGGER.debug("sql = " + sql);
                 list = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
             } catch (Exception ex) {
-                LOGGER.error(ex);
+               LOGGER.error(ex.getMessage());
             }
         }
 
@@ -98,7 +99,7 @@ public class QueryReader {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of dataUpdate");
         return Boolean.FALSE;
@@ -114,7 +115,7 @@ public class QueryReader {
             LOGGER.debug("sql = = " + sql);
             return sql.toString();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
         return StringUtils.EMPTY;
     }

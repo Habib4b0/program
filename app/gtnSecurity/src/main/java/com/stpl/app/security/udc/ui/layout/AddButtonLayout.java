@@ -15,7 +15,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AddButtonLayout extends HorizontalLayout {
 	
@@ -25,7 +26,7 @@ public class AddButtonLayout extends HorizontalLayout {
 	private static final long serialVersionUID = -8933552027033590861L;
 	   private ErrorfulFieldGroup binder;
     UdcLogic udcLogic = new UdcLogic();
-    private static final Logger LOGGER = Logger
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(AddButtonLayout.class.getName());
     BeanItemContainer<HelperForm> searchResultbeans;
 	
@@ -75,12 +76,12 @@ public class AddButtonLayout extends HorizontalLayout {
                                         }
 
                                     } catch (Exception e) {
-                                        LOGGER.error(e);
+                                        LOGGER.error(e.getMessage());
 
                                     }
 
 				} catch (CommitException e) {
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
 
 				}
 			}
@@ -121,7 +122,7 @@ public class AddButtonLayout extends HorizontalLayout {
 					
 
 					} catch (Exception e) {
-						LOGGER.error(e);
+						LOGGER.error(e.getMessage());
 						
 					}
 

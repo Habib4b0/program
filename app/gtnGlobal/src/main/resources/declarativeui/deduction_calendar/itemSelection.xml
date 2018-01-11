@@ -10,7 +10,6 @@ and open the template in the editor.
                 xmlns:errorMsg="urn:import:com.stpl.app.ui.errorhandling">
     <errorMsg:ErrorLabel id="errorMsg"/>
     <Panel caption="Item Search" id = "itemSearchPanel">
-        <VerticalLayout margin="true" immediate="true">
             <HorizontalLayout immediate="true" styleName="responsiveTabGrid">
                 <CssLayout id="cssLayout2" immediate="true" width="100%" height="100%">
                     <Label id="typeLb" value="Item Type" contentMode="HTML"  />
@@ -29,7 +28,6 @@ and open the template in the editor.
                     <ComboBox id="formDdlb" enabled="true" immediate="true" />                    
                 </CssLayout>
             </HorizontalLayout>
-        </VerticalLayout>                       
     </Panel>
     <HorizontalLayout id = "searchHLayout" spacing="true" margin="false" styleName="responsiveTabGrid" >
         <CssLayout immediate="true" width="100%" height="100%">

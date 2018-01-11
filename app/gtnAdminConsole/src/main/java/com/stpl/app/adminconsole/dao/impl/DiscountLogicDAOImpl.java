@@ -17,7 +17,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
 import java.util.List;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +26,7 @@ import org.jboss.logging.Logger;
  */
 public class DiscountLogicDAOImpl implements DiscountLogicDAO{
     
-    private static final Logger LOGGER = Logger.getLogger(DiscountLogicDAOImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountLogicDAOImpl.class);
     
      /**
      * This method will retrieve the values from Helper Table based on the

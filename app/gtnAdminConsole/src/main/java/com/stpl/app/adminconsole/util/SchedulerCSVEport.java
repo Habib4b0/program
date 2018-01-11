@@ -18,7 +18,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.stpl.ifs.util.ExcelExportUtil;
 import com.stpl.ifs.util.GtnFileUtil;
@@ -34,7 +35,7 @@ public class SchedulerCSVEport {
 	private static final String CREATE_WORK_SHEET_CONTENT = "createWorkSheetContent";
 	final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	public final static String QUOTE = "\"";
-	private static final Logger LOGGER = Logger.getLogger(SchedulerCSVEport.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerCSVEport.class);
 
 	/**
 	 * This method is used to create a worksheet and logic for writing into the
@@ -84,7 +85,7 @@ public class SchedulerCSVEport {
 			pw.close();
 			fileOut.close();
 		} catch (IOException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		for (int worksheetNo = 1; worksheetNo <= worksheetCount; worksheetNo++) {
 			try {
@@ -118,14 +119,14 @@ public class SchedulerCSVEport {
 				} while (remainingCount > 0);
 
 			} catch (IOException ex) {
-				LOGGER.error(ex);
+				LOGGER.error(ex.getMessage());
 			} finally {
 				pw.flush();
 				pw.close();
 				try {
 					fileOut.close();
 				} catch (IOException ex) {
-					LOGGER.error(ex);
+					LOGGER.error(ex.getMessage());
 				}
 			}
 		}

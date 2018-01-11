@@ -15,10 +15,11 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterDTO>{
-	private static final Logger LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(BusinessRoleMgmtLogic.class.getName());
     public BusinessRoleMgmtLogic() {
         super(BusinessroleMasterDTO.class);
@@ -93,11 +94,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
 		} catch (SystemException e) {
 			// TODO Auto-generated catch block
                        
-			LOGGER.error(e);
-		}catch (Exception e) {
-			// TODO Auto-generated catch block
-                  
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -128,13 +125,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
 		} catch (SystemException e) {
 			// TODO Auto-generated catch block
                     
-			LOGGER.error(e);
-			return null;
-		}
-                catch (Exception e) {
-			// TODO Auto-generated catch block
-                   
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return null;
 		}
 		
@@ -147,7 +138,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
 			dao.updateBusinessRoleMgmt(businessroleMaster);
 		} catch (SystemException e) {
 			// TODO Auto-generated catch block
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		
 	}

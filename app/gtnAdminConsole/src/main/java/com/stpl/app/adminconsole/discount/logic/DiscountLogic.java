@@ -41,7 +41,8 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -53,7 +54,7 @@ public class DiscountLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(DiscountLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscountLogic.class);
     /**
      * The dao.
      */
@@ -263,7 +264,7 @@ public class DiscountLogic {
                 }
                 list.add(dto);
             } catch (PortalException ex) {
-                LOGGER.error(ex);
+               LOGGER.error(ex.getMessage());
             }
         }
         LOGGER.debug("getSearchcustomizedResults method Ends");
@@ -422,7 +423,7 @@ public class DiscountLogic {
             }
             LOGGER.debug("saveDeductionGroupDetails return success");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
 
     }

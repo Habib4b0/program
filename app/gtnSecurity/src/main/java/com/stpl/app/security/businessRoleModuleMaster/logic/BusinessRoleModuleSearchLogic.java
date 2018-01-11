@@ -29,7 +29,8 @@ import com.stpl.app.service.BusinessroleMasterLocalServiceUtil;
 import com.stpl.app.service.ModuleSubmoduleMasterLocalServiceUtil;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Transactional
 public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusinessRoleModuleForm> implements Serializable {
@@ -43,7 +44,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
      *
      */
     private static final long serialVersionUID = 4573149356126437540L;
-    private static final Logger LOGGER = Logger
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(BusinessRoleModuleSearchLogic.class.getName());
      int VersionNo = NumericConstants.ONE;
     public List<SearchBusinessRoleModuleForm> searchmoduleAccessDetails(
@@ -101,7 +102,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
         }
         
         } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
                 }
         return searchList;
         
@@ -160,7 +161,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
     LOGGER.debug("Custom sql() Second -> " + searchList.size());
         }
         } catch (Exception e) {
-               LOGGER.error(e);
+               LOGGER.error(e.getMessage());
                 }
         return searchList;
     }
@@ -188,7 +189,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
             }
         }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return searchBusinessRoleModuleFormList;
     }
@@ -219,7 +220,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
             }
         }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return searchBusinessRoleModuleFormList;
     }
@@ -392,7 +393,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                         .get(i)));
             }
         } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
         return moduleNames;
@@ -420,7 +421,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
 
             return list;
         } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
 
@@ -467,7 +468,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
             }
             saveBusinessRoleModuleMaster(fieldIds);
         } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -521,7 +522,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
             }
             LOGGER.debug("Updated Successfully");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -552,7 +553,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                         .getSubmoduleName());
             }
         } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
         return subModuleNames;

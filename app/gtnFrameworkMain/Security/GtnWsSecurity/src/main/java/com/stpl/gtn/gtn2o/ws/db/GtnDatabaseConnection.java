@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityPropertyBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.service.property.GtnWsSecurityPropertyReaderService;
+import javax.naming.NamingException;
 
 public class GtnDatabaseConnection {
 
@@ -17,15 +18,15 @@ public class GtnDatabaseConnection {
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnDatabaseConnection.class);
 
 	static {
+            try {
 		if ((GtnWsSecurityPropertyReaderService.getProperyBean().isConnectDataSourceMode())
 				&& (null != GtnWsSecurityPropertyReaderService.getProperyBean().getDataSourceName())) {
-			try {
+			
 				Context initContext = new InitialContext();
 				dataSource = (DataSource) initContext
 						.lookup(GtnWsSecurityPropertyReaderService.getProperyBean().getDataSourceName());
-			} catch (Exception exception) {
+			}} catch (Exception exception) {
 				LOGGER.error("Exception in Initiating Datasorce ", exception);
-			}
 		}
 	}
 

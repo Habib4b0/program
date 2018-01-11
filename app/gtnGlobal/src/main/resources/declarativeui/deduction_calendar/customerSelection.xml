@@ -9,7 +9,6 @@ and open the template in the editor.
                 xmlns:a="urn:import:org.asi.ui.extfilteringtable" >
 
     <Panel caption="Customer Search" id = "customerSearchPanel">
-        <VerticalLayout margin="true" immediate="true">
             <HorizontalLayout immediate="true" styleName="responsiveTabGrid">
                 <CssLayout id="cssLayout2" immediate="true" width="100%" height="100%">
                     <Label id="customerNoLb" value="Customer No"  contentMode="HTML" immediate="true"/>
@@ -30,7 +29,6 @@ and open the template in the editor.
                     <TextField id="zipCode" enabled="true" immediate="true" /> 
                 </CssLayout>
             </HorizontalLayout>
-        </VerticalLayout>                       
     </Panel>
     <HorizontalLayout id = "searchHLayout" spacing="true" margin="false" styleName="responsiveTabGrid" >
         <CssLayout immediate="true" width="100%" height="100%">
@@ -47,7 +45,7 @@ and open the template in the editor.
         <Button id="addallBtn" caption="ADD ALL" immediate="true" />
         <Button id="availableExportBtn" caption="" immediate="true" />
     </HorizontalLayout>
-    <Panel caption="Selected Customers" id="selectedResultsTablePanel" spacing="true" height = "630px" >
+    <Panel caption="Selected Customers" id="selectedResultsTablePanel" spacing="true" >
          <VerticalLayout id="selectedResultsTableLayout" margin = "true" spacing = "true" />
 <!--        <VerticalLayout spacing="true" margin="true">
             <a:ExtFilterTable id="selectedCustomersTable" selectable="true" immediate="true" />

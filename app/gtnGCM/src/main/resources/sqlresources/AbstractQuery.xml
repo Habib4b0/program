@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sql>
  
-    <entity id="Load contract Item">
-        <query> 
+    <entity id="Load contract Item">          
+        <query>      
 		<![CDATA[
      SELECT DISTINCT Temp.PROJECTION_MASTER_SID
       AS Projection_id,
@@ -147,7 +147,7 @@ ORDER  BY TEMP.PROJECTION_MASTER_SID
 		]]>
         </query>
     </entity>
-    <entity id="Item Load contract Count">
+    <entity id="Item Load contract Count">          
         <query>
 		<![CDATA[
      SELECT Count (*)
@@ -288,7 +288,7 @@ FROM   GCM_GLOBAL_DETAILS Temp
 		]]>
         </query>
     </entity>
-    <entity id="ProjectionTransferItemCountQuery">
+    <entity id="ProjectionTransferItemCountQuery">          
         <query>
 		<![CDATA[
      SELECT Count (*)
@@ -420,7 +420,7 @@ FROM   GCM_GLOBAL_DETAILS Temp
 		]]>
         </query>
     </entity>
-    <entity id="ProjectionTransferItemDataQuery">
+    <entity id="ProjectionTransferItemDataQuery">          
         <query>
 		<![CDATA[
      SELECT DISTINCT Temp.PROJECTION_MASTER_SID      AS Projection_id,
@@ -565,7 +565,7 @@ ORDER  BY TEMP.PROJECTION_MASTER_SID
         </query>
     </entity>
 
-    <entity id="Abstract Data update For Add">
+    <entity id="Abstract Data update For Add">          
         <query>
 		<![CDATA[
 UPDATE GCM_GLOBAL_DETAILS
@@ -576,13 +576,14 @@ WHERE  CONTRACT_MASTER_SID = ?
        AND PS_CONTRACT_SID = ?
        AND RS_CONTRACT_SID = ?
        AND SESSION_ID = '?'
-      
+       AND PROJECTION_MASTER_SID='?'
+       AND ITEM_MASTER_SID='?'
        AND OPERATION = '?' 
        
 		]]>
         </query>
     </entity>
-    <entity id="Abstract Data update">
+    <entity id="Abstract Data update">          
         <query>
 		<![CDATA[
 UPDATE GCM_GLOBAL_DETAILS
@@ -602,7 +603,7 @@ WHERE  CONTRACT_MASTER_SID = ?
     </entity>
  
 
-    <entity id="Abstract Data update CheckRecord For Add">
+    <entity id="Abstract Data update CheckRecord For Add">          
         <query>
 		<![CDATA[
 UPDATE GCM_GLOBAL_DETAILS
@@ -613,12 +614,14 @@ WHERE  CONTRACT_MASTER_SID = ?
        AND PS_CONTRACT_SID = ?
        AND RS_CONTRACT_SID = ?
        AND SESSION_ID = '?'
+        AND PROJECTION_MASTER_SID='?'
+        AND ITEM_MASTER_SID='?'
       AND( OPERATION = '?' OR  OPERATION = 'SUMMARY')
        
 		]]>
         </query>
     </entity>
-    <entity id="Abstract Data update CheckRecord">
+    <entity id="Abstract Data update CheckRecord">          
         <query>
 		<![CDATA[
 UPDATE GCM_GLOBAL_DETAILS
@@ -637,7 +640,7 @@ WHERE  CONTRACT_MASTER_SID = ?
         </query>
     </entity>
   
-    <entity id="Insert Contract For Search1">
+    <entity id="Insert Contract For Search1">          
         <query>
 		<![CDATA[
      INSERT INTO GCM_GLOBAL_DETAILS (ITEM_STATUS, START_DATE, 
@@ -719,7 +722,7 @@ ORDER  BY PROJECTION_MASTER_SID
 		]]>
         </query>
     </entity>
-    <entity id="InsertContractDataForProjTransfer">
+    <entity id="InsertContractDataForProjTransfer">          
         <query>
 		<![CDATA[
    INSERT INTO GCM_GLOBAL_DETAILS
@@ -825,7 +828,7 @@ ORDER  BY PROJECTION_MASTER_SID
 		]]>
         </query>
     </entity>          
-    <entity id="InsertContractDataForProjTransferSearch">
+    <entity id="InsertContractDataForProjTransferSearch">          
         <query>
 		<![CDATA[
    INSERT INTO GCM_GLOBAL_DETAILS
@@ -932,7 +935,7 @@ ORDER  BY PROJECTION_MASTER_SID
 		]]>
         </query>
     </entity>
-    <entity id="InsertContractDataForProjTransferSearch">
+    <entity id="InsertContractDataForProjTransferSearch">          
         <query>
 		<![CDATA[
    INSERT INTO GCM_GLOBAL_DETAILS
@@ -1038,7 +1041,7 @@ ORDER  BY PROJECTION_MASTER_SID
         </query>
     </entity>
    
-    <entity id="Insert Contract For Transfer">
+    <entity id="Insert Contract For Transfer">          
         <query>
 		<![CDATA[
       DECLARE @TEMP_TABLE AS TABLE
@@ -1146,7 +1149,7 @@ JOIN       RS_CONTRACT_DETAILS RSCD ON RSCD.RS_CONTRACT_SID = RSC.RS_CONTRACT_SI
         </query>
     </entity>
    
-    <entity id="Submit check">
+    <entity id="Submit check">          
         <query>
 		<![CDATA[
 SELECT 1
@@ -1180,7 +1183,7 @@ WHERE  EXISTS(SELECT *
     </entity>
     
    
-    <entity id="Abstract Mass update">
+    <entity id="Abstract Mass update">          
         <query>
 		<![CDATA[
 UPDATE GCM_GLOBAL_DETAILS
@@ -1192,7 +1195,7 @@ WHERE
 		]]>
         </query>
     </entity>
-    <entity id="Abstract FieldFactory Values Update">
+    <entity id="Abstract FieldFactory Values Update">          
         <query>
 		<![CDATA[
 UPDATE GCM_GLOBAL_DETAILS
@@ -1205,7 +1208,7 @@ WHERE
         </query>
     </entity>
    
-    <entity id="Check All contract">
+    <entity id="Check All contract">          
         <query>
 		<![CDATA[
 UPDATE GCM_GLOBAL_DETAILS
@@ -1217,7 +1220,7 @@ WHERE
 		]]>
         </query>
     </entity>
-    <entity id="Submit condition check">
+    <entity id="Submit condition check">          
         <query>
 		<![CDATA[
   SELECT Count(*)
@@ -1233,7 +1236,21 @@ WHERE
 		]]>
         </query>
     </entity>
-    <entity id="Contract Insert Add">
+    <entity id="Submit condition check for Item Update">          
+        <query>
+		<![CDATA[
+  SELECT Count(*)
+            FROM   (SELECT 1 AS CO
+                    FROM   GCM_GLOBAL_DETAILS
+                    WHERE  EXISTS(SELECT * FROM GCM_GLOBAL_DETAILS WHERE  
+                                            (ITEM_STATUS IS NULL
+                                            OR START_DATE IS NULL)
+                           AND 
+                        session_id = '?' AND OPERATION = '?' AND MODULE_NAME = 'ITEM_MANAGEMENT' AND CHECK_RECORD = 1)) a 
+		]]>
+        </query>
+    </entity>
+    <entity id="Contract Insert Add">          
         <query>
 		<![CDATA[
 INSERT INTO GCM_GLOBAL_DETAILS
@@ -1304,7 +1321,7 @@ ORDER  BY CONTRACT_MASTER_SID
     
     
     
-    <entity id="Add Load Contract">
+    <entity id="Add Load Contract">          
         <query>
 		<![CDATA[
 SELECT DISTINCT    Wm.PROJECTION_MASTER_SID AS projectionId,
@@ -1439,7 +1456,7 @@ LEFT JOIN HELPER_TABLE WS ON WS.HELPER_TABLE_SID = Wm.WORKFLOW_STATUS_ID ?
     </entity>
     
     
-    <entity id="Add Load Contract Count">
+    <entity id="Add Load Contract Count">          
         <query>
 		<![CDATA[
 SELECT Count(*)
@@ -1564,7 +1581,7 @@ LEFT JOIN HELPER_TABLE WS ON WS.HELPER_TABLE_SID = Wm.WORKFLOW_STATUS_ID ?
         </query>
     </entity>
     
-    <entity id="Submitting the contract">
+    <entity id="Submitting the contract">          
         <query>
 		<![CDATA[
 DECLARE @SESSION_ID VARCHAR(100) ='?',
@@ -1807,7 +1824,7 @@ WHEN NOT MATCHED AND SOURCE.CHECK_RECORD = 1 THEN
         </query>
     </entity>
     
-    <entity id="Submitting the contract For UPdate">
+    <entity id="Submitting the contract For UPdate">          
         <query>
 		<![CDATA[
 DECLARE @SESSION_ID VARCHAR(100) ='?',
@@ -2061,7 +2078,7 @@ WHEN NOT MATCHED AND SOURCE.CHECK_RECORD = 1 THEN
 		]]>
         </query>
     </entity>
-    <entity id="SubmittingthecontractForUPdateProjTransfer">
+    <entity id="SubmittingthecontractForUPdateProjTransfer">          
         <query>
 		<![CDATA[
 DECLARE @SESSION_ID VARCHAR(100) ='?',
@@ -2316,7 +2333,7 @@ WHEN NOT MATCHED AND SOURCE.CHECK_RECORD = 1 THEN
 		]]>
         </query>
     </entity>
-    <entity id="Loading items in summary">
+    <entity id="Loading items in summary">          
         <query>
 		<![CDATA[
 SELECT DISTINCT COMP.COMPANY_NAME,
@@ -2365,7 +2382,7 @@ SELECT DISTINCT COMP.COMPANY_NAME,
 		]]>
         </query>
     </entity>
-    <entity id="Load contract Item For transfer">
+    <entity id="Load contract Item For transfer">          
         <query>
 		<![CDATA[
 DECLARE @SESSION_ID VARCHAR(100) ='?',
@@ -2525,7 +2542,7 @@ ORDER  BY TEMP.PROJECTION_MASTER_SID
         </query>
     </entity>
   
-    <entity id="Item Load contract Count for transfer">
+    <entity id="Item Load contract Count for transfer">          
         <query>
 		<![CDATA[
 DECLARE @SESSION_ID VARCHAR(100) ='?',
@@ -2587,7 +2604,32 @@ SELECT COUNT(*) FROM (SELECT DISTINCT Temp.PROJECTION_MASTER_SID      AS Project
                 ST.DESCRIPTION          AS ST1,
                 PTT.DESCRIPTION         AS ST2,
                 PTF.DESCRIPTION         AS ST3,
-                PT.DESCRIPTION          AS ST4
+                PT.DESCRIPTION          AS ST4,
+                Temp.NEP,
+                Temp.PRICE_PROTECTION_STATUS,
+                Temp.NEP_FORMULA,
+                Temp.MAX_INCREMENTAL_CHANGE,
+                Temp.RESET_ELIGIBLE,
+                Temp.RESET_TYPE,
+                Temp.RESET_DATE,
+                Temp.RESET_INTERVAL,
+                Temp.RESET_FREQUENCY,
+                Temp.NET_PRICE_TYPE,
+                Temp.NET_PRICE_TYPE_FORMULA,
+                Temp.RESET_PRICE_TYPE,
+                Temp.NET_RESET_PRICE_TYPE,
+                Temp.NET_RESET_PRICE_FORMULA_ID,
+                Temp.BASE_PRICE_TYPE,
+                Temp.SUBSEQUENT_PERIOD_PRICE_TYPE,
+                Temp.NET_SUBSEQUENT_PERIOD_PRICE,
+                Temp.NET_SUBSEQUENT_PRICE_FORMULA_ID,
+                Temp.NET_BASELINE_WAC_FORMULA_ID,
+                Temp.NET_BASE_PRICE,
+                Temp.PRICE_TYPE,
+                Temp.PRICE_PROTECTION_PRICE_TYPE,
+                Temp.BASELINE_WAC_MANUAL,
+                Temp.BASELINE_WAC_DATE,
+                Temp.BASELINE_WAC_PRICE_TYPE 
 FROM   GCM_GLOBAL_DETAILS Temp
        JOIN CONTRACT_MASTER CM
          ON CM.CONTRACT_MASTER_SID = Temp.CONTRACT_MASTER_SID
@@ -2662,7 +2704,7 @@ FROM   GCM_GLOBAL_DETAILS Temp
 
 
 
-    <entity id="LoadcontractItemForProjectiontransfer">
+    <entity id="LoadcontractItemForProjectiontransfer">          
         <query>
 		<![CDATA[
 DECLARE @SESSION_ID VARCHAR(100) ='?',
@@ -2813,7 +2855,7 @@ ORDER  BY TEMP.PROJECTION_MASTER_SID
 		]]>
         </query>
     </entity>
-    <entity id="ItemLoadcontractCountforProjectiontransfer">
+    <entity id="ItemLoadcontractCountforProjectiontransfer">          
         <query>
 		<![CDATA[
     DECLARE @SESSION_ID VARCHAR(100) ='?',
@@ -2961,7 +3003,7 @@ WHERE  Temp2.SESSION_ID = @SESSION_ID
 		]]>
         </query>
     </entity>
-    <entity id="Load Non Selected item Contract">
+    <entity id="Load Non Selected item Contract">          
         <query>
 		<![CDATA[
      DECLARE @SESSION_ID VARCHAR(100) ='?',
@@ -3112,7 +3154,7 @@ ORDER  BY TEMP.PROJECTION_MASTER_SID
 		]]>
         </query>
     </entity>
-    <entity id="Load Non Selected item Contract Count">
+    <entity id="Load Non Selected item Contract Count">          
         <query>
 		<![CDATA[
     DECLARE @SESSION_ID VARCHAR(100) ='?',
@@ -3261,7 +3303,7 @@ FROM   GCM_GLOBAL_DETAILS Temp
 		]]>
         </query>
     </entity>
-    <entity id="checkrecord condition check">
+    <entity id="checkrecord condition check">          
         <query>
 		<![CDATA[
 UPDATE GCM_GLOBAL_DETAILS
@@ -3274,7 +3316,7 @@ WHERE  SESSION_ID = '?'
         </query>
     </entity>
     
-    <entity id="TransferIFP">
+    <entity id="TransferIFP">          
         <query>
 		<![CDATA[
 DECLARE @SESSION_ID VARCHAR(100) ='?',
@@ -3324,7 +3366,7 @@ WHEN NOT MATCHED THEN
 		]]>
         </query>
     </entity>
-    <entity id="Non Approved Submit check">
+    <entity id="Non Approved Submit check">          
         <query>
 		<![CDATA[
 SELECT Count(*)
@@ -3344,7 +3386,7 @@ FROM   (SELECT WM.PROJECTION_MASTER_SID,
 		]]>
         </query>
     </entity>
-    <entity id="PendingSubmitcheckForProjTransfer">
+    <entity id="PendingSubmitcheckForProjTransfer">          
         <query>
 		<![CDATA[
 SELECT Count(*)
@@ -3364,7 +3406,7 @@ FROM   (SELECT WM.PROJECTION_MASTER_SID,
 		]]>
         </query>
     </entity>
-    <entity id="SavedRejectedSubmitcheckForProjTransfer">
+    <entity id="SavedRejectedSubmitcheckForProjTransfer">          
         <query>
     
 		<![CDATA[
@@ -3388,7 +3430,7 @@ FROM   (SELECT WM.PROJECTION_MASTER_SID,
     
    
     
-    <entity id="TransferPS">
+    <entity id="TransferPS">          
         <query>
 		<![CDATA[
 DECLARE @SESSION_ID VARCHAR(100) ='?',
@@ -3466,7 +3508,7 @@ WHEN NOT MATCHED THEN
 		]]>
         </query>
     </entity>
-    <entity id="TransferRS">
+    <entity id="TransferRS">          
         <query>
 		<![CDATA[
 DECLARE @SESSION_ID VARCHAR(100) ='?',
@@ -3518,7 +3560,7 @@ WHEN NOT MATCHED THEN
 		]]>
         </query>
     </entity>
-    <entity id="UPDATING END DATE FOR CURRENT CONTRACT">
+    <entity id="UPDATING END DATE FOR CURRENT CONTRACT">          
         <query>
 		<![CDATA[
 UPDATE IFP_C
@@ -3534,7 +3576,7 @@ FROM   IFP_CONTRACT_DETAILS IFP_C
 		]]>
         </query>
     </entity>
-    <entity id="Checking the items in one contract">
+    <entity id="Checking the items in one contract">          
         <query>
 		<![CDATA[
 SELECT count(Distinct CONTRACT_MASTER_SID)
@@ -3552,7 +3594,7 @@ HAVING Count(CASE
         </query>
     </entity>
     
-    <entity id="Close button delete">
+    <entity id="Close button delete">          
         <query>
 		<![CDATA[
      
@@ -3568,7 +3610,7 @@ WHERE  session_id = @SESSION_ID
 		]]>
         </query>
     </entity>
-    <entity id="helperTableQuery">
+    <entity id="helperTableQuery">          
         <query>
 		<![CDATA[
      
@@ -3578,7 +3620,7 @@ WHERE  session_id = @SESSION_ID
 		]]>
         </query>
     </entity>
-    <entity id="Mass Update checkreord check">
+    <entity id="Mass Update checkreord check">          
         <query>
 		<![CDATA[
      
@@ -3593,7 +3635,7 @@ WHERE  SESSION_ID = '?'
 		]]>
         </query>
     </entity>
-    <entity id="Mass Update data check">
+    <entity id="Mass Update data check">          
         <query>
 		<![CDATA[
      
@@ -3610,7 +3652,7 @@ WHERE  SESSION_ID = '?'
 		]]>
         </query>
     </entity>
-    <entity id="Single contract check">
+    <entity id="Single contract check">          
         <query>
 		<![CDATA[
      
@@ -3624,7 +3666,7 @@ WHERE  SESSION_ID = '?'
         </query>
     </entity>
   
-    <entity id="Resetting CheckRecord">
+    <entity id="Resetting CheckRecord">          
         <query>
 		<![CDATA[
 UPDATE GCM_GLOBAL_DETAILS
@@ -3636,7 +3678,7 @@ WHERE  SESSION_ID = '?'
 		]]>
         </query>
     </entity>
-    <entity id="ResettingCheckRecordForProjTransfer">
+    <entity id="ResettingCheckRecordForProjTransfer">          
         <query>
 		<![CDATA[
 UPDATE GCM_GLOBAL_DETAILS
@@ -3648,7 +3690,7 @@ WHERE  SESSION_ID = '?'
 		]]>
         </query>
     </entity>
-    <entity id="Selecting one contract">
+    <entity id="Selecting one contract">          
         <query>
 		<![CDATA[
 SELECT Count(*)
@@ -3663,7 +3705,7 @@ WHERE  session_id = '?'
         </query>
     </entity>
   
-    <entity id="Submit endDate check">
+    <entity id="Submit endDate check">          
         <query>
 		<![CDATA[
 SELECT Count(*)
@@ -3676,7 +3718,7 @@ WHERE  END_DATE IS NULL
 		]]>
         </query>
     </entity>
-    <entity id="latestAndGreatestProjection">
+    <entity id="latestAndGreatestProjection">          
         <query>
 		<![CDATA[
         SELECT TOP 1 PM.PROJECTION_MASTER_SID,PM.FORECASTING_TYPE
@@ -3696,7 +3738,7 @@ WHERE  END_DATE IS NULL
 		]]>
         </query>
     </entity>
-    <entity id="SalesUnitsCheck">
+    <entity id="SalesUnitsCheck">          
         <query>
 		<![CDATA[
 SELECT Sum(SA.?),
@@ -3708,7 +3750,7 @@ FROM   PROJECTION_DETAILS PD1
 		]]>
         </query>
     </entity>
-    <entity id="Cancel Remove">
+    <entity id="Cancel Remove">          
         <query>
 		<![CDATA[
 DELETE FROM GCM_GLOBAL_DETAILS
@@ -3720,7 +3762,7 @@ WHERE  session_id = '?'
 		]]>
         </query>
     </entity>
-    <entity id="Update sales in projection">
+    <entity id="Update sales in projection">          
         <query>
 		<![CDATA[
 UPDATE NM
@@ -3753,7 +3795,7 @@ FROM   PROJECTION_DETAILS PD
 		]]>
         </query>
     </entity>
-    <entity id="Remove sales in projection">
+    <entity id="Remove sales in projection">          
         <query>
 		<![CDATA[
 UPDATE NM
@@ -3783,7 +3825,7 @@ FROM   PROJECTION_DETAILS PD
 		]]>
         </query>
     </entity>
-    <entity id="Transfer Input table Insert">
+    <entity id="Transfer Input table Insert">          
         <query>
 		<![CDATA[
 INSERT INTO FUTURE_EVENTS_INPUT
@@ -3824,7 +3866,7 @@ FROM   GCM_GLOBAL_DETAILS Temp1
 		]]>
         </query>
     </entity>
-    <entity id="getContractMasterSid">
+    <entity id="getContractMasterSid">          
         <query>
 		<![CDATA[
 SELECT top 1 CONTRACT_MASTER_SID
@@ -3835,7 +3877,7 @@ WHERE  Temp2.SESSION_ID = '?'
 		]]>
         </query>
     </entity>
-    <entity id="tabChangeCheck">
+    <entity id="tabChangeCheck">          
         <query>
 		<![CDATA[
 SELECT Count(*)
@@ -3846,7 +3888,7 @@ WHERE  Temp.session_id = '?'
 		]]>
         </query>
     </entity>
-    <entity id="tabChangeCheckProjTransfer">
+    <entity id="tabChangeCheckProjTransfer">          
         <query>
 		<![CDATA[
 SELECT Count(*)
@@ -3857,7 +3899,7 @@ WHERE  Temp.SESSION_ID = '?'
 		]]>
         </query>
     </entity>
-    <entity id="endDateBeforeStartDate">
+    <entity id="endDateBeforeStartDate">          
         <query>
 		<![CDATA[
 SELECT DISTINCT ?
@@ -3875,7 +3917,7 @@ WHERE  CONTRACT_MASTER_SID = ?
 		]]>
         </query>
     </entity>
-    <entity id="endDateBeforeStartDateAdd">
+    <entity id="endDateBeforeStartDateAdd">          
         <query>
 		<![CDATA[
 SELECT DISTINCT ?
@@ -3891,7 +3933,7 @@ WHERE  CONTRACT_MASTER_SID = ?
 		]]>
         </query>
     </entity>
-    <entity id="allItemsCheckForProjectionTrnsfer">
+    <entity id="allItemsCheckForProjectionTrnsfer">          
         <query>
 		<![CDATA[
 
@@ -3913,7 +3955,7 @@ WHERE  CNT = @ITEM_MASTER_SID_COUNT
     ]]>
         </query>
     </entity>
-    <entity id="ComboBox List Name Query">
+    <entity id="ComboBox List Name Query">          
         <query>
 		<![CDATA[
 
@@ -3928,7 +3970,7 @@ WHERE
 		]]>
         </query>
     </entity>
-    <entity id="Mass Update Multiple End date Check">
+    <entity id="Mass Update Multiple End date Check">          
         <query>
 		<![CDATA[
 SELECT
@@ -3944,7 +3986,7 @@ WHERE
         </query>
     </entity>
     
-    <entity id="Prod Hirarechy UPdate">
+    <entity id="Prod Hirarechy UPdate">          
         <query>
 		<![CDATA[
 INSERT INTO PROJECTION_PROD_HIERARCHY
@@ -3960,7 +4002,7 @@ and RELATIONSHIP_LEVEL_VALUES in (?)
         </query>
     </entity>
 
-    <entity id="contractItemCheck">
+    <entity id="contractItemCheck">          
         <query>
 		<![CDATA[
 
@@ -3980,7 +4022,7 @@ and
 ]]>
         </query>
     </entity>
-    <entity id="Submit check Pojection Transfer">
+    <entity id="Submit check Pojection Transfer">          
         <query>
 		<![CDATA[
     SELECT
@@ -4000,7 +4042,7 @@ and
 		]]>
         </query>
     </entity>
-    <entity id="getCurrentContractEndDate">
+    <entity id="getCurrentContractEndDate">          
         <query>
 		<![CDATA[
    SELECT DISTINCT

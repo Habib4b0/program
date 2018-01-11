@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
@@ -114,7 +115,7 @@ public class TrackingProgress extends Window {
      * The available results bean.
      */
     private BeanItemContainer<TrackingProcessDTO> summaryResultsBean = new BeanItemContainer<>(TrackingProcessDTO.class);
-    private static final Logger LOGGER = Logger.getLogger(TrackingProgress.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrackingProgress.class);
     public final Object[] summaryColumn = new Object[]{"processIdentifier", "startTime", "endTime", "noOfProjections", "status"};
     /**
      * The Constant FIELD_LOOKUP_HEADER.
@@ -184,9 +185,9 @@ public class TrackingProgress extends Window {
             summaryTable.setStyleName("filtertable");
             summaryTable.setImmediate(true);
         } catch (PortalException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -224,9 +225,9 @@ public class TrackingProgress extends Window {
             detailsTable.setStyleName("filtertable");
 
         } catch (PortalException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 

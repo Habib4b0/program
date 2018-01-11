@@ -10,7 +10,8 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -18,7 +19,7 @@ import org.jboss.logging.Logger;
  */
 public class AdminConsoleImpl {
 
-    private static final Logger LOGGER = Logger.getLogger(AdminConsoleImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdminConsoleImpl.class);
 
     public List getBusinessTabPermission(String businessRoleId, String moduleName) {
         String sql = StringUtils.EMPTY;
@@ -176,7 +177,7 @@ public class AdminConsoleImpl {
             }
         } catch (Exception e) {
             
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         } 
         return returnList;
     }

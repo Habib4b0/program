@@ -10,7 +10,8 @@ import com.stpl.app.adminconsole.filemanagement.ui.form.FileMgmtCustomer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.v7.ui.VerticalLayout;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FileMgmtCustomerView extends VerticalLayout implements View {
 
@@ -21,7 +22,7 @@ public class FileMgmtCustomerView extends VerticalLayout implements View {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(FileManagementIndexView.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(FileManagementIndexView.class);
     SessionDTO sessionDTO;
 
     /**

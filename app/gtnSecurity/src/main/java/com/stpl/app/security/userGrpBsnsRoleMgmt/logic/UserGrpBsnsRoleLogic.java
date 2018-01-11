@@ -21,10 +21,11 @@ import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.service.UserGroupLocalServiceUtil;
 import com.stpl.app.service.BusinessroleMasterLocalServiceUtil;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDTO>{
-     private static final Logger LOGGER = Logger
+     private static final Logger LOGGER = LoggerFactory
             .getLogger(UserGrpBsnsRoleLogic.class.getName());
 
     public UserGrpBsnsRoleLogic() {
@@ -61,7 +62,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
 	    	}
 	    	usrDto.setSelectedBusinessRole(selList);
     	}catch(Exception ex){
-    		LOGGER.error(ex);
+    		LOGGER.error(ex.getMessage());
     	}
     	return usrDto;
     }
@@ -96,7 +97,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
     	brmList.addAll(map2.keySet());
     	userDto.setBusinessRole(brmList);
     	}catch(Exception ex){
-    		LOGGER.error(ex);
+    		LOGGER.error(ex.getMessage());
     	}
     	return userDto;
     }
@@ -157,7 +158,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
         	
 	}
 	catch(Exception ex){
-		LOGGER.error(ex);
+		LOGGER.error(ex.getMessage());
 		return false;
 	}
     }
