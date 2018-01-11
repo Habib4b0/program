@@ -21,14 +21,15 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.model.MailNotificationMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.MailNotificationMasterLocalServiceUtil;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Santanukumar
  */
 public class NotificationMgmtLogic {
-    private static final Logger LOGGER = Logger
+    private static final Logger LOGGER = LoggerFactory
             .getLogger(NotificationMgmtLogic.class);
    Date date = new Date();
     NotificationMgmtLogicDAO dao=new NotificationMgmtLogicDAOImpl();
@@ -46,7 +47,7 @@ public class NotificationMgmtLogic {
                 }
             }
         } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return helperList;
     }
@@ -60,7 +61,7 @@ public class NotificationMgmtLogic {
             resultList = dao.getCategory(categoryDynamicQuery);
 
         } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         for (HelperTable obj : resultList) {
             HelperDTO dto = new HelperDTO();
@@ -112,7 +113,7 @@ public class NotificationMgmtLogic {
             dao.saveMailNotificationMaster(mailNotificationMaster);
            
         } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return "fail";
         }
         return "success";
@@ -159,7 +160,7 @@ public class NotificationMgmtLogic {
            
            
         } catch (SystemException | PortalException e ) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return "fail";
         }
         return "success";
@@ -170,7 +171,7 @@ public class NotificationMgmtLogic {
             
             
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return false;
         }
         return true;
@@ -182,7 +183,7 @@ public class NotificationMgmtLogic {
         try{
              resultList=dao.getAllMailNotification(notificationDynamicQuery);
         }catch(SystemException e){
-                     LOGGER.error(e);
+                     LOGGER.error(e.getMessage());
                 }
         if(resultList!=null){
             resultBean=getNotificationMgmtIndexDTO(resultList);

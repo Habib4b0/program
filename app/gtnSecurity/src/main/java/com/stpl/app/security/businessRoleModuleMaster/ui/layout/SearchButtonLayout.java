@@ -25,7 +25,8 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SearchButtonLayout extends HorizontalLayout {
 
@@ -45,7 +46,7 @@ public class SearchButtonLayout extends HorizontalLayout {
         CheckBox add;
 	CheckBox edit;
 	CheckBox view;
-	private static final Logger LOGGER = Logger.getLogger(SearchButtonLayout.class
+	private static final Logger LOGGER = LoggerFactory.getLogger(SearchButtonLayout.class
 			.getName());
 final String Select=CommonUtils.SELECT_ONE;
 	public SearchButtonLayout(ErrorfulFieldGroup binder,BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans,BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult,ExtFilterTable table,ExtFilterTable tableField,ComboBox subModuleName,ComboBox moduleName,ComboBox businessRoleName
@@ -134,19 +135,19 @@ final String Select=CommonUtils.SELECT_ONE;
         
         }
                                             } catch (SystemException e) {
-						LOGGER.error(e);
+						LOGGER.error(e.getMessage());
                                                 
 						
 					} catch (PortalException e) {
-						LOGGER.error(e);
+						LOGGER.error(e.getMessage());
                                                					}
 					
 				} catch (CommitException e) {
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
                                        
 				}
                                 catch (Exception e) {
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
                                  
 				}
 			}
