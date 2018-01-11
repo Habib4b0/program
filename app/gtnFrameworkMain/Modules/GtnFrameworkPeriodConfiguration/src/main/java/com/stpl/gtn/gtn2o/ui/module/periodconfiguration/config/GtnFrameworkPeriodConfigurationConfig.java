@@ -266,7 +266,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 
 	private void addActionButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			GtnFrameworkComponentConfigProvider componentConfigProvider) {
-		GtnUIFrameworkComponentConfig gtnLayout = componentConfigProvider.getHorizontalLayoutConfig(
+		GtnUIFrameworkComponentConfig gtnLayout = componentConfigProvider.getCssLayoutConfig(
 				namspacePrefix + GtnFrameworkPeriodConfigurationContants.ACTION_BUTTONLAYOUT, true,
 				namspacePrefix + GtnFrameworkPeriodConfigurationContants.PERIOD_CONFIGURATION_MAIN_LAYOUT);
 		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
@@ -991,9 +991,12 @@ public class GtnFrameworkPeriodConfigurationConfig {
 
 	private void addSaveButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			GtnFrameworkComponentConfigProvider componentConfigProvider) {
+                GtnUIFrameworkComponentConfig gtnLayout = componentConfigProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnSave01Layout", true,
+				namspacePrefix + GtnFrameworkPeriodConfigurationContants.ACTION_BUTTONLAYOUT);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig searchButtonConfig = componentConfigProvider.getUIFrameworkComponentConfig(
 				namspacePrefix + "gtnSave", true,
-				namspacePrefix + GtnFrameworkPeriodConfigurationContants.ACTION_BUTTONLAYOUT,
+				namspacePrefix + "gtnSave01Layout",
 				GtnUIFrameworkComponentType.BUTTON);
 		searchButtonConfig.setAuthorizationIncluded(true);
 		searchButtonConfig.setComponentName("Save");
@@ -1039,9 +1042,12 @@ public class GtnFrameworkPeriodConfigurationConfig {
 
 	private void addResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			GtnFrameworkComponentConfigProvider componentConfigProvider) {
+                GtnUIFrameworkComponentConfig gtnLayout = componentConfigProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnReset01Layout", true,
+				namspacePrefix + GtnFrameworkPeriodConfigurationContants.ACTION_BUTTONLAYOUT);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig resetButtonConfig = componentConfigProvider.getUIFrameworkComponentConfig(
 				namspacePrefix + "gtnReset", true,
-				namspacePrefix + GtnFrameworkPeriodConfigurationContants.ACTION_BUTTONLAYOUT,
+				namspacePrefix + "gtnReset01Layout",
 				GtnUIFrameworkComponentType.BUTTON);
 		resetButtonConfig.setAuthorizationIncluded(true);
 		resetButtonConfig.setComponentName("Reset");
@@ -1201,9 +1207,12 @@ public class GtnFrameworkPeriodConfigurationConfig {
 
 	public void addExcelButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			GtnFrameworkComponentConfigProvider componentConfigProvider) {
+                GtnUIFrameworkComponentConfig gtnLayout = componentConfigProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnExcel01Layout", true,
+				namspacePrefix + GtnFrameworkPeriodConfigurationContants.ACTION_BUTTONLAYOUT);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig periodConfigExcelButtonLayout = componentConfigProvider.getCssLayoutConfig(
 				namspacePrefix + "excelButtonlayout", true,
-				namspacePrefix + GtnFrameworkPeriodConfigurationContants.ACTION_BUTTONLAYOUT);
+				namspacePrefix + "gtnExcel01Layout");
 		periodConfigExcelButtonLayout.setAddToParent(true);
 		periodConfigExcelButtonLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(periodConfigExcelButtonLayout);

@@ -102,7 +102,7 @@ public class GtnFrameworkProcessMonitorLandingScreenConfig {
 	private void addMonitorEditorLayout(List<GtnUIFrameworkComponentConfig> componentList) {
 
 		GtnUIFrameworkComponentConfig monitorEditorLayout = componentConfig
-				.getHorizontalLayoutConfig(GtnFrameworkCommonConstants.MONITOR_EDITOR_CSS_LAYOUT, true, "fieldLayout");
+				.getCssLayoutConfig(GtnFrameworkCommonConstants.MONITOR_EDITOR_CSS_LAYOUT, true, "fieldLayout");
 		monitorEditorLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		monitorEditorLayout.setSpacing(true);
 		monitorEditorLayout.setMargin(true);
@@ -113,14 +113,10 @@ public class GtnFrameworkProcessMonitorLandingScreenConfig {
 	}
 
 	private void addMonitorInformationCSSLayout(List<GtnUIFrameworkComponentConfig> componentList) {
-
-		GtnUIFrameworkComponentConfig monitorInformationCSSLayout = componentConfig.getCssLayoutConfig(
+                GtnUIFrameworkComponentConfig gtnLayout = componentConfig.getHorizontalLayoutConfig(
 				"monitorInformationCSSLayout", true, GtnFrameworkCommonConstants.MONITOR_EDITOR_CSS_LAYOUT);
-		monitorInformationCSSLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_5);
-		monitorInformationCSSLayout.setSpacing(true);
-		monitorInformationCSSLayout.setMargin(true);
-		componentList.add(monitorInformationCSSLayout);
-
+                gtnLayout.setComponentWidth("40%");
+		componentList.add(gtnLayout);
 		addMonitorInformationPanel(componentList);
 		addMonitorLayout(componentList);
 		addMonitorInformationComponent(componentList);
@@ -128,9 +124,9 @@ public class GtnFrameworkProcessMonitorLandingScreenConfig {
 
 	private void addRunTimesCSSLayout(List<GtnUIFrameworkComponentConfig> componentList) {
 
-		GtnUIFrameworkComponentConfig runTimesCSSLayout = componentConfig.getCssLayoutConfig("runTimesCSSLayout", true,
+		GtnUIFrameworkComponentConfig runTimesCSSLayout = componentConfig.getHorizontalLayoutConfig("runTimesCSSLayout", true,
 				GtnFrameworkCommonConstants.MONITOR_EDITOR_CSS_LAYOUT);
-		runTimesCSSLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_7);
+                runTimesCSSLayout.setComponentWidth("60%");
 		componentList.add(runTimesCSSLayout);
 
 		addRunTimesPanel(componentList);
@@ -139,13 +135,10 @@ public class GtnFrameworkProcessMonitorLandingScreenConfig {
 	}
 
 	private void addMonitorInformationPanel(List<GtnUIFrameworkComponentConfig> componentList) {
-		GtnUIFrameworkComponentConfig panelConfig = new GtnUIFrameworkComponentConfig();
+            GtnUIFrameworkComponentConfig panelConfig = componentConfig.getPanelConfig(
+				"monitorInformationPanel", true,
+				"monitorInformationCSSLayout");
 		panelConfig.setComponentName("Monitor Information");
-		panelConfig.setComponentId("monitorInformationPanel");
-		panelConfig.setParentComponentId("monitorInformationCSSLayout");
-		panelConfig.setComponentType(GtnUIFrameworkComponentType.PANEL);
-		panelConfig.setAuthorizationIncluded(true);
-		panelConfig.setAddToParent(true);
 		componentList.add(panelConfig);
 
 	}
@@ -172,7 +165,7 @@ public class GtnFrameworkProcessMonitorLandingScreenConfig {
 				"runTimesCSSLayout");
 		runTimesPanel.setComponentName("Run Times");
 		runTimesPanel.setAuthorizationIncluded(true);
-		runTimesPanel.setComponentHight("225px");
+		runTimesPanel.setComponentHight("242px");
 		componentList.add(runTimesPanel);
 
 	}
@@ -602,7 +595,7 @@ public class GtnFrameworkProcessMonitorLandingScreenConfig {
 	private void addADDButtonLayout(List<GtnUIFrameworkComponentConfig> componentList) {
 
 		GtnUIFrameworkComponentConfig addButtonLayout = componentConfig
-				.getHorizontalLayoutConfig(GtnFrameworkProcessMonitorStringContants.BUTTON_LAYOUT, false, null);
+				.getCssLayoutConfig(GtnFrameworkProcessMonitorStringContants.BUTTON_LAYOUT, false, null);
 		addButtonLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		componentList.add(addButtonLayout);
 		addAddButtonComponent(componentList);
@@ -610,8 +603,11 @@ public class GtnFrameworkProcessMonitorLandingScreenConfig {
 	}
 
 	private void addAddButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
+                GtnUIFrameworkComponentConfig gtnLayout = componentConfig.getHorizontalLayoutConfig("gtnAdd01Layout", true,
+				GtnFrameworkProcessMonitorStringContants.BUTTON_LAYOUT);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig addButton = componentConfig.getUIFrameworkComponentConfig("gtnAddButton", true,
-				GtnFrameworkProcessMonitorStringContants.BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
+				"gtnAdd01Layout", GtnUIFrameworkComponentType.BUTTON);
 		addButton.setComponentName(GtnFrameworkCommonStringConstants.ADD);
 		addButton.setAuthorizationIncluded(true);
 		componentList.add(addButton);
@@ -650,9 +646,12 @@ public class GtnFrameworkProcessMonitorLandingScreenConfig {
 	}
 
 	private void addDeleteButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
+                GtnUIFrameworkComponentConfig gtnLayout = componentConfig.getHorizontalLayoutConfig("gtnDelete01Layout", true,
+				GtnFrameworkProcessMonitorStringContants.BUTTON_LAYOUT);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig deleteButton = componentConfig.getUIFrameworkComponentConfig(
 				GtnWsProcessMonitorConstants.GTN_PROCESS_MONITOR_DELETE, true,
-				GtnFrameworkProcessMonitorStringContants.BUTTON_LAYOUT, GtnUIFrameworkComponentType.BUTTON);
+				"gtnDelete01Layout", GtnUIFrameworkComponentType.BUTTON);
 		deleteButton.setAuthorizationIncluded(true);
 		deleteButton.setComponentName("DELETE");
 		deleteButton.setEnable(false);
