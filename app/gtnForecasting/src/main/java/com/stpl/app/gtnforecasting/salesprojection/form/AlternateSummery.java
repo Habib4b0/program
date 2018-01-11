@@ -77,6 +77,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1472,6 +1474,13 @@ public class AlternateSummery extends CustomComponent {
 
         if (hierarchy != null) {
             int maxLevel = hierarchy.size() - 1;
+            Collections.sort(hierarchy,new Comparator<Leveldto>(){
+            	@Override
+				public int compare(Leveldto o1, Leveldto o2) {
+					return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+            	}
+            	 });
+            Collections.reverse(hierarchy);
             for (Leveldto levelDto : hierarchy) {
                 String levelFiterSid = levelDto.getTreeLevelNo() + "~" + levelDto.getHierarchyIndicator();
                 String caption = Constant.LEVEL + levelDto.getTreeLevelNo() + " - " + levelDto.getLevel();
