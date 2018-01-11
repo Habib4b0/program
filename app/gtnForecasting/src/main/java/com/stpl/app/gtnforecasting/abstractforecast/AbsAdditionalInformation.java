@@ -275,13 +275,11 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
              *
              */
             private static final long serialVersionUID = 1L;
-
             @Override
             public void call(JsonArray arguments) {
                  try {
                     String value = String.valueOf(arguments.get(0).asString());
                     if (StringUtils.isNotEmpty(value)) {
-
                         fileUpload = CommonUtil.getFilePath(fileUploadPath + value);
                         String name = fileUpload.getAbsolutePath();
                         if (name.contains("\\")) {
