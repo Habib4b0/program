@@ -95,7 +95,7 @@ public class DataSelection extends AbstractDataSelection {
 	private Map<String, String> productDescriptionMap = null;
 	private boolean dismantleCustomerSelection = true;
 	private boolean dismantleProductSelection = true;
-	public static Map<String, String> relationLevelValues = new HashMap<>();
+	private static Map<String, String> relationLevelValues = new HashMap<>();
 	private final DataSelectionLogic dataLogic = new DataSelectionLogic();
 	private final List<Integer> customerBeanList = new ArrayList<>();
 	private final List<Integer> productBeanList = new ArrayList<>();
@@ -146,7 +146,7 @@ public class DataSelection extends AbstractDataSelection {
 				initializeCustomerHierarchy(projectionId, String.valueOf(dataSelectionDTO.getCustomerHierarchyLevel()));
 			}
 			company.setValue(Integer.valueOf(dataSelectionDTO.getCompanySid()));
-			businessUnit.setValue(dataSelectionDTO.getBusinessUnitSystemId());
+			getBusinessUnit().setValue(dataSelectionDTO.getBusinessUnitSystemId());
 		} catch (final Exception e) {
 			LOGGER.error(e);
 		}
@@ -244,7 +244,7 @@ public class DataSelection extends AbstractDataSelection {
 		resetBtn.setEnabled(false);
 		saveViewBtn.setEnabled(false);
 		deleteViewBtn.setEnabled(false);
-		businessUnit.setEnabled(false);
+		getBusinessUnit().setEnabled(false);
 
 	}
 
@@ -1740,7 +1740,7 @@ public class DataSelection extends AbstractDataSelection {
 								newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 										UiUtils.parseStringToInteger(
 												String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
-										productDescriptionMap, businessUnit.getValue(),
+										productDescriptionMap, getBusinessUnit().getValue(),
 										DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
 										productRelationVersionNo, getDataSelectionFormattedLevelNo(
 												String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
@@ -1912,7 +1912,7 @@ public class DataSelection extends AbstractDataSelection {
 							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 									UiUtils.parseStringToInteger(
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
-									productDescriptionMap, businessUnit.getValue(),
+									productDescriptionMap, getBusinessUnit().getValue(),
 									DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
 									productRelationVersionNo, getDataSelectionFormattedLevelNo(
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
@@ -2013,7 +2013,7 @@ public class DataSelection extends AbstractDataSelection {
 							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 									UiUtils.parseStringToInteger(
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
-									productDescriptionMap, businessUnit.getValue(),
+									productDescriptionMap, getBusinessUnit().getValue(),
 									DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
 									productRelationVersionNo, getDataSelectionFormattedLevelNo(
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
@@ -2142,7 +2142,7 @@ public class DataSelection extends AbstractDataSelection {
 							newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 									UiUtils.parseStringToInteger(
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
-									productDescriptionMap, businessUnit.getValue(),
+									productDescriptionMap, getBusinessUnit().getValue(),
 									DataSelectionUtil.getBeanFromId(item), productHierarchyVersionNo,
 									productRelationVersionNo, getDataSelectionFormattedLevelNo(
 											String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
@@ -2386,7 +2386,7 @@ public class DataSelection extends AbstractDataSelection {
 						}
 						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 								UiUtils.parseStringToInteger(String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
-								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
+								productDescriptionMap, getBusinessUnit().getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo, getDataSelectionFormattedLevelNo(
 										String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
 						if (newParentLevels != null) {
@@ -2547,7 +2547,7 @@ public class DataSelection extends AbstractDataSelection {
 						}
 						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 								UiUtils.parseStringToInteger(String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
-								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
+								productDescriptionMap, getBusinessUnit().getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo, getDataSelectionFormattedLevelNo(
 										String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
 						if (newParentLevels != null) {
@@ -2645,7 +2645,7 @@ public class DataSelection extends AbstractDataSelection {
 								productDescriptionMap, productHierarchyVersionNo, productRelationVersionNo);
 						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 								UiUtils.parseStringToInteger(String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
-								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
+								productDescriptionMap, getBusinessUnit().getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo, getDataSelectionFormattedLevelNo(
 										String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
 						if (newParentLevels != null) {
@@ -2732,7 +2732,7 @@ public class DataSelection extends AbstractDataSelection {
 						}
 						newChildLevels = logic.getChildLevelsWithHierarchyNo(currentHierarchyNo,
 								UiUtils.parseStringToInteger(String.valueOf(productlevelDdlb.getValue()).split("-")[0]),
-								productDescriptionMap, businessUnit.getValue(), DataSelectionUtil.getBeanFromId(item),
+								productDescriptionMap, getBusinessUnit().getValue(), DataSelectionUtil.getBeanFromId(item),
 								productHierarchyVersionNo, productRelationVersionNo, getDataSelectionFormattedLevelNo(
 										String.valueOf(productlevelDdlb.getValue()).split("-")[0]));
 						if (newChildLevels != null && !newChildLevels.isEmpty()) {
@@ -2819,7 +2819,7 @@ public class DataSelection extends AbstractDataSelection {
 	@Override
 	protected void resetButtonLogic() {
 		company.setValue(0);
-		businessUnit.setValue(0);
+		getBusinessUnit().setValue(0);
 		customerBeanList.clear();
 		productBeanList.clear();
 	}
@@ -2832,7 +2832,7 @@ public class DataSelection extends AbstractDataSelection {
 	 */
 	private void loadView(ViewDTO viewDTO) throws SystemException {
 		company.setValue(Integer.valueOf(viewDTO.getCompanyMasterSid()));
-		businessUnit.setValue(viewDTO.getBusinessUnitSystemId());
+		getBusinessUnit().setValue(viewDTO.getBusinessUnitSystemId());
 		dismantleCustomerSelection = true;
 		dismantleProductSelection = true;
 		customerHierarchyDto = new HierarchyLookupDTO();
@@ -3032,7 +3032,7 @@ public class DataSelection extends AbstractDataSelection {
 							productHierarchyDto.getHierarchyId(), selectedLevelSids, false, companyLevel.getFieldName(),
 							relationshipSid, productDescriptionMap, StringUtils.EMPTY, screenName,
 							0, companyLevel.getLevelNo(),
-							company.getValue(), businessUnit.getValue());
+							company.getValue(), getBusinessUnit().getValue());
 				}
 			}
 		} catch (Exception ex) {
@@ -3091,7 +3091,7 @@ public class DataSelection extends AbstractDataSelection {
 				resultedLevelsList = relationLogic.loadAvailableProductlevel(selectedHierarchyLevelDto,
 						Integer.valueOf(relationshipSid), tempGroupFileter, selectedCustomerContractList, isNdc,
 						hierarchyLevelDefinitionList, customerHierarchyDefinitionList, productRelationVersionNo,
-						customerRelationVersionNo, businessUnit.getValue());
+						customerRelationVersionNo, getBusinessUnit().getValue());
 				if (selectedHierarchyLevelDto.getLevel() != null) {
 					levelName = selectedHierarchyLevelDto.getLevel();
 				}
@@ -3163,7 +3163,7 @@ public class DataSelection extends AbstractDataSelection {
 							true, ndcLevel.getFieldName(), relationshipSid, productDescriptionMap,
 							INDICATOR_LEVEL_NDC.getConstant(), screenName,
 							0, ndcLevel.getLevelNo(),
-							company.getValue(), businessUnit.getValue());
+							company.getValue(), getBusinessUnit().getValue());
 				}
 			}
 		} catch (Exception ex) {
@@ -3265,7 +3265,7 @@ public class DataSelection extends AbstractDataSelection {
 							isNdc, tempDto.getFieldName(), relationshipSid, customerDescriptionMap,
 							DataSelectionUtil.identifyLevel(tempDto), screenName,
 							0, tempDto.getLevelNo(),
-							company.getValue(), businessUnit.getValue());
+							company.getValue(), getBusinessUnit().getValue());
 
 					if (groupFilteredCompanies != null
 							&& COMPANY_MASTER_TABLE.equalsIgnoreCase(String.valueOf(tempDto.getTableName()))
@@ -3322,7 +3322,7 @@ public class DataSelection extends AbstractDataSelection {
 							false, customerLevelDto.getFieldName(), relationshipSid, customerDescriptionMap,
 							INDICATOR_LEVEL_CUSTOMER.getConstant(), screenName,
 							0, customerLevelDto.getLevelNo(),
-							company.getValue(), businessUnit.getValue());
+							company.getValue(), getBusinessUnit().getValue());
 				}
 			}
 		} catch (Exception ex) {
@@ -3337,8 +3337,8 @@ public class DataSelection extends AbstractDataSelection {
 		} else {
 			dataSelectionDTO.setCompanySid(String.valueOf(0));
 		}
-		if (businessUnit.getValue() != null && !SELECT_ONE.equals(businessUnit.getValue())) {
-			dataSelectionDTO.setBusinessUnitSystemId((Integer) businessUnit.getValue());
+		if (getBusinessUnit().getValue() != null && !SELECT_ONE.equals(getBusinessUnit().getValue())) {
+			dataSelectionDTO.setBusinessUnitSystemId((Integer) getBusinessUnit().getValue());
 		} else {
 			dataSelectionDTO.setBusinessUnitSystemId(0);
 		}
@@ -3812,7 +3812,7 @@ public class DataSelection extends AbstractDataSelection {
 	}
 
 	private void configureBusinessUnitDdlb() {
-		businessUnit.addValueChangeListener(new Property.ValueChangeListener() {
+		getBusinessUnit().addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
 				availableProductContainer.removeAllItems();
