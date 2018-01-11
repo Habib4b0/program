@@ -62,13 +62,7 @@ import org.vaadin.alump.beforeunload.BeforeUnload;
  * @author soundarrajan
  * @version 1.0
  */
-@Theme("stpl")
-@Widgetset("com.stpl.widgetset.vaadin.widgetset.AppWidgetSet")
-@Component(service = UI.class, property = {
-    "com.liferay.portlet.display-category=Forecast and Planning",
-    "javax.portlet.name=Commercial",
-    "javax.portlet.display-name=Commercial",
-    "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
+
 public class ForecastUI extends UI {
 
     /**

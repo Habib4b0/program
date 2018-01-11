@@ -34,7 +34,7 @@ public class LayoutInflater {
     static final String IMPORT_URN_PREFIX = "urn:" + URN_NAMESPACE_ID + ":";
     static final String DEFAULT_NAMESPACE = IMPORT_URN_PREFIX + "com.vaadin.ui";
     static final String DEFAULT_V7_NAMESPACE = IMPORT_URN_PREFIX + "com.vaadin.v7.ui";
-    private List<String> v7Components = Arrays.asList("VerticalLayout", "TreeTable", "TextField", "OptionGroup", "NativeSelect", "Label", "ComboBox", "TextArea", "Tree", "Upload","HorizontalLayout","PopupDateField");
+    private List<String> v7Components = Arrays.asList("VerticalLayout", "TreeTable", "TextField", "OptionGroup", "NativeSelect", "Label", "ComboBox", "TextArea", "Tree", "Upload","HorizontalLayout","PopupDateField","Table");
     private List<AttributeFilter> attributeFilters = new ArrayList<AttributeFilter>();
     private List<AttributeParser> extraAttributeParsers = new ArrayList<AttributeParser>();
 
