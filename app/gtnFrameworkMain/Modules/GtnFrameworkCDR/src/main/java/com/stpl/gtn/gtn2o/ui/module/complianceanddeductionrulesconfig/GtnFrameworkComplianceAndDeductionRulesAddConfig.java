@@ -53,10 +53,6 @@ public class GtnFrameworkComplianceAndDeductionRulesAddConfig {
 		layoutConfig.setGtnLayoutConfig(layout);
 		componentList.add(layoutConfig);
 
-		new GtnFrameworkComplianceAndDeductionRulesInformationTabConfig().addIdentifierTab(componentList);
-
-		addNotesTab(componentList);
-
 		addTabSheet(componentList);
 	}
 
@@ -71,10 +67,17 @@ public class GtnFrameworkComplianceAndDeductionRulesAddConfig {
 		GtnUIFrameworkTabConfig companyInformationTab = new GtnUIFrameworkTabConfig();
 		companyInformationTab.setComponentId("complianceAndDeductionRulesInformationTab");
 		companyInformationTab.setTabCaption("Rules Information");
+		List<GtnUIFrameworkComponentConfig> ruleInformationTabConfigList = new ArrayList<>();
+		companyInformationTab.setTabLayoutComponentConfigList(ruleInformationTabConfigList);
+		new GtnFrameworkComplianceAndDeductionRulesInformationTabConfig()
+				.addIdentifierTab(ruleInformationTabConfigList);
 
 		GtnUIFrameworkTabConfig notesTab = new GtnUIFrameworkTabConfig();
 		notesTab.setComponentId(GtnFrameworkCommonConstants.NOTES_TAB);
 		notesTab.setTabCaption("Notes");
+		List<GtnUIFrameworkComponentConfig> notesTabConfigList = new ArrayList<>();
+		notesTab.setTabLayoutComponentConfigList(notesTabConfigList);
+		addNotesTab(notesTabConfigList);
 
 		List<GtnUIFrameworkTabConfig> tabConfigList = new ArrayList<>();
 		tabConfigList.add(companyInformationTab);
