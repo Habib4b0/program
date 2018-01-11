@@ -82,7 +82,7 @@ public class GtnFrameworkCalendarConfigurationSearchConfig {
 	private void addCCActionButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			List<String> componentIdList, String parent) {
 		GtnUIFrameworkComponentConfig layoutConfig = configProvider
-				.getHorizontalLayoutConfig(namspacePrefix + "actionButtonlayout", true, parent);
+				.getCssLayoutConfig(namspacePrefix + "actionButtonlayout", true, parent);
 		layoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(layoutConfig);
 		addCCAddButtonComponent(componentList, namspacePrefix, layoutConfig.getComponentId());
@@ -95,8 +95,11 @@ public class GtnFrameworkCalendarConfigurationSearchConfig {
 
 	private void addCCAddButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnCCAdd01Layout", true,
+				parent);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig addBtnConfig = configProvider.getUIFrameworkComponentConfig(
-				namspacePrefix + "addBtn", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + "addBtn", true, namspacePrefix + "gtnCCAdd01Layout", GtnUIFrameworkComponentType.BUTTON);
 		addBtnConfig.setComponentName("ADD");
 		addBtnConfig.setAuthorizationIncluded(true);
 		componentList.add(addBtnConfig);
@@ -116,8 +119,11 @@ public class GtnFrameworkCalendarConfigurationSearchConfig {
 
 	private void addCCEditButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnCCEdit01Layout", true,
+				parent);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig editBtnConfig = configProvider.getUIFrameworkComponentConfig(
-				namspacePrefix + "editBtn", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + "editBtn", true, namspacePrefix + "gtnCCEdit01Layout", GtnUIFrameworkComponentType.BUTTON);
 		editBtnConfig.setComponentName("EDIT");
 		editBtnConfig.setAuthorizationIncluded(true);
 		componentList.add(editBtnConfig);
@@ -159,8 +165,11 @@ public class GtnFrameworkCalendarConfigurationSearchConfig {
 
 	private void addCCViewButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnCCView01Layout", true,
+				parent);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig viewBtnConfig = configProvider.getUIFrameworkComponentConfig(
-				namspacePrefix + "viewBtn", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + "viewBtn", true, namspacePrefix + "gtnCCView01Layout", GtnUIFrameworkComponentType.BUTTON);
 		viewBtnConfig.setComponentName("VIEW");
 		viewBtnConfig.setAuthorizationIncluded(true);
 		componentList.add(viewBtnConfig);
@@ -207,8 +216,11 @@ public class GtnFrameworkCalendarConfigurationSearchConfig {
 
 	private void addCCDeleteButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			List<String> componentIdList, String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnCCDelete01Layout", true,
+				parent);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig deleteBtnConfig = configProvider.getUIFrameworkComponentConfig(
-				namspacePrefix + "deleteBtn", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + "deleteBtn", true, namspacePrefix + "gtnCCDelete01Layout", GtnUIFrameworkComponentType.BUTTON);
 		deleteBtnConfig.setComponentName("DELETE");
 		deleteBtnConfig.setAuthorizationIncluded(true);
 		componentList.add(deleteBtnConfig);
@@ -243,8 +255,11 @@ public class GtnFrameworkCalendarConfigurationSearchConfig {
 
 	private void addCCCopyButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnCCCopy01Layout", true,
+				parent);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig copyBtnConfig = configProvider.getUIFrameworkComponentConfig(
-				namspacePrefix + "copyBtn", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + "copyBtn", true, namspacePrefix + "gtnCCCopy01Layout", GtnUIFrameworkComponentType.BUTTON);
 		copyBtnConfig.setComponentName("COPY");
 		copyBtnConfig.setAuthorizationIncluded(true);
 		componentList.add(copyBtnConfig);
@@ -291,8 +306,11 @@ public class GtnFrameworkCalendarConfigurationSearchConfig {
 
 	private void addCCExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnCCExcel01Layout", true,
+				parent);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig excelBtnComponentConfig = configProvider.getUIFrameworkComponentConfig(
-				namspacePrefix + "excelBtn", true, parent, GtnUIFrameworkComponentType.EXCEL_BUTTON);
+				namspacePrefix + "excelBtn", true, namspacePrefix + "gtnCCExcel01Layout", GtnUIFrameworkComponentType.EXCEL_BUTTON);
 		excelBtnComponentConfig.setAuthorizationIncluded(true);
 		componentList.add(excelBtnComponentConfig);
 		GtnUIFrameworkExcelButtonConfig gtnExcelButtonConfig = new GtnUIFrameworkExcelButtonConfig();
@@ -309,7 +327,7 @@ public class GtnFrameworkCalendarConfigurationSearchConfig {
 	private void addCCButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			List<String> componentIdList, String parent) {
 		GtnUIFrameworkComponentConfig layoutConfig = configProvider
-				.getHorizontalLayoutConfig(namspacePrefix + "searchButtonlayout", true, parent);
+				.getCssLayoutConfig(namspacePrefix + "searchButtonlayout", true, parent);
 		layoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(layoutConfig);
 		addSearchButtonComponent(componentList, namspacePrefix, componentIdList, layoutConfig.getComponentId());
@@ -318,8 +336,11 @@ public class GtnFrameworkCalendarConfigurationSearchConfig {
 
 	private void addSearchButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			List<String> componentIdList, String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnSearch01Layout", true,
+				parent);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig ccSearchButtonConfig = configProvider.getUIFrameworkComponentConfig(
-				namspacePrefix + "gtnSearch", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + "gtnSearch", true, namspacePrefix + "gtnSearch01Layout", GtnUIFrameworkComponentType.BUTTON);
 		ccSearchButtonConfig.setComponentName("SEARCH");
 		ccSearchButtonConfig.setAuthorizationIncluded(true);
 		componentList.add(ccSearchButtonConfig);
@@ -353,8 +374,11 @@ public class GtnFrameworkCalendarConfigurationSearchConfig {
 
 	private void addResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			List<String> componentIdList, String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnReset01Layout", true,
+				parent);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig resetButtonConfig = configProvider.getUIFrameworkComponentConfig(
-				namspacePrefix + "gtnReset", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + "gtnReset", true, namspacePrefix + "gtnReset01Layout", GtnUIFrameworkComponentType.BUTTON);
 		resetButtonConfig.setComponentName("RESET");
 		resetButtonConfig.setAuthorizationIncluded(true);
 		componentList.add(resetButtonConfig);
