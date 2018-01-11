@@ -129,7 +129,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 						GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
 		ifpItemAdditionColumnDetailsMap.put("ifpEndDate", configProvider.getColumnDateConfig("IFP_END_DATE", "IFP"));
 		ifpItemAdditionColumnDetailsMap.put("IFP END DATE", configProvider.getColumnDateConfig("IFP_END_DATE", "IFP"));
-		ifpItemAdditionColumnDetailsMap.put("IFP START DATE",
+		ifpItemAdditionColumnDetailsMap.put("IFPSTARTDATE",
 				configProvider.getColumnDateConfig("IFP_START_DATE", "IFP"));
 		ifpItemAdditionColumnDetailsMap.put("IFP TYPE",
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION,
