@@ -18,12 +18,13 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.v7.ui.Table;
 import com.stpl.app.security.businessRoleModuleMaster.util.CommonUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DeleteButtonLayout extends HorizontalLayout {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(DeleteButtonLayout.class.getName());
 	private ErrorfulFieldGroup binder;
 	BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
@@ -83,9 +84,9 @@ public class DeleteButtonLayout extends HorizontalLayout {
 					}
 				}catch (SystemException e) {
 					// TODO Auto-generated catch block
-				LOGGER.error(e);
+				LOGGER.error(e.getMessage());
 				}  catch (CommitException e) {
-                                     LOGGER.error(e);
+                                     LOGGER.error(e.getMessage());
 				}
 				binder.getField(CommonUtils.BUSINESS_ROLE_MASTERSID).setReadOnly(true);
 			}

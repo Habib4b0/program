@@ -136,7 +136,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String PROPERTY_DEDUCTION_CALENDAR_NO = "deductionCalendarNo";
 	public static final String FORMULA_POP_UP_SEARCH_SEARCH_VIEW = "FormulaPopUpSearchSearchView";
 	public static final String AVAILABLE_TABLE_ACTION_BUTTONLAYOUT = "availableTableActionButtonlayout";
-
+        public static final String RELATIONSHIP_SEARCH_BUTTONLAYOUT = "relationshipSearchButtonlayout";
 	/**
 	 *
 	 * Item Master Constant

@@ -28,6 +28,7 @@ import elemental.json.JsonArray;
 import java.util.HashMap;
 import java.util.List;
 
+
 /**
  *
  * @author Hazihabibullah.Syed
@@ -85,9 +86,10 @@ public class GtnFrameworkUpdateTableJSListenerAction implements GtnUIFrameWorkAc
 				 */
 				private static final long serialVersionUID = 1L;
 
+
                             @Override
                             public void call(JsonArray arguments) {
-                               try {
+                               	try {
 
 						table.getLogicFromPagedDataTable()
 								.setCurrentPage(table.getLogicFromPagedDataTable().getCurrentPage());

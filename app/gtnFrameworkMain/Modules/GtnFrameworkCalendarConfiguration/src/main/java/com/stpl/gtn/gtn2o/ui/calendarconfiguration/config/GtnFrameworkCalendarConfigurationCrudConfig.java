@@ -72,7 +72,7 @@ public class GtnFrameworkCalendarConfigurationCrudConfig {
 	private void addCCCrudViewButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix,
 			List<String> componentIdList, String parent) {
 		GtnUIFrameworkComponentConfig layoutConfig = configProvider
-				.getHorizontalLayoutConfig(namspacePrefix + "saveButtonlayout", true, parent);
+				.getCssLayoutConfig(namspacePrefix + "saveButtonlayout", true, parent);
 		layoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(layoutConfig);
 		addCCCrudViewSaveButtonComponent(componentList, namspacePrefix, componentIdList, layoutConfig.getComponentId());
@@ -82,8 +82,11 @@ public class GtnFrameworkCalendarConfigurationCrudConfig {
 
 	private void addCCCrudViewSaveButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namspacePrefix, List<String> componentIdList, String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnCCCrudViewSave01Layout", true,
+				parent);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig searchCCCrudButtonConfig = configProvider.getUIFrameworkComponentConfig(
-				namspacePrefix + "gtnSave", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + "gtnSave", true, namspacePrefix + "gtnCCCrudViewSave01Layout", GtnUIFrameworkComponentType.BUTTON);
 		searchCCCrudButtonConfig.setComponentName("SAVE");
 		searchCCCrudButtonConfig.setAuthorizationIncluded(true);
 		componentList.add(searchCCCrudButtonConfig);
@@ -129,8 +132,11 @@ public class GtnFrameworkCalendarConfigurationCrudConfig {
 
 	private void addCCCrudViewResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namspacePrefix, String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnCCCrudViewReset01Layout", true,
+				parent);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig resetButtonConfig = configProvider.getUIFrameworkComponentConfig(
-				namspacePrefix + "gtnReset", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + "gtnReset", true, namspacePrefix + "gtnCCCrudViewReset01Layout", GtnUIFrameworkComponentType.BUTTON);
 		resetButtonConfig.setComponentName("RESET");
 		resetButtonConfig.setAuthorizationIncluded(true);
 		componentList.add(resetButtonConfig);
@@ -150,8 +156,11 @@ public class GtnFrameworkCalendarConfigurationCrudConfig {
 
 	private void addCCCrudViewCloseButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			String namspacePrefix, String parent) {
+                GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(namspacePrefix + "gtnCCCrudViewClose01Layout", true,
+				parent);
+		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig closeButtonConfig = configProvider.getUIFrameworkComponentConfig(
-				namspacePrefix + "gtnClose", true, parent, GtnUIFrameworkComponentType.BUTTON);
+				namspacePrefix + "gtnClose", true, namspacePrefix + "gtnCCCrudViewClose01Layout", GtnUIFrameworkComponentType.BUTTON);
 		closeButtonConfig.setComponentName("CLOSE");
 		closeButtonConfig.setAuthorizationIncluded(true);
 		componentList.add(closeButtonConfig);

@@ -10,7 +10,8 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.ListType;
 import com.liferay.portal.kernel.service.ListTypeServiceUtil;
 import com.vaadin.v7.ui.NativeSelect;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CommonUtils {
 	
@@ -48,7 +49,7 @@ public class CommonUtils {
 	 * @param listTypeId- listType typeid of listtype table to get the description
 	 * @return String - The description for the specific listtype id
 	 */
-	private static final Logger LOGGER = Logger
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(CommonUtils.class.getName());
 	public  NativeSelect getNativeSelect(NativeSelect select,List<HelperDTO> helperList) {
 		for (HelperDTO helperDTO : helperList) {
@@ -236,7 +237,7 @@ public class CommonUtils {
 
                              }
                          } catch (Exception e) {
-                             LOGGER.error(e);
+                             LOGGER.error(e.getMessage());
                 }
 	    	return memberIdquery;
 	    }
@@ -309,7 +310,7 @@ public class CommonUtils {
 
 					}
 				 }catch(Exception e){
-					 LOGGER.error(e);
+					 LOGGER.error(e.getMessage());
 				 }
 		
 

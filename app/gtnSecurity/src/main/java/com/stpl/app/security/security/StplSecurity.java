@@ -13,13 +13,11 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
 import com.liferay.portal.kernel.dao.orm.Disjunction;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.app.service.UsergroupBusinessroleLocalService;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
 import com.stpl.app.util.ConstantsUtils;
@@ -32,7 +30,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -46,7 +45,7 @@ public class StplSecurity {
 
     public static final int FIELD_VALUE = 2;
 
-    private static final Logger LOGGER = Logger.getLogger(StplSecurity.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StplSecurity.class);
 
     final private StplSecurityDAO dto = new StplSecurityDAOImpl();
 
@@ -134,7 +133,7 @@ public class StplSecurity {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return domainIds;

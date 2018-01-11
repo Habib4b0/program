@@ -36,7 +36,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
@@ -78,7 +79,7 @@ public class SearchForm extends CustomComponent {
     private ExtFilterTable table;
 
     private String userId;
-    private static final Logger LOGGER = Logger.getLogger(SearchForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SearchForm.class);
 
     public SearchForm(BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans, BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult, ExtFilterTable table, ExtFilterTable tableResult, String userId) {
         super();
@@ -148,7 +149,7 @@ public class SearchForm extends CustomComponent {
                             moduleName.select(CommonUtils.SELECT_ONE);
                         }
                     } catch (Exception e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                     }
                 }
             }
@@ -251,7 +252,7 @@ public class SearchForm extends CustomComponent {
             helperLst.addAll(businessRoleModuleLogic.getModuleNames());
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return new IndexedContainer(helperLst);
     }

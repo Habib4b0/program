@@ -71,6 +71,7 @@ public class GtnWsWorkFlowOpenViewController {
 				}
 			}
 			boolean roleMatched = false;
+                        if(userModel!=null){
 			List<Role> userRoles = gtnWsUserRoleService.getUserRoles(userModel.getUserId());
 
 			for (Role r : userRoles) {
@@ -80,6 +81,7 @@ public class GtnWsWorkFlowOpenViewController {
 				}
 
 			}
+                        }
 			workflowresponse.setRoleMatched(roleMatched);
 			openViewBpmResponse.setGtnSerachResponse(gtnSerachResponse);
 			openViewBpmResponse.setGtnWSCommonWorkflowResponse(workflowresponse);
