@@ -852,7 +852,7 @@ public class GtnWsRelationshipBuilderService {
 		GtnFrameworkSingleColumnRelationBean keyRelationBean = gtnFrameworkEntityMasterBean
 				.getKeyRelationBeanUsingTableIdAndColumnName(hierarchyBean.getTableName(),
 						hierarchyBean.getFieldName());
-		String tempHierarchyNo = hirarchyNo;
+		String tempHierarchyNo;
 		tempHierarchyNo = getHierarchyNoforQuery(hirarchyNo, keyRelationBean.getMasterIdColumn());
 		String finalHierarchyNo = "CONCAT(" + gethiddenIdhierarchyNo + tempHierarchyNo + ")";
 		finalQueryBean.addSelectClauseBean(null, "HIERARCHY_NO", Boolean.FALSE, finalHierarchyNo);
