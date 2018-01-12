@@ -21,7 +21,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
  *
  * @author Abhiram.Giri
  */
-public class GtnWsRecordBean implements Serializable, Cloneable {
+public class GtnWsRecordBean implements Serializable {
 
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsRecordBean.class);
 
@@ -426,7 +426,7 @@ public class GtnWsRecordBean implements Serializable, Cloneable {
 		additionalProperties.set(index, value);
 	}
 
-	public GtnWsRecordBean clone() throws CloneNotSupportedException {
+	public GtnWsRecordBean cloneGtnWsRecordBean() throws CloneNotSupportedException {
 		GtnWsRecordBean newObject = (GtnWsRecordBean) super.clone();
 		newObject.properties = new ArrayList<>(this.properties);
 		newObject.additionalProperties = new ArrayList<>(this.additionalProperties);
