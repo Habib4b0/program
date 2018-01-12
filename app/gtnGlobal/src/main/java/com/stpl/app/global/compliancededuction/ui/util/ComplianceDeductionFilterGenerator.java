@@ -25,7 +25,7 @@ import org.jboss.logging.Logger;
  */
 public class ComplianceDeductionFilterGenerator implements ExtFilterGenerator {
 
-    private static Logger LOGGER = Logger.getLogger(ComplianceDeductionFilterGenerator.class);
+    private static final Logger LOGGER = Logger.getLogger(ComplianceDeductionFilterGenerator.class);
 
     private final CommonUtil commonUtil = CommonUtil.getInstance();
 

@@ -95,19 +95,19 @@ public class ContractResultDTO {
     }
 
     public Date getCompStartDate() {
-        return compStartDate;
+        return compStartDate == null ? null : (Date) compStartDate.clone();
     }
 
     public void setCompStartDate(Date compStartDate) {
-        this.compStartDate = compStartDate;
+        this.compStartDate = compStartDate == null ? null : (Date) compStartDate.clone();
     }
 
     public Date getCompEndDate() {
-        return compEndDate;
+        return compEndDate == null ? null : (Date) compEndDate.clone();
     }
 
     public void setCompEndDate(Date compEndDate) {
-        this.compEndDate = compEndDate;
+        this.compEndDate = compEndDate == null ? null : (Date) compEndDate.clone();
     }
 
     public Boolean getCheckRecord() {
@@ -147,19 +147,19 @@ public class ContractResultDTO {
     }
 
     public Date getContStartDate() {
-        return contStartDate;
+        return contStartDate == null ? null : (Date) contStartDate.clone();
     }
 
     public void setContStartDate(Date contStartDate) {
-        this.contStartDate = contStartDate;
+        this.contStartDate = contStartDate == null ? null : (Date) contStartDate.clone();
     }
 
     public Date getContEndDate() {
-        return contEndDate;
+        return contEndDate == null ? null : (Date) contEndDate.clone();
     }
 
     public void setContEndDate(Date contEndDate) {
-        this.contEndDate = contEndDate;
+        this.contEndDate = contEndDate == null ? null : (Date) contEndDate.clone();
     }
 
     public String getCfpName() {
@@ -299,19 +299,19 @@ public class ContractResultDTO {
     }
 
     public Date getCfpStartDate() {
-        return cfpStartDate;
+        return cfpStartDate == null ? null : (Date) cfpStartDate.clone();
     }
 
     public void setCfpStartDate(Date cfpStartDate) {
-        this.cfpStartDate = cfpStartDate;
+        this.cfpStartDate = cfpStartDate == null ? null : (Date) cfpStartDate.clone();
     }
 
     public Date getCfpEndDate() {
-        return cfpEndDate;
+        return cfpEndDate == null ? null : (Date) cfpEndDate.clone();
     }
 
     public void setCfpEndDate(Date cfpEndDate) {
-        this.cfpEndDate = cfpEndDate;
+        this.cfpEndDate = cfpEndDate == null ? null : (Date) cfpEndDate.clone();
     }
 
     public String getIfpId() {
@@ -323,19 +323,19 @@ public class ContractResultDTO {
     }
 
     public Date getIfpStartDate() {
-        return ifpStartDate;
+        return ifpStartDate == null ? null : (Date) ifpStartDate.clone();
     }
 
     public void setIfpStartDate(Date ifpStartDate) {
-        this.ifpStartDate = ifpStartDate;
+        this.ifpStartDate = ifpStartDate == null ? null : (Date) ifpStartDate.clone();
     }
 
     public Date getIfpEndDate() {
-        return ifpEndDate;
+        return ifpEndDate == null ? null : (Date) ifpEndDate.clone();
     }
 
     public void setIfpEndDate(Date ifpEndDate) {
-        this.ifpEndDate = ifpEndDate;
+        this.ifpEndDate = ifpEndDate == null ? null : (Date) ifpEndDate.clone();
     }
 
     public String getpSId() {
@@ -346,35 +346,35 @@ public class ContractResultDTO {
         this.pSId = pSId;
     }
     public Date getpStartDate() {
-        return pStartDate;
+        return pStartDate == null ? null : (Date) pStartDate.clone();
     }
 
     public void setpStartDate(Date pStartDate) {
-        this.pStartDate = pStartDate;
+        this.pStartDate = pStartDate == null ? null : (Date) pStartDate.clone();
     }
 
     public Date getpSEndDate() {
-        return pSEndDate;
+        return pSEndDate == null ? null : (Date) pSEndDate.clone();
     }
 
     public void setpSEndDate(Date pSEndDate) {
-        this.pSEndDate = pSEndDate;
+        this.pSEndDate = pSEndDate == null ? null : (Date) pSEndDate.clone();
     }
 
     public Date getrStartDate() {
-        return rStartDate;
+        return rStartDate == null ? null : (Date) rStartDate.clone();
     }
 
     public void setrStartDate(Date rStartDate) {
-        this.rStartDate = rStartDate;
+        this.rStartDate = rStartDate == null ? null : (Date) rStartDate.clone();
     }
 
     public Date getrSEndDate() {
-        return rSEndDate;
+        return rSEndDate == null ? null : (Date) rSEndDate.clone();
     }
 
     public void setrSEndDate(Date rSEndDate) {
-        this.rSEndDate = rSEndDate;
+        this.rSEndDate = rSEndDate == null ? null : (Date) rSEndDate.clone();
     }
 
     public String getProjectionId() {

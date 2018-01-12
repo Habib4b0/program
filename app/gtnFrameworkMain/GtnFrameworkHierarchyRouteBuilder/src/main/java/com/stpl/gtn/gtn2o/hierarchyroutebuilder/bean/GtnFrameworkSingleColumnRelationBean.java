@@ -111,4 +111,8 @@ public class GtnFrameworkSingleColumnRelationBean {
 		return (descColumnName == null || descColumnName.isEmpty());
 	}
 
+	public String getMasterIdColumn() {
+		return actualTtableName + "." + getWhereClauseColumn();
+	}
+
 }

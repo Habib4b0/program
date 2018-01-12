@@ -477,7 +477,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
 
     @Override
     public void LoadField() {
-        field.addItems(Constants.SELECT_ONE, Constants.END_DATE_HEADER);
+        field.addItems(Constants.SELECT_ONE, Constants.ITEM_END_DATE);
         valuelabel.setVisible(Boolean.FALSE);
         massUpdateValue.setVisible(Boolean.FALSE);
 

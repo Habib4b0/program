@@ -998,11 +998,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     }
 
     public List<Leveldto> getCurrentHierarchy() {
-        return currentHierarchy;
+        return currentHierarchy == null ? currentHierarchy : new ArrayList<>(currentHierarchy);
     }
 
     public void setCurrentHierarchy(List<Leveldto> currentHierarchy) {
-        this.currentHierarchy = currentHierarchy;
+        this.currentHierarchy = currentHierarchy == null ? currentHierarchy : new ArrayList<>(currentHierarchy);
     }
 
     public void generateLogic() {
@@ -2209,6 +2209,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private void loadDisplayFormatDdlb() throws IllegalStateException {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
+        displayFormatDdlb.removeItems();
         displayFormatValues = displayFormatDdlb.addItem(SELECT_VALUES_LABEL, null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);

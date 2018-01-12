@@ -39,7 +39,7 @@ public class CumulativeCalculationUtils {
 
 	public CumulativeCalculationUtils(Object[] procedureInputList, final String userId, final String sessionId,
 			final String methodology, final String tabName, final String tableName) {
-		this.procedureInputList = procedureInputList;
+		this.procedureInputList = procedureInputList == null ? procedureInputList : procedureInputList.clone();
 		this.tabName = tabName;
 		this.tableName = tableName;
 		this.methodology = methodology;

@@ -125,11 +125,11 @@ public class ProjectionVarianceLogic {
     public static final String CONCAT_CONDITION = "', ',') C WHERE CH.PROD_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN";
 
     public List getChartList() {
-        return chartList;
+        return chartList == null ? chartList : new ArrayList<>(chartList);
     }
 
     public void setChartList(List chartList) {
-        this.chartList = chartList;
+        this.chartList = chartList == null ? chartList : new ArrayList<>(chartList);
     }
 
     public PVSelectionDTO getSelectionDTO() {
@@ -3251,9 +3251,8 @@ public class ProjectionVarianceLogic {
     
     private String getJoinForDP(String deductionJoin) {
         String sql = SQlUtil.getQuery("discount-join");
-        sql = sql.replace(Constants.DED_JOIN, deductionJoin);
-        sql += " JOIN RS_CONTRACT RSC ON RSC.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n ";
-        sql += " AND FILTER_CCPD=1 \n ";
+        sql = sql.replace("?DEDJOIN", deductionJoin);
+        sql += "LEFT JOIN RS_CONTRACT RSC ON RSC.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n ";
         return sql;
     }
     

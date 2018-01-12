@@ -218,7 +218,7 @@ public class Copycomponents extends CustomComponent {
     public Copycomponents(List<ContractSelectionDTO> selectedList, TreeTable contractDashBoardTable, ExtTreeContainer<CopyComponentDTO> dashBoardContainer) {
         try {
             this.dashBoardContainer = dashBoardContainer;
-            this.selectedList = selectedList;
+            this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
             this.contractDashBoardTable = contractDashBoardTable;
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/CopyComponents.xml"), this));
             contractDashBoardLayout.addComponent(contractDashBoardTable);
@@ -387,6 +387,8 @@ public class Copycomponents extends CustomComponent {
                     return null;
                 }
             });
+            cfpDetailsNo.setReadOnly(true);
+            cfpDetailsName.setReadOnly(true);
 
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -901,6 +903,8 @@ public class Copycomponents extends CustomComponent {
                 cfpDetailsName.setValue(detailsName);
                 cfpDetailsNo.setEnabled(false);
                 cfpDetailsName.setEnabled(false);
+                cfpDetailsNo.setReadOnly(true);
+                cfpDetailsName.setReadOnly(true);
 
                 Object[] vColumns = contractInformationTable.getVisibleColumns();
                 for (Object obj : vColumns) {
@@ -932,6 +936,8 @@ public class Copycomponents extends CustomComponent {
                     ifpDetailsName.setValue(detailsName);
                     ifpDetailsNo.setEnabled(false);
                     ifpDetailsName.setEnabled(false);
+                    ifpDetailsNo.setReadOnly(true);
+                    ifpDetailsName.setReadOnly(true);
                 } else if (level.equals(Constants.THREE)) {
                     cfpDetailsGrid.setVisible(false);
                     ifpDetailsGrid.setVisible(false);
@@ -943,6 +949,8 @@ public class Copycomponents extends CustomComponent {
                     psDetailsName.setValue(detailsName);
                     psDetailsNo.setEnabled(false);
                     psDetailsName.setEnabled(false);
+                    psDetailsNo.setReadOnly(true);
+                    psDetailsName.setReadOnly(true);
                 } else if (level.equals(Constants.FOUR)) {
                     cfpDetailsGrid.setVisible(false);
                     ifpDetailsGrid.setVisible(false);
@@ -954,6 +962,8 @@ public class Copycomponents extends CustomComponent {
                     rsDetailsName.setValue(detailsName);
                     rsDetailsNo.setEnabled(false);
                     rsDetailsName.setEnabled(false);
+                    rsDetailsNo.setReadOnly(true);
+                    rsDetailsName.setReadOnly(true);
                 }
                 Object[] vColumns = contractInformationTable.getVisibleColumns();
                 for (Object obj : vColumns) {

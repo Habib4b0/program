@@ -1696,7 +1696,7 @@ where
     <entity id="discount-join">
         <query>
             <![CDATA[
-                JOIN ST_CCP_DEDUCTION_HIERARCHY SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID ?DEDJOIN 
+                LEFT JOIN ( SELECT * FROM ST_CCP_DEDUCTION_HIERARCHY WHERE FILTER_CCPD=1 ) SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID ?DEDJOIN 
             ]]>
         </query>
     </entity>
@@ -1909,7 +1909,7 @@ WHERE RELATIONSHIP_LEVEL_VALUES IN (
      <entity id="discount-join-filter">
         <query>
             <![CDATA[
-                JOIN ST_CCP_DEDUCTION_HIERARCHY SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID AND FILTER_CCPD=1
+                LEFT JOIN ( SELECT * FROM ST_CCP_DEDUCTION_HIERARCHY WHERE FILTER_CCPD = 1 ) SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
             ]]>
         </query>
     </entity>

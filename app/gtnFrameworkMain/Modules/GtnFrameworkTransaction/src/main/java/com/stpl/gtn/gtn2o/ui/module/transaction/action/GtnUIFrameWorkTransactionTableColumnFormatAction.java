@@ -74,7 +74,7 @@ public class GtnUIFrameWorkTransactionTableColumnFormatAction
 				GtnWsRecordBean.addProperties(i, propertyValue, record.getProperties());
 			}
 
-			if (recordHeaderList.get(6).equals("itemPrice")) {
+			if (recordHeaderList.size()>6 && recordHeaderList.get(6).equals("itemPrice")) {
 				Object recordPropertyValueAMP = record.getPropertyValueByIndex(4);
 				Object value = record.getPropertyValueByIndex(6);
 				if (value == null || String.valueOf(value).isEmpty()) {

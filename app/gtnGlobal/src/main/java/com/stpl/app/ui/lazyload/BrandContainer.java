@@ -50,6 +50,7 @@ public class BrandContainer implements DAO<HelperDTO> {
         this.brand=brand;
     }
     
+    @Override
     public int count(final SearchCriteria searchCriteria) {
         try {
             LOGGER.debug("Entering CompanyQualifierNameDAO Count method :");
@@ -63,6 +64,7 @@ public class BrandContainer implements DAO<HelperDTO> {
                      * @param buttonId The buttonId of the pressed button.  
                      */           
                     @SuppressWarnings("PMD")  
+                @Override
                     public void buttonClicked(final ButtonId buttonId) {   
                         // Do Nothing   
                     }        
@@ -79,6 +81,7 @@ public class BrandContainer implements DAO<HelperDTO> {
                  * @param buttonId The buttonId of the pressed button.  
                  */           
                 @SuppressWarnings("PMD")  
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {   
                     // Do Nothing   
                 }        
@@ -91,6 +94,7 @@ public class BrandContainer implements DAO<HelperDTO> {
     /**
      * Method used for get the results.
      */
+    @Override
     public List<HelperDTO> find(final SearchCriteria searchCriteria, final int startIndex, final int offset, final List<OrderByColumn> list) {
         try {
             LOGGER.debug("Entering CompanyQualifierNameDAO find method :");
@@ -104,6 +108,7 @@ public class BrandContainer implements DAO<HelperDTO> {
                      * @param buttonId The buttonId of the pressed button.  
                      */           
                     @SuppressWarnings("PMD")  
+                @Override
                     public void buttonClicked(final ButtonId buttonId) {   
                         // Do Nothing   
                     }        
@@ -121,6 +126,7 @@ public class BrandContainer implements DAO<HelperDTO> {
                  * @param buttonId The buttonId of the pressed button.  
                  */           
                 @SuppressWarnings("PMD")  
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {   
                     // Do Nothing   
                 }        

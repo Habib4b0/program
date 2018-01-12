@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.lazyload;
 
+import java.util.Collections;
 import java.util.Set;
 import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
 import com.vaadin.data.Container.Filter;
@@ -22,7 +23,7 @@ public class DataSelectionSearchCriteria implements BeanSearchCriteria {
 	@Override
 	public Set<Filter> getFilters() {
 		// TODO Auto-generated method stub
-		return filters;
+		return filters == null ? filters : Collections.unmodifiableSet(filters);
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class DataSelectionSearchCriteria implements BeanSearchCriteria {
 	@Override
 	public void setFilters(Set<Filter> filters) {
 		// TODO Auto-generated method stub
-		this.filters = filters;
+		this.filters = filters == null ? filters : Collections.unmodifiableSet(filters);
 	}
 
 	@Override

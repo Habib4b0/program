@@ -203,9 +203,10 @@ public class GtnFrameworkCompanyStringContants {
 	public static final String GTN_COMPANY_MASTER_VALIDATION_MSG_COMPANY_NO = "Company No already exists.";
 	public static final String GTN_FINANCIAL_CLOSE_MANDATORY_MSG = "Not all the mandatory fields are populated.";
 	public static final String GTN_FINANCIAL_CLOSE_MANDATORY = "Error";
-	public static final String GTN_FINANCIAL_CLOSE_OPEN_MSG = "The Month/Year is already in Open";
+	public static final String GTN_FINANCIAL_CLOSE_OPEN_MSG = "The Month/Year is already Open";
 	public static final String GTN_FINANCIAL_CLOSE_OPEN = "Open";
-	public static final String GTN_FINANCIAL_CLOSE_CLOSE_MSG = "The Month/Year is already in ";
+	public static final String GTN_FINANCIAL_CLOSE_CLOSE_MSG = "The month/year is already ";
+	public static final String GTN_FINANCIAL_CLOSE_CLOSE_MSG_OPEN = "The Month/Year is already ";
 	public static final String GTN_FINANCIAL_CLOSE_CLOSE = "Close";
 
 	private static final List<String> GTN_BUSINESS_DAY = Collections.unmodifiableList(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9",

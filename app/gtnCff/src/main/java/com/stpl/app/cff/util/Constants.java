@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Constants {
 
-    public static final String[] REASON_CODES = {"Added new Trading Partner", "Added to Formulary", "Class limitation", "Decrease in Membership", "Deleted Trading Partner Other", "Increase in Membership", "New Contract Discount Rates", "Other", "Removed from Formulary"};
+    private static final String[] REASON_CODES = {"Added new Trading Partner", "Added to Formulary", "Class limitation", "Decrease in Membership", "Deleted Trading Partner Other", "Increase in Membership", "New Contract Discount Rates", "Other", "Removed from Formulary"};
     public static final String NULL = "null";
     public static final String SELECT_ONE_LABEL = "-Select One-";
     public static final String VARIABLE_LABEL = "Variable";
@@ -1496,10 +1496,22 @@ public class Constants {
     /**
      * The Constant Avilable Customer Header.
      */
-    public static final String[] AVAILABLE_ITEMS_HEADERS = new String[]{
+    private static final String[] AVAILABLE_ITEMS_HEADERS = new String[]{
         "", "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand Name", "Item No", "Item Name", "Item Identifier Type", "Item Identifier"};
-    public static final Object[] AVAILABLE_ITEMS_VISIBLE_COLUMNS = new Object[]{
+    private static final Object[] AVAILABLE_ITEMS_VISIBLE_COLUMNS = new Object[]{
         "check", "businessUnitNo", "businessUnitName", "theraputicClass", "brand", "itemNo", "itemName", "itemIdentifierType", "itemIdentifier"};
     public static final String DEFAULT_REPLACE = "?DEFAULT";
+
+	public static String[] getReasonCodesList() {
+		return REASON_CODES.clone();
+	}
+
+	public static String[] getAvailableItemsHeadersList() {
+		return AVAILABLE_ITEMS_HEADERS.clone();
+	}
+
+	public static Object[] getAvailableItemsVisibleColumnsList() {
+		return AVAILABLE_ITEMS_VISIBLE_COLUMNS.clone();
+	}
 }
 

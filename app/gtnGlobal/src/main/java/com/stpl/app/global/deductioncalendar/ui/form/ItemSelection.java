@@ -52,7 +52,6 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -85,7 +84,7 @@ public class ItemSelection extends CustomComponent {
 
     private static final Logger LOGGER = Logger.getLogger(ItemSelection.class);
 
-    CommonUtil commonMsg = CommonUtil.getInstance();
+    private final CommonUtil commonMsg = CommonUtil.getInstance();
 
     @UiField("itemTypeDdlb")
     private ComboBox itemTypeDdlb;
@@ -105,10 +104,7 @@ public class ItemSelection extends CustomComponent {
     private Button exportBtn;
     @UiField("exportButton")
     private Button exportButton;
-    @UiField("item")
-    private TextField item;
-    @UiField("itemDesc")
-    private TextField itemDesc;
+   
     @UiField("strengthDdlb")
     private ComboBox strengthDdlb;
     @UiField("formDdlb")
@@ -138,15 +134,15 @@ public class ItemSelection extends CustomComponent {
      * The Error Msg.
      */
     @UiField("errorMsg")
-    public ErrorLabel errorMsg = new ErrorLabel();
+    private final ErrorLabel errorMsg = new ErrorLabel();
     @UiField("cssLayout2")
     protected CssLayout cssLayout2;
     
-    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     
-    DeductionCalendarForm deductionCalendarForm;
+    private final DeductionCalendarForm deductionCalendarForm;
     
-    com.stpl.app.util.CommonUIUtils commonUIUtils = new com.stpl.app.util.CommonUIUtils();
+    private final com.stpl.app.util.CommonUIUtils commonUIUtils = new com.stpl.app.util.CommonUIUtils();
     /**
      * Bean container for available result table.
      */
@@ -158,25 +154,25 @@ public class ItemSelection extends CustomComponent {
     /**
      * Selection Table Logic
      */
-    ItemSelectionAvailableTableLogic availableTableLogic = new ItemSelectionAvailableTableLogic();
-    ItemSelectionTableLogic selectedTableLogic;
-    SelectionLogic selectionLogic = new SelectionLogic();
-    SessionDTO sessionDTO ;
-    public Boolean excelEligible = false;
+    private final ItemSelectionAvailableTableLogic availableTableLogic = new ItemSelectionAvailableTableLogic();
+    private final ItemSelectionTableLogic selectedTableLogic;
+    private final SelectionLogic selectionLogic = new SelectionLogic();
+    private final SessionDTO sessionDTO ;
+    private Boolean excelEligible = false;
     /**
      * Available Customer ExtPagedTable
      */
-    ExtPagedTable availableItemTable = new ExtPagedTable(availableTableLogic);
+    private final ExtPagedTable availableItemTable = new ExtPagedTable(availableTableLogic);
     /**
      * Selected Customer ExtPagedTable
      */
-    ExtPagedTable selectedItemTable;
+    protected ExtPagedTable selectedItemTable;
     /**
      * The binder.
      */
     private final ErrorfulFieldGroup binder;
-    private HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
-    public Boolean isSelected=false;
+    private final HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
+    private Boolean isSelected=false;
     private final HeaderUtils headerUtils = new HeaderUtils();
 
     
@@ -204,9 +200,7 @@ public class ItemSelection extends CustomComponent {
             if(sessionDTO.getMode().equals("view")){
                 disableFieldsOnView();
             }
-        } catch (SystemException ex) {
-            java.util.logging.Logger.getLogger(ItemSelection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } catch (SystemException | PortalException ex) {
             java.util.logging.Logger.getLogger(ItemSelection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -218,11 +212,11 @@ public class ItemSelection extends CustomComponent {
      */
     public ErrorfulFieldGroup getBinder() {
         final SelectionDTO bean = new SelectionDTO();
-        final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(bean));
-        binder.setBuffered(true);
-        binder.bindMemberFields(this);
-        binder.setErrorDisplay(errorMsg);
-        return binder;
+        final ErrorfulFieldGroup errFieldBinder = new ErrorfulFieldGroup(new BeanItem<>(bean));
+        errFieldBinder.setBuffered(true);
+        errFieldBinder.bindMemberFields(this);
+        errFieldBinder.setErrorDisplay(errorMsg);
+        return errFieldBinder;
     }
 
     private void configureFields() {
@@ -258,7 +252,7 @@ public class ItemSelection extends CustomComponent {
             String mode = sessionDTO.getMode();
 
             List<Object> resultList = commonUIUtils.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.ITEM_SELECTION);
-            Object[] objColumn = headerUtils.itemColumns;
+            Object[] objColumn = HeaderUtils.getItemCols();
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode.equals("Copy")?"Edit":mode);
             
             availableItemTable.setVisibleColumns(tableResultCustom.getObjResult());
@@ -273,7 +267,7 @@ public class ItemSelection extends CustomComponent {
             availableItemTable.setFilterDecorator(new ExtDemoFilterDecorator());
             availableItemTable.addStyleName("filtertable");
             availableItemTable.addStyleName("table-header-normal");
-            Arrays.asList(headerUtils.itemColumns);
+            Arrays.asList(HeaderUtils.getItemCols());
             availableItemTable.setColumnAlignment(ConstantsUtils.ITEM_START_DATE, ExtPagedTable.Align.CENTER);
             availableItemTable.setColumnAlignment(ConstantsUtils.ITEM_END_DATE, ExtPagedTable.Align.CENTER);
             availableItemTable.setColumnAlignment(ConstantsUtils.PACKAGE_SIZE_INTRO_DATE, ExtPagedTable.Align.CENTER);
@@ -339,7 +333,7 @@ public class ItemSelection extends CustomComponent {
             
             dateConverter();
 
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
     }
@@ -404,6 +398,7 @@ public class ItemSelection extends CustomComponent {
                  * @param buttonId The buttonId of the pressed button.
                  */
             	@SuppressWarnings("PMD")
+                    @Override
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }
@@ -432,6 +427,7 @@ public class ItemSelection extends CustomComponent {
                      *
                      */
                     @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals(ConstantsUtils.YES)) {
                           resetBtnLogic();
@@ -462,15 +458,16 @@ public class ItemSelection extends CustomComponent {
     private void createWorkSheet() throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         LOGGER.debug("Entering createWorkSheet");
         final int recordCount = isSelected ? selectionLogic.getSelectedTableCount(sessionDTO,null):selectionLogic.getAvailableTableCount(binder,null,null);
-        ExcelExportforBB.createWorkSheet(headerUtils.itemHeaders, recordCount, this, getUI(), TabNameUtil.ITEM_SELECTION_EXPORT);
+        ExcelExportforBB.createWorkSheet(HeaderUtils.getItemHeaders(), recordCount, this, getUI(), TabNameUtil.ITEM_SELECTION_EXPORT);
         LOGGER.debug("Ending createWorkSheet");
     }
     
     @UiHandler("exportBtn")
     public void excelExportBtnClick(final Button.ClickEvent event) {
         isSelected=false;
-        if(excelEligible)
+        if(excelEligible) {
             excelExport();
+        }
     }
     @UiHandler("exportButton")
     public void excelExportButtonClick(final Button.ClickEvent event) {
@@ -485,9 +482,9 @@ public class ItemSelection extends CustomComponent {
             LOGGER.debug(" Ends  EXCEL Export Button Click ::::  ");
 
         } catch (SystemException sysException) {
-            final String errorMsg = ErrorCodeUtil.getErrorMessage(sysException);
-            LOGGER.error(errorMsg);
-            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), errorMsg, new MessageBoxListener() {
+            final String vErrorMsg = ErrorCodeUtil.getErrorMessage(sysException);
+            LOGGER.error(vErrorMsg);
+            final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), vErrorMsg, new MessageBoxListener() {
                         /**
                          * The method is triggered when a button of the message box is
                          * pressed .
@@ -495,6 +492,7 @@ public class ItemSelection extends CustomComponent {
                          * @param buttonId The buttonId of the pressed button.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing
                         }
@@ -510,12 +508,13 @@ public class ItemSelection extends CustomComponent {
                          * @param buttonId The buttonId of the pressed button.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing
                         }
                     }, ButtonId.OK);
                     msg.getButton(ButtonId.OK).focus();
-        } catch (Exception exception) {
+        } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException exception) {
             final MessageBox msg = MessageBox.showPlain(Icon.ERROR, ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1011), new MessageBoxListener() {
                         /**
                          * The method is triggered when a button of the message box is
@@ -524,6 +523,7 @@ public class ItemSelection extends CustomComponent {
                          * @param buttonId The buttonId of the pressed button.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             // Do Nothing
                         }
@@ -534,76 +534,76 @@ public class ItemSelection extends CustomComponent {
         }
     }
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
-        SelectionDTO dto;
+        SelectionDTO sessionDto;
         final List<SelectionDTO> searchList = isSelected ? selectionLogic.getSelectedTableResult(sessionDTO, start, end, null, null) : selectionLogic.getAvailableTableResult(binder, start, end,null,null);
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         for (int rowCount = 0; rowCount < searchList.size(); rowCount++) {
-            dto = searchList.get(rowCount);
+            sessionDto = searchList.get(rowCount);
 
-            printWriter.print(ConstantsUtils.QUOTE + dto.getItemId() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getItem() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getItemCode() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getItemName() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getItemDesc() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getItemStartDate() != null ? format.format(dto.getItemStartDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getItemEndDate() != null ? format.format(dto.getItemEndDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getItemStatus() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getTherapeuticClass() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getBrand() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getForm() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getStrength() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPackageSizeCode() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getPackageSizeIntroDate() != null ? format.format(dto.getPackageSizeIntroDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPsUP() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getManufacturerID() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getManufacturerNO() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getManufacturerName() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getLabelerCode() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getProductOrganizationKey() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getAcquisitionDate() != null ? format.format(dto.getAcquisitionDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getAuthorizedGeneric() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getAuthorizedGenericStartDate() != null ? format.format(dto.getAuthorizedGenericStartDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getAuthorizedGenericEndDate() != null ? format.format(dto.getAuthorizedGenericEndDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getFirstSaleDate() != null ? format.format(dto.getFirstSaleDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getItemTypeIndicator() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getItemClass() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getItemType() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getMarketTerminationDate() != null ? format.format(dto.getMarketTerminationDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getNewFormulationIndicator() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getNewFormulation() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getNewFormulationStartDate() != null ? format.format(dto.getNewFormulationStartDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getNewFormulationEndDate() != null ? format.format(dto.getNewFormulationEndDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPediatricExclusiveIndicator() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getPediatricExclusiveEndDate() != null ? format.format(dto.getPediatricExclusiveEndDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getPediatricExclusiveStartDate() != null ? format.format(dto.getPediatricExclusiveStartDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getClottingFactorIndicator() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getClottingFactorStartDate() != null ? dto.getClottingFactorStartDate() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getClottingFactorEndDate() != null ? dto.getClottingFactorEndDate() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPrimaryUOM() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getSecondaryUOM() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getShelfLife() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getShelfLifeType() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getDualPricingIndicator() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getItemFamilyID() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPsUDC1() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPsUDC2() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPsUDC3() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPsUDC4() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPsUDC5() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPsUDC6() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getAcquiredAMP() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getAcquiredBAMP() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPsOBRABAMP() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPsDRA() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getDosesperUnit() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getDiscontinuationDate() != null ? format.format(dto.getDiscontinuationDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + (dto.getLastLotExpirationDate() != null ? format.format(dto.getLastLotExpirationDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPsNDC9() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getPsNDC8() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getDisplayBrand() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getInnovatorCode() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.print(ConstantsUtils.QUOTE + dto.getBaselineAMP() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            printWriter.println(ConstantsUtils.QUOTE + (dto.getBaseYearCPI() != null ? format.format(dto.getBaseYearCPI()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getItemId() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getItem() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getItemCode() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getItemName() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getItemDesc() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getItemStartDate() != null ? format.format(sessionDto.getItemStartDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getItemEndDate() != null ? format.format(sessionDto.getItemEndDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getItemStatus() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getTherapeuticClass() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getBrand() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getForm() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getStrength() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPackageSizeCode() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getPackageSizeIntroDate() != null ? format.format(sessionDto.getPackageSizeIntroDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPsUP() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getManufacturerID() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getManufacturerNO() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getManufacturerName() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getLabelerCode() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getProductOrganizationKey() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getAcquisitionDate() != null ? format.format(sessionDto.getAcquisitionDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getAuthorizedGeneric() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getAuthorizedGenericStartDate() != null ? format.format(sessionDto.getAuthorizedGenericStartDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getAuthorizedGenericEndDate() != null ? format.format(sessionDto.getAuthorizedGenericEndDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getFirstSaleDate() != null ? format.format(sessionDto.getFirstSaleDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getItemTypeIndicator() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getItemClass() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getItemType() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getMarketTerminationDate() != null ? format.format(sessionDto.getMarketTerminationDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getNewFormulationIndicator() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getNewFormulation() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getNewFormulationStartDate() != null ? format.format(sessionDto.getNewFormulationStartDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getNewFormulationEndDate() != null ? format.format(sessionDto.getNewFormulationEndDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPediatricExclusiveIndicator() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getPediatricExclusiveEndDate() != null ? format.format(sessionDto.getPediatricExclusiveEndDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getPediatricExclusiveStartDate() != null ? format.format(sessionDto.getPediatricExclusiveStartDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getClottingFactorIndicator() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getClottingFactorStartDate() != null ? sessionDto.getClottingFactorStartDate() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getClottingFactorEndDate() != null ? sessionDto.getClottingFactorEndDate() : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPrimaryUOM() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getSecondaryUOM() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getShelfLife() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getShelfLifeType() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getDualPricingIndicator() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getItemFamilyID() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPsUDC1() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPsUDC2() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPsUDC3() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPsUDC4() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPsUDC5() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPsUDC6() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getAcquiredAMP() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getAcquiredBAMP() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPsOBRABAMP() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPsDRA() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getDosesperUnit() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getDiscontinuationDate() != null ? format.format(sessionDto.getDiscontinuationDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + (sessionDto.getLastLotExpirationDate() != null ? format.format(sessionDto.getLastLotExpirationDate()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPsNDC9() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getPsNDC8() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getDisplayBrand() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getInnovatorCode() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.print(ConstantsUtils.QUOTE + sessionDto.getBaselineAMP() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            printWriter.println(ConstantsUtils.QUOTE + (sessionDto.getBaseYearCPI() != null ? format.format(sessionDto.getBaseYearCPI()) : StringUtils.EMPTY) + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
         }
         }
     /**
@@ -620,6 +620,7 @@ public class ItemSelection extends CustomComponent {
              * Invoked when an error occurs.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void error(final com.vaadin.server.ErrorEvent event) {
                 LOGGER.debug("Error in Single record move button");
             }
@@ -628,6 +629,7 @@ public class ItemSelection extends CustomComponent {
             /**
              * Called when a Button has been clicked.
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 try {
                     binder.getErrorDisplay().clearError();
@@ -650,7 +652,7 @@ public class ItemSelection extends CustomComponent {
                         loadInEdit();
                     }
                     LOGGER.debug("Ending  MOVE_RIGHT Method ");
-                } catch (Exception e) {
+                } catch (NumberFormatException e) {
                     LOGGER.error(e);
                 }
             }
@@ -670,6 +672,7 @@ public class ItemSelection extends CustomComponent {
              * Invoked when an error occurs.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void error(final com.vaadin.server.ErrorEvent event) {
                 LOGGER.error("Error in All button");
             }
@@ -678,6 +681,7 @@ public class ItemSelection extends CustomComponent {
             /**
              * Called when a Button has been clicked.
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("Entering inside  MOVE_ALL_RIGHT Method ");
                 binder.getErrorDisplay().clearError();
@@ -706,6 +710,7 @@ public class ItemSelection extends CustomComponent {
              * Invoked when an error occurs.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void error(final com.vaadin.server.ErrorEvent event) {
                 LOGGER.error("Error in All button");
             }
@@ -714,6 +719,7 @@ public class ItemSelection extends CustomComponent {
             /**
              * Called when a Button has been clicked.
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("Entering inside  Remove  Method");
                 try {
@@ -754,6 +760,7 @@ public class ItemSelection extends CustomComponent {
              * Invoked when an error occurs.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void error(final com.vaadin.server.ErrorEvent event) {
                 LOGGER.error("Error in Remove All Item button");
             }
@@ -762,6 +769,7 @@ public class ItemSelection extends CustomComponent {
             /**
              * Called when a Button has been clicked.
              */
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("Entering inside Remove All Item Method");
                 try {
@@ -822,8 +830,7 @@ public class ItemSelection extends CustomComponent {
     }
      public String parseDateLogic(Object object) {  
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        String date = formatter.format(object);
-        return date;
+        return formatter.format(object);
     }
      
      private void addAllItemsButtonClick(boolean isAddAll, List<Integer> selectedItemSID) {

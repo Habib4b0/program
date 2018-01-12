@@ -640,11 +640,11 @@ public class ExistingComponentDTO {
     }
 
     public Date getAttachedDate() {
-        return attachedDate;
+        return attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     public void setAttachedDate(Date attachedDate) {
-        this.attachedDate = attachedDate;
+        this.attachedDate = attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     public String getPricePlanNo() {

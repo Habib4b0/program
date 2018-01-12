@@ -62,19 +62,19 @@ public class SummaryTemDTO {
     }
 
     public Date getCompanyStartDate() {
-        return companyStartDate;
+        return companyStartDate == null ? null : (Date) companyStartDate.clone();
     }
 
     public void setCompanyStartDate(Date companyStartDate) {
-        this.companyStartDate = companyStartDate;
+        this.companyStartDate = companyStartDate == null ? null : (Date) companyStartDate.clone();
     }
 
     public Date getCompanyEndDate() {
-        return companyEndDate;
+        return companyEndDate == null ? null : (Date) companyEndDate.clone();
     }
 
     public void setCompanyEndDate(Date companyEndDate) {
-        this.companyEndDate = companyEndDate;
+        this.companyEndDate = companyEndDate == null ? null : (Date) companyEndDate.clone();
     }
 
 }

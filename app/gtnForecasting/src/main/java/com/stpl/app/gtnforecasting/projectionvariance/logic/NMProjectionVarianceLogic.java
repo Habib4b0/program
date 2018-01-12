@@ -42,6 +42,7 @@ import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import static com.stpl.app.gtnforecasting.logic.CommonLogic.INVALID_LEVEL_NO;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
 import com.stpl.app.gtnforecasting.queryUtils.PVQueryUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -125,11 +126,11 @@ public class NMProjectionVarianceLogic {
     private static final String PARENT_VALIDATE = "PARENT-VALIDATE";
 
     public List getChartList() {
-        return chartList;
+        return chartList == null ? chartList : new ArrayList<>(chartList);
     }
 
     public void setChartList(List chartList) {
-        this.chartList = chartList;
+        this.chartList = chartList == null ? chartList : new ArrayList<>(chartList);
     }
 
     public PVSelectionDTO getSelectionDTO() {
@@ -2792,7 +2793,7 @@ public class NMProjectionVarianceLogic {
                     sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
                     break;
                 case Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY:
-                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchyDeduction(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator, levelNo));
+                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchyDeduction(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator, levelNo,false));
                     break;
                 default:
                     LOGGER.warn("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);
@@ -3051,72 +3052,8 @@ public class NMProjectionVarianceLogic {
         List<String> executedResultList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         resultList.add(executedResultList);
         return resultList;
-    }
-
+    }   
     
-    
-    public String getSelectedHierarchy(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
-
-        if (levelNo == 0) {
-            throw new IllegalArgumentException("Invalid Level No:" + levelNo);
-        }
-
-        Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
-        StringBuilder stringBuilder = new StringBuilder();
-
-        List list = new ArrayList<>();
-        list.add(hierarchyNo);
-        list.add(levelNo);
-        list.add(hierarchyIndicator);
-        stringBuilder.append(getHierarchy(list, relationshipLevelDetailsMap));
-        if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
-            stringBuilder.append("('");
-            stringBuilder.append("')");
-        }
-        return stringBuilder.toString();
-    }
-
-    public String getHierarchy(List list, Map<String, List> relationshipLevelDetailsMap) {
-        boolean isNotFirstElement = false;
-        boolean isNotFirstHierarchy = false;
-        boolean isHierarchyNoNotAvailable = isHierarchyNoNotAvailable((String) list.get(0), (String) list.get(2));
-        int i=1;
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
-            if (isSameLevelHierarchyIndicator(entry, (int) list.get(1), (String) list.get(2))) {
-                if (isSplitNeeded(entry, isHierarchyNoNotAvailable, (String) list.get(0))) {
-                    if (isNotFirstElement) {
-                        stringBuilder.append(",\n");
-                    }
-                    stringBuilder.append("('");
-                    stringBuilder.append(entry.getKey());
-                    stringBuilder.append("'," + i++ + ")");
-
-                    isNotFirstElement = true;
-                } else {
-                   if (isNotFirstHierarchy) {
-                        stringBuilder.append(",\n");
-                    }
-                    stringBuilder.append(getString(entry.getKey(), Arrays.asList((String.valueOf(list.get(0))).split("\\,"))));
-                    isNotFirstHierarchy = true;
-                }
-            }
-        }
-        return stringBuilder.toString();
-    }
-
-    public boolean isSplitNeeded(Map.Entry<String, List> entry, boolean isHierarchyNoNotAvailable, String hierarchyNo) {
-        return !hierarchyNo.contains(",") || (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo));
-    }
-
-    public boolean isHierarchyNoNotAvailable(String hierarchyNo, String hierarchyIndicator) {
-        return StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
-    }
-
-    public boolean isSameLevelHierarchyIndicator(Map.Entry<String, List> entry, int levelNo, String hierarchyIndicator) {
-        return (Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString()));
-    }
-
     public String getString(String key, List<String> hierarchyNo) {
         StringBuilder stringBuilder = new StringBuilder();
         int i=1;
@@ -3124,11 +3061,47 @@ public class NMProjectionVarianceLogic {
             if (key.startsWith(str.trim())) {
                 stringBuilder.append("('");
                 stringBuilder.append(key);
-                stringBuilder.append("'," + i++ + ")");
+                stringBuilder.append("',").append(i++).append(")");
                 return stringBuilder.toString();
             }
         }
         return "";
     }
+    
+    public String getSelectedHierarchy(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
 
+        if (levelNo == 0) {
+            throw new IllegalArgumentException(INVALID_LEVEL_NO + levelNo);
+        }
+        Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean isNotFirstElement = false;
+        boolean isNotFirstHierarchy = false;
+        boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
+        int i = 1;
+        for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
+            if (!hierarchyNo.contains(",")) {
+                if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
+                    if (isNotFirstElement) {
+                        stringBuilder.append(",\n");
+                    }
+                    stringBuilder.append("('");
+                    stringBuilder.append(entry.getKey());
+                    stringBuilder.append("',").append(i++).append(")");
+                    isNotFirstElement = true;
+                }
+            } else if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString()))) {
+                if (isNotFirstHierarchy) {
+                    stringBuilder.append(",\n");
+                }
+                stringBuilder.append(getString(entry.getKey(), Arrays.asList((String.valueOf(hierarchyNo)).split("\\,"))));
+                isNotFirstHierarchy = true;
+            }
+        }
+        if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
+            stringBuilder.append("('");
+            stringBuilder.append("')");
+        }
+        return stringBuilder.toString();
+    }
 }

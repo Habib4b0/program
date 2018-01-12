@@ -225,8 +225,7 @@ WHERE  CM.INBOUND_STATUS <> 'D'
 		<entity id="getCompanyQualifierDeleteQuery">
 		<query> 
             <![CDATA[           
-	UPDATE  COMPANY_QUALIFIER\n" + "SET   INBOUND_STATUS='D' ,MODIFIED_BY=?, MODIFIED_DATE=? \n"
-				+ "WHERE COMPANY_QUALIFIER_SID=?
+	UPDATE COMPANY_QUALIFIER SET INBOUND_STATUS='D', MODIFIED_BY=?, MODIFIED_DATE=GETDATE() WHERE COMPANY_QUALIFIER_SID=?
 	
                     ]]>
 		</query>

@@ -1,6 +1,5 @@
 package com.stpl.app.util;
 
-// TODO: Auto-generated Javadoc
 /**
  * Class that holds the headers and visible column for tables.
  * 
@@ -19,9 +18,7 @@ public class TableResultCustom {
 	 * @return the objResult Object array.
 	 */
 	public Object[] getObjResult() {
-		final Object[] copyValue=objResult;
-		
-		return copyValue;
+		return objResult == null ? objResult : objResult.clone();
 		 
 	}
 	
@@ -31,16 +28,14 @@ public class TableResultCustom {
 	 * @param objResult the objResult to set
 	 */
 	public void setObjResult(final Object...objResult) {
-		this.objResult = objResult;
+		this.objResult = objResult == null ? objResult : objResult.clone();
 	}
 	/**
          * Getter for objResultHeader.
 	 * @return the objResultHeader String array.
 	 */
 	public String[] getObjResultHeader() {
-		final String[] cpyResultHeader=objResultHeader;
-
-		return cpyResultHeader;
+		return objResultHeader == null ? objResultHeader : objResultHeader.clone();
 		
 	}
 	/**
@@ -48,7 +43,7 @@ public class TableResultCustom {
 	 * @param objResultHeader the objResultHeader to set
 	 */
 	public void setObjResultHeader(final String... objResultHeader) {
-		this.objResultHeader = objResultHeader;
+		this.objResultHeader = objResultHeader == null ? objResultHeader : objResultHeader.clone();
 	}
 
 }

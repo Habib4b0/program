@@ -511,7 +511,7 @@ public class SalesProjectionDTO {
      * @return the projectedsales
      */
     public Date getProjectedsales() {
-        return projectedsales;
+        return projectedsales == null ? null : (Date) projectedsales.clone();
     }
 
     /**
@@ -520,7 +520,7 @@ public class SalesProjectionDTO {
      * @param projectedsales the projectedsales
      */
     public void setProjectedsales(final Date projectedsales) {
-        this.projectedsales = projectedsales;
+        this.projectedsales = projectedsales == null ? null : (Date) projectedsales.clone();
     }
 
     /**

@@ -118,7 +118,7 @@ public class DiscountSearchDTO implements Serializable{
 	 * @return the created date
 	 */
 	public Date getCreatedDate() {
-		return createdDate;
+		return createdDate == null ? null : (Date) createdDate.clone();
 	}
 	
 	/**
@@ -127,7 +127,7 @@ public class DiscountSearchDTO implements Serializable{
 	 * @param createdDate the new created date
 	 */
 	public void setCreatedDate(final Date createdDate) {
-		this.createdDate = createdDate;
+		this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
 	}
 	
 	/**

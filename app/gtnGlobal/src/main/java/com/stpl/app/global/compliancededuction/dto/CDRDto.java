@@ -14,25 +14,25 @@ import org.apache.commons.lang.StringUtils;
  * @author sooriya.lakshmanan
  */
 public class CDRDto implements Serializable {
-    public String ruleType = StringUtils.EMPTY;
-    public String ruleNo = StringUtils.EMPTY;
-    public String ruleName = StringUtils.EMPTY;
-    public String ruleCategory = StringUtils.EMPTY;
-    public HelperDTO lineTypeDdlb;
-    public HelperDTO itemGroupDdlb ;
-    public HelperDTO keywordDdlb ;
-    public HelperDTO operatorDdlb;
-    public HelperDTO comparisonDdlb ;
-    public String valueText = StringUtils.EMPTY;
-    public int cdrDetailsSid = 0;
+    private String ruleType = StringUtils.EMPTY;
+    private String ruleNo = StringUtils.EMPTY;
+    private String ruleName = StringUtils.EMPTY;
+    private String ruleCategory = StringUtils.EMPTY;
+    private HelperDTO lineTypeDdlb;
+    private HelperDTO itemGroupDdlb ;
+    private HelperDTO keywordDdlb ;
+    private HelperDTO operatorDdlb;
+    private HelperDTO comparisonDdlb ;
+    private String valueText = StringUtils.EMPTY;
+    private int cdrDetailsSid = 0;
     private HelperDTO logicalOperatorDdlb;
-    public HelperDTO ruleCategory_DTO;
-    public HelperDTO lineTypeDdlb_DTO;
-    public HelperDTO keywordDdlb_DTO;
-    public HelperDTO operatorDdlb_DTO;
-    public HelperDTO comparisonDdlb_DTO;
-    private HelperDTO logicalOperatorDdlb_DTO;
-    public HelperDTO ruleType_DTO;
+    private HelperDTO ruleCategoryDto;
+    private HelperDTO lineTypeDdlbDto;
+    private HelperDTO keywordDdlbDto;
+    private HelperDTO operatorDdlbDto;
+    private HelperDTO comparisonDdlbDto;
+    private HelperDTO logicalOperatorDdlbDto;
+    private HelperDTO ruleTypeDto;
 
     public int getCdrDetailsSid() {
         return cdrDetailsSid;
@@ -84,60 +84,60 @@ public class CDRDto implements Serializable {
         this.valueText = valueText;
     }
 
-    public HelperDTO getRuleCategory_DTO() {
-        return ruleCategory_DTO;
+    public HelperDTO getRuleCategoryDto() {
+        return ruleCategoryDto;
     }
 
-    public void setRuleCategory_DTO(HelperDTO ruleCategory_DTO) {
-        this.ruleCategory_DTO = ruleCategory_DTO;
+    public void setRuleCategoryDto(HelperDTO ruleCategoryDto) {
+        this.ruleCategoryDto = ruleCategoryDto;
     }
 
-    public HelperDTO getLineTypeDdlb_DTO() {
-        return lineTypeDdlb_DTO;
+    public HelperDTO getLineTypeDdlbDto() {
+        return lineTypeDdlbDto;
     }
 
-    public void setLineTypeDdlb_DTO(HelperDTO lineTypeDdlb_DTO) {
-        this.lineTypeDdlb_DTO = lineTypeDdlb_DTO;
+    public void setLineTypeDdlbDto(HelperDTO lineTypeDdlbDto) {
+        this.lineTypeDdlbDto = lineTypeDdlbDto;
     }
 
-    public HelperDTO getKeywordDdlb_DTO() {
-        return keywordDdlb_DTO;
+    public HelperDTO getKeywordDdlbDto() {
+        return keywordDdlbDto;
     }
 
-    public void setKeywordDdlb_DTO(HelperDTO keywordDdlb_DTO) {
-        this.keywordDdlb_DTO = keywordDdlb_DTO;
+    public void setKeywordDdlbDto(HelperDTO keywordDdlbDto) {
+        this.keywordDdlbDto = keywordDdlbDto;
     }
 
-    public HelperDTO getOperatorDdlb_DTO() {
-        return operatorDdlb_DTO;
+    public HelperDTO getOperatorDdlbDto() {
+        return operatorDdlbDto;
     }
 
-    public void setOperatorDdlb_DTO(HelperDTO operatorDdlb_DTO) {
-        this.operatorDdlb_DTO = operatorDdlb_DTO;
+    public void setOperatorDdlbDto(HelperDTO operatorDdlbDto) {
+        this.operatorDdlbDto = operatorDdlbDto;
     }
 
-    public HelperDTO getComparisonDdlb_DTO() {
-        return comparisonDdlb_DTO;
+    public HelperDTO getComparisonDdlbDto() {
+        return comparisonDdlbDto;
     }
 
-    public void setComparisonDdlb_DTO(HelperDTO comparisonDdlb_DTO) {
-        this.comparisonDdlb_DTO = comparisonDdlb_DTO;
+    public void setComparisonDdlbDto(HelperDTO comparisonDdlbDto) {
+        this.comparisonDdlbDto = comparisonDdlbDto;
     }
 
-    public HelperDTO getLogicalOperatorDdlb_DTO() {
-        return logicalOperatorDdlb_DTO;
+    public HelperDTO getLogicalOperatorDdlbDto() {
+        return logicalOperatorDdlbDto;
     }
 
-    public void setLogicalOperatorDdlb_DTO(HelperDTO logicalOperatorDdlb_DTO) {
-        this.logicalOperatorDdlb_DTO = logicalOperatorDdlb_DTO;
+    public void setLogicalOperatorDdlbDto(HelperDTO logicalOperatorDdlbDto) {
+        this.logicalOperatorDdlbDto = logicalOperatorDdlbDto;
     }
 
-    public HelperDTO getRuleType_DTO() {
-        return ruleType_DTO;
+    public HelperDTO getRuleTypeDto() {
+        return ruleTypeDto;
     }
 
-    public void setRuleType_DTO(HelperDTO ruleType_DTO) {
-        this.ruleType_DTO = ruleType_DTO;
+    public void setRuleTypeDto(HelperDTO ruleTypeDto) {
+        this.ruleTypeDto = ruleTypeDto;
     }
 
     public HelperDTO getLineTypeDdlb() {

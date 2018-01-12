@@ -308,7 +308,7 @@ public class ItemIrtIdentifierDTO implements Serializable {
      * @return the start date
      */
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     /**
@@ -317,7 +317,7 @@ public class ItemIrtIdentifierDTO implements Serializable {
      * @param startDate the start date
      */
     public void setStartDate(final Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     /**
@@ -326,7 +326,7 @@ public class ItemIrtIdentifierDTO implements Serializable {
      * @return the end date
      */
     public Date getEndDate() {
-        return endDate;
+        return endDate == null ? null : (Date) endDate.clone();
     }
 
     /**
@@ -335,7 +335,7 @@ public class ItemIrtIdentifierDTO implements Serializable {
      * @param endDate the end date
      */
     public void setEndDate(final Date endDate) {
-        this.endDate = endDate;
+        this.endDate = endDate == null ? null : (Date) endDate.clone();
     }
 
     /**
@@ -380,7 +380,7 @@ public class ItemIrtIdentifierDTO implements Serializable {
      * @return the created date
      */
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
@@ -389,7 +389,7 @@ public class ItemIrtIdentifierDTO implements Serializable {
      * @param createdDate the created date
      */
     public void setCreatedDate(final Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
@@ -416,7 +416,7 @@ public class ItemIrtIdentifierDTO implements Serializable {
      * @return the modified date
      */
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     /**
@@ -425,7 +425,7 @@ public class ItemIrtIdentifierDTO implements Serializable {
      * @param modifiedDate the modified date
      */
     public void setModifiedDate(final Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     /**

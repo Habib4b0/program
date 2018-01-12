@@ -187,7 +187,7 @@ public class GeneralCommonUtils {
      */
     public static final HelperDTO NULL_HELPER_DTO = new HelperDTO(ConstantsUtils.SELECT_ONE);
     
-    final static CommonDao DAO = CommonDaoImpl.getInstance();
+    public static final CommonDao DAO = CommonDaoImpl.getInstance();
 
     /**
      * Add items to the NativeSelect from list of HelperDTO.
@@ -205,7 +205,7 @@ public class GeneralCommonUtils {
             select.setItemCaption(helperDTO.getId(),helperDTO.getDescription());
             
         }
-        } catch (Exception e) {
+        } catch (UnsupportedOperationException e) {
             LOGGER.error(e);
         }
         return select;
@@ -220,7 +220,7 @@ public class GeneralCommonUtils {
             select.setItemCaption(helperDTO.getId(),helperDTO.getDescription());
             
         }
-        } catch (Exception e) {
+        } catch (UnsupportedOperationException e) {
             LOGGER.error(e);
         }
         return select;
@@ -236,7 +236,7 @@ public class GeneralCommonUtils {
         try{
         select.addItem("Active");
         select.addItem("Inactive");
-         } catch (Exception e) {
+         } catch (UnsupportedOperationException e) {
             LOGGER.error(e);
         }
         return select;
@@ -294,7 +294,7 @@ public class GeneralCommonUtils {
         
         dateFormat = new SimpleDateFormat(aMask);
         date = dateFormat.parse(strDate);
-         } catch (Exception e) {
+         } catch (java.text.ParseException e) {
             LOGGER.error(e);
         }
         return date;
@@ -308,7 +308,7 @@ public class GeneralCommonUtils {
      * @return Date Object with formatted date object.
      */
     public static final Date convert2DigitTo4DigitYearFormat(final Date enteredDate) {
-    	Date enterDate = enteredDate;
+    	Date enterDate = enteredDate == null ? null : (Date) enteredDate.clone();
 
         if (enterDate != null && !enterDate.equals("")) {
             try {
@@ -320,7 +320,7 @@ public class GeneralCommonUtils {
                 final String datesVal = sdf.format(enterDate);
                 final Date temp = GeneralCommonUtils.convertStringToDate(fmt.format(sdf.parse(datesVal)));
                 enterDate = temp;
-            } catch (Exception e) {
+            } catch (java.text.ParseException e) {
                 LOGGER.error(e);
             }
         }
@@ -349,6 +349,7 @@ public class GeneralCommonUtils {
         select.select(ConstantsUtils.SELECT_ONE);
         select.addValueChangeListener(new Property.ValueChangeListener() {
 
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 if (event.getProperty() != null && event.getProperty().getValue() != null && (StringUtils.EMPTY.equals(event.getProperty().getValue())||ConstantsUtils.NULL.equals(event.getProperty().getValue()))) {
                     select.select(ConstantsUtils.SELECT_ONE);
@@ -372,6 +373,7 @@ public class GeneralCommonUtils {
         select.select(0);
         select.addValueChangeListener(new Property.ValueChangeListener() {
 
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 if (event.getProperty() != null && event.getProperty().getValue() != null && (StringUtils.EMPTY.equals(event.getProperty().getValue())||ConstantsUtils.NULL.equals(event.getProperty().getValue()))) {
                     select.select(0);
@@ -404,6 +406,7 @@ public class GeneralCommonUtils {
         select.select(0);
         select.addValueChangeListener(new Property.ValueChangeListener() {
 
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 if (event.getProperty() != null && event.getProperty().getValue() != null && (StringUtils.EMPTY.equals(event.getProperty().getValue())||ConstantsUtils.NULL.equals(event.getProperty().getValue()))) {
                     select.select(0);
@@ -434,6 +437,7 @@ public class GeneralCommonUtils {
         select.select(0);
         select.addValueChangeListener(new Property.ValueChangeListener() {
 
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 select.setDescription(select.getItemCaption(event.getProperty().getValue()));
                 if (event.getProperty() != null && event.getProperty().getValue() != null && (StringUtils.EMPTY.equals(event.getProperty().getValue())||ConstantsUtils.NULL.equals(event.getProperty().getValue()))) {
@@ -497,7 +501,7 @@ public class GeneralCommonUtils {
      * @return
      * @throws java.text.ParseException
      */
-    public static String TimeStampConverter(final String inputFormat,
+    public static String timeStampConverter(final String inputFormat,
             String inputTimeStamp, final String outputFormat)
             throws java.text.ParseException {
         return new SimpleDateFormat(outputFormat).format(new SimpleDateFormat(
@@ -545,14 +549,14 @@ public class GeneralCommonUtils {
      */
     public List<HelperDTO> getHelperResults(final String listType) throws SystemException, PortalException {
         
-        CommonDao DAO = CommonDaoImpl.getInstance();
+        CommonDao daoImpl = CommonDaoImpl.getInstance();
         final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil
                 .forClass(HelperTable.class);
         dynamicQuery.add(RestrictionsFactoryUtil.like(ConstantsUtils.LIST_NAME,
                 listType));
         dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
-        final List<HelperTable> list = DAO.getHelperTableList(dynamicQuery);
+        final List<HelperTable> list = daoImpl.getHelperTableList(dynamicQuery);
         helperList.add(new HelperDTO(0, ConstantsUtils.SELECT_ONE));
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {

@@ -354,7 +354,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void setCurrentHierarchy(List<Leveldto> currentHierarchy) {
-        this.currentHierarchy = currentHierarchy;
+        this.currentHierarchy = currentHierarchy ==null ? currentHierarchy : Collections.unmodifiableList(currentHierarchy);
     }
 
     public void groupChange(boolean groupChange) {
@@ -933,7 +933,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     @Override
     protected void excelBtnLogic() {
         try {
-            ConsolidatedFinancialForecastUI.EXCEL_CLOSE = true;
+            ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
             excelTable.setRefresh(Boolean.FALSE);
             levelFilterDdlbChangeOption(true);
             excelForCFFProjectionVariance();
@@ -1858,7 +1858,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     
     
       private String getParentKeyforCustom(ProjectionVarianceDTO itemId, String key, String parentKey) {
-        String parentKeyCustom = parentKey;
+        String parentKeyCustom;
         if (itemId.getParentHierarchyNo() == null) {
             parentKeyCustom = key;
         } else {

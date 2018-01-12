@@ -162,6 +162,7 @@ public class DiscountProjectionLogic {
      * @param isExcelExport
      * @param isRefresh
      * @param refreshHierarchyNumbers
+     * @param forecastConfigList
      * @return
      */
     public List getDiscountProjection(SessionDTO session, String frequency, List<Integer> startAndEndPeriods,
@@ -331,7 +332,7 @@ public class DiscountProjectionLogic {
                         String ACTUAL_RP_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWELVE])) ? DASH : String.valueOf(obj[NumericConstants.TWELVE]);
                         String PROJECTED_RP_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]);
                         String GROWTH_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FIFTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FIFTEEN]);
-                        discountDto.setDeductionInclusion(String.valueOf(obj[obj.length - 1]));
+                        discountDto.setDeductionInclusion(String.valueOf(obj[obj.length - 2]));
                         if (isExcelExport) {
                             ACTUAL_OBJ = getFormattedValue(PERCENTAGE_FORMAT, ACTUAL_OBJ);
                             PROJECTED_OBJ = getFormattedValue(PERCENTAGE_FORMAT, PROJECTED_OBJ);

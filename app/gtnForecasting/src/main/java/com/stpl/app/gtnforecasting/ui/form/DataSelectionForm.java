@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -98,7 +99,6 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import java.util.concurrent.ExecutionException;
 
 /**
  *
@@ -274,16 +274,16 @@ public class DataSelectionForm extends ForecastDataSelection {
 		setProductRelationNullSelection();
 
 		if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
-			resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataselectionColumnsAccrual);
-			resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeadersAccrual);
+			resultTable.setVisibleColumns(TableHeaderColumnsUtil.getDataSelectionColumnsAccrual());
+			resultTable.setColumnHeaders(TableHeaderColumnsUtil.getDataSelectionHeadersAccrual());
 			productLevel.setVisible(false);
 			customerLevel.setVisible(false);
 			productForecastLevelLabel.setVisible(false);
 			customerForecastLevelLabel.setVisible(false);
 			modeOptionChange(true);
 		} else {
-			resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataSelectionColumns);
-			resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeaders);
+			resultTable.setVisibleColumns(TableHeaderColumnsUtil.getDataSelectionColumns());
+			resultTable.setColumnHeaders(TableHeaderColumnsUtil.getDataSelectionHeaders());
 		}
 
 		businessUnit.setPageLength(NumericConstants.SEVEN);
@@ -697,6 +697,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 			dataSelectionDTO.setProductHierarchyLevel(String.valueOf(productForecastLevel));
 			dataSelectionDTO.setProductHierarchy(productHierarchy.getValue());
 			dataSelectionDTO.setCustomerHierarchy(customerHierarchy.getValue());
+			dataSelectionDTO.setCustomerGroup(customerGroup.getValue());
+			dataSelectionDTO.setProductGroup(productGroup.getValue());
 			if (customerHierarchyDto != null) {
 				int custHierarchyVersionNo = Integer
 						.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
@@ -3079,8 +3081,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 				AbstractNotificationUtils.getErrorNotification(
 						Constants.MessageConstants.NO_SEARCH_CRITERIA_TITLE.getConstant(),
 						Constants.MessageConstants.NO_SEARCH_CRITERIA_BODY.getConstant());
-				resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataSelectionColumns);
-				resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeaders);
+				resultTable.setVisibleColumns(TableHeaderColumnsUtil.getDataSelectionColumns());
+				resultTable.setColumnHeaders(TableHeaderColumnsUtil.getDataSelectionHeaders());
 			} else {
 				bindDataselectionDtoToSave();
 				dataSelectionDTO
@@ -4110,7 +4112,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				availableCustomer.setStyleName(Constant.FILTER_TABLE);
 			}
 		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
-
+			
 			LOGGER.error(ex + " level  ValueChangeListener ");
 		}
 	}
@@ -4740,14 +4742,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 	 */
 	private void setTableHeader() {
 		if (CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(scrName)) {
-			resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataSelectionColumnReturns);
-			resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeaderReturns);
+			resultTable.setVisibleColumns(TableHeaderColumnsUtil.getDataSelectionColumnReturns());
+			resultTable.setColumnHeaders(TableHeaderColumnsUtil.getDataSelectionHeaderReturns());
 		} else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(scrName)) {
-			resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataselectionColumnsAccrual);
-			resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeadersAccrual);
+			resultTable.setVisibleColumns(TableHeaderColumnsUtil.getDataSelectionColumnsAccrual());
+			resultTable.setColumnHeaders(TableHeaderColumnsUtil.getDataSelectionHeadersAccrual());
 		} else {
-			resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataSelectionColumns);
-			resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeaders);
+			resultTable.setVisibleColumns(TableHeaderColumnsUtil.getDataSelectionColumns());
+			resultTable.setColumnHeaders(TableHeaderColumnsUtil.getDataSelectionHeaders());
 		}
 	}
 

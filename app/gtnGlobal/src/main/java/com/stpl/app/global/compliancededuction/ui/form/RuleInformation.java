@@ -25,6 +25,7 @@ import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
+import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
@@ -61,14 +62,18 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
  */
 public class RuleInformation extends CustomComponent {
 
+    public RuleInformation() {
+        super();
+    }
+
     /**
      * The CsLayout Layout.
      */
     @UiField("buttonLayout")
-    HorizontalLayout buttonLayout;
+    private HorizontalLayout buttonLayout;
 
     @UiField("detailsTableLayout")
-    public VerticalLayout detailsTableLayout;
+    private VerticalLayout detailsTableLayout;
     @UiField("ruleTypeLb")
     private Label ruleTypeLb;
     @UiField("ruleNoLb")
@@ -78,25 +83,25 @@ public class RuleInformation extends CustomComponent {
     @UiField("ruleCategoryLb")
     private Label ruleCategoryLb;
     @UiField("ruleType")
-    private ComboBox ruleType_DTO;
+    private ComboBox ruleTypeDto;
     @UiField("ruleNo")
     private TextField ruleNo;
     @UiField("ruleName")
     private TextField ruleName;
     @UiField("ruleCategory")
-    private ComboBox ruleCategory_DTO;
+    private ComboBox ruleCategoryDto;
     @UiField("lineTypeDdlb")
-    private ComboBox lineTypeDdlb_DTO;
+    private ComboBox lineTypeDdlbDto;
     @UiField("itemGroupDdlb")
     private ComboBox itemGroupDdlb;
     @UiField("keywordDdlb")
-    private ComboBox keywordDdlb_DTO;
+    private ComboBox keywordDdlbDto;
     @UiField("operatorDdlb")
-    private ComboBox operatorDdlb_DTO;
+    private ComboBox operatorDdlbDto;
     @UiField("comparisonDdlb")
-    private ComboBox comparisonDdlb_DTO;
+    private ComboBox comparisonDdlbDto;
     @UiField("logicalOperatorDdlb")
-    private ComboBox logicalOperatorDdlb__DTO;
+    private ComboBox logicalOperatorDdlbDto;
     @UiField("valueText")
     private TextField valueText;
     @UiField("addBtn")
@@ -105,18 +110,18 @@ public class RuleInformation extends CustomComponent {
     private Button removeBtn;
     @UiField("resetBtn")
     private Button resetBtn;
-    private ExtFilterTable resultsTable = new ExtFilterTable();
-    private BeanItemContainer<CDRDto> resultsContainer = new BeanItemContainer(CDRDto.class);
-    public Object RULE_DETAILS_COLUMNS[] = new Object[]{
+    private final ExtFilterTable resultsTable = new ExtFilterTable();
+    private final BeanItemContainer<CDRDto> resultsContainer = new BeanItemContainer(CDRDto.class);
+    private static final Object RULE_DETAILS_COLUMNS[] = new Object[]{
         "lineTypeDdlb", "itemGroupDdlb", "keywordDdlb", "operatorDdlb", "valueText", "comparisonDdlb", "logicalOperatorDdlb"};
     
-    public final String RULE_DETAILS_HEADERS[] = new String[]{ConstantsUtils.LINE_TYPE_LABEL, "Item/Group/Association", ConstantsUtils.KEYWORD, ConstantsUtils.OPERATOR, ConstantsUtils.VALUE, "Comparison", ConstantsUtils.OPERATOR};
+    private static final String RULE_DETAILS_HEADERS[] = new String[]{ConstantsUtils.LINE_TYPE_LABEL, "Item/Group/Association", ConstantsUtils.KEYWORD, ConstantsUtils.OPERATOR, ConstantsUtils.VALUE, "Comparison", ConstantsUtils.OPERATOR};
     
-    final CDRDto cdrBinerDto = new CDRDto();
-    String noteshistory = new String();
-    DecimalFormat percentFormat = new DecimalFormat("###,###,##0.00");
-    DecimalFormat dollarFormat = new DecimalFormat("$###,###,##0.00");
-    DataFormatConverter numericFormat = new DataFormatConverter("#,##0.00");
+    private final CDRDto cdrBinerDto = new CDRDto();
+    private String noteshistory = new String();
+    private final DecimalFormat percentFormat = new DecimalFormat("###,###,##0.00");
+    private final DecimalFormat dollarFormat = new DecimalFormat("$###,###,##0.00");
+    private final DataFormatConverter numericFormat = new DataFormatConverter("#,##0.00");
 
     public String getNoteshistory() {
         return noteshistory;
@@ -129,7 +134,7 @@ public class RuleInformation extends CustomComponent {
     /**
      * The common util.
      */
-    private CommonUtil commonUtil = CommonUtil.getInstance();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
     /**
      * The logger.
      */
@@ -138,12 +143,12 @@ public class RuleInformation extends CustomComponent {
      * The binder.
      */
     private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem(cdrBinerDto));
-    public ErrorLabel errorMsg = new ErrorLabel();
-    SessionDTO sessionDTO;
-    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-    CommonUIUtils commonUIUtils = new CommonUIUtils();
-    List deletedRuleInfoIds = new ArrayList();
-    HelperListUtil helperListUtil = HelperListUtil.getInstance();
+    private final ErrorLabel errorMsg = new ErrorLabel();
+    private SessionDTO sessionDTO;
+    private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    private final CommonUIUtils commonUIUtils = new CommonUIUtils();
+    private List deletedRuleInfoIds = new ArrayList();
+    private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
     /**
      * Loading the content
@@ -223,24 +228,22 @@ public class RuleInformation extends CustomComponent {
 
                         } else {
                             CDRDto tobeAdded = new CDRDto();
-                            tobeAdded.setLineTypeDdlb(cdrBinerDto.getLineTypeDdlb_DTO());
+                            tobeAdded.setLineTypeDdlb(cdrBinerDto.getLineTypeDdlbDto());
                             tobeAdded.setItemGroupDdlb(cdrBinerDto.getItemGroupDdlb());
-                            tobeAdded.setKeywordDdlb(cdrBinerDto.getKeywordDdlb_DTO());
-                            tobeAdded.setOperatorDdlb(cdrBinerDto.getOperatorDdlb_DTO());
+                            tobeAdded.setKeywordDdlb(cdrBinerDto.getKeywordDdlbDto());
+                            tobeAdded.setOperatorDdlb(cdrBinerDto.getOperatorDdlbDto());
                             tobeAdded.setValueText(cdrBinerDto.getValueText() != null ? cdrBinerDto.getValueText() : StringUtils.EMPTY);
-                            tobeAdded.setComparisonDdlb(cdrBinerDto.getComparisonDdlb_DTO());
+                            tobeAdded.setComparisonDdlb(cdrBinerDto.getComparisonDdlbDto());
                             if (tobeAdded.getComparisonDdlb() != null) {
                                 tobeAdded.setValueText(cdrBinerDto.getValueText() != null ? percentFormat.format(Double.valueOf(cdrBinerDto.getValueText())) + "%" : StringUtils.EMPTY);
                             } else {
                                 tobeAdded.setValueText(cdrBinerDto.getValueText() != null ? dollarFormat.format(Double.valueOf(cdrBinerDto.getValueText())) : StringUtils.EMPTY);
                             }
-                            tobeAdded.setLogicalOperatorDdlb(cdrBinerDto.getLogicalOperatorDdlb_DTO());
+                            tobeAdded.setLogicalOperatorDdlb(cdrBinerDto.getLogicalOperatorDdlbDto());
                             resultsContainer.addBean(tobeAdded);
                         }
                     }
-                } catch (FieldGroup.CommitException ex) {
-                    LOGGER.error(ex);
-                } catch (Exception ex) {
+                } catch (FieldGroup.CommitException | NumberFormatException ex) {
                     LOGGER.error(ex);
                 }
             }
@@ -258,6 +261,7 @@ public class RuleInformation extends CustomComponent {
                          *
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals("YES")) {
                                 try {
@@ -267,7 +271,7 @@ public class RuleInformation extends CustomComponent {
                                     if (ConstantsUtils.EDIT.equals(sessionDTO.getMode()) && eventDto.getCdrDetailsSid() != 0) {
                                         deletedRuleInfoIds.add(eventDto.getCdrDetailsSid());
                                     }
-                                } catch (Exception ex) {
+                                } catch (Property.ReadOnlyException ex) {
                                     java.util.logging.Logger.getLogger(RuleInformation.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
@@ -295,14 +299,15 @@ public class RuleInformation extends CustomComponent {
                      *
                      */
                     @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals("YES")) {
                             try {
-                                lineTypeDdlb_DTO.select(null);
-                                keywordDdlb_DTO.select(null);
-                                operatorDdlb_DTO.select(null);
-                                comparisonDdlb_DTO.select(null);
-                                logicalOperatorDdlb__DTO.select(null);
+                                lineTypeDdlbDto.select(null);
+                                keywordDdlbDto.select(null);
+                                operatorDdlbDto.select(null);
+                                comparisonDdlbDto.select(null);
+                                logicalOperatorDdlbDto.select(null);
                                 valueText.setValue(StringUtils.EMPTY);
                                 if (resultsContainer.size() != 0) {
                                     resultsContainer.removeAllItems();
@@ -311,7 +316,7 @@ public class RuleInformation extends CustomComponent {
                                 if (sessionDTO.getSystemId() != 0) {
                                     loadSavedRulesDetails(CDRLogic.getSavedRuleDetails(sessionDTO.getSystemId()));
                                 }
-                            } catch (Exception ex) {
+                            } catch (Property.ReadOnlyException ex) {
                                 java.util.logging.Logger.getLogger(RuleInformation.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
@@ -332,13 +337,13 @@ public class RuleInformation extends CustomComponent {
         for (CDRDto object : resultsContainer.getItemIds()) {
             String cdrValue = object.getValueText().replace("$", StringUtils.EMPTY).replace("%", StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
 
-            if (object.getLineTypeDdlb().getId() == cdrBinerDto.getLineTypeDdlb_DTO().getId()
+            if (object.getLineTypeDdlb().getId() == cdrBinerDto.getLineTypeDdlbDto().getId()
                     && object.getItemGroupDdlb().getId() == cdrBinerDto.getItemGroupDdlb().getId()
-                    && object.getKeywordDdlb().getId() == cdrBinerDto.getKeywordDdlb_DTO().getId()
-                    && object.getOperatorDdlb().getId() == cdrBinerDto.getOperatorDdlb_DTO().getId()
+                    && object.getKeywordDdlb().getId() == cdrBinerDto.getKeywordDdlbDto().getId()
+                    && object.getOperatorDdlb().getId() == cdrBinerDto.getOperatorDdlbDto().getId()
                     && cdrValue.equals(StringUtils.isBlank(cdrBinerDto.getValueText()) ? StringUtils.EMPTY : cdrBinerDto.getValueText())
-                    && (object.getComparisonDdlb() == null ? 0 : object.getComparisonDdlb().getId()) == (cdrBinerDto.getComparisonDdlb_DTO() == null ? 0 : cdrBinerDto.getComparisonDdlb_DTO().getId())
-                    && (object.getLogicalOperatorDdlb() == null ? 0 : object.getLogicalOperatorDdlb().getId()) == (cdrBinerDto.getLogicalOperatorDdlb_DTO() == null ? 0 : cdrBinerDto.getLogicalOperatorDdlb_DTO().getId())) {
+                    && (object.getComparisonDdlb() == null ? 0 : object.getComparisonDdlb().getId()) == (cdrBinerDto.getComparisonDdlbDto() == null ? 0 : cdrBinerDto.getComparisonDdlbDto().getId())
+                    && (object.getLogicalOperatorDdlb() == null ? 0 : object.getLogicalOperatorDdlb().getId()) == (cdrBinerDto.getLogicalOperatorDdlbDto() == null ? 0 : cdrBinerDto.getLogicalOperatorDdlbDto().getId())) {
                 AbstractNotificationUtils.getInfoNotification("Duplicate Rules", "You cannot add two of the same rules. The rule you are trying to add already exists. \n");
                 return true;
             }
@@ -347,12 +352,12 @@ public class RuleInformation extends CustomComponent {
     }
 
     public boolean requiredFieldCheck() {
-        String fieldName = StringUtils.isBlank(cdrBinerDto.getLineTypeDdlb_DTO() != null ? cdrBinerDto.getLineTypeDdlb_DTO().toString() : StringUtils.EMPTY) ? ConstantsUtils.LINE_TYPE_LABEL
+        String fieldName = StringUtils.isBlank(cdrBinerDto.getLineTypeDdlbDto() != null ? cdrBinerDto.getLineTypeDdlbDto().toString() : StringUtils.EMPTY) ? ConstantsUtils.LINE_TYPE_LABEL
                 : (cdrBinerDto.getItemGroupDdlb().getId() == 0) ? "Item/Group/MS Association"
-                        : StringUtils.isBlank(cdrBinerDto.lineTypeDdlb_DTO != null ? cdrBinerDto.lineTypeDdlb_DTO.toString() : StringUtils.EMPTY) ? ConstantsUtils.LINE_TYPE_LABEL
-                        : StringUtils.isBlank(cdrBinerDto.getKeywordDdlb_DTO() != null ? cdrBinerDto.getKeywordDdlb_DTO().toString() : StringUtils.EMPTY) ? ConstantsUtils.KEYWORD
-                        : StringUtils.isBlank(cdrBinerDto.getOperatorDdlb_DTO() != null ? cdrBinerDto.getOperatorDdlb_DTO().toString() : StringUtils.EMPTY) ?ConstantsUtils.OPERATOR
-                        : StringUtils.isBlank(cdrBinerDto.valueText != null ? cdrBinerDto.valueText : StringUtils.EMPTY) ? ConstantsUtils.VALUE
+                        : StringUtils.isBlank(cdrBinerDto.getLineTypeDdlbDto() != null ? cdrBinerDto.getLineTypeDdlbDto().toString() : StringUtils.EMPTY) ? ConstantsUtils.LINE_TYPE_LABEL
+                        : StringUtils.isBlank(cdrBinerDto.getKeywordDdlbDto() != null ? cdrBinerDto.getKeywordDdlbDto().toString() : StringUtils.EMPTY) ? ConstantsUtils.KEYWORD
+                        : StringUtils.isBlank(cdrBinerDto.getOperatorDdlbDto() != null ? cdrBinerDto.getOperatorDdlbDto().toString() : StringUtils.EMPTY) ?ConstantsUtils.OPERATOR
+                        : StringUtils.isBlank(cdrBinerDto.getValueText() != null ? cdrBinerDto.getValueText() : StringUtils.EMPTY) ? ConstantsUtils.VALUE
                         : StringUtils.EMPTY;
         if (!fieldName.isEmpty()) {
             AbstractNotificationUtils.getErrorNotification("Missing Required Fields", "Please check that all required fields are populated. \n"
@@ -366,22 +371,22 @@ public class RuleInformation extends CustomComponent {
      * Fields Validations
      */
     public void fieldValidation() {
-        lineTypeDdlb_DTO.addValidator(new RegexpValidator(ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_CHECK), ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_VALIDATION).replace("<>",ConstantsUtils.LINE_TYPE_LABEL)));
+        lineTypeDdlbDto.addValidator(new RegexpValidator(ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_CHECK), ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_VALIDATION).replace("<>",ConstantsUtils.LINE_TYPE_LABEL)));
         itemGroupDdlb.addValidator(new RegexpValidator(ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_CHECK), ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_VALIDATION).replace("<>", "Item/Group/MS Association")));
-        keywordDdlb_DTO.addValidator(new RegexpValidator(ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_CHECK), ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_VALIDATION).replace("<>", ConstantsUtils.KEYWORD)));
-        operatorDdlb_DTO.addValidator(new RegexpValidator(ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_CHECK), ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_VALIDATION).replace("<>", ConstantsUtils.OPERATOR)));
+        keywordDdlbDto.addValidator(new RegexpValidator(ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_CHECK), ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_VALIDATION).replace("<>", ConstantsUtils.KEYWORD)));
+        operatorDdlbDto.addValidator(new RegexpValidator(ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_CHECK), ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_VALIDATION).replace("<>", ConstantsUtils.OPERATOR)));
         valueText.addValidator(new RegexpValidator(ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_CHECK), ValidationUtil.getMessage(ConstantsUtils.EMPTY_FIELD_VALIDATION).replace("<>", ConstantsUtils.VALUE)));
     }
 
     private void loadDdlb() {
-        commonUtil.loadComboBox(ruleType_DTO, UIUtils.RULE_TYPE, false);
-        commonUtil.loadComboBox(ruleCategory_DTO, UIUtils.RULE_CATEGORY, false);
-        commonUtil.loadComboBox(lineTypeDdlb_DTO, UIUtils.LINE_TYPE, false);
+        commonUtil.loadComboBox(ruleTypeDto, UIUtils.RULE_TYPE, false);
+        commonUtil.loadComboBox(ruleCategoryDto, UIUtils.RULE_CATEGORY, false);
+        commonUtil.loadComboBox(lineTypeDdlbDto, UIUtils.LINE_TYPE, false);
         commonUtil.loadComboBox(itemGroupDdlb, UIUtils.ITEM_GROUP_MS_ASSOCIATION, false);
-        commonUtil.loadComboBox(keywordDdlb_DTO, UIUtils.KEYWORD, false);
-        commonUtil.loadComboBox(operatorDdlb_DTO, UIUtils.OPERATOR, false);
-        commonUtil.loadComboBox(comparisonDdlb_DTO, UIUtils.COMPARISON, false);
-        commonUtil.loadComboBox(logicalOperatorDdlb__DTO, UIUtils.LOGICAL_OPERATOR, false);
+        commonUtil.loadComboBox(keywordDdlbDto, UIUtils.KEYWORD, false);
+        commonUtil.loadComboBox(operatorDdlbDto, UIUtils.OPERATOR, false);
+        commonUtil.loadComboBox(comparisonDdlbDto, UIUtils.COMPARISON, false);
+        commonUtil.loadComboBox(logicalOperatorDdlbDto, UIUtils.LOGICAL_OPERATOR, false);
         List<HelperDTO> dtoList = helperListUtil.getListNameMap().get(UIUtils.ITEM_GROUP_MS_ASSOCIATION);
         if (dtoList != null && !dtoList.isEmpty()) {
             final HelperDTO defaultValue = dtoList.get(0);
@@ -403,7 +408,7 @@ public class RuleInformation extends CustomComponent {
             binder.commit();
             list.add(cdrBinerDto);
             list.add(resultsContainer.getItemIds());
-        } catch (Exception ex) {
+        } catch (FieldGroup.CommitException ex) {
             LOGGER.error(ex);
             LOGGER.error(ex);
         }
@@ -418,12 +423,12 @@ public class RuleInformation extends CustomComponent {
      */
     public List getDeletedRuleInformations() {
 
-        return deletedRuleInfoIds;
+        return deletedRuleInfoIds == null ? deletedRuleInfoIds : new ArrayList<>(deletedRuleInfoIds);
     }
 
     public void setDeletedRuleInformations(List deletedRuleInfoIds) {
 
-        this.deletedRuleInfoIds = deletedRuleInfoIds;
+        this.deletedRuleInfoIds = deletedRuleInfoIds == null ? deletedRuleInfoIds : new ArrayList<>(deletedRuleInfoIds);
     }
 
     /**
@@ -451,21 +456,21 @@ public class RuleInformation extends CustomComponent {
         ruleType.setId(objects[0] != null ? (Integer) objects[0] : 0);
         ruleType.setDescription(objects[1] != null || !String.valueOf(objects[1]).equals(ConstantsUtils.SELECT_ONE) ? (String) objects[1] : ConstantsUtils.SELECT_ONE);
         if (!sessionDTO.getMode().equals(ConstantsUtils.COPY)) {
-            ruleType_DTO.setValue(ruleType);
+            ruleTypeDto.setValue(ruleType);
         }
         if (sessionDTO.getMode().equals(ConstantsUtils.COPY)) {
-            ruleType_DTO.select(null);
+            ruleTypeDto.select(null);
             ruleNo.setValue(StringUtils.EMPTY);
             ruleName.setValue(StringUtils.EMPTY);
             ruleCategory.setId(objects[NumericConstants.FOUR] != null ? (Integer) objects[NumericConstants.FOUR] : 0);
             ruleCategory.setDescription(objects[NumericConstants.FIVE] != null || !String.valueOf(objects[NumericConstants.FIVE]).equals(ConstantsUtils.SELECT_ONE) ? (String) objects[NumericConstants.FIVE] : ConstantsUtils.SELECT_ONE);
-            ruleCategory_DTO.setValue(ruleCategory);
+            ruleCategoryDto.setValue(ruleCategory);
         } else {
             ruleNo.setValue(objects[NumericConstants.TWO] != null ? (String) objects[NumericConstants.TWO] : StringUtils.EMPTY);
             ruleName.setValue(objects[NumericConstants.THREE] != null ? (String) objects[NumericConstants.THREE] : StringUtils.EMPTY);
             ruleCategory.setId(objects[NumericConstants.FOUR] != null ? (Integer) objects[NumericConstants.FOUR] : 0);
             ruleCategory.setDescription(objects[NumericConstants.FIVE] != null || !String.valueOf(objects[NumericConstants.FIVE]).equals(ConstantsUtils.SELECT_ONE) ? (String) objects[NumericConstants.FIVE] : ConstantsUtils.SELECT_ONE);
-            ruleCategory_DTO.setValue(ruleCategory);
+            ruleCategoryDto.setValue(ruleCategory);
         }
         setNoteshistory((objects[NumericConstants.FOURTEEN] != null && !"null".equals(objects[NumericConstants.FOURTEEN])) ? (String) objects[NumericConstants.FOURTEEN] : StringUtils.EMPTY);
     }
@@ -511,16 +516,16 @@ public class RuleInformation extends CustomComponent {
      * @param isEnable
      */
     private void enableDisableFields(final boolean isEnable) {
-        ruleType_DTO.setEnabled(isEnable);
+        ruleTypeDto.setEnabled(isEnable);
         ruleNo.setEnabled(isEnable);
         ruleName.setEnabled(isEnable);
-        ruleCategory_DTO.setEnabled(isEnable);
-        lineTypeDdlb_DTO.setEnabled(isEnable);
-        keywordDdlb_DTO.setEnabled(isEnable);
-        operatorDdlb_DTO.setEnabled(isEnable);
+        ruleCategoryDto.setEnabled(isEnable);
+        lineTypeDdlbDto.setEnabled(isEnable);
+        keywordDdlbDto.setEnabled(isEnable);
+        operatorDdlbDto.setEnabled(isEnable);
         valueText.setEnabled(isEnable);
-        comparisonDdlb_DTO.setEnabled(isEnable);
-        logicalOperatorDdlb__DTO.setEnabled(isEnable);
+        comparisonDdlbDto.setEnabled(isEnable);
+        logicalOperatorDdlbDto.setEnabled(isEnable);
         addBtn.setEnabled(isEnable);
         removeBtn.setEnabled(isEnable);
         resetBtn.setEnabled(isEnable);
@@ -536,13 +541,13 @@ public class RuleInformation extends CustomComponent {
         }
         ruleNo.setValue(StringUtils.EMPTY);
         ruleName.setValue(StringUtils.EMPTY);
-        ruleType_DTO.select(null);
-        ruleCategory_DTO.select(null);
-        lineTypeDdlb_DTO.select(null);
-        keywordDdlb_DTO.select(null);
-        operatorDdlb_DTO.select(null);
-        comparisonDdlb_DTO.select(null);
-        logicalOperatorDdlb__DTO.select(null);
+        ruleTypeDto.select(null);
+        ruleCategoryDto.select(null);
+        lineTypeDdlbDto.select(null);
+        keywordDdlbDto.select(null);
+        operatorDdlbDto.select(null);
+        comparisonDdlbDto.select(null);
+        logicalOperatorDdlbDto.select(null);
         valueText.setValue(StringUtils.EMPTY);
         LOGGER.debug("Add reset Method ends");
     }
@@ -579,4 +584,8 @@ public class RuleInformation extends CustomComponent {
         LOGGER.debug("Ending configurePermission");
 
     }
+
+	public static String[] getRuleDetailsHeaders() {
+		return RULE_DETAILS_HEADERS.clone();
+	}
 }

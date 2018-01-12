@@ -4158,7 +4158,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	 * @return
 	 */
 	public List<String> getDiscountNamesList() {
-		return discountNamesList;
+		return discountNamesList == null ? discountNamesList : new ArrayList<>(discountNamesList);
 	}
 
 	/**
@@ -5316,6 +5316,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     protected void loadDisplayFormatDdlb() {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
+        displayFormatDdlb.removeItems();
         displayFormatValues = displayFormatDdlb.addItem(SELECT_VALUES, null);
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);

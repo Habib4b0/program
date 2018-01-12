@@ -1,6 +1,7 @@
 package com.stpl.app.security.businessRoleModuleMaster.util;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -181,7 +182,7 @@ public class CommonUtils {
 		public static String getSplitInQuery(@SuppressWarnings("rawtypes") List list1, String columnName) {
 
 	    	@SuppressWarnings("rawtypes")
-			List memList= list1;
+			List memList= list1 == null ? list1 : new ArrayList<>(list1);
 	    	String requiredColumnName = columnName;
 	    	int count=0;
 	        int a=0;
@@ -254,7 +255,7 @@ public class CommonUtils {
 		 public static String getSplitInQueryNotInV2(@SuppressWarnings("rawtypes") List list1, String columnName){
 
 		    	@SuppressWarnings("rawtypes")
-				List memList= list1;
+				List memList= list1 == null ? list1 : new ArrayList<>(list1);
 		    	String requiredColumnName = columnName;
 		    	int count=0;
 		        int a=0;
