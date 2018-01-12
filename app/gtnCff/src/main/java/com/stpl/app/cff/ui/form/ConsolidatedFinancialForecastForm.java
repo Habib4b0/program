@@ -562,9 +562,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 							dataSelectionDto.getCustomerRelationShipVersionNo(),
 							dataSelectionDto.getProductRelationShipVersionNo());
 
-					sessionDto.setCustomerLevelDetails(logic.getLevelValueDetails(sessionDto,
+					sessionDto.setCustomerLevelDetails(cffLogic.getLevelValueDetails(sessionDto,
 							dataSelectionDto.getCustRelationshipBuilderSid(), true));
-					sessionDto.setProductLevelDetails(logic.getLevelValueDetails(sessionDto,
+					sessionDto.setProductLevelDetails(cffLogic.getLevelValueDetails(sessionDto,
 							dataSelectionDto.getProdRelationshipBuilderSid(), false));
 					approvalDetailsBean = new BeanItemContainer<>(ApprovalDetailsDTO.class);
 					resultsBean = new BeanItemContainer<>(CFFResultsDTO.class);
