@@ -5,6 +5,21 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.tree;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
+
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
@@ -34,19 +49,6 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.Tree.CollapseListener;
 import com.vaadin.ui.Tree.ExpandListener;
 import com.vaadin.ui.VerticalLayout;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
 
 /**
  *
@@ -409,9 +411,9 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 		return nodelist;
 	}
 
-	public void loadTreeFromTreeNode(Tree tree, List<GtnWsRecordBean> nodes) {
+	public void loadTreeFromTreeNode(Tree tree, List<GtnWsRecordBean> nodes, GtnWsRecordBean parentNode) {
 		Container.Hierarchical container = (Container.Hierarchical) tree.getContainerDataSource();
-		loadTreeFromTreeNode(nodes, null, container);
+		loadTreeFromTreeNode(nodes, parentNode, container);
 		Collection<?> roots = container.rootItemIds();
 		Iterator<?> itr = roots.iterator();
 		while (itr.hasNext()) {
