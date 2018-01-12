@@ -10,9 +10,9 @@ and open the template in the editor.
     <VerticalLayout spacing = "true" margin = "true" styleName="forecast-dataselection" >
         <!--<VerticalLayout spacing = "true" margin = "true">-->
         <Panel id="panel1" caption="Projection Options"  >
-
-            <HorizontalLayout id="horizontalLayout" spacing="true" margin="true" immediate="true">
-                <VerticalLayout id="verticalLayout">
+<VerticalLayout spacing = "true" margin = "true" styleName = "width-auto">
+            <GridLayout id="horizontalLayout" immediate="true" columns="10" rows="1">
+                <VerticalLayout id="verticalLayout" >
 <!--                    <GridLayout spacing="false" margin="false" immediate="true" columns="2" rows="1">
                         <Label caption="Mode: " contentMode="HTML"  width="50px" />
                         <OptionGroup multiSelect="false" id="modeOption" immediate="true" enable="true" styleName = "horizontal">
@@ -44,7 +44,8 @@ and open the template in the editor.
                         </GridLayout>
                     </VerticalLayout>
                 </Panel>
-            </HorizontalLayout>
+            </GridLayout>
+            </VerticalLayout>
         </Panel>
 
 

@@ -14800,3 +14800,7 @@ div.v-layout.v-horizontal.v-widget {
 .stpl .v-textfield.searchText {
 	background-image: url(img/imgsearchh-icon.png);
 }
+
+.stpl label {
+	font-weight: normal;
+}
