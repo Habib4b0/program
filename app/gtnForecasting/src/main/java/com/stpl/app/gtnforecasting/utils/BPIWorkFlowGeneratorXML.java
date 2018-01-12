@@ -88,7 +88,7 @@ public class BPIWorkFlowGeneratorXML {
             String updateDate = "NA";
             String counterValue = "NA";
             
-            NodeList nodeLstTop = doc.getElementsByTagName("BPIWorkflowID");
+            NodeList nodeLstTop = doc.getElementsByTagName("gtnWsBPIGeneratorIDs");
             for (int s1 = 0; s1 < nodeLstTop.getLength(); s1++) {
 
                

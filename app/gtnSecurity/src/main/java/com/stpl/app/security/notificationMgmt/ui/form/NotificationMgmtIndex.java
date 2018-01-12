@@ -32,7 +32,8 @@ import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("serial")
 public class NotificationMgmtIndex extends CustomComponent implements View {
@@ -58,7 +59,7 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
     BeanItemContainer<NotificationMgmtIndexDTO> notificationIndexBean = new BeanItemContainer<NotificationMgmtIndexDTO>(
             NotificationMgmtIndexDTO.class);
     NotificationMgmtLogic notificationLogic = new NotificationMgmtLogic();
-    private static final Logger LOGGER = Logger.getLogger(NotificationMgmtIndex.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationMgmtIndex.class);
 
     public NotificationMgmtIndex() {
         init();
@@ -149,7 +150,7 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
 
                     }
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
 
             }

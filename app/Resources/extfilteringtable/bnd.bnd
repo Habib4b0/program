@@ -5,4 +5,4 @@ Import-Package: !com.google*,\
     !com.vaadin.client*,\
 	!com.vaadin.v7.client*,\
     *
-Export-Package: org.asi.ui*
+Export-Package: org.asi.ui*;-noimport:=true

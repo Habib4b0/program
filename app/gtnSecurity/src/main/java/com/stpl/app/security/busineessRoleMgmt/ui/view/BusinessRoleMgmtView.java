@@ -16,7 +16,8 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.UserError;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BusinessRoleMgmtView extends VerticalLayout implements View {
 
@@ -34,7 +35,7 @@ public class BusinessRoleMgmtView extends VerticalLayout implements View {
 	Table table=new Table();
 	
 	private static final Logger LOGGER =
-			 Logger.getLogger(ActionButtonLayout.class
+			 LoggerFactory.getLogger(ActionButtonLayout.class
 			 .getName());
 	
 	
@@ -52,7 +53,7 @@ public class BusinessRoleMgmtView extends VerticalLayout implements View {
 			searchResults = businessRoleMgmtLogic.getAllBusinessroles();
 			
 		} catch (SystemException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			
 		} 
 		searchResultbeans.addAll(searchResults);

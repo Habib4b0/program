@@ -1,5 +1,6 @@
-package com.stpl.gtn.gtn2o.ui;
+package com.stpl.gtn.gtn2o.ui.portlets;
 
+import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -18,20 +19,13 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
+import static com.vaadin.ui.UI.getCurrent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ServiceScope;
 
 @Theme("stpl")
 @Widgetset("com.stpl.gtn.gtn20.widgetset.gtnvaadinwidgetset.AppWidgetSet")
-@Component(service = UI.class, property = {
-    "com.liferay.portlet.display-category=Security",
-    "javax.portlet.name=LotMaster",
-    "javax.portlet.display-name=Transaction Management",
-    "com.liferay.portlet.instanceable=true",
-    "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
+
 public class GtnFrameworkTransactionPortlet extends UI {
 
     private static final long serialVersionUID = 1L;
@@ -44,10 +38,11 @@ public class GtnFrameworkTransactionPortlet extends UI {
             addStyleName("bootstrap");
             addStyleName("bootstrap-bb");
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+	     PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
             GtnUIFrameworkRootConfig rootConfig;
             Navigator navigator = new Navigator(this, this);
-            String portletName = getPorletName(themeDisplay.getURLCurrent());
+            String portletName = portletDisplay.getPortletName();
             LOGGER.info("portletName = " + portletName);
             boolean isInvalid = "InvalidIntegration".equals(portletName);
 
@@ -73,7 +68,7 @@ public class GtnFrameworkTransactionPortlet extends UI {
         } catch (Exception e) {
             LOGGER.error("Error in init Method GtnFrameworkTransactionPortlet", e);
         }
-        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+        getCurrent().setErrorHandler(new DefaultErrorHandler() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -105,22 +100,6 @@ public class GtnFrameworkTransactionPortlet extends UI {
         viewList.add(viewComponentConfig);
         rootConfig.setGtnViewConfigList(viewList);
 
-    }
-
-    public static String getPorletName(String portletUrl) {
-        String portletName=GtnFrameworkCommonStringConstants.STRING_EMPTY;
-       try{
-         portletName = portletUrl.split("\\?")[0].split("/")[3];
-        LOGGER.info("portletName"+portletName);
-        ResourceBundle listNameBundle = ResourceBundle.getBundle("properties.Portlet");
-        portletName=listNameBundle.getString(portletName);
-          
-        LOGGER.info("prop.getProperty(portletName)"+portletName);
-       }catch(Exception e){
-           LOGGER.error(portletUrl+" failed "+e.getMessage());
-                   
-       }
-        return portletName.trim();
     }
 
 }

@@ -12,7 +12,8 @@ import java.util.List;
 import org.asi.ui.addons.lazycontainer.BeanDAO;
 import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -20,7 +21,7 @@ import org.jboss.logging.Logger;
  */
 public class BrandContainer implements BeanDAO<BrandMasterDTO> {
     
-    private static final Logger LOGGER = Logger.getLogger(BrandContainer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BrandContainer.class);
 
     UdcLogic brandLogic = new UdcLogic();
     /**
@@ -99,7 +100,7 @@ public class BrandContainer implements BeanDAO<BrandMasterDTO> {
         try {
             count = brandLogic.brandCount(category);
         } catch (Exception ex) {
-             LOGGER.error(ex);
+             LOGGER.error(ex.getMessage());
         }
         return count;
 
@@ -119,7 +120,7 @@ public class BrandContainer implements BeanDAO<BrandMasterDTO> {
         try {
             dto = brandLogic.brandFind(category, startIndex, offset,columns);
         } catch (Exception ex) {
-             LOGGER.error(ex);
+             LOGGER.error(ex.getMessage());
         }
         return dto;
     }

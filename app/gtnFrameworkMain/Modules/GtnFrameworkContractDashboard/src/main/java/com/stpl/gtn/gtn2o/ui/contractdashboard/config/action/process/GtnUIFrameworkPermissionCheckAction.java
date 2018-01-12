@@ -43,8 +43,10 @@ public class GtnUIFrameworkPermissionCheckAction implements GtnUIFrameWorkAction
 				GtnWsContractDashboardContants.GTN_WS_CONTRACT_WORKFLOW_SERVICE
 						+ GtnWsContractDashboardContants.CHECK_VALID_USER,
 				GtnFrameworkCommonStringConstants.GTN_BPM, request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+                if(response.getGtnWSCommonWorkflowResponse()!=null){
 		sharedBean.setHasPermission(response.getGtnWSCommonWorkflowResponse().isHasPermission());
 		sharedBean.setPersistanceId(response.getGtnWSCommonWorkflowResponse().getPersistanceId());
+                }
 	}
 
 	@Override

@@ -194,7 +194,6 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                 saveBtn.setCaption("UPDATE");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
             LOGGER.error(ex.getMessage());
         }
     }
@@ -264,7 +263,6 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                 notesTabForm.setNotesHistoryValue(sessionDTO.getAdditionalNotes());
             }
         } catch (PortalException | SystemException ex) {
-            ex.printStackTrace();
             LOGGER.error(ex.getMessage());
         }
 

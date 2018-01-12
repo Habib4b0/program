@@ -8,12 +8,14 @@ package com.stpl.app.util.xmlparser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import org.osgi.framework.FrameworkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,16 +27,14 @@ public class SQLUtil {
 
     private final Map<String, String> QUERY_MAP = new HashMap<>();
     private static SQLUtil sqlUtil = null;
-    private File[] files = null;
     private static final Logger LOGGER = LoggerFactory.getLogger(SQLUtil.class);
+    
 
     private SQLUtil() {
         try {
-            URL url = getClass().getResource("/sqlresources/");
-            File file = new File(url.getFile().replace("%20", " "));
-            this.files = file.listFiles();
-            getResources();
-        } catch (IOException | JAXBException e) {
+            Enumeration<URL> urls = FrameworkUtil.getBundle(SQLUtil.class).getBundleContext().getBundle().findEntries("/sqlresources", "*", false);
+            getResources(urls);
+        } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
 
@@ -47,17 +47,17 @@ public class SQLUtil {
         return sqlUtil;
     }
 
-    private void getResources() throws JAXBException, IOException {
-        if (files == null) {
+    private void getResources(Enumeration<URL> urls) throws JAXBException, IOException {
+        if (urls == null) {
             return;
         }
 
-        for (int i = 0; i < files.length; i++) {
-            File file = files[i];
-            if (file != null && file.isFile() && file.getCanonicalPath().endsWith(".xml")) {
+        while (urls.hasMoreElements()) {
+            URL tempUrl = urls.nextElement();
+            if (tempUrl.getFile() != null && tempUrl.getFile().contains(".xml")) {
                 JAXBContext jaxbContext = JAXBContext.newInstance(Sql.class);
                 Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-                Sql que = (Sql) jaxbUnmarshaller.unmarshal(file);
+                Sql que = (Sql) jaxbUnmarshaller.unmarshal(tempUrl);
                 List<SqlEntity> list = que.getSqlEntity();
                 for (SqlEntity ans : list) {
                     QUERY_MAP.put(ans.getSqlID(), ans.getSqlQuery());
@@ -67,12 +67,12 @@ public class SQLUtil {
 
     }
 
-    private Map<String, String> getQueryMap() {
+    private Map<String, String> getQUERY_MAP() {
         return QUERY_MAP;
     }
 
     public static String getQuery(String sqlId) {
-        return SQLUtil.getContext().getQueryMap().get(sqlId);
+        return SQLUtil.getContext().getQUERY_MAP().get(sqlId);
     }
 
 }
