@@ -307,7 +307,7 @@ public class AlternateSummery extends CustomComponent {
         try {
             this.session = session;
             this.screenName = screenName;
-            this.variableList = variableList;
+            this.variableList = variableList == null ? variableList : new ArrayList<>(variableList);
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/AltenateSummeryTab.xml"), this));
 
             if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {

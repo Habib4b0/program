@@ -67,27 +67,27 @@ public class DataAssumptionDTO {
     }
 
     public Date getActiveFileFromDate() {
-        return activeFileFromDate;
+        return activeFileFromDate == null ? null : (Date) activeFileFromDate.clone();
     }
 
     public void setActiveFileFromDate(Date activeFileFromDate) {
-        this.activeFileFromDate = activeFileFromDate;
+        this.activeFileFromDate = activeFileFromDate == null ? null : (Date) activeFileFromDate.clone();
     }
 
     public Date getActiveFileFromPeriod() {
-        return activeFileFromPeriod;
+        return activeFileFromPeriod == null ? null : (Date) activeFileFromPeriod.clone();
     }
 
     public void setActiveFileFromPeriod(Date activeFileFromPeriod) {
-        this.activeFileFromPeriod = activeFileFromPeriod;
+        this.activeFileFromPeriod = activeFileFromPeriod == null ? null : (Date) activeFileFromPeriod.clone();
     }
 
     public Date getActiveFileToPeriod() {
-        return activeFileToPeriod;
+        return activeFileToPeriod == null ? null : (Date) activeFileToPeriod.clone();
     }
 
     public void setActiveFileToPeriod(Date activeFileToPeriod) {
-        this.activeFileToPeriod = activeFileToPeriod;
+        this.activeFileToPeriod = activeFileToPeriod == null ? null : (Date) activeFileToPeriod.clone();
     }
 
     public String getActiveFileFromDateString() {

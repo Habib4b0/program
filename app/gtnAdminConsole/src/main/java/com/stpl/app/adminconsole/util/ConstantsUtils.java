@@ -494,11 +494,11 @@ public final class ConstantsUtils {
     public static final String UDC2 = "RS_UDC2";
 
     public static final String DEDUCTION_GROUP_SYS_ID = "DeductionGroupSid";
-    public static String[] manualProcessShedularHeader = {"isSelected", "processName", "lastRunDate"};
-    public static String ASTERISK = "*";
-    public static String PERCENT = "%";
-    public static String ADJ_RESERVER_DETAIL_INTERFACE = "ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE";
-    public static String ADJ_GTN_DETAIL_INTERFACE = "ADJUSTMENT_GTN_DETAIL_OUTBOUND_INTERFACE";
+    private static  final String[] MANUAL_PROCESS_SCHEDULAR_HEADER = {"isSelected", "processName", "lastRunDate"};
+    public static  final String ASTERISK = "*";
+    public static final String PERCENT = "%";
+    public static final String ADJ_RESERVER_DETAIL_INTERFACE = "ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE";
+    public static final String ADJ_GTN_DETAIL_INTERFACE = "ADJUSTMENT_GTN_DETAIL_OUTBOUND_INTERFACE";
 
     private ConstantsUtils() {
 
@@ -774,4 +774,9 @@ public final class ConstantsUtils {
         }
         return object;
     }
+
+	public static String[] getManualProcessShedularHeader() {
+		return MANUAL_PROCESS_SCHEDULAR_HEADER.clone();
+	}
+
 }
