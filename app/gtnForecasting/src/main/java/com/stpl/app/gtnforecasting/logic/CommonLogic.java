@@ -4208,7 +4208,7 @@ public class CommonLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
-                if(flag){
+                if(!flag){
                 stringBuilder.append("'," + i++ + ")");
                 }else{
                 stringBuilder.append("')");
