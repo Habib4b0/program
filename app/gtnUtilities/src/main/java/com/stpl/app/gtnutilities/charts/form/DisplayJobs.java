@@ -102,8 +102,8 @@ public class DisplayJobs extends CustomComponent implements View {
         tableLogic.setContainerDataSource(resultsBean);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultsTable.setVisibleColumns(Constants.JOB_TABLE_COLUMNS);
-        resultsTable.setColumnHeaders(Constants.JOB_TABLE_HEADER);
+        resultsTable.setVisibleColumns(Constants.getJobTableColumns());
+        resultsTable.setColumnHeaders(Constants.getJobTableHeader());
         resultsTable.setImmediate(true);
         resultsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
         resultsTable.setColumnWidth("enabled", 250);

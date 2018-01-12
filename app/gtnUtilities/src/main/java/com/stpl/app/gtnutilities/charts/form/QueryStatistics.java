@@ -139,7 +139,7 @@ public class QueryStatistics extends CustomComponent implements View {
         tableLogic.setContainerDataSource(resultsBean);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        setVisibleColHeaders(Constants.QUERY_TABLE_COLUMNS, Constants.QUERY_TABLE_HEADER);
+        setVisibleColHeaders(Constants.getQueryTableColumns(), Constants.getQueryTableHeader());
         resultsTable.setFilterBarVisible(true);
         resultsTable.setImmediate(true);
         resultsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -196,13 +196,13 @@ public class QueryStatistics extends CustomComponent implements View {
         tableLogic.configureSearchData(getInputArray(), Constants.Query_Statistics);
         if (typeValue.equals(Constants.Long_Running_Queries)) {
             setButtonVisibility(true);
-            setVisibleColHeaders(Constants.QUERY_TABLE_COLUMNS, Constants.QUERY_TABLE_HEADER);
+            setVisibleColHeaders(Constants.getQueryTableColumns(), Constants.getQueryTableHeader());
         } else if (typeValue.equals(Constants.Stored_Procedure_Info)) {
             setButtonVisibility(true);
-            setVisibleColHeaders(Constants.PROCEDURE_TABLE_COLUMNS, Constants.PROCEDURE_TABLE_HEADER);
+            setVisibleColHeaders(Constants.getProcedureTableColumns(), Constants.getProcedureTableHeader());
         } else {
             setButtonVisibility(false);
-            setVisibleColHeaders(Constants.INDEX_TABLE_COLUMNS, Constants.INDEX_TABLE_HEADER);
+            setVisibleColHeaders(Constants.getIndexTableColumns(), Constants.getIndexTableHeader());
         }
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultsTable.setFilterGenerator(new FilterGenerator());
