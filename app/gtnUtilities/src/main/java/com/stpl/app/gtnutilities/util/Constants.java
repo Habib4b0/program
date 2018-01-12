@@ -10,73 +10,73 @@ package com.stpl.app.gtnutilities.util;
  */
 public class Constants {
 
-    public static String LONG_RUNNING_QUERIES = "LONG_RUNNING_QUERIES";
-    public static String BOOTSTRAP = "bootstrap";
-    public static String STORED_PROCEDURE_INFO = "STORED_PROCEDURE_INFO";
-    public static String INDEX_FRAGMENTATION_STATISTICS = "INDEX_FRAGMENTATION_STATISTICS";
-    public static String ERROR = "Error";
-    public static String SelectDateMSG = "Please Select any Date";
-    public static String EMPTY = "";
-    public static String Query = "Query";
-    public static String Procedure = "Procedure";
-    public static String Continous_Dots = "...";
-    public static String SPACE = " ";
-    public static String UNDERSCORE = "_";
-    public static String Long_Running_Queries = "LONG RUNNING QUERIES";
-    public static String Stored_Procedure_Info = "STORED PROCEDURE INFO";
-    public static String Index_Fragmentation_Statistics = "INDEX FRAGMENTATION STATISTICS";
-    public static String CPU = "CPU";
-    public static String IO = "IO";
-    public static String LONG = "LONG";
-    public static String Date_Format = "dd-MM-yyyy";
-    public static String Hour_Date_Format = "dd/MM/yyyy HH:mm:ss";
-    public static String Time_Format = "HH:mm:ss a";
-    public static String ENABLED = "Enabled";
-    public static String OCCURS_ONCE_AT = "Occurs Once At";
-    public static String OCCURS_EVERY = "Occurs Every";
-    public static String END_DATE = "End Date";
-    public static String NO_END_DATE = "No End Date";
-    public static String Query_Statistics = "Query Statistics";
-    public static String CPU_IO_Statistics = "CPU IO Statistics";
-    public static String Schedule_Job = "Scheduled Jobs";
-    public static String YES = "Yes";
-    public static String NO = "No";
-    public static String yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss";
-    public static String SELECT_TIME = "Select Time";
-    public static String DISABLED = "Disabled";
-    public static String ALL = "All";
-    public static String STAR = "\\*";
-    public static String PERCENT = "\\%";
-    public static String CPU_IO_STATISTICS = "CPU IO Statistics";
-    public static String SECS = " Secs";
-    public static String MB = " MB";
-    public static String SELECT_ONE = "Select One -";
-    public static String PERCENTAGE_WITH_SPACE = " %";
-    public static String PERCENTAGE = "%";
-    public static String JOB = "Job";
-    public static String SUCCESS = "SUCCESS";
-    public static String SHOW_ALL = "Show All";
-    public static String STATUS = "status";
-    public static String FAIL = "FAIL";
-    public static String FALSE = "false";
-    public static String TRUE = "true";
-    public static String NULL_STRING = "null";
-    public final static String DOUBLE_QUOTE = "\"\"";
-    public final static String QUOTE = "\"";
-    public final static String EXCEL_STRING_FORMAT = "\" %s \",";
-    public static String Server_Logging = "Server Logging";
-    public static String INBOUND = "Inbound";
-    public static String OUTBOUND = "Outbound";
+    public static final String LONG_RUNNING_QUERIES = "LONG_RUNNING_QUERIES";
+    public static final String BOOTSTRAP = "bootstrap";
+    public static final String STORED_PROCEDURE_INFO = "STORED_PROCEDURE_INFO";
+    public static final String INDEX_FRAGMENTATION_STATISTICS = "INDEX_FRAGMENTATION_STATISTICS";
+    public static final String ERROR = "Error";
+    public static final String SelectDateMSG = "Please Select any Date";
+    public static final String EMPTY = "";
+    public static final String Query = "Query";
+    public static final String Procedure = "Procedure";
+    public static final String Continous_Dots = "...";
+    public static final String SPACE = " ";
+    public static final String UNDERSCORE = "_";
+    public static final String Long_Running_Queries = "LONG RUNNING QUERIES";
+    public static final String Stored_Procedure_Info = "STORED PROCEDURE INFO";
+    public static final String Index_Fragmentation_Statistics = "INDEX FRAGMENTATION STATISTICS";
+    public static final String CPU = "CPU";
+    public static final String IO = "IO";
+    public static final String LONG = "LONG";
+    public static final String Date_Format = "dd-MM-yyyy";
+    public static final String Hour_Date_Format = "dd/MM/yyyy HH:mm:ss";
+    public static final String Time_Format = "HH:mm:ss a";
+    public static final String ENABLED = "Enabled";
+    public static final String OCCURS_ONCE_AT = "Occurs Once At";
+    public static final String OCCURS_EVERY = "Occurs Every";
+    public static final String END_DATE = "End Date";
+    public static final String NO_END_DATE = "No End Date";
+    public static final String Query_Statistics = "Query Statistics";
+    public static final String CPU_IO_Statistics = "CPU IO Statistics";
+    public static final String Schedule_Job = "Scheduled Jobs";
+    public static final String YES = "Yes";
+    public static final String NO = "No";
+    public static final String yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss";
+    public static final String SELECT_TIME = "Select Time";
+    public static final String DISABLED = "Disabled";
+    public static final String ALL = "All";
+    public static final String STAR = "\\*";
+    public static final String PERCENT = "\\%";
+    public static final String CPU_IO_STATISTICS = "CPU IO Statistics";
+    public static final String SECS = " Secs";
+    public static final String MB = " MB";
+    public static final String SELECT_ONE = "Select One -";
+    public static final String PERCENTAGE_WITH_SPACE = " %";
+    public static final String PERCENTAGE = "%";
+    public static final String JOB = "Job";
+    public static final String SUCCESS = "SUCCESS";
+    public static final String SHOW_ALL = "Show All";
+    public static final String STATUS = "status";
+    public static final String FAIL = "FAIL";
+    public static final String FALSE = "false";
+    public static final String TRUE = "true";
+    public static final String NULL_STRING = "null";
+    public static final String DOUBLE_QUOTE = "\"\"";
+    public static final String QUOTE = "\"";
+    public static final String EXCEL_STRING_FORMAT = "\" %s \",";
+    public static final String Server_Logging = "Server Logging";
+    public static final String INBOUND = "Inbound";
+    public static final String OUTBOUND = "Outbound";
     /**
      * The Constant CPU_IO_TABLE_COLUMNS.
      */
-    public static final Object[] QUERY_TABLE_COLUMNS = new Object[]{
+    private static final Object[] QUERY_TABLE_COLUMNS = new Object[]{
         "dataBase_Name", "text_Query", "value"};
     /**
      * The Constant CPU_TABLE_HEADER.
      */
-    public static final String[] QUERY_TABLE_HEADER = new String[]{"Database", Query, "Value"};
-    public static final String[] interFacesList = new String[]{"ACCRUAL_INBOUND_INTERFACE", "COMPANY_TRADE_CLASS_INTERFACE",
+    private static final String[] QUERY_TABLE_HEADER = new String[]{"Database", Query, "Value"};
+    private static final String[] INTERFACES_LIST = new String[]{"ACCRUAL_INBOUND_INTERFACE", "COMPANY_TRADE_CLASS_INTERFACE",
         "GL_COST_CENTER_INTERFACE", "ITEM_MASTER_INTERFACE", "ACTUAL_MASTER_INTERFACE",
         "CONTRACT_HEADER_INTERFACE", "GL_POSTING_INTERFACE", "ITEM_PRICING_INTERFACE",
         "ADJUSTED_DEMAND_ACTUAL_INTERFACE", "CPI_INTERFACE",
@@ -94,36 +94,38 @@ public class Constants {
         "ITEM_HIERARCHY_INTERFACE", "RETURNS_INTERFACE", "COMPANY_PARENT_INTERFACE",
         "GL_BALANCE_INTERFACE", "ITEM_IDENTIFIER_INTERFACE", "SALES_MASTER_INTERFACE"};
     
-    public static String[] outBoundInterfaceList=new String[]{
+
+    private static final String[] OUT_BOUND_INTERFACE_LIST=new String[]{
             "Accrual Rate Projection" , "ADJUSTMENT_DETAILS_GTN" , "ADJUSTMENT_DETAILS_RESERVE" , "Cff_Outbound",  "Hierarchy_Definition",    "Relationship_Builder"};
-    /**
+    
+	/**
      * The Constant CPU_IO_TABLE_COLUMNS.
      */
-    public static final Object[] PROCEDURE_TABLE_COLUMNS = new Object[]{"dataBase_Name", "procedure_Name",
+    private static final Object[] PROCEDURE_TABLE_COLUMNS = new Object[]{"dataBase_Name", "procedure_Name",
         "text_Query", "value"};
     /**
      * The Constant CPU_TABLE_HEADER.
      */
-    public static final String[] PROCEDURE_TABLE_HEADER = new String[]{"Database", "Procedure Name", Query, "Value"};
+    private static final String[] PROCEDURE_TABLE_HEADER = new String[]{"Database", "Procedure Name", Query, "Value"};
     /**
      * The Constant CPU_IO_TABLE_COLUMNS.
      */
-    public static final Object[] INDEX_TABLE_COLUMNS = new Object[]{
+    private static final Object[] INDEX_TABLE_COLUMNS = new Object[]{
         "index_Name", "table_Name", "fragmentation_Percentage", "space_Used_Percentage", "total_Rows", "distributed_Rows"};
     /**
      * The Constant CPU_TABLE_HEADER.
      */
-    public static final String[] INDEX_TABLE_HEADER = new String[]{"Index Name", "Table Name", "Fragmentation Percentage",
+    private static final String[] INDEX_TABLE_HEADER = new String[]{"Index Name", "Table Name", "Fragmentation Percentage",
         "Space Used Percentage", "Total Rows", "Distributed Rows"};
     /**
      * The Constant CPU_IO_TABLE_COLUMNS.
      */
-    public static final Object[] JOB_TABLE_COLUMNS = new Object[]{
+    private static final Object[] JOB_TABLE_COLUMNS = new Object[]{
         "jobname", "enabled", "description", "occurs", "occurs_detail", "frequency", "execution_Time", "last_Execution_Day", "status"};
     /**
      * The Constant CPU_TABLE_HEADER.
      */
-    public static final String[] JOB_TABLE_HEADER = new String[]{"Name", "Enabled", "Description",
+    private static final String[] JOB_TABLE_HEADER = new String[]{"Name", "Enabled", "Description",
         "Occurs", "Occurs detail", "Frequency", "Last Execution Duration", "Last Execution Date", "Last Execution Status"};
     public static final String TIMEONLY = "time-only";
     public static final String DOWNLOAD = "DOWNLOAD";
@@ -166,4 +168,44 @@ public class Constants {
     public static final String ITEM_HIERARCHY_INTERFACE = "ITEM_HIERARCHY_INTERFACE";
     public static final String ITEM_PRICING_INTERFACE = "ITEM_PRICING_INTERFACE";
     public static final String GL_COST_CENTER_INTERFACE = "GL_COST_CENTER_INTERFACE";
+	
+	public static Object[] getQueryTableColumns() {
+		return QUERY_TABLE_COLUMNS.clone();
+	}
+
+	public static String[] getQueryTableHeader() {
+		return QUERY_TABLE_HEADER.clone();
+	}
+
+    public static String[] getInterfaceslist() {
+		return INTERFACES_LIST.clone();
+	}
+  
+    public static String[] getOutboundinterfacelist() {
+		return OUT_BOUND_INTERFACE_LIST.clone();
+	}
+
+	public static Object[] getProcedureTableColumns() {
+		return PROCEDURE_TABLE_COLUMNS.clone();
+	}
+
+	public static String[] getProcedureTableHeader() {
+		return PROCEDURE_TABLE_HEADER.clone();
+	}
+
+	public static Object[] getIndexTableColumns() {
+		return INDEX_TABLE_COLUMNS.clone();
+	}
+
+	public static String[] getIndexTableHeader() {
+		return INDEX_TABLE_HEADER.clone();
+	}
+
+	public static Object[] getJobTableColumns() {
+		return JOB_TABLE_COLUMNS.clone();
+	}
+
+	public static String[] getJobTableHeader() {
+		return JOB_TABLE_HEADER.clone();
+	}
 }
