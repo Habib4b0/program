@@ -1,130 +1,135 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Feb 22, 2017 8:16:57 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Jan 11, 2018 8:10:24 PM by Hibernate Tools 4.3.5.Final -->
 <hibernate-mapping>
-	<class name="com.stpl.gtn.gtn2o.ws.entity.user.User" table="User_"
-		schema="dbo">
-		<id name="userId" type="long">
-			<column name="userId" />
-			<generator class="assigned" />
-		</id>
-		<property name="uuid" type="string">
-			<column name="uuid_" />
-		</property>
-		<property name="companyId" type="java.lang.Long">
-			<column name="companyId" />
-		</property>
-		<property name="createDate" type="timestamp">
-			<column name="createDate" length="23" />
-		</property>
-		<property name="modifiedDate" type="timestamp">
-			<column name="modifiedDate" length="23" />
-		</property>
-		<property name="defaultUser" type="java.lang.Boolean">
-			<column name="defaultUser" />
-		</property>
-		<property name="contactId" type="java.lang.Long">
-			<column name="contactId" unique="true" />
-		</property>
-		<property name="password" type="string">
-			<column name="password_" />
-		</property>
-		<property name="passwordEncrypted" type="java.lang.Boolean">
-			<column name="passwordEncrypted" />
-		</property>
-		<property name="passwordReset" type="java.lang.Boolean">
-			<column name="passwordReset" />
-		</property>
-		<property name="passwordModifiedDate" type="timestamp">
-			<column name="passwordModifiedDate" length="23" />
-		</property>
-		<property name="digest" type="serializable">
-			<column name="digest" />
-		</property>
-		<property name="reminderQueryQuestion" type="string">
-			<column name="reminderQueryQuestion" />
-		</property>
-		<property name="reminderQueryAnswer" type="string">
-			<column name="reminderQueryAnswer" />
-		</property>
-		<property name="graceLoginCount" type="java.lang.Integer">
-			<column name="graceLoginCount" />
-		</property>
-		<property name="screenName" type="string">
-			<column name="screenName" />
-		</property>
-		<property name="emailAddress" type="string">
-			<column name="emailAddress" />
-		</property>
-		<property name="facebookId" type="java.lang.Long">
-			<column name="facebookId" />
-		</property>
-		<property name="ldapServerId" type="java.lang.Long">
-			<column name="ldapServerId" />
-		</property>
-		<property name="openId" type="string">
-			<column name="openId" />
-		</property>
-		<property name="portraitId" type="java.lang.Long">
-			<column name="portraitId" />
-		</property>
-		<property name="languageId" type="string">
-			<column name="languageId" />
-		</property>
-		<property name="timeZoneId" type="string">
-			<column name="timeZoneId" />
-		</property>
-		<property name="greeting" type="string">
-			<column name="greeting" />
-		</property>
-		<property name="comments" type="string">
-			<column name="comments" />
-		</property>
-		<property name="firstName" type="string">
-			<column name="firstName" />
-		</property>
-		<property name="middleName" type="string">
-			<column name="middleName" />
-		</property>
-		<property name="lastName" type="string">
-			<column name="lastName" />
-		</property>
-		<property name="jobTitle" type="string">
-			<column name="jobTitle" />
-		</property>
-		<property name="loginDate" type="timestamp">
-			<column name="loginDate" length="23" />
-		</property>
-		<property name="loginIp" type="string">
-			<column name="loginIP" />
-		</property>
-		<property name="lastLoginDate" type="timestamp">
-			<column name="lastLoginDate" length="23" />
-		</property>
-		<property name="lastLoginIp" type="string">
-			<column name="lastLoginIP" />
-		</property>
-		<property name="lastFailedLoginDate" type="timestamp">
-			<column name="lastFailedLoginDate" length="23" />
-		</property>
-		<property name="failedLoginAttempts" type="java.lang.Integer">
-			<column name="failedLoginAttempts" />
-		</property>
-		<property name="lockout" type="java.lang.Boolean">
-			<column name="lockout" />
-		</property>
-		<property name="lockoutDate" type="timestamp">
-			<column name="lockoutDate" length="23" />
-		</property>
-		<property name="agreedToTermsOfUse" type="java.lang.Boolean">
-			<column name="agreedToTermsOfUse" />
-		</property>
-		<property name="emailAddressVerified" type="java.lang.Boolean">
-			<column name="emailAddressVerified" />
-		</property>
-		<property name="status" type="java.lang.Integer">
-			<column name="status" />
-		</property>
-	</class>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.user.User" table="User_" schema="dbo"  optimistic-lock="version">
+        <id name="userId" type="long">
+            <column name="userId" />
+            <generator class="assigned" />
+        </id>
+        <property name="mvccVersion" type="long">
+            <column name="mvccVersion" not-null="true" />
+        </property>
+        <property name="uuid" type="string">
+            <column name="uuid_" />
+        </property>
+        <property name="companyId" type="java.lang.Long">
+            <column name="companyId" />
+        </property>
+        <property name="createDate" type="timestamp">
+            <column name="createDate" length="23" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="modifiedDate" length="23" />
+        </property>
+        <property name="defaultUser" type="java.lang.Boolean">
+            <column name="defaultUser" />
+        </property>
+        <property name="contactId" type="java.lang.Long">
+            <column name="contactId" unique="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password_" />
+        </property>
+        <property name="passwordEncrypted" type="java.lang.Boolean">
+            <column name="passwordEncrypted" />
+        </property>
+        <property name="passwordReset" type="java.lang.Boolean">
+            <column name="passwordReset" />
+        </property>
+        <property name="passwordModifiedDate" type="timestamp">
+            <column name="passwordModifiedDate" length="23" />
+        </property>
+        <property name="digest" type="string">
+            <column name="digest" />
+        </property>
+        <property name="reminderQueryQuestion" type="string">
+            <column name="reminderQueryQuestion" />
+        </property>
+        <property name="reminderQueryAnswer" type="string">
+            <column name="reminderQueryAnswer" />
+        </property>
+        <property name="graceLoginCount" type="java.lang.Integer">
+            <column name="graceLoginCount" />
+        </property>
+        <property name="screenName" type="string">
+            <column name="screenName" />
+        </property>
+        <property name="emailAddress" type="string">
+            <column name="emailAddress" />
+        </property>
+        <property name="facebookId" type="java.lang.Long">
+            <column name="facebookId" />
+        </property>
+        <property name="googleUserId" type="string">
+            <column name="googleUserId" />
+        </property>
+        <property name="ldapServerId" type="java.lang.Long">
+            <column name="ldapServerId" />
+        </property>
+        <property name="openId" type="string">
+            <column name="openId" />
+        </property>
+        <property name="portraitId" type="java.lang.Long">
+            <column name="portraitId" />
+        </property>
+        <property name="languageId" type="string">
+            <column name="languageId" />
+        </property>
+        <property name="timeZoneId" type="string">
+            <column name="timeZoneId" />
+        </property>
+        <property name="greeting" type="string">
+            <column name="greeting" />
+        </property>
+        <property name="comments" type="string">
+            <column name="comments" />
+        </property>
+        <property name="firstName" type="string">
+            <column name="firstName" />
+        </property>
+        <property name="middleName" type="string">
+            <column name="middleName" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="lastName" />
+        </property>
+        <property name="jobTitle" type="string">
+            <column name="jobTitle" />
+        </property>
+        <property name="loginDate" type="timestamp">
+            <column name="loginDate" length="23" />
+        </property>
+        <property name="loginIp" type="string">
+            <column name="loginIP" />
+        </property>
+        <property name="lastLoginDate" type="timestamp">
+            <column name="lastLoginDate" length="23" />
+        </property>
+        <property name="lastLoginIp" type="string">
+            <column name="lastLoginIP" />
+        </property>
+        <property name="lastFailedLoginDate" type="timestamp">
+            <column name="lastFailedLoginDate" length="23" />
+        </property>
+        <property name="failedLoginAttempts" type="java.lang.Integer">
+            <column name="failedLoginAttempts" />
+        </property>
+        <property name="lockout" type="java.lang.Boolean">
+            <column name="lockout" />
+        </property>
+        <property name="lockoutDate" type="timestamp">
+            <column name="lockoutDate" length="23" />
+        </property>
+        <property name="agreedToTermsOfUse" type="java.lang.Boolean">
+            <column name="agreedToTermsOfUse" />
+        </property>
+        <property name="emailAddressVerified" type="java.lang.Boolean">
+            <column name="emailAddressVerified" />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="status" />
+        </property>
+    </class>
 </hibernate-mapping>

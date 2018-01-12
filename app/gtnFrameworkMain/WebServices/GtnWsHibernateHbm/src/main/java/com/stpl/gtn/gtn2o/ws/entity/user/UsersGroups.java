@@ -7,12 +7,14 @@ package com.stpl.gtn.gtn2o.ws.entity.user;
 public class UsersGroups implements java.io.Serializable {
 
 	private UsersGroupsId id;
+	private long companyId;
 
 	public UsersGroups() {
 	}
 
-	public UsersGroups(UsersGroupsId id) {
+	public UsersGroups(UsersGroupsId id, long companyId) {
 		this.id = id;
+		this.companyId = companyId;
 	}
 
 	public UsersGroupsId getId() {
@@ -21,6 +23,14 @@ public class UsersGroups implements java.io.Serializable {
 
 	public void setId(UsersGroupsId id) {
 		this.id = id;
+	}
+
+	public long getCompanyId() {
+		return this.companyId;
+	}
+
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
 	}
 
 }

@@ -75,7 +75,7 @@ public class CustomUserCallBack implements UserGroupCallback {
 			if (roles != null) {
 				for (Role role : roles) {
 					if (!GtnFrameworkWebserviceConstant.ADMINISTRATOR.equals(role.getName())) {
-						userRoles.add(role.getName());
+						userRoles.add(String.valueOf(role.getName()));
 					}
 				}
 			}
@@ -98,10 +98,10 @@ public class CustomUserCallBack implements UserGroupCallback {
 			List<User> usersList = gtnWsUserRoleService.getUserList();
 			List<Role> roleList = gtnWsUserRoleService.getUserRoleList();
 			for (User user : usersList) {
-				userMap.put(user.getScreenName(), user);
+				userMap.put(String.valueOf(user.getScreenName()), user);
 			}
 			for (Role role : roleList) {
-				roleMap.put(role.getName().trim(), role);
+				roleMap.put(String.valueOf(role.getName()).trim(), role);
 			}
 			if (userMap.containsKey(GtnFrameworkWebserviceConstant.ADMINISTRATOR)) {
 				userMap.remove(GtnFrameworkWebserviceConstant.ADMINISTRATOR);
