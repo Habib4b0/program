@@ -5,7 +5,7 @@
     <artifactId>beforeunload-addon</artifactId>
     <packaging>jar</packaging>
     <name>BeforeUnload addon</name>
-	<version>1.0.1</version>
+	<version>1.2</version>
 
     <description>BeforeUnload Vaadin 7 addon</description>
 
@@ -26,15 +26,15 @@
         <vaadin.version>8.1.6</vaadin.version>
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 
-        <Implementation-Version>${project.version}</Implementation-Version>
-        <!-- Must not change this because of the Directory -->
-        <Implementation-Title>BeforeUnload</Implementation-Title>
-        <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
-        <Vaadin-Addon>BeforeUnload-${project.version}.jar</Vaadin-Addon>
+         <Implementation-Version>${project.version}</Implementation-Version>
+		<!-- Must not change this because of the Directory -->
+		<Implementation-Title>BeforeUnload</Implementation-Title>
+		<Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+		<Vaadin-Addon>BeforeUnload-${project.version}.jar</Vaadin-Addon>
         <Vaadin-Widgetset>org.vaadin.alump.beforeunload.gwt.BeforeUnloadWidgetSet</Vaadin-Widgetset>
 
-    </properties>
-    
+	</properties>
+
         <build>
 		<plugins>
 			<plugin>
@@ -50,7 +50,7 @@
 						<manifestEntries>
 							<!-- Package format version - do not change -->
 							<Vaadin-Package-Version>1</Vaadin-Package-Version>
-							<Vaadin-Widgetsets>org.vaadin.alump.beforeunload.BeforeUnloadWidgetSet</Vaadin-Widgetsets>
+							<Vaadin-Widgetsets>org.vaadin.alump.beforeunload.gwt.BeforeUnloadWidgetSet</Vaadin-Widgetsets>
 						</manifestEntries>
 					</archive>
 				</configuration>

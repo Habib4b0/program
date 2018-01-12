@@ -27,7 +27,7 @@
         <custommenubar.version>1.1</custommenubar.version>
         <extfilteringtable.version>1.8</extfilteringtable.version>
         <extcustomcheckbox.version>1.0</extcustomcheckbox.version>
-        <beforeunload.version>1.0.1</beforeunload.version>
+        <beforeunload.version>1.2</beforeunload.version>
         <quartz.version>2.2.2</quartz.version>
         <common-lang.version>2.6</common-lang.version>
         <junit.version>4.12</junit.version>
