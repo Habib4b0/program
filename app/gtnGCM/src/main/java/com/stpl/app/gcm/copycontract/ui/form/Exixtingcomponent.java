@@ -274,6 +274,8 @@ public class Exixtingcomponent extends CustomComponent {
             ifpDetailsGrid.setVisible(false);
             psDetailsGrid.setVisible(false);
             rsDetailsGrid.setVisible(false);
+            cfpDetailsNo.setReadOnly(true);
+            cfpDetailsName.setReadOnly(true);
         } catch (Exception ex) {
            LOGGER.error(ex);
         }
@@ -850,6 +852,8 @@ public class Exixtingcomponent extends CustomComponent {
                 cfpDetailsNo.setValue(detailsNo);
                 String detailsName = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.DASHBOARD_NAME).getValue());
                 cfpDetailsName.setValue(detailsName);
+                cfpDetailsNo.setReadOnly(true);
+                cfpDetailsName.setReadOnly(true);
 
             } else if (level.equals(NumericConstants.TWO) || level.equals(NumericConstants.THREE) || level.equals(NumericConstants.FOUR)) {
                 levelDetailsResultsTable.setVisibleColumns("itemNo", "itemName", "therapyClass", "brand", "ifpStatus", Constants.IFP_START_DATE, Constants.IFP_END_DATE);
@@ -865,6 +869,8 @@ public class Exixtingcomponent extends CustomComponent {
                     ifpDetailsNo.setValue(detailsNo);
                     String detailsName = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.DASHBOARD_NAME).getValue());
                     ifpDetailsName.setValue(detailsName);
+                    ifpDetailsNo.setReadOnly(true);
+                    ifpDetailsName.setReadOnly(true);
                 } else if (level.equals(NumericConstants.THREE)) {
                     cfpDetailsGrid.setVisible(false);
                     ifpDetailsGrid.setVisible(false);
@@ -874,6 +880,8 @@ public class Exixtingcomponent extends CustomComponent {
                     psDetailsNo.setValue(detailsNo);
                     String detailsName = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.DASHBOARD_NAME).getValue());
                     psDetailsName.setValue(detailsName);
+                    psDetailsNo.setReadOnly(true);
+                    psDetailsName.setReadOnly(true);
                 } else if (level.equals(NumericConstants.FOUR)) {
                     cfpDetailsGrid.setVisible(false);
                     ifpDetailsGrid.setVisible(false);
@@ -883,6 +891,8 @@ public class Exixtingcomponent extends CustomComponent {
                     rsDetailsNo.setValue(detailsNo);
                     String detailsName = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.DASHBOARD_NAME).getValue());
                     rsDetailsName.setValue(detailsName);
+                    rsDetailsNo.setReadOnly(true);
+                    rsDetailsName.setReadOnly(true);
                 }
             }
             componentLevelTableLogic.loadSetData(level, cfpId, true);

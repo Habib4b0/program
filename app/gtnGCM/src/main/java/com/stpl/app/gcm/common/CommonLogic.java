@@ -1788,6 +1788,13 @@ public class CommonLogic {
         LOGGER.debug("End of insertIntoProjectionDetails method");
         return status;
     }
+    
+     private void insertIntoNmProjectionSelection(int oldProjectionId, int newProjectionId) {
+        List input = new ArrayList();
+        input.add(newProjectionId);
+        input.add(oldProjectionId);
+        ItemQueries.getAppData(input, "NM_PROJECTION_SELECTION_INSERT_QUERY", null);
+    }
 
     /**
      * To call all NM Tables Insert procedure
@@ -2084,6 +2091,7 @@ public class CommonLogic {
             relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
             int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
             LOGGER.debug(" New Projection Id ===== " + newProjectionId);
+            insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
             if (newProjectionId != 0) {
                 setNewProjectionId(newProjectionId);
                 setForecastingType(String.valueOf(projectionMasterRow[NumericConstants.TWO]));
