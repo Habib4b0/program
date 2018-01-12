@@ -14,6 +14,7 @@ import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
 import com.vaadin.data.Container;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -121,11 +122,11 @@ public class SelectionDTO implements Cloneable {
     }
 
     public List getTransterTabItemIds() {
-        return transterTabItemIds;
+        return transterTabItemIds == null ? transterTabItemIds : new ArrayList<>(transterTabItemIds);
     }
 
     public void setTransterTabItemIds(List transterTabItemIds) {
-        this.transterTabItemIds = transterTabItemIds;
+        this.transterTabItemIds = transterTabItemIds == null ? transterTabItemIds : new ArrayList<>(transterTabItemIds);
     }
     
     public TabSelectionDTO getTabSelection() {
@@ -185,11 +186,11 @@ public class SelectionDTO implements Cloneable {
     }
 
     public Date getSessionDate() {
-        return sessionDate;
+        return sessionDate == null ? null : (Date) sessionDate.clone();
     }
 
     public void setSessionDate(Date sessionDate) {
-        this.sessionDate = sessionDate;
+        this.sessionDate = sessionDate == null ? null : (Date) sessionDate.clone();
     }
 
     public Integer getUserId() {
@@ -355,11 +356,11 @@ public class SelectionDTO implements Cloneable {
     }
 
     public Set<ItemContractSelectionDTO> getContractList() {
-        return contractList;
+        return contractList == null ? contractList : Collections.unmodifiableSet(contractList);
     }
 
     public void setContractList(Set<ItemContractSelectionDTO> contractList) {
-        this.contractList = contractList;
+        this.contractList = contractList == null ? contractList : Collections.unmodifiableSet(contractList);
     }
 
     public Integer getProjectionId() {
@@ -523,11 +524,11 @@ public class SelectionDTO implements Cloneable {
     }
 
     public Set<ItemComponentDetailsDTO> getSelectedItemList() {
-        return selectedItemList;
+        return selectedItemList == null ? selectedItemList : Collections.unmodifiableSet(selectedItemList);
     }
 
     public void setSelectedItemList(Set<ItemComponentDetailsDTO> selectedItemList) {
-        this.selectedItemList = selectedItemList;
+        this.selectedItemList = selectedItemList == null ? selectedItemList : Collections.unmodifiableSet(selectedItemList); 
     }
 
     public boolean isReset() {
@@ -683,11 +684,11 @@ public class SelectionDTO implements Cloneable {
     }
 
     public Set<Container.Filter> getFilters() {
-        return filters;
+        return filters == null ? filters : Collections.unmodifiableSet(filters);
     }
 
     public void setFilters(Set<Container.Filter> filters) {
-        this.filters = filters;
+        this.filters = filters == null ? filters : Collections.unmodifiableSet(filters);
     }
 
     public String getOperation() {
@@ -699,11 +700,11 @@ public class SelectionDTO implements Cloneable {
     }
 
     public List<ItemIndexDto> getTransferItemList() {
-        return transferItemList;
+        return transferItemList == null ? transferItemList : Collections.unmodifiableList(transferItemList);
     }
 
     public void setTransferItemList(List<ItemIndexDto> transferItemList) {
-        this.transferItemList = transferItemList;
+        this.transferItemList = transferItemList == null ? transferItemList : Collections.unmodifiableList(transferItemList);
     }
 
     public String getWindowName() {
@@ -723,11 +724,11 @@ public class SelectionDTO implements Cloneable {
     }
 
     public List<ItemIndexDto> getItemList() {
-        return itemList;
+        return itemList == null ? itemList : Collections.unmodifiableList(itemList);
     }
 
     public void setItemList(List<ItemIndexDto> itemList) {
-        this.itemList = itemList;
+        this.itemList = itemList == null ? itemList : Collections.unmodifiableList(itemList);
     }
 
     public boolean isIsContractUpdate() {
@@ -747,19 +748,19 @@ public class SelectionDTO implements Cloneable {
     }
 
     public List getTransterItemIds() {
-        return transterItemIds;
+        return transterItemIds == null ? transterItemIds : new ArrayList<>(transterItemIds);
     }
 
     public void setTransterItemIds(List transterItemIds) {
-        this.transterItemIds = transterItemIds;
+        this.transterItemIds = transterItemIds == null ? transterItemIds : new ArrayList<>(transterItemIds);
     }
 
     public List<Thread> getThreadList() {
-        return threadList;
+        return threadList == null ? threadList : new ArrayList<>(threadList);
     }
 
     public void setThreadList(List<Thread> threadList) {
-        this.threadList = threadList;
+        this.threadList = threadList == null ? threadList : new ArrayList<>(threadList);
     }
     
      public void addToThreadList(Thread threadList) {

@@ -2,6 +2,8 @@ package com.stpl.app.gtnforecasting.dto;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
@@ -186,11 +188,11 @@ public class DiscountProjectionDTO extends ExtMapDTO {
     }
 
     public List<DiscountProjectionDTO> getAlternatePivotList() {
-        return alternatePivotList;
+        return alternatePivotList == null ? alternatePivotList : new ArrayList<>(alternatePivotList);
     }
 
     public void setAlternatePivotList(List<DiscountProjectionDTO> alternatePivotList) {
-        this.alternatePivotList = alternatePivotList;
+        this.alternatePivotList = alternatePivotList == null ? alternatePivotList : new ArrayList<>(alternatePivotList);
     }
 
     public String getParentAlternatePivot() {

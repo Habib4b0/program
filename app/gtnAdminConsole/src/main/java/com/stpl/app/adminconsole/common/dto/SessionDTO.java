@@ -6,6 +6,7 @@
 package com.stpl.app.adminconsole.common.dto;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -117,11 +118,11 @@ public class SessionDTO {
     }
 
     public List<String> getSelectedItems() {
-        return selectedItems;
+        return selectedItems == null ? selectedItems : Collections.unmodifiableList(selectedItems);
     }
 
     public void setSelectedItems(List<String> selectedItems) {
-        this.selectedItems = selectedItems;
+        this.selectedItems = selectedItems == null ? selectedItems : Collections.unmodifiableList(selectedItems);
     }
     
 }

@@ -1253,8 +1253,8 @@ public class ForecastForm extends AbstractForm {
 										DataSelectionDTO.class);
 								resultTable.setContainerDataSource(tempContainer);
 								resultTable
-										.setVisibleColumns(TableHeaderColumnsUtil.dataSelectionColumns);
-								resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeaders);
+										.setVisibleColumns(TableHeaderColumnsUtil.getDataSelectionColumns());
+								resultTable.setColumnHeaders(TableHeaderColumnsUtil.getDataSelectionHeaders());
 							}
 							saveProjection();
 						} catch (IllegalArgumentException ex) {
@@ -2640,8 +2640,8 @@ public class ForecastForm extends AbstractForm {
 										DataSelectionDTO.class);
 								resultTable.setContainerDataSource(tempContainer);
 								resultTable
-										.setVisibleColumns(TableHeaderColumnsUtil.dataSelectionColumns);
-								resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataSelectionHeaders);
+										.setVisibleColumns(TableHeaderColumnsUtil.getDataSelectionColumns());
+								resultTable.setColumnHeaders(TableHeaderColumnsUtil.getDataSelectionHeaders());
 							}
 							dsLogic.deleteProjection(session.getProjectionId(), session.getUserId(), screenName);
 						} catch (IllegalArgumentException ex) {

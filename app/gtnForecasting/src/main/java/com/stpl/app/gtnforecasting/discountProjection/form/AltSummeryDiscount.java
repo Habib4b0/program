@@ -1369,7 +1369,7 @@ public class AltSummeryDiscount extends CustomComponent {
      * @return
      */
     public List<String> getDiscountNamesList() {
-        return discountNamesList;
+        return discountNamesList == null ? discountNamesList : Collections.unmodifiableList(discountNamesList);
     }
 
     /**

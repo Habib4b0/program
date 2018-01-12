@@ -10,6 +10,8 @@ import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 
@@ -79,7 +81,7 @@ public class ItemIndexTableLogic extends PageTableLogic {
     public boolean loadSetData(ItemIndexDto binderDto, SelectionDTO selection, List<ItemIndexDto> selecteditemList) {
         this.binderDto = binderDto;
         this.selection = selection;
-        this.selecteditemList = selecteditemList;
+        this.selecteditemList = selecteditemList == null ? selecteditemList : new ArrayList<>(selecteditemList);
         clearAll();
         setRequiredCount(true);
         generate = selection.isReset();

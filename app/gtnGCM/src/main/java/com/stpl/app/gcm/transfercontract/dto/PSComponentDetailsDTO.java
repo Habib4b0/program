@@ -72,19 +72,19 @@ public class PSComponentDetailsDTO {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     public Date getEndDate() {
-        return endDate;
+        return endDate == null ? null : (Date) endDate.clone();
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = endDate == null ? null : (Date) endDate.clone();
     }
 
     public String getPriceType() {
@@ -120,19 +120,19 @@ public class PSComponentDetailsDTO {
     }
 
     public Date getPriceProtectionStartDate() {
-        return priceProtectionStartDate;
+        return priceProtectionStartDate == null ? null : (Date) priceProtectionStartDate.clone();
     }
 
     public void setPriceProtectionStartDate(Date priceProtectionStartDate) {
-        this.priceProtectionStartDate = priceProtectionStartDate;
+        this.priceProtectionStartDate = priceProtectionStartDate == null ? null : (Date) priceProtectionStartDate.clone();
     }
 
     public Date getPriceProtectionEndDate() {
-        return priceProtectionEndDate;
+        return priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     public void setPriceProtectionEndDate(Date priceProtectionEndDate) {
-        this.priceProtectionEndDate = priceProtectionEndDate;
+        this.priceProtectionEndDate = priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     public String getPriceProtectionPriceType() {
@@ -200,11 +200,11 @@ public class PSComponentDetailsDTO {
     }
 
     public Date getResetDate() {
-        return resetDate;
+        return resetDate == null ? null : (Date) resetDate.clone();
     }
 
     public void setResetDate(Date resetDate) {
-        this.resetDate = resetDate;
+        this.resetDate = resetDate == null ? null : (Date) resetDate.clone();
     }
 
     public String getResetInterval() {
@@ -224,11 +224,11 @@ public class PSComponentDetailsDTO {
     }
 
     public Date getAttachedDate() {
-        return attachedDate;
+        return attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     public void setAttachedDate(Date attachedDate) {
-        this.attachedDate = attachedDate;
+        this.attachedDate = attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
 }

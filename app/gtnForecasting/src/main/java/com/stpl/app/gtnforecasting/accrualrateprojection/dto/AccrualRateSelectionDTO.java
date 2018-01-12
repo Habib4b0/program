@@ -7,6 +7,7 @@ package com.stpl.app.gtnforecasting.accrualrateprojection.dto;
 
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.drools.core.util.StringUtils;
@@ -68,19 +69,19 @@ public class AccrualRateSelectionDTO {
     private SessionDTO sessionDto;
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     public Date getEndDate() {
-        return endDate;
+        return endDate == null ? null : (Date) endDate.clone();
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = endDate == null ? null : (Date) endDate.clone();
     }
 
     public String getProjectionId() {
@@ -189,7 +190,7 @@ public class AccrualRateSelectionDTO {
         this.filterEndMonth = filterEndMonth;
     }
     public List<Object> getFilterList() {
-        return filterList;
+        return filterList == null ? filterList : Collections.unmodifiableList(filterList);
     }
     public String getPriceBasis() {
         return priceBasis;
@@ -235,7 +236,7 @@ public class AccrualRateSelectionDTO {
 
     
     public List<String> getVariableList() {
-        return variableList;
+        return variableList == null ? variableList : Collections.unmodifiableList(variableList);
     }
 
     public String getPeriodBasis() {
