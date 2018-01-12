@@ -65,20 +65,20 @@ public class ChartsForm extends CustomComponent implements View {
         TabSheet tabsheet = new TabSheet();
         mainLayout.addComponent(tabsheet);
         CpuIoChart CpuIoChart = new CpuIoChart();
-        CpuIoChart.setCaption(Constants.CPU_IO_Statistics);
-        tabsheet.addTab(CpuIoChart, Constants.CPU_IO_Statistics);
+        CpuIoChart.setCaption(Constants.CPU_IO_STATISTIC);
+        tabsheet.addTab(CpuIoChart, Constants.CPU_IO_STATISTIC);
         final QueryStatistics queryStatistics = new QueryStatistics();
-        queryStatistics.setCaption(Constants.Query_Statistics);
-        tabsheet.addTab(queryStatistics, Constants.Query_Statistics);
+        queryStatistics.setCaption(Constants.QUERY_STATISTICS);
+        tabsheet.addTab(queryStatistics, Constants.QUERY_STATISTICS);
         final DisplayJobs scheduleJobs = new DisplayJobs();
-        scheduleJobs.setCaption(Constants.Schedule_Job);
-        tabsheet.addTab(scheduleJobs, Constants.Schedule_Job);
+        scheduleJobs.setCaption(Constants.SCHEDULE_JOB);
+        tabsheet.addTab(scheduleJobs, Constants.SCHEDULE_JOB);
         tabsheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
              private static final long serialVersionUID = 1L;
             @Override
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 TabSheet tabsheet = event.getTabSheet();
-                if (tabsheet.getSelectedTab().getCaption().equals(Constants.Query_Statistics)) {
+                if (tabsheet.getSelectedTab().getCaption().equals(Constants.QUERY_STATISTICS)) {
                     queryStatistics.selecteDate.setValue(SearchLogic.getInstance().selectedDate);
                     queryStatistics.refreshTable();
                 }
