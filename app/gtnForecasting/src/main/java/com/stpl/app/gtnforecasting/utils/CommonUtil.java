@@ -549,7 +549,7 @@ public class CommonUtil {
     }
     
     private static boolean displayFormatConditionCheck(List<Object> relationshipValues, Object[] displayFormatIndex) {
-        return !nullCheck(relationshipValues) && !nullCheck(displayFormatIndex) && !relationshipValues.isEmpty() && relationshipValues.size() > NumericConstants.FIVE && !nullCheck(((List<Object>)relationshipValues.get(5)).get(1));
+        return !nullCheck(relationshipValues) && !nullCheck(displayFormatIndex) && !relationshipValues.isEmpty() && relationshipValues.size() > NumericConstants.FIVE;
     }
     
     private static boolean getLevelName(Object value) {

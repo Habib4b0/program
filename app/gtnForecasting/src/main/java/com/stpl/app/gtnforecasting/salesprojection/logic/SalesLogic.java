@@ -2112,14 +2112,14 @@ public class SalesLogic {
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
                         finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
                         if (CommonUtil.isValueEligibleForLoading()) {
-                            updateLine.append(" PROJECTION_UNITS= (PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append("))/NULLIF(UOM_VALUE,0) ");
+                            updateLine.append(" PROJECTION_UNITS= (PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append("))/COALESCE(NULLIF(UOM_VALUE,0),1) ");
                         } else {
                             updateLine.append(" PROJECTION_UNITS= PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append(")");
                         }
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         if (CommonUtil.isValueEligibleForLoading()) {
-                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append("/NULLIF(UOM_VALUE,0) ").append(" ");
+                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append("/COALESCE(NULLIF(UOM_VALUE,0),1) ").append(" ");
                         } else {
                             updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append(" ");
                         }
