@@ -28,7 +28,7 @@ public class GtnUiFrameworkNsfDeleteConfirmationAction implements GtnUIFrameWork
 		GtnUIFrameWorkActionConfig confirmationActionConfig = new GtnUIFrameWorkActionConfig();
 		confirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 		List<Object> alertParams = new ArrayList<>();
-		alertParams.add(" Delete Confirmation ");
+		alertParams.add(" Confirmation ");
 		alertParams.add(" Are you sure you want to Delete the selected Net Sales Formula record ? ");
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfig = new ArrayList<>();
 
