@@ -21,7 +21,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
  *
  * @author Abhiram.Giri
  */
-public class GtnWsRecordBean implements Serializable {
+public class GtnWsRecordBean implements Serializable, Cloneable {
 
 	public static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsRecordBean.class);
 
@@ -221,6 +221,12 @@ public class GtnWsRecordBean implements Serializable {
 		return value;
 	}
 
+	public void setPropertyValueByIndex(int index, String value) {
+		if (properties != null && index > -1 && properties.size() > index) {
+			properties.set(index, value);
+		}
+
+	}
 	public String getStringPropertyByIndex(int index) {
 		return getString(getPropertyValueByIndex(index));
 	}
@@ -419,5 +425,13 @@ public class GtnWsRecordBean implements Serializable {
 		}
 		additionalProperties.set(index, value);
 	}
+
+	public GtnWsRecordBean clone() throws CloneNotSupportedException {
+		GtnWsRecordBean newObject = (GtnWsRecordBean) super.clone();
+		newObject.properties = new ArrayList<>(this.properties);
+		newObject.additionalProperties = new ArrayList<>(this.additionalProperties);
+		return newObject;
+	}
+
 
 }

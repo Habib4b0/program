@@ -25,12 +25,12 @@ public class GtnUIFrameWorkSaveMandatoryAlert implements GtnUIFrameWorkAction, G
 
 		StringBuilder fieldMsg = new StringBuilder();
 		Object[] fieldValues = new Object[] { getString("rebatePlanInformationTabRebatePlanName"),
-				getString("rebatePlanInformationTabRebatePlanID"), getString("rebatePlanInformationTabformulaType"),
-				getString("rebatePlanInformationTabRebatePlanNo"), getInt("rebatePlanInformationTabRebateStatus"),
-				getInt("rebatePlanCalculationsRebateStructure"), getInt("rebatePlanCalculationsRangeBasedOn"),
-				getInt("rebatePlanCalculationsRebateBasedOn") };
-		String[] fields = new String[] { "Rebate Plan Name", "Rebate Plan ID", "Formula Type", "Rebate Plan No",
-				"Rebate Status", "Rebate Structure", "Range Based On", "Rebate Based On" };
+				getString("rebatePlanInformationTabRebatePlanType"), getString("rebatePlanInformationTabRebatePlanID"),
+				getString("rebatePlanInformationTabformulaType"), getString("rebatePlanInformationTabRebatePlanNo"),
+				getInt("rebatePlanInformationTabRebateStatus"), getInt("rebatePlanCalculationsRebateStructure"),
+				getInt("rebatePlanCalculationsRangeBasedOn"), getInt("rebatePlanCalculationsRebateBasedOn") };
+		String[] fields = new String[] { "Rebate Plan Name", "Rebate Plan Type", "Rebate Plan ID", "Formula Type",
+				"Rebate Plan No", "Rebate Status", "Rebate Structure", "Range Based On", "Rebate Based On" };
 
 		String resultValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanInformationTabformulaType")
 				.getCaptionFromComboBox();

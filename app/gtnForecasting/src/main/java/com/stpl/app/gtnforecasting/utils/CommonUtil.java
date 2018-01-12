@@ -566,7 +566,7 @@ public class CommonUtil {
                 formattedName += " - ";
             }
             formattedName += value;
-        }
+        } 
         return formattedName;
     }
     

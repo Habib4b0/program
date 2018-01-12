@@ -8,6 +8,7 @@ package com.stpl.app.gcm.itemmanagement.remove.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
+import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractContractSearchDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentLookUpDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractContractSearch;
@@ -17,16 +18,20 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.Container;
+import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.event.FieldEvents;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TableFieldFactory;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.asi.ui.customtextfield.CustomTextField;
@@ -159,6 +164,7 @@ public class RemoveContractSearch extends AbstractContractSearch {
                 AbstractContractSearchDTO mainDto = (AbstractContractSearchDTO) itemId;
                 if (propertyId.equals(Constants.CHECK_RECORD)) {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
+                    check.setImmediate(true);
                     if (!mainDto.getWorkFlowStatus().trim().isEmpty()) {
                         check.setVisible(false);
                     } else {
@@ -179,13 +185,49 @@ public class RemoveContractSearch extends AbstractContractSearch {
                     }
                     return check;
                 }
+                if (propertyId.equals("itemEndDate")) {
+                    final PopupDateField itemendDate = new PopupDateField();
+                    itemendDate.setImmediate(true);
+                    itemendDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
+                    itemendDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
+                    itemendDate.addFocusListener(new FieldEvents.FocusListener() {
+
+                        @Override
+                        public void focus(FieldEvents.FocusEvent event) {
+                            Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+
+                                @Override
+                                public void valueChange(Property.ValueChangeEvent event) {
+                                    AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                    dto.setCaseNo(0);
+                                    Date startDate = logic.getStartDateCheck(dto, selectionDTO, "START_DATE");
+                                    if (startDate != null && itemendDate.getValue() != null && itemendDate.getValue().before(startDate)) {
+                                        itemendDate.setValue(null);
+                                        MessageBox.showPlain(Icon.ERROR, "Start Date cannot come before the End Date", "You cannot proceed with this Item Start Date since it does not come after the End Date you have entered on the previous screen.", ButtonId.OK);
+                                    } else {
+                                        dto.setEndDate(itemendDate.getValue());
+                                        dto.setColumnName("END_DATE");
+                                        dto.setCaseNo(NumericConstants.TWO);
+                                        saveTempItemDetails(dto);
+                                    }
+                                }
+                            };
+
+                            itemendDate.addValueChangeListener(valueChangeListner);
+                            valueChangeListner.valueChange(null);
+                            itemendDate.removeFocusListener(this);
+                        }
+                    });
+
+                    return itemendDate;
+                }
 
                 return null;
             }
         });
 
     }
-
+    
     private void saveTempItemDetails(final AbstractContractSearchDTO dto) {
         logic.getEditedItemDetails(dto, selectionDTO);
     }

@@ -37,9 +37,9 @@ public class GtnUiFrameworkNsfPopulateValidationAction implements GtnUIFrameWork
 		
 		if (!isCheck) {
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
-			alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+			alertActionConfig.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
 			List<Object> alertParams = new ArrayList<>();
-			alertParams.add(GtnFrameworkNSFConstants.getNetSalesMassUpdateFieldErrorHeader());
+			alertParams.add(GtnFrameworkNSFConstants.getPopulateButtonCheckRecordErrorHeader());
 			alertParams.add(GtnFrameworkNSFConstants.getPopulateButtonCheckRecordErrorMsg());
 			alertActionConfig.setActionParameterList(alertParams);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
@@ -48,7 +48,7 @@ public class GtnUiFrameworkNsfPopulateValidationAction implements GtnUIFrameWork
 		else if(fieldDeductions.isEmpty())
 		{
 			GtnUIFrameWorkActionConfig alertActionConfigForField = new GtnUIFrameWorkActionConfig();
-			alertActionConfigForField.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+			alertActionConfigForField.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
 			List<Object> alertParamsForField = new ArrayList<>();
 			alertParamsForField.add(GtnFrameworkNSFConstants.getNetSalesMassUpdateFieldErrorHeader());
 			alertParamsForField.add(GtnFrameworkNSFConstants.getNetSalesMassUpdateFieldErrorMsg());
@@ -58,9 +58,9 @@ public class GtnUiFrameworkNsfPopulateValidationAction implements GtnUIFrameWork
 		else if(valueDeductions.isEmpty())
 		{
 			GtnUIFrameWorkActionConfig alertActionConfigForValue = new GtnUIFrameWorkActionConfig();
-			alertActionConfigForValue.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+			alertActionConfigForValue.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
 			List<Object> alertParamsForValue = new ArrayList<>();
-			alertParamsForValue.add(GtnFrameworkNSFConstants.getNetSalesMassUpdateFieldErrorHeader());
+			alertParamsForValue.add(GtnFrameworkNSFConstants.getNetSalesMassUpdateValueErrorHeader());
 			alertParamsForValue.add(GtnFrameworkNSFConstants.getNetSalesMassUpdateValueErrorMsg());
 			alertActionConfigForValue.setActionParameterList(alertParamsForValue);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfigForValue);
