@@ -240,7 +240,8 @@ public class DiscountProjectionLogic {
                             if (Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)) {
                                 relValue = discountDto.getHierarchyNo().contains("~") ? discountDto.getHierarchyNo().substring(discountDto.getHierarchyNo().lastIndexOf("~") + 1) : discountDto.getHierarchyNo();
                             } else {
-                                relValue = discountDto.getHierarchyNo();
+                                String hierarchy = discountDto.getHierarchyNo().contains(",") ? discountDto.getHierarchyNo().split(",")[0] : discountDto.getHierarchyNo();
+                                relValue = hierarchy.trim();
                             }
                             discountDto.setLevelName(CommonUtil.getDisplayFormattedName(relValue, hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
                             discountDto.setHierarchyIndicator(hierarchyIndicator);
@@ -260,11 +261,13 @@ public class DiscountProjectionLogic {
                                     discountDto.setDeductionHierarchyNo(customViewDetails.get(NumericConstants.NINE));
                                 }
                             } else {
-                                discountDto.setTreeLevelNo(Integer.valueOf(session.getHierarchyLevelDetails().get(discountDto.getHierarchyNo()).get(NumericConstants.TWO).toString()));
+                                String hierarchy = discountDto.getHierarchyNo().contains(",") ? discountDto.getHierarchyNo().split(",")[0] : discountDto.getHierarchyNo();
+                                discountDto.setTreeLevelNo(Integer.valueOf(session.getHierarchyLevelDetails().get(hierarchy.trim()).get(NumericConstants.TWO).toString()));
                             }
                             String level = "";
                             if (!Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)) {
-                                level = String.valueOf(session.getHierarchyLevelDetails().get(discountDto.getHierarchyNo()).get(1));
+                                String hierarchy = discountDto.getHierarchyNo().contains(",") ? discountDto.getHierarchyNo().split(",")[0] : discountDto.getHierarchyNo();
+                                level = String.valueOf(session.getHierarchyLevelDetails().get(hierarchy).get(1));
                             } else {
                                 level = "";
                             }
@@ -1103,7 +1106,7 @@ public class DiscountProjectionLogic {
         } else {
             query = queryBuilderAndExecutor.getDiscountCountQuery(sessionDTO, hierarchyNo, levelNo, hierarchyIndicator, isProgram, discountList, userGroup);
         }
-
+        
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDTO.getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
             return Integer.valueOf(list.get(0).toString());
@@ -1112,11 +1115,13 @@ public class DiscountProjectionLogic {
         return 0;
     }
 
-    public int getDiscountCustomCount(final SessionDTO sessionDTO, final String hierarchyIndicator, final int levelNo, final String customerHierarchyNo, final String productHierarchyNo, final String deductionHierarchyNo, final List<String> discountList, boolean isProgram, final String userGroup) {
+    public int getDiscountCustomCount(final SessionDTO sessionDTO, final String hierarchyIndicator, final int levelNo, final String customerHierarchyNo, final String productHierarchyNo, final String deductionHierarchyNo, final List<String> discountList, boolean isProgram, final String userGroup,List<String> customViewDetails,boolean isCustom,List<String>  customDetailsList) {
         String parentHierarchyIndicator = StringUtils.EMPTY;
         String parentHierarchyNo = StringUtils.EMPTY;
         String parentHierarchyIndicatorDeduction = StringUtils.EMPTY;
         String parentHierarchyNoDeduction = StringUtils.EMPTY;
+        String hierarchyNo = String.valueOf(customDetailsList.get(1));
+        int treeLevelNo = Integer.valueOf(String.valueOf(customDetailsList.get(NumericConstants.TWO)));
 
         if ("C".equalsIgnoreCase(hierarchyIndicator) && (StringUtils.isNotBlank(productHierarchyNo) || StringUtils.isNotBlank(deductionHierarchyNo))) {
             parentHierarchyIndicator = "P";
@@ -1135,16 +1140,15 @@ public class DiscountProjectionLogic {
             parentHierarchyNoDeduction = productHierarchyNo;
         }
 
-        String query = queryBuilderAndExecutor.getDiscountCustomCountQuery(sessionDTO, hierarchyIndicator, levelNo, "C".equalsIgnoreCase(hierarchyIndicator) ? customerHierarchyNo : "P".equalsIgnoreCase(hierarchyIndicator) ? productHierarchyNo : deductionHierarchyNo, parentHierarchyIndicator, parentHierarchyNo, parentHierarchyIndicatorDeduction, parentHierarchyNoDeduction, discountList, isProgram, userGroup);
-
+        String query = queryBuilderAndExecutor.getDiscountCustomCountQueryTest(sessionDTO, hierarchyIndicator, levelNo, "C".equalsIgnoreCase(hierarchyIndicator) ? customerHierarchyNo : "P".equalsIgnoreCase(hierarchyIndicator) ? productHierarchyNo : deductionHierarchyNo, discountList, isProgram, userGroup,customViewDetails,isCustom,customDetailsList);
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDTO.getCurrentTableNames()));
         if (list != null) {
             return Integer.valueOf(list.get(0).toString());
         }
-
+        
         return 0;
     }
-
+    
     public Map<Integer, List> configureVisibleColumnMapsForExcel(Map<Integer, List> sourceHeaderMap) {
 
         final Map<Integer, List> finalMap = new HashMap<>();

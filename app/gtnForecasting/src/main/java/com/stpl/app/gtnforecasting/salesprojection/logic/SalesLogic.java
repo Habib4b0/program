@@ -1727,7 +1727,7 @@ public class SalesLogic {
         } else {
             CommonLogic commonLogic = new CommonLogic();
 
-            String hierarchyInserQuery = SQlUtil.getQuery("selected-hierarchy-no");
+            String hierarchyInserQuery = SQlUtil.getQuery("selected-hierarchy-no-update");
             hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
 
             String hiearchyIndicator = salesDTO.getHierarchyIndicator();
