@@ -248,12 +248,12 @@ public class AdditionalInformation extends CustomComponent {
         wordBtn.setIcon(wordImage);
         pdfBtn.setIcon(pdfImage);
         resultsTable.setContainerDataSource(attachmentsListBean);
-        resultsTable.setVisibleColumns(CommonUiUtils.attachmentColumns);
-        resultsTable.setColumnHeaders(CommonUiUtils.attachmentHeader);
+        resultsTable.setVisibleColumns(CommonUiUtils.getAttachmentColumns());
+        resultsTable.setColumnHeaders(CommonUiUtils.getAttachmentHeader());
         resultsTable.setSelectable(true);
-        resultsTable.setColumnAlignment(CommonUiUtils.attachmentColumns[0], Table.Align.LEFT);
-        resultsTable.setColumnAlignment(CommonUiUtils.attachmentColumns[1], Table.Align.CENTER);
-        resultsTable.setColumnAlignment(CommonUiUtils.attachmentColumns[NumericConstants.TWO], Table.Align.LEFT);
+        resultsTable.setColumnAlignment(CommonUiUtils.getAttachmentColumns()[0], Table.Align.LEFT);
+        resultsTable.setColumnAlignment(CommonUiUtils.getAttachmentColumns()[1], Table.Align.CENTER);
+        resultsTable.setColumnAlignment(CommonUiUtils.getAttachmentColumns()[NumericConstants.TWO], Table.Align.LEFT);
         uploader.setStyleName(Constant.SEARCH_TEXT);
         layout.setStyleName("uploadId");
         notesHistory.setEnabled(false);
@@ -642,11 +642,11 @@ public class AdditionalInformation extends CustomComponent {
     }
 
     public List<String> getAddedNotes() {
-        return notesList;
+        return notesList == null ? notesList : new ArrayList<>(notesList);
     }
 
     public List<AttachmentDTO> getRemoveDocDetailsItem() {
-        return removedDetailsList;
+        return removedDetailsList == null ? removedDetailsList : new ArrayList<>(removedDetailsList);
     }
 
     public void saveAdditionalInformation() throws SystemException, PortalException  {

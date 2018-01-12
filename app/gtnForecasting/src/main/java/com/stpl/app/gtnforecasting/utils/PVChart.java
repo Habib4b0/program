@@ -85,7 +85,7 @@ public class PVChart extends Window {
         LOGGER.debug("Entering PPAChart method ");
         this.frequency = frequency;
         this.history = history;
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
         this.rightDto = rightDto;
         this.projSelDTO = projSelDTO;
         setContent(getChart());
@@ -212,7 +212,7 @@ public class PVChart extends Window {
      * @return the dto
      */
     public List<ProjectionVarianceDTO> getDto() {
-        return dto;
+        return dto == null ? dto : new ArrayList<>(dto);
     }
 
     /**
@@ -221,7 +221,7 @@ public class PVChart extends Window {
      * @param dto the new dto
      */
     public void setDto(final List<ProjectionVarianceDTO> dto) {
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
     }
 
     /**

@@ -273,14 +273,14 @@ public class HeaderUtils {
     /**
      * The Constant SUPPLEMENTAL_RIGHT_TABLE_ONE_COLUMNS.
      */
-    public static final Object[] SUPPLEMENTAL_RIGHTS_TABLEONE_COLUMNS = new Object[]{
+    private static final Object[] SUPPLEMENTAL_RIGHTS_TABLEONE_COLUMNS = new Object[]{
         "actualDiscount", Constant.METHODOLOGY, "contractPrice", "discount1",
         "discount2", "contractEndDate", "methodologyQ4", "contractPriceQ4",
         "methodologyQ1", "contractPriceQ1"};
     /**
      * The Constant RIGHT_TABLE_HEADER_SECOND_HEADERS.
      */
-    public static final String[] RIGHT_TABLE_HEADER_SECOND_HEADER = new String[]{
+    private static final String[] RIGHT_TABLE_HEADER_SECOND_HEADER = new String[]{
         " ", "Q4 2013", "Q1 2014 Results"};
     /**
      * The Constant RIGHT_TABLE_HEADER_SECOND_COLUMNS.
@@ -338,12 +338,12 @@ public class HeaderUtils {
         "Reason Code", "Commentary", CREATED_BY1};
     protected static final String PERIOD1 = "period";
 
-    public static final Object[] PPA_DETAILS_VISIBLE_COL_EXCEL = new Object[]{PERIOD1, "rebateScheduleName", "priceProtectionPriceType", "price", "priceChange", "map",
+    private static final Object[] PPA_DETAILS_VISIBLE_COL_EXCEL = new Object[]{PERIOD1, "rebateScheduleName", "priceProtectionPriceType", "price", "priceChange", "map",
         "totalDeductions", "units", "deductionPerUnit", "netPrice", "netMAP", "priceProtectionAmountPerUnit", "priceProtectionPercent", "totalPriceProtectionDeduction",
         "nep", "nepFormula", "priceToleranceType", "priceTolerance", "priceToleranceInterval", "priceToleranceFrequency", "maxIncrementalChange",
         "resetEligible", "resetType", "resetDate", "resetInterval", "resetFrequency", "netPriceType", "netPriceTypeFormula"};
 
-    public static final String[] PPA_DETAILS_VIS_HEADER_EXCEL = new String[]{Constant.PERIOD, "Rebate Schedule Name", "Price Protection Price Type", "Price", "Price Change", "MAP",
+    private static final String[] PPA_DETAILS_VIS_HEADER_EXCEL = new String[]{Constant.PERIOD, "Rebate Schedule Name", "Price Protection Price Type", "Price", "Price Change", "MAP",
         "Total Deductions", Constant.UNITS_SMALL, "Deduction Per Unit", "Net Price", "Net MAP", "Price Protection Amount Per Unit", "Price Protection %", "Total Price Protection Deduction",
         "NEP", "NEP Formula", "Price Tolerance Type", "Price Tolerance", "Price Tolerance Interval", "Price Tolerance Frequency", "Max Incremental Change",
         "Reset Eligible", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency", "Net Price Type", "Net Price Type Formula"};
@@ -352,12 +352,12 @@ public class HeaderUtils {
     /**
      * The parity columns.
      */
-    public static final Object[] PARITY_COLS = new Object[]{CONTRACT_NAME1,
+    private static final Object[] PARITY_COLS = new Object[]{CONTRACT_NAME1,
         "brandName", Constant.ITEM_NO, "itemDesc"};
     /**
      * The parity header.
      */
-    public static final String[] PARITY_HEADER = new String[]{Constant.CONTRACT_SMALL, Constant.BRAND_CAPS,
+    private static final String[] PARITY_HEADER = new String[]{Constant.CONTRACT_SMALL, Constant.BRAND_CAPS,
         "NDC #", "NDC Description"};
     protected static final String CUSTOMER_ID1 = "customerID";
     /**
@@ -381,7 +381,7 @@ public class HeaderUtils {
     /**
      * The Constant PVS_VISIBLE_COLUMN.
      */
-    public static final Object[] PV_DISC_VISIBLE_COL = new Object[]{PROJECTION_PERIOD1, TRADING_PARTNER1, CUSTOMER_ID1, Constant.GROUP, Constant.BRAND};
+    private static final Object[] PV_DISC_VISIBLE_COL = new Object[]{PROJECTION_PERIOD1, TRADING_PARTNER1, CUSTOMER_ID1, Constant.GROUP, Constant.BRAND};
     /**
      * The Constant PVS_COLUMN_HEADER.
      */
@@ -394,13 +394,13 @@ public class HeaderUtils {
      * The Constant PVS_COLUMN_HEADER.
      */
     protected static final String[] PA_PPA_COL_HEADER = new String[]{PROJECTION_PERIOD, Constant.TRADING_PARTNER, CUSTOMER_ID2, Constant.GROUPFCAPS, Constant.BRAND_CAPS, "PPA Cap", "PPA Discount %", "PPA Discount $"};
-    public static final Object[] PPA_DETAILS_VISIBLE_COL_LEFT = new Object[]{PERIOD1, "rebateScheduleName"};
-    public static final Object[] PPA_DETAILS_VISIBLE_COL_RIGHT = new Object[]{"priceProtectionPriceType", "price", "priceChange", "map",
+    private static final Object[] PPA_DETAILS_VISIBLE_COL_LEFT = new Object[]{PERIOD1, "rebateScheduleName"};
+    private static final Object[] PPA_DETAILS_VISIBLE_COL_RIGHT = new Object[]{"priceProtectionPriceType", "price", "priceChange", "map",
         "totalDeductions", "units", "deductionPerUnit", "netPrice", "netMAP", "priceProtectionAmountPerUnit", "priceProtectionPercent", "totalPriceProtectionDeduction",
         "nep", "nepFormula", "priceToleranceType", "priceTolerance", "priceToleranceInterval", "priceToleranceFrequency", "maxIncrementalChange",
         "resetEligible", "resetType", "resetDate", "resetInterval", "resetFrequency", "netPriceType", "netPriceTypeFormula"};
-    public static final String[] PPA_DETAILS_VISIBLE_HEADER_LEFT = new String[]{Constant.PERIOD, "Rebate Schedule Name"};
-    public static final String[] PPA_DETAILS_VISIBLE_HEADER_RIGHT = new String[]{"Price Protection Price Type", "Price", "Price Change", "MAP",
+    private static final String[] PPA_DETAILS_VISIBLE_HEADER_LEFT = new String[]{Constant.PERIOD, "Rebate Schedule Name"};
+    private static final String[] PPA_DETAILS_VISIBLE_HEADER_RIGHT = new String[]{"Price Protection Price Type", "Price", "Price Change", "MAP",
         "Total Deductions", Constant.UNITS_SMALL, "Deduction Per Unit", "Net Price", "Net MAP", "Price Protection Amount Per Unit", "Price Protection %", "Total Price Protection Deduction",
         "NEP", "NEP Formula", "Price Tolerance Type", "Price Tolerance", "Price Tolerance Interval", "Price Tolerance Frequency", "Max Incremental Change",
         "Reset Eligible", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency", "Net Price Type", "Net Price Type Formula"};
@@ -5705,5 +5705,49 @@ public class HeaderUtils {
         common.add(commonHeader);
         return common;
     }
+
+	public static Object[] getSupplementalRightsTableoneColumns() {
+		return SUPPLEMENTAL_RIGHTS_TABLEONE_COLUMNS.clone();
+	}
+
+	public static String[] getRightTableHeaderSecondHeader() {
+		return RIGHT_TABLE_HEADER_SECOND_HEADER.clone();
+	}
+
+	public static Object[] getPpaDetailsVisibleColExcel() {
+		return PPA_DETAILS_VISIBLE_COL_EXCEL.clone();
+	}
+
+	public static String[] getPpaDetailsVisHeaderExcel() {
+		return PPA_DETAILS_VIS_HEADER_EXCEL.clone();
+	}
+
+	public static Object[] getParityCols() {
+		return PARITY_COLS.clone();
+	}
+
+	public static String[] getParityHeader() {
+		return PARITY_HEADER.clone();
+	}
+
+	public static Object[] getPvDiscVisibleCol() {
+		return PV_DISC_VISIBLE_COL.clone();
+	}
+
+	public static Object[] getPpaDetailsVisibleColLeft() {
+		return PPA_DETAILS_VISIBLE_COL_LEFT.clone();
+	}
+
+	public static Object[] getPpaDetailsVisibleColRight() {
+		return PPA_DETAILS_VISIBLE_COL_RIGHT.clone();
+	}
+
+	public static String[] getPpaDetailsVisibleHeaderLeft() {
+		return PPA_DETAILS_VISIBLE_HEADER_LEFT.clone();
+	}
+
+	public static String[] getPpaDetailsVisibleHeaderRight() {
+		return PPA_DETAILS_VISIBLE_HEADER_RIGHT.clone();
+	}
 
 }

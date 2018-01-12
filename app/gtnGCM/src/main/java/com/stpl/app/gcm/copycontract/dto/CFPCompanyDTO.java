@@ -387,7 +387,7 @@ public class CFPCompanyDTO implements Serializable {
     }
 
     public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     public boolean isRecordLockStatus() {
@@ -472,7 +472,7 @@ public class CFPCompanyDTO implements Serializable {
         this.tradeClassStartDate = tradeClassStartDate;
         this.tradeClassEndDate = tradeClassEndDate;
         this.attachedDate = attachedDate;
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
 
     }
 
@@ -536,7 +536,7 @@ public class CFPCompanyDTO implements Serializable {
      * @return the created date
      */
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
@@ -545,7 +545,7 @@ public class CFPCompanyDTO implements Serializable {
      * @param createdDate the created date
      */
     public void setCreatedDate(final Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
@@ -605,7 +605,7 @@ public class CFPCompanyDTO implements Serializable {
         this.tradeClassStartDate = tradeClassStartDate;
         this.tradeClassEndDate = tradeClassEndDate;
         this.attachedDate = attachedDate;
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
 
     }
 
@@ -952,27 +952,27 @@ public class CFPCompanyDTO implements Serializable {
     }
 
     public Date getCfpCompanyStartDate() {
-        return cfpCompanyStartDate;
+        return cfpCompanyStartDate == null ? null : (Date) cfpCompanyStartDate.clone();
     }
 
     public void setCfpCompanyStartDate(Date cfpCompanyStartDate) {
-        this.cfpCompanyStartDate = cfpCompanyStartDate;
+        this.cfpCompanyStartDate = cfpCompanyStartDate == null ? null : (Date) cfpCompanyStartDate.clone();
     }
 
     public Date getCfpCompanyEndDate() {
-        return cfpCompanyEndDate;
+        return cfpCompanyEndDate == null ? null : (Date) cfpCompanyEndDate.clone();
     }
 
     public void setCfpCompanyEndDate(Date cfpCompanyEndDate) {
-        this.cfpCompanyEndDate = cfpCompanyEndDate;
+        this.cfpCompanyEndDate = cfpCompanyEndDate == null ? null : (Date) cfpCompanyEndDate.clone();
     }
 
     public Date getCfpAttachedDate() {
-        return cfpAttachedDate;
+        return cfpAttachedDate == null ? null : (Date) cfpAttachedDate.clone();
     }
 
     public void setCfpAttachedDate(Date cfpAttachedDate) {
-        this.cfpAttachedDate = cfpAttachedDate;
+        this.cfpAttachedDate = cfpAttachedDate == null ? null : (Date) cfpAttachedDate.clone();
     }
 
     public String getCompanyFamilyPlanTypeValue() {

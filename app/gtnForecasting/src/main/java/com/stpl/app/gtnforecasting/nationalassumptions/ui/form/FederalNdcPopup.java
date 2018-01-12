@@ -138,16 +138,16 @@ public class FederalNdcPopup extends CustomComponent {
 
         federalTable.markAsDirty();
         federalTable.setContainerDataSource(federalBean);
-        federalTable.setVisibleColumns(CommonUiUtils.federalNDCColumns);
-        federalTable.setColumnHeaders(CommonUiUtils.federalNdcHeader);
+        federalTable.setVisibleColumns(CommonUiUtils.getFederalNdcColumns());
+        federalTable.setColumnHeaders(CommonUiUtils.getFederalNdcHeader());
         federalTable.setFilterBarVisible(true);
         federalTable.setFilterDecorator(new ExtDemoFilterDecorator());
         federalTable.addStyleName(Constant.FILTER_TABLE);
         federalTable.addStyleName("table-header-center");
-        federalTable.setColumnAlignment(CommonUiUtils.federalNDCColumns[0], ExtFilterTable.Align.LEFT);
-        int length = CommonUiUtils.federalNDCColumns.length;
+        federalTable.setColumnAlignment(CommonUiUtils.getFederalNdcColumns()[0], ExtFilterTable.Align.LEFT);
+        int length = CommonUiUtils.getFederalNdcColumns().length;
         for (int i = 1; i < length; i++) {
-            federalTable.setColumnAlignment(CommonUiUtils.federalNDCColumns[i], ExtFilterTable.Align.RIGHT);
+            federalTable.setColumnAlignment(CommonUiUtils.getFederalNdcColumns()[i], ExtFilterTable.Align.RIGHT);
         }
 
         ndc.addValueChangeListener(new Property.ValueChangeListener() {

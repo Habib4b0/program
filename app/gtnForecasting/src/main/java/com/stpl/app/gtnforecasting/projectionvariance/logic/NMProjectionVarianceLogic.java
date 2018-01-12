@@ -125,11 +125,11 @@ public class NMProjectionVarianceLogic {
     private static final String PARENT_VALIDATE = "PARENT-VALIDATE";
 
     public List getChartList() {
-        return chartList;
+        return chartList == null ? chartList : new ArrayList<>(chartList);
     }
 
     public void setChartList(List chartList) {
-        this.chartList = chartList;
+        this.chartList = chartList == null ? chartList : new ArrayList<>(chartList);
     }
 
     public PVSelectionDTO getSelectionDTO() {

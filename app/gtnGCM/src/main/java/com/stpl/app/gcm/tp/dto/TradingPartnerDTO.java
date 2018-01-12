@@ -363,11 +363,11 @@ public class TradingPartnerDTO implements Serializable {
     }
 
     public List<String> getCompanyMasterSids() {
-        return companyMasterSids;
+        return companyMasterSids == null ? companyMasterSids : new ArrayList<>(companyMasterSids);
     }
 
     public void setCompanyMasterSids(List<String> companyMasterSids) {
-        this.companyMasterSids = companyMasterSids;
+        this.companyMasterSids = companyMasterSids == null ? companyMasterSids : new ArrayList<>(companyMasterSids);
     }
 
     public String getCompanyRestrictionSessionId() {

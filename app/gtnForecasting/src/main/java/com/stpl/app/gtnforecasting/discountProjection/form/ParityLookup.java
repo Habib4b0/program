@@ -202,8 +202,8 @@ public class ParityLookup extends Window {
         ndc.setImmediate(true);
         ndcDesc.setImmediate(true);
         resultsTable.setContainerDataSource(resultsContainer);
-        resultsTable.setVisibleColumns(HeaderUtils.PARITY_COLS);
-        resultsTable.setColumnHeaders(HeaderUtils.PARITY_HEADER);
+        resultsTable.setVisibleColumns(HeaderUtils.getParityCols());
+        resultsTable.setColumnHeaders(HeaderUtils.getParityHeader());
         resultsTable.setFilterBarVisible(true);
         resultsTable.setSelectable(true);
         resultsTable.setMultiSelect(true);
@@ -212,8 +212,8 @@ public class ParityLookup extends Window {
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         
         parityTable.setContainerDataSource(parityContainer);
-        parityTable.setVisibleColumns(HeaderUtils.PARITY_COLS);
-        parityTable.setColumnHeaders(HeaderUtils.PARITY_HEADER);
+        parityTable.setVisibleColumns(HeaderUtils.getParityCols());
+        parityTable.setColumnHeaders(HeaderUtils.getParityHeader());
         parityTable.setFilterBarVisible(true);
         parityTable.setSelectable(true);
         parityTable.setMultiSelect(true);
@@ -601,11 +601,11 @@ public class ParityLookup extends Window {
     }
 
     public List<LookUpDTO> getDtoListValue() {
-        return dtoListValue;
+        return dtoListValue == null ? dtoListValue : new ArrayList<>(dtoListValue);
     }
 
     public void setDtoListValue(List<LookUpDTO> dtoListValue) {
-        this.dtoListValue = dtoListValue;
+        this.dtoListValue = dtoListValue == null ? dtoListValue : new ArrayList<>(dtoListValue);
     }
     
     
