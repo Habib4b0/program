@@ -162,7 +162,7 @@ public class GtnFrameworkPSAddConfig {
 		additionTab.setTabLayoutComponentConfigList(itemAdditionTabConfigList);
 		new GtnFrameworkPSItemAdditionTabConfig().addItemAdditionTab(itemAdditionTabConfigList);
 
-		GtnUIFrameworkTabConfig pricingTab = configProvider.getTabConfig("PricingTab", "Pricing");
+		GtnUIFrameworkTabConfig pricingTab = configProvider.getTabConfig("PricingTab", "Item Pricing");
 		List<GtnUIFrameworkComponentConfig> pricingTabConfigList = new ArrayList<>();
 		pricingTab.setTabloadingType(GtnUIFrameworkTabSheetLoadType.EARLY_LOAD);
 		pricingTab.setTabLayoutComponentConfigList(pricingTabConfigList);
