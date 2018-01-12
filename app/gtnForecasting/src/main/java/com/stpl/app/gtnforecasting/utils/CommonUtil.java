@@ -566,9 +566,7 @@ public class CommonUtil {
                 formattedName += " - ";
             }
             formattedName += value;
-        } else {
-            formattedName += levelName.get(0);
-        }
+        } 
         return formattedName;
     }
     
