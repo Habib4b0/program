@@ -39,7 +39,8 @@ public class GtnFrameworkPricingTabFieldFactoryAction
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinFieldFactoryComponentData(componentId);
 		GtnUIFrameworkActionParameter actionParam = componentData.getActionParameter();
-		if (GtnFrameworkPriceTabValueChangeManager.isValueChangeAllowed()) {
+		if (GtnFrameworkPriceTabValueChangeManager.isValueChangeAllowed()
+				&& actionParam.getCurrentValue() != actionParam.getOldValue()) {
 			updateField(actionParam.getPropertyId(), actionParam.getCurrentValue(), Boolean.FALSE,
 					actionParam.getItemId().getPropertyValue("systemId").toString());
 		}

@@ -60,7 +60,7 @@ public class DPRChart {
      */
     public DPRChart(final List<DiscountProjectionResultsDTO> dto, ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO rightDto) {
         LOGGER.debug("Entering SPRChart method ");
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
         this.rightDto = rightDto;
         this.projSelDTO = projSelDTO;
         LOGGER.debug("End of SPRChart method ");
@@ -181,7 +181,7 @@ public class DPRChart {
      * @return the dto
      */
     public List<DiscountProjectionResultsDTO> getDto() {
-        return dto;
+        return dto == null ? dto : new ArrayList<>(dto);
     }
 
     /**
@@ -190,7 +190,7 @@ public class DPRChart {
      * @param dto the new dto
      */
     public void setDto(final List<DiscountProjectionResultsDTO> dto) {
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
     }
 
     public CustomTableHeaderDTO getRightDto() {

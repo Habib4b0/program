@@ -140,7 +140,7 @@ public class GtnFrameworkNSFConstants {
 			.unmodifiableList(Arrays.asList("netSalesRuleName", GtnFrameworkCommonConstants.RULE_NAME));
 
 	private static final String NET_SALES_RULE_POPUP_VIEW = "CDRPopUpSearchSearchView";
-	private static final String POPULATE_BUTTON_CHECK_RECORD_ERROR_HEADER = "Populate Error";
+	private static final String POPULATE_BUTTON_CHECK_RECORD_ERROR_HEADER = "No values in the ‘Selected Deductions’ list view are selected";
 	private static final String POPULATE_BUTTON_CHECK_RECORD_ERROR_MSG = "Please select at least one value in the 'Selected Deductions' list view to apply the Mass Update to.";
 	private static final String POPULATE_BUTTON_CHECK_RECORD_SALES_BASIS_ERROR_MSG = "Please select at least one value in the 'Selected Customers' list view to apply the Mass Update to.";
 	private static final String[] RULE_DETAILS_LOOKUP_COLUMN = { "lineType", "itemGroupAsso", "keyword", "keyOperator",
@@ -152,7 +152,8 @@ public class GtnFrameworkNSFConstants {
 	public static final String VALUE_CHANGE_ALLOWED = "ValueChangeAllowed";
 	private static final String NET_SALES_RULE_POPUP_RESULT_TABLE = "cDRPopUpsearchResultTable";
 	private static final String NET_SALES_RULE_POPUP_DETAILS_TABLE = "cDRRulePopUpruleDetailsattachResultTable";
-	private static final String NET_SALES_MASS_UPDATE_FIELD_ERROR_HEADER = " Information ";
+	private static final String NET_SALES_MASS_UPDATE_FIELD_ERROR_HEADER = " No Field Selected ";
+	private static final String NET_SALES_MASS_UPDATE_VALUE_ERROR_HEADER = " No Value Selected ";
 	private static final String NET_SALES_MASS_UPDATE_FIELD_ERROR_MSG = " Please select a field to Mass Update ";
 	private static final String NET_SALES_MASS_UPDATE_VALUE_ERROR_MSG = " Please select a value to Mass Update ";
 
@@ -362,6 +363,10 @@ public class GtnFrameworkNSFConstants {
 
 	public static String getNetSalesMassUpdateFieldErrorHeader() {
 		return NET_SALES_MASS_UPDATE_FIELD_ERROR_HEADER;
+	}
+
+	public static String getNetSalesMassUpdateValueErrorHeader() {
+		return NET_SALES_MASS_UPDATE_VALUE_ERROR_HEADER;
 	}
 
 	public static String getNetSalesMassUpdateFieldErrorMsg() {

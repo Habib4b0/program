@@ -113,19 +113,19 @@ public class RemoveDiscountDto {
     }
 
     public Date getAliasStartDate() {
-        return aliasStartDate;
+        return aliasStartDate == null ? null : (Date) aliasStartDate.clone();
     }
 
     public void setAliasStartDate(Date aliasStartDate) {
-        this.aliasStartDate = aliasStartDate;
+        this.aliasStartDate = aliasStartDate == null ? null : (Date) aliasStartDate.clone();
     }
 
     public Date getAliasEndDate() {
-        return aliasEndDate;
+        return aliasEndDate == null ? null : (Date) aliasEndDate.clone();
     }
 
     public void setAliasEndDate(Date aliasEndDate) {
-        this.aliasEndDate = aliasEndDate;
+        this.aliasEndDate = aliasEndDate == null ? null : (Date) aliasEndDate.clone();
     }
 
     public boolean getCheckRecord() {
@@ -177,19 +177,19 @@ public class RemoveDiscountDto {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     public Date getEndDate() {
-        return endDate;
+        return endDate == null ? null : (Date) endDate.clone();
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = endDate == null ? null : (Date) endDate.clone();
     }
 
     public String getCfpName() {
@@ -233,19 +233,19 @@ public class RemoveDiscountDto {
     }
 
     public Date getContractendDate() {
-        return contractendDate;
+        return contractendDate == null ? null : (Date) contractendDate.clone();
     }
 
     public void setContractendDate(Date contractendDate) {
-        this.contractendDate = contractendDate;
+        this.contractendDate = contractendDate == null ? null : (Date) contractendDate.clone();
     }
 
     public Date getContractstartDate() {
-        return contractstartDate;
+        return contractstartDate == null ? null : (Date) contractstartDate.clone();
     }
 
     public void setContractstartDate(Date contractstartDate) {
-        this.contractstartDate = contractstartDate;
+        this.contractstartDate = contractstartDate == null ? null : (Date) contractstartDate.clone();
     }
 
     public String getFrequency() {
@@ -473,19 +473,19 @@ public class RemoveDiscountDto {
     }
 
     public Date getFromDate() {
-        return fromDate;
+        return fromDate == null ? null : (Date) fromDate.clone();
     }
 
     public void setFromDate(Date fromDate) {
-        this.fromDate = fromDate;
+        this.fromDate = fromDate == null ? null : (Date) fromDate.clone();
     }
 
     public Date getToDate() {
-        return toDate;
+        return toDate == null ? null : (Date) toDate.clone();
     }
 
     public void setToDate(Date toDate) {
-        this.toDate = toDate;
+        this.toDate = toDate == null ? null : (Date) toDate.clone();
     }
 
     public int getParent() {

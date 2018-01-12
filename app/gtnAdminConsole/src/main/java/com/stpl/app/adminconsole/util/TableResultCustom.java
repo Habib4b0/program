@@ -23,7 +23,7 @@ public class TableResultCustom {
     }
 
     public void setObjResult(final Object... objResult) {
-        this.objResult = objResult;
+        this.objResult = objResult == null ? objResult : objResult.clone();
     }
 
     public String[] getObjResultHeader() {
@@ -34,7 +34,7 @@ public class TableResultCustom {
     }
 
     public void setObjResultHeader(final String... objResultHeader) {
-        this.objResultHeader = objResultHeader;
+        this.objResultHeader = objResultHeader == null ? objResultHeader : objResultHeader.clone();
     }
 
 }

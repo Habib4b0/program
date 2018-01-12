@@ -215,7 +215,7 @@ public class ExistingDiscountTab extends CustomComponent {
     private final SessionDTO session;
 
     public ExistingDiscountTab(List<RemoveDiscountDto> removeDiscountDto,SessionDTO session) {
-        this.removeDiscountDto = removeDiscountDto;
+        this.removeDiscountDto = removeDiscountDto == null ? removeDiscountDto : new ArrayList<>(removeDiscountDto);
         this.session = session;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/existingDiscountTab.xml"), this));
         configureFields();

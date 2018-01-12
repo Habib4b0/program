@@ -147,7 +147,7 @@ public class ProductGroupLookup extends Window {
         resultsTableLayout.addComponent(resultTable);
         resultsTableLayout.addComponent(tableLogic.createControls());
         tableLogic.setContainerDataSource(tableBean);
-        resultTable.setVisibleColumns(CommonUiUtils.productGroupColumn);
+        resultTable.setVisibleColumns(CommonUiUtils.getProductGroupColumn());
         resultTable.setColumnHeaders(commonUiUtils.productGroupHeader);
         resultTable.setSelectable(true);
         resultTable.setSortEnabled(true);

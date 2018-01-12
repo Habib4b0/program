@@ -94,7 +94,7 @@ public class ExistingComponentResultsTableLogic extends PageTableLogic {
     public boolean loadSetData(String componentType, List input, boolean isReset) {
         this.componentType = componentType;
         clearAll();
-        this.input = input;
+        this.input = input == null ? input : new ArrayList<>(input);
         setRequiredCount(true);
         generate = isReset;
         setCurrentPage(1);

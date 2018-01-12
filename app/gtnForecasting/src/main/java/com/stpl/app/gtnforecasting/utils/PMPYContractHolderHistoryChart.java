@@ -21,6 +21,8 @@ import com.vaadin.addon.charts.model.XAxis;
 import com.vaadin.addon.charts.model.YAxis;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -81,7 +83,7 @@ public class PMPYContractHolderHistoryChart {
         LOGGER.debug("Entering PMPYContractHolderHistoryChart method ");
 
         this.contractName = contractName;
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
         this.headeres = headeres;
         LOGGER.debug("End of PMPYContractHolderHistoryChart method ");
 

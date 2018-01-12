@@ -17,6 +17,8 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.themes.Reindeer;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
@@ -96,7 +98,7 @@ public class AddItemDetailsTableLogic extends PageTableLogic {
         this.selection = selection;
         isGenerated = selection.isReset();
         this.isSummary = isSummary;
-        this.selectedItemList = selectedItemList;
+        this.selectedItemList = selectedItemList == null ? selectedItemList : new ArrayList<>(selectedItemList);
         clearAll();
         setRequiredCount(true);
         setCurrentPage(1);

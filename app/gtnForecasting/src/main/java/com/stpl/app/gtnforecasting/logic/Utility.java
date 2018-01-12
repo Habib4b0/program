@@ -16,6 +16,8 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.ui.ComboBox;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,6 +116,13 @@ public class Utility {
             resetDdlb(ddlb);
             if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
                 int maxLevel = currentHierarchy.size() - 1;
+                Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+                	@Override
+    				public int compare(Leveldto o1, Leveldto o2) {
+    					return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+                	}
+                });
+                Collections.reverse(currentHierarchy);
                 for (int i = 0; i < currentHierarchy.size(); i++) {
                     Leveldto levelDto = currentHierarchy.get(i);
                     int level = view.equals(Constant.CUSTOM_LABEL) ? levelDto.getTreeLevelNo() : levelDto.getCount();
@@ -132,6 +141,13 @@ public class Utility {
             resetDdlb(ddlb);
             if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
                 int maxLevel = currentHierarchy.size();
+                Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+                	@Override
+    				public int compare(Leveldto o1, Leveldto o2) {
+    					return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+                	}
+                });
+                Collections.reverse(currentHierarchy);
                 for (int i = 0; i < currentHierarchy.size(); i++) {
                     Leveldto levelDto = currentHierarchy.get(i);
                     int level = view.equals(Constant.CUSTOM_LABEL) ? levelDto.getTreeLevelNo() : levelDto.getCount();
@@ -167,6 +183,13 @@ public class Utility {
         if (ddlb != null) {
             resetDdlb(ddlb);
             if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
+            	Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+                	@Override
+    				public int compare(Leveldto o1, Leveldto o2) {
+    					return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+                	}
+                });
+            	Collections.reverse(currentHierarchy);
                 for (int i = 0; i < currentHierarchy.size(); i++) {
                     Leveldto levelDto = currentHierarchy.get(i);
                     Object itemId = null;

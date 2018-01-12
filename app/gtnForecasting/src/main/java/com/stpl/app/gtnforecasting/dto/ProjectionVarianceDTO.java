@@ -1,6 +1,8 @@
 package com.stpl.app.gtnforecasting.dto;
 
 import com.stpl.ifs.ui.util.NumericConstants;
+
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -116,11 +118,11 @@ public class ProjectionVarianceDTO extends ExtMapDTO implements Comparator<Proje
     }
 
     public List<String> getPeriodHeaderList() {
-        return periodHeaderList;
+        return periodHeaderList == null ? periodHeaderList : new ArrayList<>(periodHeaderList);
     }
 
     public void setPeriodHeaderList(List<String> periodHeaderList) {
-        this.periodHeaderList = periodHeaderList;
+        this.periodHeaderList = periodHeaderList == null ? periodHeaderList : new ArrayList<>(periodHeaderList);
     }
 
     public String getHierarchyNo() {
