@@ -62,39 +62,39 @@ public class CDRForm extends StplCustomComponent {
      * The TabSheet
      */
     @UiField("tabSheet")
-    TabSheet mainTab;
+    private TabSheet mainTab;
     /**
      * The HorizontalLayout
      */
     @UiField("buttonLayout")
-    HorizontalLayout buttonLayout;
+    private HorizontalLayout buttonLayout;
     /**
      * The Save Button
      */
     @UiField("saveBtn")
-    Button saveBtn;
+    private Button saveBtn;
     /**
      * The Back Button
      */
     @UiField("backBtn")
-    Button backBtn;
+    private Button backBtn;
     /**
      * The Delete Button
      */
     @UiField("deleteBtn")
-    Button deleteButton;
+    private Button deleteButton;
     /**
      * The Reset Button
      */
     @UiField("resetBtn")
-    Button resetBtn;
-    RuleInformation ruleInfo = new RuleInformation();
-    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-    CommonUIUtils commonUIUtils = new CommonUIUtils();
-    NotesTabForm notesTabForm;
-    ErrorfulFieldGroup binder;
-    SessionDTO sessionDTO;
-    int selectedTabIndex = 0;
+    private Button resetBtn;
+    private RuleInformation ruleInfo = new RuleInformation();
+    private CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    private CommonUIUtils commonUIUtils = new CommonUIUtils();
+    private NotesTabForm notesTabForm;
+    private ErrorfulFieldGroup binder;
+    private SessionDTO sessionDTO;
+    private int selectedTabIndex = 0;
 
     public CDRForm(final ErrorfulFieldGroup binder, final SessionDTO sessionDTO) {
         try {
@@ -109,7 +109,7 @@ public class CDRForm extends StplCustomComponent {
             configurePermission(fieldCompanyHM, functionCompanyHM);
             componentConfiguration();
             configureFields();
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -122,6 +122,7 @@ public class CDRForm extends StplCustomComponent {
         mainTab.markAsDirtyRecursive();
         mainTab.setImmediate(true);
         mainTab.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
+            @Override
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 Component component = event.getTabSheet().getSelectedTab();
                 selectedTabIndex = event.getTabSheet().getTabPosition(event.getTabSheet().getTab(component));
@@ -174,6 +175,7 @@ public class CDRForm extends StplCustomComponent {
                          *
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals("YES")) {
                                 getUI().getNavigator().navigateTo(AbstractSearchView.NAME);
@@ -198,6 +200,7 @@ public class CDRForm extends StplCustomComponent {
                      *
                      */
                     @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals("YES")) {
                             try {
@@ -249,6 +252,7 @@ public class CDRForm extends StplCustomComponent {
                              *
                              */
                             @SuppressWarnings("PMD")
+                            @Override
                             public void buttonClicked(final ButtonId buttonId) {
                                 if (buttonId.name().equals("YES")) {
                                     try {
@@ -293,7 +297,7 @@ public class CDRForm extends StplCustomComponent {
      */
     boolean mandatoryCheck(final CDRDto binderDto) {
         boolean flag = false;
-        if (binderDto.getRuleType_DTO() != null && !binderDto.getRuleNo().isEmpty() && !binderDto.getRuleName().isEmpty()) {
+        if (binderDto.getRuleTypeDto() != null && !binderDto.getRuleNo().isEmpty() && !binderDto.getRuleName().isEmpty()) {
 
             if (ruleInfo.getRuleInformations().get(1) == null || ((List) ruleInfo.getRuleInformations().get(1)).isEmpty()) {
                 AbstractNotificationUtils.getErrorNotification("Missing Required Fields", "Add atleast one Rule Detail. \n");

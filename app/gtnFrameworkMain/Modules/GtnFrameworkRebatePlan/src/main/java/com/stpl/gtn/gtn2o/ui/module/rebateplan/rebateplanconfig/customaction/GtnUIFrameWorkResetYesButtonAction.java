@@ -297,17 +297,17 @@ public class GtnUIFrameWorkResetYesButtonAction
 			List<GtnWsRecordBean> resultList) {
 		if (!resultList.isEmpty()) {
 			if (Double.compare(tierTo, 0d) == 0 || Double.compare(tierTo, 0.0) == 0) {
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(toTier).getComponent().setEnabled(false);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(toTier).getComponent().setEnabled(true);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fromTier).loadFieldValue(tierFrom);
 
 			} else {
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(toTier).getComponent().setEnabled(false);
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(toTier).getComponent().setEnabled(true);
 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fromTier).loadFieldValue((tierTo + 0.01));
 
 			}
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(fromTier).getComponent().setEnabled(false);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(toTier).getComponent().setEnabled(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(toTier).getComponent().setEnabled(true);
 		}
 	}
 

@@ -9,16 +9,25 @@ import org.hibernate.validator.constraints.NotBlank;
 import com.stpl.app.util.HelperDTO;
 import com.stpl.app.util.HelperUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 /**
  * The Class SearchCriteriaDTO.
  */
 public class SearchCriteriaDTO implements Serializable {
+  
+    private static final Logger LOGGER = Logger.getLogger(SearchCriteriaDTO.class); 
 
     /**
      * The Constant serialVersionUID.
      */
     private static final long serialVersionUID = 3584109928269363711L;
+    
+
+    public SearchCriteriaDTO() {
+        LOGGER.debug("Inside SearchCriteriaDTO: Overidden method");
+        
+    }
 
     /**
      * The item no.
@@ -190,7 +199,7 @@ public class SearchCriteriaDTO implements Serializable {
      * @return the item start date
      */
     public Date getItemStartDate() {
-        return itemStartDate;
+        return itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     /**
@@ -199,7 +208,7 @@ public class SearchCriteriaDTO implements Serializable {
      * @param itemStartDate the item start date
      */
     public void setItemStartDate(final Date itemStartDate) {
-        this.itemStartDate = itemStartDate;
+        this.itemStartDate = itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     /**
@@ -208,7 +217,7 @@ public class SearchCriteriaDTO implements Serializable {
      * @return the item end date
      */
     public Date getItemEndDate() {
-        return itemEndDate;
+        return itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     /**
@@ -217,7 +226,7 @@ public class SearchCriteriaDTO implements Serializable {
      * @param itemEndDate the item end date
      */
     public void setItemEndDate(final Date itemEndDate) {
-        this.itemEndDate = itemEndDate;
+        this.itemEndDate = itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     /**

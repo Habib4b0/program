@@ -35,8 +35,8 @@ public class CDRView extends VerticalLayout implements View {
     /**
      * Session DTO
      */
-    SessionDTO sessionDTO;
-    CDRForm cdrForm;
+    private final SessionDTO sessionDTO;
+    private CDRForm cdrForm;
     private static final Logger LOGGER = Logger.getLogger(CDRView.class);
 
     /**

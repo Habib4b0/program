@@ -36,13 +36,13 @@ import org.vaadin.addons.lazycontainer.LazyContainer;
 public class ItemMasterGenerate implements ExtFilterGenerator {
 
     final com.stpl.app.global.abstractsearch.util.CommonUtils abstractCommonsUtil = new com.stpl.app.global.abstractsearch.util.CommonUtils();
-    private HelperDTO dto = new HelperDTO(ConstantsUtils.SHOW_ALL);
+    private final HelperDTO dto = new HelperDTO(ConstantsUtils.SHOW_ALL);
     /** The logger. */
     private static final Logger LOGGER = Logger.getLogger(ItemMasterGenerate.class);
     /**
      * The common util.
      */
-    private CommonUtil commonUtil = CommonUtil.getInstance();
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
 
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {
@@ -172,8 +172,7 @@ public class ItemMasterGenerate implements ExtFilterGenerator {
                 }
                 
                 if ("itemSystemID".equals(propertyId)) {
-                   NumberFilterPopup popup = new NumberFilterPopup();
-                   return popup;
+                   return new NumberFilterPopup();
                 }
                 
                 if ("itemIrtQualifierName".equals(propertyId)) {

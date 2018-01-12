@@ -30,18 +30,22 @@ public class CommonDaoImpl implements CommonDao {
         return dao;
     }
 
+    @Override
     public List executeSelect(String query) {
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
+    @Override
     public Object executeUpdate(String query) {
         return CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
     }
     
+    @Override
     public List getBrandList(final DynamicQuery ifpDynamicQuery) throws PortalException, SystemException {
         return BrandMasterLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
     }
     
+    @Override
     public List itemIrtQualifierNameList(final DynamicQuery ifpDynamicQuery) throws PortalException,SystemException{
         return ItemQualifierLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
     }
@@ -52,9 +56,11 @@ public class CommonDaoImpl implements CommonDao {
      * @return list of HelperTable
      * @throws SystemException 
      */
+    @Override
     public List<HelperTable> getHelperTableList(final DynamicQuery query) throws PortalException,SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(query);
     }
+    @Override
     public List<HelperTable> getHelperTableDetailsByListName() throws SystemException {
         return HelperTableLocalServiceUtil.getHelperTables(0, HelperTableLocalServiceUtil.getHelperTablesCount());
     }

@@ -252,8 +252,7 @@ WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
                     LEVEL_NAME,
                     LEVEL_NO,
                     RELATIONSHIP_LEVEL_VALUES
-                    ?DISPLAYFORMATCOLUMN,
-                    ? AS SID
+                    ?DISPLAYFORMATCOLUMN
                 FROM
                     RELATIONSHIP_LEVEL_DEFINITION RLD
                 JOIN ST_CCP_HIERARCHY CH ON CH.?HIERARCHY_NO LIKE RLD.HIERARCHY_NO+'%'
@@ -869,7 +868,8 @@ TEMP.HIERARCHY_NO
                         JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
                     AND RLD.HIERARCHY_NO IN (?)
                     AND RLD.VERSION_NO = ?
-                    AND HLD.VERSION_NO = ?               
+                    AND HLD.VERSION_NO = ?  
+                    order by RLD.LEVEL_NO          
             ]]>
             </query>
         </entity>

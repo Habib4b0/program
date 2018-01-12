@@ -83,7 +83,7 @@ public class AttachmentDTO implements Serializable {
      * @return dateAdded
      */
     public Date getDateAdded() {
-        return dateAdded;
+        return dateAdded == null ? null : (Date) dateAdded.clone();
     }
 
     /**
@@ -92,7 +92,7 @@ public class AttachmentDTO implements Serializable {
      * @param dateAdded the date added
      */
     public void setDateAdded(final Date dateAdded) {
-        this.dateAdded = dateAdded;
+        this.dateAdded = dateAdded == null ? null : (Date) dateAdded.clone();
     }
 
     /**

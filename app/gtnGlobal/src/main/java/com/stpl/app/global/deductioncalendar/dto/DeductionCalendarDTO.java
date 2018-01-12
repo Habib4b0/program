@@ -17,6 +17,8 @@ import org.apache.commons.lang.StringUtils;
 public class DeductionCalendarDTO implements Serializable {
 
     private String deductionCalendarNo = StringUtils.EMPTY;
+
+   
     private String deductionCalendarName = StringUtils.EMPTY;
     private String deductionCalendarDesc = StringUtils.EMPTY;
     private HelperDTO categoryDdlb = new HelperDTO(ConstantsUtils.SELECT_ONE);
@@ -47,6 +49,10 @@ public class DeductionCalendarDTO implements Serializable {
     private String deductionCalendarMasterSid = StringUtils.EMPTY;
     private int masterTableSid;
     private String internalNotes= StringUtils.EMPTY;
+    
+     public DeductionCalendarDTO() {
+         super();
+    }
 
     public String getDeductionCalendarMasterSid() {
         return deductionCalendarMasterSid;

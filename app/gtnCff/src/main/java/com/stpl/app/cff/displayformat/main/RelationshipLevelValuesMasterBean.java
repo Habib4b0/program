@@ -35,7 +35,7 @@ public class RelationshipLevelValuesMasterBean {
 
 	public RelationshipLevelValuesMasterBean(List<Object[]> tempList, String relationshipBuilderSid,
 			String hierarchyNoType, SessionDTO sessionDTO) {
-		this.tempList = tempList;
+		this.tempList = tempList == null ? tempList : new ArrayList<>(tempList);
 		this.relationshipBuilderSid = relationshipBuilderSid;
 		this.hierarchyNoType = hierarchyNoType;
 		if (!"D".equals(hierarchyNoType)) {
@@ -46,17 +46,15 @@ public class RelationshipLevelValuesMasterBean {
 	}
 
 	public String getFinalQuery() {
-		finalQry.append(";WITH CTE AS(");
 		for (int i = 0; i < queryList.size(); i++) {
 			RelationshipLevelValuesBean query = queryList.get(i);
 			if (i != 0) {
 				finalQry.append(UNION_ALL);
 			}
 			finalQry.append(
-					query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed()))
-							.replace("?", String.valueOf(i)));
+					query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed())));
 		}
-		finalQry.append(") SELECT * FROM CTE ORDER BY SID,VALUE DESC");
+		finalQry.append(" ORDER BY LEVEL_NO,VALUE DESC");
 		return finalQry.toString();
 	}
 

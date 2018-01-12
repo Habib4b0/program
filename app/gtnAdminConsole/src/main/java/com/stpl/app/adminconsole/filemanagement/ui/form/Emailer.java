@@ -100,7 +100,6 @@ public class Emailer {
             }
         } catch (Exception e) {
             LOGGER.error(e);
-            e.printStackTrace();
             ret = "error";
         }
         return ret;

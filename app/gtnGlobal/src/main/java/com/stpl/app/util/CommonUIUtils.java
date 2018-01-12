@@ -35,7 +35,6 @@ import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
 import org.vaadin.alump.beforeunload.BeforeUnload;
 
-// TODO: Auto-generated Javadoc
 /**
  * Common UI Utility class that contains Constants for table headers and
  * propertyIds.
@@ -44,7 +43,7 @@ import org.vaadin.alump.beforeunload.BeforeUnload;
  */
 public class CommonUIUtils {
 
-    private static ResourceBundle constantProperties = ResourceBundle.getBundle("properties.constants");
+    private static final ResourceBundle constantProperties = ResourceBundle.getBundle("properties.constants");
     /**
      * The Constant CHAR_PERCENT.
      */
@@ -105,7 +104,7 @@ public class CommonUIUtils {
     /**
      * The Constant REBATE_PLAN_COLUMNS.
      */
-    public final Object[] rebatePlanColumns = new Object[]{
+    private static final Object[] REBATE_PLAN_COLS = new Object[]{
         "rebatePlanId", "rebatePlanNo", ConstantsUtils.REBATE_PLAN_NAME,
         "rebatePlanStatus", "rebatePlanType", "formulaType",
         "rebateBasedOn", "rebateStructure", "rebateRangeBasedOn",
@@ -115,7 +114,7 @@ public class CommonUIUtils {
     /**
      * The Constant REBATE_PLAN_HEADER.
      */
-    public final String[] rebatePlanHeader = new String[]{
+    private static final String[] REBATE_PLAN_HEADER = new String[]{
         "Rebate Plan ID", "Rebate Plan No", "Rebate Plan Name",
         "Rebate Plan Status", "Rebate Plan Type", "Formula Type",
         "Rebate Based On", "Rebate Structure", "Rebate Range Based On",
@@ -125,19 +124,19 @@ public class CommonUIUtils {
     /**
      * The Constant REBATE_TIER_COLUMNS.
      */
-    public final Object[] rebateTierColumns = new Object[]{"tierFrom", "tierTo", "tierOperatorValue", "tierValue",
+    private static final Object[] REBATE_TIER_COLS = new Object[]{"tierFrom", "tierTo", "tierOperatorValue", "tierValue",
         "tierTolerance", ConstantsUtils.FORMULA_NO, ConstantsUtils.FORMULA_NAME, "secondaryRebatePlanNo", "secondaryRebatePlanName"};
 
     /**
      * The Constant REBATE_TIER_HEADER.
      */
-    public final String[] rebateTierHeader = new String[]{"From", "To", "Tier Operator", "Tier Value",
+    private static final String[] REBATE_TIER_HEADER = new String[]{"From", "To", "Tier Operator", "Tier Value",
         "Tier Tolerance", "Formula No", "Formula Name", "Secondary Rebate Plan No", "Secondary Rebate Plan Name"};
 
     /**
      * The Constant REBATE_SCHEDULE_COLUMNS.
      */
-    public final Object[] rebateScheduleColumns = new Object[]{"systemId",
+    private static final Object[] REBATE_SCHEDULE_COLS = new Object[]{"systemId",
         "rebateScheduleId", "rebateScheduleNo", "rebateScheduleName",
         "rebateScheduleType", "rebateScheduleStatus", "rsCategory", ConstantsUtils.START_DATE, ConstantsUtils.END_DATE, "rsDesignation", "parentId", "parentName"
     };
@@ -145,7 +144,7 @@ public class CommonUIUtils {
     /**
      * The Constant REBATE_SCHEDULE_HEADER.
      */
-    public final String[] rebateScheduleHeader = new String[]{"System ID",
+    private static final String[] REBATE_SCHEDULE_HEADER = new String[]{"System ID",
         "Rebate Schedule ID", "Rebate Schedule No",
         "Rebate Schedule Name", "Rebate Schedule Type",
         "Rebate Schedule Status", "Rebate Schedule Category", "Start Date", "End Date", "Rebate Schedule Designation", "Parent ID", "Parent Name"};
@@ -153,31 +152,31 @@ public class CommonUIUtils {
     /**
      * The Constant IFP_COLUMNS_IN_RS.
      */
-    public final Object[] ifpColumnsInRs = new Object[]{"ifpId",
+    private static final Object[] IFP_COLUMNS_IN_RS = new Object[]{"ifpId",
         "ifpNo", "ifpName", "ifpStatus", "ifpStartDate", "ifpEndDate", "ifpType", "ifpCategory"};
 
     /**
      * The Constant IFP_HEADER_IN_RS.
      */
-    public final String[] ifpHeadersinRs = new String[]{"IFP ID",
+    private static final String[] IFP_HEADER_IN_RS = new String[]{"IFP ID",
         "IFP Number", "IFP Name", "IFP Status",
         "IFP Start Date", "IFP End Date", "IFP Type", "IFP Category"};
 
     /**
      * The Constant ITEM_DETAILS_COLUMNS_IN_RS.
      */
-    public final Object[] itemDetailsColumnsInRsView = new Object[]{
+    private static final Object[] ITEM_DETAIL_COLS_IN_RSVIEW = new Object[]{
         "checkbox", "itemNo", "itemName", "attachedStatusValue", ConstantsUtils.START_DATE, ConstantsUtils.END_DATE,
         ConstantsUtils.FORMULA_NO, ConstantsUtils.FORMULA_NAME, "formulaMethodId", ConstantsUtils.REBATE_PLAN_NAME, "rebateAmount", "attachedDate"};
 
-    public final Object[] attachmentColumns = new Object[]{
+    private static final Object[] ATTACHMENT_COLS = new Object[]{
         "documentName", "dateAdded", "userName"};
-    public final String[] attachmentHeader = new String[]{
+    private final String[] attachmentHeader = new String[]{
         "Document Name", "Date Added", "User Name"};
     /**
      * The Constant ITEM_DETAILS_COLUMNS_IN_RS_WITH_BUNDLE.
      */
-    public final Object[] itemDetailsColumnsInRsWithBundle = new Object[]{
+    private static final Object[] ITEM_DETAILS_COLS_IN_RS_WITH_BUNDLE = new Object[]{
         "checkbox", "itemNo", "itemName", "attachedStatus", ConstantsUtils.START_DATE, ConstantsUtils.END_DATE, ConstantsUtils.FORMULA_NO, ConstantsUtils.FORMULA_NAME, "formulaMethodId", ConstantsUtils.REBATE_PLAN_NAME, "rebateAmount",
         "bundleNo", "attachedDate"
     };
@@ -185,7 +184,7 @@ public class CommonUIUtils {
     /**
      * The Constant ITEM_DETAILS_HEADER_IN_RS_WITH_BUNDLE.
      */
-    public final String[] itemDetailsHeaderInRsWithBundle = new String[]{
+    private static final String[] ITEM_DETAILS_HEADER_IN_RS_WITH_BUNDLE = new String[]{
         "", "Item No", "Item Name", "RS Status", "RS Start Date", "RS End Date", "Formula No", "Formula Name", "Formula Method ID", "Rebate Plan Name", "Rebate Amount",
         "Bundle No", "Attached Date"};
 
@@ -280,7 +279,7 @@ public class CommonUIUtils {
                     cssLayout.removeComponent(binder.getField(fieldStr));
                 }
             }
-        } catch (Exception e) {
+        } catch (IllegalAccessException | IllegalArgumentException | SecurityException e) {
             LOGGER.error(e);
         }
     }
@@ -320,8 +319,7 @@ public class CommonUIUtils {
     public static final String getDateTime(final String aMask, final Date aDate) {
         if (aDate != null) {
             final SimpleDateFormat dateFormat = new SimpleDateFormat(aMask);
-            final String returnValue = dateFormat.format(aDate);
-            return returnValue;
+            return dateFormat.format(aDate);
         }
         return StringUtils.EMPTY;
     }
@@ -424,11 +422,8 @@ public class CommonUIUtils {
                 hDTO.setDescription(helperTable.getDescription());
             }
             return id == 0 ? StringUtils.EMPTY : hDTO.getDescription();
-        } catch (PortalException ex) {
+        } catch (PortalException | SystemException ex) {
 
-            LOGGER.error(ex);
-            return StringUtils.EMPTY;
-        } catch (SystemException ex) {
             LOGGER.error(ex);
             return StringUtils.EMPTY;
         }
@@ -441,8 +436,8 @@ public class CommonUIUtils {
      * @param toAddQuote
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
-        return CollectionToString(collectionOfString, toAddQuote, false);
+    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
+        return collectionToString(collectionOfString, toAddQuote, false);
     }
     /**
      * To convert List<String> into a comma separated String
@@ -452,7 +447,7 @@ public class CommonUIUtils {
      * @param toRemoveSpace
      * @return
      */
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+    public static String collectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
 
         String framedString = "";
         if (collectionOfString != null && !collectionOfString.isEmpty()) {
@@ -485,4 +480,52 @@ public class CommonUIUtils {
         SimpleDateFormat dt = new SimpleDateFormat("yyyyymmddhhmmssms");
         return dt.format(new Date());
     }
+
+	public static Object[] getRebatePlanCols() {
+		return REBATE_PLAN_COLS.clone();
+	}
+
+	public static String[] getRebatePlanHeader() {
+		return REBATE_PLAN_HEADER.clone();
+	}
+
+	public static Object[] getRebateTierCols() {
+		return REBATE_TIER_COLS.clone();
+	}
+
+	public static String[] getRebateTierHeader() {
+		return REBATE_TIER_HEADER.clone();
+	}
+
+	public static Object[] getRebateScheduleCols() {
+		return REBATE_SCHEDULE_COLS.clone();
+	}
+
+	public static String[] getRebateScheduleHeader() {
+		return REBATE_SCHEDULE_HEADER.clone();
+	}
+
+	public static Object[] getIfpColumnsInRs() {
+		return IFP_COLUMNS_IN_RS.clone();
+	}
+
+	public static String[] getIfpHeaderInRs() {
+		return IFP_HEADER_IN_RS.clone();
+	}
+
+	public static Object[] getItemDetailColsInRsview() {
+		return ITEM_DETAIL_COLS_IN_RSVIEW.clone();
+	}
+
+	public static Object[] getAttachmentCols() {
+		return ATTACHMENT_COLS.clone();
+	}
+
+	public static Object[] getItemDetailsColsInRsWithBundle() {
+		return ITEM_DETAILS_COLS_IN_RS_WITH_BUNDLE.clone();
+	}
+
+	public static String[] getItemDetailsHeaderInRsWithBundle() {
+		return ITEM_DETAILS_HEADER_IN_RS_WITH_BUNDLE.clone();
+	}
 }

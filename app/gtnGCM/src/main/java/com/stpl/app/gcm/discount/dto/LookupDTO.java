@@ -511,19 +511,19 @@ public class LookupDTO {
     }
 
     public Date getCfpStartDate() {
-        return cfpStartDate;
+        return cfpStartDate == null ? null : (Date) cfpStartDate.clone();
     }
 
     public void setCfpStartDate(Date cfpStartDate) {
-        this.cfpStartDate = cfpStartDate;
+        this.cfpStartDate = cfpStartDate == null ? null : (Date) cfpStartDate.clone();
     }
 
     public Date getCfpEndDate() {
-        return cfpEndDate;
+        return cfpEndDate == null ? null : (Date) cfpEndDate.clone();
     }
 
     public void setCfpEndDate(Date cfpEndDate) {
-        this.cfpEndDate = cfpEndDate;
+        this.cfpEndDate = cfpEndDate == null ? null : (Date) cfpEndDate.clone();
     }
 
     public HelperDTO getIfpCategory() {
@@ -559,19 +559,19 @@ public class LookupDTO {
     }
 
     public Date getIfpStartDate() {
-        return ifpStartDate;
+        return ifpStartDate == null ? null : (Date) ifpStartDate.clone();
     }
 
     public void setIfpStartDate(Date ifpStartDate) {
-        this.ifpStartDate = ifpStartDate;
+        this.ifpStartDate = ifpStartDate == null ? null : (Date) ifpStartDate.clone();
     }
 
     public Date getIfpEndDate() {
-        return ifpEndDate;
+        return ifpEndDate == null ? null : (Date) ifpEndDate.clone();
     }
 
     public void setIfpEndDate(Date ifpEndDate) {
-        this.ifpEndDate = ifpEndDate;
+        this.ifpEndDate = ifpEndDate == null ? null : (Date) ifpEndDate.clone();
     }
 
     public HelperDTO getPsCategory() {
@@ -615,19 +615,19 @@ public class LookupDTO {
     }
 
     public Date getPsStartDate() {
-        return psStartDate;
+        return psStartDate == null ? null : (Date) psStartDate.clone();
     }
 
     public void setPsStartDate(Date psStartDate) {
-        this.psStartDate = psStartDate;
+        this.psStartDate = psStartDate == null ? null : (Date) psStartDate.clone();
     }
 
     public Date getPsEndDate() {
-        return psEndDate;
+        return psEndDate == null ? null : (Date) psEndDate.clone();
     }
 
     public void setPsEndDate(Date psEndDate) {
-        this.psEndDate = psEndDate;
+        this.psEndDate = psEndDate == null ? null : (Date) psEndDate.clone();
     }
 
     public HelperDTO getRsCategory() {
@@ -671,19 +671,19 @@ public class LookupDTO {
     }
 
     public Date getRsStartDate() {
-        return rsStartDate;
+        return rsStartDate == null ? null : (Date) rsStartDate.clone();
     }
 
     public void setRsStartDate(Date rsStartDate) {
-        this.rsStartDate = rsStartDate;
+        this.rsStartDate = rsStartDate == null ? null : (Date) rsStartDate.clone();
     }
 
     public Date getRsEndDate() {
-        return rsEndDate;
+        return rsEndDate == null ? null : (Date) rsEndDate.clone();
     }
 
     public void setRsEndDate(Date rsEndDate) {
-        this.rsEndDate = rsEndDate;
+        this.rsEndDate = rsEndDate == null ? null : (Date) rsEndDate.clone();
     }
 
 

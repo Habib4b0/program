@@ -1,7 +1,6 @@
 
 package com.stpl.app.global.abstractsearch.util;
 
-// TODO: Auto-generated Javadoc
 
 import com.stpl.app.util.ConstantsUtils;
 
@@ -9,6 +8,13 @@ import com.stpl.app.util.ConstantsUtils;
  * The Class UIUtils.
  */
 public final class UIUtils {
+
+    /**
+     * @return the WITHOUT_IDEN_SEARCH
+     */
+    public static Object[] getWithoutIdenSearch() {
+        return WITHOUT_IDEN_SEARCH.clone();
+    }
     
      /** The ALL list type. */
 	public static final String DEDUCTION_CALENDAR_CATEGORY = "DEDUCTION_CALENDAR_CATEGORY";
@@ -210,11 +216,11 @@ public final class UIUtils {
     
     public static final String NS_FORMULA_TYPE= "NS_FORMULA_TYPE";
     
-    public static String DEDUCTION_TYPE="RS_TYPE";
+    public static final String DEDUCTION_TYPE="RS_TYPE";
     
-    public static String DEDUCTION_SUB_TYPE="REBATE_PROGRAM_TYPE";
+    public static final String DEDUCTION_SUB_TYPE="REBATE_PROGRAM_TYPE";
     
-    public static String DEDUCTION_CATEGORY="RS_CATEGORY";
+    public static final String DEDUCTION_CATEGORY="RS_CATEGORY";
     
     public static final String LINE_TYPE = "LINE_TYPE";
     
@@ -222,53 +228,53 @@ public final class UIUtils {
     
     public static final String KEYWORD= "KEYWORD";
     
-    public static String OPERATOR="OPERATOR";
+    public static final String OPERATOR="OPERATOR";
     
-    public static String COMPARISON="COMPARISON";
+    public static final String COMPARISON="COMPARISON";
     
-    public static String LOGICAL_OPERATOR="LOGICAL_OPERATOR";
+    public static final String LOGICAL_OPERATOR="LOGICAL_OPERATOR";
     
 	/** The Constant WITHOUT_IDEN_SEARCH. */
 
-public static final Object[] WITHOUT_IDEN_SEARCH = new Object[] { ConstantsUtils.SYSTEM_ID, ConstantsUtils.ITEM_ID,
+private static final Object[] WITHOUT_IDEN_SEARCH = new Object[] { ConstantsUtils.SYSTEM_ID, ConstantsUtils.ITEM_ID,
 			ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAME, ConstantsUtils.ITEM_DESC, ConstantsUtils.ITEM_STATUS, ConstantsUtils.ITEM_TYPE,ConstantsUtils.THERAPEUTIC_CLASS,
 			ConstantsUtils.BRAND, ConstantsUtils.NDC9, ConstantsUtils.NDC8, ConstantsUtils.FORM, ConstantsUtils.STRENGTH
 			 };
 	/** The Constant WITH_IDEN_SEARCH. */
-        public static final Object[] WITH_IDEN_SEARCH = new Object[] { ConstantsUtils.SYSTEM_ID, ConstantsUtils.ITEM_ID,
+private static final Object[] WITH_IDEN_SEARCH = new Object[] { ConstantsUtils.SYSTEM_ID, ConstantsUtils.ITEM_ID,
 			ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAME, ConstantsUtils.ITEM_DESC, ConstantsUtils.ITEM_STATUS, ConstantsUtils.ITEM_TYPE, ConstantsUtils.ITEM_IRT_QUALIFIER_NAME, ConstantsUtils.ITEM_IDENTIFIER, ConstantsUtils.THERAPEUTIC_CLASS,
 			ConstantsUtils.BRAND, ConstantsUtils.NDC9, ConstantsUtils.NDC8, ConstantsUtils.FORM, ConstantsUtils.STRENGTH
 			 };
 	/** The Constant COL_WITHOUT_IDEN. */
-	public static final Object[] COL_WITHOUT_IDEN = new Object[] { ConstantsUtils.ITEMS_ID,
+        private static final Object[] COL_WITHOUT_IDEN = new Object[] { ConstantsUtils.ITEMS_ID,
 			ConstantsUtils.ITEMS_NO, ConstantsUtils.ITEM_NAMES, ConstantsUtils.ITEMDESCRIPTION, ConstantsUtils.ITEMSTATUS,
 			ConstantsUtils.ITEMS_TYPE };
 
 	/** The Constant QUALIFIER_ITEM. */
-	public static final Object[] QUALIFIER_ITEM = new Object[] {
+	private static final Object[] QUALIFIER_ITEM = new Object[] {
 			ConstantsUtils.ITEM_IDENTIFIER, ConstantsUtils.ITEM_IRT_QUALIFIER_NAME };
         
         /** The Constant QUALIFIER_ITEM_HEADER. */
-	public static final String[] QUALIFIER_ITEM_HEADER = new String[] {
+	private static final String[] QUALIFIER_ITEM_HEADER = new String[] {
 			ConstantsUtils.ITEM_IDENTIFIER_HEADER, ConstantsUtils.ITEM_QUALIFIER_NAME_HEADER };
 	
 	/** The Constant QUALIFIER_PRICING. */
-	public static final Object[] QUALIFIER_PRICING = new Object[] {
+	private static final Object[] QUALIFIER_PRICING = new Object[] {
 		ConstantsUtils.IDENTIFIER_CODE_QUALIFIER, ConstantsUtils.IDENTIFIER_CODE_QUALIFIER_NAME };
 	/** The Constant ITEMINFO_COL_ORDER. */
-	public static final Object[] ITEMINFO_COL_ORDER = new Object[] { ConstantsUtils.ITEM_ID,
+	private static final Object[] ITEMINFO_COL_ORDER = new Object[] { ConstantsUtils.ITEM_ID,
 			ConstantsUtils.ITEM_NAME, ConstantsUtils.STRENGTH, ConstantsUtils.PRIMARY_UOM, ConstantsUtils.ITEM_NO, ConstantsUtils.SECONDARY_UOM,
 			ConstantsUtils.FORM, ConstantsUtils.ITEM_DESC, ConstantsUtils.ITEM_TYPE, ConstantsUtils.ITEM_STATUS, ConstantsUtils.ITEM_CODE,
 			ConstantsUtils.PACKAGE_SIZE, ConstantsUtils.ITEM_CLASS, ConstantsUtils.ITEM_START_DATE, ConstantsUtils.ITEM_END_DATE };
 
 	/** The Constant ADDINFO_COL_ORDER. */
-	public static final Object[] ADDINFO_COL_ORDER = new Object[] { ConstantsUtils.ITEM_ID,
+	private static final Object[] ADDINFO_COL_ORDER = new Object[] { ConstantsUtils.ITEM_ID,
 			ConstantsUtils.ITEM_NAME, ConstantsUtils.STRENGTH, ConstantsUtils.PRIMARY_UOM, ConstantsUtils.ITEM_NO, ConstantsUtils.SECONDARY_UOM,
 			ConstantsUtils.FORM, ConstantsUtils.ITEM_DESC, ConstantsUtils.ITEM_TYPE, ConstantsUtils.ITEM_STATUS, ConstantsUtils.ITEM_CODE,
 			ConstantsUtils.PACKAGE_SIZE, ConstantsUtils.ITEM_CLASS, ConstantsUtils.ITEM_START_DATE, ConstantsUtils.ITEM_END_DATE };
 
 	/** The Constant FORM_COL_ORDER. */
-	public static final Object[] FORM_COL_ORDER = new Object[] { ConstantsUtils.ITEM_ID,
+	private static final Object[] FORM_COL_ORDER = new Object[] { ConstantsUtils.ITEM_ID,
 			ConstantsUtils.ITEM_NAME, ConstantsUtils.ITEM_TYPE, ConstantsUtils.ITEM_NO, ConstantsUtils.MANUFACTURED_ID, ConstantsUtils.ITEM_DESC,
 			ConstantsUtils.ITEM_STATUS, ConstantsUtils.IDENTIFIER, ConstantsUtils.IDENTIFIER_TYPE_DESC };
 
@@ -276,68 +282,68 @@ public static final Object[] WITHOUT_IDEN_SEARCH = new Object[] { ConstantsUtils
 	 * "Human readable" captions for properties in same order as in
 	 * NATURAL_COL_ORDER.
 	 */
-	public static final String[] COL_HEADERS_ENGLISH = new String[] {
+	private static final String[] COL_HEADERS_ENGLISH = new String[] {
 			ConstantsUtils.ITEMS_ID, ConstantsUtils.ITEM_NAMES, ConstantsUtils.ITEMS_NO, "item Description",
 			ConstantsUtils.ITEMSTATUS, ConstantsUtils.ITEMS_TYPE, "Manufacturer Id", "Identifier Type" };
 
 	/** The Constant IDEN_FORM_COL_ORDER. */
-	public static final Object[] IDEN_FORM_COL_ORDER = new Object[] {
+	private static final Object[] IDEN_FORM_COL_ORDER = new Object[] {
 			ConstantsUtils.ITEM_IRT_QUALIFIER_NAME,ConstantsUtils.ITEM_IDENTIFIER, ConstantsUtils.IDENTIFIER_STATUS, ConstantsUtils.START_DATE_SP, ConstantsUtils.END_DATE_SP,ConstantsUtils.ENTITY_CODE,ConstantsUtils.ENTITY_CODE_NAME, ConstantsUtils.MODIFIEDBY, ConstantsUtils.MODIFIEDDATE, ConstantsUtils.CREATEDBY, ConstantsUtils.CREATEDDATE};
 	/** The Constant IDEN_VIEW_FORM_COL_ORDER. */
-	public static final Object[] IDEN_VIEW_FORM_COL_ORDER = new Object[] {
+	private static final Object[] IDEN_VIEW_FORM_COL_ORDER = new Object[] {
 		ConstantsUtils.ITEM_IRT_QUALIFIER_NAME, ConstantsUtils.ITEM_IDENTIFIER, "identifierStatusView", "viewStartDate", "viewEndDate",ConstantsUtils.ENTITY_CODE, ConstantsUtils.ENTITY_CODE_NAME, ConstantsUtils.MODIFIEDBY, ConstantsUtils.MODIFIEDDATE, ConstantsUtils.CREATEDBY, ConstantsUtils.CREATEDDATE
 		  };
 	
 	/** The Constant PRICING_FORM_COL_ORDER. */
-	public static final Object[] PRICING_FORM_COL_ORDER = new Object[] {
+	private static final Object[] PRICING_FORM_COL_ORDER = new Object[] {
 
 			ConstantsUtils.IDENTIFIER_CODE_QUALIFIER_NAME, ConstantsUtils.ITEM_PRICE,"pricingCodeStatus", "itemUom",
 			 ConstantsUtils.START_DATE_SP, ConstantsUtils.END_DATE_SP, ConstantsUtils.ENTITY_CODE,ConstantsUtils.SOURCE, ConstantsUtils.MODIFIEDBY, ConstantsUtils.MODIFIEDDATE, ConstantsUtils.CREATEDBY, ConstantsUtils.CREATEDDATE};
 	/** The Constant PRICING_VIEW_FORM_COL_ORDER. */
-	public static final Object[] PRICING_VIEW_FORM_COL_ORDER = new Object[] {
+	private static final Object[] PRICING_VIEW_FORM_COL_ORDER = new Object[] {
 
 		ConstantsUtils.IDENTIFIER_CODE_QUALIFIER_NAME, ConstantsUtils.ITEM_PRICE,"pricingCodeStatusView","itemUomView",
 		 "priceStartDate", "priceEndDate", ConstantsUtils.ENTITY_CODE,ConstantsUtils.SOURCE, ConstantsUtils.MODIFIEDBY, ConstantsUtils.MODIFIEDDATE, ConstantsUtils.CREATEDBY, ConstantsUtils.CREATEDDATE};
 		
 	
 	/** The Constant PRICING_GRID_COL_ORDER. */
-	public static final Object[] PRICING_GRID_COL_ORDER = new Object[] {
+	private static final Object[] PRICING_GRID_COL_ORDER = new Object[] {
 			ConstantsUtils.ITEM_IRT_QUALIFIER_NAME, ConstantsUtils.ITEM_IDENTIFIER, ConstantsUtils.ENTITY_CODE,
 			ConstantsUtils.START_DATE_SP, ConstantsUtils.END_DATE_SP, "identifierStatus" };
 	
 
 /** The Constant AVAILABLE_ITEM_COL. */
-public static final Object[] AVAILABLE_ITEM_COL = new Object[] {
+	private static final Object[] AVAILABLE_ITEM_COL = new Object[] {
 	ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAME, ConstantsUtils.FORM,
 	ConstantsUtils.PACKAGE_SIZE };
 
 /** The Constant AVAILABLE_ITEM_COL_HEADER. */
-public static final String[] AVAILABLE_ITEM_COL_HEADER = new String[] {
+private static final String[] AVAILABLE_ITEM_COL_HEADER = new String[] {
 	ConstantsUtils.ITEMNO, ConstantsUtils.ITEM_NAMES, ConstantsUtils.FORM,
 	ConstantsUtils.PACK_SIZE };
 
 /** The Constant SELECTED_ITEM_COL. */
-public static final Object[] SELECTED_ITEM_COL = new Object[] {
+private static final Object[] SELECTED_ITEM_COL = new Object[] {
 	ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAME};
 
 /** The Constant SELECTED_ITEM_COL_HEADER. */
-public static final String[] SELECTED_ITEM_COL_HEADER = new String[] {
+private static final String[] SELECTED_ITEM_COL_HEADER = new String[] {
 	ConstantsUtils.ITEMNO, ConstantsUtils.ITEM_NAMES};
 
 /** The Constant ITEM_DETAILS_COL. */
-public static final Object[] ITEM_DETAILS_COL = new Object[] {
+private static final Object[] ITEM_DETAILS_COL = new Object[] {
 	"checkbox", "itemFamilyplanNo", "itemFamilyplanName",
 	ConstantsUtils.ITEM_NO ,ConstantsUtils.ITEM_NAME, "Uom", ConstantsUtils.PACKAGE_SIZE,ConstantsUtils.ITEM_START_DATE, ConstantsUtils.ITEM_END_DATE, "ifpStartDate","ifpEndDate", ConstantsUtils.ITEM_STATUS};
 
 /** The Constant ITEM_DETAILS_COL_HEADER. */
-public static final String[] ITEM_DETAILS_COL_HEADER = new String[] {
+private static final String[] ITEM_DETAILS_COL_HEADER = new String[] {
 	"check box", "item Familyplan No", "item Familyplan Name",
 	ConstantsUtils.ITEMNO ,ConstantsUtils.ITEM_NAMES, "Uom", ConstantsUtils.PACK_SIZE,ConstantsUtils.ITEM_STARTDATE, ConstantsUtils.ITEM_ENDDATE, "ifp Start Date","ifp End Date", ConstantsUtils.ITEMSTATUS};
 
 
 
 /** The Constant NEW_FORMULATION_SEARCH. */
-public static final Object[] NEW_FORMULATION_SEARCH = new Object[] {  ConstantsUtils.ITEM_ID,ConstantsUtils.ITEM_NO,
+private static final Object[] NEW_FORMULATION_SEARCH = new Object[] {  ConstantsUtils.ITEM_ID,ConstantsUtils.ITEM_NO,
 	ConstantsUtils.ITEM_NAME,ConstantsUtils.ITEM_STATUS, ConstantsUtils.ITEM_TYPE,ConstantsUtils.MANUFACTURED_ID, ConstantsUtils.ITEM_DESC,  ConstantsUtils.ITEM_CODE,
 	ConstantsUtils.PACKAGE_SIZE, ConstantsUtils.UPPS, ConstantsUtils.ITEM_START_DATE, ConstantsUtils.ITEM_END_DATE,
 	 "labelerCode", ConstantsUtils.FORM, ConstantsUtils.STRENGTH, ConstantsUtils.PRIMARY_UOM,
@@ -346,7 +352,7 @@ public static final Object[] NEW_FORMULATION_SEARCH = new Object[] {  ConstantsU
 	"clottingFactorEndDate" };
 
 /** The Constant NEW_FORMULATION_HEADER. */
-public static final String[] NEW_FORMULATION_HEADER = new String[] { "item Id",ConstantsUtils.ITEMS_NO,
+private static final String[] NEW_FORMULATION_HEADER = new String[] { "item Id",ConstantsUtils.ITEMS_NO,
 ConstantsUtils.ITEM_NAMES,ConstantsUtils.ITEMSTATUS, "item Type","manufacturer Id", "item Desc",  "item Code",
 ConstantsUtils.PACK_SIZE, ConstantsUtils.UPPS, ConstantsUtils.ITEM_STARTDATE, ConstantsUtils.ITEM_ENDDATE,
  "labeler Code", ConstantsUtils.FORM, ConstantsUtils.STRENGTH, "primary Uom",
@@ -360,5 +366,93 @@ ConstantsUtils.PACK_SIZE, ConstantsUtils.UPPS, ConstantsUtils.ITEM_STARTDATE, Co
 private UIUtils(){
 	//Empty
 }
+
+	public static Object[] getWithIdenSearch() {
+		return WITH_IDEN_SEARCH.clone();
+	}
+
+	public static Object[] getColWithoutIden() {
+		return COL_WITHOUT_IDEN.clone();
+	}
+
+	public static Object[] getQualifierItem() {
+		return QUALIFIER_ITEM.clone();
+	}
+
+	public static String[] getQualifierItemHeader() {
+		return QUALIFIER_ITEM_HEADER.clone();
+	}
+
+	public static Object[] getQualifierPricing() {
+		return QUALIFIER_PRICING.clone();
+	}
+
+	public static Object[] getIteminfoColOrder() {
+		return ITEMINFO_COL_ORDER.clone();
+	}
+
+	public static Object[] getAddinfoColOrder() {
+		return ADDINFO_COL_ORDER.clone();
+	}
+
+	public static Object[] getFormColOrder() {
+		return FORM_COL_ORDER.clone();
+	}
+
+	public static String[] getColHeadersEnglish() {
+		return COL_HEADERS_ENGLISH.clone();
+	}
+
+	public static Object[] getIdenFormColOrder() {
+		return IDEN_FORM_COL_ORDER.clone();
+	}
+
+	public static Object[] getIdenViewFormColOrder() {
+		return IDEN_VIEW_FORM_COL_ORDER.clone();
+	}
+
+	public static Object[] getPricingFormColOrder() {
+		return PRICING_FORM_COL_ORDER.clone();
+	}
+
+	public static Object[] getPricingViewFormColOrder() {
+		return PRICING_VIEW_FORM_COL_ORDER.clone();
+	}
+
+	public static Object[] getPricingGridColOrder() {
+		return PRICING_GRID_COL_ORDER.clone();
+	}
+
+	public static Object[] getAvailableItemCol() {
+		return AVAILABLE_ITEM_COL.clone();
+	}
+
+	public static String[] getAvailableItemColHeader() {
+		return AVAILABLE_ITEM_COL_HEADER.clone();
+	}
+
+	public static Object[] getSelectedItemCol() {
+		return SELECTED_ITEM_COL.clone();
+	}
+
+	public static String[] getSelectedItemColHeader() {
+		return SELECTED_ITEM_COL_HEADER.clone();
+	}
+
+	public static Object[] getItemDetailsCol() {
+		return ITEM_DETAILS_COL.clone();
+	}
+
+	public static String[] getItemDetailsColHeader() {
+		return ITEM_DETAILS_COL_HEADER.clone();
+	}
+
+	public static Object[] getNewFormulationSearch() {
+		return NEW_FORMULATION_SEARCH.clone();
+	}
+
+	public static String[] getNewFormulationHeader() {
+		return NEW_FORMULATION_HEADER.clone();
+	}
 
 }

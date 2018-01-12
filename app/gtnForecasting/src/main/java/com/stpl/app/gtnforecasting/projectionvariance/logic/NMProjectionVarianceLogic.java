@@ -125,11 +125,11 @@ public class NMProjectionVarianceLogic {
     private static final String PARENT_VALIDATE = "PARENT-VALIDATE";
 
     public List getChartList() {
-        return chartList;
+        return chartList == null ? chartList : new ArrayList<>(chartList);
     }
 
     public void setChartList(List chartList) {
-        this.chartList = chartList;
+        this.chartList = chartList == null ? chartList : new ArrayList<>(chartList);
     }
 
     public PVSelectionDTO getSelectionDTO() {
@@ -2792,7 +2792,7 @@ public class NMProjectionVarianceLogic {
                     sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo));
                     break;
                 case Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY:
-                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchyDeduction(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator, levelNo));
+                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchyDeduction(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), currentHierarchyIndicator, levelNo,false));
                     break;
                 default:
                     LOGGER.warn("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);

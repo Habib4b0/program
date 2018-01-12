@@ -35,11 +35,13 @@ public class GtnFrameworkPSPriceTabMassFieldValueChangeAction
 				.getVaadinBaseComponent("psPricingTabTabmassTextField");
 		GtnUIFrameworkBaseComponent psPricingTabTabMassDateFeild = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("psPricingTabTabMassDateFeild");
-
+		GtnUIFrameworkBaseComponent psPricingTabTabmassTextFieldLoading = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent("psPricingTabTabmassTextFieldLoading");
 		psPricingTabTabMassDateFeild.setVisible(false);
 		psPricingTabTabMassDropDown.setVisible(false);
 		psPricingTabTabmassCustomTextField.setVisible(false);
 		psPricingTabTabmassTextField.setVisible(false);
+		psPricingTabTabmassTextFieldLoading.setVisible(false);
 		psPricingTabTabmassCustomTextField.setPropertyValue("");
 		psPricingTabTabmassTextField.setPropertyValue("");
 		psPricingTabTabMassDateFeild.setPropertyValue(null);
@@ -51,17 +53,14 @@ public class GtnFrameworkPSPriceTabMassFieldValueChangeAction
 				.getCaptionFromComboBox();
 
 		if (valueFromComboBox != null) {
+			psPricingTabTabmassTextFieldLoading.setVisible(false);
 			if (valueFromComboBox.endsWith("Date")) {
-
 				psPricingTabTabMassDateFeild.setVisible(true);
 
 			} else if (valueFromComboBox.endsWith("Price")) {
 				psPricingTabTabmassTextField.setVisible(true);
-
 			} else {
-
 				psPricingTabTabMassDropDown.setVisible(true);
-
 				fillPriceComboBox("psPricingTabTabMassDropDown", comboBoxFieldMap.get(valueFromComboBox));
 
 			}

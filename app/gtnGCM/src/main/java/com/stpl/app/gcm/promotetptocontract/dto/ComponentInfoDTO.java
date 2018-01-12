@@ -8,6 +8,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -140,19 +141,19 @@ public class ComponentInfoDTO implements Serializable {
     }
 
     public Date getItemStartDate() {
-        return itemStartDate;
+        return itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     public void setItemStartDate(Date itemStartDate) {
-        this.itemStartDate = itemStartDate;
+        this.itemStartDate = itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     public Date getItemEndDate() {
-        return itemEndDate;
+        return itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     public void setItemEndDate(Date itemEndDate) {
-        this.itemEndDate = itemEndDate;
+        this.itemEndDate = itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     public HelperDTO getStatusId() {
@@ -1056,27 +1057,27 @@ public class ComponentInfoDTO implements Serializable {
     }
 
     public List<ComponentInfoDTO> getIfpList() {
-        return ifpList;
+        return ifpList == null ? ifpList : Collections.unmodifiableList(ifpList);
     }
  
     public void setIfpList(List<ComponentInfoDTO> ifpList) {
-        this.ifpList = ifpList;
+        this.ifpList = ifpList == null ? ifpList : Collections.unmodifiableList(ifpList);
     }
  
     public List<ComponentInfoDTO> getRsList() {
-        return rsList;
+        return rsList == null ? rsList : Collections.unmodifiableList(rsList);
 }
 
     public void setRsList(List<ComponentInfoDTO> rsList) {
-        this.rsList = rsList;
+        this.rsList = rsList == null ? rsList : Collections.unmodifiableList(rsList);
     }
 
     public List<ComponentInfoDTO> getPsList() {
-        return psList;
+        return psList == null ? psList : Collections.unmodifiableList(psList);
     }
 
     public void setPsList(List<ComponentInfoDTO> psList) {
-        this.psList = psList;
+        this.psList = psList == null ? psList : Collections.unmodifiableList(psList);
     }
     
     public boolean isCheckAll() {

@@ -1463,10 +1463,10 @@ public class GtnFrameworkContractDashboardMainConfig {
 		confirmActionContractNotToProcessConfig.addActionParameter(Arrays.asList(cdMainRebuildBtnActionConfig));
 
 		GtnUIFrameWorkActionConfig confirmActionContractToProcessConfig = new GtnUIFrameWorkActionConfig();
-		confirmActionContractToProcessConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-		confirmActionContractToProcessConfig.addActionParameter(GtnFrameworkCommonStringConstants.CONFIRMATION);
+		confirmActionContractToProcessConfig.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
+		confirmActionContractToProcessConfig.addActionParameter(GtnFrameworkCommonStringConstants.HALT);
 		confirmActionContractToProcessConfig.addActionParameter(
-				"The Contract selected to be ‘Processed’ already has Actuals, Forecasted Sales, or Forecasted Discounts associated with it.  Proceed?");
+				"The Contract selected already has Actuals, Forecasted Sales, or Forecasted Discounts associated with it. Hence this contract cannot be rebuilt");
 		confirmActionContractToProcessConfig.addActionParameter(Arrays.asList(cdMainRebuildBtnActionConfig));
 
 		GtnUIFrameWorkActionConfig validateContractToProcessActionConfig = commonConfig
@@ -1477,7 +1477,7 @@ public class GtnFrameworkContractDashboardMainConfig {
 		validateContractToProcessActionConfig
 				.addActionParameter(Arrays.asList(confirmActionContractNotToProcessConfig));
 		validateContractToProcessActionConfig.addActionParameter(Arrays.asList(confirmActionContractToProcessConfig));
-
+                
 		GtnUIFrameWorkActionConfig validateContractToRebuildActionConfig = commonConfig
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		validateContractToRebuildActionConfig

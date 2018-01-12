@@ -15,7 +15,7 @@ import org.jboss.logging.Logger;
 public final class ErrorCodeUtil {
 
 	/** The resouce bundle. */
-	public static ResourceBundle resouceBundle = ResourceBundle.getBundle("errorcodes.errorcode");
+	private static ResourceBundle resouceBundle = ResourceBundle.getBundle("errorcodes.errorcode");
 
 	public static final String HYPHEN = " - ";
         
@@ -43,13 +43,10 @@ public final class ErrorCodeUtil {
                         return resouceBundle.getString(key);
                     }
                     return "";
-		} catch(NullPointerException e){
+		} catch(NullPointerException | MissingResourceException e){
                         LOGGER.error(e);
                         return "";
-                }catch (MissingResourceException e) {
-                        LOGGER.error(e);
-			return "";
-		}
+                }
 	}
 
 	/**

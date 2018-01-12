@@ -35,7 +35,7 @@ import com.vaadin.ui.DateField;
  *
  * @author Abhiram.Giri
  */
-public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
+public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkFieldFactoryAction.class);
 
 	@Override
@@ -80,7 +80,7 @@ public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction ,Gtn
 	}
 
 	private void operateFieldFactoryValue(GtnUIFrameworkActionParameter actionParameter, String componentId,
-	
+
 			List<Object> parameters, GtnUIFrameworkBaseComponent baseComponent) throws GtnFrameworkGeneralException {
 		String propertyId = actionParameter.getPropertyId();
 		int idIndex = Integer.parseInt(String.valueOf(parameters.get(2)));
@@ -121,10 +121,10 @@ public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction ,Gtn
 				getModifiedSuccessAction(updateActionConfig, componentId, propertyId));
 		if (propertyId.equals(GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[7])) {
 			String depandingValue = baseComponent.getCaptionFromComboBox();
-			actionParameter.getItemId().getProperties().set(51, depandingValue);
+			actionParameter.getItemId().getProperties().set(52, depandingValue);
 			Object newValue = getFieldValue(actionParameter.getItemId());
-			actionParameter.getItemId()
-					.addProperties(GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[8], newValue);
+			actionParameter.getItemId().addProperties(
+					GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[8], newValue);
 			GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(actionParameter.getTableComponentId());
 			GtnFrameworkSessionManagerAction.getDashboardSessionBean(componentId).setNeedOperation(false);
@@ -133,8 +133,8 @@ public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction ,Gtn
 			tableBaseComponent.setTableRefresh(true);
 			GtnFrameworkSessionManagerAction.getDashboardSessionBean(componentId).setNeedOperation(true);
 		}
-		if((GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[16]).equals(propertyId)||
-				(GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[17]).equals(propertyId)){
+		if ((GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[16]).equals(propertyId)
+				|| (GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[17]).equals(propertyId)) {
 			refreshTable();
 		}
 		if (propertyId.equals(GtnFrameworkContractDashboardContants.getPriceDetailEditableColumn()[4])) {
@@ -151,6 +151,7 @@ public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction ,Gtn
 			}
 		}
 	}
+
 	private void refreshTable() throws GtnFrameworkValidationFailedException {
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData("PricingTabPricingTable");
@@ -159,6 +160,7 @@ public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction ,Gtn
 		GtnFrameworkSessionManagerAction.getDashboardSessionBean("PricingTabPricingTable").setNeedOperation(true);
 
 	}
+
 	private boolean isValidValue(GtnUIFrameworkBaseComponent baseComponent, GtnUIFrameworkComponentData componentData) {
 		boolean ret = true;
 		GtnUIFrameworkValidationConfig valConfig = componentData.getCurrentComponentConfig()
@@ -170,37 +172,37 @@ public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction ,Gtn
 	}
 
 	private String getFieldId(String currentPropId, GtnWsRecordBean bean, Object value) {
-		
-		String depandingValue = bean.getStringPropertyByIndex(51);
+
+		String depandingValue = bean.getStringPropertyByIndex(52);
 		if (depandingValue.startsWith("P")) {
-			bean.getProperties().set(52, value);
+			bean.getProperties().set(53, value);
 			return currentPropId + "Ddlb";
 		}
 		if (depandingValue.startsWith("D")) {
-			bean.getProperties().set(53, value);
+			bean.getProperties().set(54, value);
 			return currentPropId + "Date";
 		}
 		if (depandingValue.startsWith("M")) {
-			bean.getProperties().set(54, value);
+			bean.getProperties().set(55, value);
 			return currentPropId + "Entry";
 		}
 		return "";
 	}
 
 	private Object getFieldValue(GtnWsRecordBean bean) {
-		String depandingValue = bean.getStringPropertyByIndex(51);
+		String depandingValue = bean.getStringPropertyByIndex(52);
 		if (depandingValue.startsWith("P")) {
-			return bean.getPropertyValueByIndex(52);
+			return bean.getPropertyValueByIndex(53);
 		}
 		if (depandingValue.startsWith("D")) {
-			Object value = bean.getPropertyValueByIndex(53);
+			Object value = bean.getPropertyValueByIndex(54);
 			if (value != null && Long.class.isAssignableFrom(value.getClass())) {
 				value = new Date((Long) value);
 			}
 			return value;
 		}
 		if (depandingValue.startsWith("M")) {
-			return bean.getStringPropertyByIndex(54).trim();
+			return bean.getStringPropertyByIndex(55).trim();
 		}
 		return "";
 	}
@@ -229,24 +231,28 @@ public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction ,Gtn
 			break;
 		case "netSalesRulepopup1":
 			popupActionConfig = getActionConfigParameter(GtnFrameworkContractDashboardContants.CD_NS_RULE_VIEW,
-					GtnFrameworkContractDashboardContants.NET_SALES_FORMULA_LOOKUP, Arrays.asList(componentId, Arrays.asList(GtnFrameworkContractDashboardContants.RULE_NO),
+					GtnFrameworkContractDashboardContants.NET_SALES_FORMULA_LOOKUP,
+					Arrays.asList(componentId, Arrays.asList(GtnFrameworkContractDashboardContants.RULE_NO),
 							Arrays.asList(componentId), Arrays.asList(updateActionConfig, "4"), "Net Sales"));
 
 			break;
 		case "evaluationRulepopup1":
 			popupActionConfig = getActionConfigParameter(GtnFrameworkContractDashboardContants.CD_NS_RULE_VIEW,
-					GtnFrameworkContractDashboardContants.NET_SALES_FORMULA_LOOKUP, Arrays.asList(componentId, Arrays.asList(GtnFrameworkContractDashboardContants.RULE_NO),
+					GtnFrameworkContractDashboardContants.NET_SALES_FORMULA_LOOKUP,
+					Arrays.asList(componentId, Arrays.asList(GtnFrameworkContractDashboardContants.RULE_NO),
 							Arrays.asList(componentId), Arrays.asList(updateActionConfig, "4"), "Evaluation"));
 			break;
 		case "calculationRulepopup1":
 			popupActionConfig = getActionConfigParameter(GtnFrameworkContractDashboardContants.CD_NS_RULE_VIEW,
-					GtnFrameworkContractDashboardContants.NET_SALES_FORMULA_LOOKUP, Arrays.asList(componentId, Arrays.asList(GtnFrameworkContractDashboardContants.RULE_NO),
+					GtnFrameworkContractDashboardContants.NET_SALES_FORMULA_LOOKUP,
+					Arrays.asList(componentId, Arrays.asList(GtnFrameworkContractDashboardContants.RULE_NO),
 							Arrays.asList(componentId), Arrays.asList(updateActionConfig, "4"), "Calculation"));
 			break;
 		default:
 			popupActionConfig = getActionConfigParameter(GtnFrameworkContractDashboardContants.CD_NS_FORMULA_VIEW,
-					GtnFrameworkContractDashboardContants.NET_SALES_FORMULA_LOOKUP, Arrays.asList(componentId, Arrays.asList("formulaName"),
-							Arrays.asList(componentId), Arrays.asList(updateActionConfig, "8")));
+					GtnFrameworkContractDashboardContants.NET_SALES_FORMULA_LOOKUP,
+					Arrays.asList(componentId, Arrays.asList("formulaName"), Arrays.asList(componentId),
+							Arrays.asList(updateActionConfig, "8")));
 		}
 		return popupActionConfig;
 	}

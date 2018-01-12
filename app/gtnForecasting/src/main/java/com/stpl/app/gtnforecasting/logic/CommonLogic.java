@@ -3605,7 +3605,35 @@ public class CommonLogic {
         return count;
 
     }
+    
+    public int getCountQueryforExcel(final ProjectionSelectionDTO projSelDTO) {
+        int countforexcel = 0;
 
+        if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(projSelDTO.getHierarchyIndicator()) || Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(projSelDTO.getHierarchyIndicator())) {
+
+            String hierarchyQueryforExcel = getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo());
+
+            if (StringUtils.isNotBlank(hierarchyQueryforExcel)) {
+                boolean booleanFlag = true;
+                String excelquery = SQlUtil.getQuery("count-Query-Excel");
+                excelquery = excelquery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchyForExpand(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(), booleanFlag));
+                excelquery = excelquery.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
+                excelquery = excelquery.replace("[?TAB_BASED_JOIN]", getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName()));
+                if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
+                    excelquery += " AND SPM.FILTER_CCP=1 ";
+                }
+                excelquery += " SELECT COUNT(HIERARCHY_NO) FROM  #SELECTED_HIERARCHY_NO ";
+                List listforExcel = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(excelquery, projSelDTO.getSessionDTO().getCurrentTableNames()));
+                if (listforExcel != null && !listforExcel.isEmpty()) {
+                    countforexcel = Integer.valueOf(listforExcel.get(0).toString());
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid Hierarchy Indicator for Excel :" + projSelDTO.getHierarchyIndicator());
+        }
+        LOGGER.debug("Countforexcel is " + countforexcel);
+        return countforexcel;
+    } 
     /**
      * Method is used to obtain the count for each level in the relationship
      * that is used in the projection based on the used Custom Hierarchy.
@@ -4007,8 +4035,9 @@ public class CommonLogic {
 
     public String insertAvailableHierarchyNoForExpand(ProjectionSelectionDTO projSelDTO) {
         String sql;
+        boolean flag=false;
         sql = SQlUtil.getQuery(Constant.SELECTED_HIERARCHY_NO);
-        sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchyForExpand(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
+        sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchyForExpand(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(),flag));
         sql = sql.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
         sql += getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName());
         if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
@@ -4158,7 +4187,7 @@ public class CommonLogic {
     }
     
  
-    public String getSelectedHierarchyForExpand(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
+    public String getSelectedHierarchyForExpand(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo, boolean flag) {
 
         if (levelNo == 0) {
             throw new IllegalArgumentException(INVALID_LEVEL_NO + levelNo);
@@ -4179,7 +4208,11 @@ public class CommonLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
+                if(!flag){
                 stringBuilder.append("'," + i++ + ")");
+                }else{
+                stringBuilder.append("')");
+                }
                 isNotFirstElement = true;
             }
         }
@@ -4926,7 +4959,7 @@ public class CommonLogic {
         }
     }
     
-       public String getSelectedHierarchyDeduction(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
+       public String getSelectedHierarchyDeduction(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo,boolean isCount) {
 
         if (levelNo == 0) {
             throw new IllegalArgumentException(INVALID_LEVEL_NO + levelNo);
@@ -4937,7 +4970,7 @@ public class CommonLogic {
 
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
-
+        int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable)) {
 
@@ -4946,7 +4979,7 @@ public class CommonLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getValue().get(3).toString());
-                stringBuilder.append("')");
+                stringBuilder.append(isCount ? "')" : "'," + i++ + ")");
 
                 isNotFirstElement = true;
             }
