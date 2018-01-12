@@ -24,13 +24,13 @@ public class GtnUIFrameWorkSaveMandatoryAlert implements GtnUIFrameWorkAction, G
 		List<GtnWsRecordBean> ruleDetailsList;
 
 		StringBuilder fieldMsg = new StringBuilder();
-		Object[] fieldValues = new Object[] { getString("rebatePlanInformationTabRebatePlanName"),getString("rebatePlanInformationTabRebatePlanType"),
-				getString("rebatePlanInformationTabRebatePlanID"), getString("rebatePlanInformationTabformulaType"),
-				getString("rebatePlanInformationTabRebatePlanNo"), getInt("rebatePlanInformationTabRebateStatus"),
-				getInt("rebatePlanCalculationsRebateStructure"), getInt("rebatePlanCalculationsRangeBasedOn"),
-				getInt("rebatePlanCalculationsRebateBasedOn") };
-		String[] fields = new String[] { "Rebate Plan Name", "Rebate Plan Type","Rebate Plan ID", "Formula Type", "Rebate Plan No",
-				"Rebate Status","Rebate Structure", "Range Based On", "Rebate Based On" };
+		Object[] fieldValues = new Object[] { getString("rebatePlanInformationTabRebatePlanName"),
+				getString("rebatePlanInformationTabRebatePlanType"), getString("rebatePlanInformationTabRebatePlanID"),
+				getString("rebatePlanInformationTabformulaType"), getString("rebatePlanInformationTabRebatePlanNo"),
+				getInt("rebatePlanInformationTabRebateStatus"), getInt("rebatePlanCalculationsRebateStructure"),
+				getInt("rebatePlanCalculationsRangeBasedOn"), getInt("rebatePlanCalculationsRebateBasedOn") };
+		String[] fields = new String[] { "Rebate Plan Name", "Rebate Plan Type", "Rebate Plan ID", "Formula Type",
+				"Rebate Plan No", "Rebate Status", "Rebate Structure", "Range Based On", "Rebate Based On" };
 
 		String resultValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanInformationTabformulaType")
 				.getCaptionFromComboBox();

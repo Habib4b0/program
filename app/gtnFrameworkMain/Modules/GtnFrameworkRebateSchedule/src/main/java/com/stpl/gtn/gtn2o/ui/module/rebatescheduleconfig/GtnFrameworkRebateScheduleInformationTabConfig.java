@@ -32,7 +32,6 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
  * @author Mahesh.James
  */
 public class GtnFrameworkRebateScheduleInformationTabConfig {
-    
 
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
@@ -695,8 +694,9 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_INFO_INFORMATION_LAYOUT);
 		componentList.add(gtnLayout);
 
-		GtnUIFrameworkComponentConfig rsDeductionInclusion = configProvider.getUIFrameworkComponentConfig("rsDeductionInclusion",
-				true, GtnFrameworkRSConstants.RS_DEDUCTION_INCLUSIONLAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
+		GtnUIFrameworkComponentConfig rsDeductionInclusion = configProvider.getUIFrameworkComponentConfig(
+				"rsDeductionInclusion", true, GtnFrameworkRSConstants.RS_DEDUCTION_INCLUSIONLAYOUT,
+				GtnUIFrameworkComponentType.COMBOBOX);
 		rsDeductionInclusion.setComponentName("Deduction Inclusion");
 		rsDeductionInclusion.setAuthorizationIncluded(true);
 
@@ -744,8 +744,8 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 				true, GtnFrameworkRSConstants.REBATE_FREQUENCYLAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
 		companyType.setComponentName("Rebate Frequency");
 		companyType.setAuthorizationIncluded(true);
-                
-                companyType
+
+		companyType
 				.setComponentStyle(Arrays.asList(new String[] { GtnFrameworkCommonConstants.GTN_FRAMEWORK_MANDATORY }));
 		GtnUIFrameworkValidationConfig rsFrequencyValidationConfig = configProvider
 				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
@@ -761,13 +761,14 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		companyType.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
 	}
-    private void addPaymentLevel(List<GtnUIFrameworkComponentConfig> componentList) {
+
+	private void addPaymentLevel(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkRSConstants.PAYMENT_LEVEL_LAYOUT, true, GtnFrameworkRSConstants.REBATE_OPTIONS_LAYOUT);
 		componentList.add(gtnLayout);
 
-		GtnUIFrameworkComponentConfig companyType = configProvider.getUIFrameworkComponentConfig("paymentLevel",
-				true,GtnFrameworkRSConstants.PAYMENT_LEVEL_LAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
+		GtnUIFrameworkComponentConfig companyType = configProvider.getUIFrameworkComponentConfig("paymentLevel", true,
+				GtnFrameworkRSConstants.PAYMENT_LEVEL_LAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
 		companyType.setComponentName("Payment Level");
 		companyType.setAuthorizationIncluded(true);
 
@@ -782,14 +783,14 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 		companyType.setGtnUIFrameworkValidationConfig(gtnUIFrameworkValidationConfig);
 	}
 
-
 	private void addPaymentFrequency(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkRSConstants.PAYMENT_FREQUENCYLAYOUT, true, GtnFrameworkRSConstants.REBATE_OPTIONS_LAYOUT);
 		componentList.add(gtnLayout);
 
-		GtnUIFrameworkComponentConfig paymentFrequency = configProvider.getUIFrameworkComponentConfig("paymentFrequency",
-				true, GtnFrameworkRSConstants.PAYMENT_FREQUENCYLAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
+		GtnUIFrameworkComponentConfig paymentFrequency = configProvider.getUIFrameworkComponentConfig(
+				"paymentFrequency", true, GtnFrameworkRSConstants.PAYMENT_FREQUENCYLAYOUT,
+				GtnUIFrameworkComponentType.COMBOBOX);
 		paymentFrequency.setComponentName("Payment Frequency");
 		paymentFrequency.setAuthorizationIncluded(true);
 
@@ -914,8 +915,8 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 
 		componentList.add(companyType);
 
-		GtnUIFrameworkComboBoxConfig companyTypeConfig = configProvider.getComboBoxConfig(
-				"Evaluation_Rule_Level", GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+		GtnUIFrameworkComboBoxConfig companyTypeConfig = configProvider.getComboBoxConfig("Evaluation_Rule_Level",
+				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		companyType.setGtnComboboxConfig(companyTypeConfig);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
@@ -1009,8 +1010,8 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 
 		componentList.add(companyType);
 
-		GtnUIFrameworkComboBoxConfig companyTypeConfig = configProvider.getComboBoxConfig(
-				"Calculation_Rule_Level", GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+		GtnUIFrameworkComboBoxConfig companyTypeConfig = configProvider.getComboBoxConfig("Calculation_Rule_Level",
+				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		companyType.setGtnComboboxConfig(companyTypeConfig);
 		GtnUIFrameworkValidationConfig gtnUIFrameworkValidationConfig = configProvider
@@ -1027,8 +1028,8 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 				true, GtnFrameworkRSConstants.CALCULATION_TYPELAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
 		companyType.setComponentName("Calculation  Type");
 		companyType.setAuthorizationIncluded(true);
-                
-                 companyType
+
+		companyType
 				.setComponentStyle(Arrays.asList(new String[] { GtnFrameworkCommonConstants.GTN_FRAMEWORK_MANDATORY }));
 		GtnUIFrameworkValidationConfig calculationTypeValidationConfig = configProvider
 				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
@@ -1088,8 +1089,8 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 				true, GtnFrameworkRSConstants.CALCULATION_LEVELLAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
 		companyType.setComponentName("Calculation Level");
 		companyType.setAuthorizationIncluded(true);
-                
-                companyType
+
+		companyType
 				.setComponentStyle(Arrays.asList(new String[] { GtnFrameworkCommonConstants.GTN_FRAMEWORK_MANDATORY }));
 		GtnUIFrameworkValidationConfig calculationLevelValidationConfig = configProvider
 				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
