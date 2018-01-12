@@ -22,6 +22,7 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.JavaScript;
@@ -116,6 +117,8 @@ public class WorkFlowNotesLookup extends Window {
         addStyleName(Constant.BOOTSTRAP_UI);
         addStyleName(Constant.BOOTSTRAP);
         addStyleName(Constant.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
+        setWidth(585,Unit.PIXELS);
+        setHeight(808, Unit.PIXELS);
         setCaption(Constant.NOTES);
         center();
         setClosable(true);
