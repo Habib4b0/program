@@ -744,6 +744,12 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 				true, GtnFrameworkRSConstants.REBATE_FREQUENCYLAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
 		companyType.setComponentName("Rebate Frequency");
 		companyType.setAuthorizationIncluded(true);
+                
+                companyType
+				.setComponentStyle(Arrays.asList(new String[] { GtnFrameworkCommonConstants.GTN_FRAMEWORK_MANDATORY }));
+		GtnUIFrameworkValidationConfig rsFrequencyValidationConfig = configProvider
+				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		companyType.setGtnUIFrameworkValidationConfig(rsFrequencyValidationConfig);
 
 		componentList.add(companyType);
 
@@ -1021,6 +1027,12 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 				true, GtnFrameworkRSConstants.CALCULATION_TYPELAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
 		companyType.setComponentName("Calculation  Type");
 		companyType.setAuthorizationIncluded(true);
+                
+                 companyType
+				.setComponentStyle(Arrays.asList(new String[] { GtnFrameworkCommonConstants.GTN_FRAMEWORK_MANDATORY }));
+		GtnUIFrameworkValidationConfig calculationTypeValidationConfig = configProvider
+				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		companyType.setGtnUIFrameworkValidationConfig(calculationTypeValidationConfig);
 
 		componentList.add(companyType);
 
@@ -1076,6 +1088,12 @@ public class GtnFrameworkRebateScheduleInformationTabConfig {
 				true, GtnFrameworkRSConstants.CALCULATION_LEVELLAYOUT, GtnUIFrameworkComponentType.COMBOBOX);
 		companyType.setComponentName("Calculation Level");
 		companyType.setAuthorizationIncluded(true);
+                
+                companyType
+				.setComponentStyle(Arrays.asList(new String[] { GtnFrameworkCommonConstants.GTN_FRAMEWORK_MANDATORY }));
+		GtnUIFrameworkValidationConfig calculationLevelValidationConfig = configProvider
+				.getValidationConfigForConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		companyType.setGtnUIFrameworkValidationConfig(calculationLevelValidationConfig);
 
 		componentList.add(companyType);
 
