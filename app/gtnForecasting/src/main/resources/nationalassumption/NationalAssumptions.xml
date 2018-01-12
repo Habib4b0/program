@@ -54,14 +54,14 @@
                 <HorizontalLayout spacing="true" margin="true"
                                   immediate="true">
 
-                    <Panel caption="Baseline Methodology" styleName="na-baseline-methodology" width = "50%" height="227px">
+                    <Panel caption="Baseline Methodology" >
                         <VerticalLayout spacing="true" margin="true"
-                                        immediate="true" height="216px">
+                                        immediate="true" width = "45%" height="212px">
                             <OptionGroup id="baselineMethodology" enabled="true"
                                          immediate="true" styleName="vetrical" />
                         </VerticalLayout>
                     </Panel>
-                        <VerticalLayout caption="Periods for Baseline" id="vLayout" spacing="false" margin="false" width = "50%" height="227px">
+                        <VerticalLayout caption="Periods for Baseline" id="vLayout" spacing="false" margin="false" width = "55%" height="227px">
                          
                         </VerticalLayout>
                 </HorizontalLayout>
