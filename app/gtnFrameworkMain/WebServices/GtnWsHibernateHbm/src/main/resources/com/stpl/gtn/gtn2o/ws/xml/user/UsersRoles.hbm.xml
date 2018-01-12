@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Feb 22, 2017 8:16:57 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Jan 11, 2018 8:10:24 PM by Hibernate Tools 4.3.5.Final -->
 <hibernate-mapping>
-	<class name="com.stpl.gtn.gtn2o.ws.entity.user.UsersRoles" table="Users_Roles"
-		schema="dbo">
-		<composite-id name="id"
-			class="com.stpl.gtn.gtn2o.ws.entity.user.UsersRolesId">
-			<key-property name="roleId" type="long">
-				<column name="roleId" />
-			</key-property>
-			<key-property name="userId" type="long">
-				<column name="userId" />
-			</key-property>
-		</composite-id>
-	</class>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.user.UsersRoles" table="Users_Roles" schema="dbo"  optimistic-lock="version">
+        <composite-id name="id" class="com.stpl.gtn.gtn2o.ws.entity.user.UsersRolesId">
+            <key-property name="roleId" type="long">
+                <column name="roleId" />
+            </key-property>
+            <key-property name="userId" type="long">
+                <column name="userId" />
+            </key-property>
+        </composite-id>
+        <property name="companyId" type="long">
+            <column name="companyId" not-null="true" />
+        </property>
+    </class>
 </hibernate-mapping>

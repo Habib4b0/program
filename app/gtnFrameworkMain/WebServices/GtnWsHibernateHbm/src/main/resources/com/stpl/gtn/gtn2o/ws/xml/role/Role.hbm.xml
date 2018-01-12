@@ -1,52 +1,54 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Feb 22, 2017 8:36:05 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Jan 11, 2018 8:10:24 PM by Hibernate Tools 4.3.5.Final -->
 <hibernate-mapping>
-	<class name="com.stpl.gtn.gtn2o.ws.entity.role.Role" table="Role_"
-		schema="dbo">
-		<id name="roleId" type="long">
-			<column name="roleId" />
-			<generator class="native" />
-		</id>
-		<property name="uuid" type="string">
-			<column name="uuid_" />
-		</property>
-		<property name="companyId" type="java.lang.Long">
-			<column name="companyId" />
-		</property>
-		<property name="userId" type="java.lang.Long">
-			<column name="userId" />
-		</property>
-		<property name="userName" type="string">
-			<column name="userName" />
-		</property>
-		<property name="createDate" type="timestamp">
-			<column name="createDate" length="23" />
-		</property>
-		<property name="modifiedDate" type="timestamp">
-			<column name="modifiedDate" length="23" />
-		</property>
-		<property name="classNameId" type="java.lang.Long">
-			<column name="classNameId" />
-		</property>
-		<property name="classPk" type="java.lang.Long">
-			<column name="classPK" />
-		</property>
-		<property name="name" type="string">
-			<column name="name" />
-		</property>
-		<property name="title" type="string">
-			<column name="title" />
-		</property>
-		<property name="description" type="string">
-			<column name="description" />
-		</property>
-		<property name="type" type="java.lang.Integer">
-			<column name="type_" />
-		</property>
-		<property name="subtype" type="string">
-			<column name="subtype" />
-		</property>
-	</class>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.role.Role" table="Role_" schema="dbo"  optimistic-lock="version">
+        <id name="roleId" type="long">
+            <column name="roleId" />
+            <generator class="assigned" />
+        </id>
+        <property name="mvccVersion" type="long">
+            <column name="mvccVersion" not-null="true" />
+        </property>
+        <property name="uuid" type="string">
+            <column name="uuid_" />
+        </property>
+        <property name="companyId" type="java.lang.Long">
+            <column name="companyId" />
+        </property>
+        <property name="userId" type="java.lang.Long">
+            <column name="userId" />
+        </property>
+        <property name="userName" type="string">
+            <column name="userName" />
+        </property>
+        <property name="createDate" type="timestamp">
+            <column name="createDate" length="23" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="modifiedDate" length="23" />
+        </property>
+        <property name="classNameId" type="java.lang.Long">
+            <column name="classNameId" />
+        </property>
+        <property name="classPk" type="java.lang.Long">
+            <column name="classPK" />
+        </property>
+        <property name="name" type="string">
+            <column name="name" />
+        </property>
+        <property name="title" type="string">
+            <column name="title" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" />
+        </property>
+        <property name="type" type="java.lang.Integer">
+            <column name="type_" />
+        </property>
+        <property name="subtype" type="string">
+            <column name="subtype" />
+        </property>
+    </class>
 </hibernate-mapping>
