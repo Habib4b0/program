@@ -71,7 +71,7 @@ public class BpmManagerBean {
 
     public void initReturnsRuntimeEngine() {
         LOGGER.info("initReturnsRuntimeEngine Started ");
-        String identifier = "com.sample:example:1.0";
+        String identifier = "com.stpl:returns:1.0";
         releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", "com.stpl.app.bpm"),
                 properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"),
                 properties.getProperty("Forecasting_version", "1.0"));
@@ -90,7 +90,7 @@ public class BpmManagerBean {
 
     public void initContractRuntimeEngine() {
         LOGGER.info("initContractRuntimeEngine Started ");
-        String identifier = "com.sample:example:1.0";
+        String identifier = "com.stpl:contract:1.0";
         releaseId = new ReleaseIdImpl(properties.getProperty("Contract_groupId", "com.stpl.app.bpm"),
                 properties.getProperty("Contract_artifactId", "ContractSubmissionWorkflow"),
                 properties.getProperty("Contract_version", "1.0"));
@@ -108,7 +108,7 @@ public class BpmManagerBean {
 
     public void initForecastRuntimeEngine() {
         LOGGER.info("init Forecast RuntimeEngine Started ");
-        String identifier = "com.sample:example:1.0";
+        String identifier = "com.stpl:forecast:1.0";
         releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", "com.stpl.app.bpm"), properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"), properties.getProperty("Forecasting_version", "1.0"));
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
         RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
