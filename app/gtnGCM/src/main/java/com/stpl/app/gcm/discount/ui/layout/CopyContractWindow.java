@@ -10,6 +10,8 @@ import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.SystemException;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
@@ -30,7 +32,7 @@ public class CopyContractWindow extends CustomWindow {
     public CopyContractWindow(final SessionDTO session, List<ContractSelectionDTO> selectedList, String Count) throws SystemException {
         super("Copy Contract");
         this.session = session;
-        this.selectedList = selectedList;
+        this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
         this.Count = Count;
         init();
 

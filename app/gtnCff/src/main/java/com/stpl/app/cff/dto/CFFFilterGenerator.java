@@ -101,7 +101,7 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
         }
         if ("approvedBy".equals(propertyId)) {
             try {
-                Map<Integer, String> userMap = StplSecurity.userMap ;
+                Map<Integer, String> userMap = StplSecurity.getUserMap() ;
                 comboBox.addItem(0);
                     comboBox.setItemCaption(0, ConstantsUtils.SHOW_ALL);
                     for (Map.Entry<Integer, String> entry : userMap.entrySet()) {

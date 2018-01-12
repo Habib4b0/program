@@ -132,6 +132,7 @@ public class GtnFrameWorkCompanyMasterFinancialCloseConfig {
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		Calendar mCalendar = Calendar.getInstance();
 		String month = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+		monthConfig.setDefaultValue("Current Month");
 		monthConfig.setDefaultDesc(month);
 		financialCloseMonth.setGtnComboboxConfig(monthConfig);
 

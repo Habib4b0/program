@@ -52,19 +52,19 @@ public class RelationshipOutboundDTO implements Serializable {
     private Date modifiedDate;
 
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     public String getCreatedBy() {
@@ -107,19 +107,19 @@ public class RelationshipOutboundDTO implements Serializable {
     }
 
     public Date getStartDateFrom() {
-        return startDateFrom;
+        return startDateFrom == null ? null : (Date) startDateFrom.clone();
     }
 
     public Date getStartDateTo() {
-        return startDateTo;
+        return startDateTo == null ? null : (Date) startDateTo.clone();
     }
 
     public Date getCreationDateFrom() {
-        return creationDateFrom;
+        return creationDateFrom == null ? null : (Date) creationDateFrom.clone();
     }
 
     public Date getCreationDateTo() {
-        return creationDateTo;
+        return creationDateTo == null ? null : (Date) creationDateTo.clone();
     }
 
     public String getOption1() {
@@ -139,19 +139,19 @@ public class RelationshipOutboundDTO implements Serializable {
     }
 
     public void setStartDateFrom(Date startDateFrom) {
-        this.startDateFrom = startDateFrom;
+        this.startDateFrom = startDateFrom == null ? null : (Date) startDateFrom.clone();
     }
 
     public void setStartDateTo(Date startDateTo) {
-        this.startDateTo = startDateTo;
+        this.startDateTo = startDateTo == null ? null : (Date) startDateTo.clone();
     }
 
     public void setCreationDateFrom(Date creationDateFrom) {
-        this.creationDateFrom = creationDateFrom;
+        this.creationDateFrom = creationDateFrom == null ? null : (Date) creationDateFrom.clone();
     }
 
     public void setCreationDateTo(Date creationDateTo) {
-        this.creationDateTo = creationDateTo;
+        this.creationDateTo = creationDateTo == null ? null : (Date) creationDateTo.clone();
     }
 
     public void setOption1(String option1) {
@@ -183,11 +183,11 @@ public class RelationshipOutboundDTO implements Serializable {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     public String getResultRSName() {

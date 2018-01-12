@@ -8,6 +8,7 @@ package com.stpl.app.cff.ui.projectionresults.dto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -84,11 +85,11 @@ public class LevelMapKey implements Serializable, Comparable<LevelMapKey>,Clonea
     }
 
     public List<Integer> getCcpIds() {
-        return ccpIds;
+        return ccpIds == null ? ccpIds : Collections.unmodifiableList(ccpIds);
     }
 
     public void setCcpIds(List<Integer> ccpIds) {
-        this.ccpIds = ccpIds;
+        this.ccpIds = ccpIds == null ? ccpIds : Collections.unmodifiableList(ccpIds);
     }
 
     public String getHierarchyNo() {

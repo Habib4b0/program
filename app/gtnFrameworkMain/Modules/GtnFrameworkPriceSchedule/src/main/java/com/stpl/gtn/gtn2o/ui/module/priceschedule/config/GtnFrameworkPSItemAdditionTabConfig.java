@@ -274,11 +274,11 @@ public class GtnFrameworkPSItemAdditionTabConfig {
 		psleftResultTable.setEditable(false);
 		psleftResultTable.setTableColumnDataType(
 				new Class<?>[] { String.class, String.class, String.class, GtnFrameworkCommonConstants.JAVALANG_STRING,
-						GtnFrameworkCommonConstants.JAVAUTIL_DATE, String.class, String.class });
+						GtnFrameworkCommonConstants.JAVAUTIL_DATE,GtnFrameworkCommonConstants.JAVAUTIL_DATE, String.class, String.class });
 		psleftResultTable.setTableVisibleHeader(new String[] { "IFP ID", GtnFrameworkCommonConstants.IFP_NO,
-				GtnFrameworkCommonConstants.LABEL_IFP_NAME, "IFP Status", "End Date", "IFP Type", "IFP Category" });
+				GtnFrameworkCommonConstants.LABEL_IFP_NAME, "IFP Status","Start Date", "End Date", "IFP Type", "IFP Category" });
 		psleftResultTable.setTableColumnMappingId(new Object[] { "ifpId", "ifpNo", "ifpName",
-				GtnFrameworkCommonConstants.IFP_STATUS, "ifpEndDate", GtnFrameworkCommonConstants.PROPERTY_IFP_TYPE,
+				GtnFrameworkCommonConstants.IFP_STATUS,"IFP_START_DATE", "ifpEndDate", GtnFrameworkCommonConstants.PROPERTY_IFP_TYPE,
 				GtnFrameworkCommonConstants.PROPERTY_IFP_CATEGORY, });
 		psleftResultTable.setExtraColumn(new Object[] { "systemId" });
 		psleftResultTable.setExtraColumnDataType(new Class<?>[] { String.class });
@@ -314,11 +314,11 @@ public class GtnFrameworkPSItemAdditionTabConfig {
 		psRightResultTable.setSortingEnable(false);
 		psRightResultTable.setTableColumnDataType(
 				new Class<?>[] { String.class, String.class, String.class, GtnFrameworkCommonConstants.JAVALANG_STRING,
-						GtnFrameworkCommonConstants.JAVAUTIL_DATE, String.class, String.class });
+						GtnFrameworkCommonConstants.JAVAUTIL_DATE,GtnFrameworkCommonConstants.JAVAUTIL_DATE, String.class, String.class });
 		psRightResultTable.setTableVisibleHeader(new String[] { "IFP ID", GtnFrameworkCommonConstants.IFP_NO,
-				GtnFrameworkCommonConstants.LABEL_IFP_NAME, "IFP Status", "End Date", "IFP Type", "IFP Category" });
+				GtnFrameworkCommonConstants.LABEL_IFP_NAME, "IFP Status","Start Date", "End Date", "IFP Type", "IFP Category" });
 		psRightResultTable.setTableColumnMappingId(new Object[] { "ifpId", "ifpNo", "ifpName",
-				GtnFrameworkCommonConstants.IFP_STATUS, "ifpEndDate", GtnFrameworkCommonConstants.PROPERTY_IFP_TYPE,
+				GtnFrameworkCommonConstants.IFP_STATUS,"IFP_START_DATE", "ifpEndDate", GtnFrameworkCommonConstants.PROPERTY_IFP_TYPE,
 				GtnFrameworkCommonConstants.PROPERTY_IFP_CATEGORY });
 		psRightResultTable.setExtraColumn(new Object[] { "companyMasterSid" });
 		psRightResultTable.setExtraColumnDataType(new Class<?>[] { Integer.class });

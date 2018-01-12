@@ -130,19 +130,19 @@ public class ProjectionSelectionDTO {
     }   
     
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     public Date getToDate() {
-        return toDate;
+        return toDate == null ? null : (Date) toDate.clone();
     }
 
     public void setToDate(Date endDate) {
-        this.toDate = endDate;
+        this.toDate = endDate == null ? null : (Date) endDate.clone();
     }
 
     public int getProjectionId() {
@@ -426,27 +426,27 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getLevelValueList() {
-        return levelValueList;
+        return levelValueList == null ? levelValueList : new ArrayList<>(levelValueList);
     }
 
     public void setLevelValueList(List<String> levelValueList) {
-        this.levelValueList = levelValueList;
+        this.levelValueList = levelValueList == null ? levelValueList : new ArrayList<>(levelValueList);
     }
 
     public List<String> getParentNodeList() {
-        return parentNodeList;
+        return parentNodeList == null ? parentNodeList : new ArrayList<>(parentNodeList);
     }
 
     public void setParentNodeList(List<String> parentNodeList) {
-        this.parentNodeList = parentNodeList;
+        this.parentNodeList = parentNodeList == null ? parentNodeList : new ArrayList<>(parentNodeList);
     }
    
     public List<String> getColumns() {
-        return columns;
+        return columns == null ? columns : new ArrayList<>(columns);
     }
 
     public void setColumns(List<String> columns) {
-        this.columns = columns;
+        this.columns = columns == null ? columns : new ArrayList<>(columns);
     }
 
     public boolean hasColumn(String column) {
@@ -457,11 +457,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getPeriodList() {
-        return periodList;
+        return periodList == null ? periodList : new ArrayList<>(periodList);
     }
 
     public void setPeriodList(List<String> periodList) {
-        this.periodList = periodList;
+        this.periodList = periodList == null ? periodList : new ArrayList<>(periodList);
     }
 
     public Map<String,String> getPeriodListMap() {
@@ -473,19 +473,19 @@ public class ProjectionSelectionDTO {
     }
 
     public void setDiscountProgramsList(List<String> discountProgramsList) {
-        this.discountProgramsList = discountProgramsList;
+        this.discountProgramsList = discountProgramsList == null ? discountProgramsList : new ArrayList<>(discountProgramsList);
     }
     
     public List<String> getDiscountProgramsList() {
-        return discountProgramsList;
+        return discountProgramsList == null ? discountProgramsList : new ArrayList<>(discountProgramsList);
     }
 
     public List<String> getPriceTypeList() {
-        return priceTypeList;
+        return priceTypeList == null ? priceTypeList : new ArrayList<>(priceTypeList);
     }
 
     public void setPriceTypeList(List<String> priceTypeList) {
-        this.priceTypeList = priceTypeList;
+        this.priceTypeList = priceTypeList == null ? priceTypeList : new ArrayList<>(priceTypeList);
     }
 
     public String getVariables() {
@@ -553,11 +553,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getPivotList() {
-        return pivotList;
+        return pivotList == null ? nonFetchableIndex : new ArrayList<>(nonFetchableIndex);
     }
 
     public void setPivotList(List<String> pivotList) {
-        this.pivotList = pivotList;
+        this.pivotList = pivotList == null ? nonFetchableIndex : new ArrayList<>(nonFetchableIndex);
     }
 
     public int getNdcLevelNo() {
@@ -689,7 +689,7 @@ public class ProjectionSelectionDTO {
     }
 
   public List<String> getNonFetchableIndex() {
-        return nonFetchableIndex;
+        return nonFetchableIndex == null ? nonFetchableIndex : new ArrayList<>(nonFetchableIndex);
     }
 
     public void clearNonFetchableIndex() {
@@ -698,7 +698,7 @@ public class ProjectionSelectionDTO {
 
     public void setNonFetchableIndex(List<String> nonFetchableIndex) {
         Collections.sort(nonFetchableIndex);
-        this.nonFetchableIndex = nonFetchableIndex;
+        this.nonFetchableIndex = nonFetchableIndex == null ? nonFetchableIndex : new ArrayList<>(nonFetchableIndex);
     }
 
     public boolean hasNonFetchableIndex(String index) {

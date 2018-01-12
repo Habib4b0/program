@@ -241,19 +241,19 @@ public class DataSelectionDTO implements Serializable {
     }
 
     public Date getCreatedDateSearch() {
-        return createdDateSearch;
+        return createdDateSearch == null ? null : (Date) createdDateSearch.clone();
     }
 
     public void setCreatedDateSearch(Date createdDateSearch) {
-        this.createdDateSearch = createdDateSearch;
+        this.createdDateSearch = createdDateSearch == null ? null : (Date) createdDateSearch.clone();
     }
 
     public Date getModifiedDateSearch() {
-        return modifiedDateSearch;
+        return modifiedDateSearch == null ? null : (Date) modifiedDateSearch.clone();
     }
 
     public void setModifiedDateSearch(Date modifiedDateSearch) {
-        this.modifiedDateSearch = modifiedDateSearch;
+        this.modifiedDateSearch = modifiedDateSearch == null ? null : (Date) modifiedDateSearch.clone();
     }
 
 

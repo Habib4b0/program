@@ -79,7 +79,7 @@ public class AlternateHistory extends CustomWindow {
         this.session = session;
         this.projectionSelection = null;
         this.tableLogic = null;
-        this.variableList=variableList;
+        this.variableList=variableList == null ? variableList : new ArrayList<>(variableList);
         this.ccpList = session.getActualccp();         
         configInConstructor();
 

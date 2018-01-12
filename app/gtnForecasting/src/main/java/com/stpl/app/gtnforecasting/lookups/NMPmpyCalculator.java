@@ -300,7 +300,7 @@ public class NMPmpyCalculator extends Window {
         super(Constant.PMPY_CALCULATOR);
         LOGGER.debug("Entering PMPYCalculator");
         this.historyPeriods = history;
-        this.projectionDetailsId = projectionDetailsId;
+        this.projectionDetailsId = projectionDetailsId == null ? projectionDetailsId : new ArrayList<>(projectionDetailsId);
         this.projectionSelectionDTO = projectionSelectionDTO;
         this.rightDto = rightHeader;
         this.tradeName = tradeName;
