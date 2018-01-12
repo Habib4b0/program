@@ -353,7 +353,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		updatePPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_NET_RESET_PRICE_FORMULA_ID,
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.NET_RESET_PRICE_FORMULA_ID, null));
 		updatePPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_NET_RESET_PRICE_FORMULA_NAME,
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.NET_RESET_PRICE_FORMULA_ID,
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.NET_PRICE_TYPE_FORMULA,
 						"nptFormula", "psNetResetPriceFormula"));
 		updatePPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_ATTACHED_DATE,
 				configProvider.getColumnDateConfig(GtnFrameworkWebserviceConstant.PS_DETAILS_ATTACHED_DATE,

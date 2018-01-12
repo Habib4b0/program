@@ -78,12 +78,12 @@ public class GtnUIFrameWorkTableRecordTypeAction implements GtnUIFrameWorkAction
 
 	private Object getFieldValue(GtnWsRecordBean bean) {
 		int size = bean.getProperties().size();
-		String depandingValue = bean.getStringPropertyByIndex(size - 2);
+		String depandingValue = bean.getStringPropertyByIndex(size - 3);
 		if (depandingValue.startsWith("P")) {
-			return bean.getPropertyValueByIndex(size - 3);
+			return bean.getPropertyValueByIndex(size - 4);
 		}
 		if (depandingValue.startsWith("D")) {
-			Object value = bean.getPropertyValueByIndex(size - 4);
+			Object value = bean.getPropertyValueByIndex(size - 5);
 			Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
 			if (value != null && Long.class.isAssignableFrom(value.getClass())) {
 				if (mode != null && mode == GtnUIFrameworkModeType.VIEW) {
