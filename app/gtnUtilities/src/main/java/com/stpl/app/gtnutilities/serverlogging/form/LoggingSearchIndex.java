@@ -137,7 +137,7 @@ public class LoggingSearchIndex extends CustomComponent implements View {
 	 */
 	private void refreshTable() {
 		try {
-			tableLogic.configureSearchData(null, Constants.Server_Logging);
+			tableLogic.configureSearchData(null, Constants.SERVER_LOGGING);
 		} catch (Exception ex) {
 			LOGGER.debug(ex);
 		}

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
@@ -31,6 +32,7 @@ import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshi
 import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
@@ -380,6 +382,28 @@ public class GtnWsRelationshipBuilderController {
 		}
 		logger.info("Exit hierarchyLevelNameList");
 		return hierarchyLevelNameGtnResponse;
+	}
+
+	@RequestMapping(value = GtnWsRelationshipBuilderConstants.AUTOBUILDERELATIONSHIP, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse autoBuildRelationShip(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		logger.info("Enters loadRelationship");
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
+			gtnResponse.setGtnWsRelationshipBuilderResponse(rbResponse);
+			GtnWsRelationshipBuilderRequest rbRequest = gtnWsRequest.getRelationshipBuilderRequest();
+			List<GtnWsRecordBean> relationshipTreeNode = logic
+					.loadAutoBuildData(rbRequest.getHierarchyDefSId(), rbRequest.getHierarchyVersionNo(),
+							rbRequest.getSelectedTreeBean(),
+							rbRequest.getHiddenIdList().subList(1, rbRequest.getHiddenIdList().size()));
+			rbResponse.setRbTreeNodeList(relationshipTreeNode);
+		} catch (Exception ex) {
+			logger.error("Exception in loadRelationship", ex);
+		}
+
+		logger.info("Exit loadRelationship");
+		return gtnResponse;
 	}
 
 }

@@ -25,13 +25,13 @@ public class TableLogic extends PageTableLogic {
 
     @Override
     public int getCount() {
-        if (screenName.equals(Constants.Query_Statistics)) {
+        if (screenName.equals(Constants.QUERY_STATISTICS)) {
             list = searchLogic.fetchDataFromDB(input, NumericConstants.ZERO, NumericConstants.ZERO, true, this.getFilters(), this.getSortByColumns(), false);
             return list == null ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(list.get(NumericConstants.ZERO)));
-        } else if (screenName.equals(Constants.Schedule_Job)) {
+        } else if (screenName.equals(Constants.SCHEDULE_JOB)) {
             list = searchLogic.fetchDataFromDBForJOb(input, 0, 0, true, this.getFilters(), this.getSortByColumns(), false);
             return list == null ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(list.get(NumericConstants.ZERO)));
-        } else if (screenName.equals(Constants.Server_Logging)) {
+        } else if (screenName.equals(Constants.SERVER_LOGGING)) {
             list = loggingSearchLogic.searchResults(true, 0, 0);
             return list.get(0) == null ? 0 : Integer.valueOf(String.valueOf(list.get(0)));
         }
@@ -41,11 +41,11 @@ public class TableLogic extends PageTableLogic {
 
     @Override
     public List loadData(int start, int offset) {
-        if (screenName.equals(Constants.Query_Statistics)) {
+        if (screenName.equals(Constants.QUERY_STATISTICS)) {
             list = searchLogic.fetchDataFromDB(input, start, offset, false, this.getFilters(), this.getSortByColumns(), false);
-        } else if (screenName.equals(Constants.Schedule_Job)) {
+        } else if (screenName.equals(Constants.SCHEDULE_JOB)) {
             list = searchLogic.fetchDataFromDBForJOb(input, start, offset, false, this.getFilters(), this.getSortByColumns(), false);
-        } else if (screenName.equals(Constants.Server_Logging)) {
+        } else if (screenName.equals(Constants.SERVER_LOGGING)) {
             list = (List) loggingSearchLogic.searchResults(false, start, offset);
         }
 
@@ -56,11 +56,11 @@ public class TableLogic extends PageTableLogic {
     public Object configureContainer(Object object, Container container) {
         container.addItem(object);
         return object;
-//        if (screenName.equals(Constants.Query_Statistics)) {
+//        if (screenName.equals(Constants.QUERY_STATISTICS)) {
 //            ChartsDTO dto = (ChartsDTO) object;
 //            ((BeanItemContainer<ChartsDTO>) container).addBean(dto);
 //            return dto;
-//        } else if (screenName.equals(Constants.Server_Logging)) {
+//        } else if (screenName.equals(Constants.SERVER_LOGGING)) {
 //            LoggingDto dto = (LoggingDto) object;
 //            ((BeanItemContainer<LoggingDto>) container).addBean(dto);
 //            return dto;
