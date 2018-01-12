@@ -11,6 +11,8 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.form.summary.SalesSummary;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.jboss.logging.Logger;
 
@@ -33,12 +35,12 @@ public class SalesAndRebates extends VerticalLayout {
 
     public SalesAndRebates(List<ItemIndexDto> itemList, SelectionDTO session) {
         this.session = session;
-        this.itemList = itemList;
+        this.itemList = itemList == null ? itemList : new ArrayList<>(itemList);
     }
 
     public Component getContent(List<ItemIndexDto> selecteditemList, final SelectionDTO selection) {
         this.session = selection;
-        this.itemList = selecteditemList;
+        this.itemList = selecteditemList == null ? selecteditemList : new ArrayList<>(selecteditemList);
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(tradingPartnerSalesTableLayout);
         layout.addComponent(tradingPartnerRebatesTableLayout);

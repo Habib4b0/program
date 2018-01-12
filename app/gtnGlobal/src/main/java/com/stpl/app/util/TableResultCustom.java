@@ -18,7 +18,7 @@ public class TableResultCustom {
 	 * @return the objResult Object array.
 	 */
 	public Object[] getObjResult() {
-		return objResult;
+		return objResult == null ? objResult : objResult.clone();
 		 
 	}
 	
@@ -28,14 +28,14 @@ public class TableResultCustom {
 	 * @param objResult the objResult to set
 	 */
 	public void setObjResult(final Object...objResult) {
-		this.objResult = objResult;
+		this.objResult = objResult == null ? objResult : objResult.clone();
 	}
 	/**
          * Getter for objResultHeader.
 	 * @return the objResultHeader String array.
 	 */
 	public String[] getObjResultHeader() {
-		return objResultHeader;
+		return objResultHeader == null ? objResultHeader : objResultHeader.clone();
 		
 	}
 	/**
@@ -43,7 +43,7 @@ public class TableResultCustom {
 	 * @param objResultHeader the objResultHeader to set
 	 */
 	public void setObjResultHeader(final String... objResultHeader) {
-		this.objResultHeader = objResultHeader;
+		this.objResultHeader = objResultHeader == null ? objResultHeader : objResultHeader.clone();
 	}
 
 }

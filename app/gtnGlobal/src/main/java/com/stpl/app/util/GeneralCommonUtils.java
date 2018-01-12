@@ -308,7 +308,7 @@ public class GeneralCommonUtils {
      * @return Date Object with formatted date object.
      */
     public static final Date convert2DigitTo4DigitYearFormat(final Date enteredDate) {
-    	Date enterDate = enteredDate;
+    	Date enterDate = enteredDate == null ? null : (Date) enteredDate.clone();
 
         if (enterDate != null && !enterDate.equals("")) {
             try {

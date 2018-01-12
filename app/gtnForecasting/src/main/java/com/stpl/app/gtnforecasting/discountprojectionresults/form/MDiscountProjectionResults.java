@@ -669,7 +669,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
         if (pcNameList == null) {
             pcNameList = dprLogic.getProgramCodeName(projectionDTO);
         }
-        return pcNameList;
+        return pcNameList == null ? pcNameList : new ArrayList<>(pcNameList);
     }
 
     private void setProjectionSelection() {

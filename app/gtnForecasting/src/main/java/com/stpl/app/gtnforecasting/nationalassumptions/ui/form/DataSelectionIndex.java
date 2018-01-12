@@ -372,8 +372,8 @@ public class DataSelectionIndex extends CustomComponent implements View {
         modeOption.addItem(Constants.LabelConstants.MODE_SEARCH);
         modeOption.select(Constant.ADD_SMALL);
 
-        resultTable.setColumnAlignment(CommonUiUtils.visibleSearchColumn[NumericConstants.FOUR], ExtFilterTable.Align.CENTER);
-        resultTable.setColumnAlignment(CommonUiUtils.visibleSearchColumn[NumericConstants.FIVE], ExtFilterTable.Align.CENTER);
+        resultTable.setColumnAlignment(CommonUiUtils.getVisibleSearchColumn()[NumericConstants.FOUR], ExtFilterTable.Align.CENTER);
+        resultTable.setColumnAlignment(CommonUiUtils.getVisibleSearchColumn()[NumericConstants.FIVE], ExtFilterTable.Align.CENTER);
         
             businessUnit.setPageLength(NumericConstants.SEVEN);
             businessUnit.setImmediate(true);
@@ -761,9 +761,9 @@ public class DataSelectionIndex extends CustomComponent implements View {
         availableProduct.setFilterDecorator(new ExtDemoFilterDecorator());
         availableProduct.setStyleName(Constant.FILTER_TABLE);
         availableProduct.setContainerDataSource(availableProductBean);
-        availableProduct.setVisibleColumns(CommonUiUtils.visibleColumn);
-        availableProduct.setColumnHeaders(CommonUiUtils.visibleHeader);
-        availableProduct.setColumnAlignment(CommonUiUtils.visibleColumn[0], ExtCustomTable.Align.RIGHT);
+        availableProduct.setVisibleColumns(CommonUiUtils.getVisibleColumn());
+        availableProduct.setColumnHeaders(CommonUiUtils.getVisibleHeader());
+        availableProduct.setColumnAlignment(CommonUiUtils.getVisibleColumn()[0], ExtCustomTable.Align.RIGHT);
         availableProduct.setPageLength(NumericConstants.TEN);
         availableProduct.setImmediate(true);
         availableProduct.setSelectable(true);
@@ -800,9 +800,9 @@ public class DataSelectionIndex extends CustomComponent implements View {
         selectedProducts.setFilterDecorator(new ExtDemoFilterDecorator());
         selectedProducts.setStyleName(Constant.FILTER_TABLE);
         selectedProducts.setContainerDataSource(selectedProductBean);
-        selectedProducts.setVisibleColumns(CommonUiUtils.visibleColumn);
-        selectedProducts.setColumnHeaders(CommonUiUtils.visibleHeader);
-        selectedProducts.setColumnAlignment(CommonUiUtils.visibleColumn[0], ExtCustomTable.Align.RIGHT);
+        selectedProducts.setVisibleColumns(CommonUiUtils.getVisibleColumn());
+        selectedProducts.setColumnHeaders(CommonUiUtils.getVisibleHeader());
+        selectedProducts.setColumnAlignment(CommonUiUtils.getVisibleColumn()[0], ExtCustomTable.Align.RIGHT);
         selectedProducts.setPageLength(NumericConstants.TEN);
         selectedProducts.setImmediate(true);
         selectedProducts.setSelectable(true);
@@ -824,8 +824,8 @@ public class DataSelectionIndex extends CustomComponent implements View {
         resultTable.setFilterBarVisible(true);
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultTable.setStyleName(Constant.FILTER_TABLE);
-        resultTable.setVisibleColumns(CommonUiUtils.visibleSearchColumn);
-        resultTable.setColumnHeaders(CommonUiUtils.visibleSearchHeader);
+        resultTable.setVisibleColumns(CommonUiUtils.getVisibleSearchColumn());
+        resultTable.setColumnHeaders(CommonUiUtils.getVisibleSearchHeader());
         resultTable.setPageLength(NumericConstants.TEN);
         resultTable.setItemsPerPage(10);
         resultTable.setImmediate(true);

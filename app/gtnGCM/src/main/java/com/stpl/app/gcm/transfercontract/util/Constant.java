@@ -47,15 +47,15 @@ public class Constant {
     public static final HelperDTO HELPER_DTO = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     
     public static String[] getIFPSEARCH() {
-        return IFP_SEARCH;
+        return IFP_SEARCH.clone();
     }
 
     public static String[] getPSSEARCH() {
-        return PS_SEARCH;
+        return PS_SEARCH.clone();
     }
 
     public static String[] getRSSEARCH() {
-        return RS_SEARCH;
+        return RS_SEARCH.clone();
     }
     private static Constant object;
     /**

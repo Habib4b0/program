@@ -8,6 +8,7 @@ import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.util.HelperDTO;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -162,19 +163,19 @@ public class AddItemTableDTO {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     public Date getEndDate() {
-        return endDate;
+        return endDate == null ? null : (Date) endDate.clone();
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = endDate == null ? null : (Date) endDate.clone();
     }
 
     public HelperDTO getStatus() {
@@ -186,19 +187,19 @@ public class AddItemTableDTO {
     }
 
     public Date getItemStartDate() {
-        return itemStartDate;
+        return itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     public void setItemStartDate(Date itemStartDate) {
-        this.itemStartDate = itemStartDate;
+        this.itemStartDate = itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     public Date getItemEndDate() {
-        return itemEndDate;
+        return itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     public void setItemEndDate(Date itemEndDate) {
-        this.itemEndDate = itemEndDate;
+        this.itemEndDate = itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     public String getCfpNO() {
@@ -346,19 +347,19 @@ public class AddItemTableDTO {
     }
 
     public Date getFromDate() {
-        return fromDate;
+        return fromDate == null ? null : (Date) fromDate.clone();
     }
 
     public void setFromDate(Date fromDate) {
-        this.fromDate = fromDate;
+        this.fromDate = fromDate == null ? null : (Date) fromDate.clone();
     }
 
     public Date getToDate() {
-        return toDate;
+        return toDate == null ? null : (Date) toDate.clone();
     }
 
     public void setToDate(Date toDate) {
-        this.toDate = toDate;
+        this.toDate = toDate == null ? null : (Date) toDate.clone();
     }
 
     public Integer getStartIndex() {
@@ -394,11 +395,11 @@ public class AddItemTableDTO {
     }
 
     public List<ItemIndexDto> getSelectedItemList() {
-        return selectedItemList;
+        return selectedItemList == null ? selectedItemList : Collections.unmodifiableList(selectedItemList);
     }
 
     public void setSelectedItemList(List<ItemIndexDto> selectedItemList) {
-        this.selectedItemList = selectedItemList;
+        this.selectedItemList = selectedItemList == null ? selectedItemList : Collections.unmodifiableList(selectedItemList);
     }
 
     public Integer getContractSid() {
@@ -450,19 +451,19 @@ public class AddItemTableDTO {
     }
 
     public Date getCpStartDate() {
-        return cpStartDate;
+        return cpStartDate == null ? null : (Date) cpStartDate.clone();
     }
 
     public void setCpStartDate(Date cpStartDate) {
-        this.cpStartDate = cpStartDate;
+        this.cpStartDate = cpStartDate == null ? null : (Date) cpStartDate.clone();
     }
 
     public Date getCpEndDate() {
-        return cpEndDate;
+        return cpEndDate == null ? null : (Date) cpEndDate.clone();
     }
 
     public void setCpEndDate(Date cpEndDate) {
-        this.cpEndDate = cpEndDate;
+        this.cpEndDate = cpEndDate == null ? null : (Date) cpEndDate.clone();
     }
 
     public String getContractPrice() {
@@ -490,19 +491,19 @@ public class AddItemTableDTO {
     }
 
     public Date getPriceProtectionStartDate() {
-        return priceProtectionStartDate;
+        return priceProtectionStartDate == null ? null : (Date) priceProtectionStartDate.clone();
     }
 
     public void setPriceProtectionStartDate(Date priceProtectionStartDate) {
-        this.priceProtectionStartDate = priceProtectionStartDate;
+        this.priceProtectionStartDate = priceProtectionStartDate == null ? null : (Date) priceProtectionStartDate.clone();
     }
 
     public Date getPriceProtectionEndDate() {
-        return priceProtectionEndDate;
+        return priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     public void setPriceProtectionEndDate(Date priceProtectionEndDate) {
-        this.priceProtectionEndDate = priceProtectionEndDate;
+        this.priceProtectionEndDate = priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     public HelperDTO getPriceToleranceType() {
@@ -538,19 +539,19 @@ public class AddItemTableDTO {
     }
 
     public Date getRSStartDate() {
-        return RSStartDate;
+        return RSStartDate == null ? null : (Date) RSStartDate.clone();
     }
 
     public void setRSStartDate(Date RSStartDate) {
-        this.RSStartDate = RSStartDate;
+        this.RSStartDate = RSStartDate == null ? null : (Date) RSStartDate.clone();
     }
 
     public Date getRSEndDate() {
-        return RSEndDate;
+        return RSEndDate == null ? null : (Date) RSEndDate.clone();
     }
 
     public void setRSEndDate(Date RSEndate) {
-        this.RSEndDate = RSEndate;
+        this.RSEndDate = RSEndate == null ? null : (Date) RSEndate.clone();
     }
 
     public String getFormulaId() {
@@ -778,11 +779,11 @@ public class AddItemTableDTO {
     }
 
     public Date getResetDate() {
-        return resetDate;
+        return resetDate == null ? null : (Date) resetDate.clone();
     }
 
     public void setResetDate(Date resetDate) {
-        this.resetDate = resetDate;
+        this.resetDate = resetDate == null ? null : (Date) resetDate.clone();
     }
 
     public String getNetResetPriceFormula() {
@@ -850,10 +851,10 @@ public class AddItemTableDTO {
     }
 
     public Date getBaseLineWacDate() {
-        return baseLineWacDate;
+        return baseLineWacDate == null ? null : (Date) baseLineWacDate.clone();
     }
 
     public void setBaseLineWacDate(Date baseLineWacDate) {
-        this.baseLineWacDate = baseLineWacDate;
+        this.baseLineWacDate = baseLineWacDate == null ? null : (Date) baseLineWacDate.clone();
     }
 }

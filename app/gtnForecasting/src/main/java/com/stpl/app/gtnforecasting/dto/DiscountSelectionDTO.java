@@ -122,11 +122,11 @@ public class DiscountSelectionDTO {
     }
 
     public List<List<String>> getDiscountRSlist() {
-        return discountRSlist;
+        return discountRSlist == null ? discountRSlist : new ArrayList<>(discountRSlist);
     }
 
     public void setDiscountRSlist(List<List<String>> discountRSlist) {
-        this.discountRSlist = discountRSlist;
+        this.discountRSlist = discountRSlist == null ? discountRSlist : new ArrayList<>(discountRSlist);
     }
 
    

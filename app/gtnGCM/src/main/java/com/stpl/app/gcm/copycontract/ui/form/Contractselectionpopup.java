@@ -15,6 +15,8 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -37,7 +39,7 @@ public class Contractselectionpopup extends Window {
         addStyleName("bootstrap-bb");
         addStyleName(Constants.BOOTSTRAP_FORECAST_BOOTSTRAP_NM);
         center();
-        this.selectedList = selectedList;
+        this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
         setModal(true);
         setWidth(NumericConstants.FLOAT_THIRTY_FIVE, Sizeable.Unit.PERCENTAGE);
         setHeight(NumericConstants.FLOAT_FIFTEEN, Sizeable.Unit.PERCENTAGE);
