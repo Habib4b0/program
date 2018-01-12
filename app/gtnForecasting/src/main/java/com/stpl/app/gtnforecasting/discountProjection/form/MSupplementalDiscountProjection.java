@@ -59,7 +59,6 @@ import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.server.Sizeable;
-import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Component;
@@ -489,7 +488,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     }
 
     public void setDtoListValue(List<LookUpDTO> dtoListValue) {
-        this.dtoListValue = dtoListValue;
+        this.dtoListValue = dtoListValue == null ? dtoListValue : new ArrayList<>(dtoListValue);
     }
 
     /**
@@ -695,7 +694,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             }
         }
 
-        rightTable.setColumnAlignment(HeaderUtils.SUPPLEMENTAL_RIGHTS_TABLEONE_COLUMNS[1], ExtCustomTable.Align.LEFT);
+        rightTable.setColumnAlignment(HeaderUtils.getSupplementalRightsTableoneColumns()[1], ExtCustomTable.Align.LEFT);
         rightTable.setColumnAlignment(Constant.CONTRACT_END_DATE, ExtCustomTable.Align.CENTER);
 
         rightTable.setDoubleHeaderVisible(true);

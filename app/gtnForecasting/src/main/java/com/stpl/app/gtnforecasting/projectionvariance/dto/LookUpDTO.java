@@ -6,6 +6,7 @@
 package com.stpl.app.gtnforecasting.projectionvariance.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -199,7 +200,7 @@ public class LookUpDTO implements Serializable {
 	 * @return the createdDate
 	 */
 	public Date getCreatedDate() {
-		return createdDate;
+		return createdDate == null ? null : (Date) createdDate.clone();
 	}
 
 	/**
@@ -209,7 +210,7 @@ public class LookUpDTO implements Serializable {
 	 *            the createdDate to set
 	 */
 	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+		this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
 	}
 
 	/**
@@ -585,11 +586,11 @@ public class LookUpDTO implements Serializable {
         }
 
         public List<LookUpDTO> getSelected() {
-            return selected;
+            return selected == null ? selected : new ArrayList<>(selected);
         }
 
         public void setSelected(List selected) {
-            this.selected = selected;
+            this.selected = selected == null ? selected : new ArrayList<>(selected);
         }       
 
         public Map<Integer, String> getProjectionMap() {

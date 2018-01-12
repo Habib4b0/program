@@ -23,8 +23,8 @@ and open the template in the editor.
                 </GridLayout>
             </HorizontalLayout>
         </Panel>
-        <Panel id="promoteTpToChPanel2" caption="Trading Partner Search">
-            <VerticalLayout id="horizontalLayout2" spacing="true" margin="true" immediate="true">
+        <Panel id="promoteTpToChPanel2" caption="Trading Partner Search" width="100%">
+            <VerticalLayout id="horizontalLayout2" spacing="true" margin="true" immediate="true" styleName = "width-auto">
                 <GridLayout spacing="true"  id="promoteTpToChLayout2" immediate="true" columns="8" rows="3">
                     <Label caption="Contract No: " contentMode="HTML" />
                     <TextField id="contractNo" immediate="true" />

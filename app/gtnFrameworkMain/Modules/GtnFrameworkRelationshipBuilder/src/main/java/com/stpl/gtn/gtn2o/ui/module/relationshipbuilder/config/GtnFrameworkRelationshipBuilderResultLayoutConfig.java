@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.tree.GtnUIFrameworkTreeConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkAddToTreeAction;
+import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkAutoBuildAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkAvaliableNameUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkRemoveFromTreeAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnUIFrameworkTreeItemClickAction;
@@ -31,6 +32,7 @@ import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuil
  */
 public class GtnFrameworkRelationshipBuilderResultLayoutConfig {
 
+	private static final String BUTTON_HIERARCHY_CSS_LAYOUT = "buttonHierarchyCssLayout";
 	private final GtnFrameworkComponentConfigProvider gtnConfigFactory = GtnFrameworkComponentConfigProvider
 			.getInstance();
 
@@ -93,7 +95,7 @@ public class GtnFrameworkRelationshipBuilderResultLayoutConfig {
 		componentList.add(availableHierarchyCssConfig);
 
 		GtnUIFrameworkComponentConfig buttonCssConfig = gtnConfigFactory.getCssLayoutConfig(
-				namespaceprefix + "buttonHierarchyCssLayout", true,
+				namespaceprefix + BUTTON_HIERARCHY_CSS_LAYOUT, true,
 				namespaceprefix + GtnFrameworkCommonConstants.MAIN_HIERARCHY_CSS_LAYOUT);
 		buttonCssConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_4);
 		buttonCssConfig.addComponentStyle(GtnFrameworkCssConstants.NO_MARGIN);
@@ -121,12 +123,13 @@ public class GtnFrameworkRelationshipBuilderResultLayoutConfig {
 
 		availableResultDataTable(componentList, namespaceprefix);
 		addAddToTreeButtonComponent(componentList, namespaceprefix, isView);
+		addAutoBuildButtonComponent(componentList, namespaceprefix, isView);
 	}
 
 	private void addAddToTreeButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namespaceprefix,
 			boolean isView) {
 		GtnUIFrameworkComponentConfig addToTreeBtnConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
-				namespaceprefix + "addToTreeBtn", true, namespaceprefix + "buttonHierarchyCssLayout",
+				namespaceprefix + "addToTreeBtn", true, namespaceprefix + BUTTON_HIERARCHY_CSS_LAYOUT,
 				GtnUIFrameworkComponentType.BUTTON);
 		addToTreeBtnConfig.setAuthorizationIncluded(true);
 		addToTreeBtnConfig.setComponentName("Add To Tree");
@@ -136,6 +139,29 @@ public class GtnFrameworkRelationshipBuilderResultLayoutConfig {
 			GtnUIFrameWorkActionConfig addToTreeAction = gtnConfigFactory
 					.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 			addToTreeAction.addActionParameter(GtnFrameworkAddToTreeAction.class.getName());
+			addToTreeAction.addActionParameter("0");
+			addToTreeAction.addActionParameter(namespaceprefix + GtnFrameworkCommonConstants.RESULT_TABLE);
+			addToTreeAction.addActionParameter(namespaceprefix + GtnFrameworkCommonConstants.RB_TREE);
+			addToTreeAction.addActionParameter(namespaceprefix + GtnFrameworkCommonConstants.REMOVE_FROM_TREE_BTN);
+			List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+			actionConfigList.add(addToTreeAction);
+			addToTreeBtnConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		}
+	}
+
+	private void addAutoBuildButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namespaceprefix,
+			boolean isView) {
+		GtnUIFrameworkComponentConfig addToTreeBtnConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
+				namespaceprefix + "autoBuildBtn", true, namespaceprefix + BUTTON_HIERARCHY_CSS_LAYOUT,
+				GtnUIFrameworkComponentType.BUTTON);
+		addToTreeBtnConfig.setAuthorizationIncluded(true);
+		addToTreeBtnConfig.setComponentName("Auto-Build");
+		componentList.add(addToTreeBtnConfig);
+		addToTreeBtnConfig.setEnable(!isView);
+		if (!isView) {
+			GtnUIFrameWorkActionConfig addToTreeAction = gtnConfigFactory
+					.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			addToTreeAction.addActionParameter(GtnFrameworkAutoBuildAction.class.getName());
 			addToTreeAction.addActionParameter("0");
 			addToTreeAction.addActionParameter(namespaceprefix + GtnFrameworkCommonConstants.RESULT_TABLE);
 			addToTreeAction.addActionParameter(namespaceprefix + GtnFrameworkCommonConstants.RB_TREE);

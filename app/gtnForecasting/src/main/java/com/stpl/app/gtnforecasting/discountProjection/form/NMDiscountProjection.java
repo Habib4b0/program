@@ -4158,7 +4158,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	 * @return
 	 */
 	public List<String> getDiscountNamesList() {
-		return discountNamesList;
+		return discountNamesList == null ? discountNamesList : new ArrayList<>(discountNamesList);
 	}
 
 	/**

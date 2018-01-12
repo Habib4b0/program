@@ -46,6 +46,7 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -123,12 +124,12 @@ public class Summary extends CustomComponent {
     private Map<String, AppPermission> functionHM = new HashMap<>();
 
     public Summary(List<ItemIndexDto> selecteditemList) {
-        this.selecteditemList = selecteditemList;
+        this.selecteditemList = selecteditemList == null ? selecteditemList : new ArrayList<>(selecteditemList);
     }
 
     public Component getContent(List<ItemIndexDto> selecteditemList, final SelectionDTO selection) {
         this.selection = selection;
-        this.selecteditemList = selecteditemList;
+        this.selecteditemList = selecteditemList == null ? selecteditemList : new ArrayList<>(selecteditemList);
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(Clara.create(getClass().getResourceAsStream("/item/AddItemSummary.xml"), this));
         layout.setMargin(true);

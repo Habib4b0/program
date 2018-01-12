@@ -356,11 +356,11 @@ public class GtnFrameworkRebateScheduleSetUpTabConfig {
 		attachResultConfig.setGtnPagedTableConfig(attachResults);
 		attachResults.setEditable(true);
 		attachResults.setTableColumnDataType(
-				new Class[] { Boolean.class, String.class, String.class, String.class, Date.class, Date.class });
+				new Class[] { Boolean.class, String.class, String.class, Integer.class, Date.class, Date.class,String.class });
 		attachResults.setTableVisibleHeader(GtnFrameworkRSConstants.getRsSetupTabTableHeaders());
 		attachResults.setTableColumnMappingId(GtnFrameworkRSConstants.getRsSetupTabVisibleColumns());
-		attachResults.setExtraColumn(new Object[] { "systemId" });
-		attachResults.setExtraColumnDataType(new Class[] { String.class });
+		attachResults.setExtraColumn(new Object[] { "systemId"  });
+		attachResults.setExtraColumnDataType(new Class[] { String.class});
 		attachResults.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		attachResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.REBATE_SCHEDULE);
 		attachResults.setEditable(true);
