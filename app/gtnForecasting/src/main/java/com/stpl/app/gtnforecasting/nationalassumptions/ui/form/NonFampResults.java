@@ -456,6 +456,8 @@ public class NonFampResults extends Window {
     private void addResultTable() {
         tableVerticalLayout.addComponent(periodTableId);
         controlLayout = tableLogic.createControls();
+        controlLayout.setSizeUndefined();
+        controlLayout.addStyleName(Constant.RESPONSIVE_PAGED_TABLE);
         tableLogic.sinkItemPerPageWithPageLength(false);
         tableVerticalLayout.addComponent(controlLayout);
     }

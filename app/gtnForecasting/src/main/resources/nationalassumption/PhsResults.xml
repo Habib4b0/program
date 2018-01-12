@@ -38,7 +38,7 @@
                           immediate="true" />
 
                     
-                <Label value="Actuals/Projections: " contentMode="HTML"/>
+                <Label value="Actuals/Projections: " contentMode="HTML" width="136px"/>
                 <OptionGroup multiSelect="false" id="actualOrProj"
                              immediate="true" enable="true" styleName="horizontal">
                 </OptionGroup>
