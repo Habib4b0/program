@@ -247,7 +247,7 @@ public class GtnFrameworkNSFLandingScreenConfig {
 		notificationActionConfig.addActionParameter(GtnUIFrameworkTableSearchCompletionAction.class.getName());
 		notificationActionConfig.addActionParameter(viewId + GtnFrameworkCommonConstants.NET_SALES_SEARCH_RESULT_TABLE);
 		notificationActionConfig.addActionParameter(" Error ");
-		notificationActionConfig.addActionParameter(" There are no records that match the search criteria ");
+		notificationActionConfig.addActionParameter(" There are no records that match the search criteria. ");
 		searchActionConfigList.add(notificationActionConfig);
         
         landingScreenSearchButtonConfig.setGtnUIFrameWorkActionConfigList(searchActionConfigList);
