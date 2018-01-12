@@ -64,6 +64,7 @@ public class GtnWsRelationshipBuilderRequest implements GtnWSRequestData {
 	private List<String> levelValueList;
 	private List<String> primarykeyColumnList;
 	private List<String> primarySIDList;
+	private GtnWsRecordBean selectedTreeBean;
 
 	public GtnWsRecordBean getMainNode() {
 		return mainNode;
@@ -337,5 +338,13 @@ public class GtnWsRelationshipBuilderRequest implements GtnWSRequestData {
 
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
 		stream.defaultReadObject();
+	}
+
+	public GtnWsRecordBean getSelectedTreeBean() {
+		return selectedTreeBean;
+	}
+
+	public void setSelectedTreeBean(GtnWsRecordBean selectedTreeBean) {
+		this.selectedTreeBean = selectedTreeBean;
 	}
 }

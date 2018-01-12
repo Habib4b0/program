@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.dynamicclasses;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkAddToTreeAction;
+import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkAutoBuildAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkAvaliableNameUpdateAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkConfirmSaveAction;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action.GtnFrameworkHierarchyChangeAction;
@@ -57,6 +58,8 @@ public class GtnUIFrameworkRSBuilderDynamicClassFiller implements GtnUIDynamicOb
 				new GtnUIFrameworkRBRequestAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkAvaliableNameUpdateAction.class.getName(),
 				new GtnFrameworkAvaliableNameUpdateAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkAutoBuildAction.class.getName(),
+				new GtnFrameworkAutoBuildAction());
 
 	}
 
