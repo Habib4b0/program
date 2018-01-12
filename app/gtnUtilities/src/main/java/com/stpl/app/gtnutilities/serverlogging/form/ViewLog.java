@@ -60,7 +60,7 @@ public class ViewLog extends CustomComponent implements View {
     /**
      * String name.
      */
-    public static final String NAME = Constants.Server_Logging;
+    public static final String NAME = Constants.SERVER_LOGGING;
     /**
      * to store result
      */
