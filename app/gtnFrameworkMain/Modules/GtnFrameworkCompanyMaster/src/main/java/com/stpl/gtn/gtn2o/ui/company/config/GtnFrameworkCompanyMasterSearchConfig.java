@@ -35,16 +35,15 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public GtnUIFrameworkViewConfig getSearchView() {
-		GtnFrameworkComponentConfigProvider componentConfig = GtnFrameworkComponentConfigProvider.getInstance();
 		GtnUIFrameworkViewConfig companyMasterSearchView = configProvider.getViewConfig("Search View", "V001", true);
 		GtnUIFrameWorkActionConfig reloadHelperTableAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.RELOAD_HELPER_TABLE_ACTION);
 		companyMasterSearchView.addViewAction(reloadHelperTableAction);
-		addComponentList(companyMasterSearchView, componentConfig);
+		addComponentList(companyMasterSearchView);
 		return companyMasterSearchView;
 	}
 
-	private void addComponentList(GtnUIFrameworkViewConfig view, GtnFrameworkComponentConfigProvider componentConfig) {
+	private void addComponentList(GtnUIFrameworkViewConfig view) {
 		List<GtnUIFrameworkComponentConfig> componentList = new ArrayList<>();
 		view.setGtnComponentList(componentList);
 		addCMSearchCriteriaPanel(componentList);
@@ -331,12 +330,19 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 		searchResultConfig.setAuthorizationIncluded(true);
 		searchResultConfig.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 
+		List<String> tableStyle = new ArrayList<>();
+		tableStyle.add("filterbar");
+		tableStyle.add("v-has-width");
+		tableStyle.add("v-table-filterbar");
+		tableStyle.add("table-header-normal");
+		searchResultConfig.setComponentStyle(tableStyle);
 		componentList.add(searchResultConfig);
 
-		GtnUIFrameworkPagedTableConfig searchResults = configProvider.getPagedTableConfig(true, true,
-				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
-				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
-				"companyMaster", "SearchQuery");
+		GtnUIFrameworkPagedTableConfig searchResults = new GtnUIFrameworkPagedTableConfig();
+		searchResults.setEditable(false);
+		searchResults.setFilterBar(true);
+		searchResults.setSelectable(true);
+		searchResults.setItemPerPage(10);
 		searchResults.setSinkItemPerPageWithPageLength(false);
 		searchResults.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVALANG_STRING,
 				GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
@@ -370,10 +376,16 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 				"organizationKey", "financialSystem", "parentCompanyNo", "parentStartDate", "parentEndDate",
 				"priorParentCompanyNo", "priorParentStartDate", "regionCode", "udc1", "udc2", "udc3", "udc4", "udc5",
 				"udc6", "address1", "address2", "zipCode", "city", "state", "country" });
-
-		searchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
+		searchResults.setCountUrl(
+				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH);
+		searchResults.setResultSetUrl(
+				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH);
+		searchResults.setModuleName("companyMaster");
+		searchResults.setQueryName("SearchQuery");
 
 		searchResults.setCustomFilterConfigMap(getCustomFilterConfig());
+		searchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_MASTER);
+
 		searchResults.setDoubleClickEnable(true);
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
