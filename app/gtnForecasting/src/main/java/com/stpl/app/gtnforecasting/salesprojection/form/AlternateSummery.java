@@ -79,8 +79,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -271,7 +269,7 @@ public class AlternateSummery extends CustomComponent {
     @UiField("salesProjectionSelection")
     private Panel salesProjectionSelection;
     @UiField("viewLayout")
-    private HorizontalLayout viewLayout;
+    private GridLayout viewLayout;
     @UiField("spAdjustment")
     private Panel spAdjustment;
     @UiField("nmFrequencyDdlb")
@@ -311,7 +309,7 @@ public class AlternateSummery extends CustomComponent {
         try {
             this.session = session;
             this.screenName = screenName;
-            this.variableList = variableList == null ? variableList : new ArrayList<>(variableList);
+            this.variableList = variableList;
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/AltenateSummeryTab.xml"), this));
 
             if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
@@ -889,14 +887,14 @@ public class AlternateSummery extends CustomComponent {
                         textField.setImmediate(true);
                         textField.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
                         textField.addFocusListener(new FocusListener() {
-
+                            
                             @Override
                             public void focus(FocusEvent event) {
                                 oldGroupValue = String.valueOf(((TextField) event.getComponent()).getValue());
                             }
                         });
                         textField.addBlurListener(new BlurListener() {
-
+                            
                             @Override
                             public void blur(BlurEvent event) {
                                 String newValue = ((TextField) event.getComponent()).getValue();
@@ -954,7 +952,7 @@ public class AlternateSummery extends CustomComponent {
                     } else if (String.valueOf(propertyId).contains(Constant.GROWTH)) {
                         textField.setConverter(growthFormat);
                     }
-
+                    
 
                     textField.addFocusListener(new FocusListener() {
                         @Override
@@ -966,7 +964,7 @@ public class AlternateSummery extends CustomComponent {
                         }
                     });
                     textField.addBlurListener(new BlurListener() {
-                        @Override
+                           @Override
                         public void blur(BlurEvent event) {
                             String newValue = String.valueOf(((TextField) event.getComponent()).getValue());
                             newValue = newValue.replace("$", StringUtils.EMPTY);
@@ -1474,13 +1472,6 @@ public class AlternateSummery extends CustomComponent {
 
         if (hierarchy != null) {
             int maxLevel = hierarchy.size() - 1;
-            Collections.sort(hierarchy,new Comparator<Leveldto>(){
-            	@Override
-				public int compare(Leveldto o1, Leveldto o2) {
-					return o2.getTreeLevelNo()-o1.getTreeLevelNo();
-            	}
-            	 });
-            Collections.reverse(hierarchy);
             for (Leveldto levelDto : hierarchy) {
                 String levelFiterSid = levelDto.getTreeLevelNo() + "~" + levelDto.getHierarchyIndicator();
                 String caption = Constant.LEVEL + levelDto.getTreeLevelNo() + " - " + levelDto.getLevel();

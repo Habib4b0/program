@@ -54,7 +54,7 @@ public class DataAssumptions extends CustomComponent {
     @UiField("tableLayout")
     protected VerticalLayout tableLayout;
 
-
+   
 
     @UiField("excelButtonLayout")
     protected HorizontalLayout excelButtonLayout;
@@ -87,16 +87,16 @@ public class DataAssumptions extends CustomComponent {
         HorizontalLayout controls = tableLogic.createControls();
         tableLayout.addComponent(CommonLogic.getResponsiveControls(controls));
         tableLogic.setContainerDataSource(resultsContainer);
-        resultTable.setVisibleColumns(TableHeaderColumnsUtil.getDataAssumptionColumns());
-        resultTable.setColumnHeaders(TableHeaderColumnsUtil.getDataAssumptionHeaders());
+        resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataAssumptionColumns);
+        resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataAssumptionHeaders);
         resultTable.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-	resultTable.setWidth(100, Unit.PERCENTAGE);
-	resultTable.setHeight(400, Unit.PIXELS);
-        resultTable.setImmediate(true);
-        resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
-	resultTable.addStyleName(Constant.FILTER_TABLE);
-	resultTable.addStyleName("table-header-normal");
+		resultTable.setWidth(100, Unit.PERCENTAGE);
+		resultTable.setHeight(400, Unit.PIXELS);
+		resultTable.setImmediate(true);
+		resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
+		resultTable.addStyleName(Constant.FILTER_TABLE);
+		resultTable.addStyleName("table-header-normal");
         resultTable.setFilterBarVisible(true);
         tableLogic.configureSearchData(dataAssumptionDTO, session);
         resultTable.setColumnAlignment("activeFileFromDate", ExtCustomTable.Align.CENTER);
@@ -126,7 +126,7 @@ public class DataAssumptions extends CustomComponent {
     private void createWorkSheet() {
         LOGGER.info("Entering createWorkSheet");
         try {
-            CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(),TableHeaderColumnsUtil.getDataAssumptionsColumnsExcel() , tableLogic, "Data Assumptions");
+            CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(),TableHeaderColumnsUtil.dataAssumptionsColumnsExcel , tableLogic, "Data Assumptions");
         } catch (PortalException | SystemException | IllegalAccessException | IllegalArgumentException | NoSuchFieldException | NoSuchMethodException | InvocationTargetException e) {
             LOGGER.error(e.getMessage());
         }

@@ -56,6 +56,7 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
@@ -112,7 +113,7 @@ public class AltSummeryDiscount extends CustomComponent {
      * The viewHlayout HorizontalLayout.
      */
     @UiField("viewHlayout")
-    private HorizontalLayout viewHlayout;
+    private GridLayout viewHlayout;
 
     /**
      * The Non Mandated Panel.
@@ -1369,7 +1370,7 @@ public class AltSummeryDiscount extends CustomComponent {
      * @return
      */
     public List<String> getDiscountNamesList() {
-        return discountNamesList == null ? discountNamesList : Collections.unmodifiableList(discountNamesList);
+        return discountNamesList;
     }
 
     /**

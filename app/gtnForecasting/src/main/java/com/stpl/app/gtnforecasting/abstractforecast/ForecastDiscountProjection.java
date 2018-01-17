@@ -48,6 +48,7 @@ import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.themes.ValoTheme;
@@ -101,7 +102,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
      * The viewHlayout HorizontalLayout.
      */
     @UiField("viewHlayout")
-    protected HorizontalLayout viewHlayout;
+    protected GridLayout viewHlayout;
     /**
      * The Mandated Panel.
      */
@@ -486,7 +487,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         if (CommonUtil.isValueEligibleForLoading()) {
             disountPanel.setVisible(false);
             tabsheetDiscount.addTab(discountSelection, "Display Selection");
-            tabsheetDiscount.addTab(discountProjectionfilterLayout, "Filter Options");
+            tabsheetDiscount.addTab(discountProjectionfilterLayout, "Filter Option");
             tabsheetDiscount.addStyleName(ValoTheme.TABSHEET_FRAMED);
             tabsheetDiscount.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
             programLevelPanel.setVisible(false);
