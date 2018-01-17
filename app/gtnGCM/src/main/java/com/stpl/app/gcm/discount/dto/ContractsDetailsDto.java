@@ -2,6 +2,7 @@ package com.stpl.app.gcm.discount.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -312,7 +313,7 @@ public class ContractsDetailsDto implements Serializable {
         this.contractId = memberId;
         this.contractNo = memberNo;
         this.childrenAllowed = childrenAllowed;
-        this.sub = subList;
+        this.sub = subList == null ? subList : new ArrayList<>(subList);
     }
 
     public String getContractName() {
@@ -476,11 +477,11 @@ public class ContractsDetailsDto implements Serializable {
     }
 
     public List<ContractsDetailsDto> getSub() {
-        return sub;
+        return sub == null ? sub : Collections.unmodifiableList(sub);
     }
 
     public void setSub(List<ContractsDetailsDto> sub) {
-        this.sub = sub;
+        this.sub = sub == null ? sub : Collections.unmodifiableList(sub);
     }
 
     public Integer getModelSysId() {
@@ -1020,11 +1021,11 @@ public class ContractsDetailsDto implements Serializable {
     }
 
     public List<Integer> getRebateList() {
-        return rebateList;
+        return rebateList == null ? rebateList : new ArrayList<>(rebateList);
     }
 
     public void setRebateList(List<Integer> rebateList) {
-        this.rebateList = rebateList;
+        this.rebateList = rebateList == null ? rebateList : new ArrayList<>(rebateList);
     }
 
     public String getFormulaSysId() {
@@ -1092,35 +1093,35 @@ public class ContractsDetailsDto implements Serializable {
     }
 
     public Date getsDate() {
-        return sDate;
+        return sDate == null ? null : (Date) sDate.clone();
     }
 
     public void setsDate(Date sDate) {
-        this.sDate = sDate;
+        this.sDate = sDate == null ? null : (Date) sDate.clone();
     }
 
     public Date geteDate() {
-        return eDate;
+        return eDate == null ? null : (Date) eDate.clone();
     }
 
     public void seteDate(Date eDate) {
-        this.eDate = eDate;
+        this.eDate = eDate == null ? null : (Date) eDate.clone();
     }
 
     public Date getTempSDate() {
-        return tempSDate;
+        return tempSDate == null ? null : (Date) tempSDate.clone();
     }
 
     public void setTempSDate(Date tempSDate) {
-        this.tempSDate = tempSDate;
+        this.tempSDate = tempSDate == null ? null : (Date) tempSDate.clone(); 
     }
 
     public Date getTempEDate() {
-        return tempEDate;
+        return tempEDate == null ? null : (Date) tempEDate.clone();
     }
 
     public void setTempEDate(Date tempEDate) {
-        this.tempEDate = tempEDate;
+        this.tempEDate = tempEDate == null ? null : (Date) tempEDate.clone();
     }
 
     public String getPaymentFrequency() {
@@ -1180,19 +1181,19 @@ public class ContractsDetailsDto implements Serializable {
     }
 
     public Date getPpSDate() {
-        return ppSDate;
+        return ppSDate == null ? null : (Date) ppSDate.clone();
     }
 
     public void setPpSDate(Date ppSDate) {
-        this.ppSDate = ppSDate;
+        this.ppSDate = ppSDate == null ? null : (Date) ppSDate.clone();
     }
 
     public Date getTempPpSDate() {
-        return tempPpSDate;
+        return tempPpSDate == null ? null : (Date) tempPpSDate.clone();
     }
 
     public void setTempPpSDate(Date tempPpSDate) {
-        this.tempPpSDate = tempPpSDate;
+        this.tempPpSDate = tempPpSDate == null ? null : (Date) tempPpSDate.clone();
     }
 
     public String getTradingPartnerNo() {
@@ -1308,11 +1309,11 @@ public class ContractsDetailsDto implements Serializable {
     }
 
     public List<String> getAttachedList() {
-        return attachedList;
+        return attachedList == null ? attachedList : Collections.unmodifiableList(attachedList);
     }
 
     public void setAttachedList(List<String> attachedList) {
-        this.attachedList = attachedList;
+        this.attachedList = attachedList == null ? attachedList : Collections.unmodifiableList(attachedList);
     }
 
     public String getSearchSessionId() {
@@ -1324,10 +1325,10 @@ public class ContractsDetailsDto implements Serializable {
     }
 
     public List<Object> getRemovedRsList() {
-        return removedRsList;
+        return removedRsList == null ? removedRsList : Collections.unmodifiableList(removedRsList);
     }
 
     public void setRemovedRsList(List<Object> removedRsList) {
-        this.removedRsList = removedRsList;
+        this.removedRsList = removedRsList == null ? removedRsList : Collections.unmodifiableList(removedRsList);
     }
 }

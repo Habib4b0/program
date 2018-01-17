@@ -4156,7 +4156,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	 * @return
 	 */
 	public List<String> getDiscountNamesList() {
-		return discountNamesList;
+		return discountNamesList == null ? discountNamesList : new ArrayList<>(discountNamesList);
 	}
 
 	/**
@@ -4620,7 +4620,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						Date s2 = s.parse(o2);
 						retval = s1.compareTo(s2);
 					} catch (ParseException e) {
-						LOGGER.error("",e);
+						LOGGER.error(e.getMessage());
 					}
 					return retval;
 				}
@@ -4720,7 +4720,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						Date s2 = s.parse(o2);
 						retval = s1.compareTo(s2);
 					} catch (ParseException e) {
-						LOGGER.error("",e);
+						LOGGER.error(e.getMessage());
 					}
 					return retval;
 				}
@@ -4883,7 +4883,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						refreshTableData(getManualEntryRefreshHierarachyNo());
 					}
 				} catch (Exception ex) {
-					LOGGER.error("",ex);
+					LOGGER.error(ex.getMessage());
 				}
 			}
 		}.getConfirmationMessage("Confirm List View Reset",
@@ -5116,7 +5116,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     projectionSelection.getSessionDTO().getSessionId(), methodology, projectionSelection.getTabName(),
                     tableName);
         } catch (Exception ex) {
-            LOGGER.error("",ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }

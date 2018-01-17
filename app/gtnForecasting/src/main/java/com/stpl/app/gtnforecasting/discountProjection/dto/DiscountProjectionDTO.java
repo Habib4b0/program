@@ -6,6 +6,7 @@ package com.stpl.app.gtnforecasting.discountProjection.dto;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
@@ -473,11 +474,11 @@ public class DiscountProjectionDTO extends ExtMapDTO {
     }
 
     public List<String> getCcpDetailIds() {
-        return ccpDetailIds;
+        return ccpDetailIds == null ? ccpDetailIds : Collections.unmodifiableList(ccpDetailIds);
     }
 
     public void setCcpDetailIds(List<String> ccpDetailIds) {
-        this.ccpDetailIds = ccpDetailIds;
+        this.ccpDetailIds = ccpDetailIds == null ? ccpDetailIds : Collections.unmodifiableList(ccpDetailIds);
     }
 
     public Integer getCompanyID() {
@@ -594,11 +595,11 @@ public class DiscountProjectionDTO extends ExtMapDTO {
 
 
     public List<String> getParentCcpDetailIdList() {
-        return parentCcpDetailIdList;
+        return parentCcpDetailIdList == null ? parentCcpDetailIdList : Collections.unmodifiableList(parentCcpDetailIdList);
     }
 
     public void setParentCcpDetailIdList(List<String> parentCcpDetailIdList) {
-        this.parentCcpDetailIdList = parentCcpDetailIdList;
+        this.parentCcpDetailIdList = parentCcpDetailIdList == null ? parentCcpDetailIdList : Collections.unmodifiableList(parentCcpDetailIdList);
     }
 
     public String getLevelDetails() {

@@ -120,11 +120,11 @@ public class ItemContractSelectionDTO implements Cloneable {
     }
 
     public Date getAliasFromDate() {
-        return aliasFromDate;
+        return aliasFromDate == null ? null : (Date) aliasFromDate.clone();
     }
 
     public void setAliasFromDate(Date aliasFromDate) {
-        this.aliasFromDate = aliasFromDate;
+        this.aliasFromDate = aliasFromDate == null ? null : (Date) aliasFromDate.clone();
     }
 
     public String getNumber() {
@@ -136,11 +136,11 @@ public class ItemContractSelectionDTO implements Cloneable {
     }
 
     public Date getAliasToDate() {
-        return aliasToDate;
+        return aliasToDate == null ? null : (Date) aliasToDate.clone();
     }
 
     public void setAliasToDate(Date aliasToDate) {
-        this.aliasToDate = aliasToDate;
+        this.aliasToDate = aliasToDate == null ? null : (Date) aliasToDate.clone();
     }
 
     public Boolean getCheckRecord() {
@@ -184,19 +184,19 @@ public class ItemContractSelectionDTO implements Cloneable {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     public Date getEndDate() {
-        return endDate;
+        return endDate == null ? null : (Date) endDate.clone();
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = endDate == null ? null : (Date) endDate.clone();
     }
 
     public String getCompanyNo() {
@@ -248,19 +248,19 @@ public class ItemContractSelectionDTO implements Cloneable {
     }
 
     public Date getCompanyStartDate() {
-        return companyStartDate;
+        return companyStartDate == null ? null : (Date) companyStartDate.clone();
     }
 
     public void setCompanyStartDate(Date companyStartDate) {
-        this.companyStartDate = companyStartDate;
+        this.companyStartDate = companyStartDate == null ? null : (Date) companyStartDate.clone();
     }
 
     public Date getCompanyEndDate() {
-        return companyEndDate;
+        return companyEndDate == null ? null : (Date) companyEndDate.clone();
     }
 
     public void setCompanyEndDate(Date companyEndDate) {
-        this.companyEndDate = companyEndDate;
+        this.companyEndDate = companyEndDate == null ? null : (Date) companyEndDate.clone();
     }
 
     public Integer getStartIndex() {

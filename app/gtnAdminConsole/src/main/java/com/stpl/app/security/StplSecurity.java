@@ -274,7 +274,7 @@ public class StplSecurity {
                 permissionHm.put(propertyName, appPermission);
             }
         }
-        if (type == ConstantsUtils.ZERO_NUM || type == ConstantsUtils.ONE || type == ConstantsUtils.TWO) {
+        if (type == ConstantsUtils.ZERO_NUM || type == ConstantsUtils.ONE || type == ConstantsUtils.TWO_NUM) {
             for (; counter < listSize; counter++) {
                 final Object[] obj = (Object[]) permissionList.get(counter);
                 final String propertyName = String.valueOf(obj[0]).trim();
@@ -349,7 +349,7 @@ public class StplSecurity {
         final Map<String, AppPermission> permissionHm = new HashMap<>();
         int counter = 0;
 
-        if (type == ConstantsUtils.ZERO_NUM || type == ConstantsUtils.ONE || type == ConstantsUtils.TWO) {
+        if (type == ConstantsUtils.ZERO_NUM || type == ConstantsUtils.ONE || type == ConstantsUtils.TWO_NUM) {
             final int listSize = permissionList.size();
             for (; counter < listSize; counter++) {
                 final Object[] obj = (Object[]) permissionList.get(counter);

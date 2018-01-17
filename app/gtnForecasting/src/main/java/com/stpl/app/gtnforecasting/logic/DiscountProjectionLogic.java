@@ -20,6 +20,7 @@ import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getMonthForInt;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.MSalesProjectionMasterLocalServiceUtil;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.QUARTERLY;
@@ -29,6 +30,7 @@ import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.QueryUtil;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -42,10 +44,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -158,6 +162,7 @@ public class DiscountProjectionLogic {
      * @param isExcelExport
      * @param isRefresh
      * @param refreshHierarchyNumbers
+     * @param forecastConfigList
      * @return
      */
     public List getDiscountProjection(SessionDTO session, String frequency, List<Integer> startAndEndPeriods,
@@ -324,7 +329,7 @@ public class DiscountProjectionLogic {
                         String ACTUAL_RP_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.TWELVE])) ? DASH : String.valueOf(obj[NumericConstants.TWELVE]);
                         String PROJECTED_RP_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FOURTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FOURTEEN]);
                         String GROWTH_OBJ = Constant.NULL.equals(String.valueOf(obj[NumericConstants.FIFTEEN])) ? DASH : String.valueOf(obj[NumericConstants.FIFTEEN]);
-                        discountDto.setDeductionInclusion(String.valueOf(obj[obj.length - 1]));
+                        discountDto.setDeductionInclusion(String.valueOf(obj[obj.length - 2]));
                         if (isExcelExport) {
                             ACTUAL_OBJ = getFormattedValue(PERCENTAGE_FORMAT, ACTUAL_OBJ);
                             PROJECTED_OBJ = getFormattedValue(PERCENTAGE_FORMAT, PROJECTED_OBJ);

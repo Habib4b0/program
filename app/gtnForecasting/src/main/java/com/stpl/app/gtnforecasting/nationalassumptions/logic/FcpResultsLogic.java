@@ -949,38 +949,32 @@ public class FcpResultsLogic {
     }
 
     public String fcpSetupCook(com.stpl.app.gtnforecasting.sessionutils.SessionDTO session, String priceBasis) throws NamingException, SQLException {
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
+        DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+        } catch (NamingException ex)
+        {
+            LOGGER.debug(ex.getMessage());
+        }
             if (datasource != null) {
-                connection = datasource.getConnection();
-            } else {
+                try (Connection connection = datasource.getConnection();
+                        CallableStatement statement = connection.prepareCall("{call PRC_MASTER_FCP_WORKSHEET(?,?,?,?)}"))
+                {
                 LOGGER.debug("Failed in FCP datasource.");
-            }
-            if (connection != null) {
-                LOGGER.debug("Got Connection " + connection.toString()
-                        + ", ");
-                statement = connection.prepareCall("{call PRC_MASTER_FCP_WORKSHEET(?,?,?,?)}");
+                LOGGER.debug("Got Connection " + connection.toString()+ ", ");
                 statement.setInt(1, session.getProjectionId());
                 statement.setObject(NumericConstants.TWO, priceBasis);
                 statement.setInt(NumericConstants.THREE, Integer.valueOf(session.getUserId()));
                 statement.setObject(NumericConstants.FOUR, session.getSessionId());
                 statement.execute();
                 LOGGER.debug("procedure call ended  ");
-            }
-        } finally {
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
+            } catch (SQLException ex)
+            {
+              LOGGER.debug(ex.getMessage());
             }
         }
         return "SUCCESS";
-
     }
 
     public int getFcpRowIndex(ProjectionSelectionDTO projSelDTO) {

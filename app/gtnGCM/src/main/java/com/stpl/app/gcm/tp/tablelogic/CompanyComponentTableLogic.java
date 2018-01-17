@@ -72,7 +72,7 @@ public class CompanyComponentTableLogic extends PageTableLogic {
      */
     public boolean loadSetData(String componentSelectionValue, String[] id, boolean reset) {
         this.componentSelectionValue = componentSelectionValue;
-        this.id = id;
+        this.id = id == null ? id : id.clone();
         clearAll();
         setRequiredCount(true);
         generate = reset;

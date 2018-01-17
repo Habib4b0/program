@@ -60,7 +60,7 @@ public class GroupSearchLogic extends PageTableLogic{
     }
 
     public boolean fireSetData(List<String> itemsOrCompanySids, String groupName, String groupNo, String groupIdentifier, boolean isReset) {
-        this.itemsOrCompanySids = itemsOrCompanySids;
+        this.itemsOrCompanySids = itemsOrCompanySids == null ? itemsOrCompanySids : new ArrayList<>(itemsOrCompanySids);
         this.groupName = groupName;
         this.groupIdentifier = groupIdentifier;
         this.groupNo = groupNo;

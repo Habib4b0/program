@@ -9,6 +9,7 @@ import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.pparesults.dto.PPAProjectionResultsDTO;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.headers.TableHeaderDTO;
 import org.slf4j.Logger;
@@ -68,7 +69,7 @@ public class PPAChart {
         LOGGER.debug("Entering PPAChart method ");
         this.frequency = frequency;
         this.history = history;
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
         this.selection = selection;
         this.fullHeader = rightDto;
         LOGGER.debug("End of PPAChart method ");
@@ -196,7 +197,7 @@ public class PPAChart {
      * @return the dto
      */
     public List<PPAProjectionResultsDTO> getDto() {
-        return dto;
+        return dto == null ? dto : new ArrayList<>(dto);
     }
 
     /**
@@ -205,7 +206,7 @@ public class PPAChart {
      * @param dto the new dto
      */
     public void setDto(final List<PPAProjectionResultsDTO> dto) {
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
     }
 
     /**

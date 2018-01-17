@@ -291,7 +291,7 @@ public class FileManagementLookup extends Window {
 	/**
 	 * The selected item.
 	 */
-	public Object selectedItem;
+	private transient Object selectedItem;
 
 	/**
 	 * The details flag.
@@ -1210,7 +1210,7 @@ public class FileManagementLookup extends Window {
 				LOGGER.debug("In configureFields excelExportResult.addClickListener started");
 
 				try {
-					ConsolidatedFinancialForecastUI.EXCEL_CLOSE = true;
+					ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
 					configureExcelResultTable();
 					loadExcelTable(resultDTO);
 					ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(excelTable), "File Management Results",
@@ -1625,9 +1625,9 @@ public class FileManagementLookup extends Window {
 						.add(RestrictionsFactoryUtil.eq(ConstantsUtils.FORECAST_YEAR, String.valueOf(selectedYear)));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
-						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue()));
+						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue()));
+						fileNameList.getValue().toString()));
 				List<ForecastingMaster> listToRemove = ForecastingMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
 				for (final Iterator<ForecastingMaster> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final ForecastingMaster itemDetail = iterator.next();
@@ -1639,9 +1639,9 @@ public class FileManagementLookup extends Window {
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
 				dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
 				dynamicQuery.add(
-						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue()));
+						RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
 				dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME,
-						fileNameList.getValue()));
+						fileNameList.getValue().toString()));
 				List<DemandForecast> listToRemove = DemandForecastLocalServiceUtil.dynamicQuery(dynamicQuery);
 				for (final Iterator<DemandForecast> iterator = listToRemove.iterator(); iterator.hasNext();) {
 					final DemandForecast itemDetail = iterator.next();
@@ -2047,8 +2047,8 @@ public class FileManagementLookup extends Window {
 	}
 
 	public void setTableDefaultConfig(ExtPagedTable resultsTable) {
-		resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_RES_COLS);
-		resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_RES_HEADER);
+		resultsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupResColsList());
+		resultsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupResHeaderList());
 		resultsTable.markAsDirtyRecursive();
 		resultsTable.setImmediate(true);
 		resultsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -2199,23 +2199,23 @@ public class FileManagementLookup extends Window {
 		try {
 			resultsTable.removeAllItems();
 			if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_DETAILS_COLS);
-				resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_DETAILS_HEADER);
+				resultsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupDetailsColsList());
+				resultsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupDetailsHeaderList());
 			} else if (fileType.equals(ConstantsUtils.DEMAND)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_DEMAND_DETAILS_COLS);
-				resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_DEMAND_DETAILS_HEADER);
+				resultsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupDemandDetailsColsList());
+				resultsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupDemandDetailsHeaderList());
 			} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_SUMMARY_COLS);
-				resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_SUMMARY_HEADER);
+				resultsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupInvDetailsSummaryColsList());
+				resultsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupInvDetailsSummaryHeaderList());
 			} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_ADJ_DEMAND_DETAILS_COLS);
-				resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_HEADER);
+				resultsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupAdjDemandDetailsColsList());
+				resultsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupInvDetailsHeaderList());
 			} else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.fileMgtLookupCustomerColumns);
-				resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_CUS_HEADER);
+				resultsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupCustomerColumnsList());
+				resultsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupCusHeaderList());
 			} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-				resultsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_ADJ_DEMAND_DETAILS_COLS);
-				resultsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_ADJ_DEMAND_DETAILS_HEADER);
+				resultsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupAdjDemandDetailsColsList());
+				resultsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupAdjDemandDetailsHeaderList());
 			}
 			resultsTable.markAsDirtyRecursive();
 			resultsTable.setImmediate(true);
@@ -2257,8 +2257,8 @@ public class FileManagementLookup extends Window {
 		tableLayout.addComponent(excelTable);
 		excelTable.setVisible(false);
 		excelTable.setContainerDataSource(excelTableBean);
-		excelTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_RES_COLS);
-		excelTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_RES_HEADER);
+		excelTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupResColsList());
+		excelTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupResHeaderList());
 		excelTable.markAsDirtyRecursive();
 	}
 
@@ -2295,26 +2295,26 @@ public class FileManagementLookup extends Window {
 		excelDetailsTable.setContainerDataSource(excelDetailsBean);
 
 		if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_DETAILS_COLS_EXCEL);
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_DEMAND_DETAILS_HEADER_EXCEL);
+			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupDetailsColsExcelList());
+			excelDetailsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupDemandDetailsHeaderExcelList());
 		} else if (fileType.equals(ConstantsUtils.DEMAND)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_DEMAND_DETAILS_COLS_EXCEL);
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_DEMAND_DETAILS_HEADER_EXCEL);
+			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupDemandDetailsColsExcelList());
+			excelDetailsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupDemandDetailsHeaderExcelList());
 		} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_INV_DETAILS_SUM_COLS_EXCEL);
+			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtInvDetailsSumColsExcelList());
 			excelDetailsTable
-					.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_SUM_HEADER);
+					.setColumnHeaders(CommonUIUtil.getFileMgmtLookupInvDetailsSumHeaderList());
 		} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
 			excelDetailsTable
-					.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_COLS_EXCEL);
+					.setVisibleColumns(CommonUIUtil.getFileMgmtLookupInvDetailsColsExcelList());
 			excelDetailsTable
-					.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_HEADER_EXCEL);
+					.setColumnHeaders(CommonUIUtil.getFileMgmtLookupInvDetailsHeaderExcelList());
 		} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.FILE_MGMT_LOOKUP_ADJ_DEMAND_DETAILS_COLS);
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_ADJ_DEMAND_DETAILS_HEADER);
+			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupAdjDemandDetailsColsList());
+			excelDetailsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupAdjDemandDetailsHeaderList());
 		} else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-			excelDetailsTable.setVisibleColumns(CommonUIUtil.fileMgtLookupCustomerColumns);
-			excelDetailsTable.setColumnHeaders(CommonUIUtil.FILE_MGMT_LOOKUP_CUS_HEADER);
+			excelDetailsTable.setVisibleColumns(CommonUIUtil.getFileMgmtLookupCustomerColumnsList());
+			excelDetailsTable.setColumnHeaders(CommonUIUtil.getFileMgmtLookupCusHeaderList());
 		}
 		excelDetailsTable.markAsDirtyRecursive();
 		LOGGER.debug("Configure ExcelDetailsTable ends");
@@ -2376,7 +2376,7 @@ public class FileManagementLookup extends Window {
 							final TextField unit = new TextField();
 							unit.setImmediate(true);
 							unit.addBlurListener(new BlurListener() {
-                                                                @Override
+                                            @Override
 								public void blur(BlurEvent event) {
 									LOGGER.debug("In configureFields levelValueReference.addBlurListener started ");
 
@@ -2410,7 +2410,7 @@ public class FileManagementLookup extends Window {
 							final TextField price = new TextField();
 							price.setImmediate(true);
 							price.addBlurListener(new BlurListener() {
-                                                            @Override
+                                            @Override
 								public void blur(BlurEvent event) {
 
 									LOGGER.debug(
@@ -2452,7 +2452,7 @@ public class FileManagementLookup extends Window {
 						final TextField unit = new TextField();
 						unit.setImmediate(true);
 						unit.addBlurListener(new BlurListener() {
-                                                        @Override
+                                        @Override
 							public void blur(BlurEvent event) {
 								LOGGER.debug("In configureFields levelValueReference.addBlurListener  started");
 
@@ -2485,7 +2485,7 @@ public class FileManagementLookup extends Window {
 						final TextField price = new TextField();
 						price.setImmediate(true);
 						price.addBlurListener(new BlurListener() {
-                                                        @Override
+                                        @Override
 							public void blur(BlurEvent event) {
 								LOGGER.debug("In configureFields  levelValueReference.addBlurListener started");
 
@@ -2518,7 +2518,7 @@ public class FileManagementLookup extends Window {
 						final TextField year1 = new TextField();
 						year1.setImmediate(true);
 						year1.addBlurListener(new BlurListener() {
-                                                        @Override
+                                        @Override
 							public void blur(BlurEvent event) {
 								LOGGER.debug("In configureFields levelValueReference.addBlurListener started");
 
@@ -2539,7 +2539,7 @@ public class FileManagementLookup extends Window {
 						final TextField month = new TextField();
 						month.setImmediate(true);
 						month.addBlurListener(new BlurListener() {
-                                                        @Override
+                                        @Override
 							public void blur(BlurEvent event) {
 								LOGGER.debug("In configureFields levelValueReference.addBlurListener started");
 
@@ -3910,17 +3910,17 @@ public class FileManagementLookup extends Window {
 	private String[] configureExcelDetailsTableBCP() {
 		String[] bcpHeader;
 		if (fileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
-			bcpHeader = CommonUIUtil.FILE_MGMT_LOOKUP_DETAILS_HEADER_EXCEL;
+			bcpHeader = CommonUIUtil.getFileMgmtLookupDetailsHeaderExcelList();
 		} else if (fileType.equals(ConstantsUtils.DEMAND)) {
-			bcpHeader = CommonUIUtil.FILE_MGMT_LOOKUP_DEMAND_DETAILS_HEADER_EXCEL;
+			bcpHeader = CommonUIUtil.getFileMgmtLookupDemandDetailsHeaderExcelList();
 		} else if (fileType.equals(ConstantsUtils.ADJUSTED_DEMAND)) {
-			bcpHeader = CommonUIUtil.FILE_MGMT_LOOKUP_ADJ_DEMAND_DETAILS_HEADER;
+			bcpHeader = CommonUIUtil.getFileMgmtLookupAdjDemandDetailsHeaderList();
 		} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
-			bcpHeader = CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_SUM_HEADER;
+			bcpHeader = CommonUIUtil.getFileMgmtLookupInvDetailsSumHeaderList();
 		} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-			bcpHeader = CommonUIUtil.FILE_MGMT_LOOKUP_INV_DETAILS_HEADER_EXCEL;
+			bcpHeader = CommonUIUtil.getFileMgmtLookupInvDetailsHeaderExcelList();
 		} else if (fileType.equals(ConstantsUtils.CUSTOMERGTS)) {
-			bcpHeader = CommonUIUtil.FILE_MGMT_LOOKUP_CUS_HEADER;
+			bcpHeader = CommonUIUtil.getFileMgmtLookupCusHeaderList();
 		} else {
 			bcpHeader = new String[1];
 		}

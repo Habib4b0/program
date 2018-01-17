@@ -13,6 +13,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -317,11 +318,11 @@ public class SessionDTO implements Serializable {
 	}
 
 	public Date getCurrentDate() {
-        return currentDate;
+        return currentDate == null ? null : (Date) currentDate.clone();
     }
 
     public void setCurrentDate(Date currentDate) {
-        this.currentDate = currentDate;
+        this.currentDate = currentDate == null ? null : (Date) currentDate.clone();
     }
 
     public ForecastDTO getForecastDTO() {
@@ -373,19 +374,19 @@ public class SessionDTO implements Serializable {
     }
 
     public Date getFromDate() {
-        return fromDate;
+        return fromDate == null ? null : (Date) fromDate.clone();
     }
 
     public void setFromDate(Date fromDate) {
-        this.fromDate = fromDate;
+        this.fromDate = fromDate == null ? null : (Date) fromDate.clone();
     }
 
     public Date getToDate() {
-        return toDate;
+        return toDate == null ? null : (Date) toDate.clone();
     }
 
     public void setToDate(Date toDate) {
-        this.toDate = toDate;
+        this.toDate = toDate == null ? null : (Date) toDate.clone();
     }
 
     public Map<String, List> getFrequencyAndQuater() {
@@ -946,19 +947,19 @@ public class SessionDTO implements Serializable {
     }
 
     public List<Leveldto> getProductHierarchyList() {
-        return productHierarchyList;
+        return productHierarchyList == null ? productHierarchyList : new ArrayList<>(productHierarchyList);
     }
 
     public void setProductHierarchyList(List<Leveldto> productHierarchyList) {
-        this.productHierarchyList = productHierarchyList;
+        this.productHierarchyList = productHierarchyList == null ? productHierarchyList : new ArrayList<>(productHierarchyList);
     }
 
     public List<Leveldto> getCustomerHierarchyList() {
-        return customerHierarchyList;
+        return customerHierarchyList == null ? customerHierarchyList : new ArrayList<>(customerHierarchyList);
     }
 
     public void setCustomerHierarchyList(List<Leveldto> customerHierarchyList) {
-        this.customerHierarchyList = customerHierarchyList;
+        this.customerHierarchyList = customerHierarchyList == null ? customerHierarchyList : new ArrayList<>(customerHierarchyList);
     }
 
     public int getCustomId() {
@@ -986,11 +987,11 @@ public class SessionDTO implements Serializable {
     }
 
     public Set<String> getSalesgroupSet() {
-        return salesgroupSet;
+        return salesgroupSet == null ? salesgroupSet : Collections.unmodifiableSet(salesgroupSet);
     }
 
     public void setSalesgroupSet(Set<String> salesgroupSet) {
-        this.salesgroupSet = salesgroupSet;
+        this.salesgroupSet = salesgroupSet == null ? salesgroupSet : Collections.unmodifiableSet(salesgroupSet);
     }
 
     public String getScreenName() {
@@ -1002,19 +1003,19 @@ public class SessionDTO implements Serializable {
     }
 
     public List<List<String>> getDiscountRSlist() {
-        return discountRSlist;
+        return discountRSlist == null ? discountRSlist : new ArrayList<>(discountRSlist);
     }
 
     public void setDiscountRSlist(List<List<String>> discountRSlist) {
-        this.discountRSlist = discountRSlist;
+        this.discountRSlist = discountRSlist == null ? discountRSlist : new ArrayList<>(discountRSlist);
     }
 
     public Set<String> getDiscountgroupSet() {
-        return discountgroupSet;
+        return discountgroupSet == null ? discountgroupSet : Collections.unmodifiableSet(discountgroupSet);
     }
 
     public void setDiscountgroupSet(Set<String> discountgroupSet) {
-        this.discountgroupSet = discountgroupSet;
+        this.discountgroupSet = discountgroupSet == null ? discountgroupSet : Collections.unmodifiableSet(discountgroupSet);
     }
 
     public boolean isSprRefreshReqd() {
@@ -1042,11 +1043,11 @@ public class SessionDTO implements Serializable {
     }
 
     public List<CustomViewMaster> getCustomerViewList() {
-        return customerViewList;
+        return customerViewList == null ? customerViewList : new ArrayList<>(customerViewList);
     }
 
     public void setCustomerViewList(List<CustomViewMaster> customerViewList) {
-        this.customerViewList = customerViewList;
+        this.customerViewList = customerViewList == null ? customerViewList : new ArrayList<>(customerViewList);
     }
 
     public Thread getThread(final int index) {
@@ -1079,11 +1080,11 @@ public class SessionDTO implements Serializable {
     }
 
     public List<List<String>> getDiscountlist() {
-        return discountlist;
+        return discountlist == null ? discountlist : new ArrayList<>(discountlist);
     }
 
     public void setDiscountlist(List<List<String>> discountlist) {
-        this.discountlist = discountlist;
+        this.discountlist = discountlist == null ? discountlist : new ArrayList<>(discountlist);
 }
     
     public GtnSmallHashMap getCurrentTableNames() {
@@ -1103,11 +1104,11 @@ public class SessionDTO implements Serializable {
     }
 
     public List<Object[]> getBusineesUnit() {
-        return busineesUnit;
+        return busineesUnit == null ? busineesUnit : new ArrayList<>(busineesUnit);
     }
 
     public void setBusineesUnit(List<Object[]> busineesUnit) {
-        this.busineesUnit = busineesUnit;
+        this.busineesUnit = busineesUnit == null ? busineesUnit : new ArrayList<>(busineesUnit);
     }
 
     public boolean isPrRefreshReqd() {

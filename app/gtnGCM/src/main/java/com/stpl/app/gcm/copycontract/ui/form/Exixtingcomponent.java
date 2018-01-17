@@ -212,6 +212,7 @@ public class Exixtingcomponent extends CustomComponent {
             SearchfieldEC.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             SearchfieldEC.setNullSelectionAllowed(true);
             SearchfieldEC.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+            ComponenttypeNC.setImmediate(true);
             dashboardResultsTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
             dashboardResultsTable.setHeight(NumericConstants.HUNDRED, Unit.PERCENTAGE);
             
@@ -277,6 +278,8 @@ public class Exixtingcomponent extends CustomComponent {
             ifpDetailsGrid.setVisible(false);
             psDetailsGrid.setVisible(false);
             rsDetailsGrid.setVisible(false);
+            cfpDetailsNo.setReadOnly(true);
+            cfpDetailsName.setReadOnly(true);
         } catch (Exception ex) {
            LOGGER.error("",ex);
         }
@@ -330,6 +333,7 @@ public class Exixtingcomponent extends CustomComponent {
             if (SearchfieldEC.getValue().toString().contains(Constants.RS)) {
                 commonUtil.loadComboBox(SearchfieldECDDlb, UiUtils.RS_TYPE, false);
             }
+            SearchfieldECDDlb.setImmediate(true);
             SearchfieldECDDlb.setValidationVisible(true);
             SearchvaluedEC.setVisible(false);
 
@@ -852,6 +856,8 @@ public class Exixtingcomponent extends CustomComponent {
                 cfpDetailsNo.setValue(detailsNo);
                 String detailsName = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.DASHBOARD_NAME).getValue());
                 cfpDetailsName.setValue(detailsName);
+                cfpDetailsNo.setReadOnly(true);
+                cfpDetailsName.setReadOnly(true);
 
             } else if (level.equals(NumericConstants.TWO) || level.equals(NumericConstants.THREE) || level.equals(NumericConstants.FOUR)) {
                 levelDetailsResultsTable.setVisibleColumns("itemNo", "itemName", "therapyClass", "brand", "ifpStatus", Constants.IFP_START_DATE, Constants.IFP_END_DATE);
@@ -867,6 +873,8 @@ public class Exixtingcomponent extends CustomComponent {
                     ifpDetailsNo.setValue(detailsNo);
                     String detailsName = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.DASHBOARD_NAME).getValue());
                     ifpDetailsName.setValue(detailsName);
+                    ifpDetailsNo.setReadOnly(true);
+                    ifpDetailsName.setReadOnly(true);
                 } else if (level.equals(NumericConstants.THREE)) {
                     cfpDetailsGrid.setVisible(false);
                     ifpDetailsGrid.setVisible(false);
@@ -876,6 +884,8 @@ public class Exixtingcomponent extends CustomComponent {
                     psDetailsNo.setValue(detailsNo);
                     String detailsName = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.DASHBOARD_NAME).getValue());
                     psDetailsName.setValue(detailsName);
+                    psDetailsNo.setReadOnly(true);
+                    psDetailsName.setReadOnly(true);
                 } else if (level.equals(NumericConstants.FOUR)) {
                     cfpDetailsGrid.setVisible(false);
                     ifpDetailsGrid.setVisible(false);
@@ -885,6 +895,8 @@ public class Exixtingcomponent extends CustomComponent {
                     rsDetailsNo.setValue(detailsNo);
                     String detailsName = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.DASHBOARD_NAME).getValue());
                     rsDetailsName.setValue(detailsName);
+                    rsDetailsNo.setReadOnly(true);
+                    rsDetailsName.setReadOnly(true);
                 }
             }
             componentLevelTableLogic.loadSetData(level, cfpId, true);
@@ -1163,6 +1175,7 @@ public class Exixtingcomponent extends CustomComponent {
         componentResultsSearchTable.setMultiSelect(false);
         componentResultsSearchTable.addStyleName("filtertable");
         componentResultsSearchTable.addStyleName("table-header-normal");
+        componentResultsSearchTable.setImmediate(true);
         componentReseultsTableLogic.setContainerDataSource(componentResultsContainer);
         componentReseultsTableLogic.sinkItemPerPageWithPageLength(false);
         componentDetailsSelectedItemLayout.addComponent(componentResultsSearchTable);
@@ -1178,6 +1191,7 @@ public class Exixtingcomponent extends CustomComponent {
         componentDetailsTable.setPageLength(NumericConstants.FIVE);
         componentDetailsTable.addStyleName("filtertable");
         componentDetailsTable.addStyleName("table-header-normal");
+        componentDetailsTable.setImmediate(true);
         componentDetailsSelectedLayout.addComponent(componentDetailsTable);
         componentDetailsSelectedLayout.addComponent(componentDetailsTableLogic.createControls());
         componentDetailsTableLogic.setContainerDataSource(componentDetailsContainer);

@@ -212,7 +212,7 @@ public class PSIFPDTO implements Serializable {
         this.itemNo = itemNo;
         this.itemName = itemName;
         this.priceScheduleSystemId = priceScheduleSystemId;
-        this.attachedDate = attachedDate;
+        this.attachedDate = attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     public String getItemFamilyPlanStatus() {
@@ -224,19 +224,19 @@ public class PSIFPDTO implements Serializable {
     }
 
     public Date getIfpStartDate() {
-        return ifpStartDate;
+        return ifpStartDate == null ? null : (Date) ifpStartDate.clone();
     }
 
     public void setIfpStartDate(Date ifpStartDate) {
-        this.ifpStartDate = ifpStartDate;
+        this.ifpStartDate = ifpStartDate == null ? null : (Date) ifpStartDate.clone();
     }
 
     public Date getIfpEndDate() {
-        return ifpEndDate;
+        return ifpEndDate == null ? null : (Date) ifpEndDate.clone();
     }
 
     public void setIfpEndDate(Date ifpEndDate) {
-        this.ifpEndDate = ifpEndDate;
+        this.ifpEndDate = ifpEndDate == null ? null : (Date) ifpEndDate.clone();
     }
 
     public String getIfpType() {
@@ -365,14 +365,14 @@ public class PSIFPDTO implements Serializable {
      * @return the priceProtectionEndDate
      */
     public Date getPriceProtectionEndDate() {
-        return priceProtectionEndDate;
+        return priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     /**
      * @param priceProtectionEndDate the priceProtectionEndDate to set
      */
     public void setPriceProtectionEndDate(final Date priceProtectionEndDate) {
-        this.priceProtectionEndDate = priceProtectionEndDate;
+        this.priceProtectionEndDate = priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     /**
@@ -477,56 +477,56 @@ public class PSIFPDTO implements Serializable {
      * @return the contractPriceStartDate
      */
     public Date getContractPriceStartDate() {
-        return contractPriceStartDate;
+        return contractPriceStartDate == null ? null : (Date) contractPriceStartDate.clone();
     }
 
     /**
      * @param contractPriceStartDate the contractPriceStartDate to set
      */
     public void setContractPriceStartDate(final Date contractPriceStartDate) {
-        this.contractPriceStartDate = contractPriceStartDate;
+        this.contractPriceStartDate = contractPriceStartDate == null ? null : (Date) contractPriceStartDate.clone();
     }
 
     /**
      * @return the contractPriceEndDate
      */
     public Date getContractPriceEndDate() {
-        return contractPriceEndDate;
+        return contractPriceEndDate == null ? null : (Date) contractPriceEndDate.clone();
     }
 
     /**
      * @param contractPriceEndDate the contractPriceEndDate to set
      */
     public void setContractPriceEndDate(final Date contractPriceEndDate) {
-        this.contractPriceEndDate = contractPriceEndDate;
+        this.contractPriceEndDate = contractPriceEndDate == null ? null : (Date) contractPriceEndDate.clone();
     }
 
     /**
      * @return the revisionDate
      */
     public Date getRevisionDate() {
-        return revisionDate;
+        return revisionDate == null ? null : (Date) revisionDate.clone();
     }
 
     /**
      * @param revisionDate the revisionDate to set
      */
     public void setRevisionDate(final Date revisionDate) {
-        this.revisionDate = revisionDate;
+        this.revisionDate = revisionDate == null ? null : (Date) revisionDate.clone();
     }
 
     /**
      * @return the attachedDate
      */
     public Date getAttachedDate() {
-        return attachedDate;
+        return attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     /**
      * @param attachedDate the attachedDate to set
      */
     public void setAttachedDate(final Date attachedDate) {
-        this.attachedDate = attachedDate;
+        this.attachedDate = attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     public Boolean getCheckRecord() {
@@ -578,11 +578,11 @@ public class PSIFPDTO implements Serializable {
     }
 
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public String getModifiedBy() {
@@ -594,11 +594,11 @@ public class PSIFPDTO implements Serializable {
     }
 
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     public String getPriceScheduleDetailsSystemId() {

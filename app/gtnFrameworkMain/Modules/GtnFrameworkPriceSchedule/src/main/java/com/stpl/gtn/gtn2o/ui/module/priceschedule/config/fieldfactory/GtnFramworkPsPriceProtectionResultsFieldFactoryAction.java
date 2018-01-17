@@ -40,7 +40,8 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
 				.getVaadinFieldFactoryComponentData(componentId);
 		GtnUIFrameworkActionParameter actionParam = componentData.getActionParameter();
-		if (GtnFrameworkPriceProtectionValueChangeManager.isValueChangeAllowed()) {
+		if (GtnFrameworkPriceProtectionValueChangeManager.isValueChangeAllowed()
+				&& actionParam.getCurrentValue() != actionParam.getOldValue()) {
 			String propertyId = actionParam.getPropertyId();
 			if (propertyId.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[12])) {
 				propertyId = getFieldId(propertyId, actionParam.getItemId(), actionParam.getCurrentValue());
@@ -117,12 +118,12 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 			tableBaseComponent.setTableRefresh(true);
 
 		}
-	
+
 		boolean gtnFrameworkPPPriceToltanceValueChangeManager = GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager
 				.isValueChangeAllowed();
 		if ((gtnFrameworkPPPriceToltanceValueChangeManager)
-				&& ((column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[20]))|| 
-				(column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[21])))) {
+				&& ((column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[20]))
+						|| (column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[21])))) {
 			GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(false);
 			refreshTable();
 			GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(true);

@@ -8,6 +8,7 @@ package com.stpl.app.cff.dto;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -64,11 +65,11 @@ public class CFFSearchDTO {
     }
 
     public Date getFinalApprovalDate() {
-        return finalApprovalDate;
+        return finalApprovalDate == null ? null : (Date) finalApprovalDate.clone();
     }
 
     public void setFinalApprovalDate(Date finalApprovalDate) {
-        this.finalApprovalDate = finalApprovalDate;
+        this.finalApprovalDate = finalApprovalDate == null ? null : (Date) finalApprovalDate.clone();
     }
 
     public String getApprovedBy() {
@@ -80,43 +81,43 @@ public class CFFSearchDTO {
     }
 
     public Date getActiveFromDate() {
-        return activeFromDate;
+        return activeFromDate == null ? null : (Date) activeFromDate.clone();
     }
 
     public void setActiveFromDate(Date activeFromDate) {
-        this.activeFromDate = activeFromDate;
+        this.activeFromDate = activeFromDate == null ? null : (Date) activeFromDate.clone();
     }
 
     public Date getActiveToDate() {
-        return activeToDate;
+        return activeToDate == null ? null : (Date) activeToDate.clone();
     }
 
     public void setActiveToDate(Date activeToDate) {
-        this.activeToDate = activeToDate;
+        this.activeToDate = activeToDate == null ? null : (Date) activeToDate.clone();
     }
 
     public Date getCreationToDate() {
-        return creationToDate;
+        return creationToDate == null ? null : (Date) creationToDate.clone();
     }
 
     public void setCreationToDate(Date creationToDate) {
-        this.creationToDate = creationToDate;
+        this.creationToDate = creationToDate == null ? null : (Date) creationToDate.clone();
     }
 
     public Date getApprovalFromDate() {
-        return approvalFromDate;
+        return approvalFromDate == null ? null : (Date) approvalFromDate.clone();
     }
 
     public void setApprovalFromDate(Date approvalFromDate) {
-        this.approvalFromDate = approvalFromDate;
+        this.approvalFromDate = approvalFromDate == null ? null : (Date) approvalFromDate.clone();
     }
 
     public Date getApprovalToDate() {
-        return approvalToDate;
+        return approvalToDate == null ? null : (Date) approvalToDate.clone();
     }
 
     public void setApprovalToDate(Date approvalToDate) {
-        this.approvalToDate = approvalToDate;
+        this.approvalToDate = approvalToDate == null ? null : (Date) approvalToDate.clone();
     }
 
     public Integer getCffMasterSid() {
@@ -128,11 +129,11 @@ public class CFFSearchDTO {
     }
 
     public Date getCreationFromDate() {
-        return creationFromDate;
+        return creationFromDate == null ? null : (Date) creationFromDate.clone();
     }
 
     public void setCreationFromDate(Date creationFromDate) {
-        this.creationFromDate = creationFromDate;
+        this.creationFromDate = creationFromDate == null ? null : (Date) creationFromDate.clone();
     }
 
     public HelperDTO getTypeDdlb() {
@@ -200,20 +201,20 @@ public class CFFSearchDTO {
     }
 
     public List<SortByColumn> getOrderByColumns() {
-        return orderByColumns;
+        return orderByColumns == null ? orderByColumns : Collections.unmodifiableList(orderByColumns);
     }
 
     public void setOrderByColumns(List<SortByColumn> orderByColumns) {
-        this.orderByColumns = orderByColumns;
+        this.orderByColumns = orderByColumns == null ? orderByColumns : Collections.unmodifiableList(orderByColumns);
     }
 
 
     public Set<Container.Filter> getFilters() {
-        return filters;
+        return filters == null ? filters : Collections.unmodifiableSet(filters);
     }
 
     public void setFilters(Set<Container.Filter> filters) {
-        this.filters = filters;
+        this.filters = filters == null ? filters : Collections.unmodifiableSet(filters);
     }
 
     public Integer getCreatedUser() {

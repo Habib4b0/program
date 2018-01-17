@@ -772,11 +772,11 @@ public class MProjectionVariance extends ForecastProjectionVariance {
     }
 
     public List<Leveldto> getCurrentHierarchy() {
-        return currentHierarchy;
+        return currentHierarchy == null ? currentHierarchy : new ArrayList<>(currentHierarchy);
     }
 
     public void setCurrentHierarchy(List<Leveldto> currentHierarchy) {
-        this.currentHierarchy = currentHierarchy;
+        this.currentHierarchy = currentHierarchy == null ? currentHierarchy : new ArrayList<>(currentHierarchy);
     }
 
     public void loadVariables() {

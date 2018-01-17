@@ -93,7 +93,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 		this.screenName = screenName;
 		this.indicator = indicator;
 		this.groupLookup = groupLookup;
-		this.itemsOrCompanySids = itemsOrCompanySids;
+		this.itemsOrCompanySids = itemsOrCompanySids == null ? itemsOrCompanySids : new ArrayList<>(itemsOrCompanySids);
 	}
 
 	public void init() {
@@ -331,11 +331,11 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 	}
 
 	public List<String> getFilteredSids() {
-		return filteredSids;
+		return filteredSids == null ? filteredSids : new ArrayList<>(filteredSids);
 	}
 
 	public void setFilteredSids(List<String> filteredSids) {
-		this.filteredSids = filteredSids;
+		this.filteredSids = filteredSids == null ? filteredSids : new ArrayList<>(filteredSids);
 	}
 
 	private GroupDTO setGroupDetails(final String indicator) {

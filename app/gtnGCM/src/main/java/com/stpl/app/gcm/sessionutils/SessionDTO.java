@@ -9,6 +9,7 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.util.HelperDTO;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
@@ -189,11 +190,11 @@ public class SessionDTO implements Serializable, Cloneable {
     }
 
     public List<String> getCompanyMasterSids() {
-        return companyMasterSids;
+        return companyMasterSids == null ? companyMasterSids : Collections.unmodifiableList(companyMasterSids);
     }
 
     public void setCompanyMasterSids(List<String> companyMasterSids) {
-        this.companyMasterSids = companyMasterSids;
+        this.companyMasterSids = companyMasterSids == null ? companyMasterSids : Collections.unmodifiableList(companyMasterSids);
     }
 
     public String getSearchSessionId() {
@@ -221,19 +222,19 @@ public class SessionDTO implements Serializable, Cloneable {
     }
 
     public List<ContractResultDTO> getList() {
-        return list;
+        return list == null ? list : new ArrayList<>(list);
     }
 
     public void setList(List<ContractResultDTO> list) {
-        this.list = list;
+        this.list = list == null ? list : new ArrayList<>(list);
     }
 
     public List<String> getPhCompanyMasterSids() {
-        return phCompanyMasterSids;
+        return phCompanyMasterSids == null ? phCompanyMasterSids : Collections.unmodifiableList(phCompanyMasterSids);
     }
 
     public void setPhCompanyMasterSids(List<String> phCompanyMasterSids) {
-        this.phCompanyMasterSids = phCompanyMasterSids;
+        this.phCompanyMasterSids = phCompanyMasterSids == null ? phCompanyMasterSids : Collections.unmodifiableList(phCompanyMasterSids);
     }
 
     public int getContMasteSid() {

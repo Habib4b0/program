@@ -14,6 +14,7 @@ import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +46,7 @@ public class DPRChart {
      */
     public DPRChart(final List<DiscountProjectionResultsDTO> dto, ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO rightDto) {
         LOGGER.debug("Entering SPRChart method ");
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
         this.rightDto = rightDto;
         this.projSelDTO = projSelDTO;
         LOGGER.debug("End of SPRChart method ");
@@ -166,7 +167,7 @@ public class DPRChart {
      * @return the dto
      */
     public List<DiscountProjectionResultsDTO> getDto() {
-        return dto;
+        return dto == null ? dto : new ArrayList<>(dto);
     }
 
     /**
@@ -175,7 +176,7 @@ public class DPRChart {
      * @param dto the new dto
      */
     public void setDto(final List<DiscountProjectionResultsDTO> dto) {
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
     }
 
     public CustomTableHeaderDTO getRightDto() {

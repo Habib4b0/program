@@ -83,7 +83,7 @@ public class FileManagementLogic {
 
 	private static int foecastYearCount;
 
-	public static String ITEM_QUAL_NAME = "itemQualifierName";
+	public static final String ITEM_QUAL_NAME = "itemQualifierName";
 
 	public final static String ITEM_QUALIFIER_SID = "itemQualifierSid";
 
@@ -106,9 +106,9 @@ public class FileManagementLogic {
 		return DAO;
 	}
 
-	public static String DEFAULT_JAVA_DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
+	public static final String DEFAULT_JAVA_DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
 
-	public static String DEFAULT_SQL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
+	public static final String DEFAULT_SQL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 
 	private SimpleDateFormat MMDDYY_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private SimpleDateFormat JAVA_DATE_FORMAT = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");

@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 public class Emailer {
     private static final Logger LOGGER = LoggerFactory.getLogger(Emailer.class);
 
-     final static String FROM = "support@bpitechnologies.com";
+    public static final String FROM = "support@bpitechnologies.com";
     final static Properties properties = new Properties();
 
     public Emailer() {

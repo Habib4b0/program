@@ -773,7 +773,15 @@ public class Newcomponent extends CustomComponent {
                             field1.setDateFormat(Constants.MM_DD_YYYY);
                             field1.setStyleName(Constants.DATE_FIEILD_CENTER);
                             field = field1;
-
+                        } else if (Constants.STATUS_S.equals(propertyId)) {
+                            ComboBox status = new ComboBox();
+                            getSelectNull(status);
+                            try {
+                                commonUtil.loadComboBox(status, UiUtils.STATUS, false);
+                            } catch (Exception ex) {
+                                LOGGER.error(ex.getMessage());
+                            }
+                            field = status;
                         } else {
                             field = null;
                         }
@@ -1004,7 +1012,7 @@ public class Newcomponent extends CustomComponent {
                         itemDTO.setEndDate(null);
                     }
                     if ((obje[NumericConstants.SEVEN] != null) && !obje[NumericConstants.SEVEN].equals(Constants.SELECT_ONE) && !obje[NumericConstants.SEVEN].equals(Constants.NULL)) {
-                        itemDTO.setPriceType(String.valueOf(obje[NumericConstants.EIGHT]));
+                        itemDTO.setPriceType(String.valueOf(obje[NumericConstants.SEVEN]));
                     } else {
                         itemDTO.setPriceType(Constants.EMPTY);
                     }
@@ -1240,7 +1248,8 @@ public class Newcomponent extends CustomComponent {
 
     @UiHandler("populateBtn")
     public void massPopulateLogic(Button.ClickEvent event) {
-        if (componenttype.getValue() != null && (String.valueOf(componenttype.getValue()).equals(Constants.PRICE_SCHEDULE) || String.valueOf(componenttype.getValue()).equals(Constants.COMPANY_FAMILY_PLAN) || String.valueOf(componenttype.getValue()).equals(Constants.ITEM_FAMILY_PLAN))) {
+        if (componenttype.getValue() != null && (String.valueOf(componenttype.getValue()).equals(Constants.PRICE_SCHEDULE) || String.valueOf(componenttype.getValue()).equals(Constants.COMPANY_FAMILY_PLAN)
+                || String.valueOf(componenttype.getValue()).equals(Constants.ITEM_FAMILY_PLAN) || String.valueOf(componenttype.getValue()).equals(Constants.REBATE_SCHEDULE))) {
             if (fieldDdlb.getValue() != null && !fieldDdlb.getValue().equals(Constants.SELECT_ONE)) {
                 String searchField = String.valueOf(fieldDdlb.getValue());
                 if (searchField.equals(Constants.STATUS_FIELD)) {

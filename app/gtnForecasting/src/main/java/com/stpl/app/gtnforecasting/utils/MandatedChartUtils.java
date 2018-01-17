@@ -9,6 +9,7 @@ import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +70,7 @@ public class MandatedChartUtils {
         LOGGER.debug("Entering SPRChart method ");
         this.frequency = frequency;
         this.history = history;
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
         this.rightDto = rightDto;
         this.screenName = screenName;
         this.projSelDTO = projectionDTO;
@@ -284,7 +285,7 @@ public class MandatedChartUtils {
      * @return the dto
      */
     public List<?> getDto() {
-        return dto;
+        return dto == null ? dto : new ArrayList<>(dto);
     }
 
     /**
@@ -293,7 +294,7 @@ public class MandatedChartUtils {
      * @param dto the new dto
      */
     public void setDto(final List<?> dto) {
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
     }
 
     /**

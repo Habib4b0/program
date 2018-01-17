@@ -25,19 +25,19 @@ public class HeaderUtils {
     /**
      * Customer visible columns
      */
-    public static final Object[] CUSTOMER_COLS = new Object[]{"organisationKey", "customerId", "customerNo", "customerName", "tradeClass", "tradeClassStartDate", "tradeClassEndDate", "customerType", "customerStatus", "lives", "customerStartDate", "customerEndDate", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "customerGroup", "financialSystem", "address1", "address2", "city", "state", "zipCode", "country", "regionCode", "parentCustomerNo", "parentStartDate", "parentEndDate", "priorParentStartDate", "priorParentCustomerNo"};
+    private static final Object[] CUSTOMER_COLS = new Object[]{"organisationKey", "customerId", "customerNo", "customerName", "tradeClass", "tradeClassStartDate", "tradeClassEndDate", "customerType", "customerStatus", "lives", "customerStartDate", "customerEndDate", "udc1", "udc2", "udc3", "udc4", "udc5", "udc6", "customerGroup", "financialSystem", "address1", "address2", "city", "state", "zipCode", "country", "regionCode", "parentCustomerNo", "parentStartDate", "parentEndDate", "priorParentStartDate", "priorParentCustomerNo"};
     /**
      * Customer column headers
      */
-    public static final String[] CUSTOMER_HEADERS = new String[]{"Organization Key", "Customer ID", "Customer No", "Customer Name", "Trade Class", "Trade Class Start Date", "Trade Class End Date", "Customer Type", "Customer Status ", "Lives ", "Customer Start Date", "Customer End Date", "UDC1", "UDC2", "UDC3", "UDC4", "UDC5", "UDC6", "Customer Group", "Financial System", "Address 1", "Address 2", "City", "State", "Zip Code", "Country", "Region Code", "Parent Customer No", "Parent Start Date", "Parent End Date", "Prior Parent Start Date", "Prior Parent Customer No"};
+    private static final String[] CUSTOMER_HEADERS = new String[]{"Organization Key", "Customer ID", "Customer No", "Customer Name", "Trade Class", "Trade Class Start Date", "Trade Class End Date", "Customer Type", "Customer Status ", "Lives ", "Customer Start Date", "Customer End Date", "UDC1", "UDC2", "UDC3", "UDC4", "UDC5", "UDC6", "Customer Group", "Financial System", "Address 1", "Address 2", "City", "State", "Zip Code", "Country", "Region Code", "Parent Customer No", "Parent Start Date", "Parent End Date", "Prior Parent Start Date", "Prior Parent Customer No"};
     /**
      * Item visible columns
      */
-    public static final Object[] ITEM_COLS = new Object[]{"itemId", "item", "itemCode", "itemName", "itemDesc", "itemStartDate", "itemEndDate", "itemStatus", "therapeuticClass", "brand", "form", "strength", "packageSizeCode", "packageSizeIntroDate", "psUP", "manufacturerID", "manufacturerNO", "manufacturerName", "labelerCode", "productOrganizationKey", "acquisitionDate", "authorizedGeneric", "authorizedGenericStartDate", "authorizedGenericEndDate", "firstSaleDate", "itemTypeIndicator", "itemClass", "itemType", "marketTerminationDate", "newFormulationIndicator", "newFormulation", "newFormulationStartDate", "newFormulationEndDate", "pediatricExclusiveIndicator", "pediatricExclusiveEndDate", "pediatricExclusiveStartDate", "clottingFactorIndicator", "clottingFactorStartDate", "clottingFactorEndDate", "primaryUOM", "secondaryUOM", "shelfLife", "shelfLifeType", "dualPricingIndicator", "itemFamilyID", "psUDC1", "psUDC2", "psUDC3", "psUDC4", "psUDC5", "psUDC6", "acquiredAMP", "acquiredBAMP", "psOBRABAMP", "psDRA", "dosesperUnit", "discontinuationDate", "lastLotExpirationDate", "psNDC9", "psNDC8", "displayBrand", "innovatorCode", "baselineAMP", "baseYearCPI"};
+    private static final Object[] ITEM_COLS = new Object[]{"itemId", "item", "itemCode", "itemName", "itemDesc", "itemStartDate", "itemEndDate", "itemStatus", "therapeuticClass", "brand", "form", "strength", "packageSizeCode", "packageSizeIntroDate", "psUP", "manufacturerID", "manufacturerNO", "manufacturerName", "labelerCode", "productOrganizationKey", "acquisitionDate", "authorizedGeneric", "authorizedGenericStartDate", "authorizedGenericEndDate", "firstSaleDate", "itemTypeIndicator", "itemClass", "itemType", "marketTerminationDate", "newFormulationIndicator", "newFormulation", "newFormulationStartDate", "newFormulationEndDate", "pediatricExclusiveIndicator", "pediatricExclusiveEndDate", "pediatricExclusiveStartDate", "clottingFactorIndicator", "clottingFactorStartDate", "clottingFactorEndDate", "primaryUOM", "secondaryUOM", "shelfLife", "shelfLifeType", "dualPricingIndicator", "itemFamilyID", "psUDC1", "psUDC2", "psUDC3", "psUDC4", "psUDC5", "psUDC6", "acquiredAMP", "acquiredBAMP", "psOBRABAMP", "psDRA", "dosesperUnit", "discontinuationDate", "lastLotExpirationDate", "psNDC9", "psNDC8", "displayBrand", "innovatorCode", "baselineAMP", "baseYearCPI"};
     /**
      * Item column headers
      */
-    public static final String[] ITEM_HEADERS = new String[]{"Item ID", "Item No", "Item Code", "Item Name", "Item Desc", "Item Start Date", "Item End Date", "Item Status", "Therapeutic Class", "Brand", "Form", "Strength", "Package Size Code", "Package Size Intro Date", "UPPS", "Manufacturer ID", "Manufacturer NO", "Manufacturer Name", "Labeler Code", "Organization Key", "Acquisition Date", "Authorized Generic", "Authorized Generic Start Date", "Authorized Generic End Date", "First Sale Date", "Item Type Indicator", "Item Class", "Item Type", "Market Termination Date", "New Formulation Indicator", "New Formulation", "New Formulation Start Date", "New Formulation End Date", "Pediatric Exclusive Indicator", "Pediatric Exclusive Start Date", "Pediatric Exclusive End Date", "Clotting Factor Indicator", "Clotting Factor Start Date", "Clotting Factor End Date", "Primary UOM", "Secondary UOM", "Shelf Life", "Shelf Life Type", "Dual Pricing Indicator", "Item Family ID", "UDC1", "UDC2", "UDC3", "UDC4", "UDC5", "UDC6", "Acquired AMP", "Acquired BAMP", "OBRA BAMP", "DRA", "Doses per Unit", "Discontinuation Date", "Last Lot Expiration Date", "NDC9", "NDC8", "Display Brand", "Innovator Code", "Baseline AMP", "Base Year CPI"};
+    private static final String[] ITEM_HEADERS = new String[]{"Item ID", "Item No", "Item Code", "Item Name", "Item Desc", "Item Start Date", "Item End Date", "Item Status", "Therapeutic Class", "Brand", "Form", "Strength", "Package Size Code", "Package Size Intro Date", "UPPS", "Manufacturer ID", "Manufacturer NO", "Manufacturer Name", "Labeler Code", "Organization Key", "Acquisition Date", "Authorized Generic", "Authorized Generic Start Date", "Authorized Generic End Date", "First Sale Date", "Item Type Indicator", "Item Class", "Item Type", "Market Termination Date", "New Formulation Indicator", "New Formulation", "New Formulation Start Date", "New Formulation End Date", "Pediatric Exclusive Indicator", "Pediatric Exclusive Start Date", "Pediatric Exclusive End Date", "Clotting Factor Indicator", "Clotting Factor Start Date", "Clotting Factor End Date", "Primary UOM", "Secondary UOM", "Shelf Life", "Shelf Life Type", "Dual Pricing Indicator", "Item Family ID", "UDC1", "UDC2", "UDC3", "UDC4", "UDC5", "UDC6", "Acquired AMP", "Acquired BAMP", "OBRA BAMP", "DRA", "Doses per Unit", "Discontinuation Date", "Last Lot Expiration Date", "NDC9", "NDC8", "Display Brand", "Innovator Code", "Baseline AMP", "Base Year CPI"};
 
     private static final HashMap<String, String> COL_NAMES = new HashMap<String, String>();
 
@@ -141,4 +141,20 @@ public class HeaderUtils {
         COL_NAMES.put("priorParentStartDate", "PRIOR_PARENT_START_DATE");
         return COL_NAMES;
     }
+
+	public static Object[] getCustomerCols() {
+		return CUSTOMER_COLS.clone();
+	}
+
+	public static String[] getCustomerHeaders() {
+		return CUSTOMER_HEADERS.clone();
+	}
+
+	public static Object[] getItemCols() {
+		return ITEM_COLS.clone();
+	}
+
+	public static String[] getItemHeaders() {
+		return ITEM_HEADERS.clone();
+	}
 }

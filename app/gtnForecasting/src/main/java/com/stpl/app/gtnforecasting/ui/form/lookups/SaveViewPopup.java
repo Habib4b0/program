@@ -33,6 +33,7 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -104,8 +105,8 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
             final BeanItemContainer<Leveldto> availableProducts, final BeanItemContainer<Leveldto> selectedProducts, List<String> customerListEndSids, List<String> productListEndSids) {
         super(windowName);
         LOGGER.debug("Entering saveViewPopup");
-        this.customerListEndSids = customerListEndSids;
-        this.productListEndSids = productListEndSids;
+        this.customerListEndSids = customerListEndSids == null ? customerListEndSids : new ArrayList<>(customerListEndSids);
+        this.productListEndSids = productListEndSids == null ? productListEndSids : new ArrayList<>(productListEndSids);
         buildPopup();
         LOGGER.debug("End of SaveViewPopup");
     }
@@ -128,13 +129,13 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
         super(windowName);
         LOGGER.debug("Entering saveViewPopup");
         this.dataselectionDtoToSave = dataselectionDtoToSave;
-        this.selectedCustomersList = selectedCustomersList;
-        this.selectedProductsList = selectedProductsList;
-        this.customerHierarchyEndLevels = customerHierarchyEndLevels;
+        this.selectedCustomersList = selectedCustomersList == null ? selectedCustomersList : new ArrayList<>(selectedCustomersList);
+        this.selectedProductsList = selectedProductsList == null ? selectedProductsList : new ArrayList<>(selectedProductsList);
+        this.customerHierarchyEndLevels = customerHierarchyEndLevels == null ? customerHierarchyEndLevels : new ArrayList<>(customerHierarchyEndLevels);
         this.productHierarchyEndLevelsHierNos = productHierarchyEndLevelsHierNos;
         this.viewDTO = viewDTO;
-        this.customerListEndSids = customerListEndSids;
-        this.productListEndSids = productListEndSids;
+        this.customerListEndSids = customerListEndSids == null ? customerListEndSids : new ArrayList<>(customerListEndSids);
+        this.productListEndSids = productListEndSids == null ? productListEndSids : new ArrayList<>(productListEndSids);
         this.screenName = screenName;
         buildPopup();
         LOGGER.debug("End of SaveViewPopup");

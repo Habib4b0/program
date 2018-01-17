@@ -7,6 +7,9 @@ package com.stpl.app.cff.ui.form;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+
 import com.stpl.app.cff.bpm.logic.DSCalculationLogic;
 import com.stpl.app.cff.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
@@ -378,7 +381,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				public void buttonClick(final Button.ClickEvent event) {
 					try {
 						LOGGER.debug("Entering EXCEL Export Button Click");
-						ConsolidatedFinancialForecastUI.EXCEL_CLOSE = true;
+						ConsolidatedFinancialForecastUI.setEXCEL_CLOSE(true);
 						CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(),
 								TableHeaderUtils.getInstance().resultTableVisibleColumnExcel, tableLogic,
 								"Consolidated_Financial_Forecast");
@@ -457,7 +460,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					processId = Long.valueOf(processIdList.get(0).toString());
 				}
 				final String userId = (String) VaadinSession.getCurrent().getAttribute("userId");
-				DSCalculationLogic.isValidWorkflowUser(userId, processId);
+				final User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
+				DSCalculationLogic.isValidWorkflowUser(userModel, roleList, processId);
 				sessionDto.setAction("edit");
 				sessionDto.setIsGenerated(Boolean.TRUE);
 				sessionDto.setProcessId(processId);
@@ -556,9 +560,9 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 							dataSelectionDto.getCustomerRelationShipVersionNo(),
 							dataSelectionDto.getProductRelationShipVersionNo());
 
-					sessionDto.setCustomerLevelDetails(logic.getLevelValueDetails(sessionDto,
+					sessionDto.setCustomerLevelDetails(cffLogic.getLevelValueDetails(sessionDto,
 							dataSelectionDto.getCustRelationshipBuilderSid(), true));
-					sessionDto.setProductLevelDetails(logic.getLevelValueDetails(sessionDto,
+					sessionDto.setProductLevelDetails(cffLogic.getLevelValueDetails(sessionDto,
 							dataSelectionDto.getProdRelationshipBuilderSid(), false));
 					approvalDetailsBean = new BeanItemContainer<>(ApprovalDetailsDTO.class);
 					resultsBean = new BeanItemContainer<>(CFFResultsDTO.class);

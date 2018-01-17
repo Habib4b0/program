@@ -8,11 +8,10 @@ import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.summary.RebateSummary;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.summary.SalesSummary;
-import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.VerticalLayout;
+import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,12 +35,12 @@ public class SalesAndRebates extends VerticalLayout {
 
     public SalesAndRebates(List<ItemIndexDto> itemList, SelectionDTO session) {
         this.session = session;
-        this.itemList = itemList;
+        this.itemList = itemList == null ? itemList : new ArrayList<>(itemList);
     }
 
     public Component getContent(List<ItemIndexDto> selecteditemList, final SelectionDTO selection) {
         this.session = selection;
-        this.itemList = selecteditemList;
+        this.itemList = selecteditemList == null ? selecteditemList : new ArrayList<>(selecteditemList);
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(tradingPartnerSalesTableLayout);
         layout.addComponent(tradingPartnerRebatesTableLayout);

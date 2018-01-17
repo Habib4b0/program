@@ -104,6 +104,12 @@ public class RebatePlanInformationTabConfig {
 				GtnUIFrameworkComponentType.COMBOBOX);
 		rpTypeComponentConfig.setAuthorizationIncluded(true);
 		rpTypeComponentConfig.setComponentName("Rebate Plan Type");
+
+		GtnUIFrameworkValidationConfig rpTypeValidationConfig = new GtnUIFrameworkValidationConfig();
+		rpTypeValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		rpTypeComponentConfig.setGtnUIFrameworkValidationConfig(rpTypeValidationConfig);
+		rpTypeComponentConfig
+				.setComponentStyle(Arrays.asList(new String[] { GtnFrameworkCommonConstants.GTN_FRAMEWORK_MANDATORY }));
 		componentList.add(rpTypeComponentConfig);
 
 		GtnUIFrameworkComboBoxConfig rpTypeComboConfig = configProvider.getComboBoxConfig("REBATE_PLAN_TYPE",

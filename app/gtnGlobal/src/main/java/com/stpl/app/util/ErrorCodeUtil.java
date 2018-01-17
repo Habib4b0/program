@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 public final class ErrorCodeUtil {
 
 	/** The resouce bundle. */
-	public static ResourceBundle resouceBundle = ResourceBundle.getBundle("errorcodes.errorcode");
+	private static ResourceBundle resouceBundle = ResourceBundle.getBundle("errorcodes.errorcode");
 
 	public static final String HYPHEN = " - ";
         

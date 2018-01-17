@@ -11,14 +11,20 @@ import com.stpl.app.gtnforecasting.dataassumptions.dto.DataAssumptionDTO;
 import com.stpl.app.gtnforecasting.dataassumptions.logic.tableLogic.DataAssumptionstableLogic;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.utils.Constant;
+
 import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
+import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
+
 import com.stpl.app.utils.DateToStringConverter;
 import com.stpl.app.utils.TableHeaderColumnsUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CsvExportforPagedTable;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -48,8 +54,7 @@ public class DataAssumptions extends CustomComponent {
     @UiField("tableLayout")
     protected VerticalLayout tableLayout;
 
-    @UiField("controlLayout")
-    protected HorizontalLayout controlLayout;
+
 
     @UiField("excelButtonLayout")
     protected HorizontalLayout excelButtonLayout;
@@ -75,25 +80,23 @@ public class DataAssumptions extends CustomComponent {
     }
 
     private void configureTable() {
-
-        tableLayout.addComponent(resultTable);
+    	CssLayout cssLayout=new CssLayout();
+    	cssLayout.addStyleName("gtnFrameworkCol-12");
+    	cssLayout.addComponent(resultTable);
+        tableLayout.addComponent(cssLayout);
         HorizontalLayout controls = tableLogic.createControls();
-        controlLayout = CommonLogic.getResponsiveControls(controls);
-        tableLayout.addComponent(controlLayout);
-
+        tableLayout.addComponent(CommonLogic.getResponsiveControls(controls));
         tableLogic.setContainerDataSource(resultsContainer);
-        resultTable.setVisibleColumns(TableHeaderColumnsUtil.dataAssumptionColumns);
-        resultTable.setColumnHeaders(TableHeaderColumnsUtil.dataAssumptionHeaders);
+        resultTable.setVisibleColumns(TableHeaderColumnsUtil.getDataAssumptionColumns());
+        resultTable.setColumnHeaders(TableHeaderColumnsUtil.getDataAssumptionHeaders());
         resultTable.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        resultTable.setComponentError(null);
-        resultTable.setSizeFull();
-        resultTable.markAsDirty();
-        resultTable.setFilterBarVisible(true);
+	resultTable.setWidth(100, Unit.PERCENTAGE);
+	resultTable.setHeight(400, Unit.PIXELS);
         resultTable.setImmediate(true);
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        resultTable.setValidationVisible(false);
-        resultTable.addStyleName("filterbar");
+	resultTable.addStyleName(Constant.FILTER_TABLE);
+	resultTable.addStyleName("table-header-normal");
         resultTable.setFilterBarVisible(true);
         tableLogic.configureSearchData(dataAssumptionDTO, session);
         resultTable.setColumnAlignment("activeFileFromDate", ExtCustomTable.Align.CENTER);
@@ -123,7 +126,7 @@ public class DataAssumptions extends CustomComponent {
     private void createWorkSheet() {
         LOGGER.info("Entering createWorkSheet");
         try {
-            CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(),TableHeaderColumnsUtil.dataAssumptionsColumnsExcel , tableLogic, "Data Assumptions");
+            CsvExportforPagedTable.createWorkSheet(resultTable.getColumnHeaders(),TableHeaderColumnsUtil.getDataAssumptionsColumnsExcel() , tableLogic, "Data Assumptions");
         } catch (PortalException | SystemException | IllegalAccessException | IllegalArgumentException | NoSuchFieldException | NoSuchMethodException | InvocationTargetException e) {
             LOGGER.error(e.getMessage());
         }

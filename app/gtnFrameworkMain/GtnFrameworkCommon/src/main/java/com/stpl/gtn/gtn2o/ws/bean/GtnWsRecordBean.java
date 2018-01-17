@@ -221,6 +221,12 @@ public class GtnWsRecordBean implements Serializable {
 		return value;
 	}
 
+	public void setPropertyValueByIndex(int index, String value) {
+		if (properties != null && index > -1 && properties.size() > index) {
+			properties.set(index, value);
+		}
+
+	}
 	public String getStringPropertyByIndex(int index) {
 		return getString(getPropertyValueByIndex(index));
 	}
@@ -419,5 +425,13 @@ public class GtnWsRecordBean implements Serializable {
 		}
 		additionalProperties.set(index, value);
 	}
+
+	public GtnWsRecordBean cloneGtnWsRecordBean() throws CloneNotSupportedException {
+		GtnWsRecordBean newObject = (GtnWsRecordBean) super.clone();
+		newObject.properties = new ArrayList<>(this.properties);
+		newObject.additionalProperties = new ArrayList<>(this.additionalProperties);
+		return newObject;
+	}
+
 
 }
