@@ -101,8 +101,8 @@ public class GtnFrameworkContractDashboardInfomationTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		cdInformationComponentList.add(gtnLayoutConfig);
 
-		GtnUIFrameworkComponentConfig levelComponentConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
-				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.OPTIONGROUP);
+		GtnUIFrameworkComponentConfig levelComponentConfig = commonConfig.getUIFrameworkComponentConfig(componentId,
+				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.OPTIONGROUP);
 		levelComponentConfig.setAuthorizationIncluded(true);
 		levelComponentConfig.setComponentName("Level:");
 		levelComponentConfig.addComponentStyle(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE);
@@ -144,8 +144,8 @@ public class GtnFrameworkContractDashboardInfomationTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		cdInformationComponentList.add(gtnLayoutConfig);
 
-		GtnUIFrameworkComponentConfig viewComponentConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
-				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.OPTIONGROUP);
+		GtnUIFrameworkComponentConfig viewComponentConfig = commonConfig.getUIFrameworkComponentConfig(componentId,
+				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.OPTIONGROUP);
 		viewComponentConfig.setAuthorizationIncluded(true);
 		viewComponentConfig.setComponentName("View:");
 		viewComponentConfig.addComponentStyle(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE);
@@ -304,8 +304,8 @@ public class GtnFrameworkContractDashboardInfomationTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		cdInformationComponentList.add(gtnLayoutConfig);
 
-		GtnUIFrameworkComponentConfig contractTypeComponentConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
-				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+		GtnUIFrameworkComponentConfig contractTypeComponentConfig = commonConfig.getUIFrameworkComponentConfig(
+				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		contractTypeComponentConfig.setAuthorizationIncluded(true);
 		contractTypeComponentConfig.setComponentName("Contract Type");
 		contractTypeComponentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
@@ -532,7 +532,7 @@ public class GtnFrameworkContractDashboardInfomationTabConfig {
 				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELD);
 		cdInformationTradingPartnerConfig.setAuthorizationIncluded(true);
 		cdInformationTradingPartnerConfig.setComponentName("Trading Partner");
-                cdInformationTradingPartnerConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
+		cdInformationTradingPartnerConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
 		cdInformationComponentList.add(cdInformationTradingPartnerConfig);
 		componentIdList.add(cdInformationTradingPartnerConfig.getComponentId());
 

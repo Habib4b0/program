@@ -126,8 +126,8 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		cdRebateComponentList.add(gtnLayoutConfig);
 
-		GtnUIFrameworkComponentConfig rebateDecissionLevelConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
-				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.OPTIONGROUP);
+		GtnUIFrameworkComponentConfig rebateDecissionLevelConfig = commonConfig.getUIFrameworkComponentConfig(
+				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.OPTIONGROUP);
 		rebateDecissionLevelConfig.setAuthorizationIncluded(true);
 		rebateDecissionLevelConfig.setComponentName("Level:");
 		rebateDecissionLevelConfig.addComponentStyle(GtnFrameworkCssConstants.HORIZONTAL_LOWER_CASE);
@@ -754,8 +754,8 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		cdRebateComponentList.add(gtnLayoutConfig);
 
-		GtnUIFrameworkComponentConfig deductionInclusionConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
-				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+		GtnUIFrameworkComponentConfig deductionInclusionConfig = commonConfig.getUIFrameworkComponentConfig(componentId,
+				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		deductionInclusionConfig.setAuthorizationIncluded(true);
 		deductionInclusionConfig.setComponentName("Deduction Inclusion");
 		deductionInclusionConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
@@ -944,7 +944,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		componentConfig.setAuthorizationIncluded(true);
 		componentConfig.setComponentName("Rebate Frequency");
-                componentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
+		componentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
 		cdRebateComponentList.add(componentConfig);
 
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
@@ -983,8 +983,8 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		cdRebateComponentList.add(gtnLayoutConfig);
 
-		GtnUIFrameworkComponentConfig paymentFrequencyConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
-				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
+		GtnUIFrameworkComponentConfig paymentFrequencyConfig = commonConfig.getUIFrameworkComponentConfig(componentId,
+				true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		paymentFrequencyConfig.setAuthorizationIncluded(true);
 		paymentFrequencyConfig.setComponentName("Payment Frequency");
 		paymentFrequencyConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
@@ -1221,7 +1221,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		componentConfig.setAuthorizationIncluded(true);
 		componentConfig.setComponentName("Calculation Type");
-                componentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
+		componentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
 		cdRebateComponentList.add(componentConfig);
 
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
@@ -1277,7 +1277,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		componentConfig.setAuthorizationIncluded(true);
 		componentConfig.setComponentName("Calculation Level");
-                componentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
+		componentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
 		cdRebateComponentList.add(componentConfig);
 
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
