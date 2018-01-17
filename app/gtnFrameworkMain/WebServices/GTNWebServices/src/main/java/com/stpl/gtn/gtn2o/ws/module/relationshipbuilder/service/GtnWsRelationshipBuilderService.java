@@ -663,6 +663,7 @@ public class GtnWsRelationshipBuilderService {
 							.length() - 1);
 			GtnWsRecordBean parentTreeNode = null;
 			if (hierarchyNo.lastIndexOf('.') != -1) {
+
 				String parentHierrarchy = hierarchyNo.substring(0, hierarchyNo.lastIndexOf('.') + 1);
 				parentTreeNode = finalSavedLevelsList1.get(parentHierrarchy);
 			}
@@ -860,7 +861,7 @@ public class GtnWsRelationshipBuilderService {
 	}
 
 	public String getHierarchyNoforQuery(String hirarchyNo, String value) {
-		String tempHiearchyNo = "";
+		String tempHiearchyNo = hirarchyNo;
 		if (!hirarchyNo.isEmpty()) {
 			tempHiearchyNo += "," + value + ", '.'";
 		} else
