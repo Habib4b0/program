@@ -26,7 +26,7 @@ import org.jboss.logging.Logger;
 public class Emailer {
     private static final Logger LOGGER = Logger.getLogger(Emailer.class);
 
-     final static String FROM = "support@bpitechnologies.com";
+    public static final String FROM = "support@bpitechnologies.com";
     final static Properties properties = new Properties();
 
     public Emailer() {

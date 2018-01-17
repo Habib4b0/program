@@ -232,10 +232,10 @@ public class FileUploadForm extends CustomComponent
 		selectedInterface.setNullSelectionAllowed(true);
 		selectedInterface.setNullSelectionItemId(Constants.SELECT_ONE);
 		if (String.valueOf(selectType.getValue()).equals(Constants.INBOUND)) {
-			interFacesList = Arrays.asList(Constants.interFacesList);
+			interFacesList = Arrays.asList(Constants.getInterfaceslist());
 			Collections.sort(interFacesList);
 		} else {
-			interFacesList = Arrays.asList(Constants.outBoundInterfaceList);
+			interFacesList = Arrays.asList(Constants.getOutboundinterfacelist());
 			Collections.sort(interFacesList);
 		}
 

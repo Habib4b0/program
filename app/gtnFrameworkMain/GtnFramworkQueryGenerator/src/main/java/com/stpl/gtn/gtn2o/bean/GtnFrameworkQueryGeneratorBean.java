@@ -158,4 +158,16 @@ public class GtnFrameworkQueryGeneratorBean implements Serializable {
 		selectClauseConfigList.remove(index);
 	}
 
+	public void removeWhereClauseAboveGivenIndex(int linkedLevelValueCount) {
+		int size = whereClauseConfigList.size();
+		if (size <= linkedLevelValueCount)
+			return;
+		if (linkedLevelValueCount < 0) {
+			whereClauseConfigList.clear();
+			return;
+		}
+		whereClauseConfigList = whereClauseConfigList.subList(0, linkedLevelValueCount);
+
+	}
+
 }
