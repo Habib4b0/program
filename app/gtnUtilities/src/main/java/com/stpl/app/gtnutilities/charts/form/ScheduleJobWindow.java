@@ -102,10 +102,10 @@ public class ScheduleJobWindow extends CustomComponent {
         occursOnceAt.addStyleName(Constants.TIMEONLY);
         startingAt.addStyleName(Constants.TIMEONLY);
         endingAt.addStyleName(Constants.TIMEONLY);
-        occursOnceAt.setDateFormat(Constants.Time_Format);
-        startingAt.setDateFormat(Constants.Time_Format);
-        endingAt.setDateFormat(Constants.Time_Format);
-        startDate.setDateFormat(Constants.Date_Format);
-        endDate.setDateFormat(Constants.Date_Format);
+        occursOnceAt.setDateFormat(Constants.TIME_FORMAT);
+        startingAt.setDateFormat(Constants.TIME_FORMAT);
+        endingAt.setDateFormat(Constants.TIME_FORMAT);
+        startDate.setDateFormat(Constants.DATE_FORMAT);
+        endDate.setDateFormat(Constants.DATE_FORMAT);
     }
 }

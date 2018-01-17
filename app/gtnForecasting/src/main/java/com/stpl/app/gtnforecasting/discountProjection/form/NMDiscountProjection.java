@@ -1582,9 +1582,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		int updatedRecordCount = 0;
 		try {
 			int maxTreeLevelno = 0;
-			int treeLevelNo = 0;
+			int treeLevelNo;
 			int count = 0;
-			boolean checkValue = true;
+			boolean checkValue;
 			String hierarchyNo;
 			List<String> customerHierarchyNoList = new ArrayList<>();
 			List<String> productHierarchyNoList = new ArrayList<>();
@@ -1595,7 +1595,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			List<String> hierarchyIndicatorList = new ArrayList<>();
 			boolean isCustomHierarchy = CommonUtil.isValueEligibleForLoading()
 					? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
-					: Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
+					: Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.toString().equals(hierarchyIndicator);
                         
                     if (resultBeanContainer.size() == 0) {
 				LOGGER.debug(" Container size is 0");
