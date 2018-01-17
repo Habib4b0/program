@@ -67,7 +67,7 @@ public class CpuIoChart extends VerticalLayout {
 
 	void configure() {
 		selecteDate.setResolution(Resolution.SECOND);
-		selecteDate.setDateFormat(Constants.Hour_Date_Format);
+		selecteDate.setDateFormat(Constants.HOUR_DATE_FORMAT);
 		selecteDate.setValue(CommonMethods.getYesterdayDate());
 		selecteDate.addValueChangeListener(new Property.ValueChangeListener() {
 			private static final long serialVersionUID = 1L;
@@ -179,7 +179,7 @@ public class CpuIoChart extends VerticalLayout {
 	}
 
 	void callJob(String database) {
-		String sqlDate = new SimpleDateFormat(Constants.yyyy_MM_dd_HH_mm_ss).format(selecteDate.getValue());
+		String sqlDate = new SimpleDateFormat(Constants.YYYY_MM_DD_HH_MM_SS).format(selecteDate.getValue());
 		String query = String.format("EXEC [PRC_PERFORMANCE_DASHBOARD] '%s', '%s'", database, sqlDate);
 		GtnSqlUtil.procedureCallService(query, new Object[] {});
 	}

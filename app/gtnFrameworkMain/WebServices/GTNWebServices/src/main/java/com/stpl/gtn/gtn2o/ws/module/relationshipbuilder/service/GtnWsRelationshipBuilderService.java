@@ -635,7 +635,7 @@ public class GtnWsRelationshipBuilderService {
 	}
 
 	public List<GtnWsRecordBean> loadAutoBuildData(int hierarchyDefSid, int hierarchyVersionNo,
-			GtnWsRecordBean selectedTreeBean, List<String> hiddenIdList, List<GtnWsRecordBean> notInList)
+			GtnWsRecordBean selectedTreeBean, List<String> hiddenIdList)
 			throws GtnFrameworkGeneralException, CloneNotSupportedException {
 		List<HierarchyLevelDefinitionBean> hierarchyList = gtnWsRelationshipBuilderHierarchyFileGenerator
 				.getRBHierarchyLevelDefinitionBySid(hierarchyDefSid, hierarchyVersionNo);
@@ -767,7 +767,7 @@ public class GtnWsRelationshipBuilderService {
 					if (Integer.parseInt(linkedBean
 							.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal())
 							.toString()) == hierarchyLevelDefinitionBean.getLevelNo() - 1) {
-						GtnWsRecordBean newUserDefinedData = userdefinedData.clone();
+						GtnWsRecordBean newUserDefinedData = userdefinedData.cloneGtnWsRecordBean();
 						String masterId=userdefinedData
 								.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal()).toString();
 						String linkedHierarchyno=linkedBean
@@ -852,19 +852,20 @@ public class GtnWsRelationshipBuilderService {
 		GtnFrameworkSingleColumnRelationBean keyRelationBean = gtnFrameworkEntityMasterBean
 				.getKeyRelationBeanUsingTableIdAndColumnName(hierarchyBean.getTableName(),
 						hierarchyBean.getFieldName());
-
-		hirarchyNo = getHierarchyNoforQuery(hirarchyNo, keyRelationBean.getMasterIdColumn());
-		String finalHierarchyNo = "CONCAT(" + gethiddenIdhierarchyNo + hirarchyNo + ")";
+		String tempHierarchyNo;
+		tempHierarchyNo = getHierarchyNoforQuery(hirarchyNo, keyRelationBean.getMasterIdColumn());
+		String finalHierarchyNo = "CONCAT(" + gethiddenIdhierarchyNo + tempHierarchyNo + ")";
 		finalQueryBean.addSelectClauseBean(null, "HIERARCHY_NO", Boolean.FALSE, finalHierarchyNo);
-		return hirarchyNo;
+		return tempHierarchyNo;
 	}
 
 	public String getHierarchyNoforQuery(String hirarchyNo, String value) {
+		String tempHiearchyNo = "";
 		if (!hirarchyNo.isEmpty()) {
-			hirarchyNo += "," + value + ", '.'";
+			tempHiearchyNo += "," + value + ", '.'";
 		} else
-			hirarchyNo += value + ", '.'";
-		return hirarchyNo;
+			tempHiearchyNo += value + ", '.'";
+		return tempHiearchyNo;
 	}
 
 	public GtnWsRelationshipBuilderResponse getSavedHistLevelValuesList(GtnWsRelationshipBuilderRequest rbRequest,

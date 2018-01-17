@@ -276,7 +276,7 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 		int count = 0;
 		for (int i = selectedLevelNo; i > 0 && i < hierarchyList.size(); i--) {
 			HierarchyLevelDefinitionBean currentBean = getBeanByLevelNo(i, hierarchyList);
-			if (!currentBean.isUserDefined()) {
+			if (currentBean != null && !currentBean.isUserDefined()) {
 				count++;
 			}
 		}
