@@ -536,8 +536,8 @@ public class DataSelection extends CustomComponent implements View {
         availableProduct.markAsDirty();
         availableProduct.setFilterBarVisible(true);
         availableProduct.setContainerDataSource(availableProductBean);
-        availableProduct.setVisibleColumns(CommonUiUtils.visibleColumn);
-        availableProduct.setColumnHeaders(CommonUiUtils.visibleHeader);
+        availableProduct.setVisibleColumns(CommonUiUtils.getVisibleColumn());
+        availableProduct.setColumnHeaders(CommonUiUtils.getVisibleHeader());
         availableProduct.setPageLength(NumericConstants.TEN);
         availableProduct.setImmediate(true);
         availableProduct.setSelectable(true);
@@ -574,8 +574,8 @@ public class DataSelection extends CustomComponent implements View {
         selectedProducts.markAsDirty();
         selectedProducts.setFilterBarVisible(true);
         selectedProducts.setContainerDataSource(selectedProductBean);
-        selectedProducts.setVisibleColumns(CommonUiUtils.visibleColumn);
-        selectedProducts.setColumnHeaders(CommonUiUtils.visibleHeader);
+        selectedProducts.setVisibleColumns(CommonUiUtils.getVisibleColumn());
+        selectedProducts.setColumnHeaders(CommonUiUtils.getVisibleHeader());
         selectedProducts.setPageLength(NumericConstants.TEN);
         selectedProducts.setImmediate(true);
         selectedProducts.setSelectable(true);
@@ -596,8 +596,8 @@ public class DataSelection extends CustomComponent implements View {
         resultTable.setStyleName(Constant.FILTER_TABLE);
         resultTable.markAsDirty();
         resultTable.setContainerDataSource(tableBean);
-        resultTable.setVisibleColumns(CommonUiUtils.visibleSearchColumn);
-        resultTable.setColumnHeaders(CommonUiUtils.visibleSearchHeader);
+        resultTable.setVisibleColumns(CommonUiUtils.getVisibleSearchColumn());
+        resultTable.setColumnHeaders(CommonUiUtils.getVisibleSearchHeader());
         resultTable.setPageLength(NumericConstants.TEN);
         resultTable.setImmediate(true);
         resultTable.setSelectable(true);

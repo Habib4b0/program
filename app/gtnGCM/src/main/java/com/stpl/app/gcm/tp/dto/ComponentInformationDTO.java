@@ -211,27 +211,27 @@ public class ComponentInformationDTO {
         this.companyName = companyName;
     }
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     public Date getEndDate() {
-        return endDate;
+        return endDate == null ? null : (Date) endDate.clone();
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = endDate == null ? null : (Date) endDate.clone();
     }
 
     public Date getAttachedDate() {
-        return attachedDate;
+        return attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     public void setAttachedDate(Date attachedDate) {
-        this.attachedDate = attachedDate;
+        this.attachedDate = attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     public String getPriceType() {

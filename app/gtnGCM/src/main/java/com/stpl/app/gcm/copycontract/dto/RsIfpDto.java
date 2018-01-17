@@ -399,7 +399,7 @@ public class RsIfpDto implements Serializable {
      * @return the modified date
      */
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     /**
@@ -408,7 +408,7 @@ public class RsIfpDto implements Serializable {
      * @param modifiedDate the modified date
      */
     public void setModifiedDate(final Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     /**
@@ -1029,7 +1029,7 @@ public class RsIfpDto implements Serializable {
      * @return the created date
      */
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
@@ -1038,7 +1038,7 @@ public class RsIfpDto implements Serializable {
      * @param createdDate the created date
      */
     public void setCreatedDate(final Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
@@ -1352,19 +1352,19 @@ public class RsIfpDto implements Serializable {
     }
 
     public Date getIfpStartDate() {
-        return ifpStartDate;
+        return ifpStartDate == null ? null : (Date) ifpStartDate.clone();
     }
 
     public void setIfpStartDate(Date ifpStartDate) {
-        this.ifpStartDate = ifpStartDate;
+        this.ifpStartDate = ifpStartDate == null ? null : (Date) ifpStartDate.clone();
     }
 
     public Date getIfpEndDate() {
-        return ifpEndDate;
+        return ifpEndDate == null ? null : (Date) ifpEndDate.clone();
     }
 
     public void setIfpEndDate(Date ifpEndDate) {
-        this.ifpEndDate = ifpEndDate;
+        this.ifpEndDate = ifpEndDate == null ? null : (Date) ifpEndDate.clone();
     }
 
     public String getIfpNumber() {

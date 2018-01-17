@@ -18,6 +18,7 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.ui.VerticalLayout;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public class UpdateItem extends CustomComponent {
     public UpdateItem(SelectionDTO selection, List selectedItemList) {
         try {
             this.selection = selection;
-            this.selectedItemList = selectedItemList;
+            this.selectedItemList = selectedItemList == null ? selectedItemList : new ArrayList<>(selectedItemList);
         } catch (Exception e) {
            LOGGER.error("",e);
         }

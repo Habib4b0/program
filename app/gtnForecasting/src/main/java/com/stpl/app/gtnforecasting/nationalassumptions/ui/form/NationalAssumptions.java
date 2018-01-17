@@ -386,10 +386,10 @@ public class NationalAssumptions extends CustomComponent implements View {
             priceTypesTable.setSelectable(true);
             priceTypesTable.markAsDirty();
             priceTypesTable.setContainerDataSource(priceTypesBean);
-            priceTypesTable.setVisibleColumns(CommonUiUtils.periodTypeColumns);
-            priceTypesTable.setColumnHeaders(CommonUiUtils.periodTypesHeader);
-            priceTypesTable.setColumnAlignment(CommonUiUtils.periodTypeColumns[NumericConstants.FIVE], Table.Align.RIGHT);
-            priceTypesTable.setColumnAlignment(CommonUiUtils.periodTypeColumns[NumericConstants.NINE], Table.Align.CENTER);
+            priceTypesTable.setVisibleColumns(CommonUiUtils.getPeriodTypeColumns());
+            priceTypesTable.setColumnHeaders(CommonUiUtils.getPeriodTypesHeader());
+            priceTypesTable.setColumnAlignment(CommonUiUtils.getPeriodTypeColumns()[NumericConstants.FIVE], Table.Align.RIGHT);
+            priceTypesTable.setColumnAlignment(CommonUiUtils.getPeriodTypeColumns()[NumericConstants.NINE], Table.Align.CENTER);
             priceTypesTable.setPageLength(NumericConstants.SEVEN);
 
             loadFrequency();
@@ -648,8 +648,8 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForBaselineTable.setContainerDataSource(baselineResultsBean);
         periodsForBaselineTable.addStyleName(Constant.FILTER_TABLE);
         periodsForBaselineTable.addStyleName("valo-theme-extfiltertable");
-        periodsForBaselineTable.setVisibleColumns(CommonUiUtils.baselinePeriodColumns);
-        periodsForBaselineTable.setColumnHeaders(CommonUiUtils.baselinePeriodHeader);
+        periodsForBaselineTable.setVisibleColumns(CommonUiUtils.getBaselinePeriodColumns());
+        periodsForBaselineTable.setColumnHeaders(CommonUiUtils.getBaselinePeriodHeader());
         periodsForBaselineTable.setColumnWidth(CHECK.getConstant(), NumericConstants.FORTY_FIVE);
         periodsForBaselineTable.setColumnWidth(PERIOD.getConstant(), NumericConstants.HUNDRED);
         periodsForBaselineTable.setColumnWidth(TYPE.getConstant(), NumericConstants.ONE_TWO_SIX);
@@ -715,8 +715,8 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForRollingAvgTable.setWidth("292px");
         periodsForRollingAvgTable.setPageLength(NumericConstants.FIVE);
         periodsForRollingAvgTable.setContainerDataSource(rollingAvgResultsBean);
-        periodsForRollingAvgTable.setVisibleColumns(CommonUiUtils.baselinePeriodColumns);
-        periodsForRollingAvgTable.setColumnHeaders(CommonUiUtils.baselinePeriodHeader);
+        periodsForRollingAvgTable.setVisibleColumns(CommonUiUtils.getBaselinePeriodColumns());
+        periodsForRollingAvgTable.setColumnHeaders(CommonUiUtils.getBaselinePeriodHeader());
         periodsForRollingAvgTable.setColumnWidth(CHECK.getConstant(), NumericConstants.FORTY_FIVE);
         periodsForBaselineTable.setColumnWidth(PERIOD.getConstant(), NumericConstants.NINTY_FIVE);
         periodsForBaselineTable.setColumnWidth(TYPE.getConstant(), NumericConstants.ONE_TWO_SIX);

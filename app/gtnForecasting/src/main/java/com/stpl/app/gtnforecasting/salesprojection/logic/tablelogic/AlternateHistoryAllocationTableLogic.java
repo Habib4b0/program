@@ -10,6 +10,8 @@ import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
 import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.vaadin.v7.data.Container;
+
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -103,7 +105,7 @@ public class AlternateHistoryAllocationTableLogic extends PageTableLogic {
         this.altHistoryDTO = altHistoryDTO;
         this.session = session;
         this.isFirst = isFirst;
-        this.checkedCCPSet = checkedCCPSet;
+        this.checkedCCPSet = checkedCCPSet == null ? checkedCCPSet : Collections.unmodifiableSet(checkedCCPSet); 
         this.setRequiredCount(true);
         setCurrentPage(1);
     }

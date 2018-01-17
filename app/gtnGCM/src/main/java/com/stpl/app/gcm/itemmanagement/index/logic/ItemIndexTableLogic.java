@@ -7,13 +7,11 @@ package com.stpl.app.gcm.itemmanagement.index.logic;
 
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
-import com.liferay.portal.kernel.exception.SystemException;
 
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 
 /**
@@ -82,7 +80,7 @@ public class ItemIndexTableLogic extends PageTableLogic {
     public boolean loadSetData(ItemIndexDto binderDto, SelectionDTO selection, List<ItemIndexDto> selecteditemList) {
         this.binderDto = binderDto;
         this.selection = selection;
-        this.selecteditemList = selecteditemList;
+        this.selecteditemList = selecteditemList == null ? selecteditemList : new ArrayList<>(selecteditemList);
         clearAll();
         setRequiredCount(true);
         generate = selection.isReset();

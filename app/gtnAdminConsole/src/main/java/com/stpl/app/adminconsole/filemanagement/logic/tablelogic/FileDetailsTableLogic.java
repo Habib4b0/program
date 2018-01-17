@@ -22,8 +22,8 @@ import org.slf4j.LoggerFactory;
 public class FileDetailsTableLogic extends PageTableLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileResultsTableLogic.class);
-    final FileManagementLogic searchLogic = new FileManagementLogic();
-    FileMananagementResultDTO resultDTO;
+    private final FileManagementLogic searchLogic = new FileManagementLogic();
+    private FileMananagementResultDTO resultDTO;
     private boolean isFirstLoad = false;
     private boolean isResultsEmpty;
     private boolean isReset = false;

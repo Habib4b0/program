@@ -1323,4 +1323,26 @@ AND PSC.PS_CONTRACT_SID=PS.PS_CONTRACT_SID AND IFPC.IFP_CONTRACT_SID= IFP.IFP_CO
         </query>
     </entity>
 
+    <entity id="NM_PROJECTION_SELECTION_INSERT_QUERY">
+        <query>
+		<![CDATA[
+                INSERT INTO NM_PROJECTION_SELECTION
+            (
+            PROJECTION_MASTER_SID, 
+            SCREEN_NAME, 
+            FIELD_NAME, 
+            FIELD_VALUES
+             )
+        OUTPUT      INSERTED.PROJECTION_MASTER_SID
+        SELECT 
+         '?', 
+                    SCREEN_NAME, 
+                    FIELD_NAME, 
+                    FIELD_VALUES
+                    FROM   NM_PROJECTION_SELECTION
+        WHERE  PROJECTION_MASTER_SID = '?'  
+        AND SCREEN_NAME = 'Discount Projection'
+		]]>
+        </query>
+    </entity>    
 </sql>

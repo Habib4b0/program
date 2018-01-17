@@ -165,8 +165,8 @@ public abstract class AbstractHierarchyLookup extends AbstractLookup {
 	 */
 	@Override
 	protected void configureResultTable(final ExtFilterTable results, final String indicator) {
-		results.setVisibleColumns(TableHeaderColumnsUtil.hierarchyLookupColumns);
-		results.setColumnHeaders(TableHeaderColumnsUtil.hierarchyLookupHeaders);
+		results.setVisibleColumns(TableHeaderColumnsUtil.getHierarchyLookupColumns());
+		results.setColumnHeaders(TableHeaderColumnsUtil.getHierarchyLookupHeaders());
 		results.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
 	}
 

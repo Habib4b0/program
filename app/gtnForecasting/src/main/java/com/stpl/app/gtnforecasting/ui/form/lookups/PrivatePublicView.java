@@ -107,14 +107,14 @@ public class PrivatePublicView extends AbstractViewLookup {
         //Configure the table
         results.setContainerDataSource(viewContainer);
         if (screenName.equals(RETURNS.getConstant())) {
-            results.setVisibleColumns(TableHeaderColumnsUtil.viewLookupColumnReturns);
-            results.setColumnHeaders(TableHeaderColumnsUtil.viewLookupHeadersReturns);
+            results.setVisibleColumns(TableHeaderColumnsUtil.getViewLookupColumsReturns());
+            results.setColumnHeaders(TableHeaderColumnsUtil.getViewLookupHeadersReturns());
         } else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
-            results.setVisibleColumns(TableHeaderColumnsUtil.viewLookupColumnsArp);
-            results.setColumnHeaders(TableHeaderColumnsUtil.viewLookupHeadersARP);
+            results.setVisibleColumns(TableHeaderColumnsUtil.getViewLookupColumnsArp());
+            results.setColumnHeaders(TableHeaderColumnsUtil.getViewLookupHeadersArp());
         } else {
-            results.setVisibleColumns(TableHeaderColumnsUtil.viewLookupColumns);
-            results.setColumnHeaders(TableHeaderColumnsUtil.viewLookupHeaders);
+            results.setVisibleColumns(TableHeaderColumnsUtil.getViewLookupColumns());
+            results.setColumnHeaders(TableHeaderColumnsUtil.getViewLookupHeaders());
         }
         results.setSortEnabled(true);
         results.setSelectable(true);

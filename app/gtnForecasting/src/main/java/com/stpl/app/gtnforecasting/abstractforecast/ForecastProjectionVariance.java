@@ -384,7 +384,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         if (CommonUtil.isValueEligibleForLoading()) {
             panelVariance.setVisible(false);
             tabsheetVariance.addTab(displaySelectionLayout, "Display Selection");
-            tabsheetVariance.addTab(filterOptionLayout, "Filter Option");
+            tabsheetVariance.addTab(filterOptionLayout, "Filter Options");
             tabsheetVariance.addStyleName(ValoTheme.TABSHEET_FRAMED);
             tabsheetVariance.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
         } else {

@@ -13,13 +13,13 @@ public class TableHeaderColumnsUtil {
     /**
      * Hierarchy lookup visible columns
      */
-    public static final Object[] HIERARCHY_LOOKUP_COLS = new Object[]{"hierarchyName", "highestLevel", "lowestLevel", StringConstantsUtil.CREATED_DATE_SEARCH, StringConstantsUtil.MODIFIED_DATE_SEARCH};
+    private static final Object[] HIERARCHY_LOOKUP_COLS = new Object[]{"hierarchyName", "highestLevel", "lowestLevel", StringConstantsUtil.CREATED_DATE_SEARCH, StringConstantsUtil.MODIFIED_DATE_SEARCH};
     
 
     /**
      * Hierarchy lookup column headers
      */
-    public static final String[] HIERARCHY_LOOKUP_HEADERS = new String[]{"Hierarchy Name", "Highest Level", "Lowest Level", StringConstantsUtil.CREATED_DATE_LABEL, StringConstantsUtil.MODIFIED_DATE_LABEL};
+    private static final String[] HIERARCHY_LOOKUP_HEADERS = new String[]{"Hierarchy Name", "Highest Level", "Lowest Level", StringConstantsUtil.CREATED_DATE_LABEL, StringConstantsUtil.MODIFIED_DATE_LABEL};
     
 
     /**
@@ -43,36 +43,36 @@ public class TableHeaderColumnsUtil {
     /**
      * Customer group lookup visible columns
      */
-    public static final Object[] CUSTOMER_GROUP_LOOKUP_COLS = new Object[]{"customerGroupName", "customerGroupNo", "customergroupDescription"};
+    private static final Object[] CUSTOMER_GROUP_LOOKUP_COLS = new Object[]{"customerGroupName", "customerGroupNo", "customergroupDescription"};
 
     /**
      * Customer group lookup results column headers
      */
-    public static final String[] CUST_GRP_LOOKUP_HEADERS = new String[]{"Customer Group Name", "Customer Group #", "Customer Group Description"};
+    private static final String[] CUST_GRP_LOOKUP_HEADERS = new String[]{"Customer Group Name", "Customer Group #", "Customer Group Description"};
 
     /**
      * Product group lookup visible columns
      */
-    public static final Object[] PROD_GRP_LOOKUP_COLS = new Object[]{"productGroupName", "productGroupNo", "productgroupDescription", StringConstantsUtil.COMPANY_PROPERTY};
+    private static final Object[] PROD_GRP_LOOKUP_COLS = new Object[]{"productGroupName", "productGroupNo", "productgroupDescription", StringConstantsUtil.COMPANY_PROPERTY};
   
 
     /**
      * Product group lookup results column headers
      */
-    public static final String[] PRD_GRP_LOOKUP_HEADERS = new String[]{"Product Group Name", "Product Group #","Product Group Description", StringConstantsUtil.COMPANY_LABEL};
+    private static final String[] PRD_GRP_LOOKUP_HEADERS = new String[]{"Product Group Name", "Product Group #","Product Group Description", StringConstantsUtil.COMPANY_LABEL};
 
     /**
      * Visible columns for protected/private view lookup tables
      */
-    public static final Object[] VIEW_LOOKUP_COLS = new Object[]{StringConstantsUtil.COMPANY_PROPERTY, "businessUnitSystemName","viewName", StringConstantsUtil.DESCRIPTION1, "from", "to", "customerHierarchy", "customerLevel", "customerGroup","brandType", StringConstantsUtil.PRODUCT_HIERARCHY1, "productLevel", "productGroup", StringConstantsUtil.CREATED_DATE_SEARCH, StringConstantsUtil.MODIFIED_DATE_SEARCH, StringConstantsUtil.CREATED_BY1};
+    private static final Object[] VIEW_LOOKUP_COLS = new Object[]{StringConstantsUtil.COMPANY_PROPERTY, "businessUnitSystemName","viewName", StringConstantsUtil.DESCRIPTION1, "from", "to", "customerHierarchy", "customerLevel", "customerGroup","brandType", StringConstantsUtil.PRODUCT_HIERARCHY1, "productLevel", "productGroup", StringConstantsUtil.CREATED_DATE_SEARCH, StringConstantsUtil.MODIFIED_DATE_SEARCH, StringConstantsUtil.CREATED_BY1};
     
-    public static final Object[] VIEW_LOOKUP_COLS_RETURNS = new Object[]{"viewName", StringConstantsUtil.DESCRIPTION1, "from", "to", StringConstantsUtil.COMPANY_PROPERTY, StringConstantsUtil.PRODUCT_HIERARCHY1, "productLevel", "productGroup", StringConstantsUtil.CREATED_DATE_SEARCH, StringConstantsUtil.MODIFIED_DATE_SEARCH, StringConstantsUtil.CREATED_BY1};
+    private static final Object[] VIEW_LOOKUP_COLS_RETURNS = new Object[]{"viewName", StringConstantsUtil.DESCRIPTION1, "from", "to", StringConstantsUtil.COMPANY_PROPERTY, StringConstantsUtil.PRODUCT_HIERARCHY1, "productLevel", "productGroup", StringConstantsUtil.CREATED_DATE_SEARCH, StringConstantsUtil.MODIFIED_DATE_SEARCH, StringConstantsUtil.CREATED_BY1};
     /**
      * Column headers for protected/private view lookup tables
      */
-    public static final String[] VIEW_LOOKUP_HEADER = new String[]{StringConstantsUtil.COMPANY_LABEL,"Business Unit","View Name", StringConstantsUtil.DESCRIPTION, "Time Period: From", "Time Period: To", "Customer Hierarchy", "Customer Level", "Customer Group", "Brand Type", StringConstantsUtil.PRODUCT_HIERARCHY_LABEL, StringConstantsUtil.PRODUCT_LEVEL_LABEL, "Product Group", StringConstantsUtil.CREATED_DATE_LABEL, StringConstantsUtil.MODIFIED_DATE_LABEL, StringConstantsUtil.CREATED_BY_LABEL};
+    private static final String[] VIEW_LOOKUP_HEADER = new String[]{StringConstantsUtil.COMPANY_LABEL,"Business Unit","View Name", StringConstantsUtil.DESCRIPTION, "Time Period: From", "Time Period: To", "Customer Hierarchy", "Customer Level", "Customer Group", "Brand Type", StringConstantsUtil.PRODUCT_HIERARCHY_LABEL, StringConstantsUtil.PRODUCT_LEVEL_LABEL, "Product Group", StringConstantsUtil.CREATED_DATE_LABEL, StringConstantsUtil.MODIFIED_DATE_LABEL, StringConstantsUtil.CREATED_BY_LABEL};
 
-    public static final String[] VIEW_LOOKUP_HEADER_RETURNS = new String[]{"View Name", StringConstantsUtil.DESCRIPTION, "Time Period: From", "Time Period: To", StringConstantsUtil.COMPANY_LABEL, StringConstantsUtil.PRODUCT_HIERARCHY_LABEL, StringConstantsUtil.PRODUCT_LEVEL_LABEL, "Product Group", StringConstantsUtil.CREATED_DATE_LABEL, StringConstantsUtil.MODIFIED_DATE_LABEL, StringConstantsUtil.CREATED_BY_LABEL};
+    private static final String[] VIEW_LOOKUP_HEADER_RETURNS = new String[]{"View Name", StringConstantsUtil.DESCRIPTION, "Time Period: From", "Time Period: To", StringConstantsUtil.COMPANY_LABEL, StringConstantsUtil.PRODUCT_HIERARCHY_LABEL, StringConstantsUtil.PRODUCT_LEVEL_LABEL, "Product Group", StringConstantsUtil.CREATED_DATE_LABEL, StringConstantsUtil.MODIFIED_DATE_LABEL, StringConstantsUtil.CREATED_BY_LABEL};
     /**
      * Visible columns for Alternate Contract lookup table
      */
@@ -147,4 +147,45 @@ public class TableHeaderColumnsUtil {
         }
         return object;
     }
+    
+    public static Object[] getHierarchyLookupColsList(){
+    	return HIERARCHY_LOOKUP_COLS.clone();
+    }
+    
+    public static String[] getHierarchyLookupHeadersList(){
+    	return HIERARCHY_LOOKUP_HEADERS.clone();
+    }    
+    
+    public static Object[] getCustomerGroupLookupColsList(){
+    	return CUSTOMER_GROUP_LOOKUP_COLS.clone();
+    }
+    
+    public static String[] getCustGrpLookupHeadersList(){
+    	return CUST_GRP_LOOKUP_HEADERS.clone();
+    } 
+    
+    public static Object[] getProdGrpLookupColsList(){
+    	return PROD_GRP_LOOKUP_COLS.clone();
+    }
+    
+    public static String[] getPrdGrpLookupHeadersList(){
+    	return PRD_GRP_LOOKUP_HEADERS.clone();
+    }
+    
+    public static Object[] getViewLookupColsList(){
+    	return VIEW_LOOKUP_COLS.clone();
+    }
+    
+    public static Object[] getViewLookupColsReturnsList(){
+    	return VIEW_LOOKUP_COLS_RETURNS.clone();
+    }
+    
+    public static String[] getViewLookupHeaderList(){
+    	return VIEW_LOOKUP_HEADER.clone();
+    }
+    
+    public static String[] getViewLookupHeaderReturnsList(){
+    	return VIEW_LOOKUP_HEADER_RETURNS.clone();
+    }
+    
 }

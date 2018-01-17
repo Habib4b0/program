@@ -8,6 +8,7 @@ package com.stpl.app.gtnforecasting.utils;
 import com.stpl.app.gtnforecasting.dto.PMPYRowDto;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.VerticalLayout;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -29,27 +30,27 @@ public class PMPYContractHolderHistoryChart {
     /**
      * The chart.
      */
-//    public Chart chart = new Chart(ChartType.COLUMN);
+//    protected Chart chart = new Chart(ChartType.COLUMN);
     /**
      * The conf.
      */
-//    public Configuration conf = chart.getConfiguration();
+//    protected Configuration conf = chart.getConfiguration();
     /**
      * The chart1.O
      */
-//    public Chart chart1 = new Chart(ChartType.COLUMN);
+//    protected Chart chart1 = new Chart(ChartType.COLUMN);
     /**
      * The conf1.
      */
-//    public Configuration conf1 = chart1.getConfiguration();
+//    protected Configuration conf1 = chart1.getConfiguration();
     /**
      * The chart2.
      */
-//    public Chart chart2 = new Chart(ChartType.COLUMN);
+//    protected Chart chart2 = new Chart(ChartType.COLUMN);
     /**
      * The conf2.
      */
-//    public Configuration conf2 = chart2.getConfiguration();
+//    protected Configuration conf2 = chart2.getConfiguration();
     /**
      * The Constant LOGGER.
      */
@@ -68,7 +69,7 @@ public class PMPYContractHolderHistoryChart {
         LOGGER.debug("Entering PMPYContractHolderHistoryChart method ");
 
         this.contractName = contractName;
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
         this.headeres = headeres;
         LOGGER.debug("End of PMPYContractHolderHistoryChart method ");
 

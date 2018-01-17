@@ -229,11 +229,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
 
     public List<Integer> getProjIdList() {
         Collections.sort(projIdList);
-        return projIdList;
+        return projIdList == null ? projIdList : Collections.unmodifiableList(projIdList);
     }
 
     public void setProjIdList(List<Integer> projIdList) {
-        this.projIdList = projIdList;
+        this.projIdList = projIdList == null ? projIdList : Collections.unmodifiableList(projIdList);
     }
 
     public Map<Integer, String> getProjectionMap() {
@@ -295,11 +295,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     }
 
     public List<String> getPeriodHeaderList() {
-        return periodHeaderList;
+        return periodHeaderList == null ? periodHeaderList : Collections.unmodifiableList(periodHeaderList);
     }
 
     public void setPeriodHeaderList(List<String> periodHeaderList) {
-        this.periodHeaderList = periodHeaderList;
+        this.periodHeaderList = periodHeaderList == null ? periodHeaderList : Collections.unmodifiableList(periodHeaderList);
     }
 
     public boolean isColValue() {
@@ -479,11 +479,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     }
 
     public List<String> getDiscountNames() {
-        return discountNames;
+        return discountNames == null ? discountNames : Collections.unmodifiableList(discountNames);
     }
 
     public void setDiscountNames(List<String> discountNames) {
-        this.discountNames = discountNames;
+        this.discountNames = discountNames == null ? discountNames : Collections.unmodifiableList(discountNames);
     }
 
     public boolean isIsPrior() {
@@ -538,12 +538,12 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
 
     @Override
     public List<String> getPivotList() {
-        return pivotList;
+        return pivotList == null ? pivotList : Collections.unmodifiableList(pivotList);
     }
 
     @Override
     public void setPivotList(List<String> pivotList) {
-        this.pivotList = pivotList;
+        this.pivotList = pivotList == null ? pivotList : Collections.unmodifiableList(pivotList);
     }
 
     public boolean isIsCustomerDdlb() {
@@ -571,11 +571,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     }
 
     public List<String> getProgramCodeNameList() {
-        return programCodeNameList;
+        return programCodeNameList == null ? programCodeNameList : Collections.unmodifiableList(programCodeNameList);
     }
 
     public void setProgramCodeNameList(List<String> programCodeNameList) {
-        this.programCodeNameList = programCodeNameList;
+        this.programCodeNameList = programCodeNameList == null ? programCodeNameList : Collections.unmodifiableList(programCodeNameList);
     }
 
     public int getCustomerRelationId() {
@@ -777,11 +777,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     }
 
     public List<String> getPivotHeaderList() {
-        return pivotHeaderList;
+        return pivotHeaderList == null ? pivotHeaderList : Collections.unmodifiableList(pivotHeaderList);
     }
 
     public void setPivotHeaderList(List<String> pivotHeaderList) {
-        this.pivotHeaderList = pivotHeaderList;
+        this.pivotHeaderList = pivotHeaderList == null ? pivotHeaderList : Collections.unmodifiableList(pivotHeaderList);
     }
 
     public String getPivotStartDate() {
@@ -865,35 +865,35 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     }
 
     public List<String> getCustomerLevelFilter() {
-        return customerLevelFilter;
+        return customerLevelFilter == null ? customerLevelFilter : Collections.unmodifiableList(customerLevelFilter);
     }
 
     public void setCustomerLevelFilter(List<String> customerLevelFilter) {
-        this.customerLevelFilter = customerLevelFilter;
+        this.customerLevelFilter = customerLevelFilter == null ? customerLevelFilter : Collections.unmodifiableList(customerLevelFilter);
     }
 
     public List<String> getProductLevelFilter() {
-        return productLevelFilter;
+        return productLevelFilter == null ? productLevelFilter : Collections.unmodifiableList(productLevelFilter);
     }
 
     public void setProductLevelFilter(List<String> productLevelFilter) {
-        this.productLevelFilter = productLevelFilter;
+        this.productLevelFilter = productLevelFilter == null ? productLevelFilter : Collections.unmodifiableList(productLevelFilter);
     }
 
     public List<String> getDeductionLevelFilter() {
-        return deductionLevelFilter;
+        return deductionLevelFilter == null ? deductionLevelFilter : Collections.unmodifiableList(deductionLevelFilter);
     }
 
     public void setDeductionLevelFilter(List<String> deductionLevelFilter) {
-        this.deductionLevelFilter = deductionLevelFilter;
+        this.deductionLevelFilter = deductionLevelFilter == null ? deductionLevelFilter : Collections.unmodifiableList(deductionLevelFilter);
     }
 
     public List<String> getDeductionLevelCaptions() {
-        return deductionLevelCaptions;
+        return deductionLevelCaptions == null ? deductionLevelCaptions : Collections.unmodifiableList(deductionLevelCaptions);
     }
 
     public void setDeductionLevelCaptions(List<String> deductionLevelCaptions) {
-        this.deductionLevelCaptions = deductionLevelCaptions;
+        this.deductionLevelCaptions = deductionLevelCaptions == null ? deductionLevelCaptions : Collections.unmodifiableList(deductionLevelCaptions);
     }
 
     public String getUomCode() {

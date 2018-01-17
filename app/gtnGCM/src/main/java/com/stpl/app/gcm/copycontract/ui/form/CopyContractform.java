@@ -144,7 +144,7 @@ public class CopyContractform extends CustomComponent implements View {
     public CopyContractform(CopyContractWindow editWindow, List<ContractSelectionDTO> selectedList, String Count) {
         this.editWindow = editWindow;
         this.resultTable = resultTable;
-        this.selectedList = selectedList;
+        this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
         this.count = Count;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/CopyContractform.xml"), this));
         if (Integer.valueOf(Count) > 1) {

@@ -96,9 +96,9 @@ public class PVExcelLogic {
             List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, PVParameters parameterDto, Map<String, List<ProjectionVarianceDTO>> discountMap, Map<String, List<List<ProjectionVarianceDTO>>> discountMapDetails) {
         this.resultMap = resultMap;
         this.selection = selection;
-        this.hierarchyKeys = hierarchyKeys;
-        this.tradingPartnerKeys = tradingPartnerKeys;
-        this.discountKeys = discountKeys;
+        this.hierarchyKeys = hierarchyKeys == null ? hierarchyKeys : new ArrayList<>(hierarchyKeys);
+        this.tradingPartnerKeys = tradingPartnerKeys == null ? tradingPartnerKeys : new ArrayList<>(tradingPartnerKeys);
+        this.discountKeys = discountKeys == null ? discountKeys : new ArrayList<>(discountKeys);
         this.parameterDto = parameterDto;
         this.discountMap = discountMap;
         this.discountMapDetails = discountMapDetails;

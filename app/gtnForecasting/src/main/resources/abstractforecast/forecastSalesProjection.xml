@@ -190,14 +190,14 @@
                             <!--<ComboBox id="groupDDLB" enabled="true" immediate="true" visible="false" nullSelectionAllowed = "true" styleName = "comboxsize" />-->
                             <Label caption="Level Filter: " contentMode="HTML" width = "100px" />
                             <ComboBox id="levelFilterDdlb" enabled="true" immediate="true" styleName="comboxsize" nullSelectionAllowed = "true"/>
-                           <GridLayout rows="1" columns="5" margin="false" spacing="true"  id="viewLayout" >
+                           <HorizontalLayout id="viewLayout" >
                             <Label caption="View:  " id="viewLabel" contentMode="HTML" />
 
                             <OptionGroup id="view" enabled="true" immediate="true" />
                             <ComboBox id="viewDdlb" enabled="true" immediate="true" styleName="comboxsize" nullSelectionAllowed = "true" />
                             <Button id="newBtn" caption="NEW" />
                             <Button id="editBtn" caption="EDIT" />
-                           </GridLayout>
+                           </HorizontalLayout>
                         </GridLayout>
                     </VerticalLayout>
                 </Panel>  

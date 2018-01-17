@@ -6,6 +6,7 @@
 package com.stpl.app.gtnforecasting.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1347,7 +1348,7 @@ public class PMPYCalculatorDTO implements Serializable {
      * @return the contrachHolderList
      */
     public List<PMPYCalculatorDTO> getContrachHolderList() {
-        return contrachHolderList;
+        return contrachHolderList == null ? contrachHolderList : new ArrayList<>(contrachHolderList);
     }
 
     /**
@@ -1356,7 +1357,7 @@ public class PMPYCalculatorDTO implements Serializable {
      * @param contrachHolderList the contrachHolderList to set
      */
     public void setContrachHolderList(final List<PMPYCalculatorDTO> contrachHolderList) {
-        this.contrachHolderList = contrachHolderList;
+        this.contrachHolderList = contrachHolderList == null ? contrachHolderList : new ArrayList<>(contrachHolderList);
     }
 
     /**
@@ -1365,7 +1366,7 @@ public class PMPYCalculatorDTO implements Serializable {
      * @return the tradingPartnerList
      */
     public List<PMPYCalculatorDTO> getTradingPartnerList() {
-        return tradingPartnerList;
+        return tradingPartnerList == null ? tradingPartnerList : new ArrayList<>(tradingPartnerList);
     }
 
     /**
@@ -1374,7 +1375,7 @@ public class PMPYCalculatorDTO implements Serializable {
      * @param tradingPartnerList the tradingPartnerList to set
      */
     public void setTradingPartnerList(final List<PMPYCalculatorDTO> tradingPartnerList) {
-        this.tradingPartnerList = tradingPartnerList;
+        this.tradingPartnerList = tradingPartnerList == null ? tradingPartnerList : new ArrayList<>(tradingPartnerList);
     }
 
     /**

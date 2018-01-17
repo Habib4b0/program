@@ -221,7 +221,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	@UiField("customerRelationVersion")
 	protected ComboBox customerRelationVersionComboBox;
 
-	public ComboBox businessUnit = new ComboBox();
+	private ComboBox businessUnit = new ComboBox();
 
 	public Button getGenerateBtn() {
 		return generateBtn;
@@ -434,7 +434,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			deleteViewBtn.setEnabled(false);
 			publicView.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
 			privateView.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
-			businessUnit.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
+			getBusinessUnit().setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
 			company.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
 			publicView.addClickListener(new CustomTextField.ClickListener() {
                                 @Override
@@ -449,24 +449,24 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 					loadPrivateView();
 				}
 			});
-			businessUnit.setPageLength(NumericConstants.SEVEN);
-			businessUnit.setImmediate(true);
-			businessUnit.addItem(0);
-			businessUnit.setItemCaption(0, Constants.CommonConstants.SELECT_ONE.getConstant());
-			businessUnit.setNullSelectionAllowed(true);
-			businessUnit.setNullSelectionItemId(0);
-			businessUnit.setInputPrompt(Constants.CommonConstants.SELECT_ONE.getConstant());
-			businessUnit.markAsDirty();
+			getBusinessUnit().setPageLength(NumericConstants.SEVEN);
+			getBusinessUnit().setImmediate(true);
+			getBusinessUnit().addItem(0);
+			getBusinessUnit().setItemCaption(0, Constants.CommonConstants.SELECT_ONE.getConstant());
+			getBusinessUnit().setNullSelectionAllowed(true);
+			getBusinessUnit().setNullSelectionItemId(0);
+			getBusinessUnit().setInputPrompt(Constants.CommonConstants.SELECT_ONE.getConstant());
+			getBusinessUnit().markAsDirty();
 
 			List<Object[]> list = logic.getBusinessUnits(0);
 			if (list != null && !list.isEmpty()) {
 				for (Object[] object : list) {
-					businessUnit.addItem(object[0]);
-					businessUnit.setItemCaption(object[0], object[NumericConstants.TWO] + Constants.SPACE
+					getBusinessUnit().addItem(object[0]);
+					getBusinessUnit().setItemCaption(object[0], object[NumericConstants.TWO] + Constants.SPACE
 							+ Constants.DASH_NO_DATA + Constants.SPACE + object[NumericConstants.THREE]);
 				}
 			}
-			businessUnit.select(0);
+			getBusinessUnit().select(0);
 
 			company.setPageLength(NumericConstants.SEVEN);
 			company.setImmediate(true);
@@ -706,7 +706,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 
 		dataSelectionDTO.clear();
 		company.select(0);
-		businessUnit.select(0);
+		getBusinessUnit().select(0);
 	}
 
 	/**
@@ -986,7 +986,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			}
 		});
 
-		layoutG2.addComponent(businessUnit);
+		layoutG2.addComponent(getBusinessUnit());
 		layoutG2.addComponent(new Label(StringUtils.EMPTY, ContentMode.HTML));
 		verticalLayout.addComponent(layoutG2);
 	}
@@ -1212,5 +1212,13 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 
 	@Override
 	public void enter(ViewChangeListener.ViewChangeEvent event) {
+	}
+
+	public ComboBox getBusinessUnit() {
+		return businessUnit;
+	}
+
+	public void setBusinessUnit(ComboBox businessUnit) {
+		this.businessUnit = businessUnit;
 	}
 }

@@ -157,7 +157,7 @@ public class ItemSelection extends CustomComponent {
     public static final String EXCEL_EXPORT = "Excel Export";
     
     public ItemSelection(SelectionDTO selection, List<ItemIndexDto> itemList) {
-        this.selecteditemList = itemList;
+        this.selecteditemList = itemList == null ? itemList : new ArrayList<>(itemList);
         this.selection = selection;
     }
 
@@ -671,7 +671,7 @@ public class ItemSelection extends CustomComponent {
     }
 
     public List<String> mappingItems() {
-        return sidList;
+            return sidList;
     }
 
     private void setFromItemSid() {

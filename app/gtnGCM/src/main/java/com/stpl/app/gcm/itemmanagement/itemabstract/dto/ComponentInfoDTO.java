@@ -122,19 +122,19 @@ public class ComponentInfoDTO {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     public Date getEndDate() {
-        return endDate;
+        return endDate == null ? null : (Date) endDate.clone();
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = endDate == null ? null : (Date) endDate.clone();
     }
 
     public String getFormulaType() {
@@ -186,11 +186,11 @@ public class ComponentInfoDTO {
     }
 
     public Date getAttachedDate() {
-        return attachedDate;
+        return attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     public void setAttachedDate(Date attachedDate) {
-        this.attachedDate = attachedDate;
+        this.attachedDate = attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     public String getTradeClass() {
@@ -298,11 +298,11 @@ public class ComponentInfoDTO {
     }
 
     public Date getResetDate() {
-        return resetDate;
+        return resetDate == null ? null : (Date) resetDate.clone();
     }
 
     public void setResetDate(Date resetDate) {
-        this.resetDate = resetDate;
+        this.resetDate = resetDate == null ? null : (Date) resetDate.clone();
     }
 
     public String getResetInterval() {
@@ -411,35 +411,35 @@ public class ComponentInfoDTO {
     }
 
     public Date getPriceProtectionStartDate() {
-        return priceProtectionStartDate;
+        return priceProtectionStartDate == null ? null : (Date) priceProtectionStartDate.clone();
     }
 
     public void setPriceProtectionStartDate(Date priceProtectionStartDate) {
-        this.priceProtectionStartDate = priceProtectionStartDate;
+        this.priceProtectionStartDate = priceProtectionStartDate == null ? null : (Date) priceProtectionStartDate.clone();
     }
 
     public Date getPriceProtectionEndDate() {
-        return priceProtectionEndDate;
+        return priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     public void setPriceProtectionEndDate(Date priceProtectionEndDate) {
-        this.priceProtectionEndDate = priceProtectionEndDate;
+        this.priceProtectionEndDate = priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     public Date getComponentStartDate() {
-        return componentStartDate;
+        return componentStartDate == null ? null : (Date) componentStartDate.clone();
     }
 
     public void setComponentStartDate(Date componentStartDate) {
-        this.componentStartDate = componentStartDate;
+        this.componentStartDate = componentStartDate == null ? null : (Date) componentStartDate.clone();
     }
 
     public Date getComponentEndDate() {
-        return componentEndDate;
+        return componentEndDate == null ? null : (Date) componentEndDate.clone();
     }
 
     public void setComponentEndDate(Date componentEndDate) {
-        this.componentEndDate = componentEndDate;
+        this.componentEndDate = componentEndDate == null ? null : (Date) componentEndDate.clone();
     }
 
     public String getAttachedStatus() {

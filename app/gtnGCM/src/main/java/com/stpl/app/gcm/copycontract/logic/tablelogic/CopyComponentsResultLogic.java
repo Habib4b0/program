@@ -62,7 +62,7 @@ public class CopyComponentsResultLogic extends PageTableLogic {
     }
 
     public boolean setData(List<ContractSelectionDTO> selectedlist) {
-        this.selectedlist = selectedlist;
+        this.selectedlist = selectedlist == null ? selectedlist : new ArrayList<>(selectedlist);
         generate = true;
         clearAll();
         setRequiredCount(true);

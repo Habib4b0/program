@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
+import java.util.ArrayList;
 import com.stpl.app.gtnforecasting.dto.PMPYRowDto;
 import com.vaadin.ui.Component;
 import com.vaadin.v7.ui.VerticalLayout;
@@ -29,19 +30,19 @@ public class PMPYTradingPartnerHistoryChart {
     /**
      * The chart.
      */
-//    public Chart chart = new Chart(ChartType.COLUMN);
+//    protected Chart chart = new Chart(ChartType.COLUMN);
     /**
      * The conf.
      */
-//    public Configuration conf = chart.getConfiguration();
+//    protected Configuration conf = chart.getConfiguration();
     /**
      * The chart1.
      */
-//    public Chart chart1 = new Chart(ChartType.COLUMN);
+//    protected Chart chart1 = new Chart(ChartType.COLUMN);
     /**
      * The conf1.
      */
-//    public Configuration conf1 = chart1.getConfiguration();
+//    protected Configuration conf1 = chart1.getConfiguration();
     /**
      * The Constant LOGGER.
      */
@@ -60,7 +61,7 @@ public class PMPYTradingPartnerHistoryChart {
     public PMPYTradingPartnerHistoryChart(final List<PMPYRowDto> dto, String tpName, List<Object> headers) {
         LOGGER.debug("Entering PMPYTradingPartnerHistoryChart method ");
         this.tpName = tpName;
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
         this.headers = headers;
         LOGGER.debug("End of PMPYTradingPartnerHistoryChart method ");
     }

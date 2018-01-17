@@ -251,7 +251,7 @@ public class CustomerSelection extends CustomComponent {
             String mode = sessionDTO.getMode();
 
             List<Object> resultList = commonUIUtils.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.CUSTOMER_SELECTION);
-            Object[] objColumn = HeaderUtils.CUSTOMER_COLS;
+            Object[] objColumn = HeaderUtils.getCustomerCols();
 
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode.equals("Copy")?"Edit":mode);
             
@@ -284,7 +284,7 @@ public class CustomerSelection extends CustomComponent {
             selectedCustomersTable.setFilterGenerator(new DeductionCustomerFilerGenerator());
             selectedCustomersTable.addStyleName("filtertable");
             selectedCustomersTable.addStyleName("table-header-normal");
-            Arrays.asList(HeaderUtils.CUSTOMER_COLS);
+            Arrays.asList(HeaderUtils.getCustomerCols());
             for (Object list1 : availableCustomersTable.getVisibleColumns()) {
                 if(list1.equals("tradeClassStartDate") || list1.equals("tradeClassStartDate") ||
                         list1.equals("customerStartDate") || list1.equals("customerEndDate") ||
@@ -568,7 +568,7 @@ public class CustomerSelection extends CustomComponent {
         customerSelectionDTO.setUserId(sessionDTO.getUserId());
         customerSelectionDTO.setSessionId(sessionDTO.getUiSessionId());
         final int recordCount = (Integer) selLogic.getCustomerSearchResult(customerSelectionDTO,0,0,true,null,null,availableOrselected);
-        ExcelExportforBB.createWorkSheet(HeaderUtils.CUSTOMER_HEADERS, recordCount, this, getUI(), TabNameUtil.CUSTOMER_SELECTION_EXPORT);
+        ExcelExportforBB.createWorkSheet(HeaderUtils.getCustomerHeaders(), recordCount, this, getUI(), TabNameUtil.CUSTOMER_SELECTION_EXPORT);
         LOGGER.debug("Ending createWorkSheet");
     }
     

@@ -40,19 +40,19 @@ public class SearchResultsDTO implements Serializable {
     }
     
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     public String getCreatedBy() {
@@ -120,19 +120,19 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getCreatedDateFrom() {
-        return createdDateFrom;
+        return createdDateFrom == null ? null : (Date) createdDateFrom.clone();
     }
 
     public void setCreatedDateFrom(Date createdDateFrom) {
-        this.createdDateFrom = createdDateFrom;
+        this.createdDateFrom = createdDateFrom == null ? null : (Date) createdDateFrom.clone();
     }
 
     public Date getCreatedDateTo() {
-        return createdDateTo;
+        return createdDateTo == null ? null : (Date) createdDateTo.clone();
     }
 
     public void setCreatedDateTo(Date createdDateTo) {
-        this.createdDateTo = createdDateTo;
+        this.createdDateTo = createdDateTo == null ? null : (Date) createdDateTo.clone();
     }
 
     public String getHierarchyCategory() {
@@ -176,27 +176,27 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getStartDateTo() {
-        return startDateTo;
+        return startDateTo == null ? null : (Date) startDateTo.clone();
     }
 
     public void setStartDateTo(Date startDateTo) {
-        this.startDateTo = startDateTo;
+        this.startDateTo = startDateTo == null ? null : (Date) startDateTo.clone();
     }
 
     public Date getCreationDateFrom() {
-        return creationDateFrom;
+        return creationDateFrom == null ? null : (Date) creationDateFrom.clone();
     }
 
     public void setCreationDateFrom(Date creationDateFrom) {
-        this.creationDateFrom = creationDateFrom;
+        this.creationDateFrom = creationDateFrom == null ? null : (Date) creationDateFrom.clone();
     }
 
     public Date getCreationDateTo() {
-        return creationDateTo;
+        return creationDateTo == null ? null : (Date) creationDateTo.clone();
     }
 
     public void setCreationDateTo(Date creationDateTo) {
-        this.creationDateTo = creationDateTo;
+        this.creationDateTo = creationDateTo == null ? null : (Date) creationDateTo.clone();
     }
 
     public String getRelationshipType() {
@@ -208,11 +208,11 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
     
     public String getDiscountName() {

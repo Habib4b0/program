@@ -48,6 +48,7 @@ public class GtnWsRelationshipBuilderConstants {
 	public static final String HIERARCHY_FILE_CREATION = "/hierarchyFileCreation";
 	public static final String NUMERIC_CONSTANT_ONE = "1";
 	public static final String HIERARCHY_LEVELNAME_LIST = "/hierarchyLevelNameList";
+	public static final String AUTOBUILDERELATIONSHIP = "/autoBuildRelationShip";
 
 	private GtnWsRelationshipBuilderConstants() {
 		/**

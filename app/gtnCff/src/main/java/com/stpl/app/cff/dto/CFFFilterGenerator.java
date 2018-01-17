@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.dto;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.security.StplSecurity;
@@ -71,11 +72,9 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
                 typeDdlb.setImmediate(true);
                 typeDdlb.setNullSelectionItemId(StringConstantsUtil.SHOW_ALL);
                 return typeDdlb;
-            } catch (SystemException ex) {
+            } catch (SystemException  | PortalException ex) {
                 Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } 
         }
 
         if ("statusDesc".equals(propertyId)) {
@@ -88,15 +87,13 @@ public class CFFFilterGenerator implements ExtFilterGenerator {
                 statusDdlb.setImmediate(true);
                 statusDdlb.setNullSelectionItemId(StringConstantsUtil.SHOW_ALL);
                 return statusDdlb;
-            } catch (SystemException ex) {
+             } catch (SystemException  | PortalException ex) {
                 Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(CFFFilterGenerator.class.getName()).log(Level.SEVERE, null, ex);
-            }
+             } 
         }
         if ("approvedBy".equals(propertyId)) {
             try {
-                Map<Integer, String> userMap = StplSecurity.userMap ;
+                Map<Integer, String> userMap = StplSecurity.getUserMap() ;
                 comboBox.addItem(0);
                     comboBox.setItemCaption(0, ConstantsUtils.SHOW_ALL);
                     for (Map.Entry<Integer, String> entry : userMap.entrySet()) {

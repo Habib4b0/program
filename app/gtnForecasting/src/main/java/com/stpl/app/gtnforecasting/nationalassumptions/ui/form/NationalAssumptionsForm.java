@@ -586,7 +586,7 @@ public class NationalAssumptionsForm extends CustomComponent {
                     }
                 }
 
-            }.getConfirmationMessage("Save Confirmation", "Save record " + projName + "?");
+            }.getConfirmationMessage("Save Confirmation", "Are you sure you want to save the projection?");
         }
 
         UI.getCurrent().setFocusedComponent(UI.getCurrent());

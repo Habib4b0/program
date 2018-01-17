@@ -783,13 +783,13 @@ public class DiscountQueryBuilder {
             int actualLevelNo = commonLogic.getActualLevelNoFromCustomView(sessionDTO, customId, levelNo);
             switch (String.valueOf(currentHierarchyIndicator)) {
                 case Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY:
-                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(sessionDTO, customerHierarchyNo, currentHierarchyIndicator, actualLevelNo));
+                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(sessionDTO, customerHierarchyNo, currentHierarchyIndicator, actualLevelNo,false));
                     break;
                 case Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY:
-                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(sessionDTO, productHierarchyNo, currentHierarchyIndicator, actualLevelNo));
+                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchy(sessionDTO, productHierarchyNo, currentHierarchyIndicator, actualLevelNo,false));
                     break;
                 case Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY:
-                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchyDeduction(sessionDTO, deductionHierarchyNo, currentHierarchyIndicator, actualLevelNo));
+                    sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchyDeduction(sessionDTO, deductionHierarchyNo, currentHierarchyIndicator, actualLevelNo,false));
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);
@@ -960,7 +960,7 @@ public class DiscountQueryBuilder {
         if (StringUtils.isNotBlank(parentHierarhcyIndicaotrDeduction)) {
             parentColumnJoinDeduction = commonLogic.getColumnNameCustomRel(parentHierarhcyIndicaotrDeduction,parentHierarchyNoDeduction,sessionDTO);
         }
-        String countQuery = SQlUtil.getQuery("GET_CUSTOM_COUNT").replace(Constant.HIERARCHY_NO, !hierarchyIndicator.equalsIgnoreCase("D") ? getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo) : commonLogic.getSelectedHierarchyDeduction(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo))
+        String countQuery = SQlUtil.getQuery("GET_CUSTOM_COUNT").replace(Constant.HIERARCHY_NO, !hierarchyIndicator.equalsIgnoreCase("D") ? getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo,true) : commonLogic.getSelectedHierarchyDeduction(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo,true))
                 .replace("@REBATE", isProgram ? SQlUtil.getQuery(Constant.GET_COUNT_PROGRAM) : SQlUtil.getQuery(Constant.COUNT_PROGRAM_CATEGORY))
                 .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnNameCustomDed(hierarchyIndicator)).replace(Constant.AT_DISCOUNT, getRebate(discountList))
                 .replace("@FOR_CUSTOM", parentColumnJoin).replace("@CUSTOM", parentColumnJoinDeduction).replace(Constant.AT_RS_COLUMN, isProgram ? Constant.RS_CONTRACT_SID : Constant.PRICE_GROUP_TYPE).replace("@REPLACE", commonLogic.getSelectStatementCustom(hierarchyIndicator))
@@ -1053,7 +1053,7 @@ public class DiscountQueryBuilder {
     }
     
     
-    public String getSelectedHierarchy(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
+    public String getSelectedHierarchy(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo,boolean isCount) {
 
         if (levelNo == 0) {
             throw new IllegalArgumentException("Invalid Level No:" + levelNo);
@@ -1076,7 +1076,7 @@ public class DiscountQueryBuilder {
 				}
 				stringBuilder.append("('");
 				stringBuilder.append(entry.getKey());
-				stringBuilder.append("'," + i++ + ")");
+				stringBuilder.append(isCount ? "')" : "'," + i++ + ")");
 
 				isNotFirstElement = true;
 			}
@@ -1087,5 +1087,5 @@ public class DiscountQueryBuilder {
 		}
 		return stringBuilder.toString();
 	}
-
+    
 }
