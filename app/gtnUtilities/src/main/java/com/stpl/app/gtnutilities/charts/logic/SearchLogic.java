@@ -55,7 +55,7 @@ public class SearchLogic {
 	public Date selectedDate = CommonMethods.getYesterdayDate();
 	private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
 	// Declaring resusable global Variables
-	Window detailedQuery = new Window(Constants.Query);
+	Window detailedQuery = new Window(Constants.QUERY);
 	Button link;
 	String query = Constants.EMPTY;
 	SimpleStringFilter stringFilter;
@@ -165,7 +165,7 @@ public class SearchLogic {
 
 	public List<Object[]> fetchCPUIODataFromDB(String type, Date selecteDate) {
 		query = Constants.EMPTY;
-		String sqlDate = new SimpleDateFormat(Constants.yyyy_MM_dd_HH_mm_ss).format(selecteDate);
+		String sqlDate = new SimpleDateFormat(Constants.YYYY_MM_DD_HH_MM_SS).format(selecteDate);
 		String dateCondition = String.format(
 				!DateUtils.isSameDay(selecteDate, new Date())
 						? "FORMAT( INSERTED_DATE, 'yyyy-MM-dd HH' )+':00:00' =   '%s'" : "INSERTED_DATE = '%s'",
@@ -211,7 +211,7 @@ public class SearchLogic {
 	Button createButtonLink(final String text_query) {
 		link = new Button();
 		link.setCaption(text_query.length() < NumericConstants.FIFTY ? text_query
-				: text_query.substring(0, NumericConstants.FORTY_NINE) + Constants.Continous_Dots);
+				: text_query.substring(0, NumericConstants.FORTY_NINE) + Constants.CONTINUOUS_DOTS);
 		link.addStyleName(Reindeer.BUTTON_LINK);
 		link.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;

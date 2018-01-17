@@ -396,8 +396,7 @@ public class GtnWsRelationshipBuilderController {
 			List<GtnWsRecordBean> relationshipTreeNode = logic
 					.loadAutoBuildData(rbRequest.getHierarchyDefSId(), rbRequest.getHierarchyVersionNo(),
 							rbRequest.getSelectedTreeBean(),
-							rbRequest.getHiddenIdList().subList(1, rbRequest.getHiddenIdList().size()),
-							rbRequest.getRsTreeNodeList());
+							rbRequest.getHiddenIdList().subList(1, rbRequest.getHiddenIdList().size()));
 			rbResponse.setRbTreeNodeList(relationshipTreeNode);
 		} catch (Exception ex) {
 			logger.error("Exception in loadRelationship", ex);
