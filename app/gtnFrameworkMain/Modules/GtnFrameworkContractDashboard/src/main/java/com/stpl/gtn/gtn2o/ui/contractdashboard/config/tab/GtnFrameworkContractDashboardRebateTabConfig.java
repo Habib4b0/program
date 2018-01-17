@@ -944,6 +944,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		componentConfig.setAuthorizationIncluded(true);
 		componentConfig.setComponentName("Rebate Frequency");
+                componentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
 		cdRebateComponentList.add(componentConfig);
 
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
@@ -1220,6 +1221,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		componentConfig.setAuthorizationIncluded(true);
 		componentConfig.setComponentName("Calculation Type");
+                componentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
 		cdRebateComponentList.add(componentConfig);
 
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
@@ -1275,6 +1277,7 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
 		componentConfig.setAuthorizationIncluded(true);
 		componentConfig.setComponentName("Calculation Level");
+                componentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
 		cdRebateComponentList.add(componentConfig);
 
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();

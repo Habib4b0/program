@@ -532,6 +532,7 @@ public class GtnFrameworkContractDashboardInfomationTabConfig {
 				componentId, true, gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.POPUPTEXTFIELD);
 		cdInformationTradingPartnerConfig.setAuthorizationIncluded(true);
 		cdInformationTradingPartnerConfig.setComponentName("Trading Partner");
+                cdInformationTradingPartnerConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
 		cdInformationComponentList.add(cdInformationTradingPartnerConfig);
 		componentIdList.add(cdInformationTradingPartnerConfig.getComponentId());
 
