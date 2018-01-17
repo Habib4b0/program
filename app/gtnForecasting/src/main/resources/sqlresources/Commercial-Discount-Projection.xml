@@ -704,6 +704,21 @@ ORDER BY INSTR,HIERARCHY_NO
       ]]>
         </query>
     </entity>
+    <entity id="HIER_VALUES">
+        <query> 
+            <![CDATA[ 
+            IF OBJECT_ID('TEMPDB..#HIERARCHY_NO') IS NOT NULL
+                    DROP TABLE #HIERARCHY_NO
+
+                    CREATE TABLE #HIERARCHY_NO (HIERARCHY_NO VARCHAR(8000))
+
+                    INSERT INTO #HIERARCHY_NO (HIERARCHY_NO)
+                    SELECT HIERARCHY_NO FROM
+                    (VALUES  (@HIER_VALUES))A(HIERARCHY_NO)
+         
+      ]]>
+        </query>
+    </entity>
     
     <entity id="UPDATE_PROGRAM_CHECKRECORD">
         <query> 

@@ -1674,11 +1674,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 					updatedRecordCount = logic.updateCheckRecord(session, checkValue, hierarchyNo,
 							hierarchyIndicatorList.get(i), isCustomHierarchy, customViewDetails, isProgram,
-							discountList,discountIds);
+							discountList,discountIds,false);
 				}
 			} else {
 				updatedRecordCount = logic.updateCheckRecord(session, checkValue, hierarchyNo, hierarchyIndicator,
-						isCustomHierarchy, customViewDetails, isProgram, discountList,discountIds);
+						isCustomHierarchy, customViewDetails, isProgram, discountList,discountIds,false);
 			}
 		} catch (Exception e) {
 			LOGGER.error(e);
@@ -1838,7 +1838,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			rightTable.setTripleHeaderColumnCheckBox(columns, true, checkvalue);
 			rightTable.setTripleHeaderColumnCheckBoxDisable(columns,
 					ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()));
-			tripleHeaderCheckListener(columns, checkvalue);
+			tripleHeaderCheckListener(columns, checkvalue,false);
 		}
 		LOGGER.debug(" adjustmentPrograms " + adjustmentProgram);
 	}
@@ -3581,7 +3581,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		rightTable.addTripleHeaderColumnCheckListener(new ExtCustomTable.TripleHeaderColumnCheckListener() {
 			@Override
 			public void tripleHeaderColumnCheck(ExtCustomTable.TripleHeaderColumnCheckEvent event) {
-				tripleHeaderCheckListener(event.getPropertyId(), event.isChecked());
+				tripleHeaderCheckListener(event.getPropertyId(), event.isChecked(),true);
 			}
 		});
 
@@ -3798,7 +3798,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		LOGGER.debug(" saving DP screen over");
 	}
 
-	private void tripleHeaderCheckListener(Object propertyId, boolean isChecked) {
+	private void tripleHeaderCheckListener(Object propertyId, boolean isChecked,boolean isManualCheck) {
 		ExtFilterTreeTable rightTable = resultsTable.getRightFreezeAsTable();
 		String checkedColumn = rightTable.getTripleHeaderColumnHeader(propertyId);
 		String adjustmentPeriod = String.valueOf(adjperiods.getValue());
@@ -3818,6 +3818,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				doubleHeaderCheckListener(columns, isChecked);
 			}
 		}
+                
+                if (logic.checkCheckRecordForTripleHeader(session) > 0 && isManualCheck) {
+                String hierarchyNo=logic.getHierarchyNo(session,hierarchyIndicator);
+                String discountIds = CommonUtils.convertCollectionToString(checkedDiscountsPropertyIds, false);
+                logic.updateCheckRecord(session, isChecked, hierarchyNo, hierarchyIndicator,
+                        false, new ArrayList<String>(), false, (List<String>)(List<?>)checkedDiscountsPropertyIds, discountIds,true);
+            }
+
 	}
 
 	/**

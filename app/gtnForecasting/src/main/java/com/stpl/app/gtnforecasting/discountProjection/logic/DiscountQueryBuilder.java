@@ -165,7 +165,7 @@ public class DiscountQueryBuilder {
     }
 
     public int updateCheckRecord(SessionDTO session, boolean checkValue, String hierarchyNo,
-            String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountList,String discountRelationLevel) {
+            String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountList,String discountRelationLevel,boolean isTripleCheck) {
         String customSql = "";
         LOGGER.debug(" inside updateCheckRecord");
         try {
@@ -210,6 +210,9 @@ public class DiscountQueryBuilder {
                 customSql = checkIsCustom(isCustomView, hierarchyIndicator, customViewDetails.get(NumericConstants.TWO), customViewDetails.get(NumericConstants.FOUR), customViewDetails.get(NumericConstants.NINE), hierarchyNo, customSql,session);
             } else {
                 customSql = checkIsCustom(isCustomView, hierarchyIndicator, StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, hierarchyNo, customSql,session);
+            }
+            if (isTripleCheck && !checkValue) {
+                customSql="UPDATE ST_NM_DISCOUNT_PROJ_MASTER SET CHECK_RECORD=0 ".concat(customSql);
             }
             return HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 

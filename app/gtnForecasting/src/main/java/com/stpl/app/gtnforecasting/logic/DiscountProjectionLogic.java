@@ -495,11 +495,11 @@ public class DiscountProjectionLogic {
      * @param customViewDetails
      */
     public int updateCheckRecord(SessionDTO session, boolean checkValue, String hierarchyNo, String hierarchyIndicator,
-            boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountNamesList, String discountHierarchy) {
+            boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountNamesList, String discountHierarchy,boolean isTripleCheck) {
         session.setSelectedRsForCustom(queryBuilderAndExecutor.getRsContractSid(session, checkValue, hierarchyNo, hierarchyIndicator,
                 isCustomView, customViewDetails, isProgram, discountNamesList));
         return queryBuilderAndExecutor.updateCheckRecord(session, checkValue, hierarchyNo, hierarchyIndicator,
-                isCustomView, customViewDetails, isProgram, discountNamesList, discountHierarchy);
+                isCustomView, customViewDetails, isProgram, discountNamesList, discountHierarchy,isTripleCheck);
     }
 
     /**
@@ -1227,5 +1227,26 @@ public class DiscountProjectionLogic {
         queryAllRebate = QueryUtils.getQuery(inputList, "GET_LEVEL_NAME");
         List<String> list = HelperTableLocalServiceUtil.executeSelectQuery(queryAllRebate);
         return list.get(0);
+    }
+    
+    public int checkCheckRecordForTripleHeader(SessionDTO session) {
+       String updateSelectQuery="SELECT COUNT(CHECK_RECORD) FROM ST_NM_DISCOUNT_PROJ_MASTER WHERE CHECK_RECORD=1 ";
+       List<String> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(updateSelectQuery, session.getCurrentTableNames()));
+       return list.get(0) != null ? Integer.parseInt(String.valueOf(list.get(0))) : 0;
+    }
+    
+    public String getHierarchyNo(SessionDTO session,String hierarchyIndicator) {
+       StringBuilder hierarchyNo=new StringBuilder();
+       String custOrProd=hierarchyIndicator.equals("C")?"CUST_HIERARCHY_NO":"PROD_HIERARCHY_NO";
+       StringBuilder updateSelectQuery=new StringBuilder();
+       updateSelectQuery.append("SELECT  CCP.");
+       updateSelectQuery.append(custOrProd);
+       updateSelectQuery.append(" FROM ST_NM_DISCOUNT_PROJ_MASTER NMDISC JOIN ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID=NMDISC.CCP_DETAILS_SID WHERE NMDISC.CHECK_RECORD=1 ");
+       List<String> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(updateSelectQuery.toString(), session.getCurrentTableNames()));
+        for (String string : list) {
+            hierarchyNo=hierarchyNo.append(string).append(",");
+        }
+       hierarchyNo=hierarchyNo.replace(hierarchyNo.lastIndexOf(","), hierarchyNo.length(),"");
+       return hierarchyNo.toString();
     }
 }
