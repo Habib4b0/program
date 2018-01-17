@@ -79,11 +79,11 @@ public class PPAProjectionResultsLogic {
     private int cureentWacFrquencyIndex=3;
 
     public List getChartList() {
-        return chartList;
+        return chartList == null ? chartList : new ArrayList<>(chartList);
     }
 
     public void setChartList(List chartList) {
-        this.chartList = chartList;
+        this.chartList = chartList == null ? chartList : new ArrayList<>(chartList);
     }
 
     public String getIndicater() {

@@ -4,6 +4,7 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.dto;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,35 +29,35 @@ public class ResultList {
     }
 
     public Set<DataSelectionDTO> getAvailableCustomersAndContracts() {
-        return availableCustomersAndContracts;
+        return availableCustomersAndContracts == null ? availableCustomersAndContracts : Collections.unmodifiableSet(availableCustomersAndContracts);
     }
 
     public void setAvailableCustomersAndContracts(Set<DataSelectionDTO> availableCustomersAndContracts) {
-        this.availableCustomersAndContracts = availableCustomersAndContracts;
+        this.availableCustomersAndContracts = availableCustomersAndContracts == null ? availableCustomersAndContracts : Collections.unmodifiableSet(availableCustomersAndContracts);
     }
 
     public Set<DataSelectionDTO> getAvailableProducts() {
-        return availableProducts;
+        return availableProducts == null ? availableProducts : Collections.unmodifiableSet(availableProducts);
     }
 
     public void setAvailableProducts(Set<DataSelectionDTO> availableProducts) {
-        this.availableProducts = availableProducts;
+        this.availableProducts = availableProducts == null ? availableProducts : Collections.unmodifiableSet(availableProducts);
     }
 
     public Set<DataSelectionDTO> getSelectedCustomersAndContracts() {
-        return selectedCustomersAndContracts;
+        return selectedCustomersAndContracts == null ? selectedCustomersAndContracts : Collections.unmodifiableSet(selectedCustomersAndContracts);
     }
 
     public void setSelectedCustomersAndContracts(Set<DataSelectionDTO> selectedCustomersAndContracts) {
-        this.selectedCustomersAndContracts = selectedCustomersAndContracts;
+        this.selectedCustomersAndContracts = selectedCustomersAndContracts == null ? selectedCustomersAndContracts : Collections.unmodifiableSet(selectedCustomersAndContracts);
     }
 
     public Set<DataSelectionDTO> getSelectedProducts() {
-        return selectedProducts;
+        return selectedProducts == null ? selectedProducts : Collections.unmodifiableSet(selectedProducts);
     }
 
     public void setSelectedProducts(Set<DataSelectionDTO> selectedProducts) {
-        this.selectedProducts = selectedProducts;
+        this.selectedProducts = selectedProducts == null ? selectedProducts : Collections.unmodifiableSet(selectedProducts);
     }
 
    

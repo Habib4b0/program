@@ -102,7 +102,7 @@ public class DiscountSelection extends Window {
 	public DiscountSelection(SessionDTO session, List<String> selectedDiscounts, boolean discountProgram) {
 		super("Discount Selection look Up");
 		this.isProgram = discountProgram;
-		this.selectedDiscounts = selectedDiscounts;
+		this.selectedDiscounts = selectedDiscounts == null ? selectedDiscounts : new ArrayList<>(selectedDiscounts);
 		this.session = session;
 		init();
 	}
@@ -307,11 +307,11 @@ public class DiscountSelection extends Window {
 	}
 
 	public List<String> getSelectedDiscountsList() {
-		return selectedDiscounts;
+		return selectedDiscounts == null ? selectedDiscountsNoList : new ArrayList<>(selectedDiscountsNoList);
 	}
 
 	public List<String> getSelectedDiscountsNoList() {
-		return selectedDiscountsNoList;
+		return selectedDiscountsNoList == null ? selectedDiscountsNoList : new ArrayList<>(selectedDiscountsNoList);
 	}
 
 }

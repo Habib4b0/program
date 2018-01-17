@@ -78,19 +78,19 @@ public class FormulaDTO {
     }
 
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }   
 
     public int getFormulaTypeId() {

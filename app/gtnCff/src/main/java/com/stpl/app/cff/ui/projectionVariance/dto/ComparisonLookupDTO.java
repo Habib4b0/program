@@ -7,6 +7,7 @@ package com.stpl.app.cff.ui.projectionVariance.dto;
 
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -130,19 +131,19 @@ public class ComparisonLookupDTO {
     }
 
     public Date getCreatedDateFrom() {
-        return createdDateFrom;
+        return createdDateFrom == null ? null : (Date) createdDateFrom.clone();
     }
 
     public void setCreatedDateFrom(Date createdDateFrom) {
-        this.createdDateFrom = createdDateFrom;
+        this.createdDateFrom = createdDateFrom == null ? null : (Date) createdDateFrom.clone();
     }
 
     public Date getCreatedDateTo() {
-        return createdDateTo;
+        return createdDateTo == null ? null : (Date) createdDateTo.clone();
     }
 
     public void setCreatedDateTo(Date createdDateTo) {
-        this.createdDateTo = createdDateTo;
+        this.createdDateTo = createdDateTo == null ? null : (Date) createdDateTo.clone();
     }
 
     public int getProjectionId() {
@@ -162,27 +163,27 @@ public class ComparisonLookupDTO {
     }
 
     public List<ComparisonLookupDTO> getSelected() {
-        return selected;
+        return selected == null ? selected : Collections.unmodifiableList(selected);
     }
 
     public void setSelected(List<ComparisonLookupDTO> selected) {
-        this.selected = selected;
+        this.selected = selected == null ? selected : Collections.unmodifiableList(selected);
     }
 
     public List<Integer> getProjIdList() {
-        return projIdList;
+        return projIdList == null ? projIdList : Collections.unmodifiableList(projIdList);
     }
 
     public void setProjIdList(List<Integer> projIdList) {
-        this.projIdList = projIdList;
+        this.projIdList = projIdList == null ? projIdList : Collections.unmodifiableList(projIdList);
     }
 
     public List<String> getProjNameList() {
-        return projNameList;
+        return projNameList == null ? projNameList : Collections.unmodifiableList(projNameList);
     }
 
     public void setProjNameList(List<String> projNameList) {
-        this.projNameList = projNameList;
+        this.projNameList = projNameList == null ? projNameList : Collections.unmodifiableList(projNameList);
     }
 
     public Map<Integer, String> getProjectionMap() {
@@ -210,27 +211,27 @@ public class ComparisonLookupDTO {
     }
 
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public Set<Container.Filter> getFilter() {
-        return filter;
+        return filter == null ? filter : Collections.unmodifiableSet(filter);
     }
 
     public void setFilter(Set<Container.Filter> filter) {
-        this.filter = filter;
+        this.filter = filter == null ? filter : Collections.unmodifiableSet(filter);
     }
 
     public List<SortByColumn> getSortColumns() {
-        return sortColumns;
+        return sortColumns == null ? sortColumns : new ArrayList<>(sortColumns);
     }
 
     public void setSortColumns(List<SortByColumn> sortColumns) {
-        this.sortColumns = sortColumns;
+        this.sortColumns = sortColumns == null ? sortColumns : new ArrayList<>(sortColumns);
     }
 
     public String getScreenName() {

@@ -7,6 +7,7 @@ package com.stpl.app.gcm.copycontract.dto;
 import com.stpl.ifs.util.HelperDTO;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -608,7 +609,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the base cpi period
      */
     public Date getBaseCpiPeriod() {
-        return baseCpiPeriod;
+        return baseCpiPeriod == null ? null : (Date) baseCpiPeriod.clone();
     }
 
     /**
@@ -617,7 +618,7 @@ public class ItemMasterDTO implements Serializable {
      * @param baseCpiPeriod the base cpi period
      */
     public void setBaseCpiPeriod(final Date baseCpiPeriod) {
-        this.baseCpiPeriod = baseCpiPeriod;
+        this.baseCpiPeriod = baseCpiPeriod == null ? null : (Date) baseCpiPeriod.clone();
     }
 
     /**
@@ -644,7 +645,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the non federal expiration date
      */
     public Date getNonFederalExpirationDate() {
-        return nonFederalExpirationDate;
+        return nonFederalExpirationDate == null ? null : (Date) nonFederalExpirationDate.clone();
     }
 
     /**
@@ -653,7 +654,7 @@ public class ItemMasterDTO implements Serializable {
      * @param nonFederalExpirationDate the non federal expiration date
      */
     public void setNonFederalExpirationDate(final Date nonFederalExpirationDate) {
-        this.nonFederalExpirationDate = nonFederalExpirationDate;
+        this.nonFederalExpirationDate = nonFederalExpirationDate == null ? null : (Date) nonFederalExpirationDate.clone();
     }
 
     /**
@@ -662,7 +663,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the divestiture date
      */
     public Date getDivestitureDate() {
-        return divestitureDate;
+        return divestitureDate == null ? null : (Date) divestitureDate.clone();
     }
 
     /**
@@ -671,7 +672,7 @@ public class ItemMasterDTO implements Serializable {
      * @param divestitureDate the divestiture date
      */
     public void setDivestitureDate(final Date divestitureDate) {
-        this.divestitureDate = divestitureDate;
+        this.divestitureDate = divestitureDate == null ? null : (Date) divestitureDate.clone();
     }
 
     /**
@@ -680,7 +681,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the last lot expiration date
      */
     public Date getLastLotExpirationDate() {
-        return lastLotExpirationDate;
+        return lastLotExpirationDate == null ? null : (Date) lastLotExpirationDate.clone();
     }
 
     /**
@@ -689,7 +690,7 @@ public class ItemMasterDTO implements Serializable {
      * @param lastLotExpirationDate the last lot expiration date
      */
     public void setLastLotExpirationDate(final Date lastLotExpirationDate) {
-        this.lastLotExpirationDate = lastLotExpirationDate;
+        this.lastLotExpirationDate = lastLotExpirationDate == null ? null : (Date) lastLotExpirationDate.clone();
     }
 
     /**
@@ -698,7 +699,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the discontinuation date
      */
     public Date getDiscontinuationDate() {
-        return discontinuationDate;
+        return discontinuationDate == null ? null : (Date) discontinuationDate.clone();
     }
 
     /**
@@ -707,7 +708,7 @@ public class ItemMasterDTO implements Serializable {
      * @param discontinuationDate the discontinuation date
      */
     public void setDiscontinuationDate(final Date discontinuationDate) {
-        this.discontinuationDate = discontinuationDate;
+        this.discontinuationDate = discontinuationDate == null ? null : (Date) discontinuationDate.clone();
     }
 
     /**
@@ -951,7 +952,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the package size intro date
      */
     public Date getPackageSizeIntroDate() {
-        return packageSizeIntroDate;
+        return packageSizeIntroDate == null ? null : (Date) packageSizeIntroDate.clone();
     }
 
     /**
@@ -960,7 +961,7 @@ public class ItemMasterDTO implements Serializable {
      * @param packageSizeIntroDate the package size intro date
      */
     public void setPackageSizeIntroDate(final Date packageSizeIntroDate) {
-        this.packageSizeIntroDate = packageSizeIntroDate;
+        this.packageSizeIntroDate = packageSizeIntroDate == null ? null : (Date) packageSizeIntroDate.clone();
     }
 
     /**
@@ -987,7 +988,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the item start date
      */
     public Date getItemStartDate() {
-        return itemStartDate;
+        return itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     /**
@@ -996,7 +997,7 @@ public class ItemMasterDTO implements Serializable {
      * @param itemStartDate the item start date
      */
     public void setItemStartDate(final Date itemStartDate) {
-        this.itemStartDate = itemStartDate;
+        this.itemStartDate = itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     /**
@@ -1005,7 +1006,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the item end date
      */
     public Date getItemEndDate() {
-        return itemEndDate;
+        return itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     /**
@@ -1014,7 +1015,7 @@ public class ItemMasterDTO implements Serializable {
      * @param itemEndDate the item end date
      */
     public void setItemEndDate(final Date itemEndDate) {
-        this.itemEndDate = itemEndDate;
+        this.itemEndDate = itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     /**
@@ -1095,7 +1096,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the acquisition date
      */
     public Date getAcquisitionDate() {
-        return acquisitionDate;
+        return acquisitionDate == null ? null : (Date) acquisitionDate.clone();
     }
 
     /**
@@ -1104,7 +1105,7 @@ public class ItemMasterDTO implements Serializable {
      * @param acquisitionDate the acquisition date
      */
     public void setAcquisitionDate(final Date acquisitionDate) {
-        this.acquisitionDate = acquisitionDate;
+        this.acquisitionDate = acquisitionDate == null ? null : (Date) acquisitionDate.clone();
     }
 
     /**
@@ -1131,7 +1132,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the authorized generic start date
      */
     public Date getAuthorizedGenericStartDate() {
-        return authorizedGenericStartDate;
+        return authorizedGenericStartDate == null ? null : (Date) authorizedGenericStartDate.clone();
     }
 
     /**
@@ -1140,7 +1141,7 @@ public class ItemMasterDTO implements Serializable {
      * @param authorizedGenericStartDate the authorized generic start date
      */
     public void setAuthorizedGenericStartDate(final Date authorizedGenericStartDate) {
-        this.authorizedGenericStartDate = authorizedGenericStartDate;
+        this.authorizedGenericStartDate = authorizedGenericStartDate == null ? null : (Date) authorizedGenericStartDate.clone();
     }
 
     /**
@@ -1149,7 +1150,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the authorized generic end date
      */
     public Date getAuthorizedGenericEndDate() {
-        return authorizedGenericEndDate;
+        return authorizedGenericEndDate == null ? null : (Date) authorizedGenericEndDate.clone();
     }
 
     /**
@@ -1158,7 +1159,7 @@ public class ItemMasterDTO implements Serializable {
      * @param authorizedGenericEndDate the authorized generic end date
      */
     public void setAuthorizedGenericEndDate(final Date authorizedGenericEndDate) {
-        this.authorizedGenericEndDate = authorizedGenericEndDate;
+        this.authorizedGenericEndDate = authorizedGenericEndDate == null ? null : (Date) authorizedGenericEndDate.clone();
     }
 
     /**
@@ -1221,7 +1222,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the first sale date
      */
     public Date getFirstSaleDate() {
-        return firstSaleDate;
+        return firstSaleDate == null ? null : (Date) firstSaleDate.clone();
     }
 
     /**
@@ -1230,7 +1231,7 @@ public class ItemMasterDTO implements Serializable {
      * @param firstSaleDate the first sale date
      */
     public void setFirstSaleDate(final Date firstSaleDate) {
-        this.firstSaleDate = firstSaleDate;
+        this.firstSaleDate = firstSaleDate == null ? null : (Date) firstSaleDate.clone();
     }
 
     /**
@@ -1293,7 +1294,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the market termination date
      */
     public Date getMarketTerminationDate() {
-        return marketTerminationDate;
+        return marketTerminationDate == null ? null : (Date) marketTerminationDate.clone();
     }
 
     /**
@@ -1302,7 +1303,7 @@ public class ItemMasterDTO implements Serializable {
      * @param marketTerminationDate the market termination date
      */
     public void setMarketTerminationDate(final Date marketTerminationDate) {
-        this.marketTerminationDate = marketTerminationDate;
+        this.marketTerminationDate = marketTerminationDate == null ? null : (Date) marketTerminationDate.clone();
     }
 
     /**
@@ -1347,7 +1348,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the new formulation start date
      */
     public Date getNewFormulationStartDate() {
-        return newFormulationStartDate;
+        return newFormulationStartDate == null ? null : (Date) newFormulationStartDate.clone();
     }
 
     /**
@@ -1356,7 +1357,7 @@ public class ItemMasterDTO implements Serializable {
      * @param newFormulationStartDate the new formulation start date
      */
     public void setNewFormulationStartDate(final Date newFormulationStartDate) {
-        this.newFormulationStartDate = newFormulationStartDate;
+        this.newFormulationStartDate = newFormulationStartDate == null ? null : (Date) newFormulationStartDate.clone();
     }
 
     /**
@@ -1365,7 +1366,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the new formulation end date
      */
     public Date getNewFormulationEndDate() {
-        return newFormulationEndDate;
+        return newFormulationEndDate == null ? null : (Date) newFormulationEndDate.clone();
     }
 
     /**
@@ -1374,7 +1375,7 @@ public class ItemMasterDTO implements Serializable {
      * @param newFormulationEndDate the new formulation end date
      */
     public void setNewFormulationEndDate(final Date newFormulationEndDate) {
-        this.newFormulationEndDate = newFormulationEndDate;
+        this.newFormulationEndDate = newFormulationEndDate == null ? null : (Date) newFormulationEndDate.clone();
     }
 
     /**
@@ -1671,7 +1672,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the created date
      */
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
@@ -1680,7 +1681,7 @@ public class ItemMasterDTO implements Serializable {
      * @param createdDate the created date
      */
     public void setCreatedDate(final Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
@@ -1707,7 +1708,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the modified date
      */
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     /**
@@ -1716,7 +1717,7 @@ public class ItemMasterDTO implements Serializable {
      * @param modifiedDate the modified date
      */
     public void setModifiedDate(final Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     /**
@@ -1797,7 +1798,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the item identifier list
      */
     public List<ItemIrtIdentifierDTO> getItemIdentifierList() {
-        return itemIdentifierList;
+        return itemIdentifierList == null ? itemIdentifierList : Collections.unmodifiableList(itemIdentifierList);
     }
 
     /**
@@ -1806,7 +1807,7 @@ public class ItemMasterDTO implements Serializable {
      * @param itemIdentifierList the item identifier list
      */
     public void setItemIdentifierList(final List<ItemIrtIdentifierDTO> itemIdentifierList) {
-        this.itemIdentifierList = itemIdentifierList;
+        this.itemIdentifierList = itemIdentifierList == null ? itemIdentifierList : Collections.unmodifiableList(itemIdentifierList);
     }
 
     /**
@@ -1815,7 +1816,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the pricing identifier list
      */
     public List<ItemPricingDTO> getPricingIdentifierList() {
-        return pricingIdentifierList;
+        return pricingIdentifierList == null ? pricingIdentifierList : Collections.unmodifiableList(pricingIdentifierList);
     }
 
     /**
@@ -1824,7 +1825,7 @@ public class ItemMasterDTO implements Serializable {
      * @param pricingIdentifierList the pricing identifier list
      */
     public void setPricingIdentifierList(final List<ItemPricingDTO> pricingIdentifierList) {
-        this.pricingIdentifierList = pricingIdentifierList;
+        this.pricingIdentifierList = pricingIdentifierList == null ? pricingIdentifierList : Collections.unmodifiableList(pricingIdentifierList);
     }
 
     /**
@@ -1851,7 +1852,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the pediatric exclusive start date
      */
     public Date getPediatricExclusiveStartDate() {
-        return pediatricExclusiveStartDate;
+        return pediatricExclusiveStartDate == null ? null : (Date) pediatricExclusiveStartDate.clone();
     }
 
     /**
@@ -1860,7 +1861,7 @@ public class ItemMasterDTO implements Serializable {
      * @param pediatricExclusiveStartDate the pediatric exclusive start date
      */
     public void setPediatricExclusiveStartDate(final Date pediatricExclusiveStartDate) {
-        this.pediatricExclusiveStartDate = pediatricExclusiveStartDate;
+        this.pediatricExclusiveStartDate = pediatricExclusiveStartDate == null ? null : (Date) pediatricExclusiveStartDate.clone();
     }
 
     /**
@@ -1869,7 +1870,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the pediatric exclusive end date
      */
     public Date getPediatricExclusiveEndDate() {
-        return pediatricExclusiveEndDate;
+        return pediatricExclusiveEndDate == null ? null : (Date) pediatricExclusiveEndDate.clone();
     }
 
     /**
@@ -1878,7 +1879,7 @@ public class ItemMasterDTO implements Serializable {
      * @param pediatricExclusiveEndDate the pediatric exclusive end date
      */
     public void setPediatricExclusiveEndDate(final Date pediatricExclusiveEndDate) {
-        this.pediatricExclusiveEndDate = pediatricExclusiveEndDate;
+        this.pediatricExclusiveEndDate = pediatricExclusiveEndDate == null ? null : (Date) pediatricExclusiveEndDate.clone();
     }
 
     /**
@@ -1887,7 +1888,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the clotting factor start date
      */
     public Date getClottingFactorStartDate() {
-        return clottingFactorStartDate;
+        return clottingFactorStartDate == null ? null : (Date) clottingFactorStartDate.clone();
     }
 
     /**
@@ -1896,7 +1897,7 @@ public class ItemMasterDTO implements Serializable {
      * @param clottingFactorStartDate the clotting factor start date
      */
     public void setClottingFactorStartDate(final Date clottingFactorStartDate) {
-        this.clottingFactorStartDate = clottingFactorStartDate;
+        this.clottingFactorStartDate = clottingFactorStartDate == null ? null : (Date) clottingFactorStartDate.clone();
     }
 
     /**
@@ -1905,7 +1906,7 @@ public class ItemMasterDTO implements Serializable {
      * @return the clotting factor end date
      */
     public Date getClottingFactorEndDate() {
-        return clottingFactorEndDate;
+        return clottingFactorEndDate == null ? null : (Date) clottingFactorEndDate.clone();
     }
 
     /**
@@ -1914,7 +1915,7 @@ public class ItemMasterDTO implements Serializable {
      * @param clottingFactorEndDate the clotting factor end date
      */
     public void setClottingFactorEndDate(final Date clottingFactorEndDate) {
-        this.clottingFactorEndDate = clottingFactorEndDate;
+        this.clottingFactorEndDate = clottingFactorEndDate == null ? null : (Date) clottingFactorEndDate.clone();
     }
 
     /**

@@ -6,6 +6,7 @@
  */
 package com.stpl.app.gcm.util.xmlparser;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,12 +21,12 @@ public class Sql {
     private List<SqlEntity> sqlEntity;
 
     public List<SqlEntity> getSqlEntity() {
-        return sqlEntity;
+        return sqlEntity == null ? sqlEntity : new ArrayList<>(sqlEntity);
     }
 
     @XmlElement(name ="entity")
     public void setSqlEntity(List<SqlEntity> sqlEntity) {
-        this.sqlEntity = sqlEntity;
+        this.sqlEntity = sqlEntity == null ? sqlEntity : new ArrayList<>(sqlEntity);
     }
 
 }

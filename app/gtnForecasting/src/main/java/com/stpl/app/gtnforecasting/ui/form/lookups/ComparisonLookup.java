@@ -10,6 +10,8 @@ import com.stpl.app.forecastabstract.lookups.AbstractComparisonLookup;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -64,7 +66,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         super(windowName, comparisonLookup);
         this.comparisonLookup = comparisonLookup;
         this.currentProjId= currentProjId;
-        this.selectedList = selectedList;
+        this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
         buildLookup();
         results.setSelectable(true);
         selectedProjection.setSelectable(true);

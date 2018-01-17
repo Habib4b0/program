@@ -5,6 +5,7 @@
 package com.stpl.app.gcm.copycontract.logic;
 
 import com.vaadin.v7.data.Container;
+import java.util.Collections;
 import java.util.Set;
 import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 
@@ -40,11 +41,11 @@ public class CFPSearchCriteria implements BeanSearchCriteria {
 
     @Override
     public Set<Container.Filter> getFilters() {
-        return filters;
+        return filters == null ? filters : Collections.unmodifiableSet(filters);
     }
 
     @Override
     public void setFilters(Set<Container.Filter> set) {
-        this.filters = set;
+        this.filters = set == null ? set : Collections.unmodifiableSet(set);
     }
 }

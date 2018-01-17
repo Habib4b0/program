@@ -275,7 +275,7 @@ public class FileMananagementResultDTO implements Serializable {
      * @return the effective date
      */
     public Date getEffectiveDate() {
-        return effectiveDate;
+        return effectiveDate == null ? null : (Date) effectiveDate.clone();
     }
 
     /**
@@ -284,7 +284,7 @@ public class FileMananagementResultDTO implements Serializable {
      * @param effectiveDate the new effective date
      */
     public void setEffectiveDate(final Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
+        this.effectiveDate = effectiveDate == null ? null : (Date) effectiveDate.clone();
     }
 
     /**
@@ -329,7 +329,7 @@ public class FileMananagementResultDTO implements Serializable {
      * @return the from period
      */
     public Date getFromPeriod() {
-        return fromPeriod;
+        return fromPeriod == null ? null : (Date) fromPeriod.clone();
     }
 
     /**
@@ -338,7 +338,7 @@ public class FileMananagementResultDTO implements Serializable {
      * @param fromPeriod the new from period
      */
     public void setFromPeriod(final Date fromPeriod) {
-        this.fromPeriod = fromPeriod;
+        this.fromPeriod = fromPeriod == null ? null : (Date) fromPeriod.clone();
     }
 
     /**
@@ -347,7 +347,7 @@ public class FileMananagementResultDTO implements Serializable {
      * @return the to period
      */
     public Date getToPeriod() {
-        return toPeriod;
+        return toPeriod == null ? null : (Date) toPeriod.clone();
     }
 
     /**
@@ -356,7 +356,7 @@ public class FileMananagementResultDTO implements Serializable {
      * @param toPeriod the new to period
      */
     public void setToPeriod(final Date toPeriod) {
-        this.toPeriod = toPeriod;
+        this.toPeriod = toPeriod == null ? null : (Date) toPeriod.clone();
     }
 
     /**
@@ -486,11 +486,11 @@ public class FileMananagementResultDTO implements Serializable {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     /**
@@ -659,19 +659,19 @@ public class FileMananagementResultDTO implements Serializable {
     }
 
     public Date getFromDate() {
-        return fromDate;
+        return fromDate == null ? null : (Date) fromDate.clone();
     }
 
     public void setFromDate(Date fromDate) {
-        this.fromDate = fromDate;
+        this.fromDate = fromDate == null ? null : (Date) fromDate.clone();
     }
 
     public Date getToDate() {
-        return toDate;
+        return toDate == null ? null : (Date) toDate.clone();
     }
 
     public void setToDate(Date toDate) {
-        this.toDate = toDate;
+        this.toDate = toDate == null ? null : (Date) toDate.clone();
     }
 
     public HelperDTO getHelperType() {

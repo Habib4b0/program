@@ -196,19 +196,19 @@ public class ContractSearchDTO {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     public Date getEndDate() {
-        return endDate;
+        return endDate == null ? null : (Date) endDate.clone();
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = endDate == null ? null : (Date) endDate.clone();
     }
 
     public String getCompanyFamilyPlan() {
@@ -268,19 +268,19 @@ public class ContractSearchDTO {
     }
 
     public Date getAliasStartDate() {
-        return aliasStartDate;
+        return aliasStartDate == null ? null : (Date) aliasStartDate.clone();
     }
 
     public void setAliasStartDate(Date aliasStartDate) {
-        this.aliasStartDate = aliasStartDate;
+        this.aliasStartDate = aliasStartDate == null ? null : (Date) aliasStartDate.clone();
     }
 
     public Date getAliasEndDate() {
-        return aliasEndDate;
+        return aliasEndDate == null ? null : (Date) aliasEndDate.clone();
     }
 
     public void setAliasEndDate(Date aliasEndDate) {
-        this.aliasEndDate = aliasEndDate;
+        this.aliasEndDate = aliasEndDate == null ? null : (Date) aliasEndDate.clone();
     }
 
     public String getHiddenId() {

@@ -11,6 +11,7 @@ import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.exception.SystemException;
+import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -30,7 +31,7 @@ public class AddDiscountWindow extends CustomWindow {
     public AddDiscountWindow(final SessionDTO session, List<RemoveDiscountDto> removeList) throws SystemException {
     
         this.session = session;
-        this.removeList = removeList;
+        this.removeList = removeList == null ? removeList : new ArrayList<>(removeList);
         init();
     }
 

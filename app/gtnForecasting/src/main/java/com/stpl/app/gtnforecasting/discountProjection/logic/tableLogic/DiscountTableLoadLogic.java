@@ -44,7 +44,7 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
         clearAll();
         this.isCustomHierarchy = isCustomHierarchy;
         this.levelNo = levelNo;
-        this.currentHierarchy = currentHierarchy;
+        this.currentHierarchy = currentHierarchy == null ? currentHierarchy : new ArrayList<>(currentHierarchy);
         this.customId = customId;
         if (!isCustomHierarchy) {
             if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator)) {

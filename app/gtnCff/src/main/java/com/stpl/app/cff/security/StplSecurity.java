@@ -49,11 +49,11 @@ public class StplSecurity {
     private static final Logger LOGGER = Logger.getLogger(StplSecurity.class);
    
    /** The dao. */
-  final private StplSecurityDAO dao = new StplSecurityDAOImpl();
+  private final StplSecurityDAO dao = new StplSecurityDAOImpl();
     /**
      * UserMap - Contains User System ID and User Name
      */
-    public static Map<Integer, String> userMap = new ConcurrentHashMap<>();
+  private static Map<Integer, String> userMap = new ConcurrentHashMap<>();
 	 
  	/** The domain ids1. */
  	private static final List<String> DOMAINIDS1 = null;
@@ -319,10 +319,10 @@ public StplSecurityDAO getDto() {
         DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
-            userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
+            getUserMap().put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
         }
         LOGGER.debug("End of getUserName method");
-        return userMap;
+        return getUserMap();
     } 
          public Map<String, AppPermission> getFieldOrColumnPermission(final String userId, final String moduleName ,final boolean column) throws SystemException, PortalException {
         LOGGER.debug("Enters getBusinessColumnPermission()");
@@ -463,4 +463,12 @@ public StplSecurityDAO getDto() {
         field.addAll(columnList);
         return field;
     }
+
+	public static Map<Integer, String> getUserMap() {
+		return userMap;
+	}
+
+	public static void setUserMap(Map<Integer, String> userMap) {
+		StplSecurity.userMap = userMap;
+	}
 }

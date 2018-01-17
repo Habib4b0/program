@@ -236,11 +236,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
 
     public List<Integer> getProjIdList() {
         Collections.sort(projIdList);
-        return projIdList;
+        return projIdList == null ? projIdList : new ArrayList<>(projIdList);
     }
 
     public void setProjIdList(List<Integer> projIdList) {
-        this.projIdList = projIdList;
+        this.projIdList = projIdList == null ? projIdList : new ArrayList<>(projIdList);
     }
 
     public Map<Integer, String> getProjectionMap() {
@@ -302,11 +302,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     }
 
     public List<String> getPeriodHeaderList() {
-        return periodHeaderList;
+        return periodHeaderList == null ? periodHeaderList : new ArrayList<>(periodHeaderList);
     }
 
     public void setPeriodHeaderList(List<String> periodHeaderList) {
-        this.periodHeaderList = periodHeaderList;
+        this.periodHeaderList = periodHeaderList == null ? periodHeaderList : new ArrayList<>(periodHeaderList);
     }
 
     public boolean isColValue() {
@@ -494,11 +494,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     }
 
     public List<String> getDiscountNames() {
-        return discountNames;
+        return discountNames == null ? discountNames : new ArrayList<>(discountNames);
     }
 
     public void setDiscountNames(List<String> discountNames) {
-        this.discountNames = discountNames;
+        this.discountNames = discountNames == null ? discountNames : new ArrayList<>(discountNames);
     }
 
     public boolean isIsPrior() {
@@ -552,11 +552,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     }
 
     public List<String> getPivotList() {
-        return pivotList;
+        return pivotList == null ? pivotList : new ArrayList<>(pivotList);
     }
 
     public void setPivotList(List<String> pivotList) {
-        this.pivotList = pivotList;
+        this.pivotList = pivotList == null ? pivotList : new ArrayList<>(pivotList);
     }
 
     public boolean isIsCustomerDdlb() {
@@ -584,11 +584,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     }
 
     public List<String> getProgramCodeNameList() {
-        return programCodeNameList;
+        return programCodeNameList == null ? programCodeNameList : new ArrayList<>(programCodeNameList);
     }
 
     public void setProgramCodeNameList(List<String> programCodeNameList) {
-        this.programCodeNameList = programCodeNameList;
+        this.programCodeNameList = programCodeNameList == null ? programCodeNameList : new ArrayList<>(programCodeNameList);
     }
 
     public int getCustomerRelationId() {

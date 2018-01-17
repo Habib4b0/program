@@ -33,7 +33,7 @@ public class CompanyDdlbDao implements DAO<CompanyDdlbDto> {
     private CompanyDdlbDto selectedDiscount;
 
     public CompanyDdlbDao(final List<String> companySids, CompanyDdlbDto companyDdlbDefault, CompanyDdlbDto selectedCompanyDdlbDto) {
-        this.companySids = companySids;
+        this.companySids = companySids == null ? companySids : new ArrayList<>(companySids);
         this.companyDdlbDefault = companyDdlbDefault;
         this.selectedCompanyDdlbDto = selectedCompanyDdlbDto;
         logic = new DataSelectionLogic();
@@ -47,7 +47,7 @@ public class CompanyDdlbDao implements DAO<CompanyDdlbDto> {
     }
 
     public CompanyDdlbDao(final DataSelectionLogic logic, final List<String> companySids, String selectedCompanySid) {
-        this.companySids = companySids;
+        this.companySids = companySids == null ? companySids : new ArrayList<>(companySids);
         this.logic = logic;
     }
 

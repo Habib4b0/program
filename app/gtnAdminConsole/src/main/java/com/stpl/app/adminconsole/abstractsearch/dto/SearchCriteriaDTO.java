@@ -108,35 +108,35 @@ public class SearchCriteriaDTO implements Serializable {
     }
 
     public Date getDate1() {
-        return date1;
+        return date1 == null ? null : (Date) date1.clone();
     }
 
     public void setDate1(final Date date1) {
-        this.date1 = date1;
+        this.date1 = date1 == null ? null : (Date) date1.clone();
     }
 
     public Date getDate2() {
-        return date2;
+        return date2 == null ? null : (Date) date2.clone();
     }
 
     public void setDate2(final Date date2) {
-        this.date2 = date2;
+        this.date2 = date2 == null ? null : (Date) date2.clone();
     }
 
     public Date getDate3() {
-        return date3;
+        return date3 == null ? null : (Date) date3.clone();
     }
 
     public void setDate3(final Date date3) {
-        this.date3 = date3;
+        this.date3 = date3 == null ? null : (Date) date3.clone();
     }
 
     public Date getDate4() {
-        return date4;
+        return date4 == null ? null : (Date) date4.clone();
     }
 
     public void setDate4(final Date date4) {
-        this.date4 = date4;
+        this.date4 = date4 == null ? null : (Date) date4.clone();
     }
 
     public String getOption1() {
@@ -170,7 +170,7 @@ public class SearchCriteriaDTO implements Serializable {
     
     private HelperDTO combo1 = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
     private HelperDTO combo2 = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
-    private HelperDTO combo3 = new HelperDTO(0, ConstantsUtils.SELECT_ONE); 
+    private HelperDTO combo3 = new HelperDTO(0, com.stpl.app.adminconsole.util.ConstantsUtils.SELECT_ONE); 
     private Date date1;
     private Date date2;
     private Date date3;

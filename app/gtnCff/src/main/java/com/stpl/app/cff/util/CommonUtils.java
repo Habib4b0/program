@@ -265,6 +265,42 @@ public class CommonUtils {
         return code;
     }
 
+    /**
+     * Gets the customized cff results.
+     *
+     * @param resultsList the results list
+     * @return the customized cff results
+     */
+    public List<CFFResultsDTO> getCustomizedCffResults(List<Object[]> resultsList) {
+        List<CFFResultsDTO> cffResultsDTOs = new ArrayList<>();
+        CFFResultsDTO cffResultsDTO;
+        String s = "";
+        HashMap<Long, String> hm = getUserInfo();
+        for (final Object[] obj : resultsList) {
+            cffResultsDTO = new CFFResultsDTO();
+            cffResultsDTO.setWorkflowId(String.valueOf(obj[0]));
+            cffResultsDTO.setProjectionName(String.valueOf(obj[1]));
+
+            s = String.valueOf(obj[NumericConstants.THREE] == null ? "" : obj[NumericConstants.THREE]);
+            s = hm.get(Long.parseLong(s.trim().equals("") ? "0" : s));
+            cffResultsDTO.setCreatedBy(s == null ? "" : s);
+
+            s = String.valueOf(obj[NumericConstants.FOUR] == null ? "" : obj[NumericConstants.FOUR]);
+            s = hm.get(Long.parseLong(s.trim().equals("") ? "0" : s));
+            cffResultsDTO.setApprovedBy(s == null ? "" : s);
+
+            s = String.valueOf(obj[NumericConstants.SIX] == null ? "" : obj[NumericConstants.SIX]);
+            cffResultsDTO.setPriorLatestEstimate(s);
+            s = String.valueOf(obj[NumericConstants.SEVEN] == null ? "" : obj[NumericConstants.SEVEN]);
+            cffResultsDTO.setPriorUpdateCycle(s);
+            cffResultsDTO.setProjectionId(Integer.valueOf(String.valueOf(obj[NumericConstants.EIGHT])));
+            cffResultsDTO.setWorkflowMasterSystemID(Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));
+            cffResultsDTOs.add(cffResultsDTO);
+
+        }
+        return cffResultsDTOs;
+    }
+
     public static String[] objectListToStringArray(List<Object> objectList) {
         String[] stringArray = {};
         if (objectList != null) {
@@ -526,7 +562,7 @@ public class CommonUtils {
         List<CFFSearchDTO> cffSearchDTOs = new ArrayList<>();
         CFFSearchDTO cffSearchDTOLoop;
         SimpleDateFormat form = new SimpleDateFormat("MM/dd/YYYY");
-        Map<Integer, String> userInfo = StplSecurity.userMap;
+        Map<Integer, String> userInfo = StplSecurity.getUserMap();
         for (Object[] obj : resultList) {
             cffSearchDTOLoop = new CFFSearchDTO();
             cffSearchDTOLoop.setFinancialForecastId(String.valueOf(obj[0]));

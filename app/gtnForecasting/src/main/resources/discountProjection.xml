@@ -110,7 +110,7 @@
                 <Panel>
                     <VerticalLayout styleName = "width-auto"  margin="true">      
                         <GridLayout rows="1" columns="13" margin="false" spacing="true" styleName="adjustCaption forecast-tab" > 
-                          <HorizontalLayout spacing="false" margin="true">
+                            <!--<HorizontalLayout spacing="false" margin="true">-->
                             <Label caption="Level: " contentMode="HTML" width = "50px"/>
                             <ComboBox id="levelDdlb" enabled="true"  nullSelectionAllowed = "true" styleName = "comboxsize"/>
                             <Button id="expandBtn" caption="EXPAND" enabled="true"/>
@@ -125,7 +125,7 @@
                             <Button id="newBtn" caption="NEW" />
                             <Button id="editBtn" caption="EDIT" />
 
-                           </HorizontalLayout>    
+                            <!--</HorizontalLayout>-->               
                         </GridLayout>
                     </VerticalLayout>
                 </Panel>

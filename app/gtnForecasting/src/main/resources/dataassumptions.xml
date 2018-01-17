@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
    
-   <Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable"  xmlns:b="urn:import:org.asi.ui.customtextfield" 
-  xmlns:c="urn:import:org.asi.ui.customcombobox" xmlns:d="urn:import:org.asi.ui.custommenubar">
-
-    <VerticalLayout spacing="true" margin="true" immediate="true" >
 <Panel id="daPanel" caption="File Information">
     <VerticalLayout margin="true" spacing="true" >
     
-       <VerticalLayout spacing="true" margin="false" immediate="true" id="tableLayout" >
+        <VerticalLayout id="tableLayout">
+                    <HorizontalLayout id="controlLayout"/>
         </VerticalLayout> 
         
         <HorizontalLayout id="excelButtonLayout" spacing="true" margin="false">
@@ -16,5 +13,4 @@
         
     </VerticalLayout>
 </Panel>
-</VerticalLayout>
-</Panel>
+

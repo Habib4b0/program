@@ -78,14 +78,14 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
         this.history = projectionSelection.getHistory();
         this.projectionPeriodorder = projectionSelection.getProjectionOrder();
         this.isProgram = isProgram;
-        this.discountList = discountList;
+        this.discountList = discountList == null ? discountList : new ArrayList<>(discountList);
         this.year = projectionSelection.getYear();
         this.isCustomHierarchy = isCustomHierarchy;
         this.levelNo = levelNo;
         this.hierarchyIndicator = hierarchyIndicator;
-        this.currentHierarchy = currentHierarchy;
+        this.currentHierarchy = currentHierarchy == null ? currentHierarchy : new ArrayList<>(currentHierarchy);
         this.isParent = isParent;
-        this.startAndEndPeriods = startAndEndPeriods;
+        this.startAndEndPeriods = startAndEndPeriods == null ? startAndEndPeriods : new ArrayList<>(startAndEndPeriods);
         this.customId = customId;
         this.userGroup = userGroup;
         this.relationshipBuilderSid = relationshipBuilderSid;
@@ -624,19 +624,19 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
     }
 
     public List<String> getDiscountList() {
-        return discountList;
+        return discountList == null ? discountList : new ArrayList<>(discountList);
     }
 
     public void setDiscountList(List<String> discountList) {
-        this.discountList = discountList;
+        this.discountList = discountList == null ? discountList : new ArrayList<>(discountList);
     }
 
     public List<Integer> getStartAndEndPeriods() {
-        return startAndEndPeriods;
+        return startAndEndPeriods == null ? startAndEndPeriods : new ArrayList<>(startAndEndPeriods);
     }
 
     public void setStartAndEndPeriods(List<Integer> startAndEndPeriods) {
-        this.startAndEndPeriods = startAndEndPeriods;
+        this.startAndEndPeriods = startAndEndPeriods == null ? startAndEndPeriods : new ArrayList<>(startAndEndPeriods);
     }
 
     public int getCustomId() {
@@ -656,11 +656,11 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
     }
 
     public List<Leveldto> getCurrentHierarchy() {
-        return currentHierarchy;
+        return currentHierarchy == null ? currentHierarchy : new ArrayList<>(currentHierarchy);
     }
 
     public void setCurrentHierarchy(List<Leveldto> currentHierarchy) {
-        this.currentHierarchy = currentHierarchy;
+        this.currentHierarchy = currentHierarchy == null ? currentHierarchy : new ArrayList<>(currentHierarchy);
     }
 
 

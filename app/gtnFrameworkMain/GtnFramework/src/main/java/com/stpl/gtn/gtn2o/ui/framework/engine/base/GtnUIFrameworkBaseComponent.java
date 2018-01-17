@@ -449,7 +449,14 @@ public class GtnUIFrameworkBaseComponent {
 	public void loadTreeFromTreeNode(List<GtnWsRecordBean> nodes) {
 		if (getComponentData().getCustomData() instanceof Tree) {
 			((GtnUIFrameworkTreeComponent) (getComponentConfig().getComponentType().getGtnComponent()))
-					.loadTreeFromTreeNode((Tree) (getComponentData().getCustomData()), nodes);
+					.loadTreeFromTreeNode((Tree) (getComponentData().getCustomData()), nodes, null);
+		}
+	}
+
+	public void loadTreeFromTreeNode(List<GtnWsRecordBean> nodes, GtnWsRecordBean parentNode) {
+		if (getComponentData().getCustomData() instanceof Tree) {
+			((GtnUIFrameworkTreeComponent) (getComponentConfig().getComponentType().getGtnComponent()))
+					.loadTreeFromTreeNode((Tree) (getComponentData().getCustomData()), nodes, parentNode);
 		}
 	}
 
@@ -1026,5 +1033,13 @@ public class GtnUIFrameworkBaseComponent {
 	public void setWidth(String widthString) {
 		this.component.setWidth(widthString);
 	}
-        
+
+	public void removeTreeItems(GtnWsRecordBean... treeSelectedBean) {
+		if (getComponentData().getCustomData() instanceof Tree) {
+			Tree tree = (Tree) (getComponentData().getCustomData());
+			for (GtnWsRecordBean gtnWsRecordBean : treeSelectedBean) {
+				tree.removeItem(gtnWsRecordBean);
+			}
+		}
+	}
 }

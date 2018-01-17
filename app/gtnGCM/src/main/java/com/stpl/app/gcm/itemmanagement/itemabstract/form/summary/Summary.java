@@ -43,6 +43,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.VerticalLayout;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,12 +98,12 @@ public abstract class Summary extends CustomComponent {
 
     public Summary(List<ItemIndexDto> itemList, SelectionDTO selection) {
         this.selection = selection;
-        this.itemList = itemList;
+        this.itemList = itemList == null ? itemList : new ArrayList<>(itemList);
     }
 
     public Component getContent(List<ItemIndexDto> selecteditemList, final SelectionDTO selection) {
         this.selection = selection;
-        this.itemList = selecteditemList;
+        this.itemList = selecteditemList == null ? selecteditemList : new ArrayList<>(selecteditemList);
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/salesTab.xml"), this));
         layout.setMargin(true);

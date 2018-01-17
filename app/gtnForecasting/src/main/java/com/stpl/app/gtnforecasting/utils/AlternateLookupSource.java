@@ -37,7 +37,7 @@ public class AlternateLookupSource {
      * @return the customers list
      */
     public List<AlternateHistoryDTO> getCustomersList() {
-        return customersList;
+        return customersList == null ? customersList : new ArrayList<>(customersList);
     }
 
     /**
@@ -46,7 +46,7 @@ public class AlternateLookupSource {
      * @param customersList the new customers list
      */
     public void setCustomersList(final List<AlternateHistoryDTO> customersList) {
-        this.customersList = customersList;
+        this.customersList = customersList == null ? customersList : new ArrayList<>(customersList);
     }
 
     /**
@@ -55,7 +55,7 @@ public class AlternateLookupSource {
      * @return the brand list
      */
     public List<AlternateHistoryDTO> getBrandList() {
-        return brandList;
+        return brandList == null ? brandList : new ArrayList<>(brandList);
     }
 
     /**
@@ -64,13 +64,13 @@ public class AlternateLookupSource {
      * @param brandList the new brand list
      */
     public void setBrandList(final List<AlternateHistoryDTO> brandList) {
-        this.brandList = brandList;
+        this.brandList = brandList == null ? brandList : new ArrayList<>(brandList);
     }
     public List<ContractBrandDTO> getContractcustomersList() {
-        return contractcustomersList;
+        return contractcustomersList == null ? contractcustomersList : new ArrayList<>(contractcustomersList);
     }
 
     public void setContractcustomersList(List<ContractBrandDTO> contractcustomersList) {
-        this.contractcustomersList = contractcustomersList;
+        this.contractcustomersList = contractcustomersList == null ? contractcustomersList : new ArrayList<>(contractcustomersList);
     }
 }

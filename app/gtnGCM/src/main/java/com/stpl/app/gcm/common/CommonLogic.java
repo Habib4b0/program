@@ -1641,903 +1641,911 @@ public class CommonLogic {
         return true;
     }
 
-	private int cloneProjection(int projectionId, String userId) {
-		List input = new ArrayList();
-		input.add(userId);
-		input.add(CommonUtils.getCurrentTimestamp());
-		input.add(CommonUtils.getCurrentTimestamp());
-		input.add(projectionId);
-		List finalList = ItemQueries.getItemData(input, "clone Projection", null);
-		return CommonUtils.convertToInteger(String.valueOf(finalList.get(0)));
-	}
+    private int cloneProjection(int projectionId, String userId) {
+        List input = new ArrayList();
+        input.add(userId);
+        input.add(CommonUtils.getCurrentTimestamp());
+        input.add(CommonUtils.getCurrentTimestamp());
+        input.add(projectionId);
+        List finalList = ItemQueries.getItemData(input, "clone Projection", null);
+        return CommonUtils.convertToInteger(String.valueOf(finalList.get(0)));
+    }
 
-	private List getRelationShipLevelSid(List<String> masterSidList, String relationshipBuilderSid) {
-		LOGGER.debug("Entering getRelationShipLevelSid " + masterSidList);
-		String query = "select DISTINCT RELATIONSHIP_LEVEL_SID from RELATIONSHIP_LEVEL_DEFINITION RLD, (select HIERARCHY_NO from RELATIONSHIP_LEVEL_DEFINITION where \n";
-		if (masterSidList != null && !masterSidList.isEmpty()) {
-			query += " RELATIONSHIP_LEVEL_VALUES in (" + CommonUtils.CollectionToString(masterSidList, true) + ") and ";
-		}
-		query += " RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSid + ") A \n"
-				+ " where RLD.HIERARCHY_NO like A.HIERARCHY_NO+'%'";
-		LOGGER.debug(" getRelationShipLevelSid query " + query);
+    private List getRelationShipLevelSid(List<String> masterSidList, String relationshipBuilderSid) {
+        LOGGER.debug("Entering getRelationShipLevelSid " + masterSidList);
+        String query = "select DISTINCT RELATIONSHIP_LEVEL_SID from RELATIONSHIP_LEVEL_DEFINITION RLD, (select HIERARCHY_NO from RELATIONSHIP_LEVEL_DEFINITION where \n";
+        if (masterSidList != null && !masterSidList.isEmpty()) {
+            query += " RELATIONSHIP_LEVEL_VALUES in (" + CommonUtils.CollectionToString(masterSidList, true) + ") and ";
+        }
+        query += " RELATIONSHIP_BUILDER_SID = " + relationshipBuilderSid + ") A \n"
+                + " where RLD.HIERARCHY_NO like A.HIERARCHY_NO+'%'";
+        LOGGER.debug(" getRelationShipLevelSid query " + query);
 		List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-		LOGGER.debug("Existing getRelationShipLevelSid");
+        LOGGER.debug("Existing getRelationShipLevelSid");
 
-		return list;
-	}
+        return list;
+    }
 
-	private void cloneCustomerAndProductHierarchy(int oldProjectionId, int newProjectionId, boolean custHierarchyClone,
-			boolean prodHierarchyClone, SessionDTO sessionDTO) {
-		LOGGER.debug("Entering cloneCustomerAndProductHierarchy" + oldProjectionId);
-		if ("Item Management".equals(sessionDTO.getProcessName())) {
-			if (sessionDTO.getFromProjectionId() == 0 && sessionDTO.getToProjectionId() == 0) {
-				if (custHierarchyClone) {
-					String custQuery = "INSERT INTO PROJECTION_CUST_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) \n"
-							+ "SELECT  " + newProjectionId
-							+ ", RELATIONSHIP_LEVEL_SID from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID = "
-							+ oldProjectionId;
+    private void cloneCustomerAndProductHierarchy(int oldProjectionId, int newProjectionId, boolean custHierarchyClone,
+            boolean prodHierarchyClone, SessionDTO sessionDTO) {
+        LOGGER.debug("Entering cloneCustomerAndProductHierarchy" + oldProjectionId);
+        if ("Item Management".equals(sessionDTO.getProcessName())) {
+            if (sessionDTO.getFromProjectionId() == 0 && sessionDTO.getToProjectionId() == 0) {
+                if (custHierarchyClone) {
+                    String custQuery = "INSERT INTO PROJECTION_CUST_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) \n"
+                            + "SELECT  " + newProjectionId
+                            + ", RELATIONSHIP_LEVEL_SID from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID = "
+                            + oldProjectionId;
 					HelperTableLocalServiceUtil.executeUpdateQuery(custQuery);
 
-				}
-			} else if (custHierarchyClone) {
-				String custQuery1 = "INSERT\n" + "	INTO\n" + "PROJECTION_CUST_HIERARCHY(\n"
-						+ "PROJECTION_MASTER_SID,\n" + "RELATIONSHIP_LEVEL_SID\n" + ") " + " SELECT\n" + newProjectionId
-						+ ", PPH.RELATIONSHIP_LEVEL_SID\n" + "from\n" + "PROJECTION_CUST_HIERARCHY PPH,\n"
-						+ "RELATIONSHIP_LEVEL_DEFINITION RLD\n" + "WHERE \n" + "PPH.PROJECTION_MASTER_SID = "
-						+ oldProjectionId + " \n" + "AND PPH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n"
-						+ "AND RLD.LEVEL_NAME <> 'Trading Partner'\n" + "UNION " + " SELECT\n" + newProjectionId + " \n"
-						+ ",PPH.RELATIONSHIP_LEVEL_SID\n" + "from\n" + "dbo.PROJECTION_CUST_HIERARCHY PPH,\n"
-						+ "RELATIONSHIP_LEVEL_DEFINITION RLD\n" + "WHERE \n" + "PPH.PROJECTION_MASTER_SID = "
-						+ oldProjectionId + " \n" + "AND PPH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n"
-						+ "AND RLD.LEVEL_NAME = 'Trading Partner'\n" + "AND RLD.RELATIONSHIP_LEVEL_VALUES IN(\n"
-						+ "SELECT\n" + "CCP.COMPANY_MASTER_SID\n" + "FROM\n" + "CCP_DETAILS CCP,\n"
-						+ "PROJECTION_DETAILS PD\n" + "WHERE\n" + "PD.PROJECTION_MASTER_SID = "
-						+ sessionDTO.getFromProjectionId() + " \n" + "AND CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-						+ "INTERSECT SELECT\n" + "CCP.COMPANY_MASTER_SID\n" + "FROM\n" + "CCP_DETAILS CCP,\n"
-						+ "PROJECTION_DETAILS PD\n" + "WHERE\n" + "PD.PROJECTION_MASTER_SID = "
-						+ sessionDTO.getToProjectionId() + " \n" + "AND CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
-						+ ")";
+                }
+            } else if (custHierarchyClone) {
+                String custQuery1 = "INSERT\n" + "	INTO\n" + "PROJECTION_CUST_HIERARCHY(\n"
+                        + "PROJECTION_MASTER_SID,\n" + "RELATIONSHIP_LEVEL_SID\n" + ") " + " SELECT\n" + newProjectionId
+                        + ", PPH.RELATIONSHIP_LEVEL_SID\n" + "from\n" + "PROJECTION_CUST_HIERARCHY PPH,\n"
+                        + "RELATIONSHIP_LEVEL_DEFINITION RLD\n" + "WHERE \n" + "PPH.PROJECTION_MASTER_SID = "
+                        + oldProjectionId + " \n" + "AND PPH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n"
+                        + "AND RLD.LEVEL_NAME <> 'Trading Partner'\n" + "UNION " + " SELECT\n" + newProjectionId + " \n"
+                        + ",PPH.RELATIONSHIP_LEVEL_SID\n" + "from\n" + "dbo.PROJECTION_CUST_HIERARCHY PPH,\n"
+                        + "RELATIONSHIP_LEVEL_DEFINITION RLD\n" + "WHERE \n" + "PPH.PROJECTION_MASTER_SID = "
+                        + oldProjectionId + " \n" + "AND PPH.RELATIONSHIP_LEVEL_SID = RLD.RELATIONSHIP_LEVEL_SID\n"
+                        + "AND RLD.LEVEL_NAME = 'Trading Partner'\n" + "AND RLD.RELATIONSHIP_LEVEL_VALUES IN(\n"
+                        + "SELECT\n" + "CCP.COMPANY_MASTER_SID\n" + "FROM\n" + "CCP_DETAILS CCP,\n"
+                        + "PROJECTION_DETAILS PD\n" + "WHERE\n" + "PD.PROJECTION_MASTER_SID = "
+                        + sessionDTO.getFromProjectionId() + " \n" + "AND CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
+                        + "INTERSECT SELECT\n" + "CCP.COMPANY_MASTER_SID\n" + "FROM\n" + "CCP_DETAILS CCP,\n"
+                        + "PROJECTION_DETAILS PD\n" + "WHERE\n" + "PD.PROJECTION_MASTER_SID = "
+                        + sessionDTO.getToProjectionId() + " \n" + "AND CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID\n"
+                        + ")";
 
 				HelperTableLocalServiceUtil.executeUpdateQuery(custQuery1);
 
-			}
-			if (prodHierarchyClone) {
-				String prodQuery1 = "INSERT INTO PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) \n"
-						+ "SELECT " + newProjectionId
-						+ ", RELATIONSHIP_LEVEL_SID from PROJECTION_PROD_HIERARCHY where PROJECTION_MASTER_SID = "
-						+ oldProjectionId;
+            }
+            if (prodHierarchyClone) {
+                String prodQuery1 = "INSERT INTO PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) \n"
+                        + "SELECT " + newProjectionId
+                        + ", RELATIONSHIP_LEVEL_SID from PROJECTION_PROD_HIERARCHY where PROJECTION_MASTER_SID = "
+                        + oldProjectionId;
 				HelperTableLocalServiceUtil.executeUpdateQuery(prodQuery1);
-			}
-		} else {
-			if (custHierarchyClone) {
-				String custQuery = "INSERT INTO PROJECTION_CUST_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) \n"
-						+ "SELECT " + newProjectionId
-						+ ", RELATIONSHIP_LEVEL_SID from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID = "
-						+ oldProjectionId;
+            }
+        } else {
+            if (custHierarchyClone) {
+                String custQuery = "INSERT INTO PROJECTION_CUST_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) \n"
+                        + "SELECT " + newProjectionId
+                        + ", RELATIONSHIP_LEVEL_SID from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID = "
+                        + oldProjectionId;
 				HelperTableLocalServiceUtil.executeUpdateQuery(custQuery);
 
-			}
-			if (prodHierarchyClone) {
-				String prodQuery = "INSERT INTO PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID)\n"
-						+ " SELECT " + newProjectionId
-						+ ", PPH.RELATIONSHIP_LEVEL_SID from PROJECTION_PROD_HIERARCHY PPH, RELATIONSHIP_LEVEL_DEFINITION RLD \n"
-						+ " WHERE PPH.PROJECTION_MASTER_SID = " + oldProjectionId
-						+ " AND PPH.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID\n"
-						+ " AND RLD.LEVEL_NAME <> 'NDC'\n" + " UNION\n" + " SELECT " + newProjectionId
-						+ ", PPH.RELATIONSHIP_LEVEL_SID from PROJECTION_PROD_HIERARCHY PPH, RELATIONSHIP_LEVEL_DEFINITION RLD\n"
-						+ " WHERE PPH.PROJECTION_MASTER_SID = " + oldProjectionId
-						+ " AND PPH.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID\n"
-						+ " AND RLD.LEVEL_NAME ='NDC'\n"
-						+ " AND RLD.RELATIONSHIP_LEVEL_VALUES IN (SELECT CCP.ITEM_MASTER_SID FROM CCP_DETAILS CCP, PROJECTION_DETAILS PD\n"
-						+ " WHERE PD.PROJECTION_MASTER_SID=" + sessionDTO.getFromProjectionId() + "\n"
-						+ " AND CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n" + " INTERSECT\n"
-						+ " SELECT CCP.ITEM_MASTER_SID FROM CCP_DETAILS CCP, PROJECTION_DETAILS PD\n"
-						+ " WHERE PD.PROJECTION_MASTER_SID=" + sessionDTO.getToProjectionId() + "\n"
-						+ " AND CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID)";
+            }
+            if (prodHierarchyClone) {
+                String prodQuery = "INSERT INTO PROJECTION_PROD_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID)\n"
+                        + " SELECT " + newProjectionId
+                        + ", PPH.RELATIONSHIP_LEVEL_SID from PROJECTION_PROD_HIERARCHY PPH, RELATIONSHIP_LEVEL_DEFINITION RLD \n"
+                        + " WHERE PPH.PROJECTION_MASTER_SID = " + oldProjectionId
+                        + " AND PPH.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID\n"
+                        + " AND RLD.LEVEL_NAME <> 'NDC'\n" + " UNION\n" + " SELECT " + newProjectionId
+                        + ", PPH.RELATIONSHIP_LEVEL_SID from PROJECTION_PROD_HIERARCHY PPH, RELATIONSHIP_LEVEL_DEFINITION RLD\n"
+                        + " WHERE PPH.PROJECTION_MASTER_SID = " + oldProjectionId
+                        + " AND PPH.RELATIONSHIP_LEVEL_SID=RLD.RELATIONSHIP_LEVEL_SID\n"
+                        + " AND RLD.LEVEL_NAME ='NDC'\n"
+                        + " AND RLD.RELATIONSHIP_LEVEL_VALUES IN (SELECT CCP.ITEM_MASTER_SID FROM CCP_DETAILS CCP, PROJECTION_DETAILS PD\n"
+                        + " WHERE PD.PROJECTION_MASTER_SID=" + sessionDTO.getFromProjectionId() + "\n"
+                        + " AND CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID\n" + " INTERSECT\n"
+                        + " SELECT CCP.ITEM_MASTER_SID FROM CCP_DETAILS CCP, PROJECTION_DETAILS PD\n"
+                        + " WHERE PD.PROJECTION_MASTER_SID=" + sessionDTO.getToProjectionId() + "\n"
+                        + " AND CCP.CCP_DETAILS_SID=PD.CCP_DETAILS_SID)";
 
 				HelperTableLocalServiceUtil.executeUpdateQuery(prodQuery);
 
-			}
-		}
-		LOGGER.debug("Exiting cloneCustomerAndProductHierarchy");
-	}
+            }
+        }
+        LOGGER.debug("Exiting cloneCustomerAndProductHierarchy");
+    }
 
-	private int updateCustomerOrProductHierarchy(boolean customerUpdated, int projectionId,
-			String relationshipLevelSid) {
+    private int updateCustomerOrProductHierarchy(boolean customerUpdated, int projectionId,
+            String relationshipLevelSid) {
 
-		String tableName;
-		String query;
+        String tableName;
+        String query;
 
-		if (customerUpdated) {
-			tableName = "PROJECTION_CUST_HIERARCHY";
-		} else {
-			tableName = "PROJECTION_PROD_HIERARCHY";
-		}
+        if (customerUpdated) {
+            tableName = "PROJECTION_CUST_HIERARCHY";
+        } else {
+            tableName = "PROJECTION_PROD_HIERARCHY";
+        }
 
-		LOGGER.debug("Entering updateCustomerOrProductHierarchy " + tableName);
+        LOGGER.debug("Entering updateCustomerOrProductHierarchy " + tableName);
 
-		query = "IF NOT EXISTS(SELECT " + tableName + "_SID from " + tableName + " where PROJECTION_MASTER_SID = "
-				+ projectionId + " and RELATIONSHIP_LEVEL_SID = " + relationshipLevelSid + ")" + " INSERT into "
-				+ tableName + " (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) values (" + projectionId + ","
-				+ relationshipLevelSid + ")";
+        query = "IF NOT EXISTS(SELECT " + tableName + "_SID from " + tableName + " where PROJECTION_MASTER_SID = "
+                + projectionId + " and RELATIONSHIP_LEVEL_SID = " + relationshipLevelSid + ")" + " INSERT into "
+                + tableName + " (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) values (" + projectionId + ","
+                + relationshipLevelSid + ")";
 
 		int recordNos = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
-		LOGGER.debug("Exiting updateCustomerOrProductHierarchy");
-		return recordNos;
-	}
+        LOGGER.debug("Exiting updateCustomerOrProductHierarchy");
+        return recordNos;
+    }
 
-	public boolean insertIntoProjectionDetails(int oldProjectionId, int newProjectionId, SessionDTO session) {
+    public boolean insertIntoProjectionDetails(int oldProjectionId, int newProjectionId, SessionDTO session) {
 
-		LOGGER.debug("Entering insertIntoProjectionDetails method oldProjectionId " + oldProjectionId
-				+ " newProjectionId " + newProjectionId);
-		boolean status = false;
+        LOGGER.debug("Entering insertIntoProjectionDetails method oldProjectionId " + oldProjectionId
+                + " newProjectionId " + newProjectionId);
+        boolean status = false;
 
-		try {
+        try {
 			String customSql = SQlUtil.getQuery("gcm.saveCcp");
 
-			customSql = customSql.replace("?NEW_PROJECTION_ID", String.valueOf(newProjectionId));
-			customSql = customSql.replace("?OLD_PROJECTION_ID", String.valueOf(oldProjectionId));
-			customSql = customSql.replace("?FROM_PROJECTION_ID", String.valueOf(session.getFromProjectionId()));
-			customSql = customSql.replace("?TO_PROJECTION_ID", String.valueOf(session.getToProjectionId()));
+            customSql = customSql.replace("?NEW_PROJECTION_ID", String.valueOf(newProjectionId));
+            customSql = customSql.replace("?OLD_PROJECTION_ID", String.valueOf(oldProjectionId));
+            customSql = customSql.replace("?FROM_PROJECTION_ID", String.valueOf(session.getFromProjectionId()));
+            customSql = customSql.replace("?TO_PROJECTION_ID", String.valueOf(session.getToProjectionId()));
 			HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
 
-			status = true;
-		} catch (Exception e) {
+            status = true;
+        } catch (Exception e) {
 			LOGGER.error("",e);
-		}
+        }
 
-		LOGGER.debug("End of insertIntoProjectionDetails method");
-		return status;
-	}
+        LOGGER.debug("End of insertIntoProjectionDetails method");
+        return status;
+    }
+    
+     private void insertIntoNmProjectionSelection(int oldProjectionId, int newProjectionId) {
+        List input = new ArrayList();
+        input.add(newProjectionId);
+        input.add(oldProjectionId);
+        ItemQueries.getAppData(input, "NM_PROJECTION_SELECTION_INSERT_QUERY", null);
+    }
 
-	/**
-	 * To call all NM Tables Insert procedure
-	 *
-	 * @return
-	 */
-	public void callNMTableInsert(final Object[] inputs) {
-		callTableInsert(inputs, "PRC_NM_SALES_INSERT");
-		callTableInsert(inputs, "PRC_NM_DISCOUNT_INSERT");
-		callTableInsert(inputs, "PRC_NM_PPA_INSERT");
-	}
+    /**
+     * To call all NM Tables Insert procedure
+     *
+     * @return
+     */
+    public void callNMTableInsert(final Object[] inputs) {
+        callTableInsert(inputs, "PRC_NM_SALES_INSERT");
+        callTableInsert(inputs, "PRC_NM_DISCOUNT_INSERT");
+        callTableInsert(inputs, "PRC_NM_PPA_INSERT");
+    }
 
-	public void saveTempToMain(final int projectionId, final String userId, final String sessionId) {
-		try {
-			LOGGER.debug("Entering tempOperation method ");
+    public void saveTempToMain(final int projectionId, final String userId, final String sessionId) {
+        try {
+            LOGGER.debug("Entering tempOperation method ");
 
 			String customSql = SQlUtil.getQuery("nm.saveToMainTable");
-			customSql = customSql.replace("?UID", userId);
-			customSql = customSql.replace("?SID", sessionId);
+            customSql = customSql.replace("?UID", userId);
+            customSql = customSql.replace("?SID", sessionId);
 
 			HelperTableLocalServiceUtil.executeUpdateQuery(customSql);
-			updateSaveFlag(projectionId);
-			LOGGER.debug("End of tempOperation method");
-		} catch (Exception e) {
+            updateSaveFlag(projectionId);
+            LOGGER.debug("End of tempOperation method");
+        } catch (Exception e) {
 			LOGGER.error("",e);
-		}
-	}
+        }
+    }
 
-	public static void callPrcFeSalesTransfer(final String sessionId) {
-		LOGGER.debug("Entering callPrcFeSalesTransfer");
+    public static void callPrcFeSalesTransfer(final String sessionId) {
+        LOGGER.debug("Entering callPrcFeSalesTransfer");
 
-		Object[] paramArray = { sessionId };
-		GtnSqlUtil.procedureCallService("{call PRC_FE_TRANSFER_SALES(?)}", paramArray);
+        Object[] paramArray = {sessionId};
+        GtnSqlUtil.procedureCallService("{call PRC_FE_TRANSFER_SALES(?)}", paramArray);
 
-		LOGGER.debug("Exiting callPrcFeSalesTransfer");
-	}
+        LOGGER.debug("Exiting callPrcFeSalesTransfer");
+    }
 
-	public static void callPrcFeProjectionDetailsTransfer(final String sessionId) {
-		LOGGER.debug("Entering callPrcFeProjectionDetailsTransfer" + sessionId);
+    public static void callPrcFeProjectionDetailsTransfer(final String sessionId) {
+        LOGGER.debug("Entering callPrcFeProjectionDetailsTransfer" + sessionId);
 
-		Object[] paramArray = { sessionId };
-		GtnSqlUtil.procedureCallService("{call PRC_FE_PROJ_DET_TRANSFER_SALES(?)}", paramArray);
+        Object[] paramArray = {sessionId};
+        GtnSqlUtil.procedureCallService("{call PRC_FE_PROJ_DET_TRANSFER_SALES(?)}", paramArray);
 
-		LOGGER.debug("Exiting callPrcFeProjectionDetailsTransfer");
-	}
+        LOGGER.debug("Exiting callPrcFeProjectionDetailsTransfer");
+    }
 
-	/**
-	 * To call all NM Tables Insert procedure
-	 *
-	 * @return
-	 */
-	public void callTableInsert(final Object[] inputs, String procedureName) {
-		LOGGER.debug("Entering callTableInsert");
+    /**
+     * To call all NM Tables Insert procedure
+     *
+     * @return
+     */
+    public void callTableInsert(final Object[] inputs, String procedureName) {
+        LOGGER.debug("Entering callTableInsert");
 
-		StringBuilder statementBuilder = new StringBuilder("{call ");
-		statementBuilder.append(procedureName).append("(?,?,?)}");
-		GtnSqlUtil.procedureCallService(statementBuilder.toString(), inputs);
+        StringBuilder statementBuilder = new StringBuilder("{call ");
+        statementBuilder.append(procedureName).append("(?,?,?)}");
+        GtnSqlUtil.procedureCallService(statementBuilder.toString(), inputs);
 
-		LOGGER.debug("Exiting callTableInsert");
-	}
+        LOGGER.debug("Exiting callTableInsert");
+    }
 
-	private void updateSaveFlag(final int projectionId) {
-		LOGGER.debug("Entering updateSaveFlag method ");
+    private void updateSaveFlag(final int projectionId) {
+        LOGGER.debug("Entering updateSaveFlag method ");
 		HelperTableLocalServiceUtil.executeUpdateQuery(
-				"UPDATE PROJECTION_MASTER SET SAVE_FLAG = 1 where PROJECTION_MASTER_SID = " + projectionId);
-		LOGGER.debug("Exiting updateSaveFlag method ");
-	}
+                "UPDATE PROJECTION_MASTER SET SAVE_FLAG = 1 where PROJECTION_MASTER_SID = " + projectionId);
+        LOGGER.debug("Exiting updateSaveFlag method ");
+    }
 
-	public String idString(List<String> list) {
-		String value = Constants.EMPTY;
-		if (list != null && list.size() > 0) {
-			Boolean f = false;
-			for (Object item : list) {
-				if (!f) {
-					String company = String.valueOf(item);
-					company = "'" + company + "'";
-					value = company;
-					f = true;
-				} else {
-					String company = String.valueOf(item);
-					company = "'" + company + "'";
-					value = value + Constants.COMMA + company;
-				}
-			}
-		}
+    public String idString(List<String> list) {
+        String value = Constants.EMPTY;
+        if (list != null && list.size() > 0) {
+            Boolean f = false;
+            for (Object item : list) {
+                if (!f) {
+                    String company = String.valueOf(item);
+                    company = "'" + company + "'";
+                    value = company;
+                    f = true;
+                } else {
+                    String company = String.valueOf(item);
+                    company = "'" + company + "'";
+                    value = value + Constants.COMMA + company;
+                }
+            }
+        }
 
-		return value;
-	}
+        return value;
+    }
 
-	public static List<HelperDTO> getBrand(String queryName) {
-		List results = new ArrayList();
-		List<HelperDTO> searchList = new ArrayList<>();
+    public static List<HelperDTO> getBrand(String queryName) {
+        List results = new ArrayList();
+        List<HelperDTO> searchList = new ArrayList<>();
 		String query = SQlUtil.getQuery(queryName);
-		try {
-			results = DISCOUNT_DAO.getRebates(query);
+        try {
+            results = DISCOUNT_DAO.getRebates(query);
 
-		} catch (Exception ex) {
-			LoggerFactory.getLogger(CommonLogic.class.getName()).error("", ex);
-		}
-		int size = results.size();
-		for (int i = 0; i < size; i++) {
-			Object[] arr = (Object[]) results.get(i);
-			HelperDTO dTO = new HelperDTO();
-			dTO.setId(Integer.valueOf(Converters.convertNullToEmpty(arr[0])));
-			dTO.setDescription(Converters.convertNullToEmpty(arr[1]));
-			searchList.add(dTO);
-		}
-		return searchList;
-	}
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(CommonLogic.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int size = results.size();
+        for (int i = 0; i < size; i++) {
+            Object[] arr = (Object[]) results.get(i);
+            HelperDTO dTO = new HelperDTO();
+            dTO.setId(Integer.valueOf(Converters.convertNullToEmpty(arr[0])));
+            dTO.setDescription(Converters.convertNullToEmpty(arr[1]));
+            searchList.add(dTO);
+        }
+        return searchList;
+    }
 
-	public void updateMainTable(List<String> companyMasterSids, int newProjectionId, String contractMasterSid,
-			String forecastingType, String moduleName) {
-		StringBuilder salesQuery = new StringBuilder(StringUtils.EMPTY);
-		StringBuilder discountQuery = new StringBuilder(StringUtils.EMPTY);
-		StringBuilder rebateQuery = new StringBuilder(StringUtils.EMPTY);
-		if (Constants.NON_MANDATED.equalsIgnoreCase(forecastingType)) {
+    public void updateMainTable(List<String> companyMasterSids, int newProjectionId, String contractMasterSid,
+            String forecastingType, String moduleName) {
+        StringBuilder salesQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder discountQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder rebateQuery = new StringBuilder(StringUtils.EMPTY);
+        if (Constants.NON_MANDATED.equalsIgnoreCase(forecastingType)) {
 			salesQuery.append(SQlUtil.getQuery("nm.salesTableUpdate"));
 			discountQuery.append(SQlUtil.getQuery("nm.discountTableUpdate"));
 			rebateQuery.append(SQlUtil.getQuery("nm.ppaTableUpdate"));
-		} else if (Constants.MANDATED.equalsIgnoreCase(forecastingType)) {
+        } else if (Constants.MANDATED.equalsIgnoreCase(forecastingType)) {
 			salesQuery.append(SQlUtil.getQuery("man.salesTableUpdate"));
 			discountQuery.append(SQlUtil.getQuery("man.suppTableUpdate"));
 			rebateQuery.append(SQlUtil.getQuery("man.discountTableUpdate"));
-		}
-		salesQuery.replace(salesQuery.indexOf("?CON"), salesQuery.indexOf("?CON") + NumericConstants.FOUR,
-				contractMasterSid);
-		salesQuery.replace(salesQuery.indexOf("?COM"), salesQuery.indexOf("?COM") + NumericConstants.FOUR,
-				CommonUtils.CollectionToString(companyMasterSids, false));
-		salesQuery.replace(salesQuery.indexOf("?PM"), salesQuery.indexOf("?PM") + NumericConstants.THREE,
-				String.valueOf(newProjectionId));
+        }
+        salesQuery.replace(salesQuery.indexOf("?CON"), salesQuery.indexOf("?CON") + NumericConstants.FOUR,
+                contractMasterSid);
+        salesQuery.replace(salesQuery.indexOf("?COM"), salesQuery.indexOf("?COM") + NumericConstants.FOUR,
+                CommonUtils.CollectionToString(companyMasterSids, false));
+        salesQuery.replace(salesQuery.indexOf("?PM"), salesQuery.indexOf("?PM") + NumericConstants.THREE,
+                String.valueOf(newProjectionId));
 
-		discountQuery.replace(discountQuery.indexOf("?CON"), discountQuery.indexOf("?CON") + NumericConstants.FOUR,
-				contractMasterSid);
-		discountQuery.replace(discountQuery.indexOf("?COM"), discountQuery.indexOf("?COM") + NumericConstants.FOUR,
-				CommonUtils.CollectionToString(companyMasterSids, false));
-		discountQuery.replace(discountQuery.indexOf("?PM"), discountQuery.indexOf("?PM") + NumericConstants.THREE,
-				String.valueOf(newProjectionId));
+        discountQuery.replace(discountQuery.indexOf("?CON"), discountQuery.indexOf("?CON") + NumericConstants.FOUR,
+                contractMasterSid);
+        discountQuery.replace(discountQuery.indexOf("?COM"), discountQuery.indexOf("?COM") + NumericConstants.FOUR,
+                CommonUtils.CollectionToString(companyMasterSids, false));
+        discountQuery.replace(discountQuery.indexOf("?PM"), discountQuery.indexOf("?PM") + NumericConstants.THREE,
+                String.valueOf(newProjectionId));
 
-		rebateQuery.replace(rebateQuery.indexOf("?CON"), rebateQuery.indexOf("?CON") + NumericConstants.FOUR,
-				contractMasterSid);
-		rebateQuery.replace(rebateQuery.indexOf("?COM"), rebateQuery.indexOf("?COM") + NumericConstants.FOUR,
-				CommonUtils.CollectionToString(companyMasterSids, false));
-		rebateQuery.replace(rebateQuery.indexOf("?PM"), rebateQuery.indexOf("?PM") + NumericConstants.THREE,
-				String.valueOf(newProjectionId));
+        rebateQuery.replace(rebateQuery.indexOf("?CON"), rebateQuery.indexOf("?CON") + NumericConstants.FOUR,
+                contractMasterSid);
+        rebateQuery.replace(rebateQuery.indexOf("?COM"), rebateQuery.indexOf("?COM") + NumericConstants.FOUR,
+                CommonUtils.CollectionToString(companyMasterSids, false));
+        rebateQuery.replace(rebateQuery.indexOf("?PM"), rebateQuery.indexOf("?PM") + NumericConstants.THREE,
+                String.valueOf(newProjectionId));
 
-		if (TRADING_PARTNER_REMOVE.getConstant().equals(moduleName)) {
-			salesQuery.replace(salesQuery.indexOf(Constants.FIELD),
-					salesQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.COMPANY_MASTER_SID);
-			discountQuery.replace(discountQuery.indexOf(Constants.FIELD),
-					discountQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.COMPANY_MASTER_SID);
-			rebateQuery.replace(rebateQuery.indexOf(Constants.FIELD),
-					rebateQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.COMPANY_MASTER_SID);
-		} else if ("Item Remove".equals(moduleName)) {
-			salesQuery.replace(salesQuery.indexOf(Constants.FIELD),
-					salesQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.ITEM_MASTER_SID);
-			discountQuery.replace(discountQuery.indexOf(Constants.FIELD),
-					discountQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.ITEM_MASTER_SID);
-			rebateQuery.replace(rebateQuery.indexOf(Constants.FIELD),
-					rebateQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.ITEM_MASTER_SID);
-		}
+        if (TRADING_PARTNER_REMOVE.getConstant().equals(moduleName)) {
+            salesQuery.replace(salesQuery.indexOf(Constants.FIELD),
+                    salesQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.COMPANY_MASTER_SID);
+            discountQuery.replace(discountQuery.indexOf(Constants.FIELD),
+                    discountQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.COMPANY_MASTER_SID);
+            rebateQuery.replace(rebateQuery.indexOf(Constants.FIELD),
+                    rebateQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.COMPANY_MASTER_SID);
+        } else if ("Item Remove".equals(moduleName)) {
+            salesQuery.replace(salesQuery.indexOf(Constants.FIELD),
+                    salesQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.ITEM_MASTER_SID);
+            discountQuery.replace(discountQuery.indexOf(Constants.FIELD),
+                    discountQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.ITEM_MASTER_SID);
+            rebateQuery.replace(rebateQuery.indexOf(Constants.FIELD),
+                    rebateQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.ITEM_MASTER_SID);
+        }
 		HelperTableLocalServiceUtil.executeUpdateQuery(salesQuery.toString());
 		HelperTableLocalServiceUtil.executeUpdateQuery(discountQuery.toString());
 		HelperTableLocalServiceUtil.executeUpdateQuery(rebateQuery.toString());
-	}
+    }
 
-	/**
-	 * To call all M Tables Insert procedure
-	 *
-	 * @return
-	 */
-	public void callMTableInsert(final Object[] inputs) {
-		callTableInsert(inputs, PRC_MANDATED_SALES_INSERT);
-		callTableInsert(inputs, Constants.PRC_M_SUPP_INSERT);
-		callTableInsert(inputs, Constants.PRC_M_DISCOUNT_INSERT);
-	}
+    /**
+     * To call all M Tables Insert procedure
+     *
+     * @return
+     */
+    public void callMTableInsert(final Object[] inputs) {
+        callTableInsert(inputs, PRC_MANDATED_SALES_INSERT);
+        callTableInsert(inputs, Constants.PRC_M_SUPP_INSERT);
+        callTableInsert(inputs, Constants.PRC_M_DISCOUNT_INSERT);
+    }
 
-	/**
-	 * To call all NM Tables Insert procedure
-	 *
-	 * @return
-	 */
-	public void callDiscountTableInsert(final Object[] inputs, String procedureName) {
-		LOGGER.debug("Entering callTableInsert");
+    /**
+     * To call all NM Tables Insert procedure
+     *
+     * @return
+     */
+    public void callDiscountTableInsert(final Object[] inputs, String procedureName) {
+        LOGGER.debug("Entering callTableInsert");
 
-		Connection connection = null;
-		CallableStatement statement = null;
-		DataSource datasource;
-		try {
-			Context initialContext = new InitialContext();
-			datasource = (DataSource) initialContext.lookup(DATA_POOL);
-			if (datasource != null) {
-				connection = datasource.getConnection();
-			}
+        Connection connection = null;
+        CallableStatement statement = null;
+        DataSource datasource;
+        try {
+            Context initialContext = new InitialContext();
+            datasource = (DataSource) initialContext.lookup(DATA_POOL);
+            if (datasource != null) {
+                connection = datasource.getConnection();
+            }
 
-			if (connection != null) {
-				LOGGER.debug(" Executing " + procedureName + " procedure ");
-				StringBuilder statementBuilder = new StringBuilder("{call ");
-				statementBuilder.append(procedureName).append("(?,?,?,?)}");
-				statement = connection.prepareCall(statementBuilder.toString());
+            if (connection != null) {
+                LOGGER.debug(" Executing " + procedureName + " procedure ");
+                StringBuilder statementBuilder = new StringBuilder("{call ");
+                statementBuilder.append(procedureName).append("(?,?,?,?)}");
+                statement = connection.prepareCall(statementBuilder.toString());
 
-				statement.setObject(1, inputs[0]);
-				statement.setObject(NumericConstants.TWO, inputs[1]);
-				statement.setObject(NumericConstants.THREE, inputs[NumericConstants.TWO]);
-				statement.setObject(NumericConstants.FOUR, inputs[NumericConstants.THREE]);
-				statement.execute();
-			}
+                statement.setObject(1, inputs[0]);
+                statement.setObject(NumericConstants.TWO, inputs[1]);
+                statement.setObject(NumericConstants.THREE, inputs[NumericConstants.TWO]);
+                statement.setObject(NumericConstants.FOUR, inputs[NumericConstants.THREE]);
+                statement.execute();
+            }
 
-			LOGGER.debug("Ending " + procedureName + " Procedure");
+            LOGGER.debug("Ending " + procedureName + " Procedure");
 
-		} catch (Exception ex) {
+        } catch (Exception ex) {
 			LOGGER.error("",ex);
-		} finally {
-			try {
-				statement.close();
-			} catch (Exception e) {
+        } finally {
+            try {
+                statement.close();
+            } catch (Exception e) {
 				LOGGER.error("",e);
-			}
-			try {
-				connection.close();
-			} catch (Exception e) {
+            }
+            try {
+                connection.close();
+            } catch (Exception e) {
 				LOGGER.error("",e);
-			}
-		}
-		LOGGER.debug("Exiting callTableInsert");
-	}
+            }
+        }
+        LOGGER.debug("Exiting callTableInsert");
+    }
 
-	public void mandatedTempToMainSave(String userId, String sessionId, int newProjectionID) {
-		LOGGER.debug("Entering mandatedTempToMainSave");
-		List input = new ArrayList();
-		input.add(userId);
-		input.add(sessionId);
-		ItemQueries.itemUpdate(input, "M_SALES_PROJECTION_MASTER INSERT");
-		ItemQueries.itemUpdate(input, "M_ACTUAL_SALES INSERT");
-		ItemQueries.itemUpdate(input, "M_SALES_PROJECTION INSERT");
-		ItemQueries.itemUpdate(input, "M_SUPPLEMENTAL_DISC_MASTER INSERT");
-		ItemQueries.itemUpdate(input, "M_SUPPLEMENTAL_DISC_PROJ INSERT");
-		input.add(newProjectionID);
-		ItemQueries.itemUpdate(input, "UPDATE TABLE DATA Sales");
-		ItemQueries.itemUpdate(input, "UPDATE TABLE DATA Discount");
-	}
+    public void mandatedTempToMainSave(String userId, String sessionId, int newProjectionID) {
+        LOGGER.debug("Entering mandatedTempToMainSave");
+        List input = new ArrayList();
+        input.add(userId);
+        input.add(sessionId);
+        ItemQueries.itemUpdate(input, "M_SALES_PROJECTION_MASTER INSERT");
+        ItemQueries.itemUpdate(input, "M_ACTUAL_SALES INSERT");
+        ItemQueries.itemUpdate(input, "M_SALES_PROJECTION INSERT");
+        ItemQueries.itemUpdate(input, "M_SUPPLEMENTAL_DISC_MASTER INSERT");
+        ItemQueries.itemUpdate(input, "M_SUPPLEMENTAL_DISC_PROJ INSERT");
+        input.add(newProjectionID);
+        ItemQueries.itemUpdate(input, "UPDATE TABLE DATA Sales");
+        ItemQueries.itemUpdate(input, "UPDATE TABLE DATA Discount");
+    }
 
-	public String getGenerateMarketValue(int rbID) {
-		LOGGER.debug("Endtering getGenerateMarketValue");
-		List input = new ArrayList();
-		input.add(rbID);
-		List<Object> temp = ItemQueries.getItemData(input, "get Generate MarketValue", null);
-		String marketType = StringUtils.EMPTY;
-		if (temp.size() > 0 && String.valueOf(temp.get(0)) != null
-				&& !StringUtils.EMPTY.equals(String.valueOf(temp.get(0)))) {
-			marketType = String.valueOf(temp.get(0));
-		}
-		LOGGER.debug("Exiting getGenerateMarketValue");
-		return marketType;
-	}
+    public String getGenerateMarketValue(int rbID) {
+        LOGGER.debug("Endtering getGenerateMarketValue");
+        List input = new ArrayList();
+        input.add(rbID);
+        List<Object> temp = ItemQueries.getItemData(input, "get Generate MarketValue", null);
+        String marketType = StringUtils.EMPTY;
+        if (temp.size() > 0 && String.valueOf(temp.get(0)) != null
+                && !StringUtils.EMPTY.equals(String.valueOf(temp.get(0)))) {
+            marketType = String.valueOf(temp.get(0));
+        }
+        LOGGER.debug("Exiting getGenerateMarketValue");
+        return marketType;
+    }
 
-	public String getDefinedValue(String definedValue) {
-		String str = StringUtils.EMPTY;
-		String query = "select LEVEL_VALUE_REFERENCE from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID="
-				+ definedValue + " and LEVEL_NAME='Market Type'";
+    public String getDefinedValue(String definedValue) {
+        String str = StringUtils.EMPTY;
+        String query = "select LEVEL_VALUE_REFERENCE from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID="
+                + definedValue + " and LEVEL_NAME='Market Type'";
 		List<Object> listValue = HelperTableLocalServiceUtil.executeSelectQuery(query);
-		if (listValue.size() > 0) {
-			for (int i = 0; i < listValue.size(); i++) {
-				str = String.valueOf(listValue.get(0));
-			}
-		}
-		return str;
-	}
+        if (listValue.size() > 0) {
+            for (int i = 0; i < listValue.size(); i++) {
+                str = String.valueOf(listValue.get(0));
+            }
+        }
+        return str;
+    }
 
-	public String getHelperValue(String marketType) {
-		String marketTypeValue = StringUtils.EMPTY;
-		String query = "select DESCRIPTION from HELPER_TABLE where HELPER_TABLE_SID in('" + marketType
-				+ "') and LIST_NAME='CONTRACT_TYPE' ";
+    public String getHelperValue(String marketType) {
+        String marketTypeValue = StringUtils.EMPTY;
+        String query = "select DESCRIPTION from HELPER_TABLE where HELPER_TABLE_SID in('" + marketType
+                + "') and LIST_NAME='CONTRACT_TYPE' ";
 		List<Object> temp = HelperTableLocalServiceUtil.executeSelectQuery(query);
-		if (temp.size() > 0) {
-			for (int i = 0; i < temp.size(); i++) {
-				marketTypeValue = String.valueOf(temp.get(i));
-			}
-		}
-		return marketTypeValue;
-	}
+        if (temp.size() > 0) {
+            for (int i = 0; i < temp.size(); i++) {
+                marketTypeValue = String.valueOf(temp.get(i));
+            }
+        }
+        return marketTypeValue;
+    }
 
-	public List<String> createNewProjection(int oldProjectionId, List<String> masterSids, SessionDTO session) {
-		List<String> tempList = new ArrayList<>();
-		try {
-			String relationShipBuilderSidQuery = "select CUST_RELATIONSHIP_BUILDER_SID, PROD_RELATIONSHIP_BUILDER_SID, FORECASTING_TYPE, CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID = "
-					+ oldProjectionId;
+    public List<String> createNewProjection(int oldProjectionId, List<String> masterSids, SessionDTO session) {
+        List<String> tempList = new ArrayList<>();
+        try {
+            String relationShipBuilderSidQuery = "select CUST_RELATIONSHIP_BUILDER_SID, PROD_RELATIONSHIP_BUILDER_SID, FORECASTING_TYPE, CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID = "
+                    + oldProjectionId;
 			Object[] projectionMasterRow = (Object[]) HelperTableLocalServiceUtil
 					.executeSelectQuery(relationShipBuilderSidQuery).get(0);
-			LOGGER.debug(" cust Rel Builder Sid  " + String.valueOf(projectionMasterRow[0]));
-			LOGGER.debug("  prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
-			setProdRelationshipId(Integer.valueOf(String.valueOf(projectionMasterRow[1])));
-			List<String> relationshipBuilderSids = new ArrayList<>();
-			relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
-			relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
-			int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
-			LOGGER.debug(" New Projection Id ===== " + newProjectionId);
-			if (newProjectionId != 0) {
-				setNewProjectionId(newProjectionId);
-				setForecastingType(String.valueOf(projectionMasterRow[NumericConstants.TWO]));
-				cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, true, session);
-				for (Object relationshipLevelSid : relationshipBuilderSids) {
-					updateCustomerOrProductHierarchy(false, newProjectionId, String.valueOf(relationshipLevelSid));
-				}
-				if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, session)) {
-					String marketType = StringUtils.EMPTY;
-					Object[] inputs = new Object[NumericConstants.FOUR];
-					inputs[0] = newProjectionId;
-					inputs[1] = session.getUserId();
-					inputs[NumericConstants.TWO] = session.getSessionId();
-					boolean flag = false;
-					if (Constants.IndicatorConstants.NON_MANDATED.getConstant().toString()
-							.equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
-						flag = true;
-					} else if (Constants.IndicatorConstants.MANDATED.getConstant().toString()
-							.equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
-						if (!StringUtils.EMPTY.equals(String.valueOf(projectionMasterRow[0]))
-								&& !Constants.ZEROSTRING.equals(String.valueOf(projectionMasterRow[0]))) {
-							marketType = getGenerateMarketValue(
-									Integer.valueOf(String.valueOf(projectionMasterRow[0])));
-						}
+            LOGGER.debug(" cust Rel Builder Sid  " + String.valueOf(projectionMasterRow[0]));
+            LOGGER.debug("  prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
+            setProdRelationshipId(Integer.valueOf(String.valueOf(projectionMasterRow[1])));
+            List<String> relationshipBuilderSids = new ArrayList<>();
+            relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
+            relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
+            int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
+            LOGGER.debug(" New Projection Id ===== " + newProjectionId);
+            insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
+            if (newProjectionId != 0) {
+                setNewProjectionId(newProjectionId);
+                setForecastingType(String.valueOf(projectionMasterRow[NumericConstants.TWO]));
+                cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, true, session);
+//                for (Object relationshipLevelSid : relationshipBuilderSids) {  //  FOREIGN KEY constraint , twice insert is happening in PROJECTION_PROD_HIERARCHY , PROJECTION_CUST_HIERARCHY
+//                    updateCustomerOrProductHierarchy(false, newProjectionId, String.valueOf(relationshipLevelSid));
+//                }
+                if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, session)) {
+                    String marketType = StringUtils.EMPTY;
+                    Object[] inputs = new Object[NumericConstants.FOUR];
+                    inputs[0] = newProjectionId;
+                    inputs[1] = session.getUserId();
+                    inputs[NumericConstants.TWO] = session.getSessionId();
+                    boolean flag = false;
+                    if (Constants.IndicatorConstants.NON_MANDATED.getConstant().toString()
+                            .equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
+                        flag = true;
+                    } else if (Constants.IndicatorConstants.MANDATED.getConstant().toString()
+                            .equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
+                        if (!StringUtils.EMPTY.equals(String.valueOf(projectionMasterRow[0]))
+                                && !Constants.ZEROSTRING.equals(String.valueOf(projectionMasterRow[0]))) {
+                            marketType = getGenerateMarketValue(
+                                    Integer.valueOf(String.valueOf(projectionMasterRow[0])));
+                        }
 
-						String definedOrUDValue;
-						String definedValue = getDefinedValue(
-								String.valueOf(projectionMasterRow[NumericConstants.THREE]));
-						if (Constants.USER_DEFINED.equalsIgnoreCase(definedValue)) {
-							definedOrUDValue = marketType;
-						} else {
-							definedOrUDValue = getHelperValue(marketType);
-						}
-						callTableInsert(inputs, PRC_MANDATED_SALES_INSERT);
-						Object[] suppInputs = { newProjectionId, definedOrUDValue, session.getUserId(),
-								session.getSessionId() };
-						callDiscountTableInsert(suppInputs, Constants.PRC_M_SUPP_INSERT);
-						callTableInsert(inputs, Constants.PRC_M_SUPP_PROJECTION);
-						Object[] discInputs = { newProjectionId, session.getUserId(), "SPAP", session.getSessionId() };
-						callDiscountTableInsert(discInputs, Constants.PRC_M_DISCOUNT_INSERT);
-						mandatedTempToMainSave(session.getUserId(), session.getSessionId(), newProjectionId);
-						flag = true;
-					}
-					if (flag) {
-						LoadTabLogic loadTabLogic = new LoadTabLogic();
-						if (TRADING_PARTNER_UPDATE.getConstant().equals(session.getModuleName())) {
-							session.setProjectionId(newProjectionId);
-							loadTabLogic.updateSalesAndDiscount(session);
-						} else {
-							if (!session.getModuleName().contains("Item")) {
-								updateMainTable(masterSids, newProjectionId, session.getContractMasterSid(),
-										String.valueOf(projectionMasterRow[NumericConstants.TWO]),
-										session.getModuleName());
-							}
-						}
-						loadTabLogic.setForecastingType(newProjectionId);
-						tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
-						tempList.add(loadTabLogic.getProjectionName(newProjectionId));
-						tempList.add(String.valueOf(newProjectionId));
+                        String definedOrUDValue;
+                        String definedValue = getDefinedValue(
+                                String.valueOf(projectionMasterRow[NumericConstants.THREE]));
+                        if (Constants.USER_DEFINED.equalsIgnoreCase(definedValue)) {
+                            definedOrUDValue = marketType;
+                        } else {
+                            definedOrUDValue = getHelperValue(marketType);
+                        }
+                        callTableInsert(inputs, PRC_MANDATED_SALES_INSERT);
+                        Object[] suppInputs = {newProjectionId, definedOrUDValue, session.getUserId(),
+                            session.getSessionId()};
+                        callDiscountTableInsert(suppInputs, Constants.PRC_M_SUPP_INSERT);
+                        callTableInsert(inputs, Constants.PRC_M_SUPP_PROJECTION);
+                        Object[] discInputs = {newProjectionId, session.getUserId(), "SPAP", session.getSessionId()};
+                        callDiscountTableInsert(discInputs, Constants.PRC_M_DISCOUNT_INSERT);
+                        mandatedTempToMainSave(session.getUserId(), session.getSessionId(), newProjectionId);
+                        flag = true;
+                    }
+                    if (flag) {
+                        LoadTabLogic loadTabLogic = new LoadTabLogic();
+                        if (TRADING_PARTNER_UPDATE.getConstant().equals(session.getModuleName())) {
+                            session.setProjectionId(newProjectionId);
+                            loadTabLogic.updateSalesAndDiscount(session);
+                        } else {
+                            if (!session.getModuleName().contains("Item")) {
+                                updateMainTable(masterSids, newProjectionId, session.getContractMasterSid(),
+                                        String.valueOf(projectionMasterRow[NumericConstants.TWO]),
+                                        session.getModuleName());
+                            }
+                        }
+                        loadTabLogic.setForecastingType(newProjectionId);
+                        tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
+                        tempList.add(loadTabLogic.getProjectionName(newProjectionId));
+                        tempList.add(String.valueOf(newProjectionId));
 
-						tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME
-								+ tempList.get(1) + " ");
-					} else {
-						LOGGER.debug(" Projection details insert  failed");
-					}
+                        tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME
+                                + tempList.get(1) + " ");
+                    } else {
+                        LOGGER.debug(" Projection details insert  failed");
+                    }
 
-				} else {
-					LOGGER.debug(" Projection cloning error ");
-				}
+                } else {
+                    LOGGER.debug(" Projection cloning error ");
+                }
 
-			}
-		} catch (Exception e) {
+            }
+        } catch (Exception e) {
 			LOGGER.error("",e);
-		}
+        }
 
-		return tempList;
-	}
+        return tempList;
+    }
 
-	public static String getForecastFlavour(int toProjectionId) {
-		String query = "select FORECASTING_TYPE from PROJECTION_MASTER where PROJECTION_MASTER_SID = '" + toProjectionId
-				+ "'";
+    public static String getForecastFlavour(int toProjectionId) {
+        String query = "select FORECASTING_TYPE from PROJECTION_MASTER where PROJECTION_MASTER_SID = '" + toProjectionId
+                + "'";
 
-		return String.valueOf(((List) DAO.executeSelect(query)).get(0));
-	}
+        return String.valueOf(((List) DAO.executeSelect(query)).get(0));
+    }
 
-	public List<String> copyProjection(int oldProjectionId, boolean isDiscountModule, List<String> contractList,
-			List<String> companyList, List<String> rsList, SessionDTO sessionDTO) {
-		List<String> tempList = new ArrayList<>();
+    public List<String> copyProjection(int oldProjectionId, boolean isDiscountModule, List<String> contractList,
+            List<String> companyList, List<String> rsList, SessionDTO sessionDTO) {
+        List<String> tempList = new ArrayList<>();
 
-		SessionDTO session = new SessionDTO();
-		session = CommonUtils.attachSessionId(session);
-		String relationShipBuilderSidQuery = "select CUST_RELATIONSHIP_BUILDER_SID, PROD_RELATIONSHIP_BUILDER_SID,FORECASTING_TYPE, CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID = "
-				+ oldProjectionId;
+        SessionDTO session = new SessionDTO();
+        session = CommonUtils.attachSessionId(session);
+        String relationShipBuilderSidQuery = "select CUST_RELATIONSHIP_BUILDER_SID, PROD_RELATIONSHIP_BUILDER_SID,FORECASTING_TYPE, CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID = "
+                + oldProjectionId;
 		Object[] projectionMasterRow = (Object[]) HelperTableLocalServiceUtil
 				.executeSelectQuery(relationShipBuilderSidQuery).get(0);
 
-		LOGGER.debug(" cust Rel Builder Sid " + String.valueOf(projectionMasterRow[0]));
-		LOGGER.debug(" prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
+        LOGGER.debug(" cust Rel Builder Sid " + String.valueOf(projectionMasterRow[0]));
+        LOGGER.debug(" prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
 
-		List<String> relationshipBuilderSids = new ArrayList<>();
-		relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
-		relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
-		int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
+        List<String> relationshipBuilderSids = new ArrayList<>();
+        relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
+        relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
+        int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
 
-		LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
-		if (newProjectionId != 0) {
-			cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, true, sessionDTO);
-			LOGGER.debug("String.valueOf(projectionMasterRow[0])" + String.valueOf(projectionMasterRow[0]));
-			LOGGER.debug("relationshipBuilderSids.get(0)" + relationshipBuilderSids.get(0));
+        LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
+        if (newProjectionId != 0) {
+            cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, true, sessionDTO);
+            LOGGER.debug("String.valueOf(projectionMasterRow[0])" + String.valueOf(projectionMasterRow[0]));
+            LOGGER.debug("relationshipBuilderSids.get(0)" + relationshipBuilderSids.get(0));
 
-			if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, sessionDTO)) {
-				String marketType = StringUtils.EMPTY;
-				Object[] inputs = new Object[NumericConstants.FOUR];
-				inputs[0] = newProjectionId;
-				inputs[1] = session.getUserId();
-				inputs[NumericConstants.TWO] = session.getSessionId();
-				boolean flag = false;
-				if (Constants.NON_MANDATED.equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
+            if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, sessionDTO)) {
+                String marketType = StringUtils.EMPTY;
+                Object[] inputs = new Object[NumericConstants.FOUR];
+                inputs[0] = newProjectionId;
+                inputs[1] = session.getUserId();
+                inputs[NumericConstants.TWO] = session.getSessionId();
+                boolean flag = false;
+                if (Constants.NON_MANDATED.equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
 
-					flag = true;
-				} else if (Constants.MANDATED.equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
-					if (!StringUtils.EMPTY.equals(String.valueOf(projectionMasterRow[0]))
-							&& !Constants.ZEROSTRING.equals(String.valueOf(projectionMasterRow[0]))) {
-						marketType = getGenerateMarketValue(Integer.valueOf(String.valueOf(projectionMasterRow[0])));
-					}
+                    flag = true;
+                } else if (Constants.MANDATED.equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
+                    if (!StringUtils.EMPTY.equals(String.valueOf(projectionMasterRow[0]))
+                            && !Constants.ZEROSTRING.equals(String.valueOf(projectionMasterRow[0]))) {
+                        marketType = getGenerateMarketValue(Integer.valueOf(String.valueOf(projectionMasterRow[0])));
+                    }
 
-					String definedOrUDValue;
-					String definedValue = getDefinedValue(String.valueOf(projectionMasterRow[NumericConstants.THREE]));
-					if (Constants.USER_DEFINED.equalsIgnoreCase(definedValue)) {
-						definedOrUDValue = marketType;
-					} else {
-						definedOrUDValue = getHelperValue(marketType);
-					}
-					if (isDiscountModule) {
-						callTableInsert(inputs, PRC_MANDATED_SALES_INSERT);
-					}
-					Object[] suppInputs = { newProjectionId, session.getUserId(), definedOrUDValue,
-							session.getSessionId() };
-					callDiscountTableInsert(suppInputs, Constants.PRC_M_SUPP_INSERT);
-					callTableInsert(inputs, Constants.PRC_M_SUPP_PROJECTION);
-					Object[] discInputs = { newProjectionId, session.getUserId(), "SPAP", session.getSessionId() };
-					callDiscountTableInsert(discInputs, Constants.PRC_M_DISCOUNT_INSERT);
-					mandatedTempToMainSave(session.getUserId(), session.getSessionId(), newProjectionId);
-					flag = true;
-				}
-				if (flag) {
-					if (isDiscountModule) {
-						updateMainTableRemove(companyList, newProjectionId, contractList,
-								String.valueOf(projectionMasterRow[NumericConstants.TWO]), rsList);
-					}
-					LoadTabLogic loadTabLogic = new LoadTabLogic();
-					loadTabLogic.setForecastingType(newProjectionId);
-					tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
-					tempList.add(loadTabLogic.getProjectionName(newProjectionId));
-					tempList.add(String.valueOf(newProjectionId));
-					tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME
-							+ tempList.get(1) + " ");
-				}
+                    String definedOrUDValue;
+                    String definedValue = getDefinedValue(String.valueOf(projectionMasterRow[NumericConstants.THREE]));
+                    if (Constants.USER_DEFINED.equalsIgnoreCase(definedValue)) {
+                        definedOrUDValue = marketType;
+                    } else {
+                        definedOrUDValue = getHelperValue(marketType);
+                    }
+                    if (isDiscountModule) {
+                        callTableInsert(inputs, PRC_MANDATED_SALES_INSERT);
+                    }
+                    Object[] suppInputs = {newProjectionId, session.getUserId(), definedOrUDValue,
+                        session.getSessionId()};
+                    callDiscountTableInsert(suppInputs, Constants.PRC_M_SUPP_INSERT);
+                    callTableInsert(inputs, Constants.PRC_M_SUPP_PROJECTION);
+                    Object[] discInputs = {newProjectionId, session.getUserId(), "SPAP", session.getSessionId()};
+                    callDiscountTableInsert(discInputs, Constants.PRC_M_DISCOUNT_INSERT);
+                    mandatedTempToMainSave(session.getUserId(), session.getSessionId(), newProjectionId);
+                    flag = true;
+                }
+                if (flag) {
+                    if (isDiscountModule) {
+                        updateMainTableRemove(companyList, newProjectionId, contractList,
+                                String.valueOf(projectionMasterRow[NumericConstants.TWO]), rsList);
+                    }
+                    LoadTabLogic loadTabLogic = new LoadTabLogic();
+                    loadTabLogic.setForecastingType(newProjectionId);
+                    tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
+                    tempList.add(loadTabLogic.getProjectionName(newProjectionId));
+                    tempList.add(String.valueOf(newProjectionId));
+                    tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME
+                            + tempList.get(1) + " ");
+                }
 
-			} else {
-				LOGGER.debug(" Projection details insert failed");
-			}
+            } else {
+                LOGGER.debug(" Projection details insert failed");
+            }
 
-		} else {
-			LOGGER.debug(" Projection cloning error ");
-		}
-		LOGGER.debug("Ending copyProjection ");
-		return tempList;
-	}
+        } else {
+            LOGGER.debug(" Projection cloning error ");
+        }
+        LOGGER.debug("Ending copyProjection ");
+        return tempList;
+    }
 
-	public void updateMainTableRemove(List<String> companyMasterSids, int newProjectionId, List<String> contractList,
-			String forecastingType, List<String> rsList) {
-		StringBuilder salesQuery = new StringBuilder(StringUtils.EMPTY);
-		StringBuilder discountQuery = new StringBuilder(StringUtils.EMPTY);
-		StringBuilder rebateQuery = new StringBuilder(StringUtils.EMPTY);
-		List queryList = new ArrayList();
-		try {
-			if (Constants.NON_MANDATED.equalsIgnoreCase(forecastingType)) {
+    public void updateMainTableRemove(List<String> companyMasterSids, int newProjectionId, List<String> contractList,
+            String forecastingType, List<String> rsList) {
+        StringBuilder salesQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder discountQuery = new StringBuilder(StringUtils.EMPTY);
+        StringBuilder rebateQuery = new StringBuilder(StringUtils.EMPTY);
+        List queryList = new ArrayList();
+        try {
+            if (Constants.NON_MANDATED.equalsIgnoreCase(forecastingType)) {
 				salesQuery.append(SQlUtil.getQuery("nm.salesTableUpdate"));
 				discountQuery.append(SQlUtil.getQuery("nm.removediscountupdate"));
 				rebateQuery.append(SQlUtil.getQuery("nm.ppaTableUpdate"));
-			} else if (Constants.MANDATED.equalsIgnoreCase(forecastingType)) {
+            } else if (Constants.MANDATED.equalsIgnoreCase(forecastingType)) {
 				salesQuery.append(SQlUtil.getQuery("man.salesTableUpdate"));
 				discountQuery.append(SQlUtil.getQuery("man.suppTableUpdate"));
 				rebateQuery.append(SQlUtil.getQuery("man.discountTableUpdate"));
-			}
-			salesQuery.replace(salesQuery.indexOf("?CON"), salesQuery.indexOf("?CON") + NumericConstants.FOUR,
-					String.valueOf(contractList.get(0)));
-			salesQuery.replace(salesQuery.indexOf("?COM"), salesQuery.indexOf("?COM") + NumericConstants.FOUR,
-					CommonUtils.CollectionToString(companyMasterSids, true));
-			salesQuery.replace(salesQuery.indexOf("?PM"), salesQuery.indexOf("?PM") + NumericConstants.THREE,
-					String.valueOf(newProjectionId));
+            }
+            salesQuery.replace(salesQuery.indexOf("?CON"), salesQuery.indexOf("?CON") + NumericConstants.FOUR,
+                    String.valueOf(contractList.get(0)));
+            salesQuery.replace(salesQuery.indexOf("?COM"), salesQuery.indexOf("?COM") + NumericConstants.FOUR,
+                    CommonUtils.CollectionToString(companyMasterSids, true));
+            salesQuery.replace(salesQuery.indexOf("?PM"), salesQuery.indexOf("?PM") + NumericConstants.THREE,
+                    String.valueOf(newProjectionId));
 
-			discountQuery.replace(discountQuery.indexOf("?CON"), discountQuery.indexOf("?CON") + NumericConstants.FOUR,
-					String.valueOf(contractList.get(0)));
-			discountQuery.replace(discountQuery.indexOf("?COM"), discountQuery.indexOf("?COM") + NumericConstants.FOUR,
-					CommonUtils.CollectionToString(companyMasterSids, true));
-			discountQuery.replace(discountQuery.indexOf("?PM"), discountQuery.indexOf("?PM") + NumericConstants.THREE,
-					String.valueOf(newProjectionId));
-			discountQuery.replace(discountQuery.indexOf("?RS"), discountQuery.indexOf("?RS") + NumericConstants.THREE,
-					CommonUtils.CollectionToString(rsList, false));
+            discountQuery.replace(discountQuery.indexOf("?CON"), discountQuery.indexOf("?CON") + NumericConstants.FOUR,
+                    String.valueOf(contractList.get(0)));
+            discountQuery.replace(discountQuery.indexOf("?COM"), discountQuery.indexOf("?COM") + NumericConstants.FOUR,
+                    CommonUtils.CollectionToString(companyMasterSids, true));
+            discountQuery.replace(discountQuery.indexOf("?PM"), discountQuery.indexOf("?PM") + NumericConstants.THREE,
+                    String.valueOf(newProjectionId));
+            discountQuery.replace(discountQuery.indexOf("?RS"), discountQuery.indexOf("?RS") + NumericConstants.THREE,
+                    CommonUtils.CollectionToString(rsList, false));
 
-			rebateQuery.replace(rebateQuery.indexOf("?CON"), rebateQuery.indexOf("?CON") + NumericConstants.FOUR,
-					String.valueOf(contractList.get(0)));
-			rebateQuery.replace(rebateQuery.indexOf("?COM"), rebateQuery.indexOf("?COM") + NumericConstants.FOUR,
-					CommonUtils.CollectionToString(companyMasterSids, true));
-			rebateQuery.replace(rebateQuery.indexOf("?PM"), rebateQuery.indexOf("?PM") + NumericConstants.THREE,
-					String.valueOf(newProjectionId));
+            rebateQuery.replace(rebateQuery.indexOf("?CON"), rebateQuery.indexOf("?CON") + NumericConstants.FOUR,
+                    String.valueOf(contractList.get(0)));
+            rebateQuery.replace(rebateQuery.indexOf("?COM"), rebateQuery.indexOf("?COM") + NumericConstants.FOUR,
+                    CommonUtils.CollectionToString(companyMasterSids, true));
+            rebateQuery.replace(rebateQuery.indexOf("?PM"), rebateQuery.indexOf("?PM") + NumericConstants.THREE,
+                    String.valueOf(newProjectionId));
 
-			salesQuery.replace(salesQuery.indexOf(Constants.FIELD),
-					salesQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.COMPANY_MASTER_SID);
+            salesQuery.replace(salesQuery.indexOf(Constants.FIELD),
+                    salesQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.COMPANY_MASTER_SID);
 
-			rebateQuery.replace(rebateQuery.indexOf(Constants.FIELD),
-					rebateQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.COMPANY_MASTER_SID);
+            rebateQuery.replace(rebateQuery.indexOf(Constants.FIELD),
+                    rebateQuery.indexOf(Constants.FIELD) + NumericConstants.SIX, Constants.COMPANY_MASTER_SID);
 
-			queryList.add(salesQuery.toString());
-			queryList.add(rebateQuery.toString());
+            queryList.add(salesQuery.toString());
+            queryList.add(rebateQuery.toString());
 			HelperTableLocalServiceUtil.executeUpdateQuery(salesQuery.toString());
 			HelperTableLocalServiceUtil.executeUpdateQuery(discountQuery.toString());
 			HelperTableLocalServiceUtil.executeUpdateQuery(rebateQuery.toString());
-		} catch (Exception e) {
+        } catch (Exception e) {
 			LOGGER.error("",e);
-		}
-	}
+        }
+    }
 
-	public static void insertInputsBeforeTranfer(int fromProjectionId, int copyFromProjectionId, int toProjectionid,
-			int copyToProjectionId, int fromContractSid, int toContractSid, String companies, String fromEndDate,
-			String toStartDate, boolean transferFlag, String sessionId, boolean transferSalesFlag) {
-		LOGGER.debug("Entering insertInputsBeforeTranfer");
-		String query = "INSERT INTO FUTURE_EVENTS_INPUT (FROM_PROJECTION, COPY_FROM_PROJECTION, TO_PROJECTION, COPY_TO_PROJECTION, FROM_CONTRACT_MASTER_SID, TO_CONTRACT_MASTER_SID, \n"
-				+ "COMPANY_MASTER_SID, FROM_END_DATE, TO_START_DATE, TRANSFER_FLAG, SESSION_ID,TRANSFER_SALES_FLAG) VALUES('"
-				+ fromProjectionId + "','" + copyFromProjectionId + "','" + toProjectionid + "'" + ",'"
-				+ copyToProjectionId + "','" + fromContractSid + "','" + toContractSid + "','" + companies + "','"
-				+ fromEndDate + "','" + toStartDate + "','" + transferFlag + "', '" + sessionId + "', '"
-				+ transferSalesFlag + "')";
-		LOGGER.debug("Exiting insertInputsBeforeTranfer");
+    public static void insertInputsBeforeTranfer(int fromProjectionId, int copyFromProjectionId, int toProjectionid,
+            int copyToProjectionId, int fromContractSid, int toContractSid, String companies, String fromEndDate,
+            String toStartDate, boolean transferFlag, String sessionId, boolean transferSalesFlag) {
+        LOGGER.debug("Entering insertInputsBeforeTranfer");
+        String query = "INSERT INTO FUTURE_EVENTS_INPUT (FROM_PROJECTION, COPY_FROM_PROJECTION, TO_PROJECTION, COPY_TO_PROJECTION, FROM_CONTRACT_MASTER_SID, TO_CONTRACT_MASTER_SID, \n"
+                + "COMPANY_MASTER_SID, FROM_END_DATE, TO_START_DATE, TRANSFER_FLAG, SESSION_ID,TRANSFER_SALES_FLAG) VALUES('"
+                + fromProjectionId + "','" + copyFromProjectionId + "','" + toProjectionid + "'" + ",'"
+                + copyToProjectionId + "','" + fromContractSid + "','" + toContractSid + "','" + companies + "','"
+                + fromEndDate + "','" + toStartDate + "','" + transferFlag + "', '" + sessionId + "', '"
+                + transferSalesFlag + "')";
+        LOGGER.debug("Exiting insertInputsBeforeTranfer");
 		HelperTableLocalServiceUtil.executeUpdateQuery(query);
-	}
+    }
 
-	public static List<String> getDiscriptionList(final String listType) throws SystemException {
-		final List<String> helperList = new ArrayList<>();
-		LOGGER.debug("Helper Table listType=" + listType);
+    public static List<String> getDiscriptionList(final String listType) throws SystemException {
+        final List<String> helperList = new ArrayList<>();
+        LOGGER.debug("Helper Table listType=" + listType);
 		final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();
-		helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
-		helperTableQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
-		final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(helperTableQuery);
-		if (list != null) {
-			for (HelperTable temp : list) {
-				final HelperTable helperTable = (HelperTable) temp;
-				helperList.add(helperTable.getDescription());
-			}
-		}
+        helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
+        helperTableQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
+        final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(helperTableQuery);
+        if (list != null) {
+            for (HelperTable temp : list) {
+                final HelperTable helperTable = (HelperTable) temp;
+                helperList.add(helperTable.getDescription());
+            }
+        }
 
-		LOGGER.debug("Helper Table list size =" + helperList.size());
-		return helperList;
-	}
+        LOGGER.debug("Helper Table list size =" + helperList.size());
+        return helperList;
+    }
 
-	public static String generateCustomerMappings(List<String> sourceCompanies, List<String> destinationCompanies) {
-		String customerMapping = StringUtils.EMPTY;
-		for (int i = 0; i < sourceCompanies.size(); i++) {
-			customerMapping += String.valueOf(sourceCompanies.get(i)) + " - "
-					+ String.valueOf(destinationCompanies.get(i));
-			if (i < sourceCompanies.size() - 1) {
-				customerMapping += ",";
-			}
-		}
-		return customerMapping;
-	}
+    public static String generateCustomerMappings(List<String> sourceCompanies, List<String> destinationCompanies) {
+        String customerMapping = StringUtils.EMPTY;
+        for (int i = 0; i < sourceCompanies.size(); i++) {
+            customerMapping += String.valueOf(sourceCompanies.get(i)) + " - "
+                    + String.valueOf(destinationCompanies.get(i));
+            if (i < sourceCompanies.size() - 1) {
+                customerMapping += ",";
+            }
+        }
+        return customerMapping;
+    }
 
-	private void updateProdHirarechy(int newProjectionId, int prodRelationshipId, List<String> itemList) {
-		List input = new ArrayList();
-		input.add(newProjectionId);
-		input.add(prodRelationshipId);
-		input.add(CommonUtils.getListToString(itemList));
-		ItemQueries.itemUpdate(input, "Prod Hirarechy UPdate");
-	}
+    private void updateProdHirarechy(int newProjectionId, int prodRelationshipId, List<String> itemList) {
+        List input = new ArrayList();
+        input.add(newProjectionId);
+        input.add(prodRelationshipId);
+        input.add(CommonUtils.getListToString(itemList));
+        ItemQueries.itemUpdate(input, "Prod Hirarechy UPdate");
+    }
 
-	public static boolean callPromoteProcedure(String sessionId) {
-		LOGGER.debug("calling promoteProcedure");
-		return GtnSqlUtil.procedureCallService("{call PRC_FE_PROMOTE_TP(?)}", new Object[] { sessionId });
-	}
+    public static boolean callPromoteProcedure(String sessionId) {
+        LOGGER.debug("calling promoteProcedure");
+        return GtnSqlUtil.procedureCallService("{call PRC_FE_PROMOTE_TP(?)}", new Object[]{sessionId});
+    }
 
-	private String getMarketType(String hierarchyDefinitionSid, String relationshipSid) {
+    private String getMarketType(String hierarchyDefinitionSid, String relationshipSid) {
 
-		String marketType;
-		String marketValue = StringUtils.EMPTY;
-		if (!relationshipSid.isEmpty() && !Constants.ZEROSTRING.equals(relationshipSid)) {
-			marketValue = getGenerateMarketValue(Integer.valueOf(relationshipSid));
-		}
+        String marketType;
+        String marketValue = StringUtils.EMPTY;
+        if (!relationshipSid.isEmpty() && !Constants.ZEROSTRING.equals(relationshipSid)) {
+            marketValue = getGenerateMarketValue(Integer.valueOf(relationshipSid));
+        }
 
-		String definedValue = getDefinedValue(hierarchyDefinitionSid);
-		if (Constants.USER_DEFINED.equalsIgnoreCase(definedValue)) {
-			marketType = marketValue;
-		} else {
-			marketType = getHelperValue(marketValue);
-		}
+        String definedValue = getDefinedValue(hierarchyDefinitionSid);
+        if (Constants.USER_DEFINED.equalsIgnoreCase(definedValue)) {
+            marketType = marketValue;
+        } else {
+            marketType = getHelperValue(marketValue);
+        }
 
-		return marketType;
-	}
+        return marketType;
+    }
 
-	private String swapForecastingType(final String oldForecastType) {
-		String forecastType = StringUtils.EMPTY;
-		if (oldForecastType.equals(Constants.IndicatorConstants.NON_MANDATED.getConstant())) {
-			forecastType = "Commercial";
-		} else if (oldForecastType.equals(Constants.IndicatorConstants.MANDATED.getConstant())) {
-			forecastType = "Government";
-		}
-		return forecastType;
-	}
+    private String swapForecastingType(final String oldForecastType) {
+        String forecastType = StringUtils.EMPTY;
+        if (oldForecastType.equals(Constants.IndicatorConstants.NON_MANDATED.getConstant())) {
+            forecastType = "Commercial";
+        } else if (oldForecastType.equals(Constants.IndicatorConstants.MANDATED.getConstant())) {
+            forecastType = "Government";
+        }
+        return forecastType;
+    }
 
-	public static List<Object[]> getProjectionIdForPromoteCustomer(String sessionId, String userId) {
-		LOGGER.debug(" Inside getProjectionIdFor Promote Tp Submit ");
-		int projectionId = 0;
-		String query = "select PROJECTION_MASTER_SID,CONTRACT_MASTER_SID  from dbo.GCM_GLOBAL_DETAILS where  \n"
-				+ " USER_ID='" + userId + "' AND SESSION_ID='" + sessionId
-				+ "' and CHECK_RECORD=1 and \"OPERATION\" like 'Promote_TP_Submit' ";
+    public static List<Object[]> getProjectionIdForPromoteCustomer(String sessionId, String userId) {
+        LOGGER.debug(" Inside getProjectionIdFor Promote Tp Submit ");
+        int projectionId = 0;
+        String query = "select PROJECTION_MASTER_SID,CONTRACT_MASTER_SID  from dbo.GCM_GLOBAL_DETAILS where  \n"
+                + " USER_ID='" + userId + "' AND SESSION_ID='" + sessionId
+                + "' and CHECK_RECORD=1 and \"OPERATION\" like 'Promote_TP_Submit' ";
 
 		List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
-		LOGGER.debug(" exiting Promote Tp Submit Projection id =  " + projectionId);
-		return list;
+        LOGGER.debug(" exiting Promote Tp Submit Projection id =  " + projectionId);
+        return list;
 
-	}
+    }
 
-	public String getRelationBuilderType(int oldProjectionId) {
-		String relationType = "";
-		try {
-			List list = new ArrayList<>();
-			list.add(oldProjectionId);
-			List<Object[]> resultList = ItemQueries.getItemData(list, "getBuilderType", null);
-			Object[] obj = resultList != null && !resultList.isEmpty() ? resultList.get(0) : new Object[1];
-			relationType = obj[0] != null ? String.valueOf(obj[0]) : StringUtils.EMPTY;
-			LOGGER.debug("relationType ============================== " + relationType);
-		} catch (Exception e) {
+    public String getRelationBuilderType(int oldProjectionId) {
+        String relationType = "";
+        try {
+            List list = new ArrayList<>();
+            list.add(oldProjectionId);
+            List<Object[]> resultList = ItemQueries.getItemData(list, "getBuilderType", null);
+            Object[] obj = resultList != null && !resultList.isEmpty() ? resultList.get(0) : new Object[1];
+            relationType = obj[0] != null ? String.valueOf(obj[0]) : StringUtils.EMPTY;
+            LOGGER.debug("relationType ============================== " + relationType);
+        } catch (Exception e) {
 			LOGGER.error("",e);
-		}
-		return relationType;
-	}
+        }
+        return relationType;
+    }
 
-	public int getInternalIds(ContractsDetailsDto parent) {
-		String Query = null;
-		if (parent.getCategory().equals("IFP")) {
-			Query = "select IFP_CONTRACT_SID from dbo.IFP_CONTRACT where IFP_MODEL_SID=" + parent.getInternalId() + ";";
-		} else if (parent.getCategory().equals("CFP")) {
-			Query = "select CFP_CONTRACT_SID from dbo.CFP_CONTRACT where CFP_MODEL_SID=" + parent.getInternalId() + ";";
-		} else if (parent.getCategory().equals("PS")) {
-			Query = "select PS_CONTRACT_SID from dbo.PS_CONTRACT where PS_MODEL_SID=" + parent.getInternalId() + ";";
-		} else {
-			Query = "select RS_CONTRACT_SID from dbo.RS_CONTRACT where RS_MODEL_SID=" + parent.getInternalId() + ";";
-		}
-		List<Object> results;
-		results = HelperTableLocalServiceUtil.executeSelectQuery(Query);
-		return Integer.valueOf(String.valueOf(results.get(0)));
-	}
+    public int getInternalIds(ContractsDetailsDto parent) {
+        String Query = null;
+        if (parent.getCategory().equals("IFP")) {
+            Query = "select IFP_CONTRACT_SID from dbo.IFP_CONTRACT where IFP_MODEL_SID=" + parent.getInternalId() + ";";
+        } else if (parent.getCategory().equals("CFP")) {
+            Query = "select CFP_CONTRACT_SID from dbo.CFP_CONTRACT where CFP_MODEL_SID=" + parent.getInternalId() + ";";
+        } else if (parent.getCategory().equals("PS")) {
+            Query = "select PS_CONTRACT_SID from dbo.PS_CONTRACT where PS_MODEL_SID=" + parent.getInternalId() + ";";
+        } else {
+            Query = "select RS_CONTRACT_SID from dbo.RS_CONTRACT where RS_MODEL_SID=" + parent.getInternalId() + ";";
+        }
+        List<Object> results;
+        results = HelperTableLocalServiceUtil.executeSelectQuery(Query);
+        return Integer.valueOf(String.valueOf(results.get(0)));
+    }
 
-	public List<String> copyTempProjection(int oldProjectionId, boolean isDiscountModule, List<String> contractList,
-			List<String> companyList, List<String> rsList, SessionDTO sessionDTO) {
-		List<String> tempList = new ArrayList<>();
+    public List<String> copyTempProjection(int oldProjectionId, boolean isDiscountModule, List<String> contractList,
+            List<String> companyList, List<String> rsList, SessionDTO sessionDTO) {
+        List<String> tempList = new ArrayList<>();
 
-		SessionDTO session = new SessionDTO();
-		session = CommonUtils.attachSessionId(session);
-		String relationShipBuilderSidQuery = "select CUST_RELATIONSHIP_BUILDER_SID, PROD_RELATIONSHIP_BUILDER_SID,FORECASTING_TYPE, CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID = "
-				+ oldProjectionId;
+        SessionDTO session = new SessionDTO();
+        session = CommonUtils.attachSessionId(session);
+        String relationShipBuilderSidQuery = "select CUST_RELATIONSHIP_BUILDER_SID, PROD_RELATIONSHIP_BUILDER_SID,FORECASTING_TYPE, CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID = "
+                + oldProjectionId;
 		Object[] projectionMasterRow = (Object[]) HelperTableLocalServiceUtil
 				.executeSelectQuery(relationShipBuilderSidQuery).get(0);
 
-		LOGGER.debug(" cust Rel Builder Sid " + String.valueOf(projectionMasterRow[0]));
-		LOGGER.debug(" prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
+        LOGGER.debug(" cust Rel Builder Sid " + String.valueOf(projectionMasterRow[0]));
+        LOGGER.debug(" prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
 
-		List<String> relationshipBuilderSids = new ArrayList<>();
-		relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
-		relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
+        List<String> relationshipBuilderSids = new ArrayList<>();
+        relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
+        relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
 
-		int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
+        int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
 
-		LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
-		if (newProjectionId != 0) {
-			cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, true, sessionDTO);
-			LOGGER.debug("String.valueOf(projectionMasterRow[0])" + String.valueOf(projectionMasterRow[0]));
-			LOGGER.debug("relationshipBuilderSids.get(0)" + relationshipBuilderSids.get(0));
+        LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
+        if (newProjectionId != 0) {
+            cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, true, sessionDTO);
+            LOGGER.debug("String.valueOf(projectionMasterRow[0])" + String.valueOf(projectionMasterRow[0]));
+            LOGGER.debug("relationshipBuilderSids.get(0)" + relationshipBuilderSids.get(0));
 
-			if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, sessionDTO)) {
-				String marketType = StringUtils.EMPTY;
-				Object[] inputs = new Object[NumericConstants.FOUR];
-				inputs[0] = newProjectionId;
-				inputs[1] = session.getUserId();
-				inputs[NumericConstants.TWO] = session.getSessionId();
-				boolean flag = false;
-				if (Constants.NON_MANDATED.equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
+            if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, sessionDTO)) {
+                String marketType = StringUtils.EMPTY;
+                Object[] inputs = new Object[NumericConstants.FOUR];
+                inputs[0] = newProjectionId;
+                inputs[1] = session.getUserId();
+                inputs[NumericConstants.TWO] = session.getSessionId();
+                boolean flag = false;
+                if (Constants.NON_MANDATED.equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
 
-					flag = true;
-				} else if (Constants.MANDATED.equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
-					if (!StringUtils.EMPTY.equals(String.valueOf(projectionMasterRow[0]))
-							&& !Constants.ZEROSTRING.equals(String.valueOf(projectionMasterRow[0]))) {
-						marketType = getGenerateMarketValue(Integer.valueOf(String.valueOf(projectionMasterRow[0])));
-					}
+                    flag = true;
+                } else if (Constants.MANDATED.equals(String.valueOf(projectionMasterRow[NumericConstants.TWO]))) {
+                    if (!StringUtils.EMPTY.equals(String.valueOf(projectionMasterRow[0]))
+                            && !Constants.ZEROSTRING.equals(String.valueOf(projectionMasterRow[0]))) {
+                        marketType = getGenerateMarketValue(Integer.valueOf(String.valueOf(projectionMasterRow[0])));
+                    }
 
-					String definedOrUDValue;
-					String definedValue = getDefinedValue(String.valueOf(projectionMasterRow[NumericConstants.THREE]));
-					if (Constants.USER_DEFINED.equalsIgnoreCase(definedValue)) {
-						definedOrUDValue = marketType;
-					} else {
-						definedOrUDValue = getHelperValue(marketType);
-					}
-					if (isDiscountModule) {
-						callTableInsert(inputs, PRC_MANDATED_SALES_INSERT);
-					}
-					Object[] suppInputs = { newProjectionId, session.getUserId(), definedOrUDValue,
-							session.getSessionId() };
-					callDiscountTableInsert(suppInputs, Constants.PRC_M_SUPP_INSERT);
-					callTableInsert(inputs, Constants.PRC_M_SUPP_PROJECTION);
-					Object[] discInputs = { newProjectionId, session.getUserId(), "SPAP", session.getSessionId() };
-					callDiscountTableInsert(discInputs, Constants.PRC_M_DISCOUNT_INSERT);
-					mandatedTempToMainSave(session.getUserId(), session.getSessionId(), newProjectionId);
-					flag = true;
-				}
-				if (flag) {
-					if (isDiscountModule) {
-						updateMainTableRemove(companyList, newProjectionId, contractList,
-								String.valueOf(projectionMasterRow[NumericConstants.TWO]), rsList);
-					}
-					LoadTabLogic loadTabLogic = new LoadTabLogic();
-					loadTabLogic.setForecastingType(newProjectionId);
-					tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
-					tempList.add(loadTabLogic.getProjectionName(newProjectionId));
-					tempList.add(String.valueOf(newProjectionId));
-					tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME
-							+ tempList.get(1) + " ");
-				}
+                    String definedOrUDValue;
+                    String definedValue = getDefinedValue(String.valueOf(projectionMasterRow[NumericConstants.THREE]));
+                    if (Constants.USER_DEFINED.equalsIgnoreCase(definedValue)) {
+                        definedOrUDValue = marketType;
+                    } else {
+                        definedOrUDValue = getHelperValue(marketType);
+                    }
+                    if (isDiscountModule) {
+                        callTableInsert(inputs, PRC_MANDATED_SALES_INSERT);
+                    }
+                    Object[] suppInputs = {newProjectionId, session.getUserId(), definedOrUDValue,
+                        session.getSessionId()};
+                    callDiscountTableInsert(suppInputs, Constants.PRC_M_SUPP_INSERT);
+                    callTableInsert(inputs, Constants.PRC_M_SUPP_PROJECTION);
+                    Object[] discInputs = {newProjectionId, session.getUserId(), "SPAP", session.getSessionId()};
+                    callDiscountTableInsert(discInputs, Constants.PRC_M_DISCOUNT_INSERT);
+                    mandatedTempToMainSave(session.getUserId(), session.getSessionId(), newProjectionId);
+                    flag = true;
+                }
+                if (flag) {
+                    if (isDiscountModule) {
+                        updateMainTableRemove(companyList, newProjectionId, contractList,
+                                String.valueOf(projectionMasterRow[NumericConstants.TWO]), rsList);
+                    }
+                    LoadTabLogic loadTabLogic = new LoadTabLogic();
+                    loadTabLogic.setForecastingType(newProjectionId);
+                    tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
+                    tempList.add(loadTabLogic.getProjectionName(newProjectionId));
+                    tempList.add(String.valueOf(newProjectionId));
+                    tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME
+                            + tempList.get(1) + " ");
+                }
 
-			} else {
-				LOGGER.debug(" Projection details insert failed");
-			}
+            } else {
+                LOGGER.debug(" Projection details insert failed");
+            }
 
-		} else {
-			LOGGER.debug(" Projection cloning error  ");
-		}
-		LOGGER.debug("Ending copyProjection ");
-		return tempList;
-	}
+        } else {
+            LOGGER.debug(" Projection cloning error  ");
+        }
+        LOGGER.debug("Ending copyProjection ");
+        return tempList;
+    }
 
-	public List<Object> cfpDuplicateCheck(ContractsDetailsDto parent, int contractmasterSid) {
-		String Query = null;
-		Query = "select CFP_CONTRACT_SID from dbo.CFP_CONTRACT where CFP_MODEL_SID=" + parent.getInternalId()
-				+ " and CONTRACT_MASTER_SID = " + contractmasterSid + ";";
-		List<Object> results;
-		results = HelperTableLocalServiceUtil.executeSelectQuery(Query);
-		return results;
-	}
+    public List<Object> cfpDuplicateCheck(ContractsDetailsDto parent, int contractmasterSid) {
+        String Query = null;
+        Query = "select CFP_CONTRACT_SID from dbo.CFP_CONTRACT where CFP_MODEL_SID=" + parent.getInternalId()
+                + " and CONTRACT_MASTER_SID = " + contractmasterSid + ";";
+        List<Object> results;
+        results = HelperTableLocalServiceUtil.executeSelectQuery(Query);
+        return results;
+    }
 
-	public static Boolean isButtonVisibleAccess(String id, Map<String, AppPermission> functionHM) {
-		if (functionHM.get(id) != null && !((AppPermission) functionHM.get(id)).isFunctionFlag()) {
-			return false;
-		}
-		return true;
-	}
+    public static Boolean isButtonVisibleAccess(String id, Map<String, AppPermission> functionHM) {
+        if (functionHM.get(id) != null && !((AppPermission) functionHM.get(id)).isFunctionFlag()) {
+            return false;
+        }
+        return true;
+    }
 }

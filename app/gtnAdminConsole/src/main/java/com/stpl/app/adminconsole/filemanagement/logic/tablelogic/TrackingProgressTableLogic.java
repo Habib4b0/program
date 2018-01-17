@@ -19,7 +19,7 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class TrackingProgressTableLogic extends PageTableLogic {
 
-    TrackingProcessDTO resultDTO;
+    private TrackingProcessDTO resultDTO;
     private boolean isResultsEmpty;
 
     @Override

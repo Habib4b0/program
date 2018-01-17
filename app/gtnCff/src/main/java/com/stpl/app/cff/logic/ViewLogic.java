@@ -4,7 +4,6 @@
  */
 package com.stpl.app.cff.logic;
 
-import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
@@ -34,7 +33,7 @@ public class ViewLogic {
     /**
      * The data selection.
      */
-    public static DataSelectionDAO dataSelection = new DataSelectionDAOImpl();
+	private static DataSelectionDAO dataSelection = new DataSelectionDAOImpl();
 
     /**
      * The Constant LOGGER.
@@ -85,8 +84,7 @@ public class ViewLogic {
     public int saveForecastViewMaster(final SaveViewDTO saveViewDTO, final int projectionId) throws PortalException, SystemException {
         LOGGER.debug("Entering saveForecastViewMaster method viewBinder and projectionId='" + projectionId + "' and view id: " + String.valueOf(saveViewDTO.getViewId()));
         String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
-        int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
-        CffViewMaster viewMaster = CffViewMasterLocalServiceUtil.createCffViewMaster(create);
+        CffViewMaster viewMaster = CffViewMasterLocalServiceUtil.createCffViewMaster(0);
         if (saveViewDTO.getViewId() != 0) {
             viewMaster.setCffViewMasterSid(saveViewDTO.getViewId());
         }
@@ -146,8 +144,7 @@ public class ViewLogic {
             objects = (Object[]) result.get(0);
             viewId = Integer.parseInt(String.valueOf(objects[0]));
             String userId = (String) VaadinSession.getCurrent().getAttribute(Constants.USER_ID);
-            int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
-            CffViewMaster viewMaster = CffViewMasterLocalServiceUtil.createCffViewMaster(create);
+            CffViewMaster viewMaster = CffViewMasterLocalServiceUtil.createCffViewMaster(0);
             try {
                 viewMaster = dataSelection.getForecastingViewMaster(viewId);
             } catch (PortalException | SystemException ex) {

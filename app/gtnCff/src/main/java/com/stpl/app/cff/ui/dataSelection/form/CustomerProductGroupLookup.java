@@ -104,7 +104,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
         super(indicator, windowName);
         this.indicator = indicator;
         this.groupLookup = groupLookup;
-        this.itemsOrCompanySids = itemsOrCompanySids;
+        this.itemsOrCompanySids = itemsOrCompanySids == null ? itemsOrCompanySids : new ArrayList<>(itemsOrCompanySids);
         initializeComponents();
         setContent(buildGroupLookup(groupName, groupNo, results, searchBtn, resetBtn, tableLogic));
         configureFields();
@@ -283,11 +283,11 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
     }
 
     public List<String> getFilteredSids() {
-        return filteredSids;
+        return filteredSids == null ? filteredSids : new ArrayList<>(filteredSids);
     }
 
     public void setFilteredSids(List<String> filteredSids) {
-        this.filteredSids = filteredSids;
+        this.filteredSids = filteredSids == null ? filteredSids : new ArrayList<>(filteredSids);
     }
     
     @Override

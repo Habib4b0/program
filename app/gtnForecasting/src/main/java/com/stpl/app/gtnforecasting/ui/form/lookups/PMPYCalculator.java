@@ -333,14 +333,14 @@ public class PMPYCalculator extends Window {
         super(Constant.PMPY_CALCULATOR);
         LOGGER.debug("Entering PMPYCalculator");
         this.historyPeriods = history;
-        this.projectionDetailsId = projectionDetailsId;
+        this.projectionDetailsId = projectionDetailsId == null ? projectionDetailsId : new ArrayList<>(projectionDetailsId);
         this.rightDto = rightHeader;
         this.tradeName = tradeName;
         this.tradeNo = tradeNo;
         this.contHolder = contractHolder;
         this.projectionId = session.getProjectionId();
         this.session = session;
-        this.doubleProjectedColumns = doubleProjectedColumns;
+        this.doubleProjectedColumns = doubleProjectedColumns == null ? doubleProjectedColumns : new ArrayList<>(doubleProjectedColumns);
         configureAttributes();
         init();
         LOGGER.debug("End of PMPYCalculator");

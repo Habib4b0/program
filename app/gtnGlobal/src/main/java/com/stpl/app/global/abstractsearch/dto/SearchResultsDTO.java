@@ -882,51 +882,51 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getItemMasterStartDate() {
-        return itemMasterStartDate;
+        return itemMasterStartDate == null ? null : (Date) itemMasterStartDate.clone();
     }
 
     public void setItemMasterStartDate(Date itemMasterStartDate) {
-        this.itemMasterStartDate = itemMasterStartDate;
+        this.itemMasterStartDate = itemMasterStartDate == null ? null : (Date) itemMasterStartDate.clone();
     }
 
     public Date getItemMasterEndDate() {
-        return itemMasterEndDate;
+        return itemMasterEndDate == null ? null : (Date) itemMasterEndDate.clone();
     }
 
     public void setItemMasterEndDate(Date itemMasterEndDate) {
-        this.itemMasterEndDate = itemMasterEndDate;
+        this.itemMasterEndDate = itemMasterEndDate == null ? null : (Date) itemMasterEndDate.clone();
     }
 
     public Date getPediatricExcStartDate() {
-        return pediatricExcStartDate;
+        return pediatricExcStartDate == null ? null : (Date) pediatricExcStartDate.clone();
     }
 
     public void setPediatricExcStartDate(Date pediatricExcStartDate) {
-        this.pediatricExcStartDate = pediatricExcStartDate;
+        this.pediatricExcStartDate = pediatricExcStartDate == null ? null : (Date) pediatricExcStartDate.clone();
     }
 
     public Date getPediatricExcEndDate() {
-        return pediatricExcEndDate;
+        return pediatricExcEndDate == null ? null : (Date) pediatricExcEndDate.clone();
     }
 
     public void setPediatricExcEndDate(Date pediatricExcEndDate) {
-        this.pediatricExcEndDate = pediatricExcEndDate;
+        this.pediatricExcEndDate = pediatricExcEndDate == null ? null : (Date) pediatricExcEndDate.clone();
     }
 
     public Date getClottingFactStartDate() {
-        return clottingFactStartDate;
+        return clottingFactStartDate == null ? null : (Date) clottingFactStartDate.clone();
     }
 
     public void setClottingFactStartDate(Date clottingFactStartDate) {
-        this.clottingFactStartDate = clottingFactStartDate;
+        this.clottingFactStartDate = clottingFactStartDate == null ? null : (Date) clottingFactStartDate.clone();
     }
 
     public Date getClottingFactEndDate() {
-        return clottingFactEndDate;
+        return clottingFactEndDate == null ? null : (Date) clottingFactEndDate.clone();
     }
 
     public void setClottingFactEndDate(Date clottingFactEndDate) {
-        this.clottingFactEndDate = clottingFactEndDate;
+        this.clottingFactEndDate = clottingFactEndDate == null ? null : (Date) clottingFactEndDate.clone();
     }
 
     public HelperDTO getNdc9() {
@@ -1090,19 +1090,19 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getTradeStartDate() {
-        return tradeStartDate;
+        return tradeStartDate == null ? null : (Date) tradeStartDate.clone();
     }
 
     public void setTradeStartDate(Date tradeStartDate) {
-        this.tradeStartDate = tradeStartDate;
+        this.tradeStartDate = tradeStartDate == null ? null : (Date) tradeStartDate.clone();
     }
 
     public Date getTradeEndDate() {
-        return tradeEndDate;
+        return tradeEndDate == null ? null : (Date) tradeEndDate.clone();
     }
 
     public void setTradeEndDate(Date tradeEndDate) {
-        this.tradeEndDate = tradeEndDate;
+        this.tradeEndDate = tradeEndDate == null ? null : (Date) tradeEndDate.clone();
     }
 
     public String getLives() {
@@ -1155,19 +1155,19 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getParentSDate() {
-        return parentSDate;
+        return parentSDate == null ? null : (Date) parentSDate.clone();
     }
 
     public void setParentSDate(Date parentSDate) {
-        this.parentSDate = parentSDate;
+        this.parentSDate = parentSDate == null ? null : (Date) parentSDate.clone();
     }
 
     public Date getParentEDate() {
-        return parentEDate;
+        return parentEDate == null ? null : (Date) parentEDate.clone();
     }
 
     public void setParentEDate(Date parentEDate) {
-        this.parentEDate = parentEDate;
+        this.parentEDate = parentEDate == null ? null : (Date) parentEDate.clone();
     }
 
     public String getPriorParentCompanyNo() {
@@ -1179,11 +1179,11 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getPriorParentSDate() {
-        return priorParentSDate;
+        return priorParentSDate == null ? null : (Date) priorParentSDate.clone();
     }
 
     public void setPriorParentSDate(Date priorParentSDate) {
-        this.priorParentSDate = priorParentSDate;
+        this.priorParentSDate = priorParentSDate == null ? null : (Date) priorParentSDate.clone();
     }
 
     public String getRegionCode() {
@@ -1347,59 +1347,59 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getComStartDate() {
-        return comStartDate;
+        return comStartDate == null ? null : (Date) comStartDate.clone();
     }
 
     public void setComStartDate(Date comStartDate) {
-        this.comStartDate = comStartDate;
+        this.comStartDate = comStartDate == null ? null : (Date) comStartDate.clone();
     }
 
     public Date getComEndDate() {
-        return comEndDate;
+        return comEndDate == null ? null : (Date) comEndDate.clone();
     }
 
     public void setComEndDate(Date comEndDate) {
-        this.comEndDate = comEndDate;
+        this.comEndDate = comEndDate == null ? null : (Date) comEndDate.clone();
     }
 
     public Date getComTradeStartDate() {
-        return comTradeStartDate;
+        return comTradeStartDate == null ? null : (Date) comTradeStartDate.clone();
     }
 
     public void setComTradeStartDate(Date comTradeStartDate) {
-        this.comTradeStartDate = comTradeStartDate;
+        this.comTradeStartDate = comTradeStartDate == null ? null : (Date) comTradeStartDate.clone();
     }
 
     public Date getComTradeEndDate() {
-        return comTradeEndDate;
+        return comTradeEndDate == null ? null : (Date) comTradeEndDate.clone();
     }
 
     public void setComTradeEndDate(Date comTradeEndDate) {
-        this.comTradeEndDate = comTradeEndDate;
+        this.comTradeEndDate = comTradeEndDate == null ? null : (Date) comTradeEndDate.clone();
     }
 
     public Date getComParentStartDate() {
-        return comParentStartDate;
+        return comParentStartDate == null ? null : (Date) comParentStartDate.clone();
     }
 
     public void setComParentStartDate(Date comParentStartDate) {
-        this.comParentStartDate = comParentStartDate;
+        this.comParentStartDate = comParentStartDate == null ? null : (Date) comParentStartDate.clone();
     }
 
     public Date getComParentEndDate() {
-        return comParentEndDate;
+        return comParentEndDate == null ? null : (Date) comParentEndDate.clone();
     }
 
     public void setComParentEndDate(Date comParentEndDate) {
-        this.comParentEndDate = comParentEndDate;
+        this.comParentEndDate = comParentEndDate == null ? null : (Date) comParentEndDate.clone();
     }
 
     public Date getPriorParentStartDate() {
-        return priorParentStartDate;
+        return priorParentStartDate == null ? null : (Date) priorParentStartDate.clone();
     }
 
     public void setPriorParentStartDate(Date priorParentStartDate) {
-        this.priorParentStartDate = priorParentStartDate;
+        this.priorParentStartDate = priorParentStartDate == null ? null : (Date) priorParentStartDate.clone();
     }
 
     public String getPrntEndDate() {
@@ -1475,19 +1475,19 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getCompanyFamilyPlanStartDate() {
-        return companyFamilyPlanStartDate;
+        return companyFamilyPlanStartDate == null ? null : (Date) companyFamilyPlanStartDate.clone();
     }
 
     public void setCompanyFamilyPlanStartDate(Date companyFamilyPlanStartDate) {
-        this.companyFamilyPlanStartDate = companyFamilyPlanStartDate;
+        this.companyFamilyPlanStartDate = companyFamilyPlanStartDate == null ? null : (Date) companyFamilyPlanStartDate.clone();
     }
 
     public Date getCompanyFamilyPlanEndDate() {
-        return companyFamilyPlanEndDate;
+        return companyFamilyPlanEndDate == null ? null : (Date) companyFamilyPlanEndDate.clone();
     }
 
     public void setCompanyFamilyPlanEndDate(Date companyFamilyPlanEndDate) {
-        this.companyFamilyPlanEndDate = companyFamilyPlanEndDate;
+        this.companyFamilyPlanEndDate = companyFamilyPlanEndDate == null ? null : (Date) companyFamilyPlanEndDate.clone();
     }
 
     public String getParentCompanyFamilyPlanId() {
@@ -1523,11 +1523,11 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getCfpmodifiedDate() {
-        return cfpmodifiedDate;
+        return cfpmodifiedDate == null ? null : (Date) cfpmodifiedDate.clone();
     }
 
     public void setCfpmodifiedDate(Date cfpmodifiedDate) {
-        this.cfpmodifiedDate = cfpmodifiedDate;
+        this.cfpmodifiedDate = cfpmodifiedDate == null ? null : (Date) cfpmodifiedDate.clone();
     }
 
     public String getCfpmodifiedBy() {
@@ -1547,11 +1547,11 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getCfpcreatedDate() {
-        return cfpcreatedDate;
+        return cfpcreatedDate == null ? null : (Date) cfpcreatedDate.clone();
     }
 
     public void setCfpcreatedDate(Date cfpcreatedDate) {
-        this.cfpcreatedDate = cfpcreatedDate;
+        this.cfpcreatedDate = cfpcreatedDate == null ? null : (Date) cfpcreatedDate.clone();
     }
 
    public String getItemFamilyplanSystemId() {
@@ -1611,19 +1611,19 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getItemFamilyplanStartDate() {
-        return itemFamilyplanStartDate;
+        return itemFamilyplanStartDate == null ? null : (Date) itemFamilyplanStartDate.clone();
     }
 
     public void setItemFamilyplanStartDate(Date itemFamilyplanStartDate) {
-        this.itemFamilyplanStartDate = itemFamilyplanStartDate;
+        this.itemFamilyplanStartDate = itemFamilyplanStartDate == null ? null : (Date) itemFamilyplanStartDate.clone();
     }
 
     public Date getItemFamilyplanEndDate() {
-        return itemFamilyplanEndDate;
+        return itemFamilyplanEndDate == null ? null : (Date) itemFamilyplanEndDate.clone();
     }
 
     public void setItemFamilyplanEndDate(Date itemFamilyplanEndDate) {
-        this.itemFamilyplanEndDate = itemFamilyplanEndDate;
+        this.itemFamilyplanEndDate = itemFamilyplanEndDate == null ? null : (Date) itemFamilyplanEndDate.clone();
     }
 
     public String getTotalMarketshareCommitment() {
@@ -1691,11 +1691,11 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getIfpcreatedDate() {
-        return ifpcreatedDate;
+        return ifpcreatedDate == null ? null : (Date) ifpcreatedDate.clone();
     }
 
     public void setIfpcreatedDate(Date ifpcreatedDate) {
-        this.ifpcreatedDate = ifpcreatedDate;
+        this.ifpcreatedDate = ifpcreatedDate == null ? null : (Date) ifpcreatedDate.clone();
     }
 
     public String getIfpStartDate() {
@@ -1787,19 +1787,19 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getPriceScheduleStartDate() {
-        return priceScheduleStartDate;
+        return priceScheduleStartDate == null ? null : (Date) priceScheduleStartDate.clone();
     }
 
     public void setPriceScheduleStartDate(Date priceScheduleStartDate) {
-        this.priceScheduleStartDate = priceScheduleStartDate;
+        this.priceScheduleStartDate = priceScheduleStartDate == null ? null : (Date) priceScheduleStartDate.clone();
     }
 
     public Date getPriceScheduleEndDate() {
-        return priceScheduleEndDate;
+        return priceScheduleEndDate == null ? null : (Date) priceScheduleEndDate.clone();
     }
 
     public void setPriceScheduleEndDate(Date priceScheduleEndDate) {
-        this.priceScheduleEndDate = priceScheduleEndDate;
+        this.priceScheduleEndDate = priceScheduleEndDate == null ? null : (Date) priceScheduleEndDate.clone();
     }
 
     public String getPriceScheduleDesignation() {
@@ -2188,11 +2188,11 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getNsfcreatedDate() {
-        return nsfcreatedDate;
+        return nsfcreatedDate == null ? null : (Date) nsfcreatedDate.clone();
     }
 
     public void setNsfcreatedDate(Date nsfcreatedDate) {
-        this.nsfcreatedDate = nsfcreatedDate;
+        this.nsfcreatedDate = nsfcreatedDate == null ? null : (Date) nsfcreatedDate.clone();
     }
 
     public String getNsfcreatedBy() {
@@ -2204,11 +2204,11 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getNsfmodifiedDate() {
-        return nsfmodifiedDate;
+        return nsfmodifiedDate == null ? null : (Date) nsfmodifiedDate.clone();
     }
 
     public void setNsfmodifiedDate(Date nsfmodifiedDate) {
-        this.nsfmodifiedDate = nsfmodifiedDate;
+        this.nsfmodifiedDate = nsfmodifiedDate == null ? null : (Date) nsfmodifiedDate.clone();
     }
 
     public String getNsfmodifiedBy() {
@@ -2260,19 +2260,19 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getDcCreationDate() {
-        return dcCreationDate;
+        return dcCreationDate == null ? null : (Date) dcCreationDate.clone();
     }
 
     public void setDcCreationDate(Date dcCreationDate) {
-        this.dcCreationDate = dcCreationDate;
+        this.dcCreationDate = dcCreationDate == null ? null : (Date) dcCreationDate.clone();
     }
 
     public Date getDcModifiedDate() {
-        return dcModifiedDate;
+        return dcModifiedDate == null ? null : (Date) dcModifiedDate.clone();
     }
 
     public void setDcModifiedDate(Date dcModifiedDate) {
-        this.dcModifiedDate = dcModifiedDate;
+        this.dcModifiedDate = dcModifiedDate == null ? null : (Date) dcModifiedDate.clone();
     }
 
     public String getDcModifiedBy() {
@@ -2316,19 +2316,19 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getCdrCreatedDate() {
-        return cdrCreatedDate;
+        return cdrCreatedDate == null ? null : (Date) cdrCreatedDate.clone();
     }
 
     public void setCdrCreatedDate(Date cdrCreatedDate) {
-        this.cdrCreatedDate = cdrCreatedDate;
+        this.cdrCreatedDate = cdrCreatedDate == null ? null : (Date) cdrCreatedDate.clone();
     }
 
     public Date getCdrModifiedDate() {
-        return cdrModifiedDate;
+        return cdrModifiedDate == null ? null : (Date) cdrModifiedDate.clone();
     }
 
     public void setCdrModifiedDate(Date cdrModifiedDate) {
-        this.cdrModifiedDate = cdrModifiedDate;
+        this.cdrModifiedDate = cdrModifiedDate == null ? null : (Date) cdrModifiedDate.clone();
     }
    
     public String getNsfcreateDate() {
@@ -2372,19 +2372,19 @@ public class SearchResultsDTO implements Serializable {
     }
 
     public Date getRpCreatedDate() {
-        return rpCreatedDate;
+        return rpCreatedDate == null ? null : (Date) rpCreatedDate.clone();
     }
 
     public void setRpCreatedDate(Date rpCreatedDate) {
-        this.rpCreatedDate = rpCreatedDate;
+        this.rpCreatedDate = rpCreatedDate == null ? null : (Date) rpCreatedDate.clone();
     }
 
     public Date getRpModifiedDate() {
-        return rpModifiedDate;
+        return rpModifiedDate == null ? null : (Date) rpModifiedDate.clone();
     }
 
     public void setRpModifiedDate(Date rpModifiedDate) {
-        this.rpModifiedDate = rpModifiedDate;
+        this.rpModifiedDate = rpModifiedDate == null ? null : (Date) rpModifiedDate.clone();
     }
 
     public String getRpCreationDate() {

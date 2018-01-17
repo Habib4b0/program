@@ -10,12 +10,12 @@ import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractContractSearchDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractComponentInfo;
-import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.util.Constants;
 import com.vaadin.v7.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.ui.VerticalLayout;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +34,7 @@ public class RemoveContractSelection extends CustomComponent {
     public RemoveContractSelection(SelectionDTO selection, List selectedItemList) {
         try {
             this.selection = selection;
-            this.selectedItemList = selectedItemList;
+            this.selectedItemList = selectedItemList == null ? selectedItemList : new ArrayList<>(selectedItemList);
         } catch (Exception e) {
             LOGGER.error("",e);
         }

@@ -409,9 +409,9 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 		return nodelist;
 	}
 
-	public void loadTreeFromTreeNode(Tree tree, List<GtnWsRecordBean> nodes) {
+	public void loadTreeFromTreeNode(Tree tree, List<GtnWsRecordBean> nodes, GtnWsRecordBean parentNode) {
 		Container.Hierarchical container = (Container.Hierarchical) tree.getContainerDataSource();
-		loadTreeFromTreeNode(nodes, null, container);
+		loadTreeFromTreeNode(nodes, parentNode, container);
 		Collection<?> roots = container.rootItemIds();
 		Iterator<?> itr = roots.iterator();
 		while (itr.hasNext()) {
