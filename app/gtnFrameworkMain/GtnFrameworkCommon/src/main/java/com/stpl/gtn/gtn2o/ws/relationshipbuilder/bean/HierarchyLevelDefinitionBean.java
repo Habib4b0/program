@@ -271,4 +271,16 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 		return null;
 	}
 
+	public static int countLinkedLevelsAboveSelectedLevelNo(List<HierarchyLevelDefinitionBean> hierarchyList,
+			int selectedLevelNo) {
+		int count = 0;
+		for (int i = selectedLevelNo; i > 0 && i < hierarchyList.size(); i--) {
+			HierarchyLevelDefinitionBean currentBean = getBeanByLevelNo(i, hierarchyList);
+			if (currentBean != null && !currentBean.isUserDefined()) {
+				count++;
+			}
+		}
+		return count;
+	}
+
 }

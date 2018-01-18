@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
 
 /**
  *
@@ -255,11 +256,11 @@ public class ProjectionSelectionDTO {
     private Object conversionFactor = null;
     
     public List<String> getdPVariablesList() {
-        return dPVariablesList;
+        return dPVariablesList == null ? dPVariablesList : new ArrayList<>(dPVariablesList);
     }
 
     public void setdPVariablesList(List<String> dPVariablesList) {
-        this.dPVariablesList = dPVariablesList;
+        this.dPVariablesList = dPVariablesList == null ? dPVariablesList : new ArrayList<>(dPVariablesList);
     }
     private int ccpCount;
 
@@ -304,19 +305,19 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getProjectionDetailIdList() {
-        return projectionDetailIdList;
+        return projectionDetailIdList == null ? projectionDetailIdList : Collections.unmodifiableList(projectionDetailIdList);
     }
 
     public void setProjectionDetailIdList(List<String> projectionDetailIdList) {
-        this.projectionDetailIdList = projectionDetailIdList;
+        this.projectionDetailIdList = projectionDetailIdList == null ? projectionDetailIdList : Collections.unmodifiableList(projectionDetailIdList);
     }
 
     public List<String> getParentProjectionDetailIdList() {
-        return parentProjectionDetailIdList;
+        return parentProjectionDetailIdList == null ? parentProjectionDetailIdList : Collections.unmodifiableList(parentProjectionDetailIdList);
     }
 
     public void setParentProjectionDetailIdList(List<String> parentProjectionDetailIdList) {
-        this.parentProjectionDetailIdList = parentProjectionDetailIdList;
+        this.parentProjectionDetailIdList = parentProjectionDetailIdList == null ? parentProjectionDetailIdList : Collections.unmodifiableList(parentProjectionDetailIdList);
     }
 
     public Integer getSystemID() {
@@ -376,11 +377,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<Object> getSupplementalList() {
-        return supplementalList;
+        return supplementalList == null ? supplementalList : Collections.unmodifiableList(supplementalList);
     }
 
     public void setSupplementalList(List<Object> supplementalList) {
-        this.supplementalList = supplementalList;
+        this.supplementalList = supplementalList == null ? supplementalList : Collections.unmodifiableList(supplementalList);
     }
 
     public Integer getCcpDetailsSID() {
@@ -408,27 +409,27 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getVariableList() {
-        return variableList;
+        return variableList == null ? variableList : Collections.unmodifiableList(variableList);
     }
 
     public void setVariableList(List<String> variableList) {
-        this.variableList = variableList;
+        this.variableList = variableList == null ? variableList : Collections.unmodifiableList(variableList);
     }
 
     public Date getProjectionEndDate() {
-        return projectionEndDate;
+        return projectionEndDate == null ? null : (Date) projectionEndDate.clone();
     }
 
     public void setProjectionEndDate(Date projectionEndDate) {
-        this.projectionEndDate = projectionEndDate;
+        this.projectionEndDate = projectionEndDate == null ? null : (Date) projectionEndDate.clone();
     }
 
     public Date getForecastEndDate() {
-        return forecastEndDate;
+        return forecastEndDate == null ? null : (Date) forecastEndDate.clone();
     }
 
     public void setForecastEndDate(Date forecastEndDate) {
-        this.forecastEndDate = forecastEndDate;
+        this.forecastEndDate = forecastEndDate == null ? null : (Date) forecastEndDate.clone();
     }
 
     public Integer getForecastEndYear() {
@@ -488,11 +489,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getHirarechyNo() {
-        return hirarechyNo;
+        return hirarechyNo == null ? hirarechyNo : Collections.unmodifiableList(hirarechyNo);
     }
 
     public void setHirarechyNo(List<String> hirarechyNo) {
-        this.hirarechyNo = hirarechyNo;
+        this.hirarechyNo = hirarechyNo == null ? hirarechyNo : Collections.unmodifiableList(hirarechyNo);
     }
 
     public boolean isExcelExport() {
@@ -544,11 +545,11 @@ public class ProjectionSelectionDTO {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null: (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null: (Date) startDate.clone();
     }
 
     public int getProjectionId() {
@@ -776,11 +777,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<List<String>> getDiscountList() {
-        return discountList;
+        return discountList == null ? discountList : Collections.unmodifiableList(discountList);
     }
 
     public void setDiscountList(List<List<String>> discountList) {
-        this.discountList = discountList;
+        this.discountList = discountList == null ? discountList : Collections.unmodifiableList(discountList);
     }
 
     public String getView() {
@@ -864,19 +865,19 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getLevelValueList() {
-        return levelValueList;
+        return levelValueList == null ? levelValueList: Collections.unmodifiableList(levelValueList);
     }
 
     public void setLevelValueList(List<String> levelValueList) {
-        this.levelValueList = levelValueList;
+        this.levelValueList = levelValueList == null ? levelValueList: Collections.unmodifiableList(levelValueList);
     }
 
     public List<String> getParentNodeList() {
-        return parentNodeList;
+        return parentNodeList == null ? parentNodeList: Collections.unmodifiableList(parentNodeList); 
     }
 
     public void setParentNodeList(List<String> parentNodeList) {
-        this.parentNodeList = parentNodeList;
+        this.parentNodeList = parentNodeList == null ? parentNodeList: Collections.unmodifiableList(parentNodeList);
     }
 
     public List<String> getDiscountNameList() {
@@ -889,18 +890,18 @@ public class ProjectionSelectionDTO {
 
     public List<String> getDiscountNoList() {
         List<String> discountNos = new ArrayList<>();
-        if (discountList != null && discountList.size() > 0) {
+        if (discountList != null && !discountList.isEmpty()) {
             discountNos = discountList.get(0);
         }
         return discountNos;
     }
 
     public List<String> getColumns() {
-        return columns;
+        return columns == null ? columns : Collections.unmodifiableList(columns);
     }
 
     public void setColumns(List<String> columns) {
-        this.columns = columns;
+        this.columns = columns == null ? columns : Collections.unmodifiableList(columns);
     }
 
     public boolean hasColumn(String column) {
@@ -911,11 +912,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getPeriodList() {
-        return periodList;
+        return periodList == null ? periodList : Collections.unmodifiableList(periodList);
     }
 
     public void setPeriodList(List<String> periodList) {
-        this.periodList = periodList;
+        this.periodList = periodList == null ? periodList : Collections.unmodifiableList(periodList);
     }
 
     public boolean hasPeriod(String period) {
@@ -934,11 +935,11 @@ public class ProjectionSelectionDTO {
     }
 
     public void setDiscountProgramsList(List<String> discountProgramsList) {
-        this.discountProgramsList = discountProgramsList;
+        this.discountProgramsList = discountProgramsList == null ? discountProgramsList : Collections.unmodifiableList(discountProgramsList);
     }
 
     public List<String> getDiscountProgramsList() {
-        return discountProgramsList;
+        return discountProgramsList == null ? discountProgramsList : Collections.unmodifiableList(discountProgramsList);
     }
 
     public boolean isPpa() {
@@ -1254,7 +1255,7 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getNonFetchableIndex() {
-        return nonFetchableIndex;
+        return nonFetchableIndex == null ? nonFetchableIndex : new ArrayList<>(nonFetchableIndex);
     }
 
     public void clearNonFetchableIndex() {
@@ -1263,7 +1264,7 @@ public class ProjectionSelectionDTO {
 
     public void setNonFetchableIndex(List<String> nonFetchableIndex) {
         Collections.sort(nonFetchableIndex);
-        this.nonFetchableIndex = nonFetchableIndex;
+        this.nonFetchableIndex = nonFetchableIndex == null ? nonFetchableIndex : new ArrayList<>(nonFetchableIndex);
     }
 
     public boolean hasNonFetchableIndex(String index) {
@@ -1466,19 +1467,19 @@ public class ProjectionSelectionDTO {
     }
 
     public String[] getExpandLevelValueArray() {
-        return expandLevelValueArray;
+        return expandLevelValueArray == null ? expandLevelValueArray : expandLevelValueArray.clone();
     }
 
     public void setExpandLevelValueArray(String[] expandLevelValueArray) {
-        this.expandLevelValueArray = expandLevelValueArray;
+        this.expandLevelValueArray = expandLevelValueArray == null ? expandLevelValueArray : expandLevelValueArray.clone();
     }
 
     public String[] getExpandLevelCaptionArray() {
-        return expandLevelCaptionArray;
+        return expandLevelCaptionArray == null ? expandLevelCaptionArray : expandLevelCaptionArray.clone();
     }
 
     public void setExpandLevelCaptionArray(String[] expandLevelCaptionArray) {
-        this.expandLevelCaptionArray = expandLevelCaptionArray;
+        this.expandLevelCaptionArray = expandLevelCaptionArray == null ? expandLevelCaptionArray : expandLevelCaptionArray.clone();
     }
 
     public int getLevelExpColLevelNo() {
@@ -1594,19 +1595,19 @@ public class ProjectionSelectionDTO {
     }
 
     public List getProjectedList() {
-        return projectedList;
+        return projectedList == null ? projectedList : Collections.unmodifiableList(projectedList);
     }
 
     public void setProjectedList(List projectedList) {
-        this.projectedList = projectedList;
+        this.projectedList = projectedList == null ? projectedList : Collections.unmodifiableList(projectedList);
     }
 
     public Date getToDates() {
-        return toDates;
+        return toDates == null ? null : (Date) toDates.clone();
     }
 
     public void setToDates(Date toDates) {
-        this.toDates = toDates;
+        this.toDates = toDates == null ? null : (Date) toDates.clone();
     }
 
     public String getMandatedOrSupp() {
@@ -1674,11 +1675,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<DiscountProjectionResultsDTO> getDprDTOList() {
-        return dprDTOList;
+        return dprDTOList == null ? dprDTOList : Collections.unmodifiableList(dprDTOList);
     }
 
     public void setDprDTOList(List<DiscountProjectionResultsDTO> dprDTOList) {
-        this.dprDTOList = dprDTOList;
+        this.dprDTOList = dprDTOList == null ? dprDTOList : Collections.unmodifiableList(dprDTOList);
     }
 
     public String getMarketTypeValue() {
@@ -1922,11 +1923,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<Date> getStartAndEndDate() {
-        return startAndEndDate;
+        return startAndEndDate == null ? startAndEndDate : Collections.unmodifiableList(startAndEndDate);
     }
 
     public void setStartAndEndDate(List<Date> startAndEndDate) {
-        this.startAndEndDate = startAndEndDate;
+        this.startAndEndDate = startAndEndDate == null ? startAndEndDate : Collections.unmodifiableList(startAndEndDate);
     }
 
     public String getStartDateValue() {
@@ -2002,19 +2003,19 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getPpaSelectedVariables() {
-        return ppaSelectedVariables;
+        return ppaSelectedVariables == null ? ppaSelectedVariables : new ArrayList<>(ppaSelectedVariables);
     }
 
     public void setPpaSelectedVariables(List<String> ppaSelectedVariables) {
-        this.ppaSelectedVariables = ppaSelectedVariables;
+        this.ppaSelectedVariables = ppaSelectedVariables == null ? ppaSelectedVariables : new ArrayList<>(ppaSelectedVariables);
     }
 
     public List<Object> getRightHeaderDoubleColumns() {
-        return rightHeaderDoubleColumns;
+        return rightHeaderDoubleColumns == null ? rightHeaderDoubleColumns : Collections.unmodifiableList(rightHeaderDoubleColumns);
     }
 
     public void setRightHeaderDoubleColumns(List<Object> rightHeaderDoubleColumns) {
-        this.rightHeaderDoubleColumns = rightHeaderDoubleColumns;
+        this.rightHeaderDoubleColumns = rightHeaderDoubleColumns == null ? rightHeaderDoubleColumns : Collections.unmodifiableList(rightHeaderDoubleColumns);
     }
 
     public String getReHierarchyNo() {
@@ -2042,11 +2043,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getDiscountNameCFF() {
-        return discountNameCFF;
+        return discountNameCFF == null ? discountNameCFF: Collections.unmodifiableList(discountNameCFF);
     }
 
     public void setDiscountNameCFF(List<String> discountNameCFF) {
-        this.discountNameCFF = discountNameCFF;
+        this.discountNameCFF = discountNameCFF == null ? discountNameCFF: Collections.unmodifiableList(discountNameCFF);
     }
     
     public Map<String, String> getPivotHeaderMap() {
@@ -2058,11 +2059,11 @@ public class ProjectionSelectionDTO {
     }
     
     public List<String> getPivotList() {
-        return pivotList;
+        return pivotList == null ? pivotList : Collections.unmodifiableList(pivotList);
     }
 
     public void setPivotList(List<String> pivotList) {
-        this.pivotList = pivotList;
+        this.pivotList = pivotList == null ? pivotList : Collections.unmodifiableList(pivotList);
     }
 
     public Map<Integer, List> getHeaderMapForExcel() {
@@ -2098,13 +2099,13 @@ public class ProjectionSelectionDTO {
     }
     
     public Object[] getDisplayFormat() {
-        return displayFormat;
+        return displayFormat == null ? displayFormat : displayFormat.clone();
     }
 
-    public void setDisplayFormat(Object[] displayFormat) {
-        this.displayFormat = new Object[displayFormat.length];
-        this.displayFormat = displayFormat;
-    }
+	public void setDisplayFormat(Object[] displayFormat) {
+		this.displayFormat = new Object[displayFormat.length];
+		this.displayFormat = displayFormat;
+	}
       public Object getConversionFactor() {
         return conversionFactor;
     }

@@ -51,7 +51,7 @@ public class AbstractAllItemLookup extends CustomWindow {
 
     public AbstractAllItemLookup(List<ItemIndexDto> selectedItemList) {
         super("All Items Lookup");
-        this.selecteditemList = selectedItemList;
+        this.selecteditemList = selectedItemList == null ? selectedItemList : new ArrayList<>(selectedItemList);
         setContent(panel);
         setClosable(Boolean.FALSE);
         setResizable(Boolean.FALSE);

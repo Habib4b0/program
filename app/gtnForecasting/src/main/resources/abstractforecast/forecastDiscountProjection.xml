@@ -158,7 +158,7 @@
 
                                 </HorizontalLayout>               
                             </HorizontalLayout>               
-                        </GridLayout>
+                                </GridLayout>               
                     </VerticalLayout>
                 </Panel>
                 <!--<a:FreezeFilterTreeTable styleName="table-header-normal" id="resultsTable" height="400px" pageLength="8" immediate="true" />--> 

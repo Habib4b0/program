@@ -266,7 +266,7 @@ public class MPmpyCalculator extends Window {
         center();
         setModal(true);
         this.sessionDTO = sessionDTO;
-        this.projectedPeriodList = projectedPeriodList;        
+        this.projectedPeriodList = projectedPeriodList == null ? projectedPeriodList : new ArrayList<>(projectedPeriodList);        
         init();
         LOGGER.debug("PmpyCalculator Constructor ends ");
     }

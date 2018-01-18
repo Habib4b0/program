@@ -41,6 +41,8 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
  */
 public class GtnFrameworkPSPricingTabConfig {
 
+	private static final String PS_PRICING_TAB_TAB_MASS_FEILDLAYOUT = "psPricingTabTabMassFeildlayout";
+	private static final String PS_PRICING_TAB_MASS_TEXT_FIELDLAYOUT = "PSPricingTabMassTextFieldlayout";
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
 
 	public void addPriceSchedulePricingTab(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -136,18 +138,24 @@ public class GtnFrameworkPSPricingTabConfig {
 
 	private void addPsPricingMassFields(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig psPricingMassFieldLayout = configProvider.getHorizontalLayoutConfig(
-				"psPricingTabTabMassFeildlayout", true,
+				PS_PRICING_TAB_TAB_MASS_FEILDLAYOUT, true,
 				GtnFrameworkCommonConstants.PS_PRICING_TAB_MASS_UPDATE_PANEL_LAYOUT);
 		psPricingMassFieldLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10);
 		componentList.add(psPricingMassFieldLayout);
 
 		GtnUIFrameworkComponentConfig psPricingMassFields = configProvider.getUIFrameworkComponentConfig(
-				"psPricingTabTabMassField", true, "psPricingTabTabMassFeildlayout",
+				"psPricingTabTabMassField", true, PS_PRICING_TAB_TAB_MASS_FEILDLAYOUT,
 				GtnUIFrameworkComponentType.COMBOBOX);
-		psPricingMassFields.setComponentName(" ");
+		GtnUIFrameworkComponentConfig psPricingMassTextFieldLoading = configProvider.getUIFrameworkComponentConfig(
+				"psPricingTabTabmassTextFieldLoading", true, PS_PRICING_TAB_TAB_MASS_FEILDLAYOUT,
+				GtnUIFrameworkComponentType.TEXTBOX);
+		psPricingMassFields.setComponentName("Field  ");
+		psPricingMassTextFieldLoading.setComponentName(GtnFrameworkCommonConstants.VALUE);
 		psPricingMassFields.setEnable(false);
+		psPricingMassTextFieldLoading.setEnable(false);
 		componentList.add(psPricingMassFields);
-
+		componentList.add(psPricingMassTextFieldLoading);
+		
 		GtnUIFrameworkComboBoxConfig psPricingMassFieldsConfig = new GtnUIFrameworkComboBoxConfig();
 		psPricingMassFieldsConfig.setItemValues(
 				Arrays.asList("Status", "Price", "CP Start Date", "CP End Date", "Price Type", "Suggested Price"));
@@ -237,14 +245,14 @@ public class GtnFrameworkPSPricingTabConfig {
 
 	private void addPsPricingMassTextField(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig psPricingMassTextFieldLayout = configProvider.getHorizontalLayoutConfig(
-				"PSPricingTabMassTextFieldlayout", true,
+				PS_PRICING_TAB_MASS_TEXT_FIELDLAYOUT, true,
 				GtnFrameworkCommonConstants.PS_PRICING_TAB_MASS_UPDATE_PANEL_LAYOUT);
 		psPricingMassTextFieldLayout.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.STPL_MARGIN_TOP_34,
 				GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_1));
 		componentList.add(psPricingMassTextFieldLayout);
 
 		GtnUIFrameworkComponentConfig psPricingMassTextField = configProvider.getUIFrameworkComponentConfig(
-				"psPricingTabTabmassTextField", true, "PSPricingTabMassTextFieldlayout",
+				"psPricingTabTabmassTextField", true, PS_PRICING_TAB_MASS_TEXT_FIELDLAYOUT,
 				GtnUIFrameworkComponentType.TEXTBOX);
 		psPricingMassTextField.setComponentName(GtnFrameworkCommonConstants.VALUE);
 		psPricingMassTextField.setVisible(false);

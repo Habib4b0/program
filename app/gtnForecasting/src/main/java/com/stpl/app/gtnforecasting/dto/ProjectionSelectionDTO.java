@@ -282,18 +282,18 @@ public class ProjectionSelectionDTO {
     private Object conversionFactor = null;
     
     public List<String> getDeductionLevelFilter() {
-        return deductionLevelFilter;
+        return deductionLevelFilter == null ? deductionLevelFilter : new ArrayList<>(deductionLevelFilter);
     }
 
     public void setDeductionLevelFilter(List<String> deductionLevelFilter) {
-        this.deductionLevelFilter = deductionLevelFilter;
+        this.deductionLevelFilter = deductionLevelFilter == null ? deductionLevelFilter : new ArrayList<>(deductionLevelFilter);
     }
     public List<String> getDeductionLevelFilterPv() {
-        return deductionLevelFilterPv;
+        return deductionLevelFilterPv == null ? deductionLevelFilterPv : new ArrayList<>(deductionLevelFilterPv);
     }
 
     public void setDeductionLevelFilterPv(List<String> deductionLevelFilterPv) {
-        this.deductionLevelFilterPv = deductionLevelFilterPv;
+        this.deductionLevelFilterPv = deductionLevelFilterPv == null ? deductionLevelFilterPv : new ArrayList<>(deductionLevelFilterPv);
     }
     
 
@@ -306,19 +306,19 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getCustomerLevelFilter() {
-        return customerLevelFilter;
+        return customerLevelFilter == null ? customerLevelFilter : new ArrayList<>(customerLevelFilter);
     }
 
     public void setCustomerLevelFilter(List<String> customerLevelFilter) {
-        this.customerLevelFilter = customerLevelFilter;
+        this.customerLevelFilter = customerLevelFilter == null ? customerLevelFilter : new ArrayList<>(customerLevelFilter);
     }
 
     public List<String> getProductLevelFilter() {
-        return productLevelFilter;
+        return productLevelFilter == null ? productLevelFilter : new ArrayList<>(productLevelFilter);
     }
 
     public void setProductLevelFilter(List<String> productLevelFilter) {
-        this.productLevelFilter = productLevelFilter;
+        this.productLevelFilter = productLevelFilter == null ? productLevelFilter : new ArrayList<>(productLevelFilter);
     }
     
     
@@ -331,11 +331,11 @@ public class ProjectionSelectionDTO {
         this.isDiscountFlag = isDiscountFlag;
     }
     public List<String> getdPVariablesList() {
-        return dPVariablesList;
+        return dPVariablesList == null ? dPVariablesList : new ArrayList<>(dPVariablesList);
     }
 
     public void setdPVariablesList(List<String> dPVariablesList) {
-        this.dPVariablesList = dPVariablesList;
+        this.dPVariablesList = dPVariablesList == null ? dPVariablesList : new ArrayList<>(dPVariablesList);
     }
     private int ccpCount;
 
@@ -372,19 +372,19 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getCcpDetailIdList() {
-        return ccpDetailIdList;
+        return ccpDetailIdList == null ? ccpDetailIdList : new ArrayList<>(ccpDetailIdList);
     }
 
     public void setCcpDetailIdList(List<String> ccpDetailIdList) {
-        this.ccpDetailIdList = ccpDetailIdList;
+        this.ccpDetailIdList = ccpDetailIdList == null ? ccpDetailIdList : new ArrayList<>(ccpDetailIdList);
     }
 
     public List<String> getParentCcpDetailIdList() {
-        return parentCcpDetailIdList;
+        return parentCcpDetailIdList == null ? parentCcpDetailIdList : new ArrayList<>(parentCcpDetailIdList);
     }
 
     public void setParentCcpDetailIdList(List<String> parentCcpDetailIdList) {
-        this.parentCcpDetailIdList = parentCcpDetailIdList;
+        this.parentCcpDetailIdList = parentCcpDetailIdList == null ? parentCcpDetailIdList : new ArrayList<>(parentCcpDetailIdList);
     }
 
     public Integer getSystemID() {
@@ -444,11 +444,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<Object> getSupplementalList() {
-        return supplementalList;
+        return supplementalList == null ? supplementalList : new ArrayList<>(supplementalList);
     }
 
     public void setSupplementalList(List<Object> supplementalList) {
-        this.supplementalList = supplementalList;
+        this.supplementalList = supplementalList == null ? supplementalList : new ArrayList<>(supplementalList);
     }
 
     public Integer getCcpDetailsSID() {
@@ -492,27 +492,27 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getVariableList() {
-        return variableList;
+        return variableList == null ? variableList : new ArrayList<>(variableList);
     }
 
     public void setVariableList(List<String> variableList) {
-        this.variableList = variableList;
+        this.variableList = variableList == null ? variableList : new ArrayList<>(variableList);
     }
 
     public Date getProjectionEndDate() {
-        return projectionEndDate;
+        return projectionEndDate == null ? null : (Date) projectionEndDate.clone();
     }
 
     public void setProjectionEndDate(Date projectionEndDate) {
-        this.projectionEndDate = projectionEndDate;
+        this.projectionEndDate = projectionEndDate == null ? null : (Date) projectionEndDate.clone();
     }
 
     public Date getForecastEndDate() {
-        return forecastEndDate;
+        return forecastEndDate == null ? null : (Date) forecastEndDate.clone();
     }
 
     public void setForecastEndDate(Date forecastEndDate) {
-        this.forecastEndDate = forecastEndDate;
+        this.forecastEndDate = forecastEndDate == null ? null : (Date) forecastEndDate.clone();
     }
 
     public Integer getForecastEndYear() {
@@ -572,11 +572,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getHirarechyNo() {
-        return hirarechyNo;
+        return hirarechyNo == null ? hirarechyNo : new ArrayList<>(hirarechyNo);
     }
 
     public void setHirarechyNo(List<String> hirarechyNo) {
-        this.hirarechyNo = hirarechyNo;
+        this.hirarechyNo = hirarechyNo == null ? hirarechyNo : new ArrayList<>(hirarechyNo);
     }
 
     public boolean isExcelExport() {
@@ -628,11 +628,11 @@ public class ProjectionSelectionDTO {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     public int getProjectionId() {
@@ -860,11 +860,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<List<String>> getDiscountList() {
-        return discountList;
+        return discountList == null ? discountList : new ArrayList<>(discountList);
     }
 
     public void setDiscountList(List<List<String>> discountList) {
-        this.discountList = discountList;
+        this.discountList = discountList == null ? discountList : new ArrayList<>(discountList);
     }
 
     public String getView() {
@@ -972,19 +972,19 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getLevelValueList() {
-        return levelValueList;
+        return levelValueList == null ? levelValueList : new ArrayList<>(levelValueList);
     }
 
     public void setLevelValueList(List<String> levelValueList) {
-        this.levelValueList = levelValueList;
+        this.levelValueList = levelValueList == null ? levelValueList : new ArrayList<>(levelValueList);
     }
 
     public List<String> getParentNodeList() {
-        return parentNodeList;
+        return parentNodeList == null ? parentNodeList : new ArrayList<>(parentNodeList);
     }
 
     public void setParentNodeList(List<String> parentNodeList) {
-        this.parentNodeList = parentNodeList;
+        this.parentNodeList = parentNodeList == null ? parentNodeList : new ArrayList<>(parentNodeList);
     }
 
     public List<String> getDiscountNameList() {
@@ -1012,11 +1012,11 @@ public class ProjectionSelectionDTO {
     }
    
     public List<String> getColumns() {
-        return columns;
+        return columns == null ? columns : new ArrayList<>(columns);
     }
 
     public void setColumns(List<String> columns) {
-        this.columns = columns;
+        this.columns = columns == null ? columns : new ArrayList<>(columns);
     }
 
     public boolean hasColumn(String column) {
@@ -1027,11 +1027,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getPeriodList() {
-        return periodList;
+        return periodList == null ? periodList : new ArrayList<>(periodList);
     }
 
     public void setPeriodList(List<String> periodList) {
-        this.periodList = periodList;
+        this.periodList = periodList == null ? periodList : new ArrayList<>(periodList);
     }
 
     public boolean hasPeriod(String period) {
@@ -1050,11 +1050,11 @@ public class ProjectionSelectionDTO {
     }
 
     public void setDiscountProgramsList(List<String> discountProgramsList) {
-        this.discountProgramsList = discountProgramsList;
+        this.discountProgramsList = discountProgramsList == null ? discountProgramsList : new ArrayList<>(discountProgramsList);
     }
 
     public List<String> getDiscountProgramsList() {
-        return discountProgramsList;
+        return discountProgramsList == null ? discountProgramsList : new ArrayList<>(discountProgramsList);
     }
 
     public boolean isPpa() {
@@ -1378,7 +1378,7 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getNonFetchableIndex() {
-        return nonFetchableIndex;
+        return nonFetchableIndex == null ? nonFetchableIndex : new ArrayList<>(nonFetchableIndex);
     }
 
     public void clearNonFetchableIndex() {
@@ -1387,7 +1387,7 @@ public class ProjectionSelectionDTO {
 
     public void setNonFetchableIndex(List<String> nonFetchableIndex) {
         Collections.sort(nonFetchableIndex);
-        this.nonFetchableIndex = nonFetchableIndex;
+        this.nonFetchableIndex = nonFetchableIndex == null ? nonFetchableIndex : new ArrayList<>(nonFetchableIndex);
     }
 
     public boolean hasNonFetchableIndex(String index) {
@@ -1590,19 +1590,19 @@ public class ProjectionSelectionDTO {
     }
 
     public String[] getExpandLevelValueArray() {
-        return expandLevelValueArray;
+        return expandLevelValueArray == null ? expandLevelValueArray : expandLevelValueArray.clone();
     }
 
     public void setExpandLevelValueArray(String[] expandLevelValueArray) {
-        this.expandLevelValueArray = expandLevelValueArray;
+        this.expandLevelValueArray = expandLevelValueArray == null ? expandLevelValueArray : expandLevelValueArray.clone();
     }
 
     public String[] getExpandLevelCaptionArray() {
-        return expandLevelCaptionArray;
+        return expandLevelCaptionArray == null ? expandLevelCaptionArray : expandLevelCaptionArray.clone();
     }
 
     public void setExpandLevelCaptionArray(String[] expandLevelCaptionArray) {
-        this.expandLevelCaptionArray = expandLevelCaptionArray;
+        this.expandLevelCaptionArray = expandLevelCaptionArray == null ? expandLevelCaptionArray : expandLevelCaptionArray.clone();
     }
 
     public int getLevelExpColLevelNo() {
@@ -1718,19 +1718,19 @@ public class ProjectionSelectionDTO {
     }
 
     public List getProjectedList() {
-        return projectedList;
+        return projectedList == null ? projectedList : new ArrayList<>(projectedList);
     }
 
     public void setProjectedList(List projectedList) {
-        this.projectedList = projectedList;
+        this.projectedList = projectedList == null ? projectedList : new ArrayList<>(projectedList);
     }
 
     public Date getToDates() {
-        return toDates;
+        return toDates == null ? null : (Date) toDates.clone();
     }
 
     public void setToDates(Date toDates) {
-        this.toDates = toDates;
+        this.toDates = toDates == null ? null : (Date) toDates.clone();
     }
 
     public String getMandatedOrSupp() {
@@ -1798,11 +1798,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<DiscountProjectionResultsDTO> getDprDTOList() {
-        return dprDTOList;
+        return dprDTOList == null ? dprDTOList : new ArrayList<>(dprDTOList);
     }
 
     public void setDprDTOList(List<DiscountProjectionResultsDTO> dprDTOList) {
-        this.dprDTOList = dprDTOList;
+        this.dprDTOList = dprDTOList == null ? dprDTOList : new ArrayList<>(dprDTOList);
     }
 
     public String getMarketTypeValue() {
@@ -2046,11 +2046,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<Date> getStartAndEndDate() {
-        return startAndEndDate;
+        return startAndEndDate == null ? startAndEndDate : new ArrayList<>(startAndEndDate);
     }
 
     public void setStartAndEndDate(List<Date> startAndEndDate) {
-        this.startAndEndDate = startAndEndDate;
+        this.startAndEndDate = startAndEndDate == null ? startAndEndDate : new ArrayList<>(startAndEndDate);
     }
 
     public String getStartDateValue() {
@@ -2126,18 +2126,18 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getPpaSelectedVariables() {
-        return ppaSelectedVariables;
+        return ppaSelectedVariables == null ? ppaSelectedVariables : new ArrayList<>(ppaSelectedVariables);
     }
 
     public void setPpaSelectedVariables(List<String> ppaSelectedVariables) {
-        this.ppaSelectedVariables = ppaSelectedVariables;
+        this.ppaSelectedVariables = ppaSelectedVariables == null ? ppaSelectedVariables : new ArrayList<>(ppaSelectedVariables);
     }
     public List<Object> getRightHeaderDoubleColumns() {
-        return rightHeaderDoubleColumns;
+        return rightHeaderDoubleColumns == null ? rightHeaderDoubleColumns : new ArrayList<>(rightHeaderDoubleColumns);
     }
 
     public void setRightHeaderDoubleColumns(List<Object> rightHeaderDoubleColumns) {
-        this.rightHeaderDoubleColumns = rightHeaderDoubleColumns;
+        this.rightHeaderDoubleColumns = rightHeaderDoubleColumns == null ? rightHeaderDoubleColumns : new ArrayList<>(rightHeaderDoubleColumns);
     }
     
     public String getReHierarchyNo() {
@@ -2181,11 +2181,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<DiscountProjectionDTO> getAlternatePivotList() {
-        return alternatePivotList;
+        return alternatePivotList == null ? alternatePivotList : new ArrayList<>(alternatePivotList);
     }
 
     public void setAlternatePivotList(List<DiscountProjectionDTO> alternatePivotList) {
-        this.alternatePivotList = alternatePivotList;
+        this.alternatePivotList = alternatePivotList == null ? alternatePivotList : new ArrayList<>(alternatePivotList);
     }
 
     public String getVariableView() {
@@ -2229,19 +2229,19 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getCommonColumn() {
-        return commonColumn;
+        return commonColumn == null ? commonColumn : new ArrayList<>(commonColumn);
     }
 
     public void setCommonColumn(List<String> commonColumn) {
-        this.commonColumn = commonColumn;
+        this.commonColumn = commonColumn == null ? commonColumn : new ArrayList<>(commonColumn);
     }
 
     public List<String> getHeaderMapColumn() {
-        return headerMapColumn;
+        return headerMapColumn == null ? headerMapColumn : new ArrayList<>(headerMapColumn);
     }
 
     public void setHeaderMapColumn(List<String> headerMapColumn) {
-        this.headerMapColumn = headerMapColumn;
+        this.headerMapColumn = headerMapColumn == null ? headerMapColumn : new ArrayList<>(headerMapColumn);
     }
 
      public Map<String, List<String>> getProjectionHeaderMap() {
@@ -2253,27 +2253,27 @@ public class ProjectionSelectionDTO {
     }
     
     public List<String> getForecastConfigPeriods() {
-        return forecastConfigPeriods;
+        return forecastConfigPeriods == null ? forecastConfigPeriods : new ArrayList<>(forecastConfigPeriods);
     }
 
     public void setForecastConfigPeriods(List<String> forecastConfigPeriods) {
-        this.forecastConfigPeriods = forecastConfigPeriods;
+        this.forecastConfigPeriods = forecastConfigPeriods == null ? forecastConfigPeriods : new ArrayList<>(forecastConfigPeriods);
     }
 
     public List<String> getProjectionHeaderList() {
-        return projectionHeaderList;
+        return projectionHeaderList == null ? projectionHeaderList : new ArrayList<>(projectionHeaderList);
     }
 
     public void setProjectionHeaderList(List<String> projectionHeaderList) {
-        this.projectionHeaderList = projectionHeaderList;
+        this.projectionHeaderList = projectionHeaderList == null ? projectionHeaderList : new ArrayList<>(projectionHeaderList);
     }
 
     public List<String> getProgramCodeList() {
-        return programCodeList;
+        return programCodeList == null ? programCodeList : new ArrayList<>(programCodeList);
     }
 
     public void setProgramCodeList(List<String> programCodeList) {
-        this.programCodeList = programCodeList;
+        this.programCodeList = programCodeList == null ? programCodeList : new ArrayList<>(programCodeList);
     }
 
     public String getCustomhierarchy() {
@@ -2349,11 +2349,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getDeductionLevelCaptions() {
-        return deductionLevelCaptions;
+        return deductionLevelCaptions == null ? deductionLevelCaptions : new ArrayList<>(deductionLevelCaptions);
     }
 
     public void setDeductionLevelCaptions(List<String> deductionLevelCaptions) {
-        this.deductionLevelCaptions = deductionLevelCaptions;
+        this.deductionLevelCaptions = deductionLevelCaptions == null ? deductionLevelCaptions : new ArrayList<>(deductionLevelCaptions);
     }
 
     public String getSelectedDeductionLevelName() {

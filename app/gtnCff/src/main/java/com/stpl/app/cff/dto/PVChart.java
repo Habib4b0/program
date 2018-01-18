@@ -24,6 +24,7 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Window;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
@@ -83,7 +84,7 @@ public class PVChart extends Window {
         LOGGER.debug("Entering PPAChart method ");
         this.frequency = frequency;
         this.history = history;
-        this.dto = dto;
+        this.dto = dto == null ? dto : Collections.unmodifiableList(dto);
         this.rightDto = rightDto;
         this.projSelDTO = projSelDTO;
 //        setContent(getChart());
@@ -208,7 +209,7 @@ public class PVChart extends Window {
      * @return the dto
      */
     public List<ProjectionVarianceDTO> getDto() {
-        return dto;
+        return dto == null ? dto : Collections.unmodifiableList(dto);
     }
 
     /**
@@ -217,7 +218,7 @@ public class PVChart extends Window {
      * @param dto the new dto
      */
     public void setDto(final List<ProjectionVarianceDTO> dto) {
-        this.dto = dto;
+        this.dto = dto == null ? dto : Collections.unmodifiableList(dto);
     }
 
     /**

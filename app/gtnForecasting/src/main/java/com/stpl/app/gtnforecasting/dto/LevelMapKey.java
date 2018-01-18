@@ -84,11 +84,11 @@ public class LevelMapKey implements Serializable, Comparable<LevelMapKey>,Clonea
     }
 
     public List<Integer> getCcpIds() {
-        return ccpIds;
+        return ccpIds == null ? ccpIds : new ArrayList<>(ccpIds);
     }
 
     public void setCcpIds(List<Integer> ccpIds) {
-        this.ccpIds = ccpIds;
+        this.ccpIds = ccpIds == null ? ccpIds : new ArrayList<>(ccpIds);
     }
 
     public String getHierarchyNo() {

@@ -293,7 +293,7 @@ public class NewDiscountTab extends CustomComponent {
     private List<ContractsDetailsDto> rsListforMap;
 
     public NewDiscountTab(List<RemoveDiscountDto> removeDiscountDto, SessionDTO session) {
-        this.removeDiscountDto = removeDiscountDto;
+        this.removeDiscountDto = removeDiscountDto == null ? removeDiscountDto : new ArrayList<>(removeDiscountDto);
         dashBoardTreeContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
         this.session = session;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/newDiscountTab.xml"), this));

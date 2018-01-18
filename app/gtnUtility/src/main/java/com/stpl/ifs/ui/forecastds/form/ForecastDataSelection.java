@@ -316,7 +316,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	@UiField("resultsTableLayout")
 	protected VerticalLayout resultsTableLayout;
 	@UiField("horizontalLayout")
-	protected HorizontalLayout horizontalLayout;
+	protected GridLayout horizontalLayout;
 
 	@UiField("gridLayoutTimeperiod")
 	protected GridLayout gridLayoutTimeperiod;
@@ -1459,7 +1459,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			GridLayout layoutG1 = new GridLayout(NumericConstants.TWO, 1);
 			layoutG1.addComponent(new Label(HeaderUtils.MODE) {
 				{
-					setWidth("50px");
+//					setWidth("50px");
 					setContentMode(ContentMode.HTML);
 					setStyleName(HeaderUtils.LABEL_RESULT_ALIGN);
 				}

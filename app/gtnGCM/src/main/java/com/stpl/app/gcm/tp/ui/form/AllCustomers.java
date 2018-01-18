@@ -58,7 +58,7 @@ public class AllCustomers extends Window {
     private final List<String> companyMasterSids;
 
     public AllCustomers(List<String> companyMasterSids) {
-        this.companyMasterSids = companyMasterSids;
+        this.companyMasterSids = companyMasterSids == null ? companyMasterSids : new ArrayList<>(companyMasterSids);
         setContent(Clara.create(getClass().getResourceAsStream("/TradingPartner/allCustomers.xml"), this));
         addStyleName("bootstrap-ui");
         addStyleName(Constants.BOOTSTRAP);

@@ -1,6 +1,8 @@
 package com.stpl.app.security.userGrpBsnsRoleMgmt.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -30,35 +32,35 @@ public class UserGrpBsnsRoleDTO implements Serializable {
     }
 
     public List<String> getUserGroup() {
-        return userGroup;
+        return userGroup == null ? userGroup : new ArrayList<>(userGroup);
     }
 
     public void setUserGroup(List<String> userGroup) {
-        this.userGroup = userGroup;
+        this.userGroup = userGroup == null ? userGroup : new ArrayList<>(userGroup);
     }
 
     public List<String> getBusinessRole() {
-        return businessRole;
+        return businessRole == null ? businessRole : new ArrayList<>(businessRole);
     }
 
     public void setBusinessRole(List<String> businessRole) {
-        this.businessRole = businessRole;
+        this.businessRole = businessRole == null ? businessRole : new ArrayList<>(businessRole);
     }
 
     public List<String> getSelectedBusinessRole() {
-        return selectedBusinessRole;
+        return selectedBusinessRole == null ? selectedBusinessRole : new ArrayList<>(selectedBusinessRole);
     }
 
     public void setSelectedBusinessRole(List<String> selectedBusinessRole) {
-        this.selectedBusinessRole = selectedBusinessRole;
+        this.selectedBusinessRole = selectedBusinessRole == null ? selectedBusinessRole : new ArrayList<>(selectedBusinessRole);
     }
 
     public Set<String> getSelectedBusinessRole1() {
-        return selectedBusinessRole1;
+        return selectedBusinessRole1 == null ? selectedBusinessRole1 : Collections.unmodifiableSet(selectedBusinessRole1);
     }
 
     public void setSelectedBusinessRole1(Set<String> selectedBusinessRole1) {
-        this.selectedBusinessRole1 = selectedBusinessRole1;
+        this.selectedBusinessRole1 = selectedBusinessRole1 == null ? selectedBusinessRole1 : Collections.unmodifiableSet(selectedBusinessRole1);
     }
 
     public String getSelUserGroupId() {

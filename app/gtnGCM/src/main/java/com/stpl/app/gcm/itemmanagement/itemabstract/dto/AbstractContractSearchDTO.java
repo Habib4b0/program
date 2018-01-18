@@ -203,19 +203,19 @@ public class AbstractContractSearchDTO {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     public Date getEndDate() {
-        return endDate;
+        return endDate == null ? null : (Date) endDate.clone();
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = endDate == null ? null : (Date) endDate.clone();
     }
 
     public HelperDTO getStatus() {
@@ -227,35 +227,35 @@ public class AbstractContractSearchDTO {
     }
 
     public Date getItemStartDate() {
-        return itemStartDate;
+        return itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     public void setItemStartDate(Date itemStartDate) {
-        this.itemStartDate = itemStartDate;
+        this.itemStartDate = itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     public Date getItemEndDate() {
-        return itemEndDate;
+        return itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     public void setItemEndDate(Date itemEndDate) {
-        this.itemEndDate = itemEndDate;
+        this.itemEndDate = itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     public Date getCpStartDate() {
-        return cpStartDate;
+        return cpStartDate == null ? null : (Date) cpStartDate.clone();
     }
 
     public void setCpStartDate(Date cpStartDate) {
-        this.cpStartDate = cpStartDate;
+        this.cpStartDate = cpStartDate == null ? null : (Date) cpStartDate.clone();
     }
 
     public Date getCpEndDate() {
-        return cpEndDate;
+        return cpEndDate == null ? null : (Date) cpEndDate.clone();
     }
 
     public void setCpEndDate(Date cpEndDate) {
-        this.cpEndDate = cpEndDate;
+        this.cpEndDate = cpEndDate == null ? null : (Date) cpEndDate.clone();
     }
 
     public String getPrice() {
@@ -267,19 +267,19 @@ public class AbstractContractSearchDTO {
     }
 
     public Date getPriceProtectionStartDate() {
-        return priceProtectionStartDate;
+        return priceProtectionStartDate == null ? null : (Date) priceProtectionStartDate.clone();
     }
 
     public void setPriceProtectionStartDate(Date priceProtectionStartDate) {
-        this.priceProtectionStartDate = priceProtectionStartDate;
+        this.priceProtectionStartDate = priceProtectionStartDate == null ? null : (Date) priceProtectionStartDate.clone();
     }
 
     public Date getPriceProtectionEndDate() {
-        return priceProtectionEndDate;
+        return priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     public void setPriceProtectionEndDate(Date priceProtectionEndDate) {
-        this.priceProtectionEndDate = priceProtectionEndDate;
+        this.priceProtectionEndDate = priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     public String getPriceTolerance() {
@@ -307,19 +307,19 @@ public class AbstractContractSearchDTO {
     }
 
     public Date getRSStartDate() {
-        return RSStartDate;
+        return RSStartDate == null ? null : (Date) RSStartDate.clone();
     }
 
     public void setRSStartDate(Date RSStartDate) {
-        this.RSStartDate = RSStartDate;
+        this.RSStartDate = RSStartDate == null ? null : (Date) RSStartDate.clone();
     }
 
     public Date getRSEndDate() {
-        return RSEndDate;
+        return RSEndDate == null ? null : (Date) RSEndDate.clone();
     }
 
     public void setRSEndDate(Date RSEndDate) {
-        this.RSEndDate = RSEndDate;
+        this.RSEndDate = RSEndDate == null ? null : (Date) RSEndDate.clone();
     }
 
     public String getFormulaId() {
@@ -738,11 +738,11 @@ public class AbstractContractSearchDTO {
     }
 
     public Date getResetDate() {
-        return resetDate;
+        return resetDate == null ? null : (Date) resetDate.clone();
     }
 
     public void setResetDate(Date resetDate) {
-        this.resetDate = resetDate;
+        this.resetDate = resetDate == null ? null : (Date) resetDate.clone();
     }
 
     public String getNetResetPriceFormula() {
@@ -810,11 +810,11 @@ public class AbstractContractSearchDTO {
     }
 
     public Date getBaseLineWacDate() {
-        return baseLineWacDate;
+        return baseLineWacDate == null ? null : (Date) baseLineWacDate.clone();
     }
 
     public void setBaseLineWacDate(Date baseLineWacDate) {
-        this.baseLineWacDate = baseLineWacDate;
+        this.baseLineWacDate = baseLineWacDate == null ? null : (Date) baseLineWacDate.clone();
     }
 
 }

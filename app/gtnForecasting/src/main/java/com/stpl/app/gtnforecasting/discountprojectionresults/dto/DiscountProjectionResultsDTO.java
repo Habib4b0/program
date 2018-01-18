@@ -6,6 +6,8 @@
 package com.stpl.app.gtnforecasting.discountprojectionresults.dto;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
@@ -287,11 +289,11 @@ public class DiscountProjectionResultsDTO extends ExtMapDTO {
     }
 
     public List<DiscountProjectionResultsDTO> getDprDTOList() {
-        return dprDTOList;
+        return dprDTOList == null ? dprDTOList : new ArrayList<>(dprDTOList);
     }
 
     public void setDprDTOList(List<DiscountProjectionResultsDTO> dprDTOList) {
-        this.dprDTOList = dprDTOList;
+        this.dprDTOList = dprDTOList == null ? dprDTOList : new ArrayList<>(dprDTOList);
     }
 
     public String getRelationshipLevelName() {

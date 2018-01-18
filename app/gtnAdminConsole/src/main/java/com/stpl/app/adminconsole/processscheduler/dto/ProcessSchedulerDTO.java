@@ -8,6 +8,7 @@ package com.stpl.app.adminconsole.processscheduler.dto;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -230,19 +231,19 @@ public class ProcessSchedulerDTO {
     }
 
     public List<SortByColumn> getOrderByColumns() {
-        return orderByColumns;
+        return orderByColumns == null ? orderByColumns : Collections.unmodifiableList(orderByColumns);
     }
 
     public void setOrderByColumns(List<SortByColumn> orderByColumns) {
-        this.orderByColumns = orderByColumns;
+        this.orderByColumns = orderByColumns == null ? orderByColumns : Collections.unmodifiableList(orderByColumns);
     }
 
     public Set<Container.Filter> getFilters() {
-        return filters;
+        return filters == null ? filters : Collections.unmodifiableSet(filters);
     }
 
     public void setFilters(Set<Container.Filter> filters) {
-        this.filters = filters;
+        this.filters = filters == null ? filters : Collections.unmodifiableSet(filters);
     }
 
     public String getProcessDisplayName() {
@@ -422,19 +423,19 @@ public class ProcessSchedulerDTO {
     }
 
     public Date getStartDate() {
-        return startDate;
+        return startDate == null ? null : (Date) startDate.clone();
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = startDate == null ? null : (Date) startDate.clone();
     }
 
     public Date getEndDate() {
-        return endDate;
+        return endDate == null ? null : (Date) endDate.clone();
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = endDate == null ? null : (Date) endDate.clone();
     }
 
     public String getFrequencyRadio() {
@@ -446,11 +447,11 @@ public class ProcessSchedulerDTO {
     }
 
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     public String getModifiedBy() {
@@ -942,35 +943,35 @@ public class ProcessSchedulerDTO {
     }
 
     public Date getCffCreationDateFrom() {
-        return cffCreationDateFrom;
+        return cffCreationDateFrom == null ? null : (Date) cffCreationDateFrom.clone();
     }
 
     public void setCffCreationDateFrom(Date cffCreationDateFrom) {
-        this.cffCreationDateFrom = cffCreationDateFrom;
+        this.cffCreationDateFrom = cffCreationDateFrom == null ? null : (Date) cffCreationDateFrom.clone();
     }
 
     public Date getCffCreationDateTo() {
-        return cffCreationDateTo;
+        return cffCreationDateTo == null ? null : (Date) cffCreationDateTo.clone();
     }
 
     public void setCffCreationDateTo(Date cffCreationDateTo) {
-        this.cffCreationDateTo = cffCreationDateTo;
+        this.cffCreationDateTo = cffCreationDateTo == null ? null : (Date) cffCreationDateTo.clone();
     }
 
     public Date getCffApprovalDateFrom() {
-        return cffApprovalDateFrom;
+        return cffApprovalDateFrom == null ? null : (Date) cffApprovalDateFrom.clone();
     }
 
     public void setCffApprovalDateFrom(Date cffApprovalDateFrom) {
-        this.cffApprovalDateFrom = cffApprovalDateFrom;
+        this.cffApprovalDateFrom = cffApprovalDateFrom == null ? null : (Date) cffApprovalDateFrom.clone();
     }
 
     public Date getCffApprovalDateTo() {
-        return cffApprovalDateTo;
+        return cffApprovalDateTo == null ? null : (Date) cffApprovalDateTo.clone();
     }
 
     public void setCffApprovalDateTo(Date cffApprovalDateTo) {
-        this.cffApprovalDateTo = cffApprovalDateTo;
+        this.cffApprovalDateTo = cffApprovalDateTo == null ? null : (Date) cffApprovalDateTo.clone();
     }
 
     public Integer getRsModelSid() {

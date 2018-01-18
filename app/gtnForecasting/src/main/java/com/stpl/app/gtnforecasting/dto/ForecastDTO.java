@@ -23,40 +23,40 @@ public class ForecastDTO {
 	private Date historyEndDate;
 	
 	public Date getForecastStartDate() {
-		return forecastStartDate;
+		return forecastStartDate == null ? null : (Date) forecastStartDate.clone();
 	}
 	public void setForecastStartDate(Date forecastStartDate) {
-		this.forecastStartDate = forecastStartDate;
+		this.forecastStartDate = forecastStartDate == null ? null : (Date) forecastStartDate.clone();
 	}
 	public Date getForecastEndDate() {
-		return forecastEndDate;
+		return forecastEndDate == null ? null : (Date) forecastEndDate.clone();
 	}
 	public void setForecastEndDate(Date forecastEndDate) {
-		this.forecastEndDate = forecastEndDate;
+		this.forecastEndDate = forecastEndDate == null ? null : (Date) forecastEndDate.clone();
 	}
 	public Date getProjectionStartDate() {
-		return projectionStartDate;
+		return projectionStartDate == null ? null : (Date) projectionStartDate.clone();
 	}
 	public void setProjectionStartDate(Date projectionStartDate) {
-		this.projectionStartDate = projectionStartDate;
+		this.projectionStartDate = projectionStartDate == null ? null : (Date) projectionStartDate.clone();
 	}
 	public Date getProjectionEndDate() {
-		return projectionEndDate;
+		return projectionEndDate == null ? null : (Date) projectionEndDate.clone();
 	}
 	public void setProjectionEndDate(Date projectionEndDate) {
-		this.projectionEndDate = projectionEndDate;
+		this.projectionEndDate = projectionEndDate == null ? null : (Date) projectionEndDate.clone();
 	}
 	public Date getHistoryStartDate() {
-		return historyStartDate;
+		return historyStartDate == null ? null : (Date) historyStartDate.clone();
 	}
 	public void setHistoryStartDate(Date historyStartDate) {
-		this.historyStartDate = historyStartDate;
+		this.historyStartDate = historyStartDate == null ? null : (Date) historyStartDate.clone();
 	}
 	public Date getHistoryEndDate() {
-		return historyEndDate;
+		return historyEndDate == null ? null : (Date) historyEndDate.clone();
 	}
 	public void setHistoryEndDate(Date historyEndDate) {
-		this.historyEndDate = historyEndDate;
+		this.historyEndDate = historyEndDate == null ? null : (Date) historyEndDate.clone();
 	}
 	public Integer getProjectionStartYear() {
 		return projectionStartYear;

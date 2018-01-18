@@ -51,7 +51,7 @@ public class CommonUtil {
     /**
      * The helper list util.
      */
-    HelperListUtil helperListUtil = HelperListUtil.getInstance();
+    private HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
     private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
     public static final CommonDao DAO = CommonDaoImpl.getInstance();

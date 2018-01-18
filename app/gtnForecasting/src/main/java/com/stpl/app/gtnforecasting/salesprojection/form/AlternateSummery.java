@@ -269,7 +269,7 @@ public class AlternateSummery extends CustomComponent {
     @UiField("salesProjectionSelection")
     private Panel salesProjectionSelection;
     @UiField("viewLayout")
-    private HorizontalLayout viewLayout;
+    private GridLayout viewLayout;
     @UiField("spAdjustment")
     private Panel spAdjustment;
     @UiField("nmFrequencyDdlb")

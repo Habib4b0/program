@@ -21,19 +21,19 @@ public class SessionDTO implements Serializable{
     private boolean pageFlag;
 
     public Date getFromDate() {
-        return fromDate;
+        return fromDate == null ? null : (Date) fromDate.clone();
     }
 
     public void setFromDate(Date fromDate) {
-        this.fromDate = fromDate;
+        this.fromDate = fromDate == null ? null : (Date) fromDate.clone();
     }
 
     public Date getToDate() {
-        return toDate;
+        return toDate == null ? null : (Date) toDate.clone();
     }
 
     public void setToDate(Date toDate) {
-        this.toDate = toDate;
+        this.toDate = toDate == null ? null : (Date) toDate.clone();
     }
 
     public String getQueryName() {

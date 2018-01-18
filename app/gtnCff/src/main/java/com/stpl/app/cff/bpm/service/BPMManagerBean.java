@@ -21,14 +21,14 @@ public class BPMManagerBean {
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(BPMManagerBean.class);
 
-    public ReleaseId releaseId;
+    private ReleaseId releaseId;
     private RuntimeEngine runtimeEngine;
     private static BPMManagerBean bpmManagerBean;
     private Properties properties = DroolsProperties.getPropertiesData();
 
     private BPMManagerBean() {
         try {
-            ReleaseId releaseId = new ReleaseIdImpl(properties.getProperty("CFF_groupId","com.stpl.app.bpm"), properties.getProperty("CFF_artifactId","CFFWorkflow"), properties.getProperty("CFF_version","1.0"));
+            releaseId = new ReleaseIdImpl(properties.getProperty("CFF_groupId","com.stpl.app.bpm"), properties.getProperty("CFF_artifactId","CFFWorkflow"), properties.getProperty("CFF_version","1.0"));
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
             RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId).entityManagerFactory(emf).userGroupCallback(new CustomUserCallBack());
             runtimeEngine = RuntimeManagerFactory.Factory.get().newSingletonRuntimeManager(builder.get(), "com.sample:example:1.0").getRuntimeEngine(null);

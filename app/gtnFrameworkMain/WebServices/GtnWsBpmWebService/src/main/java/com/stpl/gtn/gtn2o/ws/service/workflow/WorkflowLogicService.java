@@ -151,8 +151,8 @@ public class WorkflowLogicService {
             taskSummary = bpmProcessBean.getAvailableTask(processInstanceId, moduleName);
             LOGGER.debug(GtnFrameworkWebserviceConstant.TASK_SUMMARY + taskSummary.getName());
             LOGGER.debug(GtnFrameworkWebserviceConstant.TASK_SUMMARY + taskSummary.getId());
-            bpmProcessBean.startTask(taskSummary.getId(), userModel.getScreenName(), moduleName);
-            bpmProcessBean.completeTask(taskSummary.getId(), userModel.getScreenName(), null, moduleName);
+            bpmProcessBean.startTask(taskSummary.getId(), String.valueOf(userModel.getScreenName()), moduleName);
+            bpmProcessBean.completeTask(taskSummary.getId(), String.valueOf(userModel.getScreenName()), null, moduleName);
             insertWFInstanceInfo(projectionId, processInstanceId, moduleName.equals(GtnWsBpmCommonConstants.CFF));
         } catch (Exception e) {
             LOGGER.error("Exception in startAndCompleteTask() method." + e);
@@ -169,8 +169,8 @@ public class WorkflowLogicService {
             taskSummary = bpmProcessBean.getAvailableTask(processInstanceId, moduleName);
             LOGGER.debug(GtnFrameworkWebserviceConstant.TASK_SUMMARY + taskSummary.getName());
             LOGGER.debug(GtnFrameworkWebserviceConstant.TASK_SUMMARY + taskSummary.getId());
-            bpmProcessBean.startTask(taskSummary.getId(), userModel.getScreenName(), moduleName);
-            bpmProcessBean.completeTask(taskSummary.getId(), userModel.getScreenName(), null, moduleName);
+            bpmProcessBean.startTask(taskSummary.getId(), String.valueOf(userModel.getScreenName()), moduleName);
+            bpmProcessBean.completeTask(taskSummary.getId(), String.valueOf(userModel.getScreenName()), null, moduleName);
             insertContractWFInstanceInfo(contractId, processInstanceId, contractStructure);
         } catch (Exception e) {
             LOGGER.error("Exception in startAndCompleteContractTask() method." + e);
@@ -340,14 +340,14 @@ public class WorkflowLogicService {
             LOGGER.info("task.getActualOwnerId() :" + task.getActualOwnerId());
             LOGGER.info("user.getScreenName() : " + user.getScreenName());
             if (task.getActualOwnerId() != null && !task.getActualOwnerId().equals(user.getScreenName())) {
-                bpmProcessBean.claimTask(task.getId(), task.getActualOwnerId(), user.getScreenName(), moduleName);
+                bpmProcessBean.claimTask(task.getId(), task.getActualOwnerId(), String.valueOf(user.getScreenName()), moduleName);
                 LOGGER.info("Claiming the " + task.getActualOwnerId() + " to :" + user.getScreenName());
             }
             if (task.getStatus().equals(Status.InProgress)) {
-                bpmProcessBean.completeTask(task.getId(), user.getScreenName(), params, moduleName);
+                bpmProcessBean.completeTask(task.getId(), String.valueOf(user.getScreenName()), params, moduleName);
             } else {
-                bpmProcessBean.startTask(task.getId(), user.getScreenName(), moduleName);
-                bpmProcessBean.completeTask(task.getId(), user.getScreenName(), params, moduleName);
+                bpmProcessBean.startTask(task.getId(), String.valueOf(user.getScreenName()), moduleName);
+                bpmProcessBean.completeTask(task.getId(), String.valueOf(user.getScreenName()), params, moduleName);
             }
         } catch (Exception e) {
             LOGGER.error("Exception in submitWorkflow() method." + e);

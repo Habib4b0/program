@@ -121,11 +121,11 @@ public class ComparisonLookupDTO {
     }
 
     public Date getCreatedDateFrom() {
-        return createdDateFrom;
+        return createdDateFrom == null ? null : (Date) createdDateFrom.clone();
     }
 
     public void setCreatedDateFrom(Date createdDateFrom) {
-        this.createdDateFrom = createdDateFrom;
+        this.createdDateFrom = createdDateFrom == null ? null : (Date) createdDateFrom.clone();
     }
 
     public String getCreatedDateTo() {
@@ -201,10 +201,10 @@ public class ComparisonLookupDTO {
     }
 
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }    
 }

@@ -139,7 +139,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 		this.results = results;
 		this.selectedProjection = selectedProjection;
 		this.currentProjId = currentProjId;
-		this.selectedList = selectedList;
+		this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
 		return addComparisonLookup();
 	}
 

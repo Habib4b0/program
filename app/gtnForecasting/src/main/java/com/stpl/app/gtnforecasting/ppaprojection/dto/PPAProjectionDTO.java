@@ -52,11 +52,11 @@ public class PPAProjectionDTO extends ExtListDTO implements Cloneable {
     private List<String> helperList=new ArrayList<>();
     
     public List<String> getHelperList() {
-        return helperList;
+        return helperList == null ? helperList : new ArrayList<>(helperList);
     }
 
     public void setHelperList(List<String> helperList) {
-        this.helperList = helperList;
+        this.helperList = helperList == null ? helperList : new ArrayList<>(helperList);
     }
     
     
@@ -164,19 +164,19 @@ public class PPAProjectionDTO extends ExtListDTO implements Cloneable {
     }
 
     public Date getPriceProtectionStartDate() {
-        return priceProtectionStartDate;
+        return priceProtectionStartDate == null ? null : (Date) priceProtectionStartDate.clone();
     }
 
     public void setPriceProtectionStartDate(Date priceProtectionStartDate) {
-        this.priceProtectionStartDate = priceProtectionStartDate;
+        this.priceProtectionStartDate = priceProtectionStartDate == null ? null : (Date) priceProtectionStartDate.clone();
     }
 
     public Date getPriceProtectionEndDate() {
-        return priceProtectionEndDate;
+        return priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     public void setPriceProtectionEndDate(Date priceProtectionEndDate) {
-        this.priceProtectionEndDate = priceProtectionEndDate;
+        this.priceProtectionEndDate = priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     @Override

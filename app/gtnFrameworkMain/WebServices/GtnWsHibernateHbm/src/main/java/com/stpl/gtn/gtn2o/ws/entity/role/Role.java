@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.entity.role;
 // Generated Feb 22, 2017 8:36:04 PM by Hibernate Tools 4.3.1
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,6 +10,7 @@ import java.util.Date;
 public class Role implements java.io.Serializable {
 
 	private long roleId;
+	private long mvccVersion;
 	private String uuid;
 	private Long companyId;
 	private Long userId;
@@ -26,14 +28,16 @@ public class Role implements java.io.Serializable {
 	public Role() {
 	}
 
-	public Role(long roleId) {
+	public Role(long roleId, long mvccVersion) {
 		this.roleId = roleId;
+		this.mvccVersion = mvccVersion;
 	}
 
-	public Role(long roleId, String uuid, Long companyId, Long userId, String userName, Date createDate,
-			Date modifiedDate, Long classNameId, Long classPk, String name, String title, String description,
-			Integer type, String subtype) {
+	public Role(long roleId, long mvccVersion, String uuid, Long companyId, Long userId, String userName,
+			Date createDate, Date modifiedDate, Long classNameId, Long classPk, String name, String title,
+			String description, Integer type, String subtype) {
 		this.roleId = roleId;
+		this.mvccVersion = mvccVersion;
 		this.uuid = uuid;
 		this.companyId = companyId;
 		this.userId = userId;
@@ -55,6 +59,14 @@ public class Role implements java.io.Serializable {
 
 	public void setRoleId(long roleId) {
 		this.roleId = roleId;
+	}
+
+	public long getMvccVersion() {
+		return this.mvccVersion;
+	}
+
+	public void setMvccVersion(long mvccVersion) {
+		this.mvccVersion = mvccVersion;
 	}
 
 	public String getUuid() {

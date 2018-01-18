@@ -185,19 +185,19 @@ public class TabSelectionDTO {
     }
 
     public List<ItemIndexDto> getItemList() {
-        return itemList;
+        return itemList == null ? itemList : new ArrayList<>(itemList);
     }
 
     public void setItemList(List<ItemIndexDto> itemList) {
-        this.itemList = itemList;
+        this.itemList = itemList == null ? itemList : new ArrayList<>(itemList);
     }
 
     public List<String> getCompanyMasterSids() {
-        return companyMasterSids;
+        return companyMasterSids == null ? companyMasterSids : new ArrayList<>(companyMasterSids);
     }
 
     public void setCompanyMasterSids(List<String> companyMasterSids) {
-        this.companyMasterSids = companyMasterSids;
+        this.companyMasterSids = companyMasterSids == null ? companyMasterSids : new ArrayList<>(companyMasterSids);
     }
 
     public String getTempTableName() {

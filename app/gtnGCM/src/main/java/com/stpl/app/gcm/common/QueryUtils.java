@@ -2233,12 +2233,12 @@ public class QueryUtils {
     }
 
     public String getIFPInfo(String searchValue) {
-        String query = "SELECT im.ITEM_MASTER_SID,im.ITEM_NO,im.ITEM_NAME,h3.DESCRIPTION AS THERAPHY,h4.DESCRIPTION AS STATUS,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,ifpd.IFP_MODEL_SID,rd.REBATE_PLAN_MASTER_SID,\n"
+        String query = "SELECT im.ITEM_MASTER_SID,im.ITEM_NO,im.ITEM_NAME,h3.DESCRIPTION AS THERAPHY,im.ITEM_STATUS,bm.BRAND_NAME,im.ITEM_START_DATE,im.ITEM_END_DATE,ifpd.IFP_MODEL_SID,rd.REBATE_PLAN_MASTER_SID,\n"
                 + " rpm.REBATE_PLAN_NAME,rd.FORMULA_ID,rd.FORMULA_METHOD_ID FROM   dbo.ITEM_MASTER im JOIN   dbo.IFP_DETAILS ifpd ON ifpd.ITEM_MASTER_SID = im.ITEM_MASTER_SID";
         query = query + " and ifpd.IFP_MODEL_SID in (" + searchValue + ")";
 
         query = query + " JOIN   dbo.RS_DETAILS rd ON rd.ITEM_MASTER_SID = ifpd.ITEM_MASTER_SID AND rd.IFP_MODEL_SID = ifpd.IFP_MODEL_SID LEFT JOIN dbo.REBATE_PLAN_MASTER rpm ON rpm.REBATE_PLAN_MASTER_SID=rd.REBATE_PLAN_MASTER_SID \n"
-                + "Left join dbo.HELPER_TABLE h3 on h3.HELPER_TABLE_SID=im.THERAPEUTIC_CLASS left join dbo.HELPER_TABLE h4 on h4.HELPER_TABLE_SID=im.ITEM_STATUS left join dbo.BRAND_MASTER bm on bm.BRAND_MASTER_SID=im.BRAND_MASTER_SID";
+                + "Left join dbo.HELPER_TABLE h3 on h3.HELPER_TABLE_SID=im.THERAPEUTIC_CLASS left join dbo.BRAND_MASTER bm on bm.BRAND_MASTER_SID=im.BRAND_MASTER_SID";
 
         return query;
     }

@@ -155,16 +155,16 @@ public class MedicaidNdcPopUp extends CustomComponent {
 
         ndcTable.markAsDirty();
         ndcTable.setContainerDataSource(nDCLineExtensionBean);
-        ndcTable.setVisibleColumns(CommonUiUtils.newNdcColumns);
-        ndcTable.setColumnHeaders(CommonUiUtils.newNdcHeader);
+        ndcTable.setVisibleColumns(CommonUiUtils.getNewNdcColumns());
+        ndcTable.setColumnHeaders(CommonUiUtils.getNewNdcHeader());
         ndcTable.setFilterBarVisible(true);
         ndcTable.setFilterDecorator(new ExtDemoFilterDecorator());
         ndcTable.addStyleName(Constant.FILTER_TABLE);
         ndcTable.addStyleName("table-header-center");
-        ndcTable.setColumnAlignment(CommonUiUtils.newNdcColumns[0], ExtFilterTable.Align.LEFT);
-        int length = CommonUiUtils.newNdcColumns.length;
+        ndcTable.setColumnAlignment(CommonUiUtils.getNewNdcColumns()[0], ExtFilterTable.Align.LEFT);
+        int length = CommonUiUtils.getNewNdcColumns().length;
         for (int i = 1; i < length; i++) {
-            ndcTable.setColumnAlignment(CommonUiUtils.newNdcColumns[i], ExtFilterTable.Align.RIGHT);
+            ndcTable.setColumnAlignment(CommonUiUtils.getNewNdcColumns()[i], ExtFilterTable.Align.RIGHT);
         }
         loadNdcList();
         ndc.addValueChangeListener(new Property.ValueChangeListener() {

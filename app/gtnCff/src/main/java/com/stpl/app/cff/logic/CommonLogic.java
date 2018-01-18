@@ -2500,7 +2500,9 @@ public class CommonLogic {
                     }
                     stringBuilder.append("('");
                     stringBuilder.append(entry.getKey());
-                    stringBuilder.append("'," + i++ + ")");
+                    stringBuilder.append("', ");
+                    stringBuilder.append(i++);
+                    stringBuilder.append( " )");
 
                     isNotFirstElement = true;
             }
@@ -3265,7 +3267,7 @@ public class CommonLogic {
 
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
-
+        int i=1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable)) {
 
@@ -3274,7 +3276,9 @@ public class CommonLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getValue().get(3).toString());
-                stringBuilder.append("')");
+                stringBuilder.append("', ");
+                stringBuilder.append(i++);
+                stringBuilder.append( " )");
 
                 isNotFirstElement = true;
             }

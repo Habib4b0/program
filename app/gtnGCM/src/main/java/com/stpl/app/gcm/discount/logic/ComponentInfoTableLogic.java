@@ -57,7 +57,7 @@ public class ComponentInfoTableLogic extends PageTableLogic {
     public void loadSetData(int userID, int sessionID, List<String> rebateList, String indicator, ContractsDetailsDto dto,boolean summaryFlag) {
         this.userId = userID;
         this.sessionId = sessionID;
-        this.rebateList = rebateList;
+        this.rebateList = rebateList == null ? rebateList : new ArrayList<>(rebateList);
         this.indicator = indicator;
         this.dto = dto;
         this.summaryFlag = summaryFlag;

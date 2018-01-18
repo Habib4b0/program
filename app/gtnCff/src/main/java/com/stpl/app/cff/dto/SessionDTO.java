@@ -279,19 +279,19 @@ public class SessionDTO implements Cloneable {
     }
 
     public Date getFromDate() {
-        return fromDate;
+        return fromDate == null ? null : (Date) fromDate.clone();
     }
 
     public void setFromDate(Date fromDate) {
-        this.fromDate = fromDate;
+        this.fromDate = fromDate == null ? null : (Date) fromDate.clone();
     }
 
     public Date getToDate() {
-        return toDate;
+        return toDate == null ? null : (Date) toDate.clone();
     }
 
     public void setToDate(Date toDate) {
-        this.toDate = toDate;
+        this.toDate = toDate == null ? null : (Date) toDate.clone();
     }
 
     public String getFromPeriod() {
@@ -407,11 +407,11 @@ public class SessionDTO implements Cloneable {
     }
 
     public Date getCurrentDate() {
-        return currentDate;
+        return currentDate == null ? null : (Date) currentDate.clone();
     }
 
     public void setCurrentDate(Date currentDate) {
-        this.currentDate = currentDate;
+        this.currentDate = currentDate == null ? null : (Date) currentDate.clone();
     }
 
     public Map<String, Map<String, Integer>> getHistoryEndDetails() {

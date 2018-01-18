@@ -30,9 +30,9 @@ public class GtnWebServiceCDRConfig implements GtnWsSearchQueryConfigLoader {
 		fieldToColumnDetailsMap.put("ruleName", configProvider.getColumnStringConfig("RULE_NAME", "CDRM"));
 		fieldToColumnDetailsMap.put("ruleCategory", configProvider.getColumnStringConfig("DESCRIPTION", "RULE_CATEGORY",
 				"RULE_CATEGORY", "HELPER_TABLE_SID"));
-		fieldToColumnDetailsMap.put("creationDate", configProvider.getColumnStringConfig("CREATED_DATE", "CDRM"));
+		fieldToColumnDetailsMap.put("creationDate", configProvider.getColumnDateConfig("CREATED_DATE", "CDRM"));
 		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnStringConfig("CREATED_BY", "CDRM"));
-		fieldToColumnDetailsMap.put("modifiedDate", configProvider.getColumnStringConfig("MODIFIED_DATE", "CDRM"));
+		fieldToColumnDetailsMap.put("modifiedDate", configProvider.getColumnDateConfig("MODIFIED_DATE", "CDRM"));
 		fieldToColumnDetailsMap.put("modifiedBy", configProvider.getColumnStringConfig("MODIFIED_BY", "CDRM"));
 
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);

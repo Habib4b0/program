@@ -76,11 +76,11 @@ public class TPContractHolderLookUp extends Window {
     public static final String CONTRACT_HOLDER = "Contract Holder";
 
     public List<CompanyMaster> getFilteredCompanies() {
-        return filteredCompanies;
+        return filteredCompanies == null ? filteredCompanies : new ArrayList<>(filteredCompanies);
     }
 
     public void setFilteredCompanies(List<CompanyMaster> filteredCompanies) {
-        this.filteredCompanies = filteredCompanies;
+        this.filteredCompanies = filteredCompanies == null ? filteredCompanies : new ArrayList<>(filteredCompanies);
     }
 
     public ContractHolderDTO getSelectedChHolderHierarchy() {

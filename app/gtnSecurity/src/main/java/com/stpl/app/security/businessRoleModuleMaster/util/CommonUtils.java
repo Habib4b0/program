@@ -10,6 +10,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.ListType;
 import com.liferay.portal.kernel.service.ListTypeServiceUtil;
 import com.vaadin.v7.ui.NativeSelect;
+import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -178,7 +179,7 @@ public class CommonUtils {
 		public static String getSplitInQuery(@SuppressWarnings("rawtypes") List list1, String columnName) {
 
 	    	@SuppressWarnings("rawtypes")
-			List memList= list1;
+			List memList= list1 == null ? list1 : new ArrayList<>(list1);
 	    	String requiredColumnName = columnName;
 	    	int count=0;
 	        int a=0;
@@ -251,7 +252,7 @@ public class CommonUtils {
 		 public static String getSplitInQueryNotInV2(@SuppressWarnings("rawtypes") List list1, String columnName){
 
 		    	@SuppressWarnings("rawtypes")
-				List memList= list1;
+				List memList= list1 == null ? list1 : new ArrayList<>(list1);
 		    	String requiredColumnName = columnName;
 		    	int count=0;
 		        int a=0;

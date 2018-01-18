@@ -116,7 +116,7 @@ public class Summary extends CustomComponent {
     public Component getContent(List<RemoveDiscountDto> selecteditemList, ContractsDetailsDto dto, TabSheet mainTab, RemoveDiscount removeDiscount) {
         VerticalLayout vLayout = new VerticalLayout();
         this.removeDiscount = removeDiscount;
-        this.selecteditemList = selecteditemList;
+        this.selecteditemList = selecteditemList == null ? selecteditemList : new ArrayList<>(selecteditemList);
         this.dto = dto;
         vLayout.addComponent(Clara.create(getClass().getResourceAsStream("/discount/removeDiscountSummary.xml"), this));
         rebuildBtn = new Button(); // To resolve CEL-1223
