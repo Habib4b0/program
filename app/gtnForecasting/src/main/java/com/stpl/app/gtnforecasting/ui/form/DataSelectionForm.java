@@ -7,6 +7,7 @@ import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.ui.view.AccrualRateProjectionView;
 import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
@@ -261,7 +262,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 	 */
 	private void configureFields() throws SystemException {
 		resultsTableLayout.addComponent(resultTable);
-		resultsTableLayout.addComponent(tableLogic.createControls());
+		resultsTableLayout.addComponent(CommonLogic.getResponsiveControls(tableLogic.createControls()));
 		tableLogic.setContainerDataSource(resultsContainer);
                 tableLogic.setPageLength(10);
                 resultTable.setItemsPerPage(10);

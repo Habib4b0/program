@@ -35,13 +35,8 @@ import org.vaadin.alump.beforeunload.gwt.client.BeforeUnloadRpc;
  */
 public class BeforeUnload extends AbstractExtension {
     UI currentUI;
-    private BeforeUnloadRpc rpc1 = new BeforeUnloadRpc() {
-        
-        @Override
-        public void unload() {
-            fireEvent(new UnloadEvent(BeforeUnload.this));
-//            currentUI.close();
-        }
+    private final BeforeUnloadRpc rpc1 = () -> {
+        fireEvent(new UnloadEvent(BeforeUnload.this));
     };
 
     private void setUI(UI currentUI) {
@@ -49,6 +44,7 @@ public class BeforeUnload extends AbstractExtension {
     }
     public static class UnloadEvent extends ConnectorEvent {
         public static final Method UNLOAD_METHOD;
+        private static final long serialVersionUID = 1L;
  
         static {
             try {
