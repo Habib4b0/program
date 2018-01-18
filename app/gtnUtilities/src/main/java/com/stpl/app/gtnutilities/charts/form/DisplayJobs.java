@@ -40,19 +40,19 @@ public class DisplayJobs extends CustomComponent implements View {
     private static final Logger LOGGER = Logger.getLogger(DisplayJobs.class);
     @UiField("searchBtn")
     private Button searchBtn;
-    public BeanItemContainer<JobDTO> resultsBean = new BeanItemContainer<JobDTO>(JobDTO.class);
+    private BeanItemContainer<JobDTO> resultsBean = new BeanItemContainer<JobDTO>(JobDTO.class);
     @UiField("tableLayout")
-    VerticalLayout tableLayout;
+    private VerticalLayout tableLayout;
     @UiField("jobName")
-    TextField jobName;
+    private TextField jobName;
     @UiField("selectType")
-    OptionGroup selectType;
+    private OptionGroup selectType;
     @UiField("excelExport")
     private Button excelExport;
     private HorizontalLayout controlLayout = new HorizontalLayout();
-    TableLogic tableLogic = new TableLogic();
-    ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    SearchLogic searchLogic = SearchLogic.getInstance();
+    private TableLogic tableLogic = new TableLogic();
+    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private SearchLogic searchLogic = SearchLogic.getInstance();
     /**
      * Instantiates a new DisplayJobs
      */

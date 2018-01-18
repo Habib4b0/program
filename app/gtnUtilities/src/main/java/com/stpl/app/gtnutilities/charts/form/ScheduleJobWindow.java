@@ -66,7 +66,7 @@ public class ScheduleJobWindow extends CustomComponent {
     private Button saveBtn;
     @UiField("closeBtn")
     private Button closeBtn;
-    DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
+    private DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
 
     public ScheduleJobWindow() {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/clara/ScheduleJobWindow.xml"), this));
