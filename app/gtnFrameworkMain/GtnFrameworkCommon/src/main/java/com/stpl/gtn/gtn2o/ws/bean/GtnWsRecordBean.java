@@ -426,12 +426,23 @@ public class GtnWsRecordBean implements Serializable {
 		additionalProperties.set(index, value);
 	}
 
-	public GtnWsRecordBean cloneGtnWsRecordBean() throws CloneNotSupportedException {
-		GtnWsRecordBean newObject = (GtnWsRecordBean) super.clone();
-		newObject.properties = new ArrayList<>(this.properties);
-		newObject.additionalProperties = new ArrayList<>(this.additionalProperties);
+	@SuppressWarnings("unchecked")
+	public GtnWsRecordBean cloneGtnWsRecordBean() {
+		GtnWsRecordBean newObject = new GtnWsRecordBean();
+		newObject.childList = new ArrayList<>(checkAndReturnList(this.childList));
+		newObject.parentFlag = this.parentFlag;
+		newObject.recordHeader = new ArrayList<>(checkAndReturnList(this.recordHeader));
+		newObject.properties = new ArrayList<>(checkAndReturnList(this.properties));
+		newObject.additionalProperties = new ArrayList<>(checkAndReturnList(this.additionalProperties));
 		return newObject;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private List checkAndReturnList(List childList) {
+		if (childList == null) {
+			return Collections.emptyList();
+		}
+		return new ArrayList<>(childList);
+	}
 
 }
