@@ -55,7 +55,7 @@
         <profile>
             <id>OSGI-BUILD</id>-->
     <build>
-<!--        <plugins>  
+        <plugins>  
             <plugin>
                 <groupId>biz.aQute.bnd</groupId>
                 <artifactId>bnd-maven-plugin</artifactId>
@@ -80,7 +80,7 @@
                     </archive>
                 </configuration>
             </plugin> 
-        </plugins>-->
+        </plugins>
     </build>
 <!--        </profile>
     </profiles>-->

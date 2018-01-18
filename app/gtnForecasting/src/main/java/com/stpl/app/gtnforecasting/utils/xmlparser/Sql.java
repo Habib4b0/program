@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.utils.xmlparser;
 
+
 import java.util.Collections;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
