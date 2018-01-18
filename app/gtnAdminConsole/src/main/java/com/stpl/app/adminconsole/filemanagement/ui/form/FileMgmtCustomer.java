@@ -94,7 +94,7 @@ public class FileMgmtCustomer extends Window {
     private TextField source;
     @UiField("close")
     private Button close;
-    FileManagementLogic logic = new FileManagementLogic();
+    private FileManagementLogic logic = new FileManagementLogic();
     public static final Logger LOGGER = Logger.getLogger(FileMgmtCustomer.class);
 
     public FileMgmtCustomer() {

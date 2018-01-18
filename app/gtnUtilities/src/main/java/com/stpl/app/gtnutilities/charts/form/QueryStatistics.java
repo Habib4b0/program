@@ -52,22 +52,22 @@ public class QueryStatistics extends CustomComponent implements View {
     private Button durationBtn;
     @UiField("totalioBtn")
     private Button totalioBtn;
-    public BeanItemContainer<ChartsDTO> resultsBean = new BeanItemContainer<ChartsDTO>(ChartsDTO.class);
+    private BeanItemContainer<ChartsDTO> resultsBean = new BeanItemContainer<ChartsDTO>(ChartsDTO.class);
     @UiField("tableLayout")
-    VerticalLayout tableLayout;
+    private VerticalLayout tableLayout;
     @UiField("selecteDate")
     public PopupDateField selecteDate;
     @UiField("selectType")
-    OptionGroup selectType;
+    private OptionGroup selectType;
     @UiField("databaseDdlb")
-    ComboBox databaseDdlb;
+    private ComboBox databaseDdlb;
     @UiField("excelExport")
     private Button excelExport;
     private HorizontalLayout controlLayout = new HorizontalLayout();
-    TableLogic tableLogic = new TableLogic();
-    ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private TableLogic tableLogic = new TableLogic();
+    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private String selectedParameter = Constants.CPU;
-    SearchLogic searchLogic = SearchLogic.getInstance();
+    private SearchLogic searchLogic = SearchLogic.getInstance();
     /**
      * Instantiates a new QueryStatistics
      */

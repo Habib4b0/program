@@ -62,7 +62,7 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
 
     private static final Logger LOGGER = Logger.getLogger(ProjNameConfigAddForm.class);
 
-    public CustomFieldGroup nameBinder;
+    private CustomFieldGroup nameBinder;
 
     private final ErrorLabel errorMsg = new ErrorLabel();
 
@@ -90,13 +90,13 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
 
     private TextField finalName = new TextField();
 
-    public BeanItemContainer<ProjectionNameDTO> attributesTableResultsBean = new BeanItemContainer<>(ProjectionNameDTO.class);
+    private BeanItemContainer<ProjectionNameDTO> attributesTableResultsBean = new BeanItemContainer<>(ProjectionNameDTO.class);
 
-    public BeanItemContainer<ProjectionNameDTO> selectedResultsBean = new BeanItemContainer<>(ProjectionNameDTO.class);
+    private BeanItemContainer<ProjectionNameDTO> selectedResultsBean = new BeanItemContainer<>(ProjectionNameDTO.class);
 
-    final ProjectionNameDTO projectionNameDTO = new ProjectionNameDTO();
+    private final ProjectionNameDTO projectionNameDTO = new ProjectionNameDTO();
 
-    final ProjNameConfigLogic nameConfigLogic = new ProjNameConfigLogic();
+    private final ProjNameConfigLogic nameConfigLogic = new ProjNameConfigLogic();
 
     private static final BeanItem<?> NULL_OBJECT = null;
 

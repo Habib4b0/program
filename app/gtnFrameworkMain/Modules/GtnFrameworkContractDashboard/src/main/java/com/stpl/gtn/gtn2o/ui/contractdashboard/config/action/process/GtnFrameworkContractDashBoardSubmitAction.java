@@ -145,6 +145,7 @@ public class GtnFrameworkContractDashBoardSubmitAction implements GtnUIFrameWork
 		contractFieldMessageList.add("Contract Type should be entered on Contract Header tab");
 		contractFieldMessageList.add("Contract Status should be entered on Contract Header tab");
 		contractFieldMessageList.add("Start Date should be entered on Contract Header tab");
+		contractFieldMessageList.add("Trading Partner should be entered on Contract Header tab");
 
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId,
 				getValidateActionConfig(processDataBean, fieldList, contractFieldMessageList));
@@ -274,6 +275,7 @@ public class GtnFrameworkContractDashBoardSubmitAction implements GtnUIFrameWork
 
 		psFieldMessageList.add("Price Schedule ID should be entered on Pricing tab");
 		psFieldMessageList.add("Price Schedule No should be entered on Pricing tab");
+		psFieldMessageList.add("Price Schedule Name should be entered on Pricing tab");
 		psFieldMessageList.add("Price Schedule Status should be selected on Pricing tab");
 		psFieldMessageList.add("Price Schedule Start Date should be selected on Pricing tab");
 
@@ -300,8 +302,11 @@ public class GtnFrameworkContractDashBoardSubmitAction implements GtnUIFrameWork
 		rsFieldList.addAll(processDataBean.getRebateFieldList().subList(0, 8));
 		List<String> rsFieldMessageList = new ArrayList<>();
 		rsFieldList.add(processDataBean.getRebateFieldList().get(16));
+		rsFieldList.add(processDataBean.getRebateFieldList().get(24));
 		rsFieldList.add(processDataBean.getRebateFieldList().get(26));
 		rsFieldList.add(processDataBean.getRebateFieldList().get(29));
+		rsFieldList.add(processDataBean.getRebateFieldList().get(36));
+		rsFieldList.add(processDataBean.getRebateFieldList().get(38));
 
 		rsFieldMessageList.add("Rebate Schedule ID should be entered on Rebate tab");
 		rsFieldMessageList.add("Rebate Schedule No should be entered on Rebate tab");
@@ -312,8 +317,11 @@ public class GtnFrameworkContractDashBoardSubmitAction implements GtnUIFrameWork
 		rsFieldMessageList.add("Rebate Schedule Category should be selected on Rebate tab");
 		rsFieldMessageList.add("RS Start Date should be selected on Rebate tab");
 		rsFieldMessageList.add("Deduction Inclusion should be selected on Rebate tab");
+		rsFieldMessageList.add("Rebate Frequency should be selected on Rebate tab");
 		rsFieldMessageList.add("Payment Frequency should be selected on Rebate tab");
 		rsFieldMessageList.add("Payment Method should be selected on Rebate tab");
+		rsFieldMessageList.add("Calculation Type should be selected on Rebate tab");
+		rsFieldMessageList.add("Calculation Level should be selected on Rebate tab");
 
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId,
 				getValidateActionConfig(processDataBean, rsFieldList, rsFieldMessageList));

@@ -27,7 +27,7 @@ public class CommonQueryUtils {
      * @return List<Object[]> result list
      */
     private static final Logger LOGGER = Logger.getLogger(CommonQueryUtils.class);
-    static CommonDAO dao = new CommonDAOImpl();
+    private static CommonDAO dao = new CommonDAOImpl();
  
     public static Object executeSelectQuery(List input, String queryName) {
         List<Object[]> returnList = new ArrayList<>();
