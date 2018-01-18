@@ -14,7 +14,9 @@
  .v-window-closebox, .stpl .v-window-maximizebox, .stpl .v-window-restorebox{ 
  color: #FFFFFF;
  background: #428bca;
+ background-color: transparent;
  }
+ 
  
  .v-popupbutton .v-popup-indicator{
  background: transparent url(img/sprites.png) no-repeat -5px -10px;
@@ -22,9 +24,13 @@
  
  .v-textfield.searchText{
 background-image: url(img/imgsearchh-icon.png);
+background-position: right;
+background-repeat: no-repeat;
+cursor: pointer;
  }
  
   label {
     font-weight: normal;
 }
+
 }

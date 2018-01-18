@@ -75,11 +75,11 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The excel export image.
      */
-    private final Resource wordImage = new ThemeResource("../../icons/word.png");
+    private final Resource wordImage = new ThemeResource("img/word.png");
     /**
      * The graph image.
      */
-    private final Resource pdfImage = new ThemeResource("../../icons/pdf.png");
+    private final Resource pdfImage = new ThemeResource("img/pdf.png");
     /**
      * The excelBtn btn.
      */

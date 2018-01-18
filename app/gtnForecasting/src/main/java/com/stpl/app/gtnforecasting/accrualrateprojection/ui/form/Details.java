@@ -122,7 +122,7 @@ public class Details extends CustomComponent {
     @UiField("excelBtn")
     private Button excelBtn;
 
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
 
     public Details(final SessionDTO sessionDTO, final Map<String, String> map) {
         accrualRateProjectionLogic.setValuesInDTO(sessionDTO, accrualRateSelectionDTO);
