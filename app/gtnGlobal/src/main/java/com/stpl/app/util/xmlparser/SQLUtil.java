@@ -5,7 +5,6 @@
  */
 package com.stpl.app.util.xmlparser;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
@@ -28,7 +27,7 @@ public class SQLUtil {
     private final Map<String, String> QUERY_MAP = new HashMap<>();
     private static SQLUtil sqlUtil = null;
     private static final Logger LOGGER = LoggerFactory.getLogger(SQLUtil.class);
-    
+
 
     private SQLUtil() {
         try {
@@ -55,6 +54,9 @@ public class SQLUtil {
         while (urls.hasMoreElements()) {
             URL tempUrl = urls.nextElement();
             if (tempUrl.getFile() != null && tempUrl.getFile().contains(".xml")) {
+                Map<String, Object> properties = new HashMap<String, Object>(1);
+//                properties.put("javax.xml.bind.context.factory",
+//                        "org.eclipse.persistence.jaxb.JAXBContextFactory");
                 JAXBContext jaxbContext = JAXBContext.newInstance(Sql.class);
                 Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
                 Sql que = (Sql) jaxbUnmarshaller.unmarshal(tempUrl);
@@ -72,6 +74,10 @@ public class SQLUtil {
     }
 
     public static String getQuery(String sqlId) {
+        return SQLUtil.getContext().getQUERY_MAP().get(sqlId);
+    }
+    
+     public static String getQuery(Class clasName,String sqlId) {
         return SQLUtil.getContext().getQUERY_MAP().get(sqlId);
     }
 
