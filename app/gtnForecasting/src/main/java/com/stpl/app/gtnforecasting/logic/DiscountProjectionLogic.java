@@ -1229,24 +1229,26 @@ public class DiscountProjectionLogic {
         return list.get(0);
     }
     
-    public int checkCheckRecordForTripleHeader(SessionDTO session) {
-       String updateSelectQuery="SELECT COUNT(CHECK_RECORD) FROM ST_NM_DISCOUNT_PROJ_MASTER WHERE CHECK_RECORD=1 ";
-       List<String> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(updateSelectQuery, session.getCurrentTableNames()));
-       return list.get(0) != null ? Integer.parseInt(String.valueOf(list.get(0))) : 0;
+
+    public String getFormatedHierarchyNo(List<String> list) {
+        StringBuilder hierarchyNo=new StringBuilder();
+        for (String string : list) {
+            hierarchyNo.append("('").append(string).append("'),");
+        }
+        hierarchyNo=hierarchyNo.replace(hierarchyNo.lastIndexOf(","), hierarchyNo.length(),"");
+        return hierarchyNo.toString();
     }
     
-    public String getHierarchyNo(SessionDTO session,String hierarchyIndicator) {
-       StringBuilder hierarchyNo=new StringBuilder();
-       String custOrProd=hierarchyIndicator.equals("C")?"CUST_HIERARCHY_NO":"PROD_HIERARCHY_NO";
-       StringBuilder updateSelectQuery=new StringBuilder();
-       updateSelectQuery.append("SELECT  CCP.");
-       updateSelectQuery.append(custOrProd);
-       updateSelectQuery.append(" FROM ST_NM_DISCOUNT_PROJ_MASTER NMDISC JOIN ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID=NMDISC.CCP_DETAILS_SID WHERE NMDISC.CHECK_RECORD=1 ");
-       List<String> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(updateSelectQuery.toString(), session.getCurrentTableNames()));
-        for (String string : list) {
-            hierarchyNo=hierarchyNo.append(string).append(",");
-        }
-       hierarchyNo=hierarchyNo.replace(hierarchyNo.lastIndexOf(","), hierarchyNo.length(),"");
-       return hierarchyNo.toString();
+    public void updateCheckRecordForAdjust(List discountList,List<String> hierarchyList,SessionDTO sessionDto,String hierarchyIndicator){
+    String updateQuery=SQlUtil.getQuery("UPDATE_ALL_LEVEL_CHECKRECORD_ADJUST");
+    updateQuery= updateQuery.replace("@BUILDERSID", sessionDto.getDedRelationshipBuilderSid()).replace("@LEVNO", String.valueOf(sessionDto.getSelectedDeductionLevelNo()));
+    updateQuery= updateQuery.replace("@RELATIONSIDS", StringUtils.join(discountList,",")).replace("@HIERARCHY_NO", getFormatedHierarchyNo(hierarchyList));
+    updateQuery= updateQuery.replace("@HIERARCHY_COLUMN", hierarchyIndicator.equals("C")?"CCPH.CUST_HIERARCHY_NO":"CCPH.PROD_HIERARCHY_NO");
+    HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery,sessionDto.getCurrentTableNames()));
+    }
+    
+    public void updateAllToZero(SessionDTO sessionDto){
+    String updateZeroQuery="UPDATE ST_NM_DISCOUNT_PROJ_MASTER SET CHECK_RECORD=0";
+    HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(updateZeroQuery,sessionDto.getCurrentTableNames()));
     }
 }

@@ -211,9 +211,6 @@ public class DiscountQueryBuilder {
             } else {
                 customSql = checkIsCustom(isCustomView, hierarchyIndicator, StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, hierarchyNo, customSql,session);
             }
-            if (isTripleCheck && !checkValue) {
-                customSql="UPDATE ST_NM_DISCOUNT_PROJ_MASTER SET CHECK_RECORD=0 ".concat(customSql);
-            }
             return HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         } catch (Exception e) {
