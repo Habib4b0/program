@@ -79,7 +79,7 @@ public class ChartsForm extends CustomComponent implements View {
             public void selectedTabChange(TabSheet.SelectedTabChangeEvent event) {
                 TabSheet tabsheet = event.getTabSheet();
                 if (tabsheet.getSelectedTab().getCaption().equals(Constants.QUERY_STATISTICS)) {
-                    queryStatistics.selecteDate.setValue(SearchLogic.getInstance().selectedDate);
+                    queryStatistics.selecteDate.setValue(SearchLogic.getInstance().getSelectedDate());
                     queryStatistics.refreshTable();
                 }
             }

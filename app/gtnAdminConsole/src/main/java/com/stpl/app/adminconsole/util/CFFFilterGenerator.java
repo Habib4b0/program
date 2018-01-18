@@ -25,7 +25,7 @@ import org.jboss.logging.Logger;
  */
 public class CFFFilterGenerator implements ExtFilterGenerator {
 
-    ProcessSchedulerLogic logic = new ProcessSchedulerLogic();
+    private ProcessSchedulerLogic logic = new ProcessSchedulerLogic();
     private final CommonUtils commonUtils = new CommonUtils();
 
     /**

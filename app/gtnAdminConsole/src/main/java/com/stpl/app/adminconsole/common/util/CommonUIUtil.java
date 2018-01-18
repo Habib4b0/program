@@ -194,7 +194,7 @@ public final class CommonUIUtil {
         "companyId", "units", "priceType", PRICE, "salesAmount", "salesInclusion", "deductionId", "deductionCategory", "deductionType", "deductionProgramType", "adjustmentCode", "deductionRate", "deductionAmount", "deductionInclusion", "forecastValueType", BRAND_ID1, SEGMENT1, BATCH_ID_PROPERTY, ORGANIZATION_KEY1, "forecastVersion", COUNTRY1, "forecastName",
         "forecastDate", "customerGtsForecastIntfId"};
 
-    SessionDTO sessionDTO = new SessionDTO();
+    private SessionDTO sessionDTO = new SessionDTO();
 
     private CommonUIUtil() {
 
