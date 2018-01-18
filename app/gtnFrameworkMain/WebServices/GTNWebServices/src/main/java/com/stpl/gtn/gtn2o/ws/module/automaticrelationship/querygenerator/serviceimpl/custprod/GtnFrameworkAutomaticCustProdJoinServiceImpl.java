@@ -48,7 +48,7 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
 				GtnFrameworkOperatorType.EQUAL_TO);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO",
-				getHierarchyNoForRelationShip(customerHierarchyLevelDefinitionList, hierarchyLevelBean),
+				getHierarchyNoForRelationShip(customerHierarchyLevelDefinitionList, previousHierarchyLevelBean),
 				GtnFrameworkOperatorType.LIKE);
 
 		GtnFrameworkJoinClauseBean relationHIerachyJOin = querygeneratorBean.addJoinClauseBean(
@@ -100,7 +100,7 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 			HierarchyLevelDefinitionBean selectedHierarchyLevelDto) {
 		StringBuilder query = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder();
-		for (int i = 0; i < selectedHierarchyLevelDto.getLevelNo() - 1; i++) {
+		for (int i = 0; i < selectedHierarchyLevelDto.getLevelNo(); i++) {
 			HierarchyLevelDefinitionBean leveldto = hierarchyLevelDefinitionList.get(i);
 			if (leveldto.getTableName().isEmpty()) {
 				query.append(",'%'");
