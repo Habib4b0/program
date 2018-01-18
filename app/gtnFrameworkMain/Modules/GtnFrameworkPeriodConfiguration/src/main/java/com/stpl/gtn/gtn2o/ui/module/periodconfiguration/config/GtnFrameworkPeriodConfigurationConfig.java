@@ -125,6 +125,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				GtnUIFrameworkComponentType.PANEL);
 		panelConfig.setAuthorizationIncluded(true);
 		panelConfig.setComponentName("From Period");
+                panelConfig.setComponentWidth(GtnFrameworkPeriodConfigurationContants.ONE_HUNDRED_PERCENT);
 		panelConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_6);
 		componentList.add(panelConfig);
 		addPeriodFromLayout(componentList, namspacePrefix, componentConfigProvider);
@@ -139,6 +140,7 @@ public class GtnFrameworkPeriodConfigurationConfig {
 				GtnUIFrameworkComponentType.PANEL);
 		panelConfig.setAuthorizationIncluded(true);
 		panelConfig.setComponentName("To Period");
+                panelConfig.setComponentWidth(GtnFrameworkPeriodConfigurationContants.ONE_HUNDRED_PERCENT);
 		panelConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_6);
 		componentList.add(panelConfig);
 		addPeriodtoLayout(componentList, namspacePrefix, componentConfigProvider);
