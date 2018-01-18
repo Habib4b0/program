@@ -2788,6 +2788,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
 					if (logic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
 							isCustomHierarchy)) {
+                                            
+                                            if (logic.adjustDiscountProjectionValidation(projectionSelection)) {
+                                                NotificationUtils.getErrorNotification("Error", "When using the ‘% of Ex-Factory’ methodology, a product cannot be included in multiple selected contract, customer, and product combinations. Please update the selections");
+                                                return;
+                                            }
 
 						String confirmMessage = Constant.INCREMENTAL_ADJUSTMENT_CONFIRMATION;
 						String messageBody = StringUtils.EMPTY;
