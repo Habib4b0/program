@@ -22,6 +22,7 @@ import com.vaadin.ui.UI;
 import static com.vaadin.ui.UI.getCurrent;
 import java.util.ArrayList;
 import java.util.List;
+import org.vaadin.alump.beforeunload.BeforeUnload;
 
 @Theme("stpl")
 @Widgetset("com.stpl.gtn.gtn20.widgetset.gtnvaadinwidgetset.AppWidgetSet")
@@ -37,6 +38,7 @@ public class GtnFrameworkTransactionPortlet extends UI {
         try {
             addStyleName("bootstrap");
             addStyleName("bootstrap-bb");
+            handleOnBeforeUnload();
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 	     PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
@@ -100,6 +102,18 @@ public class GtnFrameworkTransactionPortlet extends UI {
         viewList.add(viewComponentConfig);
         rootConfig.setGtnViewConfigList(viewList);
 
+    }
+    private void handleOnBeforeUnload(){
+         LOGGER.info("handleOnBeforeUnload = " );
+        BeforeUnload ob = BeforeUnload.closeBeforeUnload(this);
+        ob.addUnloadListener(new BeforeUnload.UnloadListener() {
+             private static final long serialVersionUID = 1L;
+
+             public void unload(BeforeUnload.UnloadEvent event) {
+                 LOGGER.info("Closing UIIII");
+                 getCurrent().getUI().close();
+             }
+         });
     }
 
 }
