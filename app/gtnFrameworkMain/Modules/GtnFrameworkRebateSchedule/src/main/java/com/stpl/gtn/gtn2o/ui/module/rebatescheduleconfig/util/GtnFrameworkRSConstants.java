@@ -8,7 +8,16 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 
 public class GtnFrameworkRSConstants {
 
-	private static final String DESCRIPTION = "description";
+
+	public static final String DEDUCTION_CALENDAR_NO = "Deduction Calendar No";
+	public static final String FORMULA_NO2 = "Formula No";
+	public static final String REBATE_PLAN_NO2 = "Rebate Plan No";
+	public static final String BUNDLE_NO = "Bundle No";
+	public static final String NET_SALES_RULE = "Net Sales Rule";
+	public static final String NET_SALES_FORMULA = "Net Sales Formula";
+	public static final String FORMULA_NO = "formulaNo";
+	public static final String RS_BUNDLE_NO = "rsBundleNo";
+	public static final String DESCRIPTION = "description";
 
 	private GtnFrameworkRSConstants() {
 		/**
@@ -72,7 +81,7 @@ public class GtnFrameworkRSConstants {
 
 	private static final List<String> DATE_FIELD_PROPERTIES = Arrays.asList(RS_START_DATE, RS_END_DATE1);
 
-	private static final String FORMULA_NAME = "formulaName";
+	public static final String FORMULA_NAME = "formulaName";
 
 	private static final List<String> NON_EIDTABLE_LIST = Arrays.asList(FORMULA_NAME);
 
@@ -81,15 +90,15 @@ public class GtnFrameworkRSConstants {
 	public static final String CALCULATION_RULE_BUNDLE1 = "calculationRuleBundle";
 	private static final List<String> TEXT_FIELD_PROPERTIES = Arrays.asList(GtnFrameworkCommonConstants.ITEM_NO,
 			GtnFrameworkCommonConstants.ITEM_NAME, DEDUCTION_NO, EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_BUNDLE1,
-			FORMULA_NAME, "rsBundleNo");
+			FORMULA_NAME, RS_BUNDLE_NO);
 	private static final String NET_SALES_FORMULA_NAME = "netSalesFormulaName";
 	public static final String NET_SALES_RULE_NAME = "netSalesRuleName";
 	public static final String EVALUATION_RULE_NAME = "evaluationRuleName";
 	public static final String CALCULATION_RULE_NAME = "calculationRuleName";
-	private static final String REBATE_PLAN_NO1 = "rebatePlanNo";
+	public static final String REBATE_PLAN_NO1 = "rebatePlanNo";
 
 	private static final List<String> POP_UP_TEXT_FIELD_PROPERTIES = Arrays.asList(DEDUCTION_NO, EVALUATION_RULE_NAME,
-			CALCULATION_RULE_NAME, NET_SALES_RULE_NAME, "formulaNo", NET_SALES_FORMULA_NAME, REBATE_PLAN_NO1);
+			CALCULATION_RULE_NAME, NET_SALES_RULE_NAME, FORMULA_NO, NET_SALES_FORMULA_NAME, REBATE_PLAN_NO1);
 	public static final String REBATE_SETUP_FIELD_FACTORY_ACTION = "com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.action.GtnFrameworkRSTableFieldFactoryFieldUpdateAction";
 	public static final String EVALUATION_RULE_BUNDLE = "Evaluation Rule Bundle";
 	public static final String CALCULATION_RULE_BUNDLE = "Calculation Rule bundle";
@@ -101,56 +110,57 @@ public class GtnFrameworkRSConstants {
 	public static final String CALCULATION_RULE1 = "Calculation Rule";
 	public static final String RS_START_DATE1 = "RS Start Date";
 
-	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_REBATE_PLAN_TABLEHEADERS = { ITEM_NO,
-			GtnFrameworkCommonConstants.ITEM_NAME_HEADER, RS_STATUS1, RS_START_DATE1, RS_END_DATE, "Bundle No",
-			"Rebate Plan No", "Rebate Plan Name", "Net Sales Formula", "Net Sales Rule", EVALUATION_RULE,
+	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_REBATE_PLAN_TABLEHEADERS = { "", ITEM_NO,
+			GtnFrameworkCommonConstants.ITEM_NAME_HEADER, RS_STATUS1, RS_START_DATE1, RS_END_DATE, BUNDLE_NO,
+			REBATE_PLAN_NO2, "Rebate Plan Name", NET_SALES_FORMULA, NET_SALES_RULE, EVALUATION_RULE,
 			EVALUATION_RULE_BUNDLE, CALCULATION_RULE1, CALCULATION_RULE_BUNDLE, ATTACHED_DATE };
 
 	public static final String ATTACHED_DATE1 = "attachedDate";
 
 	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_REBATE_PLAN_VISIBLECOLUMNS = {
-			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME, DESCRIPTION, RS_START_DATE,
-			RS_END_DATE1, "rsBundleNo", REBATE_PLAN_NO1, "rebatePlanName", NET_SALES_FORMULA_NAME, NET_SALES_RULE_NAME,
-			EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1,
-			ATTACHED_DATE1 };
+			GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.ITEM_NO,
+			GtnFrameworkCommonConstants.ITEM_NAME, RS_STATUS, RS_START_DATE, RS_END_DATE1, RS_BUNDLE_NO,
+			REBATE_PLAN_NO1, "rebatePlanName", NET_SALES_FORMULA_NAME, NET_SALES_RULE_NAME, EVALUATION_RULE_NAME,
+			EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1, ATTACHED_DATE1 };
 
-	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_FORMULA_TABLEHEADERS = { ITEM_NO,
+	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_FORMULA_TABLEHEADERS = { " ", ITEM_NO,
 			GtnFrameworkCommonConstants.ITEM_NAME_HEADER, RS_STATUS1, RS_START_DATE1, RS_END_DATE, "Formula Type",
-			"Formula No", "Formula Name", "Net Sales Formula", "Net Sales Rule", EVALUATION_RULE,
-			EVALUATION_RULE_BUNDLE, CALCULATION_RULE1, CALCULATION_RULE_BUNDLE, ATTACHED_DATE };
-
-	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_FORMULA_VISIBLECOLUMNS = {
-			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME,  DESCRIPTION, RS_START_DATE,
-			RS_END_DATE1, "formulaType", "formulaNo", FORMULA_NAME, NET_SALES_FORMULA_NAME, NET_SALES_RULE_NAME,
-			EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1,
-			ATTACHED_DATE1 };
-
-	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_TABLEHEADERS = { ITEM_NO,
-			GtnFrameworkCommonConstants.ITEM_NAME_HEADER, RS_STATUS1, RS_START_DATE1, RS_END_DATE,
-			"Deduction Calendar No", "Deduction Calendar Name", EVALUATION_RULE, EVALUATION_RULE_BUNDLE,
+			FORMULA_NO2, "Formula Name", NET_SALES_FORMULA, NET_SALES_RULE, EVALUATION_RULE, EVALUATION_RULE_BUNDLE,
 			CALCULATION_RULE1, CALCULATION_RULE_BUNDLE, ATTACHED_DATE };
 
-	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_PRICE_PROTECTION_TABLEHEADERS = {
+	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_FORMULA_VISIBLECOLUMNS = {
+			GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.ITEM_NO,
+			GtnFrameworkCommonConstants.ITEM_NAME, RS_STATUS, RS_START_DATE, RS_END_DATE1, "formulaType", FORMULA_NO,
+			FORMULA_NAME, NET_SALES_FORMULA_NAME, NET_SALES_RULE_NAME, EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1,
+			CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1, ATTACHED_DATE1 };
+
+	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_TABLEHEADERS = { " ", ITEM_NO,
+			GtnFrameworkCommonConstants.ITEM_NAME_HEADER, RS_STATUS1, RS_START_DATE1, RS_END_DATE,
+			DEDUCTION_CALENDAR_NO, "Deduction Calendar Name", EVALUATION_RULE, EVALUATION_RULE_BUNDLE,
+			CALCULATION_RULE1, CALCULATION_RULE_BUNDLE, ATTACHED_DATE };
+
+	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_PRICE_PROTECTION_TABLEHEADERS = { " ",
 			GtnFrameworkCommonConstants.ITEM_NO_HEADER, GtnFrameworkCommonConstants.ITEM_NAME_HEADER,
 			GtnFrameworkRSConstants.RS_STATUS1, GtnFrameworkRSConstants.RS_START_DATE1,
 			GtnFrameworkRSConstants.RS_END_DATE };
 
 	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_PRICE_PROTECTION_VISIBLECOLUMNS = {
-			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME,
-			 DESCRIPTION, GtnFrameworkRSConstants.RS_START_DATE,
+			GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.ITEM_NO,
+			GtnFrameworkCommonConstants.ITEM_NAME, RS_STATUS, GtnFrameworkRSConstants.RS_START_DATE,
 			GtnFrameworkRSConstants.RS_END_DATE1 };
 
 	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_VISIBLECOLUMNS = {
-			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME,  DESCRIPTION, RS_START_DATE,
-			RS_END_DATE1, "deductionName", DEDUCTION_NO, EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1,
-			CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1, ATTACHED_DATE1 };
+			GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.ITEM_NO,
+			GtnFrameworkCommonConstants.ITEM_NAME, RS_STATUS, RS_START_DATE, RS_END_DATE1, "deductionName",
+			DEDUCTION_NO, EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_NAME,
+			CALCULATION_RULE_BUNDLE1, ATTACHED_DATE1 };
 
 	private static final String[] RS_SETUP_TAB_TABLE_HEADERS = { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
 			GtnFrameworkCommonConstants.ITEM_NAME_HEADER, RS_STATUS1, GtnFrameworkRSConstants.RS_START_DATE1,
-			GtnFrameworkRSConstants.RS_END_DATE };
+			GtnFrameworkRSConstants.RS_END_DATE, RS_STATUS1 };
 
 	private static final Object[] RS_SETUP_TAB_VISIBLE_COLUMNS = { GtnFrameworkCommonConstants.CHECK_RECORD_ID,
-			"itemNo", "itemName", RS_STATUS, RS_START_DATE, RS_END_DATE1 };
+			"itemNo", "itemName", RS_STATUS, RS_START_DATE, RS_END_DATE1, DESCRIPTION };
 
 	private static final Object[] RS_SETUP_TAB_VISIBLE_COLUMNS_VIEW = { "itemNo", "itemName", DESCRIPTION,
 			RS_START_DATE, RS_END_DATE1 };
@@ -407,5 +417,57 @@ public class GtnFrameworkRSConstants {
 	public static Object[] getRsSetupTabVisibleColumns() {
 		return RS_SETUP_TAB_VISIBLE_COLUMNS.clone();
 	}
+
+	public static String[] getRsSetUpTabCalculationTypeRebatePlanTableHeadersforView() {
+		return RS_SETUP_TAB_CALCULATION_TYPE_REBATE_PLAN_TABLEHEADERS_VIEW.clone();
+	}
+
+	public static Object[] getRsSetUPTabCalculationTypeRebatePlanVisibleColumnsforView() {
+		return RS_SETUP_TAB_CALCULATION_TYPE_REBATE_PLAN_VISIBLECOLUMNS_VIEW.clone();
+	}
+
+	public static String[] getRsSetUpTabCalculationTypeFormulaTableHeadersforView() {
+		return RS_SETUP_TAB_CALCULATION_TYPE_FORMULA_TABLEHEADERS_VIEW.clone();
+	}
+
+	public static Object[] getRsSetUPTabCalculationTypeFormulaVisibleColumnsforView() {
+		return RS_SETUP_TAB_CALCULATION_TYPE_FORMULA_VISIBLECOLUMNS_VIEW.clone();
+	}
+
+	public static String[] getRsSetUpTabCalculationTypeDeductionCalendarTableHeadersforView() {
+		return RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_TABLEHEADERS_VIEW.clone();
+	}
+
+	public static Object[] getRsSetUpTabCalculationTypeDeductionCalendarVisibleColumnsforView() {
+		return RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_VISIBLECOLUMNS_VIEW.clone();
+	}
+
+	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_REBATE_PLAN_TABLEHEADERS_VIEW = { ITEM_NO,
+			GtnFrameworkCommonConstants.ITEM_NAME_HEADER, RS_STATUS1, RS_START_DATE1, RS_END_DATE, BUNDLE_NO,
+			REBATE_PLAN_NO2, "Rebate Plan Name", NET_SALES_FORMULA, NET_SALES_RULE, EVALUATION_RULE,
+			EVALUATION_RULE_BUNDLE, CALCULATION_RULE1, CALCULATION_RULE_BUNDLE, ATTACHED_DATE };
+	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_REBATE_PLAN_VISIBLECOLUMNS_VIEW = {
+			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME, DESCRIPTION, RS_START_DATE,
+			RS_END_DATE1, RS_BUNDLE_NO, REBATE_PLAN_NO1, "rebatePlanName", NET_SALES_FORMULA_NAME, NET_SALES_RULE_NAME,
+			EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1,
+			ATTACHED_DATE1 };
+	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_FORMULA_TABLEHEADERS_VIEW = { ITEM_NO,
+			GtnFrameworkCommonConstants.ITEM_NAME_HEADER, RS_STATUS1, RS_START_DATE1, RS_END_DATE, "Formula Type",
+			FORMULA_NO2, "Formula Name", NET_SALES_FORMULA, NET_SALES_RULE, EVALUATION_RULE, EVALUATION_RULE_BUNDLE,
+			CALCULATION_RULE1, CALCULATION_RULE_BUNDLE, ATTACHED_DATE };
+
+	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_FORMULA_VISIBLECOLUMNS_VIEW = {
+			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME, DESCRIPTION, RS_START_DATE,
+			RS_END_DATE1, "formulaType", FORMULA_NO, FORMULA_NAME, NET_SALES_FORMULA_NAME, NET_SALES_RULE_NAME,
+			EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1, CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1,
+			ATTACHED_DATE1 };
+	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_TABLEHEADERS_VIEW = { ITEM_NO,
+			GtnFrameworkCommonConstants.ITEM_NAME_HEADER, RS_STATUS1, RS_START_DATE1, RS_END_DATE,
+			DEDUCTION_CALENDAR_NO, "Deduction Calendar Name", EVALUATION_RULE, EVALUATION_RULE_BUNDLE,
+			CALCULATION_RULE1, CALCULATION_RULE_BUNDLE, ATTACHED_DATE };
+	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_VISIBLECOLUMNS_VIEW = {
+			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME, DESCRIPTION, RS_START_DATE,
+			RS_END_DATE1, "deductionName", DEDUCTION_NO, EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1,
+			CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1, ATTACHED_DATE1 };
 
 }
