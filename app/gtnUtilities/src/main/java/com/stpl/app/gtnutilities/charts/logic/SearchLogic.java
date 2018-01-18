@@ -52,17 +52,17 @@ import com.vaadin.ui.themes.Reindeer;
 public class SearchLogic {
 
 	private static SearchLogic searchLogic;
-	public Date selectedDate = CommonMethods.getYesterdayDate();
+	private Date selectedDate = CommonMethods.getYesterdayDate();
 	private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
 	// Declaring resusable global Variables
-	Window detailedQuery = new Window(Constants.QUERY);
-	Button link;
-	String query = Constants.EMPTY;
-	SimpleStringFilter stringFilter;
-	List returnList = new ArrayList<>();
-	ChartsDTO chartsDTO;
-	JobDTO jobDTO = null;
-	Connection connection = null;
+	private Window detailedQuery = new Window(Constants.QUERY);
+	private Button link;
+	private String query = Constants.EMPTY;
+	private SimpleStringFilter stringFilter;
+	private List returnList = new ArrayList<>();
+	private ChartsDTO chartsDTO;
+	private JobDTO jobDTO = null;
+	private Connection connection = null;
 	/**
 	 * The Constant LOGGER.
 	 */
@@ -129,7 +129,7 @@ public class SearchLogic {
 		} catch (Exception ex) {
 			LOGGER.debug(ex);
 		}
-		return returnList;
+		return returnList == null ? returnList : new ArrayList<>(returnList);
 	}
 
 	private List customize_data(List<Object[]> resultList, String tableName, String type) {
@@ -305,7 +305,7 @@ public class SearchLogic {
 		} catch (Exception ex) {
 			LOGGER.debug(ex);
 		}
-		return returnList;
+		return returnList == null ? returnList : new ArrayList<>(returnList);
 	}
 
 	String getRequiredColumnsBasedOnTable(String tableName) {
@@ -320,5 +320,13 @@ public class SearchLogic {
 	public void closeConnection() throws SQLException {
 
 		connection.close();
+	}
+
+	public Date getSelectedDate() {
+		return selectedDate == null ? null : (Date) selectedDate.clone();
+	}
+
+	public void setSelectedDate(Date selectedDate) {
+		this.selectedDate = selectedDate == null ? null : (Date) selectedDate.clone();
 	}
 }

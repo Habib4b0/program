@@ -293,7 +293,7 @@ public final class CommonUIUtil {
 
     private static final String[] EXCEL_FILE_MGMT_LOOKUP_INV_DETAILS_SUMMARY = new String[]{"Year", MONTH_LABEL, "Day", "Week", ITEM_ID_LABEL, StringConstantsUtil.ITEM_IDENTIFIER_CODE_QUALIFIER_LABEL, ITEM_IDENTIFIER, UNITS_WITHDRAWN, AMOUNT_WITHDRAWN1, PRICE_LABEL, StringConstantsUtil.BATCH_ID_LABEL, ORGANIZATION_KEY};
        
-    public static CommonUIUtil object;
+    private static CommonUIUtil object;
 
     public static CommonUIUtil getInstance() {
         if (object == null) {

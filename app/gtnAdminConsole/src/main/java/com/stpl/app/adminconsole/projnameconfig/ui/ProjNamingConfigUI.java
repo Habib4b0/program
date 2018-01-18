@@ -30,7 +30,7 @@ public class ProjNamingConfigUI extends UI {
     /**
      * The navigator.
      */
-    public Navigator navigator;
+	private Navigator navigator;
     /**
      * The Constant LOGGER.
      */

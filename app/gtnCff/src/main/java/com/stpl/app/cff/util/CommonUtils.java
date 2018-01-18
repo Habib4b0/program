@@ -176,7 +176,7 @@ public class CommonUtils {
     public static final String SPECIAL_CHAR = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*";
 
     public static final String STRING_NULL = "null";
-    public CFFQueryUtils cffQueryUtils = new CFFQueryUtils();
+    private CFFQueryUtils cffQueryUtils = new CFFQueryUtils();
     /**
      * The helper list util.
      */

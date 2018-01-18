@@ -205,7 +205,7 @@ public class ApprovalTab extends CustomComponent {
     /**
      * The cff dto.
      */
-    public  CFFDTO cffDTO;
+    private  CFFDTO cffDTO;
     /**
      * The commonUtils.
      */

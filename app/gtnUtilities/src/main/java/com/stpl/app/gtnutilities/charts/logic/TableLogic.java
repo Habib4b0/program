@@ -8,6 +8,8 @@ package com.stpl.app.gtnutilities.charts.logic;
 import com.stpl.app.gtnutilities.util.Constants;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.Container;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 
@@ -17,11 +19,11 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class TableLogic extends PageTableLogic {
 
-    final SearchLogic searchLogic = SearchLogic.getInstance();
-    final com.stpl.app.gtnutilities.serverlogging.logic.SearchLogic loggingSearchLogic = com.stpl.app.gtnutilities.serverlogging.logic.SearchLogic.getInstance();
-    List list = null;
-    Object[] input = null;
-    String screenName = Constants.EMPTY;
+	private final SearchLogic searchLogic = SearchLogic.getInstance();
+	private final com.stpl.app.gtnutilities.serverlogging.logic.SearchLogic loggingSearchLogic = com.stpl.app.gtnutilities.serverlogging.logic.SearchLogic.getInstance();
+	private List list = null;
+	private Object[] input = null;
+	private String screenName = Constants.EMPTY;
 
     @Override
     public int getCount() {
@@ -49,7 +51,7 @@ public class TableLogic extends PageTableLogic {
             list = (List) loggingSearchLogic.searchResults(false, start, offset);
         }
 
-        return list;
+        return list == null ? list : new ArrayList<>(list);
     }
 
     @Override
@@ -74,7 +76,7 @@ public class TableLogic extends PageTableLogic {
     }
 
     public void configureSearchData(Object[] input, String screenName) {
-        this.input = input;
+        this.input = input == null ? input : input.clone();
         this.screenName = screenName;
         this.clearAll();
         this.getFilters().clear();
