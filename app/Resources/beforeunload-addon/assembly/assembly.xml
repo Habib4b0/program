@@ -29,6 +29,14 @@
       <outputDirectory>META-INF</outputDirectory>
       <filtered>true</filtered>
     </file>
+    <file>
+      <source>../README.md</source>
+      <filtered>true</filtered>
+    </file>
+        <file>
+      <source>../LICENSE.txt</source>
+      <filtered>true</filtered>
+    </file>
   </files>
   
 </assembly>
