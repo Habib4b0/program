@@ -987,7 +987,7 @@ public class AdditionalInformation extends CustomComponent implements View {
                  */
                 public void call(final org.json.JSONArray arguments) throws org.json.JSONException {
                     File fileUpload;
-                    final String value = String.valueOf(arguments.get(0));
+                    final String value = String.valueOf(arguments.get(0).asString());
                     fileUpload = new File(value);
                     final String name = fileUpload.getAbsolutePath();
                     if (name.contains("\\")) {

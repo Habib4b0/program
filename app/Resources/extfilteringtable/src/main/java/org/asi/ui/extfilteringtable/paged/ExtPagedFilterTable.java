@@ -330,12 +330,12 @@ public class ExtPagedFilterTable<T extends Container.Indexed & Container.Filtera
         pageManagement.setComponentAlignment(last, Alignment.MIDDLE_LEFT);
         pageManagement.setWidth(null);
         pageManagement.setSpacing(true);
-        controlBar.addComponent(pageSize);
+//        controlBar.addComponent(pageSize);
         controlBar.addComponent(pageManagement);
-        controlBar.setComponentAlignment(pageManagement,
-                Alignment.MIDDLE_CENTER);
+//        controlBar.setComponentAlignment(pageManagement,
+//                Alignment.MIDDLE_CENTER);
         controlBar.setWidth(100, Unit.PERCENTAGE);
-        controlBar.setExpandRatio(pageSize, 1);
+//        controlBar.setExpandRatio(pageSize, 1);
 
         if (container != null) {
             first.setEnabled(container.getStartIndex() > 0);
@@ -371,7 +371,7 @@ public class ExtPagedFilterTable<T extends Container.Indexed & Container.Filtera
         });
         return controlBar;
     }
-
+	
     /**
      * Configure item per page.
      *
