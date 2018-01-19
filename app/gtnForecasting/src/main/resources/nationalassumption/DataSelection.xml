@@ -4,7 +4,7 @@
         <Panel caption="Data Selection"  width="100%" styleName="textbold" > 
             <VerticalLayout spacing="true" margin="true" immediate="true">
 
-          <GridLayout spacing="false" margin="false" immediate="true"
+          <GridLayout spacing="true" margin="false" immediate="true"
                             columns="5" rows="3">
                      <!--First row start--> 
 
