@@ -1284,7 +1284,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		levelDdlb.removeAllItems();
 		levelDdlb.addItem(SELECT_ONE.getConstant());
 		levelDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
-
+		Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+        	@Override
+			public int compare(Leveldto o1, Leveldto o2) {
+				return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+        	}
+        });
+        Collections.reverse(currentHierarchy);
+    	
 		if (currentHierarchy != null) {
 			boolean toSetCaption = true;
 			for (int i = 0; i < currentHierarchy.size(); i++) {
@@ -5160,6 +5167,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				? Integer.valueOf(session.getProductLevelNumber()) : 0;
 		currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo,
 				session.getProdRelationshipBuilderSid());
+		Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+        	@Override
+			public int compare(Leveldto o1, Leveldto o2) {
+				return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+        	}
+        });
+        Collections.reverse(currentHierarchy);
 		Utility.loadDdlbForLevelFilterOption(productlevelDdlb, currentHierarchy, StringUtils.EMPTY);
 		productlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
@@ -5243,7 +5257,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
 		currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo,
 				session.getCustRelationshipBuilderSid());
-		Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, StringUtils.EMPTY);
+		Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+        	@Override
+			public int compare(Leveldto o1, Leveldto o2) {
+				return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+        	}
+        });
+        Collections.reverse(currentHierarchy);
+    	Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, StringUtils.EMPTY);
 
 		customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
