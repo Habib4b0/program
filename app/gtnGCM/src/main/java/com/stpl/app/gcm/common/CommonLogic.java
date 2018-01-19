@@ -1500,6 +1500,7 @@ public class CommonLogic {
                 updateProdHirarechy(newProjectionId, getProdRelationshipId(), masterSids);
                 newProjectionId = cloneProjection(oldProjectionId, userId);
                 LOGGER.debug(" New Projection Id ===== " + newProjectionId);
+                insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
                 if (newProjectionId != 0) {
 
                     boolean isProjectionCustUpdated = false;
@@ -2195,6 +2196,7 @@ public class CommonLogic {
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
         int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
+        insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
 
         LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
         if (newProjectionId != 0) {
@@ -2465,6 +2467,7 @@ public class CommonLogic {
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
 
         int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
+        insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
 
         LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
         if (newProjectionId != 0) {
