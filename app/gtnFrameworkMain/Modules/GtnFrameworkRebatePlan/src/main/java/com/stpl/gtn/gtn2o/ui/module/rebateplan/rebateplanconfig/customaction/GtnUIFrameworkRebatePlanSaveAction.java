@@ -416,6 +416,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 	}
 
     public String  formulaFormation(String[] str, StringBuilder finalFormula, String firstLastString, int i) {
+        String newFormula=firstLastString;
         for (int j = 0; j < str.length; j++) {
             if (j == 1 && j != str.length - 1) {
                 finalFormula.append("(");
@@ -427,10 +428,10 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
             finalFormula.append(formulaName);
             if (j == str.length - 1) {
                 finalFormula.append(")");
-                firstLastString=finalFormula.toString();
+                newFormula=finalFormula.toString();
             }
         }
-        return firstLastString;
+        return newFormula;
     }
 
     public boolean operatorCheck(String formulaName) {
