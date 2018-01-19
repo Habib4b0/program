@@ -373,8 +373,14 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 
 	private void addPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
+		GtnUIFrameworkComponentConfig resultTableLayout = componentConfig
+				.getVerticalLayoutConfig(GtnFrameworkCommonConstants.UDC_RESULT_TABLE_LAYOUT, true,
+						GtnFrameworkCommonConstants.UDC_RESULTS_LAYOUT);
+		resultTableLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+		componentList.add(resultTableLayout);
+		
 		GtnUIFrameworkComponentConfig categoryResultsConfig = componentConfig.getUIFrameworkComponentConfig(
-				GtnFrameworkCommonConstants.UDC_RESULT_TABLE, true, GtnFrameworkCommonConstants.UDC_RESULTS_LAYOUT,
+				GtnFrameworkCommonConstants.UDC_RESULT_TABLE, true, GtnFrameworkCommonConstants.UDC_RESULT_TABLE_LAYOUT,
 				GtnUIFrameworkComponentType.PAGEDTABLE);
 		categoryResultsConfig.setAuthorizationIncluded(true);
 		categoryResultsConfig.setComponentName("udcResults");
@@ -402,14 +408,21 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 	
 	private void addBrandPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
+		
+		GtnUIFrameworkComponentConfig resultTableLayout = componentConfig
+				.getVerticalLayoutConfig(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE_LAYOUT, true,
+						GtnFrameworkCommonConstants.UDC_RESULTS_LAYOUT);
+		resultTableLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+		resultTableLayout.setVisible(false);
+		componentList.add(resultTableLayout);
+		
 		GtnUIFrameworkComponentConfig categoryResultsConfig = componentConfig.getUIFrameworkComponentConfig(
 				GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE, true,
-				GtnFrameworkCommonConstants.UDC_RESULTS_LAYOUT,
+				GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE_LAYOUT,
 				GtnUIFrameworkComponentType.PAGEDTABLE);
 		categoryResultsConfig.setAuthorizationIncluded(true);
 		categoryResultsConfig.setComponentName("brandUdcResults");
 		categoryResultsConfig.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
-		categoryResultsConfig.setVisible(false);
 
 		GtnUIFrameworkPagedTableConfig searchResults = componentConfig.getPagedTableConfig(true, true,
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,

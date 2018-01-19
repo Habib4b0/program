@@ -1096,4 +1096,6 @@ public class GtnFrameworkCommonConstants {
 	public static final String ADD_BRAND_LAYOUT = "addBrandLayout";
 	public static final String VALUE_LAYOUT = "valueLayout";
 	public static final String UDC_CONFIGURATION = "Udc Configuration";
+	public static final String UDC_RESULT_TABLE_LAYOUT = "udcResultTableLayout";
+	public static final String UDC_BRAND_RESULT_TABLE_LAYOUT = "udcBrandResultTableLayout";
 }
