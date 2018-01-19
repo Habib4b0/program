@@ -81,6 +81,9 @@
 	        <property name="itemPricingQualifierSid" type="string">
 			<column name="ITEM_PRICING_QUALIFIER_SID" length="1000" />
 		</property>
+	        <property name="formulaCalculation" type="string">
+			<column name="ADJUSTED_COMPLEX_FORMULA" length="1000" />
+		</property>
 		<many-to-one name="helperTableReturnRateSid"
 			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
 			<column name="RETURN_RATE_SID"  />
