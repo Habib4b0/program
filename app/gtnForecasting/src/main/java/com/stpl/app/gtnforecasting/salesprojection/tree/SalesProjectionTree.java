@@ -58,6 +58,7 @@ public class SalesProjectionTree {
     private void buildCustomTree(ProjectionSelectionDTO projSelDTO) {
         List<Object[]> customViewList = getAvailableHierarchiesCustom(projSelDTO);
         SalesBaseNode customApex = generateCustomTree(customViewList);
+        sortTree(customApex.getAllChildHierarchies(), projSelDTO);
         setCurrentApex(customApex);
     }
 
