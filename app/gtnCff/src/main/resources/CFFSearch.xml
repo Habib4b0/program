@@ -9,7 +9,7 @@ and open the template in the editor.
     <VerticalLayout spacing="true" margin="true" > 
         <Panel caption = "Search Criteria" styleName="textbold" width="100%">
             <VerticalLayout spacing="false" margin="true" styleName="width-auto"> 
-                <HorizontalLayout spacing="true" margin="true" width="110%">
+                <GridLayout spacing="true" margin="true" columns="16" rows="1">
                     <GridLayout spacing="true" margin="false" immediate="true" columns="4" rows="2">
                         <Label value="Financial Forecast ID" id="financialForecastIdLabel" contentMode="HTML" width="170px"/>
                         <TextField id="financialForecastId" />
@@ -22,22 +22,22 @@ and open the template in the editor.
                     </GridLayout>
                         
                     <Panel caption = "Creation Date" styleName="textbold" spacing="true" margin="true">
-                        <HorizontalLayout spacing="true" margin="true">
+                        <GridLayout spacing="false" margin="false" immediate="true" columns="4" rows="1" styleName = "stpl-margin-top-10">
                             <Label value="From:" id="creationFrom" contentMode="HTML" />
                             <PopupDateField id="creationFromDate" ></PopupDateField> 
                             <Label value="To:" id="creationTo" contentMode="HTML" />
                             <PopupDateField id="creationToDate" ></PopupDateField> 
-                        </HorizontalLayout>
+                        </GridLayout>
                     </Panel>
                     <Panel caption = "Approval Date" styleName="textbold" spacing="true" margin="true">
-                        <HorizontalLayout spacing="true" margin="true">
+                        <GridLayout spacing="false" margin="false" immediate="true" columns="4" rows="1" styleName = "stpl-margin-top-10">
                             <Label value="From:" id="approvalFrom" contentMode="HTML" />
                             <PopupDateField id="approvalFromDate" ></PopupDateField> 
                             <Label value="To:" id="approvalTo" contentMode="HTML" />
                             <PopupDateField id="approvalToDate" ></PopupDateField> 
-                        </HorizontalLayout>
+                        </GridLayout>
                     </Panel>
-                </HorizontalLayout>
+                </GridLayout>
                 <HorizontalLayout spacing="true" margin="false" immediate="true">
                     <Button id="searchBtn" caption="SEARCH" visible ="true"/>
                     <Button id="resetBtn"  caption="RESET" visible ="true"/>            
