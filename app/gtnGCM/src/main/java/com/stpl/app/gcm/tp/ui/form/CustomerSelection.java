@@ -194,7 +194,7 @@ public class CustomerSelection extends VerticalLayout {
             resultList.clear();
 
             selectedCustomersTable.setContainerDataSource(selectedCustomersContainer);
-            selectedCustomersLogic.isProjSelected=true;
+            selectedCustomersLogic.setProjSelected(true);
             selectedCustomersLogic.setContainerDataSource(selectedCustomersContainer);
             selectedCustomersLogic.sinkItemPerPageWithPageLength(false);
             companySearchResultsTable.setContainerDataSource(companyResultsContainer);

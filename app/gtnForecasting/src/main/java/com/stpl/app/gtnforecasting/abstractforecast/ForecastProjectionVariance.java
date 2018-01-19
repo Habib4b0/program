@@ -279,7 +279,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     /**
      * Session DTO
      */
-    public SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
     /**
      * Screen Name
      */
@@ -362,7 +362,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     protected String variablesValue = StringUtils.EMPTY;
     protected String variableCategoryValue = StringUtils.EMPTY;
     protected ForecastProjectionVariance(SessionDTO session, String screenName) {
-        this.sessionDTO = session;
+        this.setSessionDTO(session);
         this.screenName = screenName;
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(Clara.create(getClass().getResourceAsStream("/ProjectionVariance.xml"), this));
@@ -553,7 +553,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
      */
     @UiHandler("newBtn")
     public void newHierarchyBtn(Button.ClickEvent event) {
-        sessionDTO.setTabName(VARIANCE);
+        getSessionDTO().setTabName(VARIANCE);
         customTreeViewLogic();
     }
 
@@ -564,7 +564,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
      */
     @UiHandler("editBtn")
     public void editHierarchyBtn(Button.ClickEvent event) {
-        sessionDTO.setTabName(VARIANCE);
+        getSessionDTO().setTabName(VARIANCE);
         editHierarchyLogic();
 
     }
@@ -593,7 +593,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
             LOGGER.debug("------ Inside generate security Projection Variance Tab and generate Button");
        
             if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                Utility.getTradingPartnerLevelNo(sessionDTO.getProjectionId(),sessionDTO);
+                Utility.getTradingPartnerLevelNo(getSessionDTO().getProjectionId(),getSessionDTO());
                 PPAProjectionLogic.waitForPPAProcedure();
             }
 
@@ -647,12 +647,12 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
             customDdlb.removeAllItems();
             customDdlb.addItem(SELECT_ONE);
             customDdlb.setNullSelectionItemId(SELECT_ONE);
-            if(!sessionDTO.getCustomerViewList().isEmpty()){
-              customViewList= sessionDTO.getCustomerViewList();
+            if(!getSessionDTO().getCustomerViewList().isEmpty()){
+              customViewList= getSessionDTO().getCustomerViewList();
             }
             else{
-            customViewList = CommonLogic.getCustomViewList(sessionDTO.getProjectionId());
-           sessionDTO.setCustomerViewList(customViewList);
+            customViewList = CommonLogic.getCustomViewList(getSessionDTO().getProjectionId());
+           getSessionDTO().setCustomerViewList(customViewList);
             }
             if (customViewList != null) {
 
@@ -681,7 +681,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
 
     protected void customTreeViewLogic() {
         LOGGER.debug("projection variance customTreeViewLogic initiated ");
-        final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(sessionDTO);
+        final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(getSessionDTO());
         customerTreeLookup.addCloseListener(new Window.CloseListener() {
 
             @Override
@@ -689,7 +689,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
                 if (customerTreeLookup.isIsSelect()) {
                     customIdToSelect = customerTreeLookup.getCustomId();
                 }
-                sessionDTO.setCustomerViewList(CommonLogic.getCustomViewList(sessionDTO.getProjectionId()));
+                getSessionDTO().setCustomerViewList(CommonLogic.getCustomViewList(getSessionDTO().getProjectionId()));
                 loadCustomDDLB();
 
             }
@@ -700,13 +700,13 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
 
     public void editHierarchyLogic() {
         if (CommonLogic.editButtonValidation(customDdlb, customViewList)) {
-            final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(sessionDTO, customId);
+            final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(getSessionDTO(), customId);
             customerTreeLookup.addCloseListener(new Window.CloseListener() {
 
                 @Override
                 public void windowClose(Window.CloseEvent e) {
                     customIdToSelect = customerTreeLookup.getCustomId();
-                   sessionDTO.setCustomerViewList(CommonLogic.getCustomViewList(sessionDTO.getProjectionId()));
+                   getSessionDTO().setCustomerViewList(CommonLogic.getCustomViewList(getSessionDTO().getProjectionId()));
                     loadCustomDDLB();
 
                 }
@@ -726,11 +726,11 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         levelFilter.setNullSelectionItemId(SELECT_ONE);
         levelFilter.setValue(SELECT_ONE);
         if (pvSelectionDTO.isIsCustomHierarchy()) {
-            Utility.loadLevelValueForResult(levelDdlb, null, null, sessionDTO.getCustomHierarchyMap().get(customId), Constant.CUSTOM_LABEL);
+            Utility.loadLevelValueForResult(levelDdlb, null, null, getSessionDTO().getCustomHierarchyMap().get(customId), Constant.CUSTOM_LABEL);
         } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
-            Utility.loadLevelValueForResult(levelDdlb, levelFilter, null, sessionDTO.getCustomerHierarchyList(), view.getValue().toString());
+            Utility.loadLevelValueForResult(levelDdlb, levelFilter, null, getSessionDTO().getCustomerHierarchyList(), view.getValue().toString());
         } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
-            Utility.loadLevelValueForResult(levelDdlb, levelFilter, null, sessionDTO.getProductHierarchyList(), view.getValue().toString());
+            Utility.loadLevelValueForResult(levelDdlb, levelFilter, null, getSessionDTO().getProductHierarchyList(), view.getValue().toString());
         }
 
         LOGGER.debug("loadLevelAndFilterValue ends ");
@@ -742,13 +742,13 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         level.setEnabled(true);
         List<Leveldto> hierarchy = null;
                if (pvSelectionDTO.isIsCustomHierarchy()) {
-                  if(sessionDTO.getCustomHierarchyMap().containsKey(customId)){
-            hierarchy = sessionDTO.getCustomHierarchyMap().get(customId);
+                  if(getSessionDTO().getCustomHierarchyMap().containsKey(customId)){
+            hierarchy = getSessionDTO().getCustomHierarchyMap().get(customId);
             }
         } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
-            hierarchy = sessionDTO.getCustomerHierarchyList();
+            hierarchy = getSessionDTO().getCustomerHierarchyList();
         } else if (Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
-            hierarchy = sessionDTO.getProductHierarchyList();
+            hierarchy = getSessionDTO().getProductHierarchyList();
         }
          Utility.loadLevelDDlbValue(levelDdlb, levelFilter, hierarchy);
 
@@ -928,4 +928,12 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
             }
         return variablesList;
     }
+
+	public SessionDTO getSessionDTO() {
+		return sessionDTO;
+	}
+
+	public void setSessionDTO(SessionDTO sessionDTO) {
+		this.sessionDTO = sessionDTO;
+	}
 }

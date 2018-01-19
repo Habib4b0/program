@@ -34,7 +34,7 @@ public class AccrualRateProjectionTableLogic extends PageTableLogic {
 
     private String tabName = StringUtils.EMPTY;
     
-    List<String> selectedVariables;
+    private List<String> selectedVariables;
     
     private boolean isViewMode;
 

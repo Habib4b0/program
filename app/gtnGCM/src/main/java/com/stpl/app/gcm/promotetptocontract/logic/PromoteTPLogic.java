@@ -95,7 +95,7 @@ public class PromoteTPLogic {
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = Logger.getLogger(PromoteTPLogic.class);
-    public static PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
+    private static PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
     private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private final ContractDetailsDAO dao = new ContractDetailsDaoImpl();
     private final DiscountDAO discountDAO = new DiscountDaoImpl();

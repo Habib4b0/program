@@ -47,7 +47,7 @@ public final class AccrualRateProjectionLogic {
     private static final Logger LOGGER = Logger.getLogger(AccrualRateProjectionLogic.class);
 
     private static AccrualRateProjectionLogic accrualRateProjectionLogic;
-    public static List<String> selectedCompanyList = new ArrayList<>();
+    private static List<String> selectedCompanyList = new ArrayList<>();
 
     /**
      * Private Constructor to restrict instantiation outside this class.

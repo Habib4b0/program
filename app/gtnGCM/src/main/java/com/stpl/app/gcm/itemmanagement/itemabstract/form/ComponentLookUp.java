@@ -90,7 +90,7 @@ public static final Logger LOGGER = Logger.getLogger(ComponentLookUp.class);
     private final AbstractLogic logic = AbstractLogic.getInstance();
     private final List<String> countFlag = new ArrayList<>();
     private final List<String> loadDataFlag = new ArrayList<>();
-    public CustomTextField componentTextField;
+    private CustomTextField componentTextField;
 
     public ComponentLookUp(final String component, final String caption, final CustomTextField componentTextField) {
         this.component = component;

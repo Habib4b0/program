@@ -94,7 +94,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 	public CustomerProductGroupLookup(final String indicator, final String windowName, final TextField groupLookup,
 			final List<String> itemsOrCompanySids, final String screenName) {
 		super(indicator, windowName, screenName);
-		this.screenName = screenName;
+		this.setScreenName(screenName);
 		this.indicator = indicator;
 		this.groupLookup = groupLookup;
 		this.itemsOrCompanySids = itemsOrCompanySids == null ? itemsOrCompanySids : new ArrayList<>(itemsOrCompanySids);

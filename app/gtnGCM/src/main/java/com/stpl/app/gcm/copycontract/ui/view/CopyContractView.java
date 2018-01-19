@@ -10,6 +10,8 @@ import com.stpl.app.gcm.discount.ui.layout.CopyContractWindow;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.ui.VerticalLayout;
+
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,8 +28,8 @@ public class CopyContractView extends VerticalLayout {
     private final CopyContractWindow addWindow;
 
     private final CopyContractform addDiscountForm;
-    public SessionDTO session;
-    public  List<ContractSelectionDTO> selectedList;
+    private SessionDTO session;
+    private  List<ContractSelectionDTO> selectedList;
 
     /**
      * Default constructor.
@@ -41,7 +43,7 @@ public class CopyContractView extends VerticalLayout {
     public CopyContractView(final CopyContractWindow addWindow, final SessionDTO session, List<ContractSelectionDTO> selectedList, String Count) throws SystemException {
         this.addWindow = addWindow;
         this.session = session;
-        this.selectedList = selectedList;
+        this.selectedList = selectedList == null ? selectedList : Collections.unmodifiableList(selectedList);
         addDiscountForm = new CopyContractform(this.addWindow, selectedList, Count);
         addComponent(addDiscountForm);
     }

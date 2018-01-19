@@ -27,8 +27,8 @@ public class NotesTextField extends CustomField {
     protected PopupView popup = new PopupView("<img src='/html/icons/notes.png'>",txtArea);
     protected HorizontalLayout layout = new HorizontalLayout();
     
-    public static String alphaNumericChars = "([0-9|a-z|A-Z|\\ |\\*])*";
-    public static String notAlphaNumericChars = "([^0-9|a-z|A-Z|\\ |\\*])*";
+    public static final String ALPHANUMERIC_CHARS = "([0-9|a-z|A-Z|\\ |\\*])*";
+    public static final String NOT_ALPHANUMERIC_CHARS = "([^0-9|a-z|A-Z|\\ |\\*])*";
   
     
 

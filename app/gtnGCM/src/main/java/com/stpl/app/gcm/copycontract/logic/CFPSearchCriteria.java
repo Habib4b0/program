@@ -18,7 +18,7 @@ public class CFPSearchCriteria implements BeanSearchCriteria {
 
     private Set<Container.Filter> filters;
     private int lastCount;
-    public boolean dirty;
+    private boolean dirty;
 
     @Override
     public int getLastCount() {

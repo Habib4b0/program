@@ -40,7 +40,7 @@ import org.jboss.logging.Logger;
  */
 public class TotalLivesChart extends Window {
 
-    public static String quarter = "quarterly";
+    public static final String QUARTER = "quarterly";
     /**
      * The dto.
      */
@@ -53,7 +53,7 @@ public class TotalLivesChart extends Window {
     /**
      * The history.
      */
-    public String history;
+    private String history;
     /**
      * The Constant LOGGER.
      */

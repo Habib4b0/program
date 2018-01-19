@@ -73,8 +73,8 @@ public class PromoteTP extends VerticalLayout {
 
     private SessionDTO session = new SessionDTO();
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(PromoteTP.class);
-    public PromoteTpToChDto promoteTpToChDto = new PromoteTpToChDto();
-    public CustomFieldGroup promoteTpToChDtoBinder;
+    private PromoteTpToChDto promoteTpToChDto = new PromoteTpToChDto();
+    private CustomFieldGroup promoteTpToChDtoBinder;
     @UiField("promoteTpToChDtoTableLayout")
     public VerticalLayout promoteTpToChDtoTableLayout;
     @UiField("companyType")
@@ -127,8 +127,8 @@ public class PromoteTP extends VerticalLayout {
     private ExtCustomTable companyViewTable;
     private String searchSessionId = StringUtils.EMPTY;
     private final CompanySearchTableLogic compLogic = new CompanySearchTableLogic();
-    public ExtPagedTable companySearchResultsTable = new ExtPagedTable(compLogic);
-    public ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(promoteTpToChDto));
+    private ExtPagedTable companySearchResultsTable = new ExtPagedTable(compLogic);
+    private ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(promoteTpToChDto));
     private final CommonUtil commonUtil = CommonUtil.getInstance();
     public LazyBeanItemContainer<PromoteTpToChDto> getResultsLazyContainer() {
         return resultsLazyContainer;

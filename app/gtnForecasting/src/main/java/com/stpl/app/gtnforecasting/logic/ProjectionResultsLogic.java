@@ -128,7 +128,7 @@ public class ProjectionResultsLogic {
         ppaDto.setParent(0);
         return ppaDto;
     }
-    List<String> discountList = new ArrayList<>();
+    private List<String> discountList = new ArrayList<>();
 
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsDiscount(List<Object> list, ProjectionSelectionDTO projSelDTO, boolean isPPA) {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();

@@ -25,7 +25,7 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
  */
 public class PPAResultsGenerator implements ExtFilterGenerator {
 
-    ProjectionSelectionDTO projectionSelectionDTO;
+	private ProjectionSelectionDTO projectionSelectionDTO;
 
     public PPAResultsGenerator(ProjectionSelectionDTO projectionSelectionDTO) {
         this.projectionSelectionDTO = projectionSelectionDTO;

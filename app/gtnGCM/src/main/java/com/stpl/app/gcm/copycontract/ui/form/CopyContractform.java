@@ -79,7 +79,7 @@ public class CopyContractform extends CustomComponent implements View {
     private ExtFilterTable resultTable;
     @UiField("main")
     public VerticalLayout layout;
-    public TabSheet tabsheet = new TabSheet();
+    private TabSheet tabsheet = new TabSheet();
     @UiField("typeNC")
     public ComboBox aliastypecc;
     @UiField("CLOSE")
@@ -305,7 +305,7 @@ public class CopyContractform extends CustomComponent implements View {
             copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_START_DATE).setValue(AliasSDATE);
             copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_NUMBER).setValue(AliasNumber);
             copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_END_DATE).setValue(AliasEDATE);
-            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ADDBY).setValue("0");
+            copyContractDashBoardTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("0");
             copyContractDashBoardTable.addItem(rootId);
             resetFields();
         }
@@ -352,7 +352,7 @@ public class CopyContractform extends CustomComponent implements View {
             mainList = copyItemId;
         }
         for (Object c : mainList) {
-            String addBy = String.valueOf(newcontractDashBoardTable.getContainerProperty(c, String.valueOf(Constants.ADDBY)).getValue());
+            String addBy = String.valueOf(newcontractDashBoardTable.getContainerProperty(c, String.valueOf(Constants.getADDBY())).getValue());
             switch (addBy) {
                 case "0":
                     Newcomponent.savecontract(mainList[i]);
@@ -438,13 +438,13 @@ public class CopyContractform extends CustomComponent implements View {
             dto.setContractId(Constants.EMPTY);
             dto.setContractNo(Constants.EMPTY);
             dto.setContractName(Constants.EMPTY);
-            dto.setMarketType(CommonUtil.ddlbDefaultValue);
-            dto.setStatus(CommonUtil.ddlbDefaultValue);
+            dto.setMarketType(CommonUtil.getDdlbDefaultValue());
+            dto.setStatus(CommonUtil.getDdlbDefaultValue());
             dto.setStartDate(null);
             dto.setEndDate(null);
             dto.setContractHolder(Constants.EMPTY);
             dto.setContractHolderName(Constants.EMPTY);
-            dto.setAliasType(CommonUtil.ddlbDefaultValue);
+            dto.setAliasType(CommonUtil.getDdlbDefaultValue());
             dto.setAliasNumber(Constants.EMPTY);
             dto.setAliasstartdate(null);
             dto.setAliasenddate(null);
@@ -812,7 +812,7 @@ public class CopyContractform extends CustomComponent implements View {
                 newcontractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_START_DATE).setValue(dto.getAliasstartdate());
                 newcontractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_NUMBER).setValue(String.valueOf(dto.getAliasNumber()));
                 newcontractDashBoardTable.getContainerProperty(rootId, "aliasenddate").setValue(dto.getAliasenddate());
-                newcontractDashBoardTable.getContainerProperty(rootId, Constants.ADDBY).setValue("0");
+                newcontractDashBoardTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("0");
                 newcontractDashBoardTable.addItem(rootId);
 
             }

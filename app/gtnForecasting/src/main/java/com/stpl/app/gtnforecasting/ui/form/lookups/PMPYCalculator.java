@@ -577,7 +577,7 @@ public class PMPYCalculator extends Window {
                     excelTable1.setVisibleColumns(ArrayUtils.addAll(leftTable.getVisibleColumns(), rightTable.getVisibleColumns()));
                     Object[] objectArray = ArrayUtils.addAll(leftTable.getColumnHeaders(), rightTable.getColumnHeaders());
                     excelTable1.setColumnHeaders(Arrays.copyOf(objectArray, objectArray.length, String[].class));
-                    ForecastUI.EXCEL_CLOSE=true;
+                    ForecastUI.setEXCEL_CLOSE(true);
                     ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable1), "Contract Holder", "PMPY Calculator - Contract Holder", "PMPYcalculatorContractHolder.xls", false);
                     export.export();
                 }
@@ -608,7 +608,7 @@ public class PMPYCalculator extends Window {
                     excelTable2.setVisibleColumns(ArrayUtils.addAll(leftTable.getVisibleColumns(), rightTable.getVisibleColumns()));
                     Object[] objectArray = ArrayUtils.addAll(leftTable.getColumnHeaders(), rightTable.getColumnHeaders());
                     excelTable2.setColumnHeaders(Arrays.copyOf(objectArray, objectArray.length, String[].class));
-                    ForecastUI.EXCEL_CLOSE=true;
+                    ForecastUI.setEXCEL_CLOSE(true);
                     ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable2), Constant.TRADING_PARTNER, "PMPY Calculator - Trading Partner", "PMPYcalculatorTradingPartner.xls", false);
                     export.export();
                 }

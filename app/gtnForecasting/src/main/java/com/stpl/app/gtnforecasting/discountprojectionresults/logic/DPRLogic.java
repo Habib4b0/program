@@ -164,10 +164,10 @@ public class DPRLogic {
             DiscountProjectionResultsDTO mandatedDisc = null;
             DiscountProjectionResultsDTO SupplDisc = null;
             if (projSelDTO.isIsProjectionTotal() && projSelDTO.isIsTotal()) {
-                projectionTotalList = getConfiguredResultsTotal(projSelDTO);
-                if (!projectionTotalList.isEmpty()) {
-                    projDTOList.addAll(projectionTotalList);
-                    neededRecord -= projectionTotalList.size();
+                setProjectionTotalList(getConfiguredResultsTotal(projSelDTO));
+                if (!getProjectionTotalList().isEmpty()) {
+                    projDTOList.addAll(getProjectionTotalList());
+                    neededRecord -= getProjectionTotalList().size();
                 }
             }
             String discount = projSelDTO.getMandatedOrSupp();
@@ -2385,4 +2385,12 @@ public class DPRLogic {
         }
         return String.valueOf(mandatedAmount + supplementalAmount);
     }
+
+	public List<DiscountProjectionResultsDTO> getProjectionTotalList() {
+		return projectionTotalList;
+	}
+
+	public void setProjectionTotalList(List<DiscountProjectionResultsDTO> projectionTotalList) {
+		this.projectionTotalList = projectionTotalList;
+	}
 }

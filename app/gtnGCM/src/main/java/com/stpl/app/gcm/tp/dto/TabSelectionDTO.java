@@ -16,29 +16,29 @@ import org.apache.commons.lang.StringUtils;
  */
 public class TabSelectionDTO {
 
-    public String levelValue = StringUtils.EMPTY;
-    public String tableName = StringUtils.EMPTY;
-    public String tempTableName = StringUtils.EMPTY;
-    public String fieldName = StringUtils.EMPTY;
-    public String idField = StringUtils.EMPTY;
-    public String parentLevel = StringUtils.EMPTY;
-    public int companyMasterSid;
-    public int contractMasterSid;
-    public int sessionID;
-    public int brandMasterSid;
-    public String companyName = StringUtils.EMPTY;
-    public int rebateProgramType;
-    public String salesField;
-    public String unitField;
-    public String rebateField;
-    public String amountField;
+	private String levelValue = StringUtils.EMPTY;
+	private String tableName = StringUtils.EMPTY;
+	private String tempTableName = StringUtils.EMPTY;
+	private String fieldName = StringUtils.EMPTY;
+	private String idField = StringUtils.EMPTY;
+	private String parentLevel = StringUtils.EMPTY;
+	private int companyMasterSid;
+	private int contractMasterSid;
+	private int sessionID;
+	private int brandMasterSid;
+	private String companyName = StringUtils.EMPTY;
+	private int rebateProgramType;
+	private String salesField;
+	private String unitField;
+	private String rebateField;
+	private String amountField;
     private boolean isProjectionTotal;
     private String frequency = StringUtils.EMPTY;
     private String operation = StringUtils.EMPTY;
     private List<ItemIndexDto> itemList;
     private List<String> companyMasterSids = new ArrayList<>();
-    public int summaryProjectionId;
-    public String foreCastingType = StringUtils.EMPTY;
+    private int summaryProjectionId;
+    private String foreCastingType = StringUtils.EMPTY;
 
     public String getLevelValue() {
         return levelValue;

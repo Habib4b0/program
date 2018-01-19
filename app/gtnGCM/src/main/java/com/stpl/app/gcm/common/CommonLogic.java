@@ -1582,7 +1582,7 @@ public class CommonLogic {
 
                             LoadTabLogic loadTabLogic = new LoadTabLogic();
                             loadTabLogic.setForecastingType(newProjectionId);
-                            tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
+                            tempList.add(swapForecastingType(LoadTabLogic.getForecatingType()));
                             tempList.add(loadTabLogic.getProjectionName(newProjectionId));
                             tempList.add(String.valueOf(newProjectionId));
                             tempList.add("\n New Projection created with forecasting type -" + tempList.get(0)
@@ -2148,7 +2148,7 @@ public class CommonLogic {
                             }
                         }
                         loadTabLogic.setForecastingType(newProjectionId);
-                        tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
+                        tempList.add(swapForecastingType(LoadTabLogic.getForecatingType()));
                         tempList.add(loadTabLogic.getProjectionName(newProjectionId));
                         tempList.add(String.valueOf(newProjectionId));
 
@@ -2244,7 +2244,7 @@ public class CommonLogic {
                     }
                     LoadTabLogic loadTabLogic = new LoadTabLogic();
                     loadTabLogic.setForecastingType(newProjectionId);
-                    tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
+                    tempList.add(swapForecastingType(LoadTabLogic.getForecatingType()));
                     tempList.add(loadTabLogic.getProjectionName(newProjectionId));
                     tempList.add(String.valueOf(newProjectionId));
                     tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME
@@ -2514,7 +2514,7 @@ public class CommonLogic {
                     }
                     LoadTabLogic loadTabLogic = new LoadTabLogic();
                     loadTabLogic.setForecastingType(newProjectionId);
-                    tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
+                    tempList.add(swapForecastingType(LoadTabLogic.getForecatingType()));
                     tempList.add(loadTabLogic.getProjectionName(newProjectionId));
                     tempList.add(String.valueOf(newProjectionId));
                     tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME
