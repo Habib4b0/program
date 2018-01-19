@@ -275,8 +275,8 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 			ruleDetailBean.setAdjustmentValue5itemPricingQualifier(getStringValueForNewItem(18, ruleDetail));
 
                         loadFormula(formulaList, ruleDetailBean, ruleDetail);
-                        
 			ruleDetailBean.setItemPricingQualifierSid(getRPFormula(formulaList));
+			ruleDetailBean.setFormulaForCalculation(getRPFormulaForCalculation(formulaList));
 			ruleDetailBeanList.add(ruleDetailBean);
 		}
                 
@@ -306,7 +306,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 			addValue5(formulaList, ruleDetailBean);
 		}
 	}
-
+        
 	private void loadNotesTab(List<NotesTabBean> noteBeanList, List<NotesDTO> notesDTOs)
 			throws GtnFrameworkGeneralException {
 		try {
@@ -399,6 +399,43 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 		}
 		return finalFormula.toString();
 	}
+        
+	public String getRPFormulaForCalculation(List<String[]> formulaList) {
+		StringBuilder finalFormula = new StringBuilder();
+                String firstLastString="";
+		for (int i = 0; i < formulaList.size(); i++) {
+			String[] str = formulaList.get(i);
+			finalFormula.insert(0, "(");
+                        firstLastString=formulaFormation(str, finalFormula, firstLastString, i);
+			if (i != 0) {
+				finalFormula.append(")");
+                                firstLastString=finalFormula.toString();
+			}
+		}
+		return finalFormula.toString().replace("[]", "");
+	}
+
+    public String  formulaFormation(String[] str, StringBuilder finalFormula, String firstLastString, int i) {
+        for (int j = 0; j < str.length; j++) {
+            if (j == 1 && j != str.length - 1) {
+                finalFormula.append("(");
+            }
+            String percentString = j == 1 ? str[j] : ("*".concat(firstLastString.concat("/100")));
+            String formulaName = str[j].equals("%") ? percentString : str[j];
+            formulaName = (i!=0 && formulaName.equals("$")) ?"" : formulaName;
+            formulaName = operatorCheck(formulaName) ? "[".concat(formulaName).concat("]") : formulaName;
+            finalFormula.append(formulaName);
+            if (j == str.length - 1) {
+                finalFormula.append(")");
+                firstLastString=finalFormula.toString();
+            }
+        }
+        return firstLastString;
+    }
+
+    public boolean operatorCheck(String formulaName) {
+        return !formulaName.matches("[0-9]+") && !formulaName.matches("[$ % * \\- / +]+")&& !formulaName.startsWith("*");
+    }
 
 	public void addDefaultValue(List<String[]> formulaList, GtnWsRebatePlanRuleDetailBean ruleDetailBean,
 			final GtnWsRecordBean ruleDetail) throws GtnFrameworkValidationFailedException {
@@ -433,7 +470,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 							: ruleDetailBean.getAdjustmentValue2itemPricingQualifier() });
 		}
 	}
-
+        
 	public void addValue3(List<String[]> formulaList, GtnWsRebatePlanRuleDetailBean ruleDetailBean) {
 		if (getIsEmpty(ruleDetailBean.getOperatorType3()) && getIsEmpty(ruleDetailBean.getAdjustmentOperator3())
 				&& getIsEmpty(ruleDetailBean.getAdjustmentValue3itemPricingQualifier())) {
@@ -445,7 +482,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 							: ruleDetailBean.getAdjustmentValue3itemPricingQualifier() });
 		}
 	}
-
+        
 	public void addValue4(List<String[]> formulaList, GtnWsRebatePlanRuleDetailBean ruleDetailBean) {
 		if (getIsEmpty(ruleDetailBean.getOperatorType4()) && getIsEmpty(ruleDetailBean.getAdjustmentOperator4())
 				&& getIsEmpty(ruleDetailBean.getAdjustmentValue4itemPricingQualifier())) {
@@ -469,7 +506,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 							: ruleDetailBean.getAdjustmentValue5itemPricingQualifier() });
 		}
 	}
-
+        
 	private boolean getIsEmpty(String value) {
 		return value != null && !value.equals("null") && !value.isEmpty();
 

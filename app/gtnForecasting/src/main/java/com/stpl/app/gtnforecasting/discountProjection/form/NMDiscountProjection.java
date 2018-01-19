@@ -2632,7 +2632,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					}
 					boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
 					boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
-                                        
                                         if (hierarchyListForCheckRecord.size() > 0) {
                                              logic.updateCheckRecordForAdjust(checkedDiscountsPropertyIds, hierarchyListForCheckRecord, session, hierarchyIndicator);
                                          } 
@@ -2793,7 +2792,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                 NotificationUtils.getErrorNotification("Error", "When using the ‘% of Ex-Factory’ methodology, a product cannot be included in multiple selected contract, customer, and product combinations. Please update the selections");
                                                 return;
                                             }
-
 						String confirmMessage = Constant.INCREMENTAL_ADJUSTMENT_CONFIRMATION;
 						String messageBody = StringUtils.EMPTY;
 						String basisCharacter = StringUtils.EMPTY;
@@ -3834,6 +3832,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				doubleHeaderCheckListener(columns, isChecked);
 			}
 		}
+                
 	}
 
 	/**
