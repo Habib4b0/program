@@ -77,7 +77,7 @@ public class ArchiveIndex extends CustomComponent implements View {
     private final BeanItemContainer<ArchiveDTO> resultsBean = new BeanItemContainer<>(ArchiveDTO.class);
 
     private final BeanItemContainer<ArchiveDTO> valueBean = new BeanItemContainer<>(ArchiveDTO.class);
-    Map<String, String> tableMap = new HashMap<>();
+    private Map<String, String> tableMap = new HashMap<>();
 
     public PopupDateField getFrom() {
         return from;

@@ -32,9 +32,10 @@ import com.stpl.portal.kernel.exception.SystemException;
 public class SchedulerCSVEport {
 
 	private static final String CREATE_WORK_SHEET_CONTENT = "createWorkSheetContent";
-	final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+	private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 	public final static String QUOTE = "\"";
 	private static final Logger LOGGER = Logger.getLogger(SchedulerCSVEport.class);
+	private static boolean isFileCreated;
 
 	/**
 	 * This method is used to create a worksheet and logic for writing into the
@@ -74,9 +75,10 @@ public class SchedulerCSVEport {
 			tempFile = GtnFileUtil.getFile(serverPath + "/" + csvName + ExcelExportUtil.CSV);
 			if (!tempFile.exists()) {
 				tempFile.getParentFile().mkdirs();
-				tempFile.createNewFile();
+				isFileCreated=tempFile.createNewFile();
 
 			}
+			LOGGER.info("File created successfully : "+isFileCreated);
 			fileOut = new FileOutputStream(tempFile);
 
 			pw = new PrintWriter(fileOut);
