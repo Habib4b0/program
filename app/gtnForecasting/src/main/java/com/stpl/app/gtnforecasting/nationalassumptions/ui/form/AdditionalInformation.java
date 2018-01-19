@@ -277,7 +277,7 @@ public class AdditionalInformation extends CustomComponent {
             @Override
             public void call(JsonArray arguments) {
                  File fileUpload;
-                final String value = String.valueOf(arguments.get(0));
+                final String value = String.valueOf(arguments.get(0).asString());
                 fileUpload = CommonUtil.getFilePath(value);
                 final String name = fileUpload.getAbsolutePath();
                 if (name.contains("\\")) {

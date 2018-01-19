@@ -294,7 +294,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
             @Override
             public void call(JsonArray arguments) {
                try {
-                    String value = String.valueOf(arguments.get(0));
+                    String value = String.valueOf(arguments.get(0).asString());
                     if (StringUtils.isNotEmpty(value)) {
 
                         fileUpload = new File(fileUploadPath + value);
