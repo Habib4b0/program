@@ -22,6 +22,9 @@ public class TableResultCustom {
 		 
 	}
 	
+	public TableResultCustom(){
+		super();
+	}
 	/**
 	 * Setter for objResult .
 	 *

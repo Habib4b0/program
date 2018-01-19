@@ -40,7 +40,7 @@ public class LoadTabLogic {
     private static final Logger LOGGER = Logger.getLogger(LoadTabLogic.class);
     private static int projectionId = 0;
     private static String forecatingType = StringUtils.EMPTY;
-    public static TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
+    private static TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
     public static final String VARIANCE = "Variance";
     public static final String CONTRACT = "contract";
     public static final String COMPANY = "company";
@@ -196,7 +196,7 @@ public class LoadTabLogic {
 
     public static Object executeSelectQuery(String query) {
 
-        return tpDao.executeSelectQuery(query);
+        return getTpDao().executeSelectQuery(query);
 
     }
 
@@ -960,6 +960,14 @@ public class LoadTabLogic {
 
 	public static void setForecatingType(String forecatingType) {
 		LoadTabLogic.forecatingType = forecatingType;
+	}
+
+	public static TradingPartnerDAO getTpDao() {
+		return tpDao;
+	}
+
+	public static void setTpDao(TradingPartnerDAO tpDao) {
+		LoadTabLogic.tpDao = tpDao;
 	}
 
 }

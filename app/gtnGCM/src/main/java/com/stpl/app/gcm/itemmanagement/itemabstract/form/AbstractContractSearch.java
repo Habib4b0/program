@@ -178,7 +178,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
    
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     private AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
-    public CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(getBinderDto()));
+    protected CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(getBinderDto()));
     public static final Logger LOGGER = Logger.getLogger(AbstractContractSearch.class);
     private AbstractContractSelectionTableLogic contractSelectionTableLogic = new AbstractContractSelectionTableLogic();
     public static final String SEARCHICON = "searchicon";
@@ -218,7 +218,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     private final Map<String, AppPermission> functionHM = new HashMap<>();
     private String userId = VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString();
     private boolean isFound = false;
-    public String contractItemName = StringUtils.EMPTY;
+    protected String contractItemName = StringUtils.EMPTY;
     private String transferSalesString = StringUtils.EMPTY;
     private boolean removeProjectionBooleanVal = false;
     private boolean isSubmit = false;

@@ -671,7 +671,7 @@ public class ItemSelection extends CustomComponent {
     }
 
     public List<String> mappingItems() {
-            return sidList;
+            return Collections.unmodifiableList(sidList);
     }
 
     private void setFromItemSid() {
@@ -695,10 +695,10 @@ public class ItemSelection extends CustomComponent {
     }
 
     public List<String> getTransferredCount() {
-        return tranferredCount;
+        return Collections.unmodifiableList(tranferredCount);
     }
 
     public List<String> getFromIdCount() {
-        return fromLsSidList;
+        return Collections.unmodifiableList(fromLsSidList);
     }
 }
