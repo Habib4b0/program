@@ -1594,6 +1594,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         resetBtn.setEnabled(false);
         ndcBtn.setEnabled(false);
         priceBasisDdlb.setEnabled(false);
+        priceTrendDdlb.setEnabled(false);
     }
 
     @UiHandler("priceTypeDdlb")
