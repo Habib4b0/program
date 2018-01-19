@@ -16,9 +16,9 @@ public class PMPYUtils {
     /**
      * The Constant UNCHECK.
      */
-    public static final String UNCHECK = "../../icons/uncheckimg.png";
+    public static final String UNCHECK = "img/uncheckimg.png";
     /**
      * The Constant CHECK.
      */
-    public static final String CHECK = "../../icons/checked.png";
+    public static final String CHECK = "img/checked.png";
 }

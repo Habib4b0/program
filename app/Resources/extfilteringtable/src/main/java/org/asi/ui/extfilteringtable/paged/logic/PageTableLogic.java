@@ -555,10 +555,10 @@ public abstract class PageTableLogic {
         pageManagement.setSpacing(true);
         controlBar.addComponent(pageSize);
         controlBar.addComponent(pageManagement);
-        controlBar.setComponentAlignment(pageManagement,
-                Alignment.MIDDLE_CENTER);
+//        controlBar.setComponentAlignment(pageManagement,
+//                Alignment.MIDDLE_CENTER);
         controlBar.setWidth(100, Sizeable.Unit.PERCENTAGE);
-        controlBar.setExpandRatio(pageSize, 1);
+//        controlBar.setExpandRatio(pageSize, 1);
 
         addListener(new PageChangeListener() {
             private boolean inMiddleOfValueChange;

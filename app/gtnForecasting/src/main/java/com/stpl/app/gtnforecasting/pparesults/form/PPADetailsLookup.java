@@ -299,8 +299,8 @@ public class PPADetailsLookup extends Window {
                 fromDate.select(forecastPeriods.get(0));
                 toDate.select(forecastPeriods.get(forecastPeriods.size() - 1));
             }
-            excelBtn.setIcon(new ThemeResource("../../icons/excel.png"));
-            excelBtn.setIcon(new ThemeResource("../../icons/excel.png"));
+            excelBtn.setIcon(new ThemeResource("img/excel.png"));
+            excelBtn.setIcon(new ThemeResource("img/excel.png"));
             excelBtn.setStyleName("link");
             excelBtn.setDescription("Export to excel");
             excelBtn.setIconAlternateText("Excel export");

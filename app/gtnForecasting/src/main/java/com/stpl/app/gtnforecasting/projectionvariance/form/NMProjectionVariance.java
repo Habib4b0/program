@@ -118,11 +118,11 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     /**
      * The excel export image.
      */
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     /**
      * The graph image.
      */
-    private final Resource graphImage = new ThemeResource("../../icons/chart.png");
+    private final Resource graphImage = new ThemeResource("img/chart.png");
     /**
      * The result bean.
      */
