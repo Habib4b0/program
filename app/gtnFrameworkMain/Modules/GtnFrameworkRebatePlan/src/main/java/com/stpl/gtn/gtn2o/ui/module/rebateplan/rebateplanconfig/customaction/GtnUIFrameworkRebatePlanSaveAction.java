@@ -276,7 +276,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 
                         loadFormula(formulaList, ruleDetailBean, ruleDetail);
 			ruleDetailBean.setItemPricingQualifierSid(getRPFormula(formulaList));
-			ruleDetailBean.setFormulaForCalculation(getRPFormulaForCalculation(formulaList,ruleDetail));
+			ruleDetailBean.setFormulaForCalculation(getRPFormulaForCalculation(formulaList));
 			ruleDetailBeanList.add(ruleDetailBean);
 		}
                 
@@ -400,13 +400,13 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 		return finalFormula.toString();
 	}
         
-	public String getRPFormulaForCalculation(List<String[]> formulaList,GtnWsRecordBean ruleDetail) {
+	public String getRPFormulaForCalculation(List<String[]> formulaList) {
 		StringBuilder finalFormula = new StringBuilder();
                 String firstLastString="";
 		for (int i = 0; i < formulaList.size(); i++) {
 			String[] str = formulaList.get(i);
 			finalFormula.insert(0, "(");
-                        firstLastString=formulaFormation(str, finalFormula, firstLastString, i,ruleDetail);
+                        firstLastString=formulaFormation(str, finalFormula, firstLastString, i);
 			if (i != 0) {
 				finalFormula.append(")");
                                 firstLastString=finalFormula.toString();
@@ -415,7 +415,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 		return finalFormula.toString().replace("[]", "");
 	}
 
-    public String  formulaFormation(String[] str, StringBuilder finalFormula, String firstLastString, int i,GtnWsRecordBean ruleDetail) {
+    public String  formulaFormation(String[] str, StringBuilder finalFormula, String firstLastString, int i) {
         for (int j = 0; j < str.length; j++) {
             if (j == 1 && j != str.length - 1) {
                 finalFormula.append("(");
@@ -423,7 +423,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
             String percentString = j == 1 ? str[j] : ("*".concat(firstLastString.concat("/100")));
             String formulaName = str[j].equals("%") ? percentString : str[j];
             formulaName = (i!=0 && formulaName.equals("$")) ?"" : formulaName;
-            formulaName = (!formulaName.matches("[0-9]+") && !formulaName.matches("[$ % * \\- / +]+")&& !formulaName.startsWith("*")) ? "[".concat(formulaName).concat("]") : formulaName;
+            formulaName = operatorCheck(formulaName) ? "[".concat(formulaName).concat("]") : formulaName;
             finalFormula.append(formulaName);
             if (j == str.length - 1) {
                 finalFormula.append(")");
@@ -431,6 +431,10 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
             }
         }
         return firstLastString;
+    }
+
+    public boolean operatorCheck(String formulaName) {
+        return !formulaName.matches("[0-9]+") && !formulaName.matches("[$ % * \\- / +]+")&& !formulaName.startsWith("*");
     }
 
 	public void addDefaultValue(List<String[]> formulaList, GtnWsRebatePlanRuleDetailBean ruleDetailBean,
