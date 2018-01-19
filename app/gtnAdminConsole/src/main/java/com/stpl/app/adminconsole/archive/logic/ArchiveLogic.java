@@ -34,7 +34,7 @@ public class ArchiveLogic {
     /**
      * The dao.
      */
-    static CommonDAO dao = new CommonDAOImpl();
+    private static CommonDAO dao = new CommonDAOImpl();
 
     /**
      * Gets the table name.

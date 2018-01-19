@@ -247,7 +247,7 @@ public class FileManagementLookup extends Window {
 
 	private HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
 
-	public Object selectedItem;
+	private Object selectedItem;
 
 	private char detailsFlag = 'N';
 
@@ -524,8 +524,8 @@ public class FileManagementLookup extends Window {
 		this.detailsFlag = detailsFlag;
 	}
 
-	CommonUtil commonUtil = new CommonUtil();
-	CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
+	private CommonUtil commonUtil = new CommonUtil();
+	private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
 
 	public void init() {
 		try {

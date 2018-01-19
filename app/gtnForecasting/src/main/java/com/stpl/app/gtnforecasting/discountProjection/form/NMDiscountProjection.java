@@ -188,8 +188,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private int customId = 0;
 	/* To check whether list view is generated or not */
 	public boolean isListviewGenerated = Boolean.TRUE;
-	private boolean isGroupUpdatedManually = false;
         List<String> hierarchyListForCheckRecord=new ArrayList<>();
+	private boolean isGroupUpdatedManually = false;
 	/* The custom id to select. */
 	private int customIdToSelect = 0;
 	/* The Right Header Dto */
@@ -1588,9 +1588,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		int updatedRecordCount = 0;
 		try {
 			int maxTreeLevelno = 0;
-			int treeLevelNo = 0;
+			int treeLevelNo;
 			int count = 0;
-			boolean checkValue = true;
+			boolean checkValue;
 			String hierarchyNo;
 			List<String> customerHierarchyNoList = new ArrayList<>();
 			List<String> productHierarchyNoList = new ArrayList<>();
@@ -1601,7 +1601,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			List<String> hierarchyIndicatorList = new ArrayList<>();
 			boolean isCustomHierarchy = CommonUtil.isValueEligibleForLoading()
 					? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
-					: Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
+					: Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.toString().equals(hierarchyIndicator);
                         
                     if (resultBeanContainer.size() == 0) {
 				LOGGER.debug(" Container size is 0");
@@ -2632,7 +2632,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					}
 					boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
 					boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
-                                         if (hierarchyListForCheckRecord.size() > 0) {
+                                        if (hierarchyListForCheckRecord.size() > 0) {
                                              logic.updateCheckRecordForAdjust(checkedDiscountsPropertyIds, hierarchyListForCheckRecord, session, hierarchyIndicator);
                                          } 
 					if (logic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
@@ -2787,8 +2787,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
 					if (logic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
 							isCustomHierarchy)) {
-                                             
-                                             if (logic.adjustDiscountProjectionValidation(projectionSelection)) {
+                                            
+                                            if (logic.adjustDiscountProjectionValidation(projectionSelection)) {
                                                 NotificationUtils.getErrorNotification("Error", "When using the ‘% of Ex-Factory’ methodology, a product cannot be included in multiple selected contract, customer, and product combinations. Please update the selections");
                                                 return;
                                             }

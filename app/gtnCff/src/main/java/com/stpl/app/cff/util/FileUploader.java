@@ -38,7 +38,7 @@ public class FileUploader implements Upload.Receiver {
 	/**
 	 * The file.
 	 */
-	public File file;
+	private File file;
 	/**
 	 * The basepath.
 	 */
@@ -52,7 +52,9 @@ public class FileUploader implements Upload.Receiver {
 	 */
 	private static final Logger LOGGER = Logger.getLogger(FileUploader.class);
 	public static final String FILE_PATH = getFilePath();
-	public boolean upload = true;
+	private boolean upload = true;
+	private boolean isFileExists;
+	private boolean isFileCreated;
 
 	/**
 	 * The Constructor.
@@ -87,12 +89,14 @@ public class FileUploader implements Upload.Receiver {
 			if (StringUtils.isNotBlank(filename) && isUpload()) {
 				file = GtnFileUtil.getFile(dir, filename);
 				if (file.exists()) {
-					file.delete();
+					isFileExists=file.delete();
 				}
-				file.createNewFile();
+				isFileCreated=file.createNewFile();
 				outputStream = new FileOutputStream(file);
 				return outputStream;// Return the output stream to write to
 			}
+			LOGGER.info("File is deleted successfully : "+ isFileExists);
+			LOGGER.info("File is created successfully : "+ isFileCreated);
 		} catch (final java.io.FileNotFoundException e) {
 			LOGGER.error(e);
 			return NULL_OUTPUT_STREAM;

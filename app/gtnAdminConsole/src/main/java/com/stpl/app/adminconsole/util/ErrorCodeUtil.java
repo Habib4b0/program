@@ -14,7 +14,7 @@ import org.jboss.logging.Logger;
  */
 public final class ErrorCodeUtil {
 
-    public static ResourceBundle resouceBundle = ResourceBundle.getBundle("errorcodes.errorcode");
+    public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("errorcodes.errorcode");
 
     public static final String HYPHEN = " - ";
 
@@ -26,7 +26,7 @@ public final class ErrorCodeUtil {
 
     public static String getEC(final String key) {
         try {
-            return resouceBundle.getString(key);
+            return RESOURCE_BUNDLE.getString(key);
         } catch (MissingResourceException e) {
             LOGGER.error(e);
             return "";

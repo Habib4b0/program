@@ -39,7 +39,7 @@ public class AppTest {
 		*/
 	}
 
-	@Test
+	 @Test
 	public void creatQueryForMultiLevelHierarchy() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
 		List<String> entityList = Arrays.asList("RS_CONTRACT");
@@ -50,7 +50,7 @@ public class AppTest {
 		Assert.assertEquals(true, !finalQuery.isEmpty());
 	}
 
-	@Test
+	 @Test
 	public void getRoutePath() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
 		GtnFrameworkRouteBean routePath = hierarchyService.getRoutePath(6, 7);
@@ -65,9 +65,10 @@ public class AppTest {
 	public void getPathByTableNameAndHierarchyType() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
 		GtnFrameworkRouteBean routePath = hierarchyService.getPathByTableNameAndHierarchyType("RS_CONTRACT", "UDCS",
-				"DEDUCTION_HIERARCHY");
+				"Deduction Hierarchy");
 		hierarchyService.createQuery(routePath, queryBean);
 		String finalQuery = queryBean.generateQuery();
+		
 
 		Assert.assertEquals(true, !finalQuery.isEmpty());
 		Assert.assertEquals(true, routePath.getPathList().isEmpty());

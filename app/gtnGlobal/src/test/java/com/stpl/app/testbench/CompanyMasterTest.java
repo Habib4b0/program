@@ -17,8 +17,8 @@ import com.vaadin.testbench.elements.WindowElement;
 
 public class CompanyMasterTest extends TestBenchTestCase {
 
-	String companyName="TestCompany12022015d";
-	String editCompanyName="EditTestCompany12022015";
+	private String companyName="TestCompany12022015d";
+	private String editCompanyName="EditTestCompany12022015";
 	
 	// For Search
 

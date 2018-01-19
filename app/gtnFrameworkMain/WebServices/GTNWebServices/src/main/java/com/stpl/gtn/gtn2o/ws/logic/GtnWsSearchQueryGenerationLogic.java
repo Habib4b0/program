@@ -240,8 +240,8 @@ public class GtnWsSearchQueryGenerationLogic {
 					.append("'");
 			break;
 		case "LIKE":
-			whereSqlBuilder.append(dbName).append(" ").append(gtnWebServiceSearchCriteria.getExpression()).append(" '%")
-					.append(gtnWebServiceSearchCriteria.getFilterValue1().replace('*', '%')).append("%' ");
+			whereSqlBuilder.append(dbName).append(" ").append(gtnWebServiceSearchCriteria.getExpression()).append(" '")
+					.append(gtnWebServiceSearchCriteria.getFilterValue1().replace('*', '%')).append("' ");
 			break;
 		case "EQUAL":
 			whereSqlBuilder.append(dbName).append(" = '").append(gtnWebServiceSearchCriteria.getFilterValue1())

@@ -58,7 +58,7 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 						+ " LEFT JOIN COMPANY_QUALIFIER CQ ON CQ.COMPANY_QUALIFIER_SID = CID.COMPANY_QUALIFIER_SID"
 						+ " LEFT JOIN HELPER_TABLE companyTypeHelper on cm.COMPANY_TYPE=companyTypeHelper.HELPER_TABLE_SID"
 						+ " LEFT JOIN HELPER_TABLE companyStatusHelper on cm.COMPANY_STATUS = companyStatusHelper.HELPER_TABLE_SID");
-        gtnWebServiceSearchQueryConfig.setCountAliasAtEnd("A");
+		gtnWebServiceSearchQueryConfig.setCountAliasAtEnd("A");
 		gtnWebServiceSearchQueryConfig.setCountQuerySelectClause(GtnWsCMasterConstants.QUERY_COUNT);
 
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
@@ -106,7 +106,7 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 		fieldToColumnDetailsMap.put("landingScreenTpSearchcompanyType", companyTypeColumnConfig);
 		GtnWsColumnDetailsConfig companyStatusColumnConfig = configProvider.getColumnHelperConfig("COMPANY_STATUS",
 				"cm");
-		companyStatusColumnConfig.setHelperTableAliasName("companyStatusHelper");
+		companyStatusColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
 		companyStatusColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
 		fieldToColumnDetailsMap.put("companyStatus", companyStatusColumnConfig);
 		fieldToColumnDetailsMap.put("parentCompanySearchcompanyStatus", companyStatusColumnConfig);
@@ -120,14 +120,27 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 				configProvider.getColumnBooleanConfig("RECORD_LOCK_STATUS", "cm"));
 		fieldToColumnDetailsMap.put("lives", configProvider.getColumnStringConfig("LIVES", "cm"));
 		fieldToColumnDetailsMap.put("companyEndDate", configProvider.getColumnDateConfig("COMPANY_END_DATE", "cm"));
-		fieldToColumnDetailsMap.put("companyGroup", configProvider.getColumnHelperConfig("COMPANY_GROUP", "cm"));
-		fieldToColumnDetailsMap.put("financialSystem", configProvider.getColumnStringConfig("FINANCIAL_SYSTEM", "cm"));
+		GtnWsColumnDetailsConfig stateColumnConfig = configProvider.getColumnHelperConfig("STATE", "cm");
+		stateColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		stateColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("state", stateColumnConfig);
+		GtnWsColumnDetailsConfig financialSystemColumnConfig = configProvider.getColumnStringConfig("FINANCIAL_SYSTEM",
+				"cm");
+		financialSystemColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		financialSystemColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("financialSystem", financialSystemColumnConfig);
 		fieldToColumnDetailsMap.put("address1", configProvider.getColumnStringConfig("ADDRESS1", "cm"));
 		fieldToColumnDetailsMap.put("address2", configProvider.getColumnStringConfig("ADDRESS2", "cm"));
 		fieldToColumnDetailsMap.put("city", configProvider.getColumnStringConfig("CITY", "cm"));
-		fieldToColumnDetailsMap.put("state", configProvider.getColumnHelperConfig("STATE", "cm"));
+		GtnWsColumnDetailsConfig companyGroupColumnConfig = configProvider.getColumnHelperConfig("COMPANY_GROUP", "cm");
+		companyGroupColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		companyGroupColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("companyGroup", companyGroupColumnConfig);
 		fieldToColumnDetailsMap.put("zipCode", configProvider.getColumnStringConfig("ZIP_CODE", "cm"));
-		fieldToColumnDetailsMap.put("country", configProvider.getColumnHelperConfig("COUNTRY", "cm"));
+		GtnWsColumnDetailsConfig countryColumnConfig = configProvider.getColumnHelperConfig("COUNTRY", "cm");
+		countryColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		countryColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("country", countryColumnConfig);
 		fieldToColumnDetailsMap.put("regionCode", configProvider.getColumnStringConfig("REGION_CODE", "cm"));
 		fieldToColumnDetailsMap.put("createdBy", configProvider.getColumnStringConfig("CREATED_BY", "cm"));
 		fieldToColumnDetailsMap.put("createdDate", configProvider.getColumnStringConfig("CREATED_DATE", "cm"));
@@ -137,18 +150,50 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 		fieldToColumnDetailsMap.put("lastUpdatedDate", configProvider.getColumnDateConfig("LAST_UPDATED_DATE", "cm"));
 		fieldToColumnDetailsMap.put("companyStartDate", configProvider.getColumnDateConfig("COMPANY_START_DATE", "cm"));
 		fieldToColumnDetailsMap.put("inboundStatus", configProvider.getColumnStringConfig("INBOUND_STATUS", "cm"));
-		fieldToColumnDetailsMap.put("companyCategory", configProvider.getColumnHelperConfig("COMPANY_CATEGORY", "cm"));
-		fieldToColumnDetailsMap.put("organizationKey", configProvider.getColumnHelperConfig("ORGANIZATION_KEY", "cm"));
-		fieldToColumnDetailsMap.put("udc1", configProvider.getColumnHelperConfig("UDC1", "udc"));
-		fieldToColumnDetailsMap.put("udc2", configProvider.getColumnHelperConfig("UDC2", "udc"));
-		fieldToColumnDetailsMap.put("udc3", configProvider.getColumnHelperConfig("UDC3", "udc"));
-		fieldToColumnDetailsMap.put("udc4", configProvider.getColumnHelperConfig("UDC4", "udc"));
-		fieldToColumnDetailsMap.put("udc5", configProvider.getColumnHelperConfig("UDC5", "udc"));
-		fieldToColumnDetailsMap.put("udc6", configProvider.getColumnHelperConfig("UDC6", "udc"));
-		fieldToColumnDetailsMap.put("companyTradeClass",
-				configProvider.getColumnHelperConfig("COMPANY_TRADE_CLASS", GtnFrameworkWebserviceConstant.TRADE));
-		fieldToColumnDetailsMap.put("tradeClass",
-				configProvider.getColumnHelperConfig("COMPANY_TRADE_CLASS", GtnFrameworkWebserviceConstant.TRADE));
+		GtnWsColumnDetailsConfig companyCategoryColumnConfig = configProvider.getColumnHelperConfig("COMPANY_CATEGORY",
+				"cm");
+		companyCategoryColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		companyCategoryColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("companyCategory", companyCategoryColumnConfig);
+		GtnWsColumnDetailsConfig organizationColumnConfig = configProvider.getColumnHelperConfig("ORGANIZATION_KEY",
+				"cm");
+		organizationColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		organizationColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("organizationKey", organizationColumnConfig);
+		GtnWsColumnDetailsConfig udc1ColumnConfig = configProvider.getColumnHelperConfig("UDC1", "udc");
+		udc1ColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		udc1ColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("udc1", udc1ColumnConfig);
+		GtnWsColumnDetailsConfig udc2ColumnConfig = configProvider.getColumnHelperConfig("UDC2", "udc");
+		udc2ColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		udc2ColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("udc2", udc2ColumnConfig);
+		GtnWsColumnDetailsConfig udc3ColumnConfig = configProvider.getColumnHelperConfig("UDC3", "udc");
+		udc3ColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		udc3ColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("udc3", udc3ColumnConfig);
+		GtnWsColumnDetailsConfig udc4ColumnConfig = configProvider.getColumnHelperConfig("UDC4", "udc");
+		udc4ColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		udc4ColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("udc4", udc4ColumnConfig);
+		GtnWsColumnDetailsConfig udc5ColumnConfig = configProvider.getColumnHelperConfig("UDC5", "udc");
+		udc5ColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		udc5ColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("udc5", udc5ColumnConfig);
+		GtnWsColumnDetailsConfig udc6ColumnConfig = configProvider.getColumnHelperConfig("UDC6", "udc");
+		udc6ColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		udc6ColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("udc6", udc6ColumnConfig);
+		GtnWsColumnDetailsConfig companyTradeClassColumnConfig = configProvider
+				.getColumnHelperConfig("COMPANY_TRADE_CLASS", GtnFrameworkWebserviceConstant.TRADE);
+		companyTradeClassColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		companyTradeClassColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("companyTradeClass", companyTradeClassColumnConfig);
+		GtnWsColumnDetailsConfig tradeClassColumnConfig = configProvider.getColumnHelperConfig("COMPANY_TRADE_CLASS",
+				GtnFrameworkWebserviceConstant.TRADE);
+		tradeClassColumnConfig.setHelperTableAliasName(GtnWsCMasterConstants.COMPANY_STATUS_HELPER);
+		tradeClassColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+		fieldToColumnDetailsMap.put("tradeClass", tradeClassColumnConfig);
 		fieldToColumnDetailsMap.put("tradeClassStartDate",
 				configProvider.getColumnDateConfig("TRADE_CLASS_START_DATE", GtnFrameworkWebserviceConstant.TRADE));
 		fieldToColumnDetailsMap.put("tradeClassEndDate",
@@ -169,7 +214,8 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 				configProvider.getColumnStringConfig("COMPANY_IDENTIFIER_VALUE", "CID"));
 		fieldToColumnDetailsMap.put("companyQualifierName",
 				configProvider.getColumnStringConfig("COMPANY_QUALIFIER_SID", "CQ"));
-		fieldToColumnDetailsMap.put("companyType1", configProvider.getColumnStringConfig(GtnWsConstants.DESCRIPTION, "helperDesc"));
+		fieldToColumnDetailsMap.put("companyType1",
+				configProvider.getColumnStringConfig(GtnWsConstants.DESCRIPTION, "helperDesc"));
 		fieldToColumnDetailsMap.put("companyStatus1",
 				configProvider.getColumnStringConfig(GtnWsConstants.DESCRIPTION, "helperDescription"));
 		gtnWebServiceSearchQueryConfig.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);

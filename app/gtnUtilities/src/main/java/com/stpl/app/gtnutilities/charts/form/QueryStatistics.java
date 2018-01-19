@@ -52,22 +52,22 @@ public class QueryStatistics extends CustomComponent implements View {
     private Button durationBtn;
     @UiField("totalioBtn")
     private Button totalioBtn;
-    public BeanItemContainer<ChartsDTO> resultsBean = new BeanItemContainer<ChartsDTO>(ChartsDTO.class);
+    private BeanItemContainer<ChartsDTO> resultsBean = new BeanItemContainer<ChartsDTO>(ChartsDTO.class);
     @UiField("tableLayout")
-    VerticalLayout tableLayout;
+    private VerticalLayout tableLayout;
     @UiField("selecteDate")
     public PopupDateField selecteDate;
     @UiField("selectType")
-    OptionGroup selectType;
+    private OptionGroup selectType;
     @UiField("databaseDdlb")
-    ComboBox databaseDdlb;
+    private ComboBox databaseDdlb;
     @UiField("excelExport")
     private Button excelExport;
     private HorizontalLayout controlLayout = new HorizontalLayout();
-    TableLogic tableLogic = new TableLogic();
-    ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private TableLogic tableLogic = new TableLogic();
+    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private String selectedParameter = Constants.CPU;
-    SearchLogic searchLogic = SearchLogic.getInstance();
+    private SearchLogic searchLogic = SearchLogic.getInstance();
     /**
      * Instantiates a new QueryStatistics
      */
@@ -110,12 +110,12 @@ public class QueryStatistics extends CustomComponent implements View {
         cpuBtn.addStyleName(Reindeer.BUTTON_LINK);
         durationBtn.addStyleName(Reindeer.BUTTON_LINK);
         totalioBtn.addStyleName(Reindeer.BUTTON_LINK);
-        selectType.addItem(Constants.Long_Running_Queries);
-        selectType.addItem(Constants.Stored_Procedure_Info);
-        selectType.addItem(Constants.Index_Fragmentation_Statistics);
-        selectType.select(Constants.Long_Running_Queries);
+        selectType.addItem(Constants.LONG_RUNNING_QUERY);
+        selectType.addItem(Constants.STORED_PROCEDURE_INFOR);
+        selectType.addItem(Constants.INDEX_FRAGMENTATION_STATISTIC);
+        selectType.select(Constants.LONG_RUNNING_QUERY);
         selecteDate.setValue(CommonMethods.getYesterdayDate());
-        selecteDate.setDateFormat(Constants.Hour_Date_Format);
+        selecteDate.setDateFormat(Constants.HOUR_DATE_FORMAT);
         selecteDate.setResolution(Resolution.SECOND);
         selecteDate.setImmediate(true);
         Property.ValueChangeListener listener = new Property.ValueChangeListener() {
@@ -139,7 +139,7 @@ public class QueryStatistics extends CustomComponent implements View {
         tableLogic.setContainerDataSource(resultsBean);
         tableLogic.setPageLength(NumericConstants.TEN);
         tableLogic.sinkItemPerPageWithPageLength(false);
-        setVisibleColHeaders(Constants.QUERY_TABLE_COLUMNS, Constants.QUERY_TABLE_HEADER);
+        setVisibleColHeaders(Constants.getQueryTableColumns(), Constants.getQueryTableHeader());
         resultsTable.setFilterBarVisible(true);
         resultsTable.setImmediate(true);
         resultsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
@@ -193,16 +193,16 @@ public class QueryStatistics extends CustomComponent implements View {
 
     public void refreshTable() {
         String typeValue = String.valueOf(selectType.getValue());
-        tableLogic.configureSearchData(getInputArray(), Constants.Query_Statistics);
-        if (typeValue.equals(Constants.Long_Running_Queries)) {
+        tableLogic.configureSearchData(getInputArray(), Constants.QUERY_STATISTICS);
+        if (typeValue.equals(Constants.LONG_RUNNING_QUERY)) {
             setButtonVisibility(true);
-            setVisibleColHeaders(Constants.QUERY_TABLE_COLUMNS, Constants.QUERY_TABLE_HEADER);
-        } else if (typeValue.equals(Constants.Stored_Procedure_Info)) {
+            setVisibleColHeaders(Constants.getQueryTableColumns(), Constants.getQueryTableHeader());
+        } else if (typeValue.equals(Constants.STORED_PROCEDURE_INFOR)) {
             setButtonVisibility(true);
-            setVisibleColHeaders(Constants.PROCEDURE_TABLE_COLUMNS, Constants.PROCEDURE_TABLE_HEADER);
+            setVisibleColHeaders(Constants.getProcedureTableColumns(), Constants.getProcedureTableHeader());
         } else {
             setButtonVisibility(false);
-            setVisibleColHeaders(Constants.INDEX_TABLE_COLUMNS, Constants.INDEX_TABLE_HEADER);
+            setVisibleColHeaders(Constants.getIndexTableColumns(), Constants.getIndexTableHeader());
         }
         resultsTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultsTable.setFilterGenerator(new FilterGenerator());
@@ -245,8 +245,8 @@ public class QueryStatistics extends CustomComponent implements View {
             }
             value = String.valueOf(objects[objects.length - NumericConstants.ONE]).trim().toLowerCase().equals(Constants.NULL_STRING)
                     ? Constants.EMPTY : String.valueOf(objects[objects.length - NumericConstants.ONE]).trim();
-            if (String.valueOf(selectType.getValue()).equals(Constants.Stored_Procedure_Info)
-                    || String.valueOf(selectType.getValue()).equals(Constants.Long_Running_Queries)) {
+            if (String.valueOf(selectType.getValue()).equals(Constants.STORED_PROCEDURE_INFOR)
+                    || String.valueOf(selectType.getValue()).equals(Constants.LONG_RUNNING_QUERY)) {
                 value = searchLogic.truncateValuesBasedOnType(selectedParameter,  value);
             }
             // adding /n  to Mark  end of a Row
@@ -257,7 +257,7 @@ public class QueryStatistics extends CustomComponent implements View {
 
     private Object[] getInputArray() {
        String typeValue = String.valueOf(selectType.getValue());
-        String sqlDate = new SimpleDateFormat(Constants.yyyy_MM_dd_HH_mm_ss).format(selecteDate.getValue());
+        String sqlDate = new SimpleDateFormat(Constants.YYYY_MM_DD_HH_MM_SS).format(selecteDate.getValue());
         String dbValue = String.valueOf(databaseDdlb.getValue());
         String database = databaseDdlb.getValue() == null || dbValue.equals(Constants.SELECT_ONE) ? Constants.EMPTY : dbValue;
         Object[] input = {selectedParameter, sqlDate, typeValue, selecteDate.getValue(), database};
