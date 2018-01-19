@@ -940,19 +940,19 @@ public class GtnFrameworkContractDashboardRebateTabConfig {
 				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
 		cdRebateComponentList.add(gtnLayoutConfig);
 
-		GtnUIFrameworkComponentConfig componentConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
+		GtnUIFrameworkComponentConfig rebateFrequencyConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
 				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.COMBOBOX);
-		componentConfig.setAuthorizationIncluded(true);
-		componentConfig.setComponentName("Rebate Frequency");
-		componentConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
-		cdRebateComponentList.add(componentConfig);
+		rebateFrequencyConfig.setAuthorizationIncluded(true);
+		rebateFrequencyConfig.setComponentName("Rebate Frequency");
+		rebateFrequencyConfig.addComponentStyle(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY);
+		cdRebateComponentList.add(rebateFrequencyConfig);
 
 		GtnUIFrameworkComboBoxConfig comboBoxConfig = new GtnUIFrameworkComboBoxConfig();
 		comboBoxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		comboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.REBATE_FREQUENCY);
-		componentConfig.setGtnComboboxConfig(comboBoxConfig);
-		componentIdList.add(componentConfig.getComponentId());
+		rebateFrequencyConfig.setGtnComboboxConfig(comboBoxConfig);
+		componentIdList.add(rebateFrequencyConfig.getComponentId());
 	}
 
 	private void addPaymentLevel(List<GtnUIFrameworkComponentConfig> cdRebateComponentList, String cdRebateTabPrefix,
