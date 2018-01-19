@@ -35,7 +35,6 @@ public class GtnFrameworkAddToTreeAction implements GtnUIFrameWorkAction, GtnUIF
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
-
 		addSingleItem(componentId, parameters.get(2).toString(), parameters.get(3).toString(),
 				parameters.get(4).toString());
 

@@ -69,6 +69,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -600,8 +601,16 @@ public class AltSummeryDiscount extends CustomComponent {
         levelDdlb.removeAllItems();
         levelDdlb.addItem(SELECT_ONE.getConstant());
         levelDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
-
+      
         if (currentHierarchy != null) {
+        	Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+            	@Override
+				public int compare(Leveldto o1, Leveldto o2) {
+					return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+            	}
+            });
+            Collections.reverse(currentHierarchy);
+        	
             boolean toSetCaption = true;
             for (int i = 0; i < currentHierarchy.size(); i++) {
                 Leveldto levelDto = currentHierarchy.get(i);
@@ -1369,7 +1378,7 @@ public class AltSummeryDiscount extends CustomComponent {
      * @return
      */
     public List<String> getDiscountNamesList() {
-        return discountNamesList;
+        return discountNamesList == null ? discountNamesList : Collections.unmodifiableList(discountNamesList);
     }
 
     /**

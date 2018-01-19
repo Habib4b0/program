@@ -19,8 +19,8 @@ import com.vaadin.testbench.elements.WindowElement;
 
 public class ItemMasterTest extends TestBenchTestCase {
 
-	String imName = "TestIM12022015";
-	String imEDITName = "TestIM12022015";
+	private String imName = "TestIM12022015";
+	private String imEDITName = "TestIM12022015";
 
 	@Before
 	public void setUp() {

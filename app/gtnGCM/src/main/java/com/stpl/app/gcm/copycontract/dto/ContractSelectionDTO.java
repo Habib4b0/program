@@ -6,6 +6,7 @@ package com.stpl.app.gcm.copycontract.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
@@ -407,11 +408,11 @@ public class ContractSelectionDTO implements Serializable {
     }
 
     public List<String> getCompanyMasterSids() {
-        return companyMasterSids;
+        return companyMasterSids == null ? companyMasterSids : Collections.unmodifiableList(companyMasterSids);
     }
 
     public void setCompanyMasterSids(List<String> companyMasterSids) {
-        this.companyMasterSids = companyMasterSids;
+        this.companyMasterSids = companyMasterSids == null ? companyMasterSids : Collections.unmodifiableList(companyMasterSids);
     }
 
     public boolean isSearchInverse() {
@@ -463,11 +464,11 @@ public class ContractSelectionDTO implements Serializable {
     }
 
     public List<String> getPhCompanyMasterSids() {
-        return phCompanyMasterSids;
+        return phCompanyMasterSids == null ? phCompanyMasterSids : Collections.unmodifiableList(phCompanyMasterSids);
     }
 
     public void setPhCompanyMasterSids(List<String> phCompanyMasterSids) {
-        this.phCompanyMasterSids = phCompanyMasterSids;
+        this.phCompanyMasterSids = phCompanyMasterSids == null ? phCompanyMasterSids : Collections.unmodifiableList(phCompanyMasterSids);
     }
 
     public String getModuleName() {

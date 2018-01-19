@@ -29,36 +29,36 @@ public class CommonUiUtils {
     /**
      * The Constant ATTACHMENT_COLUMNS.
      */
-    public static final Object[] attachmentColumns = new Object[]{DOCUMENT_NAME.getConstant(), DATE_ADDED.getConstant(), USER_NAME.getConstant()};
+    private static final Object[] ATTACHMENT_COLUMNS = new Object[]{DOCUMENT_NAME.getConstant(), DATE_ADDED.getConstant(), USER_NAME.getConstant()};
     /**
      * The Constant ATTACHMENT_HEADER.
      */
-    public static final String[] attachmentHeader = new String[]{"Document Name", "Date Added", "User Name"};
+    private static final String[] ATTACHMENT_HEADER = new String[]{"Document Name", "Date Added", "User Name"};
 
     /**
      * The Constant VISIBLECOLUMN.
      */
-    public static final Object[] visibleColumn = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME};
+    private static final Object[] VISIBLE_COLUMN = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME};
 
     /**
      * The Constant VISIBLEHEADER.
      */
-    public static final String[] visibleHeader = new String[]{"Product No", "Product Name"};
+    private static final String[] VISIBLE_HEADER = new String[]{"Product No", "Product Name"};
 
     /**
      * The Constant VISIBLESEARCHCOLUMN.
      */
-    public static final Object[] visibleSearchColumn = new Object[]{Constant.PROJECTION_NAME, "company", "productGroup", "therapeuticClass", "createdDateSearch", "modifiedDateSearch", "createdBy","businessUnitName"};
+    private static final Object[] VISIBLE_SEARCH_COLUMN = new Object[]{Constant.PROJECTION_NAME, "company", "productGroup", "therapeuticClass", "createdDateSearch", "modifiedDateSearch", "createdBy","businessUnitName"};
 
     /**
      * The Constant VISIBLESEARCHHEADER.
      */
-    public static final String[] visibleSearchHeader = new String[]{"Name", Constant.COMPANY_SMALL, "Product Group", "Therapeutic Class", "Created Date", "Modified Date", "Created By","Business Unit"};
+    private static final String[] VISIBLE_SEARCH_HEADER = new String[]{"Name", Constant.COMPANY_SMALL, "Product Group", "Therapeutic Class", "Created Date", "Modified Date", "Created By","Business Unit"};
 
     /**
      * The Constant PRODUCTGROUPCOLUMN.
      */
-    public static final Object[] productGroupColumn = new Object[]{"productGroupName", "productGroup", "productGroupDescription", "company"};
+    private static final Object[] PRODUCT_GROUP_COLUMN = new Object[]{"productGroupName", "productGroup", "productGroupDescription", "company"};
 
     /**
      * The PRODUCTGROUPHEADER.
@@ -68,57 +68,57 @@ public class CommonUiUtils {
     /**
      * The Constant BASELINE_PERIOD_COLUMNS.
      */
-    public static final Object[] baselinePeriodColumns = new Object[]{Constant.CHECK, "period", "type"};
+    private static final Object[] BASELINE_PERIOD_COLUMNS = new Object[]{Constant.CHECK, "period", "type"};
 
     /**
      * The Constant BASELINE_PERIOD_HEADER.
      */
-    public static final String[] baselinePeriodHeader = new String[]{StringUtils.EMPTY, "Period", StringUtils.EMPTY};
+    private static final String[] BASELINE_PERIOD_HEADER = new String[]{StringUtils.EMPTY, "Period", StringUtils.EMPTY};
 
     /**
      * The Constant PERIOD_TYPES_COLUMNS.
      */
-    public static final Object[] periodTypeColumns = new Object[]{"priceType", "baselineMethodology", "basePeriod", "forecastMethodology", "priceBasis", "growthRate", "rollingPeriod", "startPeriod",
+    private static final Object[] PERIOD_TYPE_COLUMNS = new Object[]{"priceType", "baselineMethodology", "basePeriod", "forecastMethodology", "priceBasis", "growthRate", "rollingPeriod", "startPeriod",
         "endPeriod", "symbol"};
 
-    public static final String GROWTH_RATE = CommonUtil.isValueEligibleForLoading() ? "Rate" : "Growth Rate";
+    private static final String GROWTH_RATE = CommonUtil.isValueEligibleForLoading() ? "Rate" : "Growth Rate";
     /**
      * The Constant PERIOD_TYPES_HEADER.
      */
-    public static final String[] periodTypesHeader = new String[]{"Price Type", "Baseline Methodology", "Actuals Period", "Forecast Methodology", "Price Basis", GROWTH_RATE ,"Actuals Period", "Start Period",
+    private static final String[] PERIOD_TYPES_HEADER = new String[]{"Price Type", "Baseline Methodology", "Actuals Period", "Forecast Methodology", "Price Basis", GROWTH_RATE ,"Actuals Period", "Start Period",
         "End Period", StringUtils.EMPTY};
 
     /**
      * The Constant CPI_COLUMNS.
      */
-    public static final Object[] cpiColumns = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME, "productDescription"};
+    private static final Object[] CPI_COLUMNS = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME, "productDescription"};
 
     /**
      * The Constant CPI_HEADER.
      */
-    public static final String[] cpiHeader = new String[]{"Product#", "Product Name", "Product Description"};
+    private static final String[] CPI_HEADER = new String[]{"Product#", "Product Name", "Product Description"};
 
     /**
      * The Constant NEW_NDC_COLUMNS.
      */
-    public static final Object[] newNdcColumns = new Object[]{"ndc9", "wac", "baseYearAMP", "baseYearCPI", "forecastAMP",
+    private static final Object[] NEW_NDC_COLUMNS = new Object[]{"ndc9", "wac", "baseYearAMP", "baseYearCPI", "forecastAMP",
         "forecastBestPrice"};
 
     /**
      * The Constant NEW_NDC_HEADER.
      */
-    public static final String[] newNdcHeader = new String[]{"NDC Number", Constant.WAC, "Base Year AMP", "Base Year CPI", "Forecast AMP",
+    private static final String[] NEW_NDC_HEADER = new String[]{"NDC Number", Constant.WAC, "Base Year AMP", "Base Year CPI", "Forecast AMP",
         "Forecast Best Price"};
 
     /**
      * The Constant NEW_NDC_COLUMNS.
      */
-    public static final Object[] federalNDCColumns = new Object[]{Constant.ITEM_NO, "wac", "nonFamp", "fssOGA"};
+    private static final Object[] FEDERAL_NDC_COLUMNS = new Object[]{Constant.ITEM_NO, "wac", "nonFamp", "fssOGA"};
 
     /**
      * The Constant NEW_NDC_HEADER.
      */
-    public static final String[] federalNdcHeader = new String[]{"NDC Number", Constant.WAC, "Non-FAMP", "FSS(OGA)"};
+    private static final String[] FEDERAL_NDC_HEADER = new String[]{"NDC Number", Constant.WAC, "Non-FAMP", "FSS(OGA)"};
 
     public static String getMonthForInt(int num) {
         String month = "wrong";
@@ -1332,4 +1332,72 @@ public class CommonUiUtils {
         return projectionStartMonth;
 
     }
+
+	public static Object[] getAttachmentColumns() {
+		return ATTACHMENT_COLUMNS.clone();
+	}
+
+	public static String[] getAttachmentHeader() {
+		return ATTACHMENT_HEADER.clone();
+	}
+
+	public static Object[] getVisibleColumn() {
+		return VISIBLE_COLUMN.clone();
+	}
+
+	public static String[] getVisibleHeader() {
+		return VISIBLE_HEADER.clone();
+	}
+
+	public static Object[] getVisibleSearchColumn() {
+		return VISIBLE_SEARCH_COLUMN.clone();
+	}
+
+	public static String[] getVisibleSearchHeader() {
+		return VISIBLE_SEARCH_HEADER.clone();
+	}
+
+	public static Object[] getProductGroupColumn() {
+		return PRODUCT_GROUP_COLUMN.clone();
+	}
+
+	public static Object[] getBaselinePeriodColumns() {
+		return BASELINE_PERIOD_COLUMNS.clone();
+	}
+
+	public static String[] getBaselinePeriodHeader() {
+		return BASELINE_PERIOD_HEADER.clone();
+	}
+
+	public static Object[] getPeriodTypeColumns() {
+		return PERIOD_TYPE_COLUMNS.clone();
+	}
+
+	public static String[] getPeriodTypesHeader() {
+		return PERIOD_TYPES_HEADER.clone();
+	}
+
+	public static Object[] getCpiColumns() {
+		return CPI_COLUMNS.clone();
+	}
+
+	public static String[] getCpiHeader() {
+		return CPI_HEADER.clone();
+	}
+
+	public static Object[] getNewNdcColumns() {
+		return NEW_NDC_COLUMNS.clone();
+	}
+
+	public static String[] getNewNdcHeader() {
+		return NEW_NDC_HEADER.clone();
+	}
+
+	public static Object[] getFederalNdcColumns() {
+		return FEDERAL_NDC_COLUMNS.clone();
+	}
+
+	public static String[] getFederalNdcHeader() {
+		return FEDERAL_NDC_HEADER.clone();
+	}
 }

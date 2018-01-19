@@ -47,8 +47,11 @@ public class GtnUIFrameWorkRSSaveMandatoryAlert implements GtnUIFrameWorkAction,
 		String rebateScheduleType = getValueFromField("rebateScheduleType1");
 		String rebateProgramType = getValueFromField("rebateProgramType1");
 		String rebateScheduleCategory = getValueFromField("rebateScheduleCategory1");
+		String rebateFrequency = getValueFromField("rebateFrequency1");
 		String paymentFrequency = getValueFromField("paymentFrequency");
 		String paymentMethod = getValueFromField("paymentMethod");
+		String calculationType = getValueFromField("calculationType1");
+		String calculationLevel = getValueFromField("calculationLevel");
 		GtnUIFrameworkBaseComponent rSrightResultTable = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("RSrightResultTable");
 
@@ -86,12 +89,21 @@ public class GtnUIFrameWorkRSSaveMandatoryAlert implements GtnUIFrameWorkAction,
 			subMessage = subMessageEmptyCheck(subMessage) + "Rebate Schedule Category";
 		}
 
+		if (checkCondition(rebateFrequency)) {
+			subMessage = subMessageEmptyCheck(subMessage) + "Rebate Frequency";
+		}
 		if (checkCondition(paymentFrequency)) {
 			subMessage = subMessageEmptyCheck(subMessage) + "Payment Frequency";
 		}
 
 		if (checkCondition(paymentMethod)) {
 			subMessage = subMessageEmptyCheck(subMessage) + "Payment Method";
+		}
+		if (checkCondition(calculationType)) {
+			subMessage = subMessageEmptyCheck(subMessage) + "Calculation  Type";
+		}
+		if (checkCondition(calculationLevel)) {
+			subMessage = subMessageEmptyCheck(subMessage) + "Calculation Level";
 		}
 		if (rSrightResultTable.getExtPagedTableSize() == 0) {
 

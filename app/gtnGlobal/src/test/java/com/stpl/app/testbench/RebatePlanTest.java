@@ -19,8 +19,8 @@ import com.vaadin.testbench.elements.WindowElement;
 
 public class RebatePlanTest extends TestBenchTestCase {
 	
-	String rpName="TestRP120220156";
-	String rpEditName="EditTestRP12022015";
+	private String rpName="TestRP120220156";
+	private String rpEditName="EditTestRP12022015";
 	
 	
 	// Search

@@ -1500,6 +1500,7 @@ public class CommonLogic {
                 updateProdHirarechy(newProjectionId, getProdRelationshipId(), masterSids);
                 newProjectionId = cloneProjection(oldProjectionId, userId);
                 LOGGER.debug(" New Projection Id ===== " + newProjectionId);
+                insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
                 if (newProjectionId != 0) {
 
                     boolean isProjectionCustUpdated = false;
@@ -1787,6 +1788,13 @@ public class CommonLogic {
 
         LOGGER.debug("End of insertIntoProjectionDetails method");
         return status;
+    }
+    
+     private void insertIntoNmProjectionSelection(int oldProjectionId, int newProjectionId) {
+        List input = new ArrayList();
+        input.add(newProjectionId);
+        input.add(oldProjectionId);
+        ItemQueries.getAppData(input, "NM_PROJECTION_SELECTION_INSERT_QUERY", null);
     }
 
     /**
@@ -2084,6 +2092,7 @@ public class CommonLogic {
             relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
             int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
             LOGGER.debug(" New Projection Id ===== " + newProjectionId);
+            insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
             if (newProjectionId != 0) {
                 setNewProjectionId(newProjectionId);
                 setForecastingType(String.valueOf(projectionMasterRow[NumericConstants.TWO]));
@@ -2187,6 +2196,7 @@ public class CommonLogic {
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
         int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
+        insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
 
         LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
         if (newProjectionId != 0) {
@@ -2457,6 +2467,7 @@ public class CommonLogic {
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
 
         int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
+        insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
 
         LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
         if (newProjectionId != 0) {

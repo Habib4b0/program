@@ -58,7 +58,7 @@ public class SummaryLookUp extends CustomComponent {
         LOGGER.debug("getContent method starts");
 
         this.selection = selection;
-        this.itemList = itemList;
+        this.itemList = itemList == null ? itemList : new ArrayList<>(itemList);
         Panel panel = new Panel();
         panel.setCaption(StringUtils.EMPTY);
         panel.setContent(mainTab);

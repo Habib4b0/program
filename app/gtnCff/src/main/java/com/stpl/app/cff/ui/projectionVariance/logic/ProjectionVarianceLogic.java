@@ -2928,7 +2928,7 @@ public class ProjectionVarianceLogic {
             inputList.add(" ");
         }
         
-        if (comparisonLookup.getCreatedDateTo() != null && !"null".equals(comparisonLookup.getCreatedDateTo()) && !"".equals(comparisonLookup.getCreatedDateTo())) {
+        if (comparisonLookup.getCreatedDateTo() != null) {
             SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
             Date endValue = (Date) comparisonLookup.getCreatedDateTo();
             String customSql = "AND PM.CREATED_DATE <= '" + format2.format(endValue) + "'";
@@ -2939,7 +2939,7 @@ public class ProjectionVarianceLogic {
         inputList.add(comparisonLookup.getCurrentProjId());
         StringBuilder filter = AbstractFilterLogic.getInstance().filterQueryGenerator(comparisonLookup.getFilter(), getFilerMap());
 
-        if (filter != null && !filter.equals("")) {
+        if (filter != null) {
             inputList.add(filter.toString());
         } else {
             inputList.add(" ");

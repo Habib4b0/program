@@ -25,11 +25,12 @@ import com.vaadin.server.VaadinService;
  */
 public class SearchLogic {
 	private static SearchLogic searchLogic;
+	private boolean isFileCreated;
 	// replacing file path for both windows and Linux
-	String filepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()
+	private String filepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()
 			.replace("deployments/gtnUtilities.war", "log/LogLists.txt")
 			.replace("deployments\\gtnUtilities.war", "log\\LogLists.txt");
-	Properties prop = new Properties();
+	private Properties prop = new Properties();
 	/**
 	 * The Constant LOGGER.
 	 */
@@ -39,7 +40,7 @@ public class SearchLogic {
 
 	}
 
-	File file = null;
+	private File file = null;
 
 	public static SearchLogic getInstance() {
 		if (searchLogic == null) {
@@ -56,7 +57,8 @@ public class SearchLogic {
 		try {
 
 			File fileList = GtnFileUtil.getFile(filepath);
-			fileList.createNewFile(); // if file already exists will do nothing
+			isFileCreated=fileList.createNewFile(); // if file already exists will do nothing
+			LOGGER.info("File is created successfully : "+isFileCreated);
 			oFile = new FileInputStream(fileList);
 			prop = new Properties();
 			prop.load(oFile);
@@ -92,7 +94,8 @@ public class SearchLogic {
 		try {
 
 			File fileList = GtnFileUtil.getFile(filepath);
-			fileList.createNewFile(); // if file already exists will do nothing
+			isFileCreated=fileList.createNewFile(); // if file already exists will do nothing
+			LOGGER.info("File is created successfully : "+isFileCreated);
 			try (FileInputStream in = new FileInputStream(fileList)) {
 				prop = new Properties();
 				prop.load(in);

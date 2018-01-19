@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Panel xmlns="urn:import:com.vaadin.ui"   xmlns:p="urn:vaadin:parent">
     <VerticalLayout   spacing="true" margin="true" immediate="true" styleName="bootstrap-forecast">
-        <Panel>
+        <Panel width="150%">
             <VerticalLayout spacing="true" margin="true" immediate="true">
                 <HorizontalLayout  spacing="false" margin="false" immediate="true">
                     <Label value="Tree View Name:" contentMode="HTML" /> 
@@ -39,7 +39,7 @@
                         </HorizontalLayout>
                     </VerticalLayout>
                     <HorizontalLayout  spacing="false" margin="false" immediate="true">
-                        <TreeTable id="treeTable" caption=" Tree Structure" styleName="table-header-normal" height="446px"  width="370px" immediate="true" selectable="true" />        
+                        <TreeTable id="treeTable" caption=" Tree Structure" styleName="table-header-normal" immediate="true" selectable="true" />
                     </HorizontalLayout>
                 </GridLayout>
             </VerticalLayout>

@@ -25,6 +25,8 @@ import com.vaadin.ui.Upload.Receiver;
 public class FileUploader implements Receiver {
 	private FileOutputStream outputStream;
 	private File file;
+	private boolean isFileExists;
+	private boolean isFileCreated;
 	public static final String FILE_PATH = getFilePath();
 	private String moduleName = "";
 	private static final Logger LOGGER = Logger.getLogger(FileUploader.class);
@@ -52,11 +54,13 @@ public class FileUploader implements Receiver {
 				}
 				file = GtnFileUtil.getFile(dir, filename);
 				if (file.exists()) {
-					file.delete();
+					isFileExists=file.delete();
 				}
-				file.createNewFile();
+				isFileCreated=file.createNewFile();
 				outputStream = GtnFileUtil.getFileOutputStream(file);
 			}
+			LOGGER.info("File is deleted successfully : "+isFileExists);
+			LOGGER.info("File is created successfully : "+isFileCreated);
 		} catch (final java.io.FileNotFoundException e) {
 			new Notification("Could not open file ", e.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());

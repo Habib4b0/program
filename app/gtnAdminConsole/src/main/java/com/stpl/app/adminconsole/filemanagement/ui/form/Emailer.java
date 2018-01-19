@@ -5,7 +5,6 @@
 
 package com.stpl.app.adminconsole.filemanagement.ui.form;
 import com.stpl.app.adminconsole.filemanagement.dto.FileManagementDTO;
-import static com.stpl.app.adminconsole.filemanagement.ui.form.Emailer.properties;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import java.util.List;
 import java.util.Properties;
@@ -26,8 +25,8 @@ import org.jboss.logging.Logger;
 public class Emailer {
     private static final Logger LOGGER = Logger.getLogger(Emailer.class);
 
-     final static String FROM = "support@bpitechnologies.com";
-    final static Properties properties = new Properties();
+    public static final String FROM = "support@bpitechnologies.com";
+    private final static Properties properties = new Properties();
 
     public Emailer() {
         LOGGER.debug("Emailer");
@@ -100,7 +99,6 @@ public class Emailer {
             }
         } catch (Exception e) {
             LOGGER.error(e);
-            e.printStackTrace();
             ret = "error";
         }
         return ret;

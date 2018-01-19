@@ -199,7 +199,7 @@ public class SearchCriteriaDTO implements Serializable {
      * @return the item start date
      */
     public Date getItemStartDate() {
-        return itemStartDate;
+        return itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     /**
@@ -208,7 +208,7 @@ public class SearchCriteriaDTO implements Serializable {
      * @param itemStartDate the item start date
      */
     public void setItemStartDate(final Date itemStartDate) {
-        this.itemStartDate = itemStartDate;
+        this.itemStartDate = itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     /**
@@ -217,7 +217,7 @@ public class SearchCriteriaDTO implements Serializable {
      * @return the item end date
      */
     public Date getItemEndDate() {
-        return itemEndDate;
+        return itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     /**
@@ -226,7 +226,7 @@ public class SearchCriteriaDTO implements Serializable {
      * @param itemEndDate the item end date
      */
     public void setItemEndDate(final Date itemEndDate) {
-        this.itemEndDate = itemEndDate;
+        this.itemEndDate = itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     /**

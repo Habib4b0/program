@@ -6,6 +6,7 @@ package com.stpl.app.gcm.copycontract.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -236,7 +237,7 @@ public class IFPItemDTO implements Serializable {
         this.form = form;
         this.strength = strength;
 
-        this.itemFamilyplanStartDate = itemFamilyplanStartDate;
+        this.itemFamilyplanStartDate = itemFamilyplanStartDate == null ? null : (Date) itemFamilyplanStartDate.clone();
         this.uniqueDate = uniqueDate;
 
     }
@@ -324,14 +325,14 @@ public class IFPItemDTO implements Serializable {
         this.itemStartDate = itemStartDate;
         this.itemEndDate = itemEndDate;
         this.itemFamilyplanStatus = itemFamilyplanStatus;
-        this.itemFamilyplanStartDate = itemFamilyplanStartDate;
-        this.itemFamilyplanEndDate = itemFamilyplanEndDate;
+        this.itemFamilyplanStartDate = itemFamilyplanStartDate == null ? null : (Date) itemFamilyplanStartDate.clone();
+        this.itemFamilyplanEndDate = itemFamilyplanEndDate  == null ? null : (Date) itemFamilyplanEndDate.clone();
         this.therapeuticClass = therapeuticClass;
         this.brand = brand;
         this.form = form;
         this.strength = strength;
-        this.attachedDate = attachedDate;
-        this.createdDate = createdDate;
+        this.attachedDate = attachedDate == null ? null : (Date) attachedDate.clone();
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
         this.checkbox = checkBox;
         this.uniqueDate = uniqueDate;
         this.createdBy = createdBy;
@@ -764,7 +765,7 @@ public class IFPItemDTO implements Serializable {
      * @return the item familyplan start date
      */
     public Date getItemFamilyplanStartDate() {
-        return itemFamilyplanStartDate;
+        return itemFamilyplanStartDate == null ? null : (Date) itemFamilyplanStartDate.clone();
     }
 
     /**
@@ -773,7 +774,7 @@ public class IFPItemDTO implements Serializable {
      * @param itemFamilyplanStartDate the new item familyplan start date
      */
     public void setItemFamilyplanStartDate(final Date itemFamilyplanStartDate) {
-        this.itemFamilyplanStartDate = itemFamilyplanStartDate;
+        this.itemFamilyplanStartDate = itemFamilyplanStartDate == null ? null : (Date) itemFamilyplanStartDate.clone();
     }
 
     /**
@@ -782,7 +783,7 @@ public class IFPItemDTO implements Serializable {
      * @return the item familyplan end date
      */
     public Date getItemFamilyplanEndDate() {
-        return itemFamilyplanEndDate;
+        return itemFamilyplanEndDate == null ? null : (Date) itemFamilyplanEndDate.clone();
     }
 
     /**
@@ -791,7 +792,7 @@ public class IFPItemDTO implements Serializable {
      * @param itemFamilyplanEndDate the new item familyplan end date
      */
     public void setItemFamilyplanEndDate(final Date itemFamilyplanEndDate) {
-        this.itemFamilyplanEndDate = itemFamilyplanEndDate;
+        this.itemFamilyplanEndDate = itemFamilyplanEndDate == null ? null : (Date) itemFamilyplanEndDate.clone();
     }
 
     /**
@@ -818,7 +819,7 @@ public class IFPItemDTO implements Serializable {
      * @return the created date
      */
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
@@ -827,7 +828,7 @@ public class IFPItemDTO implements Serializable {
      * @param createdDate the new created date
      */
     public void setCreatedDate(final Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
@@ -854,7 +855,7 @@ public class IFPItemDTO implements Serializable {
      * @return the modified date
      */
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     /**
@@ -863,7 +864,7 @@ public class IFPItemDTO implements Serializable {
      * @param modifiedDate the new modified date
      */
     public void setModifiedDate(final Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     /**
@@ -872,7 +873,7 @@ public class IFPItemDTO implements Serializable {
      * @return the attached date
      */
     public Date getAttachedDate() {
-        return attachedDate;
+        return attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     /**
@@ -881,7 +882,7 @@ public class IFPItemDTO implements Serializable {
      * @param attachedDate the new attached date
      */
     public void setAttachedDate(final Date attachedDate) {
-        this.attachedDate = attachedDate;
+        this.attachedDate = attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     /**
@@ -908,7 +909,7 @@ public class IFPItemDTO implements Serializable {
      * @return the item details list
      */
     public List<IFPItemDTO> getItemDetailsList() {
-        return itemDetailsList;
+        return itemDetailsList == null ? itemDetailsList : Collections.unmodifiableList(itemDetailsList);
     }
 
     /**
@@ -917,7 +918,7 @@ public class IFPItemDTO implements Serializable {
      * @param itemDetailsList the new item details list
      */
     public void setItemDetailsList(final List<IFPItemDTO> itemDetailsList) {
-        this.itemDetailsList = itemDetailsList;
+        this.itemDetailsList = itemDetailsList == null ? itemDetailsList : Collections.unmodifiableList(itemDetailsList);
     }
 
     /**
@@ -926,7 +927,7 @@ public class IFPItemDTO implements Serializable {
      * @return the items list
      */
     public List<ItemMasterDTO> getItemsList() {
-        return itemsList;
+        return itemsList == null ? itemsList : Collections.unmodifiableList(itemsList);
     }
 
     /**
@@ -935,7 +936,7 @@ public class IFPItemDTO implements Serializable {
      * @param itemsList the new items list
      */
     public void setItemsList(final List<ItemMasterDTO> itemsList) {
-        this.itemsList = itemsList;
+        this.itemsList = itemsList == null ? itemsList : Collections.unmodifiableList(itemsList);
     }
 
     public boolean isCheckFlag() {

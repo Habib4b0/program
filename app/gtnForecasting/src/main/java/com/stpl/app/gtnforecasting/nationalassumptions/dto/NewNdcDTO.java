@@ -125,11 +125,11 @@ public class NewNdcDTO implements Serializable {
     }
 
     public List<String> getListNDC9() {
-        return listNDC9;
+        return listNDC9 == null ? listNDC9 : new ArrayList<>(listNDC9);
     }
 
     public void setListNDC9(List<String> listNDC9) {
-        this.listNDC9 = listNDC9;
+        this.listNDC9 = listNDC9 == null ? listNDC9 : new ArrayList<>(listNDC9);
     }
 
     public Map<String, String> getWacHashMap() {
@@ -197,11 +197,11 @@ public class NewNdcDTO implements Serializable {
     }
 
     public List<String> getListItemNo() {
-        return listItemNo;
+        return listItemNo == null ? listItemNo : new ArrayList<>(listItemNo);
     }
 
     public void setListItemNo(List<String> listItemNo) {
-        this.listItemNo = listItemNo;
+        this.listItemNo = listItemNo == null ? listItemNo : new ArrayList<>(listItemNo);
     }
 
     public String getIndicator() {
@@ -253,11 +253,11 @@ public class NewNdcDTO implements Serializable {
     }
 
     public List<Integer> getDeletedItems() {
-        return DeletedItems;
+        return DeletedItems == null ? DeletedItems : new ArrayList<>(DeletedItems) ;
     }
 
     public void setDeletedItems(List<Integer> DeletedItems) {
-        this.DeletedItems = DeletedItems;
+        this.DeletedItems = DeletedItems == null ? DeletedItems : new ArrayList<>(DeletedItems);
     }
 
     }

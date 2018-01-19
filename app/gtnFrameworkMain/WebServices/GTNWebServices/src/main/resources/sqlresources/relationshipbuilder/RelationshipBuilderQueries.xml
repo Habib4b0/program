@@ -618,5 +618,21 @@ WHERE
      		]]>
 		</query>
 	</entity>
+	<entity id="getUserDefinedLevelForAutoBuild">
+		<query> 
+        	<![CDATA[
+	        	SELECT TOP 1
+	 Level_Values as helper_joindescription,
+	HIERARCHY_LEVEL_VALUES_SID as helper_joinhelper_table_sid,
+	? as HIERARCHY_DEFINITION_SID,
+	? as LEVEL_NO,
+	'?' as LELVEL_NAME,
+	? as HIERARCHY_NO 
+FROM
+	dbo.HIERARCHY_LEVEL_VALUES where HIERARCHY_LEVEL_DEFINITION_SID=?
+	ORDER by HIERARCHY_LEVEL_VALUES_SID
+     		]]>
+		</query>
+	</entity>
 
 </sql>

@@ -82,7 +82,7 @@ public class ItemManagementLookup extends CustomWindow {
     public ItemManagementLookup(List<ItemIndexDto> itemList, SelectionDTO selection) {
         super(selection.getWindowName());
         this.selection = selection;
-        this.itemList = itemList;
+        this.itemList = itemList == null ? itemList : new ArrayList<>(itemList);
         center();
         setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         setPositionX(0);
