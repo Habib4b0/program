@@ -255,22 +255,18 @@ public class MedicaidURAResultsLogic {
             for (Object list1 : list) {
                 TableDTO medicaidDTO = new TableDTO();
                 final Object[] obj = (Object[]) list1;
-                String itemDesc = obj[1] == null ? "" : "" + obj[1];
-                String value = "";
-                if (StringUtils.isNotBlank(itemDesc)) {
-                    value += itemDesc + Constant.COMMA;
+                String itemDesc=obj[1]==null?"":""+obj[1];
+                String value = "" ;
+                if(StringUtils.isNotBlank(itemDesc)){
+                    value +=itemDesc+", ";
                 }
                 value += obj[0];
 
-                String ndc9 = StringUtils.EMPTY + obj[2];
+                String ndc9 = StringUtils.EMPTY + obj[0];
                 medicaidDTO.setGroup(value);
                 medicaidDTO.setParent(1);
                 medicaidDTO.setNdc9(ndc9);
                 medicaidDTO.setItemMasterSid(Integer.valueOf(String.valueOf(obj[2])));
-                medicaidDTO.setNewFormulation(String.valueOf(obj[5]));
-                medicaidDTO.setNewFormulationItemId(String.valueOf(obj[6]));
-                medicaidDTO.setBaeselineAmp(String.valueOf(obj[7]));
-                medicaidDTO.setBaeselineCpi(String.valueOf(obj[8]));
                 projDTOList.add(medicaidDTO);
             }
 

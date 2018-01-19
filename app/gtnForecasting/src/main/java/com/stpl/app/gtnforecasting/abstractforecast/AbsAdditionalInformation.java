@@ -106,8 +106,8 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected FileDownloader pdfDownloader;
     protected AbstractNotificationUtils.Parameter flag = new AbstractNotificationUtils.Parameter();
     protected static String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
-    protected Image wordPngImage = new Image(null, new ThemeResource("../../icons/word.png"));
-    protected Image pdfPngImage = new Image(null, new ThemeResource("../../icons/pdf.png"));
+    protected Image wordPngImage = new Image(null, new ThemeResource("img/word.png"));
+    protected Image pdfPngImage = new Image(null, new ThemeResource("img/pdf.png"));
     protected final File logo = CommonUtil.getFilePath(basepath + "/WEB-INF/images/company_logo.png");
     protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
     protected Object tableBeanId = null;

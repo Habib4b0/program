@@ -57,12 +57,12 @@ public class PMPYCalculationExporter {
     /**
      * The Constant EXCEL_ICON.
      */
-    public static final String EXCEL_ICON = "../../icons/excel.png";
+    public static final String EXCEL_ICON = "img/excel.png";
 
     /**
      * The Constant CHART_ICON.
      */
-    public static final String CHART_ICON = "../../icons/chart.png";
+    public static final String CHART_ICON = "img/chart.png";
 
     /**
      * The Constant LOGGER.

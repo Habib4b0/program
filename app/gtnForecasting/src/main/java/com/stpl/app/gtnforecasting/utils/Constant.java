@@ -2013,8 +2013,8 @@ public class Constant {
      */
     public enum ResourceConstants {
 
-        EXCEL_IMAGE_PATH("../../icons/excel.png"),
-        GRAPH_IMAGE_PATH("../../icons/chart.png");
+        EXCEL_IMAGE_PATH("img/excel.png"),
+        GRAPH_IMAGE_PATH("img/chart.png");
         private final String constant;
 
         private ResourceConstants(String constant) {
