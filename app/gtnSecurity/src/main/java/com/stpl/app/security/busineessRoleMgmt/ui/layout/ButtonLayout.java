@@ -37,10 +37,10 @@ public class ButtonLayout extends HorizontalLayout {
 	private ErrorfulFieldGroup binder;
 	private static final Logger LOGGER = LogManager
 			.getLogger(ButtonLayout.class.getName());
-	BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
-	Table table;
-	final Label space = new Label("&nbsp;", ContentMode.HTML);
-	BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
+	private BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
+	private Table table;
+	private final Label space = new Label("&nbsp;", ContentMode.HTML);
+	private BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
 
 	public ButtonLayout(ErrorfulFieldGroup binder,
 			BeanItemContainer<BusinessroleMasterDTO> searchResultbeans,
