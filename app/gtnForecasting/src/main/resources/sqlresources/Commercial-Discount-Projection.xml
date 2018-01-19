@@ -705,57 +705,6 @@ ORDER BY INSTR,HIERARCHY_NO
         </query>
     </entity>
     
-    <entity id="UPDATE_ALL_LEVEL_CHECKRECORD_ADJUST">
-        <query> 
-            <![CDATA[ 
-            UPDATE ST_NM_DISCOUNT_PROJ_MASTER SET CHECK_RECORD=0;
-            
-             IF OBJECT_ID('TEMPDB..#DED_HIERARCHY_NO') IS NOT NULL
-                    DROP TABLE #DED_HIERARCHY_NO
-
-                    CREATE TABLE #DED_HIERARCHY_NO (HIERARCHY_NO VARCHAR(8000))
-
-                    INSERT INTO #DED_HIERARCHY_NO (HIERARCHY_NO)
-                    SELECT HIERARCHY_NO
-                    FROM RELATIONSHIP_LEVEL_DEFINITION
-                    WHERE RELATIONSHIP_LEVEL_VALUES IN (
-                                  @RELATIONSIDS
-                                  )
-                    AND RELATIONSHIP_BUILDER_SID = @BUILDERSID    
-                    AND LEVEL_NO = @LEVNO   
-                     
-            IF OBJECT_ID('TEMPDB..#HIERARCHY_NO') IS NOT NULL
-                    DROP TABLE #HIERARCHY_NO
-
-                    CREATE TABLE #HIERARCHY_NO (HIERARCHY_NO VARCHAR(8000))
-
-                    INSERT INTO #HIERARCHY_NO (HIERARCHY_NO)
-                    SELECT HIERARCHY_NO FROM
-                    (VALUES  @HIERARCHY_NO)A(HIERARCHY_NO)
-                    
-        UPDATE MAS SET CHECK_RECORD = 1 From ST_NM_DISCOUNT_PROJ_MASTER MAS 
-    JOIN ST_CCP_HIERARCHY CCPH ON CCPH.CCP_DETAILS_SID = MAS.CCP_DETAILS_SID
-    JOIN #DED_HIERARCHY_NO DH ON MAS.DEDUCTION_HIERARCHY_NO like DH.HIERARCHY_NO+'%'
-    JOIN #HIERARCHY_NO SH ON @HIERARCHY_COLUMN like SH.HIERARCHY_NO+'%'  
-      ]]>
-        </query>
-    </entity>
-    <entity id="HIER_VALUES">
-        <query> 
-            <![CDATA[ 
-            IF OBJECT_ID('TEMPDB..#HIERARCHY_NO') IS NOT NULL
-                    DROP TABLE #HIERARCHY_NO
-
-                    CREATE TABLE #HIERARCHY_NO (HIERARCHY_NO VARCHAR(8000))
-
-                    INSERT INTO #HIERARCHY_NO (HIERARCHY_NO)
-                    SELECT HIERARCHY_NO FROM
-                    (VALUES  @HIERARCHY_NO)A(HIERARCHY_NO)
-         
-      ]]>
-        </query>
-    </entity>
-    
     <entity id="UPDATE_PROGRAM_CHECKRECORD">
         <query> 
             <![CDATA[ 

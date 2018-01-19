@@ -165,7 +165,7 @@ public class DiscountQueryBuilder {
     }
 
     public int updateCheckRecord(SessionDTO session, boolean checkValue, String hierarchyNo,
-            String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountList,String discountRelationLevel,boolean isTripleCheck) {
+            String hierarchyIndicator, boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountList,String discountRelationLevel) {
         String customSql = "";
         LOGGER.debug(" inside updateCheckRecord");
         try {

@@ -495,11 +495,11 @@ public class DiscountProjectionLogic {
      * @param customViewDetails
      */
     public int updateCheckRecord(SessionDTO session, boolean checkValue, String hierarchyNo, String hierarchyIndicator,
-            boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountNamesList, String discountHierarchy,boolean isTripleCheck) {
+            boolean isCustomView, List<String> customViewDetails, boolean isProgram, List<String> discountNamesList, String discountHierarchy) {
         session.setSelectedRsForCustom(queryBuilderAndExecutor.getRsContractSid(session, checkValue, hierarchyNo, hierarchyIndicator,
                 isCustomView, customViewDetails, isProgram, discountNamesList));
         return queryBuilderAndExecutor.updateCheckRecord(session, checkValue, hierarchyNo, hierarchyIndicator,
-                isCustomView, customViewDetails, isProgram, discountNamesList, discountHierarchy,isTripleCheck);
+                isCustomView, customViewDetails, isProgram, discountNamesList, discountHierarchy);
     }
 
     /**

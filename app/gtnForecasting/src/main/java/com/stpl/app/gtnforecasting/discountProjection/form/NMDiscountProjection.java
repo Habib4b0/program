@@ -1680,11 +1680,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 					updatedRecordCount = logic.updateCheckRecord(session, checkValue, hierarchyNo,
 							hierarchyIndicatorList.get(i), isCustomHierarchy, customViewDetails, isProgram,
-							discountList,discountIds,false);
+							discountList,discountIds);
 				}
 			} else {
 				updatedRecordCount = logic.updateCheckRecord(session, checkValue, hierarchyNo, hierarchyIndicator,
-						isCustomHierarchy, customViewDetails, isProgram, discountList,discountIds,false);
+						isCustomHierarchy, customViewDetails, isProgram, discountList,discountIds);
 			}
 		} catch (Exception e) {
 			LOGGER.error(e);
