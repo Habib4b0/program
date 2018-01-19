@@ -17,7 +17,7 @@ import java.util.Date;
  */
 public class SessionUtil {
 
-    public static int count = 1;
+    public static final int COUNT = 1;
 
     public SessionDTO createSession() {
         SessionDTO session = new SessionDTO();

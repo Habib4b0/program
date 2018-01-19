@@ -34,7 +34,7 @@ public class LoggingUI extends UI implements VaadinPortletSession.PortletListene
     /**
      * The navigator.
      */
-    public Navigator navigator;
+	private Navigator navigator;
     /**
      * The Constant LOGGER.
      */

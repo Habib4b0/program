@@ -40,7 +40,7 @@ import com.vaadin.ui.VerticalLayout;
 public class LoggingSearchIndex extends CustomComponent implements View {
 
 	private static final Logger LOGGER = Logger.getLogger(LoggingSearchIndex.class);
-	final SearchLogic searchLogic = SearchLogic.getInstance();
+	private final SearchLogic searchLogic = SearchLogic.getInstance();
 	@UiField("saveBtn")
 	private Button saveBtn;
 	@UiField("resetBtn")
@@ -52,7 +52,7 @@ public class LoggingSearchIndex extends CustomComponent implements View {
 	private Button downloadBtn = new Button(Constants.DOWNLOAD);
 	@UiField("buttonLayout2")
 	private HorizontalLayout buttonLayout2;
-	public LoggingDto loggingDTO = new LoggingDto();
+	private LoggingDto loggingDTO = new LoggingDto();
 	@UiField("logDestination")
 	private TextField logDestination;
 	@UiField("messagesSelected")
@@ -60,25 +60,26 @@ public class LoggingSearchIndex extends CustomComponent implements View {
 	/**
 	 * The results bean.
 	 */
-	public BeanItemContainer<LoggingDto> resultsBean = new BeanItemContainer<LoggingDto>(LoggingDto.class);
+	private BeanItemContainer<LoggingDto> resultsBean = new BeanItemContainer<LoggingDto>(LoggingDto.class);
 	/**
 	 * The Constant LOGGING_TABLE_COLUMNS.
 	 */
-	public static final Object[] LOGGING_TABLE_COLUMNS = new Object[] { "logDestination", "active",
+	private static final Object[] LOGGING_TABLE_COLUMNS = new Object[] { "logDestination", "active",
 			"messagesSelected" };
 	/**
 	 * The Constant LOGGING_TABLE_HEADER.
 	 */
-	public static final String[] LOGGING_TABLE_HEADER = new String[] { "Log Destination", "Active",
+	private static final String[] LOGGING_TABLE_HEADER = new String[] { "Log Destination", "Active",
 			"Messages Selected" };
+
 	@UiField("tableLayout")
-	VerticalLayout tableLayout;
+	private VerticalLayout tableLayout;
 	@UiField("buttonLayout")
-	HorizontalLayout buttonLayout;
+	private HorizontalLayout buttonLayout;
 	private HorizontalLayout controlLayout = new HorizontalLayout();
-	TableLogic tableLogic = new TableLogic();
-	ExtPagedTable results = new ExtPagedTable(tableLogic);
-	public String logDestinationValue;
+	private TableLogic tableLogic = new TableLogic();
+	private ExtPagedTable results = new ExtPagedTable(tableLogic);
+	private String logDestinationValue;
 	private boolean isActive = false;
 	/**
 	 *
