@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -905,11 +906,11 @@ public final class AccrualRateProjectionLogic {
     }
 
     public static List<String> getSelectedCompanyList() {
-        return selectedCompanyList;
+        return selectedCompanyList == null ? selectedCompanyList : Collections.unmodifiableList(selectedCompanyList);
     }
 
     public static void setSelectedCompanyList(List<String> selectedCompanyList) {
-        AccrualRateProjectionLogic.selectedCompanyList = selectedCompanyList;
+        AccrualRateProjectionLogic.selectedCompanyList = selectedCompanyList == null ? selectedCompanyList : Collections.unmodifiableList(selectedCompanyList);
     }
 
     public void moveAllCompanys(AccrualRateSelectionDTO dto) {

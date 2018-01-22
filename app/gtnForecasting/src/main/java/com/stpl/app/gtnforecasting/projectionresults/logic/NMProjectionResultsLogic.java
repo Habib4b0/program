@@ -1711,7 +1711,7 @@ public class NMProjectionResultsLogic {
         }
         projectionTotalList.addAll(projDTOList);
         LOGGER.debug("= = = Ending getCustomizedProjectionTotal = = =");
-         return projectionTotalList;
+         return Collections.unmodifiableList(projectionTotalList);
     }
 
     public List<ProjectionResultsDTO> getProjectionTotalDiscounts(ProjectionSelectionDTO projSelDTO, Object[] orderedArgs) {

@@ -576,7 +576,7 @@ public class ProjectionResultsLogic {
              List<Object[]> discountsList = CommonLogic.callProcedure("PRC_PROJECTION_RESULTS_DISCOUNT", orderedArgs1);
             getCustomizedProjectionPivotTotal(gtsList, discountsList, projSelDTO);
         }
-        return projectionTotalList;
+        return Collections.unmodifiableList(projectionTotalList);
     }
 
     public void getCustomizedProjectionPivotTotal(List<Object[]> list, List<Object[]> discountList, ProjectionSelectionDTO projSelDTO) {

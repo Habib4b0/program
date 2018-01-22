@@ -54,7 +54,7 @@ public class DPRLogic {
     private static final String CURRENCY = "$";
     private static final String PERCENTAGE = Constant.PERCENT;
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.0");
-    public List<DiscountProjectionResultsDTO> projectionTotalList = new ArrayList<>();
+    private List<DiscountProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     protected Object[] dprOrderedArgs;
     protected List<Object[]> totalPrcResultList = new ArrayList<>();
     public static final String SUPPLEMENTAL = "supplemental";

@@ -83,7 +83,7 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
 
         this.projSelDTO = projSelDTO;
         projSelDTO.setProjTabName(spr);
-        sprLogic.projectionTotalList = new ArrayList<>();
+        sprLogic.setProjectionTotalList(new ArrayList<SalesProjectionResultsDTO>());
         firstTotal = isTotal;
         firstGenerated = true;
         clearAll();

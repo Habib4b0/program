@@ -116,7 +116,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
         setBulkDataLoadAllowed(true);
         setFullBulkDataLoadAllowed(true);
         this.projSelDTO = projSelDTO;
-        sprLogic.projectionTotalList = new ArrayList<>();
+        sprLogic.setProjectionTotalList(new ArrayList<SalesProjectionResultsDTO>());
         firstGenerated = true;
         getLevelMapList().clear();
         clearAll();

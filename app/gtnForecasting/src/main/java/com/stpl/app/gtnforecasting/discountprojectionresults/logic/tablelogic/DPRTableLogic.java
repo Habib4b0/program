@@ -169,7 +169,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
         this.projSelDTO = projSelDTO;
         this.screenName = screenName;
         clearAll();
-         dprLogic.projectionTotalList = new ArrayList<>();
+         dprLogic.setProjectionTotalList(new ArrayList<DiscountProjectionResultsDTO>());
         if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
             initialProjSelDTO.setCustomerLevelNo(projSelDTO.getCustomerLevelNo());
             initialProjSelDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());

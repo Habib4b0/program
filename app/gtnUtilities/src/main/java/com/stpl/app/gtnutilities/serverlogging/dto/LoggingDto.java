@@ -13,7 +13,7 @@ public class LoggingDto {
 	private String messagesSelected;
 	private String active;
 
-	private LoggingDto(){
+	public LoggingDto(){
 		super();
 	}
 	

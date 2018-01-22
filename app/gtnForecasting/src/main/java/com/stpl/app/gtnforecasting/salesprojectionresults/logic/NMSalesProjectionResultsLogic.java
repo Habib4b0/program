@@ -87,7 +87,7 @@ public class NMSalesProjectionResultsLogic {
 	private static final String PERCENT = "%";
 	protected SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
 	protected boolean viewFlag = false;
-	public List<SalesProjectionResultsDTO> projectionTotalList = new ArrayList<>();
+	private List<SalesProjectionResultsDTO> projectionTotalList = new ArrayList<>();
 	protected List<Object[]> nonmandatedGtsList = new ArrayList<>();
 	protected Object[] nonmandatedorderedArgs;
 	protected List<Object[]> mandatedGtsList = new ArrayList<>();
