@@ -98,12 +98,6 @@
             <version>2.0</version>
             <scope>provided</scope>
         </dependency>
-        <dependency> 
-            <groupId>org.asi.ui</groupId>
-            <artifactId>calendarfield</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>com.stpl.ifs</groupId>
             <artifactId>gtnUtility</artifactId>
