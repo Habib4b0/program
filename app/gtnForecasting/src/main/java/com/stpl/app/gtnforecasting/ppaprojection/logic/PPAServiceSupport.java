@@ -18,6 +18,7 @@ import com.stpl.portal.kernel.dao.orm.ProjectionList;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -103,7 +104,7 @@ public class PPAServiceSupport {
     }
 
     public List<HelperDTO> getPriceResultList() {
-        return priceResultList;
+        return priceResultList == null ? priceResultList : Collections.unmodifiableList(priceResultList);
     }
     public String getDescriptionByID(int id) {
         return id==0 ? StringUtils.EMPTY : priceQualifierMap.get(id);

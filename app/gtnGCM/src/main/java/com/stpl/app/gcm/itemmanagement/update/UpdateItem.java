@@ -61,7 +61,7 @@ public class UpdateItem extends CustomComponent {
     private void configureFields() {
         componentDetails = new AbstractComponentInfo(ConstantsUtil.RS, selection);
         contractSearch = new UpdateItemSearch(selection, selectedItemList);
-        contractSearch.contractSelectionTable.addValueChangeListener(new Property.ValueChangeListener() {
+        contractSearch.getContractSelectionTable().addValueChangeListener(new Property.ValueChangeListener() {
             /**
              * Method called when available results value is changed.
              */
@@ -97,6 +97,6 @@ public class UpdateItem extends CustomComponent {
     public boolean loadSetDataCall() {
         selection.setCountQueryName("Item Load contract Count");
         selection.setDataQueryName("Load contract Item");
-        return contractSearch.contractSelectionTableLogic.loadSetData(selection, true, selectedItemList, contractSearch.getInput());
+        return contractSearch.getContractSelectionTableLogic().loadSetData(selection, true, selectedItemList, contractSearch.getInput());
     }
 }

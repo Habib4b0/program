@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.dto;
 
+import java.util.Collections;
 // TODO: Auto-generated Javadoc
 import java.util.HashSet;
 import java.util.Set;
@@ -419,11 +420,11 @@ public class AlternateHistoryDTO extends ExtMapDTO{
     }
 
     public Set<String> getSelectedCustomerSet() {
-        return selectedCustomerSet;
+        return selectedCustomerSet == null ? selectedCustomerSet : Collections.unmodifiableSet(selectedCustomerSet);
     }
 
     public Set<String> getSelectedProductSet() {
-        return selectedProductSet;
+        return selectedProductSet == null ? selectedCustomerSet : Collections.unmodifiableSet(selectedCustomerSet);
     }
 
     public Boolean getCheckRecord() {

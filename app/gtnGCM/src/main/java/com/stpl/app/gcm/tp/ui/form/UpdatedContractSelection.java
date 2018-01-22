@@ -326,7 +326,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     private AddTPForm addTpForm;
     private UpdateTPForm updateTPForm;
     private SessionDTO session;
-    public String excelName = "Rebate Schedule Information";
+    private String excelName = "Rebate Schedule Information";
     private String nonAssociatedProducts = StringUtils.EMPTY;
     private int timeGap;
     private String[] excelComponentId = new String[NumericConstants.FIVE];

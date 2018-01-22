@@ -269,4 +269,12 @@ public class RebateScheduleTest extends TestBenchTestCase {
 		driver.quit();
 	}
 
+	public String getRsName() {
+		return rsName;
+	}
+
+	public void setRsName(String rsName) {
+		this.rsName = rsName;
+	}
+
 }

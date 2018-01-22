@@ -62,7 +62,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
     /**
      * The data selection binder.
      */
-    public CustomFieldGroup promoteTpBinder;
+    private CustomFieldGroup promoteTpBinder;
     /**
      * The tab sheet.
      */

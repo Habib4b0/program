@@ -134,6 +134,10 @@ public class ProcessSchedulerDTO {
     private Date cffApprovalDateFrom;
     private Date cffApprovalDateTo;
 
+    public ProcessSchedulerDTO(){
+    	super();
+    }
+    
     public String getScriptName() {
         return scriptName;
     }

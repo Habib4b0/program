@@ -70,7 +70,7 @@ public class AbstractLogic {
 
     private static final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private static final HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
-    public static final Map<String, List> ddlbMap = new HashMap<>();
+    private static final Map<String, List> ddlbMap = new HashMap<>();
     public static final String DESCRIPTION = "description";
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     private static final AbstractLogic logic = new AbstractLogic();
@@ -1632,7 +1632,7 @@ public class AbstractLogic {
 
     public static List getDDLBList(String columnName, String tableName, Boolean isFilter, String queryName) {
         String comboboxName = tableName + "-" + columnName;
-        if (ddlbMap.get(comboboxName) == null) {
+        if (getDdlbmap().get(comboboxName) == null) {
             List input = new ArrayList();
             input.add(tableName);
             input.add(columnName);
@@ -1655,11 +1655,11 @@ public class AbstractLogic {
                 }
             }
 
-            ddlbMap.put(comboboxName, resultList);
+            getDdlbmap().put(comboboxName, resultList);
             return resultList;
         }
 
-        return ddlbMap.get(comboboxName);
+        return getDdlbmap().get(comboboxName);
     }
 
     public static Object getItemName(List<ItemIndexDto> itemList) {
@@ -1928,5 +1928,9 @@ public class AbstractLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery);
         return updateQuery;
     }
+
+	public static Map<String, List> getDdlbmap() {
+		return ddlbMap;
+	}
 
 }

@@ -31,7 +31,7 @@ public class BrandCriteria implements SearchCriteria {
     /**
      * The dirty.
      */
-    public boolean dirty;
+    private boolean dirty;
 
     /**
      * The filter.

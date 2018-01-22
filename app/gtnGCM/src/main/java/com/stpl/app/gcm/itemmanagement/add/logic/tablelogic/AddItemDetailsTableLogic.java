@@ -34,7 +34,7 @@ public class AddItemDetailsTableLogic extends PageTableLogic {
     private final AbstractLogic logic = AbstractLogic.getInstance();
     private SelectionDTO selection;
     private boolean isGenerated = false;
-    public boolean isSummary = false;
+    private boolean isSummary = false;
     private List<ItemIndexDto> selectedItemList;
     public static final Logger LOGGER = Logger.getLogger(AddItemDetailsTableLogic.class);
     /**

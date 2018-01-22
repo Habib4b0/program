@@ -433,7 +433,7 @@ public class CompanyAddForm extends VerticalLayout {
             LOGGER.error(ex);
         }
 
-        String createdBy = StplSecurity.userMap.get(Integer.parseInt(VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString()));
+        String createdBy = StplSecurity.getUserMap().get(Integer.parseInt(VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString()));
 
         identForm.setCreatedBy(createdBy);
         identForm.setCreatedDate(new Date());
@@ -503,7 +503,7 @@ public class CompanyAddForm extends VerticalLayout {
         } catch (SystemException ex) {
             LOGGER.error(ex);
         }
-        String createdBy = StplSecurity.userMap.get(Integer.parseInt(VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString()));
+        String createdBy = StplSecurity.getUserMap().get(Integer.parseInt(VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString()));
 
         identForm.setCreatedBy(createdBy);
         identForm.setCreatedDate(new Date());

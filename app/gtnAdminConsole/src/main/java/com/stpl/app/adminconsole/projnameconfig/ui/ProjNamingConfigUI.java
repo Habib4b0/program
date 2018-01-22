@@ -27,6 +27,9 @@ import org.jboss.logging.Logger;
  */
 public class ProjNamingConfigUI extends UI {
 
+	public ProjNamingConfigUI(){
+		super();
+	}
     /**
      * The navigator.
      */

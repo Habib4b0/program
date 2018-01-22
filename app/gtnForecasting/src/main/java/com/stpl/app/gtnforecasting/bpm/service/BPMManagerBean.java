@@ -22,7 +22,7 @@ public class BPMManagerBean {
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(BPMManagerBean.class);
 
-    public ReleaseId releaseId;
+    private ReleaseId releaseId;
     private RuntimeEngine runtimeEngine;
     private static BPMManagerBean bpmManagerBean;
     private Properties properties = DroolsProperties.getPropertiesData();
