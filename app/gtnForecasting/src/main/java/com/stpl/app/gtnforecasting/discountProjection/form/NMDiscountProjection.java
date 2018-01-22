@@ -188,7 +188,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private int customId = 0;
 	/* To check whether list view is generated or not */
 	public boolean isListviewGenerated = Boolean.TRUE;
-        List<String> hierarchyListForCheckRecord=new ArrayList<>();
+        private List<String> hierarchyListForCheckRecord=new ArrayList<>();
 	private boolean isGroupUpdatedManually = false;
 	/* The custom id to select. */
 	private int customIdToSelect = 0;
@@ -2632,7 +2632,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					}
 					boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
 					boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
-                                        if (hierarchyListForCheckRecord.size() > 0) {
+                                        if (!hierarchyListForCheckRecord.isEmpty()) {
                                              logic.updateCheckRecordForAdjust(checkedDiscountsPropertyIds, hierarchyListForCheckRecord, session, hierarchyIndicator);
                                          } 
 					if (logic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
