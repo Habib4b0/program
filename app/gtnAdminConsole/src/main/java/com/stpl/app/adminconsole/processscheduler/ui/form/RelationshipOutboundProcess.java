@@ -93,7 +93,7 @@ public class RelationshipOutboundProcess extends Window {
     private final OutboundLogic searchLogic = new OutboundLogic();
     private ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<RelationshipOutboundDTO> resultBean = new BeanItemContainer<>(RelationshipOutboundDTO.class);
-    final CommonUtils commonsUtil = new CommonUtils();
+    private final CommonUtils commonsUtil = new CommonUtils();
     private ErrorfulFieldGroup binder;
     private Map<String, RelationshipOutboundDTO> checkedHierarchy = new HashMap<>();
     private OutboundLogic outboundLogic = new OutboundLogic();

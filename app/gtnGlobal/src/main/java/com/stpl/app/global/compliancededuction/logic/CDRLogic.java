@@ -234,7 +234,7 @@ public class CDRLogic {
     }
 
     private StringBuilder getFilterQuery(final Set<Container.Filter> filterSet, final StringBuilder stringBuilder) {
-        Map<Integer, String> userMap = StplSecurity.userMap;
+        Map<Integer, String> userMap = StplSecurity.getUsermap();
         if (filterSet != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             for (Container.Filter filter : filterSet) {

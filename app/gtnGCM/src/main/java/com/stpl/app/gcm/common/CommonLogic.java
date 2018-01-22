@@ -82,1558 +82,1561 @@ import com.vaadin.v7.ui.HorizontalLayout;
  */
 public class CommonLogic {
 
-	/**
-	 * INSTANTIATE ContractDashboardLogicDAO Implementation logic.
-	 */
-	static CommonDao DAO = CommonImpl.getInstance();
-	private final ContractDetailsDAO daoImpl = new ContractDetailsDaoImpl();
-	private static final DiscountDAO DISCOUNT_DAO = new DiscountDaoImpl();
+    /**
+     * INSTANTIATE ContractDashboardLogicDAO Implementation logic.
+     */
+    private static final CommonDao DAO = CommonImpl.getInstance();
+    private final ContractDetailsDAO daoImpl = new ContractDetailsDaoImpl();
+    private static final DiscountDAO DISCOUNT_DAO = new DiscountDaoImpl();
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommonLogic.class);
-	private int newProjectionId;
-	private String forecastingType = StringUtils.EMPTY;
-	private int prodRelationshipId;
-	public static final String DATA_POOL = "java:jboss/datasources/jdbc/appDataPool";
-	public static final String AND_PROJECTION_NAME = "\n and Projection Name - ";
-	public static final String PRC_MANDATED_SALES_INSERT = "Prc_mandated_sales_insert";
-	public static final String PROJECTION_CREATED_WITH_FORECASTING = "'\n new Projection created with forecasting type -";
+    private int newProjectionId;
+    private String forecastingType = StringUtils.EMPTY;
+    private int prodRelationshipId;
+    public static final String DATA_POOL = "java:jboss/datasources/jdbc/appDataPool";
+    public static final String AND_PROJECTION_NAME = "\n and Projection Name - ";
+    public static final String PRC_MANDATED_SALES_INSERT = "Prc_mandated_sales_insert";
+    public static final String PROJECTION_CREATED_WITH_FORECASTING = "'\n new Projection created with forecasting type -";
 
-	public int getProdRelationshipId() {
-		return prodRelationshipId;
-	}
+    public int getProdRelationshipId() {
+        return prodRelationshipId;
+    }
 
-	public void setProdRelationshipId(int prodRelationshipId) {
-		this.prodRelationshipId = prodRelationshipId;
-	}
+    public void setProdRelationshipId(int prodRelationshipId) {
+        this.prodRelationshipId = prodRelationshipId;
+    }
 
-	public int getNewProjectionId() {
-		return newProjectionId;
-	}
+    public int getNewProjectionId() {
+        return newProjectionId;
+    }
 
-	public void setNewProjectionId(int newProjectionId) {
-		this.newProjectionId = newProjectionId;
-	}
+    public void setNewProjectionId(int newProjectionId) {
+        this.newProjectionId = newProjectionId;
+    }
 
-	public String getForecastingType() {
-		return forecastingType;
-	}
+    public String getForecastingType() {
+        return forecastingType;
+    }
 
-	public void setForecastingType(String forecastingType) {
-		this.forecastingType = forecastingType;
-	}
+    public void setForecastingType(String forecastingType) {
+        this.forecastingType = forecastingType;
+    }
 
-	public ExtTreeContainer<ContractsDetailsDto> getLevel1Hierarchy(final String contractId,
-			final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> cfpList)
-			throws SystemException {
-		LOGGER.debug("Entering getLevel1Hierarchy method");
-		final List<ContractsDetailsDto> contractList = getContractList(contractId, ContractsDetailsDto.LEVEL1, cfpList);
-		container.removeAllItems();
-		for (final Iterator<ContractsDetailsDto> iterator = contractList.iterator(); iterator.hasNext();) {
-			final ContractsDetailsDto contractMember = (ContractsDetailsDto) iterator.next();
-			container.addBean(contractMember);
-			if (!IndicatorConstants.RS_VALUE.getConstant().equals(contractMember.getCategory())
-					&& isLevel2ListAvlbl(contractMember.getSystemId(), contractMember.getCategory())) {
-				container.setChildrenAllowed(contractMember, true);
-			} else {
-				container.setChildrenAllowed(contractMember, false);
-			}
-		}
-		LOGGER.debug("End of getLevel1Hierarchy method");
-		return container;
-	}
+    public ExtTreeContainer<ContractsDetailsDto> getLevel1Hierarchy(final String contractId,
+            final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> cfpList)
+            throws SystemException {
+        LOGGER.debug("Entering getLevel1Hierarchy method");
+        final List<ContractsDetailsDto> contractList = getContractList(contractId, ContractsDetailsDto.LEVEL1, cfpList);
+        container.removeAllItems();
+        for (final Iterator<ContractsDetailsDto> iterator = contractList.iterator(); iterator.hasNext();) {
+            final ContractsDetailsDto contractMember = (ContractsDetailsDto) iterator.next();
+            container.addBean(contractMember);
+            if (!IndicatorConstants.RS_VALUE.getConstant().equals(contractMember.getCategory())
+                    && isLevel2ListAvlbl(contractMember.getSystemId(), contractMember.getCategory())) {
+                container.setChildrenAllowed(contractMember, true);
+            } else {
+                container.setChildrenAllowed(contractMember, false);
+            }
+        }
+        LOGGER.debug("End of getLevel1Hierarchy method");
+        return container;
+    }
 
-	/**
-	 * Gets the contract list.
-	 *
-	 * @param contractId the contract id
-         * @param level the level
-         * @return the contract list
-         */
-	private List<ContractsDetailsDto> getContractList(final String contractId, final int level,
-			final List<ContractsDetailsDto> cfpList) throws SystemException {
-		LOGGER.debug("Entering getContractList method");
+    /**
+     * Gets the contract list.
+     *
+     * @param contractId the contract id
+     * @param level the level
+     * @return the contract list
+     */
+    private List<ContractsDetailsDto> getContractList(final String contractId, final int level,
+            final List<ContractsDetailsDto> cfpList) throws SystemException {
+        LOGGER.debug("Entering getContractList method");
 
-		String contract;
-		if (contractId.trim().equals(StringUtils.EMPTY)) {
-			contract = String.valueOf(IndicatorConstants.CHAR_PERCENT);
-		} else {
-			contract = contractId.replace(IndicatorConstants.CHAR_ASTERISK.getConstant(),
-					IndicatorConstants.CHAR_PERCENT.getConstant());
-		}
-		final List<ContractsDetailsDto> contractList = new ArrayList<>();
-		// TODO change the limits in the query
-		final List<ContractMaster> contractML = daoImpl.contractMasterDynamicQuery(getProcessedQuery(contract));
+        String contract;
+        if (contractId.trim().equals(StringUtils.EMPTY)) {
+            contract = String.valueOf(IndicatorConstants.CHAR_PERCENT);
+        } else {
+            contract = contractId.replace(IndicatorConstants.CHAR_ASTERISK.getConstant(),
+                    IndicatorConstants.CHAR_PERCENT.getConstant());
+        }
+        final List<ContractsDetailsDto> contractList = new ArrayList<>();
+        // TODO change the limits in the query
+        final List<ContractMaster> contractML = daoImpl.contractMasterDynamicQuery(getProcessedQuery(contract));
 
-		ContractsDetailsDto contractDetails;
-		ContractMaster contractMaster;
-		for (final Iterator<ContractMaster> iterator = contractML.iterator(); iterator.hasNext();) {
-			contractMaster = (ContractMaster) iterator.next();
-			contractDetails = new ContractsDetailsDto();
-			contractDetails.setSystemId(contractMaster.getContractMasterSid());
-			contractDetails.setName(contractMaster.getContractName());
-			contractDetails.setContractName(contractMaster.getContractName());
-			contractDetails.setId(contractMaster.getContractId());
-			contractDetails.setNumber(contractMaster.getContractNo());
-			contractDetails.setCategory(IndicatorConstants.CONTRACT.getConstant());
-			contractDetails.setLevel(level);
-			contractDetails.setInternalId(contractMaster.getContractMasterSid());
-			contractList.add(contractDetails);
-		}
-		if (cfpList != null) {
-			contractList.addAll(cfpList);
-		}
-		LOGGER.debug("End of getContractList method");
-		return contractList;
-	}
+        ContractsDetailsDto contractDetails;
+        ContractMaster contractMaster;
+        for (final Iterator<ContractMaster> iterator = contractML.iterator(); iterator.hasNext();) {
+            contractMaster = (ContractMaster) iterator.next();
+            contractDetails = new ContractsDetailsDto();
+            contractDetails.setSystemId(contractMaster.getContractMasterSid());
+            contractDetails.setName(contractMaster.getContractName());
+            contractDetails.setContractName(contractMaster.getContractName());
+            contractDetails.setId(contractMaster.getContractId());
+            contractDetails.setNumber(contractMaster.getContractNo());
+            contractDetails.setCategory(IndicatorConstants.CONTRACT.getConstant());
+            contractDetails.setLevel(level);
+            contractDetails.setInternalId(contractMaster.getContractMasterSid());
+            contractList.add(contractDetails);
+        }
+        if (cfpList != null) {
+            contractList.addAll(cfpList);
+        }
+        LOGGER.debug("End of getContractList method");
+        return contractList;
+    }
 
-	/**
-	 * Method used for getProcessedQuery.
-	 *
-	 * @param contractId the contract id
-	 * @param start
-	 * @param end
-	 * @return the processed query
-	 */
-	public DynamicQuery getProcessedQuery(final String contractId) {
-		LOGGER.debug("Entering getProcessedQuery method");
+    /**
+     * Method used for getProcessedQuery.
+     *
+     * @param contractId the contract id
+     * @param start
+     * @param end
+     * @return the processed query
+     */
+    public DynamicQuery getProcessedQuery(final String contractId) {
+        LOGGER.debug("Entering getProcessedQuery method");
 
 		final DynamicQuery contractQuery = ContractMasterLocalServiceUtil.dynamicQuery();
-		String contract;
-		if (contractId.trim().equals(StringUtils.EMPTY)) {
-			contract = IndicatorConstants.CHAR_PERCENT.getConstant();
-		} else {
-			contract = contractId.replace(IndicatorConstants.CHAR_ASTERISK.getConstant(),
-					IndicatorConstants.CHAR_PERCENT.getConstant());
-		}
-		contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", true));
-		contractQuery.add(RestrictionsFactoryUtil.like(Constants.CONTRACT_NO, contract));
-		contractQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like("inboundStatus", "D")));
-		LOGGER.debug("End of getProcessedQuery method");
-		return contractQuery;
-	}
+        String contract;
+        if (contractId.trim().equals(StringUtils.EMPTY)) {
+            contract = IndicatorConstants.CHAR_PERCENT.getConstant();
+        } else {
+            contract = contractId.replace(IndicatorConstants.CHAR_ASTERISK.getConstant(),
+                    IndicatorConstants.CHAR_PERCENT.getConstant());
+        }
+        contractQuery.add(RestrictionsFactoryUtil.eq("processStatus", true));
+        contractQuery.add(RestrictionsFactoryUtil.like(Constants.CONTRACT_NO, contract));
+        contractQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like("inboundStatus", "D")));
+        LOGGER.debug("End of getProcessedQuery method");
+        return contractQuery;
+    }
 
-	/**
-	 * Checks if is level2 list avlbl.
-	 *
-	 * @param contractSystemId the contract system id
-	 * @return true, if checks if is level2 list avlbl
-	 */
-	private boolean isLevel2ListAvlbl(final int contractSystemId, final String category) throws SystemException {
-		LOGGER.debug("Entering isLevel2ListAvlbl method");
-		boolean available;
-		if (!IndicatorConstants.CFP.getConstant().equals(category)
-				&& getCFPQueriedCount(contractSystemId) > Constants.ZERO) {
-			available = true;
-		} else if (!IndicatorConstants.IFP.getConstant().equals(category)
-				&& getIFPQueriedCount(contractSystemId) > Constants.ZERO) {
-			available = true;
-		} else if (!IndicatorConstants.PS_VALUE.getConstant().equals(category)
-				&& getPSQueriedCount(contractSystemId) > Constants.ZERO) {
-			available = true;
-		} else if (!IndicatorConstants.RS_VALUE.getConstant().equals(category)
-				&& getRSQueriedCount(contractSystemId) > Constants.ZERO) {
-			available = true;
-		} else {
-			available = false;
-		}
+    /**
+     * Checks if is level2 list avlbl.
+     *
+     * @param contractSystemId the contract system id
+     * @return true, if checks if is level2 list avlbl
+     */
+    private boolean isLevel2ListAvlbl(final int contractSystemId, final String category) throws SystemException {
+        LOGGER.debug("Entering isLevel2ListAvlbl method");
+        boolean available;
+        if (!IndicatorConstants.CFP.getConstant().equals(category)
+                && getCFPQueriedCount(contractSystemId) > Constants.ZERO) {
+            available = true;
+        } else if (!IndicatorConstants.IFP.getConstant().equals(category)
+                && getIFPQueriedCount(contractSystemId) > Constants.ZERO) {
+            available = true;
+        } else if (!IndicatorConstants.PS_VALUE.getConstant().equals(category)
+                && getPSQueriedCount(contractSystemId) > Constants.ZERO) {
+            available = true;
+        } else if (!IndicatorConstants.RS_VALUE.getConstant().equals(category)
+                && getRSQueriedCount(contractSystemId) > Constants.ZERO) {
+            available = true;
+        } else {
+            available = false;
+        }
 
-		LOGGER.debug("End of isLevel2ListAvlbl method");
-		return available;
-	}
+        LOGGER.debug("End of isLevel2ListAvlbl method");
+        return available;
+    }
 
-	public int getCFPQueriedCount(final int contractSystemId) throws SystemException {
-		LOGGER.debug("Entering getCFPQueriedCount method");
+    public int getCFPQueriedCount(final int contractSystemId) throws SystemException {
+        LOGGER.debug("Entering getCFPQueriedCount method");
 
 		final DynamicQuery cfpDynamicQuery = CfpContractLocalServiceUtil.dynamicQuery();
-		cfpDynamicQuery.add(
-				RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
-		cfpDynamicQuery.add(RestrictionsFactoryUtil
-				.not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
-		LOGGER.debug("End of getCFPQueriedCount method");
-		return (int) daoImpl.contractMasterDynamicQueryCount(cfpDynamicQuery);
-	}
+        cfpDynamicQuery.add(
+                RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
+        cfpDynamicQuery.add(RestrictionsFactoryUtil
+                .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
+        LOGGER.debug("End of getCFPQueriedCount method");
+        return (int) daoImpl.contractMasterDynamicQueryCount(cfpDynamicQuery);
+    }
 
-	public int getIFPQueriedCount(final int contractSystemId) throws SystemException {
-		LOGGER.debug("Entering getIFPQueriedCount method");
+    public int getIFPQueriedCount(final int contractSystemId) throws SystemException {
+        LOGGER.debug("Entering getIFPQueriedCount method");
 
 		final DynamicQuery ifpDynamicQuery = IfpContractLocalServiceUtil.dynamicQuery();
-		ifpDynamicQuery.add(
-				RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
-		ifpDynamicQuery.add(RestrictionsFactoryUtil
-				.not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
-		LOGGER.debug("End of getIFPQueriedCount method");
-		return (int) daoImpl.contractMasterDynamicQueryCount(ifpDynamicQuery);
-	}
+        ifpDynamicQuery.add(
+                RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil
+                .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
+        LOGGER.debug("End of getIFPQueriedCount method");
+        return (int) daoImpl.contractMasterDynamicQueryCount(ifpDynamicQuery);
+    }
 
-	/**
-	 * Gets the ps queried count.
-	 *
+    /**
+     * Gets the ps queried count.
+     *
 	 * @param contractSystemId
 	 *            the contract system id
-	 * @return the PS queried count
-	 */
-	public int getPSQueriedCount(final int contractSystemId) throws SystemException {
-		LOGGER.debug("Entering getPSQueriedCount method");
+     * @return the PS queried count
+     */
+    public int getPSQueriedCount(final int contractSystemId) throws SystemException {
+        LOGGER.debug("Entering getPSQueriedCount method");
 
 		final DynamicQuery psDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
-		psDynamicQuery.add(
-				RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
-		psDynamicQuery.add(RestrictionsFactoryUtil
-				.not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
-		LOGGER.debug("End of getPSQueriedCount method");
-		return (int) daoImpl.contractMasterDynamicQueryCount(psDynamicQuery);
-	}
+        psDynamicQuery.add(
+                RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
+        psDynamicQuery.add(RestrictionsFactoryUtil
+                .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
+        LOGGER.debug("End of getPSQueriedCount method");
+        return (int) daoImpl.contractMasterDynamicQueryCount(psDynamicQuery);
+    }
 
-	public int getRSQueriedCount(final int contractSystemId) throws SystemException {
-		LOGGER.debug("Entering getRSQueriedCount method");
+    public int getRSQueriedCount(final int contractSystemId) throws SystemException {
+        LOGGER.debug("Entering getRSQueriedCount method");
 
 		final DynamicQuery rsDynamicQuery = RsContractLocalServiceUtil.dynamicQuery();
-		rsDynamicQuery.add(
-				RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
-		rsDynamicQuery.add(RestrictionsFactoryUtil
-				.not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
-		LOGGER.debug("End of getRSQueriedCount method");
-		return (int) daoImpl.contractMasterDynamicQueryCount(rsDynamicQuery);
-	}
+        rsDynamicQuery.add(
+                RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(), contractSystemId));
+        rsDynamicQuery.add(RestrictionsFactoryUtil
+                .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
+        LOGGER.debug("End of getRSQueriedCount method");
+        return (int) daoImpl.contractMasterDynamicQueryCount(rsDynamicQuery);
+    }
 
-	public ExtTreeContainer<ContractsDetailsDto> getLevel2Hierarchy(final ContractsDetailsDto parent,
-			final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> cfpList,
-			final List<ContractsDetailsDto> ifpList, final List<ContractsDetailsDto> psList,
-			final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
-		LOGGER.debug("Entering getLevel2Hierarchy method and CFP list size is ============");
-		container.removeAllItems();
-		container.addBean(parent);
-		container.setChildrenAllowed(parent, !IndicatorConstants.RS_VALUE.getConstant().equals(parent.getCategory()));
-		ContractsDetailsDto contractMember;
-		final List<ContractsDetailsDto> contractList = getLevel2List(parent, cfpList, ifpList, psList, rsList);
-		for (final Iterator<ContractsDetailsDto> iterator = contractList.iterator(); iterator.hasNext();) {
-			contractMember = iterator.next();
-			container.addBean(contractMember);
-			if (!IndicatorConstants.RS_VALUE.getConstant().equals(contractMember.getCategory())
-					&& isLevel3ListAvlbl(contractMember.getSystemId(), contractMember.getCategory())) {
-				container.setChildrenAllowed(contractMember, true);
-			} else {
-				container.setChildrenAllowed(contractMember, false);
-			}
-			container.setParent(contractMember, parent);
-		}
-		LOGGER.debug("End of getLevel2Hierarchy method");
-		return container;
-	}
+    public ExtTreeContainer<ContractsDetailsDto> getLevel2Hierarchy(final ContractsDetailsDto parent,
+            final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> cfpList,
+            final List<ContractsDetailsDto> ifpList, final List<ContractsDetailsDto> psList,
+            final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
+        LOGGER.debug("Entering getLevel2Hierarchy method and CFP list size is ============");
+        container.removeAllItems();
+        container.addBean(parent);
+        container.setChildrenAllowed(parent, !IndicatorConstants.RS_VALUE.getConstant().equals(parent.getCategory()));
+        ContractsDetailsDto contractMember;
+        final List<ContractsDetailsDto> contractList = getLevel2List(parent, cfpList, ifpList, psList, rsList);
+        for (final Iterator<ContractsDetailsDto> iterator = contractList.iterator(); iterator.hasNext();) {
+            contractMember = iterator.next();
+            container.addBean(contractMember);
+            if (!IndicatorConstants.RS_VALUE.getConstant().equals(contractMember.getCategory())
+                    && isLevel3ListAvlbl(contractMember.getSystemId(), contractMember.getCategory())) {
+                container.setChildrenAllowed(contractMember, true);
+            } else {
+                container.setChildrenAllowed(contractMember, false);
+            }
+            container.setParent(contractMember, parent);
+        }
+        LOGGER.debug("End of getLevel2Hierarchy method");
+        return container;
+    }
 
-	/**
-	 * To get Level 3Hierarachy
-	 *
-	 * @param parent2
-	 * @param container
-	 * @return
-	 * @throws SystemException
-	 */
-	public ExtTreeContainer<ContractsDetailsDto> getLevel3Hierarchy(final ContractsDetailsDto parent2,
-			final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> ifpList,
-			final List<ContractsDetailsDto> psList, final List<ContractsDetailsDto> rsList)
-			throws SystemException, PortalException {
-		LOGGER.debug("Entering getLevel3Hierarchy method");
-		container.removeAllItems();
+    /**
+     * To get Level 3Hierarachy
+     *
+     * @param parent2
+     * @param container
+     * @return
+     * @throws SystemException
+     */
+    public ExtTreeContainer<ContractsDetailsDto> getLevel3Hierarchy(final ContractsDetailsDto parent2,
+            final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> ifpList,
+            final List<ContractsDetailsDto> psList, final List<ContractsDetailsDto> rsList)
+            throws SystemException, PortalException {
+        LOGGER.debug("Entering getLevel3Hierarchy method");
+        container.removeAllItems();
 
-		container.addBean(parent2.getParent1());
+        container.addBean(parent2.getParent1());
 
-		container.setChildrenAllowed(parent2.getParent1(), true);
-		container.addBean(parent2);
-		container.setChildrenAllowed(parent2, true);
-		container.setParent(parent2, parent2.getParent1());
+        container.setChildrenAllowed(parent2.getParent1(), true);
+        container.addBean(parent2);
+        container.setChildrenAllowed(parent2, true);
+        container.setParent(parent2, parent2.getParent1());
 
-		final List<ContractsDetailsDto> contractML = getLevel3List(parent2.getParent1(), parent2, ifpList, psList,
-				rsList);
+        final List<ContractsDetailsDto> contractML = getLevel3List(parent2.getParent1(), parent2, ifpList, psList,
+                rsList);
 
-		ContractsDetailsDto contractMember;
-		for (final Iterator<ContractsDetailsDto> iterator = contractML.iterator(); iterator.hasNext();) {
-			contractMember = iterator.next();
+        ContractsDetailsDto contractMember;
+        for (final Iterator<ContractsDetailsDto> iterator = contractML.iterator(); iterator.hasNext();) {
+            contractMember = iterator.next();
 
-			container.addBean(contractMember);
+            container.addBean(contractMember);
 
-			if ((!IndicatorConstants.RS_VALUE.getConstant().equals(contractMember.getCategory())
-					&& isLevel4Or5ListAvlbl(contractMember.getSystemId(), contractMember.getCategory()))
-					|| !psList.isEmpty()) {
-				container.setChildrenAllowed(contractMember, true);
-			} else {
-				container.setChildrenAllowed(contractMember, false);
-			}
+            if ((!IndicatorConstants.RS_VALUE.getConstant().equals(contractMember.getCategory())
+                    && isLevel4Or5ListAvlbl(contractMember.getSystemId(), contractMember.getCategory()))
+                    || !psList.isEmpty()) {
+                container.setChildrenAllowed(contractMember, true);
+            } else {
+                container.setChildrenAllowed(contractMember, false);
+            }
 
-			container.setParent(contractMember, parent2);
+            container.setParent(contractMember, parent2);
 
-		}
-		LOGGER.debug("End of getLevel3Hierarchy method");
-		return container;
-	}
+        }
+        LOGGER.debug("End of getLevel3Hierarchy method");
+        return container;
+    }
 
-	/**
-	 * to get Level 4 Hierarchy
-	 *
-	 * @param parent3
-	 * @param container
-	 * @return
-	 * @throws SystemException
-	 */
-	public ExtTreeContainer<ContractsDetailsDto> getLevel4Hierarchy(final ContractsDetailsDto parent3,
-			final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> psList,
-			final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
-		LOGGER.debug("Entering getLevel4Hierarchy method");
+    /**
+     * to get Level 4 Hierarchy
+     *
+     * @param parent3
+     * @param container
+     * @return
+     * @throws SystemException
+     */
+    public ExtTreeContainer<ContractsDetailsDto> getLevel4Hierarchy(final ContractsDetailsDto parent3,
+            final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> psList,
+            final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
+        LOGGER.debug("Entering getLevel4Hierarchy method");
 
-		container.removeAllItems();
-		container.addBean(parent3.getParent1());
-		container.setChildrenAllowed(parent3.getParent1(), true);
-		container.addBean(parent3.getParent2());
-		container.setChildrenAllowed(parent3.getParent2(), true);
-		container.setParent(parent3.getParent2(), parent3.getParent1());
-		container.addBean(parent3);
-		container.setChildrenAllowed(parent3, true);
-		container.setParent(parent3, parent3.getParent2());
+        container.removeAllItems();
+        container.addBean(parent3.getParent1());
+        container.setChildrenAllowed(parent3.getParent1(), true);
+        container.addBean(parent3.getParent2());
+        container.setChildrenAllowed(parent3.getParent2(), true);
+        container.setParent(parent3.getParent2(), parent3.getParent1());
+        container.addBean(parent3);
+        container.setChildrenAllowed(parent3, true);
+        container.setParent(parent3, parent3.getParent2());
 
-		final List<ContractsDetailsDto> contractList = getLevel4List(parent3.getParent1(), parent3.getParent2(),
-				parent3, psList, rsList);
-		ContractsDetailsDto contractMember;
-		for (final Iterator<ContractsDetailsDto> iterator = contractList.iterator(); iterator.hasNext();) {
-			contractMember = iterator.next();
+        final List<ContractsDetailsDto> contractList = getLevel4List(parent3.getParent1(), parent3.getParent2(),
+                parent3, psList, rsList);
+        ContractsDetailsDto contractMember;
+        for (final Iterator<ContractsDetailsDto> iterator = contractList.iterator(); iterator.hasNext();) {
+            contractMember = iterator.next();
 
-			container.addBean(contractMember);
+            container.addBean(contractMember);
 
-			if ((!IndicatorConstants.RS_VALUE.getConstant().equals(contractMember.getCategory())
-					&& isLevel4Or5ListAvlbl(contractMember.getSystemId(), contractMember.getCategory()))
-					|| !rsList.isEmpty()) {
-				container.setChildrenAllowed(contractMember, true);
-			} else {
-				container.setChildrenAllowed(contractMember, false);
-			}
+            if ((!IndicatorConstants.RS_VALUE.getConstant().equals(contractMember.getCategory())
+                    && isLevel4Or5ListAvlbl(contractMember.getSystemId(), contractMember.getCategory()))
+                    || !rsList.isEmpty()) {
+                container.setChildrenAllowed(contractMember, true);
+            } else {
+                container.setChildrenAllowed(contractMember, false);
+            }
 
-			container.setParent(contractMember, parent3);
+            container.setParent(contractMember, parent3);
 
-		}
-		LOGGER.debug("End of getLevel4Hierarchy method");
-		return container;
-	}
+        }
+        LOGGER.debug("End of getLevel4Hierarchy method");
+        return container;
+    }
 
-	/**
-	 * to get Level 5 Hierarchy
-	 *
-	 * @param parent4
-	 * @param container
-	 * @return
-	 * @throws SystemException
-	 */
-	public ExtTreeContainer<ContractsDetailsDto> getLevel5Hierarchy(final ContractsDetailsDto parent4,
-			final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> rsList)
-			throws SystemException, PortalException {
-		LOGGER.debug("Entering getLevel5Hierarchy method");
+    /**
+     * to get Level 5 Hierarchy
+     *
+     * @param parent4
+     * @param container
+     * @return
+     * @throws SystemException
+     */
+    public ExtTreeContainer<ContractsDetailsDto> getLevel5Hierarchy(final ContractsDetailsDto parent4,
+            final ExtTreeContainer<ContractsDetailsDto> container, final List<ContractsDetailsDto> rsList)
+            throws SystemException, PortalException {
+        LOGGER.debug("Entering getLevel5Hierarchy method");
 
-		container.removeAllItems();
-		container.addBean(parent4.getParent1());
-		container.setChildrenAllowed(parent4.getParent1(), true);
-		container.addBean(parent4.getParent2());
-		container.setChildrenAllowed(parent4.getParent2(), true);
-		container.setParent(parent4.getParent2(), parent4.getParent1());
-		container.addBean(parent4.getParent3());
-		container.setChildrenAllowed(parent4.getParent3(), true);
-		container.setParent(parent4.getParent3(), parent4.getParent2());
-		container.addBean(parent4);
-		container.setChildrenAllowed(parent4, true);
-		container.setParent(parent4, parent4.getParent3());
+        container.removeAllItems();
+        container.addBean(parent4.getParent1());
+        container.setChildrenAllowed(parent4.getParent1(), true);
+        container.addBean(parent4.getParent2());
+        container.setChildrenAllowed(parent4.getParent2(), true);
+        container.setParent(parent4.getParent2(), parent4.getParent1());
+        container.addBean(parent4.getParent3());
+        container.setChildrenAllowed(parent4.getParent3(), true);
+        container.setParent(parent4.getParent3(), parent4.getParent2());
+        container.addBean(parent4);
+        container.setChildrenAllowed(parent4, true);
+        container.setParent(parent4, parent4.getParent3());
 
-		final List<ContractsDetailsDto> contractList = getLevel5List(parent4.getParent1(), parent4.getParent2(),
-				parent4.getParent3(), parent4, rsList);
-		ContractsDetailsDto contractMember;
-		for (final Iterator<ContractsDetailsDto> iterator = contractList.iterator(); iterator.hasNext();) {
-			contractMember = iterator.next();
-			container.addBean(contractMember);
-			if ((!IndicatorConstants.RS_VALUE.getConstant().equals(parent4.getCategory())
-					&& isLevel5ListAvlbl(parent4.getSystemId())) || !rsList.isEmpty()) {
-				container.setChildrenAllowed(contractMember, true);
-			} else {
-				container.setChildrenAllowed(contractMember, false);
-			}
-			container.setParent(contractMember, parent4);
+        final List<ContractsDetailsDto> contractList = getLevel5List(parent4.getParent1(), parent4.getParent2(),
+                parent4.getParent3(), parent4, rsList);
+        ContractsDetailsDto contractMember;
+        for (final Iterator<ContractsDetailsDto> iterator = contractList.iterator(); iterator.hasNext();) {
+            contractMember = iterator.next();
+            container.addBean(contractMember);
+            if ((!IndicatorConstants.RS_VALUE.getConstant().equals(parent4.getCategory())
+                    && isLevel5ListAvlbl(parent4.getSystemId())) || !rsList.isEmpty()) {
+                container.setChildrenAllowed(contractMember, true);
+            } else {
+                container.setChildrenAllowed(contractMember, false);
+            }
+            container.setParent(contractMember, parent4);
 
-		}
-		LOGGER.debug("End of getLevel5Hierarchy method");
-		return container;
-	}
+        }
+        LOGGER.debug("End of getLevel5Hierarchy method");
+        return container;
+    }
 
-	public List<ContractsDetailsDto> getLevel2List(final ContractsDetailsDto parent1, List<ContractsDetailsDto> cfpList,
-			final List<ContractsDetailsDto> ifpList, final List<ContractsDetailsDto> psList,
-			final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
+    public List<ContractsDetailsDto> getLevel2List(final ContractsDetailsDto parent1, List<ContractsDetailsDto> cfpList,
+            final List<ContractsDetailsDto> ifpList, final List<ContractsDetailsDto> psList,
+            final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
 
-		LOGGER.debug("Entering getLevel2List method");
-		List<ContractsDetailsDto> level2List;
-		if (getCFPQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
-			level2List = getCFPList(parent1, ContractsDetailsDto.LEVEL2, cfpList);
-		} else if (getIFPQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
-			level2List = getIFPList(parent1, null, ContractsDetailsDto.LEVEL2, ifpList);
-		} else if (getPSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
-			level2List = getPSList(parent1, null, null, ContractsDetailsDto.LEVEL2, psList);
-		} else if (getRSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
-			level2List = getRSList(parent1, null, null, null, ContractsDetailsDto.LEVEL2, rsList);
-		} else {
-			level2List = new ArrayList<>();
-		}
-		LOGGER.debug("End of getLevel2List method");
-		return level2List;
-	}
+        LOGGER.debug("Entering getLevel2List method");
+        List<ContractsDetailsDto> level2List;
+        if (getCFPQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
+            level2List = getCFPList(parent1, ContractsDetailsDto.LEVEL2, cfpList);
+        } else if (getIFPQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
+            level2List = getIFPList(parent1, null, ContractsDetailsDto.LEVEL2, ifpList);
+        } else if (getPSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
+            level2List = getPSList(parent1, null, null, ContractsDetailsDto.LEVEL2, psList);
+        } else if (getRSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
+            level2List = getRSList(parent1, null, null, null, ContractsDetailsDto.LEVEL2, rsList);
+        } else {
+            level2List = new ArrayList<>();
+        }
+        LOGGER.debug("End of getLevel2List method");
+        return level2List;
+    }
 
-	/**
-	 * Gets the level3 list.
-	 *
-	 * @param parent1 the parent1
+    /**
+     * Gets the level3 list.
+     *
+     * @param parent1 the parent1
 	 * @param parent2  the parent2
-	 * @return the level3 list
-	 */
-	public List<ContractsDetailsDto> getLevel3List(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
-			final List<ContractsDetailsDto> ifpList, final List<ContractsDetailsDto> psList,
-			final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
+     * @return the level3 list
+     */
+    public List<ContractsDetailsDto> getLevel3List(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
+            final List<ContractsDetailsDto> ifpList, final List<ContractsDetailsDto> psList,
+            final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
 
-		LOGGER.debug("Entering getLevel3List method");
-		List<ContractsDetailsDto> level3List;
-		if (!IndicatorConstants.IFP.getConstant().equals(parent2.getCategory())
-				&& getIFPQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
-			level3List = getIFPList(parent1, parent2, ContractsDetailsDto.LEVEL3, ifpList);
-		} else if (!IndicatorConstants.PS_VALUE.getConstant().equals(parent2.getCategory())
-				&& getPSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
-			level3List = getPSList(parent1, parent2, null, ContractsDetailsDto.LEVEL3, psList);
-		} else if (!IndicatorConstants.RS_VALUE.getConstant().equals(parent2.getCategory())
-				&& getRSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
-			level3List = getRSList(parent1, parent2, null, null, ContractsDetailsDto.LEVEL3, rsList);
-		} else {
-			level3List = new ArrayList<>();
-		}
+        LOGGER.debug("Entering getLevel3List method");
+        List<ContractsDetailsDto> level3List;
+        if (!IndicatorConstants.IFP.getConstant().equals(parent2.getCategory())
+                && getIFPQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
+            level3List = getIFPList(parent1, parent2, ContractsDetailsDto.LEVEL3, ifpList);
+        } else if (!IndicatorConstants.PS_VALUE.getConstant().equals(parent2.getCategory())
+                && getPSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
+            level3List = getPSList(parent1, parent2, null, ContractsDetailsDto.LEVEL3, psList);
+        } else if (!IndicatorConstants.RS_VALUE.getConstant().equals(parent2.getCategory())
+                && getRSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
+            level3List = getRSList(parent1, parent2, null, null, ContractsDetailsDto.LEVEL3, rsList);
+        } else {
+            level3List = new ArrayList<>();
+        }
 
-		LOGGER.debug("End of getLevel3List method");
-		return level3List;
-	}
+        LOGGER.debug("End of getLevel3List method");
+        return level3List;
+    }
 
-	/**
-	 * Gets the level4 list.
-	 *
-	 * @param parent1 the parent1
-	 * @param parent2 the parent2
-	 * @param parent3 the parent3
-	 * @return the level4 list
-	 */
-	public List<ContractsDetailsDto> getLevel4List(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
-			final ContractsDetailsDto parent3, final List<ContractsDetailsDto> psList,
-			final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
-		LOGGER.debug("Entering getLevel4List method");
+    /**
+     * Gets the level4 list.
+     *
+     * @param parent1 the parent1
+     * @param parent2 the parent2
+     * @param parent3 the parent3
+     * @return the level4 list
+     */
+    public List<ContractsDetailsDto> getLevel4List(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
+            final ContractsDetailsDto parent3, final List<ContractsDetailsDto> psList,
+            final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
+        LOGGER.debug("Entering getLevel4List method");
 
-		List<ContractsDetailsDto> level4List;
-		if (!IndicatorConstants.PS_VALUE.getConstant().equals(parent3.getCategory())
-				&& getPSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
-			level4List = getPSList(parent1, parent2, parent3, ContractsDetailsDto.LEVEL4, psList);
-		} else if (!IndicatorConstants.RS_VALUE.getConstant().equals(parent3.getCategory())
-				&& getRSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
-			level4List = getRSList(parent1, parent2, parent3, null, ContractsDetailsDto.LEVEL4, rsList);
-		} else {
-			level4List = new ArrayList<>();
-		}
+        List<ContractsDetailsDto> level4List;
+        if (!IndicatorConstants.PS_VALUE.getConstant().equals(parent3.getCategory())
+                && getPSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
+            level4List = getPSList(parent1, parent2, parent3, ContractsDetailsDto.LEVEL4, psList);
+        } else if (!IndicatorConstants.RS_VALUE.getConstant().equals(parent3.getCategory())
+                && getRSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
+            level4List = getRSList(parent1, parent2, parent3, null, ContractsDetailsDto.LEVEL4, rsList);
+        } else {
+            level4List = new ArrayList<>();
+        }
 
-		LOGGER.debug("End of getLevel4List method");
-		return level4List;
-	}
+        LOGGER.debug("End of getLevel4List method");
+        return level4List;
+    }
 
-	/**
-	 * Gets the level5 list.
-	 *
-	 * @param parent1
-	 * @param parent2
-	 * @param parent3
-	 * @param parent4
-	 * @return
-	 * @throws SystemException
-	 */
-	public List<ContractsDetailsDto> getLevel5List(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
-			final ContractsDetailsDto parent3, final ContractsDetailsDto parent4,
-			final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
+    /**
+     * Gets the level5 list.
+     *
+     * @param parent1
+     * @param parent2
+     * @param parent3
+     * @param parent4
+     * @return
+     * @throws SystemException
+     */
+    public List<ContractsDetailsDto> getLevel5List(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
+            final ContractsDetailsDto parent3, final ContractsDetailsDto parent4,
+            final List<ContractsDetailsDto> rsList) throws SystemException, PortalException {
 
-		LOGGER.debug("Entering getLevel5List method");
+        LOGGER.debug("Entering getLevel5List method");
 
-		List<ContractsDetailsDto> level5List;
-		if (!IndicatorConstants.RS_VALUE.getConstant().equals(parent3.getCategory())
-				&& getRSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
-			level5List = getRSList(parent1, parent2, parent3, parent4, ContractsDetailsDto.LEVEL5, rsList);
-		} else {
-			level5List = new ArrayList<>();
-		}
+        List<ContractsDetailsDto> level5List;
+        if (!IndicatorConstants.RS_VALUE.getConstant().equals(parent3.getCategory())
+                && getRSQueriedCount(parent1.getSystemId()) > Constants.ZERO) {
+            level5List = getRSList(parent1, parent2, parent3, parent4, ContractsDetailsDto.LEVEL5, rsList);
+        } else {
+            level5List = new ArrayList<>();
+        }
 
-		LOGGER.debug("End of getLevel5List method");
-		return level5List;
-	}
+        LOGGER.debug("End of getLevel5List method");
+        return level5List;
+    }
 
-	/**
-	 * Checks if is level3 list avlbl.
-	 *
-	 * @param contractSystemId the contract system id
-	 * @return true, if checks if is level3 list avlbl
-	 */
-	public boolean isLevel3ListAvlbl(final int contractSystemId, final String category) throws SystemException {
+    /**
+     * Checks if is level3 list avlbl.
+     *
+     * @param contractSystemId the contract system id
+     * @return true, if checks if is level3 list avlbl
+     */
+    public boolean isLevel3ListAvlbl(final int contractSystemId, final String category) throws SystemException {
 
-		LOGGER.debug("Entering isLevel3ListAvlbl method");
-		boolean available;
-		if (!IndicatorConstants.IFP.getConstant().equals(category)
-				&& getIFPQueriedCount(contractSystemId) > Constants.ZERO) {
-			available = true;
-		} else if (!IndicatorConstants.PS_VALUE.getConstant().equals(category)
-				&& getPSQueriedCount(contractSystemId) > Constants.ZERO) {
-			available = true;
-		} else if (!IndicatorConstants.RS_VALUE.getConstant().equals(category)
-				&& getRSQueriedCount(contractSystemId) > Constants.ZERO) {
-			available = true;
-		} else if (IndicatorConstants.CFP.getConstant().equals(category)) {
-			available = true;
-		} else {
-			available = false;
-		}
-		LOGGER.debug("End of isLevel3ListAvlbl method");
-		return available;
-	}
+        LOGGER.debug("Entering isLevel3ListAvlbl method");
+        boolean available;
+        if (!IndicatorConstants.IFP.getConstant().equals(category)
+                && getIFPQueriedCount(contractSystemId) > Constants.ZERO) {
+            available = true;
+        } else if (!IndicatorConstants.PS_VALUE.getConstant().equals(category)
+                && getPSQueriedCount(contractSystemId) > Constants.ZERO) {
+            available = true;
+        } else if (!IndicatorConstants.RS_VALUE.getConstant().equals(category)
+                && getRSQueriedCount(contractSystemId) > Constants.ZERO) {
+            available = true;
+        } else if (IndicatorConstants.CFP.getConstant().equals(category)) {
+            available = true;
+        } else {
+            available = false;
+        }
+        LOGGER.debug("End of isLevel3ListAvlbl method");
+        return available;
+    }
 
-	public boolean isLevel4Or5ListAvlbl(final int contractSystemId, final String category) throws SystemException {
+    public boolean isLevel4Or5ListAvlbl(final int contractSystemId, final String category) throws SystemException {
 
-		LOGGER.debug("Entering isLevel4ListAvlbl method");
-		boolean available;
-		available = (!IndicatorConstants.PS_VALUE.getConstant().equals(category)
-				&& getPSQueriedCount(contractSystemId) > Constants.ZERO)
-				|| (!IndicatorConstants.RS_VALUE.getConstant().equals(category)
-						&& getRSQueriedCount(contractSystemId) > Constants.ZERO);
+        LOGGER.debug("Entering isLevel4ListAvlbl method");
+        boolean available;
+        available = (!IndicatorConstants.PS_VALUE.getConstant().equals(category)
+                && getPSQueriedCount(contractSystemId) > Constants.ZERO)
+                || (!IndicatorConstants.RS_VALUE.getConstant().equals(category)
+                && getRSQueriedCount(contractSystemId) > Constants.ZERO);
 
-		LOGGER.debug("End of isLevel4ListAvlbl method");
-		return available;
-	}
+        LOGGER.debug("End of isLevel4ListAvlbl method");
+        return available;
+    }
 
-	/**
-	 * Checks if is level5 list avlbl.
-	 *
-	 * @param contractSystemId the contract system id
-	 * @return true, if checks if is level5 list avlbl
-	 */
-	private boolean isLevel5ListAvlbl(final int contractSystemId) throws SystemException {
-		LOGGER.debug("Entering isLevel5ListAvlbl method");
-		if (getRSQueriedCount(contractSystemId) > Constants.ZERO) {
-			return true;
-		}
-		LOGGER.debug("End of isLevel5ListAvlbl method");
-		return false;
-	}
+    /**
+     * Checks if is level5 list avlbl.
+     *
+     * @param contractSystemId the contract system id
+     * @return true, if checks if is level5 list avlbl
+     */
+    private boolean isLevel5ListAvlbl(final int contractSystemId) throws SystemException {
+        LOGGER.debug("Entering isLevel5ListAvlbl method");
+        if (getRSQueriedCount(contractSystemId) > Constants.ZERO) {
+            return true;
+        }
+        LOGGER.debug("End of isLevel5ListAvlbl method");
+        return false;
+    }
 
-	private List<ContractsDetailsDto> getCFPList(final ContractsDetailsDto parent1, final int level,
-			List<ContractsDetailsDto> cfList) throws SystemException, PortalException {
-		LOGGER.debug("Entering getCFPList method");
+    private List<ContractsDetailsDto> getCFPList(final ContractsDetailsDto parent1, final int level,
+            List<ContractsDetailsDto> cfList) throws SystemException, PortalException {
+        LOGGER.debug("Entering getCFPList method");
 
-		final List<ContractsDetailsDto> cfpList = new ArrayList<>();
+        final List<ContractsDetailsDto> cfpList = new ArrayList<>();
 		final DynamicQuery cfpDynamicQuery = CfpContractLocalServiceUtil.dynamicQuery();
-		cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
-				parent1.getSystemId()));
-		cfpDynamicQuery.add(RestrictionsFactoryUtil
-				.not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
-		final List<CfpContract> cfpMasterList = daoImpl.cfpMasterDynamicQuery(cfpDynamicQuery);
+        cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
+                parent1.getSystemId()));
+        cfpDynamicQuery.add(RestrictionsFactoryUtil
+                .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
+        final List<CfpContract> cfpMasterList = daoImpl.cfpMasterDynamicQuery(cfpDynamicQuery);
 
-		ContractsDetailsDto contractMember;
-		CfpContract cfpMaster;
-		for (final Iterator<CfpContract> iterator = cfpMasterList.iterator(); iterator.hasNext();) {
-			cfpMaster = (CfpContract) iterator.next();
-			contractMember = new ContractsDetailsDto();
-			contractMember.setSystemId(cfpMaster.getContractMasterSid());
-			contractMember.setName(cfpMaster.getCfpName());
+        ContractsDetailsDto contractMember;
+        CfpContract cfpMaster;
+        for (final Iterator<CfpContract> iterator = cfpMasterList.iterator(); iterator.hasNext();) {
+            cfpMaster = (CfpContract) iterator.next();
+            contractMember = new ContractsDetailsDto();
+            contractMember.setSystemId(cfpMaster.getContractMasterSid());
+            contractMember.setName(cfpMaster.getCfpName());
 
-			CfpModel cfpModel = CfpModelLocalServiceUtil.getCfpModel(cfpMaster.getCfpModelSid());
-			contractMember.setId(cfpModel.getCfpId());
-			contractMember.setNumber(cfpMaster.getCfpNo());
-			contractMember.setModelSysId(cfpModel.getCfpModelSid());
-			contractMember.setCategory(IndicatorConstants.CFP.getConstant());
-			contractMember.setInternalId(cfpMaster.getCfpContractSid());
-			contractMember.setLevel(level);
-			contractMember.setParent1(parent1);
-			contractMember.setCfpContractId(cfpMaster.getCfpContractSid());
-			cfpList.add(contractMember);
-		}
-		if (cfList != null) {
-			cfpList.addAll(cfList);
-		}
-		LOGGER.debug("End of getCFPList method");
-		return cfpList;
-	}
+            CfpModel cfpModel = CfpModelLocalServiceUtil.getCfpModel(cfpMaster.getCfpModelSid());
+            contractMember.setId(cfpModel.getCfpId());
+            contractMember.setNumber(cfpMaster.getCfpNo());
+            contractMember.setModelSysId(cfpModel.getCfpModelSid());
+            contractMember.setCategory(IndicatorConstants.CFP.getConstant());
+            contractMember.setInternalId(cfpMaster.getCfpContractSid());
+            contractMember.setLevel(level);
+            contractMember.setParent1(parent1);
+            contractMember.setCfpContractId(cfpMaster.getCfpContractSid());
+            cfpList.add(contractMember);
+        }
+        if (cfList != null) {
+            cfpList.addAll(cfList);
+        }
+        LOGGER.debug("End of getCFPList method");
+        return cfpList;
+    }
 
-	private List<ContractsDetailsDto> getIFPList(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
-			final int level, final List<ContractsDetailsDto> ifList) throws SystemException, PortalException {
-		LOGGER.debug("Entering getIFPList method");
+    private List<ContractsDetailsDto> getIFPList(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
+            final int level, final List<ContractsDetailsDto> ifList) throws SystemException, PortalException {
+        LOGGER.debug("Entering getIFPList method");
 
-		final List<ContractsDetailsDto> ifpList = new ArrayList<>();
+        final List<ContractsDetailsDto> ifpList = new ArrayList<>();
 		final DynamicQuery ifpDynamicQuery = IfpContractLocalServiceUtil.dynamicQuery();
-		ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
-				parent1.getSystemId()));
-		ifpDynamicQuery.add(RestrictionsFactoryUtil
-				.not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
-		if (parent2 != null) {
-			String category = parent2.getCategory().trim();
-			if (category.equals("CFP")) {
-				if (parent2.getInternalId() == 0) {
-					ifpDynamicQuery.add(RestrictionsFactoryUtil.isNull("cfpContractSid"));
-				} else {
-					ifpDynamicQuery
-							.add(RestrictionsFactoryUtil.eq("cfpContractSid", String.valueOf(parent2.getInternalId())));
-				}
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
+                parent1.getSystemId()));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil
+                .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
+        if (parent2 != null) {
+            String category = parent2.getCategory().trim();
+            if (category.equals("CFP")) {
+                if (parent2.getInternalId() == 0) {
+                    ifpDynamicQuery.add(RestrictionsFactoryUtil.isNull("cfpContractSid"));
+                } else {
+                    ifpDynamicQuery
+                            .add(RestrictionsFactoryUtil.eq("cfpContractSid", String.valueOf(parent2.getInternalId())));
+                }
 
-			}
-		}
-		final List<IfpContract> ifpMasterList = daoImpl.ifpMasterDynamicQuery(ifpDynamicQuery);
-		ContractsDetailsDto contractMember;
-		IfpContract ifpContract;
-		for (final Iterator<IfpContract> iterator = ifpMasterList.iterator(); iterator.hasNext();) {
-			ifpContract = (IfpContract) iterator.next();
-			contractMember = new ContractsDetailsDto();
-			contractMember.setSystemId(ifpContract.getContractMasterSid());
-			contractMember.setContractName(ifpContract.getIfpName());
-			IfpModel ifpModel = IfpModelLocalServiceUtil.getIfpModel(ifpContract.getIfpModelSid());
-			contractMember.setId(ifpModel.getIfpId());
-			contractMember.setNumber(ifpContract.getIfpNo());
-			contractMember.setName(ifpContract.getIfpName());
-			contractMember.setModelSysId(ifpModel.getIfpModelSid());
-			contractMember.setCategory(IndicatorConstants.IFP.getConstant());
-			contractMember.setLevel(level);
-			contractMember.setParent1(parent1);
-			contractMember.setParent2(parent2);
-			contractMember.setInternalId(ifpContract.getIfpContractSid());
-			contractMember.setIfpContractId(ifpContract.getIfpContractSid());
-			ifpList.add(contractMember);
-		}
-		if (ifList != null) {
-			for (ContractsDetailsDto dto : ifList) {
-				if (dto != null && parent2 != null
-						&& dto.getRelation().containsKey(parent2.getId() + parent2.getName() + parent2.getNumber())) {
-					ifpList.addAll(dto.getRelation().get(parent2.getId() + parent2.getName() + parent2.getNumber()));
-				}
-				if (dto != null && parent1 != null
-						&& dto.getRelation().containsKey(parent1.getId() + parent1.getName() + parent1.getNumber())) {
-					ifpList.addAll(dto.getRelation().get(parent1.getId() + parent1.getName() + parent1.getNumber()));
-				}
-			}
-		}
-		LOGGER.debug("End of getIFPList method");
-		return ifpList;
-	}
+            }
+        }
+        final List<IfpContract> ifpMasterList = daoImpl.ifpMasterDynamicQuery(ifpDynamicQuery);
+        ContractsDetailsDto contractMember;
+        IfpContract ifpContract;
+        for (final Iterator<IfpContract> iterator = ifpMasterList.iterator(); iterator.hasNext();) {
+            ifpContract = (IfpContract) iterator.next();
+            contractMember = new ContractsDetailsDto();
+            contractMember.setSystemId(ifpContract.getContractMasterSid());
+            contractMember.setContractName(ifpContract.getIfpName());
+            IfpModel ifpModel = IfpModelLocalServiceUtil.getIfpModel(ifpContract.getIfpModelSid());
+            contractMember.setId(ifpModel.getIfpId());
+            contractMember.setNumber(ifpContract.getIfpNo());
+            contractMember.setName(ifpContract.getIfpName());
+            contractMember.setModelSysId(ifpModel.getIfpModelSid());
+            contractMember.setCategory(IndicatorConstants.IFP.getConstant());
+            contractMember.setLevel(level);
+            contractMember.setParent1(parent1);
+            contractMember.setParent2(parent2);
+            contractMember.setInternalId(ifpContract.getIfpContractSid());
+            contractMember.setIfpContractId(ifpContract.getIfpContractSid());
+            ifpList.add(contractMember);
+        }
+        if (ifList != null) {
+            for (ContractsDetailsDto dto : ifList) {
+                if (dto != null && parent2 != null
+                        && dto.getRelation().containsKey(parent2.getId() + parent2.getName() + parent2.getNumber())) {
+                    ifpList.addAll(dto.getRelation().get(parent2.getId() + parent2.getName() + parent2.getNumber()));
+                }
+                if (dto != null && parent1 != null
+                        && dto.getRelation().containsKey(parent1.getId() + parent1.getName() + parent1.getNumber())) {
+                    ifpList.addAll(dto.getRelation().get(parent1.getId() + parent1.getName() + parent1.getNumber()));
+                }
+            }
+        }
+        LOGGER.debug("End of getIFPList method");
+        return ifpList;
+    }
 
-	/**
-	 * Gets the ps list.
-	 *
-	 * @param parent1 the parent1
-	 * @param parent2 the parent2
-	 * @param parent3 the parent3
+    /**
+     * Gets the ps list.
+     *
+     * @param parent1 the parent1
+     * @param parent2 the parent2
+     * @param parent3 the parent3
 	 * @param level	the level
-	 * @return the PS list
-	 */
-	private List<ContractsDetailsDto> getPSList(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
-			final ContractsDetailsDto parent3, final int level, final List<ContractsDetailsDto> pList)
-			throws SystemException, PortalException {
-		LOGGER.debug("Entering getPSList method");
+     * @return the PS list
+     */
+    private List<ContractsDetailsDto> getPSList(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
+            final ContractsDetailsDto parent3, final int level, final List<ContractsDetailsDto> pList)
+            throws SystemException, PortalException {
+        LOGGER.debug("Entering getPSList method");
 
-		final List<ContractsDetailsDto> psList = new ArrayList<>();
+        final List<ContractsDetailsDto> psList = new ArrayList<>();
 		final DynamicQuery psDynamicQuery = PsContractLocalServiceUtil.dynamicQuery();
-		psDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
-				parent1.getSystemId()));
-		psDynamicQuery.add(RestrictionsFactoryUtil
-				.not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
-		if (parent2 != null) {
+        psDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
+                parent1.getSystemId()));
+        psDynamicQuery.add(RestrictionsFactoryUtil
+                .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
+        if (parent2 != null) {
 
-			if (parent2.getCategory().equals(IndicatorConstants.CFP.getConstant())) {
-				if (parent2.getInternalId() == 0) {
-					psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));
-				} else {
-					psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CFP_CONTRACT_SID,
-							String.valueOf(parent2.getInternalId())));
-				}
-			}
-			if (parent2.getCategory().equals(IndicatorConstants.IFP.getConstant())) {
+            if (parent2.getCategory().equals(IndicatorConstants.CFP.getConstant())) {
+                if (parent2.getInternalId() == 0) {
+                    psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));
+                } else {
+                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CFP_CONTRACT_SID,
+                            String.valueOf(parent2.getInternalId())));
+                }
+            }
+            if (parent2.getCategory().equals(IndicatorConstants.IFP.getConstant())) {
 
-				if (parent2.getInternalId() == 0) {
-					psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IFP_CONTRACT_SID));
-				} else {
-					psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IFP_CONTRACT_SID,
-							String.valueOf(parent2.getInternalId())));
-				}
+                if (parent2.getInternalId() == 0) {
+                    psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IFP_CONTRACT_SID));
+                } else {
+                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IFP_CONTRACT_SID,
+                            String.valueOf(parent2.getInternalId())));
+                }
 
-			}
-		}
-		if (parent3 != null) {
+            }
+        }
+        if (parent3 != null) {
 
-			if (parent3.getCategory().equals(IndicatorConstants.CFP.getConstant())) {
-				if (parent3.getInternalId() == 0) {
-					psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));
-				} else {
-					psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CFP_CONTRACT_SID,
-							String.valueOf(parent3.getInternalId())));
-				}
+            if (parent3.getCategory().equals(IndicatorConstants.CFP.getConstant())) {
+                if (parent3.getInternalId() == 0) {
+                    psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.CFP_CONTRACT_SID));
+                } else {
+                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.CFP_CONTRACT_SID,
+                            String.valueOf(parent3.getInternalId())));
+                }
 
-			}
-			if (parent3.getCategory().equals(IndicatorConstants.IFP.getConstant())) {
-				if (parent3.getInternalId() == 0) {
-					psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IFP_CONTRACT_SID));
-				} else {
-					psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IFP_CONTRACT_SID,
-							String.valueOf(parent3.getInternalId())));
-				}
+            }
+            if (parent3.getCategory().equals(IndicatorConstants.IFP.getConstant())) {
+                if (parent3.getInternalId() == 0) {
+                    psDynamicQuery.add(RestrictionsFactoryUtil.isNull(Constants.IFP_CONTRACT_SID));
+                } else {
+                    psDynamicQuery.add(RestrictionsFactoryUtil.eq(Constants.IFP_CONTRACT_SID,
+                            String.valueOf(parent3.getInternalId())));
+                }
 
-			}
-		}
+            }
+        }
 
-		final List<PsContract> psMasterList = daoImpl.psMasterDynamicQuery(psDynamicQuery);
+        final List<PsContract> psMasterList = daoImpl.psMasterDynamicQuery(psDynamicQuery);
 
-		ContractsDetailsDto contractMember;
+        ContractsDetailsDto contractMember;
 
-		for (final Iterator<PsContract> iterator = psMasterList.iterator(); iterator.hasNext();) {
-			final PsContract psMaster = (PsContract) iterator.next();
-			contractMember = new ContractsDetailsDto();
-			contractMember.setSystemId(psMaster.getContractMasterSid());
-			contractMember.setContractName(psMaster.getPsName());
-			PsModel psModel = PsModelLocalServiceUtil.getPsModel(psMaster.getPsModelSid());
-			contractMember.setId(psModel.getPsId());
-			contractMember.setNumber(psMaster.getPsNo());
-			contractMember.setName(psMaster.getPsName());
-			contractMember.setModelSysId(psModel.getPsModelSid());
-			contractMember.setCategory(IndicatorConstants.PS_VALUE.getConstant());
-			contractMember.setLevel(level);
-			contractMember.setParent1(parent1);
-			contractMember.setParent2(parent2);
-			contractMember.setParent3(parent3);
-			contractMember.setInternalId(psMaster.getPsContractSid());
-			contractMember.setPsContractId(psMaster.getPsContractSid());
-			psList.add(contractMember);
-		}
-		if (pList != null) {
-			for (ContractsDetailsDto dto : pList) {
-				if (dto != null && parent3 != null
-						&& dto.getRelation().containsKey(parent3.getId() + parent3.getName() + parent3.getNumber())) {
-					psList.addAll(dto.getRelation().get(parent3.getId() + parent3.getName() + parent3.getNumber()));
-				}
-				if (dto != null && parent2 != null
-						&& dto.getRelation().containsKey(parent2.getId() + parent2.getName() + parent2.getNumber())) {
-					psList.addAll(dto.getRelation().get(parent2.getId() + parent2.getName() + parent2.getNumber()));
-				}
-				if (dto != null && parent1 != null
-						&& dto.getRelation().containsKey(parent1.getId() + parent1.getName() + parent1.getNumber())) {
-					psList.addAll(dto.getRelation().get(parent1.getId() + parent1.getName() + parent1.getNumber()));
-				}
-			}
-		}
-		LOGGER.debug("End of getPSList method");
-		return psList;
-	}
+        for (final Iterator<PsContract> iterator = psMasterList.iterator(); iterator.hasNext();) {
+            final PsContract psMaster = (PsContract) iterator.next();
+            contractMember = new ContractsDetailsDto();
+            contractMember.setSystemId(psMaster.getContractMasterSid());
+            contractMember.setContractName(psMaster.getPsName());
+            PsModel psModel = PsModelLocalServiceUtil.getPsModel(psMaster.getPsModelSid());
+            contractMember.setId(psModel.getPsId());
+            contractMember.setNumber(psMaster.getPsNo());
+            contractMember.setName(psMaster.getPsName());
+            contractMember.setModelSysId(psModel.getPsModelSid());
+            contractMember.setCategory(IndicatorConstants.PS_VALUE.getConstant());
+            contractMember.setLevel(level);
+            contractMember.setParent1(parent1);
+            contractMember.setParent2(parent2);
+            contractMember.setParent3(parent3);
+            contractMember.setInternalId(psMaster.getPsContractSid());
+            contractMember.setPsContractId(psMaster.getPsContractSid());
+            psList.add(contractMember);
+        }
+        if (pList != null) {
+            for (ContractsDetailsDto dto : pList) {
+                if (dto != null && parent3 != null
+                        && dto.getRelation().containsKey(parent3.getId() + parent3.getName() + parent3.getNumber())) {
+                    psList.addAll(dto.getRelation().get(parent3.getId() + parent3.getName() + parent3.getNumber()));
+                }
+                if (dto != null && parent2 != null
+                        && dto.getRelation().containsKey(parent2.getId() + parent2.getName() + parent2.getNumber())) {
+                    psList.addAll(dto.getRelation().get(parent2.getId() + parent2.getName() + parent2.getNumber()));
+                }
+                if (dto != null && parent1 != null
+                        && dto.getRelation().containsKey(parent1.getId() + parent1.getName() + parent1.getNumber())) {
+                    psList.addAll(dto.getRelation().get(parent1.getId() + parent1.getName() + parent1.getNumber()));
+                }
+            }
+        }
+        LOGGER.debug("End of getPSList method");
+        return psList;
+    }
 
-	private List<ContractsDetailsDto> getRSList(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
-			final ContractsDetailsDto parent3, final ContractsDetailsDto parent4, final int level,
-			final List<ContractsDetailsDto> rList) throws SystemException, PortalException {
-		LOGGER.debug("Entering getRSList method");
+    private List<ContractsDetailsDto> getRSList(final ContractsDetailsDto parent1, final ContractsDetailsDto parent2,
+            final ContractsDetailsDto parent3, final ContractsDetailsDto parent4, final int level,
+            final List<ContractsDetailsDto> rList) throws SystemException, PortalException {
+        LOGGER.debug("Entering getRSList method");
 
-		final List<ContractsDetailsDto> rsList = new ArrayList<>();
+        final List<ContractsDetailsDto> rsList = new ArrayList<>();
 		final DynamicQuery rsDynamicQuery = RsContractLocalServiceUtil.dynamicQuery();
-		rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
-				parent1.getSystemId()));
-		rsDynamicQuery.add(RestrictionsFactoryUtil
-				.not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
-		if (parent2 != null) {
+        rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CONTRACT_MASTER_SID.getConstant(),
+                parent1.getSystemId()));
+        rsDynamicQuery.add(RestrictionsFactoryUtil
+                .not(RestrictionsFactoryUtil.like(IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
+        if (parent2 != null) {
 
-			if (parent2.getCategory().equals(IndicatorConstants.CFP.getConstant())) {
-				if (parent2.getInternalId() == 0) {
-					rsDynamicQuery
-							.add(RestrictionsFactoryUtil.isNull(IndicatorConstants.CFP_CONTRACT_SID.getConstant()));
-				} else {
-					rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CFP_CONTRACT_SID.getConstant(),
-							String.valueOf(parent2.getInternalId())));
-				}
-			}
-			if (parent2.getCategory().equals(IndicatorConstants.IFP.getConstant())) {
+            if (parent2.getCategory().equals(IndicatorConstants.CFP.getConstant())) {
+                if (parent2.getInternalId() == 0) {
+                    rsDynamicQuery
+                            .add(RestrictionsFactoryUtil.isNull(IndicatorConstants.CFP_CONTRACT_SID.getConstant()));
+                } else {
+                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CFP_CONTRACT_SID.getConstant(),
+                            String.valueOf(parent2.getInternalId())));
+                }
+            }
+            if (parent2.getCategory().equals(IndicatorConstants.IFP.getConstant())) {
 
-				if (parent2.getInternalId() == 0) {
-					rsDynamicQuery
-							.add(RestrictionsFactoryUtil.isNull(IndicatorConstants.IFP_CONTRACT_SID.getConstant()));
-				} else {
-					rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.IFP_CONTRACT_SID.getConstant(),
-							String.valueOf(parent2.getInternalId())));
-				}
+                if (parent2.getInternalId() == 0) {
+                    rsDynamicQuery
+                            .add(RestrictionsFactoryUtil.isNull(IndicatorConstants.IFP_CONTRACT_SID.getConstant()));
+                } else {
+                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.IFP_CONTRACT_SID.getConstant(),
+                            String.valueOf(parent2.getInternalId())));
+                }
 
-			}
-			if (parent2.getCategory().equals(IndicatorConstants.PS_VALUE.getConstant())) {
+            }
+            if (parent2.getCategory().equals(IndicatorConstants.PS_VALUE.getConstant())) {
 
-				if (parent2.getInternalId() == 0) {
-					rsDynamicQuery
-							.add(RestrictionsFactoryUtil.isNull(IndicatorConstants.PS_CONTRACT_SID.getConstant()));
-				} else {
-					rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.PS_CONTRACT_SID.getConstant(),
-							String.valueOf(parent2.getInternalId())));
-				}
+                if (parent2.getInternalId() == 0) {
+                    rsDynamicQuery
+                            .add(RestrictionsFactoryUtil.isNull(IndicatorConstants.PS_CONTRACT_SID.getConstant()));
+                } else {
+                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.PS_CONTRACT_SID.getConstant(),
+                            String.valueOf(parent2.getInternalId())));
+                }
 
-			}
-		}
-		if (parent3 != null) {
+            }
+        }
+        if (parent3 != null) {
 
-			if (parent3.getCategory().equals(IndicatorConstants.CFP.getConstant())) {
-				if (parent3.getInternalId() == 0) {
-					rsDynamicQuery
-							.add(RestrictionsFactoryUtil.isNull(IndicatorConstants.CFP_CONTRACT_SID.getConstant()));
-				} else {
-					rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CFP_CONTRACT_SID.getConstant(),
-							String.valueOf(parent3.getInternalId())));
-				}
+            if (parent3.getCategory().equals(IndicatorConstants.CFP.getConstant())) {
+                if (parent3.getInternalId() == 0) {
+                    rsDynamicQuery
+                            .add(RestrictionsFactoryUtil.isNull(IndicatorConstants.CFP_CONTRACT_SID.getConstant()));
+                } else {
+                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CFP_CONTRACT_SID.getConstant(),
+                            String.valueOf(parent3.getInternalId())));
+                }
 
-			}
-			if (parent3.getCategory().equals(IndicatorConstants.IFP.getConstant())) {
-				if (parent3.getInternalId() == 0) {
-					rsDynamicQuery
-							.add(RestrictionsFactoryUtil.isNull(IndicatorConstants.IFP_CONTRACT_SID.getConstant()));
-				} else {
-					rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.IFP_CONTRACT_SID.getConstant(),
-							String.valueOf(parent3.getInternalId())));
-				}
+            }
+            if (parent3.getCategory().equals(IndicatorConstants.IFP.getConstant())) {
+                if (parent3.getInternalId() == 0) {
+                    rsDynamicQuery
+                            .add(RestrictionsFactoryUtil.isNull(IndicatorConstants.IFP_CONTRACT_SID.getConstant()));
+                } else {
+                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.IFP_CONTRACT_SID.getConstant(),
+                            String.valueOf(parent3.getInternalId())));
+                }
 
-			}
-			if (parent3.getCategory().equals(IndicatorConstants.PS_VALUE.getConstant())) {
+            }
+            if (parent3.getCategory().equals(IndicatorConstants.PS_VALUE.getConstant())) {
 
-				if (parent3.getInternalId() == 0) {
-					rsDynamicQuery
-							.add(RestrictionsFactoryUtil.isNull(IndicatorConstants.PS_CONTRACT_SID.getConstant()));
-				} else {
-					rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.PS_CONTRACT_SID.getConstant(),
-							String.valueOf(parent3.getInternalId())));
-				}
+                if (parent3.getInternalId() == 0) {
+                    rsDynamicQuery
+                            .add(RestrictionsFactoryUtil.isNull(IndicatorConstants.PS_CONTRACT_SID.getConstant()));
+                } else {
+                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.PS_CONTRACT_SID.getConstant(),
+                            String.valueOf(parent3.getInternalId())));
+                }
 
-			}
-		}
-		if (parent4 != null) {
+            }
+        }
+        if (parent4 != null) {
 
-			if (parent4.getCategory().equals(IndicatorConstants.CFP.getConstant())) {
-				if (parent4.getInternalId() == 0) {
-					rsDynamicQuery
-							.add(RestrictionsFactoryUtil.isNull(IndicatorConstants.CFP_CONTRACT_SID.getConstant()));
-				} else {
-					rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CFP_CONTRACT_SID.getConstant(),
-							String.valueOf(parent4.getInternalId())));
-				}
+            if (parent4.getCategory().equals(IndicatorConstants.CFP.getConstant())) {
+                if (parent4.getInternalId() == 0) {
+                    rsDynamicQuery
+                            .add(RestrictionsFactoryUtil.isNull(IndicatorConstants.CFP_CONTRACT_SID.getConstant()));
+                } else {
+                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.CFP_CONTRACT_SID.getConstant(),
+                            String.valueOf(parent4.getInternalId())));
+                }
 
-			}
-			if (parent4.getCategory().equals(IndicatorConstants.IFP.getConstant())) {
-				if (parent4.getInternalId() == 0) {
-					rsDynamicQuery
-							.add(RestrictionsFactoryUtil.isNull(IndicatorConstants.IFP_CONTRACT_SID.getConstant()));
-				} else {
-					rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.IFP_CONTRACT_SID.getConstant(),
-							String.valueOf(parent4.getInternalId())));
-				}
+            }
+            if (parent4.getCategory().equals(IndicatorConstants.IFP.getConstant())) {
+                if (parent4.getInternalId() == 0) {
+                    rsDynamicQuery
+                            .add(RestrictionsFactoryUtil.isNull(IndicatorConstants.IFP_CONTRACT_SID.getConstant()));
+                } else {
+                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.IFP_CONTRACT_SID.getConstant(),
+                            String.valueOf(parent4.getInternalId())));
+                }
 
-			}
-			if (parent4.getCategory().equals(IndicatorConstants.PS_VALUE.getConstant())) {
+            }
+            if (parent4.getCategory().equals(IndicatorConstants.PS_VALUE.getConstant())) {
 
-				if (parent4.getInternalId() == 0) {
-					rsDynamicQuery
-							.add(RestrictionsFactoryUtil.isNull(IndicatorConstants.PS_CONTRACT_SID.getConstant()));
-				} else {
-					rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.PS_CONTRACT_SID.getConstant(),
-							String.valueOf(parent4.getInternalId())));
-				}
+                if (parent4.getInternalId() == 0) {
+                    rsDynamicQuery
+                            .add(RestrictionsFactoryUtil.isNull(IndicatorConstants.PS_CONTRACT_SID.getConstant()));
+                } else {
+                    rsDynamicQuery.add(RestrictionsFactoryUtil.eq(IndicatorConstants.PS_CONTRACT_SID.getConstant(),
+                            String.valueOf(parent4.getInternalId())));
+                }
 
-			}
-		}
+            }
+        }
 
-		final List<RsContract> rsMasterList = daoImpl.rsMasterDynamicQuery(rsDynamicQuery);
+        final List<RsContract> rsMasterList = daoImpl.rsMasterDynamicQuery(rsDynamicQuery);
 
-		ContractsDetailsDto contractMember;
-		RsContract rsMaster;
-		for (final Iterator<RsContract> iterator = rsMasterList.iterator(); iterator.hasNext();) {
-			rsMaster = (RsContract) iterator.next();
-			contractMember = new ContractsDetailsDto();
-			contractMember.setSystemId(rsMaster.getContractMasterSid());
-			contractMember.setName(rsMaster.getRsName());
-			RsModel rsModel = RsModelLocalServiceUtil.getRsModel(rsMaster.getRsModelSid());
-			contractMember.setId(rsModel.getRsId());
-			contractMember.setNumber(rsMaster.getRsNo());
-			contractMember.setRsName(rsModel.getRsName());
-			contractMember.setModelSysId(rsModel.getRsModelSid());
-			contractMember.setCategory(IndicatorConstants.RS_VALUE.getConstant());
-			contractMember.setLevel(level);
-			contractMember.setParent1(parent1);
-			contractMember.setParent2(parent2);
-			contractMember.setParent3(parent3);
-			contractMember.setParent4(parent4);
-			contractMember.setInternalId(rsMaster.getRsContractSid());
-			contractMember.setRsSystemId(String.valueOf(rsMaster.getRsContractSid()));
-			rsList.add(contractMember);
-		}
-		if (rList != null) {
-			for (ContractsDetailsDto dto : rList) {
-				if (dto != null && parent4 != null
-						&& dto.getRelation().containsKey(parent4.getId() + parent4.getName() + parent4.getNumber())) {
-					rsList.addAll(dto.getRelation().get(parent4.getId() + parent4.getName() + parent4.getNumber()));
-				}
-				if (dto != null && parent3 != null
-						&& dto.getRelation().containsKey(parent3.getId() + parent3.getName() + parent3.getNumber())) {
-					rsList.addAll(dto.getRelation().get(parent3.getId() + parent3.getName() + parent3.getNumber()));
-				}
-				if (dto != null && parent2 != null
-						&& dto.getRelation().containsKey(parent2.getId() + parent2.getName() + parent2.getNumber())) {
-					rsList.addAll(dto.getRelation().get(parent2.getId() + parent2.getName() + parent2.getNumber()));
-				}
-				if (dto != null && parent1 != null
-						&& dto.getRelation().containsKey(parent1.getId() + parent1.getName() + parent1.getNumber())) {
-					rsList.addAll(dto.getRelation().get(parent1.getId() + parent1.getName() + parent1.getNumber()));
-				}
-			}
-		}
-		LOGGER.debug("End of getRSList method");
-		return rsList;
-	}
+        ContractsDetailsDto contractMember;
+        RsContract rsMaster;
+        for (final Iterator<RsContract> iterator = rsMasterList.iterator(); iterator.hasNext();) {
+            rsMaster = (RsContract) iterator.next();
+            contractMember = new ContractsDetailsDto();
+            contractMember.setSystemId(rsMaster.getContractMasterSid());
+            contractMember.setName(rsMaster.getRsName());
+            RsModel rsModel = RsModelLocalServiceUtil.getRsModel(rsMaster.getRsModelSid());
+            contractMember.setId(rsModel.getRsId());
+            contractMember.setNumber(rsMaster.getRsNo());
+            contractMember.setRsName(rsModel.getRsName());
+            contractMember.setModelSysId(rsModel.getRsModelSid());
+            contractMember.setCategory(IndicatorConstants.RS_VALUE.getConstant());
+            contractMember.setLevel(level);
+            contractMember.setParent1(parent1);
+            contractMember.setParent2(parent2);
+            contractMember.setParent3(parent3);
+            contractMember.setParent4(parent4);
+            contractMember.setInternalId(rsMaster.getRsContractSid());
+            contractMember.setRsSystemId(String.valueOf(rsMaster.getRsContractSid()));
+            rsList.add(contractMember);
+        }
+        if (rList != null) {
+            for (ContractsDetailsDto dto : rList) {
+                if (dto != null && parent4 != null
+                        && dto.getRelation().containsKey(parent4.getId() + parent4.getName() + parent4.getNumber())) {
+                    rsList.addAll(dto.getRelation().get(parent4.getId() + parent4.getName() + parent4.getNumber()));
+                }
+                if (dto != null && parent3 != null
+                        && dto.getRelation().containsKey(parent3.getId() + parent3.getName() + parent3.getNumber())) {
+                    rsList.addAll(dto.getRelation().get(parent3.getId() + parent3.getName() + parent3.getNumber()));
+                }
+                if (dto != null && parent2 != null
+                        && dto.getRelation().containsKey(parent2.getId() + parent2.getName() + parent2.getNumber())) {
+                    rsList.addAll(dto.getRelation().get(parent2.getId() + parent2.getName() + parent2.getNumber()));
+                }
+                if (dto != null && parent1 != null
+                        && dto.getRelation().containsKey(parent1.getId() + parent1.getName() + parent1.getNumber())) {
+                    rsList.addAll(dto.getRelation().get(parent1.getId() + parent1.getName() + parent1.getNumber()));
+                }
+            }
+        }
+        LOGGER.debug("End of getRSList method");
+        return rsList;
+    }
 
-	public static String getDescriptionFromID(final int systemId) throws SystemException {
+    public static String getDescriptionFromID(final int systemId) throws SystemException {
 		DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
-		dynamicQuery.add(RestrictionsFactoryUtil.eq("helperTableSid", systemId));
-		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
-		productProjectionList.add(ProjectionFactoryUtil.property("description"));
-		dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
-		List resultList = DISCOUNT_DAO.getHelperTableListNames(dynamicQuery);
-		return Converters.convertNullToEmpty(resultList.get(0));
-	}
+        dynamicQuery.add(RestrictionsFactoryUtil.eq("helperTableSid", systemId));
+        final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
+        productProjectionList.add(ProjectionFactoryUtil.property("description"));
+        dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
+        List resultList = DISCOUNT_DAO.getHelperTableListNames(dynamicQuery);
+        return Converters.convertNullToEmpty(resultList.get(0));
+    }
 
-	public static ComboBox loadComponentType(ComboBox componentTypeDdlb, String componenttype, boolean flag) {
-		if (flag) {
-			componentTypeDdlb.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-			componentTypeDdlb.setNullSelectionAllowed(true);
-			componentTypeDdlb.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-			componentTypeDdlb.addItem(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN);
-			componentTypeDdlb.addItem(Constants.IndicatorConstants.ITEM_FAMILY_PLAN);
-			componentTypeDdlb.addItem(Constants.IndicatorConstants.PRICE_SCHEDULE);
-			componentTypeDdlb.addItem(Constants.IndicatorConstants.REBATE_SCHEDULE);
-			componentTypeDdlb.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-		} else {
-			componentTypeDdlb.removeAllItems();
-			componentTypeDdlb.addItem(componenttype);
-			componentTypeDdlb.setValue(componenttype);
-		}
-		return componentTypeDdlb;
-	}
+    public static ComboBox loadComponentType(ComboBox componentTypeDdlb, String componenttype, boolean flag) {
+        if (flag) {
+            componentTypeDdlb.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+            componentTypeDdlb.setNullSelectionAllowed(true);
+            componentTypeDdlb.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+            componentTypeDdlb.addItem(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN);
+            componentTypeDdlb.addItem(Constants.IndicatorConstants.ITEM_FAMILY_PLAN);
+            componentTypeDdlb.addItem(Constants.IndicatorConstants.PRICE_SCHEDULE);
+            componentTypeDdlb.addItem(Constants.IndicatorConstants.REBATE_SCHEDULE);
+            componentTypeDdlb.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        } else {
+            componentTypeDdlb.removeAllItems();
+            componentTypeDdlb.addItem(componenttype);
+            componentTypeDdlb.setValue(componenttype);
+        }
+        return componentTypeDdlb;
+    }
 
-	public static ComboBox loadSearchDdlb(ComboBox searchDdlb) {
-		searchDdlb.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-		searchDdlb.setNullSelectionAllowed(true);
-		searchDdlb.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-		searchDdlb.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-		return searchDdlb;
-	}
+    public static ComboBox loadSearchDdlb(ComboBox searchDdlb) {
+        searchDdlb.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        searchDdlb.setNullSelectionAllowed(true);
+        searchDdlb.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        searchDdlb.setValue(Constants.IndicatorConstants.SELECT_ONE.getConstant());
+        return searchDdlb;
+    }
 
-	public static List<String> getLatestApprovedProjection() {
-		final List<Object[]> list = ItemQueries.getItemData(new ArrayList(), "getLatestApproved", null);
-		final List<String> resultList = new ArrayList<>();
-		String projectionId = StringUtils.EMPTY;
-		String forecastingType = StringUtils.EMPTY;
-		for (Object[] obj : list) {
-			projectionId = obj[0] == null ? Constants.ZEROSTRING : String.valueOf(obj[0]);
-			forecastingType = obj[1] == null ? StringUtils.EMPTY : String.valueOf(obj[1]);
-		}
-		if (list.size() != 0) {
-			resultList.add(projectionId);
-			resultList.add(forecastingType);
-		}
-		return resultList;
-	}
+    public static List<String> getLatestApprovedProjection() {
+        final List<Object[]> list = ItemQueries.getItemData(new ArrayList(), "getLatestApproved", null);
+        final List<String> resultList = new ArrayList<>();
+        String projectionId = StringUtils.EMPTY;
+        String forecastingType = StringUtils.EMPTY;
+        for (Object[] obj : list) {
+            projectionId = obj[0] == null ? Constants.ZEROSTRING : String.valueOf(obj[0]);
+            forecastingType = obj[1] == null ? StringUtils.EMPTY : String.valueOf(obj[1]);
+        }
+        if (list.size() != 0) {
+            resultList.add(projectionId);
+            resultList.add(forecastingType);
+        }
+        return resultList;
+    }
 
-	public static List<String> getApprovedProjectionResults(final String forecastingType, final boolean salesFlag) {
-		final List<String> list = new ArrayList<>();
-		if (forecastingType.equals(Constants.IndicatorConstants.NON_MANDATED.getConstant())) {
-			if (salesFlag) {
-				list.add("NM_SALES_PROJECTION");
-				list.add(Constants.PROJECTION_SALES);
-				list.add("PROJECTION_UNITS");
-			} else {
-				list.add("NM_DISCOUNT_PROJECTION");
-				list.add(Constants.PROJECTION_SALES);
-				list.add("PROJECTION_RATE");
-			}
-			return list;
-		} else if (forecastingType.equals(Constants.IndicatorConstants.MANDATED.getConstant())) {
-			if (salesFlag) {
-				list.add("M_SALES_PROJECTION");
-				list.add(Constants.PROJECTION_SALES);
-				list.add("PROJECTION_UNITS");
-			} else {
-				list.add("M_SUPPLEMENTAL_DISC_PROJ");
-				list.add(Constants.PROJECTION_SALES);
-				list.add("PROJECTION_RATE");
-			}
-			return list;
-		} else if (forecastingType.equals("Channel")) {
-			if (salesFlag) {
-				list.add("CH_SALES_PROJECTION");
-				list.add("CONTRACT_SALES");
-				list.add("CONTRACT_UNITS");
-			} else {
-				list.add("CH_PROJECTION_DISCOUNT");
-				list.add("DISCOUNT_AMOUNT");
-				list.add("DISCOUNT_RATE");
-			}
-			return list;
-		}
-		return list;
-	}
+    public static List<String> getApprovedProjectionResults(final String forecastingType, final boolean salesFlag) {
+        final List<String> list = new ArrayList<>();
+        if (forecastingType.equals(Constants.IndicatorConstants.NON_MANDATED.getConstant())) {
+            if (salesFlag) {
+                list.add("NM_SALES_PROJECTION");
+                list.add(Constants.PROJECTION_SALES);
+                list.add("PROJECTION_UNITS");
+            } else {
+                list.add("NM_DISCOUNT_PROJECTION");
+                list.add(Constants.PROJECTION_SALES);
+                list.add("PROJECTION_RATE");
+            }
+            return list;
+        } else if (forecastingType.equals(Constants.IndicatorConstants.MANDATED.getConstant())) {
+            if (salesFlag) {
+                list.add("M_SALES_PROJECTION");
+                list.add(Constants.PROJECTION_SALES);
+                list.add("PROJECTION_UNITS");
+            } else {
+                list.add("M_SUPPLEMENTAL_DISC_PROJ");
+                list.add(Constants.PROJECTION_SALES);
+                list.add("PROJECTION_RATE");
+            }
+            return list;
+        } else if (forecastingType.equals("Channel")) {
+            if (salesFlag) {
+                list.add("CH_SALES_PROJECTION");
+                list.add("CONTRACT_SALES");
+                list.add("CONTRACT_UNITS");
+            } else {
+                list.add("CH_PROJECTION_DISCOUNT");
+                list.add("DISCOUNT_AMOUNT");
+                list.add("DISCOUNT_RATE");
+            }
+            return list;
+        }
+        return list;
+    }
 
-	public static ComboBox loadExistingTabSearchField(ComboBox searchDdlb, ComboBox componentType) {
-		String compType = String.valueOf(componentType.getValue());
-		if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
-			searchDdlb.removeAllItems();
-			searchDdlb = loadValues(searchDdlb, Constants.CFP);
-		} else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
-			searchDdlb.removeAllItems();
-			searchDdlb = loadValues(searchDdlb, Constants.IFP);
-		} else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
-			searchDdlb.removeAllItems();
-			searchDdlb = loadValues(searchDdlb, Constants.PS);
-		} else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
-			searchDdlb.removeAllItems();
-			searchDdlb = loadValues(searchDdlb, Constants.RS);
-		} else {
-			searchDdlb.removeAllItems();
-		}
-		return searchDdlb;
-	}
+    public static ComboBox loadExistingTabSearchField(ComboBox searchDdlb, ComboBox componentType) {
+        String compType = String.valueOf(componentType.getValue());
+        if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
+            searchDdlb.removeAllItems();
+            searchDdlb = loadValues(searchDdlb, Constants.CFP);
+        } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
+            searchDdlb.removeAllItems();
+            searchDdlb = loadValues(searchDdlb, Constants.IFP);
+        } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
+            searchDdlb.removeAllItems();
+            searchDdlb = loadValues(searchDdlb, Constants.PS);
+        } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
+            searchDdlb.removeAllItems();
+            searchDdlb = loadValues(searchDdlb, Constants.RS);
+        } else {
+            searchDdlb.removeAllItems();
+        }
+        return searchDdlb;
+    }
 
-	private static ComboBox loadValues(ComboBox searchDdlb, String rs) {
-		searchDdlb.addItem(rs + " " + "ID");
-		searchDdlb.addItem(rs + " " + "No");
-		searchDdlb.addItem(rs + " " + "Name");
-		searchDdlb.addItem(rs + " " + "Status");
-		searchDdlb.addItem(rs + " " + "Type");
-		return searchDdlb;
-	}
+    private static ComboBox loadValues(ComboBox searchDdlb, String rs) {
+        searchDdlb.addItem(rs + " " + "ID");
+        searchDdlb.addItem(rs + " " + "No");
+        searchDdlb.addItem(rs + " " + "Name");
+        searchDdlb.addItem(rs + " " + "Status");
+        searchDdlb.addItem(rs + " " + "Type");
+        return searchDdlb;
+    }
 
-	public static HorizontalLayout getResponsiveControls(HorizontalLayout tempLayout) {
-		HorizontalLayout controlBar = new HorizontalLayout();
-		controlBar.setStyleName("responsivePagedTable");
+    public static HorizontalLayout getResponsiveControls(HorizontalLayout tempLayout) {
+        HorizontalLayout controlBar = new HorizontalLayout();
+        controlBar.setStyleName("responsivePagedTable");
 
-		HorizontalLayout pageSize = (HorizontalLayout) tempLayout.getComponent(0);
-		HorizontalLayout pageManagement = (HorizontalLayout) tempLayout.getComponent(1);
+        HorizontalLayout pageSize = (HorizontalLayout) tempLayout.getComponent(0);
+        HorizontalLayout pageManagement = (HorizontalLayout) tempLayout.getComponent(1);
 
-		CssLayout cssLayout = new CssLayout();
-		cssLayout.setSizeFull();
-		cssLayout.addComponent(pageSize.getComponent(0));
-		cssLayout.addComponent(pageSize.getComponent(0));
-		for (int index = 0; index < NumericConstants.EIGHT; index++) {
-			cssLayout.addComponent(pageManagement.getComponent(0));
-		}
-		controlBar.addComponent(cssLayout);
-		return controlBar;
-	}
+        CssLayout cssLayout = new CssLayout();
+        cssLayout.setSizeFull();
+        cssLayout.addComponent(pageSize.getComponent(0));
+        cssLayout.addComponent(pageSize.getComponent(0));
+        for (int index = 0; index < NumericConstants.EIGHT; index++) {
+            cssLayout.addComponent(pageManagement.getComponent(0));
+        }
+        controlBar.addComponent(cssLayout);
+        return controlBar;
+    }
 
-	public static List<HelperDTO> getDropDownList(final String listType) throws SystemException {
-		final List<HelperDTO> helperList = new ArrayList<>();
-		LOGGER.debug("Helper Table listType=" + listType);
+    public static List<HelperDTO> getDropDownList(final String listType) throws SystemException {
+        final List<HelperDTO> helperList = new ArrayList<>();
+        LOGGER.debug("Helper Table listType=" + listType);
 		final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();
-		helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
-		helperTableQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
-		final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(helperTableQuery);
-		helperList.add(Constant.HELPER_DTO);
-		if (list != null) {
-			for (HelperTable temp : list) {
-				final HelperTable helperTable = (HelperTable) temp;
-				helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable.getDescription()));
-			}
-		}
-		LOGGER.debug("Helper Table list size =" + helperList.size());
-		return helperList;
-	}
+        helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
+        helperTableQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
+        final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(helperTableQuery);
+        helperList.add(Constant.HELPER_DTO);
+        if (list != null) {
+            for (HelperTable temp : list) {
+                final HelperTable helperTable = (HelperTable) temp;
+                helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable.getDescription()));
+            }
+        }
+        LOGGER.debug("Helper Table list size =" + helperList.size());
+        return helperList;
+    }
 
-	public static ComboBox getNativeSelect(final ComboBox select, final List<HelperDTO> helperList) {
-		select.removeAllItems();
-		int size = helperList.size();
-		for (int i = 0; i < size; i++) {
-			final HelperDTO helperDTO = helperList.get(i);
-			String itemId1 = StringUtils.EMPTY + helperDTO.getId();
-			select.addItem(itemId1);
-			select.setItemCaption(itemId1, helperDTO.getDescription());
-		}
-		select.setValue(Constants.ZEROSTRING);
-		return select;
-	}
+    public static ComboBox getNativeSelect(final ComboBox select, final List<HelperDTO> helperList) {
+        select.removeAllItems();
+        int size = helperList.size();
+        for (int i = 0; i < size; i++) {
+            final HelperDTO helperDTO = helperList.get(i);
+            String itemId1 = StringUtils.EMPTY + helperDTO.getId();
+            select.addItem(itemId1);
+            select.setItemCaption(itemId1, helperDTO.getDescription());
+        }
+        select.setValue(Constants.ZEROSTRING);
+        return select;
+    }
 
-	public static ComboBox loadNewTabSearchDdlb(ComboBox searchDdlb, String componentType) {
-		searchDdlb.removeAllItems();
+    public static ComboBox loadNewTabSearchDdlb(ComboBox searchDdlb, String componentType) {
+        searchDdlb.removeAllItems();
 
-		if (componentType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
-			searchDdlb.addItem(Constants.COMPANY_ID);
-			searchDdlb.addItem(Constants.COMPANYNAME);
-			searchDdlb.addItem(Constants.COMPANYNO);
-			searchDdlb.addItem(Constants.COMPANYSTATUS);
-			searchDdlb.addItem(Constants.COMPANYTYPE);
-			searchDdlb.addItem(Constants.COMPANYCATEGORY);
-			searchDdlb.addItem(Constants.TRADECLASS);
-			searchDdlb.setValue(Constants.COMPANY_ID);
-		} else if (componentType.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
-			searchDdlb.addItem(Constants.ITEM_ID);
-			searchDdlb.addItem(Constants.ITEM_NAME);
-			searchDdlb.addItem(Constants.ITEM_NO);
-			searchDdlb.addItem(Constants.ITEM_STATUS);
-			searchDdlb.addItem(Constants.ITEM_TYPE);
-			searchDdlb.addItem(Constants.BRAND);
-			searchDdlb.addItem(Constants.FORM);
-			searchDdlb.addItem(Constants.STRENGTH);
-			searchDdlb.addItem(Constants.THERAPY_CLASS);
-			searchDdlb.addItem(Constants.ITEM_START_DATE);
-			searchDdlb.addItem(Constants.ITEM_END_DATE);
-			searchDdlb.setValue(Constants.ITEM_ID);
-		} else if (componentType.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())
-				|| componentType.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
-			searchDdlb.addItem(Constants.IFP_ID);
-			searchDdlb.addItem(Constants.IFP_NAME_LABEL);
-			searchDdlb.addItem(Constants.IFP_NO);
-			searchDdlb.addItem(Constants.IFP_STATUS);
-			searchDdlb.addItem(Constants.IFPTYPE);
-			searchDdlb.setValue(Constants.IFP_ID);
-		}
-		return searchDdlb;
-	}
+        if (componentType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
+            searchDdlb.addItem(Constants.COMPANY_ID);
+            searchDdlb.addItem(Constants.COMPANYNAME);
+            searchDdlb.addItem(Constants.COMPANYNO);
+            searchDdlb.addItem(Constants.COMPANYSTATUS);
+            searchDdlb.addItem(Constants.COMPANYTYPE);
+            searchDdlb.addItem(Constants.COMPANYCATEGORY);
+            searchDdlb.addItem(Constants.TRADECLASS);
+            searchDdlb.setValue(Constants.COMPANY_ID);
+        } else if (componentType.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
+            searchDdlb.addItem(Constants.ITEM_ID);
+            searchDdlb.addItem(Constants.ITEM_NAME);
+            searchDdlb.addItem(Constants.ITEM_NO);
+            searchDdlb.addItem(Constants.ITEM_STATUS);
+            searchDdlb.addItem(Constants.ITEM_TYPE);
+            searchDdlb.addItem(Constants.BRAND);
+            searchDdlb.addItem(Constants.FORM);
+            searchDdlb.addItem(Constants.STRENGTH);
+            searchDdlb.addItem(Constants.THERAPY_CLASS);
+            searchDdlb.addItem(Constants.ITEM_START_DATE);
+            searchDdlb.addItem(Constants.ITEM_END_DATE);
+            searchDdlb.setValue(Constants.ITEM_ID);
+        } else if (componentType.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())
+                || componentType.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
+            searchDdlb.addItem(Constants.IFP_ID);
+            searchDdlb.addItem(Constants.IFP_NAME_LABEL);
+            searchDdlb.addItem(Constants.IFP_NO);
+            searchDdlb.addItem(Constants.IFP_STATUS);
+            searchDdlb.addItem(Constants.IFPTYPE);
+            searchDdlb.setValue(Constants.IFP_ID);
+        }
+        return searchDdlb;
+    }
 
-	public static String convertDateFormat(String stringDate, String inputFormat, String outputFormat) {
-		try {
-			SimpleDateFormat inputDateFormatter = new SimpleDateFormat(inputFormat);
-			SimpleDateFormat outputDateFormatter = new SimpleDateFormat(outputFormat);
-			Date date;
-			date = inputDateFormatter.parse(stringDate);
-			return outputDateFormatter.format(date);
-		} catch (ParseException ex) {
+    public static String convertDateFormat(String stringDate, String inputFormat, String outputFormat) {
+        try {
+            SimpleDateFormat inputDateFormatter = new SimpleDateFormat(inputFormat);
+            SimpleDateFormat outputDateFormatter = new SimpleDateFormat(outputFormat);
+            Date date;
+            date = inputDateFormatter.parse(stringDate);
+            return outputDateFormatter.format(date);
+        } catch (ParseException ex) {
 			LoggerFactory.getLogger(CommonLogic.class.getName()).error("", ex);
-		}
-		return null;
-	}
+        }
+        return null;
+    }
 
-	public static Date convertStringToDate(String stringDate) {
-		if (stringDate.equals(Constants.NULL)) {
-			return null;
-		}
-		try {
-			SimpleDateFormat inputDateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-			Date date;
-			date = inputDateFormatter.parse(stringDate);
-			return date;
-		} catch (ParseException ex) {
-			LOGGER.error("Unparsable Date");
-		}
-		return null;
-	}
+    public static Date convertStringToDate(String stringDate) {
+        if (stringDate.equals(Constants.NULL)) {
+            return null;
+        }
+        try {
+            SimpleDateFormat inputDateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+            Date date;
+            date = inputDateFormatter.parse(stringDate);
+            return date;
+        } catch (ParseException ex) {
+            LOGGER.error("Unparsable Date");
+        }
+        return null;
+    }
 
-	public static int convertStringToInt(String value) {
-		int convertedValue = 0;
-		try {
-			convertedValue = Integer.parseInt(value);
-		} catch (Exception e) {
+    public static int convertStringToInt(String value) {
+        int convertedValue = 0;
+        try {
+            convertedValue = Integer.parseInt(value);
+        } catch (Exception e) {
 			LOGGER.error("",e);
-			LOGGER.error("Unable To convert to Int " + value);
-		}
-		return convertedValue;
-	}
+            LOGGER.error("Unable To convert to Int " + value);
+        }
+        return convertedValue;
+    }
 
-	public static List<HelperDTO> getPriceTypeResults() throws SystemException {
-		final List<HelperDTO> list = new ArrayList<>();
+    public static List<HelperDTO> getPriceTypeResults() throws SystemException {
+        final List<HelperDTO> list = new ArrayList<>();
 
-		String query = CommonUtil.getQuery(null, "ad.loadPriceType");
-		List results = DISCOUNT_DAO.getRebates(query);
+        String query = CommonUtil.getQuery(null, "ad.loadPriceType");
+        List results = DISCOUNT_DAO.getRebates(query);
 
-		HelperDTO helperTable;
+        HelperDTO helperTable;
 
-		for (final Iterator<Object[]> iterator = results.iterator(); iterator.hasNext();) {
-			final Object[] value = iterator.next();
-			helperTable = new HelperDTO();
-			helperTable.setId(value[0] != null ? Integer.valueOf(value[0].toString()) : 0);
-			helperTable.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
-			if (!StringUtils.EMPTY.equals(helperTable.getDescription())) {
-				list.add(helperTable);
-			}
-		}
-		LOGGER.debug("Ending getLazyPriceTypeResults  return list size :" + +list.size());
-		return list;
-	}
+        for (final Iterator<Object[]> iterator = results.iterator(); iterator.hasNext();) {
+            final Object[] value = iterator.next();
+            helperTable = new HelperDTO();
+            helperTable.setId(value[0] != null ? Integer.valueOf(value[0].toString()) : 0);
+            helperTable.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
+            if (!StringUtils.EMPTY.equals(helperTable.getDescription())) {
+                list.add(helperTable);
+            }
+        }
+        LOGGER.debug("Ending getLazyPriceTypeResults  return list size :" + +list.size());
+        return list;
+    }
 
-	public static int getProjectionIdForSubmittedContract(String sessionId, boolean isCustomerAdded) {
-		LOGGER.debug(" Inside getLastApprovedProjectionId");
-		List input = new ArrayList();
-		input.add(sessionId);
-		String udc;
-		if (!isCustomerAdded) {
-			udc = "1";
-		} else {
-			udc = "2";
-		}
-		input.add(udc);
+    public static int getProjectionIdForSubmittedContract(String sessionId, boolean isCustomerAdded) {
+        LOGGER.debug(" Inside getLastApprovedProjectionId");
+        List input = new ArrayList();
+        input.add(sessionId);
+        String udc;
+        if (!isCustomerAdded) {
+            udc = "1";
+        } else {
+            udc = "2";
+        }
+        input.add(udc);
 
-		List list = ItemQueries.getItemData(input, "get Selected ProjectionId", null);
-		int projectionId = 0;
-		if (list != null && !list.isEmpty()) {
+        List list = ItemQueries.getItemData(input, "get Selected ProjectionId", null);
+        int projectionId = 0;
+        if (list != null && !list.isEmpty()) {
 
-			projectionId = Integer.parseInt(String.valueOf(list.get(0)));
-		}
-		LOGGER.debug(" exiting getLastApprovedProjectionId. Projection id =  " + projectionId);
-		return projectionId;
+            projectionId = Integer.parseInt(String.valueOf(list.get(0)));
+        }
+        LOGGER.debug(" exiting getLastApprovedProjectionId. Projection id =  " + projectionId);
+        return projectionId;
 
-	}
+    }
 
-	public static int getProjectionIdForCheckedContract(String sessionId, String screenName, boolean check) {
-		LOGGER.debug(" Inside getProjectionIdForCheckedContract");
-		int checkRecord = check ? 1 : 0;
-		int projectionId = 0;
+    public static int getProjectionIdForCheckedContract(String sessionId, String screenName, boolean check) {
+        LOGGER.debug(" Inside getProjectionIdForCheckedContract");
+        int checkRecord = check ? 1 : 0;
+        int projectionId = 0;
 
-		String query = "SELECT TOP 1 PM.PROJECTION_MASTER_SID FROM PROJECTION_MASTER PM\n"
-				+ "       JOIN GCM_GLOBAL_DETAILS Temp ON PM.PROJECTION_MASTER_SID = Temp.PROJECTION_MASTER_SID\n"
-				+ "            WHERE Temp.SESSION_ID = '" + sessionId + "' \n"
-				+ "            AND Temp.OPERATION = '0'\n" + "            AND Temp.CHECK_RECORD = '" + checkRecord
-				+ "' \n" + "            AND Temp.SCREEN_NAME = '" + screenName + "' \n"
-				+ "            AND PM.IS_APPROVED = 'A' \n" + "  ORDER  BY PM.MODIFIED_DATE DESC ";
+        String query = "SELECT TOP 1 PM.PROJECTION_MASTER_SID FROM PROJECTION_MASTER PM\n"
+                + "       JOIN GCM_GLOBAL_DETAILS Temp ON PM.PROJECTION_MASTER_SID = Temp.PROJECTION_MASTER_SID\n"
+                + "            WHERE Temp.SESSION_ID = '" + sessionId + "' \n"
+                + "            AND Temp.OPERATION = '0'\n" + "            AND Temp.CHECK_RECORD = '" + checkRecord
+                + "' \n" + "            AND Temp.SCREEN_NAME = '" + screenName + "' \n"
+                + "            AND PM.IS_APPROVED = 'A' \n" + "  ORDER  BY PM.MODIFIED_DATE DESC ";
 
 		List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
 
-		if (list != null && !list.isEmpty()) {
-			projectionId = Integer.parseInt(String.valueOf(list.get(0)));
-		}
-		LOGGER.debug(" exiting getProjectionIdForCheckedContract. Projection id =  " + projectionId);
-		return projectionId;
+        if (list != null && !list.isEmpty()) {
+            projectionId = Integer.parseInt(String.valueOf(list.get(0)));
+        }
+        LOGGER.debug(" exiting getProjectionIdForCheckedContract. Projection id =  " + projectionId);
+        return projectionId;
 
-	}
+    }
 
-	public static int getCheckedContractSid(String sessionId, String screenName, boolean check) {
-		LOGGER.debug(" Inside getCheckedContractSid");
+    public static int getCheckedContractSid(String sessionId, String screenName, boolean check) {
+        LOGGER.debug(" Inside getCheckedContractSid");
 
-		int checkRecord = check ? 1 : 0;
-		String queryString;
-		queryString = "Select distinct CONTRACT_MASTER_SID from GCM_GLOBAL_DETAILS where SESSION_ID='" + sessionId
-				+ "' and OPERATION='0' AND SCREEN_NAME = '" + screenName + "'  AND CHECK_RECORD = '" + checkRecord
-				+ "' ";
-		List<Integer> list = (List<Integer>) DAO.executeSelect(queryString);
-		int contractMasterSid = 0;
-		if (list != null && !list.isEmpty()) {
-			contractMasterSid = list.get(0);
-		}
-		LOGGER.debug(" exiting getCheckedContractSid. CONTRACT_MASTER_SID =  " + contractMasterSid);
-		return contractMasterSid;
+        int checkRecord = check ? 1 : 0;
+        String queryString;
+        queryString = "Select distinct CONTRACT_MASTER_SID from GCM_GLOBAL_DETAILS where SESSION_ID='" + sessionId
+                + "' and OPERATION='0' AND SCREEN_NAME = '" + screenName + "'  AND CHECK_RECORD = '" + checkRecord
+                + "' ";
+        List<Integer> list = (List<Integer>) DAO.executeSelect(queryString);
+        int contractMasterSid = 0;
+        if (list != null && !list.isEmpty()) {
+            contractMasterSid = list.get(0);
+        }
+        LOGGER.debug(" exiting getCheckedContractSid. CONTRACT_MASTER_SID =  " + contractMasterSid);
+        return contractMasterSid;
 
-	}
+    }
 
-	public static int getSelectedContractSid(String sessionId, boolean isCustomerAdded) {
-		LOGGER.debug(" Inside getSelectedContractSid");
-		String queryString = StringUtils.EMPTY;
-		String udc;
-		if (!isCustomerAdded) {
-			udc = "1";
-		} else {
-			udc = "2";
-		}
-		queryString += "Select distinct CONTRACT_MASTER_SID from GCM_GLOBAL_DETAILS where SESSION_ID='" + sessionId
-				+ "' and OPERATION='" + udc + "'";
+    public static int getSelectedContractSid(String sessionId, boolean isCustomerAdded) {
+        LOGGER.debug(" Inside getSelectedContractSid");
+        String queryString = StringUtils.EMPTY;
+        String udc;
+        if (!isCustomerAdded) {
+            udc = "1";
+        } else {
+            udc = "2";
+        }
+        queryString += "Select distinct CONTRACT_MASTER_SID from GCM_GLOBAL_DETAILS where SESSION_ID='" + sessionId
+                + "' and OPERATION='" + udc + "'";
 
-		List<Integer> list = (List<Integer>) DAO.executeSelect(queryString);
-		int contractMasterSid = 0;
-		if (list != null && !list.isEmpty()) {
-			contractMasterSid = list.get(0);
-		}
-		LOGGER.debug(" exiting getSelectedContractSid. CONTRACT_MASTER_SID =  " + contractMasterSid);
-		return contractMasterSid;
+        List<Integer> list = (List<Integer>) DAO.executeSelect(queryString);
+        int contractMasterSid = 0;
+        if (list != null && !list.isEmpty()) {
+            contractMasterSid = list.get(0);
+        }
+        LOGGER.debug(" exiting getSelectedContractSid. CONTRACT_MASTER_SID =  " + contractMasterSid);
+        return contractMasterSid;
 
-	}
+    }
 
-	public static String getSelectedContractName(String sessionId, boolean isTransfer) {
-		LOGGER.debug(" Inside getSelectedContractName");
-		String udc;
-		if (!isTransfer) {
-			udc = "1";
-		} else {
-			udc = "2";
-		}
-		List input = new ArrayList();
-		input.add(sessionId);
-		input.add(udc);
-		List<String> list = ItemQueries.getItemData(input, "Get Selected Contract Name", null);
-		String contractMasterName = StringUtils.EMPTY;
-		if (list != null && !list.isEmpty()) {
-			contractMasterName = list.get(0);
-		}
-		LOGGER.debug(" exiting getSelectedContractSid. CONTRACT_MASTER_SID =  " + contractMasterName);
-		return contractMasterName;
+    public static String getSelectedContractName(String sessionId, boolean isTransfer) {
+        LOGGER.debug(" Inside getSelectedContractName");
+        String udc;
+        if (!isTransfer) {
+            udc = "1";
+        } else {
+            udc = "2";
+        }
+        List input = new ArrayList();
+        input.add(sessionId);
+        input.add(udc);
+        List<String> list = ItemQueries.getItemData(input, "Get Selected Contract Name", null);
+        String contractMasterName = StringUtils.EMPTY;
+        if (list != null && !list.isEmpty()) {
+            contractMasterName = list.get(0);
+        }
+        LOGGER.debug(" exiting getSelectedContractSid. CONTRACT_MASTER_SID =  " + contractMasterName);
+        return contractMasterName;
 
-	}
+    }
 
-	public static String getSelectedCompanyNames(List<String> companyMasterSids) {
-		LOGGER.debug(" Inside getSelectedCompanyNames");
-		String queryString = StringUtils.EMPTY;
-		queryString += "select DISTINCT COMPANY_NAME from COMPANY_MASTER where COMPANY_MASTER_SID in ("
-				+ CommonUtils.CollectionToString(companyMasterSids, true) + ")";
-		List<String> companyNamesList = (List<String>) DAO.executeSelect(queryString);
-		String companyNames = CommonUtils.CollectionToString(companyNamesList, false);
-		LOGGER.debug(" exiting getSelectedCompanyNames  =  " + companyNames);
-		return companyNames;
+    public static String getSelectedCompanyNames(List<String> companyMasterSids) {
+        LOGGER.debug(" Inside getSelectedCompanyNames");
+        String queryString = StringUtils.EMPTY;
+        queryString += "select DISTINCT COMPANY_NAME from COMPANY_MASTER where COMPANY_MASTER_SID in ("
+                + CommonUtils.CollectionToString(companyMasterSids, true) + ")";
+        List<String> companyNamesList = (List<String>) DAO.executeSelect(queryString);
+        String companyNames = CommonUtils.CollectionToString(companyNamesList, false);
+        LOGGER.debug(" exiting getSelectedCompanyNames  =  " + companyNames);
+        return companyNames;
 
-	}
+    }
 
-	public static List<String> getSelectedCfpSid(String sessionId, boolean isTransfer) {
-		LOGGER.debug(" Inside getSelectedCfpSid");
-		String queryString = StringUtils.EMPTY;
-		String udc;
-		if (!isTransfer) {
-			udc = "1";
-		} else {
-			udc = "2";
-		}
-		queryString += "Select distinct CFP_CONTRACT_SID from GCM_GLOBAL_DETAILS where SESSION_ID='" + sessionId
-				+ "' and OPERATION='" + udc + "'";
-		return (List<String>) DAO.executeSelect(queryString);
+    public static List<String> getSelectedCfpSid(String sessionId, boolean isTransfer) {
+        LOGGER.debug(" Inside getSelectedCfpSid");
+        String queryString = StringUtils.EMPTY;
+        String udc;
+        if (!isTransfer) {
+            udc = "1";
+        } else {
+            udc = "2";
+        }
+        queryString += "Select distinct CFP_CONTRACT_SID from GCM_GLOBAL_DETAILS where SESSION_ID='" + sessionId
+                + "' and OPERATION='" + udc + "'";
+        return (List<String>) DAO.executeSelect(queryString);
 
-	}
+    }
 
-	public static String getDateForSubmittedContract(String sessionId, boolean isTransfer, boolean isStartDate,
-			boolean isMax) {
-		LOGGER.debug(" Inside getDateForSubmittedContract");
-		String queryString = StringUtils.EMPTY;
-		String operation;
-		String minMax;
-		String date;
-		if (!isTransfer) {
-			operation = "Current Contract";
-		} else {
-			operation = "Transfer Contract";
-		}
+    public static String getDateForSubmittedContract(String sessionId, boolean isTransfer, boolean isStartDate,
+            boolean isMax) {
+        LOGGER.debug(" Inside getDateForSubmittedContract");
+        String queryString = StringUtils.EMPTY;
+        String operation;
+        String minMax;
+        String date;
+        if (!isTransfer) {
+            operation = "Current Contract";
+        } else {
+            operation = "Transfer Contract";
+        }
 
-		if (isMax) {
-			minMax = "MAX";
-		} else {
-			minMax = "MIN";
-		}
+        if (isMax) {
+            minMax = "MAX";
+        } else {
+            minMax = "MIN";
+        }
 
-		if (isStartDate) {
-			date = "START_DATE";
-		} else {
-			date = "END_DATE";
-		}
-		queryString += "Select " + minMax + "(" + date + ") from GCM_GLOBAL_DETAILS where SESSION_ID='" + sessionId
-				+ "' and SCREEN_NAME='" + operation + "'";
+        if (isStartDate) {
+            date = "START_DATE";
+        } else {
+            date = "END_DATE";
+        }
+        queryString += "Select " + minMax + "(" + date + ") from GCM_GLOBAL_DETAILS where SESSION_ID='" + sessionId
+                + "' and SCREEN_NAME='" + operation + "'";
 
-		if (!isTransfer) {
-			queryString += " AND OPERATION = '1'";
-		} else {
-			queryString += " AND OPERATION = '2'";
-		}
+        if (!isTransfer) {
+            queryString += " AND OPERATION = '1'";
+        } else {
+            queryString += " AND OPERATION = '2'";
+        }
 
-		LOGGER.debug(" get Date for submitted contract query - " + queryString);
-		List<String> list = (List<String>) DAO.executeSelect(queryString);
-		String newDate = StringUtils.EMPTY;
-		if (list != null && !list.isEmpty()) {
-			newDate = String.valueOf(list.get(0));
-		}
+        LOGGER.debug(" get Date for submitted contract query - " + queryString);
+        List<String> list = (List<String>) DAO.executeSelect(queryString);
+        String newDate = StringUtils.EMPTY;
+        if (list != null && !list.isEmpty()) {
+            newDate = String.valueOf(list.get(0));
+        }
 
-		LOGGER.debug(" exiting getDateForSubmittedContract =  " + newDate);
-		return newDate;
+        LOGGER.debug(" exiting getDateForSubmittedContract =  " + newDate);
+        return newDate;
 
-	}
+    }
 
-	public static String getDateForCheckedContract(String sessionId, boolean isTransfer, boolean isStartDate,
-			boolean isMax) {
-		LOGGER.debug(" Inside getDateForCheckedContract");
-		String queryString = StringUtils.EMPTY;
-		String operation;
-		String minMax;
-		String date;
-		if (!isTransfer) {
-			operation = "Current Contract";
-		} else {
-			operation = "Transfer Contract";
-		}
+    public static String getDateForCheckedContract(String sessionId, boolean isTransfer, boolean isStartDate,
+            boolean isMax) {
+        LOGGER.debug(" Inside getDateForCheckedContract");
+        String queryString = StringUtils.EMPTY;
+        String operation;
+        String minMax;
+        String date;
+        if (!isTransfer) {
+            operation = "Current Contract";
+        } else {
+            operation = "Transfer Contract";
+        }
 
-		if (isMax) {
-			minMax = "MAX";
-		} else {
-			minMax = "MIN";
-		}
+        if (isMax) {
+            minMax = "MAX";
+        } else {
+            minMax = "MIN";
+        }
 
-		if (isStartDate) {
-			date = "START_DATE";
-		} else {
-			date = "END_DATE";
-		}
-		queryString += "Select " + minMax + "(" + date + ") from GCM_GLOBAL_DETAILS where SESSION_ID='" + sessionId
-				+ "' and SCREEN_NAME='" + operation + "'";
-		queryString += " AND CHECK_RECORD = '1'";
+        if (isStartDate) {
+            date = "START_DATE";
+        } else {
+            date = "END_DATE";
+        }
+        queryString += "Select " + minMax + "(" + date + ") from GCM_GLOBAL_DETAILS where SESSION_ID='" + sessionId
+                + "' and SCREEN_NAME='" + operation + "'";
+        queryString += " AND CHECK_RECORD = '1'";
 
-		LOGGER.debug(" get Date for submitted contract query - " + queryString);
-		List<String> list = (List<String>) DAO.executeSelect(queryString);
-		String newDate = StringUtils.EMPTY;
-		if (list != null && !list.isEmpty()) {
-			newDate = String.valueOf(list.get(0));
-		}
+        LOGGER.debug(" get Date for submitted contract query - " + queryString);
+        List<String> list = (List<String>) DAO.executeSelect(queryString);
+        String newDate = StringUtils.EMPTY;
+        if (list != null && !list.isEmpty()) {
+            newDate = String.valueOf(list.get(0));
+        }
 
-		LOGGER.debug(" exiting getDateForCheckedContract =  " + newDate);
-		return newDate;
+        LOGGER.debug(" exiting getDateForCheckedContract =  " + newDate);
+        return newDate;
 
-	}
+    }
 
-	/**
-	 * Creation of New Projection in GTN System
-	 *
-	 * @param oldProjectionId
-	 * @param userId
-	 * @param sessionId
-	 * @param masterSids
-	 * @param isCustomerModule
-	 * @param isAddModule
-	 * @param session
-	 * @return
-	 */
-	public List<String> generateNewProjection(String userId, String sessionId, int oldProjectionId,
-			List<String> masterSids, boolean isCustomerModule, boolean isAddModule, SessionDTO session) {
+    /**
+     * Creation of New Projection in GTN System
+     *
+     * @param oldProjectionId
+     * @param userId
+     * @param sessionId
+     * @param masterSids
+     * @param isCustomerModule
+     * @param isAddModule
+     * @param session
+     * @return
+     */
+    public List<String> generateNewProjection(String userId, String sessionId, int oldProjectionId,
+            List<String> masterSids, boolean isCustomerModule, boolean isAddModule, SessionDTO session) {
 
-		LOGGER.debug("Entering generateNewProjection" + oldProjectionId);
-		List<String> tempList = new ArrayList<>();
-		try {
+        LOGGER.debug("Entering generateNewProjection" + oldProjectionId);
+        List<String> tempList = new ArrayList<>();
+        try {
 
-			if (callCcpInsertProcedure()) {
-				callActualsDetailsInsertProcedure();
-				String relationShipBuilderSidQuery = "select CUST_RELATIONSHIP_BUILDER_SID, PROD_RELATIONSHIP_BUILDER_SID, FORECASTING_TYPE, CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID = "
-						+ oldProjectionId;
+            if (callCcpInsertProcedure()) {
+                callActualsDetailsInsertProcedure();
+                String relationShipBuilderSidQuery = "select CUST_RELATIONSHIP_BUILDER_SID, PROD_RELATIONSHIP_BUILDER_SID, FORECASTING_TYPE, CUSTOMER_HIERARCHY_SID from PROJECTION_MASTER where PROJECTION_MASTER_SID = "
+                        + oldProjectionId;
 				Object[] projectionMasterRow = (Object[]) HelperTableLocalServiceUtil
 						.executeSelectQuery(relationShipBuilderSidQuery).get(0);
-				LOGGER.debug(" cust Rel Builder Sid  " + String.valueOf(projectionMasterRow[0]));
-				LOGGER.debug("  prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
+                LOGGER.debug(" cust Rel Builder Sid  " + String.valueOf(projectionMasterRow[0]));
+                LOGGER.debug("  prod Rel Builder Sid " + String.valueOf(projectionMasterRow[1]));
 
-				List<String> relationshipBuilderSids = new ArrayList<>();
-				relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
-				relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
-				updateProdHirarechy(newProjectionId, getProdRelationshipId(), masterSids);
-				newProjectionId = cloneProjection(oldProjectionId, userId);
-				LOGGER.debug(" New Projection Id ===== " + newProjectionId);
-				if (newProjectionId != 0) {
+                List<String> relationshipBuilderSids = new ArrayList<>();
+                relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
+                relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
+                updateProdHirarechy(newProjectionId, getProdRelationshipId(), masterSids);
+                newProjectionId = cloneProjection(oldProjectionId, userId);
+                LOGGER.debug(" New Projection Id ===== " + newProjectionId);
+                insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
+                if (newProjectionId != 0) {
 
-					boolean isProjectionCustUpdated = false;
-					boolean isProjectionProdUpdated = false;
+                    boolean isProjectionCustUpdated = false;
+                    boolean isProjectionProdUpdated = false;
 
-					List custRelationshipLevelSids = getRelationShipLevelSid(isCustomerModule ? masterSids : null,
-							relationshipBuilderSids.get(0));
-					if (custRelationshipLevelSids != null && !custRelationshipLevelSids.isEmpty()) {
+                    List custRelationshipLevelSids = getRelationShipLevelSid(isCustomerModule ? masterSids : null,
+                            relationshipBuilderSids.get(0));
+                    if (custRelationshipLevelSids != null && !custRelationshipLevelSids.isEmpty()) {
 
-						cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, false, session);
-						for (Object relationshipLevelSid : custRelationshipLevelSids) {
-							updateCustomerOrProductHierarchy(true, newProjectionId,
-									String.valueOf(relationshipLevelSid));
-						}
-						isProjectionCustUpdated = true;
-					} else {
-						isProjectionCustUpdated = false;
-						LOGGER.debug(" cust relationshipLevelSids is empty or null ");
-					}
+                        cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, true, false, session);
+                        for (Object relationshipLevelSid : custRelationshipLevelSids) {
+                            updateCustomerOrProductHierarchy(true, newProjectionId,
+                                    String.valueOf(relationshipLevelSid));
+                        }
+                        isProjectionCustUpdated = true;
+                    } else {
+                        isProjectionCustUpdated = false;
+                        LOGGER.debug(" cust relationshipLevelSids is empty or null ");
+                    }
 
-					List prodRelationshipLevelSids = getRelationShipLevelSid(!isCustomerModule ? masterSids : null,
-							relationshipBuilderSids.get(1));
-					if (prodRelationshipLevelSids != null && !prodRelationshipLevelSids.isEmpty()) {
+                    List prodRelationshipLevelSids = getRelationShipLevelSid(!isCustomerModule ? masterSids : null,
+                            relationshipBuilderSids.get(1));
+                    if (prodRelationshipLevelSids != null && !prodRelationshipLevelSids.isEmpty()) {
 
-						cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, false, true, session);
-						for (Object relationshipLevelSid : prodRelationshipLevelSids) {
-							updateCustomerOrProductHierarchy(false, newProjectionId,
-									String.valueOf(relationshipLevelSid));
-						}
-						isProjectionProdUpdated = true;
-					} else {
-						isProjectionProdUpdated = false;
-						LOGGER.debug(" prod relationshipLevelSids is empty or null ");
-					}
-					if (isProjectionCustUpdated && isProjectionProdUpdated) {
-						if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, session)) {
+                        cloneCustomerAndProductHierarchy(oldProjectionId, newProjectionId, false, true, session);
+                        for (Object relationshipLevelSid : prodRelationshipLevelSids) {
+                            updateCustomerOrProductHierarchy(false, newProjectionId,
+                                    String.valueOf(relationshipLevelSid));
+                        }
+                        isProjectionProdUpdated = true;
+                    } else {
+                        isProjectionProdUpdated = false;
+                        LOGGER.debug(" prod relationshipLevelSids is empty or null ");
+                    }
+                    if (isProjectionCustUpdated && isProjectionProdUpdated) {
+                        if (insertIntoProjectionDetails(oldProjectionId, newProjectionId, session)) {
 
-							Object[] inputs = new Object[NumericConstants.FOUR];
-							inputs[0] = newProjectionId;
-							inputs[1] = userId;
-							inputs[NumericConstants.TWO] = sessionId;
+                            Object[] inputs = new Object[NumericConstants.FOUR];
+                            inputs[0] = newProjectionId;
+                            inputs[1] = userId;
+                            inputs[NumericConstants.TWO] = sessionId;
 
-							String moduleName = String.valueOf(projectionMasterRow[NumericConstants.TWO]);
-							String marketType = StringUtils.EMPTY;
+                            String moduleName = String.valueOf(projectionMasterRow[NumericConstants.TWO]);
+                            String marketType = StringUtils.EMPTY;
 
-							if (Constants.IndicatorConstants.MANDATED.equals(moduleName)) {
-								marketType = getMarketType(String.valueOf(projectionMasterRow[NumericConstants.THREE]),
-										String.valueOf(projectionMasterRow[0]));
-							}
+                            if (Constants.IndicatorConstants.MANDATED.equals(moduleName)) {
+                                marketType = getMarketType(String.valueOf(projectionMasterRow[NumericConstants.THREE]),
+                                        String.valueOf(projectionMasterRow[0]));
+                            }
 
-							if (isAddModule) {
-								LOGGER.debug(" Old Projection - " + oldProjectionId + " New projection - "
-										+ newProjectionId + " Market Type" + marketType);
-								Object[] orderedArgs = { oldProjectionId, newProjectionId, marketType };
-								AbstractLogic.callProcedure("PRC_FE_ADD_EVENT", orderedArgs);
+                            if (isAddModule) {
+                                LOGGER.debug(" Old Projection - " + oldProjectionId + " New projection - "
+                                        + newProjectionId + " Market Type" + marketType);
+                                Object[] orderedArgs = {oldProjectionId, newProjectionId, marketType};
+                                AbstractLogic.callProcedure("PRC_FE_ADD_EVENT", orderedArgs);
 
-							} else {
-								if (Constants.NON_MANDATED.equals(moduleName.trim())) {
-									/**
-									 * Commented for CEL-869
-									 * callTableInsert(inputs,
-									 * "PRC_NM_DISCOUNT_INSERT");
-									 * callTableInsert(inputs,
-									 * "PRC_NM_PPA_INSERT");
-									 * saveTempToMain(newProjectionId, userId,sessionId);
-									 **/
-								} else if (Constants.MANDATED.equals(moduleName.trim())) {
-									Object[] suppInputs = { newProjectionId, userId, marketType, sessionId };
-									callDiscountTableInsert(suppInputs, Constants.PRC_M_SUPP_INSERT);
-									callTableInsert(inputs, Constants.PRC_M_SUPP_PROJECTION);
-									Object[] discInputs = { newProjectionId, userId, "SPAP", sessionId };
-									callDiscountTableInsert(discInputs, Constants.PRC_M_DISCOUNT_INSERT);
-									mandatedTempToMainSave(userId, sessionId, newProjectionId);
-								} else {
-									LOGGER.error("New module Name found " + moduleName);
-								}
-							}
+                            } else {
+                                if (Constants.NON_MANDATED.equals(moduleName.trim())) {
+                                    /**
+                                     * Commented for CEL-869
+                                     * callTableInsert(inputs,
+                                     * "PRC_NM_DISCOUNT_INSERT");
+                                     * callTableInsert(inputs,
+                                     * "PRC_NM_PPA_INSERT");
+                                     * saveTempToMain(newProjectionId, userId,
+                                     * sessionId);
+									 *
+                                     */
+                                } else if (Constants.MANDATED.equals(moduleName.trim())) {
+                                    Object[] suppInputs = {newProjectionId, userId, marketType, sessionId};
+                                    callDiscountTableInsert(suppInputs, Constants.PRC_M_SUPP_INSERT);
+                                    callTableInsert(inputs, Constants.PRC_M_SUPP_PROJECTION);
+                                    Object[] discInputs = {newProjectionId, userId, "SPAP", sessionId};
+                                    callDiscountTableInsert(discInputs, Constants.PRC_M_DISCOUNT_INSERT);
+                                    mandatedTempToMainSave(userId, sessionId, newProjectionId);
+                                } else {
+                                    LOGGER.error("New module Name found " + moduleName);
+                                }
+                            }
 
-							LoadTabLogic loadTabLogic = new LoadTabLogic();
-							loadTabLogic.setForecastingType(newProjectionId);
-							tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
-							tempList.add(loadTabLogic.getProjectionName(newProjectionId));
-							tempList.add(String.valueOf(newProjectionId));
-							tempList.add("\n New Projection created with forecasting type -" + tempList.get(0)
-									+ AND_PROJECTION_NAME + tempList.get(1) + " ");
-						} else {
-							LOGGER.error(" Projection details  insert failed");
-						}
-					} else {
-						LOGGER.error(" projection prod or cust hierarchy update failed");
-					}
+                            LoadTabLogic loadTabLogic = new LoadTabLogic();
+                            loadTabLogic.setForecastingType(newProjectionId);
+                            tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
+                            tempList.add(loadTabLogic.getProjectionName(newProjectionId));
+                            tempList.add(String.valueOf(newProjectionId));
+                            tempList.add("\n New Projection created with forecasting type -" + tempList.get(0)
+                                    + AND_PROJECTION_NAME + tempList.get(1) + " ");
+                        } else {
+                            LOGGER.error(" Projection details  insert failed");
+                        }
+                    } else {
+                        LOGGER.error(" projection prod or cust hierarchy update failed");
+                    }
 
-				} else {
-					LOGGER.error(" Projection cloning error  ");
-				}
+                } else {
+                    LOGGER.error(" Projection cloning error  ");
+                }
 
-			} else {
-				LOGGER.error(" CCP insert procedure failed ");
-			}
-		} catch (Exception e) {
-			LOGGER.error("",e);
-		}
+            } else {
+                LOGGER.error(" CCP insert procedure failed ");
+            }
+        } catch (Exception e) {
+			LOGGER.error(e.getMessage());
+        }
 
-		LOGGER.debug("Exiting generateNewProjection");
-		return tempList;
-	}
+        LOGGER.debug("Exiting generateNewProjection");
+        return tempList;
+    }
 
-	public boolean callCcpInsertProcedure() {
-		LOGGER.debug("calling CcpInsertProcedure");
+    public boolean callCcpInsertProcedure() {
+        LOGGER.debug("calling CcpInsertProcedure");
 
-		GtnSqlUtil.procedureCallService("{call PRC_CCP_POPULATION()}", new Object[] {});
+        GtnSqlUtil.procedureCallService("{call PRC_CCP_POPULATION()}", new Object[]{});
 
-		LOGGER.debug("exiting CcpInsertProcedure");
-		return true;
-	}
+        LOGGER.debug("exiting CcpInsertProcedure");
+        return true;
+    }
 
-	public boolean callActualsDetailsInsertProcedure() {
+    public boolean callActualsDetailsInsertProcedure() {
         LOGGER.debug("calling ActualsDetailsInsertProcedure");
         DataSource datasource = null;
         try {
             Context initialContext = new InitialContext();
             datasource = (DataSource) initialContext.lookup(DATA_POOL);
         } catch (Exception ex) {
-            LOGGER.error("",ex);
+            LOGGER.error(ex.getMessage());
         }
         if (datasource != null) {
             try (Connection connection = datasource.getConnection();
                     CallableStatement statement = connection.prepareCall("{call PRC_ACTUAL_DETAILS_POPULATION()}")) {
                 statement.execute();
             } catch (Exception ex) {
-                LOGGER.error("",ex);
+                LOGGER.error(ex.getMessage());
                 return false;
             }
         }
@@ -1820,7 +1823,7 @@ public class CommonLogic {
             updateSaveFlag(projectionId);
             LOGGER.debug("End of tempOperation method");
         } catch (Exception e) {
-			LOGGER.error("",e);
+			LOGGER.error(e.getMessage());
         }
     }
 
@@ -2006,17 +2009,17 @@ public class CommonLogic {
             LOGGER.debug("Ending " + procedureName + " Procedure");
 
         } catch (Exception ex) {
-			LOGGER.error("",ex);
+			LOGGER.error(ex.getMessage());
         } finally {
             try {
                 statement.close();
             } catch (Exception e) {
-				LOGGER.error("",e);
+				LOGGER.error(e.getMessage());
             }
             try {
                 connection.close();
             } catch (Exception e) {
-				LOGGER.error("",e);
+				LOGGER.error(e.getMessage());
             }
         }
         LOGGER.debug("Exiting callTableInsert");
@@ -2196,6 +2199,7 @@ public class CommonLogic {
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
         int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
+        insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
 
         LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
         if (newProjectionId != 0) {
@@ -2314,7 +2318,7 @@ public class CommonLogic {
 			HelperTableLocalServiceUtil.executeUpdateQuery(discountQuery.toString());
 			HelperTableLocalServiceUtil.executeUpdateQuery(rebateQuery.toString());
         } catch (Exception e) {
-			LOGGER.error("",e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -2466,6 +2470,7 @@ public class CommonLogic {
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
 
         int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
+        insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
 
         LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
         if (newProjectionId != 0) {

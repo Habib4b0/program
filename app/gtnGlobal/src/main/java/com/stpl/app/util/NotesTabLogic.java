@@ -32,6 +32,7 @@ public class NotesTabLogic {
 	/**
 	 * The Constant LOGGER.
 	 */
+	private boolean isFileExists;
 	private static final Logger LOGGER = LoggerFactory.getLogger(NotesTabLogic.class);
 
 	@SuppressWarnings("unchecked")
@@ -66,7 +67,7 @@ public class NotesTabLogic {
 					format.setTimeZone(central);
 					attachmentDTO.setDateAdded(format.format(docDetails.getCreatedDate()));
 					attachmentDTO.setUserId(docDetails.getCreatedBy());
-					attachmentDTO.setUserName(StplSecurity.userMap.get(docDetails.getCreatedBy()));
+					attachmentDTO.setUserName(StplSecurity.getUsermap().get(docDetails.getCreatedBy()));
 					attachmentDTOList.add(attachmentDTO);
 				}
 			}
@@ -91,7 +92,8 @@ public class NotesTabLogic {
 			MasterDataFilesLocalServiceUtil.deleteMasterDataFiles(docDetailsId);
 		}
 		File file = GtnFileUtil.getFile(fileName);
-		file.delete();
+		isFileExists=file.delete();
+		LOGGER.info("File is deleted successfully : "+isFileExists);
 		return true;
 	}
 

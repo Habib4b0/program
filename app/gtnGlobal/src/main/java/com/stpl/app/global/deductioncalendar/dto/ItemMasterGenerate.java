@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ItemMasterGenerate implements ExtFilterGenerator {
 
-    final com.stpl.app.global.abstractsearch.util.CommonUtils abstractCommonsUtil = new com.stpl.app.global.abstractsearch.util.CommonUtils();
+    private final com.stpl.app.global.abstractsearch.util.CommonUtils abstractCommonsUtil = new com.stpl.app.global.abstractsearch.util.CommonUtils();
     private final HelperDTO dto = new HelperDTO(ConstantsUtils.SHOW_ALL);
     /** The logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemMasterGenerate.class);

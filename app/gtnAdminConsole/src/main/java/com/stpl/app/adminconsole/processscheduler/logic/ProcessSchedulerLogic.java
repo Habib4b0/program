@@ -74,7 +74,7 @@ import com.stpl.app.service.HierarchyDefinitionLocalServiceUtil;
  */
 public class ProcessSchedulerLogic {
 
-	static CommonDAO dao = new CommonDAOImpl();
+	private static CommonDAO dao = new CommonDAOImpl();
 	/**
 	 * The Constant LOGGER.
 	 */

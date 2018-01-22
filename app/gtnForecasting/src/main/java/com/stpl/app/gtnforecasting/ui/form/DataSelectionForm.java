@@ -262,7 +262,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 	 */
 	private void configureFields() throws SystemException {
 		resultsTableLayout.addComponent(resultTable);
-		resultsTableLayout.addComponent(CommonLogic.getResponsiveControls(tableLogic.createControls()));
+		resultsTableLayout.addComponent(tableLogic.createControls());
 		tableLogic.setContainerDataSource(resultsContainer);
                 tableLogic.setPageLength(10);
                 resultTable.setItemsPerPage(10);

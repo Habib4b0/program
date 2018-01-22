@@ -12,20 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
-
-/**
- *
- * @author Nandhakumar
- */
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
-import com.stpl.app.adminconsole.filemanagement.dto.FileMananagementResultDTO;
 import com.stpl.app.adminconsole.filemanagement.dto.TrackingProcessDTO;
-import com.stpl.app.adminconsole.filemanagement.logic.FileManagementLogic;
 import com.stpl.app.adminconsole.filemanagement.logic.tablelogic.TrackingProgressTableLogic;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.ResponsiveUtils;
@@ -80,10 +69,10 @@ public class TrackingProgress extends Window {
     @UiField("cssLayout")
     private CssLayout cssLayout;
 
-    TrackingProgressTableLogic summaryTableLogic = new TrackingProgressTableLogic();
+    private TrackingProgressTableLogic summaryTableLogic = new TrackingProgressTableLogic();
     private final ExtPagedTable summaryTable = new ExtPagedTable(summaryTableLogic);
 
-    TrackingProgressTableLogic detailsTableLogic = new TrackingProgressTableLogic();
+    private TrackingProgressTableLogic detailsTableLogic = new TrackingProgressTableLogic();
     private final ExtPagedTable detailsTable = new ExtPagedTable(detailsTableLogic);
 
     @UiField("summaryTableLayout")

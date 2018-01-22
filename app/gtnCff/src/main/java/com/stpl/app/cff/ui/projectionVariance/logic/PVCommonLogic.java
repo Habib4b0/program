@@ -31,7 +31,7 @@ public class PVCommonLogic {
     private static final String CURRENT = "Current";
     private static final String ACCRUAL = "Accrual";
     private static final String ACTUAL = "Actual";
-    private static final String accrualDASH = "-";
+    private static final String ACCRUAL_DASH = "-";
     public static final Logger LOGGER = Logger.getLogger(PVCommonLogic.class);
 
     static void getPriorCommonCustomization(String variableCategory, PVSelectionDTO pvsdto, final Object[] row, ProjectionVarianceDTO projDTO, String column, int index, int priorIndex, final Boolean isPer, int columnCountTotal, DecimalFormat format) {
@@ -198,7 +198,7 @@ public class PVCommonLogic {
                             : getFormattedValue(format, accrualValue);
                     pvDTO.addStringProperties(commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);
                 } else {
-                    pvDTO.addStringProperties(commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), accrualDASH);
+                    pvDTO.addStringProperties(commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), ACCRUAL_DASH);
                 }
             }
             if (actualBasis) {
