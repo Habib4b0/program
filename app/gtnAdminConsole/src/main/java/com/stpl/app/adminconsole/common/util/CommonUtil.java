@@ -56,7 +56,6 @@ import static com.stpl.app.adminconsole.common.util.CommonUtil.convertStringToDa
 import com.stpl.app.adminconsole.service.AdminConsoleImpl;
 import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
 import com.stpl.app.service.BrandMasterLocalServiceUtil;
-import com.stpl.app.service.HelperTableLocalService;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 
 /**
@@ -518,11 +517,11 @@ public final class CommonUtil {
         boolean appPermission = true;
         try {
             if (fieldStr != null) {
-                if (com.stpl.app.serviceUtils.ConstantsUtils.ADD.equals(mode)) {
+                if (ConstantsUtils.ADD.equals(mode)) {
                     appPermission = ((AppPermission) fieldHM.get(fieldStr)).isAddFlag();
-                } else if (com.stpl.app.serviceUtils.ConstantsUtils.EDIT.equals(mode)) {
+                } else if (ConstantsUtils.EDIT.equals(mode)) {
                     appPermission = ((AppPermission) fieldHM.get(fieldStr)).isEditFlag();
-                } else if (com.stpl.app.serviceUtils.ConstantsUtils.VIEW.equals(mode)) {
+                } else if (ConstantsUtils.VIEW.equals(mode)) {
                     appPermission = ((AppPermission) fieldHM.get(fieldStr)).isViewFlag();
                 } else if (ConstantsUtils.SEARCH.equals(mode)) {
                     if (((AppPermission) fieldHM.get(fieldStr)).isViewFlag() && ((AppPermission) fieldHM.get(fieldStr)).isEditFlag() && ((AppPermission) fieldHM.get(fieldStr)).isAddFlag()) {
@@ -581,13 +580,13 @@ public final class CommonUtil {
                 str = String.valueOf(obj[i]);
                 if (fieldHM.get(str) != null) {
                     final AppPermission appPermission = fieldHM.get(str);
-                    if ((com.stpl.app.serviceUtils.ConstantsUtils.ADD).equals(mode)) {
+                    if ((ConstantsUtils.ADD).equals(mode)) {
                         appPerm = appPermission.isAddFlag();
                     }
-                    if ((com.stpl.app.serviceUtils.ConstantsUtils.EDIT).equals(mode)) {
+                    if ((ConstantsUtils.EDIT).equals(mode)) {
                         appPerm = appPermission.isEditFlag();
                     }
-                    if ((com.stpl.app.serviceUtils.ConstantsUtils.VIEW).equals(mode)) {
+                    if ((ConstantsUtils.VIEW).equals(mode)) {
                         appPerm = appPermission.isViewFlag();
                     }
                     if (ConstantsUtils.SEARCH.equals(mode)) {
