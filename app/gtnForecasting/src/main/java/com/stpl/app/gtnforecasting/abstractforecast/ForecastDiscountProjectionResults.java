@@ -498,4 +498,12 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
 	public void setDprLogic(DPRLogic dprLogic) {
 		this.dprLogic = dprLogic;
 	}
+
+	public NMDPRLogic getNmDPRLogic() {
+		return nmDPRLogic;
+	}
+
+	public void setNmDPRLogic(NMDPRLogic nmDPRLogic) {
+		this.nmDPRLogic = nmDPRLogic;
+	}
 }

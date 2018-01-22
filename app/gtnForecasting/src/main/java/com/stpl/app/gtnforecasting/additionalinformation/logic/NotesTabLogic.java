@@ -57,6 +57,10 @@ public class NotesTabLogic {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
+    public NotesTabLogic(){
+    	super();
+    }
+    
     public List<NotesDTO> getAttachmentDTOList(final int projectionId, final String moduleName, String fileUploadPath) throws SystemException {
 
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");

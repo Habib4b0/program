@@ -854,7 +854,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
             AbstractNotificationUtils.getErrorNotification("No End Date", "Please enter an end date for the records to be submitted");
             return;
         }
-        summaryRefreshed = true;
+        setSummaryRefreshed(true);
         resetComponentInformationData();
         List<CurrentContractDTO> containerList = searchContainer.getItemIds();
 
@@ -918,7 +918,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
             @Override
             public void windowClose(Window.CloseEvent e) {
                 if (contractHolderLookUpWindow.getSelectedChHolderHierarchy() != null) {
-                    companyMasters = contractHolderLookUpWindow.getFilteredCompanies();
+                    setCompanyMasters(contractHolderLookUpWindow.getFilteredCompanies());
                 }
             }
         });
@@ -1089,4 +1089,44 @@ public class CurrentContractSelection extends CustomComponent implements View {
             LOGGER.error(ex);
         }
     }
+
+	public CurrentContractDTO getCurrentContractDTO() {
+		return currentContractDTO;
+	}
+
+	public void setCurrentContractDTO(CurrentContractDTO currentContractDTO) {
+		this.currentContractDTO = currentContractDTO;
+	}
+
+	public boolean isSummaryRefreshed() {
+		return summaryRefreshed;
+	}
+
+	public void setSummaryRefreshed(boolean summaryRefreshed) {
+		this.summaryRefreshed = summaryRefreshed;
+	}
+
+	public List<CompanyMaster> getCompanyMasters() {
+		return companyMasters;
+	}
+
+	public void setCompanyMasters(List<CompanyMaster> companyMasters) {
+		this.companyMasters = companyMasters;
+	}
+
+	public List<CurrentContractDTO> getContractInfo() {
+		return contractInfo;
+	}
+
+	public void setContractInfo(List<CurrentContractDTO> contractInfo) {
+		this.contractInfo = contractInfo;
+	}
+
+	public static List<CurrentContractDTO> getSelectedContract() {
+		return selectedContract;
+	}
+
+	public static void setSelectedContract(List<CurrentContractDTO> selectedContract) {
+		CurrentContractSelection.selectedContract = selectedContract;
+	}
 }

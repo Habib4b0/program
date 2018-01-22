@@ -183,5 +183,11 @@ public class CommonLogic {
         return ht;
 
     }
+	public static NADataSelectionDAO getDataSelection() {
+		return dataSelection;
+	}
+	public static void setDataSelection(NADataSelectionDAO dataSelection) {
+		CommonLogic.dataSelection = dataSelection;
+	}
         
 }

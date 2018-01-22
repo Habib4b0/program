@@ -26,6 +26,10 @@ public class NotificationMgmtIndexDTO {
        private String category="";
        private HelperDTO categoryddlb;
 
+       public NotificationMgmtIndexDTO(){
+    	   super();
+       }
+       
     public HelperDTO getCategoryddlb() {
         return categoryddlb;
     }

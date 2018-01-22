@@ -17,6 +17,10 @@ public class SessionDTO {
     private String userId;
     private String sessionId;
 
+    public SessionDTO(){
+    	super();
+    }
+    
     public String getSessionId() {
         return sessionId;
     }

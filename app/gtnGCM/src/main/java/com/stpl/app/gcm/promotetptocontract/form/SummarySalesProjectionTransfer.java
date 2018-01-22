@@ -93,7 +93,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     private ExtFilterTable resultTable;
 
     public SummarySalesProjectionTransfer(ExtFilterTable resultTable, SessionDTO session) {
-        this.resultTable = resultTable;
+        this.setResultTable(resultTable);
         this.session = session;
         tableLogic.setSession(session);
         getContent();
@@ -274,4 +274,12 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
         List<SalesTabDTO> resultList = tabLogic.getConfiguredSalesTabResults(id, selectionDTO, true);
         loadDataToContainer(resultList, id);
     }
+
+	public ExtFilterTable getResultTable() {
+		return resultTable;
+	}
+
+	public void setResultTable(ExtFilterTable resultTable) {
+		this.resultTable = resultTable;
+	}
 }

@@ -110,4 +110,16 @@ public class SearchResults extends CustomComponent {
 		return table;
 	}
 
+	public ErrorLabel getErrorMsg() {
+		return errorMsg;
+	}
+
+	public BusinessRoleMgmtLogic getBusinessRoleMgmtLogic() {
+		return businessRoleMgmtLogic;
+	}
+
+	public void setBusinessRoleMgmtLogic(BusinessRoleMgmtLogic businessRoleMgmtLogic) {
+		this.businessRoleMgmtLogic = businessRoleMgmtLogic;
+	}
+
 }

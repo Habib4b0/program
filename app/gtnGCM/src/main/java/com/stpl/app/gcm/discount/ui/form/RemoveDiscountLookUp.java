@@ -58,7 +58,7 @@ public class RemoveDiscountLookUp extends Window {
     }
 
     public RemoveDiscountLookUp(final List<RemoveDiscountDto> selecteditemList, int userID, int sessionID) {
-        this.selecteditemList = selecteditemList == null ? selecteditemList : Collections.unmodifiableList(selecteditemList);
+        this.setSelecteditemList(selecteditemList == null ? selecteditemList : Collections.unmodifiableList(selecteditemList));
         this.userId = userID;
         this.sessionId = sessionID;
         mainTab = new TabSheet();
@@ -235,4 +235,20 @@ public class RemoveDiscountLookUp extends Window {
             LOGGER.error(ex);
         }
     }
+
+	public List<RemoveDiscountDto> getSelecteditemList() {
+		return selecteditemList;
+	}
+
+	public void setSelecteditemList(List<RemoveDiscountDto> selecteditemList) {
+		this.selecteditemList = selecteditemList;
+	}
+
+	public TreeTable getDashboardTreeTable() {
+		return dashboardTreeTable;
+	}
+
+	public void setDashboardTreeTable(TreeTable dashboardTreeTable) {
+		this.dashboardTreeTable = dashboardTreeTable;
+	}
 }

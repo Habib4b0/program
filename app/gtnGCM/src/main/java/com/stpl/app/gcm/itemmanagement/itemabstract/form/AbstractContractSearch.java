@@ -2024,5 +2024,37 @@ public abstract class AbstractContractSearch extends CustomComponent {
 		this.isSubmit = isSubmit;
 	}
 
+	public BeanItemContainer<AbstractContractSearchDTO> getContractExcelResultBean() {
+		return contractExcelResultBean;
+	}
+
+	public void setContractExcelResultBean(BeanItemContainer<AbstractContractSearchDTO> contractExcelResultBean) {
+		this.contractExcelResultBean = contractExcelResultBean;
+	}
+
+	public ExtCustomTable getContractExcelTable() {
+		return contractExcelTable;
+	}
+
+	public void setContractExcelTable(ExtCustomTable contractExcelTable) {
+		this.contractExcelTable = contractExcelTable;
+	}
+
+	public VerticalLayout getContractDashboardLay() {
+		return contractDashboardLay;
+	}
+
+	public void setContractDashboardLay(VerticalLayout contractDashboardLay) {
+		this.contractDashboardLay = contractDashboardLay;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
     
 }

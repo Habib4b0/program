@@ -420,11 +420,11 @@ public class AlternateHistoryDTO extends ExtMapDTO{
     }
 
     public Set<String> getSelectedCustomerSet() {
-        return selectedCustomerSet == null ? selectedCustomerSet : Collections.unmodifiableSet(selectedCustomerSet);
+        return selectedCustomerSet;
     }
 
     public Set<String> getSelectedProductSet() {
-        return selectedProductSet == null ? selectedCustomerSet : Collections.unmodifiableSet(selectedCustomerSet);
+        return selectedProductSet;
     }
 
     public Boolean getCheckRecord() {

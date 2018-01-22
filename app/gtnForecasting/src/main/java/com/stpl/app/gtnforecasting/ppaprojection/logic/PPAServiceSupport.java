@@ -104,7 +104,7 @@ public class PPAServiceSupport {
     }
 
     public List<HelperDTO> getPriceResultList() {
-        return priceResultList == null ? priceResultList : Collections.unmodifiableList(priceResultList);
+        return priceResultList;
     }
     public String getDescriptionByID(int id) {
         return id==0 ? StringUtils.EMPTY : priceQualifierMap.get(id);

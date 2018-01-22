@@ -9,6 +9,10 @@ public class Helper implements Serializable {
 	private static final long serialVersionUID = -7537600484300528336L;
 	private String code;
 	private String description;
+	public Helper(){
+		super();
+	}
+	
 	public String getCode() {
 		return code;
 	}
