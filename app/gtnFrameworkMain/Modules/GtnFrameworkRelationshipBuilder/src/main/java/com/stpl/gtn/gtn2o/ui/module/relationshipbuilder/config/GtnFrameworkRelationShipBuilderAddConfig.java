@@ -310,7 +310,7 @@ public class GtnFrameworkRelationShipBuilderAddConfig {
 
 	private void addBackButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
                 GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(namspacePrefix + "gtnBack01Layout", true,
-				GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
+                		namspacePrefix + GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
 		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig searchButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
 				namspacePrefix + "gtnBackButton", true,
@@ -333,7 +333,7 @@ public class GtnFrameworkRelationShipBuilderAddConfig {
 
 	private void addSaveButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
                 GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(namspacePrefix + "gtnSave01Layout", true,
-				GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
+                		namspacePrefix + GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
 		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig searchButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
 				namspacePrefix + "getSaveButton", true,
@@ -365,7 +365,7 @@ public class GtnFrameworkRelationShipBuilderAddConfig {
 
 	private void addResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namspacePrefix) {
                 GtnUIFrameworkComponentConfig gtnLayout = gtnConfigFactory.getHorizontalLayoutConfig(namspacePrefix + "gtnReset01Layout", true,
-				GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
+                		namspacePrefix + GtnFrameworkCommonConstants.ACTION_BUTTONLAYOUT);
 		componentList.add(gtnLayout);
 		GtnUIFrameworkComponentConfig searchButtonConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
 				namspacePrefix + "getResetButton", true,
