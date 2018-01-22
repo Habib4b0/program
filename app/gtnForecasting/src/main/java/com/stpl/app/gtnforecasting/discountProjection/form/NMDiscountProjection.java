@@ -140,6 +140,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.ExtCustomTable.ColumnCheckListener;
+import com.vaadin.ui.ExtCustomTreeTable;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -249,6 +250,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	@UiField("gridlay")
 	private GridLayout gridlay;
+        
+        SessionDTO sessionDTO;
+        protected ExtFilterTreeTable leftTable;
         private static final String PLEASE_SELECT_A_HISTORIC_ALERT = "Please select a Historic Period for each discount selected.";
 	private List<String> checkedList;
 
@@ -1460,9 +1464,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		leftTable.setDoubleHeaderVisible(true);
 
 		leftTable.setEditable(true);
-		leftTable.setVisibleColumns(leftHeader.getSingleColumns().toArray());
-		leftTable.setColumnHeaders(
-				leftHeader.getSingleHeaders().toArray(new String[leftHeader.getSingleHeaders().size()]));
+                String[] columnLeftHeader = new String[leftHeader.getSingleHeaders().size()];
+                securityForListView(leftHeader.getSingleColumns().toArray(), leftHeader.getSingleHeaders().toArray(columnLeftHeader),leftTable);
 
 		leftTable.setDoubleHeaderVisibleColumns(leftHeader.getDoubleColumns().toArray());
 		leftTable.setDoubleHeaderColumnHeaders(
@@ -2956,13 +2959,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			ExtFilterTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
 			Object[] leftTableVisibleColumn = leftTable.getVisibleColumns();
 			String[] leftTableColumnHeader = leftTable.getColumnHeaders();
-			excelTable.setVisibleColumns(
-					ArrayUtils.addAll(Arrays.copyOfRange(leftTableVisibleColumn, 1, leftTableVisibleColumn.length),
-							excelHeader.getSingleColumns().toArray()));
 			Object[] objectArray = ArrayUtils.addAll(
 					Arrays.copyOfRange(leftTableColumnHeader, 1, leftTableColumnHeader.length),
 					excelHeader.getSingleHeaders().toArray(new String[0]));
-			excelTable.setColumnHeaders(Arrays.copyOf(objectArray, objectArray.length, String[].class));
+                        
+                        Object[] leftTableExcelColumn = ArrayUtils.addAll(Arrays.copyOfRange(leftTableVisibleColumn, 1, leftTableVisibleColumn.length),
+							excelHeader.getSingleColumns().toArray());
+                        securityForListView(leftTableExcelColumn, Arrays.copyOf(objectArray, objectArray.length, String[].class), excelTable);
+
 			excelTable.setDoubleHeaderVisible(true);
 			excelTable
 					.setDoubleHeaderVisibleColumns(ArrayUtils.addAll(
@@ -5379,5 +5383,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             }
     }
 
-
+    private void securityForListView(Object[] visibleColumnArray, String[] columnHeaderArray, ExtCustomTreeTable table) {
+        try {
+            final String userId = String.valueOf(session.getUserId());
+            final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Forecasting", "Commercial", "Discount Projection");
+            List<List> headeInformationsList = CommonLogic.isPropertyVisibleAccess(visibleColumnArray, columnHeaderArray, functionHM);
+            List<String> headerArray = headeInformationsList.get(1);
+            table.setVisibleColumns(headeInformationsList.get(0).toArray());
+            table.setColumnHeaders(headerArray.toArray(new String[headerArray.size()]));
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+    }
 }
