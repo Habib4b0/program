@@ -1116,37 +1116,12 @@ public class DiscountProjectionLogic {
         return 0;
     }
 
-    public int getDiscountCustomCount(final SessionDTO sessionDTO, final String hierarchyIndicator, final int levelNo, final String customerHierarchyNo, final String productHierarchyNo, final String deductionHierarchyNo, final List<String> discountList, boolean isProgram, final String userGroup,List<String> customViewDetails,boolean isCustom,List<String>  customDetailsList) {
-        String parentHierarchyIndicator = StringUtils.EMPTY;
-        String parentHierarchyNo = StringUtils.EMPTY;
-        String parentHierarchyIndicatorDeduction = StringUtils.EMPTY;
-        String parentHierarchyNoDeduction = StringUtils.EMPTY;
-        String hierarchyNo = String.valueOf(customDetailsList.get(1));
-        int treeLevelNo = Integer.valueOf(String.valueOf(customDetailsList.get(NumericConstants.TWO)));
-
-        if ("C".equalsIgnoreCase(hierarchyIndicator) && (StringUtils.isNotBlank(productHierarchyNo) || StringUtils.isNotBlank(deductionHierarchyNo))) {
-            parentHierarchyIndicator = "P";
-            parentHierarchyNo = productHierarchyNo;
-            parentHierarchyIndicatorDeduction = "D";
-            parentHierarchyNoDeduction = deductionHierarchyNo;
-        } else if ("P".equalsIgnoreCase(hierarchyIndicator) && (StringUtils.isNotBlank(customerHierarchyNo) || StringUtils.isNotBlank(deductionHierarchyNo))) {
-            parentHierarchyIndicator = "C";
-            parentHierarchyNo = customerHierarchyNo;
-            parentHierarchyIndicatorDeduction = "D";
-            parentHierarchyNoDeduction = deductionHierarchyNo;
-        } else if ("D".equalsIgnoreCase(hierarchyIndicator) && (StringUtils.isNotBlank(productHierarchyNo) || StringUtils.isNotBlank(customerHierarchyNo))) {
-            parentHierarchyIndicator = "C";
-            parentHierarchyNo = customerHierarchyNo;
-            parentHierarchyIndicatorDeduction = "P";
-            parentHierarchyNoDeduction = productHierarchyNo;
-        }
-
-        String query = queryBuilderAndExecutor.getDiscountCustomCountQueryTest(sessionDTO, hierarchyIndicator, levelNo, "C".equalsIgnoreCase(hierarchyIndicator) ? customerHierarchyNo : "P".equalsIgnoreCase(hierarchyIndicator) ? productHierarchyNo : deductionHierarchyNo, discountList, isProgram, userGroup,customViewDetails,isCustom,customDetailsList);
+    public int getDiscountCustomCount(final SessionDTO sessionDTO, final String hierarchyIndicator, final int levelNo,final String userGroup,List<String> customViewDetails,boolean isCustom,List<String> customDetailsList) {
+        String query = queryBuilderAndExecutor.getDiscountCustomQueryCount(sessionDTO, hierarchyIndicator, levelNo,userGroup,customViewDetails,isCustom,customDetailsList);
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDTO.getCurrentTableNames()));
         if (list != null) {
             return Integer.valueOf(list.get(0).toString());
         }
-        
         return 0;
     }
     

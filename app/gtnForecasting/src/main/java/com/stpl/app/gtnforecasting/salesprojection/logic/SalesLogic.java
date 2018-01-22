@@ -1757,21 +1757,6 @@ public class SalesLogic {
         }
         return count;
     }
-    private String getHierarchyForCheckRecord(List<String> hierarchylist){
-        StringBuilder stringBuilder = new StringBuilder();
-        boolean isNotFirstElement = false;
-         for (String hierarchy : hierarchylist) {
-            if (isNotFirstElement) {
-                stringBuilder.append(",\n");
-            }
-            stringBuilder.append("('");
-            stringBuilder.append(hierarchy.trim());
-            stringBuilder.append("')");
-            isNotFirstElement = true;
-         }
-        return stringBuilder.toString();
-    }
-
     private String getViewTypeQuery(String viewType) {
         String table;
         if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(viewType)) {

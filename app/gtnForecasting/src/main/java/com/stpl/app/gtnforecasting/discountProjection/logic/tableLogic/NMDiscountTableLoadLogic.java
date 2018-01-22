@@ -420,7 +420,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             if (levelNumber != 0 && treeLevelNo != 0) {
                 setMaxExpandLevelNo(treeLevelNo);
                 if (isCustomHierarchy) {
-                    return logic.getDiscountCustomCount(session, tempHierarchyIndicator, levelNumber, customerHierarchyNo, productHierarchyNo, deductionHierarchyNo, discountList, isProgram, userGroup,customViewDetails,isCustomHierarchy,customDetailsList);
+                    return logic.getDiscountCustomCount(session, tempHierarchyIndicator, levelNumber, userGroup,customViewDetails,isCustomHierarchy,customDetailsList);
                 } else {
 
                     return logic.getDiscountCount(session, hierarchyNo, treeLevelNo, tempHierarchyIndicator, isProgram, discountList, userGroup, projectionSelection);
