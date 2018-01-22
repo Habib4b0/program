@@ -24,7 +24,7 @@ public class QueryReader {
 
     private static ResourceBundle queryNameBundle = ResourceBundle.getBundle("properties.GlPosting-Queries");
     private static final Logger LOGGER = Logger.getLogger(QueryReader.class);
-    final static CommonDAO dao = new CommonDAOImpl();
+    private final static CommonDAO dao = new CommonDAOImpl();
 
     public static String getQuery(String key) {
         return queryNameBundle.getString(key);

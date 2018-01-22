@@ -9,9 +9,9 @@ package com.stpl.app.gtnutilities.serverlogging.dto;
  * @author Karthik.Raja
  */
 public class LoggingDto {
-    String logDestination;
-    String messagesSelected;
-    String active;
+	private String logDestination;
+	private String messagesSelected;
+	private String active;
 
     public String getLogDestination() {
         return logDestination;

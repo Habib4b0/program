@@ -24,7 +24,7 @@ import org.jboss.logging.Logger;
 public class SelectionTableLogic extends PageTableLogic {
     
     private boolean loadData = false;
-    SelectionDTO selectionDTO;
+    private SelectionDTO selectionDTO;
     private final SelectionLogic selectionLogic = new SelectionLogic();
     private String tabName = StringUtils.EMPTY;
     private String availableOrselected = StringUtils.EMPTY;

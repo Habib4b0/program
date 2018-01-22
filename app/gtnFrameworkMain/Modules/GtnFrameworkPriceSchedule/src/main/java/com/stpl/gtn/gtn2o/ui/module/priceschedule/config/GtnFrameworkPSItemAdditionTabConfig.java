@@ -79,11 +79,12 @@ public class GtnFrameworkPSItemAdditionTabConfig {
 		GtnUIFrameworkComponentConfig psItemAdditionMassUpdateLayout = configProvider.getHorizontalLayoutConfig(
 				"psItemAdditionmassupdatelayout", Boolean.TRUE,
 				GtnFrameworkCommonConstants.PS_ITEM_ADDITION_FIELD_SEARCH_LAYOUT);
-		psItemAdditionMassUpdateLayout.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.STPL_MARGIN_TOP_10));
+		psItemAdditionMassUpdateLayout.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.STPL_MARGIN_TOP_40,GtnFrameworkCssConstants.GTN_GRID_SINGLE_IN_LAYOUT_1));
 		componentList.add(psItemAdditionMassUpdateLayout);
 
 		GtnUIFrameworkComponentConfig itemOrIfpOption = configProvider.getUIFrameworkComponentConfig("itemOrIfpOption",
 				Boolean.TRUE, "psItemAdditionmassupdatelayout", GtnUIFrameworkComponentType.OPTIONGROUP);
+        itemOrIfpOption.setComponentName("Search Type");
 		itemOrIfpOption.setAuthorizationIncluded(true);
 		componentList.add(itemOrIfpOption);
 

@@ -188,6 +188,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private int customId = 0;
 	/* To check whether list view is generated or not */
 	public boolean isListviewGenerated = Boolean.TRUE;
+        List<String> hierarchyListForCheckRecord=new ArrayList<>();
 	private boolean isGroupUpdatedManually = false;
 	/* The custom id to select. */
 	private int customIdToSelect = 0;
@@ -837,6 +838,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				return;
 			}
 			dto.addBooleanProperties(obj[1], checkValue);
+                        if (checkValue) {
+                        hierarchyListForCheckRecord.add(dto.getHierarchyNo()); 
+                        }else {
+                        hierarchyListForCheckRecord.remove(dto.getHierarchyNo());
+                        }
 			int updatedRecordsNo = updateCheckedRecord(dto)
 					* CommonUtils.getFrequencyNumber(projectionSelection.getFrequency());
 			resultsTable.getLeftFreezeAsTable().setRefresh(false);
@@ -1284,7 +1290,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		levelDdlb.removeAllItems();
 		levelDdlb.addItem(SELECT_ONE.getConstant());
 		levelDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
-
+		Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+        	@Override
+			public int compare(Leveldto o1, Leveldto o2) {
+				return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+        	}
+        });
+        Collections.reverse(currentHierarchy);
+    	
 		if (currentHierarchy != null) {
 			boolean toSetCaption = true;
 			for (int i = 0; i < currentHierarchy.size(); i++) {
@@ -1582,9 +1595,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		int updatedRecordCount = 0;
 		try {
 			int maxTreeLevelno = 0;
-			int treeLevelNo = 0;
+			int treeLevelNo;
 			int count = 0;
-			boolean checkValue = true;
+			boolean checkValue;
 			String hierarchyNo;
 			List<String> customerHierarchyNoList = new ArrayList<>();
 			List<String> productHierarchyNoList = new ArrayList<>();
@@ -1595,7 +1608,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			List<String> hierarchyIndicatorList = new ArrayList<>();
 			boolean isCustomHierarchy = CommonUtil.isValueEligibleForLoading()
 					? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
-					: Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
+					: Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.toString().equals(hierarchyIndicator);
                         
                     if (resultBeanContainer.size() == 0) {
 				LOGGER.debug(" Container size is 0");
@@ -2626,6 +2639,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					}
 					boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
 					boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
+                                        if (hierarchyListForCheckRecord.size() > 0) {
+                                             logic.updateCheckRecordForAdjust(checkedDiscountsPropertyIds, hierarchyListForCheckRecord, session, hierarchyIndicator);
+                                         } 
 					if (logic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
 							isCustomHierarchy)) {
                                             
@@ -2681,8 +2697,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 									if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
 											adjustmentValue, adjustActual,baselinePeriods)) {
 										LOGGER.debug(" Procedure executed Successfully");
-										logic.checkUncheckRebateBeforeAdjust(true, selectedDiscountList, session, false,
-												isProgram);
 										refreshTableData(getCheckedRecordsHierarchyNo());
 									} else {
 										logic.checkUncheckRebateBeforeAdjust(true, selectedDiscountList, session, false,
@@ -2780,7 +2794,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
 					if (logic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
 							isCustomHierarchy)) {
-
+                                            
+                                            if (logic.adjustDiscountProjectionValidation(projectionSelection)) {
+                                                NotificationUtils.getErrorNotification("Error", "When using the ‘% of Ex-Factory’ methodology, a product cannot be included in multiple selected contract, customer, and product combinations. Please update the selections");
+                                                return;
+                                            }
 						String confirmMessage = Constant.INCREMENTAL_ADJUSTMENT_CONFIRMATION;
 						String messageBody = StringUtils.EMPTY;
 						String basisCharacter = StringUtils.EMPTY;
@@ -2825,8 +2843,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 									logic.checkUncheckRebateBeforeAdjust(false, checkedDiscountList, session, true,
 											isProgram);
 									session.setFrequency(projectionSelection.getFrequency());
+                                                                        String adjustActual=session.isActualAdjustment() ? "0" : "1";
 									if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
-											adjustmentValue, allocationMethodology,baselinePeriods)) {
+											adjustmentValue, adjustActual,baselinePeriods)) {
 										LOGGER.debug(" Procedure executed Successfully");
 										logic.checkUncheckRebateBeforeAdjust(true, selectedDiscountList, session, false,
 												isProgram);
@@ -3329,7 +3348,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 } else {
                     if (CommonUtil.isValueEligibleForLoading()) {
                         CommonLogic.updateForFilter(projectionSelection, DEDUCTION, false);
+                        logic.updateAllToZero(session);
                     }
+                        hierarchyListForCheckRecord.clear();
 			callAdjustmentProcedure(this.session);
 			tableLogic.clearAll();
 			tableLogic.setRefresh(false);// will become true once setcurrentpage
@@ -3818,6 +3839,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				doubleHeaderCheckListener(columns, isChecked);
 			}
 		}
+                
 	}
 
 	/**
@@ -5160,6 +5182,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				? Integer.valueOf(session.getProductLevelNumber()) : 0;
 		currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo,
 				session.getProdRelationshipBuilderSid());
+		Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+        	@Override
+			public int compare(Leveldto o1, Leveldto o2) {
+				return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+        	}
+        });
+        Collections.reverse(currentHierarchy);
 		Utility.loadDdlbForLevelFilterOption(productlevelDdlb, currentHierarchy, StringUtils.EMPTY);
 		productlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
@@ -5243,7 +5272,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
 		currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo,
 				session.getCustRelationshipBuilderSid());
-		Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, StringUtils.EMPTY);
+		Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+        	@Override
+			public int compare(Leveldto o1, Leveldto o2) {
+				return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+        	}
+        });
+        Collections.reverse(currentHierarchy);
+    	Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, StringUtils.EMPTY);
 
 		customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override

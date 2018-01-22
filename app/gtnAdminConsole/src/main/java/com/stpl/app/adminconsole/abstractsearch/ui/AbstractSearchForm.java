@@ -227,7 +227,7 @@ public class AbstractSearchForm extends CustomComponent {
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     private static final Logger LOGGER = Logger.getLogger(AbstractSearchForm.class);
     private final AbstractSearchLogic searchLogic = new AbstractSearchLogic();
-    public static ResourceBundle columnBundle = ResourceBundle.getBundle("properties.tableColumns");
+    public static final ResourceBundle COLUMN_BUNDLE = ResourceBundle.getBundle("properties.tableColumns");
     private DiscountLogic discountLogic = new DiscountLogic();
     private String moduleName = StringUtils.EMPTY;
     private final CommonUtils commonsUtil = new CommonUtils();
@@ -595,7 +595,7 @@ public class AbstractSearchForm extends CustomComponent {
 
     private Object[] getColumns(boolean isColumns, String key) {
 
-        return (columnBundle.getString(isColumns ? "columns" + key : "headers" + key)).split(",");
+        return (COLUMN_BUNDLE.getString(isColumns ? "columns" + key : "headers" + key)).split(",");
 
     }
 

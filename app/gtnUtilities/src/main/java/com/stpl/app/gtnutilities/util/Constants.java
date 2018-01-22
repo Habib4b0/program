@@ -15,33 +15,33 @@ public class Constants {
     public static final String STORED_PROCEDURE_INFO = "STORED_PROCEDURE_INFO";
     public static final String INDEX_FRAGMENTATION_STATISTICS = "INDEX_FRAGMENTATION_STATISTICS";
     public static final String ERROR = "Error";
-    public static final String SelectDateMSG = "Please Select any Date";
+    public static final String SELECT_DATE_MSG = "Please Select any Date";
     public static final String EMPTY = "";
-    public static final String Query = "Query";
-    public static final String Procedure = "Procedure";
-    public static final String Continous_Dots = "...";
+    public static final String QUERY = "Query";
+    public static final String PROCEDURE = "Procedure";
+    public static final String CONTINUOUS_DOTS = "...";
     public static final String SPACE = " ";
     public static final String UNDERSCORE = "_";
-    public static final String Long_Running_Queries = "LONG RUNNING QUERIES";
-    public static final String Stored_Procedure_Info = "STORED PROCEDURE INFO";
-    public static final String Index_Fragmentation_Statistics = "INDEX FRAGMENTATION STATISTICS";
+    public static final String LONG_RUNNING_QUERY = "LONG RUNNING QUERIES";
+    public static final String STORED_PROCEDURE_INFOR = "STORED PROCEDURE INFO";
+    public static final String INDEX_FRAGMENTATION_STATISTIC = "INDEX FRAGMENTATION STATISTICS";
     public static final String CPU = "CPU";
     public static final String IO = "IO";
     public static final String LONG = "LONG";
-    public static final String Date_Format = "dd-MM-yyyy";
-    public static final String Hour_Date_Format = "dd/MM/yyyy HH:mm:ss";
-    public static final String Time_Format = "HH:mm:ss a";
+    public static final String DATE_FORMAT = "dd-MM-yyyy";
+    public static final String HOUR_DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
+    public static final String TIME_FORMAT = "HH:mm:ss a";
     public static final String ENABLED = "Enabled";
     public static final String OCCURS_ONCE_AT = "Occurs Once At";
     public static final String OCCURS_EVERY = "Occurs Every";
     public static final String END_DATE = "End Date";
     public static final String NO_END_DATE = "No End Date";
-    public static final String Query_Statistics = "Query Statistics";
-    public static final String CPU_IO_Statistics = "CPU IO Statistics";
-    public static final String Schedule_Job = "Scheduled Jobs";
+    public static final String QUERY_STATISTICS = "Query Statistics";
+    public static final String CPU_IO_STATISTIC = "CPU IO Statistics";
+    public static final String SCHEDULE_JOB = "Scheduled Jobs";
     public static final String YES = "Yes";
     public static final String NO = "No";
-    public static final String yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss";
+    public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
     public static final String SELECT_TIME = "Select Time";
     public static final String DISABLED = "Disabled";
     public static final String ALL = "All";
@@ -64,7 +64,7 @@ public class Constants {
     public static final String DOUBLE_QUOTE = "\"\"";
     public static final String QUOTE = "\"";
     public static final String EXCEL_STRING_FORMAT = "\" %s \",";
-    public static final String Server_Logging = "Server Logging";
+    public static final String SERVER_LOGGING = "Server Logging";
     public static final String INBOUND = "Inbound";
     public static final String OUTBOUND = "Outbound";
     /**
@@ -75,7 +75,7 @@ public class Constants {
     /**
      * The Constant CPU_TABLE_HEADER.
      */
-    private static final String[] QUERY_TABLE_HEADER = new String[]{"Database", Query, "Value"};
+    private static final String[] QUERY_TABLE_HEADER = new String[]{"Database", QUERY, "Value"};
     private static final String[] INTERFACES_LIST = new String[]{"ACCRUAL_INBOUND_INTERFACE", "COMPANY_TRADE_CLASS_INTERFACE",
         "GL_COST_CENTER_INTERFACE", "ITEM_MASTER_INTERFACE", "ACTUAL_MASTER_INTERFACE",
         "CONTRACT_HEADER_INTERFACE", "GL_POSTING_INTERFACE", "ITEM_PRICING_INTERFACE",
@@ -106,7 +106,7 @@ public class Constants {
     /**
      * The Constant CPU_TABLE_HEADER.
      */
-    private static final String[] PROCEDURE_TABLE_HEADER = new String[]{"Database", "Procedure Name", Query, "Value"};
+    private static final String[] PROCEDURE_TABLE_HEADER = new String[]{"Database", "Procedure Name", QUERY, "Value"};
     /**
      * The Constant CPU_IO_TABLE_COLUMNS.
      */

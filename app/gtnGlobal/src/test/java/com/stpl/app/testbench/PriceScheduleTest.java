@@ -23,8 +23,8 @@ import org.jboss.logging.Logger;
 
 public class PriceScheduleTest extends TestBenchTestCase {
     private static final Logger LOGGER = Logger.getLogger(PriceScheduleTest.class);
-	String psName = "Test1PS8345";
-	String psEditName = "Test1PS44897";
+	private String psName = "Test1PS8345";
+	private String psEditName = "Test1PS44897";
 
 	@Before
 	public void setUp() throws InterruptedException {

@@ -27,7 +27,7 @@ import org.jboss.logging.Logger;
 public class FileManagementFilterGenerator implements ExtFilterGenerator {
 
     private static final Logger LOGGER = Logger.getLogger(FileManagementFilterGenerator.class);
-    FileManagementLogic logic=new FileManagementLogic();
+    private FileManagementLogic logic=new FileManagementLogic();
 
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {

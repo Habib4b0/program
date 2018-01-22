@@ -15,9 +15,9 @@ import org.jboss.logging.Logger;
  */
 public class ValidationUtil {
 
-    public static ResourceBundle resouceBundle = ResourceBundle.getBundle("properties.validation");
+    public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("properties.validation");
 
-    public static ResourceBundle label = ResourceBundle.getBundle("properties.labelname");
+    public static final ResourceBundle LABEL = ResourceBundle.getBundle("properties.labelname");
 
     public static final String HYPHEN = " - ";
 
@@ -31,7 +31,7 @@ public class ValidationUtil {
      */
     public static String getMC(final String key) {
         try {
-            return resouceBundle.getString(key);
+            return RESOURCE_BUNDLE.getString(key);
         } catch (MissingResourceException e) {
             LOGGER.error(e);
             return "";
@@ -63,7 +63,7 @@ public class ValidationUtil {
 
     public static String getLC(final String key) {
         try {
-            return label.getString(key);
+            return LABEL.getString(key);
         } catch (MissingResourceException e) {
             LOGGER.error(e);
             return "";

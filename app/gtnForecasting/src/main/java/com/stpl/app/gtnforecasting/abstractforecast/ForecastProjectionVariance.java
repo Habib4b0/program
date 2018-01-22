@@ -60,6 +60,8 @@ import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.themes.ValoTheme;
+import java.util.Set;
+import java.util.TreeSet;
 import org.apache.commons.lang.ArrayUtils;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
@@ -901,7 +903,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     protected abstract void graphBtnLogic();
 
     public List<String> loadVariablesDdlb() {
-        List<String> outputList = new ArrayList<>();
+        Set<String> outputSet = new TreeSet();
         List<String> variablesList = new ArrayList<>();
             String query;
             List<String> returnList = new ArrayList<>();
@@ -916,14 +918,13 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
             input.put("Inventory Withdrawal - Forecast Summary", inventoryNames);
             query = SQlUtil.getQuery("get-file-type-query");
             returnList = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
-            outputList.addAll(defaultNames);
+            outputSet.addAll(defaultNames);
             for (String string : returnList) {
                 if (!"Customer Sales".equals(string) && !"Adjusted Demand".equals(string)) {
-                    outputList.addAll(input.get(string));
+                    outputSet.addAll(input.get(string));
                 }
             }
-            Collections.sort(outputList);
-            for (String str : outputList) {
+            for (String str : outputSet) {
                 variablesList.add(str.split("\\.")[1]);
             }
         return variablesList;

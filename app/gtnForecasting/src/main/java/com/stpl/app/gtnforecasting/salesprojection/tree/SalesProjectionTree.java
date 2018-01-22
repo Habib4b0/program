@@ -58,6 +58,7 @@ public class SalesProjectionTree {
     private void buildCustomTree(ProjectionSelectionDTO projSelDTO) {
         List<Object[]> customViewList = getAvailableHierarchiesCustom(projSelDTO);
         SalesBaseNode customApex = generateCustomTree(customViewList);
+        sortTree(customApex.getAllChildHierarchies(), projSelDTO);
         setCurrentApex(customApex);
     }
 
@@ -168,27 +169,27 @@ public class SalesProjectionTree {
         return apex;
     }
 
-    private void sortTree(List<TreeNode> treeNodeList, final ProjectionSelectionDTO session) {
-        if (treeNodeList != null) {
-            Collections.sort(treeNodeList, new Comparator<TreeNode>() {
+	private void sortTree(List<TreeNode> treeNodeList, final ProjectionSelectionDTO session) {
+		if (treeNodeList != null) {
+			Collections.sort(treeNodeList, new Comparator<TreeNode>() {
 
-                @Override
-                public int compare(TreeNode o1, TreeNode o2) {
+                                @Override
+				public int compare(TreeNode o1, TreeNode o2) {
                     String hierarchyNo = o1.getHierachyNo().contains(",") ? o1.getHierachyNo().split(",")[0] : o1.getHierachyNo();
                     String hierarchyNo1 = o2.getHierachyNo().contains(",") ? o2.getHierachyNo().split(",")[0] : o2.getHierachyNo();
-                    return String
+					return String
                             .valueOf(session.getSessionDTO().getHierarchyLevelDetails().get(hierarchyNo.trim()).get(0))
-                            .compareToIgnoreCase((String) session.getSessionDTO().getHierarchyLevelDetails()
+							.compareToIgnoreCase((String) session.getSessionDTO().getHierarchyLevelDetails()
                                     .get(hierarchyNo1.trim()).get(0));
-                }
-            });
-            for (TreeNode treeNode : treeNodeList) {
-                treeNode.generateHierarchy();
-                treeNode.getHierachyNo();
-                sortTree(treeNode.getAllChildHierarchies(), session);
-            }
-        }
-    }
+				}
+			});
+			for (TreeNode treeNode : treeNodeList) {
+				treeNode.generateHierarchy();
+				treeNode.getHierachyNo();
+				sortTree(treeNode.getAllChildHierarchies(), session);
+			}
+		}
+	}
     private SalesBaseNode generateCPForLevelFilter(int levelFiltered, List<Object[]> availableHierarachies) {
         SalesProjectionNodeCP apex = new SalesProjectionNodeCP("");
         if (!availableHierarachies.isEmpty()) {
