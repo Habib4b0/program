@@ -72,9 +72,7 @@ public class DeductionCalendarUI extends UI {
             navigator.addView(AbstractSearchView.NAME, new AbstractSearchView(ConstantUtil.DEDUCTION_CALENDAR,sessionDTO));
             navigator.addView(DeductionCalendarView.NAME, new DeductionCalendarView(sessionDTO));
             navigator.setErrorView(new AbstractSearchView(ConstantUtil.DEDUCTION_CALENDAR,sessionDTO));
-            
-            
-
+           
             UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
                 @Override
                 /**
@@ -96,7 +94,7 @@ public class DeductionCalendarUI extends UI {
                     LOGGER.error("",cause);
                 }
             });
-      LOGGER.info("Ending DeductionCalendar UI");
+            LOGGER.info("Ending DeductionCalendar UI");
         } catch (SystemException ex) {
             LOGGER.error(ex.getMessage());
         } 
