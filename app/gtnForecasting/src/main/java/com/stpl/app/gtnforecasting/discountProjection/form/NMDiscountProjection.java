@@ -140,6 +140,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.ExtCustomTable.ColumnCheckListener;
+import com.vaadin.ui.ExtCustomTreeTable;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
