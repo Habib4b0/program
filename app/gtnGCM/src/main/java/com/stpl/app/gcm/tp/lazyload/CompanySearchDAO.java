@@ -20,7 +20,7 @@ import org.vaadin.addons.lazycontainer.OrderByColumn;
 public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
 
     private TradingPartnerDTO dto;
-    public int parentCompanySid;
+    private int parentCompanySid;
     private CompanySearchLogic logic = new CompanySearchLogic();
     /**
      * The Constant LOGGER.

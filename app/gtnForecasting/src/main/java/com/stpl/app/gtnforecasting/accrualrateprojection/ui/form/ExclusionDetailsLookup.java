@@ -189,7 +189,7 @@ public class ExclusionDetailsLookup extends Window {
             logic.removeFromTempTable(sid,accrualRateSelectionDTO, true);
             List<String> selectedCompanysList = AccrualRateProjectionLogic.getSelectedCompanyList();
             if (selectedCompanysList.contains(selectedCompanyDto.getCompanyMasterSid())) {
-                AccrualRateProjectionLogic.selectedCompanyList.remove(selectedCompanyDto.getCompanyMasterSid());
+                AccrualRateProjectionLogic.getSelectedCompanyList().remove(selectedCompanyDto.getCompanyMasterSid());
             }
              
         LOGGER.debug("moveLeftBtn button click ends");
@@ -275,7 +275,7 @@ public class ExclusionDetailsLookup extends Window {
         LOGGER.debug("closeBtn button click starts");
         if(!submitFlag){
             logic.removeFromTempTable(StringUtils.EMPTY, accrualRateSelectionDTO, submitFlag);
-            AccrualRateProjectionLogic.selectedCompanyList.clear();
+            AccrualRateProjectionLogic.getSelectedCompanyList().clear();
         }
         close();
         LOGGER.debug("closeBtn button click ends");
@@ -304,7 +304,7 @@ public class ExclusionDetailsLookup extends Window {
             }
 
             private void resetBtnLogic() {
-                AccrualRateProjectionLogic.selectedCompanyList.clear();
+                AccrualRateProjectionLogic.getSelectedCompanyList().clear();
                 excludedFieldsTable.removeAllItems();
                 logic.removeFromTempTable(StringUtils.EMPTY, accrualRateSelectionDTO, false);
                

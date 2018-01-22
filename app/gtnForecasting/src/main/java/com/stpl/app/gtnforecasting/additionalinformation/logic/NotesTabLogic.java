@@ -47,7 +47,7 @@ public class NotesTabLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(NotesTabLogic.class);
-
+    private boolean isFileExists;
     /**
      * Gets the attachment dto list.
      *
@@ -110,7 +110,8 @@ public class NotesTabLogic {
             DocDetailsLocalServiceUtil.deleteDocDetails(docDetailsId);
         }
         File file = new File(fileName);
-        file.delete();
+        isFileExists=file.delete();
+        LOGGER.info("File deleted successfully : "+isFileExists);
         return true;
     }
 

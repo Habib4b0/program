@@ -15,7 +15,7 @@ import org.vaadin.addons.lazycontainer.SearchCriteria;
 public class ItemSearchCriteria implements SearchCriteria {
 
     private int lastCount;
-    public boolean dirty = false;
+    private boolean dirty = false;
     private final boolean customDirty = false;
     private String filter = StringUtils.EMPTY;
 

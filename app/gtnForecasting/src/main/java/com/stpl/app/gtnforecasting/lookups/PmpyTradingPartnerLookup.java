@@ -137,7 +137,7 @@ public class PmpyTradingPartnerLookup extends Window {
 
     private HorizontalLayout controlLayout = new HorizontalLayout();
 
-    PmpyTradingPartnerTableLogic tableLogic = new PmpyTradingPartnerTableLogic();
+    private PmpyTradingPartnerTableLogic tableLogic = new PmpyTradingPartnerTableLogic();
     private ExtPagedTable resultsTableTP = new ExtPagedTable(tableLogic);
     private BeanItemContainer<PmpyTradingPartnerDTO> resultBean = new BeanItemContainer<>(PmpyTradingPartnerDTO.class);
 

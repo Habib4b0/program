@@ -25,8 +25,8 @@ import java.util.Set;
  */
 public class SalesProjectionResultsVariableTree extends SalesProjectionResultsTree {
 
-    Object[] dataLevel;
-    Object[] showData;
+	private Object[] dataLevel;
+	private Object[] showData;
 
     @Override
     public void buildTree(ProjectionSelectionDTO projSelDTO) {
@@ -49,7 +49,7 @@ public class SalesProjectionResultsVariableTree extends SalesProjectionResultsTr
     private String getSPRStaticLevelValue(Object value) {
         String stringValue = String.valueOf(value);
         char[] valueArray = stringValue.toCharArray();
-       if (!Constants.MONTH.equals(creteria.frequency) && (valueArray[0] == 'Q' || valueArray[0] == 'S')) {
+       if (!Constants.MONTH.equals(creteria.getFrequency()) && (valueArray[0] == 'Q' || valueArray[0] == 'S')) {
             char temp = valueArray[0];
             valueArray[0] = valueArray[1];
             valueArray[1] = temp;

@@ -40,7 +40,7 @@ public class FileUploader implements Receiver {
 	/**
 	 * The file.
 	 */
-	public File file;
+	private File file;
 	/**
 	 * The basepath.
 	 */
@@ -57,9 +57,10 @@ public class FileUploader implements Receiver {
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = Logger.getLogger(FileUploader.class);
-	final String userId = (String) VaadinSession.getCurrent().getAttribute(USER_ID.getConstant());
-	public boolean upload = true;
-
+	private final String userId = (String) VaadinSession.getCurrent().getAttribute(USER_ID.getConstant());
+	private boolean upload = true;
+	private boolean isFileExists;
+	private boolean isFileCreated;
 	/**
 	 * The Constructor.
 	 *
@@ -96,10 +97,12 @@ public class FileUploader implements Receiver {
 
 				file = GtnFileUtil.getFile(dir, filename);
 				if (file.exists()) {
-					file.delete();
+					isFileExists=file.delete();
 				}
-				file.createNewFile();
+				isFileCreated=file.createNewFile();
 				outputStream = new FileOutputStream(file);
+				LOGGER.info("File deleted successfully : "+isFileExists);
+				LOGGER.info("File created successfully : "+isFileCreated);
 				return outputStream;
 			}
 		} catch (final java.io.FileNotFoundException e) {

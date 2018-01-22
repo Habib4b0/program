@@ -86,9 +86,9 @@ public class Copycomponents extends CustomComponent {
     private CopyComponentsResultLogic CopyComponentsResultLogic = new CopyComponentsResultLogic();
     private CopyComponentsSearchLogic CopyComponentsSearchLogic = new CopyComponentsSearchLogic();
     private   ComponentInfoLogic ComponentInfoLogic = new ComponentInfoLogic();
-    public ExtPagedTable contractComponent = new ExtPagedTable(CopyComponentsResultLogic);
-    public ExtPagedTable componentDetailsTable = new ExtPagedTable(CopyComponentsSearchLogic);
-    public ExtPagedTable contractInformationTable = new ExtPagedTable(ComponentInfoLogic);
+    private ExtPagedTable contractComponent = new ExtPagedTable(CopyComponentsResultLogic);
+    private ExtPagedTable componentDetailsTable = new ExtPagedTable(CopyComponentsSearchLogic);
+    private ExtPagedTable contractInformationTable = new ExtPagedTable(ComponentInfoLogic);
     private final BeanItemContainer<CopyComponentDTO> copycontractResultsContainer = new BeanItemContainer<>(CopyComponentDTO.class);
     private final BeanItemContainer<CopyComponentDTO> contractComponentContainer = new BeanItemContainer<>(CopyComponentDTO.class);
     private final BeanItemContainer<CopyComponentDTO> contractInfoContainer = new BeanItemContainer<>(CopyComponentDTO.class);
@@ -182,7 +182,7 @@ public class Copycomponents extends CustomComponent {
     public Button populateDetails;
     @UiField("removeBtn")
     public Button removeBtn;
-    public boolean checkAll = false;
+    private boolean checkAll = false;
     /* Component Layout */
     @UiField("cfpDetailsGrid")
     public GridLayout cfpDetailsGrid;
@@ -712,7 +712,7 @@ public class Copycomponents extends CustomComponent {
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.LEVELNO).setValue(Constants.ONE);
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(id);
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.MODEL_ID).setValue(modelId);
-                                    contractDashBoardTable.getContainerProperty(rootId, Constants.ADDBY).setValue("3");
+                                    contractDashBoardTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("3");
                                     contractDashBoardTable.addItem(rootId);
                                     contractDashBoardTable.setParent(rootId, root);
                                     contractDashBoardTable.setChildrenAllowed(rootId, true);
@@ -753,7 +753,7 @@ public class Copycomponents extends CustomComponent {
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.LEVELNO).setValue(Constants.TWO);
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(id);
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.MODEL_ID).setValue(modelId);
-                                    contractDashBoardTable.getContainerProperty(rootId, Constants.ADDBY).setValue("3");
+                                    contractDashBoardTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("3");
                                     contractDashBoardTable.addItem(rootId);
                                     contractDashBoardTable.setParent(rootId, root);
                                     contractDashBoardTable.setChildrenAllowed(rootId, true);
@@ -798,7 +798,7 @@ public class Copycomponents extends CustomComponent {
                                         contractDashBoardTable.getContainerProperty(rootId, Constants.LEVELNO).setValue(Constants.THREE);
                                         contractDashBoardTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(id);
                                         contractDashBoardTable.getContainerProperty(rootId, Constants.MODEL_ID).setValue(modelId);
-                                        contractDashBoardTable.getContainerProperty(rootId, Constants.ADDBY).setValue("3");
+                                        contractDashBoardTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("3");
                                         contractDashBoardTable.addItem(rootId);
                                         contractDashBoardTable.setParent(rootId, root);
                                         contractDashBoardTable.setChildrenAllowed(rootId, true);
@@ -842,7 +842,7 @@ public class Copycomponents extends CustomComponent {
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.LEVELNO).setValue(Constants.FOUR);
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(id);
                                     contractDashBoardTable.getContainerProperty(rootId, Constants.MODEL_ID).setValue(modelId);
-                                    contractDashBoardTable.getContainerProperty(rootId, Constants.ADDBY).setValue("3");
+                                    contractDashBoardTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("3");
                                     contractDashBoardTable.addItem(rootId);
                                     contractDashBoardTable.setParent(rootId, root);
                                     contractDashBoardTable.setChildrenAllowed(rootId, false);

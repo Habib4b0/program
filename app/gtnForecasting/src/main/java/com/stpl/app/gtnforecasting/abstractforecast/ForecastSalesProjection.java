@@ -159,7 +159,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     /**
      * The split position.
      */
-    public ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
     protected ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     protected ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
     protected CustomTableHeaderDTO excelHeader = new CustomTableHeaderDTO();
@@ -3838,5 +3838,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             
             allocationBasis.addItems(outputList);
     }
+
+public ExtTreeContainer<SalesRowDto> getCustomContainer() {
+	return customContainer;
+}
+
+public void setCustomContainer(ExtTreeContainer<SalesRowDto> customContainer) {
+	this.customContainer = customContainer;
+}
     
 }

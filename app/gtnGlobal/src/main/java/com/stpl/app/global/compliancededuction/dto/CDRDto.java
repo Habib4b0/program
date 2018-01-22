@@ -34,6 +34,10 @@ public class CDRDto implements Serializable {
     private HelperDTO logicalOperatorDdlbDto;
     private HelperDTO ruleTypeDto;
 
+    public CDRDto(){
+    	super();
+    }
+    
     public int getCdrDetailsSid() {
         return cdrDetailsSid;
     }

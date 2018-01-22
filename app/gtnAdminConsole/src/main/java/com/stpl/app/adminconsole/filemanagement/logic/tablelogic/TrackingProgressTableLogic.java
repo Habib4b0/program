@@ -22,6 +22,9 @@ public class TrackingProgressTableLogic extends PageTableLogic {
     private TrackingProcessDTO resultDTO;
     private boolean isResultsEmpty;
 
+    public TrackingProgressTableLogic(){
+    	super();
+    }
     @Override
     public int getCount() {
         int count = 0;
@@ -44,7 +47,7 @@ public class TrackingProgressTableLogic extends PageTableLogic {
     public void configureSearchData(TrackingProcessDTO resultDTO) {
         this.clearAll();
         this.getFilters().clear();
-        this.resultDTO = resultDTO;
+        this.setResultDTO(resultDTO);
         this.setRequiredCount(true);
         this.setCurrentPage(1);
     }
@@ -52,5 +55,11 @@ public class TrackingProgressTableLogic extends PageTableLogic {
     public boolean isResultsEmpty() {
         return isResultsEmpty;
     }
+	public TrackingProcessDTO getResultDTO() {
+		return resultDTO;
+	}
+	public void setResultDTO(TrackingProcessDTO resultDTO) {
+		this.resultDTO = resultDTO;
+	}
 
 }

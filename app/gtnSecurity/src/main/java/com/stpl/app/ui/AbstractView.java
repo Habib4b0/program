@@ -11,7 +11,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static String NAME = "";
+	public static final String NAME = "";
 	public AbstractView(){		
 		setSpacing(true);
 		setComponentError(new UserError(""));

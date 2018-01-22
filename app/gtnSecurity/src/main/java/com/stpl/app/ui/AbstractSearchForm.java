@@ -20,7 +20,7 @@ public abstract class AbstractSearchForm  extends CustomComponent{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	final Label space = new Label("&nbsp;", ContentMode.HTML);
+	private final Label space = new Label("&nbsp;", ContentMode.HTML);
 	
 	/**
 	 * 
