@@ -1522,4 +1522,12 @@ public class TransferComponents extends CustomComponent implements View {
             rsType.setValue(String.valueOf(object[NumericConstants.EIGHT]));
         }
     }
+
+	public String getExcelName() {
+		return excelName;
+	}
+
+	public void setExcelName(String excelName) {
+		this.excelName = excelName;
+	}
 }

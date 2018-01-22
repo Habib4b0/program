@@ -90,4 +90,12 @@ public class SearchResults extends CustomComponent {
 		
 		return table;
 	}
+
+	public BusinessRoleModuleSearchLogic getBusinessRoleModuleLogic() {
+		return businessRoleModuleLogic;
+	}
+
+	public void setBusinessRoleModuleLogic(BusinessRoleModuleSearchLogic businessRoleModuleLogic) {
+		this.businessRoleModuleLogic = businessRoleModuleLogic;
+	}
 }

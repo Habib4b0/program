@@ -21,6 +21,14 @@ public class PMPYLogic {
     /** The sales dao. */
 	private SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
 
+	public SalesProjectionDAO getSalesDAO() {
+		return salesDAO;
+	}
+
+	public void setSalesDAO(SalesProjectionDAO salesDAO) {
+		this.salesDAO = salesDAO;
+	}
+
    
 
 }

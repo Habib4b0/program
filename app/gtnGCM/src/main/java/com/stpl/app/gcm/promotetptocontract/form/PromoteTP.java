@@ -624,5 +624,13 @@ public class PromoteTP extends VerticalLayout {
             LOGGER.error(e);
         }
     }
+
+	public CustomFieldGroup getPromoteTpToChDtoBinder() {
+		return promoteTpToChDtoBinder;
+	}
+
+	public void setPromoteTpToChDtoBinder(CustomFieldGroup promoteTpToChDtoBinder) {
+		this.promoteTpToChDtoBinder = promoteTpToChDtoBinder;
+	}
     
 }

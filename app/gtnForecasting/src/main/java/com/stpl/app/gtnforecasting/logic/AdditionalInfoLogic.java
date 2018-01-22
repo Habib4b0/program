@@ -58,6 +58,10 @@ public class AdditionalInfoLogic {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
+    public AdditionalInfoLogic(){
+    	super();
+    }
+    
     public Boolean saveUploadedFile(final int projectionId, final String fileName, final String uploadedBy, final Double fileSize, final String moduleName) throws SystemException {
 
         final DecimalFormat formatter = new DecimalFormat("#.#");

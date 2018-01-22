@@ -99,9 +99,17 @@ public class AccrualRateProjectionTableLogic extends PageTableLogic {
     public void setRequiredData(final String tabName, final AccrualRateSelectionDTO accrualRateSelectionDTO,final List<String> selectedVariables,final boolean isViewMode) {        
         this.tabName = tabName;
         this.accrualRateSelectionDTO = accrualRateSelectionDTO;
-        this.selectedVariables =selectedVariables == null ? selectedVariables : Collections.unmodifiableList(selectedVariables);
+        this.setSelectedVariables(selectedVariables == null ? selectedVariables : Collections.unmodifiableList(selectedVariables));
         this.isViewMode = isViewMode;
         this.setRequiredCount(true);
         this.setCurrentPage(1);
     }
+
+	public List<String> getSelectedVariables() {
+		return selectedVariables;
+	}
+
+	public void setSelectedVariables(List<String> selectedVariables) {
+		this.selectedVariables = selectedVariables;
+	}
 }

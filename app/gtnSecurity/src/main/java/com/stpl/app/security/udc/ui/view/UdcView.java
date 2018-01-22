@@ -31,4 +31,8 @@ public class UdcView extends VerticalLayout implements View {
 
     }
 
+	public SessionDTO getSessionDTO() {
+		return sessionDTO;
+	}
+
 }

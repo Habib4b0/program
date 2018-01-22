@@ -34,7 +34,7 @@ public class GlobalChangeUIMainView extends VerticalLayout implements View {
      */
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        globalChangeDTO = new GlobalChangeDTO();
+        setGlobalChangeDTO(new GlobalChangeDTO());
     }
 
     /**
@@ -47,4 +47,12 @@ public class GlobalChangeUIMainView extends VerticalLayout implements View {
         addComponent(new GlobalChangeIndex());
 
     }
+
+	public GlobalChangeDTO getGlobalChangeDTO() {
+		return globalChangeDTO;
+	}
+
+	public void setGlobalChangeDTO(GlobalChangeDTO globalChangeDTO) {
+		this.globalChangeDTO = globalChangeDTO;
+	}
 }

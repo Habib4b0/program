@@ -313,4 +313,20 @@ public class GlobalChangeIndex extends CustomComponent implements View {
 
         }
     }
+
+	public CustomFieldGroup getPromoteTpToChDtoBinder() {
+		return promoteTpToChDtoBinder;
+	}
+
+	public void setPromoteTpToChDtoBinder(CustomFieldGroup promoteTpToChDtoBinder) {
+		this.promoteTpToChDtoBinder = promoteTpToChDtoBinder;
+	}
+
+	public CustomFieldGroup getGlobalChangeBinder() {
+		return globalChangeBinder;
+	}
+
+	public void setGlobalChangeBinder(CustomFieldGroup globalChangeBinder) {
+		this.globalChangeBinder = globalChangeBinder;
+	}
 }

@@ -1267,4 +1267,12 @@ public class Copycomponents extends CustomComponent {
         });
     }
 
+	public boolean isCheckAll() {
+		return checkAll;
+	}
+
+	public void setCheckAll(boolean checkAll) {
+		this.checkAll = checkAll;
+	}
+
 }
