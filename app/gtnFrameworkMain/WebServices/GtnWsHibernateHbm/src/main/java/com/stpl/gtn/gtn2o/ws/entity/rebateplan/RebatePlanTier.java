@@ -37,6 +37,7 @@ public class RebatePlanTier implements java.io.Serializable {
 	private String secondaryRebatePlanName;
 	private Integer secondaryRebatePlanSid;
 	private String itemPricingQualifierSid;
+	private String formulaCalculation;
 	private HelperTable helperTableReturnRateSid;
 
 	public RebatePlanTier() {
@@ -65,7 +66,7 @@ public class RebatePlanTier implements java.io.Serializable {
 			BigDecimal freeAmount, BigDecimal tierTolerance, char inboundStatus, boolean recordLockStatus,
 			String batchId, String source, int createdBy, Date createdDate, int modifiedBy, Date modifiedDate,
 			String formulaNo, String formulaName, String secondaryRebatePlanNo, String secondaryRebatePlanName,
-			Integer secondaryRebatePlanSid, String itemPricingQualifierSid, HelperTable helperTableReturnRateSid) {
+			Integer secondaryRebatePlanSid, String itemPricingQualifierSid, HelperTable helperTableReturnRateSid,String formulaCalculation) {
 		this.rebatePlanTierSid = rebatePlanTierSid;
 		this.helperTable = helperTable;
 		this.rebatePlanMaster = rebatePlanMaster;
@@ -90,6 +91,7 @@ public class RebatePlanTier implements java.io.Serializable {
 		this.secondaryRebatePlanName = secondaryRebatePlanName;
 		this.secondaryRebatePlanSid = secondaryRebatePlanSid;
 		this.itemPricingQualifierSid = itemPricingQualifierSid;
+		this.formulaCalculation = formulaCalculation;
 		this.helperTableReturnRateSid = helperTableReturnRateSid;
 	}
 
@@ -283,6 +285,14 @@ public class RebatePlanTier implements java.io.Serializable {
 
 	public void setItemPricingQualifierSid(String itemPricingQualifierSid) {
 		this.itemPricingQualifierSid = itemPricingQualifierSid;
+	}
+        
+	public String getFormulaCalculation() {
+		return formulaCalculation;
+	}
+
+	public void setFormulaCalculation(String formulaCalculation) {
+		this.formulaCalculation = formulaCalculation;
 	}
 
 	public HelperTable getHelperTableReturnRateSid() {

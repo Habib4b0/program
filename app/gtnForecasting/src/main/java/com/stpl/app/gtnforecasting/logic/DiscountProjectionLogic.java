@@ -1229,6 +1229,7 @@ public class DiscountProjectionLogic {
         return list.get(0);
     }
     
+
     public String getFormatedHierarchyNo(List<String> list) {
         StringBuilder hierarchyNo=new StringBuilder();
         for (String string : list) {

@@ -43,6 +43,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
@@ -775,7 +777,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     protected abstract void graphBtnLogic();
     
     public List<String> loadVariablesDdlb() {
-        List<String> outputList = new ArrayList<>();
+        Set<String> outputSet = new TreeSet();
         List<String> variablesList = new ArrayList<>();
             String query;
             List<String> returnList;
@@ -792,14 +794,13 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
             input.put("Adjusted Demand", AdjDemandNames);
             query = SQlUtil.getQuery("get-file-type-query");
             returnList = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
-            outputList.addAll(defaultNames);
+            outputSet.addAll(defaultNames);
             for (String string : returnList) {
                 if (!"Customer Sales".equals(string)) {
-                    outputList.addAll(input.get(string));
+                    outputSet.addAll(input.get(string));
                 }
             }
-            Collections.sort(outputList);
-            for (String str : outputList) {
+            for (String str : outputSet) {
                 variablesList.add(str.split("\\.")[1]);
             }
         return variablesList;

@@ -140,7 +140,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.ExtCustomTable.ColumnCheckListener;
-import com.vaadin.ui.ExtCustomTreeTable;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -250,9 +249,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     @UiField("gridlay")
     private GridLayout gridlay;
-
-    SessionDTO sessionDTO;
-    protected ExtFilterTreeTable leftTable;
     private static final String PLEASE_SELECT_A_HISTORIC_ALERT = "Please select a Historic Period for each discount selected.";
     private List<String> checkedList;
 
@@ -1290,6 +1286,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         levelDdlb.removeAllItems();
         levelDdlb.addItem(SELECT_ONE.getConstant());
         levelDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
+        Collections.sort(currentHierarchy, new Comparator<Leveldto>() {
+            @Override
+            public int compare(Leveldto o1, Leveldto o2) {
+                return o2.getTreeLevelNo() - o1.getTreeLevelNo();
+            }
+        });
+        Collections.reverse(currentHierarchy);
 
         if (currentHierarchy != null) {
             boolean toSetCaption = true;
@@ -2629,7 +2632,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                     }
                     boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
                     boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
-
                     if (hierarchyListForCheckRecord.size() > 0) {
                         logic.updateCheckRecordForAdjust(checkedDiscountsPropertyIds, hierarchyListForCheckRecord, session, hierarchyIndicator);
                     }
@@ -2789,7 +2791,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             NotificationUtils.getErrorNotification("Error", "When using the ‘% of Ex-Factory’ methodology, a product cannot be included in multiple selected contract, customer, and product combinations. Please update the selections");
                             return;
                         }
-
                         String confirmMessage = Constant.INCREMENTAL_ADJUSTMENT_CONFIRMATION;
                         String messageBody = StringUtils.EMPTY;
                         String basisCharacter = StringUtils.EMPTY;
@@ -3831,6 +3832,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 doubleHeaderCheckListener(columns, isChecked);
             }
         }
+
     }
 
     /**
@@ -5171,6 +5173,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 ? Integer.valueOf(session.getProductLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo,
                 session.getProdRelationshipBuilderSid());
+        Collections.sort(currentHierarchy, new Comparator<Leveldto>() {
+            @Override
+            public int compare(Leveldto o1, Leveldto o2) {
+                return o2.getTreeLevelNo() - o1.getTreeLevelNo();
+            }
+        });
+        Collections.reverse(currentHierarchy);
         Utility.loadDdlbForLevelFilterOption(productlevelDdlb, currentHierarchy, StringUtils.EMPTY);
         productlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -5254,6 +5263,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo,
                 session.getCustRelationshipBuilderSid());
+        Collections.sort(currentHierarchy, new Comparator<Leveldto>() {
+            @Override
+            public int compare(Leveldto o1, Leveldto o2) {
+                return o2.getTreeLevelNo() - o1.getTreeLevelNo();
+            }
+        });
+        Collections.reverse(currentHierarchy);
         Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, StringUtils.EMPTY);
 
         customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
