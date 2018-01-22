@@ -14,9 +14,9 @@ import com.vaadin.ui.Notification;
 public class ActionButtonLayout extends HorizontalLayout {
 
 	private static final long serialVersionUID = 1L;
-		BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
+	private BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
 	
-	BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
+	private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
 
 	public ActionButtonLayout(BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans) {
 		super();

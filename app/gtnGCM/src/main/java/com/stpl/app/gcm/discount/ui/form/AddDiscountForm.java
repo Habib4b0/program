@@ -41,7 +41,7 @@ public class AddDiscountForm extends CustomComponent implements View {
     /**
      * The tab flag.
      */
-    public boolean tabFlag = false;
+    private boolean tabFlag = false;
     /**
      * The tab sheet.
      */
@@ -82,7 +82,7 @@ public class AddDiscountForm extends CustomComponent implements View {
     private ExistingDiscountTab existingDiscountTab;
     private final AddDiscountWindow editWindow;
     private ExtFilterTable resultTable;
-    public int tempTabPosition = 0;
+    private int tempTabPosition = 0;
 
     @UiField("addDiscountBtn")
     public Button addDiscountBtn;

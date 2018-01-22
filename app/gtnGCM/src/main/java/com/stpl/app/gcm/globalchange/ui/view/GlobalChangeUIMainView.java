@@ -25,7 +25,7 @@ public class GlobalChangeUIMainView extends VerticalLayout implements View {
     /**
      * DTO object for DataSelection
      */
-    public GlobalChangeDTO globalChangeDTO = new GlobalChangeDTO();
+    private GlobalChangeDTO globalChangeDTO = new GlobalChangeDTO();
 
     /**
      * Default Enter Method

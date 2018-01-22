@@ -391,7 +391,7 @@ public class NMProjectionResultsLogic {
         ppaDto.setParent(0);
         return ppaDto;
     }
-    List<String> discountList = new ArrayList<>();
+    private List<String> discountList = new ArrayList<>();
 
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsDiscount(List<Object> list, ProjectionSelectionDTO projSelDTO, boolean isPPA,int value,boolean isNetSales) {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
@@ -1711,7 +1711,7 @@ public class NMProjectionResultsLogic {
         }
         projectionTotalList.addAll(projDTOList);
         LOGGER.debug("= = = Ending getCustomizedProjectionTotal = = =");
-         return projectionTotalList;
+         return Collections.unmodifiableList(projectionTotalList);
     }
 
     public List<ProjectionResultsDTO> getProjectionTotalDiscounts(ProjectionSelectionDTO projSelDTO, Object[] orderedArgs) {

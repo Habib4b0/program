@@ -14,7 +14,6 @@ import com.stpl.app.gcm.common.dao.impl.CommonImpl;
 import com.stpl.app.gcm.copycontract.dto.ContractSelectionDTO;
 import com.stpl.app.gcm.discount.dto.ContractsDetailsDto;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
-import static com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic.ddlbMap;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.CompanyCrtIdentifierDTO;
@@ -24,6 +23,8 @@ import com.stpl.app.gcm.tp.dto.TradingPartnerDTO;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
+
+import static com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic.getDdlbmap;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import com.stpl.app.gcm.util.Converters;
 import com.stpl.app.gcm.util.ErrorCodeUtil;
@@ -2283,6 +2284,7 @@ public class CommmonLogic {
     }
 
     public static List getDDLBListForListLoading(String columnName, Boolean isFilter) {
+    	Map<String, List> ddlbMap = AbstractLogic.getDdlbmap();
         if (ddlbMap.get(columnName) == null) {
             List input = new ArrayList();
             input.add(columnName);

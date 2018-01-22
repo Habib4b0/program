@@ -171,9 +171,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 		this.privateViewName = privateViewName;
 	}
 
-	HelperListUtil helperListUtil = HelperListUtil.getInstance();
+	private HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
-	ResourceBundle tableName = ResourceBundle.getBundle("properties.Constants");
+	private ResourceBundle tableName = ResourceBundle.getBundle("properties.Constants");
 
 	// Used for CCP_HIERARCHY_INSERT query formation
 	private String topLevelName = StringUtils.EMPTY;

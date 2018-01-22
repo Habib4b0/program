@@ -102,6 +102,10 @@ public class HierarchyDefinitionDTO implements Serializable {
 
     private String checkedAllIds=StringUtils.EMPTY;
 
+    public HierarchyDefinitionDTO(){
+    	super();
+    }
+    
     public String getHierarchyCategoryInString() {
         return hierarchyCategoryInString;
     }

@@ -41,7 +41,7 @@ import org.jboss.logging.Logger;
 public class CommonLogic {
      public static final Logger LOGGER = Logger.getLogger(CommonLogic.class);
        
-      public static NADataSelectionDAO dataSelection = new NADataSelectionDAOImpl();
+     private static NADataSelectionDAO dataSelection = new NADataSelectionDAOImpl();
         public void saveProjectionSelection(Map map, int projectionID, String screenName) throws PortalException {
         List<NaProjectionSelection> list = new ArrayList<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(NaProjectionSelection.class);

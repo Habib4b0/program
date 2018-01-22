@@ -71,7 +71,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
     private ExtFilterTreeTable rightTable;
     private final SalesTabTableLogic tableLogic = new SalesTabTableLogic();
     private final FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
-    public TabSelectionDTO selectionDTO = new TabSelectionDTO();
+    private TabSelectionDTO selectionDTO = new TabSelectionDTO();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private final SessionDTO session;
     private ExtCustomTreeTable exportPeriodViewTable;
@@ -90,7 +90,7 @@ public class SummarySalesProjectionTransfer extends VerticalLayout implements Vi
      * The split position.
      */
     private final float splitPosition = 300;
-    public ExtFilterTable resultTable;
+    private ExtFilterTable resultTable;
 
     public SummarySalesProjectionTransfer(ExtFilterTable resultTable, SessionDTO session) {
         this.resultTable = resultTable;

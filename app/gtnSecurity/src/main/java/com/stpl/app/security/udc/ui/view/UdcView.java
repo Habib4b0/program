@@ -13,11 +13,11 @@ import com.vaadin.ui.VerticalLayout;
 public class UdcView extends VerticalLayout implements View {
 
     public static final String NAME = "";
-    BeanItemContainer<HelperForm> searchResultbeans = new BeanItemContainer<HelperForm>(
+    private BeanItemContainer<HelperForm> searchResultbeans = new BeanItemContainer<HelperForm>(
             HelperForm.class);
 
-    Table table = new Table();
-    final SessionDTO sessionDTO;
+    private Table table = new Table();
+    private final SessionDTO sessionDTO;
 
     public UdcView(final SessionDTO sessionDTO) {
         setSpacing(true);

@@ -52,7 +52,7 @@ public class StplSecurity {
 
     private static final List<String> DOMAINIDS1 = null;
 
-    public static Map<Integer, String> userMap = new ConcurrentHashMap<Integer, String>();
+    private static Map<Integer, String> userMap = new ConcurrentHashMap<Integer, String>();
 
     public StplSecurityDAO getDto() {
         return dto;
@@ -314,10 +314,10 @@ public class StplSecurity {
         DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
-            userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
+            getUserMap().put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
         }
         LOGGER.debug("End of getUserName method");
-        return userMap;
+        return getUserMap();
     }
 
     public Map<String, AppPermission> getFieldOrColumnPermission(final String userId, final String moduleName, final boolean column) throws PortalException, SystemException {
@@ -460,4 +460,12 @@ public class StplSecurity {
         field.addAll(columnList);
         return field;
     }
+
+	public static Map<Integer, String> getUserMap() {
+		return userMap;
+	}
+
+	public static void setUserMap(Map<Integer, String> userMap) {
+		StplSecurity.userMap = userMap;
+	}
 }

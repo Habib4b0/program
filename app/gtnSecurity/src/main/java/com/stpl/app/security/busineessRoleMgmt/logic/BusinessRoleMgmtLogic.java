@@ -27,7 +27,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
         super(BusinessroleMasterDTO.class);
 
     }
- BusinessRoleMgmtLogicDAO dao = new BusinessRoleMgmtLogicDAOImpl();
+ private BusinessRoleMgmtLogicDAO dao = new BusinessRoleMgmtLogicDAOImpl();
 
     public List<BusinessroleMasterDTO> getAllBusinessroles() throws SystemException {
     	DynamicQuery businessroleMasterDynamicQuery = DynamicQueryFactoryUtil

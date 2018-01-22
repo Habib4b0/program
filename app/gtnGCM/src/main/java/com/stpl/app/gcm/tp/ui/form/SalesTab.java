@@ -79,7 +79,7 @@ public class SalesTab extends VerticalLayout {
     private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightDTO;
     private CustomTableHeaderDTO leftDTO;
-    public ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<SalesTabDTO> resultBean = new ExtTreeContainer<>(SalesTabDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The map left visible columns.
      */
@@ -105,13 +105,13 @@ public class SalesTab extends VerticalLayout {
      * The split position.
      */
     private final float splitPosition = 300;
-    public TabSelectionDTO selectionDTO = new TabSelectionDTO();
+    private TabSelectionDTO selectionDTO = new TabSelectionDTO();
     private ExtCustomTreeTable exportPeriodViewTable;
     private ExtTreeContainer<SalesTabDTO> excelResultBean = new ExtTreeContainer<>(SalesTabDTO.class, ExtContainer.DataStructureMode.MAP);
     private final LoadTabLogic tabLogic = new LoadTabLogic();
     final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
     private final SessionDTO session;
-    public boolean load = false;
+    private boolean load = false;
     private int projectionId = 0;
 
     public SalesTab(SessionDTO session, boolean isLoad) {

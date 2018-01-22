@@ -162,6 +162,9 @@ public class FileMananagementResultDTO implements Serializable {
     private int selectedFileVersion;
     private int businessUnitSysId;
     
+    public FileMananagementResultDTO(){
+    	super();
+    }
     
     public int getCustomerGtsForecastIntfId() {
         return customerGtsForecastIntfId;

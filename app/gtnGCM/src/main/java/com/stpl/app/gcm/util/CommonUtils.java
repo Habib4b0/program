@@ -30,7 +30,7 @@ public class CommonUtils {
     /**
      * The log.
      */
-    public static PortletConfig portletConfig;
+	private static PortletConfig portletConfig;
     public final static String COMPANY_NAME = "companyName";
     public final static String QUOTES = "'";
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);

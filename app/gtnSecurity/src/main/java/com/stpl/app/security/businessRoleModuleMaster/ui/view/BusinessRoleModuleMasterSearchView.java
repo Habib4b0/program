@@ -18,14 +18,14 @@ public class BusinessRoleModuleMasterSearchView extends VerticalLayout implement
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "";
-	public static  String userId = "";
+	private static  String userId = "";
         
-	BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans = new BeanItemContainer<SearchBusinessRoleModuleForm>(
+	private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans = new BeanItemContainer<SearchBusinessRoleModuleForm>(
 			SearchBusinessRoleModuleForm.class);
-	BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult = new BeanItemContainer<SearchBusinessRoleModuleForm>(
+	private BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult = new BeanItemContainer<SearchBusinessRoleModuleForm>(
 			SearchBusinessRoleModuleForm.class);
-	ExtFilterTable table=new ExtFilterTable();
-	ExtFilterTable tableResult=new ExtFilterTable();
+	private ExtFilterTable table=new ExtFilterTable();
+	private ExtFilterTable tableResult=new ExtFilterTable();
 	public BusinessRoleModuleMasterSearchView(){		
        super();
          userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));

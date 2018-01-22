@@ -14,7 +14,7 @@ public class DropdownListCriteria implements SearchCriteria {
 
     private String filter;
     private int lastCount;
-    public boolean dirty;
+    private boolean dirty;
 
     @Override
     public int getLastCount() {

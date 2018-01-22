@@ -44,7 +44,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 public class DataSelectionQueryUtils {
 
      private static final NACommonResultsDAO DAO = new NACommonResultsDAOImpl();
-     public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+     private String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
      public static final String AFALSE_STRING = "false";
      public static final String FILTERBUSINESS_UNIT_NAME = "filter~businessUnitName";
      public static final String FILTERCREATED_BY = "filter~createdBy";
