@@ -32,7 +32,7 @@ public class DiscountUI extends UI {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscountUI.class);
-    SessionDTO sessionDTO = new SessionDTO();
+    private SessionDTO sessionDTO = new SessionDTO();
 
     /**
      * Initialization the class.

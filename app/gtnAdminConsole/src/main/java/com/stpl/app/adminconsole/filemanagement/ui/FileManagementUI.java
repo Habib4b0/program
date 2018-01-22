@@ -40,8 +40,7 @@ public class FileManagementUI extends UI {
 
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementUI.class);
-
-        SessionDTO sessionDTO = new SessionDTO();
+	private SessionDTO sessionDTO = new SessionDTO();
 
 	/**
 	 * Initializes this UI.
@@ -61,7 +60,8 @@ public class FileManagementUI extends UI {
 			LOGGER.info("USER_ID: " + userId);
 			LOGGER.info("SESSION_ID: " + sessionId);
 			navigator = new Navigator(this, this);
-			HelperListUtil.getInstance().loadValuesWithListName("filemanagement");
+			HelperListUtil helperListUtil = HelperListUtil.getInstance();
+			helperListUtil.loadValuesWithListName("filemanagement");
 			navigator.addView(FileManagementIndexView.NAME, new FileManagementIndexView(sessionDTO));
 			navigator.setErrorView(new FileManagementIndexView(sessionDTO));
 			setData(sessionDTO);

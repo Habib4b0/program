@@ -13,7 +13,7 @@ import com.stpl.app.adminconsole.processscheduler.ui.form.OutboundProcess;
  */
 public class SchedulerExportThread implements Runnable {
 
-    String processName = "";
+    private String processName = "";
 
     public SchedulerExportThread(String processName) {
         this.processName = processName;

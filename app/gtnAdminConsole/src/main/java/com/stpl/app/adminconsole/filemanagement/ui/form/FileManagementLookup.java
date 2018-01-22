@@ -246,7 +246,7 @@ public class FileManagementLookup extends Window {
 
 	private HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
 
-	public Object selectedItem;
+	private Object selectedItem;
 
 	private char detailsFlag = 'N';
 
@@ -523,8 +523,8 @@ public class FileManagementLookup extends Window {
 		this.detailsFlag = detailsFlag;
 	}
 
-	CommonUtil commonUtil = new CommonUtil();
-	CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
+	private CommonUtil commonUtil = new CommonUtil();
+	private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
 
 	public void init() {
 		try {
@@ -2967,9 +2967,9 @@ public class FileManagementLookup extends Window {
 							unit.setImmediate(true);
 
 							unit.addBlurListener(new com.vaadin.event.FieldEvents.BlurListener() {
-                                                            @Override
+								@Override
                                                             public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
-                                                                LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
+									LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
 
 									String unitValue = unit.getValue();
 									if (!unitValue.matches(ValidationUtils.PRICE)) {
@@ -2992,8 +2992,8 @@ public class FileManagementLookup extends Window {
 											* Double.parseDouble(unitsValue);
 									detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.DOLLARS)
 											.setValue(String.valueOf(dollarValue));
-                                                            }
-                                                        });
+								}
+							});
 							unit.setConverter(unitsFormat);
 							return unit;
 						}
@@ -3002,9 +3002,9 @@ public class FileManagementLookup extends Window {
 							price.setImmediate(true);
 
 							price.addBlurListener(new com.vaadin.event.FieldEvents.BlurListener() {
-                                                            @Override
+								@Override
                                                             public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
-                                                                LOGGER.debug(CommonUtils.LEVELVALUE_LISTENER);
+									LOGGER.debug(CommonUtils.LEVELVALUE_LISTENER);
 									String priceValue = price.getValue();
 									String priceWithoutDollar = priceValue.replace("$", ConstantsUtils.EMPTY);
 									if (!priceWithoutDollar.matches(ValidationUtils.PRICE)) {
@@ -3024,8 +3024,8 @@ public class FileManagementLookup extends Window {
 											* Double.parseDouble(uniWithoutDollar);
 									detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.DOLLARS)
 											.setValue(String.valueOf(dollarValue));
-                                                            }
-                                                        });
+								}
+							});
 							price.setConverter(priceFormat);
 							return price;
 						}
@@ -3072,32 +3072,32 @@ public class FileManagementLookup extends Window {
 						unit.setImmediate(true);
 
 						unit.addBlurListener(new com.vaadin.event.FieldEvents.BlurListener() {
-                                                    @Override
+							@Override
                                                     public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
-                                                        LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
+								LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
 
-                                                        String unitValue = unit.getValue();
-                                                        if (!unitValue.matches(ValidationUtils.PRICE)) {
-                                                                AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
-                                                                                CommonUtils.ONLY_NUMBERSAREALLOWED);
-                                                                unit.setValue(ConstantsUtils.EMPTY);
-                                                                return;
-                                                        }
-                                                        String priceValue = detailsFilterTable
-                                                                        .getContainerProperty(itemId, ConstantsUtils.PRICE).getValue().toString()
-                                                                        .replace("$", ConstantsUtils.EMPTY);
-                                                        if (priceValue.length() == 0) {
-                                                                AbstractNotificationUtils.getErrorNotification(CommonUtils.REMOVE_ERROR,
-                                                                                "Please Enter Price Value");
-                                                                return;
-                                                        }
-                                                        String unitsValue = detailsFilterTable
-                                                                        .getContainerProperty(itemId, ConstantsUtils.UNITS).getValue().toString();
-                                                        Double dollarValue = Double.parseDouble(priceValue) * Double.parseDouble(unitsValue);
-                                                        detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.DOLLARS)
-                                                                        .setValue(String.valueOf(dollarValue));
-                                                    }
-                                                });
+								String unitValue = unit.getValue();
+								if (!unitValue.matches(ValidationUtils.PRICE)) {
+									AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
+											CommonUtils.ONLY_NUMBERSAREALLOWED);
+									unit.setValue(ConstantsUtils.EMPTY);
+									return;
+								}
+								String priceValue = detailsFilterTable
+										.getContainerProperty(itemId, ConstantsUtils.PRICE).getValue().toString()
+										.replace("$", ConstantsUtils.EMPTY);
+								if (priceValue.length() == 0) {
+									AbstractNotificationUtils.getErrorNotification(CommonUtils.REMOVE_ERROR,
+											"Please Enter Price Value");
+									return;
+								}
+								String unitsValue = detailsFilterTable
+										.getContainerProperty(itemId, ConstantsUtils.UNITS).getValue().toString();
+								Double dollarValue = Double.parseDouble(priceValue) * Double.parseDouble(unitsValue);
+								detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.DOLLARS)
+										.setValue(String.valueOf(dollarValue));
+							}
+						});
 						unit.setConverter(unitsFormat);
 						return unit;
 					}
@@ -3106,9 +3106,9 @@ public class FileManagementLookup extends Window {
 						price.setImmediate(true);
 
 						price.addBlurListener(new com.vaadin.event.FieldEvents.BlurListener() {
-                                                    @Override
+							@Override
                                                     public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
-                                                        LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
+								LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
 
 								String priceValue = price.getValue();
 								String priceWithoutDollar = priceValue.replace("$", ConstantsUtils.EMPTY);
@@ -3128,8 +3128,8 @@ public class FileManagementLookup extends Window {
 										* Double.parseDouble(uniWithoutDollar);
 								detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.DOLLARS)
 										.setValue(String.valueOf(dollarValue));
-                                                    }
-                                                });
+							}
+						});
 						price.setConverter(priceFormat);
 						return price;
 					}
@@ -3139,9 +3139,9 @@ public class FileManagementLookup extends Window {
 						year1.setImmediate(true);
 
 						year1.addBlurListener(new com.vaadin.event.FieldEvents.BlurListener() {
-                                                    @Override
+							@Override
                                                     public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
-                                                        LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
+								LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
 
 								String year = year1.getValue();
 								year = year.replace("$", ConstantsUtils.EMPTY);
@@ -3151,8 +3151,8 @@ public class FileManagementLookup extends Window {
 									year1.setValue(ConstantsUtils.EMPTY);
 									return;
 								}
-                                                    }
-                                                });
+							}
+						});
 						return year1;
 					}
 					if (propertyId.equals(ConstantsUtils.MONTH)) {
@@ -3160,28 +3160,28 @@ public class FileManagementLookup extends Window {
 						month.setImmediate(true);
 
 						month.addBlurListener(new com.vaadin.event.FieldEvents.BlurListener() {
-                                                    @Override
+							@Override
                                                     public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
-                                                        LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
+								LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
 
-                                                        String enteredMonth = month.getValue();
-                                                        enteredMonth = enteredMonth.replace("$", ConstantsUtils.EMPTY);
-                                                        if (!enteredMonth.matches(ValidationUtils.NUMERIC_VALIDATION)) {
-                                                                AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
-                                                                                CommonUtils.ONLY_NUMBERSAREALLOWED);
-                                                                month.setValue(ConstantsUtils.EMPTY);
-                                                                return;
-                                                        } else {
-                                                                int forecastMonth = Integer.valueOf(enteredMonth);
-                                                                if (forecastMonth > NumericConstants.TWELVE || forecastMonth == 0) {
-                                                                        AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
-                                                                                        "Please Enter valid Month");
-                                                                        month.setValue(ConstantsUtils.EMPTY);
-                                                                        return;
-                                                                }
-                                                        }
-                                                    }
-                                                });
+								String enteredMonth = month.getValue();
+								enteredMonth = enteredMonth.replace("$", ConstantsUtils.EMPTY);
+								if (!enteredMonth.matches(ValidationUtils.NUMERIC_VALIDATION)) {
+									AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
+											CommonUtils.ONLY_NUMBERSAREALLOWED);
+									month.setValue(ConstantsUtils.EMPTY);
+									return;
+								} else {
+									int forecastMonth = Integer.valueOf(enteredMonth);
+									if (forecastMonth > NumericConstants.TWELVE || forecastMonth == 0) {
+										AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR,
+												"Please Enter valid Month");
+										month.setValue(ConstantsUtils.EMPTY);
+										return;
+									}
+								}
+							}
+						});
 						return month;
 					}
 					if (propertyId.equals(ConstantsUtils.ITEM_NAME)) {

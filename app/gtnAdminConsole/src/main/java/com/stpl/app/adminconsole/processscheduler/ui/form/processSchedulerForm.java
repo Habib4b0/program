@@ -134,7 +134,7 @@ public class processSchedulerForm extends CustomComponent {
 
     private ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
 
-    public ManualTableLogic manualTabLogic = new ManualTableLogic();
+    private ManualTableLogic manualTabLogic = new ManualTableLogic();
 
     private ExtPagedTable manualProcTable = new ExtPagedTable(manualTabLogic);
 
@@ -142,9 +142,9 @@ public class processSchedulerForm extends CustomComponent {
 
     private BeanItemContainer<ProcessSchedulerDTO> resultBean = new BeanItemContainer<>(ProcessSchedulerDTO.class);
 
-    public static ResourceBundle columnBundle = ResourceBundle.getBundle("properties.tableColumns");
+    public static final ResourceBundle COLUMN_BUNDLE = ResourceBundle.getBundle("properties.tableColumns");
 
-    public static ResourceBundle listBundle = ResourceBundle.getBundle("properties.labelname");
+    public static final ResourceBundle LIST_BUNDLE = ResourceBundle.getBundle("properties.labelname");
     public static final String MSG_ID_061 = "MSG_ID_061";
     private String key = "processscheduler";
     private boolean isload = false;
@@ -159,10 +159,10 @@ public class processSchedulerForm extends CustomComponent {
     public final String[] manualHeader = new String[]{
         "Process Name", "Last Run"};
     private SessionDTO sessionDTO;
-    public String timeHourOne;
-    public String timeHourTwo;
-    public String intervalHourOne;
-    public String intervalHourTwo;
+    private String timeHourOne;
+    private String timeHourTwo;
+    private String intervalHourOne;
+    private String intervalHourTwo;
 
     public processSchedulerForm(final SessionDTO sessionDTO) {
         super();
@@ -272,7 +272,7 @@ public class processSchedulerForm extends CustomComponent {
     }
 
     public void statusConfig() {
-        status.addItems(listBundle.getString("status" + key).split(","));
+        status.addItems(LIST_BUNDLE.getString("status" + key).split(","));
         status.setImmediate(true);
         status.setNullSelectionAllowed(true);
         status.setNullSelectionItemId(StringConstantUtils.SELECT_ONE);
@@ -494,11 +494,11 @@ public class processSchedulerForm extends CustomComponent {
     }
 
     private Object[] getColumns(boolean isColumns, String key)  {
-        return (columnBundle.getString(isColumns ? "columns" + key : "headers" + key)).split(",");
+        return (COLUMN_BUNDLE.getString(isColumns ? "columns" + key : "headers" + key)).split(",");
     }
 
     private Object[] getDdlbValues(boolean hours, String key) {
-        return (listBundle.getString(hours ? "hours" + key : "minutes" + key)).split(",");
+        return (LIST_BUNDLE.getString(hours ? "hours" + key : "minutes" + key)).split(",");
     }
 
     @UiHandler("updateBtn")

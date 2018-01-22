@@ -31,13 +31,13 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
     private final boolean prFlag = false;
     private final boolean sprFlag=false;
     private boolean pvFlag=false;
-    public boolean mmDprFlag = false;
+    private boolean mmDprFlag = false;
     public static final String CUSTOM = "Custom";
     public static final String PRODUCT = "Product";
 
 
-    public String indicator = StringUtils.EMPTY;
-    public int levelNo = 0;
+    private String indicator = StringUtils.EMPTY;
+    private int levelNo = 0;
     public static final Logger LOGGER = Logger.getLogger(ComparisonFilterGenerator.class);
 
     public ComparisonFilterGenerator( PVSelectionDTO projectionVarianceSelectionDTO,boolean detailFlag) {

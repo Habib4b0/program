@@ -72,7 +72,7 @@ public class CFFSearchLookUp extends Window {
 
     private ProcessSchedulerDTO psDTO = new ProcessSchedulerDTO();
 
-    public CustomFieldGroup cffSearchBinder = new CustomFieldGroup(new BeanItem<>(psDTO));
+    private CustomFieldGroup cffSearchBinder = new CustomFieldGroup(new BeanItem<>(psDTO));
 
     @UiField("financialForecastId")
     private TextField financialForecastId;
@@ -140,7 +140,7 @@ public class CFFSearchLookUp extends Window {
     private SessionDTO sessionDTO;
     private CommonUtils commonutil = new CommonUtils();
     private CFFIndexTableLogic tableLogic = new CFFIndexTableLogic();
-    public ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
+    private ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
 
     private String scriptName = StringUtils.EMPTY;
 

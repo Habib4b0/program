@@ -116,7 +116,7 @@ public abstract class AbstractCustomTreeView extends Window {
         center();
         setClosable(true);
         setModal(true);
-        setWidth("710px");
+        setWidth("785px");
         setHeight("680px");
         setContent(Clara.create(getClass().getResourceAsStream("/cff/AbstractCustomTreeView.xml"), this));
         configureFields();
@@ -136,11 +136,9 @@ public abstract class AbstractCustomTreeView extends Window {
         treeTable.setContainerDataSource(getCustomTreeContainer());
         treeTable.setVisibleColumns(custIdTransferColumns);
         treeTable.setColumnHeaders(custIdTransferHeader);
-        treeTable.setSizeFull();
-        treeTable.setSizeUndefined();
         treeTable.setSelectable(true);
-        treeTable.setHeight("470px");
-        treeTable.setWidth("370px");
+        treeTable.setHeight("680px");
+        treeTable.setWidth("860px");
         loadCustomTree();
         productTable.setContainerDataSource(getProductsContainer());
         productTable.setVisibleColumns(custIdTransferColumns);

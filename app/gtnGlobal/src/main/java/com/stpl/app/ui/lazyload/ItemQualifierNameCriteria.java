@@ -8,7 +8,6 @@ package com.stpl.app.ui.lazyload;
 
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
 
-
 /**
  * Criteria for Item Qualifier Name DDLB.
  * @author Harlin
@@ -24,7 +23,7 @@ public class ItemQualifierNameCriteria implements SearchCriteria{
 	private int lastCount;
 
 	/** The dirty. */
-	public boolean dirty;
+	private boolean dirty;
 
 	/** The filter. */
 	private String filter;

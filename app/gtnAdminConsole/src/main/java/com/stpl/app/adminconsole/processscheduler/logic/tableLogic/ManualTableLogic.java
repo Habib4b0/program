@@ -18,7 +18,7 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 public class ManualTableLogic extends PageTableLogic{
     
     
-     ManualLogic logic = new ManualLogic();
+    private ManualLogic logic = new ManualLogic();
      
     @Override
     public int getCount() {

@@ -37,7 +37,7 @@ public class DiscountView extends VerticalLayout implements View{
      /**
      * The DiscountLogic.
      */
-    DiscountLogic logic=new DiscountLogic();
+    private DiscountLogic logic=new DiscountLogic();
     
         /**
      * The itemGroupDTO.
