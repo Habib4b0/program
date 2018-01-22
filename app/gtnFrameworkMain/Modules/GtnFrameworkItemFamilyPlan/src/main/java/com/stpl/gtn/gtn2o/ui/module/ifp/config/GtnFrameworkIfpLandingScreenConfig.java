@@ -52,8 +52,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 		panel.setComponentName("Search Criteria");
 		panel.setAuthorizationIncluded(true);
 		panel.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
-		panel.setAddToParent(false);
-
+	
 		componentList.add(panel);
 		addIfpFieldLayout(componentList);
 	}
@@ -61,7 +60,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 	private void addIfpResultPanel(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig panelConfig = configProvider.getPanelConfig("resultPanel", false, null);
 		panelConfig.setComponentName("Results");
-		panelConfig.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+		panelConfig.setAuthorizationIncluded(true);
 		componentList.add(panelConfig);
 		addResultLayout(componentList);
 	}
@@ -358,7 +357,6 @@ public class GtnFrameworkIfpLandingScreenConfig {
 				GtnUIFrameworkComponentType.PAGEDTABLE);
 		searchResultConfig.setAuthorizationIncluded(true);
 		searchResultConfig.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
-		searchResultConfig.setComponentHight(GtnFrameworkCssConstants.PIXEL_530);
 		List<String> tableStyleList = new ArrayList<>();
 		tableStyleList.add(GtnFrameworkCssConstants.FILTERBAR);
 		tableStyleList.add(GtnFrameworkCssConstants.V_HAS_WIDTH);
@@ -367,11 +365,12 @@ public class GtnFrameworkIfpLandingScreenConfig {
 		searchResultConfig.setComponentStyle(tableStyleList);
 
 		componentList.add(searchResultConfig);
-		GtnUIFrameworkPagedTableConfig searchResults = configProvider.getPagedTableConfig(true, true,
-				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
-				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
-				"itemFamilyPlan", "ifpSearchQuery");
+		GtnUIFrameworkPagedTableConfig searchResults =  new GtnUIFrameworkPagedTableConfig();
 		searchResults.setEditable(false);
+		searchResults.setFilterBar(true);
+		searchResults.setSelectable(true);
+		searchResults.setItemPerPage(10);
+		searchResults.setSinkItemPerPageWithPageLength(false);
 		searchResults.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVALANG_INTEGER,
 				GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
 				GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,
@@ -394,11 +393,17 @@ public class GtnFrameworkIfpLandingScreenConfig {
 				"itemFamilyplanEndDate", "ifpDesignation", "totalDollarCommitment", "commitmentPeriod",
 				"totalVolumeCommitment", "totalMarketshareCommitment", "ifpcreatedBy", "ifpcreatedDate",
 				"parentItemFamilyplanId", "parentIetmFamilyplanName" });
-		searchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.ITEM_FAMILY_PLAN);
+		searchResults.setCountUrl(
+				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH);
+		searchResults.setResultSetUrl(
+				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH);
+		searchResults.setModuleName("itemFamilyPlan");
+		searchResults.setQueryName("ifpSearchQuery");
 		searchResults.setCustomFilterConfigMap(getIfpCustomFilterConfig());
-		searchResultConfig.setGtnPagedTableConfig(searchResults);
+		searchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.ITEM_FAMILY_PLAN);
 		searchResults.setDoubleClickEnable(true);
-
+		
+		
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig navigationActionConfig = new GtnUIFrameWorkActionConfig();
@@ -415,6 +420,7 @@ public class GtnFrameworkIfpLandingScreenConfig {
 		customAction.addActionParameter(true);
 		actionConfigList.add(customAction);
 		searchResults.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		searchResultConfig.setGtnPagedTableConfig(searchResults);
 	}
 
 	private void addIfpActionButtonLayout(List<GtnUIFrameworkComponentConfig> componentList) {

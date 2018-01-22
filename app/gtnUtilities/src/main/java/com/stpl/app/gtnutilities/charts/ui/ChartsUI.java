@@ -33,7 +33,7 @@ public class ChartsUI extends UI implements VaadinPortletSession.PortletListener
     /**
      * The navigator.
      */
-    public Navigator navigator;
+	private Navigator navigator;
     /**
      * The Constant LOGGER.
      */

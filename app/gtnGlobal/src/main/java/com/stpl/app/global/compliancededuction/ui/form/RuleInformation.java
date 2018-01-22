@@ -115,7 +115,7 @@ public class RuleInformation extends CustomComponent {
     private static final Object RULE_DETAILS_COLUMNS[] = new Object[]{
         "lineTypeDdlb", "itemGroupDdlb", "keywordDdlb", "operatorDdlb", "valueText", "comparisonDdlb", "logicalOperatorDdlb"};
     
-    public static final String RULE_DETAILS_HEADERS[] = new String[]{ConstantsUtils.LINE_TYPE_LABEL, "Item/Group/Association", ConstantsUtils.KEYWORD, ConstantsUtils.OPERATOR, ConstantsUtils.VALUE, "Comparison", ConstantsUtils.OPERATOR};
+    private static final String RULE_DETAILS_HEADERS[] = new String[]{ConstantsUtils.LINE_TYPE_LABEL, "Item/Group/Association", ConstantsUtils.KEYWORD, ConstantsUtils.OPERATOR, ConstantsUtils.VALUE, "Comparison", ConstantsUtils.OPERATOR};
     
     private final CDRDto cdrBinerDto = new CDRDto();
     private String noteshistory = new String();
@@ -423,12 +423,12 @@ public class RuleInformation extends CustomComponent {
      */
     public List getDeletedRuleInformations() {
 
-        return deletedRuleInfoIds;
+        return deletedRuleInfoIds == null ? deletedRuleInfoIds : new ArrayList<>(deletedRuleInfoIds);
     }
 
     public void setDeletedRuleInformations(List deletedRuleInfoIds) {
 
-        this.deletedRuleInfoIds = deletedRuleInfoIds;
+        this.deletedRuleInfoIds = deletedRuleInfoIds == null ? deletedRuleInfoIds : new ArrayList<>(deletedRuleInfoIds);
     }
 
     /**
@@ -584,4 +584,8 @@ public class RuleInformation extends CustomComponent {
         LOGGER.debug("Ending configurePermission");
 
     }
+
+	public static String[] getRuleDetailsHeaders() {
+		return RULE_DETAILS_HEADERS.clone();
+	}
 }

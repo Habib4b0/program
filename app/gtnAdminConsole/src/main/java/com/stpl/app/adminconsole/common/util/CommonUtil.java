@@ -73,7 +73,7 @@ public final class CommonUtil {
 
     public static final String STRING_NULL = "null";
 
-    static CommonDAO DAO = new CommonDAOImpl();
+    private static CommonDAO DAO = new CommonDAOImpl();
 
     private static HelperTableDAO helperTableDAO = new HelperTableDAOImpl();
 

@@ -359,7 +359,7 @@ public class SalesLogic {
                     return 0;
                 }
             } else {
-                levelCount = commonLogic.getCount(projSelDTO);
+                levelCount = commonLogic.getCountQueryforExcel(projSelDTO);
             }
         } else {
             levelCount = CommonLogic.getLevelListCount(projSelDTO.getProjectionId(), StringUtils.EMPTY, projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(), projSelDTO.getHierarchyNo(),
@@ -608,7 +608,6 @@ public class SalesLogic {
                     break;
             }
         }
-        sql = projSelDTO.isExcel() ? sql.replaceAll(",INSTR INT", "").replace(",INSTR", "") : sql;
         String aaa = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
@@ -2112,14 +2111,14 @@ public class SalesLogic {
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
                         finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
                         if (CommonUtil.isValueEligibleForLoading()) {
-                            updateLine.append(" PROJECTION_UNITS= (PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append("))/NULLIF(UOM_VALUE,0) ");
+                            updateLine.append(" PROJECTION_UNITS= (PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append("))/COALESCE(NULLIF(UOM_VALUE,0),1) ");
                         } else {
                             updateLine.append(" PROJECTION_UNITS= PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append(")");
                         }
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         if (CommonUtil.isValueEligibleForLoading()) {
-                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append("/NULLIF(UOM_VALUE,0) ").append(" ");
+                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append("/COALESCE(NULLIF(UOM_VALUE,0),1) ").append(" ");
                         } else {
                             updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append(" ");
                         }

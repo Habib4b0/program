@@ -2234,7 +2234,7 @@ public class NonMandatedDTO {
      * @return the projectedsales
      */
     public Date getProjectedsales() {
-        return projectedsales;
+        return projectedsales == null ? null : (Date) projectedsales.clone();
     }
 
     /**
@@ -2243,7 +2243,7 @@ public class NonMandatedDTO {
      * @param projectedsales the new projectedsales
      */
     public void setProjectedsales(Date projectedsales) {
-        this.projectedsales = projectedsales;
+        this.projectedsales = projectedsales == null ? null : (Date) projectedsales.clone();
     }
 
     /**

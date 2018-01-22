@@ -21,6 +21,8 @@ import com.vaadin.addon.charts.model.XAxis;
 import com.vaadin.addon.charts.model.YAxis;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -73,7 +75,7 @@ public class PMPYTradingPartnerHistoryChart {
     public PMPYTradingPartnerHistoryChart(final List<PMPYRowDto> dto, String tpName, List<Object> headers) {
         LOGGER.debug("Entering PMPYTradingPartnerHistoryChart method ");
         this.tpName = tpName;
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
         this.headers = headers;
         LOGGER.debug("End of PMPYTradingPartnerHistoryChart method ");
     }

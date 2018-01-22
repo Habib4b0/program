@@ -52,17 +52,17 @@ import com.vaadin.ui.themes.Reindeer;
 public class SearchLogic {
 
 	private static SearchLogic searchLogic;
-	public Date selectedDate = CommonMethods.getYesterdayDate();
+	private Date selectedDate = CommonMethods.getYesterdayDate();
 	private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
 	// Declaring resusable global Variables
-	Window detailedQuery = new Window(Constants.Query);
-	Button link;
-	String query = Constants.EMPTY;
-	SimpleStringFilter stringFilter;
-	List returnList = new ArrayList<>();
-	ChartsDTO chartsDTO;
-	JobDTO jobDTO = null;
-	Connection connection = null;
+	private Window detailedQuery = new Window(Constants.QUERY);
+	private Button link;
+	private String query = Constants.EMPTY;
+	private SimpleStringFilter stringFilter;
+	private List returnList = new ArrayList<>();
+	private ChartsDTO chartsDTO;
+	private JobDTO jobDTO = null;
+	private Connection connection = null;
 	/**
 	 * The Constant LOGGER.
 	 */
@@ -129,7 +129,7 @@ public class SearchLogic {
 		} catch (Exception ex) {
 			LOGGER.debug(ex);
 		}
-		return returnList;
+		return returnList == null ? returnList : new ArrayList<>(returnList);
 	}
 
 	private List customize_data(List<Object[]> resultList, String tableName, String type) {
@@ -165,7 +165,7 @@ public class SearchLogic {
 
 	public List<Object[]> fetchCPUIODataFromDB(String type, Date selecteDate) {
 		query = Constants.EMPTY;
-		String sqlDate = new SimpleDateFormat(Constants.yyyy_MM_dd_HH_mm_ss).format(selecteDate);
+		String sqlDate = new SimpleDateFormat(Constants.YYYY_MM_DD_HH_MM_SS).format(selecteDate);
 		String dateCondition = String.format(
 				!DateUtils.isSameDay(selecteDate, new Date())
 						? "FORMAT( INSERTED_DATE, 'yyyy-MM-dd HH' )+':00:00' =   '%s'" : "INSERTED_DATE = '%s'",
@@ -211,7 +211,7 @@ public class SearchLogic {
 	Button createButtonLink(final String text_query) {
 		link = new Button();
 		link.setCaption(text_query.length() < NumericConstants.FIFTY ? text_query
-				: text_query.substring(0, NumericConstants.FORTY_NINE) + Constants.Continous_Dots);
+				: text_query.substring(0, NumericConstants.FORTY_NINE) + Constants.CONTINUOUS_DOTS);
 		link.addStyleName(Reindeer.BUTTON_LINK);
 		link.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -305,7 +305,7 @@ public class SearchLogic {
 		} catch (Exception ex) {
 			LOGGER.debug(ex);
 		}
-		return returnList;
+		return returnList == null ? returnList : new ArrayList<>(returnList);
 	}
 
 	String getRequiredColumnsBasedOnTable(String tableName) {
@@ -320,5 +320,13 @@ public class SearchLogic {
 	public void closeConnection() throws SQLException {
 
 		connection.close();
+	}
+
+	public Date getSelectedDate() {
+		return selectedDate == null ? null : (Date) selectedDate.clone();
+	}
+
+	public void setSelectedDate(Date selectedDate) {
+		this.selectedDate = selectedDate == null ? null : (Date) selectedDate.clone();
 	}
 }

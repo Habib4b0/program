@@ -69,6 +69,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -594,14 +595,22 @@ public class AltSummeryDiscount extends CustomComponent {
      * To load the level filter and level Ddlb values
      */
     private void loadLevelValues() {
-        LOGGER.debug("loadLevelValues started ");
+        LOGGER.info("loadLevelValues started ");
 
         levelFilterDdlb.removeAllItems();
         levelDdlb.removeAllItems();
         levelDdlb.addItem(SELECT_ONE.getConstant());
         levelDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
-
-        if (currentHierarchy != null) {
+      
+        if (this.currentHierarchy != null) {
+        	Collections.sort(this.currentHierarchy,new Comparator<Leveldto>(){
+            	@Override
+				public int compare(Leveldto o1, Leveldto o2) {
+					return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+            	}
+            });
+            Collections.reverse(this.currentHierarchy);
+        	
             boolean toSetCaption = true;
             for (int i = 0; i < currentHierarchy.size(); i++) {
                 Leveldto levelDto = currentHierarchy.get(i);
@@ -610,6 +619,7 @@ public class AltSummeryDiscount extends CustomComponent {
                     if (toSetCaption) {
                         levelFilterDdlb.addItem(Constant.DASH + levelDto.getTreeLevelNo());
                         levelFilterDdlb.setItemCaption(Constant.DASH + levelDto.getTreeLevelNo(), SELECT_ONE.getConstant());
+                        LOGGER.info("Level:"+i);
                         enableLevelFilterListener = false;
                         levelFilterDdlb.select(Constant.DASH + levelDto.getTreeLevelNo());
                         enableLevelFilterListener = true;
@@ -628,7 +638,7 @@ public class AltSummeryDiscount extends CustomComponent {
                 }
             }
         }
-        LOGGER.debug("loadLevelValues ended ");
+        LOGGER.info("loadLevelValues ended ");
     }
 
     /**
@@ -651,7 +661,7 @@ public class AltSummeryDiscount extends CustomComponent {
         viewDdlb.setEnabled(false);
         editBtn.setEnabled(false);
         newBtn.setEnabled(false);
-
+       
         if (view.getValue() != null) {
             if (CUSTOM.getConstant().equals(String.valueOf(view.getValue()))) {
                  newBtn.setEnabled(true);
@@ -659,6 +669,13 @@ public class AltSummeryDiscount extends CustomComponent {
                 if(customId!=0){
                 loadCustomDDLB();
                 currentHierarchy = CommonLogic.getCustomTree(customId);
+                Collections.sort(this.currentHierarchy,new Comparator<Leveldto>(){
+                	@Override
+        			public int compare(Leveldto o1, Leveldto o2) {
+        				return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+                	}
+                });
+                Collections.reverse(this.currentHierarchy);
                 levelFilterDdlb.setEnabled(false);
 
                 resultsTable.getLeftFreezeAsTable().setColumnCollapsingAllowed(true);
@@ -671,6 +688,13 @@ public class AltSummeryDiscount extends CustomComponent {
                 customIdToSelect = customId;
                 int hierarchyLevelNo = isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
                 currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyLevelNo);
+                Collections.sort(this.currentHierarchy,new Comparator<Leveldto>(){
+                	@Override
+        			public int compare(Leveldto o1, Leveldto o2) {
+        				return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+                	}
+                });
+                Collections.reverse(this.currentHierarchy);
                 hierarchyIndicator = "C";
                 levelDdlb.setEnabled(true);
                 levelFilterDdlb.setEnabled(true);
@@ -687,6 +711,13 @@ public class AltSummeryDiscount extends CustomComponent {
                 customIdToSelect = customId;
                 int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;
                 currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo);
+                Collections.sort(this.currentHierarchy,new Comparator<Leveldto>(){
+                	@Override
+        			public int compare(Leveldto o1, Leveldto o2) {
+        				return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+                	}
+                });
+                Collections.reverse(this.currentHierarchy);
                 hierarchyIndicator = "P";
                 levelDdlb.setEnabled(true);
                 levelFilterDdlb.setEnabled(true);
@@ -1369,7 +1400,7 @@ public class AltSummeryDiscount extends CustomComponent {
      * @return
      */
     public List<String> getDiscountNamesList() {
-        return discountNamesList;
+        return discountNamesList == null ? discountNamesList : Collections.unmodifiableList(discountNamesList);
     }
 
     /**

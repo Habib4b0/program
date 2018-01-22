@@ -120,19 +120,19 @@ public class ItemComponentDetailsDTO implements Cloneable {
     }
 
     public Date getItemStartDate() {
-        return itemStartDate;
+        return itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     public void setItemStartDate(Date itemStartDate) {
-        this.itemStartDate = itemStartDate;
+        this.itemStartDate = itemStartDate == null ? null : (Date) itemStartDate.clone();
     }
 
     public Date getItemEndDate() {
-        return itemEndDate;
+        return itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     public void setItemEndDate(Date itemEndDate) {
-        this.itemEndDate = itemEndDate;
+        this.itemEndDate = itemEndDate == null ? null : (Date) itemEndDate.clone();
     }
 
     public String getItemMasterSid() {
@@ -184,19 +184,19 @@ public class ItemComponentDetailsDTO implements Cloneable {
     }
 
     public Date getCpStartDate() {
-        return cpStartDate;
+        return cpStartDate == null ? null : (Date) cpStartDate.clone();
     }
 
     public void setCpStartDate(Date cpStartDate) {
-        this.cpStartDate = cpStartDate;
+        this.cpStartDate = cpStartDate == null ? null : (Date) cpStartDate.clone();
     }
 
     public Date getCpEndDate() {
-        return cpEndDate;
+        return cpEndDate == null ? null : (Date) cpEndDate.clone();
     }
 
     public void setCpEndDate(Date cpEndDate) {
-        this.cpEndDate = cpEndDate;
+        this.cpEndDate = cpEndDate == null ? null : (Date) cpEndDate.clone();
     }
 
     public String getPriceTolerance() {
@@ -208,19 +208,19 @@ public class ItemComponentDetailsDTO implements Cloneable {
     }
 
     public Date getPriceProtectionStartDate() {
-        return priceProtectionStartDate;
+        return priceProtectionStartDate == null ? null : (Date) priceProtectionStartDate.clone();
     }
 
     public void setPriceProtectionStartDate(Date priceProtectionStartDate) {
-        this.priceProtectionStartDate = priceProtectionStartDate;
+        this.priceProtectionStartDate = priceProtectionStartDate == null ? null : (Date) priceProtectionStartDate.clone();
     }
 
     public Date getPriceProtectionEndDate() {
-        return priceProtectionEndDate;
+        return priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     public void setPriceProtectionEndDate(Date priceProtectionEndDate) {
-        this.priceProtectionEndDate = priceProtectionEndDate;
+        this.priceProtectionEndDate = priceProtectionEndDate == null ? null : (Date) priceProtectionEndDate.clone();
     }
 
     public HelperDTO getPriceToleranceType() {
@@ -248,11 +248,11 @@ public class ItemComponentDetailsDTO implements Cloneable {
     }
 
     public Date getRevisionDate() {
-        return revisionDate;
+        return revisionDate == null ? null : (Date) revisionDate.clone();
     }
 
     public void setRevisionDate(Date revisionDate) {
-        this.revisionDate = revisionDate;
+        this.revisionDate = revisionDate == null ? null : (Date) revisionDate.clone() ;
     }
 
     public HelperDTO getAttachedStatus() {
@@ -264,11 +264,11 @@ public class ItemComponentDetailsDTO implements Cloneable {
     }
 
     public Date getAttachedDate() {
-        return attachedDate;
+        return attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     public void setAttachedDate(Date attachedDate) {
-        this.attachedDate = attachedDate;
+        this.attachedDate = attachedDate == null ? null : (Date) attachedDate.clone();
     }
 
     public HelperDTO getPriceToleranceFrequency() {

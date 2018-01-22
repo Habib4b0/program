@@ -79,7 +79,7 @@ public class ChannelSPRChart1 {
         LOGGER.debug("Entering SPRChart method ");
         this.frequency = projSelDTO.getFrequency();
         ChannelSPRChart1.history = projSelDTO.getHistory();
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
         this.rightDto = rightDto;
         this.projSelDTO = projSelDTO;
         LOGGER.debug("End of SPRChart method ");
@@ -193,7 +193,7 @@ public class ChannelSPRChart1 {
      * @return the dto
      */
     public List<SalesProjectionResultsDTO> getDto() {
-        return dto;
+        return dto == null ? dto : new ArrayList<>(dto);
     }
 
     /**
@@ -202,7 +202,7 @@ public class ChannelSPRChart1 {
      * @param dto the new dto
      */
     public void setDto(final List<SalesProjectionResultsDTO> dto) {
-        this.dto = dto;
+        this.dto = dto == null ? dto : new ArrayList<>(dto);
     }
 
     /**

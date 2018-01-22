@@ -221,6 +221,12 @@ public class GtnWsRecordBean implements Serializable {
 		return value;
 	}
 
+	public void setPropertyValueByIndex(int index, String value) {
+		if (properties != null && index > -1 && properties.size() > index) {
+			properties.set(index, value);
+		}
+
+	}
 	public String getStringPropertyByIndex(int index) {
 		return getString(getPropertyValueByIndex(index));
 	}
@@ -418,6 +424,25 @@ public class GtnWsRecordBean implements Serializable {
 			this.additionalProperties = new ArrayList<>();
 		}
 		additionalProperties.set(index, value);
+	}
+
+	@SuppressWarnings("unchecked")
+	public GtnWsRecordBean cloneGtnWsRecordBean() {
+		GtnWsRecordBean newObject = new GtnWsRecordBean();
+		newObject.childList = new ArrayList<>(checkAndReturnList(this.childList));
+		newObject.parentFlag = this.parentFlag;
+		newObject.recordHeader = new ArrayList<>(checkAndReturnList(this.recordHeader));
+		newObject.properties = new ArrayList<>(checkAndReturnList(this.properties));
+		newObject.additionalProperties = new ArrayList<>(checkAndReturnList(this.additionalProperties));
+		return newObject;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private List checkAndReturnList(List childList) {
+		if (childList == null) {
+			return Collections.emptyList();
+		}
+		return new ArrayList<>(childList);
 	}
 
 }

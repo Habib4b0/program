@@ -77,11 +77,11 @@ public class RebatePlanLookup extends Window {
     public static final String REBATE_PLAN = "Rebate Plan";
 
     public List<CompanyMaster> getFilteredCompanies() {
-        return filteredCompanies;
+        return filteredCompanies == null ? filteredCompanies : new ArrayList<>(filteredCompanies);
     }
 
     public void setFilteredCompanies(List<CompanyMaster> filteredCompanies) {
-        this.filteredCompanies = filteredCompanies;
+        this.filteredCompanies = filteredCompanies == null ? filteredCompanies : new ArrayList<>(filteredCompanies);
     }
 
     public RebatePlanDTO getSelectedChHolderHierarchy() {

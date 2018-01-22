@@ -196,7 +196,7 @@ public class HierarchyDefinitionDTO implements Serializable {
      * @return the created date
      */
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
@@ -205,7 +205,7 @@ public class HierarchyDefinitionDTO implements Serializable {
      * @param createdDate the new created date
      */
     public void setCreatedDate(final Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
@@ -214,7 +214,7 @@ public class HierarchyDefinitionDTO implements Serializable {
      * @return the created date from
      */
     public Date getCreatedDateFrom() {
-        return createdDateFrom;
+        return createdDateFrom == null ? null : (Date) createdDateFrom.clone();
     }
 
     /**
@@ -223,7 +223,7 @@ public class HierarchyDefinitionDTO implements Serializable {
      * @param createdDateFrom the new created date from
      */
     public void setCreatedDateFrom(final Date createdDateFrom) {
-        this.createdDateFrom = createdDateFrom;
+        this.createdDateFrom = createdDateFrom == null ? null : (Date) createdDateFrom.clone();
     }
 
     /**
@@ -232,7 +232,7 @@ public class HierarchyDefinitionDTO implements Serializable {
      * @return the created date to
      */
     public Date getCreatedDateTo() {
-        return createdDateTo;
+        return createdDateTo == null ? null : (Date) createdDateTo.clone();
     }
 
     /**
@@ -241,7 +241,7 @@ public class HierarchyDefinitionDTO implements Serializable {
      * @param createdDateTo the new created date to
      */
     public void setCreatedDateTo(final Date createdDateTo) {
-        this.createdDateTo = createdDateTo;
+        this.createdDateTo = createdDateTo == null ? null : (Date) createdDateTo.clone();
     }
 
     /**
@@ -250,7 +250,7 @@ public class HierarchyDefinitionDTO implements Serializable {
      * @return the modified date
      */
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     /**
@@ -259,7 +259,7 @@ public class HierarchyDefinitionDTO implements Serializable {
      * @param modifiedDate the new modified date
      */
     public void setModifiedDate(final Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
     }
 
     /**

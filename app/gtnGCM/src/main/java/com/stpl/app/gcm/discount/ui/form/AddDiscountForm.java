@@ -21,6 +21,8 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +93,7 @@ public class AddDiscountForm extends CustomComponent implements View {
     public AddDiscountForm(AddDiscountWindow editWindow, List<RemoveDiscountDto> removeList, SessionDTO session) {
         this.editWindow = editWindow;
         this.resultTable = resultTable;
-        this.removeList = removeList;
+        this.removeList = removeList == null ? removeList : new ArrayList<>(removeList);
         this.session = session;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/addDiscountForm.xml"), this));
         init();

@@ -26,7 +26,7 @@ public class DeductionCustomerFilerGenerator implements ExtFilterGenerator {
     
     private static final Logger LOGGER = Logger.getLogger(DeductionCustomerFilerGenerator.class);
     
-    CommonUtil commonMsg = CommonUtil.getInstance();
+    private CommonUtil commonMsg = CommonUtil.getInstance();
 
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {

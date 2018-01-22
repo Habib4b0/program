@@ -28,7 +28,7 @@ public class FileManagementUI extends UI {
 
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(FileManagementUI.class);
-	SessionDTO sessionDTO = new SessionDTO();
+	private SessionDTO sessionDTO = new SessionDTO();
 
 	/**
 	 * Initializes this UI.

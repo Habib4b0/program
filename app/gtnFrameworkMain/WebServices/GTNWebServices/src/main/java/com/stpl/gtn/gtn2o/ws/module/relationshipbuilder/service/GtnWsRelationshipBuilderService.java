@@ -99,7 +99,6 @@ public class GtnWsRelationshipBuilderService {
 	@Autowired
 	private GtnFrameworkAutomaticRelationUpdateService autoMaticRelationService;
 
-
 	public GtnWsRelationshipBuilderService() {
 		super();
 	}
@@ -330,7 +329,7 @@ public class GtnWsRelationshipBuilderService {
 				levelValuesDTO.setHiddenId(String.valueOf(valueBean.getHierarchyLevelValuesSid()));
 				levelValuesDTO.setHierarchyLevelSystemId(valueBean.getHierarchyLevelDefinitionSid());
 				levelValuesDTO.setParentNode("0");
-				levelValuesDTO.setRelationshipLevelSystemId(Integer.valueOf("0"));
+				levelValuesDTO.setRelationshipLevelSystemId(Integer.parseInt("0"));
 				levelValuesDTO.setLevelName(valueBean.getLevelName());
 				levelValuesDTO.setLevelNo(String.valueOf(valueBean.getLevelNo()));
 				levelValuesDTO.setLevelValueReference(GtnFrameworkWebserviceConstant.USER_DEFINED);
@@ -389,7 +388,7 @@ public class GtnWsRelationshipBuilderService {
 				levelValuesDTO.setLevelValue(String.valueOf(obj[0]));
 				levelValuesDTO.setHiddenId(String.valueOf(obj[1]));
 				levelValuesDTO.setParentNode("0");
-				levelValuesDTO.setRelationshipLevelSystemId(Integer.valueOf("0"));
+				levelValuesDTO.setRelationshipLevelSystemId(Integer.parseInt("0"));
 				levelValuesDTO.setHierarchyLevelSystemId(levelSystemId);
 				levelValuesDTO.setLevelName(String.valueOf(hierarchyLevelDefinitionBean.getLevelName()));
 				levelValuesDTO.setLevelNo(String.valueOf(hierarchyLevelDefinitionBean.getLevelNo()));
@@ -458,7 +457,7 @@ public class GtnWsRelationshipBuilderService {
 		@SuppressWarnings("unchecked")
 		List<Object[]> result = executeQuery(counQuery);
 		if (result != null) {
-			return Integer.valueOf(String.valueOf(result.get(0)));
+			return Integer.parseInt(String.valueOf(result.get(0)));
 		}
 		return 0;
 	}
@@ -527,7 +526,6 @@ public class GtnWsRelationshipBuilderService {
 					primaryKeyPositionList.add(notInList);
 				}
 
-
 				GtnFrameworkDataType[] datatypes = new GtnFrameworkDataType[primaryKeyPositionList.size()];
 				for (int i = 0; i < datatypes.length; i++) {
 					if (i == datatypes.length - 1 && !notInList.isEmpty()) {
@@ -593,8 +591,7 @@ public class GtnWsRelationshipBuilderService {
 					.getGtnWebServiceSearchCriteriaList().get(2).getFilterValue3()) {
 				GtnWsRecordBean levelBean = new ObjectMapper().convertValue(levelBeanMap, GtnWsRecordBean.class);
 				modifiedHiddenIdList.add(
-						levelBean.getIntegerPropertyByIndex(
-								GtnWsRelationshipBuilderKeyConstant.HIDDEN_ID.ordinal()));
+						levelBean.getIntegerPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.HIDDEN_ID.ordinal()));
 			}
 		}
 		return modifiedHiddenIdList;
@@ -635,6 +632,241 @@ public class GtnWsRelationshipBuilderService {
 		}
 		rbResponse.setRbTreeNodeList(relationshipTreeNode);
 		return rbResponse;
+	}
+
+	public List<GtnWsRecordBean> loadAutoBuildData(int hierarchyDefSid, int hierarchyVersionNo,
+			GtnWsRecordBean selectedTreeBean, List<String> hiddenIdList)
+			throws GtnFrameworkGeneralException, CloneNotSupportedException {
+		List<HierarchyLevelDefinitionBean> hierarchyList = gtnWsRelationshipBuilderHierarchyFileGenerator
+				.getRBHierarchyLevelDefinitionBySid(hierarchyDefSid, hierarchyVersionNo);
+
+		String gethiddenIdhierarchyNo = getHierarchyNoToBuildTree(hiddenIdList);
+		selectedTreeBean.setPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal(),
+				gethiddenIdhierarchyNo);
+		List<GtnWsRecordBean> recordBeanList = getNextlevelDataForAutoBuild(hierarchyList, selectedTreeBean,
+				hiddenIdList);
+		sortGtnWsRecordBean(recordBeanList);
+		Map<String, GtnWsRecordBean> finalSavedLevelsList1 = new HashMap<>();
+		finalSavedLevelsList1.put(gethiddenIdhierarchyNo, selectedTreeBean);
+		for (int i = 0; i < recordBeanList.size(); i++) {
+			GtnWsRecordBean levelBean = recordBeanList.get(i);
+			finalSavedLevelsList1.put(
+					levelBean.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal()),
+					levelBean);
+		}
+		for (int i = 0; i < recordBeanList.size(); i++) {
+			GtnWsRecordBean treeNode = recordBeanList.get(i);
+			String hierarchyNo = treeNode
+					.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal())
+					.substring(0, treeNode
+							.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal())
+							.length() - 1);
+			GtnWsRecordBean parentTreeNode = null;
+			if (hierarchyNo.lastIndexOf('.') != -1) {
+
+				String parentHierrarchy = hierarchyNo.substring(0, hierarchyNo.lastIndexOf('.') + 1);
+				parentTreeNode = finalSavedLevelsList1.get(parentHierrarchy);
+			}
+			if (parentTreeNode != null) {
+				parentTreeNode.addChild(treeNode);
+			}
+		}
+
+		return selectedTreeBean.getChildList();
+	}
+
+
+	private String getHierarchyNoToBuildTree(List<String> finalMasterSid) {
+		List<String> tempMasterSid = new ArrayList<>(finalMasterSid);
+		Collections.reverse(tempMasterSid);
+		StringBuilder hierarchyNo = new StringBuilder();
+		for (String masterSid : tempMasterSid) {
+			hierarchyNo.append(masterSid);
+			hierarchyNo.append(".");
+		}
+		hierarchyNo.replace(hierarchyNo.lastIndexOf("."), hierarchyNo.lastIndexOf(".") + 1, ".");
+		return hierarchyNo.toString();
+	}
+
+	private List<GtnWsRecordBean> getNextlevelDataForAutoBuild(List<HierarchyLevelDefinitionBean> hierarchyList,
+			GtnWsRecordBean selectedTreeBean, List<String> masterSidList)
+			throws GtnFrameworkGeneralException, CloneNotSupportedException {
+
+		String levelNo = selectedTreeBean
+				.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal());
+		List<GtnWsRecordBean> userDefinedLevelDataList = new ArrayList<>();
+		List<GtnWsRecordBean> linkedLevelDataList = new ArrayList<>();
+		linkedLevelDataList.add(selectedTreeBean);
+		HierarchyLevelDefinitionBean.getLastLinkedLevelNo(hierarchyList);
+		int selectedLevelNo = Integer.parseInt(levelNo);
+		String hirarchyNo = "";
+		List<String> finalMasterSid = getMasterSidList(masterSidList, hierarchyList);
+		StringBuilder finalQuery = new StringBuilder();
+		int linkedLevelValueCount = HierarchyLevelDefinitionBean.countLinkedLevelsAboveSelectedLevelNo(hierarchyList,
+				selectedLevelNo);
+		String gethiddenIdhierarchyNo = getHiddenIdHierarchyNo(masterSidList);
+		for (int i = selectedLevelNo + 1; i <= HierarchyLevelDefinitionBean.getLastLinkedLevelNo(hierarchyList); i++) {
+			String query = null;
+			HierarchyLevelDefinitionBean hierarchyBean = HierarchyLevelDefinitionBean.getBeanByLevelNo(i,
+					hierarchyList);
+			if (hierarchyBean.isUserDefined()) {
+				List<Object> input = getInputForUserDefinedLevel(hierarchyBean);
+				List<Object[]> masterSid = getQueryForUserDefinedLevel(input);
+				GtnWsRecordBean userDefData = customizeRelationDataForAutoBuild(masterSid).get(0);
+				userDefinedLevelDataList.addAll(customizeRelationDataForAutoBuild(masterSid));
+				hirarchyNo = getHierarchyNoforQuery(hirarchyNo,
+						userDefData
+								.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal()));
+			} else {
+				GtnFrameworkFileReadWriteService fileReadWriteService = new GtnFrameworkFileReadWriteService();
+				GtnFrameworkHierarchyQueryBean queryBaen = fileReadWriteService.getQueryFromFile(
+						hierarchyBean.getHierarchyDefinitionSid(), hierarchyBean.getHierarchyLevelDefinitionSid(),
+						hierarchyBean.getVersionNo());
+				GtnFrameworkQueryGeneratorBean finalQueryBean = queryBaen.getQuery();
+				finalQueryBean.removeWhereClauseAboveGivenIndex(linkedLevelValueCount);
+				hirarchyNo = getSelectClauseForAutoBuild(hirarchyNo, hierarchyBean, finalQueryBean,
+						gethiddenIdhierarchyNo);
+				query = gtnWsSqlService.getReplacedQuery(finalMasterSid, finalQueryBean.generateQuery());
+				if (finalQuery.length() > 0) {
+					finalQuery.append(" UNION ALL ");
+				}
+				finalQuery.append(query);
+			}
+
+		}
+		@SuppressWarnings("unchecked")
+		List<Object[]> result = executeQuery(finalQuery.toString());
+		linkedLevelDataList.addAll(customizeRelationDataForAutoBuild(result));
+		if (!userDefinedLevelDataList.isEmpty())
+			getIntermediateUserDefinedData(linkedLevelDataList, userDefinedLevelDataList, hierarchyList);
+		return linkedLevelDataList;
+
+	}
+
+	private void getIntermediateUserDefinedData(List<GtnWsRecordBean> linkedLevelDataList,
+			List<GtnWsRecordBean> userDefinedLevelDataList, List<HierarchyLevelDefinitionBean> hierarchyList)
+			throws CloneNotSupportedException {
+		List<GtnWsRecordBean> finalDataList = new ArrayList<>();
+		for (HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean : hierarchyList) {
+			finalDataList.clear();
+			if (hierarchyLevelDefinitionBean.isUserDefined()) {
+				getUserdefinedDataCombination(linkedLevelDataList, userDefinedLevelDataList, finalDataList,
+						hierarchyLevelDefinitionBean);
+			}
+			linkedLevelDataList.addAll(finalDataList);
+		}
+	}
+
+	public void getUserdefinedDataCombination(List<GtnWsRecordBean> linkedLevelDataList,
+			List<GtnWsRecordBean> userDefinedLevelDataList, List<GtnWsRecordBean> finalDataList,
+			HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean) throws CloneNotSupportedException {
+		for (GtnWsRecordBean userdefinedData : userDefinedLevelDataList) {
+			if (hierarchyLevelDefinitionBean.getLevelNo() == Integer.parseInt(userdefinedData
+					.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal())
+					.toString())) {
+				for (GtnWsRecordBean linkedBean : linkedLevelDataList) {
+					if (Integer.parseInt(linkedBean
+							.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal())
+							.toString()) == hierarchyLevelDefinitionBean.getLevelNo() - 1) {
+						GtnWsRecordBean newUserDefinedData = userdefinedData.cloneGtnWsRecordBean();
+						String masterId=userdefinedData
+								.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal()).toString();
+						String linkedHierarchyno=linkedBean
+								.getPropertyValueByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal()).toString();
+						newUserDefinedData.setPropertyValueByIndex(
+								GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal(),
+								(linkedHierarchyno + masterId + "."));
+						finalDataList.add(newUserDefinedData);
+					}
+				}
+
+			}
+
+		}
+	}
+
+	private List<Object> getInputForUserDefinedLevel(HierarchyLevelDefinitionBean hierarchyBean) {
+		List<Object> input = new ArrayList<>();
+		input.add(hierarchyBean.getHierarchyLevelDefinitionSid());
+		input.add(hierarchyBean.getLevelNo());
+		input.add(hierarchyBean.getLevelName());
+		input.add("HIERARCHY_LEVEL_VALUES_SID");
+		input.add(hierarchyBean.getHierarchyLevelDefinitionSid());
+		return input;
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Object[]> getQueryForUserDefinedLevel(List<Object> input) throws GtnFrameworkGeneralException {
+		String query = gtnWsSqlService.getQuery(input, "getUserDefinedLevelForAutoBuild");
+		return executeQuery(query);
+	}
+
+	private List<String> getMasterSidList(List<String> masterSidList,
+			List<HierarchyLevelDefinitionBean> hierarchyList) {
+		List<String> tempMasterSid = new ArrayList<>(masterSidList);
+		Collections.reverse(tempMasterSid);
+		List<String> finalMasterSid = new ArrayList<>();
+		for (int i = 0; i < tempMasterSid.size(); i++) {
+			if (!hierarchyList.get(i).isUserDefined()) {
+				finalMasterSid.add(tempMasterSid.get(i));
+			}
+
+		}
+		return finalMasterSid;
+	}
+
+	private String getHiddenIdHierarchyNo(List<String> masterSidList) {
+		StringBuilder hierarchyNo = new StringBuilder();
+		List<String> tempMasterSid = new ArrayList<>(masterSidList);
+		Collections.reverse(tempMasterSid);
+		for (String masterSid : tempMasterSid) {
+			hierarchyNo.append(masterSid);
+			hierarchyNo.append(",'.',");
+		}
+		hierarchyNo.replace(hierarchyNo.lastIndexOf(","), hierarchyNo.lastIndexOf(",") + 1, ",");
+		return hierarchyNo.toString();
+	}
+
+	public List<GtnWsRecordBean> customizeRelationDataForAutoBuild(List<Object[]> result) {
+		List<GtnWsRecordBean> recordBeanList = new ArrayList<>();
+		for (Object[] data : result) {
+			HierarchyLevelsBean levelValuesDTO = new HierarchyLevelsBean();
+			levelValuesDTO.setLevelValue(String.valueOf(data[0]));
+			levelValuesDTO.setHiddenId(String.valueOf(data[1]));
+			levelValuesDTO.setHierarchyLevelSystemId(Integer.parseInt(data[2].toString()));
+			levelValuesDTO.setLevelNo(String.valueOf(data[3].toString()));
+			levelValuesDTO.setLevelName(String.valueOf(data[4].toString()));
+			levelValuesDTO.setHierarchyNo(String.valueOf(data[5].toString()));
+			GtnWsRecordBean recordBean = getGtnWsRecordBean(levelValuesDTO);
+			recordBeanList.add(recordBean);
+		}
+		return recordBeanList;
+	}
+
+	public String getSelectClauseForAutoBuild(String hirarchyNo, HierarchyLevelDefinitionBean hierarchyBean,
+			GtnFrameworkQueryGeneratorBean finalQueryBean, String gethiddenIdhierarchyNo) {
+		finalQueryBean.addSelectClauseBean(null, "HIERARCHY_DEFINITION_SID", Boolean.FALSE,
+				String.valueOf(hierarchyBean.getHierarchyLevelDefinitionSid()));
+		finalQueryBean.addSelectClauseBean(null, "LEVEL_NO", Boolean.FALSE, String.valueOf(hierarchyBean.getLevelNo()));
+		finalQueryBean.addSelectClauseBean(null, "LELVEL_NAME", Boolean.FALSE,
+				String.valueOf("'" + hierarchyBean.getLevelName() + "'"));
+		GtnFrameworkSingleColumnRelationBean keyRelationBean = gtnFrameworkEntityMasterBean
+				.getKeyRelationBeanUsingTableIdAndColumnName(hierarchyBean.getTableName(),
+						hierarchyBean.getFieldName());
+		String tempHierarchyNo;
+		tempHierarchyNo = getHierarchyNoforQuery(hirarchyNo, keyRelationBean.getMasterIdColumn());
+		String finalHierarchyNo = "CONCAT(" + gethiddenIdhierarchyNo + tempHierarchyNo + ")";
+		finalQueryBean.addSelectClauseBean(null, "HIERARCHY_NO", Boolean.FALSE, finalHierarchyNo);
+		return tempHierarchyNo;
+	}
+
+	public String getHierarchyNoforQuery(String hirarchyNo, String value) {
+		String tempHiearchyNo = hirarchyNo;
+		if (!hirarchyNo.isEmpty()) {
+			tempHiearchyNo += "," + value + ", '.'";
+		} else
+			tempHiearchyNo += value + ", '.'";
+		return tempHiearchyNo;
 	}
 
 	public GtnWsRelationshipBuilderResponse getSavedHistLevelValuesList(GtnWsRelationshipBuilderRequest rbRequest,
@@ -825,7 +1057,7 @@ public class GtnWsRelationshipBuilderService {
 			List result = executeQuery(gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(inputlist,
 					"getRBSaveCheckRelationshipName"));
 			if (result != null && !result.isEmpty()) {
-				relationCount = Integer.valueOf(String.valueOf(result.get(0)));
+				relationCount = Integer.parseInt(String.valueOf(result.get(0)));
 			}
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Exception in checkDuplicateRelationshipName", e);
@@ -844,7 +1076,7 @@ public class GtnWsRelationshipBuilderService {
 			List result = executeQuery(gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(inputlist,
 					"getRBSaveCheckHierarchyDefinition"));
 			if (result != null && !result.isEmpty()) {
-				hierarchyCount = Integer.valueOf(String.valueOf(result.get(0)));
+				hierarchyCount = Integer.parseInt(String.valueOf(result.get(0)));
 			}
 			if (hierarchyCount != 0) {
 				companyTreeExists = checkForDuplicateTree(companyBean, selectedRelationshipId);
@@ -868,7 +1100,7 @@ public class GtnWsRelationshipBuilderService {
 			List result = executeQuery(gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(inputlist,
 					"getRBSaveCheckRelationshipLevelDefinition"));
 			if (result != null && !result.isEmpty()) {
-				builderCount = Integer.valueOf(String.valueOf(result.get(0)));
+				builderCount = Integer.parseInt(String.valueOf(result.get(0)));
 			}
 			if (builderCount != 0 && (selectedRelationshipId == 0 || builderCount != 1)) {
 				companyTreeExists = true;
@@ -892,8 +1124,8 @@ public class GtnWsRelationshipBuilderService {
 						.getQueryReplaced(inputlist, "getRBSaveCheckUsedRelationship"));
 				if (resultList != null && !resultList.isEmpty()) {
 					Object[] result = (Object[]) resultList.get(0);
-					custCount = Integer.valueOf(String.valueOf(result[0]));
-					prodCount = Integer.valueOf(String.valueOf(result[1]));
+					custCount = Integer.parseInt(String.valueOf(result[0]));
+					prodCount = Integer.parseInt(String.valueOf(result[1]));
 				}
 				if (custCount > 0 || prodCount > 0) {
 					relationUsed = true;
@@ -906,8 +1138,7 @@ public class GtnWsRelationshipBuilderService {
 	}
 
 	private void updateRelationshipBuilderFromRequest(RelationshipBuilder relationshipBuilder,
-			GtnWsRelationshipBuilderRequest rbRequest, Session session)
-			throws GtnFrameworkGeneralException {
+			GtnWsRelationshipBuilderRequest rbRequest, Session session) throws GtnFrameworkGeneralException {
 		try {
 			relationshipBuilder.setRelationshipName(rbRequest.getRelationshipName());
 			relationshipBuilder.setRelationshipDescription(rbRequest.getRelationshipDescription());
@@ -1055,7 +1286,8 @@ public class GtnWsRelationshipBuilderService {
 				relationshipLevel.setLevelNo(hierarchyLevelDTO.getLevelNo());
 				relationshipLevel.setLevelName(hierarchyLevelDTO.getLevelName());
 				relationshipLevel.setParentNode(GtnFrameworkCommonStringConstants.STRING_EMPTY.equals(parentNode)
-						? Integer.toString(parentNodeIndex) : parentNode);
+						? Integer.toString(parentNodeIndex)
+						: parentNode);
 				String hierarchyNo = parentHierarchyNo + hierarchyLevelDTO.getHiddenId() + ".";
 				relationshipLevel.setHierarchyNo(relationshipBuilder.getRelationshipBuilderSid() + "-" + hierarchyNo);
 				relationshipLevel.setCreatedDate(date);
@@ -1119,9 +1351,11 @@ public class GtnWsRelationshipBuilderService {
 						String rhsHierarchyNo = rhs
 								.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.HIERARCHY_NO.ordinal());
 						String lhsStr = lhsHierarchyNo.endsWith(".")
-								? lhsHierarchyNo.substring(0, lhsHierarchyNo.lastIndexOf('.')) : lhsHierarchyNo;
+								? lhsHierarchyNo.substring(0, lhsHierarchyNo.lastIndexOf('.'))
+								: lhsHierarchyNo;
 						String rhsStr = rhsHierarchyNo.endsWith(".")
-								? rhsHierarchyNo.substring(0, rhsHierarchyNo.lastIndexOf('.')) : rhsHierarchyNo;
+								? rhsHierarchyNo.substring(0, rhsHierarchyNo.lastIndexOf('.'))
+								: rhsHierarchyNo;
 						int lhsHiddenId = Integer.parseInt(lhsStr.substring(lhsStr.lastIndexOf('.') + 1));
 						int rhsHiddenId = Integer.parseInt(rhsStr.substring(rhsStr.lastIndexOf('.') + 1));
 						return lhsHiddenId - rhsHiddenId;
@@ -1188,19 +1422,19 @@ public class GtnWsRelationshipBuilderService {
 		if (result != null && !result.isEmpty()) {
 			for (int i = 0; i < result.size(); i++) {
 				Object[] obj = result.get(i);
-					HierarchyLevelsBean levelValuesDTO = new HierarchyLevelsBean();
-					levelValuesDTO.setLevelValue(String.valueOf(obj[0]));
-					levelValuesDTO.setHiddenId(String.valueOf(obj[1]));
-					levelValuesDTO.setHierarchyLevelSystemId(destinationHierarchyBean.getHierarchyLevelDefinitionSid());
-					levelValuesDTO.setParentNode("0");
-					levelValuesDTO.setRelationshipLevelSystemId(Integer.valueOf("0"));
-					levelValuesDTO.setLevelName(destinationHierarchyBean.getLevelName());
-					levelValuesDTO.setLevelNo(String.valueOf(destinationHierarchyBean.getLevelNo()));
-					levelValuesDTO.setPrimaryKeyColumn(nextPrimayKey);
-					levelValuesDTO.setLevelValueReference(destinationHierarchyBean.getLevelValueReference());
-					GtnUIFrameworkDataRow newDataRow = new GtnUIFrameworkDataRow();
-					newDataRow.setColList(getLevelBeanAsList(levelValuesDTO));
-					dataTable.addDataRow(newDataRow);
+				HierarchyLevelsBean levelValuesDTO = new HierarchyLevelsBean();
+				levelValuesDTO.setLevelValue(String.valueOf(obj[0]));
+				levelValuesDTO.setHiddenId(String.valueOf(obj[1]));
+				levelValuesDTO.setHierarchyLevelSystemId(destinationHierarchyBean.getHierarchyLevelDefinitionSid());
+				levelValuesDTO.setParentNode("0");
+				levelValuesDTO.setRelationshipLevelSystemId(Integer.parseInt("0"));
+				levelValuesDTO.setLevelName(destinationHierarchyBean.getLevelName());
+				levelValuesDTO.setLevelNo(String.valueOf(destinationHierarchyBean.getLevelNo()));
+				levelValuesDTO.setPrimaryKeyColumn(nextPrimayKey);
+				levelValuesDTO.setLevelValueReference(destinationHierarchyBean.getLevelValueReference());
+				GtnUIFrameworkDataRow newDataRow = new GtnUIFrameworkDataRow();
+				newDataRow.setColList(getLevelBeanAsList(levelValuesDTO));
+				dataTable.addDataRow(newDataRow);
 			}
 		}
 		return dataTable;
@@ -1255,7 +1489,6 @@ public class GtnWsRelationshipBuilderService {
 		return executeQuery(gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(inputlist,
 				"getRBHierarchyLevelNameList"));
 	}
-
 
 	public GtnWsRelationshipBuilderBean getCustomizedRelationShipBean(RelationshipBuilder relationshipBuilder,
 			Session session) {

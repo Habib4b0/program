@@ -627,7 +627,7 @@ public class GtnWsTransactionService {
 			String isActiveValue = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 			int isActiveIndex = projectionColumns.indexOf(GtnFrameworkWebserviceConstant.ACTIVE);
 			if (ob[isActiveIndex] != null) {
-				isActiveValue = ob[isActiveIndex].equals(true) ? "YES" : "NO";
+				isActiveValue = ob[isActiveIndex].equals(true) ? "NO" : "YES";
 			}
 			ob[isActiveIndex] = isActiveValue;
 		}
