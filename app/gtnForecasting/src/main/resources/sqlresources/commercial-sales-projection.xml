@@ -199,15 +199,74 @@ and open the template in the editor.
             <![CDATA[
                 IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
-                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),INSTR INT,CCP_DETAILS_SID INT)
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),INSTR INT,CCP_DETAILS_SID INT,RELATIONSHIP_LEVEL_VALUES VARCHAR(50))
 
                 INSERT INTO #SELECTED_HIERARCHY_NO
                 (HIERARCHY_NO,INSTR,
-                CCP_DETAILS_SID)
-                SELECT DISTINCT HIERARCHY_NO,INSTR,CH.CCP_DETAILS_SID
-                FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,INSTR)                
+                CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES)
+                SELECT DISTINCT A.HIERARCHY_NO,INSTR,CH.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES
+                FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,INSTR)  
+                JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO = A.HIERARCHY_NO              
                 [?SELECTED_HIERARCHY_JOIN]
+                
             ]]>
+        </query>
+    </entity>
+    <entity id="selected-hierarchy-no-condition-query">
+        <query>
+             <![CDATA[
+    IF Object_id('TEMPDB..#RESULT_HIERARCHY', 'U') IS NOT NULL
+  DROP TABLE #RESULT_HIERARCHY
+
+CREATE TABLE #RESULT_HIERARCHY
+  (
+     HIERARCHY_NO        VARCHAR(1000),
+     LEVEL_NO            INT,
+     PARENT_HIERARCHY_NO VARCHAR(4000),
+     RELATIONSHIP_LEVEL_VALUES VARCHAR(4000)
+  )
+                
+                INSERT INTO #RESULT_HIERARCHY
+            (HIERARCHY_NO,
+             LEVEL_NO,
+             PARENT_HIERARCHY_NO,
+             RELATIONSHIP_LEVEL_VALUES)
+SELECT DISTINCT HIERARCHY_NO,
+                level_no,
+                LEFT(parent_hierarchy_no, Len(parent_hierarchy_no) - 1),
+                RELATIONSHIP_LEVEL_VALUES
+FROM   #SELECTED_HIERARCHY_NO a
+       CROSS apply (SELECT CONVERT(VARCHAR(8000), HIERARCHY_NO + '~')
+                    FROM   #SELECTED_HIERARCHY_NO b
+                    WHERE  a.ccp_details_sid = b.ccp_details_sid
+                           AND a.level_no > b.level_no
+                    ORDER  BY level_no
+                    FOR xml path ('')) cs (parent_hierarchy_no)
+                    
+                    
+                    UPDATE A
+SET A.HIERARCHY_NO = isnull(G.HIER, A.HIERARCHY_NO)
+FROM #RESULT_HIERARCHY A
+JOIN (SELECT PR.*
+              ,STUFF((SELECT DISTINCT ', ' + R.HIERARCHY_NO HIER
+                           FROM #RESULT_HIERARCHY R
+                           WHERE CONVERT(INT, R.RELATIONSHIP_LEVEL_VALUES) = CONVERT(INT, PR.RELATIONSHIP_LEVEL_VALuES)
+                                  AND (CASE WHEN r.level_no > 1
+                                                       THEN r.PARENT_HIERARCHY_NO
+                                                ELSE '1'
+                                                END ) = (CASE
+                                                WHEN pr.level_no > 1
+                                                       THEN pr.PARENT_HIERARCHY_NO
+                                                ELSE '1'
+                                                END )
+                                  AND r.level_no = pr.level_no
+                           FOR XML PATH(''),TYPE).value('.', 'NVARCHAR(MAX)'), 1, 2, ' ') AS HIER
+       FROM #RESULT_HIERARCHY PR) G ON G.HIERARCHY_NO = A.HIERARCHY_NO
+       
+       
+       SELECT DISTINCT HIERARCHY_NO
+      FROM   #RESULT_HIERARCHY 
+             ]]>
         </query>
     </entity>
     <entity id="selected-hierarchy-no-update">
@@ -491,17 +550,29 @@ WHILE ( @I <= @COUNT )
    <entity id="selected-hierarchy-no-ordered">
         <query>
             <![CDATA[
+             
                 IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
                 CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT,INSTR INT,SALES_INCLUSION int,CALCULATION_PERIODS varchar(8000),USER_GROUP varchar(10),METHODOLOGY varchar(100))
 
+                
+                ;WITH HIERARCHY AS ( SELECT DISTINCT A.HIERARCHY_NO,INSTR,RELATIONSHIP_LEVEL_VALUES
+                FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,INSTR)   
+                JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1
+                ON RLD1.HIERARCHY_NO = A.HIERARCHY_NO              
+                [?SELECTED_HIERARCHY_JOIN] )
                 INSERT INTO #SELECTED_HIERARCHY_NO
                 (HIERARCHY_NO,
                 CCP_DETAILS_SID,
                 INSTR ,SALES_INCLUSION,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY)
-                SELECT DISTINCT HIERARCHY_NO,CH.CCP_DETAILS_SID,INSTR ,SALES_INCLUSION ,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY
-                FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO,INSTR)                
-                [?SELECTED_HIERARCHY_JOIN]
+                
+                SELECT DISTINCT STUFF(( SELECT DISTINCT ', ' + HIERARCHY_NO
+                           FROM HIERARCHY B
+                           WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
+                           FOR XML PATH('')
+                           ), 1, 2, '') HIERARCHY_NO,CH.CCP_DETAILS_SID,INSTR ,SALES_INCLUSION ,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY
+                FROM   HIERARCHY A
+                [?SELECTED_HIERARCHY_JOIN] 
             ]]>
         </query>
     </entity>
@@ -560,17 +631,11 @@ CREATE TABLE #SELECTED_HIERARCHY_NO
      CCP_DETAILS_SID INT,SALES_INCLUSION int,
  CALCULATION_PERIODS varchar(8000),USER_GROUP varchar(10),METHODOLOGY varchar(100)
   )
-INSERT INTO #SELECTED_HIERARCHY_NO
-            (HIERARCHY_NO,
-            SEC_HIERARCHYNO,
-            INSTTR,
-            HIERARCHY_INDICATOR,
-            CCP_DETAILS_SID,SALES_INCLUSION,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY)
-SELECT DISTINCT A.HIERARCHY_NO,
+  ;WITH HIERARCHY AS (SELECT DISTINCT A.HIERARCHY_NO,
                 SEC_HIERARCHYNO,
                 INSTTR,
                 HIERARCHY_INDICATOR,
-                CH.CCP_DETAILS_SID,SALES_INCLUSION,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY
+                CH.CCP_DETAILS_SID,SALES_INCLUSION,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY,RELATIONSHIP_LEVEL_VALUES
 FROM   (VALUES [?Hierarchy-Combination]
 
 
@@ -580,8 +645,25 @@ FROM   (VALUES [?Hierarchy-Combination]
 		   ((CH.CUST_HIERARCHY_NO LIKE A.SEC_HIERARCHYNO + '%' OR  CH.PROD_HIERARCHY_NO LIKE A.HIERARCHY_NO + '%') AND (HIERARCHY_NO IS NULL OR SEC_HIERARCHYNO IS NULL)) OR
 			((CH.CUST_HIERARCHY_NO LIKE A.SEC_HIERARCHYNO + '%' AND  CH.PROD_HIERARCHY_NO LIKE A.HIERARCHY_NO + '%') AND (HIERARCHY_NO IS NOT NULL AND SEC_HIERARCHYNO IS NOT NULL)) OR 
 			((CH.CUST_HIERARCHY_NO LIKE A.HIERARCHY_NO + '%' AND  CH.PROD_HIERARCHY_NO LIKE A.SEC_HIERARCHYNO + '%') AND (HIERARCHY_NO IS NOT NULL AND SEC_HIERARCHYNO IS NOT NULL))
+                        JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO = A.HIERARCHY_NO
        JOIN ST_NM_SALES_PROJECTION_MASTER SPM
-         ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+         ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID)
+INSERT INTO #SELECTED_HIERARCHY_NO
+            (HIERARCHY_NO,
+            SEC_HIERARCHYNO,
+            INSTTR,
+            HIERARCHY_INDICATOR,
+            CCP_DETAILS_SID,SALES_INCLUSION,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY)
+ SELECT DISTINCT STUFF(( SELECT DISTINCT ', ' + HIERARCHY_NO
+                           FROM HIERARCHY B
+                           WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
+                           FOR XML PATH('')
+                           ), 1, 2, '') HIERARCHY_NO,
+                SEC_HIERARCHYNO,
+                INSTTR,
+                HIERARCHY_INDICATOR,
+                CCP_DETAILS_SID,SALES_INCLUSION,CALCULATION_PERIODS,USER_GROUP,METHODOLOGY
+FROM   HIERARCHY A
             ]]>
         </query>
     </entity>
@@ -773,7 +855,6 @@ FROM   (VALUES [?Hierarchy-Combination]
 
                 SELECT SHN.HIERARCHY_NO,
                        SHN.SEC_HIERARCHYNO,
-                       SHN.INSTTR,
                        SHN.HIERARCHY_INDICATOR,
                        P."YEAR",
                        @FREQUENCY@ ,
@@ -789,7 +870,6 @@ FROM   (VALUES [?Hierarchy-Combination]
                 @SALESINCLUSION  
                 GROUP BY SHN.HIERARCHY_NO,
                          SHN.SEC_HIERARCHYNO,
-                         SHN.INSTTR,
                          SHN.HIERARCHY_INDICATOR,
                          P."YEAR"
                         @FREQUENCY_GROUP@;
@@ -798,7 +878,6 @@ FROM   (VALUES [?Hierarchy-Combination]
                 DROP TABLE #ST_NM_ACTUAL_SALES
                 SELECT SHN.HIERARCHY_NO,
                        SHN.SEC_HIERARCHYNO,
-                       SHN.INSTTR,
                        SHN.HIERARCHY_INDICATOR,
                        P."YEAR", 
                         @FREQUENCY@,
@@ -812,7 +891,6 @@ FROM   (VALUES [?Hierarchy-Combination]
                 @SALESINCLUSION
                 GROUP BY SHN.HIERARCHY_NO,
                         SHN.SEC_HIERARCHYNO,
-                        SHN.INSTTR,
                         SHN.HIERARCHY_INDICATOR,
                          P."YEAR"
                         @FREQUENCY_GROUP@;
@@ -829,7 +907,6 @@ FROM   (VALUES [?Hierarchy-Combination]
                        END AS METHODOLOGY,
                        SHN.HIERARCHY_NO,
                        SHN.SEC_HIERARCHYNO,
-                       SHN.INSTTR,
                        SHN.HIERARCHY_INDICATOR,
                        Count(*) AS RCOUNT,
                        Min(CASE (CHECK_RECORD)
@@ -846,7 +923,7 @@ FROM   (VALUES [?Hierarchy-Combination]
                 JOIN ST_NM_SALES_PROJECTION_MASTER MSPM ON MSPM.CCP_DETAILS_SID = SHN.CCP_DETAILS_SID  
                 @SALESINCLUSION      
                 GROUP BY SHN.HIERARCHY_NO,
-                SHN.SEC_HIERARCHYNO,SHN.INSTTR,SHN.HIERARCHY_INDICATOR,mspm.SALES_INCLUSION;
+                SHN.SEC_HIERARCHYNO,SHN.HIERARCHY_INDICATOR,mspm.SALES_INCLUSION;
                 
                 DECLARE @STAT_PERIOD INT
 ,@EN_PERIOD INT
@@ -902,7 +979,6 @@ FROM ST_NM_SALES_PROJECTION)
                           Q.methodology,
                           Q.HIERARCHY_NO,
                           Q.SEC_HIERARCHYNO,
-                          Q.INSTTR,
                           Q.rcount,
                           Q.actualproj,
                           Q.checkrec,
@@ -925,7 +1001,6 @@ FROM ST_NM_SALES_PROJECTION)
                              SH.METHODOLOGY,
                              SH.HIERARCHY_NO,
                              MSPM.SEC_HIERARCHYNO,
-                             MSPM.INSTTR,
                              RCOUNT,
                              1 AS actualProj,
                              checkrec,
@@ -949,7 +1024,6 @@ FROM ST_NM_SALES_PROJECTION)
                                        SH.METHODOLOGY,
                                        SH.HIERARCHY_NO,
                                        MSPM.SEC_HIERARCHYNO,
-                                       MSPM.INSTTR,
                                        RCOUNT,
                                        0 AS actualProj,
                                        checkrec,
@@ -963,7 +1037,6 @@ FROM ST_NM_SALES_PROJECTION)
                 WHERE MAINQ.TEMP_INDEX > @START
                   AND MAINQ.TEMP_INDEX <= (@START+@END)
                 ORDER BY
-                        MAINQ.INSTTR,
                         MAINQ.HIERARCHY_NO,
                         MAINQ.SEC_HIERARCHYNO,
                         MAINQ.YEARS,
@@ -1365,7 +1438,7 @@ WHERE
     
     <entity id="custom-relationship">
         <query>
-            <![CDATA[
+          <![CDATA[
 IF Object_id('TEMPDB..#PARENT_HIERARCHY', 'U') IS NOT NULL
   DROP TABLE #PARENT_HIERARCHY
 
@@ -1412,7 +1485,8 @@ CREATE TABLE #RESULT_HIERARCHY
      LEVEL_NAME          VARCHAR(1000),
      LEVEL_NO            INT,
      HIERARCHY_INDICATOR CHAR(1),
-     PARENT_HIERARCHY_NO VARCHAR(4000)
+     PARENT_HIERARCHY_NO VARCHAR(4000),
+     RELATIONSHIP_LEVEL_VALUES VARCHAR(4000)
   )
 
 INSERT INTO #RESULT_HIERARCHY
@@ -1420,12 +1494,14 @@ INSERT INTO #RESULT_HIERARCHY
              LEVEL_NAME,
              LEVEL_NO,
              HIERARCHY_INDICATOR,
-             PARENT_HIERARCHY_NO)
+             PARENT_HIERARCHY_NO,
+             RELATIONSHIP_LEVEL_VALUES)
 SELECT DISTINCT HIERARCHY_NO,
                 level_name,
                 level_no,
                 HIERARCHY_INDICATOR,
-                LEFT(parent_hierarchy_no, Len(parent_hierarchy_no) - 1)
+                LEFT(parent_hierarchy_no, Len(parent_hierarchy_no) - 1),
+                RELATIONSHIP_LEVEL_VALUES
 FROM   #PARENT_HIERARCHY a
        CROSS apply (SELECT CONVERT(VARCHAR(8000), HIERARCHY_NO + '~')
                     FROM   #PARENT_HIERARCHY b
@@ -1433,17 +1509,126 @@ FROM   #PARENT_HIERARCHY a
                            AND a.level_no > b.level_no
                     ORDER  BY level_no
                     FOR xml path ('')) cs (parent_hierarchy_no)
+                    UPDATE A
+SET A.HIERARCHY_NO = isnull(G.HIER, A.HIERARCHY_NO)
+FROM #RESULT_HIERARCHY A
+JOIN (SELECT PR.*
+              ,STUFF((SELECT DISTINCT ', ' + R.HIERARCHY_NO HIER
+                           FROM #RESULT_HIERARCHY R
+                           WHERE CONVERT(INT, R.RELATIONSHIP_LEVEL_VALUES) = CONVERT(INT, PR.RELATIONSHIP_LEVEL_VALuES)
+                                  AND (CASE WHEN r.level_no > 1
+                                                       THEN r.PARENT_HIERARCHY_NO
+                                                ELSE '1'
+                                                END ) = (CASE
+                                                WHEN pr.level_no > 1
+                                                       THEN pr.PARENT_HIERARCHY_NO
+                                                ELSE '1'
+                                                END )
+                                  AND r.level_no = pr.level_no
+                           FOR XML PATH(''),TYPE).value('.', 'NVARCHAR(MAX)'), 1, 2, ' ') AS HIER
+       FROM #RESULT_HIERARCHY PR) G ON G.HIERARCHY_NO = A.HIERARCHY_NO
 
-SELECT HIERARCHY_NO,
+SELECT DISTINCT HIERARCHY_NO,
        LEVEL_NAME,
        LEVEL_NO,
        HIERARCHY_INDICATOR,
-       PARENT_HIERARCHY_NO
-FROM   #RESULT_HIERARCHY
+       convert(VARCHAR(8000),STUFF(( SELECT DISTINCT ', ' + PARENT_HIERARCHY_NO
+                           FROM #RESULT_HIERARCHY B
+                           WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
+                           FOR XML PATH('')
+                           ), 1, 2, '')) PARENT_HIERARCHY_NO
+FROM   #RESULT_HIERARCHY A
 order by level_no     
             ]]>
         </query>
     </entity>     
+    
+    <entity id="custom-relationship-hierarchy">
+        <query>
+            <![CDATA[
+IF Object_id('TEMPDB..#PARENT_HIERARCHY', 'U') IS NOT NULL
+       DROP TABLE #PARENT_HIERARCHY
+CREATE TABLE #PARENT_HIERARCHY (
+       CCP_DETAILS_SID INT
+       ,HIERARCHY_NO VARCHAR(50)
+       ,LEVEL_NAME VARCHAR(75)
+       ,LEVEL_NO SMALLINT
+       ,RELATIONSHIP_LEVEL_VALUES VARCHAR(50)
+       ,HIERARCHY_INDICATOR CHAR(1)
+       ,PARENT_HIERARCHY_NO VARCHAR(8000)
+       )
+IF OBJECT_ID('TEMPDB..#TEMP_TA') IS NOT NULL
+       DROP TABLE #TEMP_TA
+SELECT DISTINCT CH.CCP_DETAILS_SID
+       ,RLD.HIERARCHY_NO
+       ,RLD.LEVEL_NAME
+       ,C.LEVEL_NO
+       ,RLD.RELATIONSHIP_LEVEL_VALUES
+       ,HIERARCHY_INDICATOR
+INTO #TEMP_TA
+FROM CUSTOM_VIEW_DETAILS C
+JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON C.HIERARCHY_ID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+
+       AND RELATIONSHIP_BUILDER_SID IN ( [?CUST_RELATIONSHIP_BUILDER_SID], [?PROD_RELATIONSHIP_BUILDER_SID] )
+JOIN ST_CCP_HIERARCHY CH ON CH.CUST_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + '%'
+       OR CH.PROD_HIERARCHY_NO LIKE RLD.HIERARCHY_NO + '%'
+JOIN ST_NM_SALES_PROJECTION_MASTER PPA ON PPA.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+WHERE  CUSTOM_VIEW_MASTER_SID = [?Custom_View_Master_SID] [?UserGroup] [?FILTERCCP]
+INSERT INTO #PARENT_HIERARCHY
+SELECT t.*
+       ,LEFT(parent_hierarchy_no, Len(parent_hierarchy_no) - 1) AS PARENT_HIERARCHY_NO
+FROM #TEMP_TA t
+CROSS APPLY (
+       SELECT CONVERT(VARCHAR(8000), HIERARCHY_NO + '~')
+       FROM #TEMP_TA r
+       WHERE t.CCP_DETAILS_SID = r.CCP_DETAILS_SID
+              AND t.LEVEL_NO > r.LEVEL_NO
+       FOR XML path('')
+       ) m(PARENT_HIERARCHY_NO)
+UPDATE A
+SET A.HIERARCHY_NO = isnull(G.HIER, A.HIERARCHY_NO)
+FROM #PARENT_HIERARCHY A
+JOIN (SELECT PR.*
+              ,STUFF((
+                           SELECT DISTINCT ', ' + R.HIERARCHY_NO HIER
+                           FROM #PARENT_HIERARCHY R
+                           WHERE CONVERT(INT, R.RELATIONSHIP_LEVEL_VALUES) = CONVERT(INT, PR.RELATIONSHIP_LEVEL_VALuES)
+                                  AND (
+                                         CASE
+                                                WHEN r.level_no > 1
+                                                       THEN r.PARENT_HIERARCHY_NO
+                                                ELSE '1'
+                                                END
+                                         ) = (
+                                         CASE
+                                                WHEN pr.level_no > 1
+                                                       THEN pr.PARENT_HIERARCHY_NO
+                                                ELSE '1'
+                                                END
+                                         )
+                                  AND r.level_no = pr.level_no
+                           FOR XML PATH('')
+                                  ,TYPE
+                           ).value('.', 'NVARCHAR(MAX)'), 1, 2, ' ') AS HIER
+       FROM #PARENT_HIERARCHY PR
+       ) G ON G.HIERARCHY_NO = A.HIERARCHY_NO
+ SELECT DISTINCT T.HIERARCHY_NO
+       ,T.LEVEL_NAME
+       ,T.LEVEL_NO
+       ,t.HIERARCHY_INDICATOR
+       ,CONVERT(VARCHAR(8000),LEFT(M.parent_hierarchy_no, Len(M.parent_hierarchy_no) - 1)) AS PARENT_HIERARCHY_NO
+FROM #PARENT_HIERARCHY t
+CROSS APPLY (
+       SELECT CONVERT(VARCHAR(8000), HIERARCHY_NO + '~')
+       FROM #PARENT_HIERARCHY r
+       WHERE t.CCP_DETAILS_SID = r.CCP_DETAILS_SID
+              AND t.LEVEL_NO > r.LEVEL_NO
+       FOR XML path('')
+       ) m(PARENT_HIERARCHY_NO)  
+       ORDER BY T.LEVEL_NO  
+            ]]>
+        </query>
+    </entity>   
     
                                 
                                                                                         
@@ -1976,6 +2161,21 @@ FROM #SELECTED_HIERARCHY_NO A
         <query>
             <![CDATA[  
               SELECT COUNT(DISTINCT HIERARCHY_NO)   FROM (SELECT HIERARCHY_NO = STUFF((
+			SELECT DISTINCT ', ' + HIERARCHY_NO
+			FROM #SELECTED_HIERARCHY_NO B
+			WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
+			FOR XML PATH('')
+			), 1, 2, '')
+FROM #SELECTED_HIERARCHY_NO A
+@RELJOIN )S
+            ]]>
+        </query>
+    </entity>	
+    
+                <entity id="custom-view-sales-condition-query">
+        <query>
+            <![CDATA[  
+              SELECT  DISTINCT convert(VARCHAR(8000),HIERARCHY_NO) HIERARCHY_NO  FROM (SELECT HIERARCHY_NO = STUFF((
 			SELECT DISTINCT ', ' + HIERARCHY_NO
 			FROM #SELECTED_HIERARCHY_NO B
 			WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES

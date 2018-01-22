@@ -66,6 +66,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -4066,23 +4067,48 @@ public class CommonLogic {
         boolean isNotFirstElement = false;
         int i = 1;
         for (TreeNode treeNode : nodeSet) {
-
+        if (!treeNode.getHierachyNo().contains(",")) {
+            String previousOppositeHierarchy = treeNode.getPreviousOppositeHieararchy(treeNode.getHierarchyIndicator());
+            List<String> parentHierarchyNo = Arrays.asList((String.valueOf(previousOppositeHierarchy)).split("\\,"));
+            for (String parentHierarchy : parentHierarchyNo) {
             if (isNotFirstElement) {
                 stringBuilder.append(",\n");
             }
             stringBuilder.append("('");
-            String previousOppositeHierarchy = treeNode.getPreviousOppositeHieararchy(treeNode.getHierarchyIndicator());
-            stringBuilder.append(treeNode.getHierachyNo()).
+            
+            stringBuilder.append(treeNode.getHierachyNo().trim()).
                     append("',");
             if (previousOppositeHierarchy.isEmpty()) {
                 stringBuilder.append("NULL");
             } else {
-                stringBuilder.append("'").append(previousOppositeHierarchy).append("'");
+                stringBuilder.append("'").append(parentHierarchy.trim()).append("'");
             }
 
             stringBuilder.append(",").append("'").append(treeNode.getHierarchyIndicator()).append("',").append(i++);
             stringBuilder.append(")");
             isNotFirstElement = true;
+            }
+        }else{
+            List<String> hierarchyNo = Arrays.asList((String.valueOf(treeNode.getHierachyNo())).split("\\,"));
+            for (String hierarchy : hierarchyNo) {
+            if (isNotFirstElement) {
+                stringBuilder.append(",\n");
+            }
+            stringBuilder.append("('");
+            String previousOppositeHierarchy = treeNode.getPreviousOppositeHieararchy(treeNode.getHierarchyIndicator());
+            stringBuilder.append(hierarchy.trim()).
+                    append("',");
+            if (previousOppositeHierarchy.isEmpty()) {
+                stringBuilder.append("NULL");
+            } else {
+                stringBuilder.append("'").append(previousOppositeHierarchy.trim()).append("'");
+            }
+
+            stringBuilder.append(",").append("'").append(treeNode.getHierarchyIndicator()).append("',").append(i++);
+            stringBuilder.append(")");
+            isNotFirstElement = true;
+            }
+        }
         }
         return stringBuilder.toString();
     }
@@ -4106,13 +4132,16 @@ public class CommonLogic {
         boolean isNotFirstElement = false;
         int i = 1;
         for (Object object : hierarchyNoSet) {
+            List<String> hierarchyNo = Arrays.asList((String.valueOf(((TreeNode) object).getHierachyNo())).split("\\,"));
+            for (String hierarchy : hierarchyNo) {
             if (isNotFirstElement) {
                 stringBuilder.append(",\n");
             }
             stringBuilder.append("('");
-            stringBuilder.append(((TreeNode) object).getHierachyNo());
+            stringBuilder.append(hierarchy.trim());
             stringBuilder.append("'," + i++ + ")");
             isNotFirstElement = true;
+        }
         }
 
         return stringBuilder.toString();
