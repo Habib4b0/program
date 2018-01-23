@@ -55,32 +55,15 @@ fi
 if [ -d "$folderexist"Application_Build ]
 then
 mkdir -p  $RPM_BUILD_ROOT%{prefix}/tempdeploy
-mkdir -p  $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/modules/common/service/partone/main
-mkdir -p  $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/modules/common/service/parttwo/main
+
 mkdir -p $RPM_BUILD_ROOT%{prefix}/etl/Interface_Job
-if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/gtnProperties.jar ]
-then
-  mkdir -p  $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/applicationProperties
-  cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/gtnProperties.jar $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/applicationProperties/
-chmod -R 777 $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/applicationProperties/gtnProperties.jar
-fi
+
 if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/R2_ETL.jar ]
 then
   cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/R2_ETL.jar  $RPM_BUILD_ROOT%{prefix}/etl/Interface_Job/
 chmod -R 777 $RPM_BUILD_ROOT%{prefix}/etl/Interface_Job/R2_ETL.jar
 fi
-if [ -e $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/gtnServicePartI-1.0.jar ]
-then
-  cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/gtnServicePartI-1.0.jar $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/modules/common/service/partone/main
-touch $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/modules/common/service/partone/main/deletejarindex.txt
-chmod -R 777 $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/modules/common/service/partone/main/gtnServicePartI-1.0.jar
-fi
-if [ -e $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/gtnServicePartII-1.0.jar ]
-then
-cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/gtnServicePartII-1.0.jar $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/modules/common/service/parttwo/main
-touch $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/modules/common/service/parttwo/main/deletejarindex.txt
-chmod -R 777 $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/modules/common/service/parttwo/main/gtnServicePartII-1.0.jar
-fi
+
 if [ -e  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/ETLProcedureInput.properties ]
 then
   cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/ETLProcedureInput.properties  $RPM_BUILD_ROOT%{prefix}/etl/Interface_Job/
@@ -100,10 +83,10 @@ chmod -R 777 $RPM_BUILD_ROOT%{prefix}/etl/dir_struct.sh
 fi
 
 echo "file in process"
-count=`ls -1 $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/*.war 2>/dev/null | wc -l`
+count=`ls -1 $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/*.jar 2>/dev/null | wc -l`
 if [ $count != 0 ]
 then 
-cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/*.war $RPM_BUILD_ROOT%{prefix}/tempdeploy/
+cp $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/Application_Build/*.jar $RPM_BUILD_ROOT%{prefix}/tempdeploy/
 fi
 mkdir $RPM_BUILD_ROOT%{prefix}/deploy/
 chmod 777 $RPM_BUILD_ROOT%{prefix}/deploy/
@@ -140,19 +123,8 @@ install_path=%{prefix}
 fi
 chown -R $APP_User:$Chown  $install_path
 chmod -R 777 $install_path/deploy/
-chmod -R 777 $install_path/jboss-7.1.1/standalone/deployments/
+chmod -R 777 $install_path/wildfly-10.0.0/standalone/deployments/
 
-# Deleting old Service Jar index files
-if [ -e $install_path/jboss-7.1.1/modules/common/service/partone/main/deletejarindex.txt ];
-then
-rm -rf $install_path/jboss-7.1.1/modules/common/service/partone/main/deletejarindex.txt
-rm -rf $install_path/jboss-7.1.1/modules/common/service/partone/main/*.index
-fi
-if [ -e $install_path/jboss-7.1.1/modules/common/service/parttwo/main/deletejarindex.txt ];
-then
-rm -rf $install_path/jboss-7.1.1/modules/common/service/parttwo/main/deletejarindex.txt
-rm -rf $install_path/jboss-7.1.1/modules/common/service/parttwo/main/*.index
-fi
 
 # Replacing ETL Properties
 sed -i 's=Server_Path='$install_path'=g' $install_path/etl/Interface_Job/Scripts/*
@@ -178,9 +150,9 @@ fi
 
 #Moving Transaction JSON
 
-if [ -e $install_path/tempdeploy/GtnFrameworkTransaction.war ];
+if [ -e $install_path/tempdeploy/GtnFrameworkTransaction.jar ];
 then
-jar xvf $install_path/tempdeploy/GtnFrameworkTransaction.war >/dev/null
+jar xvf $install_path/tempdeploy/GtnFrameworkTransaction.jar >/dev/null
 cp  -R /WEB-INF/classes/transaction_json $Gtn_Framework_Base_path
 rm -rf /WEB-INF /META-INF
 chown -R $APP_User:$Chown $Gtn_Framework_Base_path
@@ -189,87 +161,27 @@ fi
 
 #  Moving Gtn Framework Wars
 app_file=$install_path/tempdeploy/
-FILES="$install_path/tempdeploy/Gtn*"
+FILES="$install_path/tempdeploy/*.jar"
 for f in $FILES
 do
 if [ -e $f ] 
 then
         echo "Deploying $f"
  currentfile=$(basename $f)
-if [ -e  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed ];
+if [ -e  $install_path/osgi/modules/$currentfile.jar ];
 then
-mv  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed $install_path/jboss-7.1.1/standalone/deployments/$currentfile.undeployed
 
-rm -rf $install_path/jboss-7.1.1/standalone/deployments/$currentfile
+rm -rf $install_path/osgi/modules/$currentfile.jar
 sleep 8s
-rm -rf  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.undeployed
+
 fi
-cp $f $install_path/deploy/ 
+cp $f $install_path/osgi/modules/
 fi
 done
 
 # Moving Gtn Framework wars ends
 
-# Deployin Gtn Old Arch wars
-if [ -d $app_file ]
-then
 
-declare -a array=("gtnSharedLibrary" "gtnPartI" "gtnPartII" "gtnForecasting" "gtnGlobal" "gtnContract" "gtnAdminConsole" "gtnTransaction" "gtnCff" "gtnWorkflow" "gtnARM" "gtnWorkflow" "gtnSecurity" "gtnGCM" "gtnUtilities" "GtnVaadinWidgetset" "default-theme" "vaadin-widgetset")
-# get length of an array
-arraylength=${#array[@]}
-# use for loop to read all values and indexes
-for (( i=1; i<${arraylength}+1; i++ ));
-## now loop through the above array
-do
-if [ -e $install_path/tempdeploy/${array[$i-1]}.war ]
-then
-echo "*******************${array[$i-1]}**********************"
-else 
-echo  ${array[$i-1]}.war not found in input tar.
-continue
-fi
- 
-file="$install_path/jboss-7.1.1/standalone/deployments/${array[$i-1]}"
-
-if [ -f "$file.war.deployed" ]
-then 
-mv $install_path/jboss-7.1.1/standalone/deployments/${array[$i-1]}.war.deployed  $install_path/jboss-7.1.1/standalone/deployments/${array[$i-1]}.war.undeployed
-rm -rf $install_path/jboss-7.1.1/standalone/deployments/${array[$i-1]}.war
-sleep 8s
-rm -rf $install_path/jboss-7.1.1/standalone/deployments/${array[$i-1]}.war.undeployed
-fi
-
-cp  $install_path/tempdeploy/${array[$i-1]}.war $install_path/deploy/
-chmod -R 777 $install_path/deploy/
-chmod -R 777 $install_path/jboss-7.1.1/standalone/deployments/
-sleep 10s
-
-while [ ! -f "$file.war.deployed" ]
-do
-if [ -f "$file.war.deployed" ]
-then
-echo "Exit loop"
-break
-elif [ -f "$file.war.failed" ]
-then
-echo "War file failed to deploy..."${array[$i-1]}.war
-break
-else
-echo deploying ${array[$i-1]}.war
-sleep 5s
-fi
-done
-done
-
-if [ -e $install_path/tempdeploy/BPM.war ]
-then
-cp $install_path/tempdeploy/BPM.war $install_path/jboss-7.1.1/standalone/deployments/
-chmod -R  777 $install_path/jboss-7.1.1/standalone/deployments/BPM.war
-else 
-echo  BPM.war not found in input tar.
-fi
-rm -rf $install_path/tempdeploy
-fi
 #  Executing DB Scripts 
 if [ -e $install_path/DB_Script/exec_db_marker.txt ]; then
 DB_File_Path=$install_path/DB_Script

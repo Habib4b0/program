@@ -97,7 +97,7 @@ public class GtnFrameworkCommonStringConstants {
 
 	public static final String CSV_EXPORT_PATH = "GtnCsvExport";
 
-	public static final String EXCEL_ICON_URL = "../../icons/excel.png";
+	public static final String EXCEL_ICON_URL = "img/excel.png";
 
 	public static final String INBOUND_STATUS_A = "A";
 

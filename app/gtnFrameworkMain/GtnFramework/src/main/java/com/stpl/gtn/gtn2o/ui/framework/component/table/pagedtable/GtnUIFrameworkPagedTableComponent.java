@@ -140,6 +140,7 @@ public class GtnUIFrameworkPagedTableComponent implements GtnUIFrameworkComponen
 			pageHorizontalLayout.addStyleName("responsivePagedTable");
 			pageHorizontalLayout.setWidthUndefined();
 			resultLayout.addComponent(pageHorizontalLayout);
+                        resultLayout.setVisible(componentConfig.isVisible());
 			tableLogic.setCountUrl(tableConfig.getCountUrl());
 			tableLogic.setResultSetUrl(tableConfig.getResultSetUrl());
 			if (!tableConfig.getColumnCheckBoxId().isEmpty()) {
