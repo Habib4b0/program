@@ -188,7 +188,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private int customId = 0;
 	/* To check whether list view is generated or not */
 	public boolean isListviewGenerated = Boolean.TRUE;
-        private List<String> hierarchyListForCheckRecord=new ArrayList<>();
+        private Set<String> hierarchyListForCheckRecord=new HashSet<>();
 	private boolean isGroupUpdatedManually = false;
 	/* The custom id to select. */
 	private int customIdToSelect = 0;
