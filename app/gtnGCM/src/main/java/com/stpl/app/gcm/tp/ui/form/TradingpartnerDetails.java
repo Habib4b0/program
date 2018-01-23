@@ -67,7 +67,7 @@ public class TradingpartnerDetails extends CustomTPDetailsLayout {
     @UiField("rebuild")
     public Button rebuild;
 
-    public ExtFilterTable tradingPartnerDetailsTable = new ExtFilterTable();
+    private ExtFilterTable tradingPartnerDetailsTable = new ExtFilterTable();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
 
     private final BeanItemContainer<ContractResultDTO> tradingPartnerDetailsContainer;

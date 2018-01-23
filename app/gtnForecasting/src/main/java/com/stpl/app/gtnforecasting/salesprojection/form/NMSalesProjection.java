@@ -151,7 +151,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             levelFilterDdlbChangeOption(true);
             excelTable.setRefresh(Boolean.TRUE);
             excelTable.setDoubleHeaderVisible(false);
-            ForecastUI.EXCEL_CLOSE = true;
+            ForecastUI.setEXCEL_CLOSE(true);
             ExcelExport exp = null;
             int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
             if ((QUARTERLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())) || MONTHLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())))) {
@@ -161,7 +161,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     excelTable.setColumnHeaders(Arrays.copyOf(header, header.length, String[].class));
                     excelTable.setRefresh(true);
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
-                    ForecastUI.EXCEL_CLOSE = true;
+                    ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
                         exp = new ExcelExport(new ExtCustomTableHolder(excelTable), sheetName, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
                     } else {
@@ -362,7 +362,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         int i = 0;
         String hierarchyNo = StringUtils.EMPTY;
 
-        for (SalesRowDto dto : customContainer.getBeans()) {
+        for (SalesRowDto dto : getCustomContainer().getBeans()) {
             if ((Boolean) dto.getPropertyValue(Constant.CHECK) && (Constant.TRADINGPARTNER.equals(dto.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(dto.getHierarchyLevel()))) {
                 tpSelected = true;
                 i++;
@@ -473,10 +473,10 @@ public class NMSalesProjection extends ForecastSalesProjection {
         excelHeader.addSingleColumn(Constant.METHODOLOGY, "Methodology", String.class);
         rightHeader = HeaderUtils.getSalesProjectionRightTableColumns(projectionDTO, fullHeader, excelHeader);
         resultsTable.getLeftFreezeAsTable().setFilterBarVisible(true);
-        customContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
-        customContainer.setColumnProperties(leftHeader.getProperties());
-        customContainer.setColumnProperties(rightHeader.getProperties());
-        nmSalesProjectionTableLogic.setContainerDataSource(customContainer);
+        setCustomContainer(new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP));
+        getCustomContainer().setColumnProperties(leftHeader.getProperties());
+        getCustomContainer().setColumnProperties(rightHeader.getProperties());
+        nmSalesProjectionTableLogic.setContainerDataSource(getCustomContainer());
         leftTable = resultsTable.getLeftFreezeAsTable();
         rightTable = resultsTable.getRightFreezeAsTable();
         leftTable.setEditable(true);
@@ -744,7 +744,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     }
 
     public boolean getSubmitFlag() {
-        if (customContainer.getItemIds().size() > 0) {
+        if (getCustomContainer().getItemIds().size() > 0) {
             return true;
         } else {
             return false;

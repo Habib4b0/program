@@ -112,7 +112,7 @@ public class Details extends CustomComponent {
 
     private final AccrualRateProjectionLogic accrualRateProjectionLogic = AccrualRateProjectionLogic.getInstance();
 
-    public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
+    private static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
 
     private boolean isFilterLoadNeeded = true;
 
@@ -453,7 +453,7 @@ public class Details extends CustomComponent {
             final ExtContainer<AccrualRateProjectionDTO> excelContainer = new ExtContainer<>(AccrualRateProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
             configureAndLoadDataForExcel(excelTable, excelContainer);
             if (excelTable.size() > 0) {
-                ForecastUI.EXCEL_CLOSE = true;
+                ForecastUI.setEXCEL_CLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), AccrualRateUtils.DETAILS, AccrualRateUtils.DETAILS, "Details.xls", false);
                 exp.export();
             }

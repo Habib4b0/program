@@ -8,6 +8,7 @@ package com.stpl.app.gtnforecasting.projectionvariance.dto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -33,7 +34,7 @@ public class PVParameters implements Serializable, Cloneable {
     private String viewName = StringUtils.EMPTY;
     private String discountId = StringUtils.EMPTY;
     private int customViewMasterSid = 0;
-    List<Integer> pirorProjectionIds = new ArrayList();
+    private List<Integer> pirorProjectionIds = new ArrayList();
      private String view = StringUtils.EMPTY;
 
     public String getProjectionId() {
@@ -141,11 +142,11 @@ public class PVParameters implements Serializable, Cloneable {
     }
 
     public List<Integer> getPirorProjectionIds() {
-        return pirorProjectionIds;
+        return pirorProjectionIds == null ? pirorProjectionIds : Collections.unmodifiableList(pirorProjectionIds);
     }
 
     public void setPirorProjectionIds(List<Integer> pirorProjectionIds) {
-        this.pirorProjectionIds = pirorProjectionIds;
+        this.pirorProjectionIds = pirorProjectionIds == null ? pirorProjectionIds : Collections.unmodifiableList(pirorProjectionIds);
     }
 
     @Override

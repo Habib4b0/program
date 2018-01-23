@@ -13,8 +13,8 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CustomFieldGroup extends FieldGroup {
     private static final long serialVersionUID = -6293510593661094366L;
-     static Log log = LogFactory.getLog(CustomFieldGroup.class);
-    ErrorLabel errorDisplay;
+    private static Log log = LogFactory.getLog(CustomFieldGroup.class);
+    private ErrorLabel errorDisplay;
    
     /**
      * binds the item
@@ -48,6 +48,14 @@ public class CustomFieldGroup extends FieldGroup {
             throw e;
         }
     }
+
+	public static Log getLog() {
+		return log;
+	}
+
+	public static void setLog(Log log) {
+		CustomFieldGroup.log = log;
+	}
 
 	
     

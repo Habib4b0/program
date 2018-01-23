@@ -2221,4 +2221,12 @@ public class NewComponents extends CustomComponent implements View {
         }
     }
 
+	public ColumnCheckListener getCheckListener() {
+		return checkListener;
+	}
+
+	public void setCheckListener(ColumnCheckListener checkListener) {
+		this.checkListener = checkListener;
+	}
+
 }

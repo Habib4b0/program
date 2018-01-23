@@ -40,19 +40,19 @@ public class MandatedChartUtils {
     /**
      * The annual.
      */
-    public static String annual = "Annual";
+    public static final String ANNUAL = "Annual";
     /**
      * The semi annual.
      */
-    public static String semiAnnual = "semi-Annual";
+    public static final String SEMI_ANNUAL = "semi-Annual";
     /**
      * The month.
      */
-    public static String month = "monthly";
+    public static final String MONTH = "monthly";
     /**
      * The quarter.
      */
-    public static String quarter = "quarterly";
+    public static final String QUARTER = "quarterly";
     /**
      * The dto.
      */

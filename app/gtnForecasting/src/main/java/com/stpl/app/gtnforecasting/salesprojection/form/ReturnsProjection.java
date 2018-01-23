@@ -146,7 +146,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
             levelFilterDdlbChangeOption(true);
             excelTable.setRefresh(Boolean.TRUE);
             if (excelTable.size() > 0) {
-                ForecastUI.EXCEL_CLOSE=true;
+                ForecastUI.setEXCEL_CLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), "Returns Projection", "Returns Projection", "Returns_Projection.xls", false);
                 exp.export();
             }
@@ -304,11 +304,11 @@ public class ReturnsProjection extends ForecastSalesProjection {
         leftHeader = HeaderUtils.getProjectionReturnsLeftTableColumns(excelHeader);
         rightHeader = HeaderUtils.getSalesProjectionRightTableColumns(projectionDTO, fullHeader, excelHeader);
 
-        customContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
-        customContainer.setColumnProperties(leftHeader.getProperties());
-        customContainer.setColumnProperties(rightHeader.getProperties());
+        setCustomContainer(new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP));
+        getCustomContainer().setColumnProperties(leftHeader.getProperties());
+        getCustomContainer().setColumnProperties(rightHeader.getProperties());
 
-        mSalesProjectionTableLogic.setContainerDataSource(customContainer);
+        mSalesProjectionTableLogic.setContainerDataSource(getCustomContainer());
         mSalesProjectionTableLogic.setPageLength(NumericConstants.TWENTY);
         mSalesProjectionTableLogic.sinkItemPerPageWithPageLength(true);
         leftTable = resultsTable.getLeftFreezeAsTable();

@@ -159,7 +159,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     /**
      * The split position.
      */
-    public ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
     protected ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     protected ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
     protected CustomTableHeaderDTO excelHeader = new CustomTableHeaderDTO();
@@ -629,6 +629,17 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         adjustPeriods.addItem(Constants.ButtonConstants.SELECT.getConstant());
         adjustPeriods.select(Constant.ALL);
         adjustPeriods.setStyleName(Constant.HORIZONTAL);
+        adjustPeriods.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+               boolean isChecked=Constant.ALL.equals(event.getProperty().getValue().toString());
+                for (Object component : rightTable.getDoubleHeaderVisibleColumns()) {
+                    if (!rightTable.getDoubleHeaderColumnCheckBoxDisable(component)) {
+                        rightTable.setDoubleHeaderColumnCheckBox(component, true, isChecked);
+                    }
+                }
+            }
+        });
         adjustment.setStyleName(Constant.TXT_RIGHT_ALIGN);
 
         graphIcon.setStyleName(Reindeer.BUTTON_LINK);
@@ -3838,5 +3849,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             
             allocationBasis.addItems(outputList);
     }
+
+public ExtTreeContainer<SalesRowDto> getCustomContainer() {
+	return customContainer;
+}
+
+public void setCustomContainer(ExtTreeContainer<SalesRowDto> customContainer) {
+	this.customContainer = customContainer;
+}
     
 }

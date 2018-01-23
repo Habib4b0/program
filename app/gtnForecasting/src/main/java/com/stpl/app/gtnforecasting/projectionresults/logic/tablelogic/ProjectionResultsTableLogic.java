@@ -36,8 +36,8 @@ import org.jboss.logging.Logger;
 public class ProjectionResultsTableLogic extends PageTreeTableLogic {
 
     protected ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
-    public  NMProjectionResultsLogic nmProjectionResultsLogic = new NMProjectionResultsLogic();
-    public  MProjectionResultsLogic mProjectionResultsLogic= new MProjectionResultsLogic();
+    private  NMProjectionResultsLogic nmProjectionResultsLogic = new NMProjectionResultsLogic();
+    private  MProjectionResultsLogic mProjectionResultsLogic= new MProjectionResultsLogic();
     protected boolean firstGenerated = false;
     private static final Logger LOGGER = Logger.getLogger(ProjectionResultsTableLogic.class);        
 
@@ -309,15 +309,15 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
         String screenName = StringUtils.isBlank(projSelDTO.getScreenName()) ? StringUtils.EMPTY : projSelDTO.getScreenName();
         switch (screenName) {
             case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
-                count = nmProjectionResultsLogic.getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
+                count = getNmProjectionResultsLogic().getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
                 break;
             case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
-                count = mProjectionResultsLogic.getConfiguredProjectionResultsCount(parentId, projSelDTO, true, projSelDTO);
+                count = getmProjectionResultsLogic().getConfiguredProjectionResultsCount(parentId, projSelDTO, true, projSelDTO);
                 break;
            
             default:
                 LOGGER.warn("BUSINESS_PROCESS_TYPE is Empty.Commercial is loaded by default.");
-                count = nmProjectionResultsLogic.getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
+                count = getNmProjectionResultsLogic().getConfiguredProjectionResultsCount(parentId, projSelDTO, true);
                 break;
         }
         return count;
@@ -330,18 +330,34 @@ public class ProjectionResultsTableLogic extends PageTreeTableLogic {
         switch (screenName) {
             case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
                 LOGGER.debug("Projection results load data method with start = "+start+" and offset = "+offset);
-                list = nmProjectionResultsLogic.getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
+                list = getNmProjectionResultsLogic().getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
                 break;
             case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
-                list = mProjectionResultsLogic.getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
+                list = getmProjectionResultsLogic().getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
                 break;
            
             default:
                 LOGGER.warn("BUSINESS_PROCESS_TYPE is Empty.Commercial is loaded by default.");
-                list = nmProjectionResultsLogic.getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
+                list = getNmProjectionResultsLogic().getConfiguredProjectionResults(parentId, start, offset, projSelDTO);
                 break;
         }
         return list;
     }
+
+	public NMProjectionResultsLogic getNmProjectionResultsLogic() {
+		return nmProjectionResultsLogic;
+	}
+
+	public void setNmProjectionResultsLogic(NMProjectionResultsLogic nmProjectionResultsLogic) {
+		this.nmProjectionResultsLogic = nmProjectionResultsLogic;
+	}
+
+	public MProjectionResultsLogic getmProjectionResultsLogic() {
+		return mProjectionResultsLogic;
+	}
+
+	public void setmProjectionResultsLogic(MProjectionResultsLogic mProjectionResultsLogic) {
+		this.mProjectionResultsLogic = mProjectionResultsLogic;
+	}
     
 }

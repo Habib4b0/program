@@ -48,7 +48,7 @@ import org.jboss.logging.Logger;
  */
 public class AdditionalInformationForm extends AbsAdditionalInformation {
 
-    final StplSecurity stplSecurity = new StplSecurity();
+	private final StplSecurity stplSecurity = new StplSecurity();
 
     /**
      *
@@ -65,6 +65,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
     protected final boolean isEditMode;
     protected final boolean isViewMode;
     protected CommonUIUtils commonUiUtil = new CommonUIUtils();
+    private boolean isFileRename;
     /**
      * The logo.
      */
@@ -157,7 +158,8 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
                 File renameFileUpload = CommonUtil.getFilePath(fileUploadPath + name);
-                destFileUpload.renameTo(renameFileUpload);
+                isFileRename=destFileUpload.renameTo(renameFileUpload);
+                LOGGER.info("File renamed successfully : "+isFileRename);
                 if (!StringUtils.isBlank(file)) {
                     attachmentDTO.setDocumentName(name);
                 } else {

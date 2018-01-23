@@ -31,7 +31,8 @@ public class NdcCriteria implements SearchCriteria {
     /**
      * The dirty.
      */
-    public boolean dirty;
+    @SuppressWarnings("unused")
+	private boolean dirty;
 
     /**
      * The filter.

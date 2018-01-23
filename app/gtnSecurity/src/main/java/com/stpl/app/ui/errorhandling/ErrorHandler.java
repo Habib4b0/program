@@ -15,7 +15,7 @@ public class ErrorHandler extends DefaultErrorHandler{
 	 */
 	private static final long serialVersionUID = 7750147698117722961L;
 	private static final Logger LOGGER = LogManager.getLogger(ErrorHandler.class.getName());
-	AbstractLayout layout;
+	private AbstractLayout layout;
 	
 	public ErrorHandler(AbstractLayout layout) {
 		this.layout=layout;

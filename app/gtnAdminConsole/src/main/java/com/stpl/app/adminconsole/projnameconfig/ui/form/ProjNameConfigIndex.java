@@ -429,4 +429,16 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
         LOGGER.debug("End of getBeanFromId method");
         return (ProjectionNameDTO) targetItem.getBean();
     }
+
+	public CustomFieldGroup getNameBinder() {
+		return nameBinder;
+	}
+
+	public void setNameBinder(CustomFieldGroup nameBinder) {
+		this.nameBinder = nameBinder;
+	}
+
+	public ProjectionNameDTO getProjectionNameDTO() {
+		return projectionNameDTO;
+	}
 }

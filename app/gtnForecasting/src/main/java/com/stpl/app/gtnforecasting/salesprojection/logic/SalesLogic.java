@@ -731,7 +731,7 @@ public class SalesLogic {
         final Map<String, List> relationshipDetailsMap = sessionDTO.getHierarchyLevelDetails();
         for (int i = 0; i < resulList.size(); i++) {
             Object obj[] = (Object[]) resulList.get(i);
-            MSalesProjection.rowCountMap.put(String.valueOf(obj[NumericConstants.TEN]), obj[NumericConstants.ELEVEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])) : null);
+            MSalesProjection.getRowCountMap().put(String.valueOf(obj[NumericConstants.TEN]), obj[NumericConstants.ELEVEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])) : null);
             if (lastLevelValue.equalsIgnoreCase(STRING_EMPTY) || lastLevelValue.equals(String.valueOf(obj[NumericConstants.TEN]))) {
 
                 lastLevelValue = String.valueOf(obj[NumericConstants.TEN]);
@@ -1928,7 +1928,7 @@ public class SalesLogic {
 
             BigDecimal value = new BigDecimal(editedValue);
             String hierarchyNo = salesDTO.getHierarchyNo();
-            int rowcount = MSalesProjection.rowCountMap.get(hierarchyNo);
+            int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String keyarr[] = propertyId.split("-");
             if (frequencyDivision == 1) {
                 year = Integer.valueOf(keyarr[0]);
@@ -2068,7 +2068,7 @@ public class SalesLogic {
 
             BigDecimal value = new BigDecimal(editedValue);
             String hierarchyNo = salesDTO.getHierarchyNo();
-            int rowcount = MSalesProjection.rowCountMap.get(hierarchyNo);
+            int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String keyarr[] = propertyId.split("-");
             if (frequencyDivision == 1) {
                 year = Integer.valueOf(keyarr[0]);

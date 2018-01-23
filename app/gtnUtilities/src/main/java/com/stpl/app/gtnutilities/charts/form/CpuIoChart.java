@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.jboss.logging.Logger;
 
 import com.stpl.app.gtnutilities.charts.logic.SearchLogic;
 import com.stpl.app.gtnutilities.util.CommonMethods;
@@ -58,7 +57,6 @@ public class CpuIoChart extends VerticalLayout {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(CpuIoChart.class);
 
 	CpuIoChart() {
 		addFields();

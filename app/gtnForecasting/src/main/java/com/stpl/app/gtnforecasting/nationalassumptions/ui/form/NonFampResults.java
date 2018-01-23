@@ -563,7 +563,7 @@ public class NonFampResults extends Window {
             projectionDTO.setActualsOrProjections(actualOrProj.getValue().toString());
             projectionDTO.setVariables(String.valueOf(variables.getValue()));
             projectionDTO.setProjectionOrder(periodOrder.getValue().toString());
-            com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.sessionDto;
+            com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
             Date startDate = startAndTodate.getFromDate();
             Date endDate = startAndTodate.getToDate();
             if (startDate != null && endDate != null) {
