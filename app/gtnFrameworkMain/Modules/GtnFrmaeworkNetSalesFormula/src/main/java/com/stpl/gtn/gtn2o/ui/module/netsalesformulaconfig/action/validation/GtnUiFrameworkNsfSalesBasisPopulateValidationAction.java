@@ -37,9 +37,9 @@ public class GtnUiFrameworkNsfSalesBasisPopulateValidationAction implements GtnU
 		
 		if (!isCheck) {
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
-			alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+			alertActionConfig.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
 			List<Object> alertParams = new ArrayList<>();
-			alertParams.add(GtnFrameworkNSFConstants.getNetSalesMassUpdateFieldErrorHeader());
+			alertParams.add(GtnFrameworkNSFConstants.getPopulateButtonCheckRecordErrorHeader());
 			alertParams.add(GtnFrameworkNSFConstants.getPopulateButtonCheckRecordSalesBasisErrorMsg());
 			alertActionConfig.setActionParameterList(alertParams);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
