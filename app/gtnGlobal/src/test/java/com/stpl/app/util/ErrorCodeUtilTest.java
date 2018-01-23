@@ -34,6 +34,9 @@ public class ErrorCodeUtilTest {
     private static final String ERROR_CODE_1002="Populate Operation Failed";
     private List<Exception> exception;
     
+    public ErrorCodeUtilTest(){
+    	super();
+    }
     
     /**
      * Initialize the lists before executing the Test Case

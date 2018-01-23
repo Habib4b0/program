@@ -33,8 +33,8 @@ import com.stpl.portal.kernel.exception.SystemException;
 public class NotificationMgmtLogic {
     private static final Logger LOGGER = LogManager
             .getLogger(NotificationMgmtLogic.class);
-   Date date = new Date();
-    NotificationMgmtLogicDAO dao=new NotificationMgmtLogicDAOImpl();
+    private Date date = new Date();
+    private NotificationMgmtLogicDAO dao=new NotificationMgmtLogicDAOImpl();
     public  List<String> loadBusinessProcess() {
         DynamicQuery businessProcessDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
         businessProcessDynamicQuery.add(RestrictionsFactoryUtil.ilike("listName", "WorkflowProcesses"));

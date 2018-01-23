@@ -100,7 +100,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
     /**
      * The table control Layout.
      */
-    public  ExtTreeContainer<ProjectionVarianceDTO> beanContainerResult = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
+    private  ExtTreeContainer<ProjectionVarianceDTO> beanContainerResult = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
     private static List<Integer> projectionIdList = new ArrayList<>();
     private Map<Integer, String> projectionMap = new HashMap<>();
     private static List<String> projectionNameList = new ArrayList<>();
@@ -125,7 +125,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
     private final String scrnName;
     private boolean isComparisonLookupOpened;
      /** To reduce unwanted DB hits **/
-    public Map<MultiKey,List> contractTypeList=new HashMap<>();
+    private Map<MultiKey,List> contractTypeList=new HashMap<>();
 
     /**
      * Constructor for ProjectionVariance.
@@ -276,7 +276,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void comparisonLookupLogic() {
         LOGGER.debug("Comparision lookup started");
-        MComparisonLookup comparisonLookupWindow = new MComparisonLookup(comparison, session, scrnName,contractTypeList,pvSelectionDTO,tableLogic);
+        MComparisonLookup comparisonLookupWindow = new MComparisonLookup(comparison, session, scrnName,getContractTypeList(),pvSelectionDTO,tableLogic);
         UI.getCurrent().addWindow(comparisonLookupWindow);
         isComparisonLookupOpened = true;
         LOGGER.debug("Comparision lookup ends");
@@ -356,11 +356,11 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         rightHeader = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
         pvSelectionDTO.setRightHeaderPeriod(rightHeader);
         alignRight();
-        beanContainerResult = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
-        beanContainerResult.setColumnProperties(leftHeader.getProperties());
-        beanContainerResult.setColumnProperties(rightHeader.getProperties());
+        setBeanContainerResult(new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP));
+        getBeanContainerResult().setColumnProperties(leftHeader.getProperties());
+        getBeanContainerResult().setColumnProperties(rightHeader.getProperties());
         tableLogic.setScreenName(scrnName);
-        tableLogic.setContainerDataSource(beanContainerResult);
+        tableLogic.setContainerDataSource(getBeanContainerResult());
         tableLogic.setTreeNodeMultiClick(false);
         tableLogic.setPageLength(NumericConstants.TWENTY);
         tableLogic.sinkItemPerPageWithPageLength(false);
@@ -386,7 +386,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         leftTable.setColumnHeaders(leftHeader.getSingleHeaders().toArray(new String[leftHeader.getSingleHeaders().size()]));
         leftTable.setFilterBarVisible(true);
         leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        leftTable.setFilterGenerator(new ComparisonFilterGenerator(pvSelectionDTO, tableLogic, Constant.DETAIL.equals(level.getValue()) ? true : false,contractTypeList));
+        leftTable.setFilterGenerator(new ComparisonFilterGenerator(pvSelectionDTO, tableLogic, Constant.DETAIL.equals(level.getValue()) ? true : false,getContractTypeList()));
         rightTable.setVisibleColumns(rightHeader.getSingleColumns().toArray());
         rightTable.setColumnHeaders(rightHeader.getSingleHeaders().toArray(new String[rightHeader.getSingleHeaders().size()]));
         UiUtils.setExtFilterTreeTableColumnWidth(rightTable, NumericConstants.ONE_SEVEN_ZERO, TAB_PROJECTION_VARIANCE.getConstant());
@@ -768,7 +768,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         tableLogic.setProjectionResultsData(currentHierarchy, pvSelectionDTO, levelNo);
         leftTable.setFilterBarVisible(true);
         leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        leftTable.setFilterGenerator(new ComparisonFilterGenerator(pvSelectionDTO, tableLogic, Constant.DETAIL.equals(level.getValue()) ? true : false,contractTypeList));
+        leftTable.setFilterGenerator(new ComparisonFilterGenerator(pvSelectionDTO, tableLogic, Constant.DETAIL.equals(level.getValue()) ? true : false,getContractTypeList()));
     }
 
     public List<Leveldto> getCurrentHierarchy() {
@@ -836,7 +836,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
                 levelFilter.setEnabled(false);
                 leftTable.setFilterBarVisible(true);
                 leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
-                leftTable.setFilterGenerator(new ComparisonFilterGenerator(pvSelectionDTO, tableLogic, false,contractTypeList));
+                leftTable.setFilterGenerator(new ComparisonFilterGenerator(pvSelectionDTO, tableLogic, false,getContractTypeList()));
             } else {
                 customIdToSelect = customId;
                 setDisableFields();
@@ -863,7 +863,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
 
         leftTable.setFilterBarVisible(true);
         leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        leftTable.setFilterGenerator(new ComparisonFilterGenerator(pvSelectionDTO, tableLogic, false,contractTypeList));
+        leftTable.setFilterGenerator(new ComparisonFilterGenerator(pvSelectionDTO, tableLogic, false,getContractTypeList()));
 
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
         int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
@@ -897,7 +897,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         try {
             configureExcelTable();
             loadExcelResultTable();
-            ForecastUI.EXCEL_CLOSE = true;
+            ForecastUI.setEXCEL_CLOSE(true);
             ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), TAB_PROJECTION_VARIANCE.getConstant(), TAB_PROJECTION_VARIANCE.getConstant(), "Projection_Variance.xls", false);
             exp.export();
             tableVerticalLayout.removeComponent(excelTable);
@@ -1155,5 +1155,21 @@ public class MProjectionVariance extends ForecastProjectionVariance {
             canLoad = false;
         }
     }
+
+	public ExtTreeContainer<ProjectionVarianceDTO> getBeanContainerResult() {
+		return beanContainerResult;
+	}
+
+	public void setBeanContainerResult(ExtTreeContainer<ProjectionVarianceDTO> beanContainerResult) {
+		this.beanContainerResult = beanContainerResult;
+	}
+
+	public Map<MultiKey,List> getContractTypeList() {
+		return contractTypeList;
+	}
+
+	public void setContractTypeList(Map<MultiKey,List> contractTypeList) {
+		this.contractTypeList = contractTypeList;
+	}
 
 }

@@ -31,7 +31,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
         super(BusinessroleMasterDTO.class);
 
     }
-   UserGrpBsnsRoleLogicDAO dao=new UserGrpBsnsRoleLogicDAOImpl();
+    private UserGrpBsnsRoleLogicDAO dao=new UserGrpBsnsRoleLogicDAOImpl();
 
     public UserGrpBsnsRoleDTO getBsnsRoles(UserGrpBsnsRoleDTO usrDto){
     	try{

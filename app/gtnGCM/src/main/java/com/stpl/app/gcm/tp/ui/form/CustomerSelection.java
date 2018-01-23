@@ -3,7 +3,6 @@ package com.stpl.app.gcm.tp.ui.form;
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.CommonUtil;
 import com.stpl.app.gcm.security.StplSecurity;
-import static com.stpl.app.gcm.security.StplSecurity.userMap;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.CompanyLinkDTO;
 import com.stpl.app.gcm.tp.dto.IdDescriptionDTO;
@@ -15,6 +14,8 @@ import com.stpl.app.gcm.tp.tablelogic.LinkedCompaniesTableLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
+
+import static com.stpl.app.gcm.security.StplSecurity.getUserMap;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.EXCEL_IMAGE_PATH;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.PROJECTION_DETAILS_TRANSFER;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TAB_CURRENT_CONTRACT;
@@ -194,7 +195,7 @@ public class CustomerSelection extends VerticalLayout {
             resultList.clear();
 
             selectedCustomersTable.setContainerDataSource(selectedCustomersContainer);
-            selectedCustomersLogic.isProjSelected=true;
+            selectedCustomersLogic.setProjSelected(true);
             selectedCustomersLogic.setContainerDataSource(selectedCustomersContainer);
             selectedCustomersLogic.sinkItemPerPageWithPageLength(false);
             companySearchResultsTable.setContainerDataSource(companyResultsContainer);
@@ -609,6 +610,7 @@ public class CustomerSelection extends VerticalLayout {
     
     
      public static Map<Integer, String> getUserName()  {
+    	 Map<Integer, String> userMap =StplSecurity.getUserMap();
         try {
             LOGGER.debug("Enters getUserName method");
             DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);

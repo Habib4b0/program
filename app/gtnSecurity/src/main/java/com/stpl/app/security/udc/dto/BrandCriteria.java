@@ -7,6 +7,8 @@
 package com.stpl.app.security.udc.dto;
 
 import com.vaadin.data.Container;
+
+import java.util.Collections;
 import java.util.Set;
 import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
 
@@ -20,9 +22,15 @@ public class BrandCriteria implements BeanSearchCriteria{
     * @see org.vaadin.addons.lazycontainer.AbstractSearchCriteria#isDirty()
     */
     private boolean customDirty = true;
-     Set<Container.Filter> filters;
-    int lastCount;
-    boolean dirty;
+    private Set<Container.Filter> filters;
+    private int lastCount;
+    @SuppressWarnings("unused")
+	private boolean dirty;
+    
+    public BrandCriteria(){
+    	super();
+    }
+    
    @Override
     public boolean isDirty() {
         return customDirty;
@@ -53,12 +61,12 @@ public class BrandCriteria implements BeanSearchCriteria{
     
     @Override
     public Set<Container.Filter> getFilters() {
-       return filters;
+       return filters == null ? filters : Collections.unmodifiableSet(filters);
     }
 
     @Override
     public void setFilters(Set<Container.Filter> filter) {
-        this.filters = filter;
+        this.filters = filter == null ? filters : Collections.unmodifiableSet(filters);
     }
     
     

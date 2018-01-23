@@ -110,16 +110,16 @@ public class RebateTab extends VerticalLayout {
     private final float splitPosition = 300;
     @UiField("mainPanel")
     public Panel panel;
-    public TabSelectionDTO selectionDTO = new TabSelectionDTO();
+    private TabSelectionDTO selectionDTO = new TabSelectionDTO();
     private ExtCustomTreeTable exportPeriodViewTable;
     private ExtTreeContainer<RebateTabDTO> excelResultBean = new ExtTreeContainer<>(RebateTabDTO.class,ExtContainer.DataStructureMode.MAP);
     private final LoadTabLogic tabLogic = new LoadTabLogic();
-    public boolean load = false;
+    private boolean load = false;
     public final SessionDTO session;
     private int projectionId = 0;
 
     public RebateTab(SessionDTO session, boolean isLoad) {
-        this.load = isLoad;
+        this.setLoad(isLoad);
         this.session = session;
         tableLogic.setSession(session);
         getContent();
@@ -445,4 +445,12 @@ public class RebateTab extends VerticalLayout {
 
         return history;
     }
+
+	public boolean isLoad() {
+		return load;
+	}
+
+	public void setLoad(boolean load) {
+		this.load = load;
+	}
 }

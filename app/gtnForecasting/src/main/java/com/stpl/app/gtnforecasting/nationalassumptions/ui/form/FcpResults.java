@@ -737,7 +737,7 @@ public class FcpResults extends CustomComponent implements View {
             projectionDTO.setVariables(String.valueOf(variables.getValue()));
             projectionDTO.setProjectionOrder(periodOrder.getValue().toString());
             projectionDTO.setPivotView(view.getValue().toString());
-            com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.sessionDto;
+            com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
             Date startDate = startAndTodate.getFromDate();
             Date endDate = startAndTodate.getToDate();
             if (startDate != null && endDate != null) {

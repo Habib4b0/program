@@ -241,4 +241,16 @@ public class FileUploadForm extends CustomComponent
 
 		selectedInterface.addItems(interFacesList);
 	}
+
+	public SearchLogic getSearchLogic() {
+		return searchLogic;
+	}
+
+	public String getLogDestinationValue() {
+		return logDestinationValue;
+	}
+
+	public void setLogDestinationValue(String logDestinationValue) {
+		this.logDestinationValue = logDestinationValue;
+	}
 }

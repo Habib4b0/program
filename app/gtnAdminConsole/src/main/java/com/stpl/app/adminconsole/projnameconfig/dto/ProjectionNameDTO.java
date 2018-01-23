@@ -32,6 +32,10 @@ public class ProjectionNameDTO implements Serializable {
 
     private String modifiedDate;
 
+    public ProjectionNameDTO(){
+    	super();
+    }
+    
     public String getCreatedDate() {
         return createdDate;
     }

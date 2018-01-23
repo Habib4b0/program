@@ -227,4 +227,8 @@ public class ViewLog extends CustomComponent implements View {
             fileName.addItem(dto.getLogDestination());
         }
     }
+
+	public SearchLogic getSearchLogic() {
+		return searchLogic;
+	}
 }

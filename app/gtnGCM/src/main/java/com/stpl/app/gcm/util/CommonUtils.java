@@ -30,7 +30,7 @@ public class CommonUtils {
     /**
      * The log.
      */
-    public static PortletConfig portletConfig;
+	private static PortletConfig portletConfig;
     public final static String COMPANY_NAME = "companyName";
     public final static String QUOTES = "'";
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
@@ -52,7 +52,7 @@ public class CommonUtils {
      * @param portletConfig
      */
     public static void setPortalConfig(final PortletConfig portletConfig) {
-        CommonUtils.portletConfig = portletConfig;
+        CommonUtils.setPortletConfig(portletConfig);
     }
 
     public static List<Integer> convertStringListToInteger(List<String> stringList) {
@@ -253,4 +253,12 @@ public class CommonUtils {
         });
 
     }
+
+	public static PortletConfig getPortletConfig() {
+		return portletConfig;
+	}
+
+	public static void setPortletConfig(PortletConfig portletConfig) {
+		CommonUtils.portletConfig = portletConfig;
+	}
 }

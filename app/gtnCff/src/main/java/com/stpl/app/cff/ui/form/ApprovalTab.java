@@ -549,7 +549,7 @@ public class ApprovalTab extends CustomComponent {
 
     public void loadResultTable() {
 
-        cffDTO = new CFFDTO();
+        setCffDTO(new CFFDTO());
         resultsBean.removeAllItems();
         resultsBean.addAll(cffLogic.loadLatestCCP(sessionDTO));
         resultTable.firePagedChangedEvent();
@@ -1090,5 +1090,13 @@ public class ApprovalTab extends CustomComponent {
         }
         return resultList;
     }
+
+	public CFFDTO getCffDTO() {
+		return cffDTO;
+	}
+
+	public void setCffDTO(CFFDTO cffDTO) {
+		this.cffDTO = cffDTO;
+	}
 
 }

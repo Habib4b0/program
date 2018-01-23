@@ -23,6 +23,9 @@ public class JobDTO {
     private String status;
     
    // Add New Fields here 
+    public JobDTO(){
+    	super();
+    }
     
     public String getJobname() {
         return jobname;

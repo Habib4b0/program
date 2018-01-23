@@ -77,8 +77,8 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
     private final SessionDTO session;
     private final transient ContractSelectionLogic logic = new ContractSelectionLogic();
     private final transient CommmonLogic commonLogic = new CommmonLogic();
-    public ExtPagedFilterTable currentTradingPartnerDetailsTable = new ExtPagedFilterTable();
-    public ExtPagedFilterTable transferTradingPartnerDetailsTable = new ExtPagedFilterTable();
+    private ExtPagedFilterTable currentTradingPartnerDetailsTable = new ExtPagedFilterTable();
+    private ExtPagedFilterTable transferTradingPartnerDetailsTable = new ExtPagedFilterTable();
 
     private final TransferTPForm transferTpForm;
     private final transient StplSecurity stplSecurity = new StplSecurity();

@@ -41,8 +41,8 @@ public class GlobalChangeIndex extends CustomComponent implements View {
 
     private static final Logger LOGGER = Logger.getLogger(GlobalChangeIndex.class);
     private SessionDTO sessionDTO = new SessionDTO();
-    public CustomFieldGroup promoteTpToChDtoBinder;
-    public CustomFieldGroup globalChangeBinder;
+    private CustomFieldGroup promoteTpToChDtoBinder;
+    private CustomFieldGroup globalChangeBinder;
     @UiField("layout")
     public VerticalLayout layout;
     @UiField("customerSelectRadio")
@@ -313,4 +313,20 @@ public class GlobalChangeIndex extends CustomComponent implements View {
 
         }
     }
+
+	public CustomFieldGroup getPromoteTpToChDtoBinder() {
+		return promoteTpToChDtoBinder;
+	}
+
+	public void setPromoteTpToChDtoBinder(CustomFieldGroup promoteTpToChDtoBinder) {
+		this.promoteTpToChDtoBinder = promoteTpToChDtoBinder;
+	}
+
+	public CustomFieldGroup getGlobalChangeBinder() {
+		return globalChangeBinder;
+	}
+
+	public void setGlobalChangeBinder(CustomFieldGroup globalChangeBinder) {
+		this.globalChangeBinder = globalChangeBinder;
+	}
 }

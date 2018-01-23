@@ -29,7 +29,7 @@ public class CumulativeCalculationUtils {
 	public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger
 			.getLogger(CumulativeCalculationUtils.class);
 	private String tabName = StringUtils.EMPTY;
-	boolean salesFlag = false;
+	private boolean salesFlag = false;
 	private final StandaloneParser credentials = StandaloneParser.getInstance();
 	private final String folderName = System.getProperty(Constant.CUMULATIVE_FILE_PATH);
 	private String methodology = StringUtils.EMPTY;

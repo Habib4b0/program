@@ -23,6 +23,9 @@ import com.vaadin.ui.UI;
  */
 public class FileManagementUI extends UI {
 
+	public FileManagementUI(){
+		 super();
+	}
 	/** The navigator. */
 	private Navigator navigator;
 

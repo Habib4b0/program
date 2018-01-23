@@ -99,7 +99,7 @@ public class Summary extends CustomComponent {
     @UiField("componentDetailsLay")
     private VerticalLayout componentDetailsLay;
     private final ItemDetailsTableLogic contractTableLogic = new ItemDetailsTableLogic();
-    public ExtPagedTable addContractTable = new ExtPagedTable(contractTableLogic);
+    private ExtPagedTable addContractTable = new ExtPagedTable(contractTableLogic);
     private final ContractDashboardTableLogic contractDashboardTableLogic = new ContractDashboardTableLogic();
     private final FreezePagedTreeTable contractDashBoardtable = new FreezePagedTreeTable(contractDashboardTableLogic);
     private List<ItemIndexDto> selecteditemList;
