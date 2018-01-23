@@ -5035,29 +5035,33 @@ public class CommonLogic {
     }
 
     public String getDedCustomJoinGenerate(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
-        String columnName;
+         StringBuilder columnName = new StringBuilder();
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
-            columnName = Constant.RELATIONSHIPJOIN;
+             columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getCustomerRelationVersion());
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName = Constant.RELATIONSHIPJOIN;
+            columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getProductRelationVersion());
         } else {
             String parentHierarchyNo =  replacePercentHierarchy(hierarchyNo);
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierarchyNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
-            "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";       
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierarchyNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
+            "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'");       
         }
-        return columnName;
+        return columnName.toString();
     }
     
-     public String getRelJoinGenerate(String hierarchyIndicator) {
-        String columnName;
+     public String getRelJoinGenerate(String hierarchyIndicator,SessionDTO sessionDTO) {
+        StringBuilder columnName = new StringBuilder();
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
-            columnName = Constant.RELATIONSHIPJOIN;
+            columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getCustomerRelationVersion());
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName = Constant.RELATIONSHIPJOIN;
+            columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getProductRelationVersion());
         } else {
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO ";       
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO ");       
         }
-        return columnName;
+        return columnName.toString();
     }
     
     public String getSelectStatementCustom(final String hierarchyIndicator) {
