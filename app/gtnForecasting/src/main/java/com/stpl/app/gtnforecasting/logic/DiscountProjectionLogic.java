@@ -1230,7 +1230,7 @@ public class DiscountProjectionLogic {
     }
     
 
-    public String getFormatedHierarchyNo(List<String> list) {
+    public String getFormatedHierarchyNo(Set<String> list) {
         StringBuilder hierarchyNo=new StringBuilder();
         for (String string : list) {
             hierarchyNo.append("('").append(string).append("'),");
@@ -1239,7 +1239,7 @@ public class DiscountProjectionLogic {
         return hierarchyNo.toString();
     }
     
-    public void updateCheckRecordForAdjust(List discountList,List<String> hierarchyList,SessionDTO sessionDto,String hierarchyIndicator){
+    public void updateCheckRecordForAdjust(List discountList,Set<String> hierarchyList,SessionDTO sessionDto,String hierarchyIndicator){
     String updateQuery=SQlUtil.getQuery("UPDATE_ALL_LEVEL_CHECKRECORD_ADJUST");
     updateQuery= updateQuery.replace("@BUILDERSID", sessionDto.getDedRelationshipBuilderSid()).replace("@LEVNO", String.valueOf(sessionDto.getSelectedDeductionLevelNo()));
     updateQuery= updateQuery.replace("@RELATIONSIDS", StringUtils.join(discountList,",")).replace("@HIERARCHY_NO", getFormatedHierarchyNo(hierarchyList));

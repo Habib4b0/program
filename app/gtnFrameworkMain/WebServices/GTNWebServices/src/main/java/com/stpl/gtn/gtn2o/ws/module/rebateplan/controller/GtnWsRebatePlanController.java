@@ -265,7 +265,7 @@ public class GtnWsRebatePlanController {
 
 			rPTierDetailBean.setFrom(rpTier.getTierFrom() == null ? 0d : rpTier.getTierFrom().intValue());
 			if (rpTier.getTierTo() != null && "null".equals(String.valueOf(rpTier.getTierTo()))) {
-				rPTierDetailBean.setTo(rpTier.getTierTo().intValue());
+				rPTierDetailBean.setTo(Double.valueOf(String.valueOf(rpTier.getTierTo())));
 			}
 			rPTierDetailBean
 					.setTierTolerance(rpTier.getTierTolerance() == null ? 0d : rpTier.getTierTolerance().doubleValue());
@@ -509,7 +509,7 @@ public class GtnWsRebatePlanController {
 			rpTier.setRebatePlanMaster(rpMaster);
 			rpTier.setRebatePlanTierId(Integer.toString(rebatePlanInfoBean.getSystemId() + i));
 			rpTier.setTierFrom(BigDecimal.valueOf(ruleDetailBean.getFrom()));
-			rpTier.setTierTo(BigDecimal.valueOf(ruleDetailBean.getTo()));
+			rpTier.setTierTo(ruleDetailBean.getTo() != null ? BigDecimal.valueOf(ruleDetailBean.getTo()) : null);
 			rpTier.setTierLevel(Integer.toString(i));
 			rpTier.setHelperTable(session.get(HelperTable.class, ruleDetailBean.getOperator()));
 			rpTier.setTierValue(ruleDetailBean.getValueDesc() != null
