@@ -287,6 +287,14 @@ public class SearchResults extends CustomComponent {
 		}
 		return true;
 	}
+
+	public BusinessRoleModuleSearchLogic getBusinessRoleModuleLogic() {
+		return businessRoleModuleLogic;
+	}
+
+	public void setBusinessRoleModuleLogic(BusinessRoleModuleSearchLogic businessRoleModuleLogic) {
+		this.businessRoleModuleLogic = businessRoleModuleLogic;
+	}
 	
 	
 }

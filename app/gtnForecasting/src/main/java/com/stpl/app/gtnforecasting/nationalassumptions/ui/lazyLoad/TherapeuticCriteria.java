@@ -31,7 +31,8 @@ public class TherapeuticCriteria implements SearchCriteria {
     /**
      * The dirty.
      */
-    private boolean dirty;
+    @SuppressWarnings("unused")
+	private boolean dirty;
 
     /**
      * The filter.

@@ -5758,5 +5758,45 @@ public class HeaderUtils {
 		return comparisonHeader.clone();
 	}
 
+	public Object[] getSupplementalColumns() {
+		return supplementalColumns;
+	}
+
+	public void setSupplementalColumns(Object[] supplementalColumns) {
+		this.supplementalColumns = supplementalColumns;
+	}
+
+	public String[] getSupplementalHeader() {
+		return supplementalHeader;
+	}
+
+	public void setSupplementalHeader(String[] supplementalHeader) {
+		this.supplementalHeader = supplementalHeader;
+	}
+
+	public Object[] getSupplementalDoubleColumns() {
+		return supplementalDoubleColumns;
+	}
+
+	public void setSupplementalDoubleColumns(Object[] supplementalDoubleColumns) {
+		this.supplementalDoubleColumns = supplementalDoubleColumns;
+	}
+
+	public String[] getSupplementalDoubleHeader() {
+		return supplementalDoubleHeader;
+	}
+
+	public void setSupplementalDoubleHeader(String[] supplementalDoubleHeader) {
+		this.supplementalDoubleHeader = supplementalDoubleHeader;
+	}
+
+	public Object[] getSalesRightTable() {
+		return salesRightTable;
+	}
+
+	public void setSalesRightTable(Object[] salesRightTable) {
+		this.salesRightTable = salesRightTable;
+	}
+
 
 }

@@ -52,7 +52,7 @@ public class CommonUtils {
      * @param portletConfig
      */
     public static void setPortalConfig(final PortletConfig portletConfig) {
-        CommonUtils.portletConfig = portletConfig;
+        CommonUtils.setPortletConfig(portletConfig);
     }
 
     public static List<Integer> convertStringListToInteger(List<String> stringList) {
@@ -253,4 +253,12 @@ public class CommonUtils {
         });
 
     }
+
+	public static PortletConfig getPortletConfig() {
+		return portletConfig;
+	}
+
+	public static void setPortletConfig(PortletConfig portletConfig) {
+		CommonUtils.portletConfig = portletConfig;
+	}
 }

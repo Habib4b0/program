@@ -24,7 +24,13 @@ public class BrandCriteria implements BeanSearchCriteria{
     private boolean customDirty = true;
     private Set<Container.Filter> filters;
     private int lastCount;
-    private boolean dirty;
+    @SuppressWarnings("unused")
+	private boolean dirty;
+    
+    public BrandCriteria(){
+    	super();
+    }
+    
    @Override
     public boolean isDirty() {
         return customDirty;

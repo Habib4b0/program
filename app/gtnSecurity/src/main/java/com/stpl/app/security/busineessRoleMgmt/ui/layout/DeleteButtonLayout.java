@@ -38,7 +38,7 @@ public class DeleteButtonLayout extends HorizontalLayout {
 		super();
 		this.searchResultbeans = searchResultbeans;
 		this.binder = binder;
-		this.table = table;
+		this.setTable(table);
 		init();
 	}
 
@@ -93,6 +93,14 @@ public class DeleteButtonLayout extends HorizontalLayout {
 			}
 		});
 		this.addComponent(btnSearch);
+	}
+
+	public Table getTable() {
+		return table;
+	}
+
+	public void setTable(Table table) {
+		this.table = table;
 	}
 
 }

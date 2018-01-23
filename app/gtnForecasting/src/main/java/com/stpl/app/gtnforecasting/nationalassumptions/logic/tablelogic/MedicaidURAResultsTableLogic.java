@@ -35,6 +35,11 @@ public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
      */
     private static final Logger LOGGER = Logger.getLogger(MedicaidURAResultsTableLogic.class);    
     private SessionDTO sessionDTO;
+    
+    public MedicaidURAResultsTableLogic(){
+    	super();	
+    }
+    
     public void setProjectionResultsData(ProjectionSelectionDTO projSelDTO, int levelNo, String hierarchyNo,SessionDTO sessionDTO) {
         this.projSelDTO = projSelDTO;
         this.sessionDTO=sessionDTO;

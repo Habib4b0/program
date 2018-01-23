@@ -5018,4 +5018,12 @@ public class DataSelectionForm extends ForecastDataSelection {
 		level.setContainerDataSource(productForecastLevelContainer);
 	}
 
+	public ResourceBundle getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(ResourceBundle tableName) {
+		this.tableName = tableName;
+	}
+
 }

@@ -49,6 +49,14 @@ public class CustomFieldGroup extends FieldGroup {
         }
     }
 
+	public static Log getLog() {
+		return log;
+	}
+
+	public static void setLog(Log log) {
+		CustomFieldGroup.log = log;
+	}
+
 	
     
 }

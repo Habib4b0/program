@@ -99,7 +99,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
      */
     public PromoteTPToChForm(CustomFieldGroup promoteTpToChBinder, SessionDTO session, PromoteTpToChWindow editWindow, final ExtFilterTable resultTable) {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/PromoteTPToChForm.xml"), this));
-        this.promoteTpBinder = promoteTpToChBinder;
+        this.setPromoteTpBinder(promoteTpToChBinder);
         this.resultTable = resultTable;
         this.promoteWindow = editWindow;
         this.session = session;
@@ -378,4 +378,12 @@ public class PromoteTPToChForm extends CustomComponent implements View {
             LOGGER.error(ex);
         }
     }
+
+	public CustomFieldGroup getPromoteTpBinder() {
+		return promoteTpBinder;
+	}
+
+	public void setPromoteTpBinder(CustomFieldGroup promoteTpBinder) {
+		this.promoteTpBinder = promoteTpBinder;
+	}
 }

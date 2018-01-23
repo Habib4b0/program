@@ -28,7 +28,7 @@ public class PPAResultsGenerator implements ExtFilterGenerator {
 	private ProjectionSelectionDTO projectionSelectionDTO;
 
     public PPAResultsGenerator(ProjectionSelectionDTO projectionSelectionDTO) {
-        this.projectionSelectionDTO = projectionSelectionDTO;
+        this.setProjectionSelectionDTO(projectionSelectionDTO);
     }
 
     @Override
@@ -89,4 +89,12 @@ public class PPAResultsGenerator implements ExtFilterGenerator {
       
         return null;
     }
+
+	public ProjectionSelectionDTO getProjectionSelectionDTO() {
+		return projectionSelectionDTO;
+	}
+
+	public void setProjectionSelectionDTO(ProjectionSelectionDTO projectionSelectionDTO) {
+		this.projectionSelectionDTO = projectionSelectionDTO;
+	}
 }

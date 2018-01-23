@@ -95,4 +95,8 @@ public class AddUpdateForm extends CustomComponent {
 		
 	}
 
+	public ErrorLabel getErrorMsg() {
+		return errorMsg;
+	}
+
 }

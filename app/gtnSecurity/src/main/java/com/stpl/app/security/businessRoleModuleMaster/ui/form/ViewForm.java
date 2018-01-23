@@ -63,7 +63,7 @@ public class ViewForm extends CustomComponent implements View {
 	private ErrorfulFieldGroup binder;
 
 	public ViewForm(BusinessRoleModuleMasterDTO salesMasterDTO, ErrorfulFieldGroup binder) {
-		this.salesMasterDTO = salesMasterDTO;
+		this.setSalesMasterDTO(salesMasterDTO);
 		this.binder = binder;
 		init();
 
@@ -131,5 +131,21 @@ public class ViewForm extends CustomComponent implements View {
 
 	public void enter(ViewChangeEvent event) {
             return;
+	}
+
+	public BusinessRoleModuleSearchLogic getSalesLogic() {
+		return salesLogic;
+	}
+
+	public void setSalesLogic(BusinessRoleModuleSearchLogic salesLogic) {
+		this.salesLogic = salesLogic;
+	}
+
+	public BusinessRoleModuleMasterDTO getSalesMasterDTO() {
+		return salesMasterDTO;
+	}
+
+	public void setSalesMasterDTO(BusinessRoleModuleMasterDTO salesMasterDTO) {
+		this.salesMasterDTO = salesMasterDTO;
 	}
 }
