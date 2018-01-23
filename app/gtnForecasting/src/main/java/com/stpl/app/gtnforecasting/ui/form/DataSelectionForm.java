@@ -699,14 +699,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 			dataSelectionDTO.setCustomerHierarchy(customerHierarchy.getValue());
 			dataSelectionDTO.setCustomerGroup(customerGroup.getValue());
 			dataSelectionDTO.setProductGroup(productGroup.getValue());
-			if (customerHierarchyDto != null) {
+			if (customerHierarchyDto != null && customerRelationVersionComboBox.getValue()!= null) {
 				int custHierarchyVersionNo = Integer
 						.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
 				dataSelectionDTO.setCustomerHierVersionNo(custHierarchyVersionNo);
 			} else {
 				dataSelectionDTO.setCustomerHierVersionNo(0);
 			}
-			if (productHierarchyDto != null) {
+			if (productHierarchyDto != null && productRelationVersionComboBox.getValue() != null) {
 				int prodHierarchyVersionNo = Integer
 						.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
 				dataSelectionDTO.setProductHierVersionNo(prodHierarchyVersionNo);
