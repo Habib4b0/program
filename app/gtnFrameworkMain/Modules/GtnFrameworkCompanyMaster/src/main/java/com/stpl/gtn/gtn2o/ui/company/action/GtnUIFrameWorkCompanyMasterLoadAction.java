@@ -360,15 +360,15 @@ public class GtnUIFrameWorkCompanyMasterLoadAction implements GtnUIFrameWorkActi
 				notesDTOList.add(companyMasterAttachmentDTO);
 
 			}
-			result.add(getCompanyInformation().getInternalNotes());
-			result.add(notesDTOList);
+		}
+		result.add(getCompanyInformation().getInternalNotes());
+		result.add(notesDTOList);
 
-			GtnUIFrameworkBaseComponent notesTab = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("notesTab");
-			try {
-				notesTab.setNotesTabValue(result);
-			} catch (GtnFrameworkValidationFailedException ex) {
-				Logger.getLogger(GtnUIFrameWorkCompanyMasterLoadAction.class.getName()).log(Level.SEVERE, null, ex);
-			}
+		GtnUIFrameworkBaseComponent notesTab = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("notesTab");
+		try {
+			notesTab.setNotesTabValue(result);
+		} catch (GtnFrameworkValidationFailedException ex) {
+			Logger.getLogger(GtnUIFrameWorkCompanyMasterLoadAction.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 	}
