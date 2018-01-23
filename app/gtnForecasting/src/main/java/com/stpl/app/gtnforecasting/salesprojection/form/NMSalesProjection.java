@@ -66,6 +66,7 @@ import org.jboss.logging.Logger;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Commercial Sales Projection
@@ -772,10 +773,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
     
     
     private void loadProductLevel()  {
-
-        int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;
-        currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid());
-        Utility.loadDdlbForLevelFilterOption(productlevelDdlb, currentHierarchy, NAME);
+    	 int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;
+         currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid());
+         Utility.loadDdlbForLevelFilterOption(productlevelDdlb, currentHierarchy, StringUtils.EMPTY);
         productlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
@@ -810,15 +810,16 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     private void loadCustomerLevel() {
         int hierarchyNo = isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
-        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo, session.getCustRelationshipBuilderSid());
-        Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, NAME);
-        
+        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo+1, session.getCustRelationshipBuilderSid());
+        Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, StringUtils.EMPTY);
+
         customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 generateCustomerToBeLoaded = Collections.emptyList();
                 if (event.getProperty().getValue() != null) {
                     String customerlevelDdlbValue = String.valueOf(customerlevelDdlb.getValue());
+                    customerlevelDdlbValue = Constant.NULL.equals(customerlevelDdlbValue) ? StringUtils.EMPTY : customerlevelDdlbValue;
                     loadCustomerLevelFilter(customerlevelDdlbValue);
                 } else {
                     loadCustomerLevelFilter(StringUtils.EMPTY);
@@ -826,6 +827,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             }
         });
     }
+  
     private void loadCustomerLevelFilter(String levelNo) {
         List<Object[]> customerLevelFilter = new ArrayList<>();
         customerFilterDdlb.removeSubMenuCloseListener(cutomerListener);
