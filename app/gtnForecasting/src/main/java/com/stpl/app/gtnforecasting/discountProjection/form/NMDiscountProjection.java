@@ -5345,7 +5345,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	private void callAdjustmentProcedure(SessionDTO session) {
 		if (session.isActualAdjustment()) {
-			logic.adjustDiscountProjection(session, "Override", "Amount","0", null,baselinePeriods);
+			logic.adjustDiscountProjection(session, "Override", "Amount","0", "0",baselinePeriods);
 		}
 	}
 
