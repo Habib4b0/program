@@ -31,7 +31,7 @@ public class GtnUIFrameworkWebServiceClient {
 			return response;
 
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error("Exception in web service call",e);
 			return null;
 		}
 	}
