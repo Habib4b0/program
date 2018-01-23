@@ -16807,7 +16807,7 @@ GO
 IF NOT EXISTS (
 		SELECT 1
 		FROM HELPER_TABLE
-		WHERE DESCRIPTION = '_ALL'
+		WHERE DESCRIPTION = '-ALL-'
 			AND LIST_NAME = 'CategoryName'
 		)
 BEGIN
@@ -16817,7 +16817,7 @@ BEGIN
 		,REF_COUNT
 		)
 	VALUES (
-		'_ALL'
+		'-ALL-'
 		,'CategoryName'
 		,0
 		)

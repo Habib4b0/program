@@ -68,7 +68,7 @@ public class GtnFrameworkUdcSearchAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE)
 					.setVisible(false);
 			loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_RESULT_TABLE);
-			if (!udcCategory.equals("ALL")) {
+			if (!udcCategory.equals("-ALL-")) {
 				checkCondition(loadDataTableActionConfig, udcCategory);
 			}
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
