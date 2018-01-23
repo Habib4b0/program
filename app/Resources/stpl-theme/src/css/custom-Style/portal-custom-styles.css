@@ -1,0 +1,71 @@
+/* AUI custom css */
+.aui .nav-list > li > a {
+    display: block;
+    height: 38px;
+    line-height: 36px;
+    padding: 0 16px 0 7px;
+    background-color: #f9f9f9;
+    color: #585858;
+    text-shadow: none !important;
+    font-size: 13px;
+    text-decoration: none;
+}
+.aui .dockbar .user-avatar img
+{
+	padding:0px;
+}
+.aui .signed-out .portlet-login {
+  z-index: 0 !important; }
+
+.aui .signed-out .portlet-login .portlet-topper {
+  display: block !important; }
+  
+.aui img {
+display: inline-block;
+padding-right:6px;
+}
+.aui .sidebar span.menu-text {
+    padding-left:0px;
+    line-height:2;
+}
+ 
+ /* Animation Style start */
+ 
+  .animated { 
+    -webkit-animation-duration: 0.5s; 
+    animation-duration: 0.5s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+    -webkit-animation-timing-function: linear; 
+    animation-timing-function: linear; 
+} 
+
+@-webkit-keyframes fadeInDown { 
+    0% { 
+        opacity: 0; 
+        -webkit-transform: translateY(-50px); 
+    } 
+    100% { 
+        opacity: 1; 
+        -webkit-transform: translateY(0); 
+    } 
+} 
+
+@keyframes fadeInDown { 
+    0% { 
+        opacity: 0; 
+        transform: translateY(-50px); 
+    } 
+    100% { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+} 
+
+.animation-fadeInDown { 
+    -webkit-animation-name: fadeInDown; 
+    animation-name: fadeInDown; 
+}
+ 
+ /* Animation Style end */
+ 

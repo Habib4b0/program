@@ -90,7 +90,7 @@ public class Rates extends CustomComponent {
     /**
      * The excel export image.
      */
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private AccrualRateProjectionTableLogic tableLogic = new AccrualRateProjectionTableLogic();
 
     private FreezePagedTable table = new FreezePagedTable(tableLogic);

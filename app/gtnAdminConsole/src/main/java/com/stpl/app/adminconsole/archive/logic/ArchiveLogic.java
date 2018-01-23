@@ -11,7 +11,6 @@ import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.model.VwUserTables;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.service.VwUserTablesLocalServiceUtil;
@@ -36,7 +35,7 @@ public class ArchiveLogic {
     /**
      * The dao.
      */
-    static CommonDAO dao = new CommonDAOImpl();
+    private static CommonDAO dao = new CommonDAOImpl();
 
     /**
      * Gets the table name.

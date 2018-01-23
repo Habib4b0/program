@@ -40,19 +40,19 @@ public class DisplayJobs extends CustomComponent implements View {
     private static final Logger LOGGER = Logger.getLogger(DisplayJobs.class);
     @UiField("searchBtn")
     private Button searchBtn;
-    public BeanItemContainer<JobDTO> resultsBean = new BeanItemContainer<JobDTO>(JobDTO.class);
+    private BeanItemContainer<JobDTO> resultsBean = new BeanItemContainer<JobDTO>(JobDTO.class);
     @UiField("tableLayout")
-    VerticalLayout tableLayout;
+    private VerticalLayout tableLayout;
     @UiField("jobName")
-    TextField jobName;
+    private TextField jobName;
     @UiField("selectType")
-    OptionGroup selectType;
+    private OptionGroup selectType;
     @UiField("excelExport")
     private Button excelExport;
     private HorizontalLayout controlLayout = new HorizontalLayout();
-    TableLogic tableLogic = new TableLogic();
-    ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    SearchLogic searchLogic = SearchLogic.getInstance();
+    private TableLogic tableLogic = new TableLogic();
+    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private SearchLogic searchLogic = SearchLogic.getInstance();
     /**
      * Instantiates a new DisplayJobs
      */
@@ -87,7 +87,7 @@ public class DisplayJobs extends CustomComponent implements View {
         selectType.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                 tableLogic.configureSearchData(getInputArray(), Constants.Schedule_Job);
+                 tableLogic.configureSearchData(getInputArray(), Constants.SCHEDULE_JOB);
                  setFilterConfig();
             }
         });
@@ -112,7 +112,7 @@ public class DisplayJobs extends CustomComponent implements View {
         resultsTable.setSelectable(true);
         resultsTable.markAsDirty();
         resultsTable.setValidationVisible(false);
-        tableLogic.configureSearchData(getInputArray(), Constants.Schedule_Job);
+        tableLogic.configureSearchData(getInputArray(), Constants.SCHEDULE_JOB);
         setFilterConfig();
     }
 
@@ -122,7 +122,7 @@ public class DisplayJobs extends CustomComponent implements View {
 
             @Override
             public void buttonClick(final Button.ClickEvent event) {
-                 tableLogic.configureSearchData(getInputArray(), Constants.Schedule_Job);
+                 tableLogic.configureSearchData(getInputArray(), Constants.SCHEDULE_JOB);
                  setFilterConfig();
             }
         });
@@ -154,7 +154,7 @@ public class DisplayJobs extends CustomComponent implements View {
         try {
             List list = searchLogic.fetchDataFromDBForJOb(getInputArray(), NumericConstants.ZERO, NumericConstants.ZERO, true, tableLogic.getFilters(), null, true);
             final long recordCount = list == null ? NumericConstants.ZERO : Integer.valueOf(String.valueOf(list.get(NumericConstants.ZERO)));
-            ExcelExportforBB.createWorkSheet(resultsTable.getColumnHeaders(), recordCount, this, getUI(), Constants.Schedule_Job);
+            ExcelExportforBB.createWorkSheet(resultsTable.getColumnHeaders(), recordCount, this, getUI(), Constants.SCHEDULE_JOB);
         } catch (Exception ex) {
             LOGGER.debug(ex);
         }

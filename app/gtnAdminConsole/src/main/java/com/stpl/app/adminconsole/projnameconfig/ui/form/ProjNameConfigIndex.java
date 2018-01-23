@@ -54,7 +54,7 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
     /**
      * The forecast binder.
      */
-    public CustomFieldGroup nameBinder;
+    private CustomFieldGroup nameBinder;
     /**
      * The error msg.
      */
@@ -86,17 +86,17 @@ public class ProjNameConfigIndex extends CustomComponent implements View {
     /**
      * The available results bean.
      */
-    public BeanItemContainer<ProjectionNameDTO> availableResultsBean = new BeanItemContainer<>(ProjectionNameDTO.class);
+    private BeanItemContainer<ProjectionNameDTO> availableResultsBean = new BeanItemContainer<>(ProjectionNameDTO.class);
 
     /**
      * The projection name dto.
      */
-    final ProjectionNameDTO projectionNameDTO = new ProjectionNameDTO();
+    private final ProjectionNameDTO projectionNameDTO = new ProjectionNameDTO();
 
     /**
      * The name config logic.
      */
-    final ProjNameConfigLogic nameConfigLogic = new ProjNameConfigLogic();
+    private final ProjNameConfigLogic nameConfigLogic = new ProjNameConfigLogic();
 
     /**
      * The Bean item Null.

@@ -149,14 +149,14 @@
                                 <ComboBox id="groupFilterDdlb" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize" visible = "false"/>
                                 <Label caption="Level Filter: " contentMode="HTML" width="83px"/>
                                 <ComboBox id="levelFilterDdlb" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize" />
-                                <HorizontalLayout id="viewHlayout">
+                                <GridLayout rows="1" columns="5" margin="false" spacing="true" id="viewHlayout"  styleName = "adjustCaption forecast-tab">
                                     <Label caption="View: " contentMode="HTML" width = "47px"/>
                                     <OptionGroup id="view" enabled="true" immediate="true" styleName = "horizontal"/>
                                     <ComboBox id="viewDdlb" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize" />
                                     <Button id="newBtn" caption="NEW" />
                                     <Button id="editBtn" caption="EDIT" />
 
-                                </HorizontalLayout>               
+                               </GridLayout>    
                             </HorizontalLayout>               
                                 </GridLayout>               
                     </VerticalLayout>

@@ -52,6 +52,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -112,6 +113,10 @@ public class ItemSelection extends CustomComponent {
     private ComboBox formDdlb;
     @UiField("brandDdlb")
     private ComboBox brandDdlb;
+    @UiField("itemDesc")
+    private TextField itemDesc;
+    @UiField("item")
+    private TextField item;
 
     @UiField("therapeuticclassDdlb")
     private ComboBox therapeuticclassDdlb;
@@ -818,6 +823,8 @@ public class ItemSelection extends CustomComponent {
        binder.getErrorDisplay().clearError();
        binder.setItemDataSource(new BeanItem<>(new SelectionDTO()));
        brandDdlb.select(dto);
+       itemDesc.setValue(StringUtils.EMPTY);
+       item.setValue(StringUtils.EMPTY);
        excelEligible = false;
        availableItemTable.setFilterGenerator(new ItemMasterGenerate());
        availableItemTable.setFilterDecorator(new ExtDemoFilterDecorator());

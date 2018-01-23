@@ -17,7 +17,7 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
  */
 public class ProcessSchedulerTableLogic extends PageTableLogic{
 
-    ProcessSchedulerLogic logic = new ProcessSchedulerLogic();
+	private ProcessSchedulerLogic logic = new ProcessSchedulerLogic();
     
     @Override
     public int getCount() {

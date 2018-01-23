@@ -28,6 +28,7 @@ public class GtnWsRebatePlanRuleDetailBean {
 	private String secondaryRebatePlanNo;
 	private String secondaryRebatePlanName;
 	private String itemPricingQualifierSid;
+	private String formulaForCalculation;
 	private Integer returnRateSid;
 	private double fromDesc;
 	private double toDesc;
@@ -349,6 +350,14 @@ public class GtnWsRebatePlanRuleDetailBean {
 	public void setAdjustmentValue5itemPricingQualifier(String adjustmentValue5itemPricingQualifier) {
 		this.adjustmentValue5itemPricingQualifier = adjustmentValue5itemPricingQualifier;
 	}
+        
+        public String getFormulaForCalculation() {
+                return formulaForCalculation;
+        }
+
+        public void setFormulaForCalculation(String formulaForCalculation) {
+                this.formulaForCalculation = formulaForCalculation;
+        }
 
 	@Override
 	public String toString() {

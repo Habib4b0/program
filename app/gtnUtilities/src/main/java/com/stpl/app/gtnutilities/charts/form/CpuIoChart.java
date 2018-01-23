@@ -44,17 +44,17 @@ import com.vaadin.ui.VerticalLayout;
 
 public class CpuIoChart extends VerticalLayout {
 
-	PopupDateField selecteDate = new PopupDateField();
-	Button runNowBtn = new Button("Run Now");
-	Chart cpuChart;
-	Chart ioChart;
-	HorizontalLayout fieldLayout = new HorizontalLayout();
-	SearchLogic searchLogic = SearchLogic.getInstance();
-	CheckBox showAll = new CheckBox(Constants.SHOW_ALL);
-	final ComboBox itemsPerPageSelect = new ComboBox();
-	TextField showValuesGreaterThan = new TextField();
-	Date lastSelectedDate = CommonMethods.getYesterdayDate();
-	PlotOptionsColumn dropOptions = new PlotOptionsColumn();
+	private PopupDateField selecteDate = new PopupDateField();
+	private Button runNowBtn = new Button("Run Now");
+	private Chart cpuChart;
+	private Chart ioChart;
+	private HorizontalLayout fieldLayout = new HorizontalLayout();
+	private SearchLogic searchLogic = SearchLogic.getInstance();
+	private CheckBox showAll = new CheckBox(Constants.SHOW_ALL);
+	private final ComboBox itemsPerPageSelect = new ComboBox();
+	private TextField showValuesGreaterThan = new TextField();
+	private Date lastSelectedDate = CommonMethods.getYesterdayDate();
+	private PlotOptionsColumn dropOptions = new PlotOptionsColumn();
 	/**
 	 * The Constant LOGGER.
 	 */
@@ -67,7 +67,7 @@ public class CpuIoChart extends VerticalLayout {
 
 	void configure() {
 		selecteDate.setResolution(Resolution.SECOND);
-		selecteDate.setDateFormat(Constants.Hour_Date_Format);
+		selecteDate.setDateFormat(Constants.HOUR_DATE_FORMAT);
 		selecteDate.setValue(CommonMethods.getYesterdayDate());
 		selecteDate.addValueChangeListener(new Property.ValueChangeListener() {
 			private static final long serialVersionUID = 1L;
@@ -94,7 +94,7 @@ public class CpuIoChart extends VerticalLayout {
 			public void buttonClick(final Button.ClickEvent event) {
 				callJob("BPIGTN_GAL_APP_UNIT");
 				refreshCharts(showValuesGreaterThan.getValue());
-				searchLogic.selectedDate = selecteDate.getValue();
+				searchLogic.setSelectedDate(selecteDate.getValue());
 			}
 		});
 		showAll.setValue(Boolean.FALSE);
@@ -179,7 +179,7 @@ public class CpuIoChart extends VerticalLayout {
 	}
 
 	void callJob(String database) {
-		String sqlDate = new SimpleDateFormat(Constants.yyyy_MM_dd_HH_mm_ss).format(selecteDate.getValue());
+		String sqlDate = new SimpleDateFormat(Constants.YYYY_MM_DD_HH_MM_SS).format(selecteDate.getValue());
 		String query = String.format("EXEC [PRC_PERFORMANCE_DASHBOARD] '%s', '%s'", database, sqlDate);
 		GtnSqlUtil.procedureCallService(query, new Object[] {});
 	}

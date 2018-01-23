@@ -5,7 +5,6 @@
 
 package com.stpl.app.adminconsole.filemanagement.ui.form;
 import com.stpl.app.adminconsole.filemanagement.dto.FileManagementDTO;
-import static com.stpl.app.adminconsole.filemanagement.ui.form.Emailer.properties;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import java.util.List;
 import java.util.Properties;
@@ -28,7 +27,7 @@ public class Emailer {
     private static final Logger LOGGER = LoggerFactory.getLogger(Emailer.class);
 
     public static final String FROM = "support@bpitechnologies.com";
-    final static Properties properties = new Properties();
+    private final static Properties properties = new Properties();
 
     public Emailer() {
         LOGGER.debug("Emailer");

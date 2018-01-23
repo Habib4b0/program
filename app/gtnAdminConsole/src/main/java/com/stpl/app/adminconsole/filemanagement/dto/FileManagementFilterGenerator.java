@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 public class FileManagementFilterGenerator implements ExtFilterGenerator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementFilterGenerator.class);
-    FileManagementLogic logic=new FileManagementLogic();
+    private FileManagementLogic logic=new FileManagementLogic();
 
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {

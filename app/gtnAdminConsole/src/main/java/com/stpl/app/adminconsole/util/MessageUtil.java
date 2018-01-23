@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 public class MessageUtil {
 
-    public static ResourceBundle resouceBundle = ResourceBundle.getBundle("properties.message");
+    public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("properties.message");
 
     public static final String HYPHEN = " - ";
 
@@ -24,7 +24,7 @@ public class MessageUtil {
 
     public static String getErrorCode(final String key) {
         try {
-            return resouceBundle.getString(key);
+            return RESOURCE_BUNDLE.getString(key);
         } catch (MissingResourceException e) {
             LOGGER.error(e.getMessage());
             return "";

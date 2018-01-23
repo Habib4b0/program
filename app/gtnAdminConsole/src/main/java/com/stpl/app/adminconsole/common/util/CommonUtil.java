@@ -56,7 +56,6 @@ import static com.stpl.app.adminconsole.common.util.CommonUtil.convertStringToDa
 import com.stpl.app.adminconsole.service.AdminConsoleImpl;
 import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
 import com.stpl.app.service.BrandMasterLocalServiceUtil;
-import com.stpl.app.service.HelperTableLocalService;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 
 /**
@@ -76,7 +75,7 @@ public final class CommonUtil {
 
     public static final String STRING_NULL = "null";
 
-    static CommonDAO DAO = new CommonDAOImpl();
+    private static CommonDAO DAO = new CommonDAOImpl();
 
     private static HelperTableDAO helperTableDAO = new HelperTableDAOImpl();
 

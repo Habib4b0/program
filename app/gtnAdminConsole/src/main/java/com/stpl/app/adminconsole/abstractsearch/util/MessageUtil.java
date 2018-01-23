@@ -20,7 +20,7 @@ public final class MessageUtil {
     /**
      * The resouce bundle.
      */
-    public static ResourceBundle resouceBundle = ResourceBundle.getBundle("properties.message");
+    public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("properties.message");
 
     public static final String HYPHEN = " - ";
 
@@ -34,7 +34,7 @@ public final class MessageUtil {
      */
     public static String getErrorCode(final String key) {
         try {
-            return resouceBundle.getString(key);
+            return RESOURCE_BUNDLE.getString(key);
         } catch (MissingResourceException e) {
             LOGGER.error(e.getMessage());
             return "";

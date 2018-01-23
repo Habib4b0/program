@@ -18,7 +18,7 @@ public class DiscountSearchView extends VerticalLayout implements View {
      */
     public static final String NAME = ConstantsUtils.EMPTY;
 
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
 
     /**
      * Instantiates a new discount search view.

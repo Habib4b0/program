@@ -115,10 +115,10 @@ public class NMProjectionVarianceLogic {
     private int currentProjId;
     private static final String PRC_PROJ_RESULTS = "PRC_PROJECTION_RESULTS";
     private List chartList;
-    private static final CommonDAO commonDao = new CommonDAOImpl();
+    private static final CommonDAO COMMONDAO = new CommonDAOImpl();
     public static final String CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST = "CROSS APPLY (SELECT TOKEN FROM UDF_SPLITSTRING('";
     public static final String CONCAT_CONDITION = "', ',') C WHERE CH.PROD_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN";
-    private static final String PARENT_VALIDATE = "PARENT-VALIDATE";
+    private static final String FROM = " FROM ";
 
     public List getChartList() {
         return chartList == null ? chartList : new ArrayList<>(chartList);
@@ -2369,7 +2369,7 @@ public class NMProjectionVarianceLogic {
             }
         }
         String resultString = new PVQueryUtils().getComparisionSearchResults(comparisonLookup, screenName, parameters, null, 0, 0, true);
-        List result = (List) commonDao.executeSelectQuery(resultString, null, null);
+        List result = (List) COMMONDAO.executeSelectQuery(resultString, null, null);
         if (result != null && !result.isEmpty()) {
             count = Integer.valueOf(String.valueOf(result.get(0)));
         } else {
@@ -2409,7 +2409,7 @@ public class NMProjectionVarianceLogic {
         }
 
         String resultString = new PVQueryUtils().getComparisionSearchResults(comparisonLookup, screenName, parameters, sortColumns, start, offset, false);
-        List result = (List) commonDao.executeSelectQuery(resultString, null, null);
+        List result = (List) COMMONDAO.executeSelectQuery(resultString, null, null);
         return getCustomizedComparisonList(result);
     }
 
@@ -2445,7 +2445,7 @@ public class NMProjectionVarianceLogic {
         if (StringUtils.isNotBlank(projectionIds)) {
             projectionIds = projectionIds.substring(1, projectionIds.length() - 1);
             String query = "SELECT PROJECTION_MASTER_SID,PROJECTION_NAME FROM PROJECTION_MASTER WHERE PROJECTION_MASTER_SID IN (" + projectionIds + ");";
-            resultList = (List) commonDao.executeSelectQuery(query, null, null);
+            resultList = (List) COMMONDAO.executeSelectQuery(query, null, null);
         }
         List<List> list = new ArrayList<>();
         if (resultList != null && !resultList.isEmpty()) {
@@ -2541,13 +2541,13 @@ public class NMProjectionVarianceLogic {
         String tableName = viewFlag ? StringUtils.EMPTY : "ST_";
 
         String query = "IF EXISTS (SELECT 1\n"
-                + " FROM " + tableName + "NM_DISCOUNT_PROJ_MASTER B\n"
+                + FROM + tableName + "NM_DISCOUNT_PROJ_MASTER B\n"
                 + "        JOIN #SELECTED_HIERARCHY_NO CCP\n"
                 + "          ON B.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 + "   AND B.DEDUCTION_HIERARCHY_NO=CCP.HIERARCHY_NO  )\n"
                 + "   BEGIN \n"
                 + "         SELECT COUNT(DISTINCT RS_CONTRACT_SID)\n"
-                + " FROM " + tableName + "NM_DISCOUNT_PROJ_MASTER B\n"
+                + FROM + tableName + "NM_DISCOUNT_PROJ_MASTER B\n"
                 + "        JOIN #SELECTED_HIERARCHY_NO CCP\n"
                 + "          ON B.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 + "AND B.DEDUCTION_HIERARCHY_NO=CCP.HIERARCHY_NO\n";
@@ -2576,13 +2576,13 @@ public class NMProjectionVarianceLogic {
         String tableName = viewFlag ? StringUtils.EMPTY : "ST_";
 
         String query = "IF EXISTS (SELECT 1\n"
-                + " FROM " + tableName + "NM_DISCOUNT_PROJ_MASTER B\n"
+                + FROM + tableName + "NM_DISCOUNT_PROJ_MASTER B\n"
                 + "        JOIN #SELECTED_HIERARCHY_NO CCP\n"
                 + "          ON B.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 + "   AND B.DEDUCTION_HIERARCHY_NO=CCP.HIERARCHY_NO  )\n"
                 + "   BEGIN \n"
                 + "         SELECT DISTINCT RS_CONTRACT_SID \n"
-                + " FROM " + tableName + "NM_DISCOUNT_PROJ_MASTER B\n"
+                + FROM + tableName + "NM_DISCOUNT_PROJ_MASTER B\n"
                 + "        JOIN #SELECTED_HIERARCHY_NO CCP\n"
                 + "          ON B.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID\n"
                 + "AND B.DEDUCTION_HIERARCHY_NO=CCP.HIERARCHY_NO\n";

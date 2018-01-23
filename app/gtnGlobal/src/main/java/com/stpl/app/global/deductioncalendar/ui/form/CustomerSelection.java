@@ -666,14 +666,14 @@ public class CustomerSelection extends CustomComponent {
                 }else{
                 printWriter.print(ConstantsUtils.QUOTE + CommonUtils.EMPTY+ ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
                 }
-                if (dto.getTradeClassStartDate() != null && !ConstantsUtils.NULL.equals(dto.getTradeClassStartDate())) {
+                if (dto.getTradeClassStartDate() != null) {
                 date = format.format(dto.getTradeClassStartDate());
                 printWriter.print(ConstantsUtils.QUOTE + date + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
          } else {
                     printWriter.print(CommonUtils.EMPTY + ExcelExportUtil.COMMA);
                 }
             
-            if (dto.getTradeClassEndDate() != null && !ConstantsUtils.NULL.equals(dto.getTradeClassEndDate())) {
+            if (dto.getTradeClassEndDate() != null) {
                   date = format.format(dto.getTradeClassEndDate());
                 printWriter.print(ConstantsUtils.QUOTE + date + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
              } else {
@@ -688,13 +688,13 @@ public class CustomerSelection extends CustomComponent {
                 }
             printWriter.print(ConstantsUtils.QUOTE + dto.getCustomerStatus().getDescription()+ ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
             printWriter.print(ConstantsUtils.QUOTE + dto.getLives()+ ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-            if (dto.getCustomerStartDate() != null && !ConstantsUtils.NULL.equals(dto.getCustomerStartDate())) {
+            if (dto.getCustomerStartDate() != null) {
                 date = format.format(dto.getCustomerStartDate());
                 printWriter.print(ConstantsUtils.QUOTE + date + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
             } else {
                 printWriter.print(ConstantsUtils.QUOTE + CommonUtils.EMPTY + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
             }
-            if (dto.getCustomerEndDate()!= null && !ConstantsUtils.NULL.equals(dto.getCustomerEndDate())) {
+            if (dto.getCustomerEndDate()!= null) {
                 date = format.format(dto.getCustomerEndDate());
                 printWriter.print(ConstantsUtils.QUOTE + date + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
             } else {
@@ -732,7 +732,7 @@ public class CustomerSelection extends CustomComponent {
                 printWriter.print(ConstantsUtils.QUOTE + CommonUtils.EMPTY + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
             }
             
-            if(dto.getCustomerGroup()!=null && !ConstantsUtils.NULL.equals(dto.getCustomerGroup())) {
+            if(dto.getCustomerGroup()!=null) {
             printWriter.print(ConstantsUtils.QUOTE + dto.getCustomerGroup()+ ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
             } else {
                 printWriter.print(ConstantsUtils.QUOTE + CommonUtils.EMPTY + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
@@ -750,19 +750,19 @@ public class CustomerSelection extends CustomComponent {
                 printWriter.print(ConstantsUtils.QUOTE + dto.getCountry() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
                 printWriter.print(ConstantsUtils.QUOTE + dto.getRegionCode() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
                 printWriter.print(ConstantsUtils.QUOTE + dto.getParentCustomerNo() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
-                if (dto.getParentStartDate() != null && !ConstantsUtils.NULL.equals(dto.getParentStartDate())) {
+                if (dto.getParentStartDate() != null) {
                   date = format.format(dto.getParentStartDate());
                 printWriter.print(ConstantsUtils.QUOTE + date + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
              } else {
                     printWriter.print(CommonUtils.EMPTY + ExcelExportUtil.COMMA);
             }
-             if (dto.getParentEndDate() != null && !ConstantsUtils.NULL.equals(dto.getParentEndDate())) {
+             if (dto.getParentEndDate() != null) {
                   date = format.format(dto.getParentEndDate());
                 printWriter.print(ConstantsUtils.QUOTE + date + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
              } else {
                     printWriter.print(CommonUtils.EMPTY + ExcelExportUtil.COMMA);
             }
-             if (dto.getPriorParentStartDate() != null && !ConstantsUtils.NULL.equals(dto.getPriorParentStartDate())) {
+             if (dto.getPriorParentStartDate() != null) {
                   date = format.format(dto.getPriorParentStartDate());
                 printWriter.print(ConstantsUtils.QUOTE + date + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
              } else {

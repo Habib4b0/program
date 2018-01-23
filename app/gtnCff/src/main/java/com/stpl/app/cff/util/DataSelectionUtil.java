@@ -41,9 +41,9 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
  */
 public class DataSelectionUtil {
 
-    public static Map<String, String> userMap = new HashMap<>();
-    public static Map<String, String> userIdMap = new HashMap<>();
-    public static Map<String, String> discountMap = new HashMap<>();
+    private static Map<String, String> userMap = new HashMap<>();
+    private static Map<String, String> userIdMap = new HashMap<>();
+    private static Map<String, String> discountMap = new HashMap<>();
 
     public static Date calculateHistory(final String frequency, final int histValue) {
 

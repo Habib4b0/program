@@ -21,6 +21,7 @@
 		<module>calendarfield</module>
 		<module>customcombobox</module>
         <module>customdatefield</module>
+        <module>tableexport</module>
     </modules>
         <properties>
         <maven.version>2.5</maven.version>

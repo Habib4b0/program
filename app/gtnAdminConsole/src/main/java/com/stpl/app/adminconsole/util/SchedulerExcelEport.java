@@ -23,7 +23,7 @@ import com.stpl.ifs.util.GtnFileUtil;
  */
 public class SchedulerExcelEport extends ExcelExport {
 
-	String serverPAth = "";
+	private String serverPAth = "";
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerExcelEport.class);
 
 	public SchedulerExcelEport(final TableHolder tableHolder, final String sheetName, final String reportTitle,
