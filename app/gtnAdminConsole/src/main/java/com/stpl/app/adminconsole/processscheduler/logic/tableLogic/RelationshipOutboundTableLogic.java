@@ -28,6 +28,9 @@ public class RelationshipOutboundTableLogic extends PageTableLogic {
     private boolean isResultsEmpty;
     private boolean isReset = false;
 
+    public RelationshipOutboundTableLogic(){
+    	super();
+    }
     @Override
     public int getCount() {
         int count = 0;

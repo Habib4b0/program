@@ -33,8 +33,8 @@ public class CommonUtil {
      * The object.
      */
     private static CommonUtil object;
-    public static HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
-    public static HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
+    private static HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
+    private static HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
     /**
      * The helper list util.
      */
@@ -96,7 +96,7 @@ public class CommonUtil {
     public static ComboBox loadComboBoxForGCM(final ComboBox select, String listName, boolean isFilter) {
         BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
         select.removeAllItems();
-        final HelperDTO defaultValue = isFilter ? ddlbShowAllValue : ddlbDefaultValue;
+        final HelperDTO defaultValue = isFilter ? ddlbShowAllValue : getDdlbDefaultValue();
         select.setValidationVisible(true);
         select.setImmediate(true);
         select.setNullSelectionAllowed(true);
@@ -114,7 +114,7 @@ public class CommonUtil {
 
     public static ComboBox getComboBoxByListName(ComboBox columnName, String listName, Boolean isFilter) {
         BeanItemContainer<HelperDTO> container = new BeanItemContainer<>(HelperDTO.class);
-        final HelperDTO defaultValue = isFilter ? ddlbShowAllValue : ddlbDefaultValue;
+        final HelperDTO defaultValue = isFilter ? ddlbShowAllValue : getDdlbDefaultValue();
         String comboboxName = listName;
         columnName.setValidationVisible(true);
         columnName.setImmediate(true);
@@ -206,4 +206,12 @@ public class CommonUtil {
         });
         return select;
     }
+
+	public static HelperDTO getDdlbDefaultValue() {
+		return ddlbDefaultValue;
+	}
+
+	public static void setDdlbDefaultValue(HelperDTO ddlbDefaultValue) {
+		CommonUtil.ddlbDefaultValue = ddlbDefaultValue;
+	}
 }

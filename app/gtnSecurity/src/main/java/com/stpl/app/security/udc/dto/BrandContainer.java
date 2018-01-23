@@ -22,7 +22,7 @@ public class BrandContainer implements BeanDAO<BrandMasterDTO> {
     
     private static final Logger LOGGER = Logger.getLogger(BrandContainer.class);
 
-    UdcLogic brandLogic = new UdcLogic();
+    private UdcLogic brandLogic = new UdcLogic();
     /**
      * The binder.
      */

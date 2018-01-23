@@ -39,6 +39,9 @@ public class ChartsUI extends UI implements VaadinPortletSession.PortletListener
      */
     private static final Logger LOGGER = Logger.getLogger(ChartsUI.class);
 
+    public ChartsUI(){
+    	super();
+    }
 
     /**
      * (non-Javadoc).

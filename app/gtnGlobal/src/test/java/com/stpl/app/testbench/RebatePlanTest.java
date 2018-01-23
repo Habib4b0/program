@@ -234,6 +234,14 @@ public class RebatePlanTest extends TestBenchTestCase {
 	public void closeBrowser() {
 		driver.quit();
 	}
+
+	public String getRpName() {
+		return rpName;
+	}
+
+	public void setRpName(String rpName) {
+		this.rpName = rpName;
+	}
 	
 	
 

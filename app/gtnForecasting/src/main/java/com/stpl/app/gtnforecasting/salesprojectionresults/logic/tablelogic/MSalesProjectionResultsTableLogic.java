@@ -33,7 +33,7 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     private static final Logger LOGGER = Logger.getLogger(MSalesProjectionResultsTableLogic.class);
 
     protected ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
-    public NMSalesProjectionResultsLogic sprLogic = new NMSalesProjectionResultsLogic();
+    private NMSalesProjectionResultsLogic sprLogic = new NMSalesProjectionResultsLogic();
     protected boolean firstGenerated = false;
     protected boolean firstTotal = false;
     protected int totalCount = 0;
@@ -46,7 +46,7 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
         if (firstGenerated && offset > 0) {
             List<String> indexList = new ArrayList<>(getNonFetchableData().keySet());
             projSelDTO.setNonFetchableIndex(indexList);
-            List<SalesProjectionResultsDTO> list = sprLogic.getConfiguredSalesProjectionResultsMandated(getLastParent(), start, offset, projSelDTO);
+            List<SalesProjectionResultsDTO> list = getSprLogic().getConfiguredSalesProjectionResultsMandated(getLastParent(), start, offset, projSelDTO);
             int i = start;
             for (SalesProjectionResultsDTO dto : list) {
                 map.put(i, dto);
@@ -61,7 +61,7 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
     public int getCount() {
         int count = 0;
         if (firstGenerated) {
-            count = sprLogic.getConfiguredSalesProjectionResultsCountMandated(getLastParent(), projSelDTO, true);
+            count = getSprLogic().getConfiguredSalesProjectionResultsCountMandated(getLastParent(), projSelDTO, true);
         }
         LOGGER.debug("Return Count " + count);
         return count;
@@ -83,7 +83,7 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
 
         this.projSelDTO = projSelDTO;
         projSelDTO.setProjTabName(spr);
-        sprLogic.projectionTotalList = new ArrayList<>();
+        sprLogic.setProjectionTotalList(new ArrayList<SalesProjectionResultsDTO>());
         firstTotal = isTotal;
         firstGenerated = true;
         clearAll();
@@ -115,7 +115,7 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
 
     protected void recursivelyLoadExpandData(Object parentId, String treeLevel, int expandLevelNo, String productHierarchyNo, String customerHierarchyNo) {
 
-        int count = sprLogic.getConfiguredSalesProjectionResultsCountMandated(parentId, projSelDTO, true);
+        int count = getSprLogic().getConfiguredSalesProjectionResultsCountMandated(parentId, projSelDTO, true);
         LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
         addlevelMap(treeLevel, levelMap);
         String hierarchyNo = projSelDTO.getHierarchyNo();
@@ -160,4 +160,12 @@ public class MSalesProjectionResultsTableLogic extends PageTreeTableLogic {
             }
         }
     }
+
+	public NMSalesProjectionResultsLogic getSprLogic() {
+		return sprLogic;
+	}
+
+	public void setSprLogic(NMSalesProjectionResultsLogic sprLogic) {
+		this.sprLogic = sprLogic;
+	}
 }

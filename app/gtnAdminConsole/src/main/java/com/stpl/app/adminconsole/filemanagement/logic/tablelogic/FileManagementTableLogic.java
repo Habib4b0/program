@@ -31,6 +31,9 @@ public class FileManagementTableLogic extends PageTableLogic {
     private boolean isResultsEmpty;
     private boolean isReset = false;
 
+    public FileManagementTableLogic(){
+    	super();
+    }
     @Override
     public int getCount() {
         int count = 0;

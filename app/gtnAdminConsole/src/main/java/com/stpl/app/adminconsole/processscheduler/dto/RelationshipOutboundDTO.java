@@ -41,6 +41,10 @@ public class RelationshipOutboundDTO implements Serializable {
     private int SystemID;
     private boolean check;
 
+    public RelationshipOutboundDTO(){
+    	super();
+    }
+    
     public int getSystemID() {
         return SystemID;
     }

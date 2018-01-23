@@ -55,7 +55,7 @@ public class ItemManagementLookup extends CustomWindow {
     private final List<Integer> tabList = new ArrayList<>();
     private List<ItemIndexDto> itemList = new ArrayList<>();
     private final SelectionDTO selection;
-    public Button closeBtn = new Button("CLOSE");
+    private Button closeBtn = new Button("CLOSE");
     private final Button nextBtn = new Button("NEXT");
     private final Button previousBtn = new Button("PREVIOUS");
     private final Button removeBtn = new Button("REMOVE");
@@ -307,13 +307,13 @@ public class ItemManagementLookup extends CustomWindow {
                 previousBtn.setVisible(true);
                 previousBtn.setImmediate(true);
                 addBtn.setVisible(CommonLogic.isButtonVisibleAccess("addBtn", itemsummary.getFunctionHM()));
-                closeBtn.setVisible(CommonLogic.isButtonVisibleAccess(StringConstantsUtil.CLOSE_BTN, itemsummary.getFunctionHM()));
+                getCloseBtn().setVisible(CommonLogic.isButtonVisibleAccess(StringConstantsUtil.CLOSE_BTN, itemsummary.getFunctionHM()));
             } else if (selection.getButtonMode().equals(ConstantsUtil.EDIT)) {
                 nextBtn.setVisible(false);
                 editBtn.setVisible(true);
                 editBtn.setImmediate(true);
                 editBtn.setVisible(CommonLogic.isButtonVisibleAccess("updatebtn", removeSummary.getFunctionHM()));
-                closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", removeSummary.getFunctionHM()));
+                getCloseBtn().setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", removeSummary.getFunctionHM()));
             } else {
                 nextBtn.setVisible(false);
                 removeBtn.setVisible(true);
@@ -344,7 +344,7 @@ public class ItemManagementLookup extends CustomWindow {
             previousBtn.setVisible(true);
             transferBtn.setVisible(true);
             transferBtn.setVisible(CommonLogic.isButtonVisibleAccess("transferBtn", removeSummary.getFunctionHM()));
-            closeBtn.setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", removeSummary.getFunctionHM()));
+            getCloseBtn().setVisible(CommonLogic.isButtonVisibleAccess("closeBtn", removeSummary.getFunctionHM()));
             nextBtn.setVisible(false);
             previousBtn.setImmediate(true);
             transferBtn.setImmediate(true);
@@ -355,7 +355,7 @@ public class ItemManagementLookup extends CustomWindow {
     HorizontalLayout getActionButton() {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.addComponent(previousBtn);
-        horizontalLayout.addComponent(closeBtn);
+        horizontalLayout.addComponent(getCloseBtn());
         horizontalLayout.addComponent(transferBtn);
         horizontalLayout.addComponent(addBtn);
         horizontalLayout.addComponent(removeBtn);
@@ -376,8 +376,8 @@ public class ItemManagementLookup extends CustomWindow {
 
     protected void btnNextLogic() {
         if (tabPosition == NumericConstants.TWO) {
-            transferContract.contractSearch.submitLogic();
-            if (transferContract.contractSearch.isnext) {
+            transferContract.getContractSearch().submitLogic();
+            if (transferContract.getContractSearch().isIsnext()) {
                 mainTab.setSelectedTab(tabPosition + 1);
             }
         } else if (tabPosition == 0 || tabPosition == 1) {
@@ -799,7 +799,7 @@ public class ItemManagementLookup extends CustomWindow {
                     isNext = true;
                     break;
                 case NumericConstants.TWO:
-                    if (!transferContract.selectedItemList.isEmpty()) {
+                    if (!transferContract.getSelectedItemList().isEmpty()) {
                         AbstractNotificationUtils.getErrorNotification("No Item information selected",
                                 "Please select a contract to transfer the selected Item to. Then select a Status, and an Item Start Date");
                     } else {
@@ -893,7 +893,7 @@ public class ItemManagementLookup extends CustomWindow {
             }
         } else if (selection.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
             if (tabPosition >= NumericConstants.TWO) {
-                transferContract.contractSearch.setTransferSalesString(String.valueOf(contractTransfer.contractSearch.transferSales.getValue()));
+                transferContract.getContractSearch().setTransferSalesString(String.valueOf(contractTransfer.getContractSearch().getTransferSales().getValue()));
             }
 
             if (lasttabPosition == 0) {
@@ -979,4 +979,12 @@ public class ItemManagementLookup extends CustomWindow {
         }
         return Boolean.FALSE;
     }
+
+	public Button getCloseBtn() {
+		return closeBtn;
+	}
+
+	public void setCloseBtn(Button closeBtn) {
+		this.closeBtn = closeBtn;
+	}
 }

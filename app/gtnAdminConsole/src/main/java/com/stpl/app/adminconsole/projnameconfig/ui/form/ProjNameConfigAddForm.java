@@ -723,6 +723,10 @@ public class ProjNameConfigAddForm extends CustomComponent implements View {
         LOGGER.debug("End of getBeanFromId method");
         return (ProjectionNameDTO) targetItem.getBean();
     }
+
+	public ProjectionNameDTO getProjectionNameDTO() {
+		return projectionNameDTO;
+	}
 }
 /** Dont delete
  * if (editBeanId != null) {

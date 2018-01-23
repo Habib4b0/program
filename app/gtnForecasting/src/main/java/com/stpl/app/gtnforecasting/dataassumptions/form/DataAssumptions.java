@@ -57,7 +57,7 @@ public class DataAssumptions extends CustomComponent {
     private static final Logger LOGGER = Logger.getLogger(DataAssumptions.class);
     protected DataAssumptionstableLogic tableLogic = new DataAssumptionstableLogic();
     private final ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
-    public BeanItemContainer<DataAssumptionDTO> resultsContainer = new BeanItemContainer<>(DataAssumptionDTO.class);
+    private BeanItemContainer<DataAssumptionDTO> resultsContainer = new BeanItemContainer<>(DataAssumptionDTO.class);
 
     protected SessionDTO session;
     protected DataAssumptionDTO dataAssumptionDTO;

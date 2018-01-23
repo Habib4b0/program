@@ -155,7 +155,7 @@ public class NationalAssumptionLogic {
      */
     private List<BaselinePeriodDTO> getBaselinePeriods() {
         List<BaselinePeriodDTO> periods = new ArrayList<>();
-        com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.sessionDto;
+        com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
         int startYear = startDate.getYear() + NumericConstants.ONE_NINE_ZERO_ZERO;

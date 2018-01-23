@@ -13,6 +13,10 @@ public class HelperForm {
 	private Boolean add;
 	private Boolean edit;
 
+	public HelperForm(){
+		super();
+	}
+	
     public int getHelperTableSid() {
         return helperTableSid;
     }

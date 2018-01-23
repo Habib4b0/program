@@ -24,6 +24,9 @@ public class ChartsDTO {
     private Button text_Query;
     private String dataBase_Name;
 
+    public ChartsDTO(){
+    	super();
+    }
 
     public String getProcedure_Name() {
         return procedure_Name;

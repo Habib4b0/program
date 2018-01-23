@@ -119,6 +119,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<>();
     protected List<NotesDTO> removeDetailsList = new ArrayList<>();
     private final NotesTabLogic logic = new NotesTabLogic();
+    private boolean isFileCreated;
     /**
      * The module name.
      */
@@ -486,14 +487,16 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         }
         if (wordFile.exists() != true) {
             try {
-                wordFile.createNewFile();
+                isFileCreated=wordFile.createNewFile();
+                LOGGER.info("WordFile created successfully : "+isFileCreated);
             } catch (IOException ex) {
                 LOGGER.error(ex);
             }
         }
         if (pdfFile.exists() != true) {
             try {
-                pdfFile.createNewFile();
+            	isFileCreated=pdfFile.createNewFile();
+            	LOGGER.info("PdfFile created successfully : "+isFileCreated);
             } catch (IOException ex) {
                 LOGGER.error(ex);
             }

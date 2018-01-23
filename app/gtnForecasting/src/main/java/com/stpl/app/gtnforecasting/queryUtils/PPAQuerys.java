@@ -23,7 +23,7 @@ import org.jboss.logging.Logger;
 public class PPAQuerys {
 
     private static final Logger LOGGER = Logger.getLogger(PPAQuerys.class);
-    final static PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
+    private final static PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
     private static GtnSmallHashMap replaceTableName = new GtnSmallHashMap();
     public static List getGroupList() {
         return new ArrayList();

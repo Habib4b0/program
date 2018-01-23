@@ -877,7 +877,7 @@ public class Allocation extends CustomComponent implements View {
         altHistLogic = new AlternateHistoryLogic();
         List<AlternateHistoryDTO> list = altHistLogic.getAlloc(altDto, session, false, tableLogic.getFilters(), 0, 0, Boolean.TRUE);
         excelResultBean.addAll(list);
-        ForecastUI.EXCEL_CLOSE=true;
+        ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportTable), excelName, excelName, excelName.replace(" ", "_") + ".xls", false);
         excel.export();
         selectedCustomerTableLayout.removeComponent(exportTable);
@@ -901,7 +901,7 @@ public class Allocation extends CustomComponent implements View {
         AlternateHistoryLogic altHistLogic = new AlternateHistoryLogic();
         List<AlternateHistoryDTO> list = altHistLogic.getAlloc(altDto, session, true, tableDetLogic.getFilters(), 0, 0, Boolean.TRUE);
         excelResultBean.addAll(list);
-        ForecastUI.EXCEL_CLOSE=true;
+        ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportTable), excelName, excelName, excelName.replace(" ", "_") + ".xls", false);
         excel.export();
         allocationDetailsLayout.removeComponent(exportTable);

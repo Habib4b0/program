@@ -20,6 +20,10 @@ public class SearchDTO implements Serializable {
 	private String function = StringUtils.EMPTY;
 	private String type = StringUtils.EMPTY;
 
+	public SearchDTO(){
+		super();
+	}
+	
     public int getSystemId() {
         return systemId;
     }
