@@ -97,8 +97,8 @@ public class AddItemDetailsTableLogic extends PageTableLogic {
         this.binderDto = binderDto;
         this.selection = selection;
         isGenerated = selection.isReset();
-        this.isSummary = isSummary;
-        this.selectedItemList = selectedItemList == null ? selectedItemList : new ArrayList<>(selectedItemList);
+        this.setSummary(isSummary);
+        this.setSelectedItemList(selectedItemList == null ? selectedItemList : new ArrayList<>(selectedItemList));
         clearAll();
         setRequiredCount(true);
         setCurrentPage(1);
@@ -126,4 +126,20 @@ public class AddItemDetailsTableLogic extends PageTableLogic {
         return projectionId;
 
     }
+
+	public boolean isSummary() {
+		return isSummary;
+	}
+
+	public void setSummary(boolean isSummary) {
+		this.isSummary = isSummary;
+	}
+
+	public List<ItemIndexDto> getSelectedItemList() {
+		return selectedItemList;
+	}
+
+	public void setSelectedItemList(List<ItemIndexDto> selectedItemList) {
+		this.selectedItemList = selectedItemList;
+	}
 }

@@ -116,7 +116,7 @@ public class SalesTab extends VerticalLayout {
 
     public SalesTab(SessionDTO session, boolean isLoad) {
         this.session = session;
-        this.load = isLoad;
+        this.setLoad(isLoad);
         tableLogic.setSession(session);
         getContent();
     }
@@ -464,4 +464,12 @@ public class SalesTab extends VerticalLayout {
 
         return history;
     }
+
+	public boolean isLoad() {
+		return load;
+	}
+
+	public void setLoad(boolean load) {
+		this.load = load;
+	}
 }

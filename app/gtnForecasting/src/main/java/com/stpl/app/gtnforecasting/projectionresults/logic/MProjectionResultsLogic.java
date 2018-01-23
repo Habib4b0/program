@@ -2708,7 +2708,7 @@ public class MProjectionResultsLogic {
         List<ProjectionResultsDTO> projDTOList;
         if (projSelDTO.getSessionDTO().isPrRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgs, totalPRCInput)) {
             List<Object[]> gtsList =CommonLogic.callProcedure("PRC_M_PROJECTION_RESULTS", orderedArgs);
-            totalPRCInput = orderedArgs == null ? orderedArgs : orderedArgs.clone();
+            totalPRCInput = orderedArgs;
             projSelDTO.getSessionDTO().setPrRefreshReqd(false);
             prcMProcedureResults=gtsList;
         }

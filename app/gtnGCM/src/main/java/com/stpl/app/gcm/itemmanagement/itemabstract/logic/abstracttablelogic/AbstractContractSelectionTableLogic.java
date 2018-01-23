@@ -85,7 +85,7 @@ public class AbstractContractSelectionTableLogic extends PageTableLogic {
     public boolean loadSetData(SelectionDTO selection, boolean b, List<ItemIndexDto> selectedItemList, List input) {
         this.input = input == null ? input : new ArrayList<>(input);
         this.selection = selection;
-        this.selectedItemList = selectedItemList == null ? selectedItemList : new ArrayList<>(selectedItemList);
+        this.setSelectedItemList(selectedItemList == null ? selectedItemList : new ArrayList<>(selectedItemList));
         isGenerated = b;
         clearAll();
         setRequiredCount(true);
@@ -120,4 +120,12 @@ public class AbstractContractSelectionTableLogic extends PageTableLogic {
         return projectionId;
 
     }
+
+	public List<ItemIndexDto> getSelectedItemList() {
+		return selectedItemList;
+	}
+
+	public void setSelectedItemList(List<ItemIndexDto> selectedItemList) {
+		this.selectedItemList = selectedItemList;
+	}
 }

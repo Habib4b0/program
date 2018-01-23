@@ -28,6 +28,10 @@ public class SalesProjectionResultsVariableTree extends SalesProjectionResultsTr
 	private Object[] dataLevel;
 	private Object[] showData;
 
+	public SalesProjectionResultsVariableTree(){
+		super();
+	}
+	
     @Override
     public void buildTree(ProjectionSelectionDTO projSelDTO) {
         loadStaticRows(projSelDTO);

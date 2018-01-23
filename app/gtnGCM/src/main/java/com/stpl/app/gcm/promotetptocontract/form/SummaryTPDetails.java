@@ -108,7 +108,7 @@ public class SummaryTPDetails extends CustomComponent implements View {
     public SummaryTPDetails(SessionDTO session, ExtFilterTable resultTable) {
         try {
             this.session = session;
-            this.resultTable = resultTable;
+            this.setResultTable(resultTable);
             setCompositionRoot(Clara.create(getClass().getResourceAsStream("/promoteTpSummaryTPDetails.xml"), this));
             configureFields();
             configureSecurityPermissions();
@@ -286,8 +286,8 @@ public class SummaryTPDetails extends CustomComponent implements View {
         List<CurrentContractDTO> selctContractList = logic.getSelectedTPContractSummary(CommmonLogic.getPromotedContractDetails(contractId, companyId));
         transferTpResultsContainer.addAll(selctContractList);
         transTpInfoList.addAll(selctContractList);
-        isLoad = true;
-        isRebateLoad = true;
+        setLoad(true);
+        setRebateLoad(true);
     }
 
     @UiHandler("currentRemove")
@@ -393,4 +393,28 @@ public class SummaryTPDetails extends CustomComponent implements View {
             LOGGER.error(ex);
         }
     }
+
+	public ExtFilterTable getResultTable() {
+		return resultTable;
+	}
+
+	public void setResultTable(ExtFilterTable resultTable) {
+		this.resultTable = resultTable;
+	}
+
+	public boolean isLoad() {
+		return isLoad;
+	}
+
+	public void setLoad(boolean isLoad) {
+		this.isLoad = isLoad;
+	}
+
+	public boolean isRebateLoad() {
+		return isRebateLoad;
+	}
+
+	public void setRebateLoad(boolean isRebateLoad) {
+		this.isRebateLoad = isRebateLoad;
+	}
 }

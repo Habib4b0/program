@@ -247,4 +247,8 @@ public class NEPLookup extends Window {
             notif.show(Page.getCurrent());
     }
 
+	public SelectionDTO getSelection() {
+		return selection;
+	}
+
 }
