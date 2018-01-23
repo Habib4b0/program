@@ -233,7 +233,7 @@ public class TransferComponents extends CustomComponent implements View {
     private DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
     private ExtCustomTable contractExportPeriodViewTable = new ExtCustomTable();
     private List<ComponentInfoDTO> componentInformation = new ArrayList<>();
-    public String excelName = "Rebate Schedule Information";
+    private String excelName = "Rebate Schedule Information";
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     private Boolean contractExcelFlag = false;
     private Boolean infoExcelFlag = false;
@@ -1522,4 +1522,12 @@ public class TransferComponents extends CustomComponent implements View {
             rsType.setValue(String.valueOf(object[NumericConstants.EIGHT]));
         }
     }
+
+	public String getExcelName() {
+		return excelName;
+	}
+
+	public void setExcelName(String excelName) {
+		this.excelName = excelName;
+	}
 }

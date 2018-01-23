@@ -988,7 +988,7 @@ public class AltHistorySelection extends CustomComponent implements View {
         altHistLogic = new AlternateHistoryLogic();
         List<AlternateHistoryDTO> list = altHistLogic.alternateSelectionList(session, altHistoryDTO, null,0,0,true,ccpSet);
         excelResultBean.addAll(list);
-        ForecastUI.EXCEL_CLOSE=true;
+        ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), excelName, excelName, excelName.replace(" ", "_") + ".xls", false);
         excel.export();
         historyAllocationLayout.removeComponent(exportPeriodViewTable);

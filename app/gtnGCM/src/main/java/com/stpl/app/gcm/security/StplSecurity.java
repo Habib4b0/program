@@ -62,7 +62,7 @@ public class StplSecurity {
     /**
      * UserMap - Contains User System ID and User Name
      */
-    public static Map<Integer, String> userMap = new ConcurrentHashMap<>();
+    private static Map<Integer, String> userMap = new ConcurrentHashMap<>();
 
     /**
      * Gets the dto.
@@ -342,10 +342,10 @@ public class StplSecurity {
         DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
-            userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
+            getUserMap().put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());
         }
         LOGGER.debug("End of getUserName method");
-        return userMap;
+        return getUserMap();
     }
 
     private List getInput(final String businessRoleId, final String moduleName, final String tabName) {
@@ -378,4 +378,12 @@ public class StplSecurity {
         }
         return input;
     }
+
+	public static Map<Integer, String> getUserMap() {
+		return userMap;
+	}
+
+	public static void setUserMap(Map<Integer, String> userMap) {
+		StplSecurity.userMap = userMap;
+	}
 }

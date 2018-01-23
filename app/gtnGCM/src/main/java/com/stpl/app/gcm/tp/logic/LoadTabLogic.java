@@ -39,8 +39,8 @@ public class LoadTabLogic {
      */
     private static final Logger LOGGER = Logger.getLogger(LoadTabLogic.class);
     private static int projectionId = 0;
-    public static String forecatingType = StringUtils.EMPTY;
-    public static TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
+    private static String forecatingType = StringUtils.EMPTY;
+    private static TradingPartnerDAO tpDao = new TradingPartnerDAOImpl();
     public static final String VARIANCE = "Variance";
     public static final String CONTRACT = "contract";
     public static final String COMPANY = "company";
@@ -120,7 +120,7 @@ public class LoadTabLogic {
     public void setForecastingType(int projectionId) {
         List<Object> list = (List<Object>) executeSelectQuery("select FORECASTING_TYPE from PROJECTION_MASTER where PROJECTION_MASTER_SID = " + projectionId);
         if (list != null && !list.isEmpty()) {
-            forecatingType = String.valueOf(list.get(0));
+            setForecatingType(String.valueOf(list.get(0)));
         }
     }
 
@@ -196,7 +196,7 @@ public class LoadTabLogic {
 
     public static Object executeSelectQuery(String query) {
 
-        return tpDao.executeSelectQuery(query);
+        return getTpDao().executeSelectQuery(query);
 
     }
 
@@ -235,7 +235,7 @@ public class LoadTabLogic {
         }
         List<Object> list;
         setParentLevels(tabSelectionDTO);
-        List<String> tableAndColumn = CommonLogic.getApprovedProjectionResults(forecatingType, true);
+        List<String> tableAndColumn = CommonLogic.getApprovedProjectionResults(getForecatingType(), true);
         if (!tableAndColumn.isEmpty()) {
             tabSelectionDTO.setTableName(tableAndColumn.get(0));
             tabSelectionDTO.setTempTableName("ST_" + tableAndColumn.get(0));
@@ -509,7 +509,7 @@ public class LoadTabLogic {
             tabSelectionDTO.setParentLevel("new");
         }
         getRebateParentLevels(tabSelectionDTO);
-        List<String> tableAndColumn = CommonLogic.getApprovedProjectionResults(forecatingType, false);
+        List<String> tableAndColumn = CommonLogic.getApprovedProjectionResults(getForecatingType(), false);
         if (!tableAndColumn.isEmpty()) {
             tabSelectionDTO.setTableName(tableAndColumn.get(0));
             tabSelectionDTO.setTempTableName("ST_" + tableAndColumn.get(0));
@@ -757,11 +757,11 @@ public class LoadTabLogic {
         projectionId = session.getProjectionId();
         if (projectionId != 0) {
             setForecastingType(LoadTabLogic.projectionId);
-            List<String> salesTableAndColumn = CommonLogic.getApprovedProjectionResults(forecatingType, true);
-            List<String> discountTableAndColumn = CommonLogic.getApprovedProjectionResults(forecatingType, false);
+            List<String> salesTableAndColumn = CommonLogic.getApprovedProjectionResults(getForecatingType(), true);
+            List<String> discountTableAndColumn = CommonLogic.getApprovedProjectionResults(getForecatingType(), false);
 
             List<SummaryTemDTO> list = getCompanyResults(buildContractCompDetails(session));
-            callSalesInsert(session, salesTableAndColumn, discountTableAndColumn, forecatingType);
+            callSalesInsert(session, salesTableAndColumn, discountTableAndColumn, getForecatingType());
             callSalesUpdate(session, list, salesTableAndColumn, discountTableAndColumn);
         }
     }
@@ -889,8 +889,8 @@ public class LoadTabLogic {
     }
 
     public void clearTemp(SessionDTO session) {
-        List<String> salesTableAndColumn = CommonLogic.getApprovedProjectionResults(forecatingType, true);
-        List<String> discountTableAndColumn = CommonLogic.getApprovedProjectionResults(forecatingType, false);
+        List<String> salesTableAndColumn = CommonLogic.getApprovedProjectionResults(getForecatingType(), true);
+        List<String> discountTableAndColumn = CommonLogic.getApprovedProjectionResults(getForecatingType(), false);
 
         String tempQuery = " DELETE FROM dbo.ST_" + salesTableAndColumn.get(0) + " WHERE  USER_ID=" + session.getUserId() + "  AND SESSION_ID=" + session.getSessionId() + ";"
                 + "  DELETE FROM dbo.ST_" + discountTableAndColumn.get(0) + " WHERE  USER_ID=" + session.getUserId() + " AND SESSION_ID=" + session.getSessionId() + "; ";
@@ -901,8 +901,8 @@ public class LoadTabLogic {
         LoadTabLogic.projectionId = session.getProjectionId();
 
         setForecastingType(LoadTabLogic.projectionId);
-        List<String> salesColumn = CommonLogic.getApprovedProjectionResults(forecatingType, true);
-        List<String> discountColumn = CommonLogic.getApprovedProjectionResults(forecatingType, false);
+        List<String> salesColumn = CommonLogic.getApprovedProjectionResults(getForecatingType(), true);
+        List<String> discountColumn = CommonLogic.getApprovedProjectionResults(getForecatingType(), false);
 
         List<SummaryTemDTO> list = getCompanyResults(buildContractCompDetails(session));
         List salesInput = getUpdateDataInput(salesColumn);
@@ -953,5 +953,21 @@ public class LoadTabLogic {
         discountInput.add(session.getUserId());
         discountInput.add(session.getSessionId());
     }
+
+	public static String getForecatingType() {
+		return forecatingType;
+	}
+
+	public static void setForecatingType(String forecatingType) {
+		LoadTabLogic.forecatingType = forecatingType;
+	}
+
+	public static TradingPartnerDAO getTpDao() {
+		return tpDao;
+	}
+
+	public static void setTpDao(TradingPartnerDAO tpDao) {
+		LoadTabLogic.tpDao = tpDao;
+	}
 
 }

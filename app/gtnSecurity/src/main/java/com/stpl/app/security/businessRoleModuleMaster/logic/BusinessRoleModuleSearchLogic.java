@@ -39,14 +39,14 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
         super(SearchBusinessRoleModuleForm.class);
 
     }
-    BusinessRoleModuleMasterLogicDAO dao = new BusinessRoleModuleMasterLogicDAOImpl();
+    private BusinessRoleModuleMasterLogicDAO dao = new BusinessRoleModuleMasterLogicDAOImpl();
     /**
      *
      */
     private static final long serialVersionUID = 4573149356126437540L;
     private static final Logger LOGGER = LogManager
             .getLogger(BusinessRoleModuleSearchLogic.class.getName());
-     int VersionNo = NumericConstants.ONE;
+    private int VersionNo = NumericConstants.ONE;
     public List<SearchBusinessRoleModuleForm> searchmoduleAccessDetails(
             ErrorfulFieldGroup searchBusinessRoleModuleForm)
             throws SystemException, PortalException {

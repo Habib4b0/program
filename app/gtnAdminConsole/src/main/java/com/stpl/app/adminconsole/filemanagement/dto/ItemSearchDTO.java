@@ -34,6 +34,10 @@ public class ItemSearchDTO implements Serializable{
     private HelperDTO helperTherapyClass = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
     private HelperDTO helperStatus = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
 
+    public ItemSearchDTO(){
+    	super();
+    }
+    
     public String getItemId() {
         return itemId;
     }

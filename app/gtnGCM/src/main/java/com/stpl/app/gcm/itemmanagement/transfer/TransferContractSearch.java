@@ -48,7 +48,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class TransferContractSearch extends AbstractContractSearch {
 
     private SelectionDTO selectionDto;
-    public boolean isnext = false;
+    private boolean isnext = false;
 
     public TransferContractSearch(SelectionDTO selection, List selectedItemList) {
         super(selection, selectedItemList);
@@ -66,15 +66,15 @@ public class TransferContractSearch extends AbstractContractSearch {
     @UiHandler("search")
     public void searchBtnLogic(Button.ClickEvent event) throws FieldGroup.CommitException {
         binder.commit();
-        if ((binderDto.getContractHolder() == null || binderDto.getContractHolder().isEmpty()) && (binderDto.getMarketType_DTO() == null)
-                && (binderDto.getCfpNO() == null || binderDto.getCfpNO().isEmpty()) && (binderDto.getContractNo() == null || binderDto.getContractNo().isEmpty())
-                && (binderDto.getStartDate() == null) && (binderDto.getEndDate() == null)
-                && (binderDto.getIfpNo() == null || binderDto.getIfpNo().isEmpty())
-                && (binderDto.getContractName() == null || binderDto.getContractName().isEmpty()) && (binderDto.getPsNo() == null || binderDto.getPsNo().isEmpty())
-                && (binderDto.getRebateScheduleId() == null || binderDto.getRebateScheduleId().isEmpty()) && (binderDto.getRebateScheduleName() == null || binderDto.getRebateScheduleName().isEmpty())
-                && (binderDto.getRebateScheduleNo() == null || binderDto.getRebateScheduleNo().isEmpty())
-                && (binderDto.getRebateProgramType_DTO() == null) && (binderDto.getRebateScheduleAlias() == null || binderDto.getRebateScheduleAlias().isEmpty())
-                && (binderDto.getRebateScheduleCategory_DTO() == null) && (binderDto.getRebateScheduleType_DTO() == null)) {
+        if ((getBinderDto().getContractHolder() == null || getBinderDto().getContractHolder().isEmpty()) && (getBinderDto().getMarketType_DTO() == null)
+                && (getBinderDto().getCfpNO() == null || getBinderDto().getCfpNO().isEmpty()) && (getBinderDto().getContractNo() == null || getBinderDto().getContractNo().isEmpty())
+                && (getBinderDto().getStartDate() == null) && (getBinderDto().getEndDate() == null)
+                && (getBinderDto().getIfpNo() == null || getBinderDto().getIfpNo().isEmpty())
+                && (getBinderDto().getContractName() == null || getBinderDto().getContractName().isEmpty()) && (getBinderDto().getPsNo() == null || getBinderDto().getPsNo().isEmpty())
+                && (getBinderDto().getRebateScheduleId() == null || getBinderDto().getRebateScheduleId().isEmpty()) && (getBinderDto().getRebateScheduleName() == null || getBinderDto().getRebateScheduleName().isEmpty())
+                && (getBinderDto().getRebateScheduleNo() == null || getBinderDto().getRebateScheduleNo().isEmpty())
+                && (getBinderDto().getRebateProgramType_DTO() == null) && (getBinderDto().getRebateScheduleAlias() == null || getBinderDto().getRebateScheduleAlias().isEmpty())
+                && (getBinderDto().getRebateScheduleCategory_DTO() == null) && (getBinderDto().getRebateScheduleType_DTO() == null)) {
 
             MessageBox.showPlain(Icon.INFO, "Error", "Please enter/select search criteria", ButtonId.OK);
         } else {
@@ -174,84 +174,84 @@ public class TransferContractSearch extends AbstractContractSearch {
         input.add(ConstantsUtil.CURRENT_SUMMARY);
         if (allItems.getValue().equals("YES")) {
             if (!selectionDto.getButtonMode().equals(ConstantsUtil.PROJECTIONTRANSFER)) {
-                input.add(AbstractLogic.getItemIds(selectedItemList));
+                input.add(AbstractLogic.getItemIds(getSelectedItemList()));
             } else {
                 input.add(AbstractLogic.getItemIds(selectionDto.getTransterItemIds()));
             }
         }
 
-        if (binderDto.getContractNo() != null && !binderDto.getContractNo().isEmpty()) {
-            input.add(binderDto.getContractNo().replace("*", "%"));
+        if (getBinderDto().getContractNo() != null && !getBinderDto().getContractNo().isEmpty()) {
+            input.add(getBinderDto().getContractNo().replace("*", "%"));
         } else {
             input.add("%");
         }
-        if (binderDto.getContractName() != null && !binderDto.getContractName().isEmpty()) {
-            input.add(binderDto.getContractName().replace("*", "%"));
-        } else {
-            input.add("%");
-        }
-
-        if (binderDto.getContractHolder() != null && !binderDto.getContractHolder().isEmpty()) {
-            input.add(binderDto.getContractHolder().replace("*", "%"));
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getMarketType_DTO() != null) {
-            input.add(binderDto.getMarketType_DTO().getId());
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getCfpNO() != null && !binderDto.getCfpNO().isEmpty()) {
-            input.add(binderDto.getCfpNO().replace("*", "%"));
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getIfpNo() != null && !binderDto.getIfpNo().isEmpty()) {
-            input.add(binderDto.getIfpNo().replace("*", "%"));
+        if (getBinderDto().getContractName() != null && !getBinderDto().getContractName().isEmpty()) {
+            input.add(getBinderDto().getContractName().replace("*", "%"));
         } else {
             input.add("%");
         }
 
-        if (binderDto.getPsNo() != null && !binderDto.getPsNo().isEmpty()) {
-            input.add(binderDto.getPsNo().replace("*", "%"));
+        if (getBinderDto().getContractHolder() != null && !getBinderDto().getContractHolder().isEmpty()) {
+            input.add(getBinderDto().getContractHolder().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getMarketType_DTO() != null) {
+            input.add(getBinderDto().getMarketType_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getCfpNO() != null && !getBinderDto().getCfpNO().isEmpty()) {
+            input.add(getBinderDto().getCfpNO().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getIfpNo() != null && !getBinderDto().getIfpNo().isEmpty()) {
+            input.add(getBinderDto().getIfpNo().replace("*", "%"));
         } else {
             input.add("%");
         }
 
-        if (binderDto.getRebateScheduleId() != null && !binderDto.getRebateScheduleId().isEmpty()) {
-            input.add(binderDto.getRebateScheduleId().replace("*", "%"));
+        if (getBinderDto().getPsNo() != null && !getBinderDto().getPsNo().isEmpty()) {
+            input.add(getBinderDto().getPsNo().replace("*", "%"));
         } else {
             input.add("%");
         }
 
-        if (binderDto.getRebateScheduleName() != null && !binderDto.getRebateScheduleName().isEmpty()) {
-            input.add(binderDto.getRebateScheduleName().replace("*", "%"));
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getRebateScheduleType_DTO() != null) {
-            input.add(binderDto.getRebateScheduleType_DTO().getId());
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getRebateScheduleCategory_DTO() != null) {
-            input.add(binderDto.getRebateScheduleCategory_DTO().getId());
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getRebateProgramType_DTO() != null) {
-            input.add(binderDto.getRebateProgramType_DTO().getId());
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getRebateScheduleAlias() != null && !binderDto.getRebateScheduleAlias().isEmpty()) {
-            input.add(binderDto.getRebateScheduleAlias().replace("*", "%"));
+        if (getBinderDto().getRebateScheduleId() != null && !getBinderDto().getRebateScheduleId().isEmpty()) {
+            input.add(getBinderDto().getRebateScheduleId().replace("*", "%"));
         } else {
             input.add("%");
         }
 
-        if (binderDto.getRebateScheduleNo() != null && !binderDto.getRebateScheduleNo().isEmpty()) {
-            input.add(binderDto.getRebateScheduleNo().replace("*", "%"));
+        if (getBinderDto().getRebateScheduleName() != null && !getBinderDto().getRebateScheduleName().isEmpty()) {
+            input.add(getBinderDto().getRebateScheduleName().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getRebateScheduleType_DTO() != null) {
+            input.add(getBinderDto().getRebateScheduleType_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getRebateScheduleCategory_DTO() != null) {
+            input.add(getBinderDto().getRebateScheduleCategory_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getRebateProgramType_DTO() != null) {
+            input.add(getBinderDto().getRebateProgramType_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getRebateScheduleAlias() != null && !getBinderDto().getRebateScheduleAlias().isEmpty()) {
+            input.add(getBinderDto().getRebateScheduleAlias().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+
+        if (getBinderDto().getRebateScheduleNo() != null && !getBinderDto().getRebateScheduleNo().isEmpty()) {
+            input.add(getBinderDto().getRebateScheduleNo().replace("*", "%"));
         } else {
             input.add("%");
         }
@@ -339,7 +339,7 @@ public class TransferContractSearch extends AbstractContractSearch {
             String difference = StringUtils.EMPTY;
             if (selectingOneContract("Selecting one contract", input)) {
                 if (submitBtnCheck()) {
-                    for (Object itemId : contractSelectionTable.getItemIds()) {
+                    for (Object itemId : getContractSelectionTable().getItemIds()) {
                         final AbstractContractSearchDTO mainDto = (AbstractContractSearchDTO) itemId;
                         Date startDate = mainDto.getItemStartDate();
                         Date endDate = null;
@@ -356,7 +356,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                                 endDate = (Date) list.get(0);
                                 if (startDate != null && endDate != null && startDate.before(endDate)) {
                                     dateValid = false;
-                                    isSubmit = false;
+                                    setSubmit(false);
                                     contractName = mainDto.getContractName() + "," + mainDto.getRsName();
                                     break;
                                 }
@@ -381,7 +381,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                                             difference = diffMonth + "Months";
                                             break;
                                     }
-                                    isSubmit = false;
+                                    setSubmit(false);
                                     contractName = mainDto.getContractName() + "," + mainDto.getRsName();
                                     break;
                                 }
@@ -394,7 +394,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                             new AbstractNotificationUtils() {
                                 @Override
                                 public void yesMethod() {
-                                    if (isSalesAndUnitsCheck(contractSelectionTable.getItemIds()) && getTransferSalesString().equals("Yes")) {
+                                    if (isSalesAndUnitsCheck(getContractSelectionTable().getItemIds()) && getTransferSalesString().equals("Yes")) {
                                         new AbstractNotificationUtils() {
                                             @Override
                                             public void yesMethod() {
@@ -423,7 +423,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                                     + "Are you sure you want to proceed? ?");
 
                         } else {
-                            if (isSalesAndUnitsCheck(contractSelectionTable.getItemIds()) && getTransferSalesString().equals("Yes")) {
+                            if (isSalesAndUnitsCheck(getContractSelectionTable().getItemIds()) && getTransferSalesString().equals("Yes")) {
                                 new AbstractNotificationUtils() {
                                     @Override
                                     public void yesMethod() {
@@ -446,7 +446,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                         MessageBox.showPlain(Icon.ERROR, "Start Date cannot come before the End Date", "You cannot proceed with this Item Start Date since it does not come after the End Date you have entered on the previous screen." + contractName, ButtonId.OK);
                     }
                 } else {
-                    isSubmit = false;
+                    setSubmit(false);
                     AbstractNotificationUtils.getErrorNotification("Submit error",
                             "Please enter a Status and Start Date for the selected Contracts. Then try again. ");
                 }
@@ -457,7 +457,7 @@ public class TransferContractSearch extends AbstractContractSearch {
         } catch (Exception ez) {
             LOGGER.error(ez);
         }
-        return isSubmit;
+        return isSubmit();
     }
 
     public void submit2(List input) {
@@ -482,7 +482,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                             binder.commit();
                             searchButtonLogic(true);
                             selectionDto.getLookup().changeTab();
-                            isSubmit = true;
+                            setSubmit(true);
                         } catch (Exception ex) {
                             LOGGER.error(ex);
                         }
@@ -490,19 +490,19 @@ public class TransferContractSearch extends AbstractContractSearch {
 
                     @Override
                     public void noMethod() {
-                        isSubmit = false;
+                        setSubmit(false);
                     }
                 }.getConfirmationMessage(StringConstantsUtil.CONFIRMATION_HEADER, msg);
             } else {
                 AbstractNotificationUtils.getErrorNotification("Workflow Status Issue",
-                        "The following Contract & Item combination: " + getContractItemName() + "," + AbstractLogic.getItemName(selectedItemList) + " "
+                        "The following Contract & Item combination: " + getContractItemName() + "," + AbstractLogic.getItemName(getSelectedItemList()) + " "
                         + "is currently associated to a projection in a ‘Saved’ or ‘Rejected’ "
                         + "Workflow queue. \n"
                         + "You must delete or approve the projection before proceeding with this Item Transfer. ");
             }
         } else {
             AbstractNotificationUtils.getErrorNotification("Workflow Status Issue",
-                    "The following Contract & Item combination: " + getContractItemName() + "," + AbstractLogic.getItemName(selectedItemList) + " "
+                    "The following Contract & Item combination: " + getContractItemName() + "," + AbstractLogic.getItemName(getSelectedItemList()) + " "
                     + "is currently associated to a projection in a ‘Pending’ "
                     + "Workflow queue. \n"
                     + "You must delete or approve the projection before proceeding with this Item Transfer. ");
@@ -517,7 +517,7 @@ public class TransferContractSearch extends AbstractContractSearch {
         Integer psSid = 0;
         StringBuilder query = new StringBuilder();
         StringBuilder contractQuery = new StringBuilder();
-        for (Object object : contractSelectionTable.getItemIds()) {
+        for (Object object : getContractSelectionTable().getItemIds()) {
             AbstractContractSearchDTO dto = (AbstractContractSearchDTO) object;
             if (dto.getCheckRecord()) {
                 masterSid = dto.getContractMasterSid();
@@ -574,14 +574,14 @@ public class TransferContractSearch extends AbstractContractSearch {
     }
 
     public boolean submitLogic() {
-        isnext = false;
+        setIsnext(false);
         boolean isSelected = false;
         final List input = getSessionInput(selectionDto);
         boolean dateValid = true;
         boolean afterDateValid = true;
         String contractName = StringUtils.EMPTY;
         String difference = StringUtils.EMPTY;
-        for (Object itemId : contractSelectionTable.getItemIds()) {
+        for (Object itemId : getContractSelectionTable().getItemIds()) {
             final AbstractContractSearchDTO mainDto = (AbstractContractSearchDTO) itemId;
             Date startDate = mainDto.getItemStartDate();
             Date endDate = null;
@@ -598,7 +598,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                     endDate = (Date) list.get(0);
                     if (startDate != null && endDate != null && startDate.before(endDate)) {
                         dateValid = false;
-                        isSubmit = false;
+                        setSubmit(false);
                         contractName = mainDto.getContractName() + "," + mainDto.getRsName();
                         break;
                     }
@@ -623,7 +623,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                                 difference = diffMonth + "Months";
                                 break;
                         }
-                        isSubmit = false;
+                        setSubmit(false);
                         contractName = mainDto.getContractName() + "," + mainDto.getRsName();
                         break;
                     }
@@ -657,7 +657,7 @@ public class TransferContractSearch extends AbstractContractSearch {
         } else {
             MessageBox.showPlain(Icon.ERROR, "No Item information selected", "Please select a contract to transfer the selected Item to. Then select a Status, and an Item Start Date. ", ButtonId.OK);
         }
-        return isnext;
+        return isIsnext();
     }
 
     private void configureSecurityPermissions() {
@@ -672,4 +672,12 @@ public class TransferContractSearch extends AbstractContractSearch {
             LOGGER.error(ex);
         }
     }
+
+	public boolean isIsnext() {
+		return isnext;
+	}
+
+	public void setIsnext(boolean isnext) {
+		this.isnext = isnext;
+	}
 }

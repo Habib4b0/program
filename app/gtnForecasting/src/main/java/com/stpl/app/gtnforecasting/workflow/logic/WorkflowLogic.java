@@ -54,8 +54,8 @@ public class WorkflowLogic {
      */
     private static final Logger LOGGER = Logger.getLogger(WorkflowLogic.class);
     private final String SUCCESS = Constant.SUCCESS;
-    WorkFlowLogicDao workFlowLogicDao = new WorkFlowLogicDaoImpl();
-    DataSelectionDAO dataselectionLogicDao = new DataSelectionDAOImpl();
+    private WorkFlowLogicDao workFlowLogicDao = new WorkFlowLogicDaoImpl();
+    private DataSelectionDAO dataselectionLogicDao = new DataSelectionDAOImpl();
 
     /**
      * Method to Save the data in WorkflowMaster

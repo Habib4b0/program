@@ -1152,7 +1152,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         }
     }
 
-    Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
+    private Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
 
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
@@ -1487,7 +1487,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         tableLogic.setRefresh(true);
         exportPeriodViewTable.setRefresh(Boolean.TRUE);
         exportPeriodViewTable.setDoubleHeaderVisible(true);
-        ForecastUI.EXCEL_CLOSE = true;
+        ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport exp = null;
         int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
         for (int i = 0; i < projectionDTO.getHeaderMapForExcel().size(); i++) {
@@ -1503,7 +1503,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             exportPeriodViewTable.setDoubleHeaderMap((Map<Object, Object[]>) projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.FIVE));
             exportPeriodViewTable.setRefresh(true);
             String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
-            ForecastUI.EXCEL_CLOSE = true;
+            ForecastUI.setEXCEL_CLOSE(true);
             if (i == 0) {
                 exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), sheetName, Constant.SUPPLEMENTAL_DISCOUNT, "Supplemental_Discount_Projection.xls", false);
             } else {

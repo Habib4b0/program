@@ -26,10 +26,10 @@ public class AddButtonLayout extends HorizontalLayout {
 	 */
 	private static final long serialVersionUID = -8933552027033590861L;
 	   private ErrorfulFieldGroup binder;
-    UdcLogic udcLogic = new UdcLogic();
+	   private UdcLogic udcLogic = new UdcLogic();
     private static final Logger LOGGER = LogManager
             .getLogger(AddButtonLayout.class.getName());
-    BeanItemContainer<HelperForm> searchResultbeans;
+    private BeanItemContainer<HelperForm> searchResultbeans;
 	
 	
 

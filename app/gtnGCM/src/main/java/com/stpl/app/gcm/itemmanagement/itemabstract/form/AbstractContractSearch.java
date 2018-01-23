@@ -69,6 +69,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -176,12 +177,12 @@ public abstract class AbstractContractSearch extends CustomComponent {
     public PopupDateField baseWacDate;
    
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
-    public AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
-    public CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(binderDto));
+    private AbstractContractSearchDTO binderDto = new AbstractContractSearchDTO();
+    protected CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(getBinderDto()));
     public static final Logger LOGGER = Logger.getLogger(AbstractContractSearch.class);
-    public AbstractContractSelectionTableLogic contractSelectionTableLogic = new AbstractContractSelectionTableLogic();
+    private AbstractContractSelectionTableLogic contractSelectionTableLogic = new AbstractContractSelectionTableLogic();
     public static final String SEARCHICON = "searchicon";
-    public ExtPagedTable contractSelectionTable = new ExtPagedTable(contractSelectionTableLogic);
+    private ExtPagedTable contractSelectionTable = new ExtPagedTable(getContractSelectionTableLogic());
     
     private final Object[] CONTRACT_SELECTION_VISIBLE_COLUMN = {Constants.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO,
         Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "itemStartDate",
@@ -206,33 +207,33 @@ public abstract class AbstractContractSearch extends CustomComponent {
         Constants.CFP_NO_HEADER, Constants.CFP_NAME_HEADER, Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.PS_NO_LABEL, Constants.PS_NAME_LABEL, Constants.RS_NO_HEADER, Constants.RS_NAME_LABEL, Constants.RAR_CATEGORY_HEADER};
     
     private final SelectionDTO selection;
-    public List<ItemIndexDto> selectedItemList;
-    public AbstractLogic logic = AbstractLogic.getInstance();
-    public BeanItemContainer<AbstractContractSearchDTO> contractExcelResultBean = new BeanItemContainer<>(AbstractContractSearchDTO.class);
-    public ExtCustomTable contractExcelTable;
-    public VerticalLayout contractDashboardLay = new VerticalLayout();
+    private List<ItemIndexDto> selectedItemList;
+    private AbstractLogic logic = AbstractLogic.getInstance();
+    private BeanItemContainer<AbstractContractSearchDTO> contractExcelResultBean = new BeanItemContainer<>(AbstractContractSearchDTO.class);
+    private ExtCustomTable contractExcelTable;
+    private VerticalLayout contractDashboardLay = new VerticalLayout();
     private String massUpdateString = StringUtils.EMPTY;
     private String tabOperation = StringUtils.EMPTY;
     protected StplSecurity stplSecurity = new StplSecurity();
     private final Map<String, AppPermission> functionHM = new HashMap<>();
-    public String userId = VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString();
+    private String userId = VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString();
     private boolean isFound = false;
-    public String contractItemName = StringUtils.EMPTY;
-    public String transferSalesString = StringUtils.EMPTY;
-    public boolean removeProjectionBooleanVal = false;
-    public boolean isSubmit = false;
+    protected String contractItemName = StringUtils.EMPTY;
+    private String transferSalesString = StringUtils.EMPTY;
+    private boolean removeProjectionBooleanVal = false;
+    private boolean isSubmit = false;
     private AddItemContractFieldFactory fieldFactory;
     private final Map comboToTableMap = new HashMap();
     private final Map tempTableMap = new HashMap();
     private final Map startDateEndDateMap = new HashMap();
     private final Map fieldAndPropertyMap = new HashMap();
     private CustomTextField.ClickListener clickLister;
-    public String dateMessage = StringUtils.EMPTY;
+    private String dateMessage = StringUtils.EMPTY;
     private final BeanItemContainer<AbstractContractSearchDTO> container = new BeanItemContainer<>(AbstractContractSearchDTO.class);
 
     public AbstractContractSearch(SelectionDTO selection, List selectedItemList) {
         this.selection = selection;
-        this.selectedItemList = selectedItemList;
+        this.setSelectedItemList(selectedItemList);
     }
 
     private void configurefields() {
@@ -257,25 +258,25 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
     public Component ConfigureTable() {
 
-        contractSelectionTableLogic.setContainerDataSource(container);
+        getContractSelectionTableLogic().setContainerDataSource(container);
         setVisibleColumns();
-        contractSelectionTable.addStyleName(ConstantsUtil.FILTERCOMBOBOX);
-        contractSelectionTable.setPageLength(NumericConstants.FIVE);
-        contractSelectionTableLogic.sinkItemPerPageWithPageLength(false);
-        for (Object object : contractSelectionTable.getVisibleColumns()) {
+        getContractSelectionTable().addStyleName(ConstantsUtil.FILTERCOMBOBOX);
+        getContractSelectionTable().setPageLength(NumericConstants.FIVE);
+        getContractSelectionTableLogic().sinkItemPerPageWithPageLength(false);
+        for (Object object : getContractSelectionTable().getVisibleColumns()) {
             if (!String.valueOf(object).contains(ConstantsUtil.CHECK_RECORD)) {
-                contractSelectionTable.setColumnWidth(object, NumericConstants.ONE_SEVEN_ZERO);
+                getContractSelectionTable().setColumnWidth(object, NumericConstants.ONE_SEVEN_ZERO);
             }
 
             if (String.valueOf(object).contains("Date")) {
-                contractSelectionTable.setColumnAlignment(object, ExtCustomTable.Align.CENTER);
-                contractSelectionTable.setConverter(object, new DateToStringConverter());
+                getContractSelectionTable().setColumnAlignment(object, ExtCustomTable.Align.CENTER);
+                getContractSelectionTable().setConverter(object, new DateToStringConverter());
             } else {
-                contractSelectionTable.setColumnAlignment(object, ExtCustomTable.Align.LEFT);
+                getContractSelectionTable().setColumnAlignment(object, ExtCustomTable.Align.LEFT);
             }
         }
 
-        contractSelectionTable.setFilterGenerator(new ExtFilterGenerator() {
+        getContractSelectionTable().setFilterGenerator(new ExtFilterGenerator() {
             @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
@@ -324,23 +325,23 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 }
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
                     ComboBox marketTypeDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", true);
+                    getLogic().LazyLoadDdlb(marketTypeDdlb, "Load Market Type Count", "Load Market Type", true);
                     return marketTypeDdlb;
                 }
                 if ("status".equals(propertyId)) {
                     ComboBox statusDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(statusDdlb, "Load Item Status Count", "Load Item Status", true);
+                    getLogic().LazyLoadDdlb(statusDdlb, "Load Item Status Count", "Load Item Status", true);
                     return statusDdlb;
                 }
                 if (Constants.PRICE_TOLERANCE_INTERVAL.equals(propertyId)) {
                     ComboBox pricetolerenceintDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(pricetolerenceintDdlb, "Load PS_INTERVAL Count", "Load PS_INTERVAL", true);
+                    getLogic().LazyLoadDdlb(pricetolerenceintDdlb, "Load PS_INTERVAL Count", "Load PS_INTERVAL", true);
                     return pricetolerenceintDdlb;
                 }
                 if (Constants.PRICE_TOLERANCE_TYPE_PROPERTY.equals(propertyId)) {
                     ComboBox pricetolerencetypeDdlb = new ComboBox();
                     try {
-                        logic.loadComboBox(pricetolerencetypeDdlb, "PS_TYPE", true);
+                        getLogic().loadComboBox(pricetolerencetypeDdlb, "PS_TYPE", true);
                     } catch (Exception ex) {
                         LOGGER.error(ex);
                     }
@@ -348,7 +349,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 }
                 if (Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY.equals(propertyId)) {
                     ComboBox pricetolerencefreqDdlb = new ComboBox();
-                    logic.LazyLoadDdlb(pricetolerencefreqDdlb, "Load PS_FREQ Count", "Load PS_FREQ", true);
+                    getLogic().LazyLoadDdlb(pricetolerencefreqDdlb, "Load PS_FREQ Count", "Load PS_FREQ", true);
                     return pricetolerencefreqDdlb;
                 }
                 
@@ -426,28 +427,28 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 return null;
             }
         });
-        contractSelectionTable.setFilterBarVisible(true);
-        contractSelectionTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        contractSelectionTable.setSelectable(Boolean.TRUE);
-        contractVertical.addComponent(contractSelectionTable);
-        HorizontalLayout controls = contractSelectionTableLogic.createControls();
+        getContractSelectionTable().setFilterBarVisible(true);
+        getContractSelectionTable().setFilterDecorator(new ExtDemoFilterDecorator());
+        getContractSelectionTable().setSelectable(Boolean.TRUE);
+        contractVertical.addComponent(getContractSelectionTable());
+        HorizontalLayout controls = getContractSelectionTableLogic().createControls();
         HorizontalLayout controlLayout = CommonLogic.getResponsiveControls(controls);
         contractVertical.addComponent(controlLayout);
-        contractSelectionTable.setEditable(Boolean.TRUE);
-        contractSelectionTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+        getContractSelectionTable().setEditable(Boolean.TRUE);
+        getContractSelectionTable().addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
             @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
-                Collection itemList = contractSelectionTable.getItemIds();
+                Collection itemList = getContractSelectionTable().getItemIds();
                 for (Object obj : itemList) {
                     AbstractContractSearchDTO dto = (AbstractContractSearchDTO) obj;
                     dto.setCheckRecord(event.isChecked());
-                    contractSelectionTable.getContainerProperty(obj, event.getPropertyId()).setValue(event.isChecked());
-                    logic.checkAllInsert(event.isChecked(), selection);
+                    getContractSelectionTable().getContainerProperty(obj, event.getPropertyId()).setValue(event.isChecked());
+                    getLogic().checkAllInsert(event.isChecked(), selection);
                 }
             }
         });
-        contractSelectionTable.setFilterFieldVisible(ConstantsUtil.CHECK_RECORD, false);
-        return contractSelectionTable;
+        getContractSelectionTable().setFilterFieldVisible(ConstantsUtil.CHECK_RECORD, false);
+        return getContractSelectionTable();
     }
 
     public void getMassUpdate() {
@@ -479,14 +480,14 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
-        binderDto.setIsCount(true);
-        List visibleList = Arrays.asList(contractSelectionTable.getVisibleColumns()).subList(1, contractSelectionTable.getVisibleColumns().length);
+        getBinderDto().setIsCount(true);
+        List visibleList = Arrays.asList(getContractSelectionTable().getVisibleColumns()).subList(1, getContractSelectionTable().getVisibleColumns().length);
         try {
             if (end != 0) {
                 List input = getInput();
                 input = getNewInput(input);
-                selection.setFilters(contractSelectionTableLogic.getFilters());
-                final List<AbstractContractSearchDTO> searchList = logic.getContractResults(selection, start, end, input);
+                selection.setFilters(getContractSelectionTableLogic().getFilters());
+                final List<AbstractContractSearchDTO> searchList = getLogic().getContractResults(selection, start, end, input);
                 ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
             }
         } catch (Exception e) {
@@ -496,13 +497,13 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
     public void createWorkSheet(String moduleName) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         long recordCount = 0;
-        List<String> visibleList = Arrays.asList(contractSelectionTable.getColumnHeaders()).subList(1, contractSelectionTable.getVisibleColumns().length);
-        selection.setFilters(contractSelectionTableLogic.getFilters());
+        List<String> visibleList = Arrays.asList(getContractSelectionTable().getColumnHeaders()).subList(1, getContractSelectionTable().getVisibleColumns().length);
+        selection.setFilters(getContractSelectionTableLogic().getFilters());
         if (selection.isReset()) {
             List input = getInput();
             input = getNewInput(input);
-            binderDto.setIsCount(false);
-            recordCount = logic.getContractCount(selection, input);
+            getBinderDto().setIsCount(false);
+            recordCount = getLogic().getContractCount(selection, input);
             ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
         }
     }
@@ -739,7 +740,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         
     @UiHandler("allItemsButton")
     public void allItemsButtonLogic(Button.ClickEvent event) {
-        AbstractAllItemLookup itemLookup = new AbstractAllItemLookup(selectedItemList);
+        AbstractAllItemLookup itemLookup = new AbstractAllItemLookup(getSelectedItemList());
         UI.getCurrent().addWindow(itemLookup);
     }
 
@@ -797,7 +798,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
     public CustomFieldGroup getBinder() {
         binder.bindMemberFields(this);
-        binder.setItemDataSource(new BeanItem<>(binderDto));
+        binder.setItemDataSource(new BeanItem<>(getBinderDto()));
         binder.setBuffered(true);
         return binder;
     }
@@ -808,7 +809,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         binder.commit();
         List input = getInput();
         resetCheckRecord();
-        boolean isRecordAvailable=contractSelectionTableLogic.loadSetData(selection, true, selectedItemList, input);
+        boolean isRecordAvailable=getContractSelectionTableLogic().loadSetData(selection, true, getSelectedItemList(), input);
         if(isSearch){
         if (!isRecordAvailable) {
             AbstractNotificationUtils.getErrorNotification("No Matching Records",
@@ -828,8 +829,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     public void createFieldFactory() {
-        fieldFactory = new AddItemContractFieldFactory(selection, contractSelectionTable, fieldAndPropertyMap);
-        contractSelectionTable.setTableFieldFactory(fieldFactory);
+        fieldFactory = new AddItemContractFieldFactory(selection, getContractSelectionTable(), fieldAndPropertyMap);
+        getContractSelectionTable().setTableFieldFactory(fieldFactory);
     }
 
     @UiHandler("reset1")
@@ -838,7 +839,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
             @Override
             public void yesMethod() {
                 resetSearchField();
-                contractSelectionTable.resetFilters();
+                getContractSelectionTable().resetFilters();
             }
 
             @Override
@@ -855,7 +856,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
             @Override
             public void yesMethod() {
                 selection.setReset(false);
-                contractSelectionTableLogic.loadSetData(selection, false, selectedItemList, new ArrayList());
+                getContractSelectionTableLogic().loadSetData(selection, false, getSelectedItemList(), new ArrayList());
             }
 
             @Override
@@ -927,19 +928,19 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     private void loadRsType() {
-        logic.LazyLoadDdlb(rebateScheduleType_DTO, "LoadRsTypeCount", "LoadRsType", false);
+        getLogic().LazyLoadDdlb(rebateScheduleType_DTO, "LoadRsTypeCount", "LoadRsType", false);
     }
 
     private void loadMarketType() {
-        logic.LazyLoadDdlb(marketType_DTO, "Load Market Type Count", "Load Market Type", false);
+        getLogic().LazyLoadDdlb(marketType_DTO, "Load Market Type Count", "Load Market Type", false);
     }
 
     private void loadRsCategory() {
-        logic.LazyLoadDdlb(rebateScheduleCategory_DTO, "LoadRsCategoryCount", "LoadRsCategory", false);
+        getLogic().LazyLoadDdlb(rebateScheduleCategory_DTO, "LoadRsCategoryCount", "LoadRsCategory", false);
     }
 
     private void loadRptype() {
-        logic.LazyLoadDdlb(rebateProgramType_DTO, "LoadRpTypeCount", "LoadRpType", false);
+        getLogic().LazyLoadDdlb(rebateProgramType_DTO, "LoadRpTypeCount", "LoadRpType", false);
     }
 
     /**
@@ -982,7 +983,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                                     binder.commit();
                                     searchButtonLogic(false);
                                     selection.getLookup().changeTab();
-                                    isSubmit = true;
+                                    setSubmit(true);
                                 } catch (Exception ex) {
                                     LOGGER.error(ex);
                                 }
@@ -990,7 +991,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
                             @Override
                             public void noMethod() {
-                                isSubmit = false;
+                                setSubmit(false);
                                 setIsSubmit(false);
                             }
                         }.getConfirmationMessage(StringConstantsUtil.CONFIRMATION_HEADER, "Are you sure you want to submit the selected contracts?");
@@ -1004,7 +1005,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                             + "You must delete or approve the projection before proceeding with this Update Item process.");
                 }
             } else {
-                isSubmit = false;
+                setSubmit(false);
                 AbstractNotificationUtils.getErrorNotification("Required Fields Error",
                         "Not all the required fields are filled.  Please try again.");
             }
@@ -1012,7 +1013,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
             AbstractNotificationUtils.getErrorNotification("Required Fields Error",
                     "Please select atleast one approved contract to proceed.");
         }
-        return isSubmit;
+        return isSubmit();
     }
 
     public Boolean submitButtonCheck() {
@@ -1043,78 +1044,78 @@ public abstract class AbstractContractSearch extends CustomComponent {
         List input = new ArrayList();
         input.add(selection.getSessionId());
         input.add(selection.getButtonMode());
-        if (binderDto.getContractNo() != null && !binderDto.getContractNo().isEmpty()) {
-            input.add(binderDto.getContractNo().replace("*", "%"));
+        if (getBinderDto().getContractNo() != null && !getBinderDto().getContractNo().isEmpty()) {
+            input.add(getBinderDto().getContractNo().replace("*", "%"));
         } else {
             input.add("%");
         }
-        if (binderDto.getContractName() != null && !binderDto.getContractName().isEmpty()) {
-            input.add(binderDto.getContractName().replace("*", "%"));
-        } else {
-            input.add("%");
-        }
-
-        if (binderDto.getContractHolder() != null && !binderDto.getContractHolder().isEmpty()) {
-            input.add(binderDto.getContractHolder().replace("*", "%"));
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getMarketType_DTO() != null) {
-            input.add(binderDto.getMarketType_DTO().getId());
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getCfpNO() != null && !binderDto.getCfpNO().isEmpty()) {
-            input.add(binderDto.getCfpNO().replace("*", "%"));
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getIfpNo() != null && !binderDto.getIfpNo().isEmpty()) {
-            input.add(binderDto.getIfpNo().replace("*", "%"));
+        if (getBinderDto().getContractName() != null && !getBinderDto().getContractName().isEmpty()) {
+            input.add(getBinderDto().getContractName().replace("*", "%"));
         } else {
             input.add("%");
         }
 
-        if (binderDto.getPsNo() != null && !binderDto.getPsNo().isEmpty()) {
-            input.add(binderDto.getPsNo().replace("*", "%"));
+        if (getBinderDto().getContractHolder() != null && !getBinderDto().getContractHolder().isEmpty()) {
+            input.add(getBinderDto().getContractHolder().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getMarketType_DTO() != null) {
+            input.add(getBinderDto().getMarketType_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getCfpNO() != null && !getBinderDto().getCfpNO().isEmpty()) {
+            input.add(getBinderDto().getCfpNO().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getIfpNo() != null && !getBinderDto().getIfpNo().isEmpty()) {
+            input.add(getBinderDto().getIfpNo().replace("*", "%"));
         } else {
             input.add("%");
         }
 
-        if (binderDto.getRebateScheduleId() != null && !binderDto.getRebateScheduleId().isEmpty()) {
-            input.add(binderDto.getRebateScheduleId().replace("*", "%"));
+        if (getBinderDto().getPsNo() != null && !getBinderDto().getPsNo().isEmpty()) {
+            input.add(getBinderDto().getPsNo().replace("*", "%"));
         } else {
             input.add("%");
         }
 
-        if (binderDto.getRebateScheduleName() != null && !binderDto.getRebateScheduleName().isEmpty()) {
-            input.add(binderDto.getRebateScheduleName().replace("*", "%"));
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getRebateScheduleType_DTO() != null) {
-            input.add(binderDto.getRebateScheduleType_DTO().getId());
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getRebateScheduleCategory_DTO() != null) {
-            input.add(binderDto.getRebateScheduleCategory_DTO().getId());
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getRebateProgramType_DTO() != null) {
-            input.add(binderDto.getRebateProgramType_DTO().getId());
-        } else {
-            input.add("%");
-        }
-        if (binderDto.getRebateScheduleAlias() != null && !binderDto.getRebateScheduleAlias().isEmpty()) {
-            input.add(binderDto.getRebateScheduleAlias().replace("*", "%"));
+        if (getBinderDto().getRebateScheduleId() != null && !getBinderDto().getRebateScheduleId().isEmpty()) {
+            input.add(getBinderDto().getRebateScheduleId().replace("*", "%"));
         } else {
             input.add("%");
         }
 
-        if (binderDto.getRebateScheduleNo() != null && !binderDto.getRebateScheduleNo().isEmpty()) {
-            input.add(binderDto.getRebateScheduleNo().replace("*", "%"));
+        if (getBinderDto().getRebateScheduleName() != null && !getBinderDto().getRebateScheduleName().isEmpty()) {
+            input.add(getBinderDto().getRebateScheduleName().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getRebateScheduleType_DTO() != null) {
+            input.add(getBinderDto().getRebateScheduleType_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getRebateScheduleCategory_DTO() != null) {
+            input.add(getBinderDto().getRebateScheduleCategory_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getRebateProgramType_DTO() != null) {
+            input.add(getBinderDto().getRebateProgramType_DTO().getId());
+        } else {
+            input.add("%");
+        }
+        if (getBinderDto().getRebateScheduleAlias() != null && !getBinderDto().getRebateScheduleAlias().isEmpty()) {
+            input.add(getBinderDto().getRebateScheduleAlias().replace("*", "%"));
+        } else {
+            input.add("%");
+        }
+
+        if (getBinderDto().getRebateScheduleNo() != null && !getBinderDto().getRebateScheduleNo().isEmpty()) {
+            input.add(getBinderDto().getRebateScheduleNo().replace("*", "%"));
         } else {
             input.add("%");
         }
@@ -1174,8 +1175,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     public void setVisibleColumns() {
-        contractSelectionTable.setVisibleColumns(CONTRACT_SELECTION_VISIBLE_COLUMN);
-        contractSelectionTable.setColumnHeaders(CONTRACT_SELECTION_HEADER);
+        getContractSelectionTable().setVisibleColumns(CONTRACT_SELECTION_VISIBLE_COLUMN);
+        getContractSelectionTable().setColumnHeaders(CONTRACT_SELECTION_HEADER);
     }
 
     private void resetMassUpdate() {
@@ -1193,7 +1194,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     private boolean isPresent() {
-        Collection itemId = contractSelectionTable.getItemIds();
+        Collection itemId = getContractSelectionTable().getItemIds();
         boolean isChecked = true;
         for (Object object : itemId) {
             AbstractContractSearchDTO dto = (AbstractContractSearchDTO) object;
@@ -1229,7 +1230,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     public void populateLogic() {
-        Collection itemId = contractSelectionTable.getItemIds();
+        Collection itemId = getContractSelectionTable().getItemIds();
         List list = new ArrayList();
         Object value = null;
         String columnName = StringUtils.EMPTY;
@@ -1245,12 +1246,12 @@ public abstract class AbstractContractSearch extends CustomComponent {
                 switch (massUpdateString) {
                     case Constants.STATUS_FIELD:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.STATUS_S).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.STATUS_S).setValue(tempDTO);
                         columnName = StringConstantsUtil.ITEM_STATUS_COLUMN;
                         value = tempDTO.getId();
                         break;
                     case Constants.ITEM_START_DATE:
-                        contractSelectionTable.getItem(object).getItemProperty("itemStartDate").setValue(massStartDate.getValue());
+                        getContractSelectionTable().getItem(object).getItemProperty("itemStartDate").setValue(massStartDate.getValue());
                         columnName = StringConstantsUtil.START_DATE_COLUMN;
                         value = CommonUtils.DBDate.format(massStartDate.getValue());
                         break;
@@ -1260,14 +1261,14 @@ public abstract class AbstractContractSearch extends CustomComponent {
                             MessageBox.showPlain(Icon.INFO, Constants.ERROR, StringConstantsUtil.END_DATE_AFTER_START_DATE, ButtonId.OK);
                             break;
                         } else {
-                            contractSelectionTable.getItem(object).getItemProperty("itemEndDate").setValue(massEndDate.getValue());
+                            getContractSelectionTable().getItem(object).getItemProperty("itemEndDate").setValue(massEndDate.getValue());
                             columnName = StringConstantsUtil.END_DATE_COLUMN;
                             value = CommonUtils.DBDate.format(massEndDate.getValue());
 
                         }
                         break;
                     case StringConstantsUtil.CP_START_DATE_LABEL:
-                        contractSelectionTable.getItem(object).getItemProperty(StringConstantsUtil.CP_START_DATE).setValue(massStartDate.getValue());
+                        getContractSelectionTable().getItem(object).getItemProperty(StringConstantsUtil.CP_START_DATE).setValue(massStartDate.getValue());
                         columnName = StringConstantsUtil.CONTRACT_PRICE_START_DATE_COLUMN;
                         value = CommonUtils.DBDate.format(massStartDate.getValue());
                         break;
@@ -1277,7 +1278,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                             MessageBox.showPlain(Icon.INFO, Constants.ERROR, StringConstantsUtil.END_DATE_AFTER_START_DATE, ButtonId.OK);
                             break;
                         } else {
-                            contractSelectionTable.getItem(object).getItemProperty(StringConstantsUtil.CP_END_DATE).setValue(massEndDate.getValue());
+                            getContractSelectionTable().getItem(object).getItemProperty(StringConstantsUtil.CP_END_DATE).setValue(massEndDate.getValue());
                             columnName = StringConstantsUtil.CONTRACT_PRICE_END_DATE_COLUMN;
                             value = CommonUtils.DBDate.format(massEndDate.getValue());
 
@@ -1286,23 +1287,23 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
                     case Constants.PRICE_TYPE_LABEL:
                         value = massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.PRICE_TYPE_PROPERTY).setValue(value);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.PRICE_TYPE_PROPERTY).setValue(value);
                         columnName = Constants.PRICE_TYPE_COLUMN_NAME;
                         break;
                     case StringConstantsUtil.PRICE_LABEL:
                         textValue = massUpdateText.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(StringConstantsUtil.PRICE_PROPERTY).setValue(textValue);
+                        getContractSelectionTable().getItem(object).getItemProperty(StringConstantsUtil.PRICE_PROPERTY).setValue(textValue);
                         columnName = StringConstantsUtil.PRICE_COLUMN;
                         value = textValue;
                         break;
                     case Constants.PRICE_PROTECTION_STATUS_LABEL:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.PRICE_PROTECTION_STATUS_PROPERTY).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.PRICE_PROTECTION_STATUS_PROPERTY).setValue(tempDTO);
                         columnName = Constants.PRICE_PROTECTION_STATUS_COLUMN_NAME;
                         value = tempDTO.getId();
                         break;
                     case Constants.PRICE_PROTECTION_START_DATE_LABEL:
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.PRICE_PROTECTION_START_DATE_PROPERTY).setValue(massStartDate.getValue());
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.PRICE_PROTECTION_START_DATE_PROPERTY).setValue(massStartDate.getValue());
                         columnName = StringConstantsUtil.PRICE_PROTECTION_START_DATE_COLUMN;
                         value = CommonUtils.DBDate.format(massStartDate.getValue());
                         break;
@@ -1313,7 +1314,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                             MessageBox.showPlain(Icon.INFO, Constants.ERROR, StringConstantsUtil.END_DATE_AFTER_START_DATE, ButtonId.OK);
                             break;
                         } else {
-                            contractSelectionTable.getItem(object).getItemProperty(Constants.PRICE_PROTECTION_END_DATE_PROPERTY).setValue(massEndDate.getValue());
+                            getContractSelectionTable().getItem(object).getItemProperty(Constants.PRICE_PROTECTION_END_DATE_PROPERTY).setValue(massEndDate.getValue());
                             columnName = StringConstantsUtil.PRICE_PROTECTION_END_DATE_LABEL;
                             value = CommonUtils.DBDate.format(massEndDate.getValue());
 
@@ -1321,162 +1322,162 @@ public abstract class AbstractContractSearch extends CustomComponent {
                         break;
                     case Constants.MEASUREMENT_PRICE_LABLE_NAME:
                         value = massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.MEASUREMENT_PRICE_PROPERTY).setValue(value);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.MEASUREMENT_PRICE_PROPERTY).setValue(value);
                         columnName = Constants.MEASUREMENT_PRICE_COLUMN_NAME;
                         break;
                     case Constants.NEP_LABLE_NAME:
                         textValue = massUpdateText.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.NEP_PROPERTY).setValue(textValue);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.NEP_PROPERTY).setValue(textValue);
                         columnName = Constants.NEP_COLUMN_NAME;
                         value = textValue;
                         break;
                     case Constants.NEP_FORMULA_LABLE_NAME:
                         FormulaDTO nepForumulaDto = (FormulaDTO) massUpdateText.getData();
                         textValue = String.valueOf(nepForumulaDto.getFormulaNo());
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.NEP_FORMULA_PROPERTY).setValue(textValue);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.NEP_FORMULA_PROPERTY).setValue(textValue);
                         columnName = Constants.NEP_FORMULA_COLUMN_NAME;
                         value = nepForumulaDto.getFormulaSid();
                         break;
                     case Constants.BASE_PRICE_TYPE_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.BASE_PRICE_PROPERTY).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.BASE_PRICE_PROPERTY).setValue(tempDTO);
                         columnName = Constants.BASE_PRICE_TYPE_COLUMN_NAME;
                         value = tempDTO.getId();
                         if (Constants.MANUAL_LABLE_NAME.equals(tempDTO.getDescription())) {
                             baseLineTextValue = baseWacManual.getValue();
-                            contractSelectionTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_MANUAL_LABLE_NAME).setValue(baseLineTextValue);
+                            getContractSelectionTable().getItem(object).getItemProperty(Constants.BASELINE_WAC_MANUAL_LABLE_NAME).setValue(baseLineTextValue);
                             baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
-                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
+                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
                         } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
-                            contractSelectionTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_DATE_LABLE_NAME).setValue(baseWacDate.getValue());
+                            getContractSelectionTable().getItem(object).getItemProperty(Constants.BASELINE_WAC_DATE_LABLE_NAME).setValue(baseWacDate.getValue());
                             baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
                             baseLineValue = CommonUtils.DBDate.format(baseWacDate.getValue());
-                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
                         } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
                             baseLineValue = baseWacPriceType.getValue();
-                            contractSelectionTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME).setValue(baseLineValue);
+                            getContractSelectionTable().getItem(object).getItemProperty(Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME).setValue(baseLineValue);
                             baseLineColumnName = Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME;
-                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                            getLogic().updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
                         }
                         break;
                     case Constants.BASELINE_NET_WAC_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.BASELINE_NET_WAC_PROPERTY).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.BASELINE_NET_WAC_PROPERTY).setValue(tempDTO);
                         columnName = Constants.BASELINE_NET_WAC_COLUMN_NAME;
                         value = tempDTO.getId();
                         break;
                     case Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME:
                         FormulaDTO netBaselineWACFormulaDto = (FormulaDTO) massUpdateText.getData();
                         textValue = String.valueOf(netBaselineWACFormulaDto.getFormulaNo());
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.NET_BASELINE_WAC_FORMULA_PROPERTY).setValue(textValue);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.NET_BASELINE_WAC_FORMULA_PROPERTY).setValue(textValue);
                         columnName = Constants.NET_BASELINE_WAC_FORMULA_COLUMN_NAME;
                         value = netBaselineWACFormulaDto.getFormulaSid();
                         break;
                     case Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME:
                         value = massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY).setValue(value);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY).setValue(value);
                         columnName = Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_COLUMN_NAME;
                         break;
                     case Constants.NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY).setValue(tempDTO);
                         columnName = Constants.NET_SUBSEQUENT_PERIOD_PRICE_COLUMN_NAME;
                         value = tempDTO.getId();
                         break;
                     case Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME:
                         FormulaDTO netSubsequentPeriodPriceFormulaDto = (FormulaDTO) massUpdateText.getData();
                         textValue = String.valueOf(netSubsequentPeriodPriceFormulaDto.getFormulaNo());
-                        contractSelectionTable.getItem(object).getItemProperty("netSubsequentPeriodPriceFormula").setValue(textValue);
+                        getContractSelectionTable().getItem(object).getItemProperty("netSubsequentPeriodPriceFormula").setValue(textValue);
                         columnName = Constants.NET_SUBSEQUENT_PRICE_FORMULA_COLUMN_NAME;
                         value = netSubsequentPeriodPriceFormulaDto.getFormulaSid();
                         break;
                     case Constants.PRICE_TOLERANCE_TYPE_LABEL:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.PRICE_TOLERANCE_TYPE_PROPERTY).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.PRICE_TOLERANCE_TYPE_PROPERTY).setValue(tempDTO);
                         columnName = StringConstantsUtil.PRICE_TOLERANCE_TYPE_LABEL;
                         value = tempDTO.getId();
                         break;
                     case Constants.PRICE_TOLERANCE_LABEL:
                         textValue = massUpdateText.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.PRICE_TOLERANCE_PROPERTY).setValue(textValue);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.PRICE_TOLERANCE_PROPERTY).setValue(textValue);
                         columnName = StringConstantsUtil.PRICE_TOLERANCE_COLUMN;
                         value = textValue;
                         break;
                     case Constants.PRICE_TOLERANCE_FREQUENCY_LABEL:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY).setValue(tempDTO);
                         columnName = StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL;
                         value = tempDTO.getId();
                         break;
                     case Constants.PRICE_TOLERANCE_INTERVAL_LABEL:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.PRICE_TOLERANCE_INTERVAL).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.PRICE_TOLERANCE_INTERVAL).setValue(tempDTO);
                         columnName = StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL;
                         value = tempDTO.getId();
                         break;
                     case Constants.MAX_INCREMENTAL_CHANGE_LABLE_NAME:
                         textValue = massUpdateText.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.MAX_INCREMENTAL_CHANGE_PROPERTY).setValue(textValue);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.MAX_INCREMENTAL_CHANGE_PROPERTY).setValue(textValue);
                         columnName = Constants.MAX_INCREMENTAL_CHANGE_COLUMN_NAME;
                         value = textValue;
                         break;
                     case Constants.RESET_ELIGIBLE_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.RESET_ELIGIBLE_PROPERTY).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.RESET_ELIGIBLE_PROPERTY).setValue(tempDTO);
                         columnName = Constants.RESET_ELIGIBLE_COLUMN_NAME;
                         value = tempDTO.getId();
                         break;
                     case Constants.RESET_TYPE_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.RESET_TYPE_PROPERTY).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.RESET_TYPE_PROPERTY).setValue(tempDTO);
                         columnName = Constants.RESET_TYPE_COLUMN_NAME;
                         value = tempDTO.getId();
                         break;
                     case Constants.RESET_DATE_LABLE_NAME:
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.RESET_DATE_PROPERTY).setValue(massStartDate.getValue());
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.RESET_DATE_PROPERTY).setValue(massStartDate.getValue());
                         columnName = Constants.RESET_DATE_COLUMN_NAME;
                         value = CommonUtils.DBDate.format(massStartDate.getValue());
                         break;
                     case Constants.RESET_INTERVAL_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.RESET_INTERVAL_PROPERTY).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.RESET_INTERVAL_PROPERTY).setValue(tempDTO);
                         columnName = Constants.RESET_INTERVAL_COLUMN_NAME;
                         value = tempDTO.getId();
                         break;
                     case Constants.RESET_FREQUENCY_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.RESET_FREQUENCY_PROPERTY).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.RESET_FREQUENCY_PROPERTY).setValue(tempDTO);
                         columnName = Constants.RESET_FREQUENCY_COLUMN_NAME;
                         value = tempDTO.getId();
                         break;
                     case Constants.RESET_PRICE_TYPE_LABLE_NAME:
                         value = massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.RESET_PRICE_TYPE_PROPERTY).setValue(value);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.RESET_PRICE_TYPE_PROPERTY).setValue(value);
                         columnName = Constants.RESET_PRICE_TYPE_COLUMN_NAME;
                         break;
                     case Constants.NET_RESET_PRICE_TYPE_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.NET_RESET_PRICE_TYPE_PROPERTY).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.NET_RESET_PRICE_TYPE_PROPERTY).setValue(tempDTO);
                         columnName = Constants.NET_RESET_PRICE_TYPE_COLUMN_NAME;
                         value = tempDTO.getId();
                         break;
                     case Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME:
                         FormulaDTO netResetPriceFormulaDto = (FormulaDTO) massUpdateText.getData();
                         textValue = String.valueOf(netResetPriceFormulaDto.getFormulaNo());
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.NET_RESET_PRICE_FORMULA_PROPERTY).setValue(textValue);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.NET_RESET_PRICE_FORMULA_PROPERTY).setValue(textValue);
                         columnName = Constants.NET_RESET_PRICE_FORMULA_COLUMN_NAME;
                         value = netResetPriceFormulaDto.getFormulaSid();
                         break;
                     case Constants.NET_PRICE_TYPE_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.NET_PRICE_TYPE_PROPERTY).setValue(tempDTO);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.NET_PRICE_TYPE_PROPERTY).setValue(tempDTO);
                         columnName = Constants.NET_PRICE_TYPE_COLUMN_NAME;
                         value = tempDTO.getId();
                         break;
                     case Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME:
                         FormulaDTO netPriceTypeFormulaDto = (FormulaDTO) massUpdateText.getData();
                         textValue = String.valueOf(netPriceTypeFormulaDto.getFormulaNo());
-                        contractSelectionTable.getItem(object).getItemProperty(Constants.NET_PRICE_TYPE_FORMULA_PROPERTY).setValue(textValue);
+                        getContractSelectionTable().getItem(object).getItemProperty(Constants.NET_PRICE_TYPE_FORMULA_PROPERTY).setValue(textValue);
                         columnName = Constants.NET_PRICE_TYPE_FORMULA_COLUMN_NAME;
                         value = netPriceTypeFormulaDto.getFormulaSid();
                         break;
@@ -1496,8 +1497,8 @@ public abstract class AbstractContractSearch extends CustomComponent {
             list.addAll(getSessionInput(selection));
         }
 
-        logic.massUpdateItemDetails(list);
-        contractSelectionTable.getContainerLogic().setCurrentPage(1);
+        getLogic().massUpdateItemDetails(list);
+        getContractSelectionTable().getContainerLogic().setCurrentPage(1);
     }
 
     public boolean singleContractCheck(String queryName, List input) {
@@ -1557,11 +1558,11 @@ public abstract class AbstractContractSearch extends CustomComponent {
     }
 
     public boolean isIsSubmit() {
-        return isSubmit;
+        return isSubmit();
     }
 
     public void setIsSubmit(boolean isSubmit) {
-        this.isSubmit = isSubmit;
+        this.setSubmit(isSubmit);
     }
 
     public void updateSubmittedContract() {
@@ -1974,6 +1975,86 @@ public abstract class AbstractContractSearch extends CustomComponent {
         baseWacManual.setVisible(false);
         baseWacDate.setVisible(false);
     }
+
+	public ExtPagedTable getContractSelectionTable() {
+		return contractSelectionTable;
+	}
+
+	public void setContractSelectionTable(ExtPagedTable contractSelectionTable) {
+		this.contractSelectionTable = contractSelectionTable;
+	}
+
+	public AbstractContractSelectionTableLogic getContractSelectionTableLogic() {
+		return contractSelectionTableLogic;
+	}
+
+	public void setContractSelectionTableLogic(AbstractContractSelectionTableLogic contractSelectionTableLogic) {
+		this.contractSelectionTableLogic = contractSelectionTableLogic;
+	}
+
+	public AbstractContractSearchDTO getBinderDto() {
+		return binderDto;
+	}
+
+	public void setBinderDto(AbstractContractSearchDTO binderDto) {
+		this.binderDto = binderDto;
+	}
+
+	public AbstractLogic getLogic() {
+		return logic;
+	}
+
+	public void setLogic(AbstractLogic logic) {
+		this.logic = logic;
+	}
+
+	public List<ItemIndexDto> getSelectedItemList() {
+		return selectedItemList == null ? selectedItemList : Collections.unmodifiableList(selectedItemList);
+	}
+
+	public void setSelectedItemList(List<ItemIndexDto> selectedItemList) {
+		this.selectedItemList = selectedItemList == null ? selectedItemList : Collections.unmodifiableList(selectedItemList);
+	}
+
+	public boolean isSubmit() {
+		return isSubmit;
+	}
+
+	public void setSubmit(boolean isSubmit) {
+		this.isSubmit = isSubmit;
+	}
+
+	public BeanItemContainer<AbstractContractSearchDTO> getContractExcelResultBean() {
+		return contractExcelResultBean;
+	}
+
+	public void setContractExcelResultBean(BeanItemContainer<AbstractContractSearchDTO> contractExcelResultBean) {
+		this.contractExcelResultBean = contractExcelResultBean;
+	}
+
+	public ExtCustomTable getContractExcelTable() {
+		return contractExcelTable;
+	}
+
+	public void setContractExcelTable(ExtCustomTable contractExcelTable) {
+		this.contractExcelTable = contractExcelTable;
+	}
+
+	public VerticalLayout getContractDashboardLay() {
+		return contractDashboardLay;
+	}
+
+	public void setContractDashboardLay(VerticalLayout contractDashboardLay) {
+		this.contractDashboardLay = contractDashboardLay;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
     
 }

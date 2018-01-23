@@ -19,16 +19,16 @@ public class AddUpdateForm extends CustomComponent {
 
 	private static final long serialVersionUID = -5283229308220334335L;
 
-	final ErrorLabel errorMsg = new ErrorLabel();
-	final Label space = new Label("&nbsp;", ContentMode.HTML);
+	private final ErrorLabel errorMsg = new ErrorLabel();
+	private final Label space = new Label("&nbsp;", ContentMode.HTML);
 
-	final TextField businessroleMasterSid = new TextField();
-	final TextField businessroleDesc = new TextField();
-	final TextField businessroleName = new TextField();
-	final TextField hierarchyLevel = new TextField();
+	private final TextField businessroleMasterSid = new TextField();
+	private final TextField businessroleDesc = new TextField();
+	private final TextField businessroleName = new TextField();
+	private final TextField hierarchyLevel = new TextField();
 	private ErrorfulFieldGroup binder;
-	BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
-	Table table;
+	private BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
+	private Table table;
 
 	public AddUpdateForm(ErrorfulFieldGroup binder,
 			BeanItemContainer<BusinessroleMasterDTO> searchResultbeans,
@@ -93,6 +93,10 @@ public class AddUpdateForm extends CustomComponent {
 		hierarchyLevel.setImmediate(true);
 		hierarchyLevel.setValidationVisible(true);
 		
+	}
+
+	public ErrorLabel getErrorMsg() {
+		return errorMsg;
 	}
 
 }

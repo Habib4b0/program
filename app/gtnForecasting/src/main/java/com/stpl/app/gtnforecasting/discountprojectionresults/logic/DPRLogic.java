@@ -54,7 +54,7 @@ public class DPRLogic {
     private static final String CURRENCY = "$";
     private static final String PERCENTAGE = Constant.PERCENT;
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.0");
-    public List<DiscountProjectionResultsDTO> projectionTotalList = new ArrayList<>();
+    private List<DiscountProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     protected Object[] dprOrderedArgs;
     protected List<Object[]> totalPrcResultList = new ArrayList<>();
     public static final String SUPPLEMENTAL = "supplemental";
@@ -164,10 +164,10 @@ public class DPRLogic {
             DiscountProjectionResultsDTO mandatedDisc = null;
             DiscountProjectionResultsDTO SupplDisc = null;
             if (projSelDTO.isIsProjectionTotal() && projSelDTO.isIsTotal()) {
-                projectionTotalList = getConfiguredResultsTotal(projSelDTO);
-                if (!projectionTotalList.isEmpty()) {
-                    projDTOList.addAll(projectionTotalList);
-                    neededRecord -= projectionTotalList.size();
+                setProjectionTotalList(getConfiguredResultsTotal(projSelDTO));
+                if (!getProjectionTotalList().isEmpty()) {
+                    projDTOList.addAll(getProjectionTotalList());
+                    neededRecord -= getProjectionTotalList().size();
                 }
             }
             String discount = projSelDTO.getMandatedOrSupp();
@@ -2385,4 +2385,12 @@ public class DPRLogic {
         }
         return String.valueOf(mandatedAmount + supplementalAmount);
     }
+
+	public List<DiscountProjectionResultsDTO> getProjectionTotalList() {
+		return projectionTotalList;
+	}
+
+	public void setProjectionTotalList(List<DiscountProjectionResultsDTO> projectionTotalList) {
+		this.projectionTotalList = projectionTotalList;
+	}
 }

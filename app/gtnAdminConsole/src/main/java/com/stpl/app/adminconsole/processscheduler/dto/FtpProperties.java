@@ -12,6 +12,10 @@ public class FtpProperties {
     private String scripts;
     private String interfaceName;
 
+    public FtpProperties(){
+    	super();
+    }
+    
     public String getScripts() {
         return scripts;
     }

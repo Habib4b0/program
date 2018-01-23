@@ -2103,7 +2103,7 @@ public class DataSelectionLogic {
 
 		String query = SQlUtil.getQuery("get-companies");
 		if (!companiesList.isEmpty()) {
-			return companiesList;
+			return Collections.unmodifiableList(companiesList);
 		}
 		query = query.replace("AND CM.COMPANY_MASTER_SID = @GLCOMP", StringUtils.EMPTY);
 		List list = HelperTableLocalServiceUtil.executeSelectQuery(query);

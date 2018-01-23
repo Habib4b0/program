@@ -21,104 +21,104 @@ public class CFPMasterDTO implements Serializable {
     /**
      * The parent company family plan name.
      */
-    public String parentCompanyFamilyPlanName = StringUtils.EMPTY;
+    private String parentCompanyFamilyPlanName = StringUtils.EMPTY;
     /**
      * The internal notes.
      */
-    public String internalNotes = StringUtils.EMPTY;
+    private String internalNotes = StringUtils.EMPTY;
     /**
      * The record lock status.
      */
-    public boolean recordLockStatus;
+    private boolean recordLockStatus;
     /**
      * The company family plan trade class.
      */
-    public String companyFamilyPlanTradeClass;
+    private String companyFamilyPlanTradeClass;
     /**
      * The created by.
      */
-    public int createdBy;
+    private int createdBy;
     /**
      * The company family plan id.
      */
-    public String companyFamilyPlanId = StringUtils.EMPTY;
+    private String companyFamilyPlanId = StringUtils.EMPTY;
     /**
      * The company family plan name.
      */
-    public String companyFamilyPlanName = StringUtils.EMPTY;
+    private String companyFamilyPlanName = StringUtils.EMPTY;
     /**
      * The company family plan category.
      */
-    public String companyFamilyPlanCategory;
+    private String companyFamilyPlanCategory;
     /**
      * The batch id.
      */
-    public String batchId = StringUtils.EMPTY;
+    private String batchId = StringUtils.EMPTY;
     private String companyFamilyPlanStatusValue;
     /**
      * The company family plan type.
      */
-    public Integer companyFamilyPlanType;
+    private Integer companyFamilyPlanType;
     /**
      * The inbound status.
      */
-    public String inboundStatus = StringUtils.EMPTY;
+    private String inboundStatus = StringUtils.EMPTY;
     /**
      * The modified by.
      */
-    public int modifiedBy;
+    private int modifiedBy;
     /**
      * The company family plan designation.
      */
-    public String companyFamilyPlanDesignation = StringUtils.EMPTY;
+    private String companyFamilyPlanDesignation = StringUtils.EMPTY;
     /**
      * The company family plan no.
      */
-    public String companyFamilyPlanNo = StringUtils.EMPTY;
+    private String companyFamilyPlanNo = StringUtils.EMPTY;
     /**
      * The company family plan status.
      */
-    public Integer companyFamilyPlanStatus;
+    private Integer companyFamilyPlanStatus;
     /**
      * The company family plan start date.
      */
-    public Date companyFamilyPlanStartDate;
+    private Date companyFamilyPlanStartDate;
     /**
      * The company family plan end date.
      */
-    public Date companyFamilyPlanEndDate;
+    private Date companyFamilyPlanEndDate;
     /**
      * The modified date.
      */
-    public Date modifiedDate;
+    private Date modifiedDate;
     /**
      * The created date.
      */
-    public Date createdDate;
+    private Date createdDate;
     /**
      * The parent company family plan id.
      */
-    public String parentCompanyFamilyPlanId = StringUtils.EMPTY;
+    private String parentCompanyFamilyPlanId = StringUtils.EMPTY;
     /**
      * The company family plan system id.
      */
-    public int companyFamilyPlanSystemId;
+    private int companyFamilyPlanSystemId;
     /**
      * The company family plan id.
      */
-    public String cfpId = StringUtils.EMPTY;
+    private String cfpId = StringUtils.EMPTY;
     /**
      * The company family plan name.
      */
-    public String cfpNo = StringUtils.EMPTY;
+    private String cfpNo = StringUtils.EMPTY;
     /**
      * The parent company family plan name.
      */
-    public String cfpName = StringUtils.EMPTY;
+    private String cfpName = StringUtils.EMPTY;
     /**
      * The parent company family plan type.
      */
-    public String cfpType = StringUtils.EMPTY;
+    private String cfpType = StringUtils.EMPTY;
 
     /**
      * Gets the parent company family plan name.
@@ -397,7 +397,7 @@ public class CFPMasterDTO implements Serializable {
      * @return the companyFamilyPlanStartDate
      */
     public Date getCompanyFamilyPlanStartDate() {
-        return companyFamilyPlanStartDate;
+        return companyFamilyPlanStartDate == null ? null : (Date) companyFamilyPlanStartDate.clone();
     }
 
     /**
@@ -406,7 +406,7 @@ public class CFPMasterDTO implements Serializable {
      * @param companyFamilyPlanStartDate the companyFamilyPlanStartDate to set
      */
     public void setCompanyFamilyPlanStartDate(final Date companyFamilyPlanStartDate) {
-        this.companyFamilyPlanStartDate = companyFamilyPlanStartDate;
+        this.companyFamilyPlanStartDate = companyFamilyPlanStartDate == null ? null : (Date) companyFamilyPlanStartDate.clone();
     }
 
     /**
@@ -415,7 +415,7 @@ public class CFPMasterDTO implements Serializable {
      * @return the companyFamilyPlanEndDate
      */
     public Date getCompanyFamilyPlanEndDate() {
-        return companyFamilyPlanEndDate;
+        return companyFamilyPlanEndDate == null ? null : (Date) companyFamilyPlanStartDate.clone();
     }
 
     /**
@@ -424,7 +424,7 @@ public class CFPMasterDTO implements Serializable {
      * @param companyFamilyPlanEndDate the companyFamilyPlanEndDate to set
      */
     public void setCompanyFamilyPlanEndDate(final Date companyFamilyPlanEndDate) {
-        this.companyFamilyPlanEndDate = companyFamilyPlanEndDate;
+        this.companyFamilyPlanEndDate = companyFamilyPlanEndDate == null ? null : (Date) companyFamilyPlanStartDate.clone();
     }
 
     /**
@@ -433,7 +433,7 @@ public class CFPMasterDTO implements Serializable {
      * @return the modifiedDate
      */
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate == null ? null : (Date) companyFamilyPlanStartDate.clone();
     }
 
     /**
@@ -442,7 +442,7 @@ public class CFPMasterDTO implements Serializable {
      * @param modifiedDate the modifiedDate to set
      */
     public void setModifiedDate(final Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate == null ? null : (Date) companyFamilyPlanStartDate.clone();
     }
 
     /**
@@ -451,7 +451,7 @@ public class CFPMasterDTO implements Serializable {
      * @return the createdDate
      */
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) companyFamilyPlanStartDate.clone();
     }
 
     /**
@@ -460,7 +460,7 @@ public class CFPMasterDTO implements Serializable {
      * @param createdDate the createdDate to set
      */
     public void setCreatedDate(final Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) companyFamilyPlanStartDate.clone();
     }
 
     /**

@@ -243,4 +243,12 @@ public class LoggingSearchIndex extends CustomComponent implements View {
 			}
 		}
 	}
+
+	public LoggingDto getLoggingDTO() {
+		return loggingDTO;
+	}
+
+	public void setLoggingDTO(LoggingDto loggingDTO) {
+		this.loggingDTO = loggingDTO;
+	}
 }
