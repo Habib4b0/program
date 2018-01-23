@@ -28,6 +28,9 @@ public class SessionDTO {
     private String arpSessionId;
     private List<String> selectedItems= new ArrayList<>();
     
+    public SessionDTO(){
+    	super();
+    }
     
     public int getSystemId() {
         return systemId;

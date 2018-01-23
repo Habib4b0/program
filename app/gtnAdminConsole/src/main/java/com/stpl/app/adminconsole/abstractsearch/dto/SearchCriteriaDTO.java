@@ -18,7 +18,11 @@ import java.util.Date;
 public class SearchCriteriaDTO implements Serializable {
     
     private static final long serialVersionUID = 3584109928269363711L;
-
+    
+    public SearchCriteriaDTO(){
+    	super();
+    }
+    
     public String getText1() {
         return text1;
     }

@@ -53,7 +53,7 @@ public class FormulaLookUp extends Window {
     public Button closeButton;
     private final FormulaIdTableLogic tableLogic = new FormulaIdTableLogic();
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    public CustomTextField componentTextField;
+    private CustomTextField componentTextField;
     private final BeanItemContainer<FormulaDTO> resultsContainer = new BeanItemContainer<>(FormulaDTO.class);
     public final Object[] formulaSearchColumns = new Object[]{
         "formulaId", "formulaNo", "formulaName"};

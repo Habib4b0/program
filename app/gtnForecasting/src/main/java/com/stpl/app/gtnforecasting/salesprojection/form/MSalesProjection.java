@@ -58,7 +58,7 @@ public class MSalesProjection extends ForecastSalesProjection {
 
     private final String scrnName;
     private static final Logger LOGGER = Logger.getLogger(MSalesProjection.class);
-    public static Map<String, Integer> rowCountMap = new HashMap<>();
+    private static Map<String, Integer> rowCountMap = new HashMap<>();
     private boolean generated = false;
     private boolean firstGenerated = false;
     private final List<String> projectedPeriodList = new ArrayList();
@@ -106,7 +106,7 @@ public class MSalesProjection extends ForecastSalesProjection {
             levelFilterDdlbChangeOption(true);
             excelTable.setRefresh(Boolean.TRUE);
             if (excelTable.size() > 0) {
-                ForecastUI.EXCEL_CLOSE = true;
+                ForecastUI.setEXCEL_CLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
                 exp.export();
             }
@@ -336,11 +336,11 @@ public class MSalesProjection extends ForecastSalesProjection {
         excelHeader = new CustomTableHeaderDTO();
         leftHeader = HeaderUtils.getSalesLeftTableColumns(projectionDTO);
         rightHeader = HeaderUtils.getSalesProjectionRightTableColumns(projectionDTO, fullHeader, excelHeader);
-        customContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
-        customContainer.setColumnProperties(leftHeader.getProperties());
-        customContainer.setColumnProperties(rightHeader.getProperties());
+        setCustomContainer(new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP));
+        getCustomContainer().setColumnProperties(leftHeader.getProperties());
+        getCustomContainer().setColumnProperties(rightHeader.getProperties());
 
-        mSalesProjectionTableLogic.setContainerDataSource(customContainer);
+        mSalesProjectionTableLogic.setContainerDataSource(getCustomContainer());
         leftTable = resultsTable.getLeftFreezeAsTable();
         rightTable = resultsTable.getRightFreezeAsTable();
 
@@ -487,7 +487,7 @@ public class MSalesProjection extends ForecastSalesProjection {
 
 
     public boolean getSubmitFlag() {
-        if (customContainer.getItemIds().size() > 0) {
+        if (getCustomContainer().getItemIds().size() > 0) {
             return true;
         } else {
             return false;
@@ -527,5 +527,13 @@ public class MSalesProjection extends ForecastSalesProjection {
             adjust.setVisible(Boolean.FALSE);
         }
     }
+
+	public static Map<String, Integer> getRowCountMap() {
+		return rowCountMap;
+	}
+
+	public static void setRowCountMap(Map<String, Integer> rowCountMap) {
+		MSalesProjection.rowCountMap = rowCountMap;
+	}
 }
 

@@ -877,4 +877,8 @@ public class ItemSelection extends CustomComponent {
         selectedItemTable.setConverter(ConstantsUtils.FIRST_SALE_DATE, new DateToStringConverter());
         selectedItemTable.setConverter("baseYearCPI", new DateToStringConverter());
     }
+
+	public HeaderUtils getHeaderUtils() {
+		return headerUtils;
+	}
 }

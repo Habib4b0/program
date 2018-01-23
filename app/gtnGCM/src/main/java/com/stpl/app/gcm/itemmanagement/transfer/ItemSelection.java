@@ -50,6 +50,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -670,7 +671,7 @@ public class ItemSelection extends CustomComponent {
     }
 
     public List<String> mappingItems() {
-            return sidList;
+            return Collections.unmodifiableList(sidList);
     }
 
     private void setFromItemSid() {
@@ -694,10 +695,10 @@ public class ItemSelection extends CustomComponent {
     }
 
     public List<String> getTransferredCount() {
-        return tranferredCount;
+        return Collections.unmodifiableList(tranferredCount);
     }
 
     public List<String> getFromIdCount() {
-        return fromLsSidList;
+        return Collections.unmodifiableList(fromLsSidList);
     }
 }

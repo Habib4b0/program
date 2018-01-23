@@ -47,7 +47,7 @@ public class NotesTabLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(NotesTabLogic.class);
-
+    private boolean isFileExists;
     /**
      * Gets the attachment dto list.
      *
@@ -57,6 +57,10 @@ public class NotesTabLogic {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
+    public NotesTabLogic(){
+    	super();
+    }
+    
     public List<NotesDTO> getAttachmentDTOList(final int projectionId, final String moduleName, String fileUploadPath) throws SystemException {
 
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
@@ -110,7 +114,8 @@ public class NotesTabLogic {
             DocDetailsLocalServiceUtil.deleteDocDetails(docDetailsId);
         }
         File file = new File(fileName);
-        file.delete();
+        isFileExists=file.delete();
+        LOGGER.info("File deleted successfully : "+isFileExists);
         return true;
     }
 

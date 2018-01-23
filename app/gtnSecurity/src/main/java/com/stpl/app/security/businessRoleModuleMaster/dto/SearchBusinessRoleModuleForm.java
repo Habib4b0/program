@@ -25,6 +25,11 @@ public class SearchBusinessRoleModuleForm implements Serializable {
     private String successMessage = StringUtils.EMPTY;
     private String submodulePropertyId = StringUtils.EMPTY;
     private int businessroleMasterSid;
+    
+    public SearchBusinessRoleModuleForm(){
+    	super();
+    }
+    
     public int getSystemId() {
         return systemId;
     }

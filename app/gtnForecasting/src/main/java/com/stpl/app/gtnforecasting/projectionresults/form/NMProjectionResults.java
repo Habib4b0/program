@@ -115,9 +115,9 @@ public class NMProjectionResults extends ForecastProjectionResults {
         if (loadProjectionSelection()) {
             loadGroupFilterOntabChange();
             tableVerticalLayout.removeAllComponents();
-            NMProjectionResultsLogic nmProjectionResultsLogic = tableLogic.nmProjectionResultsLogic;
+            NMProjectionResultsLogic nmProjectionResultsLogic = tableLogic.getNmProjectionResultsLogic();
             tableLogic = new ProjectionResultsTableLogic();
-            tableLogic.nmProjectionResultsLogic = nmProjectionResultsLogic;
+            tableLogic.setNmProjectionResultsLogic(nmProjectionResultsLogic);
             periodTableId = new FreezePagedTreeTable(tableLogic);
             initializeResultTable();
             configureResultTable();
@@ -216,7 +216,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
         projectionSelectionDTO.clearNonFetchableIndex();
         if (!pivotViewOpg.getValue().toString().equalsIgnoreCase(pivotView)) {
             pivotView = pivotViewOpg.getValue().toString();
-            tableLogic.nmProjectionResultsLogic.clearProjectionTotalList();
+            tableLogic.getNmProjectionResultsLogic().clearProjectionTotalList();
         }
         tableLogic.setProjectionResultsData(projectionSelectionDTO);
         periodTableId.getLeftFreezeAsTable().setFilterBarVisible(true);
@@ -439,7 +439,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                 exportLogic();
             }
             exceltable.setRefresh(Boolean.TRUE);
-            ForecastUI.EXCEL_CLOSE = true;
+            ForecastUI.setEXCEL_CLOSE(true);
             ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.PROJECTION_RESULTS, Constant.PROJECTION_RESULTS, "Projection_Results.xls", false);
             exp.export();
             tableVerticalLayout.removeComponent(exceltable);
