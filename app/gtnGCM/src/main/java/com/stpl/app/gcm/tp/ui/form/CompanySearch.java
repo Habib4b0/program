@@ -128,10 +128,10 @@ public class CompanySearch extends VerticalLayout {
     private String updateType = StringUtils.EMPTY;
     private final CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     private final StplSecurity stplSecurity = new StplSecurity();
-    public ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
+    private ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
     private final BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
     private final ExtTreeContainer<TradingPartnerDTO> resultsLazyContainer = new ExtTreeContainer<>(TradingPartnerDTO.class);
-    public TradingPartnerDTO tpDto = new TradingPartnerDTO();
+    private TradingPartnerDTO tpDto = new TradingPartnerDTO();
     private final ErrorLabel errorMsg = new ErrorLabel();
     public static final String SEARCH_BTN = "searchBtn";
     public static final String PLEASE_SELECT_A_VALUE_IN_THE_RESULTS_LIST = "Please select a value in the Results list view then try again.";
@@ -139,7 +139,7 @@ public class CompanySearch extends VerticalLayout {
     /**
      * The data selection binder.
      */
-    public CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(tpDto));
+    private CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(tpDto));
     /**
      * The excel export image.
      */

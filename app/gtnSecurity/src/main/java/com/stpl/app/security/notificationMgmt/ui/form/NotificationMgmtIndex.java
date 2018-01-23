@@ -38,27 +38,27 @@ import org.jboss.logging.Logger;
 @SuppressWarnings("serial")
 public class NotificationMgmtIndex extends CustomComponent implements View {
 
-    final Label space = new Label("&nbsp;", ContentMode.HTML);
-    final NativeSelect categoryddlb = new NativeSelect();
-    final OptionGroup mode = new OptionGroup();
-    final Table table = new Table();
-    final NativeSelect businessProcess = new NativeSelect();
-    final TextField fromMailId = new TextField();
-    final TextArea toMailId = new TextArea();
-    final TextArea ccMailId = new TextArea();
-    final TextField subject = new TextField();
-    final TextArea body = new TextArea();
-    final Button reset = new Button("RESET");
-    final Button add = new Button("ADD");
-    final Button update = new Button("UPDATE");
-    final Button delete = new Button("DELETE");
-    final ErrorLabel errorMsg = new ErrorLabel();
-    int mailNotificationSystemId;
-    NotificationMgmtIndexDTO notificationMgmtIndexDTO = new NotificationMgmtIndexDTO();
-    CustomFieldGroup notificationMgmtBinder = new CustomFieldGroup(new BeanItem<NotificationMgmtIndexDTO>(notificationMgmtIndexDTO));
-    BeanItemContainer<NotificationMgmtIndexDTO> notificationIndexBean = new BeanItemContainer<NotificationMgmtIndexDTO>(
+	private final Label space = new Label("&nbsp;", ContentMode.HTML);
+	private final NativeSelect categoryddlb = new NativeSelect();
+	private final OptionGroup mode = new OptionGroup();
+	private final Table table = new Table();
+	private final NativeSelect businessProcess = new NativeSelect();
+	private final TextField fromMailId = new TextField();
+	private final TextArea toMailId = new TextArea();
+	private final TextArea ccMailId = new TextArea();
+	private final TextField subject = new TextField();
+	private final TextArea body = new TextArea();
+	private final Button reset = new Button("RESET");
+	private final Button add = new Button("ADD");
+	private final Button update = new Button("UPDATE");
+	private final Button delete = new Button("DELETE");
+	private final ErrorLabel errorMsg = new ErrorLabel();
+	private int mailNotificationSystemId;
+	private NotificationMgmtIndexDTO notificationMgmtIndexDTO = new NotificationMgmtIndexDTO();
+	private CustomFieldGroup notificationMgmtBinder = new CustomFieldGroup(new BeanItem<NotificationMgmtIndexDTO>(notificationMgmtIndexDTO));
+	private BeanItemContainer<NotificationMgmtIndexDTO> notificationIndexBean = new BeanItemContainer<NotificationMgmtIndexDTO>(
             NotificationMgmtIndexDTO.class);
-    NotificationMgmtLogic notificationLogic = new NotificationMgmtLogic();
+	private NotificationMgmtLogic notificationLogic = new NotificationMgmtLogic();
     private static final Logger LOGGER = Logger.getLogger(NotificationMgmtIndex.class);
 
     public NotificationMgmtIndex() {

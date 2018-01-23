@@ -16,7 +16,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class SessionUtil {
 
-    public static int count = 1;
+    public static final int COUNT = 1;
 
     public static SessionDTO createSession() {
         SessionDTO session = new SessionDTO();

@@ -116,13 +116,13 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private final List<RemoveDiscountDto> selecteditemList = new ArrayList<>();
     private static final Logger LOGGER = Logger.getLogger(RemoveDiscountIndex.class);
-    public String screenName = StringUtils.EMPTY;
+    private String screenName = StringUtils.EMPTY;
     /* The bean used to load Start Period */
     final private BeanItemContainer<String> marketTypeBean = new BeanItemContainer<>(String.class);
     private final DiscountLogic discountLogic = new DiscountLogic();
     private final RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
     private final CommonUtil commonUtil = CommonUtil.getInstance();
-    public boolean checkAllFlag = false;
+    private boolean checkAllFlag = false;
     /**
      * Binder for DataSelection.
      */

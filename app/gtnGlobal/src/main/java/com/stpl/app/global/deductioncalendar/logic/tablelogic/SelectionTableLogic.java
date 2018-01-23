@@ -30,6 +30,9 @@ public class SelectionTableLogic extends PageTableLogic {
     private String availableOrselected = StringUtils.EMPTY;
     private static final Logger LOGGER = Logger.getLogger(SelectionTableLogic.class);
     
+    public SelectionTableLogic(){
+    	super();
+    }
     /**
      * Returns the number of records available for the given search criteria.
      *

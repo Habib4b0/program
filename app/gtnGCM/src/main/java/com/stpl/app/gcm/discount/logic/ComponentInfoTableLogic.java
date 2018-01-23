@@ -24,8 +24,8 @@ public class ComponentInfoTableLogic extends PageTableLogic {
     private final DiscountLogic logic = new DiscountLogic();
     private List<String> rebateList = new ArrayList();
     private ContractsDetailsDto dto;
-    public String indicator;
-    public boolean summaryFlag;
+    private String indicator;
+    private boolean summaryFlag;
 
     @Override
     public int getCount() {
