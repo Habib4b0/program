@@ -57,7 +57,7 @@
                         <Label caption="Unit Of Measure:" contentMode="HTML" />
                         <ComboBox id="uomDdlb" nullSelectionAllowed="false"
                                   immediate="true" styleName="comboxsize"/>
-                          <Label caption="Conversion Factor" contentMode="HTML" />
+                          <Label caption="Currency Format" contentMode="HTML" />
                         <ComboBox id="conversionFactorDdlb" nullSelectionAllowed="false"
                                   immediate="true" styleName="comboxsize"/>
                     </GridLayout>

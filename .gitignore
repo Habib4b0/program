@@ -8,3 +8,4 @@ app/*/target/*
 etl/target/*
 *.classpath
 /app/Resources/stpl-maven-plugin/target/
+/app/gtnForecasting/nbactions.xml
