@@ -322,7 +322,8 @@ public class CommonUtils {
     public static final DecimalFormat PERCENTFORMAT = new DecimalFormat("#,##0.00%");
     public static final DecimalFormat PERCENT_FORMAT = new DecimalFormat("#,##0.000%");
     private static PortletConfig portletConfig;
-    private static PortletSession portletSession;
+    @SuppressWarnings("unused")
+	private static PortletSession portletSession;
 
     private static final ResourceBundle constantProperties = ResourceBundle.getBundle("properties.Constants");
 
@@ -1186,7 +1187,7 @@ public class CommonUtils {
     }
 
     public static void setPortalConfig(final PortletConfig portletConfig) {
-        CommonUtils.portletConfig = portletConfig;
+        CommonUtils.setPortletConfig(portletConfig);
     }
 
     public static void setPortletSession(final PortletSession portletSession) {
@@ -1962,4 +1963,12 @@ public class CommonUtils {
         }
         return Boolean.FALSE;
     }
+
+	public static PortletConfig getPortletConfig() {
+		return portletConfig;
+	}
+
+	public static void setPortletConfig(PortletConfig portletConfig) {
+		CommonUtils.portletConfig = portletConfig;
+	}
 }

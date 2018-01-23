@@ -15,6 +15,10 @@ public class UserGrpBsnsRoleDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = -5315806772770200824L;
 
+	public UserGrpBsnsRoleDTO(){
+		super();
+	}
+	
     public HashMap<String, Long> getUserGroupMap() {
         return userGroupMap;
     }

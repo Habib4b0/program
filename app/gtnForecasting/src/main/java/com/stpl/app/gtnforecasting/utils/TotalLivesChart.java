@@ -212,4 +212,12 @@ public class TotalLivesChart extends Window {
         return layout;
     }
 
+	public String getHistory() {
+		return history;
+	}
+
+	public void setHistory(String history) {
+		this.history = history;
+	}
+
 }

@@ -49,6 +49,9 @@ public class ETLUI extends UI implements VaadinPortletSession.PortletListener{
         return navigator;
     }
 
+    public ETLUI(){
+    	super();
+    }
     /**
      * (non-Javadoc)
      *

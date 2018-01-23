@@ -2389,4 +2389,12 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         }
     }
 
+	public List<String> getComparisonProjName() {
+		return comparisonProjName;
+	}
+
+	public void setComparisonProjName(List<String> comparisonProjName) {
+		this.comparisonProjName = comparisonProjName;
+	}
+
 }
