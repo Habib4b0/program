@@ -187,8 +187,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	/* The custom id. */
 	private int customId = 0;
 	/* To check whether list view is generated or not */
-	public boolean isListviewGenerated = Boolean.TRUE;
-        private Set<String> hierarchyListForCheckRecord=new HashSet<>();
+
+    private boolean isListviewGenerated = Boolean.TRUE;
+    private Set<String> hierarchyListForCheckRecord=new HashSet<>();
+
 	private boolean isGroupUpdatedManually = false;
 	/* The custom id to select. */
 	private int customIdToSelect = 0;
@@ -286,7 +288,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         private List<Object> generateDiscountNamesToBeLoaded=new ArrayList<>();
         private List<Object> generateProductToBeLoaded=new ArrayList<>();
         private List<Object> generateCustomerToBeLoaded=new ArrayList<>();
-        List<String> baselinePeriods= new ArrayList<>();
+        private List<String> baselinePeriods= new ArrayList<>();
 
         
         
@@ -653,7 +655,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		}
 	};
 
-	BlurListener blurListener = new BlurListener() {
+	private BlurListener blurListener = new BlurListener() {
 		@Override
 		public void blur(FieldEvents.BlurEvent event) {
 			Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
@@ -994,7 +996,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				}
 				customizeDataForDDLB(discountProgramsList, programSelection);
 				frequencyDdlb.focus();
-				isListviewGenerated = true;
+				setListviewGenerated(true);
 				return true;
 			}
 			viewValueChangeLogic();
@@ -1290,7 +1292,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		levelDdlb.removeAllItems();
 		levelDdlb.addItem(SELECT_ONE.getConstant());
 		levelDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
-
+		Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+        	@Override
+			public int compare(Leveldto o1, Leveldto o2) {
+				return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+        	}
+        });
+        Collections.reverse(currentHierarchy);
+    	
 		if (currentHierarchy != null) {
 			boolean toSetCaption = true;
 			for (int i = 0; i < currentHierarchy.size(); i++) {
@@ -1429,7 +1438,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	}
 
 	private void viewChangeGenerate() {
-		if (isListviewGenerated) {
+		if (isListviewGenerated()) {
 			tableLogic.clearAll();
 
 			resultBeanContainer.setColumnProperties(leftHeader.getProperties());
@@ -2988,7 +2997,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			formatter.put("currencyTwoDecimal", "RPU");
 			formatter.put("amountTwoDecimal", "Amount");
 			excelTable.setRefresh(Boolean.TRUE);
-			ForecastUI.EXCEL_CLOSE = true;
+			ForecastUI.setEXCEL_CLOSE(true);
 			CustomExcelNM excel = null;
 			HeaderUtils.getDiscountProjectionRightTableColumns(projectionSelection);
 			if (QUARTERLY.getConstant().equals(String.valueOf(frequencyDdlb.getValue()))
@@ -3026,7 +3035,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					excelTable.setDoubleHeaderMap(mapVisibleCols);
 					excelTable.setRefresh(true);
 					String sheetName = "Year " + list.get(i);
-					ForecastUI.EXCEL_CLOSE = true;
+					ForecastUI.setEXCEL_CLOSE(true);
 					if (i == 0) {
 						excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
 								Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatter);
@@ -3382,7 +3391,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			formatTableData();
 			loadScreenBasedOnGeneratedTable(isFrequencyChange);
 			loadDataInTable();// setcurrentpage will be called
-			isListviewGenerated = true;
+			setListviewGenerated(true);
 			loadLevelValues();
 			isDiscountGenerated = true;
 			adjProgramsValueChangeLogic(SELECT.getConstant());
@@ -3711,7 +3720,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	 */
 	public void saveDiscountProjectionListview() {
 		LOGGER.debug(" Inside Save ");
-		if (isListviewGenerated) {
+		if (isListviewGenerated()) {
 			LOGGER.debug(" Discount generated ");
 			boolean isCustomHierarchy = CommonUtil.isValueEligibleForLoading()
 					? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
@@ -3800,7 +3809,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	public void saveDiscountProjectionScreen(boolean toBeRefreshed) {
 		LOGGER.debug(" saving DP screen");
 		try {
-			if (isListviewGenerated) {
+			if (isListviewGenerated()) {
 				saveDiscountProjectionListview();
 				if (toBeRefreshed) {
 					refreshTableData(getManualEntryRefreshHierarachyNo());
@@ -4945,7 +4954,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			tableLogic.setRefresh(Boolean.FALSE); // As the row refresh will be
 			formatTableData();
 			tableLogic.setRefresh(Boolean.TRUE);
-			isListviewGenerated = true;
+			setListviewGenerated(true);
 			loadLevelValues();
 			isDiscountGenerated = true;
 			adjProgramsValueChangeLogic(SELECT.getConstant());
@@ -5175,6 +5184,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				? Integer.valueOf(session.getProductLevelNumber()) : 0;
 		currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo,
 				session.getProdRelationshipBuilderSid());
+		Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+        	@Override
+			public int compare(Leveldto o1, Leveldto o2) {
+				return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+        	}
+        });
+        Collections.reverse(currentHierarchy);
 		Utility.loadDdlbForLevelFilterOption(productlevelDdlb, currentHierarchy, StringUtils.EMPTY);
 		productlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
@@ -5258,7 +5274,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
 		currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo,
 				session.getCustRelationshipBuilderSid());
-		Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, StringUtils.EMPTY);
+		Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+        	@Override
+			public int compare(Leveldto o1, Leveldto o2) {
+				return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+        	}
+        });
+        Collections.reverse(currentHierarchy);
+    	Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, StringUtils.EMPTY);
 
 		customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
@@ -5377,6 +5400,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 methodology.addItem(str.split("\\.")[1]);
             }
     }
+
+	public boolean isListviewGenerated() {
+		return isListviewGenerated;
+	}
+
+	public void setListviewGenerated(boolean isListviewGenerated) {
+		this.isListviewGenerated = isListviewGenerated;
+	}
 
 
 }

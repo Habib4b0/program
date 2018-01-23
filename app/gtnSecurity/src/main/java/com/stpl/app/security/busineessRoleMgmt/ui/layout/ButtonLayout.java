@@ -37,10 +37,10 @@ public class ButtonLayout extends HorizontalLayout {
 	private ErrorfulFieldGroup binder;
 	private static final Logger LOGGER = LogManager
 			.getLogger(ButtonLayout.class.getName());
-	BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
-	Table table;
-	final Label space = new Label("&nbsp;", ContentMode.HTML);
-	BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
+	private BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
+	private Table table;
+	private final Label space = new Label("&nbsp;", ContentMode.HTML);
+	private BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
 
 	public ButtonLayout(ErrorfulFieldGroup binder,
 			BeanItemContainer<BusinessroleMasterDTO> searchResultbeans,
@@ -48,7 +48,7 @@ public class ButtonLayout extends HorizontalLayout {
 		super();
 		this.searchResultbeans = searchResultbeans;
 		this.binder = binder;
-		this.table = table;
+		this.setTable(table);
 		init();
 	}
 
@@ -162,5 +162,13 @@ public class ButtonLayout extends HorizontalLayout {
 			}
 		});
 		this.addComponent(btnSearch);
+	}
+
+	public Table getTable() {
+		return table;
+	}
+
+	public void setTable(Table table) {
+		this.table = table;
 	}
 }

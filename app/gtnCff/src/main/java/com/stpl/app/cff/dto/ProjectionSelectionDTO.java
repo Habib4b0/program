@@ -2103,7 +2103,7 @@ public class ProjectionSelectionDTO {
 
 	public void setDisplayFormat(Object[] displayFormat) {
 		this.displayFormat = new Object[displayFormat.length];
-		this.displayFormat = displayFormat;
+		this.displayFormat = displayFormat.clone();
 	}
       public Object getConversionFactor() {
         return conversionFactor;

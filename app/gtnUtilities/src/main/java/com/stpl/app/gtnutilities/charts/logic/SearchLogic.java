@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -160,7 +161,7 @@ public class SearchLogic {
 			LOGGER.debug("End of Loop----------" + index);
 			returnList.add(chartsDTO);
 		}
-		return returnList;
+		return Collections.unmodifiableList(returnList);
 	}
 
 	public List<Object[]> fetchCPUIODataFromDB(String type, Date selecteDate) {
@@ -290,7 +291,7 @@ public class SearchLogic {
 			while (resultSet.next()) {
 				if (isCount) {
 					returnList.add(Integer.valueOf(resultSet.getString(NumericConstants.ONE)));
-					return returnList;
+					return Collections.unmodifiableList(returnList);
 				}
 				int index = NumericConstants.ONE;
 				jobDTO = new JobDTO();

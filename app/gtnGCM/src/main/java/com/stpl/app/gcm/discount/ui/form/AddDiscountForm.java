@@ -41,7 +41,7 @@ public class AddDiscountForm extends CustomComponent implements View {
     /**
      * The tab flag.
      */
-    public boolean tabFlag = false;
+    private boolean tabFlag = false;
     /**
      * The tab sheet.
      */
@@ -82,7 +82,7 @@ public class AddDiscountForm extends CustomComponent implements View {
     private ExistingDiscountTab existingDiscountTab;
     private final AddDiscountWindow editWindow;
     private ExtFilterTable resultTable;
-    public int tempTabPosition = 0;
+    private int tempTabPosition = 0;
 
     @UiField("addDiscountBtn")
     public Button addDiscountBtn;
@@ -255,7 +255,7 @@ public class AddDiscountForm extends CustomComponent implements View {
                 tabLazyLoadMap.put(i, Boolean.FALSE);
             }
         }
-        tabFlag = true;
+        setTabFlag(true);
     }
 
     private void saveDiscount() {
@@ -303,4 +303,20 @@ public class AddDiscountForm extends CustomComponent implements View {
             LOGGER.error(ex);
         }
     }
+
+	public boolean isTabFlag() {
+		return tabFlag;
+	}
+
+	public void setTabFlag(boolean tabFlag) {
+		this.tabFlag = tabFlag;
+	}
+
+	public int getTempTabPosition() {
+		return tempTabPosition;
+	}
+
+	public void setTempTabPosition(int tempTabPosition) {
+		this.tempTabPosition = tempTabPosition;
+	}
 }

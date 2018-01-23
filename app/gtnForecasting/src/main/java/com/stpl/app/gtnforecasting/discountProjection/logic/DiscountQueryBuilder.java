@@ -36,7 +36,7 @@ public class DiscountQueryBuilder {
 
     public static final String PROGRAM = "Program";
     public static final String PROGRAM_CATEGORY = "Program Category";
-    CommonLogic commonLogic = new CommonLogic();
+    private CommonLogic commonLogic = new CommonLogic();
     public static final String SELECTED_REBATE_AT = "@SELECTED_REBATE";
     public static final String WHERE_USER_GROUP = " WHERE USER_GROUP = '";
     public static final String EACH = "EACH";

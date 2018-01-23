@@ -31,6 +31,9 @@ public class HierarchyTableLogic extends PageTableLogic {
     private ErrorfulFieldGroup binder;
     private boolean isCheckAll=false;
 
+    public HierarchyTableLogic(){
+    	super();
+    }
     @Override
     public int getCount() {
         int count = 0;

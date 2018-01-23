@@ -51,7 +51,7 @@ public class DiscountDaoImpl implements DiscountDAO {
 
     @Override
     public List<String> getMarketType() {
-        String query = queryUtils.rdMarketType;
+        String query = queryUtils.getRdMarketType();
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
 
         return list;

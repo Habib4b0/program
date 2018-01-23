@@ -96,23 +96,23 @@ public class HeaderUtils {
     /**
      * The supplemental columns.
      */
-    public Object[] supplementalColumns = new Object[]{"customer",
+    private Object[] supplementalColumns = new Object[]{"customer",
         Constant.ACTUALS_PROPERTY, PROJECTIONS1};
     /**
      * The supplemental header.
      */
-    public String[] supplementalHeader = new String[]{Constant.CUSTOMER_SMALL,
+    private String[] supplementalHeader = new String[]{Constant.CUSTOMER_SMALL,
         ACTUALS.getConstant(), PROJECTIONS.getConstant()};
     /**
      * The supplemental double columns.
      */
-    public Object[] supplementalDoubleColumns = new Object[]{"ndc",
+    private Object[] supplementalDoubleColumns = new Object[]{"ndc",
         "quarters"};
     protected static final String Q1_2014 = "Q1 2014";
     /**
      * The supplemental double header.
      */
-    public String[] supplementalDoubleHeader = new String[]{" ", Q1_2014};
+    private String[] supplementalDoubleHeader = new String[]{" ", Q1_2014};
     protected static final String LEVEL1 = "level";
     /**
      * -- DP TRIPLE HEADER --
@@ -245,7 +245,7 @@ public class HeaderUtils {
     /**
      * The comparison columns.
      */
-    public Object[] comparisonColumns = new Object[]{Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION,
+    private Object[] comparisonColumns = new Object[]{Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION,
         Constant.MARKET_TYPE, "customer", Constant.CONTRACT, Constant.BRAND, "ndcNo", "ndcName", "createdDate", "createdBy"};
     protected static final String MARKET_TYPE1 = "Market Type";
     protected static final String CREATED_BY1 = "Created By";
@@ -253,11 +253,11 @@ public class HeaderUtils {
     /**
      * The parity header.
      */
-    public String[] comparisonHeader = new String[]{"Projection Name", "Description", MARKET_TYPE1, Constant.CUSTOMER_SMALL, Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "NDC #", "NDC Name", "Created Date", CREATED_BY1};
+    private String[] comparisonHeader = new String[]{"Projection Name", "Description", MARKET_TYPE1, Constant.CUSTOMER_SMALL, Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "NDC #", "NDC Name", "Created Date", CREATED_BY1};
     /**
      * The SALES_SMALL projection columns.
      */
-    public Object[] salesRightTable = new Object[]{Constant.GROUP,
+    private Object[] salesRightTable = new Object[]{Constant.GROUP,
         Constant.BASELINE, Constant.METHODOLOGY, "actualsales", "projectedsales",
         "actualunits", "projectedunits", "projectedsales1",
         "projectedunits1", "productGrowth", "accountGrowth"};
@@ -5749,5 +5749,54 @@ public class HeaderUtils {
 	public static String[] getPpaDetailsVisibleHeaderRight() {
 		return PPA_DETAILS_VISIBLE_HEADER_RIGHT.clone();
 	}
+
+	public Object[] getComparisonColumns() {
+		return comparisonColumns.clone();
+	}
+
+	public String[] getComparisonHeader() {
+		return comparisonHeader.clone();
+	}
+
+	public Object[] getSupplementalColumns() {
+		return supplementalColumns;
+	}
+
+	public void setSupplementalColumns(Object[] supplementalColumns) {
+		this.supplementalColumns = supplementalColumns;
+	}
+
+	public String[] getSupplementalHeader() {
+		return supplementalHeader;
+	}
+
+	public void setSupplementalHeader(String[] supplementalHeader) {
+		this.supplementalHeader = supplementalHeader;
+	}
+
+	public Object[] getSupplementalDoubleColumns() {
+		return supplementalDoubleColumns;
+	}
+
+	public void setSupplementalDoubleColumns(Object[] supplementalDoubleColumns) {
+		this.supplementalDoubleColumns = supplementalDoubleColumns;
+	}
+
+	public String[] getSupplementalDoubleHeader() {
+		return supplementalDoubleHeader;
+	}
+
+	public void setSupplementalDoubleHeader(String[] supplementalDoubleHeader) {
+		this.supplementalDoubleHeader = supplementalDoubleHeader;
+	}
+
+	public Object[] getSalesRightTable() {
+		return salesRightTable;
+	}
+
+	public void setSalesRightTable(Object[] salesRightTable) {
+		this.salesRightTable = salesRightTable;
+	}
+
 
 }

@@ -1528,7 +1528,7 @@ public class PPAProjection extends CustomComponent implements View {
             excelTable.setColumnHeaders(leftHeaders);
         excelTable.setRefresh(true);
             String sheetName="PPA Projection year "+rightTable.getDoubleHeaderColumnHeaders()[sheetCount].replace("Q1", "");
-           ForecastUI.EXCEL_CLOSE=true;
+           ForecastUI.setEXCEL_CLOSE(true);
             if (i == NumericConstants.FIVE) {
                 export = new ExcelExport(new ExtCustomTableHolder(excelTable), sheetName,"PPA Projection", "PPA_Projection.xls", false);
             }else{

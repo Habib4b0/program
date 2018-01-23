@@ -326,7 +326,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     private AddTPForm addTpForm;
     private UpdateTPForm updateTPForm;
     private SessionDTO session;
-    public String excelName = "Rebate Schedule Information";
+    private String excelName = "Rebate Schedule Information";
     private String nonAssociatedProducts = StringUtils.EMPTY;
     private int timeGap;
     private String[] excelComponentId = new String[NumericConstants.FIVE];
@@ -1575,7 +1575,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             cNumberLabel.setCaption("CFP " + NUMBER);
             cNameLabel.setCaption("CFP " + NAME);
             setComponentInformationVisibility(false);
-            excelName = "Company Family Plan Information";
+            setExcelName("Company Family Plan Information");
             excelResultBean.removeAllItems();
             componentInformation.clear();
         } else if (componentSelection.equals(ITEM_FAMILY_PLAN.getConstant())) {
@@ -1583,7 +1583,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             cNumberLabel.setCaption("IFP " + NUMBER);
             cNameLabel.setCaption("IFP " + NAME);
             setComponentInformationVisibility(false);
-            excelName = "Item Family Plan Information";
+            setExcelName("Item Family Plan Information");
             excelResultBean.removeAllItems();
             componentInformation.clear();
         } else if (componentSelection.equals(PRICE_SCHEDULE.getConstant())) {
@@ -1591,7 +1591,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             cNumberLabel.setCaption("PS " + NUMBER);
             cNameLabel.setCaption("PS " + NAME);
             setComponentInformationVisibility(false);
-            excelName = "Price Schedule Information";
+            setExcelName("Price Schedule Information");
             excelResultBean.removeAllItems();
             componentInformation.clear();
         } else if (componentSelection.equals(REBATE_SCHEDULE.getConstant())) {
@@ -1599,7 +1599,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             cNumberLabel.setCaption("RS " + NUMBER);
             cNameLabel.setCaption("RS " + NAME);
             setComponentInformationVisibility(true);
-            excelName = "Rebate Schedule Information";
+            setExcelName("Rebate Schedule Information");
             excelResultBean.removeAllItems();
             componentInformation.clear();
         }
@@ -2049,4 +2049,12 @@ public class UpdatedContractSelection extends VerticalLayout {
             LOGGER.error(ex);
         }
     }
+
+	public String getExcelName() {
+		return excelName;
+	}
+
+	public void setExcelName(String excelName) {
+		this.excelName = excelName;
+	}
 }

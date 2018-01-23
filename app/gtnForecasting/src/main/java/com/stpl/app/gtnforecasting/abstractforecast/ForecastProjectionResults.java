@@ -556,14 +556,14 @@ public abstract class ForecastProjectionResults extends CustomComponent {
                     tableLogic.getControlTable().getContainerDataSource().removeAllItems();
                 }
                 loadCustomDDLB();
-                tableLogic.nmProjectionResultsLogic.clearProjectionTotalList();
+                tableLogic.getNmProjectionResultsLogic().clearProjectionTotalList();
             } else {
                 levelDdlb.setEnabled(true);
                 levelFilterDdlb.setEnabled(true);
                 customIdToSelect = customId;
                 projectionSelectionDTO.setTpLevel(tradingPartnerNo);
                 projectionSelectionDTO.setIsCustomHierarchy(false);
-                tableLogic.nmProjectionResultsLogic.clearProjectionTotalList();
+                tableLogic.getNmProjectionResultsLogic().clearProjectionTotalList();
                 if (CUSTOMER.getConstant().equals(String.valueOf(viewOpg.getValue()))) {
                     projectionSelectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
                     projectionSelectionDTO.setView(String.valueOf(viewOpg.getValue()));
