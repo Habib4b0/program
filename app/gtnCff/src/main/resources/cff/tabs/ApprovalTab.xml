@@ -9,26 +9,26 @@ and open the template in the editor.
                 xmlns:s="urn:import:org.asi.ui.extfilteringtable.paged" 
                 xmlns:e="urn:import:com.stpl.app.ui.errorhandling"   spacing="true">
     <HorizontalLayout spacing="true" width="100%">
-        <Panel id="searchCriteria" caption="Search Criteria" styleName="textbold" width="50%" height="325px">
-            <VerticalLayout margin="true" styleName="width-auto">
+        <Panel id="searchCriteria" caption="Search Criteria" styleName="textbold" height="325px">
+            <VerticalLayout>
                 <HorizontalLayout margin="true" width="100%">
                     <e:ErrorLabel id="errorLabel" contentMode="HTML"/>
                 </HorizontalLayout>
-                <GridLayout spacing="true" margin="false" immediate="true" columns="2" rows="5">                    
-                    <Label id="latestEstimateLabel" value="Latest Estimate" contentMode="HTML" />
-                    <ComboBox id="latestEstimate" nullSelectionAllowed="true" immediate="true"  styleName="comboxsize" width="265px"/>
-                    <Label id="latestEstimateNameLabel" value="Latest Estimate Name" contentMode="HTML"/>
-                    <TextField id="latestEstimateName" immediate="true" width="265px"/>
-                    <Label id="updateCycleLabel" value="Update Cycle" contentMode="HTML" />
-                    <ComboBox id="updateCycle" nullSelectionAllowed="true" immediate="true" styleName="comboxsize" width="265px" />
-                    <Label id="updateCycleNameLabel" value="Update Cycle Name" contentMode="HTML"/>
-                    <TextField id="updateCycleName" immediate="true" width="265px"/>
-                    <Label id="statusLabel" value="Status" contentMode="HTML"/>
-                    <TextField id="status" immediate="true" width="265px" />
+                <GridLayout spacing="true" margin="false" columns="2" rows="5">                    
+                    <Label id="latestEstimateLabel" value="Latest Estimate" contentMode="HTML" width = "200px" />
+                    <ComboBox id="latestEstimate" nullSelectionAllowed="true" immediate="true"  styleName="comboxsize" />
+                    <Label id="latestEstimateNameLabel" value="Latest Estimate Name" contentMode="HTML" width = "200px"/>
+                    <TextField id="latestEstimateName" immediate="true"/>
+                    <Label id="updateCycleLabel" value="Update Cycle" contentMode="HTML" width = "200px" />
+                    <ComboBox id="updateCycle" nullSelectionAllowed="true" immediate="true" styleName="comboxsize" />
+                    <Label id="updateCycleNameLabel" value="Update Cycle Name" contentMode="HTML" width = "200px"/>
+                    <TextField id="updateCycleName" immediate="true" />
+                    <Label id="statusLabel" value="Status" contentMode="HTML" width = "200px"/>
+                    <TextField id="status" immediate="true" />
                 </GridLayout>
             </VerticalLayout>    
         </Panel>
-        <Panel id="approvalDetails" caption="Approval Details" styleName="textbold" width="50%" height="325px">
+        <Panel id="approvalDetails" caption="Approval Details" styleName="textbold" height="325px">
             <VerticalLayout id="approvalLayout">
                 
             </VerticalLayout>

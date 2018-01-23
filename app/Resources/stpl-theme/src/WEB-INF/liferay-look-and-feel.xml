@@ -1,0 +1,27 @@
+<look-and-feel>
+	<compatibility>
+		<version>7.0.0+</version>
+	</compatibility>
+	<theme id="stpl-theme" name="stpl-theme">
+		<template-extension>ftl</template-extension>
+		<portlet-decorator id="barebone" name="Barebone">
+			<portlet-decorator-css-class>portlet-barebone</portlet-decorator-css-class>
+		</portlet-decorator>
+		<portlet-decorator id="borderless" name="Borderless">
+			<portlet-decorator-css-class>portlet-borderless</portlet-decorator-css-class>
+		</portlet-decorator>
+		<portlet-decorator id="decorate" name="Decorate">
+			<default-portlet-decorator>true</default-portlet-decorator>
+			<portlet-decorator-css-class>portlet-decorate</portlet-decorator-css-class>
+		</portlet-decorator>
+<layout-templates>
+				<custom>
+		<layout-template id="GtnPortletLayout" name="GtnPortletLayout">
+			<template-path>/layouttpl/custom/GtnPortletLayout.tpl</template-path>
+			
+			<thumbnail-path>/layouttpl/custom/GtnPortletLayout.png</thumbnail-path>
+		</layout-template>
+	</custom>
+		</layout-templates>	
+		</theme>
+</look-and-feel>
