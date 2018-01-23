@@ -591,6 +591,15 @@ public class GtnFrameworkComplianceAndDeductionRulesInformationTabConfig {
 		idDescMap.put("comparison", GtnUIFrameworkIdDescDataType.DESC);
 		idDescMap.put("operatorOne", GtnUIFrameworkIdDescDataType.DESC);
 		actionParameterList.add(idDescMap);
+		List<GtnUIFrameworkIdDescDataType> dummyList = new ArrayList<>();
+		dummyList.add(GtnUIFrameworkIdDescDataType.DESC);
+		dummyList.add(GtnUIFrameworkIdDescDataType.DESC);
+		dummyList.add(GtnUIFrameworkIdDescDataType.DESC);
+		dummyList.add(GtnUIFrameworkIdDescDataType.DESC);
+		dummyList.add(GtnUIFrameworkIdDescDataType.ID);
+		dummyList.add(GtnUIFrameworkIdDescDataType.DESC);
+		dummyList.add(GtnUIFrameworkIdDescDataType.DESC);
+		actionParameterList.add(dummyList);
 
 		selectAction.setFieldValues(Arrays.asList(new String[] { "ruleDetailsLineType", "ruleDetailsIGMSAssociation",
 				"ruleDetailsKeyWord", GtnFrameworkCommonConstants.RULE_DETAILS_OPERATOR,

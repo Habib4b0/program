@@ -188,8 +188,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	/* The custom id. */
 	private int customId = 0;
 	/* To check whether list view is generated or not */
+
         private boolean isListviewGenerated = Boolean.TRUE;
-        private List<String> hierarchyListForCheckRecord=new ArrayList<>();
+        private Set<String> hierarchyListForCheckRecord=new HashSet<>();
+
 	private boolean isGroupUpdatedManually = false;
 	/* The custom id to select. */
 	private int customIdToSelect = 0;
@@ -2637,7 +2639,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					}
 					boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
 					boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
-                                        if (hierarchyListForCheckRecord.size() > 0) {
+                                        if (!hierarchyListForCheckRecord.isEmpty()) {
                                              logic.updateCheckRecordForAdjust(checkedDiscountsPropertyIds, hierarchyListForCheckRecord, session, hierarchyIndicator);
                                          } 
 					if (logic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
@@ -3448,8 +3450,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	/**
 	 * To load data in tree table
 	 *
-     * @param isFrequencyChange - To reload start and end period during
-     * frequency changes
+	 * @param isFrequencyChange
+	 *            - To reload start and end period during frequency changes
 	 */
 	public void loadScreenBasedOnGeneratedTable(boolean isFrequencyChange) {
 		LOGGER.debug("Inside loadTreeTable ");
@@ -4144,7 +4146,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	/**
 	 * value change of view.
 	 *
-     * @param event the event
+	 * @param event
+	 *            the event
 	 */
 	@Override
 	protected void customDdlbLogic() {
@@ -4861,7 +4864,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	/**
 	 * The Table Group Filter Ddlb value change.
 	 *
-     * @param event the event
+	 * @param event
+	 *            the event
 	 */
 	private Property.ValueChangeListener tableGroupFilterDdlbValueChange = new Property.ValueChangeListener() {
 		@Override
@@ -5342,7 +5346,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	private void callAdjustmentProcedure(SessionDTO session) {
 		if (session.isActualAdjustment()) {
-			logic.adjustDiscountProjection(session, "Override", "Amount","0", null,baselinePeriods);
+			logic.adjustDiscountProjection(session, "Override", "Amount","0", "0",baselinePeriods);
 		}
 	}
 
@@ -5406,15 +5410,15 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             table.setColumnHeaders(headerArray.toArray(new String[headerArray.size()]));
         } catch (Exception ex) {
             LOGGER.error(ex);
-	}
+        }
     }
         
-    public boolean isListviewGenerated() {
-        return isListviewGenerated;
-    }
+	public boolean isListviewGenerated() {
+		return isListviewGenerated;
+	}
 
-    public void setListviewGenerated(boolean isListviewGenerated) {
-        this.isListviewGenerated = isListviewGenerated;
-    }
+	public void setListviewGenerated(boolean isListviewGenerated) {
+		this.isListviewGenerated = isListviewGenerated;
+	}
 
 }

@@ -154,7 +154,7 @@ public class GtnFrameworkTransactionComponentConfig {
 				List<GtnUIFrameworkComponentConfig> reprocessAndRemoveComponentList = new ArrayList<>();
 				addReprocessButtonComponent(reprocessAndRemoveComponentList,
 						componentBean.getReprocessingWebServiceURL(), componentBean, portletName);
-				addRemoveButtonComponent(reprocessAndRemoveComponentList);
+				addRemoveButtonComponent(reprocessAndRemoveComponentList,componentBean);
 				transactionBean.setReprocessAndRemoveComponentList(reprocessAndRemoveComponentList);
 			}
 			List<GtnUIFrameworkComponentConfig> excelBtnComponentList = new ArrayList<>();
@@ -837,7 +837,8 @@ public class GtnFrameworkTransactionComponentConfig {
 
 	}
 
-	private void addRemoveButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
+	private void addRemoveButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, 
+			GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
 		GtnUIFrameworkComponentConfig resetButtonConfig = new GtnUIFrameworkComponentConfig();
 		resetButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		resetButtonConfig.setComponentId("gtnRemove01");
@@ -859,9 +860,11 @@ public class GtnFrameworkTransactionComponentConfig {
 		removeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		removeAction.setActionParameterList(
 				Arrays.asList(GtnUIFrameworkTransactionReprocessRemoveAction.class.getName(), remove,
-						GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT, GtnTransactionUIConstants.SEARCH_TABLE_ID));
+						GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT, GtnTransactionUIConstants.SEARCH_TABLE_ID,componentBean.getReprocessingWebServiceURL(),
+				componentBean.isOutBoundModule(), componentBean.getStagingInsertColumns(),
+				componentBean.getStagingUpdateColumns(), componentBean.getStagingUpdateColumnsValues()));
 		removeActionList.add(removeAction);
-
+		
 		GtnUIFrameWorkActionConfig removeConfirmationActionConfig = new GtnUIFrameWorkActionConfig();
 		removeConfirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 		List<Object> removeConfirmationAlertParams = new ArrayList<>();
