@@ -1,0 +1,1 @@
+height="${theme_display.getCompanyLogoHeight()}" width="${theme_display.getCompanyLogoWidth()}

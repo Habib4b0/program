@@ -52,11 +52,11 @@
 				<module>app/gtnProperties</module>
 				<module>app/gtnUtility</module>
 				<module>app/util-service</module>
-				<module>app/gtnServicePartII</module>
-				<module>app/gtnServicePartI</module>
+				<module>app/gtnServicePartII_L7</module>
+				<module>app/gtnServicePartI_L7</module>
 				<module>app/gtnHierarchyRouteBuilder</module>
 
-				<module>app/WarReleasePlugin</module>
+				<module>app/JarReleasePlugin</module>
 			</modules>
 			<build>
 				<defaultGoal>clean install</defaultGoal>
@@ -114,8 +114,8 @@
 				<module>app/gtnProperties</module>
 				<module>app/gtnUtility</module>
 				<module>app/util-service</module>
-				<module>app/gtnServicePartII</module>
-				<module>app/gtnServicePartI</module>
+				<module>app/gtnServicePartII_L7</module>
+				<module>app/gtnServicePartI_L7</module>
 				<module>app/WarReleasePlugin</module>
 				<module>app/gtnPartI</module>
 				<module>app/gtnPartII</module>
@@ -138,23 +138,6 @@
 	</profiles>
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>com.stpl.maven.plugins</groupId>
-				<artifactId>stpl-maven-plugin</artifactId>
-				<version>${com.stpl.portal.version}</version>
-				<configuration>
-
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${mavencompilerplugin}</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-					<source>${mavencompilerpluginsoruce}</source>
-					<target>${mavencompilerplugintarget}</target>
-				</configuration>
-			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>${maven-resources-plugin}</version>
