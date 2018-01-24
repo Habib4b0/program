@@ -1781,7 +1781,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                 checkBoxMap.put(event.getPropertyId(), event.isChecked());
                 if (!returnsFlag) {
-                    String arr[] = rightTable.getColumnRadioButtonArray((String) event.getPropertyId());
+                String arr[] = rightTable.getColumnRadioButtonArray((String) event.getPropertyId());
                     if (arr != null) {
                         for (String a : arr) {
                             rightTable.setColumnRadioButtonDisable(a, !event.isChecked());
@@ -2401,7 +2401,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     final String adjMethodology = String.valueOf(allocMethodology.getValue());
                     final String historyPeriods;
                     final String projectionPeriods;
-
+                    
                     if (adjustPeriod.equals(Constant.ALL)) {
                         if (adjMethodology.equals(Constant.HISTORICAL_OF_BUSINESS)) {
                             historyPeriods = getSelectedHistoryPeriods();
