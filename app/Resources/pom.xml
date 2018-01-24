@@ -42,7 +42,6 @@
         <module>calendarfield</module>
         <module>VaadinWidgetSet_V7/vaadin-widgetset</module>
         <module>ErrorLabel</module>
-         <module>stpl-theme</module>
     </modules>
     <repositories>
         <repository>
