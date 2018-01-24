@@ -90,6 +90,7 @@
                 <defaultGoal>clean install</defaultGoal>
             </build>
         </profile>
+        
         <profile>
             <id>Install-OldArchDependency</id>
             <modules>
@@ -100,9 +101,10 @@
                 <module>GtnFramworkQueryGenerator</module>
             </modules>
             <build>
-                <defaultGoal>clean install</defaultGoal>
+                <defaultGoal>clean install  com.stpl.gtn.gtn2o:JarReleasePlugin:Release</defaultGoal>
             </build>
         </profile>
+        
         <profile>
             <id>Install-WarRelease</id>
             <modules>
@@ -124,11 +126,8 @@
                 <module>GtnFramework</module>
                 <module>GtnFrameworkComponentRepository</module>
                 <module>GtnFrameworkHierarchyRouteBuilder</module>
-                <module>GtnFramworkQueryGenerator</module>
-                <module>GtnNewArchSharedLibrary</module>
                 <module>GtnVaadinWidgetSet</module>
                 <module>Modules</module>
-<!--                <module>WebServices</module>-->
             </modules>
             <activation>
                 <property>
@@ -151,6 +150,27 @@
                         </configuration>
                     </plugin>
                 </plugins>
+            </build>
+        </profile>
+        
+        
+        <profile>
+            <id>Release-Ws-Build</id>
+            <modules>
+                <module>WebServices</module>
+            </modules>
+            <activation>
+                <property>
+                    <name>releaseWsBuild</name>
+                </property>
+            </activation>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+            <build>
+                <defaultGoal>
+                    clean install com.stpl.gtn.gtn2o:WarReleasePlugin:Release 
+                </defaultGoal>
             </build>
         </profile>
 

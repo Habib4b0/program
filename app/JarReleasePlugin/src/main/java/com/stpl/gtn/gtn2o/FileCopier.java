@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.maven.project.MavenProject;
 
 /**
  *
@@ -23,55 +24,51 @@ public class FileCopier {
 
     public FileCopier() {
         String copyPath = System.getProperty("jar-copy-path");
-        System.out.println("CopyPath -- " + copyPath);
         if (copyPath != null && !copyPath.isEmpty()) {
-
             jarcopyPath = copyPath;
         }
     }
 
-    public void copyFile(File projectFolder) {
+    public void copyFile(MavenProject project) {
+    	File projectFolder = project.getBasedir();
+		FilenameFilter fr = new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.equalsIgnoreCase("target");
+			}
+		};
+		FilenameFilter jarr = new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				if (name.lastIndexOf('.') > 0) {
+					// get last index for '.' char
+					int lastIndex = name.lastIndexOf('.');
 
-        FilenameFilter fr = new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.equalsIgnoreCase("target");
-            }
-        };
-        FilenameFilter jarr = new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                if (name.lastIndexOf('.') > 0) {
-                    // get last index for '.' char
-                    int lastIndex = name.lastIndexOf('.');
+					// get extension
+					String str = name.substring(lastIndex);
 
-                    // get extension
-                    String str = name.substring(lastIndex);
+					// match path name extension
+					if (str.equals(".jar")) {
+						return true;
+					}
+				}
+				return false;
+			}
 
-                    // match path name extension
-                    if (str.equals(".jar")) {
-                        return true;
-                    } else {
-                    }
-                }
-                return false;
-            }
+		};
 
-        };
+		for (File aan : projectFolder.listFiles(fr)) {
+			if (aan.isDirectory()) {
+				for (File aasn : aan.listFiles(jarr)) {
+					copyTo(aasn, project);
+				}
+			}
 
-        for (File aan : projectFolder.listFiles(fr)) {
-            if (aan.isDirectory()) {
-                for (File aasn : aan.listFiles(jarr)) {
-                    copyTo(aasn, projectFolder);
-                }
-            }
-
-        }
-
+		}
     }
 
-    private void copyTo(File aasn, File projectFolder) {
-        File copy = new File(projectFolder.getParent() + "/Dist");
+    private void copyTo(File aasn, MavenProject project) {
+        File copy = new File(getParentFile(project) + "/Dist");
         System.out.println("Copy to" + copy.getPath());
         if (copy.isDirectory()) {
         } else {
@@ -87,5 +84,14 @@ public class FileCopier {
             Logger.getLogger(FileCopier.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private String getParentFile(MavenProject project) {
+		MavenProject parent = project.getParent();
+		if (parent.getParent() == null) {
+			return parent.getBasedir().getPath();
+		} else {
+			return getParentFile(parent);
+		}
+	}
 
 }

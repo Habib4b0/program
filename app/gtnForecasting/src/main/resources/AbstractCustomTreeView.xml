@@ -9,10 +9,10 @@
                 </HorizontalLayout>
                 <GridLayout  spacing="false" rows="1" columns="2" immediate="true">
                     <VerticalLayout spacing="false" margin="false" immediate="true">
-                        <HorizontalLayout  spacing="false" margin="false" immediate="true">
+                        <HorizontalLayout  spacing="false" margin="false" immediate="true" width="440px">
                             <Table id="customerTable"  caption="Customer Hierarchy" width="210px" height="230px"  immediate="true" styleName="table-header-normal" selectable="true" />
            
-                            <VerticalLayout spacing="true" margin="false" immediate="true">
+                            <VerticalLayout spacing="true" margin="false" immediate="true" width="64px">
                                 <Label value="" hieght="120px" contentMode="HTML" immediate="true" />
                                 <Button id="addCustomer" caption="&gt;"></Button>
                                 <Button id="removeCustomer" caption="&lt;"></Button>
@@ -20,9 +20,9 @@
                         </HorizontalLayout>
            
           
-                        <HorizontalLayout  spacing="false" margin="false" immediate="true">
+                        <HorizontalLayout  spacing="false" margin="false" immediate="true" width="440px">
                             <Table id="productTable"  caption="Product Hierarchy" width="210px" height="191px"  immediate="true" styleName="table-header-normal" selectable="true" />
-                            <VerticalLayout spacing="true" margin="false" immediate="true">
+                            <VerticalLayout spacing="true" margin="false" immediate="true" width="64px">
                                 <Label caption="" hieght="120px" contentMode="HTML" immediate="true" />
                                 <Button id="addProduct" caption="&gt;"></Button>
                                 <Button id="removeProduct" caption="&lt;"></Button>
@@ -30,9 +30,9 @@
                         </HorizontalLayout>
                         
                         
-                        <HorizontalLayout  id="deductionLayout" spacing="false" margin="false" immediate="true">
+                        <HorizontalLayout  id="deductionLayout" spacing="false" margin="false" immediate="true" width="440px">
                             <Table id="deductionTable"  caption="Deduction Hierarchy" width="210px" height="191px"  immediate="true" styleName="table-header-normal" selectable="true" />
-                            <VerticalLayout spacing="true" margin="false" immediate="true">
+                            <VerticalLayout spacing="true" margin="false" immediate="true" width="64px">
                                 <Label caption="" hieght="120px" contentMode="HTML" immediate="true" />
                                 <Button id="addDeduction" caption="&gt;"></Button>
                                 <Button id="removeDeduction" caption="&lt;"></Button>
