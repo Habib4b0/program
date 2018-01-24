@@ -34,11 +34,7 @@
 				<include name="**/*.jar" />
 			</fileset>
 		</move>
-		<move todir="${Application_Build}">
-			<fileset dir="app/Resources/vaadin-widgetset/target">
-				<include name="**/*.war" />
-			</fileset>
-		</move>
+
 		<move todir="${Application_Build}">
 			<fileset dir="app/Resources/stpl-theme/dist">
 				<include name="**/*.war" />
