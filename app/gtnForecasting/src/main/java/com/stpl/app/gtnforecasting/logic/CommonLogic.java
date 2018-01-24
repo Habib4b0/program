@@ -6,8 +6,6 @@ import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import static com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic.CONCAT_CONDITION;
-import static com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic.CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
 import com.stpl.app.gtnforecasting.queryUtils.CommonQueryUtils;
 import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
@@ -27,6 +25,7 @@ import com.stpl.app.model.HelperTable;
 import com.stpl.app.model.MProjectionSelection;
 import com.stpl.app.model.NmProjectionSelection;
 import com.stpl.app.model.RelationshipLevelDefinition;
+import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.CustomViewDetailsLocalServiceUtil;
 import com.stpl.app.service.CustomViewMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -4079,7 +4078,7 @@ public class CommonLogic {
                 stringBuilder.append(",\n");
             }
             stringBuilder.append("('");
-            
+
             stringBuilder.append(treeNode.getHierachyNo().trim()).
                     append("',");
             if (previousOppositeHierarchy.isEmpty()) {
@@ -4111,7 +4110,7 @@ public class CommonLogic {
             stringBuilder.append(",").append("'").append(treeNode.getHierarchyIndicator()).append("',").append(i++);
             stringBuilder.append(")");
             isNotFirstElement = true;
-            }
+        }
         }
         }
         return stringBuilder.toString();
@@ -5026,8 +5025,8 @@ public class CommonLogic {
         }
         return stringBuilder.toString();
     }
-       
-       
+
+    
        public String getHierarchyJoinQuery(boolean isCustomHierarchy, String customerHierarchyNo, String productHierarchyNo, String deductionHierarchyNo, String hierarchyIndicator,final SessionDTO sessionDTO) {
         StringBuilder joinQuery = new StringBuilder();
         String dedJoin = StringUtils.EMPTY;
@@ -5116,25 +5115,33 @@ public class CommonLogic {
     }
 
     public String getDedCustomJoinGenerate(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
-        String columnName;
-        if (hierarchyIndicator.equalsIgnoreCase("C") || hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName = Constant.RELATIONSHIPJOIN;
-        }else {
+         StringBuilder columnName = new StringBuilder();
+        if (hierarchyIndicator.equalsIgnoreCase("C")) {
+             columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getCustomerRelationVersion());
+        } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
+            columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getProductRelationVersion());
+        } else {
             String parentHierarchyNo =  replacePercentHierarchy(hierarchyNo);
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierarchyNo +RELATIONSHIP_BUILDER_SID+ sessionDTO.getDedRelationshipBuilderSid() +PARENT_VALIDATE_JOIN +
-            "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";       
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierarchyNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
+            "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'");       
         }
-        return columnName;
+        return columnName.toString();
     }
     
-     public String getRelJoinGenerate(String hierarchyIndicator) {
-        String columnName;
-        if (hierarchyIndicator.equalsIgnoreCase("C") || hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName = Constant.RELATIONSHIPJOIN;
-        }else {
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO ";       
+     public String getRelJoinGenerate(String hierarchyIndicator,SessionDTO sessionDTO) {
+        StringBuilder columnName = new StringBuilder();
+        if (hierarchyIndicator.equalsIgnoreCase("C")) {
+            columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getCustomerRelationVersion());
+        } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
+            columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getProductRelationVersion());
+        } else {
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO ");       
         }
-        return columnName;
+        return columnName.toString();
     }
     
     public String getSelectStatementCustom(final String hierarchyIndicator) {
@@ -5158,5 +5165,23 @@ public class CommonLogic {
         }
         return percentHierarchy;
     }
+    public static List isPropertyVisibleAccess(Object[] visibleColumn, String[] columnHeader, Map<String, AppPermission> functionHM) {
 
+        List resultList = new ArrayList(2);
+
+        List visibleList = new ArrayList<>(Arrays.asList(visibleColumn));
+        List<String> columnHeaderList = new ArrayList<>(Arrays.asList(columnHeader));
+
+        for (Map.Entry<String, AppPermission> entry : functionHM.entrySet()) {
+            String id = entry.getKey();
+            AppPermission appPermission = entry.getValue();
+            if (functionHM.get(id) != null && !((AppPermission) functionHM.get(id)).isFunctionFlag()) {
+                visibleList.remove(id);
+                columnHeaderList.remove(appPermission.getModuleName());
+            }
+        }
+        resultList.add(visibleList);
+        resultList.add(columnHeaderList);
+        return resultList;
+    }
 }
