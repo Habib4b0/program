@@ -147,6 +147,10 @@ public class SalesLogic {
     public static final String ACTUAL_SALES = "-ActualSales";
     public static final String FREQ_VAL = "@FREVAL@";
     public static final String PROJECTED_SALES = "-ProjectedSales";
+    public static final String PRODUCT_GROWTH = "-ProductGrowth";
+    public static final String ACCOUNT_GROWTH = "-AccountGrowth";
+    public static final String HISTORY_PROJECTED_SALES = "-HistoryProjectedSales";
+    public static final String HISTORY_PROJECTED_UNITS = "-HistoryProjectedUnits";
     private SessionDTO session;
     protected NMSalesProjectionResultsLogic sprLogic = new NMSalesProjectionResultsLogic();
     protected CommonLogic commonLogic = new CommonLogic();
@@ -844,15 +848,15 @@ public class SalesLogic {
                 if (CommonUtil.isValueEligibleForLoading() && salesRowDto.getSalesInclusion().isEmpty()) {
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_SALES, StringUtils.EMPTY);
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, StringUtils.EMPTY);
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProductGrowth", StringUtils.EMPTY);
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-AccountGrowth", StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + PRODUCT_GROWTH, StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACCOUNT_GROWTH, StringUtils.EMPTY);
                     headerMapValue.remove(key + PROJECTED_SALES);
                     headerMapValue.remove(key + PROJECTED_UNITS1);
                 } else {
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.TWO], true));
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.THREE] == null ? 0 : obj[NumericConstants.THREE])));
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProductGrowth", String.valueOf(UNITTWODECIMAL.format(obj[1] == null ? 0 : obj[1])) + Constant.PERCENT);
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-AccountGrowth", String.valueOf(UNITTWODECIMAL.format(obj[0] == null ? 0 : obj[0])) + Constant.PERCENT);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + PRODUCT_GROWTH, String.valueOf(UNITTWODECIMAL.format(obj[1] == null ? 0 : obj[1])) + Constant.PERCENT);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACCOUNT_GROWTH, String.valueOf(UNITTWODECIMAL.format(obj[0] == null ? 0 : obj[0])) + Constant.PERCENT);
                     headerMapValue.remove(key + PROJECTED_SALES);
                     headerMapValue.remove(key + PROJECTED_UNITS1);
                 }
@@ -860,15 +864,15 @@ public class SalesLogic {
                 if (CommonUtil.isValueEligibleForLoading() && salesRowDto.getSalesInclusion().isEmpty()) {
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACTUAL_SALES, StringUtils.EMPTY);
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, StringUtils.EMPTY);
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedSales", StringUtils.EMPTY);
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedUnits", StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_SALES, StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_UNITS, StringUtils.EMPTY);
                     headerMapValue.remove(key + ACTUAL_SALES);
                     headerMapValue.remove(key + Constant.ACTUAL_UNITS1);
                 } else {
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACTUAL_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.FOUR], true));
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE])));
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedSales", String.valueOf(0));
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedUnits", String.valueOf(0));
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_SALES, String.valueOf(0));
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_UNITS, String.valueOf(0));
                     headerMapValue.remove(key + ACTUAL_SALES);
                     headerMapValue.remove(key + Constant.ACTUAL_UNITS1);
                 }
@@ -877,15 +881,15 @@ public class SalesLogic {
             if (Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE])) == 0) {
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_SALES, StringUtils.EMPTY);
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, StringUtils.EMPTY);
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProductGrowth", StringUtils.EMPTY);
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-AccountGrowth", StringUtils.EMPTY);
+                salesRowDto.addStringProperties(StringUtils.EMPTY + key + PRODUCT_GROWTH, StringUtils.EMPTY);
+                salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACCOUNT_GROWTH, StringUtils.EMPTY);
                 headerMapValue.remove(key + PROJECTED_SALES);
                 headerMapValue.remove(key + PROJECTED_UNITS1);
             } else {
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACTUAL_SALES, StringUtils.EMPTY);
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, StringUtils.EMPTY);
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedSales", StringUtils.EMPTY);
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedUnits", StringUtils.EMPTY);
+                salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_SALES, StringUtils.EMPTY);
+                salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_UNITS, StringUtils.EMPTY);
                 headerMapValue.remove(key + ACTUAL_SALES);
                 headerMapValue.remove(key + Constant.ACTUAL_UNITS1);
             }

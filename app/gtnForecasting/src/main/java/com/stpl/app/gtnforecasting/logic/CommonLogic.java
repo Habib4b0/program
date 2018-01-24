@@ -59,9 +59,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -106,6 +103,8 @@ public class CommonLogic {
     private static final String HIERARCHY_NO_JOIN = "', ',') C WHERE CCPH.CUST_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN";
     private static final String RELATIONSHIP_BUILDER_SID = "' and relationship_builder_sid = ";
     private static final String RELATIONSHIP_LEVEL_DEFINITION_JOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.PARENT_HIERARCHY_NO LIKE '";
+    private static final String TAB_BASED_JOIN = "[?TAB_BASED_JOIN]";
+    private static final String USER_DEFINED = "User Defined";
     
     private final GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
     /**
@@ -3557,7 +3556,7 @@ public class CommonLogic {
             if (StringUtils.isNotBlank(hierarchyQuery)) {
                 query = query.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, hierarchyQuery);
                 query = query.replace(Constant.HIERARCHY_COLUMN_QUESTION, getColumnName(projSelDTO.getHierarchyIndicator()));
-                query = query.replace("[?TAB_BASED_JOIN]", getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName()));
+                query = query.replace(TAB_BASED_JOIN, getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName()));
                 query = query.replace("?DEDJOIN",projSelDTO.getTabName().equals("Variance")?" WHERE PV_FILTERS=1 ":StringUtils.EMPTY);
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
                 if (list != null && !list.isEmpty()) {
@@ -3584,7 +3583,7 @@ public class CommonLogic {
                 String excelquery = SQlUtil.getQuery("count-Query-Excel");
                 excelquery = excelquery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchyForExpand(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(), booleanFlag));
                 excelquery = excelquery.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
-                excelquery = excelquery.replace("[?TAB_BASED_JOIN]", getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName()));
+                excelquery = excelquery.replace(TAB_BASED_JOIN, getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName()));
                 if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
                     excelquery += " AND SPM.FILTER_CCP=1 ";
                 }
@@ -3753,7 +3752,7 @@ public class CommonLogic {
         query = query.replace(Constant.START_QUESTION, String.valueOf(start));
         query = query.replace(Constant.END_QUESTION, String.valueOf(end));
         query = query.replace(Constant.HIERARCHY_COLUMN_QUESTION, getColumnName(projSelDTO.getHierarchyIndicator()));
-        query = query.replace("[?TAB_BASED_JOIN]", getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName()));
+        query = query.replace(TAB_BASED_JOIN, getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName()));
         query = query.replace("?DEDJOIN",projSelDTO.getTabName().equals("Variance")?" WHERE PV_FILTERS=1 ":StringUtils.EMPTY);
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
@@ -4691,7 +4690,7 @@ public class CommonLogic {
                         .replace(LEVEL_CAPS, type);
                 String formedQuery = StringUtils.EMPTY;
                 String query = fullUserDefinedQuery;
-                boolean isuserDefined="User Defined".equals(userDefined);
+                boolean isuserDefined=USER_DEFINED.equals(userDefined);
                 if (!isuserDefined) {
                     formedQuery = queryFormationForLoadingDdlb(fieldName, tableName, primaryKey, gtnFrameworkQuery, singleColumnRelationBean, maintableName, "C");
                     query = formedQuery;
@@ -4739,7 +4738,7 @@ public class CommonLogic {
                 String gtnFrameworkRouteBean = gtnFrameworkHierarchyServiceImpl.getQueryByTableNameAndHierarchyTypeForMultiLevel(tableNameList, "PRODUCT HIERARCHY");
                 GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
                 GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = masterBean.getKeyRelationBeanUsingTableIdAndColumnName(tableName, fieldName);
-                String query = "User Defined".equals(userDefined)
+                String query = USER_DEFINED.equals(userDefined)
                         ? SQlUtil.getQuery("user-defined-level-values").replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
                                 .replace(LEVEL_CAPS, type)
                         : queryFormationForLoadingDdlb(fieldName, tableName, primaryKey, gtnFrameworkRouteBean,
@@ -4747,7 +4746,7 @@ public class CommonLogic {
 
                 query = customerFilter.isEmpty() ? query
                         : (SQlUtil.getQuery("customer-dynamic-filter").replace(LEVEL_VALUES, customerFilter.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
-                                .replace(RELBUILD_SID, projectionDto.getSessionDTO().getCustRelationshipBuilderSid()) + query + ("User Defined".equals(userDefined)? StringUtils.EMPTY:" JOIN #HIER_CUST HP ON ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' "));
+                                .replace(RELBUILD_SID, projectionDto.getSessionDTO().getCustRelationshipBuilderSid()) + query + (USER_DEFINED.equals(userDefined)? StringUtils.EMPTY:" JOIN #HIER_CUST HP ON ST_CCP_HIERARCHY.CUST_HIERARCHY_NO LIKE HP.HIERARCHY_NO+'%' "));
 
                 query = deductionFilter.isEmpty() ? query
                         : (SQlUtil.getQuery("deduction-dynamic-filter").replace(DEDLEVEL_VALUES, deductionFilter.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
@@ -4999,7 +4998,7 @@ public class CommonLogic {
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                         String hierarchyNo = "%" + deductionHierarchyNo + "%";
-                        dedJoin = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.PARENT_HIERARCHY_NO LIKE '" + hierarchyNo + "' and relationship_builder_sid = " + sessionDTO.getDedRelationshipBuilderSid() + " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n "
+                        dedJoin = RELATIONSHIP_LEVEL_DEFINITION_JOIN + hierarchyNo + RELATIONSHIP_BUILDER_SID + sessionDTO.getDedRelationshipBuilderSid() + " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n "
                                 + " AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
                     }
                     break;
@@ -5009,7 +5008,7 @@ public class CommonLogic {
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                          String hierarchyNo = "%" + deductionHierarchyNo + "%";
-                         dedJoin = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.PARENT_HIERARCHY_NO LIKE '" + hierarchyNo + "' and relationship_builder_sid = " + sessionDTO.getDedRelationshipBuilderSid() + " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n "
+                         dedJoin = RELATIONSHIP_LEVEL_DEFINITION_JOIN + hierarchyNo + RELATIONSHIP_BUILDER_SID + sessionDTO.getDedRelationshipBuilderSid() + " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n "
                                 + " AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
                     }
                     break;
@@ -5083,7 +5082,7 @@ public class CommonLogic {
             columnName.append(sessionDTO.getProductRelationVersion());
         } else {
             String parentHierarchyNo =  replacePercentHierarchy(hierarchyNo);
-            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierarchyNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierarchyNo +RELATIONSHIP_BUILDER_SID+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
             "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'");       
         }
         return columnName.toString();
