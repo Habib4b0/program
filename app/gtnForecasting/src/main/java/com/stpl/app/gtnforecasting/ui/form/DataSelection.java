@@ -2463,7 +2463,7 @@ public class DataSelection extends ForecastDataSelection {
 			}
 			setProductBeanLisTemp(productBeanLisTemp);
 		} catch (NumberFormatException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e);
 		}
 	}
 
@@ -3533,11 +3533,11 @@ public class DataSelection extends ForecastDataSelection {
 	}
 
 	public static List<Integer> getProductBeanLisTemp() {
-		return productBeanLisTemp;
+		return productBeanLisTemp == null ? productBeanLisTemp : Collections.unmodifiableList(productBeanLisTemp);
 	}
 
 	public static void setProductBeanLisTemp(List<Integer> productBeanLisTemp) {
-		DataSelection.productBeanLisTemp = productBeanLisTemp;
+		DataSelection.productBeanLisTemp = productBeanLisTemp == null ? productBeanLisTemp : Collections.unmodifiableList(productBeanLisTemp);
 	}
 
 	@Override
@@ -4081,7 +4081,7 @@ public class DataSelection extends ForecastDataSelection {
 						"No Level was selected to move. Please try again.");
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.error(e.getMessage());
+			LOGGER.error(e);
 		}
 	}
 
@@ -4316,7 +4316,7 @@ public class DataSelection extends ForecastDataSelection {
 
 	private Future<Boolean> checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
 		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
-				hierarchyId,String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID)));
+				hierarchyId);
 		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
 		Future<Boolean> future = customerExecutorService.submit(wsClientRunnableTarget);
 		customerExecutorService.shutdown();

@@ -22,7 +22,7 @@ public class PPADetailsTableLogic extends PageTableLogic{
     private PPADetailsDTO ppaDetailsDTO;
     private final PPAProjectionResultsLogic logic =new PPAProjectionResultsLogic();
     private boolean isGenerate;
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
     
     @Override
     public int getCount() {

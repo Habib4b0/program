@@ -53,7 +53,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
   private final AbstractLogic logic = AbstractLogic.getInstance();
   private final SelectionDTO selection;
-  public ExtPagedTable contractSelectionTable;
+  private ExtPagedTable contractSelectionTable;
   private Map tempTableMap = new HashMap();
   private boolean valueChange = true;
 

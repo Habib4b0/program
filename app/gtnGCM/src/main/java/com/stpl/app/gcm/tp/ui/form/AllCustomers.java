@@ -46,7 +46,7 @@ public class AllCustomers extends Window {
     public Button closeButton;
 
     private final CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
-    public ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
+    private ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
     final private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
     private List<TradingPartnerDTO> resultList = new ArrayList<>();
     /**

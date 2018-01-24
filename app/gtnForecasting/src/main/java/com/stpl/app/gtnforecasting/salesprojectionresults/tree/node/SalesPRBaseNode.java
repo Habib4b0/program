@@ -22,7 +22,7 @@ public abstract class SalesPRBaseNode implements TreeNode, Comparable<SalesPRBas
     protected String hierarchyForTable;
     protected int noOfChilds;
     protected int positiontoParent;
-    List<TreeNode> childTreeList;
+    protected List<TreeNode> childTreeList;
     protected boolean apex = false;
     protected int level;
     protected String hierarchyIndicator;

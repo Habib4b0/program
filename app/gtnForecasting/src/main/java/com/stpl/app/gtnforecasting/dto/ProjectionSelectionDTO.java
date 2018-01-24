@@ -2364,12 +2364,12 @@ public class ProjectionSelectionDTO {
         this.selectedDeductionLevelName = selectedDeductionLevelName;
     }
     public Object[] getDisplayFormat() {
-        return displayFormat;
+        return displayFormat == null ? displayFormat : displayFormat.clone();
     }
 
     public void setDisplayFormat(Object[] displayFormat) {
         this.displayFormat = new Object[displayFormat.length];
-        this.displayFormat = displayFormat;
+        this.displayFormat = displayFormat.clone();
     }
 
 

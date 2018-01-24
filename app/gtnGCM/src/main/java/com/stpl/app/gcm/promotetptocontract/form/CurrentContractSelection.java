@@ -5,7 +5,6 @@
 package com.stpl.app.gcm.promotetptocontract.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
-import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.gcm.promotetptocontract.dto.ComponentInfoDTO;
@@ -57,12 +56,10 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.asi.ui.addons.lazycontainer.LazyBeanItemContainer;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
@@ -211,26 +208,26 @@ public class CurrentContractSelection extends CustomComponent implements View {
     private Label rebatePlanLevelLabel;
 
     private BeanItemContainer<ComponentInfoDTO> componentInfoContainer = new BeanItemContainer<>(ComponentInfoDTO.class);
-    public CurrentContractDTO currentContractDTO = new CurrentContractDTO();
+    private CurrentContractDTO currentContractDTO = new CurrentContractDTO();
     private ExtFilterTable resultTable;
     private PromoteTPLogic logic = new PromoteTPLogic();
-    public CurrentContractTableLogic tableLogic = new CurrentContractTableLogic();
-    public ExtPagedTable currentTradingPartnerTable2 = new ExtPagedTable(tableLogic);
+    private CurrentContractTableLogic tableLogic = new CurrentContractTableLogic();
+    private ExtPagedTable currentTradingPartnerTable2 = new ExtPagedTable(tableLogic);
     private BeanItemContainer<CurrentContractDTO> searchContainer = new BeanItemContainer<>(CurrentContractDTO.class);
     private CurrentContractDTO binderDto = new CurrentContractDTO();
     private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
-    public ExtFilterTable compInfoTable = new ExtFilterTable();
+    private ExtFilterTable compInfoTable = new ExtFilterTable();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    public boolean summaryRefreshed;
-    public List<CompanyMaster> companyMasters;
+    private boolean summaryRefreshed;
+    private List<CompanyMaster> companyMasters;
     private String screenName = StringUtils.EMPTY;
     private List<ComponentInfoDTO> componentInformation = new ArrayList<>();
-    public List<CurrentContractDTO> contractInfo = new ArrayList<>();
+    private List<CurrentContractDTO> contractInfo = new ArrayList<>();
     private String excelName = "Rebate Schedule Information";
     private ExtTreeContainer<ComponentInfoDTO> excelResultBean = new ExtTreeContainer<>(ComponentInfoDTO.class);
     private ExtCustomTable contractExportPeriodViewTable = new ExtCustomTable();
     public static final String NUM = "Number :";
-    public static List<CurrentContractDTO> selectedContract = new ArrayList<>();
+    private static List<CurrentContractDTO> selectedContract = new ArrayList<>();
     private Boolean contractExcelFlag = false;
     private Boolean infoExcelFlag = false;
     private List<Integer> contractid = new ArrayList<>();
@@ -856,7 +853,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
             AbstractNotificationUtils.getErrorNotification("No End Date", "Please enter an end date for the records to be submitted");
             return;
         }
-        summaryRefreshed = true;
+        setSummaryRefreshed(true);
         resetComponentInformationData();
         List<CurrentContractDTO> containerList = searchContainer.getItemIds();
 
@@ -920,7 +917,7 @@ public class CurrentContractSelection extends CustomComponent implements View {
             @Override
             public void windowClose(Window.CloseEvent e) {
                 if (contractHolderLookUpWindow.getSelectedChHolderHierarchy() != null) {
-                    companyMasters = contractHolderLookUpWindow.getFilteredCompanies();
+                    setCompanyMasters(contractHolderLookUpWindow.getFilteredCompanies());
                 }
             }
         });
@@ -1091,4 +1088,44 @@ public class CurrentContractSelection extends CustomComponent implements View {
             LOGGER.error("",ex);
         }
     }
+
+	public CurrentContractDTO getCurrentContractDTO() {
+		return currentContractDTO;
+	}
+
+	public void setCurrentContractDTO(CurrentContractDTO currentContractDTO) {
+		this.currentContractDTO = currentContractDTO;
+	}
+
+	public boolean isSummaryRefreshed() {
+		return summaryRefreshed;
+	}
+
+	public void setSummaryRefreshed(boolean summaryRefreshed) {
+		this.summaryRefreshed = summaryRefreshed;
+	}
+
+	public List<CompanyMaster> getCompanyMasters() {
+		return companyMasters;
+	}
+
+	public void setCompanyMasters(List<CompanyMaster> companyMasters) {
+		this.companyMasters = companyMasters;
+	}
+
+	public List<CurrentContractDTO> getContractInfo() {
+		return contractInfo;
+	}
+
+	public void setContractInfo(List<CurrentContractDTO> contractInfo) {
+		this.contractInfo = contractInfo;
+	}
+
+	public static List<CurrentContractDTO> getSelectedContract() {
+		return selectedContract;
+	}
+
+	public static void setSelectedContract(List<CurrentContractDTO> selectedContract) {
+		CurrentContractSelection.selectedContract = selectedContract;
+	}
 }

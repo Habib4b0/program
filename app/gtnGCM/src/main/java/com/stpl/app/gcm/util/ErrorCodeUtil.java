@@ -24,7 +24,7 @@ public class ErrorCodeUtil {
     /**
      * The resouce bundle.
      */
-    public static ResourceBundle resouceBundle = ResourceBundle.getBundle("errorcodes.errorcode");
+    public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("errorcodes.errorcode");
 
     /**
      * HYPEN constant
@@ -46,7 +46,7 @@ public class ErrorCodeUtil {
      */
     public static String getEC(final String key) {
         try {
-            return resouceBundle.getString(key);
+            return RESOURCE_BUNDLE.getString(key);
         } catch (MissingResourceException e) {
              LOGGER.error("",e);
             return StringUtils.EMPTY;

@@ -20,17 +20,17 @@ public class ActionButtonLayout extends HorizontalLayout {
 	private static final long serialVersionUID = 1L;
 
 	
-	BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
+	private BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
 	
-	BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
-	BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
-        ComboBox subModuleName;
-	ComboBox moduleName;
-	CheckBox add;
-	CheckBox edit;
-	CheckBox view;
-        String userId;
-	ComboBox businessRoleName;
+	private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
+	private BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
+	private ComboBox subModuleName;
+        private ComboBox moduleName;
+        private CheckBox add;
+        private CheckBox edit;
+        private CheckBox view;
+        private String userId;
+        private ComboBox businessRoleName;
 
 	public ActionButtonLayout(BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans,BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult,
                 ComboBox subModuleName,ComboBox moduleName,ComboBox businessRoleName, String userId,CheckBox add,CheckBox edit,CheckBox view) {

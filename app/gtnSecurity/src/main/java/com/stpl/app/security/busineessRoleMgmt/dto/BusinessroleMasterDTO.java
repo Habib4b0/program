@@ -15,6 +15,10 @@ public class BusinessroleMasterDTO implements Serializable {
 	private String processed=StringUtils.EMPTY;
 	private String businessroleName=StringUtils.EMPTY;
 
+	public BusinessroleMasterDTO(){
+		super();
+	}
+	
     public String getSystemId() {
         return systemId;
     }

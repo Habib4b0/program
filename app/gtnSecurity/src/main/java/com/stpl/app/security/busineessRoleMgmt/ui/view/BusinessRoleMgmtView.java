@@ -27,12 +27,12 @@ public class BusinessRoleMgmtView extends VerticalLayout implements View {
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "";
 	
-	final ErrorLabel errorMsg = new ErrorLabel();
+	private final ErrorLabel errorMsg = new ErrorLabel();
 	
-	BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
-	BeanItemContainer<BusinessroleMasterDTO> searchResultbeans = new BeanItemContainer<BusinessroleMasterDTO>(
+	private BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
+	private BeanItemContainer<BusinessroleMasterDTO> searchResultbeans = new BeanItemContainer<BusinessroleMasterDTO>(
 			BusinessroleMasterDTO.class);
-	Table table=new Table();
+	private Table table=new Table();
 	
 	private static final Logger LOGGER =
 			 LoggerFactory.getLogger(ActionButtonLayout.class

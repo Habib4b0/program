@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
 
     private TradingPartnerDTO dto;
-    public int parentCompanySid;
+    private int parentCompanySid;
     private CompanySearchLogic logic = new CompanySearchLogic();
     /**
      * The Constant LOGGER.
@@ -35,7 +35,7 @@ public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
 
     public CompanySearchDAO(TradingPartnerDTO tpDto, int parentCompanySid) {
         this.dto = tpDto;
-        this.parentCompanySid = parentCompanySid;
+        this.setParentCompanySid(parentCompanySid);
     }
 
     @Override
@@ -53,5 +53,13 @@ public class CompanySearchDAO implements BeanDAO<TradingPartnerDTO> {
         }
         return resultList;
     }
+
+	public int getParentCompanySid() {
+		return parentCompanySid;
+	}
+
+	public void setParentCompanySid(int parentCompanySid) {
+		this.parentCompanySid = parentCompanySid;
+	}
 
 }

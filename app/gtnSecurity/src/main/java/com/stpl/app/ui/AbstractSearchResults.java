@@ -12,15 +12,15 @@ import com.vaadin.v7.ui.VerticalLayout;
 
 public abstract class AbstractSearchResults  extends CustomComponent{
 	private static final long serialVersionUID = 1L;
-	final Label space = new Label("&nbsp;", ContentMode.HTML);
-	BeanItemContainer<?> searchResultbeans;
-	Table table ;
-	Object[] defaultColumns;
+	private final Label space = new Label("&nbsp;", ContentMode.HTML);
+	private BeanItemContainer<?> searchResultbeans;
+	private Table table ;
+	private Object[] defaultColumns;
 	protected VerticalLayout content;
 	public AbstractSearchResults(BeanItemContainer<?> searchResultbeans,Table table,Object[] defaultColumns) {
 		this.searchResultbeans = searchResultbeans;
 		this.table = table;
-		this.defaultColumns = defaultColumns;
+		this.defaultColumns = defaultColumns == null ? defaultColumns : defaultColumns.clone();
 		init();
 	}
 

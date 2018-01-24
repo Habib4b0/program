@@ -28,6 +28,9 @@ import org.slf4j.LoggerFactory;
  */
 public class ProjNamingConfigUI extends UI {
 
+	public ProjNamingConfigUI(){
+		super();
+	}
     /**
      * The navigator.
      */

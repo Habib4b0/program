@@ -171,8 +171,8 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private Button removeContract;
     @UiField("remove")
     private Button remove;
-    public ExtFilterTable addTradingPartnerTable = new ExtFilterTable();
-    public TreeTable contractDashboardTable = new TreeTable();
+    private ExtFilterTable addTradingPartnerTable = new ExtFilterTable();
+    private TreeTable contractDashboardTable = new TreeTable();
     private final StplSecurity stplSecurity = new StplSecurity();
 
     final private BeanItemContainer<ComponentInformationDTO> componentInformationContainer = new BeanItemContainer<>(ComponentInformationDTO.class);
@@ -180,7 +180,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private ExtTreeContainer<ContractsDetailsDto> contractDashboardContainer = new ExtTreeContainer<>(ContractsDetailsDto.class);
     private boolean contractRefresh;
 
-    public List parentList = new ArrayList();
+    private List parentList = new ArrayList();
     /**
      * The contract member.
      */
@@ -199,7 +199,7 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private ContractsDetailsDto tableBean;
     private static final BeanItem<?> NULL_OBJECT = null;
     /* Current Level Value */
-    public int levelValue;
+    private int levelValue;
     private static final Logger LOGGER = LoggerFactory.getLogger(ContractProcessingDashboard.class);
     private SessionDTO session = new SessionDTO();
     /**
@@ -212,11 +212,11 @@ public class ContractProcessingDashboard extends CustomTPDetailsLayout {
     private final CommmonLogic logic = new CommmonLogic();
 
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    public List<ComponentInformationDTO> componentInformation = new ArrayList<>();
+    private List<ComponentInformationDTO> componentInformation = new ArrayList<>();
     private final ExtTreeContainer<ComponentInformationDTO> excelResultBean = new ExtTreeContainer<>(ComponentInformationDTO.class);
-    public String excelName = "Rebate Schedule Information";
+    private String excelName = "Rebate Schedule Information";
     private final CompanyComponentTableLogic tablelogic = new CompanyComponentTableLogic();
-    public ExtPagedTable componentInformationTable = new ExtPagedTable(tablelogic);
+    private ExtPagedTable componentInformationTable = new ExtPagedTable(tablelogic);
 
     public ContractProcessingDashboard(BeanItemContainer<ContractResultDTO> selectedContractContainer, SessionDTO session) {
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/contractProcessingDashboard.xml"), this));

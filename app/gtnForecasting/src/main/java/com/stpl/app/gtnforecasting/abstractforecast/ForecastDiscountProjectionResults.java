@@ -181,10 +181,10 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
     public final Resource graphImage = new ThemeResource(
             GRAPH_IMAGE_PATH.getConstant());
 
-    public int projectionId;
+    private int projectionId;
 
-    public DPRTableLogic tableLogic = new DPRTableLogic();
-    public FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
+    private DPRTableLogic tableLogic = new DPRTableLogic();
+    private FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(getTableLogic());
     /**
      * The max split position.
      */
@@ -200,13 +200,13 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
      */
     public final float splitPosition = 300;
 
-    public CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    public CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-    public CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    public ExtTreeContainer<DiscountProjectionResultsDTO> resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
-    public ExtTreeContainer<DiscountProjectionResultsDTO> excelResultBeanContainer = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
-    public DPRLogic dprLogic = new DPRLogic();
-    public NMDPRLogic nmDPRLogic = new NMDPRLogic();
+    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private ExtTreeContainer<DiscountProjectionResultsDTO> resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<DiscountProjectionResultsDTO> excelResultBeanContainer = new ExtTreeContainer<>(DiscountProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
+    private DPRLogic dprLogic = new DPRLogic();
+    private NMDPRLogic nmDPRLogic = new NMDPRLogic();
     protected List<CustomViewMaster> customViewList = new ArrayList<>();
     protected ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
     
@@ -427,4 +427,84 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
      
 
     protected abstract void loadCustomDDLB();
+
+	public int getProjectionId() {
+		return projectionId;
+	}
+
+	public void setProjectionId(int projectionId) {
+		this.projectionId = projectionId;
+	}
+
+	public ExtTreeContainer<DiscountProjectionResultsDTO> getResultBeanContainer() {
+		return resultBeanContainer;
+	}
+
+	public void setResultBeanContainer(ExtTreeContainer<DiscountProjectionResultsDTO> resultBeanContainer) {
+		this.resultBeanContainer = resultBeanContainer;
+	}
+
+	public DPRTableLogic getTableLogic() {
+		return tableLogic;
+	}
+
+	public void setTableLogic(DPRTableLogic tableLogic) {
+		this.tableLogic = tableLogic;
+	}
+
+	public FreezePagedTreeTable getResultsTable() {
+		return resultsTable;
+	}
+
+	public void setResultsTable(FreezePagedTreeTable resultsTable) {
+		this.resultsTable = resultsTable;
+	}
+
+	public CustomTableHeaderDTO getFullHeader() {
+		return fullHeader;
+	}
+
+	public void setFullHeader(CustomTableHeaderDTO fullHeader) {
+		this.fullHeader = fullHeader;
+	}
+
+	public CustomTableHeaderDTO getLeftHeader() {
+		return leftHeader;
+	}
+
+	public void setLeftHeader(CustomTableHeaderDTO leftHeader) {
+		this.leftHeader = leftHeader;
+	}
+
+	public CustomTableHeaderDTO getRightHeader() {
+		return rightHeader;
+	}
+
+	public void setRightHeader(CustomTableHeaderDTO rightHeader) {
+		this.rightHeader = rightHeader;
+	}
+
+	public ExtTreeContainer<DiscountProjectionResultsDTO> getExcelResultBeanContainer() {
+		return excelResultBeanContainer;
+	}
+
+	public void setExcelResultBeanContainer(ExtTreeContainer<DiscountProjectionResultsDTO> excelResultBeanContainer) {
+		this.excelResultBeanContainer = excelResultBeanContainer;
+	}
+
+	public DPRLogic getDprLogic() {
+		return dprLogic;
+	}
+
+	public void setDprLogic(DPRLogic dprLogic) {
+		this.dprLogic = dprLogic;
+	}
+
+	public NMDPRLogic getNmDPRLogic() {
+		return nmDPRLogic;
+	}
+
+	public void setNmDPRLogic(NMDPRLogic nmDPRLogic) {
+		this.nmDPRLogic = nmDPRLogic;
+	}
 }

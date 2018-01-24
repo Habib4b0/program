@@ -301,8 +301,8 @@ public abstract class ForecastPVComparisonLookup extends Window{
      */
     private void loadAvailableHeader(){
         if(screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)){
-            resultsTable.setVisibleColumns(headerUtils.comparisonColumns);
-            resultsTable.setColumnHeaders(headerUtils.comparisonHeader);
+            resultsTable.setVisibleColumns(headerUtils.getComparisonColumns());
+            resultsTable.setColumnHeaders(headerUtils.getComparisonHeader());
         }else{
             resultsTable.setVisibleColumns(comparisonResultsColumns);
             resultsTable.setColumnHeaders(comparisonResultsHeader);
@@ -311,8 +311,8 @@ public abstract class ForecastPVComparisonLookup extends Window{
     
     private void loadSelectedHeader(){
         if(screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)){
-            projectionTable.setVisibleColumns(headerUtils.comparisonColumns);
-            projectionTable.setColumnHeaders(headerUtils.comparisonHeader);
+            projectionTable.setVisibleColumns(headerUtils.getComparisonColumns());
+            projectionTable.setColumnHeaders(headerUtils.getComparisonHeader());
         }else{
             projectionTable.setVisibleColumns(comparisonResultsColumns);
             projectionTable.setColumnHeaders(comparisonResultsHeader);

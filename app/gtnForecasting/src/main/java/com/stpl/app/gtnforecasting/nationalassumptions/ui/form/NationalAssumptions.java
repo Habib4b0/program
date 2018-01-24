@@ -237,7 +237,7 @@ public class NationalAssumptions extends CustomComponent implements View {
     private final List<String> listItemNo = new ArrayList<>();
     private NdcPopupForm ndcPopup;
     public static final String NDC_CREATED = "ndcCreated";
-    private final Resource deleteImage = new ThemeResource("img/delete.png");
+    private final Resource deleteImage = new ThemeResource("../../../icons/delete.png");
     /**
      * The baseline results bean.
      */
@@ -268,7 +268,6 @@ public class NationalAssumptions extends CustomComponent implements View {
 
 
     private final SessionDTO sessionDTO;
-    private final CommonUiUtils commonUiUtils = new CommonUiUtils();
     private final BlurListener listener = new BlurListener() {
 
         @Override
@@ -1594,7 +1593,6 @@ public class NationalAssumptions extends CustomComponent implements View {
         resetBtn.setEnabled(false);
         ndcBtn.setEnabled(false);
         priceBasisDdlb.setEnabled(false);
-        priceTrendDdlb.setEnabled(false);
     }
 
     @UiHandler("priceTypeDdlb")

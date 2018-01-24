@@ -61,19 +61,19 @@ public class SummaryTab extends VerticalLayout {
     public Button previous;
     @UiField("close")
     public Button close;
-    public Panel selCriteriaPanel = new Panel("Selection Criteria");
-    public GridLayout selCriteriaGrid = new GridLayout(NumericConstants.TEN, 1);
-    public HorizontalLayout selCriteriaLayout = new HorizontalLayout();
-    public Label companyNo = new Label("Company No:");
-    public TextField companyNumber = new TextField();
-    public Label companyName = new Label("Company Name:");
-    public TextField companyNameField = new TextField();
-    public Label companyType = new Label("Company Type:");
-    public TextField companyTypeField = new TextField();
-    public Label companyCategory = new Label("Company Category:");
-    public TextField companyCategoryField = new TextField();
-    public Label tradeClass = new Label("Trade Class:");
-    public TextField tradeClassField = new TextField();
+    private Panel selCriteriaPanel = new Panel("Selection Criteria");
+    private GridLayout selCriteriaGrid = new GridLayout(NumericConstants.TEN, 1);
+    private HorizontalLayout selCriteriaLayout = new HorizontalLayout();
+    private Label companyNo = new Label("Company No:");
+    private TextField companyNumber = new TextField();
+    private Label companyName = new Label("Company Name:");
+    private TextField companyNameField = new TextField();
+    private Label companyType = new Label("Company Type:");
+    private TextField companyTypeField = new TextField();
+    private Label companyCategory = new Label("Company Category:");
+    private TextField companyCategoryField = new TextField();
+    private Label tradeClass = new Label("Trade Class:");
+    private TextField tradeClassField = new TextField();
     private final StplSecurity stplSecurity = new StplSecurity();
     
     public static final String FUNCTIONAL_BUTTON = "functionalButton";

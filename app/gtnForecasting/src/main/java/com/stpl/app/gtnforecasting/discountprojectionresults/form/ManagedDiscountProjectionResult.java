@@ -300,7 +300,7 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
 
         if (freqFlag && histFlag) {
             flag = true;
-            projectionId = sessionDTO.getProjectionId();
+            setProjectionId(sessionDTO.getProjectionId());
             discountlist = new ArrayList<>();
 
             projectionDTO.setForecastDTO(sessionDTO.getForecastDTO());
@@ -538,7 +538,7 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
     protected void excelButtonLogic() {
         configureExcelResultTable();
         loadExcelResultTable();
-        ForecastUI.EXCEL_CLOSE=true;
+        ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport exp = null;
         if (Constant.PERIOD.equals(String.valueOf(pivotViewOpg.getValue())) && (QUARTERLY.equals(String.valueOf(frequencyDdlb.getValue())) || MONTHLY.equals(String.valueOf(frequencyDdlb.getValue())))) {
             int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
@@ -555,7 +555,7 @@ public class ManagedDiscountProjectionResult extends ForecastDiscountProjectionR
                 customExcelTableResult.setDoubleHeaderMap((Map<Object, Object[]>) projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.FIVE));
                 customExcelTableResult.setRefresh(true);
                 String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
-                ForecastUI.EXCEL_CLOSE = true;
+                ForecastUI.setEXCEL_CLOSE(true);
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(customExcelTableResult), sheetName, Constant.DISCOUNT_PROJECTION_RESULTS, "Discount_Projection_Results.xls", false);
                 } else {

@@ -28,6 +28,8 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -41,13 +43,13 @@ public class RemoveDiscountLookUp extends Window {
     private final RemoveDiscount removeDiscount = new RemoveDiscount();
     private final Summary summary = new Summary();
     private final ContractsDetailsDto dto = new ContractsDetailsDto();
-    public List<RemoveDiscountDto> selecteditemList;
+    private List<RemoveDiscountDto> selecteditemList;
     private final Button closeBtn = new Button("CLOSE");
     private final Button nextBtn = new Button("NEXT");
     private final Button previousBtn = new Button("PREVIOUS");
     private final Button removeBtn = new Button("REMOVE DISCOUNT");
     private int tabPosition;
-    public TreeTable dashboardTreeTable = new TreeTable();
+    private TreeTable dashboardTreeTable = new TreeTable();
     private int userId;
     private int sessionId;
     private final StplSecurity stplSecurity = new StplSecurity();
@@ -56,7 +58,7 @@ public class RemoveDiscountLookUp extends Window {
     }
 
     public RemoveDiscountLookUp(final List<RemoveDiscountDto> selecteditemList, int userID, int sessionID) {
-        this.selecteditemList = selecteditemList;
+        this.setSelecteditemList(selecteditemList == null ? selecteditemList : Collections.unmodifiableList(selecteditemList));
         this.userId = userID;
         this.sessionId = sessionID;
         mainTab = new TabSheet();
@@ -228,4 +230,20 @@ public class RemoveDiscountLookUp extends Window {
             LOGGER.error("",ex);
         }
     }
+
+	public List<RemoveDiscountDto> getSelecteditemList() {
+		return selecteditemList;
+	}
+
+	public void setSelecteditemList(List<RemoveDiscountDto> selecteditemList) {
+		this.selecteditemList = selecteditemList;
+	}
+
+	public TreeTable getDashboardTreeTable() {
+		return dashboardTreeTable;
+	}
+
+	public void setDashboardTreeTable(TreeTable dashboardTreeTable) {
+		this.dashboardTreeTable = dashboardTreeTable;
+	}
 }

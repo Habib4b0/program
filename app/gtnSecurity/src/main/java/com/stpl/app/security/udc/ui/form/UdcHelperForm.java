@@ -67,17 +67,17 @@ public class UdcHelperForm extends CustomComponent implements View {
      */
     private static final long serialVersionUID = 7820110023085927101L;
     private UdcLogic udcLogic = new UdcLogic();
-    final ErrorLabel errorMsg = new ErrorLabel();
-    final Label space = new Label("&nbsp;", ContentMode.HTML);
-    final NativeSelect category = new NativeSelect();
-    final TextField description = new TextField();
-    final TextField brandId = new TextField();
-    final TextField brandName = new TextField();
-    final TextField displayBrand = new TextField();
-    final TextField aliasName = new TextField();
-    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-    ErrorfulFieldGroup binder;
-    ErrorfulFieldGroup brandBinder;
+    private final ErrorLabel errorMsg = new ErrorLabel();
+    private final Label space = new Label("&nbsp;", ContentMode.HTML);
+    private final NativeSelect category = new NativeSelect();
+    private final TextField description = new TextField();
+    private final TextField brandId = new TextField();
+    private final TextField brandName = new TextField();
+    private final TextField displayBrand = new TextField();
+    private final TextField aliasName = new TextField();
+    private CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    private ErrorfulFieldGroup binder;
+    private ErrorfulFieldGroup brandBinder;
     private static final Object[] HELPER_COLUMNS = new Object[]{"description", "listName"};
     private static final String[] HELPER_HEADERS = new String[]{"Description", CommonUtils.CASECATEGORY};
     public static final String CATEGORY_LABEL = "category";
@@ -91,22 +91,22 @@ public class UdcHelperForm extends CustomComponent implements View {
     
     private static final Object[] FILE_TYPE_HELPER_COLUMNS = new Object[]{"description", "listName", "aliasName"};
     private static final String[] FILE_TYPE_HELPER_HEADERS = new String[]{"Description", CommonUtils.CASECATEGORY ,CommonUtils.ALIAS_NAME};
-    Button btnDelete = new Button("Delete");
-    Button btnSave1 = new Button("Add");
+    private Button btnDelete = new Button("Delete");
+    private Button btnSave1 = new Button("Add");
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(UdcHelperForm.class.getName());
 
-    BeanItemContainer<HelperForm> searchResultbeans;
-    Table table = new Table();
-    LazyBeanItemContainer searchResults;
-    final Label valueLabel = new Label("Value");
-    final Label aliasNameLabel = new Label("AliasName");
-    final Label brandIdLabel = new Label("Brand ID");
-    final Label brandNameLabel = new Label("Brand Name");
-    final Label displayBrandLabel = new Label("Display Brand");
-    int masterSid = 0;
-    UdcLogicDAO dao = new UdcLogicDAOImpl();
+    private BeanItemContainer<HelperForm> searchResultbeans;
+    private Table table = new Table();
+    private LazyBeanItemContainer searchResults;
+    private final Label valueLabel = new Label("Value");
+    private final Label aliasNameLabel = new Label("AliasName");
+    private final Label brandIdLabel = new Label("Brand ID");
+    private final Label brandNameLabel = new Label("Brand Name");
+    private final Label displayBrandLabel = new Label("Display Brand");
+    private int masterSid = 0;
+    private UdcLogicDAO dao = new UdcLogicDAOImpl();
     private final SessionDTO sessionDTO;
 
     public UdcHelperForm(SessionDTO sessionDTO, BeanItemContainer<HelperForm> searchResultbeans, Table table) {
@@ -172,7 +172,7 @@ public class UdcHelperForm extends CustomComponent implements View {
         brandBinder.setErrorDisplay(errorMsg);
         return brandBinder;
     }
-    GridLayout gridLayout = new GridLayout(NumericConstants.SEVEN, NumericConstants.FOUR);
+    private GridLayout gridLayout = new GridLayout(NumericConstants.SEVEN, NumericConstants.FOUR);
 
     private GridLayout addGrid() {
 
@@ -436,7 +436,7 @@ public class UdcHelperForm extends CustomComponent implements View {
 
         description.setImmediate(true);
         description.setValidationVisible(true);
-        description.addValidator(new RegexpValidator(ValidationUtils.alphaNumericCharsUDC, ValidationUtils.alphaNumericCharsMessage));
+        description.addValidator(new RegexpValidator(ValidationUtils.ALPHANUMERIC_CHARS_UDC, ValidationUtils.ALPHANUMERIC_CHARS_MESSAGE));
         description
                 .addValidator(new StringLengthValidator(
                         " Value Should be less than 50 characters", 0,

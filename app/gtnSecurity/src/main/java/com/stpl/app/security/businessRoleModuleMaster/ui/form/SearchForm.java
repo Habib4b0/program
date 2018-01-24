@@ -45,14 +45,14 @@ public class SearchForm extends CustomComponent {
 
     private static final long serialVersionUID = 8893447767363695369L;
 
-    final ErrorLabel errorMsg = new ErrorLabel();
-    IndexedContainer con = new IndexedContainer();
-    BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
-    BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
-    BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
-    CheckBox add = new CheckBox("Add");
-    CheckBox view = new CheckBox("View");
-    CheckBox edit = new CheckBox("Edit");
+    private final ErrorLabel errorMsg = new ErrorLabel();
+    private IndexedContainer con = new IndexedContainer();
+    private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
+    private BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
+    private BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
+    private CheckBox add = new CheckBox("Add");
+    private CheckBox view = new CheckBox("View");
+    private CheckBox edit = new CheckBox("Edit");
     @UiField("functionResult")
     private HorizontalLayout functionResult;
     @UiField("fieldResult")
@@ -184,7 +184,7 @@ public class SearchForm extends CustomComponent {
         add.addValueChangeListener(new ValueChangeListener() {
             @Override
             public void valueChange(ValueChangeEvent vce) {
-                 boolean value = add.getValue();
+                boolean value = add.getValue();
                 if (value == true) {
                     int size = searchFieldResult.size();
 
@@ -226,7 +226,7 @@ public class SearchForm extends CustomComponent {
         edit.addValueChangeListener(new ValueChangeListener() {
             @Override
             public void valueChange(ValueChangeEvent vce) {
-                 boolean value = edit.getValue();
+                boolean value = edit.getValue();
 
                 if (value == true) {
                     int size = searchFieldResult.size();

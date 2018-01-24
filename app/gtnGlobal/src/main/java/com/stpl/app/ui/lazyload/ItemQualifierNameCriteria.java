@@ -23,6 +23,7 @@ public class ItemQualifierNameCriteria implements SearchCriteria{
 	private int lastCount;
 
 	/** The dirty. */
+	@SuppressWarnings("unused")
 	private boolean dirty;
 
 	/** The filter. */
@@ -33,6 +34,10 @@ public class ItemQualifierNameCriteria implements SearchCriteria{
 	 *
 	 * @return the description
 	 */
+	public ItemQualifierNameCriteria(){
+		super();
+	}
+	
 	public String getDescription() {
 		return description;
 	}

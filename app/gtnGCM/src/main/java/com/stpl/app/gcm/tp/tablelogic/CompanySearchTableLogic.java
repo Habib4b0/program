@@ -29,7 +29,7 @@ public class CompanySearchTableLogic extends PageTableLogic {
   private  String recordLockStatus = StringUtils.EMPTY;
   private  String parentCompanyNo = StringUtils.EMPTY;
   private  String parentCompanyName = StringUtils.EMPTY;
-  public boolean isProjSelected = false;
+  private boolean isProjSelected = false;
   private static final Logger LOGGER = LoggerFactory.getLogger(CompanySearchTableLogic.class);
 
     @Override
@@ -48,7 +48,7 @@ public class CompanySearchTableLogic extends PageTableLogic {
     @Override
     public List loadData(int start, int offset) {
         try {
-            return logic.searchCompaniesLazy(tpDTo, start, offset, this.getSortByColumns(), parentCompanyNo, parentCompanyName, getFilters(), recordLockStatus, searchSessionid, isProjSelected);
+            return logic.searchCompaniesLazy(tpDTo, start, offset, this.getSortByColumns(), parentCompanyNo, parentCompanyName, getFilters(), recordLockStatus, searchSessionid, isProjSelected());
         } catch (Exception e) {
             LOGGER.error("",e);
             return Collections.emptyList();
@@ -88,4 +88,11 @@ public class CompanySearchTableLogic extends PageTableLogic {
         return getRecordCount() != 0;
     }
 
+    public boolean isProjSelected() {
+            return isProjSelected;
+    }
+
+    public void setProjSelected(boolean isProjSelected) {
+            this.isProjSelected = isProjSelected;
+    }
 }

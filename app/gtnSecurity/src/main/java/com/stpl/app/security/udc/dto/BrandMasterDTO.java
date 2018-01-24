@@ -25,6 +25,10 @@ public class BrandMasterDTO implements Serializable {
     
     private String category = StringUtils.EMPTY;
 
+    public BrandMasterDTO(){
+    	super();
+    }
+    
     public String getBrandId() {
         return brandId;
     }

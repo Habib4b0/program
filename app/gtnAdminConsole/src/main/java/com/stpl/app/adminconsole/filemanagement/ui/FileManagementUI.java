@@ -35,6 +35,9 @@ import org.osgi.service.component.annotations.ServiceScope;
         "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class FileManagementUI extends UI {
 
+	public FileManagementUI(){
+		 super();
+	}
 	/** The navigator. */
 	private Navigator navigator;
 

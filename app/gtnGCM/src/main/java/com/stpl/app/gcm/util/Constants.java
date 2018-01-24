@@ -646,7 +646,7 @@ public class Constants {
         STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER};
     public final Object exlPtpComponentInfoColumns[] = new Object[]{ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, THERAPY_CLASS_PROPERTY, BRAND_PROPERTY, STATUS_S, "itemStDate", "itemEdDate", REBATE_PLAN_PROPERTY, FORMULA_ID_PROPERTY};
     public final String exlPtpComponentInfoHeaders[] = new String[]{Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, REBATE_PLAN_LABEL, FORMULA_ID_LABEL};
-    public static String ADDBY = "addBy";
+    private static String ADDBY = "addBy";
     public static final String LEVEL_VALUE_PROPERTY = "levelValue";
     public static final String AMOUNT_LABEL = "Amount";
     public static final String SALES_LABEL = "Sales";
@@ -1358,7 +1358,15 @@ public class Constants {
         return object;
     }
     
-    /*
+    public static String getADDBY() {
+		return ADDBY;
+	}
+
+	public static void setADDBY(String aDDBY) {
+		ADDBY = aDDBY;
+	}
+
+	/*
             Constants for Item Management
      */
     public static final String MEASUREMENT_PRICE_LABLE_NAME = "Measurement Price";

@@ -104,7 +104,7 @@ public class Sales extends CustomComponent {
     /**
      * The excel export image.
      */
-    private final Resource excelExportImage = new ThemeResource("img/excel.png");
+    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
 
     private AccrualRateProjectionTableLogic tableLogic = new AccrualRateProjectionTableLogic();
     private FreezePagedTable resultsTable = new FreezePagedTable(tableLogic);
@@ -492,7 +492,7 @@ public class Sales extends CustomComponent {
         final ExtContainer<AccrualRateProjectionDTO> excelBeanContainer = new ExtContainer<>(AccrualRateProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
         configureAndLoadDataForExcel(excelTable, excelBeanContainer);
         if (excelTable.size() > 0) {
-            ForecastUI.EXCEL_CLOSE = true;
+            ForecastUI.setEXCEL_CLOSE(true);
             ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), AccrualRateUtils.SALES, AccrualRateUtils.SALES, "Sales.xls", false);
             exp.export();
         }

@@ -44,17 +44,17 @@ public class HeaderUtils {
     /**
      * The PMPY Available Product columns.
      */
-    public Object[] pmpyProductColumns = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME};
+    private Object[] pmpyProductColumns = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME};
 
     /**
      * The PMPY Available Product Headers.
      */
-    public String[] pmpyProductHeader = new String[]{"Product #", "Product Name"};
+    private String[] pmpyProductHeader = new String[]{"Product #", "Product Name"};
 
     /**
      * The PMPY Available Product columns.
      */
-    public Object[] pmpyColumns = new Object[]{"actuals", "projections"};
+    private Object[] pmpyColumns = new Object[]{"actuals", "projections"};
     public static final String PRODUCT_GROWTH1 = " Product Growth";
     public static final String PROJECTED_UNITS1 = " Projected Units";
     public static final String PROJECTED_SALES1 = "Projected Sales";
@@ -62,7 +62,7 @@ public class HeaderUtils {
     /**
      * The PMPY Available Product Headers.
      */
-    public String[] pmpyHeader = new String[]{Constant.ACTUALS, Constant.PROJECTIONS};
+    private String[] pmpyHeader = new String[]{Constant.ACTUALS, Constant.PROJECTIONS};
 
     /**
      * To load the Header
@@ -1112,4 +1112,20 @@ public class HeaderUtils {
         }
         return object;
     }
+
+	public Object[] getPmpyProductColumns() {
+		return pmpyProductColumns.clone();
+	}
+
+	public String[] getPmpyProductHeader() {
+		return pmpyProductHeader.clone();
+	}
+
+	public Object[] getPmpyColumns() {
+		return pmpyColumns.clone();
+	}
+
+	public String[] getPmpyHeader() {
+		return pmpyHeader.clone();
+	}
 }

@@ -857,5 +857,9 @@ public class CustomerSelection extends CustomComponent {
             LOGGER.error(ex.getMessage());
         }
     }
+
+	public HeaderUtils getHeaderUtils() {
+		return headerUtils;
+	}
 }
 

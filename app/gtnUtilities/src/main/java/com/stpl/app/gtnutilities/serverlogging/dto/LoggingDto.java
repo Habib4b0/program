@@ -13,6 +13,10 @@ public class LoggingDto {
 	private String messagesSelected;
 	private String active;
 
+	public LoggingDto(){
+		super();
+	}
+	
     public String getLogDestination() {
         return logDestination;
     }

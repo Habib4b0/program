@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 public class PPAQuerys {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAQuerys.class);
-    final static PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
+    private final static PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
     private static GtnSmallHashMap replaceTableName = new GtnSmallHashMap();
     public static List getGroupList() {
         return new ArrayList();

@@ -872,7 +872,7 @@ public class AltSummeryDiscount extends CustomComponent {
             }
             generateButtonlogicForExcel();
             String excelName="Summary";
-            ForecastUI.EXCEL_CLOSE=true;
+            ForecastUI.setEXCEL_CLOSE(true);
             ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(excelTable), excelName, excelName, excelName + ".xls", false);
             excel.export();
         } catch (IllegalArgumentException e) {

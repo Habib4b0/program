@@ -5,9 +5,7 @@
  */
 package com.stpl.app.adminconsole.processscheduler.logic;
 
-import static com.stpl.app.adminconsole.processscheduler.logic.ManualLogic.columnName;
-import static com.stpl.app.security.StplSecurity.userMap;
-
+import static com.stpl.app.adminconsole.processscheduler.logic.ManualLogic.COLUMN_NAME;
 import java.io.FileInputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -49,6 +47,7 @@ import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.model.WorkflowProfile;
+import com.stpl.app.security.StplSecurity;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.WorkflowProfileLocalServiceUtil;
 import com.stpl.app.util.service.ArmSchedulerSynchronizer;
@@ -120,19 +119,19 @@ public class ProcessSchedulerLogic {
 	}
 
 	public static String getDBColumnName(String visibleColumnName) {
-		return columnName.get(visibleColumnName);
+		return COLUMN_NAME.get(visibleColumnName);
 	}
 
 	public static HashMap<String, String> loadDbColumnName() {
-		columnName.put("processDisplayName", "PROCESS_NAME");
-		columnName.put("status", "ACTIVE_FLAG");
-		columnName.put("startDate", "START_DATE");
-		columnName.put("endDate", "END_DATE");
-		columnName.put("frequencyRadio", "FREQUENCY");
-		columnName.put("scheduleLastRun", "SCHEDULE_LAST_RUN");
-		columnName.put("modifiedDate", "MODIFIED_DATE");
-		columnName.put("modifiedBy", "USR.screenName");
-		return columnName;
+		COLUMN_NAME.put("processDisplayName", "PROCESS_NAME");
+		COLUMN_NAME.put("status", "ACTIVE_FLAG");
+		COLUMN_NAME.put("startDate", "START_DATE");
+		COLUMN_NAME.put("endDate", "END_DATE");
+		COLUMN_NAME.put("frequencyRadio", "FREQUENCY");
+		COLUMN_NAME.put("scheduleLastRun", "SCHEDULE_LAST_RUN");
+		COLUMN_NAME.put("modifiedDate", "MODIFIED_DATE");
+		COLUMN_NAME.put("modifiedBy", "USR.screenName");
+		return COLUMN_NAME;
 	}
 
 	private List getCustomizedSchedulerProcessing(List list) throws SystemException {
@@ -728,7 +727,8 @@ public class ProcessSchedulerLogic {
 	 */
 	public static Map<Integer, String> getUserName() throws SystemException {
 		LOGGER.debug("Enters getUserName method");
-		DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
+		Map<Integer, String> userMap = StplSecurity.getUserMap();
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
 		List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
 		for (User user : userList) {
 			userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getLastName() + ", " + user.getFirstName());
