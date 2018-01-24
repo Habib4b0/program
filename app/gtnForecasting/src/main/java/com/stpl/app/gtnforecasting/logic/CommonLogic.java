@@ -105,7 +105,6 @@ public class CommonLogic {
     public static final String CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST = "CROSS APPLY (SELECT DISTINCT TOKEN FROM UDF_SPLITSTRING('";
     private static final String HIERARCHY_NO_JOIN = "', ',') C WHERE CCPH.CUST_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN";
     private static final String RELATIONSHIP_BUILDER_SID = "' and relationship_builder_sid = ";
-    private static final String PARENT_VALIDATE_JOIN = " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n ";
     private static final String RELATIONSHIP_LEVEL_DEFINITION_JOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.PARENT_HIERARCHY_NO LIKE '";
     
     private final GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
@@ -875,43 +874,6 @@ public class CommonLogic {
 		return procedureToCall.toString();
     }
 
-    /**
-     * To convert the given Result Set into List of Objects
-     *
-     * @param rs
-     * @return
-     */
-    private static List<Object[]> convertResultSetToList(ResultSet rs) {
-        List<Object[]> objList = new ArrayList<>();
-
-        try {
-            ResultSetMetaData rsMetaData = rs.getMetaData();
-            int columnCount = rsMetaData.getColumnCount();
-            Object[] header = new Object[columnCount];
-            for (int i = 1; i <= columnCount; ++i) {
-                Object label = rsMetaData.getColumnLabel(i);
-                header[i - 1] = label;
-            }
-            while (rs.next()) {
-                Object[] str = new Object[columnCount];
-                for (int i = 1; i <= columnCount; ++i) {
-                    Object obj = rs.getObject(i);
-                    str[i - 1] = obj;
-                }
-                objList.add(str);
-            }
-        } catch (SQLException ex) {
-            LOGGER.error(ex);
-
-        } finally {
-            try {
-                rs.close();
-            } catch (SQLException ex) {
-                LOGGER.error(ex);
-        } 
-        }
-        return objList;
-    }
 
     /**
      *
@@ -1804,8 +1766,6 @@ public class CommonLogic {
             GroupFilter.initdiscountMap(session);
         }
         groupList.addAll(getDiscountGroup(session));
-        if (isPPA) {
-        }
         return groupList;
     }
 
