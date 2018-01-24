@@ -8,6 +8,11 @@
     <packaging>pom</packaging>
     <name>customcomp</name>
     <description>customcomp</description>
+    <parent>
+        <groupId>com.stpl.app</groupId>
+        <artifactId>global-parent</artifactId>
+        <version>1.0</version>
+    </parent>
     <properties>
         <maven.version>2.5</maven.version>
         <encoding>UTF-8</encoding>
@@ -37,7 +42,6 @@
         <module>calendarfield</module>
         <module>VaadinWidgetSet_V7/vaadin-widgetset</module>
         <module>ErrorLabel</module>
-         <module>stpl-theme</module>
     </modules>
     <repositories>
         <repository>

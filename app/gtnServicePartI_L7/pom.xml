@@ -5,7 +5,6 @@
         <groupId>com.stpl.app</groupId>
         <artifactId>global-parent</artifactId>
         <version>1.0</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
     <groupId>com.stpl</groupId>
     <artifactId>gtnServicePartI</artifactId>

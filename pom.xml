@@ -44,8 +44,9 @@
 		</repository>
 	</repositories>
 	<profiles>
+
 		<profile>
-			<id>Install-Dependency</id>
+			<id>Release-Build</id>
 			<modules>
 				<module>etl</module>
 				<module>app/Resources</module>
@@ -55,32 +56,12 @@
 				<module>app/gtnServicePartII_L7</module>
 				<module>app/gtnServicePartI_L7</module>
 				<module>app/gtnHierarchyRouteBuilder</module>
-
-				<module>app/JarReleasePlugin</module>
-			</modules>
-			<build>
-				<defaultGoal>clean install</defaultGoal>
-			</build>
-		</profile>
-
-		<profile>
-			<id>Release-Build</id>
-			<modules>
-                                <module>app/Resources</module>
-				<module>app/gtnProperties</module>
-				<module>app/gtnUtility</module>
-				<module>app/util-service</module>
-				<module>app/gtnServicePartII_L7</module>
-				<module>app/gtnServicePartI_L7</module>
-				<module>app/gtnHierarchyRouteBuilder</module>
 				<module>app/gtnGlobal</module>
-				<!--<module>app/gtnTransaction</module>-->
 				<module>app/gtnSecurity</module>
 				<module>app/gtnForecasting</module>
 				<module>app/gtnAdminConsole</module>
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
-				<!--<module>app/gtnUtilities</module>-->
 			</modules>
 			<activation>
 				<property>
@@ -102,6 +83,50 @@
 							<skipTests>${skipTests}</skipTests>
 						</configuration>
 					</plugin>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>${maven-resources-plugin}</version>
+						<configuration>
+							<encoding>UTF-8</encoding>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>biz.aQute.bnd</groupId>
+						<artifactId>bnd-maven-plugin</artifactId>
+						<version>3.3.0</version>
+						<executions>
+							<execution>
+								<id>default-bnd-process</id>
+								<goals>
+									<goal>bnd-process</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>biz.aQute.bnd</groupId>
+								<artifactId>biz.aQute.bndlib</artifactId>
+								<version>3.3.0</version>
+							</dependency>
+							<dependency>
+								<groupId>com.liferay</groupId>
+								<artifactId>com.liferay.ant.bnd</artifactId>
+								<version>2.0.41</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jar-plugin</artifactId>
+						<version>2.6</version>
+						<configuration>
+							<archive>
+								<manifestFile>
+									${project.build.outputDirectory}/META-INF/MANIFEST.MF
+								</manifestFile>
+							</archive>
+						</configuration>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -121,14 +146,12 @@
 				<module>app/gtnPartII</module>
 				<module>app/gtnSharedLibrary</module>
 				<module>app/gtnGlobal</module>
-				<module>app/gtnTransaction</module>
 				<module>app/gtnContract</module>
 				<module>app/gtnSecurity</module>
 				<module>app/gtnForecasting</module>
 				<module>app/gtnAdminConsole</module>
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
-				<module>app/gtnUtilities</module>
 			</modules>
 			<build>
 				<defaultGoal>clean</defaultGoal>
@@ -136,52 +159,4 @@
 		</profile>
 
 	</profiles>
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>${maven-resources-plugin}</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-                        <plugin>
-				<groupId>biz.aQute.bnd</groupId>
-				<artifactId>bnd-maven-plugin</artifactId>
-				<version>3.3.0</version>
-				<executions>
-					<execution>
-						<id>default-bnd-process</id>
-						<goals>
-							<goal>bnd-process</goal>
-						</goals>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>biz.aQute.bnd</groupId>
-						<artifactId>biz.aQute.bndlib</artifactId>
-						<version>3.3.0</version>
-					</dependency>
-					<dependency>
-						<groupId>com.liferay</groupId>
-						<artifactId>com.liferay.ant.bnd</artifactId>
-						<version>2.0.41</version>
-					</dependency>
-				</dependencies>
-			</plugin> 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <archive>
-                        <manifestFile>
-                            ${project.build.outputDirectory}/META-INF/MANIFEST.MF
-                        </manifestFile>
-                    </archive>
-                </configuration>
-            </plugin>         
-		</plugins>
-	</build>
 </project>

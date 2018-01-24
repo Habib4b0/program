@@ -93,8 +93,8 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 	protected String basepath = (VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null
 			? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()
 			: "");
-	protected Image wordPngImage = new Image(null, new ThemeResource("../../icons/word.png"));
-	protected Image pdfPngImage = new Image(null, new ThemeResource("../../icons/pdf.png"));
+	protected Image wordPngImage = new Image(null, new ThemeResource("img/word.png"));
+	protected Image pdfPngImage = new Image(null, new ThemeResource("img/pdf.png"));
 	protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
 	protected Object tableBeanId = null;
 	protected File fileUpload;
@@ -866,7 +866,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 
 					gtnLogger.debug("Uploading started for file :" + filename);
 
-					fileExtension = filename.contains(".") ? filename.split("\\.")[1] : "";
+					fileExtension = filename.contains(".") ? filename.substring(filename.lastIndexOf('.') + 1) : "";
 
 					if (!getValidFormats().contains(fileExtension)) {
 						uploadComponent.interruptUpload();
