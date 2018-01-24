@@ -104,9 +104,9 @@ public final class MProjectionResults extends ForecastProjectionResults {
         firstGenerated = true;
         if (loadProjectionSelection()) {
             tableVerticalLayout.removeAllComponents();
-            MProjectionResultsLogic logic=tableLogic.mProjectionResultsLogic;
+            MProjectionResultsLogic logic=tableLogic.getmProjectionResultsLogic();
             tableLogic = new ProjectionResultsTableLogic();
-            tableLogic.mProjectionResultsLogic=logic;
+            tableLogic.setmProjectionResultsLogic(logic);
             periodTableId = new FreezePagedTreeTable(tableLogic);
             initializeResultTable();
             configureResultTable();
@@ -198,8 +198,8 @@ public final class MProjectionResults extends ForecastProjectionResults {
             projectionSelectionDTO.setProductHierarchyNo(StringUtils.EMPTY);
             projectionSelectionDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
 
-            int count = tableLogic.mProjectionResultsLogic.getConfiguredProjectionResultsCount(new Object(), projectionSelectionDTO, true, projectionSelectionDTO);
-            List<ProjectionResultsDTO> resultList = tableLogic.mProjectionResultsLogic.getConfiguredProjectionResults(new Object(), 0, count, projectionSelectionDTO);
+            int count = tableLogic.getmProjectionResultsLogic().getConfiguredProjectionResultsCount(new Object(), projectionSelectionDTO, true, projectionSelectionDTO);
+            List<ProjectionResultsDTO> resultList = tableLogic.getmProjectionResultsLogic().getConfiguredProjectionResults(new Object(), 0, count, projectionSelectionDTO);
             loadDataToContainer(resultList, null);
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
@@ -435,8 +435,8 @@ public final class MProjectionResults extends ForecastProjectionResults {
         projectionSelectionDTO.setFilterHierarchyNo(StringUtils.EMPTY);
         projectionSelectionDTO.setProductHierarchyNo(StringUtils.EMPTY);
         projectionSelectionDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
-        int count =tableLogic.mProjectionResultsLogic.getConfiguredProjectionResultsCount(id, projectionSelectionDTO, true, projectionSelectionDTO);
-        List<ProjectionResultsDTO> resultList = tableLogic.mProjectionResultsLogic.getConfiguredProjectionResults(id, 0, count, projectionSelectionDTO);
+        int count =tableLogic.getmProjectionResultsLogic().getConfiguredProjectionResultsCount(id, projectionSelectionDTO, true, projectionSelectionDTO);
+        List<ProjectionResultsDTO> resultList = tableLogic.getmProjectionResultsLogic().getConfiguredProjectionResults(id, 0, count, projectionSelectionDTO);
         loadDataToContainer(resultList, id);
     }
 
@@ -444,7 +444,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
     protected void excelExportLogic() {
         configureExcelResultTable();
         levelFilterDdlbChangeOption(true);
-        ForecastUI.EXCEL_CLOSE = true;
+        ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.PROJECTION_RESULTS, Constant.PROJECTION_RESULTS, "Projection_Results.xls", false);
         exp.export();
         tableVerticalLayout.removeComponent(exceltable);

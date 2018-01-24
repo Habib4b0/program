@@ -23,10 +23,11 @@ import org.apache.commons.lang.StringUtils;
 public class FileUploader implements Receiver {
 
     private FileOutputStream outputStream;
-    public File file;
-    public static String FILE_PATH = getFilePath();
-    String moduleName = StringUtils.EMPTY;
-
+    private File file;
+    public static final String FILE_PATH = getFilePath();
+    private String moduleName = StringUtils.EMPTY;
+    private boolean isFileExists;
+    private boolean isFileCreated;
     public FileUploader(String moduleName) {
         this.moduleName = moduleName;
     }
@@ -49,10 +50,12 @@ public class FileUploader implements Receiver {
                 }
                 file = CommonUtil.getFile(dir, filename);
                 if (file.exists()) {
-                    file.delete();
+                    isFileExists=file.delete();
                 }
-                file.createNewFile();
+                isFileCreated=file.createNewFile();
                 outputStream = new FileOutputStream(file);
+                LOGGER.info("File deleted successfully"+isFileExists);
+                LOGGER.info("File created successfully"+isFileCreated);
             }
         } catch (final java.io.FileNotFoundException e) {
             LOGGER.error(e.getMessage());

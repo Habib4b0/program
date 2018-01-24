@@ -16,6 +16,8 @@ import com.stpl.app.gcm.util.Constants;
 import com.vaadin.v7.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
+
+import java.util.Collections;
 import java.util.List;
 import com.vaadin.v7.ui.VerticalLayout;
 
@@ -26,16 +28,16 @@ import com.vaadin.v7.ui.VerticalLayout;
 public class TransferContract extends CustomComponent {
 
     private VerticalLayout mainLayout = new VerticalLayout();
-    public TransferContractSearch contractSearch;
+    private TransferContractSearch contractSearch;
     private SelectionDTO selection;
-    public List selectedItemList;
+    private List selectedItemList;
     private AbstractComponentInfo componentDetails;
     private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
 
     public TransferContract(SelectionDTO selection, List selectedItemList) {
         try {
             this.selection = selection;
-            this.selectedItemList = selectedItemList;
+            this.setSelectedItemList(selectedItemList);
         } catch (Exception e) {
             LOGGER.error("",e);
         }
@@ -48,8 +50,8 @@ public class TransferContract extends CustomComponent {
 
     private void configureFields() {
         componentDetails = new AbstractComponentInfo(ConstantsUtil.RS, selection);
-        contractSearch = new TransferContractSearch(selection, selectedItemList);
-        contractSearch.contractSelectionTable.addValueChangeListener(new Property.ValueChangeListener() {
+        setContractSearch(new TransferContractSearch(selection, getSelectedItemList()));
+        getContractSearch().getContractSelectionTable().addValueChangeListener(new Property.ValueChangeListener() {
             /**
              * Method called when available results value is changed.
              */
@@ -59,7 +61,7 @@ public class TransferContract extends CustomComponent {
                 resultsItemClick(event.getProperty().getValue());
             }
         });
-        mainLayout.addComponent(contractSearch);
+        mainLayout.addComponent(getContractSearch());
         mainLayout.addComponent(componentDetails);
 
     }
@@ -81,18 +83,34 @@ public class TransferContract extends CustomComponent {
     }
 
     public boolean submitLogic() {
-        return contractSearch.submit();
+        return getContractSearch().submit();
     }
 
     public boolean loadSetDataCall() {
-        if (contractSearch.allItems.getValue().equals("YES")) {
+        if (getContractSearch().allItems.getValue().equals("YES")) {
             selection.setCountQueryName("Item Load contract Count for transfer");
             selection.setDataQueryName("Load contract Item For transfer");
         } else {
             selection.setCountQueryName("Load Non Selected item Contract Count");
             selection.setDataQueryName("Load Non Selected item Contract");
         }
-        return contractSearch.contractSelectionTableLogic.loadSetData(selection, true, selectedItemList, contractSearch.getInput());
+        return getContractSearch().getContractSelectionTableLogic().loadSetData(selection, true, getSelectedItemList(), getContractSearch().getInput());
     }
+
+	public TransferContractSearch getContractSearch() {
+		return contractSearch;
+	}
+
+	public void setContractSearch(TransferContractSearch contractSearch) {
+		this.contractSearch = contractSearch;
+	}
+
+	public List getSelectedItemList() {
+		return selectedItemList == null ? selectedItemList : Collections.unmodifiableList(selectedItemList);
+	}
+
+	public void setSelectedItemList(List selectedItemList) {
+		this.selectedItemList = selectedItemList == null ? selectedItemList : Collections.unmodifiableList(selectedItemList);
+	}
 }
 

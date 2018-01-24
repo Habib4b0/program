@@ -83,7 +83,7 @@ public class MProjectionResultsLogic {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         if ( projSelDTO.getSessionDTO().isPrRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgs, totalPRCInput)) {
             prcMProcedureResults = CommonLogic.callProcedure("PRC_M_PROJECTION_RESULTS", orderedArgs);
-            totalPRCInput = orderedArgs;
+            totalPRCInput = orderedArgs == null ? orderedArgs : orderedArgs.clone();
             projSelDTO.getSessionDTO().setPrRefreshReqd(false);
         }
         List<Object[]> gtsList = prcMProcedureResults;
@@ -531,7 +531,7 @@ public class MProjectionResultsLogic {
         netSalesDtoList.add(cogsDto);
         netSalesDtoList.add(netprofitDto);
 
-        return netSalesDtoList;
+        return Collections.unmodifiableList(netSalesDtoList);
     }
 
     public List<ProjectionResultsDTO> getCustomizedProjectionTotal(List<Object[]> list, ProjectionSelectionDTO projSelDTO) {
@@ -2154,7 +2154,7 @@ public class MProjectionResultsLogic {
         }
         String query=getProgramCodeQuery(freq.get(projSelDTO.getFrequencyDivision()), projSelDTO);
         programCodeList = (List<Object[]>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
-        return programCodeList;
+        return Collections.unmodifiableList(programCodeList);
     }
 
     public void getCustomizedProgramCode(List<Object[]> list, ProjectionSelectionDTO projSelDTO) throws PortalException, SystemException{

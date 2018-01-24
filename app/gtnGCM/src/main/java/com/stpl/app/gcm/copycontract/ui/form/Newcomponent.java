@@ -264,14 +264,14 @@ public class Newcomponent extends CustomComponent {
     public ComboBox rebatePlanLevel;
     @UiField("rsType")
     public ComboBox rsType;
-    public String selectedCompanies = Constants.EMPTY;
-    public String selectedItems = Constants.EMPTY;
+    private String selectedCompanies = Constants.EMPTY;
+    private String selectedItems = Constants.EMPTY;
     public static final String PRICE_VAL = "([0-9|\\.|])*";
     private final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd ");
     private final CommonDao DAO = CommonImpl.getInstance();
     private final CommonUtil commonUtil = CommonUtil.getInstance();
     private final NewComponentsDetailsSearchTableLogic tablelogic = new NewComponentsDetailsSearchTableLogic();
-    public ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tablelogic);
+    private ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tablelogic);
     private final CopyContractLogic logic = new CopyContractLogic();
     public static final String REGEX_STRING = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*";
     public static final String SELECT_ATLEAST_ONE_RECORD = "Please Select Atleast one Record at Component Details Section";
@@ -1399,7 +1399,7 @@ public class Newcomponent extends CustomComponent {
                                 cfpTypedto.setId(0);
                                 cfpTypedto.setDescription(String.valueOf(CFPType.getValue()));
                                 dashboardResultsTable.getContainerProperty(rootId, "marketType").setValue(cfpTypedto);
-                                dashboardResultsTable.getContainerProperty(rootId, Constants.ADDBY).setValue("1");
+                                dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("1");
                                 dashboardResultsTable.addItem(rootId);
                                 dashboardResultsTable.setParent(rootId, root);
                                 dashboardResultsTable.setChildrenAllowed(rootId, true);
@@ -1535,7 +1535,7 @@ public class Newcomponent extends CustomComponent {
                                     ifpStatusdto.setId(0);
                                     ifpStatusdto.setDescription(String.valueOf(cfpStatus.getValue()));
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.MARKET_TYPE).setValue(ifpStatusdto);
-                                    dashboardResultsTable.getContainerProperty(rootId, Constants.ADDBY).setValue("1");
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("1");
                                     dashboardResultsTable.addItem(rootId);
                                     dashboardResultsTable.setParent(rootId, root);
                                     dashboardResultsTable.setChildrenAllowed(rootId, true);
@@ -1689,7 +1689,7 @@ public class Newcomponent extends CustomComponent {
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NAME).setValue(priceScheduleName);
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue(Constants.THREE);
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(hiddenId);
-                                    dashboardResultsTable.getContainerProperty(rootId, Constants.ADDBY).setValue("1");
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("1");
                                     dashboardResultsTable.addItem(rootId);
                                     dashboardResultsTable.setParent(rootId, root);
                                     dashboardResultsTable.setChildrenAllowed(rootId, true);
@@ -1836,7 +1836,7 @@ public class Newcomponent extends CustomComponent {
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NAME).setValue(rebateScheduleName);
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue(Constants.FOUR);
                                     dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(hiddenId);
-                                    dashboardResultsTable.getContainerProperty(rootId, Constants.ADDBY).setValue("1");
+                                    dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("1");
                                     dashboardResultsTable.addItem(rootId);
                                     dashboardResultsTable.setParent(rootId, root);
                                     dashboardResultsTable.setChildrenAllowed(rootId, false);

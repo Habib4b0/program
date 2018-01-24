@@ -1679,7 +1679,7 @@ public class Constant {
             return frequencyValue;
         }
     }
-    public static String COUNTER_VALUE = "counterValue";
+    public static final String COUNTER_VALUE = "counterValue";
     public static final String RESETCOUNT = "ResetCount";
     public static final String PORTLET_NAME = "PortelName";
     public static final String NUM_VALIDATION = "([0-9])*";

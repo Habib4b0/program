@@ -110,7 +110,7 @@ public class CopyContractindex extends VerticalLayout {
     private final TextField hiddenId = new TextField();
     private final CommonUtil commonUtils = CommonUtil.getInstance();
     private final ContractSearchTableLogic tablelogic = new ContractSearchTableLogic();
-    public ExtPagedTable copycontractResultsTable = new ExtPagedTable(tablelogic);
+    private ExtPagedTable copycontractResultsTable = new ExtPagedTable(tablelogic);
     private final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
     private ContractSearchDTO binderDTO;
     private final List<ContractSearchDTO> selectionList = new ArrayList<>();

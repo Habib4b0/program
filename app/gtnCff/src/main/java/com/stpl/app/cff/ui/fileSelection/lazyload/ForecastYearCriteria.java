@@ -23,6 +23,7 @@ public class ForecastYearCriteria implements SearchCriteria {
 	private int lastCount;
 
 	/** The dirty. */
+	@SuppressWarnings("unused")
 	private boolean dirty;
 
 	/** The filter. */

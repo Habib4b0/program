@@ -34,6 +34,7 @@ import com.vaadin.v7.ui.Upload;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -360,7 +361,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	}
 
 	public List<NotesDTO> getRemoveDocDetailsItem() {
-		return removeDetailsList;
+		return Collections.unmodifiableList(removeDetailsList);
 	}
 
 	public void setValues(boolean saveFlag, SessionDTO sessionDTO) throws SystemException {

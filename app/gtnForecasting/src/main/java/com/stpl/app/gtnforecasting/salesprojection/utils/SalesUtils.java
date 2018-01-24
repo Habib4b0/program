@@ -37,19 +37,19 @@ import org.apache.commons.lang.StringUtils;
 public class SalesUtils {
     
     
-    public static String MANDATED_PRO_NAME = "{call Prc_mandated_sales_insert (?,?,?)}";
-    public static String NM_SALES_PRO_NAME = "{call PRC_NM_SALES_INSERT (?,?,?)}";
-    public static String RETURNS_SALES_INSERT_PRO_NAME = "{call PRC_RETURNS_INSERT (?,?,?)}";
-    public static String RETURNS_SALES_CALCULATE_PRO_NAME = "{call PRC_RETURNS_PROJECTION (?,?,?,?)}";
-    public static String PRC_NM_ACTUAL_INSERT = " PRC_NM_ACTUAL_INSERT ";
-    public static String PRC_NM_MASTER_INSERT = " PRC_NM_MASTER_INSERT ";
-    public static String PRC_NM_PROJECTION_INSERT = " PRC_NM_PROJECTION_INSERT ";
-    public static String PRC_PROJECTION_RESULTS = "PRC_PROJECTION_RESULTS";
-    public static String PRC_NA_WAC_DATA="PRC_NA_WAC_DATA";
-    public static String PRC_NM_PPA_INSERT = "PRC_NM_PPA_INSERT";
-    public static String PRC_NM_PPA_CALC = "PRC_NM_PPA_PROJECTION";
-    public  static  String PRC_NM_PPA_PROJ_INIT="PRC_NM_PPA_PROJ_INIT";
-    public  static String PRC_NM_PPA_PROJECTION="PRC_NM_PPA_PROJECTION";
+    public static final String MANDATED_PRO_NAME = "{call Prc_mandated_sales_insert (?,?,?)}";
+    public static final String NM_SALES_PRO_NAME = "{call PRC_NM_SALES_INSERT (?,?,?)}";
+    public static final String RETURNS_SALES_INSERT_PRO_NAME = "{call PRC_RETURNS_INSERT (?,?,?)}";
+    public static final String RETURNS_SALES_CALCULATE_PRO_NAME = "{call PRC_RETURNS_PROJECTION (?,?,?,?)}";
+    public static final String PRC_NM_ACTUAL_INSERT = " PRC_NM_ACTUAL_INSERT ";
+    public static final String PRC_NM_MASTER_INSERT = " PRC_NM_MASTER_INSERT ";
+    public static final String PRC_NM_PROJECTION_INSERT = " PRC_NM_PROJECTION_INSERT ";
+    public static final String PRC_PROJECTION_RESULTS = "PRC_PROJECTION_RESULTS";
+    public static final String PRC_NA_WAC_DATA="PRC_NA_WAC_DATA";
+    public static final String PRC_NM_PPA_INSERT = "PRC_NM_PPA_INSERT";
+    public static final String PRC_NM_PPA_CALC = "PRC_NM_PPA_PROJECTION";
+    public  static  final String PRC_NM_PPA_PROJ_INIT="PRC_NM_PPA_PROJ_INIT";
+    public  static final String PRC_NM_PPA_PROJECTION="PRC_NM_PPA_PROJECTION";
     
       public static String getPeriodFrequecy(final String frequency) {
         GtnSmallHashMap periodFrequencyMap = new GtnSmallHashMap();

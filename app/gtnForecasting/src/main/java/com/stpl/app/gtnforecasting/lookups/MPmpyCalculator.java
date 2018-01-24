@@ -328,17 +328,17 @@ public class MPmpyCalculator extends Window {
             selectedProductsTable.markAsDirty();          
 
             availableProductsTable.setContainerDataSource(availableProductsBean);
-            availableProductsTable.setVisibleColumns(HeaderUtils.getInstance().pmpyProductColumns);
-            availableProductsTable.setColumnHeaders(HeaderUtils.getInstance().pmpyProductHeader);
-            availableProductsTable.setColumnAlignment(HeaderUtils.getInstance().pmpyProductColumns[0], ExtCustomTable.Align.RIGHT);
+            availableProductsTable.setVisibleColumns(HeaderUtils.getInstance().getPmpyProductColumns());
+            availableProductsTable.setColumnHeaders(HeaderUtils.getInstance().getPmpyProductHeader());
+            availableProductsTable.setColumnAlignment(HeaderUtils.getInstance().getPmpyProductColumns()[0], ExtCustomTable.Align.RIGHT);
             availableProductsTable.setFilterBarVisible(true);
             availableProductsTable.setFilterDecorator(new ExtDemoFilterDecorator());
             availableProductsTable.setStyleName(Constant.FILTER_TABLE);
 
             selectedProductsTable.setContainerDataSource(selectedProductsBean);
-            selectedProductsTable.setVisibleColumns(HeaderUtils.getInstance().pmpyProductColumns);
-            selectedProductsTable.setColumnHeaders(HeaderUtils.getInstance().pmpyProductHeader);
-            selectedProductsTable.setColumnAlignment(HeaderUtils.getInstance().pmpyProductColumns[0], ExtCustomTable.Align.RIGHT);
+            selectedProductsTable.setVisibleColumns(HeaderUtils.getInstance().getPmpyProductColumns());
+            selectedProductsTable.setColumnHeaders(HeaderUtils.getInstance().getPmpyProductHeader());
+            selectedProductsTable.setColumnAlignment(HeaderUtils.getInstance().getPmpyProductColumns()[0], ExtCustomTable.Align.RIGHT);
             selectedProductsTable.setFilterBarVisible(true);
             selectedProductsTable.setFilterDecorator(new ExtDemoFilterDecorator());
             selectedProductsTable.setStyleName(Constant.FILTER_TABLE);
@@ -686,7 +686,7 @@ public class MPmpyCalculator extends Window {
                         
                         excelFilterTable.setVisibleColumns(excelHeaderDTO.getSingleColumns().toArray());
                         excelFilterTable.setColumnHeaders(excelHeaderDTO.getSingleHeaders().toArray(new String[excelHeaderDTO.getSingleHeaders().size()]));
-                        ForecastUI.EXCEL_CLOSE=true;
+                        ForecastUI.setEXCEL_CLOSE(true);
                         ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelFilterTable), Constant.PMPY_CALCULATOR, Constant.PMPY_CALCULATOR, "PMPYCalculator.xls", false);
                         export.export();
                         tableLayout.removeComponent(excelFilterTable);

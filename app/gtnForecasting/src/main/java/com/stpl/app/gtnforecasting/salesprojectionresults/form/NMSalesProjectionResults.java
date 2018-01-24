@@ -146,7 +146,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     /**
      * The projection id.
      */
-    int projectionId;
+    private int projectionId;
     /**
      * The max split position.
      */
@@ -502,8 +502,8 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             } else {
                 panelpivot.setCaption("Period Pivot View");
             }
-            NMSalesProjectionResultsLogic logic = tableLogic.sprLogic;
-            tableLogic.sprLogic = logic;
+            NMSalesProjectionResultsLogic logic = tableLogic.getSprLogic();
+            tableLogic.setSprLogic(logic);
             resultsTable = new FreezePagedTreeTable(tableLogic);
             initializeResultTable();
             configureTable();
@@ -830,7 +830,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         levelFilterDdlbChangeOption(true);
         exportPeriodViewTable.setRefresh(Boolean.TRUE);
         exportPeriodViewTable.setDoubleHeaderVisible(true);
-        ForecastUI.EXCEL_CLOSE = true;
+        ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport exp = null;
         int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
         if (Constant.PERIOD.equals(String.valueOf(pivotView.getValue())) && (QUARTERLY.getConstant().equals(String.valueOf(frequency.getValue())) || MONTHLY.getConstant().equals(String.valueOf(frequency.getValue())))) {
@@ -847,7 +847,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 exportPeriodViewTable.setDoubleHeaderMap((Map<Object, Object[]>) projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.FIVE));
                 exportPeriodViewTable.setRefresh(true);
                 String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
-                ForecastUI.EXCEL_CLOSE = true;
+                ForecastUI.setEXCEL_CLOSE(true);
                 if (i == 0) {
                     exp = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), sheetName, Constant.SALES_PROJECTION_RESULTS, "Sales_Projection_Results.xls", false);
                 } else {
@@ -1153,8 +1153,8 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         projectionDTO.setFilterHierarchyNo(StringUtils.EMPTY);
         projectionDTO.setProductHierarchyNo(StringUtils.EMPTY);
         projectionDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
-        int count = tableLogic.sprLogic.getConfiguredSalesProjectionResultsCount(id, projectionDTO, true);
-        List<SalesProjectionResultsDTO> resultList = tableLogic.sprLogic.getConfiguredSalesProjectionResults(id, 0, count, projectionDTO);
+        int count = tableLogic.getSprLogic().getConfiguredSalesProjectionResultsCount(id, projectionDTO, true);
+        List<SalesProjectionResultsDTO> resultList = tableLogic.getSprLogic().getConfiguredSalesProjectionResults(id, 0, count, projectionDTO);
         loadDataToContainer(resultList, id);
     }
 

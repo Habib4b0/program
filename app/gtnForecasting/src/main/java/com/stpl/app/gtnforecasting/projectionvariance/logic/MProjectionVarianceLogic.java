@@ -116,7 +116,7 @@ public class MProjectionVarianceLogic {
     public void setSelectionDTO(PVSelectionDTO selectionDTO) {
         this.selectionDTO = selectionDTO;
     }
-        boolean viewFlag = false;
+    private boolean viewFlag = false;
 
     public int getProjectionCount(final ComparisonLookupDTO lookUpDTO, final String selectedProjectionIds, final Set<Container.Filter> filterValue) throws PortalException, SystemException{
         String quotes = "'";

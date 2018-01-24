@@ -64,7 +64,7 @@ public class CommonUtil {
     protected HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
     private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
-    public static String COMMA=",";
+    public static final String COMMA=",";
 
     /**
      * Instantiates a new common util.

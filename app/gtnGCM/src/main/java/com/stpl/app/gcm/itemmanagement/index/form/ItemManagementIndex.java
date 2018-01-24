@@ -747,7 +747,7 @@ public class ItemManagementIndex extends CustomComponent {
                 closeEditTray(editWindow);
             }
         });
-        editWindow.closeBtn.addClickListener(new Button.ClickListener() {
+        editWindow.getCloseBtn().addClickListener(new Button.ClickListener() {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {

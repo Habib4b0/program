@@ -35,6 +35,9 @@ public class AbstractSearchTableLogic extends PageTableLogic {
     private boolean isResultsEmpty;
     private boolean isReset = false;
     
+    public AbstractSearchTableLogic(){
+    	super();
+    }
     @Override
     public int getCount() {
         int count = 0;

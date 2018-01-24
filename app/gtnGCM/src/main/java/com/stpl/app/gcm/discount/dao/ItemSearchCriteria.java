@@ -15,7 +15,8 @@ import org.asi.ui.addons.lazycontainer.SearchCriteria;
 public class ItemSearchCriteria implements SearchCriteria {
 
     private int lastCount;
-    public boolean dirty = false;
+    @SuppressWarnings("unused")
+	private boolean dirty = false;
     private final boolean customDirty = false;
     private String filter = StringUtils.EMPTY;
 

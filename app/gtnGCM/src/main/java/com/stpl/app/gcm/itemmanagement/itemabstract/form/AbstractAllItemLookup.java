@@ -36,7 +36,7 @@ public class AbstractAllItemLookup extends CustomWindow {
     private final Panel panel = new Panel();
     private final VerticalLayout layout = new VerticalLayout();
     private final ItemIndexTableLogic tableLogic = new ItemIndexTableLogic();
-    public ExtPagedTable itemResults = new ExtPagedTable(tableLogic);
+    private ExtPagedTable itemResults = new ExtPagedTable(tableLogic);
     private List<ItemIndexDto> selecteditemList = new ArrayList<>();
     private final BeanItemContainer<ItemIndexDto> searchContainer = new BeanItemContainer<>(ItemIndexDto.class);
     private final Button close = new Button("CLOSE");

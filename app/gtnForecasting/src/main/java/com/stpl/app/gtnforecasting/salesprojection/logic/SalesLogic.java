@@ -165,8 +165,8 @@ public class SalesLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public int getHistoryAndProjectionCount(final SessionDTO sessionDTO, final ProjectionSelectionDTO projectionSelectionDTO)  {
-        String query = SQlUtil.getQuery(getClass(),"rows-per-level-item");
+    public int getHistoryAndProjectionCount(final SessionDTO sessionDTO, final ProjectionSelectionDTO projectionSelectionDTO) {
+        String query = CustomSQLUtil.get("rows-per-level-item");
         if (Constant.VIEW.equals(projectionSelectionDTO.getSessionDTO().getAction()) && CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(projectionSelectionDTO.getScreenName())) {
             query = SQlUtil.getQuery("rows-per-level-item-view");
         }
@@ -728,7 +728,7 @@ public class SalesLogic {
         final Map<String, List> relationshipDetailsMap = sessionDTO.getHierarchyLevelDetails();
         for (int i = 0; i < resulList.size(); i++) {
             Object obj[] = (Object[]) resulList.get(i);
-            MSalesProjection.rowCountMap.put(String.valueOf(obj[NumericConstants.TEN]), obj[NumericConstants.ELEVEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])) : null);
+            MSalesProjection.getRowCountMap().put(String.valueOf(obj[NumericConstants.TEN]), obj[NumericConstants.ELEVEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])) : null);
             if (lastLevelValue.equalsIgnoreCase(STRING_EMPTY) || lastLevelValue.equals(String.valueOf(obj[NumericConstants.TEN]))) {
 
                 lastLevelValue = String.valueOf(obj[NumericConstants.TEN]);
@@ -831,6 +831,7 @@ public class SalesLogic {
         return salesRowList;
 
     }
+
     private void salesProjectionTableCustomization(final ProjectionSelectionDTO projectionSelectionDTO,
             List doubleColumnList, SalesRowDto salesRowDto, List<String> headerMapValue, Object[] obj, String key) {
         if (!doubleColumnList.contains(key)) {
@@ -1924,7 +1925,7 @@ public class SalesLogic {
 
             BigDecimal value = new BigDecimal(editedValue);
             String hierarchyNo = salesDTO.getHierarchyNo();
-            int rowcount = MSalesProjection.rowCountMap.get(hierarchyNo);
+            int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String keyarr[] = propertyId.split("-");
             if (frequencyDivision == 1) {
                 year = Integer.valueOf(keyarr[0]);
@@ -2064,7 +2065,7 @@ public class SalesLogic {
 
             BigDecimal value = new BigDecimal(editedValue);
             String hierarchyNo = salesDTO.getHierarchyNo();
-            int rowcount = MSalesProjection.rowCountMap.get(hierarchyNo);
+            int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String keyarr[] = propertyId.split("-");
             if (frequencyDivision == 1) {
                 year = Integer.valueOf(keyarr[0]);

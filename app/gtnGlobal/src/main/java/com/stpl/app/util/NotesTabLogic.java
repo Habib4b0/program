@@ -35,6 +35,10 @@ public class NotesTabLogic {
 	private boolean isFileExists;
 	private static final Logger LOGGER = LoggerFactory.getLogger(NotesTabLogic.class);
 
+	public NotesTabLogic(){
+		super();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<NotesDTO> getAttachmentDTOList(int masterTableSid, String moduleName, String filepath) {
 		List<NotesDTO> attachmentDTOList = new ArrayList<>();

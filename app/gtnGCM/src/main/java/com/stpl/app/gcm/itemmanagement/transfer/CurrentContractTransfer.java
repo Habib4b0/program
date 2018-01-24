@@ -15,6 +15,7 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.v7.ui.VerticalLayout;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,15 +25,15 @@ import java.util.List;
 public class CurrentContractTransfer extends CustomComponent {
 
     private VerticalLayout mainLayout = new VerticalLayout();
-    public CurrentContractContractSearch contractSearch;
+    private CurrentContractContractSearch contractSearch;
     private SelectionDTO selection;
-    public List selectedItemList;
+    private List selectedItemList;
     private AbstractComponentInfo componentDetails;
     private AbstractContractSearchDTO componentInfoDTO = new AbstractContractSearchDTO();
 
     public boolean isRemoveProjectionBooleanVal() {
-        if (contractSearch != null) {
-            return contractSearch.isRemoveProjectionBooleanVal();
+        if (getContractSearch() != null) {
+            return getContractSearch().isRemoveProjectionBooleanVal();
         }
         return false;
     }
@@ -40,7 +41,7 @@ public class CurrentContractTransfer extends CustomComponent {
     public CurrentContractTransfer(SelectionDTO selection, List selectedItemList) {
         try {
             this.selection = selection;
-            this.selectedItemList = selectedItemList;
+            this.selectedItemList = selectedItemList == null ? selectedItemList : Collections.unmodifiableList(selectedItemList);
         } catch (Exception e) {
             LOGGER.error("",e);
         }
@@ -53,8 +54,8 @@ public class CurrentContractTransfer extends CustomComponent {
 
     private void configureFields() {
         componentDetails = new AbstractComponentInfo(ConstantsUtil.RS, selection);
-        contractSearch = new CurrentContractContractSearch(selection, selectedItemList);
-        contractSearch.contractSelectionTable.addValueChangeListener(new Property.ValueChangeListener() {
+        setContractSearch(new CurrentContractContractSearch(selection, selectedItemList));
+        getContractSearch().getContractSelectionTable().addValueChangeListener(new Property.ValueChangeListener() {
             /**
              * Method called when available results value is changed.
              */
@@ -65,7 +66,7 @@ public class CurrentContractTransfer extends CustomComponent {
             }
         });
 
-        mainLayout.addComponent(contractSearch);
+        mainLayout.addComponent(getContractSearch());
         mainLayout.addComponent(componentDetails);
     }
 
@@ -86,7 +87,7 @@ public class CurrentContractTransfer extends CustomComponent {
     }
 
     public boolean submitLogic() {
-        return contractSearch.submit();
+        return getContractSearch().submit();
     }
 
     public boolean loadSetDataCall() {
@@ -97,6 +98,14 @@ public class CurrentContractTransfer extends CustomComponent {
             selection.setCountQueryName("Item Load contract Count");
             selection.setDataQueryName("Load contract Item");
         }
-        return contractSearch.contractSelectionTableLogic.loadSetData(selection, true, selectedItemList, contractSearch.getInput());
+        return getContractSearch().getContractSelectionTableLogic().loadSetData(selection, true, selectedItemList, getContractSearch().getInput());
     }
+
+	public CurrentContractContractSearch getContractSearch() {
+		return contractSearch;
+	}
+
+	public void setContractSearch(CurrentContractContractSearch contractSearch) {
+		this.contractSearch = contractSearch;
+	}
 }

@@ -573,6 +573,7 @@ public class FcpResults extends CustomComponent implements View {
     private void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
+        periodTableId.setImmediate(true);
         periodTableId.setSplitPosition(SPLIT_POS, Sizeable.Unit.PIXELS);
         periodTableId.setMinSplitPosition(MIN_SPLIT_POS, Sizeable.Unit.PIXELS);
         periodTableId.setMaxSplitPosition(MAX_SPLIT_POS, Sizeable.Unit.PIXELS);
@@ -736,7 +737,7 @@ public class FcpResults extends CustomComponent implements View {
             projectionDTO.setVariables(String.valueOf(variables.getValue()));
             projectionDTO.setProjectionOrder(periodOrder.getValue().toString());
             projectionDTO.setPivotView(view.getValue().toString());
-            com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.sessionDto;
+            com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
             Date startDate = startAndTodate.getFromDate();
             Date endDate = startAndTodate.getToDate();
             if (startDate != null && endDate != null) {

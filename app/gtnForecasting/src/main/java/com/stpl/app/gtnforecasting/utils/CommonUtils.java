@@ -277,22 +277,22 @@ public class CommonUtils {
     /**
      * The Constant HISTORY LOOKUP CONTRACT COLUMNS.
      */
-    public Object[] historyLookupContractColumnsMandated = new Object[]{"customer", "contractNumber", "contractName"};
+    public final Object[] historyLookupContractColumnsMandated = new Object[]{"customer", "contractNumber", "contractName"};
 
     /**
      * The Constant HISTORY LOOKUP CONTRACT HEADERS.
      */
-    public String[] historyLookupContractHeadersMandated = new String[]{Constant.CUSTOMER_SMALL, "Contract Number", "Contract Name"};
+    public final String[] historyLookupContractHeadersMandated = new String[]{Constant.CUSTOMER_SMALL, "Contract Number", "Contract Name"};
 
     /**
      * The Constant HISTORY LOOKUP CONTRACT COLUMNS.
      */
-    public Object[] historyLookupContractColumnsNonMandated = new Object[]{"customer", "contractNumber", "contractName"};
+    public final Object[] historyLookupContractColumnsNonMandated = new Object[]{"customer", "contractNumber", "contractName"};
 
     /**
      * The Constant HISTORY LOOKUP CONTRACT HEADERS.
      */
-    public String[] historyLookupContractHeaderNonMandated = new String[]{Constant.CUSTOMER_SMALL, "Contract Number", "Contract Name"};
+    public final String[] historyLookupContractHeaderNonMandated = new String[]{Constant.CUSTOMER_SMALL, "Contract Number", "Contract Name"};
 
     /**
      * The Constant HISTORY LOOKUP BRAND COLUMNS.
@@ -321,8 +321,9 @@ public class CommonUtils {
     public static final DecimalFormat MONEY = new DecimalFormat("$#,##0");
     public static final DecimalFormat PERCENTFORMAT = new DecimalFormat("#,##0.00%");
     public static final DecimalFormat PERCENT_FORMAT = new DecimalFormat("#,##0.000%");
-    public static PortletConfig portletConfig;
-    public static PortletSession portletSession;
+    private static PortletConfig portletConfig;
+    @SuppressWarnings("unused")
+	private static PortletSession portletSession;
 
     private static final ResourceBundle constantProperties = ResourceBundle.getBundle("properties.Constants");
 
@@ -1186,7 +1187,7 @@ public class CommonUtils {
     }
 
     public static void setPortalConfig(final PortletConfig portletConfig) {
-        CommonUtils.portletConfig = portletConfig;
+        CommonUtils.setPortletConfig(portletConfig);
     }
 
     public static void setPortletSession(final PortletSession portletSession) {
@@ -1961,5 +1962,13 @@ public class CommonUtils {
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
+    }
+
+    public static PortletConfig getPortletConfig() {
+            return portletConfig;
+    }
+
+    public static void setPortletConfig(PortletConfig portletConfig) {
+            CommonUtils.portletConfig = portletConfig;
     }
 }

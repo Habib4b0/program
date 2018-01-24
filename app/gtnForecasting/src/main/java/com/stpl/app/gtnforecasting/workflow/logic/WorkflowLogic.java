@@ -32,6 +32,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.WorkflowConstants;
+import com.vaadin.server.VaadinService;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -55,8 +56,8 @@ public class WorkflowLogic {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowLogic.class);
     private final String SUCCESS = Constant.SUCCESS;
-    WorkFlowLogicDao workFlowLogicDao = new WorkFlowLogicDaoImpl();
-    DataSelectionDAO dataselectionLogicDao = new DataSelectionDAOImpl();
+    private WorkFlowLogicDao workFlowLogicDao = new WorkFlowLogicDaoImpl();
+    private DataSelectionDAO dataselectionLogicDao = new DataSelectionDAOImpl();
 
     /**
      * Method to Save the data in WorkflowMaster
@@ -96,8 +97,9 @@ public class WorkflowLogic {
      * @throws IOException
      */
     public String saveWorkflow(int projectionId, String userId, String notes, int noOfLevels, String screenName, List<NotesDTO> getUploadedData, String description) {
-        String path = System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH);
-        String filePath1 = "WorkflowXML/BPIGeneratorIDs.xml";
+        String path = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null
+                ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
+        String filePath1 = "/../../../WorkflowXML/BPIGeneratorIDs.xml";
         String moduleName = StringUtils.EMPTY;
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             moduleName = Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY;

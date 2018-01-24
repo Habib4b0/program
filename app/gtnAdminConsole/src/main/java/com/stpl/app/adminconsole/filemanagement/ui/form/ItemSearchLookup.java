@@ -123,7 +123,7 @@ public class ItemSearchLookup extends Window {
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private int masterSid = 0;
     private String itemId = StringUtils.EMPTY;
-    public boolean isSelected=false;
+    private boolean isSelected=false;
 
     public ItemSearchLookup(TextField itemNo, TextField itemLookupName, final SessionDTO sessionDTO) {
         super("Item Search");
@@ -184,7 +184,7 @@ public class ItemSearchLookup extends Window {
             itemLookupName.setValue(dto.getItemName());
             itemId = dto.getItemId();
             masterSid = Integer.valueOf(dto.getSystemId());
-            isSelected=true;
+            setSelected(true);
             close();
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -295,7 +295,7 @@ public class ItemSearchLookup extends Window {
                 new Button.ClickListener() {
                    
                     public void buttonClick(final Button.ClickEvent event) {
-                        if (!isSelected) {
+                        if (!isSelected()) {
                             itemNumber.setValue(StringUtils.EMPTY);
                             itemLookupName.setValue(StringUtils.EMPTY);
                         }
@@ -310,7 +310,7 @@ public class ItemSearchLookup extends Window {
                 if (resultsTable.getValue() == null) {
                     AbstractNotificationUtils.getErrorNotification("Select Error", "Please click on a record within the results list view");
                 } else {
-                    isSelected=true;
+                    setSelected(true);
                     close();
                 }
             }
@@ -425,5 +425,13 @@ public class ItemSearchLookup extends Window {
         resultsTable.setWidth(NumericConstants.NINTY_NINE, UNITS_PERCENTAGE);
         resultsTable.setHeight("250px");
 
+    }
+
+    public boolean isSelected() {
+            return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+            this.isSelected = isSelected;
     }
 }

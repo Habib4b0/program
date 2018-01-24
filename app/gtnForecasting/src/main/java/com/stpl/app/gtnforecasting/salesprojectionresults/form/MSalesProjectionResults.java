@@ -141,7 +141,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
     private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
-    public ExtTreeContainer<SalesProjectionResultsDTO> resultBeanContainer = new ExtTreeContainer<>(SalesProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<SalesProjectionResultsDTO> resultBeanContainer = new ExtTreeContainer<>(SalesProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
     private ExtPagedTreeTable leftTable;
     private ExtPagedTreeTable rightTable;
     private final Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
@@ -276,9 +276,9 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         projectionDTO.setProjTabName("SPR");
         rightHeader = HeaderUtils.getSalesProjectionResultsRightTableColumns(projectionDTO, fullHeader);
         projectionDTO.setProjTabName(StringUtils.EMPTY);
-        resultBeanContainer = new ExtTreeContainer<>(SalesProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
-        resultBeanContainer.setColumnProperties(fullHeader.getProperties());
-        tableLogic.setContainerDataSource(resultBeanContainer);
+        setResultBeanContainer(new ExtTreeContainer<>(SalesProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP));
+        getResultBeanContainer().setColumnProperties(fullHeader.getProperties());
+        tableLogic.setContainerDataSource(getResultBeanContainer());
 
         leftTable = resultsTable.getLeftFreezeAsTable();
         rightTable = resultsTable.getRightFreezeAsTable();
@@ -423,9 +423,9 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             } else {
                 panelpivot.setCaption("Period Pivot View");
             }
-            NMSalesProjectionResultsLogic sprLogic = tableLogic.sprLogic;
+            NMSalesProjectionResultsLogic sprLogic = tableLogic.getSprLogic();
             tableLogic = new MSalesProjectionResultsTableLogic();
-            tableLogic.sprLogic = sprLogic;
+            tableLogic.setSprLogic(sprLogic);
             resultsTable = new FreezePagedTreeTable(tableLogic);
             initializeResultTable();
             configureResultTable();
@@ -662,8 +662,8 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
 
         projectionDTO.clearNonFetchableIndex();
 
-        int count = tableLogic.sprLogic.getConfiguredSalesProjectionResultsCountMandated(new Object(), projectionDTO, true);
-        List<SalesProjectionResultsDTO> resultList = tableLogic.sprLogic.getConfiguredSalesProjectionResultsMandated(new Object(), 0, count, projectionDTO);
+        int count = tableLogic.getSprLogic().getConfiguredSalesProjectionResultsCountMandated(new Object(), projectionDTO, true);
+        List<SalesProjectionResultsDTO> resultList = tableLogic.getSprLogic().getConfiguredSalesProjectionResultsMandated(new Object(), 0, count, projectionDTO);
 
         loadDataToContainer(resultList, null);
     }
@@ -708,8 +708,8 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         projectionDTO.setFilterHierarchyNo(StringUtils.EMPTY);
         projectionDTO.setProductHierarchyNo(StringUtils.EMPTY);
         projectionDTO.setCustomerHierarchyNo(StringUtils.EMPTY);
-        int count = tableLogic.sprLogic.getConfiguredSalesProjectionResultsCountMandated(id, projectionDTO, true);
-        List<SalesProjectionResultsDTO> resultList = tableLogic.sprLogic.getConfiguredSalesProjectionResultsMandated(id, 0, count, projectionDTO);
+        int count = tableLogic.getSprLogic().getConfiguredSalesProjectionResultsCountMandated(id, projectionDTO, true);
+        List<SalesProjectionResultsDTO> resultList = tableLogic.getSprLogic().getConfiguredSalesProjectionResultsMandated(id, 0, count, projectionDTO);
         loadDataToContainer(resultList, id);
     }
 
@@ -831,7 +831,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
     public void excelButtonLogic() {
         configureExcelResultTable();
         levelFilterDdlbChangeOption(true);
-        ForecastUI.EXCEL_CLOSE = true;
+        ForecastUI.setEXCEL_CLOSE(true);
         ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.SALES_PROJECTION_RESULTS, Constant.SALES_PROJECTION_RESULTS, "Sales_Projection_Results.xls", false);
         exp.export();
         vLayout.removeComponent(exceltable);
@@ -867,7 +867,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
     public void graphExportLogic() {
         LOGGER.debug("graphExportLogic method starts");
         List chartList = new ArrayList();
-        for (SalesProjectionResultsDTO dto : resultBeanContainer.getBeans()) {
+        for (SalesProjectionResultsDTO dto : getResultBeanContainer().getBeans()) {
             if (dto.getLevelNo() != null) {
                 chartList.add(dto);
             }
@@ -1028,4 +1028,12 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             canLoad = false;
         }
     }
+
+	public ExtTreeContainer<SalesProjectionResultsDTO> getResultBeanContainer() {
+		return resultBeanContainer;
+	}
+
+	public void setResultBeanContainer(ExtTreeContainer<SalesProjectionResultsDTO> resultBeanContainer) {
+		this.resultBeanContainer = resultBeanContainer;
+	}
 }

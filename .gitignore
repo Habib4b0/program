@@ -7,6 +7,8 @@ app/*/target/*
 *.settings*
 etl/target/*
 *.classpath
+/app/Resources/stpl-maven-plugin/target/
+/app/gtnForecasting/nbactions.xml
 /app/gtnServicePart1/jndi-api/target/
 /app/gtnServicePart1/jndi-service/target/
 /app/gtnServicePart1/gtnService/target/

@@ -642,7 +642,7 @@ public class ForecastForm extends AbstractForm {
 										salesProjectionForMandated.init();
 
 									} else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
-										returnsProjection.customContainer.removeAllItems();
+										returnsProjection.getCustomContainer().removeAllItems();
 										returnsProjection.init();
 									}
 								} catch (PortalException | SystemException | IOException | ClassNotFoundException ex) {
@@ -749,7 +749,7 @@ public class ForecastForm extends AbstractForm {
 				// To make the discount projection insert procedure to wait
 				CommonUtil.getInstance()
 						.waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_PROCEDURE_CALL));
-				if (discountProjection.isListviewGenerated && discountFlag) {
+				if (discountProjection.isListviewGenerated() && discountFlag) {
 					discountProjection.configure();
 					discountProjection.saveDiscountProjectionScreen(false);
 					discountFlag = false;
@@ -827,7 +827,7 @@ public class ForecastForm extends AbstractForm {
 								tabPosition = tempTabPosition;
 								dsFlag = true;
 
-								returnsProjection.customContainer.removeAllItems();
+								returnsProjection.getCustomContainer().removeAllItems();
 								returnsProjection.init();
 
 							} else {
@@ -915,10 +915,10 @@ public class ForecastForm extends AbstractForm {
 								tabPosition = tempTabPosition;
 								dsFlag = true;
 								salesProjectionForMandated.init();
-								salesProjectionResultsForMandated.resultBeanContainer.removeAllItems();
-								discountProjectionResultsForMandated.resultBeanContainer.removeAllItems();
-								projectionVarianceForMandated.beanContainerResult.removeAllItems();
-								mmdiscountProjectionResultsForMandated.resultBeanContainer.removeAllItems();
+								salesProjectionResultsForMandated.getResultBeanContainer().removeAllItems();
+								discountProjectionResultsForMandated.getResultBeanContainer().removeAllItems();
+								projectionVarianceForMandated.getBeanContainerResult().removeAllItems();
+								mmdiscountProjectionResultsForMandated.getResultBeanContainer().removeAllItems();
 							} else {
 
 								try {
@@ -1001,7 +1001,7 @@ public class ForecastForm extends AbstractForm {
 				break;
 			case Constant.SIX:
 				projectionVarianceForMandated.configureScreen();
-				projectionVarianceForMandated.contractTypeList.clear();
+				projectionVarianceForMandated.getContractTypeList().clear();
 				break;
 			case Constant.SEVEN:
 				break;
@@ -1365,7 +1365,7 @@ public class ForecastForm extends AbstractForm {
 								ppaProjectionResults.getContent();
 								ppaProjectionResults.ppaProcedure();
 							}
-							if (WorkFlowNotesLookup.submitFlag.equals("Success")) {
+							if (WorkFlowNotesLookup.getSUBMIT_FLAG().equals("Success")) {
 								submitProjection(popup.getNotes().getValue(), screenName, popup.getUploadedData());
 								if ((Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())
 										|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()))
@@ -1379,7 +1379,7 @@ public class ForecastForm extends AbstractForm {
 									closeViewTray(viewWindow);
 									viewWindow.close();
 								}
-								WorkFlowNotesLookup.submitFlag = "Failed";
+								WorkFlowNotesLookup.setSUBMIT_FLAG("Failed");
 								CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
 							}
 						} catch (SystemException ex) {

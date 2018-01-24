@@ -51,7 +51,7 @@ public class DroolsProperties {
                 }
                 isPrinted = true;
             }
-            return properties;
+            return (Properties)properties.clone();
         } catch (FileNotFoundException e) {
             logger.error(e.getMessage());
             logger.error("Please check the hierarchy_properties.properties file in following path :[" + path + "]");

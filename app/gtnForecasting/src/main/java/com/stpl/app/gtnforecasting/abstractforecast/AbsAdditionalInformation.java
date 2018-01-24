@@ -3,6 +3,7 @@ package com.stpl.app.gtnforecasting.abstractforecast;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.additionalinformation.logic.NotesTabLogic;
+import static com.stpl.app.gtnforecasting.logic.CommonLogic.PROJECTION_ID;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.PROJECTION_ID;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
@@ -106,8 +107,8 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected FileDownloader pdfDownloader;
     protected AbstractNotificationUtils.Parameter flag = new AbstractNotificationUtils.Parameter();
     protected static String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
-    protected Image wordPngImage = new Image(null, new ThemeResource("img/word.png"));
-    protected Image pdfPngImage = new Image(null, new ThemeResource("img/pdf.png"));
+    protected Image wordPngImage = new Image(null, new ThemeResource("../../icons/word.png"));
+    protected Image pdfPngImage = new Image(null, new ThemeResource("../../icons/pdf.png"));
     protected final File logo = CommonUtil.getFilePath(basepath + "/WEB-INF/images/company_logo.png");
     protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
     protected Object tableBeanId = null;
@@ -122,6 +123,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<>();
     protected List<NotesDTO> removeDetailsList = new ArrayList<>();
     private final NotesTabLogic logic = new NotesTabLogic();
+    private boolean isFileCreated;
     /**
      * The module name.
      */
@@ -148,7 +150,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         this.projectionId = projectionId;
         AbsAdditionalInformation.moduleName = moduleName;
         this.mode = mode;
-        setCompositionRoot(Clara.create(ForecastDataSelection.class.getResourceAsStream("/ui/notestabform.xml"), this));
+        setCompositionRoot(Clara.create(getClass().getResourceAsStream("/ui/notestabform.xml"), this));
         intailizingObject();
         init();
 
@@ -277,9 +279,10 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             private static final long serialVersionUID = 1L;
             @Override
             public void call(JsonArray arguments) {
-                 try {
-                    String value = String.valueOf(arguments.get(0).asString());
+                try {
+                    String value = String.valueOf(arguments.get(0));
                     if (StringUtils.isNotEmpty(value)) {
+
                         fileUpload = CommonUtil.getFilePath(fileUploadPath + value);
                         String name = fileUpload.getAbsolutePath();
                         if (name.contains("\\")) {
@@ -320,7 +323,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
              */
             @Override
             public void focus(FocusEvent event) {
-                  uploadComponent.focus();
+                uploadComponent.focus();
             }
         });
 
@@ -487,14 +490,16 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         }
         if (wordFile.exists() != true) {
             try {
-                wordFile.createNewFile();
+                isFileCreated=wordFile.createNewFile();
+                LOGGER.info("WordFile created successfully : "+isFileCreated);
             } catch (IOException ex) {
                 LOGGER.error(ex.getMessage());
             }
         }
         if (pdfFile.exists() != true) {
             try {
-                pdfFile.createNewFile();
+            	isFileCreated=pdfFile.createNewFile();
+            	LOGGER.info("PdfFile created successfully : "+isFileCreated);
             } catch (IOException ex) {
                 LOGGER.error(ex.getMessage());
             }

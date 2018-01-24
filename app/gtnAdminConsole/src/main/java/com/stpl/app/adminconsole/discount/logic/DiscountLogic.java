@@ -65,7 +65,7 @@ public class DiscountLogic {
     private SessionDTO sessionDTO;
 
     public DiscountLogic(SessionDTO sessionDTO) {
-        this.sessionDTO = sessionDTO;
+        this.setSessionDTO(sessionDTO);
     }
 
     public DiscountLogic() {
@@ -766,4 +766,12 @@ public class DiscountLogic {
         LOGGER.debug("getDeductionQuery Ended ");
         return query;
     }
+
+	public SessionDTO getSessionDTO() {
+		return sessionDTO;
+	}
+
+	public void setSessionDTO(SessionDTO sessionDTO) {
+		this.sessionDTO = sessionDTO;
+	}
 }

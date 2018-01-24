@@ -9,6 +9,7 @@ import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionDTO;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
+import java.util.Collections;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 import org.jboss.logging.Logger;
@@ -37,7 +38,7 @@ public class FileSelectionTableLogic extends PageTableLogic {
     public List loadData(int start, int offset) {
         list=(List<FileSelectionDTO>)logic.getFileName(false,sessionDTO, getFilters(),businessUnit);
         LOGGER.debug("getCount"+list.size());
-        return list;
+        return Collections.unmodifiableList(list);
     }
 
     @Override

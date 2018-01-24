@@ -73,7 +73,7 @@ public class ParentCompanyLookup extends Window {
     private TextField parentno;
     private TextField parentName;
 
-    public TradingPartnerDTO tpDTO;
+    private TradingPartnerDTO tpDTO;
     private int parentCompanySid;
     private TradingPartnerDTO tradingPartnerDto = new TradingPartnerDTO();
     private BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
@@ -82,7 +82,7 @@ public class ParentCompanyLookup extends Window {
     /**
      * The data selection binder.
      */
-    public ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(tradingPartnerDto));
+    private ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(tradingPartnerDto));
     private final ErrorLabel errorMsg = new ErrorLabel();
 
     /**
@@ -90,12 +90,12 @@ public class ParentCompanyLookup extends Window {
      */
     private final static Logger LOGGER = LoggerFactory.getLogger(ParentCompanyLookup.class);
     private CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
-    public ExtPagedTable resultTable = new ExtPagedTable(companyLogic);
+    private ExtPagedTable resultTable = new ExtPagedTable(companyLogic);
 
     public ParentCompanyLookup(TradingPartnerDTO tpDTO) {
         super("Parent Company Lookup");
         try {
-            this.tpDTO = tpDTO;
+            this.setTpDTO(tpDTO);
             init();
         } catch (Exception ex) {
             LOGGER.error("",ex);
@@ -309,4 +309,11 @@ public class ParentCompanyLookup extends Window {
         this.parentCompanySid = parentCompanySid;
     }
 
+    public TradingPartnerDTO getTpDTO() {
+            return tpDTO;
+    }
+
+    public void setTpDTO(TradingPartnerDTO tpDTO) {
+            this.tpDTO = tpDTO;
+    }
 }

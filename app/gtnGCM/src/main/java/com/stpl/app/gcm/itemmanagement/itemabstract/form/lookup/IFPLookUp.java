@@ -85,10 +85,10 @@ private static final Logger LOGGER = LoggerFactory.getLogger(IFPLookUp.class);
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     private final SelectionDTO selection = new SelectionDTO();
     private final AbstractLogic logic = AbstractLogic.getInstance();
-    public CustomTextField componentTextField;
-    public Object[] CFP_SEARCH_COLUMNS = new Object[]{
+    private CustomTextField componentTextField;
+    private Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentNo", "componentName", "componentType", "category", "designation", "planId", "planName", "componentStatus", Constants.START_DATE, Constants.END_DATE};
-    public String[] CFP_SEARCH_HEADERS = new String[]{Constants.IFP_NO, Constants.IFP_NAME_LABEL, "IFP Type", "IFP Category", "IFP Designation", "IFP Plan ID", "IFP Plan Name", "IFP Status", "IFP Start Date", "IFP End Date"};
+    private String[] CFP_SEARCH_HEADERS = new String[]{Constants.IFP_NO, Constants.IFP_NAME_LABEL, "IFP Type", "IFP Category", "IFP Designation", "IFP Plan ID", "IFP Plan Name", "IFP Status", "IFP Start Date", "IFP End Date"};
 
     public IFPLookUp(final CustomTextField componentTextField) {
         this.componentTextField = componentTextField;

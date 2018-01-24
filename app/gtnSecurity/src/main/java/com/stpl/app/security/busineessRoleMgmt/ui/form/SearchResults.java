@@ -26,13 +26,13 @@ public class SearchResults extends CustomComponent {
         
         private static final Logger LOGGER = LoggerFactory.getLogger(SearchResults.class);
 
-	final ErrorLabel errorMsg = new ErrorLabel();
-	final Label space = new Label("&nbsp;", ContentMode.HTML);
+        private final ErrorLabel errorMsg = new ErrorLabel();
+        private final Label space = new Label("&nbsp;", ContentMode.HTML);
 	
 	private ErrorfulFieldGroup binder;
-	BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
-	BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
-	Table table;
+	private BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
+	private BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
+	private Table table;
 
 	public SearchResults(ErrorfulFieldGroup binder,
 			BeanItemContainer<BusinessroleMasterDTO> searchResultbeans,
@@ -109,6 +109,18 @@ public class SearchResults extends CustomComponent {
 			}
 		});
 		return table;
+	}
+
+	public ErrorLabel getErrorMsg() {
+		return errorMsg;
+	}
+
+	public BusinessRoleMgmtLogic getBusinessRoleMgmtLogic() {
+		return businessRoleMgmtLogic;
+	}
+
+	public void setBusinessRoleMgmtLogic(BusinessRoleMgmtLogic businessRoleMgmtLogic) {
+		this.businessRoleMgmtLogic = businessRoleMgmtLogic;
 	}
 
 }

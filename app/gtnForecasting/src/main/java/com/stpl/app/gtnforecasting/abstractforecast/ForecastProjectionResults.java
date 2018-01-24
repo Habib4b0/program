@@ -63,7 +63,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
- * @author
+ * @author 
  */
 public abstract class ForecastProjectionResults extends CustomComponent {
 
@@ -202,7 +202,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
      * Init method that reads the UI components from xml and configures the
      * Projection Results Screen.
      */
-    private void init() {
+    private void init()  {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/abstractforecast/forecast-projection-results.xml"), this));
         configureFields();
     }
@@ -301,7 +301,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     }
 
     @UiHandler("generateBtn")
-    public void generateBtn(Button.ClickEvent event) {
+    public void generateBtn(Button.ClickEvent event)  {
         tradingPartnerNo = Utility.getTradingPartnerLevelNo(projectionId, sessionDTO);
         generateButtonLogic();
     }
@@ -418,6 +418,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
+        periodTableId.setImmediate(true);
         periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -556,14 +557,14 @@ public abstract class ForecastProjectionResults extends CustomComponent {
                     tableLogic.getControlTable().getContainerDataSource().removeAllItems();
                 }
                 loadCustomDDLB();
-                tableLogic.nmProjectionResultsLogic.clearProjectionTotalList();
+                tableLogic.getNmProjectionResultsLogic().clearProjectionTotalList();
             } else {
                 levelDdlb.setEnabled(true);
                 levelFilterDdlb.setEnabled(true);
                 customIdToSelect = customId;
                 projectionSelectionDTO.setTpLevel(tradingPartnerNo);
                 projectionSelectionDTO.setIsCustomHierarchy(false);
-                tableLogic.nmProjectionResultsLogic.clearProjectionTotalList();
+                tableLogic.getNmProjectionResultsLogic().clearProjectionTotalList();
                 if (CUSTOMER.getConstant().equals(String.valueOf(viewOpg.getValue()))) {
                     projectionSelectionDTO.setHierarchyIndicator(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
                     projectionSelectionDTO.setView(String.valueOf(viewOpg.getValue()));
@@ -641,7 +642,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
      * Configures the excel result table.
      */
     protected void configureExcelResultTable() {
-        excelResultBean = new ExtTreeContainer<>(ProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP
+        excelResultBean = new ExtTreeContainer<>(ProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP
         );
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exceltable = new ExtCustomTreeTable();
@@ -735,7 +736,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
      * @param isExpand
      * @param value
      */
-    private void expandCollapseLevelOption(boolean isExpand, Object value) throws PortalException, SystemException {
+    private void expandCollapseLevelOption(boolean isExpand, Object value) throws PortalException, SystemException{
 
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
         int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
@@ -760,14 +761,16 @@ public abstract class ForecastProjectionResults extends CustomComponent {
 
     public void saveProjectionResultsSelection() throws PortalException, SystemException {
         LOGGER.debug("save Projection Results method starts");
-        Map map = new HashMap();
-        map.put(Constant.FREQUENCY_SMALL, frequencyDdlb.getValue().toString());
-        map.put(Constant.HISTORY_CAPS, historyDdlb.getValue().toString());
-        map.put("Sales/Units", salesOrUnitsOpg.getValue().toString());
-        map.put("Actuals/Projections", actualOrProjectionsOpg.getValue().toString());
-        map.put(Constant.PERIOD_ORDER, periodOrderOpg.getValue().toString());
-        map.put("Pivot", pivotViewOpg.getValue().toString());
-        CommonLogic.saveProjectionSelection(map, Constant.PROJECTION_RESULTS_LABEL, projectionSelectionDTO);
+        if (isImmediate()) {
+            Map map = new HashMap();
+            map.put(Constant.FREQUENCY_SMALL, frequencyDdlb.getValue().toString());
+            map.put(Constant.HISTORY_CAPS, historyDdlb.getValue().toString());
+            map.put("Sales/Units", salesOrUnitsOpg.getValue().toString());
+            map.put("Actuals/Projections", actualOrProjectionsOpg.getValue().toString());
+            map.put(Constant.PERIOD_ORDER, periodOrderOpg.getValue().toString());
+            map.put("Pivot", pivotViewOpg.getValue().toString());
+            CommonLogic.saveProjectionSelection(map, Constant.PROJECTION_RESULTS_LABEL, projectionSelectionDTO);
+        }
         LOGGER.debug("save Projection Results method ends");
     }
 

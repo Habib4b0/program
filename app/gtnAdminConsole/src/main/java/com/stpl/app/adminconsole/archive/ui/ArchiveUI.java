@@ -18,6 +18,9 @@ public class ArchiveUI extends UI {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveUI.class);
 
+    public ArchiveUI(){
+    	super();
+    }
     @Override
     public void init(final VaadinRequest request) {
         LOGGER.info("init method started in ui");

@@ -87,7 +87,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 
 	private GroupSearchLogic tableLogic;
 
-	public String screenName;
+	private String screenName;
 
 	/**
 	 * Constructor for AbstractLookup
@@ -102,7 +102,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 	public AbstractGroupLookup(final String indicator, final String windowName, final String screenName) {
 		super(windowName);
 		this.indicator = indicator;
-		this.screenName = screenName;
+		this.setScreenName(screenName);
 		customerOrProduct();
 	}
 
@@ -190,7 +190,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 	 */
 	private void customerOrProduct() {
 		try {
-			if (screenName.equals("AccrualRateProjection")) {
+			if (getScreenName().equals("AccrualRateProjection")) {
 				if (INDICATOR_CUSTOMER_GROUP.getConstant().equalsIgnoreCase(indicator)) {
 					groupNameLabel = CUSTOMER_GROUP_NAME.getConstant();
 					groupNoLabel = CUSTOMER_GROUP_NO.getConstant();
@@ -388,5 +388,13 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 			}
 		});
 		return reset;
+	}
+
+	public String getScreenName() {
+		return screenName;
+	}
+
+	public void setScreenName(String screenName) {
+		this.screenName = screenName;
 	}
 }

@@ -13,8 +13,9 @@ import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractSummaryDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
+import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
 import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
-import static com.stpl.app.gcm.tp.logic.LoadTabLogic.tpDao;
+import com.stpl.app.gcm.tp.logic.LoadTabLogic;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.HeaderUtils.getCommonColumnHeader;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -46,7 +47,8 @@ public class RemoveItemLogic {
      * The unit volume.
      */
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.0");
-
+    private static TradingPartnerDAO tpDao = LoadTabLogic.getTpDao();
+    
     public int getLevelCount(Object parentId, TabSelectionDTO tabSelectionDTO, SelectionDTO selection) {
         int count = 0;
         if (parentId instanceof AbstractSummaryDTO) {

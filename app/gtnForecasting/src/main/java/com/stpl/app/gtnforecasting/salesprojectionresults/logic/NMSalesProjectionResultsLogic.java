@@ -85,7 +85,7 @@ public class NMSalesProjectionResultsLogic {
 	private static final String PERCENT = "%";
 	protected SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
 	protected boolean viewFlag = false;
-	public List<SalesProjectionResultsDTO> projectionTotalList = new ArrayList<>();
+	private List<SalesProjectionResultsDTO> projectionTotalList = new ArrayList<>();
 	protected List<Object[]> nonmandatedGtsList = new ArrayList<>();
 	protected Object[] nonmandatedorderedArgs;
 	protected List<Object[]> mandatedGtsList = new ArrayList<>();
@@ -712,9 +712,9 @@ public class NMSalesProjectionResultsLogic {
 		if (neededRecord > 0 && projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
 			SalesProjectionResultsDTO contractSalesDto = null;
 			SalesProjectionResultsDTO unitVolDto = null;
-			SalesProjectionResultsDTO gtsDto = projectionTotalList.get(0);
-			contractSalesDto = projectionTotalList.get(1);
-			unitVolDto = projectionTotalList.get(NumericConstants.TWO);
+			SalesProjectionResultsDTO gtsDto = getProjectionTotalList().get(0);
+			contractSalesDto = getProjectionTotalList().get(1);
+			unitVolDto = getProjectionTotalList().get(NumericConstants.TWO);
 			if ((start < NumericConstants.TWO && neededRecord > 0) && (gtsDto != null)) {
 				projDTOList.add(gtsDto);
 				neededRecord--;
@@ -787,12 +787,12 @@ public class NMSalesProjectionResultsLogic {
 				String salesUnits = projSelDTO.getSalesOrUnit();
 				if (projSelDTO.isIsProjectionTotal()) {
 					mayBeAdded++;
-					if (projectionTotalList.isEmpty()) {
+					if (getProjectionTotalList().isEmpty()) {
 						getProjectionTotal(orderedArgs, projSelDTO);
 					}
 					if (started == 1 && neededRecord > 0) {
 						if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
-							SalesProjectionResultsDTO exFactorySalesDTO = projectionTotalList.get(0);
+							SalesProjectionResultsDTO exFactorySalesDTO = getProjectionTotalList().get(0);
 							projDTOList.add(exFactorySalesDTO);
 						}
 						started++;
@@ -802,7 +802,7 @@ public class NMSalesProjectionResultsLogic {
 							|| salesUnits.equals(SALES.getConstant()) || salesUnits.equals(UNITS.getConstant()))) {
 						if (started == NumericConstants.TWO) {
 							if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
-								SalesProjectionResultsDTO demandSalesDTO = projectionTotalList.get(1);
+								SalesProjectionResultsDTO demandSalesDTO = getProjectionTotalList().get(1);
 								projDTOList.add(demandSalesDTO);
 							}
 							started++;
@@ -811,7 +811,7 @@ public class NMSalesProjectionResultsLogic {
 						}
 						if (started == NumericConstants.THREE) {
 							if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
-								SalesProjectionResultsDTO inventoryWithdrawDTO = projectionTotalList
+								SalesProjectionResultsDTO inventoryWithdrawDTO = getProjectionTotalList()
 										.get(NumericConstants.TWO);
 								projDTOList.add(inventoryWithdrawDTO);
 							}
@@ -821,7 +821,7 @@ public class NMSalesProjectionResultsLogic {
 						}
 						if (started == NumericConstants.FOUR && !salesUnits.equals(UNITS.getConstant())) {
 							if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
-								SalesProjectionResultsDTO contractSalesDto = projectionTotalList
+								SalesProjectionResultsDTO contractSalesDto = getProjectionTotalList()
 										.get(NumericConstants.THREE);
 								projDTOList.add(contractSalesDto);
 							}
@@ -832,7 +832,7 @@ public class NMSalesProjectionResultsLogic {
 
 						if (started == NumericConstants.FOUR && salesUnits.equals(UNITS.getConstant())) {
 							if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
-								SalesProjectionResultsDTO unitVolDto = projectionTotalList.get(NumericConstants.FOUR);
+								SalesProjectionResultsDTO unitVolDto = getProjectionTotalList().get(NumericConstants.FOUR);
 								projDTOList.add(unitVolDto);
 							}
 							started++;
@@ -842,7 +842,7 @@ public class NMSalesProjectionResultsLogic {
 
 						if (started == NumericConstants.FIVE && !(salesUnits.equals(BOTH.getConstant()))) {
 							if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
-								SalesProjectionResultsDTO percentageExFactorySalesDto = projectionTotalList
+								SalesProjectionResultsDTO percentageExFactorySalesDto = getProjectionTotalList()
 										.get(NumericConstants.FIVE);
 								projDTOList.add(percentageExFactorySalesDto);
 
@@ -854,7 +854,7 @@ public class NMSalesProjectionResultsLogic {
 
 						if (started == NumericConstants.FIVE && !(salesUnits.equals(SALES.getConstant()))) {
 							if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
-								SalesProjectionResultsDTO unitVolDto = projectionTotalList.get(NumericConstants.FOUR);
+								SalesProjectionResultsDTO unitVolDto = getProjectionTotalList().get(NumericConstants.FOUR);
 								projDTOList.add(unitVolDto);
 							}
 							started++;
@@ -866,7 +866,7 @@ public class NMSalesProjectionResultsLogic {
 					if (neededRecord > 0 && (salesUnits.equals(BOTH.getConstant()))) {
 						if ((salesUnits.equals(BOTH.getConstant()) && (started == NumericConstants.SIX))) {
 							if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
-								SalesProjectionResultsDTO percentageExFactorySalesDto = projectionTotalList
+								SalesProjectionResultsDTO percentageExFactorySalesDto = getProjectionTotalList()
 										.get(NumericConstants.FIVE);
 								projDTOList.add(percentageExFactorySalesDto);
 							}
@@ -1033,7 +1033,7 @@ public class NMSalesProjectionResultsLogic {
 				mandatedGtsList.addAll(gtsList);
 			}
 			if (gtsList != null) {
-				projectionTotalList = getCustomizedProjectionTotalMandated(gtsList, projSelDTO);
+				setProjectionTotalList(getCustomizedProjectionTotalMandated(gtsList, projSelDTO));
 			}
 			projSelDTO.getSessionDTO().setSprRefreshReqd(false);
 			LOGGER.debug("Ending getProjectionTotal Mandated");
@@ -1132,14 +1132,14 @@ public class NMSalesProjectionResultsLogic {
 			}
 			projSelDTO.setProjectionHeaderMap(projHeaderMap);
 		}
-		projectionTotalList.clear();
-		projectionTotalList.add(exFactorySalesDTO);
-		projectionTotalList.add(demandSalesDTO);
-		projectionTotalList.add(inventoryWithdrawDTO);
-		projectionTotalList.add(conSaleDTO);
-		projectionTotalList.add(unitVolDTO);
-		projectionTotalList.add(percentageExFactorySalesDto);
-		return projectionTotalList;
+		getProjectionTotalList().clear();
+		getProjectionTotalList().add(exFactorySalesDTO);
+		getProjectionTotalList().add(demandSalesDTO);
+		getProjectionTotalList().add(inventoryWithdrawDTO);
+		getProjectionTotalList().add(conSaleDTO);
+		getProjectionTotalList().add(unitVolDTO);
+		getProjectionTotalList().add(percentageExFactorySalesDto);
+		return getProjectionTotalList();
 	}
 
 	public String getFormattedValue(DecimalFormat decFormat, String value) {
@@ -1526,8 +1526,8 @@ public class NMSalesProjectionResultsLogic {
 	public List<SalesProjectionResultsDTO> getProjectionPivotTotal(Object[] orderedArgs,
 			ProjectionSelectionDTO projSelDTO) {
 		LOGGER.debug("Entering getProjectionPivotTotal");
-		projectionTotalList.clear();// Fix for GAL-4084
-		if (projectionTotalList.isEmpty()) {
+		getProjectionTotalList().clear();// Fix for GAL-4084
+		if (getProjectionTotalList().isEmpty()) {
 			List<Object[]> gtsList = null;
 			if (projSelDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 				LOGGER.debug("Entering getProjectionPivotTotal NonMandated");
@@ -1558,18 +1558,18 @@ public class NMSalesProjectionResultsLogic {
 					mandatedGtsList.addAll(gtsList);
 				}
 				projSelDTO.getSessionDTO().setSprRefreshReqd(false);
-				projectionTotalList.clear();
-				projectionTotalList = getCustomizedProjectionPivotTotalMandated(gtsList, projSelDTO);
+				getProjectionTotalList().clear();
+				setProjectionTotalList(getCustomizedProjectionPivotTotalMandated(gtsList, projSelDTO));
 				LOGGER.debug("Ending getProjectionPivotTotal Mandated");
 			}
 		}
 		LOGGER.debug("Ending getProjectionPivotTotal");
-		return projectionTotalList;
+		return getProjectionTotalList();
 	}
 
 	public void getCustomizedProjectionPivotTotal(List<Object[]> list, ProjectionSelectionDTO projSelDTO) {
 		LOGGER.debug("Entering getCustomizedProjectionPivotTotal");
-		projectionTotalList.clear();
+		getProjectionTotalList().clear();
 		int frequencyDivision = projSelDTO.getFrequencyDivision();
 		List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
 		int col = NumericConstants.FIVE;
@@ -1677,7 +1677,7 @@ public class NMSalesProjectionResultsLogic {
 				}
 				projDTO.setParent(0);
 				projDTO.setProjectionTotal(1);
-				projectionTotalList.add(projDTO);
+				getProjectionTotalList().add(projDTO);
 			}
 
 		}
@@ -1688,17 +1688,17 @@ public class NMSalesProjectionResultsLogic {
 			projDTO.setParent(0);
 			projDTO.setProjectionTotal(1);
 			projDTO.setLevelValue(projSelDTO.getPeriodListMap().get(ob));
-			projectionTotalList.add(projDTO);
+			getProjectionTotalList().add(projDTO);
 		}
 		if (projSelDTO.getProjectionOrder().equals(ASCENDING.getConstant())) {
 			if (leftFlag) {
-				Collections.sort(projectionTotalList, new SalesProjectionResultsDTO());
+				Collections.sort(getProjectionTotalList(), new SalesProjectionResultsDTO());
 			}
 		} else {
 			if (leftFlag) {
-				Collections.sort(projectionTotalList, new SalesProjectionResultsDTO());
+				Collections.sort(getProjectionTotalList(), new SalesProjectionResultsDTO());
 			}
-			Collections.reverse(projectionTotalList);
+			Collections.reverse(getProjectionTotalList());
 		}
 		LOGGER.debug("Ending getCustomizedProjectionPivotTotal");
 	}
@@ -2363,12 +2363,12 @@ public class NMSalesProjectionResultsLogic {
 				SalesProjectionResultsDTO unitVolDto = null;
 
 				getProjectionTotal(orderedArgs, projSelDTO);
-				SalesProjectionResultsDTO exFactorySalesDTO = projectionTotalList.get(0);
-				demandSalesDTO = projectionTotalList.get(1);
-				inventoryWithdrawDTO = projectionTotalList.get(NumericConstants.TWO);
-				contractSalesDto = projectionTotalList.get(NumericConstants.THREE);
-				unitVolDto = projectionTotalList.get(NumericConstants.FOUR);
-				projectionTotalList.clear();
+				SalesProjectionResultsDTO exFactorySalesDTO = getProjectionTotalList().get(0);
+				demandSalesDTO = getProjectionTotalList().get(1);
+				inventoryWithdrawDTO = getProjectionTotalList().get(NumericConstants.TWO);
+				contractSalesDto = getProjectionTotalList().get(NumericConstants.THREE);
+				unitVolDto = getProjectionTotalList().get(NumericConstants.FOUR);
+				getProjectionTotalList().clear();
 				mayBeAdded++;
 				if ((start < NumericConstants.TWO && neededRecord > 0) && (exFactorySalesDTO != null)) {
 					projDTOList.add(exFactorySalesDTO);
@@ -2415,7 +2415,7 @@ public class NMSalesProjectionResultsLogic {
 					projDTOList.add(projectionDtoList.get(k));
 				}
 				mayBeAdded += projectionDtoList.size();
-				projectionTotalList.clear();// Fix for GAL-4084
+				getProjectionTotalList().clear();// Fix for GAL-4084
 			}
 		} else if (neededRecord > 0 && projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
 			SalesProjectionResultsDTO contractSalesDto = null;
@@ -3186,6 +3186,14 @@ public class NMSalesProjectionResultsLogic {
 		projDtoList.add(projSalesDTO);
 		projDtoList.add(projUnitDTO);
 		return projDtoList;
+	}
+
+	public List<SalesProjectionResultsDTO> getProjectionTotalList() {
+		return projectionTotalList;
+	}
+
+	public void setProjectionTotalList(List<SalesProjectionResultsDTO> projectionTotalList) {
+		this.projectionTotalList = projectionTotalList;
 	}
 
 }
