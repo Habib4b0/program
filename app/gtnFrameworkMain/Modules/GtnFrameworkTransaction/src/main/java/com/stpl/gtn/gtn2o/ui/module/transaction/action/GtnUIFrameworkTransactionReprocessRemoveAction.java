@@ -62,10 +62,10 @@ public class GtnUIFrameworkTransactionReprocessRemoveAction
 			gtnWsTransactionRequest.setReprocessIds(checkedIdSet);
 
 		}
-		gtnWsTransactionRequest.setOutBoundModule((boolean)actionParametersList.get(5));
-		gtnWsTransactionRequest.setStagInsertColumns((Object[])actionParametersList.get(6));
-		gtnWsTransactionRequest.setStagUpdateColumns((Object[])actionParametersList.get(7));
-		gtnWsTransactionRequest.setStagUpdateColumnsValues((Object[])actionParametersList.get(8));
+		gtnWsTransactionRequest.setOutBoundModule((boolean) actionParametersList.get(5));
+		gtnWsTransactionRequest.setStagInsertColumns((Object[]) actionParametersList.get(6));
+		gtnWsTransactionRequest.setStagUpdateColumns((Object[]) actionParametersList.get(7));
+		gtnWsTransactionRequest.setStagUpdateColumnsValues((Object[]) actionParametersList.get(8));
 		request.setGtnWsTransactionRequest(gtnWsTransactionRequest);
 		String wsReprocessURL = actionParametersList.get(4).toString();
 		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(wsReprocessURL, request,
