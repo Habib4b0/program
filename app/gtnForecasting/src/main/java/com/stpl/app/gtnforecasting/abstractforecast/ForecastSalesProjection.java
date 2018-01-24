@@ -548,6 +548,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected List<String> generateProductToBeLoaded = new ArrayList<>();
     public static final String SALES_TAB = "Sales";
     protected List<String> generateCustomerToBeLoaded = new ArrayList<>();
+    protected static final String ADJUSTMENT_PERIODS_TEXT = " adjustment for the following periods ";
 
     /**
      * Instantiates a new Forecast Sales Projection.
@@ -2351,7 +2352,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
 
             String confirmMessage = "Confirm Actual variable Adjustment";
-            String messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + " adjustment for the following periods "
+            String messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + ADJUSTMENT_PERIODS_TEXT
                     + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
 
             new AbstractNotificationUtils() {
@@ -2445,10 +2446,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         if (basis.getValue().equals(Constant.LabelConstants.AMOUNT)) {
                             if (variable.getValue().equals(Constant.UNIT)) {
                                 messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + getFormatValue(Constant.UNIT_FORMAT, adjValue, StringUtils.EMPTY)
-                                        + " adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
+                                        + ADJUSTMENT_PERIODS_TEXT + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
                             } else {
                                 messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + getFormatValue(Constant.TWO_DECIMAL, adjValue, Constant.CURRENCY)
-                                        + " adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
+                                        + ADJUSTMENT_PERIODS_TEXT + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
                             }
                         } else {
                             messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + adjValue

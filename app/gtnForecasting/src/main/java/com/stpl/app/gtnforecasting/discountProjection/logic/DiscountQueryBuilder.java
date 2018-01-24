@@ -51,6 +51,9 @@ public class DiscountQueryBuilder {
     public static final String DEDTABLE = "@DEDTABLE";
     public static final String CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST = "CROSS APPLY (SELECT DISTINCT TOKEN FROM UDF_SPLITSTRING('";
     public static final String CONCAT_CONDITION = "', ',') C WHERE CH.PROD_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN";
+    public static final String DEDCUST_JOIN = "@DEDCUSTJOIN";
+    public static final String SELECTED_HIERARCHY_JOIN = "[?SELECTED_HIERARCHY_JOIN]";
+    public static final String RS_JOIN = "@RSJOIN";
    
     public boolean updateInputsForAdjustment(String frequency, String levelType, String adjustmentType, String adjustmentBasis,
             String adjustmentValue, String allocationMethodology, Map<String, Map<String, List<String>>> periodsMap) {
@@ -671,10 +674,10 @@ public class DiscountQueryBuilder {
                 .replace(UOM_JOIN,(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?StringUtils.EMPTY:" LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='"+session.getDiscountUom()+"'")
                 .replace("@HASHDP",(session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion()) || session.getDeductionInclusion().isEmpty()) ?StringUtils.EMPTY:" ,DEDUCTION_INCLUSION ")
                 .replace("@SELCOLDED",(session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion()) || session.getDeductionInclusion().isEmpty()) ?",0 as DEDUCTION_INCLUSION":" ,DPM.DEDUCTION_INCLUSION ")
-                .replace("@DEDCUSTJOIN", commonLogic.getDedCustomJoinGenerate(session, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, hierarchyIndicator, levelNo))
+                .replace(DEDCUST_JOIN, commonLogic.getDedCustomJoinGenerate(session, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, hierarchyIndicator, levelNo))
                 .replace(RELVALUE, session.getDedRelationshipBuilderSid())
                 .replace(Constant.RELJOIN, commonLogic.getRelJoinGenerate(hierarchyIndicator,session))
-                .replace("[?SELECTED_HIERARCHY_JOIN]", getHierarchyJoinQuery(session, isCustom ? Integer.valueOf(customViewDetails.get(0)) : 0, levelNo, isCustom, hierarchyIndicator, isCustom ? customViewDetails.get(NumericConstants.TWO) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.FOUR) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, userGroup))
+                .replace(SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(session, isCustom ? Integer.valueOf(customViewDetails.get(0)) : 0, levelNo, isCustom, hierarchyIndicator, isCustom ? customViewDetails.get(NumericConstants.TWO) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.FOUR) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, userGroup))
                 .replace("@FILTERCCP"," and FILTER_CCP=1 ") ;
         if (StringUtils.isNotBlank(userGroup)) {
             queryBuilder = queryBuilder.replace(Constant.AT_USER_GROUP, " AND USER_GROUP = '" + userGroup + "'");
@@ -771,7 +774,7 @@ public class DiscountQueryBuilder {
         String sql;
         sql = CommonUtil.isValueEligibleForLoading() && isCustomHierarchy ? SQlUtil.getQuery("discount-selected-hierarchy-Custom") : SQlUtil.getQuery("discount-selected-hierarchy");
         if (isCustomHierarchy) {
-            sql = sql.replace("@RSJOIN", StringUtils.EMPTY);
+            sql = sql.replace(RS_JOIN, StringUtils.EMPTY);
             String currentHierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(sessionDTO, customId, levelNo);
             int actualLevelNo = commonLogic.getActualLevelNoFromCustomView(sessionDTO, customId, levelNo);
             switch (String.valueOf(currentHierarchyIndicator)) {
@@ -788,11 +791,11 @@ public class DiscountQueryBuilder {
                     throw new IllegalArgumentException("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);
             }
         } else {
-            sql = sql.replace("@RSJOIN", " JOIN #SELECTED_REBATE SR\n"
+            sql = sql.replace(RS_JOIN, " JOIN #SELECTED_REBATE SR\n"
                     + "                         ON SR.PRICE_GROUP_TYPE = MAS.@REBATE_COLUMN ");
             sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo));
         }
-        sql = sql.replace("[?SELECTED_HIERARCHY_JOIN]", getHierarchyJoinQuery(sessionDTO, customId, levelNo, isCustomHierarchy, hierarchyIndicator, customerHierarchyNo, productHierarchyNo, deductionHierarchyNo, userGroup));
+        sql = sql.replace(SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(sessionDTO, customId, levelNo, isCustomHierarchy, hierarchyIndicator, customerHierarchyNo, productHierarchyNo, deductionHierarchyNo, userGroup));
         sql = sql.replace("@START", String.valueOf(startIndex));
         sql = sql.replace("@OFFSET", String.valueOf(endIndex));
         return sql;
@@ -804,7 +807,7 @@ public class DiscountQueryBuilder {
         String sqlQuery;
         sqlQuery = SQlUtil.getQuery("discount-selected-hierarchy-Custom-Count");
         if (isCustomHierarchy) {
-            sqlQuery = sqlQuery.replace("@RSJOIN", StringUtils.EMPTY);
+            sqlQuery = sqlQuery.replace(RS_JOIN, StringUtils.EMPTY);
             String currentHierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(sessionDTO, customId, levelNo);
             int actualLevelNo = commonLogic.getActualLevelNoFromCustomView(sessionDTO, customId, levelNo);
             switch (String.valueOf(currentHierarchyIndicator)) {
@@ -821,11 +824,11 @@ public class DiscountQueryBuilder {
                     throw new IllegalArgumentException("Invalid Hierarchy Indicator:" + currentHierarchyIndicator);
             }
         } else {
-            sqlQuery = sqlQuery.replace("@RSJOIN", " JOIN #SELECTED_REBATE SR\n"
+            sqlQuery = sqlQuery.replace(RS_JOIN, " JOIN #SELECTED_REBATE SR\n"
                     + "                         ON SR.PRICE_GROUP_TYPE = MAS.@REBATE_COLUMN ");
             sqlQuery = sqlQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo));
         }
-        sqlQuery = sqlQuery.replace("[?SELECTED_HIERARCHY_JOIN]", getHierarchyJoinQuery(sessionDTO, customId, levelNo, isCustomHierarchy, hierarchyIndicator, customerHierarchyNo, productHierarchyNo, deductionHierarchyNo, userGroup));
+        sqlQuery = sqlQuery.replace(SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(sessionDTO, customId, levelNo, isCustomHierarchy, hierarchyIndicator, customerHierarchyNo, productHierarchyNo, deductionHierarchyNo, userGroup));
         sqlQuery = sqlQuery.replace("@START", String.valueOf(startIndex));
         sqlQuery = sqlQuery.replace("@OFFSET", String.valueOf(endIndex));
         return sqlQuery;
@@ -984,7 +987,7 @@ public class DiscountQueryBuilder {
                 .replace("@REBATE", isProgram ? SQlUtil.getQuery(Constant.GET_COUNT_PROGRAM) : SQlUtil.getQuery(Constant.COUNT_PROGRAM_CATEGORY))
                 .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnNameCustomDed(hierarchyIndicator)).replace(Constant.AT_DISCOUNT, getRebate(discountList))
                 .replace("@FOR_CUSTOM", parentColumnJoin).replace("@CUSTOM", parentColumnJoinDeduction).replace(Constant.AT_RS_COLUMN, isProgram ? Constant.RS_CONTRACT_SID : Constant.PRICE_GROUP_TYPE).replace("@REPLACE", commonLogic.getSelectStatementCustom(hierarchyIndicator))
-                .replace("@DEDCUSTJOIN", hierarchyIndicator.equalsIgnoreCase("D") ? commonLogic.getDedCustomJoin(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo) : StringUtils.EMPTY)
+                .replace(DEDCUST_JOIN, hierarchyIndicator.equalsIgnoreCase("D") ? commonLogic.getDedCustomJoin(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo) : StringUtils.EMPTY)
                 .replace("@DEDUCTIONJOIN", !hierarchyIndicator.equalsIgnoreCase("D") ? commonLogic.getDedCustomJoin(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo) : StringUtils.EMPTY)
                 .replace(RELVALUE, sessionDTO.getDedRelationshipBuilderSid());
 
@@ -1000,7 +1003,7 @@ public class DiscountQueryBuilder {
         int treeLevelNo = Integer.valueOf(String.valueOf(customDetailsList.get(NumericConstants.TWO)));
         String queryBuilder = SQlUtil.getQuery("GET_CUSTOM_COUNT_TEST")
         .replace("@HIERARCHY_QUERY", insertAvailableHierarchyNoForCount(sessionDTO, hierarchyNo, hierarchyIndicator, (int) (isCustom ? treeLevelNo : levelNo), isCustom, isCustom ? Integer.valueOf(customViewDetails.get(0)) : 0, isCustom ? customViewDetails.get(NumericConstants.TWO) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.FOUR) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, 0, 0, userGroup)) 
-        .replace("@DEDCUSTJOIN", commonLogic.getDedCustomJoinGenerate(sessionDTO, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, hierarchyIndicator, levelNo))
+        .replace(DEDCUST_JOIN, commonLogic.getDedCustomJoinGenerate(sessionDTO, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, hierarchyIndicator, levelNo))
         .replace(RELVALUE, sessionDTO.getDedRelationshipBuilderSid());
         queryBuilder += SQlUtil.getQuery("custom-view-count-condition-query");
         queryBuilder = queryBuilder.replace(Constant.RELJOIN, commonLogic.getRelJoinGenerate(hierarchyIndicator,sessionDTO));
