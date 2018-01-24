@@ -2,4 +2,4 @@ Bundle-Name: ${project.name}
 Bundle-Version: ${project.version}
 Bundle-SymbolicName: ${project.groupId}.${project.artifactId}
 Import-Package:*
-Export-Package: com.stpl.gtn.gtn2o.ui.module.rebateplan*
+Export-Package: com.stpl.gtn.gtn2o.ui

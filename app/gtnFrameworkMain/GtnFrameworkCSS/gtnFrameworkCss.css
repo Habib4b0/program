@@ -172,7 +172,7 @@
 .gtnGrid-single-ln-layout>div>.v-slot>.v-widget,
 	.gtnGrid-single-ln-layout-3>div>.v-slot>.v-widget,
 	.gtnGrid-single-ln-layout-4>div>.v-slot>.v-widget,
-	.gtnGrid-single-ln-layout-1>div>.v-slot>.v-widget {
+	.gtnGrid-single-ln-layout-1>div>.v-slot>.v-widget,.gtnGrid-single-ln-layout-1>div>.v-slot {
 	display: inline-block;
 	width: 100%;
 }
@@ -204,6 +204,7 @@
 	.gtnGrid-single-ln-layout-4 .v-slot div[role="combobox"] .gtnGrid-single-ln-layout-4 .v-slot .v-datefield
 	{
 	width: 48% !important;
+        height: 26px;
 	display: inline-block;
 	margin-right: 1% !important;
 	min-width: 100px !important;
@@ -1650,3 +1651,5 @@
 .v-auto-height-window {
     height: auto !important;
 }
+
+
