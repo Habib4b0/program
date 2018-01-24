@@ -376,7 +376,7 @@ public class AlternateHistory extends CustomWindow {
             new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
-                    LOGGER.debug("Inside Overriden method: do nothing");
+                    LOGGER.debug("Inside Overriden method - do nothing");
                 }
 
                 @Override
@@ -399,7 +399,7 @@ public class AlternateHistory extends CustomWindow {
             new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
-                    LOGGER.debug("Inside Overriden method: do nothing");
+                    LOGGER.debug("Inside Overriden method, do nothing");
                 }
 
                 @Override

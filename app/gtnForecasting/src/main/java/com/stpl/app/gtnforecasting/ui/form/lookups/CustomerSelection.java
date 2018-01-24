@@ -133,7 +133,7 @@ public class CustomerSelection extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        LOGGER.debug("Inside overriden method: Do nothing");
+        LOGGER.debug("Inside overriden method- Do nothing");
     }
 
     /**
@@ -189,7 +189,7 @@ public class CustomerSelection extends CustomComponent implements View {
         new AbstractNotificationUtils() {
             @Override
             public void noMethod() {
-                LOGGER.debug("Inside overriden method: Do nothing");
+                LOGGER.debug("Inside overriden method, Do nothing");
             }
 
             @Override
@@ -358,7 +358,7 @@ public class CustomerSelection extends CustomComponent implements View {
 
             @Override
             public void filterRemoved(Object propertyId) {
-                LOGGER.debug("Inside overriden method: Do nothing");
+                LOGGER.debug("Inside overriden method_ Do nothing");
             }
 
             @Override
