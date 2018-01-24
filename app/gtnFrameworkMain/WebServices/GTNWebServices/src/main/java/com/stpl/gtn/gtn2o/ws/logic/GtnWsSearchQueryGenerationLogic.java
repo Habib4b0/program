@@ -239,9 +239,9 @@ public class GtnWsSearchQueryGenerationLogic {
 							.parse(gtnWebServiceSearchCriteria.getFilterValue2())))
 					.append("'");
 			break;
-		case "LIKE":
+		case "LIKE": 
 			whereSqlBuilder.append(dbName).append(" ").append(gtnWebServiceSearchCriteria.getExpression()).append(" '")
-					.append(gtnWebServiceSearchCriteria.getFilterValue1().replace('*', '%')).append("' ");
+					.append(gtnWebServiceSearchCriteria.getFilterValue1().replace('*', '%').replace("_", "[_]")).append("' ");
 			break;
 		case "EQUAL":
 			whereSqlBuilder.append(dbName).append(" = '").append(gtnWebServiceSearchCriteria.getFilterValue1())

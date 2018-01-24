@@ -1607,6 +1607,30 @@ SELECT count(1)
  
             ]]>
         </query>
-    </entity> 
+     </entity>
+     <entity id="buttonSecurity">
+         <query>
+    		<![CDATA[
+                        select DISTINCT
+				MP.PROPERTY_NAME,
+				BMM.ACCESS_MODULE,
+                                MP.DISPLAY_NAME
+	
+			from
+				USERGROUP_BUSINESSROLE UBM
+			JOIN BUSINESSROLE_MODULE BMM ON
+				UBM.BUSINESSROLE_MASTER_SID = BMM.BUSINESSROLE_MASTER_SID
+			JOIN MODULE_PROPERTIES MP ON
+				BMM.SUBMODULE_PROPERTY_ID = MP.MODULE_PROPERTY_SID
+			JOIN MODULE_SUBMODULE_MASTER SMM ON
+				SMM.MODULE_SUBMODULE_SID = MP.MODULE_SUBMODULE_SID
+			AND MP.CATEGORY_NAME = '?'
+			AND SMM.MODULE_NAME = '?'
+			AND SMM.SUBMODULE_NAME = '?'
+			AND MP.TAB_NAME = '?'
+                        ?
+		]]>
+         </query>
+     </entity> 
     
 </sql>

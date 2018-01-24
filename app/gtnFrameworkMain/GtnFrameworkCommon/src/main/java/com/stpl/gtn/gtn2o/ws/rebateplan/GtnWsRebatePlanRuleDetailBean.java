@@ -17,7 +17,7 @@ public class GtnWsRebatePlanRuleDetailBean {
 	}
 
 	private double from;
-	private double to;
+	private Double to;
 	private Integer operator;
 	private Integer value;
 	private double tierTolerance;
@@ -63,11 +63,11 @@ public class GtnWsRebatePlanRuleDetailBean {
 		this.from = from;
 	}
 
-	public double getTo() {
+	public Double getTo() {
 		return to;
 	}
 
-	public void setTo(double to) {
+	public void setTo(Double to) {
 		this.to = to;
 	}
 
