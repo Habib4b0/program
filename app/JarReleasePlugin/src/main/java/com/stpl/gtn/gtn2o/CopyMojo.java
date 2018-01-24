@@ -5,6 +5,9 @@
  */
 package com.stpl.gtn.gtn2o;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -24,6 +27,10 @@ public class CopyMojo extends AbstractMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
+		if (project.getParent() == null) {
+			Logger.getLogger(FileCopier.class.getName()).log(Level.WARNING, null, "No parent found.Hence skiping");
+			return;
+		}
 		new FileCopier().copyFile(project);
 	}
 
