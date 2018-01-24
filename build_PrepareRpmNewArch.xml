@@ -8,7 +8,7 @@
 	<property name="RpmDirStructureWS" location="${DistWS}/RpmDirStructure" />
 	<property name="Application_BuildUI" location="${RpmDirStructureUI}/Application_Build" />
 	<property name="Application_BuildWS" location="${RpmDirStructureWS}/GTN_Framework_War" />
-	<property name="FrameworkDist" location="app/gtnFrameworkMain/Dist" />
+	<property name="FrameworkDist" location="Dist" />
 	<property name="FrameworkDistUI" location="${FrameworkDist}/UI" />
 	<property name="FrameworkDistWS" location="${FrameworkDist}/WS" />	
 	<property name="rpmdirUI" location="${DistUI}/rpm" />
