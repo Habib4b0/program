@@ -11,7 +11,8 @@ import com.vaadin.v7.data.fieldgroup.FieldGroup;
  */
 public class CustomFieldGroup extends FieldGroup {
     private static final long serialVersionUID = -6293510593661094366L;
-    ErrorLabel errorDisplay;
+    private static Log log = LogFactory.getLog(CustomFieldGroup.class);
+    private ErrorLabel errorDisplay;
    
     /**
      * binds the item
@@ -31,7 +32,7 @@ public class CustomFieldGroup extends FieldGroup {
     
     /**
      * Checks whether the component return type and the variable binded type are same or not
-     * @throws com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException 
+     * @throws com.vaadin.data.fieldgroup.FieldGroup.CommitException 
      */
     @Override
     public void commit() throws CommitException {
@@ -46,6 +47,12 @@ public class CustomFieldGroup extends FieldGroup {
         }
     }
 
-	
-    
+	public static Log getLog() {
+		return log;
+	}
+
+	public static void setLog(Log log) {
+		CustomFieldGroup.log = log;
+	}
+
 }

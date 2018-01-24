@@ -7,7 +7,6 @@ package com.stpl.app.security.busineessRoleMgmt.ui.layout;
 import com.stpl.app.security.busineessRoleMgmt.dto.BusinessroleMasterDTO;
 import com.stpl.app.security.busineessRoleMgmt.logic.BusinessRoleMgmtLogic;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.v7.data.util.BeanItem;
@@ -36,10 +35,10 @@ public class ButtonLayout extends HorizontalLayout {
 	private ErrorfulFieldGroup binder;
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ButtonLayout.class.getName());
-	BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
-	Table table;
-	final Label space = new Label("&nbsp;", ContentMode.HTML);
-	BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
+	private BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
+	private Table table;
+	private final Label space = new Label("&nbsp;", ContentMode.HTML);
+	private BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
 
 	public ButtonLayout(ErrorfulFieldGroup binder,
 			BeanItemContainer<BusinessroleMasterDTO> searchResultbeans,
@@ -47,7 +46,7 @@ public class ButtonLayout extends HorizontalLayout {
 		super();
 		this.searchResultbeans = searchResultbeans;
 		this.binder = binder;
-		this.table = table;
+		this.setTable(table);
 		init();
 	}
 
@@ -161,5 +160,13 @@ public class ButtonLayout extends HorizontalLayout {
 			}
 		});
 		this.addComponent(btnSearch);
+	}
+
+	public Table getTable() {
+		return table;
+	}
+
+	public void setTable(Table table) {
+		this.table = table;
 	}
 }

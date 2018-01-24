@@ -106,12 +106,12 @@ public class PmpyLogic {
     /**
      * The Constant EXCEL_ICON.
      */
-    public static final String EXCEL_ICON = "img/excel.png";
+    public static final String EXCEL_ICON = "../../icons/excel.png";
 
     /**
      * The Constant CHART_ICON.
      */
-    public static final String CHART_ICON = "img/chart.png";
+    public static final String CHART_ICON = "../../icons/chart.png";
 
     /**
      * Trading partner look up.
@@ -209,7 +209,7 @@ public class PmpyLogic {
         return resultList;
     }
 
-    final static PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
+    private final static PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
 
     public static List getGroupList() {
         return new ArrayList();

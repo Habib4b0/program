@@ -100,9 +100,12 @@ public class GtnWsTransactionReprocessIOService {
 				LOGGER.debug("insertQuery----" + insertQuery);
 				int updatedRecord = gtnSqlQueryEngine.executeInsertAndUpdateHqlQuery(insertQuery);
 				LOGGER.debug("updatedRecord----" + updatedRecord);
+				updateConditionAndCallEtlService(gtnWsTransactionRequest, whereCondition, inavlidTableName,
+						inavlidTableName);
+			} else {
+				updateConditionFlag(gtnWsTransactionRequest, whereCondition, inavlidTableName);
 			}
-			updateConditionAndCallEtlService(gtnWsTransactionRequest, whereCondition, inavlidTableName,
-					inavlidTableName);
+
 		} catch (Exception ex) {
 			throw new GtnFrameworkGeneralException("Error in search query : ", ex);
 		}

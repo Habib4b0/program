@@ -41,7 +41,7 @@ public class PPAProjectionLogic {
     private static final Logger LOGGER = LoggerFactory.getLogger(PPAProjectionLogic.class);
     private static Thread procedureThread;
     private static RunnableJob runnableJob;
-    CommonLogic commonLogic=new CommonLogic();
+    private CommonLogic commonLogic=new CommonLogic();
 
     public List getInputForMassUpdate(int startQuater, int endQuater, int startYear, int endYear, Object columnValue, String columnName, ProjectionSelectionDTO selection) {
         List input = new ArrayList();
@@ -117,7 +117,7 @@ public class PPAProjectionLogic {
      * @param start
      * @param offset
      * @return
-     * @throws com.liferay.portal.kernel.exception.PortalException
+     * @throws com.stpl.portal.kernel.exception.PortalException
      */
     public Object getPPAProjectionResults(ProjectionSelectionDTO selection, CustomTableHeaderDTO ridhtdto, int start, int offset) {
         List list = null;

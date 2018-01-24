@@ -145,7 +145,7 @@ public class OutboundLogic {
         final List<HierarchyDefinitionDTO> searchResultsList = new ArrayList<>();
         try {
             if (list != null) {
-                Map<Integer, String> userMap = StplSecurity.userMap;
+                Map<Integer, String> userMap = StplSecurity.getUserMap();
                 if (userMap.isEmpty()) {
                     userMap = StplSecurity.getUserName();
                 }

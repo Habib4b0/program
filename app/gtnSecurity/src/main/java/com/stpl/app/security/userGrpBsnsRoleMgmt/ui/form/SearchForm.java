@@ -35,13 +35,13 @@ public class SearchForm extends CustomComponent {
     private static final long serialVersionUID = 8893447767363695369L;
     private static final Logger LOGGER = LoggerFactory
             .getLogger(SearchForm.class.getName());
-    final ErrorLabel errorMsg = new ErrorLabel();
-    final Label space = new Label("&nbsp;", ContentMode.HTML);
-    final NativeSelect userGroup1 = new NativeSelect();
-    final TwinColSelect ugTobrSelect = new TwinColSelect();
-    UserGrpBsnsRoleLogic businessRoleModuleLogic = new UserGrpBsnsRoleLogic();
-    UserGrpBsnsRoleDTO usrDTO = new UserGrpBsnsRoleDTO();
-    ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<UserGrpBsnsRoleDTO>(usrDTO));
+    private final ErrorLabel errorMsg = new ErrorLabel();
+    private final Label space = new Label("&nbsp;", ContentMode.HTML);
+    private final NativeSelect userGroup1 = new NativeSelect();
+    private final TwinColSelect ugTobrSelect = new TwinColSelect();
+    private UserGrpBsnsRoleLogic businessRoleModuleLogic = new UserGrpBsnsRoleLogic();
+    private UserGrpBsnsRoleDTO usrDTO = new UserGrpBsnsRoleDTO();
+    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<UserGrpBsnsRoleDTO>(usrDTO));
 	
 	public SearchForm() {
 		init();

@@ -776,7 +776,7 @@ public class NMProjectionVarianceLogic {
             discountsList = CommonLogic.callProcedure("PRC_PROJECTION_RESULTS_DISCOUNT", orderedArg);
             pivotDiscountList.addAll(discountsList);
         }
-        return pivotDiscountList;
+        return Collections.unmodifiableList(pivotDiscountList);
     }
 
     /**

@@ -11,6 +11,7 @@ import com.stpl.app.gtnforecasting.accrualrateprojection.logic.AccrualRateProjec
 import com.stpl.app.gtnforecasting.accrualrateprojection.utils.AccrualRateUtils;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
@@ -35,7 +36,7 @@ public class AccrualRateProjectionTableLogic extends PageTableLogic {
 
     private String tabName = StringUtils.EMPTY;
     
-    List<String> selectedVariables;
+    private List<String> selectedVariables;
     
     private boolean isViewMode;
 
@@ -99,9 +100,17 @@ public class AccrualRateProjectionTableLogic extends PageTableLogic {
     public void setRequiredData(final String tabName, final AccrualRateSelectionDTO accrualRateSelectionDTO,final List<String> selectedVariables,final boolean isViewMode) {        
         this.tabName = tabName;
         this.accrualRateSelectionDTO = accrualRateSelectionDTO;
-        this.selectedVariables =selectedVariables;
+        this.setSelectedVariables(selectedVariables == null ? selectedVariables : Collections.unmodifiableList(selectedVariables));
         this.isViewMode = isViewMode;
         this.setRequiredCount(true);
         this.setCurrentPage(1);
     }
+
+	public List<String> getSelectedVariables() {
+		return selectedVariables;
+	}
+
+	public void setSelectedVariables(List<String> selectedVariables) {
+		this.selectedVariables = selectedVariables;
+	}
 }

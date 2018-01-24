@@ -1388,7 +1388,7 @@ public class FileManagementLookup extends Window {
 				lookUp.addCloseListener(new Window.CloseListener() {
 					@Override
 					public void windowClose(final Window.CloseEvent e) {
-						if (!lookUp.isSelected) {
+						if (!lookUp.isSelected()) {
 							detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME)
 									.setValue(StringUtils.EMPTY);
 							detailsFilterTable.getContainerProperty(itemId, StringConstantUtils.ITEM_ID)
@@ -3210,7 +3210,7 @@ public class FileManagementLookup extends Window {
 								lookUp.addCloseListener(new Window.CloseListener() {
 									@Override
 									public void windowClose(final Window.CloseEvent e) {
-										if (lookUp.isSelected) {
+										if (lookUp.isSelected()) {
 											detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NO)
 													.setValue(itemNoSearch.getValue());
 										} else {
@@ -3249,7 +3249,7 @@ public class FileManagementLookup extends Window {
 								lookUp.addCloseListener(new Window.CloseListener() {
 									@Override
 									public void windowClose(final Window.CloseEvent e) {
-										if (lookUp.isSelected) {
+										if (lookUp.isSelected()) {
 											detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME)
 													.setValue(lookupItemName.getValue().toString());
 										} else {
@@ -3827,7 +3827,7 @@ public class FileManagementLookup extends Window {
 										detailsFilterTable.getContainerProperty(itemId, StringConstantUtils.ITEM_ID)
 												.setValue(lookUp.getItemId());
 										((FileMananagementResultDTO) itemId).setItemMasterSid(lookUp.getMasterSid());
-										if (!lookUp.isSelected) {
+										if (!lookUp.isSelected()) {
 											detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME)
 													.setValue(StringUtils.EMPTY);
 											detailsFilterTable.getContainerProperty(itemId, StringConstantUtils.ITEM_ID)
@@ -4444,6 +4444,22 @@ public class FileManagementLookup extends Window {
 
 	public FileMananagementResultDTO getResultDTO() {
 		return resultDTO;
+	}
+
+	public CommonUtil getCommonUtil() {
+		return commonUtil;
+	}
+
+	public void setCommonUtil(CommonUtil commonUtil) {
+		this.commonUtil = commonUtil;
+	}
+
+	public CommonSecurityLogic getCommonSecurity() {
+		return commonSecurity;
+	}
+
+	public void setCommonSecurity(CommonSecurityLogic commonSecurity) {
+		this.commonSecurity = commonSecurity;
 	}
 
 }

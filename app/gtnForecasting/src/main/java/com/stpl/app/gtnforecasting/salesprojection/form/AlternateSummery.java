@@ -1894,7 +1894,7 @@ public class AlternateSummery extends CustomComponent {
             levelFilterDdlbChangeOption(true);
             excelTable.setRefresh(Boolean.TRUE);
             if (excelTable.size() > 0) {
-                ForecastUI.EXCEL_CLOSE = true;
+                ForecastUI.setEXCEL_CLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
                 exp.export();
             }

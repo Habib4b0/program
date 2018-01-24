@@ -73,7 +73,7 @@ public class PsLookUp extends Window {
     private BeanItemContainer<String> psStatusBean = new BeanItemContainer<>(String.class);
     private ErrorfulFieldGroup binder;
     private CustomTextField parentPsName;
-    public boolean flag;
+    private boolean flag;
     private CommonUtil commonUtil=CommonUtil.getInstance();
 
     public PsLookUp(CustomTextField parentPsName, boolean flag) {

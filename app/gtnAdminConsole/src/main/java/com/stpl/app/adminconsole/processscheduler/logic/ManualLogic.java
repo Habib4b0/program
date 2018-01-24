@@ -29,7 +29,7 @@ public class ManualLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ManualLogic.class);
-    static HashMap<String, String> columnName=new HashMap<String, String>();
+    protected static final HashMap<String, String> COLUMN_NAME=new HashMap<String, String>();
 
     public List getSearchResult(boolean count, int start, int offset, boolean scheduler, final List<SortByColumn> orderByColumns) {
         LOGGER.debug("Entering getSearchResult");
@@ -65,14 +65,14 @@ public class ManualLogic {
         }
     }
     public static String getDBColumnName(String visibleColumnName) {
-         return columnName.get(visibleColumnName);         
+         return COLUMN_NAME.get(visibleColumnName);         
     } 
                     
    public static HashMap<String, String> loadDbColumnName() {       
-       columnName.put("processDisplayName", "PROCESS_NAME");
-       columnName.put("manualLastRun", "MANUAL_LAST_RUN");
+       COLUMN_NAME.put("processDisplayName", "PROCESS_NAME");
+       COLUMN_NAME.put("manualLastRun", "MANUAL_LAST_RUN");
        
-       return columnName;
+       return COLUMN_NAME;
    }
 
     private List getCustomizedSchedulerProcessing(List list)  {

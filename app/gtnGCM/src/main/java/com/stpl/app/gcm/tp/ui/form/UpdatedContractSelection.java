@@ -290,9 +290,9 @@ public class UpdatedContractSelection extends VerticalLayout {
     private CustomTextField psNo;
    
     @UiField("allCustomer")
-
     private ComboBox allCustomer;
-
+    @UiField("removeProjectionDetails")
+    private CheckBox removeProjectionDetails;
     private final StplSecurity stplSecurity = new StplSecurity();
     /**
      * The excel export image
@@ -327,7 +327,7 @@ public class UpdatedContractSelection extends VerticalLayout {
     private AddTPForm addTpForm;
     private UpdateTPForm updateTPForm;
     private SessionDTO session;
-    public String excelName = "Rebate Schedule Information";
+    private String excelName = "Rebate Schedule Information";
     private String nonAssociatedProducts = StringUtils.EMPTY;
     private int timeGap;
     private String[] excelComponentId = new String[NumericConstants.FIVE];
@@ -336,7 +336,6 @@ public class UpdatedContractSelection extends VerticalLayout {
     private boolean isTableUpdate = false;
 
     private boolean isComponentInformationExport = false;
-    CheckBox removeProjectionDetails = new CheckBox("Remove Projection Details");
 
     public UpdatedContractSelection(SessionDTO session, AddTPForm form) {
         this.addTpForm = form;
@@ -376,7 +375,6 @@ public class UpdatedContractSelection extends VerticalLayout {
     private void initContractSelection(SessionDTO session) {
         this.session = session;
         addComponent(Clara.create(getClass().getResourceAsStream("/TradingPartner/contractSelectionUpdated.xml"), this));
-        transferSalesProjectionOptionLayout.addComponent(removeProjectionDetails);
         configureFields();
         contractSeletion = new ContractSelectionDTO();
         contractSeletion.setCompanyMasterSids(session.getCompanyMasterSids());
@@ -624,6 +622,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         pagedTable.setColumnAlignment("contEndDate", ExtCustomTable.Align.CENTER);
         pagedTable.setColumnAlignment(Constants.COMP_START_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
         pagedTable.setColumnAlignment(Constants.COMP_END_DATE_PROPERTY, ExtCustomTable.Align.CENTER);
+        pagedTable.setImmediate(true);
         pagedTable.setSizeFull();
         pagedTable.setSelectable(true);
         pagedTable.setPageLength(NumericConstants.FIVE);
@@ -693,6 +692,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     if (!dto.getWorkflowStatus().trim().isEmpty()) {
                         check.setVisible(false);
                     } else {
+                        check.setImmediate(true);
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                             @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
@@ -716,6 +716,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     compStartDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     compStartDate.setDateFormat(Constants.DATE_FORMAT);
                     if (dto.getWorkflowStatus().trim().isEmpty() && (screenName.equals(TAB_TRANSFER_CONTRACT.getConstant()) || TRADING_PARTNER_UPDATE.getConstant().equals(session.getModuleName()) || session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()))) {
+                        compStartDate.setImmediate(true);
                         compStartDate.setData(((ContractResultDTO) itemId).getCompStartDate());
 
                         compStartDate.addFocusListener(new FocusListener() {
@@ -772,6 +773,7 @@ public class UpdatedContractSelection extends VerticalLayout {
                     compEndDate.setStyleName(Constants.DATE_FIELD_CENTER);
                     compEndDate.addStyleName(Constants.DATE_FIELD_CENTERED);
                     if (dto.getWorkflowStatus().trim().isEmpty()) {
+                        compEndDate.setImmediate(true);
                         compEndDate.setData(((ContractResultDTO) itemId).getCompEndDate());
                         compEndDate.addFocusListener(new FocusListener() {
 
@@ -829,6 +831,7 @@ public class UpdatedContractSelection extends VerticalLayout {
 
                 if (String.valueOf(propertyId).equals(Constants.STATUS_S)) {
                     final CustomComboBox custComboStatus = new CustomComboBox();
+                    custComboStatus.setImmediate(true);
                     try {
                         CommmonLogic.loaDDLBForListLoading(custComboStatus, UiUtils.STATUS, false);
                     } catch (Exception ex) {
@@ -1572,7 +1575,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             cNumberLabel.setCaption("CFP " + NUMBER);
             cNameLabel.setCaption("CFP " + NAME);
             setComponentInformationVisibility(false);
-            excelName = "Company Family Plan Information";
+            setExcelName("Company Family Plan Information");
             excelResultBean.removeAllItems();
             componentInformation.clear();
         } else if (componentSelection.equals(ITEM_FAMILY_PLAN.getConstant())) {
@@ -1580,7 +1583,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             cNumberLabel.setCaption("IFP " + NUMBER);
             cNameLabel.setCaption("IFP " + NAME);
             setComponentInformationVisibility(false);
-            excelName = "Item Family Plan Information";
+            setExcelName("Item Family Plan Information");
             excelResultBean.removeAllItems();
             componentInformation.clear();
         } else if (componentSelection.equals(PRICE_SCHEDULE.getConstant())) {
@@ -1588,7 +1591,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             cNumberLabel.setCaption("PS " + NUMBER);
             cNameLabel.setCaption("PS " + NAME);
             setComponentInformationVisibility(false);
-            excelName = "Price Schedule Information";
+            setExcelName("Price Schedule Information");
             excelResultBean.removeAllItems();
             componentInformation.clear();
         } else if (componentSelection.equals(REBATE_SCHEDULE.getConstant())) {
@@ -1596,7 +1599,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             cNumberLabel.setCaption("RS " + NUMBER);
             cNameLabel.setCaption("RS " + NAME);
             setComponentInformationVisibility(true);
-            excelName = "Rebate Schedule Information";
+            setExcelName("Rebate Schedule Information");
             excelResultBean.removeAllItems();
             componentInformation.clear();
         }
@@ -1980,8 +1983,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             submitBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.SUBMIT_BTN, functionHM));
             resetBtn.setVisible(CommonLogic.isButtonVisibleAccess(Constants.RESET_BTN, functionHM));
             excelBtnInfo.setVisible(CommonLogic.isButtonVisibleAccess(Constants.EXCEL_BTN_INFO, functionHM));
-        }
-            catch (PortalException | SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error("",ex);
         }
     }
@@ -2045,5 +2047,13 @@ public class UpdatedContractSelection extends VerticalLayout {
             catch (PortalException | SystemException ex) {
             LOGGER.error("",ex);
         }
+    }
+
+    public String getExcelName() {
+            return excelName;
+    }
+
+    public void setExcelName(String excelName) {
+            this.excelName = excelName;
     }
 }

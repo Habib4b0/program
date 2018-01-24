@@ -31,8 +31,8 @@ import org.slf4j.LoggerFactory;
 public class NotificationMgmtLogic {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(NotificationMgmtLogic.class);
-   Date date = new Date();
-    NotificationMgmtLogicDAO dao=new NotificationMgmtLogicDAOImpl();
+    private Date date = new Date();
+    private NotificationMgmtLogicDAO dao=new NotificationMgmtLogicDAOImpl();
     public  List<String> loadBusinessProcess() {
         DynamicQuery businessProcessDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         businessProcessDynamicQuery.add(RestrictionsFactoryUtil.ilike("listName", "WorkflowProcesses"));
@@ -76,8 +76,57 @@ public class NotificationMgmtLogic {
             MailNotificationMaster mailNotificationMaster ;
             mailNotificationMaster = MailNotificationMasterLocalServiceUtil.createMailNotificationMaster(0);
 
+        if (notificationMgmtIndexDTO.getCategoryId()!= 0) {
+            mailNotificationMaster.setNotificationCategoryId(notificationMgmtIndexDTO.getCategoryId());
+        }
+        
+if (notificationMgmtIndexDTO.getBusinessProcess()!= null) {
+            mailNotificationMaster.setNotificationModule(notificationMgmtIndexDTO.getBusinessProcess());
+        }
+        if (notificationMgmtIndexDTO.getFromMailId()!= null) {
+            mailNotificationMaster.setFromMailId(notificationMgmtIndexDTO.getFromMailId());
+        }
+
+         if (notificationMgmtIndexDTO.getToMailId()!= null) {
+            mailNotificationMaster.setToMailIds(notificationMgmtIndexDTO.getToMailId());
+        }
+
+          if (notificationMgmtIndexDTO.getCcMailId()!= null) {
+            mailNotificationMaster.setCcMailIds(notificationMgmtIndexDTO.getCcMailId());
+        }
+         if (notificationMgmtIndexDTO.getSubject()!= null) {
+            mailNotificationMaster.setSubject(notificationMgmtIndexDTO.getSubject());
+        }
+          if (notificationMgmtIndexDTO.getBody()!= null) {
+            mailNotificationMaster.setBody(notificationMgmtIndexDTO.getBody());
+        }
+        if (notificationMgmtIndexDTO.getCreatedById()!=0) {
+            
+            mailNotificationMaster.setCreatedBy(notificationMgmtIndexDTO.getCreatedById());
+
+        }
+            mailNotificationMaster.setCreatedDate(date);
+            mailNotificationMaster.setModifiedBy(0);
+            mailNotificationMaster.setModifiedDate(date);
+            mailNotificationMaster.setCreatedBy(0);
+
+            dao.saveMailNotificationMaster(mailNotificationMaster);
+
+        } catch (SystemException e) {
+            LOGGER.error(e.getMessage());
+            return "fail";
+        }
+        return "success";
+    }
+   public String  updateNotification(NotificationMgmtIndexDTO notificationMgmtIndexDTO, int mailNotificationSystemId){
+     
+       
+     MailNotificationMaster mailNotificationMaster;
+        try {
+            mailNotificationMaster = dao.getMailNotificationMaster(mailNotificationSystemId);
+            
             if (notificationMgmtIndexDTO.getCategoryId()!= 0) {
-                mailNotificationMaster.setNotificationCategoryId(notificationMgmtIndexDTO.getCategoryId());
+                 mailNotificationMaster.setNotificationCategoryId(notificationMgmtIndexDTO.getCategoryId());
             }
 
             if (notificationMgmtIndexDTO.getBusinessProcess()!= null) {
@@ -100,64 +149,13 @@ public class NotificationMgmtLogic {
               if (notificationMgmtIndexDTO.getBody()!= null) {
                 mailNotificationMaster.setBody(notificationMgmtIndexDTO.getBody());
             }
-            if (notificationMgmtIndexDTO.getCreatedById()!=0) {
+            if (notificationMgmtIndexDTO.getModifiedById()!=0) {
 
-                mailNotificationMaster.setCreatedBy(notificationMgmtIndexDTO.getCreatedById());
-
+                mailNotificationMaster.setModifiedBy(notificationMgmtIndexDTO.getModifiedById());
             }
-            mailNotificationMaster.setCreatedDate(date);
-            mailNotificationMaster.setModifiedBy(0);
-            mailNotificationMaster.setModifiedDate(date);
-            mailNotificationMaster.setCreatedBy(0);
-        
-            dao.saveMailNotificationMaster(mailNotificationMaster);
-           
-        } catch (SystemException e) {
-            LOGGER.error(e.getMessage());
-            return "fail";
-        }
-        return "success";
-    }
-   public String  updateNotification(NotificationMgmtIndexDTO notificationMgmtIndexDTO, int mailNotificationSystemId){
-        try {
-            MailNotificationMaster mailNotificationMaster;
-            mailNotificationMaster = dao.getMailNotificationMaster(mailNotificationSystemId);
-        
-       if (notificationMgmtIndexDTO.getCategoryId()!= 0) {
-            mailNotificationMaster.setNotificationCategoryId(notificationMgmtIndexDTO.getCategoryId());
-       }
-        
-        if (notificationMgmtIndexDTO.getBusinessProcess()!= null) {
-            mailNotificationMaster.setNotificationModule(notificationMgmtIndexDTO.getBusinessProcess());
-        }
-        if (notificationMgmtIndexDTO.getFromMailId()!= null) {
-            mailNotificationMaster.setFromMailId(notificationMgmtIndexDTO.getFromMailId());
-        }
-
-         if (notificationMgmtIndexDTO.getToMailId()!= null) {
-            mailNotificationMaster.setToMailIds(notificationMgmtIndexDTO.getToMailId());
-        }
-
-          if (notificationMgmtIndexDTO.getCcMailId()!= null) {
-            mailNotificationMaster.setCcMailIds(notificationMgmtIndexDTO.getCcMailId());
-        }
-         if (notificationMgmtIndexDTO.getSubject()!= null) {
-            mailNotificationMaster.setSubject(notificationMgmtIndexDTO.getSubject());
-        }
-          if (notificationMgmtIndexDTO.getBody()!= null) {
-            mailNotificationMaster.setBody(notificationMgmtIndexDTO.getBody());
-        }
-        if (notificationMgmtIndexDTO.getModifiedById()!=0) {
-            
-            mailNotificationMaster.setModifiedBy(notificationMgmtIndexDTO.getModifiedById());
-        }
-            mailNotificationMaster.setModifiedDate(date);
-
-       
+                mailNotificationMaster.setModifiedDate(date);
         
             dao.updateMailNotificationMaster(mailNotificationMaster);
-            
-           
            
         } catch (SystemException | PortalException e ) {
             LOGGER.error(e.getMessage());
@@ -173,7 +171,7 @@ public class NotificationMgmtLogic {
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
             return false;
-        }
+        } 
         return true;
     }
    public List<NotificationMgmtIndexDTO> loadTable(){

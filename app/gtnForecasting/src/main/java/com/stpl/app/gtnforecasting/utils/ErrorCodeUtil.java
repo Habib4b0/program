@@ -23,7 +23,7 @@ public class ErrorCodeUtil {
     /**
      * The resouce bundle.
      */
-    public static ResourceBundle resouceBundle = ResourceBundle.getBundle("errorcodes.errorcode");
+    public static ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("errorcodes.errorcode");
     /**
      * The HYPHEN.
      */
@@ -44,7 +44,7 @@ public class ErrorCodeUtil {
      */
     public static String getEC(final String key) {
         try {
-            return resouceBundle.getString(key);
+            return RESOURCE_BUNDLE.getString(key);
         } catch (MissingResourceException e) {
             LOGGER.error(e.getMessage());
             return StringUtils.EMPTY;

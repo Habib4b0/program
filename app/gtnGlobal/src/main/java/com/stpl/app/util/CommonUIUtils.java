@@ -530,4 +530,8 @@ public class CommonUIUtils {
 	public static String[] getItemDetailsHeaderInRsWithBundle() {
 		return ITEM_DETAILS_HEADER_IN_RS_WITH_BUNDLE.clone();
 	}
+
+	public String[] getAttachmentHeader() {
+		return attachmentHeader.clone();
+	}
 }

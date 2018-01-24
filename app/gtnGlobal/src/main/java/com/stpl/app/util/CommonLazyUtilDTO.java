@@ -23,6 +23,10 @@ public class CommonLazyUtilDTO implements Serializable {
     private String cfpNo;
     private String cfpName;
 
+    public CommonLazyUtilDTO(){
+    	super();
+    }
+    
     public String getHelperTableSid() {
         return helperTableSid;
     }

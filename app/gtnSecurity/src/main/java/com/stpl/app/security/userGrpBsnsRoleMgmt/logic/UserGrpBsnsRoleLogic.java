@@ -32,7 +32,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
         super(BusinessroleMasterDTO.class);
 
     }
-   UserGrpBsnsRoleLogicDAO dao=new UserGrpBsnsRoleLogicDAOImpl();
+    private UserGrpBsnsRoleLogicDAO dao=new UserGrpBsnsRoleLogicDAOImpl();
 
     public UserGrpBsnsRoleDTO getBsnsRoles(UserGrpBsnsRoleDTO usrDto){
     	try{
@@ -72,7 +72,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
     	try{
     	List<String> usrGrpList = new ArrayList<String> ();
     	DynamicQuery ugDynamicQuery = UserGroupLocalServiceUtil.dynamicQuery();
-//    	ugDynamicQuery.add(RestrictionsFactoryUtil.like("groupType","Business"));
+    	ugDynamicQuery.add(RestrictionsFactoryUtil.like("groupType","Business"));
     	List<UserGroup> usrGrp=dao.getUserGroups(ugDynamicQuery);
     	HashMap<String, Long> map = new HashMap<String, Long>();
     	Iterator<UserGroup> iterate = usrGrp.iterator();

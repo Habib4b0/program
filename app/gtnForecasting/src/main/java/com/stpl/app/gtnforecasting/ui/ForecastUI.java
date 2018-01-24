@@ -26,8 +26,6 @@ import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getReturnsConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.Page;
@@ -49,8 +47,6 @@ import java.util.concurrent.Executors;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletRequest;
 import org.apache.commons.lang.StringUtils;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ServiceScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.alump.beforeunload.BeforeUnload;
@@ -83,7 +79,7 @@ public class ForecastUI extends UI {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ForecastUI.class);
 
-    public static boolean EXCEL_CLOSE = false;
+    private static boolean EXCEL_CLOSE = false;
 
     /**
      * This method is used to register the navigations for different views.
@@ -234,11 +230,11 @@ public class ForecastUI extends UI {
 
                         Map<String, String> tempCustomerDescriptionMap;
                         Map<String, String> tempProductDescriptionMap;
-                        int custHierarchyVersionNo = temp != null ? temp.getCustomerHierVersionNo() : 0;
+                                                int custHierarchyVersionNo = temp!=null ? temp.getCustomerHierVersionNo() : 0;
                         tempCustomerDescriptionMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
                                 Integer.parseInt(dto.getCustomerHierSid()), custHierarchyVersionNo,
                                 dto.getCustomerRelationShipVersionNo());
-                        int prodHierarchyVersionNo = temp != null ? temp.getProductHierVersionNo() : 0;
+                                                int prodHierarchyVersionNo = temp!=null ? temp.getProductHierVersionNo() : 0;   
                         tempProductDescriptionMap = relationLogic.getLevelValueMap(dto.getProdRelationshipBuilderSid(),
                                 Integer.parseInt(dto.getProdHierSid()), prodHierarchyVersionNo,
                                 dto.getProductRelationShipVersionNo());
@@ -325,7 +321,7 @@ public class ForecastUI extends UI {
 //            serviec.submit(new BPMJob());
             if (projectionId != null
                     && !CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
-                getUI().getNavigator().navigateTo(ForecastWorkflowView.NAME + "/" + pageParameters);
+				getUI().getNavigator().navigateTo(ForecastWorkflowView.NAME + "/" + pageParameters);
             } else if (projectionId != null
                     && CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
                 getUI().getNavigator().navigateTo(AccrualRateProjectionView.ARP_VIEW + "/" + pageParameters);
@@ -345,7 +341,7 @@ public class ForecastUI extends UI {
                 LOGGER.error("Error catched in UI ", event.getThrowable());
             }
         });
-
+        
     }
 
     /**
@@ -353,8 +349,8 @@ public class ForecastUI extends UI {
      *
      */
     public static void makeSessionInValidate() {
-        if (EXCEL_CLOSE) { // Fix to avoid blank page issue while excel export
-            EXCEL_CLOSE = false;
+        if (isEXCEL_CLOSE()) { // Fix to avoid blank page issue while excel export
+            setEXCEL_CLOSE(false);
         } else {
             UI.getCurrent().close();
         }
@@ -373,5 +369,13 @@ public class ForecastUI extends UI {
             }
         });
     }
+
+	public static boolean isEXCEL_CLOSE() {
+		return EXCEL_CLOSE;
+	}
+
+	public static void setEXCEL_CLOSE(boolean eXCEL_CLOSE) {
+		EXCEL_CLOSE = eXCEL_CLOSE;
+	}
 
 }

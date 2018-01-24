@@ -90,7 +90,7 @@ public class Rates extends CustomComponent {
     /**
      * The excel export image.
      */
-    private final Resource excelExportImage = new ThemeResource("img/excel.png");
+    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     private AccrualRateProjectionTableLogic tableLogic = new AccrualRateProjectionTableLogic();
 
     private FreezePagedTable table = new FreezePagedTable(tableLogic);
@@ -99,7 +99,7 @@ public class Rates extends CustomComponent {
 
     private ExtContainer<AccrualRateProjectionDTO> resultBeanContainer;
 
-    public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
+    private static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
 
     private final AccrualRateProjectionLogic accrualRateProjectionLogic = AccrualRateProjectionLogic.getInstance();
 
@@ -325,7 +325,7 @@ public class Rates extends CustomComponent {
             final ExtContainer<AccrualRateProjectionDTO> excelContainer = new ExtContainer<>(AccrualRateProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
             configureAndLoadDataForExcel(excelTable, excelContainer);
             if (excelTable.size() > 0) {
-                ForecastUI.EXCEL_CLOSE = true;
+                ForecastUI.setEXCEL_CLOSE(true);
                 ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), AccrualRateUtils.RATES, AccrualRateUtils.RATES, "Rates.xls", false);
                 exp.export();
             }

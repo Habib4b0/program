@@ -271,7 +271,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
             selectedResultsBean.removeItem(item);
         }
         if (resultsBean.size() > 0) {
-            addBtn.setEnabled(true);        
+            addBtn.setEnabled(true);
         } else {
             addBtn.setEnabled(false);
         }
@@ -320,8 +320,8 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
 
 
             tableLogic.setContainerDataSource(resultsBean);
-            resultsTable.setVisibleColumns(headerUtils.comparisonColumns);
-            resultsTable.setColumnHeaders(headerUtils.comparisonHeader);
+            resultsTable.setVisibleColumns(headerUtils.getComparisonColumns());
+            resultsTable.setColumnHeaders(headerUtils.getComparisonHeader());
 
             if (lookUpDTO.getCreatedDateFrom() != null && lookUpDTO.getCreatedDateTo() != null && lookUpDTO.getCreatedDateFrom().equals(lookUpDTO.getCreatedDateTo())) {
                 AbstractNotificationUtils.getErrorNotification("Date Range Error", "Start date and End date should not be equal");

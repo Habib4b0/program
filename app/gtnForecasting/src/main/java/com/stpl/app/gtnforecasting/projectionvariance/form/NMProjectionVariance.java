@@ -139,16 +139,16 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     /**
      *
      */
-    public List<String> projNameList = new ArrayList<>();
-    public List<Integer> projIdList = new ArrayList<>();
+    private List<String> projNameList = new ArrayList<>();
+    private List<Integer> projIdList = new ArrayList<>();
     private Map<Integer, String> projectionMap = new HashMap<>();
     private final NMProjectionVarianceLogic logic = new NMProjectionVarianceLogic();
     private final PVQueryUtils queryUtils = new PVQueryUtils();
     private final ForecastForm nonMandatedForm;
     private List<List<String>> discountlist = new ArrayList<>();
     private boolean firstGenerated = false;
-    public List<Integer> comparisonProjId = new ArrayList<>();
-    public List<String> comparisonProjName = new ArrayList<>();
+    private List<Integer> comparisonProjId = new ArrayList<>();
+    private List<String> comparisonProjName = new ArrayList<>();
     private boolean editFlag = false;
     public static final String SID = "SID";
 
@@ -371,7 +371,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         resultsTable.getLeftFreezeAsTable().setFilterBarVisible(true);
         resultsTable.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
         pvSelectionDTO.setProjectionId(projectionId);
-        pvSelectionDTO.setTreeLevelNo(Integer.valueOf(sessionDTO.getCustomerLevelNumber()));
+        pvSelectionDTO.setTreeLevelNo(Integer.valueOf(getSessionDTO().getCustomerLevelNumber()));
         pvSelectionDTO.setPpa(CommonLogic.isPPA(Boolean.TRUE, pvSelectionDTO));
         pvSelectionDTO.setReturns(CommonLogic.isReturns(Boolean.TRUE, pvSelectionDTO));
         resultsTable.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(session, Constant.TOTAL.equals(level.getValue().toString())));
@@ -567,7 +567,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             long end = System.currentTimeMillis();
             LOGGER.info("Time taken to refresh table :" + (end - start));
             start = end;
-            ForecastUI.EXCEL_CLOSE = true;
+            ForecastUI.setEXCEL_CLOSE(true);
             int leftcolumnsize = NumericConstants.ONE;
             int ColSize = 252;
             int maxColSize = ColSize % columnSize == NumericConstants.ZERO ? 252 : 250;
@@ -2141,9 +2141,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         String discountLevelValue = Constants.LabelConstants.TOTAL_DISCOUNT.toString().equalsIgnoreCase(pvSelectionDTO.getDiscountLevel()) ? "Program" : pvSelectionDTO.getDiscountLevel();
 
         //User Id
-        parameterDto.setUserId(sessionDTO.getUserId());
+        parameterDto.setUserId(getSessionDTO().getUserId());
         //Session Id
-        parameterDto.setSessionId(sessionDTO.getSessionId());
+        parameterDto.setSessionId(getSessionDTO().getSessionId());
         //Discount Level
         parameterDto.setDiscountLevel(discountLevelValue);
         //Frequency Value
@@ -2387,5 +2387,13 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
            
         }
     }
+
+	public List<String> getComparisonProjName() {
+		return comparisonProjName;
+	}
+
+	public void setComparisonProjName(List<String> comparisonProjName) {
+		this.comparisonProjName = comparisonProjName;
+	}
 
 }

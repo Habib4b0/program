@@ -26,11 +26,11 @@ public class SearchButtonLayout extends HorizontalLayout {
 
 	
 	private ErrorfulFieldGroup binder;
-	BusinessRoleModuleSearchLogic businessRoleModuleLogic=new BusinessRoleModuleSearchLogic();
+	private BusinessRoleModuleSearchLogic businessRoleModuleLogic=new BusinessRoleModuleSearchLogic();
 	
-	BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
-	Table table;
-	NativeSelect subModuleName;
+	private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
+	private Table table;
+	private NativeSelect subModuleName;
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchButtonLayout.class
 			.getName());
 

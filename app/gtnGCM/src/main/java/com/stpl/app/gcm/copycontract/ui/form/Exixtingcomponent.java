@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -281,7 +282,7 @@ public class Exixtingcomponent extends CustomComponent {
             cfpDetailsNo.setReadOnly(true);
             cfpDetailsName.setReadOnly(true);
         } catch (Exception ex) {
-           LOGGER.error("",ex);
+           LOGGER.error(ex.getMessage());
         }
     }
 
@@ -721,7 +722,7 @@ public class Exixtingcomponent extends CustomComponent {
                             dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NAME).setValue(String.valueOf(obj[NumericConstants.TWO]));
                             dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue("1");
                             dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(String.valueOf(cfpId));
-                            dashboardResultsTable.getContainerProperty(rootId, Constants.ADDBY).setValue("2");
+                            dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("2");
                             dashboardResultsTable.addItem(rootId);
                             dashboardResultsTable.setParent(rootId, root);
                             dashboardResultsTable.setChildrenAllowed(rootId, true);
@@ -746,7 +747,7 @@ public class Exixtingcomponent extends CustomComponent {
                             dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NAME).setValue(String.valueOf(obj[NumericConstants.TWO]));
                             dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue("2");
                             dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(String.valueOf(ifpId));
-                            dashboardResultsTable.getContainerProperty(rootId, Constants.ADDBY).setValue("2");
+                            dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("2");
                             dashboardResultsTable.addItem(rootId);
                             dashboardResultsTable.setParent(rootId, root);
                             dashboardResultsTable.setChildrenAllowed(rootId, true);
@@ -775,7 +776,7 @@ public class Exixtingcomponent extends CustomComponent {
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NAME).setValue(String.valueOf(obj[NumericConstants.TWO]));
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue("3");
                                 dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(psId);
-                                dashboardResultsTable.getContainerProperty(rootId, Constants.ADDBY).setValue("2");
+                                dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("2");
                                 dashboardResultsTable.addItem(rootId);
                                 dashboardResultsTable.setParent(rootId, root);
                                 dashboardResultsTable.setChildrenAllowed(rootId, true);
@@ -804,7 +805,7 @@ public class Exixtingcomponent extends CustomComponent {
                             dashboardResultsTable.getContainerProperty(rootId, Constants.DASHBOARD_NAME).setValue(String.valueOf(obj[NumericConstants.TWO]));
                             dashboardResultsTable.getContainerProperty(rootId, Constants.LEVELNO).setValue("4");
                             dashboardResultsTable.getContainerProperty(rootId, Constants.HIDDEN_ID).setValue(String.valueOf(rsId));
-                            dashboardResultsTable.getContainerProperty(rootId, Constants.ADDBY).setValue("2");
+                            dashboardResultsTable.getContainerProperty(rootId, Constants.getADDBY()).setValue("2");
                             dashboardResultsTable.addItem(rootId);
                             dashboardResultsTable.setParent(rootId, root);
                             dashboardResultsTable.setChildrenAllowed(rootId, false);
