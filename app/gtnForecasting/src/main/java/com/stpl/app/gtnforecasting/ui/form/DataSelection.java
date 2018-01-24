@@ -2463,7 +2463,7 @@ public class DataSelection extends ForecastDataSelection {
 			}
 			setProductBeanLisTemp(productBeanLisTemp);
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -4081,7 +4081,7 @@ public class DataSelection extends ForecastDataSelection {
 						"No Level was selected to move. Please try again.");
 			}
 		} catch (NumberFormatException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -4316,7 +4316,7 @@ public class DataSelection extends ForecastDataSelection {
 
 	private Future<Boolean> checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
 		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
-				hierarchyId);
+				hierarchyId,String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID)));
 		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
 		Future<Boolean> future = customerExecutorService.submit(wsClientRunnableTarget);
 		customerExecutorService.shutdown();

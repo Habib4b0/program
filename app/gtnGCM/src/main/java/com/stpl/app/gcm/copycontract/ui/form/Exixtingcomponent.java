@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -34,7 +33,6 @@ import com.stpl.app.model.RsContract;
 import com.stpl.app.model.RsModel;
 import com.stpl.app.service.CfpContractLocalServiceUtil;
 import com.stpl.app.service.CfpModelLocalServiceUtil;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.ContractAliasMasterLocalServiceUtil;
 import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.IfpContractLocalServiceUtil;
@@ -67,9 +65,6 @@ import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.TreeTable;
 import com.vaadin.v7.ui.VerticalLayout;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

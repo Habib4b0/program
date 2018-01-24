@@ -41,7 +41,7 @@ public final class ValidationUtils {
         try {
             return RESOURCE_BUNDLE.getString(key);
         } catch (MissingResourceException e) {
-             LOGGER.error(e);
+             LOGGER.error(e.getMessage());
             return StringUtils.EMPTY;
         }
     }
