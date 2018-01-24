@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.maven.project.MavenProject;
 
 /**
  *
@@ -19,8 +20,8 @@ import org.apache.commons.io.FileUtils;
  */
 public class FileCopier {
 
-	public void copyFile(File projectFolder) {
-
+	public void copyFile(MavenProject project) {
+		File projectFolder = project.getBasedir();
 		FilenameFilter fr = new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
@@ -40,7 +41,6 @@ public class FileCopier {
 					// match path name extension
 					if (str.equals(".war")) {
 						return true;
-					} else {
 					}
 				}
 				return false;
@@ -51,7 +51,7 @@ public class FileCopier {
 		for (File aan : projectFolder.listFiles(fr)) {
 			if (aan.isDirectory()) {
 				for (File aasn : aan.listFiles(jarr)) {
-					copyTo(aasn, projectFolder);
+					copyTo(aasn, project);
 				}
 			}
 
@@ -59,17 +59,25 @@ public class FileCopier {
 
 	}
 
-	private static void copyTo(File aasn, File projectFolder) {
-		File copy = new File(projectFolder.getParent() + "/Dist");
-                System.out.println("Copy to"+copy.getPath());
-		if (copy.isDirectory()) {
-		} else {
+	private void copyTo(File aasn, MavenProject project) {
+		File copy = new File(getParentFile(project) + "/Dist");
+		if (!copy.isDirectory()) {
 			copy.mkdir();
 		}
+
 		try {
 			FileUtils.copyFile(aasn, new File(copy.getPath() + "/" + aasn.getName()));
 		} catch (IOException ex) {
 			Logger.getLogger(FileCopier.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+	private String getParentFile(MavenProject project) {
+		MavenProject parent = project.getParent();
+		if (parent.getParent() == null) {
+			return parent.getBasedir().getPath();
+		} else {
+			return getParentFile(parent);
 		}
 	}
 
