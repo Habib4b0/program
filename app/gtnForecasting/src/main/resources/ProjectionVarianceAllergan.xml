@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable" xmlns:p="urn:vaadin:parent" xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:c="urn:import:org.asi.ui.custommenubar">
+    <VerticalLayout margin="true" spacing="true">
+           <TabSheet id="tabsheetVariance" immediate="true" margin="true" spacing ="true"/> 
+        <Panel id="panelVariance" caption="Projection Variance Selection" margin="true"
+               spacing="false" width="100%"  styleName="adjustCaption">
+            <VerticalLayout id="displaySelectionLayout" styleName = "width-auto"  margin="true" >
+                <!--<GridLayout rows="2" columns="1" margin="false" spacing="false">-->
+                    <GridLayout id="displaySelectionGridLayout" spacing="true" rows="3" columns="10" styleName = "forecast-tab" >
+                        <Label caption="Comparison: " contentMode="HTML" />
+                        <b:CustomTextField id="comparison" styleName="searchText" 
+                                           immediate="true" enable="true" />
+
+                        <Label caption="Level: " contentMode="HTML" styleName="labelresultalign"/>
+                        <OptionGroup id="level" multiSelect="false" enabled="true" 
+                                     immediate="true" />
+                        
+                        <Label caption="Projection Period Order:" contentMode="HTML" />
+                        <OptionGroup id="projectionPeriodOrder" multiSelect="false" styleName="optiongroupwidth"
+                                     enabled="true" immediate="true" />
+                        
+                        <Label id="UomLb" caption="Unit of Measure:" contentMode="HTML" />
+                          <ComboBox id="UomDdlb" nullSelectionAllowed="true"
+                                  immediate="true" styleName="comboxsize"/>
+                          
+                        <Label  caption="Display Format:" contentMode="HTML"  />
+                        <c:CustomMenuBar id="displayFormatDdlb" styleName="custommenumulticheck" />
+                        
+                        <Label caption="Comparison Basis: " contentMode="HTML" />
+                        <ComboBox id="comparisonBasis" nullSelectionAllowed="false"
+                                  immediate="true" styleName="comboxsize"/>
+                        
+                         <Label id="discountLevelLabel" caption="Deduction Level:" contentMode="HTML"/>
+                         <OptionGroup id="discountLevel" enabled="true" immediate="true" contentMode="HTML"/>
+                         
+                         <Label caption="Pivot View:" contentMode="HTML" styleName="labelresultalign"/>
+                         <OptionGroup id="pivotView" multiSelect="false" styleName="optiongroupwidth"
+                                     enabled="true" immediate="true" />
+                        
+                        <Label caption="Period Range From:" contentMode="HTML"  />
+                        <ComboBox id="fromDate" nullSelectionAllowed="true"
+                                  immediate="true" styleName="comboxsize"/>
+                        
+                        <Label caption="Conversion Factor" contentMode="HTML" />
+                        <ComboBox id="conversionFactorDdlb" nullSelectionAllowed="false"
+                                  immediate="true" styleName="comboxsize"/>
+                        
+                        <Label caption="Frequency:" contentMode="HTML" />
+                        <ComboBox id="frequency" nullSelectionAllowed="false"
+                                  immediate="true" styleName="comboxsize"/>
+                       
+                        <Label caption="Variable Category: " contentMode="HTML"/>
+                        <c:CustomMenuBar id="variableCategoryCustomMenuBar" styleName="custommenumulticheck"/>
+                        
+                         <Label value="Variables" contentMode="HTML" />
+                         <c:CustomMenuBar id="customMenuBar" styleName="custommenumulticheck"/>
+                       
+                        <Label caption="Period Range To: " contentMode="HTML" />
+                        <ComboBox id="toDate" nullSelectionAllowed="true"
+                                  immediate="true" styleName="comboxsize"/>
+                        
+                    </GridLayout>
+            </VerticalLayout>
+        </Panel>
+         <VerticalLayout id="filterOptionLayout" styleName = "width-auto"  margin="true" >
+                    <GridLayout id="GridLayoutFilter" spacing="true" margin="false" immediate="true" rows="2" columns="8" >
+                        <Label value="Customer Level: " contentMode="HTML"  />
+                        <ComboBox id="customerlevelDdlb" enabled="true"  styleName="comboxsize" nullSelectionAllowed = "true"/>
+                         <Label caption="Product Level:" contentMode="HTML"  />
+                         <ComboBox id="productlevelDdlb" enabled="true"  styleName="comboxsize" nullSelectionAllowed = "true" />
+                         <Label caption="Deduction Level:" contentMode="HTML"  />
+                         <ComboBox id="deductionlevelDdlb" enabled="true"  styleName="comboxsize" nullSelectionAllowed = "true" />
+                         <Label  caption="Sales Inclusion:" contentMode="HTML"  />
+                        <c:CustomMenuBar id="salesInclusionDdlb" styleName="custommenumulticheck" width = "200px" />
+                        <Label caption="Customer Filter:" contentMode="HTML"  />
+                         <c:CustomMenuBar id="customerFilterDdlb" styleName="custommenumulticheck" width = "200px" />
+                        <Label id="ProductFilter" caption="Product Filter:" contentMode="HTML" />
+                         <c:CustomMenuBar id="productFilterDdlb" styleName="custommenumulticheck" width = "200px" />
+                        <Label id="DeductionFilter" caption="Deduction Filter:" contentMode="HTML" />
+                         <c:CustomMenuBar id="deductionFilterDdlb" styleName="custommenumulticheck" width = "200px" />
+                         <Label  caption="Deduction Inclusion:" contentMode="HTML"  />
+                        <c:CustomMenuBar id="deductionInclusionDdlb" styleName="custommenumulticheck" width = "200px" />
+                    </GridLayout>          
+            </VerticalLayout>
+        <Panel  styleName = "forecast-tab" >
+            <VerticalLayout spacing="true" styleName = "width-auto"  margin="true"  >
+                <GridLayout columns="15" rows="1" margin="false" spacing="true" styleName="adjustCaption">
+                    <Button id="generateBtn" caption="GENERATE"></Button>
+                    <Button id="resetBtn" caption="RESET"></Button>
+                    <Label caption="Level: " contentMode="HTML" />
+                    <ComboBox id="levelDdlb" nullSelectionAllowed="true" styleName="comboxsize"/>
+                    <Button id="expandBtn" caption="EXPAND" enabled="true" immediate="true">  </Button>
+                    <Button id="collapseBtn" caption="COLLAPSE" enabled="true" immediate="true" ></Button>
+                   <Label id="groupLabel" caption="Group:" contentMode="HTML" />
+                   <ComboBox id="group" enabled="true" immediate="true" nullSelectionAllowed = "true" styleName = "comboxsize" />
+                    <Label caption="Level Filter: " contentMode="HTML" width = "100px"/>
+                    <ComboBox id="levelFilter" nullSelectionAllowed="true"
+                      immediate="true" styleName="comboxsize"/>
+                    <Label caption="View: " contentMode="HTML"></Label>
+                    <OptionGroup multiSelect="false" id="view" enabled="true"
+                         immediate="true" />
+                    <ComboBox id="customDdlb" nullSelectionAllowed="true"
+                      immediate="true" styleName="comboxsize"/>
+                    <Button id="newBtn" caption="NEW"></Button>
+                    <Button id="editBtn" caption="EDIT"></Button>
+                </GridLayout>
+            </VerticalLayout>
+        </Panel>
+        <Panel caption="Period Pivot View" id="pivotPanel" width="100%">
+            <VerticalLayout id="verticalLayout" spacing="true"
+                    margin="true" immediate="true">
+                  <VerticalLayout id="tableVerticalLayout" spacing="false"
+                                    margin="false" immediate="true">
+                                    </VerticalLayout>
+<!--                <a:FreezeFilterTreeTable styleName="table-header-normal"
+                                 id="periodTableId" caption="" width="1600px" immediate="true" height="100%" />-->
+                <HorizontalLayout spacing="true" margin="false">
+                    <Button id="excelBtn" primaryStyleName="link"></Button>
+                    <Button id="graphBtn" primaryStyleName="link"></Button>
+                </HorizontalLayout>
+            </VerticalLayout>
+        </Panel>
+    </VerticalLayout>
+
+</Panel>
