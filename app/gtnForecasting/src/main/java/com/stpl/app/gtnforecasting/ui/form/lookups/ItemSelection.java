@@ -259,12 +259,12 @@ public class ItemSelection extends CustomComponent implements View {
 
             @Override
             public void filterRemoved(Object propertyId) {
-                LOGGER.debug("Inside overriden method: Do nothing");
+                LOGGER.debug("Inside overriden method- Do nothing");
             }
 
             @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-                LOGGER.debug("Inside overriden method: Do nothing");
+                LOGGER.debug("Inside overriden method, Do nothing");
             }
 
             @Override
