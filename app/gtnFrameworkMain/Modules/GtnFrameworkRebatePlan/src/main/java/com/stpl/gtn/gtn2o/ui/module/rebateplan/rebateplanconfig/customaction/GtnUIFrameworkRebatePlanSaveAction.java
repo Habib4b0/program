@@ -336,13 +336,6 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 						? Integer.parseInt(ruleDetail.getAdditionalProperties().get(index).toString()) : 0;
 	}
 
-	private double getdobValue(int index, GtnWsRecordBean ruleDetail) {
-		return ((ruleDetail.getAdditionalProperties().get(index) != null
-				&& String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals(0.0))
-						? Double.parseDouble(ruleDetail.getAdditionalProperties().get(index).toString()) : 0);
-
-	}
-
 	private Double getDoubleValue(int index, GtnWsRecordBean ruleDetail) {
 		String data = String.valueOf(ruleDetail.getAdditionalProperties().get(index));
 		return data.isEmpty() ? 0d : Double.parseDouble(data);
