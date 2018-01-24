@@ -166,7 +166,7 @@ public class SalesLogic {
      * @throws Exception
      */
     public int getHistoryAndProjectionCount(final SessionDTO sessionDTO, final ProjectionSelectionDTO projectionSelectionDTO) {
-        String query = CustomSQLUtil.get("rows-per-level-item");
+        String query = SQlUtil.getQuery("rows-per-level-item");
         if (Constant.VIEW.equals(projectionSelectionDTO.getSessionDTO().getAction()) && CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(projectionSelectionDTO.getScreenName())) {
             query = SQlUtil.getQuery("rows-per-level-item-view");
         }

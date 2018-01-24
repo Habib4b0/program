@@ -5,12 +5,13 @@ import com.stpl.app.common.dao.impl.CommonImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AppDataUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(AppDataUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AppDataUtils.class);
     private final static CommonDao ITEMDAO = CommonImpl.getInstance();
 
     public static List getAppData(List input, String queryName, String queryName2) {
@@ -29,7 +30,7 @@ public class AppDataUtils {
                 }
                 list = (List<Object[]>) ITEMDAO.executeSelect(sql.toString());
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
 

@@ -5,7 +5,4 @@ import java.util.List;
 public interface CommonDao {
 
     public List executeSelect(String query);
-
-    public Object executeUpdate(String query);
-
 }

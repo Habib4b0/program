@@ -361,7 +361,6 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
     private void initializeResultTable() {
         getResultsTable().markAsDirty();
         getResultsTable().setSelectable(false);
-        getResultsTable().setImmediate(true);
         getResultsTable().setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         getResultsTable().setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         getResultsTable().setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);

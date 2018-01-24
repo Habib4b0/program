@@ -4,12 +4,10 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.additionalinformation.logic.NotesTabLogic;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.PROJECTION_ID;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.PROJECTION_ID;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import com.stpl.ifs.ui.NotesDTO;
-import com.stpl.ifs.ui.forecastds.form.ForecastDataSelection;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
@@ -788,7 +786,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             if (ACTION_EDIT.getConstant().equalsIgnoreCase(mode2) || ACTION_VIEW.getConstant().equalsIgnoreCase(mode2) || saveFlag) {
                 attachmentsListBean.removeAllItems();
                 if (projectionId == 0) {
-                    projectionId = (Integer) VaadinSession.getCurrent().getAttribute(PROJECTION_ID.getConstant());
+                    projectionId = (Integer) VaadinSession.getCurrent().getAttribute(PROJECTION_ID);
                 }
 
                 final List<NotesDTO> allFiles = logic.getAttachmentDTOList(projectionId, moduleName, fileUploadPath);

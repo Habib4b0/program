@@ -91,7 +91,7 @@ public class NonFampResults extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(NonFampResults.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NonFampResults.class);
 
     /**
      * The generate btn.

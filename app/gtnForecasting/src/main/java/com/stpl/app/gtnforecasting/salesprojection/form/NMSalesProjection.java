@@ -65,6 +65,7 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

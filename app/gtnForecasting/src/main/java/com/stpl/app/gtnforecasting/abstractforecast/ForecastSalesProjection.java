@@ -56,6 +56,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.vaadin.event.FieldEvents;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.FieldEvents.FocusEvent;
@@ -91,6 +92,7 @@ import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
@@ -573,7 +575,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             Utility.loadHierarchyList(session);
             enableDisableFields();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -684,7 +686,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
             adjustmentLayout.setVisible(false);
             ForecastHorizonyalLayout.setVisible(false);
-            forecastReturnsLayout.setImmediate(true);
             forecastReturnsLayout.setSpacing(false);
             forecastReturnsLayout.setMargin(false);
             forecastReturnsLayout.addComponent(new Label("Methodology:"));
@@ -698,7 +699,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
             buttonLayout.replaceComponent(pmpy, returnsResetBtn);
             returnsResetBtn.setVisible(true);
-            returnsResetBtn.setImmediate(true);
             newBtn.setVisible(Boolean.FALSE);
             editBtn.setVisible(false);
             view.setVisible(false);
@@ -710,7 +710,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             fieldDdlb.addItem(Constant.PROJECTED_RPU);
             fieldDdlb.addItem(Constant.PROJECTED_RETURN_AMT);
             fieldDdlb.addItem(Constant.GROWTH_RATE);
-            gridPopulate.setImmediate(true);
             gridPopulate.replaceComponent(valueDdlb, valueTxt);
 
             methodology.addItem(Constant.PERCOFEXFACTORY);
@@ -934,7 +933,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     }
 
                 } catch (IllegalArgumentException | NullPointerException ex) {
-                    java.util.logging.Logger.getLogger(ForecastSalesProjection.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.error(ex.getMessage());
                 }
             }
         });
@@ -1146,7 +1145,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         resultsTable.markAsDirty();
         resultsTable.setDoubleHeaderVisible(true);
         resultsTable.setSelectable(false);
-        resultsTable.setImmediate(true);
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
             resultsTable.setSplitPosition(NumericConstants.EIGHT_HUNDRED, Sizeable.Unit.PIXELS);
             resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
@@ -1517,7 +1515,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     }
                     checkClearAll(event.isChecked());
                 } catch (PortalException | SystemException ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             }
         };
@@ -1588,7 +1586,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 }
                                 resultsTable.getLeftFreezeAsTable().setRefresh(true);
                             } catch (PortalException | SystemException ex) {
-                                LOGGER.error(ex);
+                                LOGGER.error(ex.getMessage());
                             }
                         }
                     });
@@ -1600,16 +1598,19 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         textField.setData(getBeanFromId(itemId).getHierarchyNo());
                         textField.setImmediate(true);
                         textField.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
-                        textField.addFocusListener(new FieldEvents.FocusListener() {
+                        
+                        textField.addFocusListener(new FocusListener() {
+                        private static final long serialVersionUID = 1L;
                             @Override
-                            public void focus(FieldEvents.FocusEvent event) {
-                                oldGroupValue = String.valueOf(((TextField) event.getComponent()).getValue());
+                            public void focus(FocusEvent event) {
+                                 oldGroupValue = String.valueOf(((TextField) event.getComponent()).getValue());
                             }
                         });
-                        textField.addBlurListener(new FieldEvents.BlurListener() {
-                            @Override
-                            public void blur(FieldEvents.BlurEvent event) {
-                                String newValue = ((TextField) event.getComponent()).getValue();
+                        textField.addBlurListener(new BlurListener() {
+
+                        @Override
+                        public void blur(BlurEvent event) {
+                            String newValue = ((TextField) event.getComponent()).getValue();
                                 if (!oldGroupValue.equals(newValue)) {
                                     try {
                                         SalesRowDto dto = (SalesRowDto) itemId;
@@ -1621,11 +1622,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                         GroupFilter.initSalesMap(session);
                                         groupBean.addAll(session.getSalesgroupSet());
                                     } catch (PortalException | SystemException | Property.ReadOnlyException ex) {
-                                        LOGGER.error(ex);
+                                        LOGGER.error(ex.getMessage());
                                     }
                                 }
-                            }
-                        });
+                        }
+                    });
                         return textField;
                     }
                 }
@@ -1723,7 +1724,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     salesRowDto.addStringProperties(propertyId, newValue);
                                     tableHirarechyNos.add(getTableLogic().getTreeLevelonCurrentPage(itemId));
                                 } catch (Exception ex) {
-                                    LOGGER.error(ex);
+                                    LOGGER.error(ex.getMessage());
                                 }
                             }
                         }
@@ -1857,7 +1858,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             getTableLogic().setRefresh(true);
 
         } catch (Property.ReadOnlyException | NumberFormatException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -2256,7 +2257,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -2375,11 +2376,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         session.setActualAdjustment(true);
                         session.setActualAdjustmentPeriods(projectionPeriods);
 
-                    } catch (PortalException ex) {
-                        LOGGER.error(ex);
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
-                    }
+                    } catch (PortalException | SQLException ex) {
+                        LOGGER.error(ex.getMessage());
+                    } 
                 }
             }.getOkCancelMessage(confirmMessage, messageBody);
 
@@ -2486,10 +2485,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable, adjMethodology, historyPeriods, projectionPeriods);
                                 refreshTableData(getCheckedRecordsHierarchyNo());
                                 getTableLogic().setRefresh(true);
-                            } catch (PortalException ex) {
-                                LOGGER.error(ex);
-                            } catch (Exception ex) {
-                                LOGGER.error(ex);
+                            } catch (PortalException  | SQLException ex) {
+                                LOGGER.error(ex.getMessage());
                             }
                         }
                     }.getOkCancelMessage(confirmMessage, messageBody);
@@ -2879,7 +2876,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     startPeriodAt = "M" + CommonLogic.getYearAndPeriod(startPeriodAt, projectionDTO.getFrequency(), true)[1] + " " + CommonLogic.getYearAndPeriod(startPeriodAt, projectionDTO.getFrequency(), true)[0];
                     endPeriodAt = endPeriodAt.isEmpty() ? endPeriodAt : "M" + CommonLogic.getYearAndPeriod(endPeriodAt, projectionDTO.getFrequency(), true)[1] + " " + CommonLogic.getYearAndPeriod(endPeriodAt, projectionDTO.getFrequency(), true)[0];
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage());
                 }
             }
             isSalesCalculated = salesLogic.calculateReturnsProjection(projectionDTO, calcMethodology, selectedPeriods, startPeriodAt, endPeriodAt);
@@ -3160,7 +3157,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             List<SalesRowDto> resultList = salesLogic.getConfiguredSalesProjection(new Object(), 0, count, projectionDTO);
             loadDataToContainer(resultList, null);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -3180,7 +3177,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             List<SalesRowDto> resultList = salesLogic.getConfiguredSalesProjection(id, 0, count, projectionDTO);
             loadDataToContainer(resultList, id);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -3207,7 +3204,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -3350,7 +3347,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             groupBean.addBean(Constant.SHOW_ALL_GROUPS);
             groupBean.addAll(session.getSalesgroupSet());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -3777,7 +3774,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             return false;
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return false;
         }
     }

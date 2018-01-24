@@ -573,7 +573,6 @@ public class FcpResults extends CustomComponent implements View {
     private void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setImmediate(true);
         periodTableId.setSplitPosition(SPLIT_POS, Sizeable.Unit.PIXELS);
         periodTableId.setMinSplitPosition(MIN_SPLIT_POS, Sizeable.Unit.PIXELS);
         periodTableId.setMaxSplitPosition(MAX_SPLIT_POS, Sizeable.Unit.PIXELS);

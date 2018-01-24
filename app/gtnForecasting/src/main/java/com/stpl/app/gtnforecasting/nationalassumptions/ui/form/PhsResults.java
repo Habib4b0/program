@@ -433,7 +433,7 @@ public class PhsResults extends CustomComponent implements View {
                 collapse.setVisible(false);
             }
         } catch (PortalException | SystemException portal) {
-            LOGGER.error(portal);
+            LOGGER.error(portal.getMessage());
         }
     }
 

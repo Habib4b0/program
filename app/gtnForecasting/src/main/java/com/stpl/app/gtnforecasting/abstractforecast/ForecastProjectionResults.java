@@ -418,7 +418,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setImmediate(true);
         periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -761,7 +760,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
 
     public void saveProjectionResultsSelection() throws PortalException, SystemException {
         LOGGER.debug("save Projection Results method starts");
-        if (isImmediate()) {
             Map map = new HashMap();
             map.put(Constant.FREQUENCY_SMALL, frequencyDdlb.getValue().toString());
             map.put(Constant.HISTORY_CAPS, historyDdlb.getValue().toString());
@@ -770,7 +768,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
             map.put(Constant.PERIOD_ORDER, periodOrderOpg.getValue().toString());
             map.put("Pivot", pivotViewOpg.getValue().toString());
             CommonLogic.saveProjectionSelection(map, Constant.PROJECTION_RESULTS_LABEL, projectionSelectionDTO);
-        }
         LOGGER.debug("save Projection Results method ends");
     }
 
