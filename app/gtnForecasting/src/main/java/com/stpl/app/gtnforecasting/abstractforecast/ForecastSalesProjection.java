@@ -629,6 +629,17 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         adjustPeriods.addItem(Constants.ButtonConstants.SELECT.getConstant());
         adjustPeriods.select(Constant.ALL);
         adjustPeriods.setStyleName(Constant.HORIZONTAL);
+        adjustPeriods.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+               boolean isChecked=Constant.ALL.equals(event.getProperty().getValue().toString());
+                for (Object component : rightTable.getDoubleHeaderVisibleColumns()) {
+                    if (!rightTable.getDoubleHeaderColumnCheckBoxDisable(component)) {
+                        rightTable.setDoubleHeaderColumnCheckBox(component, true, isChecked);
+                    }
+                }
+            }
+        });
         adjustment.setStyleName(Constant.TXT_RIGHT_ALIGN);
 
         graphIcon.setStyleName(Reindeer.BUTTON_LINK);

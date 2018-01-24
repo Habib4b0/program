@@ -673,7 +673,7 @@ public class DiscountQueryBuilder {
                 .replace("@SELCOLDED",(session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion()) || session.getDeductionInclusion().isEmpty()) ?",0 as DEDUCTION_INCLUSION":" ,DPM.DEDUCTION_INCLUSION ")
                 .replace("@DEDCUSTJOIN", commonLogic.getDedCustomJoinGenerate(session, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, hierarchyIndicator, levelNo))
                 .replace(RELVALUE, session.getDedRelationshipBuilderSid())
-                .replace(Constant.RELJOIN, commonLogic.getRelJoinGenerate(hierarchyIndicator))
+                .replace(Constant.RELJOIN, commonLogic.getRelJoinGenerate(hierarchyIndicator,session))
                 .replace("[?SELECTED_HIERARCHY_JOIN]", getHierarchyJoinQuery(session, isCustom ? Integer.valueOf(customViewDetails.get(0)) : 0, levelNo, isCustom, hierarchyIndicator, isCustom ? customViewDetails.get(NumericConstants.TWO) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.FOUR) : StringUtils.EMPTY, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, userGroup))
                 .replace("@FILTERCCP"," and FILTER_CCP=1 ") ;
         if (StringUtils.isNotBlank(userGroup)) {
@@ -1024,7 +1024,7 @@ public class DiscountQueryBuilder {
         .replace("@DEDCUSTJOIN", commonLogic.getDedCustomJoinGenerate(sessionDTO, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, hierarchyIndicator, levelNo))
         .replace(RELVALUE, sessionDTO.getDedRelationshipBuilderSid());
         queryBuilder += SQlUtil.getQuery("custom-view-count-condition-query");
-        queryBuilder = queryBuilder.replace(Constant.RELJOIN, commonLogic.getRelJoinGenerate(hierarchyIndicator));
+        queryBuilder = queryBuilder.replace(Constant.RELJOIN, commonLogic.getRelJoinGenerate(hierarchyIndicator,sessionDTO));
         return queryBuilder;
     }
 
