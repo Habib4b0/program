@@ -25,6 +25,7 @@ import com.stpl.app.model.HelperTable;
 import com.stpl.app.model.MProjectionSelection;
 import com.stpl.app.model.NmProjectionSelection;
 import com.stpl.app.model.RelationshipLevelDefinition;
+import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.CustomViewDetailsLocalServiceUtil;
 import com.stpl.app.service.CustomViewMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -64,6 +65,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -5033,29 +5035,33 @@ public class CommonLogic {
     }
 
     public String getDedCustomJoinGenerate(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
-        String columnName;
+         StringBuilder columnName = new StringBuilder();
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
-            columnName = Constant.RELATIONSHIPJOIN;
+             columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getCustomerRelationVersion());
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName = Constant.RELATIONSHIPJOIN;
+            columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getProductRelationVersion());
         } else {
             String parentHierarchyNo =  replacePercentHierarchy(hierarchyNo);
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierarchyNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
-            "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";       
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierarchyNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
+            "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'");       
         }
-        return columnName;
+        return columnName.toString();
     }
     
-     public String getRelJoinGenerate(String hierarchyIndicator) {
-        String columnName;
+     public String getRelJoinGenerate(String hierarchyIndicator,SessionDTO sessionDTO) {
+        StringBuilder columnName = new StringBuilder();
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
-            columnName = Constant.RELATIONSHIPJOIN;
+            columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getCustomerRelationVersion());
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName = Constant.RELATIONSHIPJOIN;
+            columnName.append(Constant.RELATIONSHIPJOIN);
+            columnName.append(sessionDTO.getProductRelationVersion());
         } else {
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO ";       
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO ");       
         }
-        return columnName;
+        return columnName.toString();
     }
     
     public String getSelectStatementCustom(final String hierarchyIndicator) {
@@ -5079,5 +5085,23 @@ public class CommonLogic {
         }
         return percentHierarchy;
     }
+    public static List isPropertyVisibleAccess(Object[] visibleColumn, String[] columnHeader, Map<String, AppPermission> functionHM) {
 
+        List resultList = new ArrayList(2);
+
+        List visibleList = new ArrayList<>(Arrays.asList(visibleColumn));
+        List<String> columnHeaderList = new ArrayList<>(Arrays.asList(columnHeader));
+
+        for (Map.Entry<String, AppPermission> entry : functionHM.entrySet()) {
+            String id = entry.getKey();
+            AppPermission appPermission = entry.getValue();
+            if (functionHM.get(id) != null && !((AppPermission) functionHM.get(id)).isFunctionFlag()) {
+                visibleList.remove(id);
+                columnHeaderList.remove(appPermission.getModuleName());
+            }
+        }
+        resultList.add(visibleList);
+        resultList.add(columnHeaderList);
+        return resultList;
+    }
 }
