@@ -72,6 +72,7 @@
 		<groupId>com.stpl.app</groupId>
 		<artifactId>global-parent</artifactId>
 		<version>1.0</version>
+		<relativePath>../../pom.xml</relativePath>
 	</parent>
 	<profiles>
 		<profile>
@@ -87,11 +88,10 @@
 				<module>GtnFrameworkHierarchyRouteBuilder</module>
 				<module>WebServices/GtnWsHibernateHbm</module>
 				<module>WebServices/GtnQueryEngine</module>
-				<module>Release/WarReleasePlugin</module>
 				<module>GtnFramworkQueryGenerator</module>
 			</modules>
 			<build>
-				<defaultGoal>clean install</defaultGoal>
+				<defaultGoal>clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release</defaultGoal>
 			</build>
 		</profile>
 
