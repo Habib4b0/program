@@ -5168,7 +5168,6 @@ public class CommonLogic {
     public static List isPropertyVisibleAccess(Object[] visibleColumn, String[] columnHeader, Map<String, AppPermission> functionHM) {
 
         List resultList = new ArrayList(2);
-
         List visibleList = new ArrayList<>(Arrays.asList(visibleColumn));
         List<String> columnHeaderList = new ArrayList<>(Arrays.asList(columnHeader));
 
