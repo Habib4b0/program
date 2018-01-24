@@ -20,3 +20,4 @@ app/gtnForecasting/nb-configuration.xml
 *.jar
 /target/
 */target/*
+/Dist/*
