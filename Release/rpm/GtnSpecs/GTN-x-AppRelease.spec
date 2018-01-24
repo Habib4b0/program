@@ -179,6 +179,8 @@ cp $f $install_path/osgi/modules/
 fi
 done
 
+cp $install_path/tempdeploy/stpl-theme.war $install_path/osgi/war/stpl-theme.war
+
 # Moving Gtn Framework wars ends
 
 
