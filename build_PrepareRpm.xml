@@ -29,7 +29,7 @@
 	<target name="prepareRpmAppDist">
 
 		<move todir="${Application_Build}">
-			<fileset dir="app/Dist">
+			<fileset dir="Dist">
 				<include name="**/*.war" />
 				<include name="**/*.jar" />
 			</fileset>
@@ -40,15 +40,13 @@
 			</fileset>
 		</move>
 		<move todir="${Application_Build}">
-			<fileset dir="app/Resources/default-theme/target">
+			<fileset dir="app/Resources/stpl-theme/dist">
 				<include name="**/*.war" />
 			</fileset>
 		</move>
 		
-		<delete dir="app/Resources/default-theme/target" />
+		<delete dir="app/Resources/stpl-theme/dist" />
 
-		<copy file="app/Repository/com/stpl/app/gtnServicePartI/1.0/gtnServicePartI-1.0.jar" tofile="${Application_Build}/gtnServicePartI-1.0.jar" />
-		<copy file="app/Repository/com/stpl/app/gtnServicePartII/1.0/gtnServicePartII-1.0.jar" tofile="${Application_Build}/gtnServicePartII-1.0.jar" />
 		<copy file="app/gtnProperties/target/gtnProperties.jar" tofile="${Application_Build}/gtnProperties.jar" />
 
 	</target>
