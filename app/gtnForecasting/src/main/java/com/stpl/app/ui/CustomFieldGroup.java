@@ -3,6 +3,8 @@ package com.stpl.app.ui;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -11,7 +13,7 @@ import com.vaadin.v7.data.fieldgroup.FieldGroup;
  */
 public class CustomFieldGroup extends FieldGroup {
     private static final long serialVersionUID = -6293510593661094366L;
-    private static Log log = LogFactory.getLog(CustomFieldGroup.class);
+    private static Logger log = LoggerFactory.getLogger(CustomFieldGroup.class);
     private ErrorLabel errorDisplay;
    
     /**
@@ -47,11 +49,11 @@ public class CustomFieldGroup extends FieldGroup {
         }
     }
 
-	public static Log getLog() {
+	public static Logger getLog() {
 		return log;
 	}
 
-	public static void setLog(Log log) {
+	public static void setLog(Logger log) {
 		CustomFieldGroup.log = log;
 	}
 
