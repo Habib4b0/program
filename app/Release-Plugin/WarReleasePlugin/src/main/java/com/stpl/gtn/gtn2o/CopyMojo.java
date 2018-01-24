@@ -24,7 +24,7 @@ public class CopyMojo extends AbstractMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		new FileCopier().copyFile(project.getBasedir());
+		new FileCopier().copyFile(project);
 	}
 
 }
