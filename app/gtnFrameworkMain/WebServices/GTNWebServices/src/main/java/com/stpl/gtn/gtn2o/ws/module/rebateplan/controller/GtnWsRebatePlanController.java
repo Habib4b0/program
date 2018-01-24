@@ -523,7 +523,7 @@ public class GtnWsRebatePlanController {
 			rpTier.setFormulaName(ruleDetailBean.getTierFormulaNameDesc());
 			rpTier.setSecondaryRebatePlanNo(ruleDetailBean.getSecondaryRebatePlanIdDesc());
 			rpTier.setSecondaryRebatePlanName(ruleDetailBean.getSecondaryRebatePlanNameDesc());
-                        getReturnRateAndQualifierSid(ruleDetailBean, rpTier, session);
+                    getReturnRateAndQualifierSid(ruleDetailBean, rpTier, session);
 			rpTier.setCreatedDate(new Date());
 			rpTier.setCreatedBy(rebatePlanInfoBean.getUserId());
 			rpTier.setModifiedDate(new Date());
