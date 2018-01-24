@@ -6,7 +6,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.stpl.gtn.gtn2o</groupId>
 	<artifactId>Gtn-All-Parent</artifactId>
-	<version>1.0</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -108,17 +107,6 @@
 				<defaultGoal>clean install  com.stpl.gtn.gtn2o:JarReleasePlugin:Release</defaultGoal>
 			</build>
 		</profile>
-
-		<profile>
-			<id>Install-WarRelease</id>
-			<modules>
-				<module>Release/WarReleasePlugin</module>
-			</modules>
-			<build>
-				<defaultGoal>clean install</defaultGoal>
-			</build>
-		</profile>
-
 		<profile>
 			<id>Release-Build</id>
 			<modules>
