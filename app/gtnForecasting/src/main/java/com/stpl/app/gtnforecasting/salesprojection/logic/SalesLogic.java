@@ -4370,7 +4370,7 @@ public class SalesLogic {
                     hierachies.add(hierarachy);
                 }
                 hierarachy = hierarachy.substring(0, hierarachy.length() - 1);
-                hierarachy = hierarachy.substring(0, hierarachy.lastIndexOf(".") + 1);
+                hierarachy = hierarachy.substring(0, hierarachy.lastIndexOf('.') + 1);
                 if (!hierarachy.isEmpty()) {
                     levelNoForcurrent = Integer.valueOf((String) projectionSelectionDTO.getSessionDTO().getHierarchyLevelDetails().get(hierarachy).get(2));
                 }

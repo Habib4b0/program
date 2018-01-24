@@ -355,18 +355,19 @@ public class CommonLogic {
     }
 
     public static boolean customViewDetailsSaveLogic(int customId, List levelList) {
-        String query = "INSERT INTO CUSTOM_VIEW_DETAILS  (HIERARCHY_ID,HIERARCHY_INDICATOR,CUSTOM_VIEW_MASTER_SID,LEVEL_NO)";
+        StringBuilder query = new StringBuilder();
+        query.append( "INSERT INTO CUSTOM_VIEW_DETAILS  (HIERARCHY_ID,HIERARCHY_INDICATOR,CUSTOM_VIEW_MASTER_SID,LEVEL_NO)" );
         int i = 0;
         int listSize = levelList.size() - 1;
         for (Object ob : levelList) {
             Leveldto dto = (Leveldto) ob;
-            query += " SELECT " + dto.getHierarchyId() + " , '" + dto.getHierarchyIndicator() + "' , " + customId + " , " + dto.getTreeLevelNo();
+            query.append(" SELECT " + dto.getHierarchyId() + " , '" + dto.getHierarchyIndicator() + "' , " + customId + " , " + dto.getTreeLevelNo());
             if (i != listSize) {
-                query += " UNION ALL ";
+                query.append( " UNION ALL ");
             }
             i++;
         }
-        HelperTableLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
         return true;
     }
 
@@ -619,7 +620,7 @@ public class CommonLogic {
         } else if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             productLevelNo = StringUtils.EMPTY + levelNo;
         }
-        String customViewQuery = "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
+        return "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
                 + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD "
                 + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID"
                 + Constant.AND_RLDRELATIONSHIP_BUILDER_SID + custRelSid
@@ -650,7 +651,6 @@ public class CommonLogic {
                 + " JOIN  PROJECTION_PROD_HIERARCHY PCH2 ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID AND PCH2.PROJECTION_MASTER_SID=" + projectionId
                 + Constant.WHERE_RL_D2HIERARCHY_NO_LIKE + productHierarchyNo + Constant.HLDP_ON_CCP_MAP_HIERARCHY_NO_LIKE
                 + " where HLD" + hierarchyIndicator + ".RELATIONSHIP_LEVEL_VALUES is not null";
-        return customViewQuery;
     }
 
     public static String getAllHierarchyLevelsQuery(int startLevelNo, int projectionId, String hierarchyIndicator, String userGroup, int userId, int sessionId, String relationshipBuilderSid) {
@@ -1386,7 +1386,7 @@ public class CommonLogic {
     }
 
     public static String getCCPTempTableQueryPR() {
-        String tableQuery = " DECLARE @CCP TABLE\n"
+        return " DECLARE @CCP TABLE\n"
                 + "    (\n"
                 + "    RELATIONSHIP_LEVEL_SID INT,\n"
                 + "     CCP_DETAILS_SID INT,\n"
@@ -1395,7 +1395,6 @@ public class CommonLogic {
                 + "  ) \n"
                 + "  INSERT INTO @CCP\n"
                 + "            (RELATIONSHIP_LEVEL_SID,CCP_DETAILS_SID,PROJECTION_DETAILS_SID,HIERARCHY_NO) \n";
-        return tableQuery;
     }
 
     public static String getGeneralCCPQuery(ProjectionSelectionDTO projSelDTO) {

@@ -720,27 +720,6 @@ public class DiscountQueryBuilder {
         return HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder);
     }
     
-    private String getUPPSJoin(boolean isProgram) {
-        String query;
-        if (isProgram) {
-            query = " INNER JOIN #ST_NM_DISCOUNT_PROJ_MASTER IU\n"
-                    + "  ON IU.CCP_DETAILS_SID = S.CCP_DETAILS_SID\n"
-                    + "  AND C.RS_CONTRACT_SID=IU.RS_CONTRACT_SID ";
-        } else {
-            query = " INNER JOIN \n"
-                    + "                                    (\n"
-                    + "                                    SELECT CCP_DETAILS_SID,MAX(UPPS) UPPS,PRICE_GROUP_TYPE FROM \n"
-                    + "                                    (\n"
-                    + "                                      SELECT *,ROW_NUMBER() OVER(PARTITION BY CCP_DETAILS_SID,PRICE_GROUP_TYPE  order by CCP_DETAILS_SID)  RNO\n"
-                    + "                                         FROM #ST_NM_DISCOUNT_PROJ_MASTER \n"
-                    + "                                    )A WHERE A.RNO=1"
-                    + " GROUP BY CCP_DETAILS_SID,\n"
-                    + "						   PRICE_GROUP_TYPE )IU\n"
-                    + "\n"
-                    + "                                    ON S.CCP_DETAILS_SID=IU.CCP_DETAILS_SID AND IU.PRICE_GROUP_TYPE = C.DISCOUNT ";
-        }
-        return query;
-    }
 
     public String getRSDiscountSids(List<String> discountList) {
         String framedString = StringUtils.EMPTY;
@@ -1048,27 +1027,6 @@ public class DiscountQueryBuilder {
     }
 
     private String checkIsCustom(boolean isCustomHierarchy, String hierarchyIndicator, String customerHierarchyNo, String productHierarchyNo, String deductionHierarchyNo, String hierarchyNo, String customSql,SessionDTO session) {
-        String parentHierarchyIndicator = StringUtils.EMPTY;
-        String parentHierarchyNo = StringUtils.EMPTY;
-        String parentHierarchyIndicatorDeduction = StringUtils.EMPTY;
-        String parentHierarchyNoDeduction = StringUtils.EMPTY;
-        if ("C".equalsIgnoreCase(hierarchyIndicator) && StringUtils.isNotBlank(productHierarchyNo)) {
-            parentHierarchyIndicator = "P";
-            parentHierarchyNo = productHierarchyNo;
-            parentHierarchyIndicatorDeduction = "D";
-            parentHierarchyNoDeduction = deductionHierarchyNo;
-        } else if ("P".equalsIgnoreCase(hierarchyIndicator) && StringUtils.isNotBlank(customerHierarchyNo)) {
-            parentHierarchyIndicator = "C";
-            parentHierarchyNo = customerHierarchyNo;
-            parentHierarchyIndicatorDeduction = "D";
-            parentHierarchyNoDeduction = deductionHierarchyNo;
-        } else if ("D".equalsIgnoreCase(hierarchyIndicator) && (StringUtils.isNotBlank(productHierarchyNo) || StringUtils.isNotBlank(customerHierarchyNo))) {
-            parentHierarchyIndicator = "C";
-            parentHierarchyNo = customerHierarchyNo;
-            parentHierarchyIndicatorDeduction = "P";
-            parentHierarchyNoDeduction = productHierarchyNo;
-        }
-
         if (isCustomHierarchy) {
             customSql = customSql.replace("@CUSTOM_VIEW",commonLogic.getHierarchyJoinQuery(isCustomHierarchy,customerHierarchyNo,productHierarchyNo,deductionHierarchyNo,hierarchyIndicator,session));
         } else {
