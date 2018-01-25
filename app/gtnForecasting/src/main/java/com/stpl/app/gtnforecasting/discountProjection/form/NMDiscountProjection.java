@@ -2652,21 +2652,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 						String confirmMessage = Constant.INCREMENTAL_ADJUSTMENT_CONFIRMATION;
 						String messageBody = StringUtils.EMPTY;
-						String basisCharacter = StringUtils.EMPTY;
-						if (adjustmentBasis.equals(AMOUNT.getConstant())) {
-							basisCharacter = DOLLAR.getConstant();
-						} else if (adjustmentBasis.equals(PERCENTAGE.getConstant())) {
-							basisCharacter = PERCENT.getConstant();
-						}
+						 String adjustmentValidation = adjustmentBasis.equals(PERCENTAGE.getConstant()) ? 
+                                                        adjustment.getValue().concat(PERCENT.getConstant()) : DOLLAR.getConstant().concat(adjustment.getValue());
 						if (adjustmentType.equals(INCREMENTAL.getConstant())) {
 							confirmMessage = Constant.INCREMENTAL_ADJUSTMENT_CONFIRMATION;
-							messageBody = "You are about to make the following " + adjustment.getValue()
-									+ basisCharacter + " adjustment for the selected periods" + selectedDoubleList
+							messageBody = "You are about to make the following " +adjustmentValidation+ " adjustment for the selected periods" + selectedDoubleList
 									+ Constant.CONTINUE_CONFIRMATION;
 						} else if (adjustmentType.equals(OVERRIDE.getConstant())) {
 							confirmMessage = "Confirm Override";
 							messageBody = "You are about to replace the current values in the list view with the following variable: "
-									+ adjustment.getValue() + basisCharacter + Constant.CONTINUE_CONFIRMATION;
+									+ adjustmentValidation + Constant.CONTINUE_CONFIRMATION;
 						}
 
 						new AbstractNotificationUtils() {
@@ -2801,21 +2796,17 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                             }
 						String confirmMessage = Constant.INCREMENTAL_ADJUSTMENT_CONFIRMATION;
 						String messageBody = StringUtils.EMPTY;
-						String basisCharacter = StringUtils.EMPTY;
-						if (adjustmentBasis.equals(AMOUNT.getConstant())) {
-							basisCharacter = DOLLAR.getConstant();
-						} else if (adjustmentBasis.equals(PERCENTAGE.getConstant())) {
-							basisCharacter = PERCENT.getConstant();
-						}
+                                                String adjustmentValidation = adjustmentBasis.equals(PERCENTAGE.getConstant()) ? 
+                                                        adjustment.getValue().concat(PERCENT.getConstant()) : DOLLAR.getConstant().concat(adjustment.getValue());
+                                                
 						if (adjustmentType.equals(INCREMENTAL.getConstant())) {
 							confirmMessage = Constant.INCREMENTAL_ADJUSTMENT_CONFIRMATION;
-							messageBody = "You are about to make the following " + adjustment.getValue()
-									+ basisCharacter + " adjustment for the selected periods" + selectedDoubleList
+							messageBody = "You are about to make the following " + adjustmentValidation + " adjustment for the selected periods" + selectedDoubleList
 									+ Constant.CONTINUE_CONFIRMATION;
 						} else if (adjustmentType.equals(OVERRIDE.getConstant())) {
 							confirmMessage = "Confirm Override";
 							messageBody = "You are about to replace the current values in the list view with the following variable: "
-									+ adjustment.getValue() + basisCharacter + Constant.CONTINUE_CONFIRMATION;
+									+ adjustmentValidation + Constant.CONTINUE_CONFIRMATION;
 						}
 
 						new AbstractNotificationUtils() {
