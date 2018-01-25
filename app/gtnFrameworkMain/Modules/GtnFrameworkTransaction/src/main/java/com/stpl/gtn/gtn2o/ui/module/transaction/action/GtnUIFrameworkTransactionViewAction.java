@@ -349,7 +349,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
                         if (isDate) {
 				value = sdf1.parse(sdf1.format(parseDate(String.valueOf(componentValue))));
 			} else if (String.valueOf(componentId).equals("baselineAmp") && String.valueOf(componentId) != null) {
-				value = new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN).toString();
+				value = "$" + new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN).toString();
 			}
                         else if (String.valueOf(componentId).equals("baseCpi") && String.valueOf(componentId) != null) {
 				value = new BigDecimal(String.valueOf(componentValue)).setScale(3, BigDecimal.ROUND_DOWN).toString();
