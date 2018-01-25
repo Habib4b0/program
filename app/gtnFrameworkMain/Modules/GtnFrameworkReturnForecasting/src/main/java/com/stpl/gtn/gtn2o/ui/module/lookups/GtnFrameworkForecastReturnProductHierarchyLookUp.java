@@ -366,6 +366,7 @@ public class GtnFrameworkForecastReturnProductHierarchyLookUp {
 		closeAction.addActionParameter(namespace + GtnFrameworkForecastConstantCommon.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROD_HIERARCHY_LOOKUP_VIEW);
 		actionConfigCloseList.add(closeAction);
+                cancelButton.setGtnUIFrameWorkActionConfigList(actionConfigCloseList);
 		selectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		componentList.add(cancelButton);
 

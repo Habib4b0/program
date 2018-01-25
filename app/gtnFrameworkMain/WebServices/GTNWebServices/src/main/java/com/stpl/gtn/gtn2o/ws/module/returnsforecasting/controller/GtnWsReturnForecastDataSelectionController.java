@@ -32,6 +32,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.forecast.GtnWsForecastResponse;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 /**
  * @author Kalpana.Ramanana
@@ -52,7 +53,8 @@ public class GtnWsReturnForecastDataSelectionController {
 
 	@Autowired
 	private GtnWsGeneralController gtnGeneralServiceController;
-
+        @Autowired
+	private GtnWsSqlService gtnWsSqlService;
 	public GtnWsGeneralController getGtnGeneralServiceController() {
 		return gtnGeneralServiceController;
 	}
@@ -83,8 +85,7 @@ public class GtnWsReturnForecastDataSelectionController {
 			String queryName = returnsPublicViewRequest.getGtnWsSearchRequest().isCount()
 					? "getCountForecastingReturnsPublicView" : "getDataForecastingReturnsPublicView";
 
-			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnGeneralServiceController
-					.getGtnWsSqlService().getQuery(getPublicLookUpInput(returnsPublicViewRequest), queryName));
+			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnWsSqlService.getQuery(getPublicLookUpInput(returnsPublicViewRequest), queryName));
 
 			if (returnsPublicViewRequest.getGtnWsSearchRequest().isCount()) {
 				returnsPublicViewSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
@@ -156,8 +157,7 @@ public class GtnWsReturnForecastDataSelectionController {
 			String queryName = privateViewSearchRequest.getGtnWsSearchRequest().isCount()
 					? "getCountForecastingReturnsPrivateView" : "getDataForecastingReturnsPrivateView";
 
-			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnGeneralServiceController
-					.getGtnWsSqlService().getQuery(getPrivateLookUpInput(privateViewSearchRequest), queryName));
+			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnWsSqlService.getQuery(getPrivateLookUpInput(privateViewSearchRequest), queryName));
 
 			if (privateViewSearchRequest.getGtnWsSearchRequest().isCount()) {
 				privateViewSearchResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
@@ -203,9 +203,7 @@ public class GtnWsReturnForecastDataSelectionController {
 			GtnSerachResponse productHierarchySerachResponse = new GtnSerachResponse();
 			String queryName = productHierarchyRequest.getGtnWsSearchRequest().isCount() ? "getCountProductHierarchy"
 					: "getDataProductHierarchy";
-
-			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnGeneralServiceController
-					.getGtnWsSqlService().getQuery(getLookUpInput(productHierarchyRequest), queryName));
+			List<Object[]> result = gtnGeneralServiceController.executeQuery(gtnWsSqlService.getQuery(getLookUpInput(productHierarchyRequest), queryName));
 			if (productHierarchyRequest.getGtnWsSearchRequest().isCount()) {
 				productHierarchySerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
 			} else {
@@ -224,8 +222,9 @@ public class GtnWsReturnForecastDataSelectionController {
 	}
 
 	private List<Object> getLookUpInput(GtnUIFrameworkWebserviceRequest highestLookupRequest) throws ParseException {
-
+	
 		List<Object> list = new ArrayList<>();
+                try {
 		String hierarchyLookupName = "%";
 		String hierarchyLookupType = "%";
 		String hierarchyLookupNameListVie = GtnFrameworkCommonStringConstants.STRING_EMPTY;
@@ -283,6 +282,9 @@ public class GtnWsReturnForecastDataSelectionController {
 			list.add(highestLookupRequest.getGtnWsSearchRequest().getTableRecordStart());
 			list.add(highestLookupRequest.getGtnWsSearchRequest().getTableRecordOffset());
 		}
+                } catch (Exception ex) {
+			LOGGER.error(ex.getMessage());
+		}
 		return list;
 	}
 
@@ -335,8 +337,7 @@ public class GtnWsReturnForecastDataSelectionController {
 					: "getDataProdGroupLookUp";
 
 			List<Object[]> returnProductGroupResult = gtnGeneralServiceController
-					.executeQuery(gtnGeneralServiceController.getGtnWsSqlService()
-							.getQuery(getProductGroupLookUpInput(returnProductGroupRequest), queryName));
+					.executeQuery(gtnWsSqlService.getQuery(getProductGroupLookUpInput(returnProductGroupRequest), queryName));
 			if (returnProductGroupRequest.getGtnWsSearchRequest().isCount()) {
 				returnProductGroupSerachResponse
 						.setCount(Integer.valueOf(String.valueOf(returnProductGroupResult.get(0))));
@@ -497,8 +498,7 @@ public class GtnWsReturnForecastDataSelectionController {
 			List<Object> list = new ArrayList<>();
 			list.add(gtnForecastBean.getViewId());
 
-			List<Object[]> resultList = gtnGeneralServiceController.executeQuery(
-					gtnGeneralServiceController.getGtnWsSqlService().getQuery(list, "getPublicPrivateInput"));
+			List<Object[]> resultList = gtnGeneralServiceController.executeQuery(gtnWsSqlService.getQuery(list, "getPublicPrivateInput"));
 
 			return setPublicPrivateViewInfoBean(resultList);
 		} catch (Exception e) {
