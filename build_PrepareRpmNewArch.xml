@@ -35,8 +35,6 @@
 
 	<target name = "prepareRpmSeperateWars">
 		<mkdir dir="${FrameworkDist}" />
-		<delete dir="${FrameworkDistUI}" />
-		<delete dir="${FrameworkDistWS}" />
 		<mkdir dir="${FrameworkDistUI}" />
 		<mkdir dir="${FrameworkDistWS}" />
 		<move todir="${FrameworkDistUI}">
