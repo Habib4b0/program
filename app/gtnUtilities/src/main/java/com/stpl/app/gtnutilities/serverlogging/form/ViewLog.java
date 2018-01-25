@@ -36,7 +36,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 public class ViewLog extends CustomComponent implements View {
 
     private static final Logger LOGGER = Logger.getLogger(ViewLog.class);
-    final SearchLogic searchLogic = SearchLogic.getInstance();
+    private final SearchLogic searchLogic = SearchLogic.getInstance();
     @UiField("refreshBtn")
     private Button refreshBtn;
     @UiField("resetBtn")
@@ -48,15 +48,15 @@ public class ViewLog extends CustomComponent implements View {
     @UiField("filterText")
     private TextField filterText;
     @UiField("tableLayout")
-    VerticalLayout tableLayout;
+    private VerticalLayout tableLayout;
     @UiField("buttonLayout")
-    HorizontalLayout buttonLayout;
+    private HorizontalLayout buttonLayout;
     @UiField("fileName")
     private ComboBox fileName;
     @UiField("customCommand")
     private TextField customCommand;
     // Create a  text area
-    final TextArea textViewer = new TextArea();
+    private final TextArea textViewer = new TextArea();
     /**
      * String name.
      */
@@ -64,7 +64,7 @@ public class ViewLog extends CustomComponent implements View {
     /**
      * to store result
      */
-    String result =  Constants.EMPTY;
+    private String result =  Constants.EMPTY;
 
     /**
      * Instantiates a ViewLog
@@ -227,4 +227,8 @@ public class ViewLog extends CustomComponent implements View {
             fileName.addItem(dto.getLogDestination());
         }
     }
+
+	public SearchLogic getSearchLogic() {
+		return searchLogic;
+	}
 }

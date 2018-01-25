@@ -63,7 +63,7 @@ public class CommonUiUtils {
     /**
      * The PRODUCTGROUPHEADER.
      */
-    public String[] productGroupHeader = new String[]{"Product Group Name", "Product Group No", "Product Group Description", Constant.COMPANY_SMALL};
+    private static final String[] PRODUCT_GROUP_HEADER = new String[]{"Product Group Name", "Product Group No", "Product Group Description", Constant.COMPANY_SMALL};
 
     /**
      * The Constant BASELINE_PERIOD_COLUMNS.
@@ -1400,4 +1400,9 @@ public class CommonUiUtils {
 	public static String[] getFederalNdcHeader() {
 		return FEDERAL_NDC_HEADER.clone();
 	}
+
+	public String[] getProductGroupHeader() {
+		return PRODUCT_GROUP_HEADER.clone();
+	}
+
 }

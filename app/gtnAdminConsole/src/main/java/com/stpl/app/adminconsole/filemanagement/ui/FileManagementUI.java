@@ -23,12 +23,15 @@ import com.vaadin.ui.UI;
  */
 public class FileManagementUI extends UI {
 
+	public FileManagementUI(){
+		 super();
+	}
 	/** The navigator. */
 	private Navigator navigator;
 
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(FileManagementUI.class);
-	SessionDTO sessionDTO = new SessionDTO();
+	private SessionDTO sessionDTO = new SessionDTO();
 
 	/**
 	 * Initializes this UI.

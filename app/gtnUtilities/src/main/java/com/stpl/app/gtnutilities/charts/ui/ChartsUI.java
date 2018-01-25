@@ -33,12 +33,15 @@ public class ChartsUI extends UI implements VaadinPortletSession.PortletListener
     /**
      * The navigator.
      */
-    public Navigator navigator;
+	private Navigator navigator;
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(ChartsUI.class);
 
+    public ChartsUI(){
+    	super();
+    }
 
     /**
      * (non-Javadoc).

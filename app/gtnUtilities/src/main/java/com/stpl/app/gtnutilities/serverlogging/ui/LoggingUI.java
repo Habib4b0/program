@@ -34,7 +34,7 @@ public class LoggingUI extends UI implements VaadinPortletSession.PortletListene
     /**
      * The navigator.
      */
-    public Navigator navigator;
+	private Navigator navigator;
     /**
      * The Constant LOGGER.
      */
@@ -45,6 +45,10 @@ public class LoggingUI extends UI implements VaadinPortletSession.PortletListene
      *
      * @see com.vaadin.ui.UI#getNavigator()
      */
+    
+    public LoggingUI(){
+    	super();
+    }
     public Navigator getNavigator() {
         return navigator;
     }

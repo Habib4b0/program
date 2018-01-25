@@ -15,24 +15,24 @@ import java.util.Date;
 public class WorkflowMasterDTO implements Serializable {
 
     private static final long serialVersionUID = -1L;
-    public int workflowMasterSystemId;
-    public Date createdDate;
-    public int createdBy;
-    public int approvedBy;
-    public int projectionId;
-    public int modifiedBy;
-    public Date modifiedDate;
-    public int workflowStatus;
-    public String workflowId;
-    public String workflowName;
-    public String workflowStatusStr;
+    private int workflowMasterSystemId;
+    private Date createdDate;
+    private int createdBy;
+    private int approvedBy;
+    private int projectionId;
+    private int modifiedBy;
+    private Date modifiedDate;
+    private int workflowStatus;
+    private String workflowId;
+    private String workflowName;
+    private String workflowStatusStr;
     private String notes;
     private int noOfApprovals;
     private int approvalLevel;
-    public String docDetailsSid;
-    public String fileName;
-    public String workflowDescription;
-    public Date approvedDate;
+    private String docDetailsSid;
+    private String fileName;
+    private String workflowDescription;
+    private Date approvedDate;
 
     public String getFileName() {
         return fileName;
@@ -69,14 +69,14 @@ public class WorkflowMasterDTO implements Serializable {
      * @return the createdDate
      */
     public Date getCreatedDate() {
-        return createdDate;
+        return createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
      * @param createdDate the createdDate to set
      */
     public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
     }
 
     /**
@@ -139,14 +139,14 @@ public class WorkflowMasterDTO implements Serializable {
      * @return the modifiedDate
      */
     public Date getModifiedDate() {
-        return modifiedDate;
+        return modifiedDate  == null ? null : (Date) modifiedDate.clone();
     }
 
     /**
      * @param modifiedDate the modifiedDate to set
      */
     public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = modifiedDate  == null ? null : (Date) modifiedDate.clone();
     }
 
     /**
@@ -238,11 +238,11 @@ public class WorkflowMasterDTO implements Serializable {
     }
 
     public Date getApprovedDate() {
-        return approvedDate;
+        return approvedDate  == null ? null : (Date) approvedDate.clone();
     }
 
     public void setApprovedDate(Date approvedDate) {
-        this.approvedDate = approvedDate;
+        this.approvedDate = approvedDate  == null ? null : (Date) approvedDate.clone();
     }
     
 }

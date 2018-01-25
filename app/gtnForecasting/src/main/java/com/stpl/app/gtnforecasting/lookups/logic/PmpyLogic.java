@@ -211,7 +211,7 @@ public class PmpyLogic {
         return resultList;
     }
 
-    final static PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
+    private final static PPAProjectionDao PPADAO = new PPAProjectionDaoImpl();
 
     public static List getGroupList() {
         return new ArrayList();

@@ -24,12 +24,15 @@ import org.jboss.logging.Logger;
 public class SelectionTableLogic extends PageTableLogic {
     
     private boolean loadData = false;
-    SelectionDTO selectionDTO;
+    private SelectionDTO selectionDTO;
     private final SelectionLogic selectionLogic = new SelectionLogic();
     private String tabName = StringUtils.EMPTY;
     private String availableOrselected = StringUtils.EMPTY;
     private static final Logger LOGGER = Logger.getLogger(SelectionTableLogic.class);
     
+    public SelectionTableLogic(){
+    	super();
+    }
     /**
      * Returns the number of records available for the given search criteria.
      *

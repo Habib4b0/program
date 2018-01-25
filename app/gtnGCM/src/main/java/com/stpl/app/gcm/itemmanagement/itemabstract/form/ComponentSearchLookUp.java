@@ -111,7 +111,7 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
     private final AbstractLogic logic = AbstractLogic.getInstance();
     private final List<String> countFlag = new ArrayList<>();
     private final List<String> loadDataFlag = new ArrayList<>();
-    public CustomTextField componentTextField;
+    private CustomTextField componentTextField;
     private final Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentId", StringConstantsUtil.COMPONENT_NO, StringConstantsUtil.COMPONENT_NAME, StringConstantsUtil.COMPONENT_TYPE, Constants.CATEGORY, StringConstantsUtil.DESIGNATION_PROPERTY, "planId", "planName", StringConstantsUtil.COMPONENT_STATUS_PROPERTY, "tradeClass", Constants.START_DATE, Constants.END_DATE};
     private final String[] CFP_SEARCH_HEADERS = new String[]{

@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.jboss.logging.Logger;
 
 import com.stpl.app.gtnutilities.charts.logic.SearchLogic;
 import com.stpl.app.gtnutilities.util.CommonMethods;
@@ -44,21 +43,20 @@ import com.vaadin.ui.VerticalLayout;
 
 public class CpuIoChart extends VerticalLayout {
 
-	PopupDateField selecteDate = new PopupDateField();
-	Button runNowBtn = new Button("Run Now");
-	Chart cpuChart;
-	Chart ioChart;
-	HorizontalLayout fieldLayout = new HorizontalLayout();
-	SearchLogic searchLogic = SearchLogic.getInstance();
-	CheckBox showAll = new CheckBox(Constants.SHOW_ALL);
-	final ComboBox itemsPerPageSelect = new ComboBox();
-	TextField showValuesGreaterThan = new TextField();
-	Date lastSelectedDate = CommonMethods.getYesterdayDate();
-	PlotOptionsColumn dropOptions = new PlotOptionsColumn();
+	private PopupDateField selecteDate = new PopupDateField();
+	private Button runNowBtn = new Button("Run Now");
+	private Chart cpuChart;
+	private Chart ioChart;
+	private HorizontalLayout fieldLayout = new HorizontalLayout();
+	private SearchLogic searchLogic = SearchLogic.getInstance();
+	private CheckBox showAll = new CheckBox(Constants.SHOW_ALL);
+	private final ComboBox itemsPerPageSelect = new ComboBox();
+	private TextField showValuesGreaterThan = new TextField();
+	private Date lastSelectedDate = CommonMethods.getYesterdayDate();
+	private PlotOptionsColumn dropOptions = new PlotOptionsColumn();
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(CpuIoChart.class);
 
 	CpuIoChart() {
 		addFields();
@@ -94,7 +92,7 @@ public class CpuIoChart extends VerticalLayout {
 			public void buttonClick(final Button.ClickEvent event) {
 				callJob("BPIGTN_GAL_APP_UNIT");
 				refreshCharts(showValuesGreaterThan.getValue());
-				searchLogic.selectedDate = selecteDate.getValue();
+				searchLogic.setSelectedDate(selecteDate.getValue());
 			}
 		});
 		showAll.setValue(Boolean.FALSE);

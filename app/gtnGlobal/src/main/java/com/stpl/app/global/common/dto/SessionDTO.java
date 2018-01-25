@@ -30,6 +30,10 @@ public class SessionDTO {
     private String screenName;
     private GtnSmallHashMap currentTableNames = new GtnSmallHashMap();
 
+    public SessionDTO(){
+    	super();
+    }
+    
     public String getIsSave() {
         return isSave;
     }

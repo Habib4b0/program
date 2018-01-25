@@ -18,7 +18,7 @@ public class DiscountSearchView extends VerticalLayout implements View {
      */
     public static final String NAME = ConstantsUtils.EMPTY;
 
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
 
     /**
      * Instantiates a new discount search view.
@@ -27,7 +27,7 @@ public class DiscountSearchView extends VerticalLayout implements View {
         super();
         try {
             setSpacing(true);
-            this.sessionDTO = sessionDTO;
+            this.setSessionDTO(sessionDTO);
             addComponent(new AbstractSearchForm(ConstantsUtils.DEDUCTION_GROUPING, sessionDTO));
             setStyleName("bootstrap");
         } catch (Exception ex) {
@@ -52,5 +52,13 @@ public class DiscountSearchView extends VerticalLayout implements View {
         }
 
     }
+
+	public SessionDTO getSessionDTO() {
+		return sessionDTO;
+	}
+
+	public void setSessionDTO(SessionDTO sessionDTO) {
+		this.sessionDTO = sessionDTO;
+	}
 
 }

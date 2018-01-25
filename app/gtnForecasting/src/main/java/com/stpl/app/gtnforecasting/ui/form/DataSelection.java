@@ -3518,11 +3518,11 @@ public class DataSelection extends ForecastDataSelection {
 	}
 
 	public static List<Integer> getProductBeanLisTemp() {
-		return productBeanLisTemp;
+		return productBeanLisTemp == null ? productBeanLisTemp : Collections.unmodifiableList(productBeanLisTemp);
 	}
 
 	public static void setProductBeanLisTemp(List<Integer> productBeanLisTemp) {
-		DataSelection.productBeanLisTemp = productBeanLisTemp;
+		DataSelection.productBeanLisTemp = productBeanLisTemp == null ? productBeanLisTemp : Collections.unmodifiableList(productBeanLisTemp);
 	}
 
 	@Override

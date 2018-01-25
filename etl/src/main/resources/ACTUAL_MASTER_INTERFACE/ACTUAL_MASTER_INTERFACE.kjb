@@ -1038,7 +1038,7 @@
       <name>FULL LOAD PURGE DAYS</name>
       <description/>
       <type>SQL</type>
-      <sql>DECLARE &#x40;NO_OF_DAYS INT&#x3d;&#x24;&#x7b;FULL_LOAD_PURGE_DAYS&#x7d;&#xa;DELETE FROM HIST_ACTUALS_MASTER&#xa;WHERE  CONVERT&#x28;DATE, ACTION_DATE&#x29; &#x3c;&#x3d; CONVERT&#x28;DATE, Getdate&#x28;&#x29; - &#x40;NO_OF_DAYS&#x29;&#xa;&#xa;&#xa;DELETE FROM HIST_ACTUALS_DETAILS&#xa;WHERE  CONVERT&#x28;DATE, ACTION_DATE&#x29; &#x3c;&#x3d; CONVERT&#x28;DATE, Getdate&#x28;&#x29; - &#x40;NO_OF_DAYS&#x29;&#xa;</sql>
+      <sql>DECLARE &#x40;NO_OF_DAYS INT&#x3d;&#x24;&#x7b;FULL_LOAD_PURGE_DAYS&#x7d;&#xa;DELETE FROM HIST_ACTUALS_MASTER&#xa;WHERE  CONVERT&#x28;DATE, ACTION_DATE&#x29; &#x3c;&#x3d; CONVERT&#x28;DATE, Getdate&#x28;&#x29; - &#x40;NO_OF_DAYS&#x29;&#xa;&#xa;&#xa;--DELETE FROM HIST_ACTUALS_DETAILS&#xa;--WHERE  CONVERT&#x28;DATE, ACTION_DATE&#x29; &#x3c;&#x3d; CONVERT&#x28;DATE, Getdate&#x28;&#x29; - &#x40;NO_OF_DAYS&#x29;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>

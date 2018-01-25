@@ -18,7 +18,8 @@ public class PromteTpSearchCriteria implements BeanSearchCriteria {
 
     private Set<Container.Filter> filters;
     private int lastCount;
-    public boolean dirty;
+    @SuppressWarnings("unused")
+	private boolean dirty;
 
     @Override
     public Set<Container.Filter> getFilters() {

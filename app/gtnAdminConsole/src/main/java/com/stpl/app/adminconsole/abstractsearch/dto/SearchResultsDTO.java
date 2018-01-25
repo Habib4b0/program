@@ -15,6 +15,10 @@ import org.apache.commons.lang.StringUtils;
  */
 public class SearchResultsDTO implements Serializable {
 
+	public SearchResultsDTO(){
+		super();
+	}
+	
     public String getCompanyGroupName() {
         return companyGroupName;
     }

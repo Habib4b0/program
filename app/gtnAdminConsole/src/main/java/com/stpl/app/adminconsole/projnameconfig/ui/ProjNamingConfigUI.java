@@ -27,10 +27,13 @@ import org.jboss.logging.Logger;
  */
 public class ProjNamingConfigUI extends UI {
 
+	public ProjNamingConfigUI(){
+		super();
+	}
     /**
      * The navigator.
      */
-    public Navigator navigator;
+	private Navigator navigator;
     /**
      * The Constant LOGGER.
      */

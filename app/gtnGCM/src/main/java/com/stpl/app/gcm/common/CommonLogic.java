@@ -1500,6 +1500,7 @@ public class CommonLogic {
                 updateProdHirarechy(newProjectionId, getProdRelationshipId(), masterSids);
                 newProjectionId = cloneProjection(oldProjectionId, userId);
                 LOGGER.debug(" New Projection Id ===== " + newProjectionId);
+                insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
                 if (newProjectionId != 0) {
 
                     boolean isProjectionCustUpdated = false;
@@ -1582,7 +1583,7 @@ public class CommonLogic {
 
                             LoadTabLogic loadTabLogic = new LoadTabLogic();
                             loadTabLogic.setForecastingType(newProjectionId);
-                            tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
+                            tempList.add(swapForecastingType(LoadTabLogic.getForecatingType()));
                             tempList.add(loadTabLogic.getProjectionName(newProjectionId));
                             tempList.add(String.valueOf(newProjectionId));
                             tempList.add("\n New Projection created with forecasting type -" + tempList.get(0)
@@ -2148,7 +2149,7 @@ public class CommonLogic {
                             }
                         }
                         loadTabLogic.setForecastingType(newProjectionId);
-                        tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
+                        tempList.add(swapForecastingType(LoadTabLogic.getForecatingType()));
                         tempList.add(loadTabLogic.getProjectionName(newProjectionId));
                         tempList.add(String.valueOf(newProjectionId));
 
@@ -2195,6 +2196,7 @@ public class CommonLogic {
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[0]));
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
         int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
+        insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
 
         LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
         if (newProjectionId != 0) {
@@ -2244,7 +2246,7 @@ public class CommonLogic {
                     }
                     LoadTabLogic loadTabLogic = new LoadTabLogic();
                     loadTabLogic.setForecastingType(newProjectionId);
-                    tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
+                    tempList.add(swapForecastingType(LoadTabLogic.getForecatingType()));
                     tempList.add(loadTabLogic.getProjectionName(newProjectionId));
                     tempList.add(String.valueOf(newProjectionId));
                     tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME
@@ -2465,6 +2467,7 @@ public class CommonLogic {
         relationshipBuilderSids.add(String.valueOf(projectionMasterRow[1]));
 
         int newProjectionId = cloneProjection(oldProjectionId, session.getUserId());
+        insertIntoNmProjectionSelection(oldProjectionId, newProjectionId);
 
         LOGGER.debug(" New Projection Id =====>>>>> " + newProjectionId);
         if (newProjectionId != 0) {
@@ -2514,7 +2517,7 @@ public class CommonLogic {
                     }
                     LoadTabLogic loadTabLogic = new LoadTabLogic();
                     loadTabLogic.setForecastingType(newProjectionId);
-                    tempList.add(swapForecastingType(LoadTabLogic.forecatingType));
+                    tempList.add(swapForecastingType(LoadTabLogic.getForecatingType()));
                     tempList.add(loadTabLogic.getProjectionName(newProjectionId));
                     tempList.add(String.valueOf(newProjectionId));
                     tempList.add(PROJECTION_CREATED_WITH_FORECASTING + tempList.get(0) + AND_PROJECTION_NAME

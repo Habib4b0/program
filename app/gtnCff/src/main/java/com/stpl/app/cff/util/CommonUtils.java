@@ -176,7 +176,7 @@ public class CommonUtils {
     public static final String SPECIAL_CHAR = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\-|\\@|\\#|\\$|\\&|\\%|\\s|\\/|\\(|\\!|\\)])*";
 
     public static final String STRING_NULL = "null";
-    public CFFQueryUtils cffQueryUtils = new CFFQueryUtils();
+    private CFFQueryUtils cffQueryUtils = new CFFQueryUtils();
     /**
      * The helper list util.
      */
@@ -1524,6 +1524,14 @@ public class CommonUtils {
         double doubleFinalValue = Double.parseDouble(value.toString()) / doubleValue;
         return FORMAT_TWO_DECIMAL.format(doubleFinalValue);
     }
+
+	public CFFQueryUtils getCffQueryUtils() {
+		return cffQueryUtils;
+	}
+
+	public void setCffQueryUtils(CFFQueryUtils cffQueryUtils) {
+		this.cffQueryUtils = cffQueryUtils;
+	}
     
     
 }

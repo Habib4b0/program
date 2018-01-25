@@ -27,6 +27,7 @@ import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnWsNumericConstants;
+import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class GtnFrameworkCompanyMasterSearchConfig {
@@ -67,7 +68,6 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 		GtnUIFrameworkComponentConfig panelConfig = configProvider.getPanelConfig("resultPanel", false, null);
 		panelConfig.setComponentName("Results");
 		panelConfig.setAuthorizationIncluded(true);
-		panelConfig.setComponentWidth("100%");
 		componentList.add(panelConfig);
 		addCMResultLayout(componentList);
 	}
@@ -75,6 +75,7 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 	private void addCMResultLayout(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig("resultlayout", true,
 				"resultPanel");
+		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		componentList.add(gtnLayout);
 		addCMPagedTableComponent(componentList);
 	}
@@ -327,6 +328,7 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 				GtnUIFrameworkComponentType.PAGEDTABLE);
 		searchResultConfig.setComponentName("Results");
 		searchResultConfig.setAuthorizationIncluded(true);
+		searchResultConfig.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 
 		List<String> tableStyle = new ArrayList<>();
 		tableStyle.add("filterbar");
@@ -334,7 +336,6 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 		tableStyle.add("v-table-filterbar");
 		tableStyle.add("table-header-normal");
 		searchResultConfig.setComponentStyle(tableStyle);
-
 		componentList.add(searchResultConfig);
 
 		GtnUIFrameworkPagedTableConfig searchResults = new GtnUIFrameworkPagedTableConfig();

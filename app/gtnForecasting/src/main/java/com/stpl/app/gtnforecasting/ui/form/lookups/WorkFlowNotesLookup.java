@@ -96,9 +96,9 @@ public class WorkFlowNotesLookup extends Window {
     private String fileUploadPath;
     private final List<NotesDTO> removeDetailsList = new ArrayList<>();
     private final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
-    
+    private boolean isFileRename;
     private NotesDTO tableBean = new NotesDTO();
-    public static String submitFlag="";
+    private static String SUBMIT_FLAG="";
 
     public WorkFlowNotesLookup() {
         init();
@@ -261,7 +261,7 @@ public class WorkFlowNotesLookup extends Window {
 
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                submitFlag = "Success";
+                setSUBMIT_FLAG("Success");
                 close();
             }
         });
@@ -306,7 +306,8 @@ public class WorkFlowNotesLookup extends Window {
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
                 File renameFileUpload = CommonUtil.getFilePath(fileUploadPath + name);
-                destFileUpload.renameTo(renameFileUpload);
+                isFileRename=destFileUpload.renameTo(renameFileUpload);
+                LOGGER.info("File renamed successfully : "+isFileRename);
                 if (!StringUtils.isBlank(file)) {
                     attachmentDTO.setDocumentName(name);
                 } else {
@@ -456,4 +457,12 @@ public class WorkFlowNotesLookup extends Window {
             LOGGER.error(ex);
         }
     }
+
+	public static String getSUBMIT_FLAG() {
+		return SUBMIT_FLAG;
+	}
+
+	public static void setSUBMIT_FLAG(String sUBMIT_FLAG) {
+		SUBMIT_FLAG = sUBMIT_FLAG;
+	}
 }

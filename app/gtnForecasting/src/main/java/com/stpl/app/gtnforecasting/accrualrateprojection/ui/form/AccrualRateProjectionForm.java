@@ -81,7 +81,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
     private static final Logger LOGGER = Logger.getLogger(AccrualRateProjectionForm.class);
 
-    public Sales sales;
+    private Sales sales;
 
     private final Rates rates;
 
@@ -109,7 +109,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
     private boolean isDetailsLoaded;
     private boolean heirarchySaved = false;
 
-    TabSheet.SelectedTabChangeListener tabChangeListener = new TabSheet.SelectedTabChangeListener() {
+    private TabSheet.SelectedTabChangeListener tabChangeListener = new TabSheet.SelectedTabChangeListener() {
         @Override
         public void selectedTabChange(final TabSheet.SelectedTabChangeEvent event) {
 
@@ -132,7 +132,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
         if (!session.getAction().equalsIgnoreCase(Constant.VIEW)) {
             insertFileData();
         }
-        this.sales = new Sales(session, map);
+        this.setSales(new Sales(session, map));
         this.rates = new Rates(session, map);
         this.details = new Details(session, map);
         dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
@@ -230,12 +230,12 @@ public class AccrualRateProjectionForm extends AbstractForm {
                         @Override
                         public void windowClose(Window.CloseEvent e) {
                             try {
-                                if (WorkFlowNotesLookup.submitFlag.equals("Success")) {
+                                if (WorkFlowNotesLookup.getSUBMIT_FLAG().equals("Success")) {
                                     boolean isSubmitted = submitProjection(popup.getNotes().getValue(), screenName, popup.getUploadedData());
                                     if (isSubmitted) {
                                         UI.getCurrent().getNavigator().navigateTo(ForecastMainView.NAME);
                                     }
-                                    WorkFlowNotesLookup.submitFlag = "Failed";
+                                    WorkFlowNotesLookup.setSUBMIT_FLAG("Failed");
                                     CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
                                 }
                             } catch (SystemException ex) {
@@ -286,7 +286,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
         tabSheet.addTab(dataSelection, TAB_DATA_SELECTION.getConstant(), null, 0);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
         tabSheet.addSelectedTabChangeListener(tabChangeListener);
-        tabSheet.addTab(this.sales, AccrualRateUtils.SALES, null, NumericConstants.ONE);
+        tabSheet.addTab(this.getSales(), AccrualRateUtils.SALES, null, NumericConstants.ONE);
         tabSheet.addTab(this.rates, AccrualRateUtils.RATES, null, NumericConstants.TWO);
         tabSheet.addTab(this.details, AccrualRateUtils.DETAILS, null, NumericConstants.THREE);
         tabSheet.setSelectedTab(NumericConstants.ONE);
@@ -604,7 +604,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             } catch (InterruptedException ex) {
                 LOGGER.error(ex);
             }
-            sales.saveTabSelection();
+            getSales().saveTabSelection();
             rates.saveTabSelection();
             details.saveTabSelection();
             dsLogic.updateSaveFlag(session.getProjectionId(), session.getUserId());
@@ -701,7 +701,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
         if (tabPosition == 1) {
 
-            this.sales.setDefaultFocus();
+            this.getSales().setDefaultFocus();
         }
 
         if (AccrualRateUtils.ADD_CASE.equals(session.getAction())) {
@@ -926,5 +926,13 @@ public class AccrualRateProjectionForm extends AbstractForm {
             LOGGER.error(ex);
         }
     }
+
+	public Sales getSales() {
+		return sales;
+	}
+
+	public void setSales(Sales sales) {
+		this.sales = sales;
+	}
 
 }

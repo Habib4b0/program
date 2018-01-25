@@ -19,7 +19,15 @@ public class PMPYLogic {
     /** The Constant LOGGER. */
     
     /** The sales dao. */
-    public SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
+	private SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
+
+	public SalesProjectionDAO getSalesDAO() {
+		return salesDAO;
+	}
+
+	public void setSalesDAO(SalesProjectionDAO salesDAO) {
+		this.salesDAO = salesDAO;
+	}
 
    
 

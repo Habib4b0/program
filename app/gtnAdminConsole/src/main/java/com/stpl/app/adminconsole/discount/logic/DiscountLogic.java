@@ -58,12 +58,12 @@ public class DiscountLogic {
      */
     final private static FileManagementLogicDAO FMDAO = new FileManagementLogicDAOImpl();
 
-    static HashMap<String, String> columnNames = new HashMap<String, String>();
+    private static HashMap<String, String> columnNames = new HashMap<String, String>();
 
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
 
     public DiscountLogic(SessionDTO sessionDTO) {
-        this.sessionDTO = sessionDTO;
+        this.setSessionDTO(sessionDTO);
     }
 
     public DiscountLogic() {
@@ -768,4 +768,12 @@ public class DiscountLogic {
         LOGGER.debug("getDeductionQuery Ended ");
         return query;
     }
+
+	public SessionDTO getSessionDTO() {
+		return sessionDTO;
+	}
+
+	public void setSessionDTO(SessionDTO sessionDTO) {
+		this.sessionDTO = sessionDTO;
+	}
 }

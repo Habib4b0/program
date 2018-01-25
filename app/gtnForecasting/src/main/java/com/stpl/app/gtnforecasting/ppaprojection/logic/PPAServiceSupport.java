@@ -18,6 +18,7 @@ import com.stpl.portal.kernel.dao.orm.ProjectionList;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;

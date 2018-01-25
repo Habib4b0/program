@@ -247,7 +247,7 @@ public class FileManagementLookup extends Window {
 
 	private HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
 
-	public Object selectedItem;
+	private Object selectedItem;
 
 	private char detailsFlag = 'N';
 
@@ -524,8 +524,8 @@ public class FileManagementLookup extends Window {
 		this.detailsFlag = detailsFlag;
 	}
 
-	CommonUtil commonUtil = new CommonUtil();
-	CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
+	private CommonUtil commonUtil = new CommonUtil();
+	private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
 
 	public void init() {
 		try {
@@ -1390,7 +1390,7 @@ public class FileManagementLookup extends Window {
 				lookUp.addCloseListener(new Window.CloseListener() {
 					@Override
 					public void windowClose(final Window.CloseEvent e) {
-						if (!lookUp.isSelected) {
+						if (!lookUp.isSelected()) {
 							detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME)
 									.setValue(StringUtils.EMPTY);
 							detailsFilterTable.getContainerProperty(itemId, StringConstantUtils.ITEM_ID)
@@ -3215,7 +3215,7 @@ public class FileManagementLookup extends Window {
 								lookUp.addCloseListener(new Window.CloseListener() {
 									@Override
 									public void windowClose(final Window.CloseEvent e) {
-										if (lookUp.isSelected) {
+										if (lookUp.isSelected()) {
 											detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NO)
 													.setValue(itemNoSearch.getValue());
 										} else {
@@ -3254,7 +3254,7 @@ public class FileManagementLookup extends Window {
 								lookUp.addCloseListener(new Window.CloseListener() {
 									@Override
 									public void windowClose(final Window.CloseEvent e) {
-										if (lookUp.isSelected) {
+										if (lookUp.isSelected()) {
 											detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME)
 													.setValue(lookupItemName.getValue().toString());
 										} else {
@@ -3832,7 +3832,7 @@ public class FileManagementLookup extends Window {
 										detailsFilterTable.getContainerProperty(itemId, StringConstantUtils.ITEM_ID)
 												.setValue(lookUp.getItemId());
 										((FileMananagementResultDTO) itemId).setItemMasterSid(lookUp.getMasterSid());
-										if (!lookUp.isSelected) {
+										if (!lookUp.isSelected()) {
 											detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME)
 													.setValue(StringUtils.EMPTY);
 											detailsFilterTable.getContainerProperty(itemId, StringConstantUtils.ITEM_ID)
@@ -4449,6 +4449,22 @@ public class FileManagementLookup extends Window {
 
 	public FileMananagementResultDTO getResultDTO() {
 		return resultDTO;
+	}
+
+	public CommonUtil getCommonUtil() {
+		return commonUtil;
+	}
+
+	public void setCommonUtil(CommonUtil commonUtil) {
+		this.commonUtil = commonUtil;
+	}
+
+	public CommonSecurityLogic getCommonSecurity() {
+		return commonSecurity;
+	}
+
+	public void setCommonSecurity(CommonSecurityLogic commonSecurity) {
+		this.commonSecurity = commonSecurity;
 	}
 
 }

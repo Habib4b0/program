@@ -31,13 +31,13 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
     private final boolean prFlag = false;
     private final boolean sprFlag=false;
     private boolean pvFlag=false;
-    public boolean mmDprFlag = false;
+    private boolean mmDprFlag = false;
     public static final String CUSTOM = "Custom";
     public static final String PRODUCT = "Product";
 
 
-    public String indicator = StringUtils.EMPTY;
-    public int levelNo = 0;
+    private String indicator = StringUtils.EMPTY;
+    private int levelNo = 0;
     public static final Logger LOGGER = Logger.getLogger(ComparisonFilterGenerator.class);
 
     public ComparisonFilterGenerator( PVSelectionDTO projectionVarianceSelectionDTO,boolean detailFlag) {
@@ -82,13 +82,13 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
         if (StringConstantsUtil.RELATIONSHIP_LEVEL_NAME.equals(propertyId) && pvFlag) {
 
             if (PRODUCT.equals(pvSelectionDTO.getView())) {
-                indicator = "P";
+                setIndicator("P");
                 pvSelectionDTO.setLevelName("'Product','Ndc','NDC'");
-                levelNo = pvSelectionDTO.getProductLevelNo();
+                setLevelNo(pvSelectionDTO.getProductLevelNo());
             } else {
-                indicator = "C";
+                setIndicator("C");
                 pvSelectionDTO.setLevelName("'" + pvSelectionDTO.getView() + "'");
-                 levelNo = pvSelectionDTO.getCustomerLevelNo();
+                 setLevelNo(pvSelectionDTO.getCustomerLevelNo());
             }
             final ComboBox contractType = new ComboBox();
             contractType.setNullSelectionAllowed(true);
@@ -127,13 +127,13 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
 
 
             if (PRODUCT.equals(sprProjectionDTO.getView())) {
-                indicator = "P";
+                setIndicator("P");
                 sprProjectionDTO.setLevelName("'Product','Ndc','NDC'");
-                levelNo = sprProjectionDTO.getProductLevelNo();
+                setLevelNo(sprProjectionDTO.getProductLevelNo());
             } else {
-                indicator = "C";
+                setIndicator("C");
                 sprProjectionDTO.setLevelName("'" + sprProjectionDTO.getView() + "'");
-                levelNo = sprProjectionDTO.getCustomerLevelNo();
+                setLevelNo(sprProjectionDTO.getCustomerLevelNo());
             }
             final ComboBox contractType = new ComboBox();
             contractType.setNullSelectionAllowed(true);
@@ -159,7 +159,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 contractType.setImmediate(true);
                 contractType.addStyleName(StringConstantsUtil.FILTER_COMBOBOX);
                 contractType.setValue(SELECT_ONE);
-                mmDprFlag = false;
+                setMmDprFlag(false);
                 return contractType;
 
             } catch (Exception e) {
@@ -180,15 +180,15 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
             filterBox.addStyleName(StringConstantsUtil.FILTER_COMBOBOX);
             if (!CUSTOM.equals(sprProjectionDTO.getView())) {
                 if (PRODUCT.equals(sprProjectionDTO.getView())) {
-                    indicator = "P";
+                    setIndicator("P");
                     pvSelectionDTO.setLevelName("'Brand'");
                     sprProjectionDTO.setLevelName("'Brand'");
-                    levelNo = sprProjectionDTO.getProductLevelNo();
+                    setLevelNo(sprProjectionDTO.getProductLevelNo());
                 } else {
-                    indicator = "C";
+                    setIndicator("C");
                     pvSelectionDTO.setLevelName("'" + sprProjectionDTO.getView() + "'");
                     sprProjectionDTO.setLevelName("'" + sprProjectionDTO.getView() + "'");
-                    levelNo = sprProjectionDTO.getCustomerLevelNo();
+                    setLevelNo(sprProjectionDTO.getCustomerLevelNo());
                 }
 
                 pvSelectionDTO.setProjectionId(sprProjectionDTO.getProjectionId());
@@ -234,6 +234,36 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
     public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
         return null;
     }
+
+
+	public boolean isMmDprFlag() {
+		return mmDprFlag;
+	}
+
+
+	public void setMmDprFlag(boolean mmDprFlag) {
+		this.mmDprFlag = mmDprFlag;
+	}
+
+
+	public String getIndicator() {
+		return indicator;
+	}
+
+
+	public void setIndicator(String indicator) {
+		this.indicator = indicator;
+	}
+
+
+	public int getLevelNo() {
+		return levelNo;
+	}
+
+
+	public void setLevelNo(int levelNo) {
+		this.levelNo = levelNo;
+	}
 
     
 }

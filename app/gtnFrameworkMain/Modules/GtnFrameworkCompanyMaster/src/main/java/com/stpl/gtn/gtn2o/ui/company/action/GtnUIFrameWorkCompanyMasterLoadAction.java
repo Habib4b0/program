@@ -247,8 +247,8 @@ public class GtnUIFrameWorkCompanyMasterLoadAction implements GtnUIFrameWorkActi
 				dto.addProperties("endDate", identifier.getCompanyIdentifierEndDate());
 				dto.addProperties(GtnFrameworkCompanyStringContants.CREATED_BY, identifier.getCreatedByName());
 				dto.addProperties(GtnFrameworkCompanyStringContants.CREATED_DATE, identifier.getCreatedDate());
-				dto.addProperties(GtnFrameworkCompanyStringContants.MODIFIED_BY,
-						identifier.getModifiedByName() == null ? GtnFrameworkCommonStringConstants.STRING_EMPTY : identifier.getModifiedByName());
+				dto.addProperties(GtnFrameworkCompanyStringContants.MODIFIED_BY, identifier.getModifiedByName() == null
+						? GtnFrameworkCommonStringConstants.STRING_EMPTY : identifier.getModifiedByName());
 				dto.addProperties(GtnFrameworkCompanyStringContants.MODIFIED_DATE, identifier.getModifiedDate());
 				dto.getProperties().add(identifier.getCompanyQualifierSid());
 				dto.getProperties().add(identifier.getIdentifierStatusValue());
@@ -285,7 +285,8 @@ public class GtnUIFrameWorkCompanyMasterLoadAction implements GtnUIFrameWorkActi
 				dto.addProperties(GtnFrameworkCompanyStringContants.CREATED_BY, tradeClassInfo.getCreatedByName());
 				dto.addProperties(GtnFrameworkCompanyStringContants.CREATED_DATE, tradeClassInfo.getCreatedDate());
 				dto.addProperties(GtnFrameworkCompanyStringContants.MODIFIED_BY,
-						tradeClassInfo.getModifiedByName() == null ? GtnFrameworkCommonStringConstants.STRING_EMPTY : tradeClassInfo.getModifiedByName());
+						tradeClassInfo.getModifiedByName() == null ? GtnFrameworkCommonStringConstants.STRING_EMPTY
+								: tradeClassInfo.getModifiedByName());
 				dto.addProperties(GtnFrameworkCompanyStringContants.MODIFIED_DATE, tradeClassInfo.getModifiedDate());
 				dto.addProperties(tradeClassInfo.getCreatedBy());
 				dto.addProperties(tradeClassInfo.getCompanyTradeClassSid());
@@ -314,10 +315,12 @@ public class GtnUIFrameWorkCompanyMasterLoadAction implements GtnUIFrameWorkActi
 				dto.addProperties("parentCompanyStartDate", parentCompanyInfo.getCompanyParentStartDate());
 				dto.addProperties("parentCompanyEndDate", parentCompanyInfo.getCompanyParentEndDate());
 				dto.addProperties(GtnFrameworkCompanyStringContants.CREATED_BY,
-						parentCompanyInfo.getCreatedByName() == null ? GtnFrameworkCommonStringConstants.STRING_EMPTY : parentCompanyInfo.getCreatedByName());
+						parentCompanyInfo.getCreatedByName() == null ? GtnFrameworkCommonStringConstants.STRING_EMPTY
+								: parentCompanyInfo.getCreatedByName());
 				dto.addProperties(GtnFrameworkCompanyStringContants.CREATED_DATE, parentCompanyInfo.getCreatedDate());
 				dto.addProperties(GtnFrameworkCompanyStringContants.MODIFIED_BY,
-						parentCompanyInfo.getModifiedByName() == null ? GtnFrameworkCommonStringConstants.STRING_EMPTY : parentCompanyInfo.getModifiedByName());
+						parentCompanyInfo.getModifiedByName() == null ? GtnFrameworkCommonStringConstants.STRING_EMPTY
+								: parentCompanyInfo.getModifiedByName());
 				dto.addProperties(GtnFrameworkCompanyStringContants.MODIFIED_DATE, parentCompanyInfo.getModifiedDate());
 				dto.getProperties().add(parentCompanyInfo.getCreatedBy());
 				dto.getProperties().add(parentCompanyInfo.getParentCompanyMasterSystemId());
@@ -356,15 +359,15 @@ public class GtnUIFrameWorkCompanyMasterLoadAction implements GtnUIFrameWorkActi
 				notesDTOList.add(companyMasterAttachmentDTO);
 
 			}
-			result.add(getCompanyInformation().getInternalNotes());
-			result.add(notesDTOList);
+		}
+		result.add(getCompanyInformation().getInternalNotes());
+		result.add(notesDTOList);
 
-			GtnUIFrameworkBaseComponent notesTab = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("notesTab");
-			try {
-				notesTab.setNotesTabValue(result);
-			} catch (GtnFrameworkValidationFailedException ex) {
-				Logger.getLogger(GtnUIFrameWorkCompanyMasterLoadAction.class.getName()).log(Level.SEVERE, null, ex);
-			}
+		GtnUIFrameworkBaseComponent notesTab = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("notesTab");
+		try {
+			notesTab.setNotesTabValue(result);
+		} catch (GtnFrameworkValidationFailedException ex) {
+			Logger.getLogger(GtnUIFrameWorkCompanyMasterLoadAction.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 	}

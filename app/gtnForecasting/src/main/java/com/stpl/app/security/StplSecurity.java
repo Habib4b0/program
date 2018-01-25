@@ -1,5 +1,6 @@
 package com.stpl.app.security;
 
+import com.stpl.app.common.AppDataUtils;
 import com.stpl.app.gtnforecasting.dao.impl.StplSecurityDAOImpl;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -54,7 +55,7 @@ public class StplSecurity {
  	private static final List<String> DOMAINIDS1 = null;
         
         /** UserMap - Contains User System ID and User Name */
-        public static Map<Integer,String> userMap=new ConcurrentHashMap<>();   
+ 	private static Map<Integer,String> userMap=new ConcurrentHashMap<>();   
         
     /**
      * Gets the dto.
@@ -298,6 +299,19 @@ public StplSecurityDAO getDto() {
                 permissionHm.put(propertyName, appPermission);
                                 }        	
         }
+         if(type == 4){
+            for (; counter < listSize; counter++) {
+                final Object[] obj = (Object[]) permissionList.get(counter);
+                final String propertyName = String.valueOf(obj[0]).trim();
+                final String accessModule = String.valueOf(obj[1]);
+                final String headerName = String.valueOf(obj[2]);
+                appPermission = new AppPermission();
+                appPermission.setPropertyName(propertyName);                    
+                appPermission.setModuleName(headerName);                    
+                appPermission.setFunctionFlag(null != accessModule && Constant.STRING_ONE.equals(accessModule) ? true : false);
+                permissionHm.put(propertyName, appPermission);
+            }        	
+        }
         return permissionHm;
     }
 
@@ -346,5 +360,31 @@ public StplSecurityDAO getDto() {
         final List tabPermissionList = dto.getBusinessroleModuleMasterTabList(businessRoleIds, moduleName);
         tabHm = listToAppPermissionMap(tabPermissionList, TAB_VALUE);
         return tabHm;
+    }
+    
+    public Map<String, AppPermission> getBusinessFunctionPermission(final String userId, final String moduleName, final String subModuleName, final String tabName) throws PortalException, SystemException {
+        Map<String, AppPermission> functionHm;
+
+        final Collection<Object> userGroupId = getUserGroupId(Long.parseLong(userId));
+        final String businessRoleIds = getBusinessRoleIds(userGroupId);
+        List<Object[]> tabPermissionList = AppDataUtils.getAppData(getInput(businessRoleIds, moduleName, subModuleName, tabName), "buttonSecurity", null);
+        functionHm = listToAppPermissionMap(tabPermissionList, 4);
+        return functionHm;
+    }
+
+    private List getInput(final String businessRoleId, final String moduleName, final String subModuleName, final String tabName) {
+        List input = new ArrayList();
+        input.add("List View");
+        input.add(moduleName);
+        input.add(subModuleName);
+        input.add(tabName);
+        if (businessRoleId.length() != 0) {
+            String sql = " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                    + businessRoleId + ")";
+            input.add(sql);
+        } else {
+            input.add(StringUtils.EMPTY);
+        }
+        return input;
     }
 }

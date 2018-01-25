@@ -265,7 +265,7 @@ public class GtnWsRebatePlanController {
 
 			rPTierDetailBean.setFrom(rpTier.getTierFrom() == null ? 0d : rpTier.getTierFrom().intValue());
 			if (rpTier.getTierTo() != null && "null".equals(String.valueOf(rpTier.getTierTo()))) {
-				rPTierDetailBean.setTo(rpTier.getTierTo().intValue());
+				rPTierDetailBean.setTo(Double.valueOf(String.valueOf(rpTier.getTierTo())));
 			}
 			rPTierDetailBean
 					.setTierTolerance(rpTier.getTierTolerance() == null ? 0d : rpTier.getTierTolerance().doubleValue());
@@ -509,7 +509,7 @@ public class GtnWsRebatePlanController {
 			rpTier.setRebatePlanMaster(rpMaster);
 			rpTier.setRebatePlanTierId(Integer.toString(rebatePlanInfoBean.getSystemId() + i));
 			rpTier.setTierFrom(BigDecimal.valueOf(ruleDetailBean.getFrom()));
-			rpTier.setTierTo(BigDecimal.valueOf(ruleDetailBean.getTo()));
+			rpTier.setTierTo(ruleDetailBean.getTo() != null ? BigDecimal.valueOf(ruleDetailBean.getTo()) : null);
 			rpTier.setTierLevel(Integer.toString(i));
 			rpTier.setHelperTable(session.get(HelperTable.class, ruleDetailBean.getOperator()));
 			rpTier.setTierValue(ruleDetailBean.getValueDesc() != null
@@ -523,18 +523,7 @@ public class GtnWsRebatePlanController {
 			rpTier.setFormulaName(ruleDetailBean.getTierFormulaNameDesc());
 			rpTier.setSecondaryRebatePlanNo(ruleDetailBean.getSecondaryRebatePlanIdDesc());
 			rpTier.setSecondaryRebatePlanName(ruleDetailBean.getSecondaryRebatePlanNameDesc());
-			if (ruleDetailBean.getItemPricingQualifierSid() != null) {
-				rpTier.setItemPricingQualifierSid(ruleDetailBean.getItemPricingQualifierSid());
-			}
-			if (ruleDetailBean.getReturnRateSid() != null) {
-				rpTier.setHelperTableReturnRateSid(session.get(HelperTable.class, ruleDetailBean.getReturnRateSid()));
-			}else if(ruleDetailBean.getItemPricingQualifierSid() !=null && ruleDetailBean.getItemPricingQualifierSid().contains(GtnWsConstants.RETURN_RATE)){
-                            try {
-                                rpTier.setHelperTableReturnRateSid(session.get(HelperTable.class,getFormulaType(GtnWsConstants.RETURN_RATE)));
-                            } catch (GtnFrameworkGeneralException ex) {
-                               logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
-                            }
-                        }
+                    getReturnRateAndQualifierSid(ruleDetailBean, rpTier, session);
 			rpTier.setCreatedDate(new Date());
 			rpTier.setCreatedBy(rebatePlanInfoBean.getUserId());
 			rpTier.setModifiedDate(new Date());
@@ -544,6 +533,22 @@ public class GtnWsRebatePlanController {
 		}
 
 	}
+
+        private void getReturnRateAndQualifierSid(GtnWsRebatePlanRuleDetailBean ruleDetailBean, RebatePlanTier rpTier, Session session) {
+            if (ruleDetailBean.getItemPricingQualifierSid() != null) {
+                rpTier.setItemPricingQualifierSid(ruleDetailBean.getItemPricingQualifierSid());
+                rpTier.setFormulaCalculation(ruleDetailBean.getFormulaForCalculation());
+            }
+            if (ruleDetailBean.getReturnRateSid() != null) {
+                rpTier.setHelperTableReturnRateSid(session.get(HelperTable.class, ruleDetailBean.getReturnRateSid()));
+            }else if(ruleDetailBean.getItemPricingQualifierSid() !=null && ruleDetailBean.getItemPricingQualifierSid().contains(GtnWsConstants.RETURN_RATE)){
+                try {
+                    rpTier.setHelperTableReturnRateSid(session.get(HelperTable.class,getFormulaType(GtnWsConstants.RETURN_RATE)));
+                } catch (GtnFrameworkGeneralException ex) {
+                    logger.error(GtnFrameworkWebserviceConstant.ERROR_WHILE_GETTING_DATA, ex);
+                }
+            }
+        }
 
 	private Integer rpNotesTabInsert(GtnWsRebatePlanInfoBean rebatePlanInfoBean, Session session)
 			throws GtnFrameworkGeneralException {

@@ -79,10 +79,10 @@ public class TrackingProgress extends Window {
     @UiField("cssLayout")
     private CssLayout cssLayout;
 
-    TrackingProgressTableLogic summaryTableLogic = new TrackingProgressTableLogic();
+    private TrackingProgressTableLogic summaryTableLogic = new TrackingProgressTableLogic();
     private final ExtPagedTable summaryTable = new ExtPagedTable(summaryTableLogic);
 
-    TrackingProgressTableLogic detailsTableLogic = new TrackingProgressTableLogic();
+    private TrackingProgressTableLogic detailsTableLogic = new TrackingProgressTableLogic();
     private final ExtPagedTable detailsTable = new ExtPagedTable(detailsTableLogic);
 
     @UiField("summaryTableLayout")

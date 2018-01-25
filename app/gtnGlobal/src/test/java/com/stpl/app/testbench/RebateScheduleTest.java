@@ -29,8 +29,8 @@ import com.vaadin.testbench.elements.WindowElement;
 public class RebateScheduleTest extends TestBenchTestCase {
 	
         private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(RebateScheduleTest.class);
-	String rsName = "TestRS12022015";
-	String rsEditName="EditTestRS12022015";
+	private String rsName = "TestRS12022015";
+	private String rsEditName="EditTestRS12022015";
 
 	// Search
 
@@ -267,6 +267,14 @@ public class RebateScheduleTest extends TestBenchTestCase {
 	@After
 	public void closeBrowser() {
 		driver.quit();
+	}
+
+	public String getRsName() {
+		return rsName;
+	}
+
+	public void setRsName(String rsName) {
+		this.rsName = rsName;
 	}
 
 }

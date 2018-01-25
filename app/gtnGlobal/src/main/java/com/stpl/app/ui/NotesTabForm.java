@@ -59,6 +59,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	private static final Logger LOGGER = Logger.getLogger(NotesTabForm.class);
 
 	private String masterTableSid;
+	private boolean destFileUploadCheck;
 	private final String dbModuleName;
 	private final ErrorfulFieldGroup binder;
 	private final String moduleName;
@@ -183,7 +184,8 @@ public class NotesTabForm extends AbstractNotesTab {
 				NotesDTO attachmentDTO = new NotesDTO();
 				String name = file + sb.substring(sb.indexOf("."));
 				File renameFileUpload = GtnFileUtil.getFile(fileUploadPath + name);
-				destFileUpload.renameTo(renameFileUpload);
+				destFileUploadCheck=destFileUpload.renameTo(renameFileUpload);
+				LOGGER.info("File is renamed successfully : "+destFileUploadCheck);
 				if (!StringUtils.isBlank(file)) {
 					attachmentDTO.setDocumentName(name);
 				} else {
@@ -311,16 +313,18 @@ public class NotesTabForm extends AbstractNotesTab {
 	@Override
 	public void refreshTable() {
 		try {
-			String masterTableSidValue;
+			String masterTableSidValue = StringUtils.EMPTY;
 			binder.commit();
 			if ("Compliance Deduction Rules".equals(this.moduleName)) {
 				masterTableSidValue = masterTableSid;
-			} else {
+			} else if (binder.getField(masterTableSid) != null) {
 				masterTableSidValue = String.valueOf(binder.getField(masterTableSid).getValue());
 			}
 			LOGGER.debug("masterTableSid :" + masterTableSid);
 			LOGGER.debug("masterTableSidValue :" + masterTableSidValue);
-			int systemId = Integer.valueOf(masterTableSidValue.replace(",", ""));
+
+			int systemId = masterTableSidValue.equals(StringUtils.EMPTY) ? 0
+					: Integer.valueOf(masterTableSidValue.replace(",", " "));
 			if (systemId != 0) {
 				attachmentsListBean.addAll(logic.getAttachmentDTOList(systemId, dbModuleName, fileUploadPath));
 			}
@@ -328,8 +332,8 @@ public class NotesTabForm extends AbstractNotesTab {
 			LOGGER.error("Error while commiting the binder :" + e);
 		}
 	}
-
-	private void getNotesTab(final Map<String, AppPermission> fieldCompanyHM,
+        
+       	private void getNotesTab(final Map<String, AppPermission> fieldCompanyHM,
 			final Map<String, AppPermission> functionHM) {
 		LOGGER.debug("Entering getFirstTab1");
 		try {

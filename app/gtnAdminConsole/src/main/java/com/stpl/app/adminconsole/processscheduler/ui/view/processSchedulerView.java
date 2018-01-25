@@ -20,9 +20,9 @@ public class processSchedulerView extends VerticalLayout implements View {
 
     public static final String NAME = ConstantsUtils.EMPTY;
 
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
 
-    processSchedulerForm processScheduler;
+    private processSchedulerForm processScheduler;
 
     public processSchedulerView(final SessionDTO sessionDTO) {
         super();

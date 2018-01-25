@@ -45,8 +45,8 @@ public class FileUploadForm extends CustomComponent
 		implements View, Upload.SucceededListener, Upload.FailedListener, Upload.Receiver {
 
 	private static final Logger LOGGER = Logger.getLogger(FileUploadForm.class);
-	final SearchLogic searchLogic = SearchLogic.getInstance();
-	static String pathFormat = "E:\\Karthik/Jboss/jboss-as-7.1.1.Final/ETL/%s/%s/Input/";
+	private final SearchLogic searchLogic = SearchLogic.getInstance();
+	private static String pathFormat = "E:\\Karthik/Jboss/jboss-as-7.1.1.Final/ETL/%s/%s/Input/";
 	@UiField("submitBtn")
 	private Button submitBtn;
 	@UiField("cancelBtn")
@@ -62,11 +62,11 @@ public class FileUploadForm extends CustomComponent
 	private ComboBox selectedInterface;
 	@UiField("uploadLayout")
 	private HorizontalLayout uploadLayout;
-	public String logDestinationValue;
+	private String logDestinationValue;
 	private File tempFile;
 	@UiField("selectType")
-	OptionGroup selectType;
-	boolean fileSelected = false;
+	private OptionGroup selectType;
+	private boolean fileSelected = false;
 
 	/**
 	 * Instantiates a new FileUploadForm
@@ -240,5 +240,17 @@ public class FileUploadForm extends CustomComponent
 		}
 
 		selectedInterface.addItems(interFacesList);
+	}
+
+	public SearchLogic getSearchLogic() {
+		return searchLogic;
+	}
+
+	public String getLogDestinationValue() {
+		return logDestinationValue;
+	}
+
+	public void setLogDestinationValue(String logDestinationValue) {
+		this.logDestinationValue = logDestinationValue;
 	}
 }

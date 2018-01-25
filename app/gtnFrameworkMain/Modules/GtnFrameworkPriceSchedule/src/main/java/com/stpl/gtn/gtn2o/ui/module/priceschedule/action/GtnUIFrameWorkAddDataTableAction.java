@@ -38,7 +38,7 @@ public class GtnUIFrameWorkAddDataTableAction implements GtnUIFrameWorkAction, G
 			GtnWsRecordBean gtnWsRecordBean = null;
 			gtnWsRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPleftResultTable")
 					.getValueFromComponent();
-			String ifpId = gtnWsRecordBean.getPropertyValueByIndex(7).toString();
+			String ifpId = gtnWsRecordBean.getPropertyValueByIndex(8).toString();
 			String psId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleId1").getStringFromField();
 
 			Map<String, String> inputValueMap = new HashMap<>();
