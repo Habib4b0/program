@@ -139,7 +139,6 @@ public class GtnFrameworkForecastReturnProductHierarchyLookUp {
 		addHierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		addHierarchyNameTextBox.setParentComponentId(namespace + GtnFrameworkForecastConstantCommon.UNDERSCORE
 				+ GtnFrameworkCommonConstants.SEARCH_CRITERIA);
-                addHierarchyNameTextBox.setComponentHight("25px");
 		componentList.add(addHierarchyNameTextBox);
 	}
 
@@ -367,6 +366,7 @@ public class GtnFrameworkForecastReturnProductHierarchyLookUp {
 		closeAction.addActionParameter(namespace + GtnFrameworkForecastConstantCommon.UNDERSCORE
 				+ GtnFrameworkCommonConstants.PROD_HIERARCHY_LOOKUP_VIEW);
 		actionConfigCloseList.add(closeAction);
+                cancelButton.setGtnUIFrameWorkActionConfigList(actionConfigCloseList);
 		selectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		componentList.add(cancelButton);
 

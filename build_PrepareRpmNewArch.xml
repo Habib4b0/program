@@ -9,8 +9,8 @@
 	<property name="Application_BuildUI" location="${RpmDirStructureUI}/Application_Build" />
 	<property name="Application_BuildWS" location="${RpmDirStructureWS}/GTN_Framework_War" />
 	<property name="FrameworkDist" location="Dist" />
-	<property name="FrameworkDistUI" location="${FrameworkDist}/UI" />
-	<property name="FrameworkDistWS" location="${FrameworkDist}/WS" />	
+	<property name="FrameworkDistUI" location="${FrameworkDist}" />
+	<property name="FrameworkDistWS" location="${FrameworkDist}" />	
 	<property name="rpmdirUI" location="${DistUI}/rpm" />
 	<property name="rpmdirWS" location="${DistWS}/rpm" />
 
@@ -22,8 +22,6 @@
 	</target>
 
 	<target name="createDir">
-		<delete dir="${Dist}" />
-		<mkdir dir="${Dist}" />
 		<mkdir dir="${DistUI}" />
 		<mkdir dir="${DistWS}" />
 		<mkdir dir="${RpmDirStructureUI}" />
