@@ -280,6 +280,6 @@ chown -R $APP_User:etl $install_path/DB_Script
 chown $APP_User:etl $install_path
 
 %files
-%{prefix}/*
+%{prefix}/
 
 
