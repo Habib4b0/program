@@ -229,11 +229,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
 
     public List<Integer> getProjIdList() {
         Collections.sort(projIdList);
-        return projIdList == null ? projIdList : Collections.unmodifiableList(projIdList);
+        return projIdList;
     }
 
     public void setProjIdList(List<Integer> projIdList) {
-        this.projIdList = projIdList == null ? projIdList : Collections.unmodifiableList(projIdList);
+        this.projIdList = projIdList;
     }
 
     public Map<Integer, String> getProjectionMap() {
