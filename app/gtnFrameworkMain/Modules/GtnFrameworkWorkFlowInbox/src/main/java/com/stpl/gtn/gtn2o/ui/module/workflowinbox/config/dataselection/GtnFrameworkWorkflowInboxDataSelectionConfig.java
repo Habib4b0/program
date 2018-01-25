@@ -858,10 +858,12 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		searchResultConfig.addGtnUIFrameWorkActionConfig(fetchActionConfig);
 		searchResults.setItemClickListener(true);
 
-		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig(
-				GtnUIFrameworkActionType.CUSTOM_ACTION);
-		enableAction.addActionParameter(GtnFrameworkWorkflowResultTableItemClickAction.class.getName());
-		searchResultConfig.setGtnUIFrameWorkValueChangeActionConfigList(Arrays.asList(enableAction));
+		if (projectionMasterSid == null) {
+			GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig(
+					GtnUIFrameworkActionType.CUSTOM_ACTION);
+			enableAction.addActionParameter(GtnFrameworkWorkflowResultTableItemClickAction.class.getName());
+			searchResultConfig.setGtnUIFrameWorkValueChangeActionConfigList(Arrays.asList(enableAction));
+		}
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
 		componentList.add(searchResultConfig);
 
