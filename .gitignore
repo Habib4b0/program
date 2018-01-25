@@ -20,3 +20,5 @@ app/gtnForecasting/nb-configuration.xml
 /app/gtnServicePartII_Liferay_7/gtnServiceapi/target/
 /app/gtnServicePartII_L7/gtnService/target/
 *.jar
+**/target/**
+*.war
