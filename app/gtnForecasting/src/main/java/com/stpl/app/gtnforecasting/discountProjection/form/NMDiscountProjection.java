@@ -440,8 +440,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		gridlay.addComponent(periodOrder);
 		if (CommonUtil.isValueEligibleForLoading()) {
 			gridlay.addComponent(uomLb);
+			uomLb.setWidth("120px");
 			gridlay.addComponent(uomDdlb);
                         gridlay.addComponent(displayFormatLabel);
+            displayFormatLabel.setWidth("120px");
                         gridlay.addComponent(displayFormatDdlb);
 		} else {
 			gridlay.setColumns(6);
@@ -450,6 +452,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		gridlay.addComponent(historyDdlb, 1, 1);
 		gridlay.addComponent(variablesLb, NumericConstants.TWO, 1);
 		gridlay.addComponent(variables, NumericConstants.THREE, 1);
+		variables.setWidth("500px");
                 gridlay.addComponent(conversionFactor, NumericConstants.FOUR, 1);
 		gridlay.addComponent(conversionFactorDdlb, NumericConstants.FIVE, 1);
 
@@ -535,7 +538,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		endPeriod.setContainerDataSource(endPeriodBean);
              
 		variables.addStyleName(Constant.HORIZONTAL);
-		variables.addStyleName("optiongroupextrawidth");
 		variables.addItem(DISCOUNT_RATE.getConstant());
 		variables.addItem(REBATE_PER_UNIT.getConstant());
 		variables.addItem(DISCOUNT_AMT.getConstant());
