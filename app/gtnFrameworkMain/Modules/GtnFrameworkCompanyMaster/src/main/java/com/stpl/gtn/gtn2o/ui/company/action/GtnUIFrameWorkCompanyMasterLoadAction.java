@@ -337,9 +337,8 @@ public class GtnUIFrameWorkCompanyMasterLoadAction implements GtnUIFrameWorkActi
 		List<NotesDTO> notesDTOList = new ArrayList<>();
 		List<Object> result = new ArrayList<>();
 		NotesDTO companyMasterAttachmentDTO;
-		loadNotesTabBeanList = getLoadNotesTabBeanList();
 		if (loadNotesTabBeanList != null && !loadNotesTabBeanList.isEmpty()) {
-			for (NotesTabBean companyMasterNotesTabBean : loadNotesTabBeanList) {
+			for (NotesTabBean companyMasterNotesTabBean : getLoadNotesTabBeanList()) {
 				companyMasterAttachmentDTO = new NotesDTO();
 				companyMasterAttachmentDTO.setDocDetailsId(companyMasterNotesTabBean.getMasterTableSystemId());
 				String filePath = companyMasterNotesTabBean.getFilePath();
