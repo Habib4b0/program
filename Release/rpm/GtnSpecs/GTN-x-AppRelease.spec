@@ -30,6 +30,7 @@ echo $RPM_BUILD_DIR
 #mkdir -p $RPM_BUILD_ROOT%{prefix}
 folderexist="$RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/"
 
+mkdir -p $RPM_BUILD_ROOT%{prefix}
  
 if [ -d "$folderexist"ETL_Build ]
 then
