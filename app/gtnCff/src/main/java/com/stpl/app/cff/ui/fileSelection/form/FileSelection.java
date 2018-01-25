@@ -109,7 +109,7 @@ public class FileSelection extends CustomComponent {
                 resultsTable.setColumnWidth(propertyId, -1);
 
             }
-            resultsTable.setWidth("1600");
+            resultsTable.setWidth("80%");
             resultsTable.markAsDirty();
             resultsTable.setSelectable(false);
             resultsTable.setTableFieldFactory(new FileSelectionTableGenerator(searchContainer, sessionDTO, String.valueOf(businessUnit.getValue())));
