@@ -30,8 +30,11 @@ import com.stpl.gtn.gtn2o.ws.netsales.constants.GtnWsNsfCommonConstants;
  */
 public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
+	private static final String FORMULA_TYPE = "formulaType";
 	private static final String SELECTED_DEDUCTIONS_RESULT_TABLE = "selectedDeductionsResultTable";
-
+   
+	
+   
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -49,7 +52,7 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 	}
 
 	private void performActionForComboBox(String viewId) throws GtnFrameworkGeneralException {
-		String formulaType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "formulaType")
+		String formulaType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + FORMULA_TYPE)
 				.getCaptionFromComboBox();
 		List<String> componentIds = new ArrayList<>();
 		componentIds.add(viewId + "deductionsTabcontractNo");
@@ -223,6 +226,7 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetActionConfig);
 		}
 	}
+
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
