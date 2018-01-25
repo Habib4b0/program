@@ -288,7 +288,7 @@ public class GtnUIFrameworkWorkflowHistoryPopupConfig {
 		GtnUIFrameworkComponentConfig panelConfig = new GtnUIFrameworkComponentConfig();
 		panelConfig.setComponentName(GtnFrameworkWorkflowInboxClassConstants.HISTORY_DETAILS);
 		panelConfig.setComponentId(GtnFrameworkWorkflowInboxClassConstants.HISTORYRESULT_PANEL);
-		panelConfig.setComponentWidth(GtnFrameworkCssConstants.PIXEL_530);
+		panelConfig.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		panelConfig.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		panelConfig.setAuthorizationIncluded(true);
 		panelConfig.setAddToParent(true);
@@ -301,7 +301,7 @@ public class GtnUIFrameworkWorkflowHistoryPopupConfig {
 		GtnUIFrameworkComponentConfig panelConfig = new GtnUIFrameworkComponentConfig();
 		panelConfig.setComponentName(GtnFrameworkWorkflowInboxClassConstants.ATTACHMENT_DETAILS);
 		panelConfig.setComponentId(GtnFrameworkWorkflowInboxClassConstants.ATTACHMENTRESULT_PANEL);
-		panelConfig.setComponentWidth(GtnFrameworkCssConstants.PIXEL_530);
+		panelConfig.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		panelConfig.setComponentType(GtnUIFrameworkComponentType.PANEL);
 		panelConfig.setAuthorizationIncluded(true);
 		panelConfig.setAddToParent(true);
@@ -314,7 +314,7 @@ public class GtnUIFrameworkWorkflowHistoryPopupConfig {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkWorkflowInboxClassConstants.HISTORYDETAILSRESULT_LAYOUT, true,
 				GtnFrameworkWorkflowInboxClassConstants.HISTORYRESULT_PANEL);
-		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PIXEL_530);
+		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		componentList.add(gtnLayout);
 		addPagedHistoryTableComponent(componentList);
 	}
@@ -323,7 +323,7 @@ public class GtnUIFrameworkWorkflowHistoryPopupConfig {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkWorkflowInboxClassConstants.ATTACHMENTDETAILSRESULT_LAYOUT, true,
 				GtnFrameworkWorkflowInboxClassConstants.ATTACHMENTRESULT_PANEL);
-		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PIXEL_530);
+		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		componentList.add(gtnLayout);
 		addPagedAttachmentTableComponent(componentList);
 	}
@@ -363,7 +363,7 @@ public class GtnUIFrameworkWorkflowHistoryPopupConfig {
 				GtnFrameworkWorkflowInboxClassConstants.STATUS_LOWERCASE,
 				GtnFrameworkWorkflowInboxClassConstants.MODIFIED_DATE,
 				GtnFrameworkWorkflowInboxClassConstants.MODIFIED_BY, GtnFrameworkWorkflowInboxClassConstants.NOTES,
-				GtnFrameworkWorkflowInboxClassConstants.ATTACHMENT });
+				GtnFrameworkWorkflowInboxClassConstants.ATTACHMENT});
 		historysearchResults.setExtraColumn(new Object[] { GtnFrameworkWorkflowInboxClassConstants.FILENAME });
 		historysearchResults.setTableColumnMappingId(new Object[] { GtnFrameworkWorkflowInboxClassConstants.STATUS,
 				GtnFrameworkWorkflowInboxClassConstants.MODIFIEDDATE,
