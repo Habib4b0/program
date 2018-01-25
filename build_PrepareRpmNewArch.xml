@@ -22,8 +22,6 @@
 	</target>
 
 	<target name="createDir">
-		<delete dir="${Dist}" />
-		<mkdir dir="${Dist}" />
 		<mkdir dir="${DistUI}" />
 		<mkdir dir="${DistWS}" />
 		<mkdir dir="${RpmDirStructureUI}" />
