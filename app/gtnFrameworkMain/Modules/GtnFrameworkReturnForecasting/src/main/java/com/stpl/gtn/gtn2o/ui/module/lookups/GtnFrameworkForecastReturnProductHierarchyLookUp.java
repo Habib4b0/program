@@ -85,6 +85,7 @@ public class GtnFrameworkForecastReturnProductHierarchyLookUp {
 		searchCriteriaPanel.setComponentName("Search Criteria");
 		searchCriteriaPanel.setParentComponentId(namespace + GtnFrameworkForecastConstantCommon.UNDERSCORE
 				+ GtnFrameworkCommonConstants.ROOT_VERTICAL_LAYOUT);
+                searchCriteriaPanel.setMargin(Boolean.TRUE);
 		searchCriteriaPanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		searchCriteriaPanel.setAddToParent(true);
 		componentList.add(searchCriteriaPanel);
@@ -138,7 +139,7 @@ public class GtnFrameworkForecastReturnProductHierarchyLookUp {
 		addHierarchyNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.HIERARCHY_NAME);
 		addHierarchyNameTextBox.setParentComponentId(namespace + GtnFrameworkForecastConstantCommon.UNDERSCORE
 				+ GtnFrameworkCommonConstants.SEARCH_CRITERIA);
-
+                addHierarchyNameTextBox.setComponentHight("25px");
 		componentList.add(addHierarchyNameTextBox);
 	}
 
