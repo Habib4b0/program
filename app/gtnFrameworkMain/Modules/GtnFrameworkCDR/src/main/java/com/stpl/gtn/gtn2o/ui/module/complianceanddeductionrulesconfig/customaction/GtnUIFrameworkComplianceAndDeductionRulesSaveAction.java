@@ -1,5 +1,9 @@
 package com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.customaction;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.NotesDTO;
@@ -16,9 +20,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.compliancededuction.GtnWsComplianceGeneralRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 public class GtnUIFrameworkComplianceAndDeductionRulesSaveAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
 
@@ -44,7 +46,7 @@ public class GtnUIFrameworkComplianceAndDeductionRulesSaveAction implements GtnU
 	}
 
 	@SuppressWarnings("unchecked")
-	private void saveToDb() throws GtnFrameworkGeneralException {
+	private GtnUIFrameworkWebserviceResponse saveToDb() throws GtnFrameworkGeneralException {
 
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		try {
@@ -73,10 +75,11 @@ public class GtnUIFrameworkComplianceAndDeductionRulesSaveAction implements GtnU
 			gtnWsComplianceGeneralRequest.setRuleInfoBean(ruleInfoBean);
 			request.setGtnWsComplianceGeneralRequest(gtnWsComplianceGeneralRequest);
 
-			new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+			return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 					"/" + GtnWsCDRContants.CDR_SERVICE + GtnWsCDRContants.SAVE_SERVICE, request,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-
+			
+					
 		} catch (GtnFrameworkValidationFailedException systemExcption) {
 			throw new GtnFrameworkGeneralException(GtnFrameworkCommonConstants.SAVE_ERROR, systemExcption);
 		}
@@ -153,5 +156,6 @@ public class GtnUIFrameworkComplianceAndDeductionRulesSaveAction implements GtnU
 	public GtnUIFrameWorkAction createInstance() {
 		return new GtnUIFrameworkComplianceAndDeductionRulesSaveAction();
 	}
+	
 
 }

@@ -246,9 +246,8 @@ public class GtnWsComplianceDeductionAndRulesController {
 	@SuppressWarnings({ "rawtypes" })
 	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 
-		GtnFrameworkSqlQueryEngine queryEngine = new GtnFrameworkSqlQueryEngine();
-		queryEngine.setSessionFactory(sessionFactory);
-		return queryEngine.executeSelectQuery(sqlQuery);
+		sqlQueryEngine.setSessionFactory(sessionFactory);
+		return sqlQueryEngine.executeSelectQuery(sqlQuery);
 	}
 
 	private void deleteCDRRule(int sysId) throws GtnFrameworkGeneralException {
