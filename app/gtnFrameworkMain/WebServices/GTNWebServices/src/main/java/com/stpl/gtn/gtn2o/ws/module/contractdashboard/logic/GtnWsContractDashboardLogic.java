@@ -692,10 +692,12 @@ public class GtnWsContractDashboardLogic {
 		}
 		try {
 			Map<String, Object> contractMap = new HashMap<>();
+
 			saveRecursiveContractTree(session, cdRequest, cdResponse, cdRequest.getRecordBeanList(), contractMap);
 			Query query = session.createSQLQuery("{call PRC_CCP_POPULATION ()}");
 			query.executeUpdate();
 			tx.commit();
+			getController().checkAndUpdateAllrelationShip();
 			cdResponse.setMessageType("success");
 			cdResponse.setMessage(contractName + " has been saved successfully.");
 		} catch (Exception e) {

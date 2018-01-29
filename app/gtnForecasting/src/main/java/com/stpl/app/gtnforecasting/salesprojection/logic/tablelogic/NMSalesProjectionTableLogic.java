@@ -244,7 +244,7 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
     private List<SalesRowDto> getSalesDataForCP(Set<TreeNode> node) {
         SalesLogic logic = new SalesLogic();
         return logic.getSalesResultsForExpand(projSelDTO, node);
-    }
+        }
 
     private void loadDataForBulkNode(Set<TreeNode> nodeSet) {
 

@@ -1458,7 +1458,7 @@ public class AlternateSummery extends CustomComponent {
      * Loads the Level DDLB for the Expand / Collapse based on the Hierarchy.
      */
     public void loadLevelAndFilterValue() {
-        LOGGER.debug("loadLevelAndFilterValue initiated ");
+        LOGGER.info("loadLevelAndFilterValue initiated ");
         level.removeAllItems();
         level.addItem(SELECT_ONE);
         level.setNullSelectionItemId(SELECT_ONE);
@@ -1491,7 +1491,7 @@ public class AlternateSummery extends CustomComponent {
                 }
             }
         }
-        LOGGER.debug("loadLevelAndFilterValue ends ");
+        LOGGER.info("loadLevelAndFilterValue ends ");
     }
 
     /**
@@ -2247,6 +2247,13 @@ public class AlternateSummery extends CustomComponent {
     public void loadLevelDdlb(ComboBox ddlb, final boolean isExpCol, List<Leveldto> currentHierarchy) {
         resetDdlb(ddlb);
         if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
+        	Collections.sort(currentHierarchy,new Comparator<Leveldto>(){
+            	@Override
+    			public int compare(Leveldto o1, Leveldto o2) {
+    				return o2.getTreeLevelNo()-o1.getTreeLevelNo();
+            	}
+            });
+            Collections.reverse(currentHierarchy);
             int maxLevel = "Variable".equalsIgnoreCase(String.valueOf(pivotViewVar.getValue())) ? currentHierarchy.size() : currentHierarchy.size() - 1;
             for (int i = 0; i < currentHierarchy.size(); i++) {
                 Leveldto levelDto = (Leveldto) currentHierarchy.get(i);
