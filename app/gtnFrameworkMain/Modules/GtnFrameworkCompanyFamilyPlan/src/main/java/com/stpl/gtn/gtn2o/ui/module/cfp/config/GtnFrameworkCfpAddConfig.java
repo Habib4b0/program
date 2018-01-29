@@ -322,7 +322,7 @@ public class GtnFrameworkCfpAddConfig {
 		confirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 		List<Object> alertParamsList = new ArrayList<>();
 		alertParamsList.add(GtnFrameworkCfpStringContants.GTN_CFP_CONFIRMATION_MSG_RESET_HEADER);
-		alertParamsList.add(GtnFrameworkCfpStringContants.GTN_CFP_CONFIRMATION_MSG_RESET);
+		alertParamsList.add(GtnFrameworkCfpStringContants.GTN_CFP_LANDING_SCREEN_RESET_CONFIRMATION_MSG_RESET);
 
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfigList = new ArrayList<>();
 

@@ -1137,6 +1137,8 @@ public class PhsResults extends CustomComponent implements View {
     private void loadPriceActualMap(final Map<String, String> priceTypeMap) {
         loadPriceActualMap.put(Constant.WAC, Constant.WAC);
         loadPriceActualMap.put(Constant.AMP, Constant.AMP);
+        loadPriceActualMap.put(Constant.PHS, Constant.PHS);
+        loadPriceActualMap.put(Constant.PHS_DISCOUNT, Constant.PHS_DISCOUNT);
         loadPriceActualMap.put("Total URA", priceTypeMap.get(Constant.PHS_TOTAL_URA));
         loadPriceActualMap.put(Constant.AMP, priceTypeMap.get(Constant.PHS_AMP));
     }

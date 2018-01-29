@@ -326,7 +326,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 
 	private void companiesResultPanel(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig resultTablePanel = configProvider.getPanelConfig(
-				"psPriceProtectionTabResultPanel", true, GtnFrameworkCommonConstants.PRICE_PROTECTION_TAB);
+				GtnFrameworkPSConstants.PS_PRICEPROTECTION_RESULTPANEL, true, GtnFrameworkCommonConstants.PRICE_PROTECTION_TAB);
 		resultTablePanel.setComponentName("Results");
 		resultTablePanel.setAuthorizationIncluded(true);
 		componentList.add(resultTablePanel);
@@ -338,7 +338,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		GtnUIFrameworkComponentConfig mainTableLayout = configProvider
 				.getVerticalLayoutConfig("psPriceProtectionMainResultLayout", true, "psPriceProtectionTabResultPanel");
 		componentList.add(mainTableLayout);
-		companiesResultLayout(componentList, mainTableLayout.getComponentId());
+		companiesResultLayout(componentList);
 		getMainTableLayoutButton(componentList, mainTableLayout.getComponentId());
 
 	}
@@ -354,9 +354,10 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		addExcelButtonComponent(componentList);
 	}
 
-	private void companiesResultLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
+	private void companiesResultLayout(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig tableLayout = configProvider
-				.getVerticalLayoutConfig("psPriceProtectionTabResultLayout", true, parentId);
+				.getVerticalLayoutConfig("psPriceProtectionTabResultLayout", true, GtnFrameworkPSConstants.PS_PRICEPROTECTION_RESULTPANEL);
+		tableLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		componentList.add(tableLayout);
 		psPriceProtectionTabResultDataTable(componentList);
 
