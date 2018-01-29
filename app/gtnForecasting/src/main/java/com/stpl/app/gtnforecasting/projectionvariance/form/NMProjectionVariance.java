@@ -2163,8 +2163,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         int customMasterSid = Integer.valueOf(customDdlb.getValue() == null ? "0" : customDdlb.getValue().toString());
         parameterDto.setCustomViewMasterSid(customMasterSid);
         // setting pirror projection ids
-        parameterDto.getPirorProjectionIds().clear();
-        parameterDto.getPirorProjectionIds().addAll(pvSelectionDTO.getProjIdList());
+        parameterDto.setPirorProjectionIds(pvSelectionDTO.getProjIdList());
         parameterDto.setView(pivotView.getValue().toString());
     }
 

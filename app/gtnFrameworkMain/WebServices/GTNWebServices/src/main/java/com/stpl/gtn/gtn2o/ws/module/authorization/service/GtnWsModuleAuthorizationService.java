@@ -322,7 +322,7 @@ public class GtnWsModuleAuthorizationService {
 				.getAnyModelUsingCriteria(duplicateCheckPropertyIds, duplicateCheckPropertyValues,
 						GtnModuleComponentMaster.class, session);
 
-		return moduleComponentMaster == null ? false : true;
+		return moduleComponentMaster != null;
 	}
 
 	@SuppressWarnings("unchecked")

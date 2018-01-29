@@ -54,18 +54,27 @@ public class GtnFrameworkPSPricingTabConfig {
 		massUpdatePanel(componentList);
 		psPricingRecordLayout(componentList);
 		psPricingResultPanel(componentList);
+		addPsPricingExcelButtonComponent(componentList);
 	}
 
 	private void massUpdatePanel(List<GtnUIFrameworkComponentConfig> componentList) {
-		GtnUIFrameworkComponentConfig massUpdatePanel = configProvider.getCssLayoutConfig(
-				GtnFrameworkCommonConstants.PS_PRICING_TAB_MASS_UPDATE_PANEL_LAYOUT, true,
-				GtnFrameworkCommonConstants.PRICING_TAB);
+		GtnUIFrameworkComponentConfig massUpdatePanel = configProvider.getPanelConfig("pricingMassUpdatePanel",true,GtnFrameworkCommonConstants.PRICING_TAB);
 		massUpdatePanel.setAuthorizationIncluded(true);
-		massUpdatePanel.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
-		massUpdatePanel.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
+		massUpdatePanel.setComponentName("Mass Update");
 		componentList.add(massUpdatePanel);
-		psPricingTabFields(componentList);
+		addFieldLayout(componentList);
+	}
 
+	private void addFieldLayout(List<GtnUIFrameworkComponentConfig> componentList) {
+		GtnUIFrameworkComponentConfig psFieldLayoutLayout = configProvider.getCssLayoutConfig(GtnFrameworkCommonConstants.PS_PRICING_TAB_MASS_UPDATE_PANEL_LAYOUT, true,
+						"pricingMassUpdatePanel");
+		List<String> styleList = new ArrayList<>();
+		styleList.add(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
+		psFieldLayoutLayout.setComponentStyle(styleList);
+		psFieldLayoutLayout.setComponentWidth("75%");
+		psFieldLayoutLayout.setComponentHight("55%");
+		componentList.add(psFieldLayoutLayout);
+		psPricingTabFields(componentList);
 	}
 
 	private void psPricingRecordLayout(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -270,6 +279,8 @@ public class GtnFrameworkPSPricingTabConfig {
 				"psPricingTabTabPopulateButtonlayout", true,
 				GtnFrameworkCommonConstants.PS_PRICING_TAB_MASS_UPDATE_PANEL_LAYOUT);
 		massUpdatePopulateButtonLayout.addComponentStyle(GtnFrameworkCssConstants.BUTTON_CUSTOM_STYLE_1);
+		massUpdatePopulateButtonLayout.setComponentWidth("15%");
+		massUpdatePopulateButtonLayout.setMargin(true);
 		componentList.add(massUpdatePopulateButtonLayout);
 
 		GtnUIFrameworkComponentConfig massUpdatePopulateButton = configProvider.getUIFrameworkComponentConfig(
@@ -295,6 +306,7 @@ public class GtnFrameworkPSPricingTabConfig {
 				"psPricingTabTabPopulateAllButtonlayout", true,
 				GtnFrameworkCommonConstants.PS_PRICING_TAB_MASS_UPDATE_PANEL_LAYOUT);
 		massUpdatePopulateAllButtonLayout.addComponentStyle(GtnFrameworkCssConstants.BUTTON_CUSTOM_STYLE_1);
+		massUpdatePopulateAllButtonLayout.setComponentWidth("15%");
 		componentList.add(massUpdatePopulateAllButtonLayout);
 
 		GtnUIFrameworkComponentConfig massUpdatePopulateAllButton = configProvider.getUIFrameworkComponentConfig(
@@ -323,16 +335,15 @@ public class GtnFrameworkPSPricingTabConfig {
 
 	private void addPsPricingResultTableLayout(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig psPricingResultTableLayout = configProvider
-				.getVerticalLayoutConfig("psPricingTabMainResultLayout", true, "psPricingTabTabResultPanel");
+				.getVerticalLayoutConfig("psPricingTabMainResultLayout", true, GtnFrameworkPSConstants.PS_PRICINGTAB_RESULTPANEL);
 		componentList.add(psPricingResultTableLayout);
-		psPricingResultLayout(componentList, psPricingResultTableLayout.getComponentId());
-		addPsPricingExcelButtonComponent(componentList, psPricingResultTableLayout.getComponentId());
-
+		psPricingResultLayout(componentList);
 	}
 
-	private void psPricingResultLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
+	private void psPricingResultLayout(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig psPricingResultLayout = configProvider
-				.getVerticalLayoutConfig("psPricingTabTabResultLayout", true, parentId);
+				.getVerticalLayoutConfig(GtnFrameworkPSConstants.PS_PRICINGTAB_RESULT_LAYOUT, true, GtnFrameworkPSConstants.PS_PRICINGTAB_RESULTPANEL);
+		psPricingResultLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		componentList.add(psPricingResultLayout);
 		psPricingTabTabResultDataTable(componentList);
 
@@ -396,14 +407,15 @@ public class GtnFrameworkPSPricingTabConfig {
 	 * @param componentList
 	 * @param parentId
 	 */
-	private void addPsPricingExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
+	private void addPsPricingExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig psPricingExcelButtonLayout = configProvider
-				.getHorizontalLayoutConfig("gtnExcelButtonlayout", true, parentId);
+				.getHorizontalLayoutConfig("gtnExcelButtonlayout", true, GtnFrameworkCommonConstants.PRICING_TAB);
 		componentList.add(psPricingExcelButtonLayout);
 
 		GtnUIFrameworkComponentConfig psPricingExcelButton = configProvider.getUIFrameworkComponentConfig(null, true,
 				"gtnExcelButtonlayout", GtnUIFrameworkComponentType.EXCEL_BUTTON);
 		psPricingExcelButton.setAuthorizationIncluded(true);
+		psPricingExcelButton.setAddToParent(true);
 		componentList.add(psPricingExcelButton);
 
 		GtnUIFrameworkExcelButtonConfig psPricingExcelButtonConfig = configProvider.getExcelBtnconfig("PRICING", true,

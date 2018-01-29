@@ -349,7 +349,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
                         if (isDate) {
 				value = sdf1.parse(sdf1.format(parseDate(String.valueOf(componentValue))));
 			} else if (String.valueOf(componentId).equals("baselineAmp") && String.valueOf(componentId) != null) {
-				value = new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN).toString();
+				value = "$" + new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN).toString();
 			}
                         else if (String.valueOf(componentId).equals("baseCpi") && String.valueOf(componentId) != null) {
 				value = new BigDecimal(String.valueOf(componentValue)).setScale(3, BigDecimal.ROUND_DOWN).toString();
@@ -378,16 +378,22 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
                     value = new BigDecimal(String.valueOf(componentValue)).setScale(6, BigDecimal.ROUND_DOWN).toString();
 
                 }
-                if("CPIURA".equalsIgnoreCase(qualifierName) || "CPI (Alt) URA".equalsIgnoreCase(qualifierName)){
+                else if("CPIURA".equalsIgnoreCase(qualifierName) || "CPI (Alt) URA".equalsIgnoreCase(qualifierName)){
                 
                     value = new BigDecimal(String.valueOf(componentValue)).setScale(3, BigDecimal.ROUND_DOWN).toString();
 
                 }
-                if("URA".equalsIgnoreCase(qualifierName)){
+                else if("URA".equalsIgnoreCase(qualifierName)){
                 
                     value = new BigDecimal(String.valueOf(componentValue)).setScale(4, BigDecimal.ROUND_DOWN).toString();
 
                 }
+                else{
+                	
+                	value = Double.parseDouble(String.valueOf(componentValue));
+                	
+                }
+                
                return value;
                
             } catch (Exception ex) {

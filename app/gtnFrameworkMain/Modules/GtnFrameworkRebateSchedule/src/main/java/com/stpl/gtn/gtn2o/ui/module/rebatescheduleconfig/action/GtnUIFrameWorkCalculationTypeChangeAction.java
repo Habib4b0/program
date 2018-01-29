@@ -330,6 +330,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 
 		List<GtnWebServiceSearchCriteria> additioanlSearchCriteriaList = new ArrayList<>();
 
+		if(mode != GtnUIFrameworkModeType.ADD){
 		GtnWebServiceSearchCriteria userIdCriteria = new GtnWebServiceSearchCriteria();
 		GtnWebServiceSearchCriteria sessionIdCriteria = new GtnWebServiceSearchCriteria();
 		additioanlSearchCriteriaList.add(userIdCriteria);
@@ -345,6 +346,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 
 		tableLogic.setAdditioanlSearchCriteriaList(additioanlSearchCriteriaList);
 		tableLogic.startSearchProcess(new ArrayList<String>(), true);
+		}
 	}
 
 	@Override
