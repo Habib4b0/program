@@ -63,7 +63,7 @@ public class OnDemandFileDownloader extends FileDownloader {
         try {
            falg = super.handleConnectorRequest(request, response, path);
         } catch (IOException e) {
-           LOGGER.error(e);
+           LOGGER.error(e.getMessage());
         }
         return falg;
     }

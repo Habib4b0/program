@@ -253,7 +253,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(comparisonProjId), null, null);
                 selectedList = pvLogic.getCustomizedPVComparisonList(list);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         final ComparisonLookup comparisonLookupWindow = new ComparisonLookup(comparison, sessionDTO.getProjectionId(), selectedList);
@@ -347,7 +347,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             setCurrentHierarchy(new ArrayList<Leveldto>(viewChangeHierarchy));
             LOGGER.debug("After loading DTo");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -465,11 +465,11 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                         });
                     }
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -611,7 +611,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 generated = false;
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -748,7 +748,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
             fromDate.setValue(fromDateVal);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -783,7 +783,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
             toDate.setValue(toDateVal);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -1012,7 +1012,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 export.export();
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
 
     }
@@ -1290,7 +1290,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             map.put(Constants.DEDUCTION_LEVEL_VALUE, StringUtils.join(CommonLogic.getFilterValues(deductionFilterValues).get(SID), Constants.COMMA));
             logic.saveNMPVSelection(map, sessionDTO.getProjectionId(), PROJECTION_VARIANCE);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("savePVSelections method ends");
 
@@ -1372,7 +1372,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 dbDateFrom = format.parse(format.format(dbDateFrom));
                 dbDateTO = format.parse(format.format(dbDateTO));
             } catch (ParseException pe) {
-                LOGGER.error(pe);
+                LOGGER.error(pe.getMessage());
             }
             dataSelectionDTO.setFromDate(dbDateFrom);
             dataSelectionDTO.setToDate(dbDateTO);
@@ -1381,7 +1381,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         try {
             dto = DataSelectionUtil.getForecastDTO(dataSelectionDTO, sessionDTO);
         } catch (Exception exp) {
-            LOGGER.error(exp);
+            LOGGER.error(exp.getMessage());
         }
         LOGGER.debug("getHistoricalPeriods method Ends");
         return dto;
@@ -1805,7 +1805,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 }
                 }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         excelParentRecords.clear();
     }
@@ -1915,7 +1915,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } 
     }
     

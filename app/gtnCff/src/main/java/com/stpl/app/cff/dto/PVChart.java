@@ -27,7 +27,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -67,7 +68,7 @@ public class PVChart extends Window {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PVChart.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PVChart.class);
     /**
      * projSelDTO;
      */
@@ -198,7 +199,7 @@ public class PVChart extends Window {
 //            LOGGER.debug("End of getChart method ");
 //            return chart;
 //        } catch (Exception e) {
-//            LOGGER.error(e);
+//            LOGGER.error(e.getMessage());
 //            return null;
 //        }
 //    }

@@ -12,14 +12,15 @@ import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.Collections;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author mohamed.hameed
  */
 public class FileSelectionTableLogic extends PageTableLogic {
-    private static final Logger LOGGER = Logger.getLogger(FileSelectionTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileSelectionTableLogic.class);
     private final CFFLogic logic=new CFFLogic();
     private List<FileSelectionDTO> list;
     private boolean iscount=false;

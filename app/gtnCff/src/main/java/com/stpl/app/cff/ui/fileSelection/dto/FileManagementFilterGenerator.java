@@ -16,7 +16,8 @@ import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Field;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,7 +25,7 @@ import org.jboss.logging.Logger;
  */
 public class FileManagementFilterGenerator implements ExtFilterGenerator {
 
-    private static final Logger LOGGER = Logger.getLogger(FileManagementFilterGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementFilterGenerator.class);
     @Override
     public Container.Filter generateFilter(Object propertyId, Object value) {
         // For other properties, use the default filter
@@ -111,7 +112,7 @@ public class FileManagementFilterGenerator implements ExtFilterGenerator {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return null;
     }

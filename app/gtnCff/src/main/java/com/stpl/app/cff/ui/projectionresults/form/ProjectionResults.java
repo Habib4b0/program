@@ -60,7 +60,8 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -68,7 +69,7 @@ import org.jboss.logging.Logger;
  */
 public class ProjectionResults extends ForecastProjectionResults {
 
-    public static final Logger LOGGER = Logger.getLogger(ProjectionResults.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionResults.class);
     private final SessionDTO session;
     private List<List<String>> discountlist = new ArrayList<>();
     private final ProjectionResultsLogic projResLogic = new ProjectionResultsLogic();
@@ -351,7 +352,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                 });
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -403,7 +404,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                 dbDateFrom = format.parse(format.format(dbDateFrom));
                 dbDateTO = format.parse(format.format(dbDateTO));
             } catch (ParseException pe) {
-                LOGGER.error(pe);
+                LOGGER.error(pe.getMessage());
             }
             dataSelectionDTO.setFromDate(dbDateFrom);
             dataSelectionDTO.setToDate(dbDateTO);
@@ -414,7 +415,7 @@ public class ProjectionResults extends ForecastProjectionResults {
         try {
                 dto = DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
         } catch (Exception exp) {
-            LOGGER.error(exp);
+            LOGGER.error(exp.getMessage());
         }
         LOGGER.debug("getHistoricalPeriods method Ends");
         return dto;
@@ -682,7 +683,7 @@ public class ProjectionResults extends ForecastProjectionResults {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         excelParentRecords.clear();
     }
@@ -749,7 +750,7 @@ public class ProjectionResults extends ForecastProjectionResults {
             }
            
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
     private Date fromDateIsNull(Date fromDate) {

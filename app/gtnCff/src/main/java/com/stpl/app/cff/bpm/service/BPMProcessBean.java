@@ -13,6 +13,7 @@ import org.kie.api.task.TaskService;
 import org.kie.api.task.model.OrganizationalEntity;
 import org.kie.api.task.model.Status;
 import org.kie.api.task.model.TaskSummary;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -23,7 +24,7 @@ public class BPMProcessBean {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(BPMProcessBean.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(BPMProcessBean.class);
 
     public static ProcessInstance startProcess(String processName, Map<String, Object> params) {
         KieSession ksession = BPMManagerBean.getEngine().getRuntimeEngine().getKieSession();
@@ -31,7 +32,7 @@ public class BPMProcessBean {
         try {
             processInstance = ksession.startProcess(processName, params);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             throw e;
         }
         return processInstance;
@@ -42,7 +43,7 @@ public class BPMProcessBean {
             TaskService taskService = BPMManagerBean.getEngine().getRuntimeEngine().getTaskService();
             taskService.start(taskId, userId);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -51,7 +52,7 @@ public class BPMProcessBean {
             TaskService taskService = BPMManagerBean.getEngine().getRuntimeEngine().getTaskService();
             taskService.complete(taskId, userID, map);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -60,7 +61,7 @@ public class BPMProcessBean {
             TaskService taskService = BPMManagerBean.getEngine().getRuntimeEngine().getTaskService();
             taskService.delegate(taskId, actualUserId, targetUserId);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -78,7 +79,7 @@ public class BPMProcessBean {
 
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return taskSummary;
     }
@@ -93,7 +94,7 @@ public class BPMProcessBean {
             variableValue = instances.get(instances.size() - 1).getValue();
         }
       }catch(Exception e){
-          LOGGER.error(e);
+          LOGGER.error(e.getMessage());
       }
         return variableValue;
     }

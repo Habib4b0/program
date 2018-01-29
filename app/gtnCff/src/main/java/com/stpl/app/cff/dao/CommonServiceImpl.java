@@ -22,11 +22,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CommonServiceImpl {
 
-    private static final Logger LOGGER = Logger.getLogger(CommonServiceImpl.class);// Logger
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonServiceImpl.class);// Logger
     private static CommonServiceImpl instance = null;
 
     private CommonServiceImpl() {

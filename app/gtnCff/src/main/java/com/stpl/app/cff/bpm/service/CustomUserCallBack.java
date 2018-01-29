@@ -10,8 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 import org.kie.internal.task.api.UserGroupCallback;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -21,7 +22,7 @@ public class CustomUserCallBack implements UserGroupCallback {
 
     private Map<String, User> userMap = new HashMap<>();
     private Map<String, Role> roleMap = new HashMap<>();
-    private static final Logger LOGGER = Logger.getLogger(CustomUserCallBack.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomUserCallBack.class);
 
     public CustomUserCallBack() {
         try {
@@ -41,7 +42,7 @@ public class CustomUserCallBack implements UserGroupCallback {
             }
         } catch (SystemException e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -74,7 +75,7 @@ public class CustomUserCallBack implements UserGroupCallback {
             try {
                 roles = RoleLocalServiceUtil.getUserRoles(userMap.get(userId).getUserId());
             } catch (SystemException e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
             }
             for (Role role : roles) {
                 if (!StringConstantsUtil.ADMINISTRATOR.equals(role.getName())) {

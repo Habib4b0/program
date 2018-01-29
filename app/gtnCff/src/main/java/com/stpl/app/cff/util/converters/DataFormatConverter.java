@@ -19,7 +19,7 @@ public class DataFormatConverter implements Converter<String, String> {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataFormatConverter.class);
+    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(DataFormatConverter.class);
 
     private String format = null;
     private String indicator = null;

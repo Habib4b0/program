@@ -25,7 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,7 +34,7 @@ import org.jboss.logging.Logger;
  */
 public class PVExcelLogic {
 
-    public static final Logger LOGGER = Logger.getLogger(PVExcelLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(PVExcelLogic.class);
 
     private final Map<String, List<ProjectionVarianceDTO>> resultMap;
     private final Map<String, List<List<ProjectionVarianceDTO>>> discountMapDetails;

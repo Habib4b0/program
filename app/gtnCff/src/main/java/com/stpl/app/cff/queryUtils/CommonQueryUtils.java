@@ -10,7 +10,8 @@ import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -18,7 +19,7 @@ import org.jboss.logging.Logger;
  */
 public class CommonQueryUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(CommonQueryUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonQueryUtils.class);
     private static CFFDAO DAO = CFFDAOImpl.getInstance();
 
     public static String getQuery( String query,List input) {
@@ -30,7 +31,7 @@ public class CommonQueryUtils {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return sql.toString();
     }
@@ -40,7 +41,7 @@ public class CommonQueryUtils {
             sql = new StringBuilder();
             sql = new StringBuilder(SQlUtil.getQuery(queryName));
         } catch (final Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return sql.toString();
     }
@@ -62,7 +63,7 @@ public class CommonQueryUtils {
                 }
                 list = (List<Object[]>) DAO.executeSelectQuery(sql.toString());
             } catch (final Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
 
@@ -89,7 +90,7 @@ public class CommonQueryUtils {
             }
 
         } catch (final Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("End of Item Update");
         return Boolean.FALSE;
@@ -105,7 +106,7 @@ public class CommonQueryUtils {
             }
 
         } catch (final Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return sql.toString();
     }
@@ -120,7 +121,7 @@ public class CommonQueryUtils {
             }
 
         } catch (final Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return sql;
     }
@@ -140,7 +141,7 @@ public class CommonQueryUtils {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
             } catch (final Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
 

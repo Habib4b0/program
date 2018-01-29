@@ -12,11 +12,6 @@ import com.stpl.gtn.gtn2o.ws.workflow.bean.constants.GtnWsWorkFlowConstants;
 
 public class VarianceCalculationLogic {
 
-    /**
-     * The Constant LOGGER.
-     */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(VarianceCalculationLogic.class);
-
     public static void submitWorkflow(final Long processInstanceId, final SessionDTO session, String moduleName) {
         
         new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(

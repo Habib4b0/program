@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,7 +31,7 @@ public class Converters {
    /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(Converters.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Converters.class);
 
     /**
      * Gets the customized views.
@@ -91,7 +92,7 @@ public class Converters {
             results.add(result);
         }
         }catch(Exception e){
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("End of getCustomizedViews method");
         return results;
@@ -238,7 +239,7 @@ public class Converters {
             dataSelectionDTO.setFromPeriod(String.valueOf(objects[NumericConstants.TWENTY_ONE]));
             dataSelectionDTO.setToPeriod(String.valueOf(objects[NumericConstants.TWENTY_FOUR]));
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         
         dataSelectionDTO.setModifiedBy(String.valueOf(objects[NumericConstants.TWENTY_TWO]));

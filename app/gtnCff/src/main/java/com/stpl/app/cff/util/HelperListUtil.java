@@ -20,7 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class HelperListUtil.
@@ -43,7 +44,7 @@ public class HelperListUtil {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(HelperListUtil.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelperListUtil.class.getName());
 
     /**
      * The list name map.
@@ -130,7 +131,7 @@ public class HelperListUtil {
                     }
                 }
             } catch (SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
     }
@@ -217,7 +218,7 @@ public class HelperListUtil {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -281,7 +282,7 @@ public class HelperListUtil {
                     }
                 }
             } catch (SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
     }

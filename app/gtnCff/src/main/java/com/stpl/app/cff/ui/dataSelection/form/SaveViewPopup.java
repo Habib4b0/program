@@ -31,7 +31,8 @@ import java.util.List;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -80,7 +81,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(SaveViewPopup.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SaveViewPopup.class);
     private DataSelectionDTO dataselectionDtoToSave;
     private List<Leveldto> selectedProductsList;
     private List<Leveldto> selectedCustomersList;
@@ -183,10 +184,8 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                 }
             }
         } catch (SystemException sysException) {
-            LOGGER.error(sysException);
-        } catch (Exception exception) {
-            LOGGER.error(exception);
-        }
+            LOGGER.error(sysException.getMessage());
+        } 
         LOGGER.debug("End of btnAddLogic");
     }
 

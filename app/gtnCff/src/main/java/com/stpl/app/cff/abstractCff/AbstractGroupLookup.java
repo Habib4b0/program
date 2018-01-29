@@ -32,6 +32,7 @@ import com.vaadin.v7.ui.VerticalLayout;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -70,7 +71,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 	/**
 	 * The logger.
 	 */
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger
+	private static final org.slf4j.Logger LOGGER = LoggerFactory
 			.getLogger(AbstractGroupLookup.class);
 	/**
 	 * Button for Reset
@@ -119,7 +120,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 			configureResultTable(results, StringUtils.EMPTY);
 			return mainLayout;
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 			return null;
 		}
 	}
@@ -139,7 +140,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 			configureResultTable(results, StringUtils.EMPTY);
 			return mainLayout;
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 			return null;
 		}
 	}
@@ -156,7 +157,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 				try {
 					btnSearchLogic();
 				} catch (PortalException | SystemException ex) {
-					LOGGER.error(ex);
+					LOGGER.error(ex.getMessage());
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5039));
 				}

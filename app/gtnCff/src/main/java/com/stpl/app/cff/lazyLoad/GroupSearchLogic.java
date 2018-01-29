@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,7 +27,7 @@ public class GroupSearchLogic extends PageTableLogic{
     private String groupNo;
     private String groupIdentifier;
     private final DataSelectionLogic logic = new DataSelectionLogic();
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(GroupSearchLogic.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(GroupSearchLogic.class);
 
     @Override
     public int getCount() {

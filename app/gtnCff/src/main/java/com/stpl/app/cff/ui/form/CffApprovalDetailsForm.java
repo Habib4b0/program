@@ -46,7 +46,8 @@ import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.customwindow.CustomWindowConstant;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -61,7 +62,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
     /**
      * Logger implementation for CffApprovalDetailsForm
      */
-    private static final Logger LOGGER = Logger.getLogger(CffApprovalDetailsForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CffApprovalDetailsForm.class);
     /**
      * Approval UI Tab
      */
@@ -177,7 +178,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
 
             LOGGER.debug("Exits CffApprovalDetailsForm Constructor");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -381,7 +382,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
 
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
     }
@@ -593,7 +594,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 closeBtn.setVisible(true);
             }
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -609,7 +610,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                 tabSheet.getTab(NumericConstants.FOUR).setVisible(Boolean.FALSE);
             }
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 }

@@ -67,7 +67,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.custommenubar.CustomMenuBar;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -78,7 +79,7 @@ public class CommonUtils {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(CommonUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtils.class);
     /**
      * The Constant CFF_MASTER_SYSTEM_ID_SESSION.
      */
@@ -246,7 +247,7 @@ public class CommonUtils {
                 return resultList.get(0);
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return null;
     }
@@ -378,7 +379,7 @@ public class CommonUtils {
                             cffResultsDTO.setPriorUpdateCycle(latestEstimet[0]);
                         }
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
                 }
             }
@@ -466,7 +467,7 @@ public class CommonUtils {
         try {
             users = UserLocalServiceUtil.dynamicQuery(userGroupDynamicQuery);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         HashMap<Long, String> userMap = new HashMap<>();
         for (User user : users) {
@@ -521,7 +522,7 @@ public class CommonUtils {
                 helperTableId = helperTable.getHelperTableSid();
             }
         } catch (SystemException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return helperTableId;
     }
@@ -544,7 +545,7 @@ public class CommonUtils {
             }
             return description == null || StringUtils.EMPTY.equals(description) ? 0 : id;
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return 0;
         }
 
@@ -643,7 +644,7 @@ public class CommonUtils {
 
             }
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return custoList;
     }
@@ -663,7 +664,7 @@ public class CommonUtils {
         try {
             resultsList = CffApprovalDetailsLocalServiceUtil.dynamicQuery(cffApprovalDetailsDynamicQuery);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         HashMap<Integer, String> approvalDetails = new HashMap<>();
         for (CffApprovalDetails cffApprovalDetails : resultsList) {
@@ -772,7 +773,7 @@ public class CommonUtils {
             loggedUserDetails = UserLocalServiceUtil.getUser(Long.valueOf(userId));
         } catch (NoSuchUserException noSuchUserException) {
             loggedUserDetails = null;
-            LOGGER.error(noSuchUserException);
+            LOGGER.error(noSuchUserException.getMessage());
         }
 
         return loggedUserDetails;

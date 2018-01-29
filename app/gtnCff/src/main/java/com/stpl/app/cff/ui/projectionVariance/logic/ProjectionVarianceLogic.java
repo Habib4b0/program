@@ -60,7 +60,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -68,7 +69,7 @@ import org.jboss.logging.Logger;
  */
 public class ProjectionVarianceLogic {
 
-    public static final Logger LOGGER = Logger.getLogger(ProjectionVarianceLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionVarianceLogic.class);
     private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     /**
      * The Constant AMOUNT.
@@ -1139,7 +1140,7 @@ public class ProjectionVarianceLogic {
             return count;
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return 0;
 
@@ -1449,7 +1450,7 @@ public class ProjectionVarianceLogic {
             LOGGER.debug("Ending getConfiguredProjectionVariance");
             return list;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return Collections.emptyList();
 
@@ -2656,7 +2657,7 @@ public class ProjectionVarianceLogic {
             }
             return map;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return null;
     }
@@ -2692,9 +2693,9 @@ public class ProjectionVarianceLogic {
                 commonLogic.saveSelection(map, projectionID, screenName, "update", "CFF_SELECTION");
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -2734,7 +2735,7 @@ public class ProjectionVarianceLogic {
                     try {
                         runnableJob.wait();
                     } catch (Exception e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                     }
                 }
             }
@@ -2782,7 +2783,7 @@ public class ProjectionVarianceLogic {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return pvDTO;
     }

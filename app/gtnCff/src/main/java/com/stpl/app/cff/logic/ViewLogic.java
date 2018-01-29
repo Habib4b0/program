@@ -23,7 +23,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author mohamed.hameed
@@ -38,7 +39,7 @@ public class ViewLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(ViewLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ViewLogic.class);
 
     /**
      * Checks if is duplicate view.
@@ -167,7 +168,7 @@ public class ViewLogic {
             return updatedViewMaster;
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return updatedViewMaster;
         }
 

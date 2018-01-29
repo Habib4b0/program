@@ -21,7 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +30,7 @@ import org.jboss.logging.Logger;
  */
 public class ProjectionResultsLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(ProjectionResultsLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectionResultsLogic.class);
     /**
      * The Currency Zero Decimal Places Format.
      */
@@ -1616,7 +1617,7 @@ public class ProjectionResultsLogic {
             }
             return resultList;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
     }
