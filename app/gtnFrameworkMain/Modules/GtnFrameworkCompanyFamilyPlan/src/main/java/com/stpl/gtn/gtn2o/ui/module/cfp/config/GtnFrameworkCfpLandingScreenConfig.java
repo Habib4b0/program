@@ -388,8 +388,8 @@ public class GtnFrameworkCfpLandingScreenConfig {
 				GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_TYPE,
 				GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_STATUS, "companyFamilyPlanCategory",
 				"companyFamilyPlanStartDate", "companyFamilyPlanEndDate", "companyFamilyPlanDesignation",
-				"parentCompanyFamilyPlanId", "parentCompanyFamilyPlanName", "cfpmodifiedDate", "cfpmodifiedBy",
-				"cfpcreatedBy", "cfpcreatedDate" });
+				"parentCompanyFamilyPlanId", "parentCompanyFamilyPlanName", "cfpmodifiedDate", GtnFrameworkCfpStringContants.CFP_MODIFIED_BY,
+				GtnFrameworkCfpStringContants.CFP_CREATED_BY, "cfpcreatedDate" });
 		searchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_FAMILY_PLAN_SEARCH);
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
 		searchResults.setSinkItemPerPageWithPageLength(false);
@@ -724,15 +724,24 @@ public class GtnFrameworkCfpLandingScreenConfig {
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>();
 		String[] propertyIds = { "companyFamilyPlanCategory", GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_TYPE,
-				GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_STATUS, "companyFamilyPlanDesignation", "cfpmodifiedBy",
-				"cfpcreatedBy" };
+				GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_STATUS, "companyFamilyPlanDesignation", GtnFrameworkCfpStringContants.CFP_MODIFIED_BY,
+				GtnFrameworkCfpStringContants.CFP_CREATED_BY };
 		String[] listNameArray = { "CFP_CATEGORY", "CFP_TYPE", "STATUS", "CFP_DESIGNATION", "USERS", "USERS" };
 		for (int i = 0; i < propertyIds.length; i++) {
 			GtnUIFrameworkPagedTableCustomFilterConfig cfpCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
 			cfpCustomFilterConfig.setPropertId(propertyIds[i]);
-			GtnUIFrameworkComboBoxConfig cfpCustomFilter = componentConfig.getComboBoxConfig(listNameArray[i],
+			GtnUIFrameworkComboBoxConfig cfpCustomFilter ;
+			if(propertyIds[i].equals(GtnFrameworkCfpStringContants.CFP_CREATED_BY) || propertyIds[i].equals(GtnFrameworkCfpStringContants.CFP_MODIFIED_BY) )
+			{
+			 cfpCustomFilter = componentConfig.getComboBoxConfig(listNameArray[i],
+						GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
+								+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_USER_COMBO_BOX);	
+			}
+			else{
+			 cfpCustomFilter = componentConfig.getComboBoxConfig(listNameArray[i],
 					GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 							+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
+		}
 			cfpCustomFilterConfig.setGtnComponentType(GtnUIFrameworkComponentType.COMBOBOX);
 			GtnUIFrameworkComponentConfig customFilterComponentConfig = new GtnUIFrameworkComponentConfig();
 			customFilterComponentConfig.setComponentId("customFilterComboBox");

@@ -538,7 +538,7 @@
 		"isResultView": true,
 		"componentType": "text",
         "decimalFormatNeeded":true,
-		"pattern":"$#0.000"
+		"pattern":"#0.000"
 	},
 	{
 		"columnID": "addChgDelIndicator",
