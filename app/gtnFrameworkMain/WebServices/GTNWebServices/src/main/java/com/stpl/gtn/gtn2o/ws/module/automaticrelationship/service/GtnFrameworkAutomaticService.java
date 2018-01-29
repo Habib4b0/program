@@ -35,6 +35,10 @@ public class GtnFrameworkAutomaticService {
 
 	private ExecutorService customerExecutorService = Executors.newFixedThreadPool(50);
 
+        public GtnFrameworkAutomaticService() {
+            super();
+        }
+
 	public void checkAndUpdateAllRelationShip(String relationShipType) {
 
 		List<GtnWsRelationshipBuilderBean> finalResultbeanList = getRelationShipBuilderData(relationShipType);
