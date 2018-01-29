@@ -94,18 +94,18 @@ public class CommonUtils {
     public static final String PERCENT = "%";
     public static final String DOLLAR = "$";
     /** UserMap - Contains User System ID and User Name */
-    public static Map<Integer,String> userMap=new ConcurrentHashMap<>();  
+    private static Map<Integer,String> userMap=new ConcurrentHashMap<>();  
     /** UserMap - Contains User Name and User System ID  */
-    public static Map<String,Integer> userIdMap=new ConcurrentHashMap<>(); 
+    private static Map<String,Integer> userIdMap=new ConcurrentHashMap<>(); 
     public static final DecimalFormat CUR_FOUR = new DecimalFormat("$0.0000");
-    public static String GROWTH ="([0-9|\\.|\\,])*";
-    public static String perOfWac ="\"^\\d+(\\.\\d+)*%$\"";
+    public static final String GROWTH ="([0-9|\\.|\\,])*";
+    public static final String PER_OF_WAC ="\"^\\d+(\\.\\d+)*%$\"";
     
-    public static String GROWTH_VAL_MSG ="Growth can contain only digits";
+    public static final String GROWTH_VAL_MSG ="Growth can contain only digits";
     
-    public static String specialCharacter="([0-9|a-z|A-Z|\\.|\\%|\\_|\\s])*";
+    public static final String SPECIAL_CHARACTER="([0-9|a-z|A-Z|\\.|\\%|\\_|\\s])*";
     
-    public static String specialCharacter_Message="Value can contain only digits,alphabets";
+    public static final String SPECIAL_CHARACTER_MESSAGE="Value can contain only digits,alphabets";
        
     public static SessionDTO sessionDto=new SessionDTO();
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
@@ -136,7 +136,7 @@ public class CommonUtils {
             try {
                 xml.close();
             } catch (IOException ex) {
-            LOGGER.error(ex.getMessage());
+                LOGGER.error(ex.getMessage());
             }
         }
         return null;
@@ -177,7 +177,7 @@ public class CommonUtils {
     }
     
     public static ComboBox getBaselineStartPeriod(ComboBox select)  {
-        SessionDTO startAndTodate = CommonUtils.sessionDto;
+        SessionDTO startAndTodate = CommonUtils.getSessionDto();
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
         if (startDate != null) {
@@ -223,7 +223,7 @@ public class CommonUtils {
     }
 
       public static ComboBox getEffectivePeriods(ComboBox select, Object priceTypeValue) {
-        SessionDTO startAndTodate = CommonUtils.sessionDto;
+        SessionDTO startAndTodate = CommonUtils.getSessionDto();
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
           if (startDate != null) {
@@ -450,8 +450,8 @@ public class CommonUtils {
                 toDate = forecastConfig.getToDate();
             }
 
-            sessionDto.setFromDate(fromDate);
-            sessionDto.setToDate(toDate);
+            getSessionDto().setFromDate(fromDate);
+            getSessionDto().setToDate(toDate);
 
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -506,7 +506,7 @@ public class CommonUtils {
      * Retrieves all the user name and stores that in the Concurrent Hash Map.
      * 
      * @return the Map
-     * @throws com.liferay.portal.kernel.exception.SystemException
+     * @throws com.stpl.portal.kernel.exception.SystemException
      */      
     public static Map<Integer, String> getUserName() throws SystemException {
         LOGGER.debug("Enters getUserName method");
@@ -514,18 +514,18 @@ public class CommonUtils {
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
             String formattedUN= user.getLastName()+", "+user.getFirstName();
-            userMap.put(Long.valueOf(user.getUserId()).intValue(),formattedUN);
+            getUserMap().put(Long.valueOf(user.getUserId()).intValue(),formattedUN);
             userIdMap.put(formattedUN,Long.valueOf(user.getUserId()).intValue());
         }
         LOGGER.debug("End of getUserName method");
-        return userMap;
+        return getUserMap();
     } 
        public static String filterUser(String filter) {
         List<String> keys = new ArrayList<>();
         String userIds;
         
-        if (userMap != null) {
-            for (Map.Entry<Integer, String> entry : userMap.entrySet()) {
+        if (getUserMap() != null) {
+            for (Map.Entry<Integer, String> entry : getUserMap().entrySet()) {
                 if ((String.valueOf(entry.getValue()).toLowerCase().trim()).contains(filter.toLowerCase().trim())) {
                     keys.add(String.valueOf(entry.getKey()));
                 }
@@ -562,7 +562,7 @@ public class CommonUtils {
         String userName=StringUtils.EMPTY;
         int userId=Integer.parseInt(StringUtils.isBlank(userIdString)?DASH:userIdString);
             if(userId!=0){   
-            userName = userMap.get(userId);     
+            userName = getUserMap().get(userId);     
             }
         return userName;
     }
@@ -677,4 +677,20 @@ public class CommonUtils {
     public static String getGroupName(String groupName) {
         return StringUtils.isBlank(groupName) || "null".equals(groupName) ? StringUtils.EMPTY : groupName;
     }
+
+	public static SessionDTO getSessionDto() {
+		return sessionDto;
+	}
+
+	public static void setSessionDto(SessionDTO sessionDto) {
+		CommonUtils.sessionDto = sessionDto;
+	}
+
+	public static Map<Integer,String> getUserMap() {
+		return userMap;
+	}
+
+	public static void setUserMap(Map<Integer,String> userMap) {
+		CommonUtils.userMap = userMap;
+	}
 }

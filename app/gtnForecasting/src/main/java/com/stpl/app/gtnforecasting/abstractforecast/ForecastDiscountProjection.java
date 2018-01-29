@@ -433,7 +433,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     protected ComboBox uomDdlb = new ComboBox();
     protected Label displayFormatLabel = new Label("Display Format:");
     protected CustomMenuBar displayFormatDdlb = new CustomMenuBar();
-    protected Label conversionFactor = new Label("Deduction Conversion:");
+    protected Label conversionFactor = new Label("Currency Format:");
     protected ComboBox conversionFactorDdlb = new ComboBox();
     protected CustomMenuBar.CustomMenuItem deductionInclusionValues;
     protected CustomMenuBar.CustomMenuItem customerFilterValues;

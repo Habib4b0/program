@@ -75,11 +75,11 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The excel export image.
      */
-    private final Resource wordImage = new ThemeResource("img/word.png");
+    private final Resource wordImage = new ThemeResource("../../icons/word.png");
     /**
      * The graph image.
      */
-    private final Resource pdfImage = new ThemeResource("img/pdf.png");
+    private final Resource pdfImage = new ThemeResource("../../icons/pdf.png");
     /**
      * The excelBtn btn.
      */
@@ -219,7 +219,7 @@ public class AdditionalInformation extends CustomComponent {
     private List<String> notesList = new ArrayList<>();
     private List<String> wordList = new ArrayList<>();
     private String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
-
+    private boolean isFileExists;
     /**
      * The file path.
      */
@@ -276,8 +276,8 @@ public class AdditionalInformation extends CustomComponent {
         JavaScript.getCurrent().addFunction("callJava", new JavaScriptFunction() {
             @Override
             public void call(JsonArray arguments) {
-                 File fileUpload;
-                final String value = String.valueOf(arguments.get(0).asString());
+                File fileUpload;
+                final String value = String.valueOf(arguments.get(0));
                 fileUpload = CommonUtil.getFilePath(value);
                 final String name = fileUpload.getAbsolutePath();
                 if (name.contains("\\")) {
@@ -294,8 +294,8 @@ public class AdditionalInformation extends CustomComponent {
                     uploader.setValue(name);
                 }
                 uploader.focus();
+
             }
-          
         });
         addAttachment.addChangeListener(new Upload.ChangeListener() {
             @Override
@@ -344,7 +344,7 @@ public class AdditionalInformation extends CustomComponent {
                             BeanItem<AttachmentDTO> dtoBean = attachmentsListBean.getItem(item);
                             String docName = dtoBean.getBean().getDocumentName().getCaption();
                             String docUserName = dtoBean.getBean().getUserName();
-                            if (docName.equals(event.getFilename()) && docUserName.equals(CommonUtils.userMap.get(userId))) {
+                            if (docName.equals(event.getFilename()) && docUserName.equals(CommonUtils.getUserMap().get(userId))) {
                                 attachmentsListBean.removeItem(item);
                                 break;
                             }
@@ -528,7 +528,8 @@ public class AdditionalInformation extends CustomComponent {
 
                             File file = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId
                                     + File.separator + tableBean.getDocumentName());
-                            file.delete();
+                            isFileExists=file.delete();
+                            LOGGER.info("File deleted successfully"+isFileExists);
                             resultsTable.removeItem(tableBeanId);
                             tableBeanId = null;
                             tableBean = (AttachmentDTO) null;

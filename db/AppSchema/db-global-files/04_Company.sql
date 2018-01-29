@@ -2977,3 +2977,30 @@ AS
 
 GO
 
+
+----------------------------------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'IMTD_COMPANY_FINANCIAL_CLOSE'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE IMTD_COMPANY_FINANCIAL_CLOSE
+        (
+           COMPANY_MASTER_SID INT NOT NULL,
+           MODE               INT NOT NULL,
+           CALENDAR           INT NOT NULL,
+           PERIOD_SID         INT NOT NULL,
+           BUSINESS_DAY       INT NULL,
+           [HOUR]             INT NULL,
+           [MINUTE]           INT NULL,
+           [STATUS]           INT NOT NULL,
+           STATUS_PERIOD_DATE DATETIME NOT NULL,
+           CREATED_BY         INT NOT NULL,
+           CREATED_DATE       DATETIME NOT NULL,
+		   USERS_ID			  VARCHAR(50) NOT NULL,
+		   SESSION_ID		  VARCHAR(50) NOT NULL
+        )
+  END
+	
+GO
+

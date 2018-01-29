@@ -11,6 +11,7 @@ import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.HelperUtils;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.LogFactory;
 import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -34,21 +35,21 @@ public class SearchButtonLayout extends HorizontalLayout {
 
 	
 	private ErrorfulFieldGroup binder;
-	BusinessRoleModuleSearchLogic businessRoleModuleLogic=new BusinessRoleModuleSearchLogic();
+	private BusinessRoleModuleSearchLogic businessRoleModuleLogic=new BusinessRoleModuleSearchLogic();
 	
-	BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
-	BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
-	ExtFilterTable table;
-	ExtFilterTable tableField;
-	ComboBox subModuleName;
-	ComboBox moduleName;
-	ComboBox businessRoleName;
-        CheckBox add;
-	CheckBox edit;
-	CheckBox view;
+	private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
+	private BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
+	private ExtFilterTable table;
+	private ExtFilterTable tableField;
+	private ComboBox subModuleName;
+	private ComboBox moduleName;
+	private ComboBox businessRoleName;
+	private CheckBox add;
+        private CheckBox edit;
+        private CheckBox view;
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchButtonLayout.class
 			.getName());
-final String Select=CommonUtils.SELECT_ONE;
+	private final String Select=CommonUtils.SELECT_ONE;
 	public SearchButtonLayout(ErrorfulFieldGroup binder,BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans,BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult,ExtFilterTable table,ExtFilterTable tableField,ComboBox subModuleName,ComboBox moduleName,ComboBox businessRoleName
         ,CheckBox add,CheckBox edit,CheckBox view) {
 		super();

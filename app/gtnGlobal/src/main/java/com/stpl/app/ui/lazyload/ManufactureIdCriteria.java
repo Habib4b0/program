@@ -27,6 +27,7 @@ public class ManufactureIdCriteria implements SearchCriteria {
 	private int lastCount;
 
 	/** The dirty. */
+	@SuppressWarnings("unused")
 	private boolean dirty;
 
 	/** The filter. */

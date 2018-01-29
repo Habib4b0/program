@@ -138,7 +138,7 @@ public class PmpyTradingPartnerLookup extends Window {
 
     private HorizontalLayout controlLayout = new HorizontalLayout();
 
-    PmpyTradingPartnerTableLogic tableLogic = new PmpyTradingPartnerTableLogic();
+    private PmpyTradingPartnerTableLogic tableLogic = new PmpyTradingPartnerTableLogic();
     private ExtPagedTable resultsTableTP = new ExtPagedTable(tableLogic);
     private BeanItemContainer<PmpyTradingPartnerDTO> resultBean = new BeanItemContainer<>(PmpyTradingPartnerDTO.class);
 
@@ -466,10 +466,7 @@ public class PmpyTradingPartnerLookup extends Window {
                     searchLogic();
                 }  catch (CommitException e) {
                     LOGGER.error(e.getMessage());
-                } catch (Exception e) {
-                    LOGGER.error(e.getMessage());
                 }
-
             }
         });
         LOGGER.debug("End of configureFields method");

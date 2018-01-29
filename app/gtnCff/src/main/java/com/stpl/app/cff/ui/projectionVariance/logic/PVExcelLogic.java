@@ -91,6 +91,7 @@ public class PVExcelLogic {
     private static final int COLUMN_COUNT_TOTAL = 96;
     private static final int COLUMN_COUNT_DISCOUNT = 12;
     private static final String ALL = "ALL";
+    private static final int BASECOLUMN_HIERARCHY_INDEX = 2;
 
     public PVExcelLogic(Map<String, List<ProjectionVarianceDTO>> resultMap, PVSelectionDTO selection,
             List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, PVParameters parameterDto, Map<String, List<ProjectionVarianceDTO>> discountMap, Map<String, List<List<ProjectionVarianceDTO>>> discountMapDetails) {
@@ -715,9 +716,11 @@ public class PVExcelLogic {
                     calculateForTotal("NetSalesExFactoryPer", Constants.CHANGE, obj, NumericConstants.NINETY, frequencyBasedDTO, selection, RATE_PER);
                 }
             }
-
+        
+        String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
+        String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
             Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
-            List productList = relationshipLevelDetailsMap.get(obj[2].toString());
+            List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
             if (!isTotal && !productList.isEmpty() && P.equals(String.valueOf(productList.get(4)))) {
                 /**
                  * Net Ex-Factory Sales
@@ -1136,8 +1139,10 @@ public class PVExcelLogic {
                     calculateForTotal("NetSalesExFactoryPer", Constants.CHANGE, obj, NumericConstants.NINETY, frequencyBasedDTO, selection, RATE_PER);
                 }
             }
+            String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
+            String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
             Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
-            List productList = relationshipLevelDetailsMap.get(obj[2].toString());
+            List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
             if (!isTotal && !productList.isEmpty() && P.equals(String.valueOf(productList.get(4)))) {
                 /**
                  * Net Ex-Factory Sales
@@ -1429,13 +1434,15 @@ public class PVExcelLogic {
         ProjectionVarianceDTO dto = new ProjectionVarianceDTO();
         //Group Column projSelDTO
         String groupName;
+        String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
+        String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
         if (isCustomView) {
-            groupName = CUSTOM_VIEW_RELATIONSHIP_HIER.get(obj[NumericConstants.TWO] == null ? StringUtils.EMPTY : obj[NumericConstants.TWO].toString());
+            groupName = CUSTOM_VIEW_RELATIONSHIP_HIER.get(hierarchy.trim() == null ? StringUtils.EMPTY : hierarchy.trim());
             groupName = groupName == null ? StringUtils.EMPTY : groupName;
             dto.setHierarchyNo(obj[NumericConstants.TWO].toString());
             dto.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
         } else {
-            groupName = CommonUtils.getDisplayFormattedName(obj[NumericConstants.TWO].toString(), selection.getHierarchyIndicator(),
+            groupName = CommonUtils.getDisplayFormattedName(hierarchy.trim(), selection.getHierarchyIndicator(),
                             selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
         }
         dto.setGroup(groupName);
@@ -1942,7 +1949,7 @@ public class PVExcelLogic {
         }
 
         Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
-        List productList = relationshipLevelDetailsMap.get(obj[2].toString());
+        List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
         if (!isTotal && !productList.isEmpty() && P.equals(String.valueOf(productList.get(4)))) {
             /**
              * Net Ex-Factory Sales
@@ -2362,8 +2369,10 @@ public class PVExcelLogic {
             }
         }
 
+        String hierarchyNo = String.valueOf(obj[BASECOLUMN_HIERARCHY_INDEX]);
+        String hierarchy = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0] : hierarchyNo;
         Map<String, List> relationshipLevelDetailsMap = selection.getSessionDTO().getHierarchyLevelDetails();
-        List productList = relationshipLevelDetailsMap.get(obj[2].toString());
+        List productList = relationshipLevelDetailsMap.get(hierarchy.trim());
         if (!isTotal && !productList.isEmpty() && P.equals(String.valueOf(productList.get(4)))) {
             /**
              * Net Ex-Factory Sales

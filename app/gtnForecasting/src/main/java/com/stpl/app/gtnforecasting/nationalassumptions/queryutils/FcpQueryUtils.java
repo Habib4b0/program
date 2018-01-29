@@ -34,7 +34,7 @@ public class FcpQueryUtils {
 
     private static final DecimalFormat CUR_FOUR = new DecimalFormat("$0.0000");
 
-    public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     /**
      * The Constant LOGGER.
      */

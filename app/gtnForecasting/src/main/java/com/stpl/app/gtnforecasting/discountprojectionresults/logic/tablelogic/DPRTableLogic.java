@@ -33,9 +33,9 @@ public class DPRTableLogic extends PageTreeTableLogic {
     private boolean firstGenerated = false;
     protected ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     protected ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
-    public DPRLogic dprLogic = new DPRLogic();
-    public MMDPRLogic mmdprLogic = new MMDPRLogic();    
-    public NMDPRLogic nmDPRLogic = new NMDPRLogic();
+    private DPRLogic dprLogic = new DPRLogic();
+    private MMDPRLogic mmdprLogic = new MMDPRLogic();    
+    private NMDPRLogic nmDPRLogic = new NMDPRLogic();
     private String screenName = StringUtils.EMPTY;
     
     private final CommercialDPRLogic commercialDPRLogic = new CommercialDPRLogic();
@@ -50,7 +50,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                 switch (screenName) {
                     case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
                         if (Constant.MM.equalsIgnoreCase(projSelDTO.getMarketTypeValue())) {                            
-                            list = mmdprLogic.getConfiguredMMDicountResults(getLastParent(), start, offset, projSelDTO);
+                            list = getMmdprLogic().getConfiguredMMDicountResults(getLastParent(), start, offset, projSelDTO);
                         } else {
                             List<String> indexList = new ArrayList<>();
                             for (int i = 0; i < getNonFetchableData().size(); i++) {
@@ -58,7 +58,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                                 indexList.add(getNonFetchableData().getIndex(i).getKey().toString());
                             }
                             projSelDTO.setNonFetchableIndex(indexList);
-                            list = dprLogic.getConfiguredDPResults(getLastParent(), start, offset, projSelDTO);
+                            list = getDprLogic().getConfiguredDPResults(getLastParent(), start, offset, projSelDTO);
                         }
                         break;
                     case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
@@ -92,9 +92,9 @@ public class DPRTableLogic extends PageTreeTableLogic {
                 switch (screenName) {
                     case CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED:
                         if (Constant.MM.equalsIgnoreCase(projSelDTO.getMarketTypeValue())) {
-                            count = mmdprLogic.getConfiguredMMDiscountResultsCount(getLastParent(), projSelDTO);
+                            count = getMmdprLogic().getConfiguredMMDiscountResultsCount(getLastParent(), projSelDTO);
                         } else {
-                            count = dprLogic.getConfiguredDPResultsCount(getLastParent(), projSelDTO, true, initialProjSelDTO);
+                            count = getDprLogic().getConfiguredDPResultsCount(getLastParent(), projSelDTO, true, initialProjSelDTO);
                         }
                         break;
                     case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
@@ -170,7 +170,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
         this.projSelDTO = projSelDTO;
         this.screenName = screenName;
         clearAll();
-         dprLogic.projectionTotalList = new ArrayList<>();
+         dprLogic.setProjectionTotalList(new ArrayList<DiscountProjectionResultsDTO>());
         if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
             initialProjSelDTO.setCustomerLevelNo(projSelDTO.getCustomerLevelNo());
             initialProjSelDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
@@ -211,7 +211,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
         initialProjSelDTO.setHierarchyIndicator(projSelDTO.getHierarchyIndicator());
         initialProjSelDTO.setProductLevelNo(projSelDTO.getProductLevelNo());
         projSelDTO.setIsProjectionTotal(true);
-        int count = dprLogic.getConfiguredDPResultsCount(parentId, projSelDTO, true, initialProjSelDTO);
+        int count = getDprLogic().getConfiguredDPResultsCount(parentId, projSelDTO, true, initialProjSelDTO);
         LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
         addlevelMap(treeLevel, levelMap);
         projSelDTO.setIsProjectionTotal(true);
@@ -260,10 +260,10 @@ public class DPRTableLogic extends PageTreeTableLogic {
                     DiscountProjectionResultsDTO discountDTO;
 
                     if (projSelDTO.getPivotView().equalsIgnoreCase(Constant.PERIOD)) {
-                        discountDTO = dprLogic.getChildNodeValues(dto, projSelDTO);
+                        discountDTO = getDprLogic().getChildNodeValues(dto, projSelDTO);
                     } else {
 
-                        discountDTO = dprLogic.getPivotChildNodeValues(dto, projSelDTO);
+                        discountDTO = getDprLogic().getPivotChildNodeValues(dto, projSelDTO);
                     }
                     addExpandedTreeList(customTreeLevel, discountDTO);
                     recursivelyLoadExpandData(discountDTO, customTreeLevel, expandLevelNo);
@@ -329,5 +329,29 @@ public class DPRTableLogic extends PageTreeTableLogic {
     public void groupChange() {
         clearAll();
         setCurrentPage(1);
+    }
+
+    public MMDPRLogic getMmdprLogic() {
+            return mmdprLogic;
+    }
+
+    public void setMmdprLogic(MMDPRLogic mmdprLogic) {
+            this.mmdprLogic = mmdprLogic;
+    }
+
+    public DPRLogic getDprLogic() {
+            return dprLogic;
+    }
+
+    public void setDprLogic(DPRLogic dprLogic) {
+            this.dprLogic = dprLogic;
+    }
+
+    public NMDPRLogic getNmDPRLogic() {
+            return nmDPRLogic;
+    }
+
+    public void setNmDPRLogic(NMDPRLogic nmDPRLogic) {
+            this.nmDPRLogic = nmDPRLogic;
     }
 }

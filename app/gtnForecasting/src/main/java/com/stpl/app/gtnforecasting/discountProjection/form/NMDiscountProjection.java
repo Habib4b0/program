@@ -138,6 +138,7 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox.ClickListener;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
@@ -146,8 +147,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-
-
 /**
  *
  * @author shyam.d
@@ -186,8 +185,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	/* The custom id. */
 	private int customId = 0;
 	/* To check whether list view is generated or not */
-	public boolean isListviewGenerated = Boolean.TRUE;
-        List<String> hierarchyListForCheckRecord=new ArrayList<>();
+        private boolean isListviewGenerated = Boolean.TRUE;
+        private Set<String> hierarchyListForCheckRecord=new HashSet<>();
+
 	private boolean isGroupUpdatedManually = false;
 	/* The custom id to select. */
 	private int customIdToSelect = 0;
@@ -285,10 +285,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         private List<Object> generateDiscountNamesToBeLoaded=new ArrayList<>();
         private List<Object> generateProductToBeLoaded=new ArrayList<>();
         private List<Object> generateCustomerToBeLoaded=new ArrayList<>();
-        List<String> baselinePeriods= new ArrayList<>();
+        private List<String> baselinePeriods= new ArrayList<>();
 
-        
-        
 	private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
 		@Override
 		public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
@@ -442,8 +440,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		gridlay.addComponent(periodOrder);
 		if (CommonUtil.isValueEligibleForLoading()) {
 			gridlay.addComponent(uomLb);
+			uomLb.setWidth("120px");
 			gridlay.addComponent(uomDdlb);
                         gridlay.addComponent(displayFormatLabel);
+            displayFormatLabel.setWidth("120px");
                         gridlay.addComponent(displayFormatDdlb);
 		} else {
 			gridlay.setColumns(6);
@@ -452,6 +452,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		gridlay.addComponent(historyDdlb, 1, 1);
 		gridlay.addComponent(variablesLb, NumericConstants.TWO, 1);
 		gridlay.addComponent(variables, NumericConstants.THREE, 1);
+		variables.setWidth("500px");
                 gridlay.addComponent(conversionFactor, NumericConstants.FOUR, 1);
 		gridlay.addComponent(conversionFactorDdlb, NumericConstants.FIVE, 1);
 
@@ -537,7 +538,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		endPeriod.setContainerDataSource(endPeriodBean);
              
 		variables.addStyleName(Constant.HORIZONTAL);
-		variables.addStyleName("optiongroupextrawidth");
 		variables.addItem(DISCOUNT_RATE.getConstant());
 		variables.addItem(REBATE_PER_UNIT.getConstant());
 		variables.addItem(DISCOUNT_AMT.getConstant());
@@ -652,7 +652,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		}
 	};
 
-	BlurListener blurListener = new BlurListener() {
+	private BlurListener blurListener = new BlurListener() {
 		@Override
 		public void blur(FieldEvents.BlurEvent event) {
 			Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
@@ -993,7 +993,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				}
 				customizeDataForDDLB(discountProgramsList, programSelection);
 				frequencyDdlb.focus();
-				isListviewGenerated = true;
+				setListviewGenerated(true);
 				return true;
 			}
 			viewValueChangeLogic();
@@ -1016,8 +1016,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 			/* Default split position for the split bar */
 			float splitPosition = NumericConstants.FIVE_HUNDRED;
-
-			
 			resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
 			resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
 			resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -1466,9 +1464,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		leftTable.setDoubleHeaderVisible(true);
 
 		leftTable.setEditable(true);
-		leftTable.setVisibleColumns(leftHeader.getSingleColumns().toArray());
-		leftTable.setColumnHeaders(
-				leftHeader.getSingleHeaders().toArray(new String[leftHeader.getSingleHeaders().size()]));
+                String[] columnLeftHeader = new String[leftHeader.getSingleHeaders().size()];
+                securityForListView(leftHeader.getSingleColumns().toArray(), leftHeader.getSingleHeaders().toArray(columnLeftHeader), leftTable);
 
 		leftTable.setDoubleHeaderVisibleColumns(leftHeader.getDoubleColumns().toArray());
 		leftTable.setDoubleHeaderColumnHeaders(
@@ -2638,7 +2635,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					}
 					boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
 					boolean isCustomHierarchy = Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(view.getValue());
-                                        if (hierarchyListForCheckRecord.size() > 0) {
+                                        if (!hierarchyListForCheckRecord.isEmpty()) {
                                              logic.updateCheckRecordForAdjust(checkedDiscountsPropertyIds, hierarchyListForCheckRecord, session, hierarchyIndicator);
                                          } 
 					if (logic.isAnyRecordChecked(session, isProgram, projectionSelection.getDiscountProgramsList(),
@@ -2651,21 +2648,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 						String confirmMessage = Constant.INCREMENTAL_ADJUSTMENT_CONFIRMATION;
 						String messageBody = StringUtils.EMPTY;
-						String basisCharacter = StringUtils.EMPTY;
-						if (adjustmentBasis.equals(AMOUNT.getConstant())) {
-							basisCharacter = DOLLAR.getConstant();
-						} else if (adjustmentBasis.equals(PERCENTAGE.getConstant())) {
-							basisCharacter = PERCENT.getConstant();
-						}
+						 String adjustmentValidation = adjustmentBasis.equals(PERCENTAGE.getConstant()) ? 
+                                                        adjustment.getValue().concat(PERCENT.getConstant()) : DOLLAR.getConstant().concat(adjustment.getValue());
 						if (adjustmentType.equals(INCREMENTAL.getConstant())) {
 							confirmMessage = Constant.INCREMENTAL_ADJUSTMENT_CONFIRMATION;
-							messageBody = "You are about to make the following " + adjustment.getValue()
-									+ basisCharacter + " adjustment for the selected periods" + selectedDoubleList
+							messageBody = "You are about to make the following " +adjustmentValidation+ " adjustment for the selected periods" + selectedDoubleList
 									+ Constant.CONTINUE_CONFIRMATION;
 						} else if (adjustmentType.equals(OVERRIDE.getConstant())) {
 							confirmMessage = "Confirm Override";
 							messageBody = "You are about to replace the current values in the list view with the following variable: "
-									+ adjustment.getValue() + basisCharacter + Constant.CONTINUE_CONFIRMATION;
+									+ adjustmentValidation + Constant.CONTINUE_CONFIRMATION;
 						}
 
 						new AbstractNotificationUtils() {
@@ -2800,21 +2792,17 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                             }
 						String confirmMessage = Constant.INCREMENTAL_ADJUSTMENT_CONFIRMATION;
 						String messageBody = StringUtils.EMPTY;
-						String basisCharacter = StringUtils.EMPTY;
-						if (adjustmentBasis.equals(AMOUNT.getConstant())) {
-							basisCharacter = DOLLAR.getConstant();
-						} else if (adjustmentBasis.equals(PERCENTAGE.getConstant())) {
-							basisCharacter = PERCENT.getConstant();
-						}
+                                                String adjustmentValidation = adjustmentBasis.equals(PERCENTAGE.getConstant()) ? 
+                                                        adjustment.getValue().concat(PERCENT.getConstant()) : DOLLAR.getConstant().concat(adjustment.getValue());
+                                                
 						if (adjustmentType.equals(INCREMENTAL.getConstant())) {
 							confirmMessage = Constant.INCREMENTAL_ADJUSTMENT_CONFIRMATION;
-							messageBody = "You are about to make the following " + adjustment.getValue()
-									+ basisCharacter + " adjustment for the selected periods" + selectedDoubleList
+							messageBody = "You are about to make the following " + adjustmentValidation + " adjustment for the selected periods" + selectedDoubleList
 									+ Constant.CONTINUE_CONFIRMATION;
 						} else if (adjustmentType.equals(OVERRIDE.getConstant())) {
 							confirmMessage = "Confirm Override";
 							messageBody = "You are about to replace the current values in the list view with the following variable: "
-									+ adjustment.getValue() + basisCharacter + Constant.CONTINUE_CONFIRMATION;
+									+ adjustmentValidation + Constant.CONTINUE_CONFIRMATION;
 						}
 
 						new AbstractNotificationUtils() {
@@ -2960,13 +2948,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			ExtFilterTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
 			Object[] leftTableVisibleColumn = leftTable.getVisibleColumns();
 			String[] leftTableColumnHeader = leftTable.getColumnHeaders();
-			excelTable.setVisibleColumns(
-					ArrayUtils.addAll(Arrays.copyOfRange(leftTableVisibleColumn, 1, leftTableVisibleColumn.length),
-							excelHeader.getSingleColumns().toArray()));
 			Object[] objectArray = ArrayUtils.addAll(
 					Arrays.copyOfRange(leftTableColumnHeader, 1, leftTableColumnHeader.length),
 					excelHeader.getSingleHeaders().toArray(new String[0]));
-			excelTable.setColumnHeaders(Arrays.copyOf(objectArray, objectArray.length, String[].class));
+
+                        Object[] leftTableExcelColumn = ArrayUtils.addAll(Arrays.copyOfRange(leftTableVisibleColumn, 1, leftTableVisibleColumn.length),
+                            excelHeader.getSingleColumns().toArray());
+                        securityForListView(leftTableExcelColumn, Arrays.copyOf(objectArray, objectArray.length, String[].class), excelTable);
+
 			excelTable.setDoubleHeaderVisible(true);
 			excelTable
 					.setDoubleHeaderVisibleColumns(ArrayUtils.addAll(
@@ -2994,7 +2983,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			formatter.put("currencyTwoDecimal", "RPU");
 			formatter.put("amountTwoDecimal", "Amount");
 			excelTable.setRefresh(Boolean.TRUE);
-			ForecastUI.EXCEL_CLOSE = true;
+			ForecastUI.setEXCEL_CLOSE(true);
 			CustomExcelNM excel = null;
 			HeaderUtils.getDiscountProjectionRightTableColumns(projectionSelection);
 			if (QUARTERLY.getConstant().equals(String.valueOf(frequencyDdlb.getValue()))
@@ -3032,7 +3021,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					excelTable.setDoubleHeaderMap(mapVisibleCols);
 					excelTable.setRefresh(true);
 					String sheetName = "Year " + list.get(i);
-					ForecastUI.EXCEL_CLOSE = true;
+					ForecastUI.setEXCEL_CLOSE(true);
 					if (i == 0) {
 						excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
 								Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatter);
@@ -3388,7 +3377,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			formatTableData();
 			loadScreenBasedOnGeneratedTable(isFrequencyChange);
 			loadDataInTable();// setcurrentpage will be called
-			isListviewGenerated = true;
+			setListviewGenerated(true);
 			loadLevelValues();
 			isDiscountGenerated = true;
 			adjProgramsValueChangeLogic(SELECT.getConstant());
@@ -3717,7 +3706,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	 */
 	public void saveDiscountProjectionListview() {
 		LOGGER.debug(" Inside Save ");
-		if (isListviewGenerated) {
+		if (isListviewGenerated()) {
 			LOGGER.debug(" Discount generated ");
 			boolean isCustomHierarchy = CommonUtil.isValueEligibleForLoading()
 					? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
@@ -3806,7 +3795,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	public void saveDiscountProjectionScreen(boolean toBeRefreshed) {
 		LOGGER.debug(" saving DP screen");
 		try {
-			if (isListviewGenerated) {
+			if (isListviewGenerated()) {
 				saveDiscountProjectionListview();
 				if (toBeRefreshed) {
 					refreshTableData(getManualEntryRefreshHierarachyNo());
@@ -4949,7 +4938,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			tableLogic.setRefresh(Boolean.FALSE); // As the row refresh will be
 			formatTableData();
 			tableLogic.setRefresh(Boolean.TRUE);
-			isListviewGenerated = true;
+			setListviewGenerated(true);
 			loadLevelValues();
 			isDiscountGenerated = true;
 			adjProgramsValueChangeLogic(SELECT.getConstant());
@@ -5342,7 +5331,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	private void callAdjustmentProcedure(SessionDTO session) {
 		if (session.isActualAdjustment()) {
-			logic.adjustDiscountProjection(session, "Override", "Amount","0", null,baselinePeriods);
+			logic.adjustDiscountProjection(session, "Override", "Amount","0", "0",baselinePeriods);
 		}
 	}
 
@@ -5395,6 +5384,24 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                 methodology.addItem(str.split("\\.")[1]);
             }
     }
+    private void securityForListView(Object[] visibleColumnArray, String[] columnHeaderArray, ExtCustomTreeTable table) {
+        try {
+            final String userId = String.valueOf(session.getUserId());
+            final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Forecasting", "Commercial", "Discount Projection");
+            List<List> headeInformationsList = CommonLogic.isPropertyVisibleAccess(visibleColumnArray, columnHeaderArray, functionHM);
+            List<String> headerArray = headeInformationsList.get(1);
+            table.setVisibleColumns(headeInformationsList.get(0).toArray());
+            table.setColumnHeaders(headerArray.toArray(new String[headerArray.size()]));
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+    }
+        
+	public boolean isListviewGenerated() {
+		return isListviewGenerated;
+	}
 
-
+	public void setListviewGenerated(boolean isListviewGenerated) {
+		this.isListviewGenerated = isListviewGenerated;
+	}
 }

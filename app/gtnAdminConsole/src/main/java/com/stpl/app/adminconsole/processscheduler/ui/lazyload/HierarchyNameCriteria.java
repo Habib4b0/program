@@ -22,6 +22,7 @@ public class HierarchyNameCriteria implements SearchCriteria {
 	private int lastCount;
 
 	/** The dirty. */
+	@SuppressWarnings("unused")
 	private boolean dirty;
 
 	/** The filter. */
@@ -36,6 +37,9 @@ public class HierarchyNameCriteria implements SearchCriteria {
 		return description;
 	}
 
+	public HierarchyNameCriteria(){
+		super();
+	}
 	/**
 	 * Sets the description.
 	 *

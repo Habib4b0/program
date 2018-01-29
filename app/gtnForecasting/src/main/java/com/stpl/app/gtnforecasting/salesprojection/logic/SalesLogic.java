@@ -144,6 +144,10 @@ public class SalesLogic {
     public static final String ACTUAL_SALES = "-ActualSales";
     public static final String FREQ_VAL = "@FREVAL@";
     public static final String PROJECTED_SALES = "-ProjectedSales";
+    public static final String PRODUCT_GROWTH = "-ProductGrowth";
+    public static final String ACCOUNT_GROWTH = "-AccountGrowth";
+    public static final String HISTORY_PROJECTED_SALES = "-HistoryProjectedSales";
+    public static final String HISTORY_PROJECTED_UNITS = "-HistoryProjectedUnits";
     private SessionDTO session;
     protected NMSalesProjectionResultsLogic sprLogic = new NMSalesProjectionResultsLogic();
     protected CommonLogic commonLogic = new CommonLogic();
@@ -165,8 +169,8 @@ public class SalesLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public int getHistoryAndProjectionCount(final SessionDTO sessionDTO, final ProjectionSelectionDTO projectionSelectionDTO)  {
-        String query = SQlUtil.getQuery(getClass(),"rows-per-level-item");
+    public int getHistoryAndProjectionCount(final SessionDTO sessionDTO, final ProjectionSelectionDTO projectionSelectionDTO) {
+        String query = SQlUtil.getQuery("rows-per-level-item");
         if (Constant.VIEW.equals(projectionSelectionDTO.getSessionDTO().getAction()) && CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(projectionSelectionDTO.getScreenName())) {
             query = SQlUtil.getQuery("rows-per-level-item-view");
         }
@@ -608,7 +612,7 @@ public class SalesLogic {
         String aaa = QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
-    }
+        }
 
     public List<SalesRowDto> getSalesResults(ProjectionSelectionDTO projSelDTO, int start, int end) {
         /*if no record available in ST_NM_ACTAUL_SALES table, we will show hierarchy in table */
@@ -728,21 +732,22 @@ public class SalesLogic {
         final Map<String, List> relationshipDetailsMap = sessionDTO.getHierarchyLevelDetails();
         for (int i = 0; i < resulList.size(); i++) {
             Object obj[] = (Object[]) resulList.get(i);
-            MSalesProjection.rowCountMap.put(String.valueOf(obj[NumericConstants.TEN]), obj[NumericConstants.ELEVEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])) : null);
+            MSalesProjection.getRowCountMap().put(String.valueOf(obj[NumericConstants.TEN]), obj[NumericConstants.ELEVEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])) : null);
             if (lastLevelValue.equalsIgnoreCase(STRING_EMPTY) || lastLevelValue.equals(String.valueOf(obj[NumericConstants.TEN]))) {
 
                 lastLevelValue = String.valueOf(obj[NumericConstants.TEN]);
+                String hierarchy = lastLevelValue.contains(",") ? lastLevelValue.split(",")[0] : lastLevelValue.trim();
                 salesRowDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.SIXTEEN]));
                 if (iscustom) {
                     salesRowDto.setTreeLevelNo(treeLevelNo);
                     salesRowDto.setCustomerHierarchyNo(lastCustomerHierNo);
                     salesRowDto.setProductHierarchyNo(lastproductHierNo);
                 } else {
-                    salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(lastLevelValue).get(NumericConstants.TWO))));
+                    salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(hierarchy).get(NumericConstants.TWO))));
                 }
-                salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(lastLevelValue).get(1)));
+                salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(hierarchy).get(1)));
 //                salesRowDto.setLevelName(projectionSelectionDTO.getSessionDTO().getLevelValueDiscription(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN])));
-                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
+                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchy.trim(), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
                 salesRowDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.SIXTEEN]));
 
             } else {
@@ -751,16 +756,17 @@ public class SalesLogic {
                 salesRowDto = new SalesRowDto();
                 salesRowDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.SIXTEEN]));
                 lastLevelValue = String.valueOf(obj[NumericConstants.TEN]);
+                String hierarchy = lastLevelValue.contains(",") ? lastLevelValue.split(",")[0] : lastLevelValue.trim();
                 if (iscustom) {
                     salesRowDto.setTreeLevelNo(treeLevelNo);
                     salesRowDto.setCustomerHierarchyNo(lastCustomerHierNo);
                     salesRowDto.setProductHierarchyNo(lastproductHierNo);
                 } else {
-                    salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(lastLevelValue).get(NumericConstants.TWO))));
+                    salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(hierarchy).get(NumericConstants.TWO))));
                 }
-                salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(lastLevelValue).get(1)));
+                salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(hierarchy).get(1)));
 //                salesRowDto.setLevelName(projectionSelectionDTO.getSessionDTO().getLevelValueDiscription(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN])));
-                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
+                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchy.trim(), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
                 salesRowDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.SIXTEEN]));
             }
             salesRowDto.addBooleanProperties(Constant.CHECK, obj[NumericConstants.THIRTEEN] != null ? Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])) == 0 ? new Boolean(false) : new Boolean(true) : new Boolean(false));
@@ -831,6 +837,7 @@ public class SalesLogic {
         return salesRowList;
 
     }
+
     private void salesProjectionTableCustomization(final ProjectionSelectionDTO projectionSelectionDTO,
             List doubleColumnList, SalesRowDto salesRowDto, List<String> headerMapValue, Object[] obj, String key) {
         if (!doubleColumnList.contains(key)) {
@@ -838,15 +845,15 @@ public class SalesLogic {
                 if (CommonUtil.isValueEligibleForLoading() && salesRowDto.getSalesInclusion().isEmpty()) {
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_SALES, StringUtils.EMPTY);
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, StringUtils.EMPTY);
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProductGrowth", StringUtils.EMPTY);
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-AccountGrowth", StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + PRODUCT_GROWTH, StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACCOUNT_GROWTH, StringUtils.EMPTY);
                     headerMapValue.remove(key + PROJECTED_SALES);
                     headerMapValue.remove(key + PROJECTED_UNITS1);
                 } else {
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.TWO], true));
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.THREE] == null ? 0 : obj[NumericConstants.THREE])));
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProductGrowth", String.valueOf(UNITTWODECIMAL.format(obj[1] == null ? 0 : obj[1])) + Constant.PERCENT);
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-AccountGrowth", String.valueOf(UNITTWODECIMAL.format(obj[0] == null ? 0 : obj[0])) + Constant.PERCENT);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + PRODUCT_GROWTH, String.valueOf(UNITTWODECIMAL.format(obj[1] == null ? 0 : obj[1])) + Constant.PERCENT);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACCOUNT_GROWTH, String.valueOf(UNITTWODECIMAL.format(obj[0] == null ? 0 : obj[0])) + Constant.PERCENT);
                     headerMapValue.remove(key + PROJECTED_SALES);
                     headerMapValue.remove(key + PROJECTED_UNITS1);
                 }
@@ -854,15 +861,15 @@ public class SalesLogic {
                 if (CommonUtil.isValueEligibleForLoading() && salesRowDto.getSalesInclusion().isEmpty()) {
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACTUAL_SALES, StringUtils.EMPTY);
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, StringUtils.EMPTY);
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedSales", StringUtils.EMPTY);
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedUnits", StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_SALES, StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_UNITS, StringUtils.EMPTY);
                     headerMapValue.remove(key + ACTUAL_SALES);
                     headerMapValue.remove(key + Constant.ACTUAL_UNITS1);
                 } else {
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACTUAL_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.FOUR], true));
                     salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE])));
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedSales", String.valueOf(0));
-                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedUnits", String.valueOf(0));
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_SALES, String.valueOf(0));
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_UNITS, String.valueOf(0));
                     headerMapValue.remove(key + ACTUAL_SALES);
                     headerMapValue.remove(key + Constant.ACTUAL_UNITS1);
                 }
@@ -871,15 +878,15 @@ public class SalesLogic {
             if (Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE])) == 0) {
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_SALES, StringUtils.EMPTY);
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, StringUtils.EMPTY);
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProductGrowth", StringUtils.EMPTY);
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-AccountGrowth", StringUtils.EMPTY);
+                salesRowDto.addStringProperties(StringUtils.EMPTY + key + PRODUCT_GROWTH, StringUtils.EMPTY);
+                salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACCOUNT_GROWTH, StringUtils.EMPTY);
                 headerMapValue.remove(key + PROJECTED_SALES);
                 headerMapValue.remove(key + PROJECTED_UNITS1);
             } else {
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACTUAL_SALES, StringUtils.EMPTY);
                 salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, StringUtils.EMPTY);
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedSales", StringUtils.EMPTY);
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedUnits", StringUtils.EMPTY);
+                salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_SALES, StringUtils.EMPTY);
+                salesRowDto.addStringProperties(StringUtils.EMPTY + key + HISTORY_PROJECTED_UNITS, StringUtils.EMPTY);
                 headerMapValue.remove(key + ACTUAL_SALES);
                 headerMapValue.remove(key + Constant.ACTUAL_UNITS1);
             }
@@ -1712,9 +1719,10 @@ public class SalesLogic {
             finalQuery = finalQuery.replace("[?CHECK_RECORD]", isChecked ? "1" : "0");
         } else {
             CommonLogic commonLogic = new CommonLogic();
-
+            String hierarchy = salesDTO.getHierarchyNo().contains(",") ? salesDTO.getHierarchyNo().split(",")[0] : salesDTO.getHierarchyNo();
             String hierarchyInserQuery = SQlUtil.getQuery("selected-hierarchy-no-update");
-            hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, "('" + salesDTO.getHierarchyNo() + "')");
+            
+            hierarchyInserQuery = hierarchyInserQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES,"('" + hierarchy.trim() + "')");
 
             String hiearchyIndicator = salesDTO.getHierarchyIndicator();
             boolean isCustomView = projectionSelectionDTO.isIsCustomHierarchy();
@@ -1750,7 +1758,6 @@ public class SalesLogic {
         }
         return count;
     }
-
     private String getViewTypeQuery(String viewType) {
         String table;
         if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(viewType)) {
@@ -1924,7 +1931,7 @@ public class SalesLogic {
 
             BigDecimal value = new BigDecimal(editedValue);
             String hierarchyNo = salesDTO.getHierarchyNo();
-            int rowcount = MSalesProjection.rowCountMap.get(hierarchyNo);
+            int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String keyarr[] = propertyId.split("-");
             if (frequencyDivision == 1) {
                 year = Integer.valueOf(keyarr[0]);
@@ -2064,7 +2071,7 @@ public class SalesLogic {
 
             BigDecimal value = new BigDecimal(editedValue);
             String hierarchyNo = salesDTO.getHierarchyNo();
-            int rowcount = MSalesProjection.rowCountMap.get(hierarchyNo);
+            int rowcount = MSalesProjection.getRowCountMap().get(hierarchyNo);
             String keyarr[] = propertyId.split("-");
             if (frequencyDivision == 1) {
                 year = Integer.valueOf(keyarr[0]);
@@ -4363,7 +4370,7 @@ public class SalesLogic {
                     hierachies.add(hierarachy);
                 }
                 hierarachy = hierarachy.substring(0, hierarachy.length() - 1);
-                hierarachy = hierarachy.substring(0, hierarachy.lastIndexOf(".") + 1);
+                hierarachy = hierarachy.substring(0, hierarachy.lastIndexOf('.') + 1);
                 if (!hierarachy.isEmpty()) {
                     levelNoForcurrent = Integer.valueOf((String) projectionSelectionDTO.getSessionDTO().getHierarchyLevelDetails().get(hierarachy).get(2));
                 }

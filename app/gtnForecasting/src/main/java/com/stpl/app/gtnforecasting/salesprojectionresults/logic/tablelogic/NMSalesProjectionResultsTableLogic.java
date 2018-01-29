@@ -37,9 +37,9 @@ import org.slf4j.LoggerFactory;
  */
 public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
 
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
-    public NMSalesProjectionResultsLogic sprLogic = new NMSalesProjectionResultsLogic();
-    boolean firstGenerated = false;
+	private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+	private NMSalesProjectionResultsLogic sprLogic = new NMSalesProjectionResultsLogic();
+    private boolean firstGenerated = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjectionResultsTableLogic.class);
     private SalesProjectionResultsTree tree;
     private Map<String, SalesProjectionResultsDTO> loadDataMap = new HashMap<>();
@@ -51,7 +51,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
         GtnSmallHashMap map = new GtnSmallHashMap();
         try {
             if (firstGenerated && offset > 0) {
-                List<SalesProjectionResultsDTO> list = sprLogic.getConfiguredSalesProjectionResults(getLastParent(), start, offset, projSelDTO);
+                List<SalesProjectionResultsDTO> list = getSprLogic().getConfiguredSalesProjectionResults(getLastParent(), start, offset, projSelDTO);
                 int i = start;
                 for (SalesProjectionResultsDTO dto : list) {
                     map.put(i, dto);
@@ -118,7 +118,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
         setBulkDataLoadAllowed(true);
         setFullBulkDataLoadAllowed(true);
         this.projSelDTO = projSelDTO;
-        sprLogic.projectionTotalList = new ArrayList<>();
+        sprLogic.setProjectionTotalList(new ArrayList<SalesProjectionResultsDTO>());
         firstGenerated = true;
         getLevelMapList().clear();
         clearAll();
@@ -362,5 +362,13 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
             loadExcelDataByLevel(salesNode, excelResultBean);
         }
 
+    }
+
+    public NMSalesProjectionResultsLogic getSprLogic() {
+            return sprLogic;
+    }
+
+    public void setSprLogic(NMSalesProjectionResultsLogic sprLogic) {
+            this.sprLogic = sprLogic;
     }
 }

@@ -69,7 +69,7 @@ public class AccrualRateProjectionView extends VerticalLayout implements View {
             }
             accrualRateProjectionForm = new AccrualRateProjectionForm(dataSelectionDTO, session, screenName, dataSelectionForm);
             this.addComponent(accrualRateProjectionForm);
-            accrualRateProjectionForm.sales.historyDdlb.focus();
+            accrualRateProjectionForm.getSales().historyDdlb.focus();
         } catch (ParseException e) {
             LOGGER.error(e.getMessage());
         }

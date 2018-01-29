@@ -12,6 +12,9 @@ import com.stpl.ifs.util.HelperDTO;
  */
 public class DiscountSearchDTO implements Serializable{
 	
+	public DiscountSearchDTO(){
+		super();
+	}
 	/**
 	 * The Serial version id
 	 */

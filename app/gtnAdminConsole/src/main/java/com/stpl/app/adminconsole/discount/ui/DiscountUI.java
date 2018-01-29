@@ -22,6 +22,9 @@ import com.vaadin.ui.UI;
  */
 public class DiscountUI extends UI {
 
+	public DiscountUI(){
+		super();
+	}
     /**
      * The navigator.
      */

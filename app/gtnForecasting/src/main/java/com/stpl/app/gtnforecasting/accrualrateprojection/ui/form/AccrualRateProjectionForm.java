@@ -13,6 +13,7 @@ import com.stpl.app.bpm.dto.WorkflowRuleDTO;
 import com.stpl.app.gtnforecasting.abstractforecast.AbstractForm;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.utils.AccrualRateUtils;
+import com.stpl.app.gtnforecasting.bpm.logic.DSCalculationLogic;
 import com.stpl.app.gtnforecasting.bpm.logic.VarianceCalculationLogic;
 import com.stpl.app.gtnforecasting.bpm.util.MessageUtils;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -67,6 +68,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import org.apache.commons.lang.StringUtils;
+import org.kie.api.runtime.process.ProcessInstance;
+import org.kie.api.task.model.TaskSummary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,7 +81,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccrualRateProjectionForm.class);
 
-    public Sales sales;
+    private Sales sales;
 
     private final Rates rates;
 
@@ -106,7 +109,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
     private boolean isDetailsLoaded;
     private boolean heirarchySaved = false;
 
-    TabSheet.SelectedTabChangeListener tabChangeListener = new TabSheet.SelectedTabChangeListener() {
+    private TabSheet.SelectedTabChangeListener tabChangeListener = new TabSheet.SelectedTabChangeListener() {
         @Override
         public void selectedTabChange(final TabSheet.SelectedTabChangeEvent event) {
 
@@ -129,7 +132,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
         if (!session.getAction().equalsIgnoreCase(Constant.VIEW)) {
             insertFileData();
         }
-        this.sales = new Sales(session, map);
+        this.setSales(new Sales(session, map));
         this.rates = new Rates(session, map);
         this.details = new Details(session, map);
         dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
@@ -184,7 +187,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                         getUI().getNavigator().navigateTo(ForecastMainView.NAME);
 
                     } catch (Exception exception) {
-                        LOGGER.error("",exception);
+                        LOGGER.error(exception.getMessage());
                     }
                 }
             }
@@ -227,12 +230,12 @@ public class AccrualRateProjectionForm extends AbstractForm {
                         @Override
                         public void windowClose(Window.CloseEvent e) {
                             try {
-                                if (WorkFlowNotesLookup.submitFlag.equals("Success")) {
+                                if (WorkFlowNotesLookup.getSUBMIT_FLAG().equals("Success")) {
                                     boolean isSubmitted = submitProjection(popup.getNotes().getValue(), screenName, popup.getUploadedData());
                                     if (isSubmitted) {
                                         UI.getCurrent().getNavigator().navigateTo(ForecastMainView.NAME);
                                     }
-                                    WorkFlowNotesLookup.submitFlag = "Failed";
+                                    WorkFlowNotesLookup.setSUBMIT_FLAG("Failed");
                                     CommonLogic.dropDynamicTables(session.getUserId(), session.getSessionId());
                                 }
                             } catch (SystemException ex) {
@@ -282,7 +285,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
         tabSheet.addTab(dataSelection, TAB_DATA_SELECTION.getConstant(), null, 0);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
         tabSheet.addSelectedTabChangeListener(tabChangeListener);
-        tabSheet.addTab(this.sales, AccrualRateUtils.SALES, null, NumericConstants.ONE);
+        tabSheet.addTab(this.getSales(), AccrualRateUtils.SALES, null, NumericConstants.ONE);
         tabSheet.addTab(this.rates, AccrualRateUtils.RATES, null, NumericConstants.TWO);
         tabSheet.addTab(this.details, AccrualRateUtils.DETAILS, null, NumericConstants.THREE);
         tabSheet.setSelectedTab(NumericConstants.ONE);
@@ -324,7 +327,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
                                     Map<String, Object> params = new HashMap<>();
                                     params.put(Constant.APPROVE_FLAG, "approve");
-                                    VarianceCalculationLogic.submitWorkflow( session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+                                    VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Approved Information", Constant.WORKFLOW_ID + workflowIdUpdate + " approved successfully");
                                     // For Mail
@@ -378,14 +381,13 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                 if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
                                     Map<String, Object> params = new HashMap<>();
                                     params.put(Constant.APPROVE_FLAG, "reject-RWC");
-                                    VarianceCalculationLogic.submitWorkflow( session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+                                    VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     // For Mail
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Rejected Information ", Constant.WORKFLOW_ID + workflowIdUpdate + " rejected successfully");
                                     StringBuffer sb = new StringBuffer(Constant.BR_BR);
                                     sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID + workflowIdUpdate + " is Rejected Succesfully.");
                                     sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
-//                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Rejected Succesfully", sb);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -427,14 +429,13 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                 if (workflowIdUpdate != null && !workflowIdUpdate.trim().equals(CommonUtils.WORKFLOW_NOT_SAVED)) {
                                     Map<String, Object> params = new HashMap<>();
                                     params.put(Constant.APPROVE_FLAG, "withdraw-RWC");
-                                    VarianceCalculationLogic.submitWorkflow( session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+                                    VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Workflow withdrawn ", Constant.WORKFLOW_ID + workflowIdUpdate + " withdrawn successfully");
                                     // For Mail
                                     StringBuffer sb = new StringBuffer(Constant.BR_BR);
                                     sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID + workflowIdUpdate + " is Withdrawn Succesfully.");
                                     sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
-//                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Withdrawn Succesfully", sb);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -478,14 +479,13 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     Map<String, Object> params = new HashMap<>();
                                     params.put(Constant.APPROVE_FLAG, "cancel-RWC");
 
-                                    VarianceCalculationLogic.submitWorkflow( session.getProcessId(),session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
+                                    VarianceCalculationLogic.submitWorkflow(session.getProcessId(), session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
                                     callWorkflowInboxRefresh();
                                     AbstractNotificationUtils.getInfoNotification("Cancel Information", Constant.WORKFLOW_ID + workflowIdUpdate + " cancelled successfully");
                                     // For Mail
                                     StringBuffer sb = new StringBuffer(Constant.BR_BR);
                                     sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID + workflowIdUpdate + " is cancelled Succesfully.");
                                     sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
-//                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Cancelled Succesfully", sb);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -511,16 +511,9 @@ public class AccrualRateProjectionForm extends AbstractForm {
     private void configureFooterButtons() {
 
         btnNext.setVisible(true);
-
-
         btnPrev.setVisible(true);
-
         btnSubmit.setVisible(true);
-
-
         btnClose.setVisible(true);
-
- ;
         btnSave.setVisible(true);
 
         if (session != null && (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) && session.getWorkflowId() != 0) {
@@ -598,7 +591,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             } catch (InterruptedException ex) {
                 LOGGER.error(ex.getMessage());
             }
-            sales.saveTabSelection();
+            getSales().saveTabSelection();
             rates.saveTabSelection();
             details.saveTabSelection();
             dsLogic.updateSaveFlag(session.getProjectionId(), session.getUserId());
@@ -695,7 +688,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
         if (tabPosition == 1) {
 
-            this.sales.setDefaultFocus();
+            this.getSales().setDefaultFocus();
         }
 
         if (AccrualRateUtils.ADD_CASE.equals(session.getAction())) {
@@ -805,7 +798,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
             params.put("out_workflowDTO", dto);
             VarianceCalculationLogic.submitWorkflow( session.getProcessId(),session,GtnWsBpmCommonConstants.FORECAST_COMMERCIAL);
 //            String noOfUsers = BPMProcessBean.getProcessVariableLog(session.getProcessId(), "NoOfUsers");
-String noOfUsers ="";
+            String noOfUsers ="";
             if (!noOfUsers.isEmpty()) {
                 workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
             }
@@ -921,5 +914,13 @@ String noOfUsers ="";
             LOGGER.error(ex.getMessage());
         }
     }
+
+	public Sales getSales() {
+		return sales;
+	}
+
+	public void setSales(Sales sales) {
+		this.sales = sales;
+	}
 
 }

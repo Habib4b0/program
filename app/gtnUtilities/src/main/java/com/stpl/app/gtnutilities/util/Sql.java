@@ -6,6 +6,7 @@
 package com.stpl.app.gtnutilities.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -19,13 +20,17 @@ public class Sql {
 
     private List<SqlEntity> sqlEntity;
 
+    public Sql(){
+    	super();
+    }
+    
     public List<SqlEntity> getSqlEntity() {
-        return sqlEntity == null ? sqlEntity : new ArrayList<>(sqlEntity);
+        return sqlEntity == null ? sqlEntity : Collections.unmodifiableList(sqlEntity);
     }
 
     @XmlElement(name ="entity")
     public void setSqlEntity(List<SqlEntity> sqlEntity) {
-        this.sqlEntity = sqlEntity == null ? sqlEntity : new ArrayList<>(sqlEntity);
+        this.sqlEntity = sqlEntity == null ? sqlEntity : Collections.unmodifiableList(sqlEntity);
     }
 
 }

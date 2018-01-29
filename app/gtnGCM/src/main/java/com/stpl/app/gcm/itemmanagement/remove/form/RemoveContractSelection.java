@@ -50,7 +50,7 @@ public class RemoveContractSelection extends CustomComponent {
         componentDetails = new AbstractComponentInfo(ConstantsUtil.RS, selection);
         mainLayout.addComponent(contractSearch);
         mainLayout.addComponent(componentDetails);
-        contractSearch.contractSelectionTable.addValueChangeListener(new Property.ValueChangeListener() {
+        contractSearch.getContractSelectionTable().addValueChangeListener(new Property.ValueChangeListener() {
             /**
              * Method called when available results value is changed.
              */
@@ -84,6 +84,6 @@ public class RemoveContractSelection extends CustomComponent {
     public boolean loadSetDataCall() {
         selection.setCountQueryName("Item Load contract Count");
         selection.setDataQueryName("Load contract Item");
-        return contractSearch.contractSelectionTableLogic.loadSetData(selection, true, selectedItemList, contractSearch.getInput());
+        return contractSearch.getContractSelectionTableLogic().loadSetData(selection, true, selectedItemList, contractSearch.getInput());
     }
 }

@@ -308,4 +308,4 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
         }
     }
 
-}
+        }

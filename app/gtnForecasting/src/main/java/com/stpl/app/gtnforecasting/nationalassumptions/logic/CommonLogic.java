@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
 public class CommonLogic {
      public static final Logger LOGGER = LoggerFactory.getLogger(CommonLogic.class);
        
-      public static NADataSelectionDAO dataSelection = new NADataSelectionDAOImpl();
+     private static NADataSelectionDAO dataSelection = new NADataSelectionDAOImpl();
         public void saveProjectionSelection(Map map, int projectionID, String screenName) throws PortalException {
         List<NaProjectionSelection> list = new ArrayList<>();
         DynamicQuery query = NaProjectionSelectionLocalServiceUtil.dynamicQuery();
@@ -184,5 +184,11 @@ public class CommonLogic {
         return ht;
 
     }
+	public static NADataSelectionDAO getDataSelection() {
+		return dataSelection;
+	}
+	public static void setDataSelection(NADataSelectionDAO dataSelection) {
+		CommonLogic.dataSelection = dataSelection;
+	}
         
 }

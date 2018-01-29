@@ -82,7 +82,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import org.slf4j.Logger;
@@ -100,7 +99,7 @@ public class PromoteTPLogic {
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTPLogic.class);
-    public static PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
+    private static PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
     private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private final ContractDetailsDAO dao = new ContractDetailsDaoImpl();
     private final DiscountDAO discountDAO = new DiscountDaoImpl();

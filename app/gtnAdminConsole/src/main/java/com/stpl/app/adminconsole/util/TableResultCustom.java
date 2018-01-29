@@ -14,6 +14,10 @@ public class TableResultCustom {
     private Object[] objResult;
 
     private String[] objResultHeader;
+    
+    public TableResultCustom(){
+    	super();
+    }
 
     public Object[] getObjResult() {
         final Object[] copyValue = objResult;

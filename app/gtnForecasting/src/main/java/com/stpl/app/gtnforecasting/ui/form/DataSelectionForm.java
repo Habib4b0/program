@@ -170,9 +170,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 		this.privateViewName = privateViewName;
 	}
 
-	HelperListUtil helperListUtil = HelperListUtil.getInstance();
+	private HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
-	ResourceBundle tableName = ResourceBundle.getBundle("properties.Constants");
+	private ResourceBundle tableName = ResourceBundle.getBundle("properties.Constants");
 
 	// Used for CCP_HIERARCHY_INSERT query formation
 	private String topLevelName = StringUtils.EMPTY;
@@ -698,14 +698,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 			dataSelectionDTO.setCustomerHierarchy(customerHierarchy.getValue());
 			dataSelectionDTO.setCustomerGroup(customerGroup.getValue());
 			dataSelectionDTO.setProductGroup(productGroup.getValue());
-			if (customerHierarchyDto != null) {
+			if (customerHierarchyDto != null && customerRelationVersionComboBox.getValue()!= null) {
 				int custHierarchyVersionNo = Integer
 						.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
 				dataSelectionDTO.setCustomerHierVersionNo(custHierarchyVersionNo);
 			} else {
 				dataSelectionDTO.setCustomerHierVersionNo(0);
 			}
-			if (productHierarchyDto != null) {
+			if (productHierarchyDto != null && productRelationVersionComboBox.getValue() != null) {
 				int prodHierarchyVersionNo = Integer
 						.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
 				dataSelectionDTO.setProductHierVersionNo(prodHierarchyVersionNo);
@@ -5013,6 +5013,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 			productForecastLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
 		}
 		level.setContainerDataSource(productForecastLevelContainer);
+	}
+
+	public ResourceBundle getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(ResourceBundle tableName) {
+		this.tableName = tableName;
 	}
 
 }

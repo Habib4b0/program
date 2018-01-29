@@ -14,7 +14,6 @@ import com.stpl.app.gcm.common.dao.impl.CommonImpl;
 import com.stpl.app.gcm.copycontract.dto.ContractSelectionDTO;
 import com.stpl.app.gcm.discount.dto.ContractsDetailsDto;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
-import static com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic.ddlbMap;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dto.CompanyCrtIdentifierDTO;
@@ -24,6 +23,8 @@ import com.stpl.app.gcm.tp.dto.TradingPartnerDTO;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
+
+import static com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic.getDdlbmap;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import com.stpl.app.gcm.util.Converters;
 import com.stpl.app.gcm.util.ErrorCodeUtil;
@@ -104,7 +105,7 @@ public class CommmonLogic {
 
             if (!list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object obj[] = (Object[]) list.get(i);
+                    Object[] obj = (Object[]) list.get(i);
                     idDescription = new IdDescriptionDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1]));
                     resultList.add(idDescription);
                 }
@@ -716,7 +717,7 @@ public class CommmonLogic {
 
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
-                Object obj[] = (Object[]) list.get(i);
+                Object[] obj = (Object[]) list.get(i);
                 dto = new ContractResultDTO();
                 dto.setContractHolder(Converters.convertNullToEmpty(obj[0]));
                 dto.setContractNo(String.valueOf(obj[1]));
@@ -1648,7 +1649,7 @@ public class CommmonLogic {
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
 
-                Object obj[] = (Object[]) list.get(i);
+                Object[] obj = (Object[]) list.get(i);
                 dto = new ContractsDetailsDto();
                 if (levelIndicator == 1) {
 
@@ -1803,7 +1804,7 @@ public class CommmonLogic {
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 try {
-                    Object obj[] = (Object[]) list.get(i);
+                    Object[] obj = (Object[]) list.get(i);
                     dto = new ContractResultDTO();
 
                     dto.setProjectionId(String.valueOf(obj[0]));
@@ -1903,7 +1904,7 @@ public class CommmonLogic {
 
             if (!list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object obj[] = (Object[]) list.get(i);
+                    Object[] obj = (Object[]) list.get(i);
                     idDescription = new IdDescriptionDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1]));
                     resultList.add(idDescription);
                 }
@@ -2236,7 +2237,7 @@ public class CommmonLogic {
             SimpleDateFormat outputDateFormatter = new SimpleDateFormat(Constants.DATE_FORMAT);
             if (!list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object obj[] = (Object[]) list.get(i);
+                    Object[] obj = (Object[]) list.get(i);
                     dto = new ContractResultDTO();
                     if (field.equals("contractCustomer")) {
                         dto.setTempVarOne(String.valueOf(obj[0]));
@@ -2280,6 +2281,7 @@ public class CommmonLogic {
     }
 
     public static List getDDLBListForListLoading(String columnName, Boolean isFilter) {
+    	Map<String, List> ddlbMap = AbstractLogic.getDdlbmap();
         if (ddlbMap.get(columnName) == null) {
             List input = new ArrayList();
             input.add(columnName);

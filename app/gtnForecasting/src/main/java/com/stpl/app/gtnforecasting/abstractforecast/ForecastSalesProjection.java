@@ -56,6 +56,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.vaadin.event.FieldEvents;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.FieldEvents.FocusEvent;
@@ -91,6 +92,7 @@ import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.v7.ui.themes.Reindeer;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
@@ -159,7 +161,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     /**
      * The split position.
      */
-    public ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
     protected ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     protected ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
     protected CustomTableHeaderDTO excelHeader = new CustomTableHeaderDTO();
@@ -441,6 +443,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
     public static final String SELECT_ALL_LABEL = "Select All";
 
+
     /**
      * Level Filter Listener
      */
@@ -480,7 +483,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     @UiField("totalLivesLayout")
     protected HorizontalLayout totalLivesLayout;
     @UiField("viewLayout")
-    protected GridLayout viewLayout;
+    protected HorizontalLayout viewLayout;
     @UiField("level")
     protected OptionGroup levelOption;
     @UiField("channelView")
@@ -547,6 +550,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected List<String> generateProductToBeLoaded = new ArrayList<>();
     public static final String SALES_TAB = "Sales";
     protected List<String> generateCustomerToBeLoaded = new ArrayList<>();
+    protected static final String ADJUSTMENT_PERIODS_TEXT = " adjustment for the following periods ";
 
     /**
      * Instantiates a new Forecast Sales Projection.
@@ -628,6 +632,17 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         adjustPeriods.addItem(Constants.ButtonConstants.SELECT.getConstant());
         adjustPeriods.select(Constant.ALL);
         adjustPeriods.setStyleName(Constant.HORIZONTAL);
+        adjustPeriods.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+               boolean isChecked=Constant.ALL.equals(event.getProperty().getValue().toString());
+                for (Object component : rightTable.getDoubleHeaderVisibleColumns()) {
+                    if (!rightTable.getDoubleHeaderColumnCheckBoxDisable(component)) {
+                        rightTable.setDoubleHeaderColumnCheckBox(component, true, isChecked);
+                    }
+                }
+            }
+        });
         adjustment.setStyleName(Constant.TXT_RIGHT_ALIGN);
 
         graphIcon.setStyleName(Reindeer.BUTTON_LINK);
@@ -919,7 +934,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     }
 
                 } catch (IllegalArgumentException | NullPointerException ex) {
-                    LoggerFactory.getLogger(ForecastSalesProjection.class.getName()).error("", ex);
+                    LOGGER.error(ex.getMessage());
                 }
             }
         });
@@ -1572,7 +1587,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 }
                                 resultsTable.getLeftFreezeAsTable().setRefresh(true);
                             } catch (PortalException | SystemException ex) {
-                              LOGGER.error(ex.getMessage());
+                                LOGGER.error(ex.getMessage());
                             }
                         }
                     });
@@ -1584,15 +1599,18 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         textField.setData(getBeanFromId(itemId).getHierarchyNo());
                         textField.setImmediate(true);
                         textField.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
+                        
                         textField.addFocusListener(new FocusListener() {
+                        private static final long serialVersionUID = 1L;
                             @Override
                             public void focus(FocusEvent event) {
                                 oldGroupValue = String.valueOf(((TextField) event.getComponent()).getValue());
                             }
                         });
                         textField.addBlurListener(new BlurListener() {
+
                             @Override
-                            public void blur(BlurEvent event) {
+                        public void blur(BlurEvent event) {
                                 String newValue = ((TextField) event.getComponent()).getValue();
                                 if (!oldGroupValue.equals(newValue)) {
                                     try {
@@ -1605,7 +1623,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                         GroupFilter.initSalesMap(session);
                                         groupBean.addAll(session.getSalesgroupSet());
                                     } catch (PortalException | SystemException | Property.ReadOnlyException ex) {
-                                      LOGGER.error(ex.getMessage());
+                                        LOGGER.error(ex.getMessage());
                                     }
                                 }
                             }
@@ -1662,19 +1680,18 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     } else if (String.valueOf(propertyId).contains("ReturnAmount") && returnsFlag) {
                         textField.setConverter(salesFormat);
                     }
-
-                    textField.addFocusListener(new FocusListener() {
+                    textField.addFocusListener(new FieldEvents.FocusListener() {
                         @Override
-                        public void focus(FocusEvent event) {
+                        public void focus(FieldEvents.FocusEvent event) {
                             oldValue = String.valueOf(((TextField) event.getComponent()).getValue());
                             oldValue = oldValue.replace("$", StringUtils.EMPTY);
                             oldValue = oldValue.replace(",", StringUtils.EMPTY);
                             oldValue = oldValue.replace(Constant.PERCENT, StringUtils.EMPTY);
                         }
                     });
-                    textField.addBlurListener(new BlurListener() {
+                    textField.addBlurListener(new FieldEvents.BlurListener() {
                         @Override
-                        public void blur(BlurEvent event) {
+                        public void blur(FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(((TextField) event.getComponent()).getValue());
                             newValue = newValue.replace("$", StringUtils.EMPTY);
                             newValue = newValue.replace(",", StringUtils.EMPTY);
@@ -1766,7 +1783,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                 checkBoxMap.put(event.getPropertyId(), event.isChecked());
                 if (!returnsFlag) {
-                    String arr[] = rightTable.getColumnRadioButtonArray((String) event.getPropertyId());
+                String arr[] = rightTable.getColumnRadioButtonArray((String) event.getPropertyId());
                     if (arr != null) {
                         for (String a : arr) {
                             rightTable.setColumnRadioButtonDisable(a, !event.isChecked());
@@ -2336,7 +2353,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
 
             String confirmMessage = "Confirm Actual variable Adjustment";
-            String messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + " adjustment for the following periods "
+            String messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + ADJUSTMENT_PERIODS_TEXT
                     + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
 
             new AbstractNotificationUtils() {
@@ -2360,9 +2377,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         session.setActualAdjustment(true);
                         session.setActualAdjustmentPeriods(projectionPeriods);
 
-                    } catch (PortalException ex) {
-                        LOGGER.error(ex.getMessage());
-                    } catch (Exception ex) {
+                    } catch (PortalException | SQLException ex) {
                         LOGGER.error(ex.getMessage());
                     }
                 }
@@ -2386,7 +2401,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     final String adjMethodology = String.valueOf(allocMethodology.getValue());
                     final String historyPeriods;
                     final String projectionPeriods;
-
+                    
                     if (adjustPeriod.equals(Constant.ALL)) {
                         if (adjMethodology.equals(Constant.HISTORICAL_OF_BUSINESS)) {
                             historyPeriods = getSelectedHistoryPeriods();
@@ -2430,10 +2445,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         if (basis.getValue().equals(Constant.LabelConstants.AMOUNT)) {
                             if (variable.getValue().equals(Constant.UNIT)) {
                                 messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + getFormatValue(Constant.UNIT_FORMAT, adjValue, StringUtils.EMPTY)
-                                        + " adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
+                                        + ADJUSTMENT_PERIODS_TEXT + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
                             } else {
                                 messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + getFormatValue(Constant.TWO_DECIMAL, adjValue, Constant.CURRENCY)
-                                        + " adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
+                                        + ADJUSTMENT_PERIODS_TEXT + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
                             }
                         } else {
                             messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + adjValue
@@ -2471,9 +2486,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable, adjMethodology, historyPeriods, projectionPeriods);
                                 refreshTableData(getCheckedRecordsHierarchyNo());
                                 getTableLogic().setRefresh(true);
-                            } catch (PortalException ex) {
-                                LOGGER.error(ex.getMessage());
-                            } catch (Exception ex) {
+                            } catch (PortalException  | SQLException ex) {
                                 LOGGER.error(ex.getMessage());
                             }
                         }
@@ -3834,5 +3847,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             
             allocationBasis.addItems(outputList);
     }
+
+public ExtTreeContainer<SalesRowDto> getCustomContainer() {
+	return customContainer;
+}
+
+public void setCustomContainer(ExtTreeContainer<SalesRowDto> customContainer) {
+	this.customContainer = customContainer;
+}
     
 }

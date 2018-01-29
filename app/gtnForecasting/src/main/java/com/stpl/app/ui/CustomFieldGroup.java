@@ -3,6 +3,8 @@ package com.stpl.app.ui;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -11,7 +13,8 @@ import com.vaadin.v7.data.fieldgroup.FieldGroup;
  */
 public class CustomFieldGroup extends FieldGroup {
     private static final long serialVersionUID = -6293510593661094366L;
-    ErrorLabel errorDisplay;
+    private static Logger log = LoggerFactory.getLogger(CustomFieldGroup.class);
+    private ErrorLabel errorDisplay;
    
     /**
      * binds the item
@@ -31,7 +34,7 @@ public class CustomFieldGroup extends FieldGroup {
     
     /**
      * Checks whether the component return type and the variable binded type are same or not
-     * @throws com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException 
+     * @throws com.vaadin.data.fieldgroup.FieldGroup.CommitException 
      */
     @Override
     public void commit() throws CommitException {
@@ -46,6 +49,12 @@ public class CustomFieldGroup extends FieldGroup {
         }
     }
 
-	
-    
+	public static Logger getLog() {
+		return log;
+	}
+
+	public static void setLog(Logger log) {
+		CustomFieldGroup.log = log;
+	}
+
 }

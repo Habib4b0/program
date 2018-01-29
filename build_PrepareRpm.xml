@@ -16,8 +16,6 @@
 	</target>
 
 	<target name="createDir">
-		<delete dir="${Dist}" />
-		<mkdir dir="${Dist}" />
 		<mkdir dir="${DefaultWar}" />
 		<mkdir dir="${DB_Script}" />
 		<mkdir dir="${Application_Build}" />

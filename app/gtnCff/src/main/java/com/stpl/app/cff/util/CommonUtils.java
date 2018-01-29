@@ -1525,6 +1525,14 @@ public class CommonUtils {
         double doubleFinalValue = Double.parseDouble(value.toString()) / doubleValue;
         return FORMAT_TWO_DECIMAL.format(doubleFinalValue);
     }
+
+	public CFFQueryUtils getCffQueryUtils() {
+		return cffQueryUtils;
+	}
+
+	public void setCffQueryUtils(CFFQueryUtils cffQueryUtils) {
+		this.cffQueryUtils = cffQueryUtils;
+	}
     
     
 }

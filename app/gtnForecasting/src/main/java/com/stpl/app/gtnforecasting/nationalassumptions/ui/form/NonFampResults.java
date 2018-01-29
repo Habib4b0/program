@@ -456,8 +456,6 @@ public class NonFampResults extends Window {
     private void addResultTable() {
         tableVerticalLayout.addComponent(periodTableId);
         controlLayout = tableLogic.createControls();
-        controlLayout.setSizeUndefined();
-        controlLayout.addStyleName(Constant.RESPONSIVE_PAGED_TABLE);
         tableLogic.sinkItemPerPageWithPageLength(false);
         tableVerticalLayout.addComponent(controlLayout);
     }
@@ -564,7 +562,7 @@ public class NonFampResults extends Window {
             projectionDTO.setActualsOrProjections(actualOrProj.getValue().toString());
             projectionDTO.setVariables(String.valueOf(variables.getValue()));
             projectionDTO.setProjectionOrder(periodOrder.getValue().toString());
-            com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.sessionDto;
+            com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
             Date startDate = startAndTodate.getFromDate();
             Date endDate = startAndTodate.getToDate();
             if (startDate != null && endDate != null) {

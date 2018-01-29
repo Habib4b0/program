@@ -26,7 +26,7 @@ public final class ValidationUtils {
      * The special characters error msg.
      */
     public final static String SPCL_CHARS_ERROR_MSG = "allowed Special characters are @,*,#,.,$,&,_,-";
-    public static ResourceBundle resouceBundle = ResourceBundle.getBundle("properties.validation");
+    public static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("properties.validation");
     
      /**
      * The Constructor.
@@ -39,9 +39,9 @@ public final class ValidationUtils {
      */
     public static String getMC(final String key) {
         try {
-            return resouceBundle.getString(key);
+            return RESOURCE_BUNDLE.getString(key);
         } catch (MissingResourceException e) {
-             LOGGER.error("",e);
+             LOGGER.error(e.getMessage());
             return StringUtils.EMPTY;
         }
     }

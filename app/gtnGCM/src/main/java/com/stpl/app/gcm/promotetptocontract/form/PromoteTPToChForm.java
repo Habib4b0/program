@@ -64,7 +64,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
     /**
      * The data selection binder.
      */
-    public ErrorfulFieldGroup promoteTpBinder;
+    private ErrorfulFieldGroup promoteTpBinder;
     /**
      * The tab sheet.
      */
@@ -101,7 +101,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
      */
     public PromoteTPToChForm(ErrorfulFieldGroup promoteTpToChBinder, SessionDTO session, PromoteTpToChWindow editWindow, final ExtFilterTable resultTable) {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/PromoteTPToChForm.xml"), this));
-        this.promoteTpBinder = promoteTpToChBinder;
+        this.setPromoteTpBinder(promoteTpToChBinder);
         this.resultTable = resultTable;
         this.promoteWindow = editWindow;
         this.session = session;
@@ -387,4 +387,12 @@ public class PromoteTPToChForm extends CustomComponent implements View {
             LOGGER.error(ex.getMessage());
         }
     }
+
+	public ErrorfulFieldGroup getPromoteTpBinder() {
+		return promoteTpBinder;
+	}
+
+	public void setPromoteTpBinder(ErrorfulFieldGroup promoteTpBinder) {
+		this.promoteTpBinder = promoteTpBinder;
+	}
 }

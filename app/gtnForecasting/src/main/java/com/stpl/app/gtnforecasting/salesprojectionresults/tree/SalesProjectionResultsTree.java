@@ -463,7 +463,7 @@ public class SalesProjectionResultsTree {
                 isFirst = true;
             }
             if (projdto.getPivotView().contains(VARIABLE.getConstant())) {
-                isNeeded = isNeeded || !(projdto.getFrequency().equals(frequency)
+                isNeeded = isNeeded || !(projdto.getFrequency().equals(getFrequency())
                         && projdto.getHistory().equals(history)) || isFirst;
             }
             isNeeded = isNeeded || !(projdto.isIsFilter() == isFilter);
@@ -485,7 +485,7 @@ public class SalesProjectionResultsTree {
         }
 
         private void checkStaticBuildCreteria(ProjectionSelectionDTO projdto) {
-            if (!(projdto.getFrequency().equals(frequency)
+            if (!(projdto.getFrequency().equals(getFrequency())
                     && projdto.getHistory().equals(history)
                     && projdto.getActualsOrProjections().equals(actualProjection)) || projdto.getSessionDTO().isIsSPCalculationDoneAgain()) {
                 loadStaticData(projdto);
@@ -494,7 +494,7 @@ public class SalesProjectionResultsTree {
         }
 
         private void setConfigData(ProjectionSelectionDTO projdto) {
-            frequency = projdto.getFrequency();
+            setFrequency(projdto.getFrequency());
             history = projdto.getHistory();
             actualProjection = projdto.getActualsOrProjections();
         }
@@ -527,5 +527,12 @@ public class SalesProjectionResultsTree {
             SPRStaticData.PROJECTION_TOTAL.setStaticData(projectionTotal);
         }
 
+        public String getFrequency() {
+                return frequency;
+        }
+
+        public void setFrequency(String frequency) {
+                this.frequency = frequency;
+        }
     }
 }

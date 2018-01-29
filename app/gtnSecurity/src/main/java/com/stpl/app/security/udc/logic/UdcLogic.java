@@ -38,7 +38,7 @@ public class UdcLogic {
     private static final String BRAND_NAME = "brandName";
     private static final String DISPLAY_BRAND = "displayBrand";
     private static final String BRAND_ID = "brand_id";
-    UdcLogicDAO dao = new UdcLogicDAOImpl();
+    private UdcLogicDAO dao = new UdcLogicDAOImpl();
 
     public Container getListNames() {
 

@@ -433,7 +433,7 @@ public class PhsResults extends CustomComponent implements View {
                 collapse.setVisible(false);
             }
         } catch (PortalException | SystemException portal) {
-            LOGGER.error(StringUtils.EMPTY,portal);
+            LOGGER.error(portal.getMessage());
         }
     }
 
@@ -621,7 +621,7 @@ public class PhsResults extends CustomComponent implements View {
         projectionDTO.setVariables(String.valueOf(variables.getValue()));
         projectionDTO.setProjectionOrder(periodOrder.getValue().toString());
         projectionDTO.setPivotView(view.getValue().toString());
-        com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.sessionDto;
+        com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO startAndTodate = CommonUtils.getSessionDto();
         Date startDate = startAndTodate.getFromDate();
         Date endDate = startAndTodate.getToDate();
         Calendar edate = Calendar.getInstance();
@@ -1136,6 +1136,8 @@ public class PhsResults extends CustomComponent implements View {
     private void loadPriceActualMap(final Map<String, String> priceTypeMap) {
         loadPriceActualMap.put(Constant.WAC, Constant.WAC);
         loadPriceActualMap.put(Constant.AMP, Constant.AMP);
+        loadPriceActualMap.put(Constant.PHS, Constant.PHS);
+        loadPriceActualMap.put(Constant.PHS_DISCOUNT, Constant.PHS_DISCOUNT);
         loadPriceActualMap.put("Total URA", priceTypeMap.get(Constant.PHS_TOTAL_URA));
         loadPriceActualMap.put(Constant.AMP, priceTypeMap.get(Constant.PHS_AMP));
     }

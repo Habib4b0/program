@@ -65,6 +65,7 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,6 +82,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     protected NMSalesProjectionTableLogic nmSalesProjectionTableLogic;
     protected String ALL = "ALL";
     public static final String SID = "SID";
+    SessionDTO sessionDTO;
   
     public static final String SELECT_ALL_LABEL = "Select All";
     protected CustomMenuBar.SubMenuCloseListener productListener = new CustomMenuBar.SubMenuCloseListener() {
@@ -100,6 +102,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     };
     public NMSalesProjection(SessionDTO session, String screenName) {
         super(session, screenName);
+        this.sessionDTO=session;
         if (CommonUtil.isValueEligibleForLoading()) {
             loadSalesInclusion();
             loadDisplayFormatDdlb();
@@ -152,17 +155,17 @@ public class NMSalesProjection extends ForecastSalesProjection {
             levelFilterDdlbChangeOption(true);
             excelTable.setRefresh(Boolean.TRUE);
             excelTable.setDoubleHeaderVisible(false);
-            ForecastUI.EXCEL_CLOSE = true;
+            ForecastUI.setEXCEL_CLOSE(true);
             ExcelExport exp = null;
             int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
             if ((QUARTERLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())) || MONTHLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())))) {
                 for (int i = 0; i < projectionDTO.getHeaderMapForExcel().size(); i++) {
-                    excelTable.setVisibleColumns(((List<Object>) projectionDTO.getHeaderMapForExcel().get(i).get(0)).toArray());
+                    Object[] column = ((List<Object>) projectionDTO.getHeaderMapForExcel().get(i).get(0)).toArray();
                     Object[] header = ((List<Object>) projectionDTO.getHeaderMapForExcel().get(i).get(1)).toArray();
-                    excelTable.setColumnHeaders(Arrays.copyOf(header, header.length, String[].class));
+                    securityForListView(column, Arrays.copyOf(header, header.length, String[].class), excelTable);
                     excelTable.setRefresh(true);
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
-                    ForecastUI.EXCEL_CLOSE = true;
+                    ForecastUI.setEXCEL_CLOSE(true);
                     if (i == 0) {
                         exp = new ExcelExport(new ExtCustomTableHolder(excelTable), sheetName, Constant.SALES_PROJECTION, "Sales_Projection.xls", false);
                     } else {
@@ -363,7 +366,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         int i = 0;
         String hierarchyNo = StringUtils.EMPTY;
 
-        for (SalesRowDto dto : customContainer.getBeans()) {
+        for (SalesRowDto dto : getCustomContainer().getBeans()) {
             if ((Boolean) dto.getPropertyValue(Constant.CHECK) && (Constant.TRADINGPARTNER.equals(dto.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(dto.getHierarchyLevel()))) {
                 tpSelected = true;
                 i++;
@@ -474,17 +477,17 @@ public class NMSalesProjection extends ForecastSalesProjection {
         excelHeader.addSingleColumn(Constant.METHODOLOGY, "Methodology", String.class);
         rightHeader = HeaderUtils.getSalesProjectionRightTableColumns(projectionDTO, fullHeader, excelHeader);
         resultsTable.getLeftFreezeAsTable().setFilterBarVisible(true);
-        customContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
-        customContainer.setColumnProperties(leftHeader.getProperties());
-        customContainer.setColumnProperties(rightHeader.getProperties());
-        nmSalesProjectionTableLogic.setContainerDataSource(customContainer);
+        setCustomContainer(new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP));
+        getCustomContainer().setColumnProperties(leftHeader.getProperties());
+        getCustomContainer().setColumnProperties(rightHeader.getProperties());
+        nmSalesProjectionTableLogic.setContainerDataSource(getCustomContainer());
         leftTable = resultsTable.getLeftFreezeAsTable();
         rightTable = resultsTable.getRightFreezeAsTable();
         leftTable.setEditable(true);
         rightTable.setEditable(true);
 
-        leftTable.setVisibleColumns(leftHeader.getSingleColumns().toArray());
-        leftTable.setColumnHeaders(leftHeader.getSingleHeaders().toArray(new String[leftHeader.getSingleHeaders().size()]));
+        String[] columnLeftHeader = new String[leftHeader.getSingleHeaders().size()];
+        securityForListView(leftHeader.getSingleColumns().toArray(), leftHeader.getSingleHeaders().toArray(columnLeftHeader),leftTable);
         leftTable.setDoubleHeaderVisible(true);
         leftTable.setDoubleHeaderVisibleColumns(leftHeader.getDoubleColumns().toArray());
         leftTable.setDoubleHeaderColumnHeaders(leftHeader.getDoubleHeaders().toArray(new String[leftHeader.getDoubleHeaders().size()]));
@@ -745,7 +748,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     }
 
     public boolean getSubmitFlag() {
-        if (customContainer.getItemIds().size() > 0) {
+        if (getCustomContainer().getItemIds().size() > 0) {
             return true;
         } else {
             return false;
@@ -811,7 +814,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     private void loadCustomerLevel() {
         int hierarchyNo = isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
-        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo, session.getCustRelationshipBuilderSid());
+        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo+1, session.getCustRelationshipBuilderSid());
         Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, NAME);
         
         customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
@@ -894,4 +897,17 @@ public class NMSalesProjection extends ForecastSalesProjection {
         displayFormatDdlb.setScrollable(true);
     }
       
+    private void securityForListView(Object[] visibleColumnArray, String[] columnHeaderArray, ExtCustomTreeTable table) {
+        try {
+            final String userId = String.valueOf(sessionDTO.getUserId());
+            final Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "Forecasting", "Commercial", "Sales Projection");
+            List<List> headeInformationsList = CommonLogic.isPropertyVisibleAccess(visibleColumnArray, columnHeaderArray, functionHM);
+            List<String> headerArray = headeInformationsList.get(1);
+            table.setVisibleColumns(headeInformationsList.get(0).toArray());
+            table.setColumnHeaders(headerArray.toArray(new String[headerArray.size()]));
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+    }
+
 }

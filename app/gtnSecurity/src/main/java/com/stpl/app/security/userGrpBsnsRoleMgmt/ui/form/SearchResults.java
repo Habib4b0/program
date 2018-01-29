@@ -23,10 +23,10 @@ import com.vaadin.v7.ui.VerticalLayout;
 
 public class SearchResults extends CustomComponent {
 	private static final long serialVersionUID = 1L;
-	final Label space = new Label("&nbsp;", ContentMode.HTML);
-	BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
-	BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
-	Table table;
+	private final Label space = new Label("&nbsp;", ContentMode.HTML);
+	private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
+	private BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
+	private Table table;
 
 	public SearchResults(
 			BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans,
@@ -89,5 +89,13 @@ public class SearchResults extends CustomComponent {
 		table.setSelectable(true);
 		
 		return table;
+	}
+
+	public BusinessRoleModuleSearchLogic getBusinessRoleModuleLogic() {
+		return businessRoleModuleLogic;
+	}
+
+	public void setBusinessRoleModuleLogic(BusinessRoleModuleSearchLogic businessRoleModuleLogic) {
+		this.businessRoleModuleLogic = businessRoleModuleLogic;
 	}
 }

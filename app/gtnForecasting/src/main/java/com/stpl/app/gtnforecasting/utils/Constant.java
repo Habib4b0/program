@@ -1646,7 +1646,7 @@ public class Constant {
     public static final String RELVALUE = "@RELVALUE";
     public static final String SELECTED_HIERARCHY_CUSTOM = "selected-hierarchy-no-for-custom";
     public static final String RELJOIN = "@RELJOIN";
-    public static final String RELATIONSHIPJOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO ";
+    public static final String RELATIONSHIPJOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND VERSION_NO=";
     public static final String PARENTVALIDATE = "PARENT-VALIDATE";
     public static final String DED_JOIN = "?DEDJOIN";
     /**
@@ -1679,7 +1679,7 @@ public class Constant {
             return frequencyValue;
         }
     }
-    public static String COUNTER_VALUE = "counterValue";
+    public static final String COUNTER_VALUE = "counterValue";
     public static final String RESETCOUNT = "ResetCount";
     public static final String PORTLET_NAME = "PortelName";
     public static final String NUM_VALIDATION = "([0-9])*";

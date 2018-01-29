@@ -30,12 +30,12 @@ public class CommonUtils {
     /**
      * The log.
      */
-    public static PortletConfig portletConfig;
+	private static PortletConfig portletConfig;
     public final static String COMPANY_NAME = "companyName";
     public final static String QUOTES = "'";
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(Constants.DBDATE_FORMAT);
     public static final SimpleDateFormat commonDate = new SimpleDateFormat("MM-dd-yyy");
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat(com.stpl.app.gcm.util.ConstantsUtils.DATE_FORMAT);
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     public static final String MMDDYYYY = "MM/dd/yyyy";
     /**
      * The Constant CHAR_ASTERISK.
@@ -52,7 +52,7 @@ public class CommonUtils {
      * @param portletConfig
      */
     public static void setPortalConfig(final PortletConfig portletConfig) {
-        CommonUtils.portletConfig = portletConfig;
+        CommonUtils.setPortletConfig(portletConfig);
     }
 
     public static List<Integer> convertStringListToInteger(List<String> stringList) {
@@ -246,11 +246,19 @@ public class CommonUtils {
         ob.addUnloadListener(new BeforeUnload.UnloadListener() {
             @Override
             public void unload(BeforeUnload.UnloadEvent event) {
-               if (!Constants.TRUE.equals(VaadinSession.getCurrent().getAttribute(com.stpl.app.gcm.util.ConstantsUtils.EXCEL_CLOSE))) {
+               if (!Constants.TRUE.equals(VaadinSession.getCurrent().getAttribute(ConstantsUtils.EXCEL_CLOSE))) {
                     uI.close();
                 } 
             }
         });
 
+    }
+
+    public static PortletConfig getPortletConfig() {
+            return portletConfig;
+    }
+
+    public static void setPortletConfig(PortletConfig portletConfig) {
+            CommonUtils.portletConfig = portletConfig;
     }
 }
