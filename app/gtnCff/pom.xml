@@ -292,6 +292,11 @@
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+        	<groupId>org.slf4j</groupId>
+        	<artifactId>slf4j-api</artifactId>
+        	<version>1.7.14</version>
+        </dependency>
     </dependencies>
     
     <build>
@@ -299,235 +304,12 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <id>copy</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-                    <artifactItems>
-                        <artifactItem>
-                            <groupId>com.stpl.app.bpm</groupId>
-                            <artifactId>stpl-jbpm</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.jbpm</groupId>
-                            <artifactId>jbpm-persistence-jpa</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.jbpm</groupId>
-                            <artifactId>jbpm-human-task-core</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.jbpm</groupId>
-                            <artifactId>jbpm-human-task-audit</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.jbpm</groupId>
-                            <artifactId>jbpm-human-task-jpa</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.jbpm</groupId>
-                            <artifactId>jbpm-human-task-workitems</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.slf4j</groupId>
-                            <artifactId>slf4j-api</artifactId>
-                            <version>1.7.2</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.jbpm</groupId>
-                            <artifactId>jbpm-runtime-manager</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.kie</groupId>
-                            <artifactId>kie-internal</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.drools</groupId>
-                            <artifactId>drools-core</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.jbpm</groupId>
-                            <artifactId>jbpm-audit</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.jbpm</groupId>
-                            <artifactId>jbpm-flow</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.jbpm</groupId>
-                            <artifactId>jbpm-flow-builder</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.kie</groupId>
-                            <artifactId>kie-api</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.drools</groupId>
-                            <artifactId>drools-compiler</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.kie</groupId>
-                            <artifactId>kie-ci</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.jbpm</groupId>
-                            <artifactId>jbpm-bpmn2</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.drools</groupId>
-                            <artifactId>drools-core</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.drools</groupId>
-                            <artifactId>drools-persistence-jpa</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.jbpm</groupId>
-                            <artifactId>jbpm-workitems</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.jbpm</groupId>
-                            <artifactId>jbpm-shared-services</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.drools</groupId>
-                            <artifactId>drools-workbench-models-datamodel-api</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.drools</groupId>
-                            <artifactId>drools-workbench-models-commons</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.drools</groupId>
-                            <artifactId>drools-workbench-models-guided-dtable</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.drools</groupId>
-                            <artifactId>drools-templates</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>org.drools</groupId>
-                            <artifactId>drools-decisiontables</artifactId>
-                            <version>${bpm.version}</version>
-                            <type>jar</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                        <artifactItem>
-                            <groupId>com.stpl.app.bpm</groupId>
-                            <artifactId>guvnor-utils</artifactId>
-                            <version>${bpm.version}</version>
-                        </artifactItem>
-                    </artifactItems> 
-                    <outputDirectory>${basedir}/target/gtnCff/WEB-INF/lib</outputDirectory>
-                    <overWriteReleases>false</overWriteReleases>
-                    <overWriteSnapshots>true</overWriteSnapshots>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <compilerArguments>
-                        <endorseddirs>${endorsed.dir}</endorseddirs>
-                    </compilerArguments>
-                </configuration>
-            </plugin>
-            
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
                     <archive>
-                        <manifestEntries>
-                            <Dependencies>com.stpl.shared.library</Dependencies>
-                        </manifestEntries>
+                        <manifestFile>
+                            ${project.build.outputDirectory}/META-INF/MANIFEST.MF
+                        </manifestFile>
                     </archive>
                 </configuration>
             </plugin>
@@ -543,44 +325,35 @@
                     </execution>
                 </executions>
             </plugin>
-            
-            
-            
-<!--            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
+           
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.6</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${endorsed.dir}</outputDirectory>
-                            <silent>true</silent>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>javax</groupId>
-                                    <artifactId>javaee-endorsed-api</artifactId>
-                                    <version>7.0</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
         </plugins>
-        
+
+        <pluginManagement>
+            <plugins>  
+                <plugin>
+                    <artifactId>maven-eclipse-plugin</artifactId>
+                    <configuration>
+                        <wtpversion>2.0</wtpversion>
+                        <additionalProjectnatures>
+                            <projectnature>com.vaadin.integration.eclipse.widgetsetNature</projectnature>
+                        </additionalProjectnatures>
+                        <additionalBuildcommands>
+                            <buildcommand>com.vaadin.integration.eclipse.widgetsetBuilder</buildcommand>
+                            <buildcommand>com.vaadin.integration.eclipse.addonStylesBuilder</buildcommand>
+                        </additionalBuildcommands>
+                    </configuration>
+                </plugin>
+			
+            </plugins>          </pluginManagement>
     </build>
 
 	

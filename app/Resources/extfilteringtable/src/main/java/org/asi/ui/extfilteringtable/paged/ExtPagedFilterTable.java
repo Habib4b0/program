@@ -330,7 +330,7 @@ public class ExtPagedFilterTable<T extends Container.Indexed & Container.Filtera
         pageManagement.setComponentAlignment(last, Alignment.MIDDLE_LEFT);
         pageManagement.setWidth(null);
         pageManagement.setSpacing(true);
-//        controlBar.addComponent(pageSize);
+        controlBar.addComponent(pageSize);
         controlBar.addComponent(pageManagement);
 //        controlBar.setComponentAlignment(pageManagement,
 //                Alignment.MIDDLE_CENTER);

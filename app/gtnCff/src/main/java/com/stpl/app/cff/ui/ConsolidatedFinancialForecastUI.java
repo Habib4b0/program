@@ -93,7 +93,7 @@ public class ConsolidatedFinancialForecastUI extends UI {
 			navigator.setErrorView(new ConsolidatedFinancialForecastView());
 			LOGGER.debug("init method ends");
 		} catch (Exception ex) {
-			LOGGER.error(ex.getMessage());
+			LOGGER.error("",ex);
 		}
 
 		// Configure the error handler for the UI
