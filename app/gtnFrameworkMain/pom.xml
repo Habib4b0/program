@@ -210,7 +210,7 @@
 			<id>Release-Build-Parallel</id>
 			<modules>
 				<module>Modules</module>
-				<module>GtnVaadinWidgetSet</module>
+				<module>Resources\GtnVaadinWidgetset</module>
 			</modules>
 			<activation>
 				<property>
