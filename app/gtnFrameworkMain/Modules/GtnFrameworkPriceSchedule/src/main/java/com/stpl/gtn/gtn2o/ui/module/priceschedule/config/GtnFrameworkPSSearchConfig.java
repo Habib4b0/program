@@ -760,7 +760,7 @@ public class GtnFrameworkPSSearchConfig {
 				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_MASS_FIELD,
 				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_MASS_FIELD,
 				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_POPULATE_BUTTON,
-				"psPriceProtectionTabPopulateAllButton", };
+				"psPriceProtectionTabPopulateAllButton","massUpdatePanel","pricingMassUpdatePanel"};
 
 		List<Object> visibleParameters = new ArrayList<>();
 		visibleParameters.add(false);

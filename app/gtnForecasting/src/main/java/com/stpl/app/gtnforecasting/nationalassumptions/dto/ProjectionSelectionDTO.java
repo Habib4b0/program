@@ -553,11 +553,11 @@ public class ProjectionSelectionDTO {
     }
 
     public List<String> getPivotList() {
-        return pivotList == null ? nonFetchableIndex : new ArrayList<>(nonFetchableIndex);
+        return pivotList == null ? pivotList : new ArrayList<>(pivotList);
     }
 
     public void setPivotList(List<String> pivotList) {
-        this.pivotList = pivotList == null ? nonFetchableIndex : new ArrayList<>(nonFetchableIndex);
+        this.pivotList = pivotList == null ? pivotList : new ArrayList<>(pivotList);
     }
 
     public int getNdcLevelNo() {

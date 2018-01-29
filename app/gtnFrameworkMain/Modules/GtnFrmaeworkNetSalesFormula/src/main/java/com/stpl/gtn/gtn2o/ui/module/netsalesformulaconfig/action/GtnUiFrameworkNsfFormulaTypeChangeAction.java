@@ -30,8 +30,11 @@ import com.stpl.gtn.gtn2o.ws.netsales.constants.GtnWsNsfCommonConstants;
  */
 public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
+	private static final String FORMULA_TYPE = "formulaType";
 	private static final String SELECTED_DEDUCTIONS_RESULT_TABLE = "selectedDeductionsResultTable";
-
+   
+	
+   
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -43,43 +46,13 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParemeterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String viewId = (String) actionParemeterList.get(1);
-		if(!GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + GtnFrameworkCommonConstants.AVAILABLE_DEDUCTIONS_TABLE, componentId)
-				.getItemsFromTable().isEmpty() || !GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + SELECTED_DEDUCTIONS_RESULT_TABLE, componentId)
-				.getItemsFromTable().isEmpty())
-		{
-			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
-			alertActionConfig.setActionType(GtnUIFrameworkActionType.RESET_ACTION);
-			List<Object> alertParams = new ArrayList<>();
-			alertParams.add(" Confirmation ");
-			alertParams.add(" Changing the Formula Type will clear the Selected Deductions section. Do you want to proceed? ");
-			alertParams.add(Arrays.asList(viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCONTRACT_NO,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCONTRACT_NAME,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCONTRACT_HOLDER,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABMARKET_TYPE,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCFP_NO,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABIFP_NO,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_PS_NUMBER,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_NUMBER,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCFP_NAME,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABIFP_NAME,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_PS_NAME,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_NAME,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_TYPE,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_SUB_TYPE,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_CATEGORY,
-					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_ALIAS,viewId + GtnFrameworkCommonConstants.AVAILABLE_DEDUCTIONS_TABLE,viewId + SELECTED_DEDUCTIONS_RESULT_TABLE));
-			Object tableDefaultValue = null;
-			alertParams.add(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY,
-					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
-					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY, null,
-					null, null, GtnFrameworkCommonStringConstants.STRING_EMPTY,tableDefaultValue,tableDefaultValue));
-			alertActionConfig.setActionParameterList(alertParams);
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
-			}
-		String formulaType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "formulaType")
+		checkValueChange(componentId, viewId);
+		performActionForComboBox(viewId);
+
+	}
+
+	private void performActionForComboBox(String viewId) throws GtnFrameworkGeneralException {
+		String formulaType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + FORMULA_TYPE)
 				.getCaptionFromComboBox();
 		List<String> componentIds = new ArrayList<>();
 		componentIds.add(viewId + "deductionsTabcontractNo");
@@ -142,10 +115,8 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 			availableDeductionVisibleHeaders = GtnFrameworkNSFConstants.getAvailableDeductionsVisibleHeaders();
 			availableDeductionVisibleColumns = GtnFrameworkNSFConstants.getAvailableDeductionsVisibleColumns();
 			availableDeductionExtraColumns = new Object[] { GtnFrameworkNSFConstants.getDeductionType(),
-					GtnFrameworkNSFConstants.getDeductionSubType(), GtnFrameworkNSFConstants.getDeductionCategory(),
-					 };
-			availableDeductionExtraColumnsDataTypes = new Class<?>[] { Integer.class, Integer.class, Integer.class,
-					 };
+					GtnFrameworkNSFConstants.getDeductionSubType(), GtnFrameworkNSFConstants.getDeductionCategory(), };
+			availableDeductionExtraColumnsDataTypes = new Class<?>[] { Integer.class, Integer.class, Integer.class, };
 			availableDeductionQueryName = GtnWsNsfCommonConstants.GTN_NSF_AVAILABLE_DEDUCTIONS_SEARCH_QUERY_NAME;
 
 			selectedDeductionTableColumnDataTypes = new Class<?>[] { Boolean.class, String.class, String.class,
@@ -157,14 +128,105 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 			selectedDeductionQueryName = GtnWsNsfCommonConstants.GTN_NSF_SELECTED_DEDUCTIONS_SEARCH_QUERY_NAME;
 
 		}
-		replaceAvailableDeductionTableForContract(viewId, tableColumnDataTypes, availableDeductionVisibleHeaders,
-				availableDeductionVisibleColumns, availableDeductionExtraColumns,
-				availableDeductionExtraColumnsDataTypes, availableDeductionQueryName);
-		replaceSelectedDeductionTableForContract(viewId, selectedDeductionTableColumnDataTypes,
-				selectedDeductionVisibleHeaders, selectedDeductionVisibleColumns, selectedDeductionExtraColumns,
-				selectedDeductionExtraColumnsDataTypes, selectedDeductionQueryName);
+		if (GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(viewId + GtnFrameworkCommonConstants.AVAILABLE_DEDUCTIONS_TABLE)
+				.getItemsFromTable().isEmpty())
 
+		{
+			replaceAvailableDeductionTableForContract(viewId, tableColumnDataTypes, availableDeductionVisibleHeaders,
+					availableDeductionVisibleColumns, availableDeductionExtraColumns,
+					availableDeductionExtraColumnsDataTypes, availableDeductionQueryName);
+			replaceSelectedDeductionTableForContract(viewId, selectedDeductionTableColumnDataTypes,
+					selectedDeductionVisibleHeaders, selectedDeductionVisibleColumns, selectedDeductionExtraColumns,
+					selectedDeductionExtraColumnsDataTypes, selectedDeductionQueryName);
+		}
 	}
+
+	private void checkValueChange(String componentId, String viewId) throws GtnFrameworkGeneralException {
+		if (!GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(viewId + GtnFrameworkCommonConstants.AVAILABLE_DEDUCTIONS_TABLE, componentId)
+				.getItemsFromTable().isEmpty()
+				|| !GtnUIFrameworkGlobalUI
+						.getVaadinBaseComponent(viewId + SELECTED_DEDUCTIONS_RESULT_TABLE, componentId)
+						.getItemsFromTable().isEmpty()) {
+			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
+			alertActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+			List<Object> alertParams = new ArrayList<>();
+			alertParams.add(" Change Formula Type? ");
+			alertParams.add(
+					" Changing the Formula Type will clear the Selected Deductions section. Do you want to proceed? ");
+			List<GtnUIFrameWorkActionConfig> onSuccessConfigList = new ArrayList<>();
+			GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
+			resetActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMED_RESET_ACTION);
+			List<Object> resetParams = new ArrayList<>();
+			resetParams.add(Arrays.asList(viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCONTRACT_NO,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCONTRACT_NAME,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCONTRACT_HOLDER,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABMARKET_TYPE,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCFP_NO,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABIFP_NO,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_PS_NUMBER,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_NUMBER,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCFP_NAME,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABIFP_NAME,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_PS_NAME,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_NAME,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_TYPE,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_SUB_TYPE,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_CATEGORY,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_ALIAS,
+					viewId + GtnFrameworkCommonConstants.AVAILABLE_DEDUCTIONS_TABLE,
+					viewId + SELECTED_DEDUCTIONS_RESULT_TABLE));
+			Object tableDefaultValue = null;
+			resetParams.add(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					null, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null, null,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, tableDefaultValue, tableDefaultValue));
+			resetActionConfig.setActionParameterList(resetParams);
+			onSuccessConfigList.add(resetActionConfig);
+			alertParams.add(onSuccessConfigList);
+			alertActionConfig.setActionParameterList(alertParams);
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
+		} else {
+			GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
+			resetActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMED_RESET_ACTION);
+			List<Object> resetParams = new ArrayList<>();
+			resetParams.add(Arrays.asList(viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCONTRACT_NO,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCONTRACT_NAME,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCONTRACT_HOLDER,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABMARKET_TYPE,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCFP_NO,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABIFP_NO,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_PS_NUMBER,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_NUMBER,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABCFP_NAME,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TABIFP_NAME,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_PS_NAME,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_NAME,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_TYPE,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_SUB_TYPE,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_CATEGORY,
+					viewId + GtnFrameworkCommonConstants.DEDUCTIONS_TAB_DEDUCTION_ALIAS,
+					viewId + GtnFrameworkCommonConstants.AVAILABLE_DEDUCTIONS_TABLE,
+					viewId + SELECTED_DEDUCTIONS_RESULT_TABLE));
+			Object tableDefaultValue = null;
+			resetParams.add(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					null, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, null, null, null,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, tableDefaultValue, tableDefaultValue));
+			resetActionConfig.setActionParameterList(resetParams);
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetActionConfig);
+		}
+	}
+
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
@@ -207,7 +269,8 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 		selectedDeductionsTable.setExtraColumn(extraColumns);
 		selectedDeductionsTable.setExtraColumnDataType(extraColumnsDataTypes);
 		selectedDeductionsTable.setQueryName(queryName);
-		GtnUIFrameworkGlobalUI.addChildComponent(tableComponentId + "Layout", Arrays.asList(selectedDeductionTableConfig));
+		GtnUIFrameworkGlobalUI.addChildComponent(tableComponentId + "Layout",
+				Arrays.asList(selectedDeductionTableConfig));
 
 	}
 

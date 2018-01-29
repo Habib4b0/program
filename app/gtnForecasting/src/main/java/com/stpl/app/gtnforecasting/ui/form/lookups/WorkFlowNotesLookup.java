@@ -391,7 +391,7 @@ public class WorkFlowNotesLookup extends Window {
             AbstractNotificationUtils notification = new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
-                    LOGGER.debug("Inside overriden method: Do nothing");
+                    LOGGER.debug("Inside Overriden method: do nothing");
                 }
 
                 @Override

@@ -1183,28 +1183,15 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		selectedDeductionsTableRemoveButtonConfig.setComponentName("REMOVE");
 		componentList.add(selectedDeductionsTableRemoveButtonConfig);
 
-		List<GtnUIFrameWorkActionConfig> removeActionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig confirmationActionConfig = new GtnUIFrameWorkActionConfig();
-		confirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
-		List<Object> alertParamsList = new ArrayList<>();
-		alertParamsList.add("Remove Confirmation");
-		alertParamsList
-				.add("Are you sure you want to remove the selected value from the ‘Selected Deductions’ list view?");
-
-		List<GtnUIFrameWorkActionConfig> onSucessActionConfigList = new ArrayList<>();
-
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig removeActionConfig = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		Object populateActionClass = GtnUiFrameworkNsfRemoveAction.class.getName();
 		removeActionConfig.addActionParameter(populateActionClass);
 		removeActionConfig.addActionParameter(viewId);
 		removeActionConfig.addActionParameter(false);
-		onSucessActionConfigList.add(removeActionConfig);
-		alertParamsList.add(onSucessActionConfigList);
-		confirmationActionConfig.setActionParameterList(alertParamsList);
-		removeActionConfigList.add(confirmationActionConfig);
-		selectedDeductionsTableRemoveButtonConfig.setGtnUIFrameWorkActionConfigList(removeActionConfigList);
-
+		actionConfigList.add(removeActionConfig);
+		selectedDeductionsTableRemoveButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}
 
 	private void addExcelButton(List<GtnUIFrameworkComponentConfig> componentList, String parentId, String viewId) {

@@ -132,7 +132,7 @@ public class GtnFrameWorkCompanyMasterFinancialCloseConfig {
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		Calendar mCalendar = Calendar.getInstance();
 		String month = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
-		monthConfig.setDefaultValue("Current Month");
+		monthConfig.setDefaultValue(month);
 		monthConfig.setDefaultDesc(month);
 		financialCloseMonth.setGtnComboboxConfig(monthConfig);
 
@@ -423,6 +423,8 @@ public class GtnFrameWorkCompanyMasterFinancialCloseConfig {
 		GtnUIFrameworkComboBoxConfig yearConfig = new GtnUIFrameworkComboBoxConfig();
 		yearConfig.setLoadingUrl(
 				GtnWebServiceUrlConstants.GTN_CM_FINANCIAL_CLOSE + GtnWebServiceUrlConstants.GTN_CM_BUSINESS_YEAR);
+		Calendar mCalendar = Calendar.getInstance();
+		yearConfig.setDefaultValue(mCalendar.get(Calendar.YEAR));
 		financialCloseYear.setGtnComboboxConfig(yearConfig);
 		financialCloseYear.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		addFinancialCloseUserId(componentList);
