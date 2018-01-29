@@ -3,10 +3,15 @@ package com.stpl.gtn.gtn2o.ws.module.automaticrelationship.serviceimpl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +26,7 @@ import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
 import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipBuilder;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.concurrency.GtnFramworkDeductionCheckForAutoUpdateRunnable;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.service.GtnFrameworkSelectQueryGeneratorService;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.service.GtnFrameworkWhereQueryGeneratorService;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.serviceimpl.GtnFrameworkQueryGeneraterServiceImpl;
@@ -53,7 +59,9 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 
 	@Autowired
 	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
-	
+	@Autowired
+	private ApplicationContext applicationContext;
+
 	@Autowired
 	private GtnWsRelationshipBuilderHierarchyFileGeneratorService gtnWsRelationshipBuilderHierarchyFileGenerator;
 
@@ -69,10 +77,10 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 	private static final GtnWSLogger LOGGER = GtnWSLogger
 			.getGTNLogger(GtnFrameworkDeductionAutoUpdateServiceImpl.class);
 
-
 	public GtnFrameworkDeductionAutoUpdateServiceImpl() {
 		super();
 	}
+
 	@Override
 	public boolean checkAutomaticRelation(int relationshipBuilderSid) throws GtnFrameworkGeneralException {
 		return Boolean.TRUE;
@@ -80,8 +88,35 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 
 	@Override
 	public boolean checkForAutoUpdate(GtnWsRelationshipBuilderBean relationBean,
-			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList) {
-		return true;
+			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList) throws InterruptedException {
+		int firstLinkedLevelNo = HierarchyLevelDefinitionBean.getFirstLinkedLevel(hierarchyLevelDefinitionList);
+		final ExecutorService customerExecutorService = Executors
+				.newFixedThreadPool(hierarchyLevelDefinitionList.size() - firstLinkedLevelNo);
+		AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+		try (Session session = sessionFactory.openSession()) {
+			RelationshipBuilder productrelationshipBuilder = session.get(RelationshipBuilder.class,
+					relationBean.getDeductionRelation());
+			List<Integer> itemMastersidList = getItemMasterSidForProductRelation(productrelationshipBuilder);
+			for (int i = firstLinkedLevelNo; i < hierarchyLevelDefinitionList.size(); i++) {
+				if (hierarchyLevelDefinitionList.get(i).isUserDefined())
+					continue;
+				GtnFramworkDeductionCheckForAutoUpdateRunnable customerRunnableTarget = applicationContext
+						.getBean(GtnFramworkDeductionCheckForAutoUpdateRunnable.class);
+				customerRunnableTarget.setAtomicBoolean(atomicBoolean);
+				customerRunnableTarget.setHierarchyLevelDefinitionList(hierarchyLevelDefinitionList);
+				customerRunnableTarget.setIndex(i);
+				customerRunnableTarget.setRelationBean(relationBean);
+				customerRunnableTarget.setItemMastersidList(itemMastersidList);
+
+				customerExecutorService.submit(customerRunnableTarget);
+			}
+			customerExecutorService.shutdown();
+			customerExecutorService.awaitTermination(5, TimeUnit.MINUTES);
+
+		} catch (GtnFrameworkGeneralException e) {
+			LOGGER.error(e.getErrorMessage());
+		}
+		return atomicBoolean.get();
 	}
 
 	@Override
@@ -89,7 +124,7 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 			GtnWsRelationshipBuilderBean relationBean, String userId) {
 		try (Session session = sessionFactory.openSession()) {
 			GtnFrameworkFileReadWriteService fileService = new GtnFrameworkFileReadWriteService();
-			int updatedVersionNo = relationBean.getVersionNo();
+			int updatedVersionNo = relationBean.getVersionNo() + 1;
 
 			RelationshipBuilder productrelationshipBuilder = session.get(RelationshipBuilder.class,
 					relationBean.getDeductionRelation());
@@ -102,15 +137,14 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 						hierarchyLevelBean.getHierarchyDefinitionSid(),
 						hierarchyLevelBean.getHierarchyLevelDefinitionSid(), hierarchyLevelBean.getVersionNo());
 				GtnFrameworkQueryGeneratorBean querygeneratorBean = hierarchyQuery.getQuery();
-				
+
 				GtnFrameworkQueryGeneraterServiceImpl queryGenerator = new GtnFrameworkQueryGeneraterServiceImpl(
 						selectService, joinService, whereService);
 				queryGenerator.generateQuery(hierarchyLevelDefinitionList, relationBean, querygeneratorBean,
 						updatedVersionNo, userId, i);
 				List<String> firstInput = new ArrayList<>();
 				firstInput.add(getListToString(itemMastersidList));
-				String insertQuery = gtnWsSqlService.getReplacedQuery(firstInput,
-						querygeneratorBean.generateQuery());
+				String insertQuery = gtnWsSqlService.getReplacedQuery(firstInput, querygeneratorBean.generateQuery());
 				List<String> insertQueryInput = new ArrayList<>();
 				insertQueryInput.add(insertQuery);
 				String finalInsertQuery = gtnWsSqlService.getQuery(insertQueryInput,
@@ -178,9 +212,8 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 		inputlist.add(String.valueOf(hierarchyDefSid));
 		inputlist.add(String.valueOf(versionNo));
 		List<Object[]> result = (List<Object[]>) gtnSqlQueryEngine
-				.executeSelectQuery(gtnWsRelationshipBuilderHierarchyFileGenerator
-				.getQueryReplaced(inputlist,
-				"getRBHierarchyLevelDefinitionByProductRelationSid"));
+				.executeSelectQuery(gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(inputlist,
+						"getRBHierarchyLevelDefinitionByProductRelationSid"));
 		return gtnWsRelationshipBuilderHierarchyFileGenerator.gettHierarchyLevelDefinitionListMain(result);
 	}
 

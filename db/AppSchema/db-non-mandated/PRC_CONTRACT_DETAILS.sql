@@ -587,7 +587,7 @@ END
 										  
 										    ELSE 
                                               CASE
-                                                WHEN TIER_OPERATOR = ''%'' THEN ( COALESCE((NULLIF(DISCOUNT_RATE, 0)/100), RETURN_RATE)  )
+                                                WHEN TIER_OPERATOR = ''%'' THEN ( COALESCE((NULLIF(DISCOUNT_RATE, 0)/100), RETURN_RATE/100)  )
                                                 WHEN TIER_OPERATOR = ''$'' THEN COALESCE(NULLIF(REBATE_PER_UNIT, 0), NULLIF(CASE WHEN TP.ITEM_PRICING_QUALIFIER= OU.ITEM_PRICING_QUALIFIER_NAME AND (SALES_PROJECTED_VALUE >= TIER_FROM AND SALES_PROJECTED_VALUE <= ISNULL(TIER_TO,SALES_PROJECTED_VALUE) )  THEN CASE WHEN REBATE_BASED_ON = ''CONTRACT CMS UNITS'' THEN TP.ITEM_PRICE_UPPS ELSE TP.ITEM_PRICE END END, 0), 0)---------------CEL-345,CEL-346,CEL-368,CEL-1204
                                               END
                                            END
@@ -597,14 +597,14 @@ END
                                           CASE
                                             WHEN TIER_TO < SALES_PROJECTED_VALUE THEN
                                               CASE
-                                                WHEN TIER_OPERATOR = ''%'' THEN ( ( TIER_TO - TIER_FROM ) * ( COALESCE((NULLIF(DISCOUNT_RATE, 0)/100), RETURN_RATE) ))
+                                                WHEN TIER_OPERATOR = ''%'' THEN ( ( TIER_TO - TIER_FROM ) * ( COALESCE((NULLIF(DISCOUNT_RATE, 0)/100), RETURN_RATE/100) ))
                                                 WHEN TIER_OPERATOR = ''$'' THEN ( ( TIER_TO - TIER_FROM ) * ( COALESCE(NULLIF(REBATE_PER_UNIT, 0), NULLIF(CASE WHEN TP.ITEM_PRICING_QUALIFIER= OU.ITEM_PRICING_QUALIFIER_NAME AND (SALES_PROJECTED_VALUE >= TIER_FROM AND SALES_PROJECTED_VALUE <= ISNULL(TIER_TO,SALES_PROJECTED_VALUE) )  THEN CASE WHEN REBATE_BASED_ON = ''CONTRACT CMS UNITS'' THEN TP.ITEM_PRICE_UPPS ELSE TP.ITEM_PRICE END END, 0), 0) ) )---------------CEL-345,CEL-346,CEL-368,cel-1204
                                               END
                                             WHEN TIER_TO >= SALES_PROJECTED_VALUE THEN
                                               CASE
                                                 WHEN SALES_PROJECTED_VALUE BETWEEN TIER_FROM AND TIER_TO THEN
                                                   CASE
-                                                    WHEN TIER_OPERATOR = ''%'' THEN ( ( IIF(SALES_PROJECTED_VALUE < TIER_TO, SALES_PROJECTED_VALUE, TIER_TO) - TIER_FROM ) * ( COALESCE((NULLIF(DISCOUNT_RATE, 0)/100), RETURN_RATE)  ) )
+                                                    WHEN TIER_OPERATOR = ''%'' THEN ( ( IIF(SALES_PROJECTED_VALUE < TIER_TO, SALES_PROJECTED_VALUE, TIER_TO) - TIER_FROM ) * ( COALESCE((NULLIF(DISCOUNT_RATE, 0)/100), RETURN_RATE/100)  ) )
                                                     WHEN TIER_OPERATOR = ''$'' THEN ( ( IIF(SALES_PROJECTED_VALUE < TIER_TO, SALES_PROJECTED_VALUE, TIER_TO) - TIER_FROM ) * ( COALESCE(NULLIF(REBATE_PER_UNIT, 0), NULLIF(CASE WHEN TP.ITEM_PRICING_QUALIFIER= OU.ITEM_PRICING_QUALIFIER_NAME AND (SALES_PROJECTED_VALUE >= TIER_FROM AND SALES_PROJECTED_VALUE <= ISNULL(TIER_TO,SALES_PROJECTED_VALUE) )  THEN CASE WHEN REBATE_BASED_ON = ''CONTRACT CMS UNITS'' THEN TP.ITEM_PRICE_UPPS ELSE TP.ITEM_PRICE END END, 0), 0) ) )---------------CEL-345,CEL-346,CEL-368,cel-1204                               
 													END
                                               END
@@ -3946,8 +3946,8 @@ BEGIN
 		,@SESSION_ID
 
 	SET @D_SQL = ' UPDATE SNDP
-          SET    SNDP.PROJECTION_SALES = PPT.PROJECTION_SALES,
-                 SNDP.PROJECTION_RPU = PPT.PROJECTION_DISCOUNT_DOLLAR,
+          SET    SNDP.PROJECTION_SALES = PPT.PROJECTION_DISCOUNT_DOLLAR,
+                 SNDP.PROJECTION_RPU = PPT.PROJECTION_SALES,
                  SNDP.PROJECTION_RATE = PPT.PROJECTION_RATE
           FROM   ' + @PROJECTION_TABLE + ' SNDP
                  JOIN ' + @MASTER_TABLE + ' SNDPM

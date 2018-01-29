@@ -35,7 +35,6 @@ public class GtnFrameworkCfpStringContants {
 	public static final String GTN_CFP_CONFIRMATION_MSG_BACK = "Any unsaved information will not be saved. Do you want to proceed?";
 	public static final String GTN_CFP_CONFIRMATION_MSG_SAVE = "Save Record ";
 	public static final String GTN_CFP_CONFIRMATION_MSG_RESET_HEADER = "Reset Confirmation";
-	public static final String GTN_CFP_CONFIRMATION_MSG_RESET = "Are you sure you want to reset the values in the Search Criteria group box?";
 	public static final String GTN_CFP_PARENT_CONFIRMATION_MSG_RESET = "Are you sure you want to reset the page to default/previous values?";
 	public static final String GTN_CFP_CONFIRMATION_MSG_DELETE = "Are you sure you want to delete the record";
 	public static final String GTN_CFP_VALIDATION_MSG_POPULATE_001 = "Please Select the Field to populate";
@@ -111,6 +110,10 @@ public class GtnFrameworkCfpStringContants {
 	public static final List<Object> DISABLED_CFP_FIELDS = Collections
 			.unmodifiableList(Arrays.asList(new Object[] { "cfpInformationTabCreatedBy", "cfpInformationCreatedDate",
 					"cfpInformationTabModifiedBy", "cfpInformationModifiedDate" }));
+	public static final String CFP_CREATED_BY = "cfpcreatedBy";
+	public static final String CFP_MODIFIED_BY = "cfpmodifiedBy";
+
+	
 
 	private GtnFrameworkCfpStringContants() {
 	}

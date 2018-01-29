@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -52,12 +51,23 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 	}
 
 	private void massUpdatePanel(List<GtnUIFrameworkComponentConfig> componentList) {
-		GtnUIFrameworkComponentConfig massUpdatePanelLayout = configProvider.getCssLayoutConfig(
-				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_MASS_UPDATE_PANEL_LAYOUT, true,
+		GtnUIFrameworkComponentConfig massUpdatePanel = configProvider.getPanelConfig("massUpdatePanel", true,
 				GtnFrameworkCommonConstants.PRICE_PROTECTION_TAB);
-		massUpdatePanelLayout.setAuthorizationIncluded(true);
-		massUpdatePanelLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
-		componentList.add(massUpdatePanelLayout);
+		massUpdatePanel.setAuthorizationIncluded(true);
+		massUpdatePanel.setComponentName("Mass Update");
+		componentList.add(massUpdatePanel);
+		addFieldLayout(componentList);
+	}
+
+	private void addFieldLayout(List<GtnUIFrameworkComponentConfig> componentList) {
+		GtnUIFrameworkComponentConfig psFieldLayoutLayout = configProvider.getCssLayoutConfig(
+				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_MASS_UPDATE_PANEL_LAYOUT, true, "massUpdatePanel");
+		List<String> styleList = new ArrayList<>();
+		styleList.add(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
+		psFieldLayoutLayout.setComponentStyle(styleList);
+		psFieldLayoutLayout.setComponentWidth("75%");
+		psFieldLayoutLayout.setComponentHight("55%");
+		componentList.add(psFieldLayoutLayout);
 		psPriceProtectionTabInformationFields(componentList);
 	}
 
@@ -97,7 +107,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		addPsPriceProtectionMassTextField(componentList);
 		addPsPriceProtectionMassCustomTextField(componentList);
 		addPsPriceProtectionPopulateButtons(componentList);
-		
+
 	}
 
 	private void addPsPriceProtectionMassCheck(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -258,8 +268,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		componentList.add(massTextFieldConfig);
 
 	}
-	
-	
+
 	private void addPsPriceProtectionPopulateButtons(List<GtnUIFrameworkComponentConfig> componentList) {
 		massUpdatePopulateButton(componentList);
 		massUpdatePopulateAllButton(componentList);
@@ -270,6 +279,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 				"psPriceProtectionTabPopulateButtonlayout", true,
 				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_MASS_UPDATE_PANEL_LAYOUT);
 		massUpdatePopulateButtonLayout.addComponentStyle(GtnFrameworkCssConstants.BUTTON_CUSTOM_STYLE_1);
+		massUpdatePopulateButtonLayout.setComponentWidth("15%");
 		componentList.add(massUpdatePopulateButtonLayout);
 
 		GtnUIFrameworkComponentConfig massUpdatePopulateButton = configProvider.getUIFrameworkComponentConfig(
@@ -296,6 +306,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 				"psPriceProtectionTabPopulateAllButtonlayout", true,
 				GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_MASS_UPDATE_PANEL_LAYOUT);
 		massUpdatePopulateAllButton.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.STPL_MARGIN_TOP_25));
+		massUpdatePopulateAllButton.setComponentWidth("15%");
 		componentList.add(massUpdatePopulateAllButton);
 
 		GtnUIFrameworkComponentConfig populateAllButton = configProvider.getUIFrameworkComponentConfig(
@@ -315,7 +326,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 
 	private void companiesResultPanel(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig resultTablePanel = configProvider.getPanelConfig(
-				"psPriceProtectionTabResultPanel", true, GtnFrameworkCommonConstants.PRICE_PROTECTION_TAB);
+				GtnFrameworkPSConstants.PS_PRICEPROTECTION_RESULTPANEL, true, GtnFrameworkCommonConstants.PRICE_PROTECTION_TAB);
 		resultTablePanel.setComponentName("Results");
 		resultTablePanel.setAuthorizationIncluded(true);
 		componentList.add(resultTablePanel);
@@ -327,7 +338,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		GtnUIFrameworkComponentConfig mainTableLayout = configProvider
 				.getVerticalLayoutConfig("psPriceProtectionMainResultLayout", true, "psPriceProtectionTabResultPanel");
 		componentList.add(mainTableLayout);
-		companiesResultLayout(componentList, mainTableLayout.getComponentId());
+		companiesResultLayout(componentList);
 		getMainTableLayoutButton(componentList, mainTableLayout.getComponentId());
 
 	}
@@ -336,16 +347,17 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		GtnUIFrameworkComponentConfig mainTableLayout = configProvider
 				.getHorizontalLayoutConfig("psPriceProtectionMainButtonLayout", false, parentId);
 		componentList.add(mainTableLayout);
-                mainTableLayout.setVisible(false);
+		mainTableLayout.setVisible(false);
 		addAddLineButtonComponent(componentList);
 		addRemoveLineButtonComponent(componentList);
 		addCopyLineButtonComponent(componentList);
 		addExcelButtonComponent(componentList);
 	}
 
-	private void companiesResultLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
+	private void companiesResultLayout(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig tableLayout = configProvider
-				.getVerticalLayoutConfig("psPriceProtectionTabResultLayout", true, parentId);
+				.getVerticalLayoutConfig("psPriceProtectionTabResultLayout", true, GtnFrameworkPSConstants.PS_PRICEPROTECTION_RESULTPANEL);
+		tableLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
 		componentList.add(tableLayout);
 		psPriceProtectionTabResultDataTable(componentList);
 
@@ -361,12 +373,12 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		priceProtectionResultTableConfig.setComponentWidth("1200px");
 		priceProtectionResultTableConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(priceProtectionResultTableConfig);
-	
+
 		GtnUIFrameworkPagedTableConfig priceProtectionResultTable = configProvider.getPagedTableConfig(true, true,
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
 				"priceSchedulePriceProtection", "priceSchedulePriceProtection");
-		
+
 		priceProtectionResultTable.setEditable(true);
 		priceProtectionResultTable.setTableColumnDataType(new Class<?>[] { Boolean.class, String.class, String.class,
 				String.class, String.class, Integer.class, Date.class, Date.class, Integer.class, String.class,
@@ -377,16 +389,18 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		priceProtectionResultTable.setTableVisibleHeader(GtnFrameworkPSConstants.getPriceProtectionHeader());
 		priceProtectionResultTable
 				.setTableColumnMappingId(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray());
-		priceProtectionResultTable.setColumnToAlign(GtnFrameworkPSConstants.getPriceProtectionColumnAlignmentHeader());		
+		priceProtectionResultTable.setColumnToAlign(GtnFrameworkPSConstants.getPriceProtectionColumnAlignmentHeader());
 		priceProtectionResultTable.setColumnAlignment(GtnFrameworkPSConstants.getPriceProtectionColumnAlignment());
-		priceProtectionResultTableConfig.setGtnPagedTableConfig(priceProtectionResultTable);	
-		priceProtectionResultTable.setExtraColumn(new Object[] {"psToleranceTypeDes", "psBasePriceDate", "psBasePriceDdlb", "psBasePriceTypeDes", "systemId", "itemMasterSid"});
-		priceProtectionResultTable.setExtraColumnDataType(new Class<?>[] { String.class, Date.class, Integer.class , String.class,Integer.class, Integer.class});
+		priceProtectionResultTableConfig.setGtnPagedTableConfig(priceProtectionResultTable);
+		priceProtectionResultTable.setExtraColumn(new Object[] { "psToleranceTypeDes", "psBasePriceDate",
+				"psBasePriceDdlb", "psBasePriceTypeDes", "systemId", "itemMasterSid" });
+		priceProtectionResultTable.setExtraColumnDataType(
+				new Class<?>[] { String.class, Date.class, Integer.class, String.class, Integer.class, Integer.class });
 		priceProtectionResultTable.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		priceProtectionResultTable.setInvisibleFilterPropertyIds(
 				GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[0],
 				GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[12]);
-		
+
 		priceProtectionResultTable.setEditableColumnList(GtnFrameworkPSConstants.getPriceProtectionEditableList());
 		priceProtectionResultTable.setEditableField(
 				createTableFieldFactoryComponents(priceProtectionResultTable.getEditableColumnList()));
@@ -395,8 +409,8 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 
 		priceProtectionResultTable.setRecordTypeComponentId("psPriceProtectionTabRecordType");
 		priceProtectionResultTable.setRecordTypeStartDate("psPPStartDate");
-		priceProtectionResultTable.setRecordTypeEndDate("psPPEndDate");		
-			
+		priceProtectionResultTable.setRecordTypeEndDate("psPPEndDate");
+
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnUIFrameWorkTableRecordTypeAction.class.getName());
@@ -408,10 +422,9 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		tableCheckCustomAction.addActionParameter(GtnFrameworkPSPriceProtectionTabTableCheckAction.class.getName());
 		actionConfigList.add(tableCheckCustomAction);
 		priceProtectionResultTable.setColumnCheckActionConfigList(actionConfigList);
-		
+
 	}
 
-	
 	/**
 	 * 
 	 * @param componentList
@@ -465,8 +478,8 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 				selectAction.addActionParameter(GtnFrameworkPsFieldFactoryPopupSelectAction.class.getName());
 				priceProtectionTabConfig.addGtnUIFrameWorkActionConfig(popupActionConfig);
 				priceProtectionTabConfig.addGtnUIFrameWorkActionConfig(selectAction);
-			 }
-		if (GtnFrameworkCommonConstants.PS_BASE_PRICE_ENTRY.equals(propertyId)) {
+			}
+			if (GtnFrameworkCommonConstants.PS_BASE_PRICE_ENTRY.equals(propertyId)) {
 				GtnUIFrameWorkActionConfig pricingTableFieldFactoryFieldFactoryComponentCreateAction = new GtnUIFrameWorkActionConfig();
 				pricingTableFieldFactoryFieldFactoryComponentCreateAction
 						.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -483,7 +496,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 			}
 			getPriceProtectionPriceToleranceColumnRightAlignment(propertyId, priceProtectionTabConfig);
 			if (priceProtectionTabConfig.isEnable()) {
-				
+
 				GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 				customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 				customAction.addActionParameter(GtnFramworkPsPriceProtectionResultsFieldFactoryAction.class.getName());
@@ -501,7 +514,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 			GtnUIFrameworkComponentConfig priceProtectionTabConfig) {
 		if (GtnFrameworkCommonConstants.PS_DETAILS_PRICE_TOL.equals(propertyId)) {
 			priceProtectionTabConfig.setComponentStyle(GtnFrameworkPSConstants.getPriceProtectionTextRightJustified());
-			}
+		}
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {

@@ -39,6 +39,7 @@ import com.stpl.gtn.gtn2o.ws.itemmaster.bean.GtnWsItemMasterInfoBean;
 import com.stpl.gtn.gtn2o.ws.itemmaster.bean.GtnWsItemPricingQualifierBean;
 import com.stpl.gtn.gtn2o.ws.itemmaster.bean.GtnWsItemQualifierBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.itemmaster.GtnWsItemMasterRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -70,6 +71,9 @@ public class GtnWsItemMasterSaveService {
 
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
+
+	@Autowired
+	private GtnFrameworkAutomaticService automaticRelationService;
 
 	public org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -582,5 +586,14 @@ public class GtnWsItemMasterSaveService {
 		GtnFrameworkDataType[] saveDataHeader = { GtnFrameworkDataType.INTEGER };
 		String insertQuery = gtnWsSqlService.getQuery("item-CPDetailsInsert");
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(insertQuery, saveData, saveDataHeader);
+	}
+
+	public void checkAndUpdateAllrelationShip() {
+		try {
+			automaticRelationService.checkAndUpdateAllRelationShip("");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+
 	}
 }

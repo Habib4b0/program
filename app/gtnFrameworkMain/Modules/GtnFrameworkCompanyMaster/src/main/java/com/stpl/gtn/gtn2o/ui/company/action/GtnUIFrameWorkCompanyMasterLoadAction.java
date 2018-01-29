@@ -337,9 +337,8 @@ public class GtnUIFrameWorkCompanyMasterLoadAction implements GtnUIFrameWorkActi
 		List<NotesDTO> notesDTOList = new ArrayList<>();
 		List<Object> result = new ArrayList<>();
 		NotesDTO companyMasterAttachmentDTO;
-		loadNotesTabBeanList = getLoadNotesTabBeanList();
 		if (loadNotesTabBeanList != null && !loadNotesTabBeanList.isEmpty()) {
-			for (NotesTabBean companyMasterNotesTabBean : loadNotesTabBeanList) {
+			for (NotesTabBean companyMasterNotesTabBean : getLoadNotesTabBeanList()) {
 				companyMasterAttachmentDTO = new NotesDTO();
 				companyMasterAttachmentDTO.setDocDetailsId(companyMasterNotesTabBean.getMasterTableSystemId());
 				String filePath = companyMasterNotesTabBean.getFilePath();
@@ -360,15 +359,15 @@ public class GtnUIFrameWorkCompanyMasterLoadAction implements GtnUIFrameWorkActi
 				notesDTOList.add(companyMasterAttachmentDTO);
 
 			}
-			result.add(getCompanyInformation().getInternalNotes());
-			result.add(notesDTOList);
+		}
+		result.add(getCompanyInformation().getInternalNotes());
+		result.add(notesDTOList);
 
-			GtnUIFrameworkBaseComponent notesTab = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("notesTab");
-			try {
-				notesTab.setNotesTabValue(result);
-			} catch (GtnFrameworkValidationFailedException ex) {
-				Logger.getLogger(GtnUIFrameWorkCompanyMasterLoadAction.class.getName()).log(Level.SEVERE, null, ex);
-			}
+		GtnUIFrameworkBaseComponent notesTab = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("notesTab");
+		try {
+			notesTab.setNotesTabValue(result);
+		} catch (GtnFrameworkValidationFailedException ex) {
+			Logger.getLogger(GtnUIFrameWorkCompanyMasterLoadAction.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
 	}
