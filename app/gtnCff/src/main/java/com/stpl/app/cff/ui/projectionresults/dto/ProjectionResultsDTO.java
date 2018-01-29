@@ -10,7 +10,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.Comparator;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -18,7 +19,7 @@ import org.jboss.logging.Logger;
  */
 public class ProjectionResultsDTO extends ExtMapDTO implements Comparator<ProjectionResultsDTO>{
     
-    private static final Logger LOGGER = Logger.getLogger(ProjectionResultsDTO.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectionResultsDTO.class);
     
      /** The group. */
     private String group = StringUtils.EMPTY;
@@ -248,7 +249,7 @@ public class ProjectionResultsDTO extends ExtMapDTO implements Comparator<Projec
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             
         }
         

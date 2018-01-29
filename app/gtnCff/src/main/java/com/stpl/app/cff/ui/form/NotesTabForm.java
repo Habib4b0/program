@@ -39,7 +39,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -51,7 +52,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(NotesTabForm.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NotesTabForm.class);
 	private String masterTableSid;
 	private final CustomFieldGroup binder;
 	private final String moduleName;
@@ -166,7 +167,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				uploader.setValue("");
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 
 	}
@@ -204,7 +205,7 @@ public class NotesTabForm extends AbstractNotesTab {
 				uploader.setValue("");
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 
 	}
@@ -322,7 +323,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		try {
 			resultList = CommonServiceImpl.getInstance().fetchFieldsForSecurity(moduleName, tabName);
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return resultList;
 	}

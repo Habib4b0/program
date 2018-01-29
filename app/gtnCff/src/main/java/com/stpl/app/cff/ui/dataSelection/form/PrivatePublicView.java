@@ -28,7 +28,8 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -73,7 +74,7 @@ public class PrivatePublicView extends AbstractViewLookup {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PrivatePublicView.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrivatePublicView.class);
 
     /**
      * Constructor for PrivatePublicView.
@@ -204,7 +205,7 @@ public class PrivatePublicView extends AbstractViewLookup {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("End of btnSearchLogic method");
     }

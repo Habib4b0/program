@@ -69,7 +69,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -80,7 +81,7 @@ public class CFFLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(CFFLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CFFLogic.class);
     public CFFQueryUtils cffQueryUtils = new CFFQueryUtils();
     /**
      * The common utils.
@@ -102,7 +103,7 @@ public class CFFLogic {
             resultsList = cffQueryUtils.getLatestCCP(sessionDTO.getProjectionId());
             return commonUtils.getCustomisedCFF(resultsList);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return new ArrayList<>();
         }
     }
@@ -118,7 +119,7 @@ public class CFFLogic {
             resultsList = cffQueryUtils.getCffDeatils(cffSid);
             return commonUtils.getCustomisedCFFDeatils(resultsList);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return new ArrayList<>();
         }
     }
@@ -241,7 +242,7 @@ public class CFFLogic {
             DAO.updateCffMaster(cffMaster);
 
         } catch (SystemException | PortalException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("Exits update cff method");
         return result;
@@ -265,7 +266,7 @@ public class CFFLogic {
             CommonQueryUtils.updateAppData(input, "updatecffdetails");
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("Exits update cff method");
         return result;
@@ -303,7 +304,7 @@ public class CFFLogic {
             }
 
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return "Fail";
         }
 
@@ -329,7 +330,7 @@ public class CFFLogic {
             }
 
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return "Fail";
         }
 
@@ -352,7 +353,7 @@ public class CFFLogic {
             DAO.executeUpdateQuery(sql);
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return null;
         }
         return StringConstantsUtil.SUCCESS;
@@ -393,7 +394,7 @@ public class CFFLogic {
 
             DAO.addCffApprovalDetails(cffApprovalDetails);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return CommonUtils.FAIL;
         }
         return CommonUtils.SUCCESS;
@@ -426,7 +427,7 @@ public class CFFLogic {
             input.add(noOfLevel);
             CommonQueryUtils.updateAppData(input, "updatePendingdetails");
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return CommonUtils.FAIL;
         }
         return CommonUtils.SUCCESS;
@@ -489,7 +490,7 @@ public class CFFLogic {
             CommonQueryUtils.updateAppData(input, "updateapprovaldetails");
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             resultList.add(CommonUtils.FAIL);
             return resultList;
         }
@@ -528,7 +529,7 @@ public class CFFLogic {
 
             DAO.addCffApprovalDetails(cffApprovalDetails);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return CommonUtils.FAIL;
         }
         return CommonUtils.SUCCESS;
@@ -564,7 +565,7 @@ public class CFFLogic {
 
             DAO.addCffApprovalDetails(cffApprovalDetails);
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return CommonUtils.FAIL;
         }
         return CommonUtils.SUCCESS;
@@ -641,14 +642,14 @@ public class CFFLogic {
                 input.add(" ");
             }
         } catch (SQLException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         } finally {
             try {
                 if (connection != null) {
                     connection.close();
                 }
             } catch (SQLException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
 
         }
@@ -862,7 +863,7 @@ public class CFFLogic {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return null;
     }
@@ -1148,7 +1149,7 @@ public class CFFLogic {
                         GtnWsCommonWorkflowResponse taskSummary = DSCalculationLogic.startAndCompleteTask(sessionDTO,userId);
                         processInstanceId = Long.valueOf(String.valueOf(taskSummary.getProcessInstanceId()));
                     } catch (Exception e) {
-                        LOGGER.error(e);
+                        LOGGER.error(e.getMessage());
                     }
                     VarianceCalculationLogic.submitWorkflow(processInstanceId, sessionDTO,"CFF");
                     noOfLevel = DSCalculationLogic.getProcessVariableLog(processInstanceId, "NoOfUsers");

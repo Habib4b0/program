@@ -14,8 +14,9 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 import org.osgi.framework.FrameworkUtil;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +26,7 @@ public class SQlUtil {
 
     private final Map<String, String> QUERY_MAP = new HashMap<>();
     private static SQlUtil sqlUtil = null;
-    private static final Logger LOGGER = Logger.getLogger(SQlUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SQlUtil.class);
     
 
     private SQlUtil() {
@@ -33,7 +34,7 @@ public class SQlUtil {
             Enumeration<URL> urls = FrameworkUtil.getBundle(SQlUtil.class).getBundleContext().getBundle().findEntries("/sqlresources", "*", false);
             getResources(urls);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
     }

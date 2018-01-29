@@ -43,7 +43,8 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.drools.core.util.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -59,7 +60,7 @@ public class FileSelection extends CustomComponent {
     private final Button excelExport = new Button();
     private final CFFLogic cffLogic = new CFFLogic();
     private final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
-    private static final Logger LOGGER = Logger.getLogger(FileSelection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileSelection.class);
     private final ComboBox businessUnit;
     private final CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
 
@@ -137,13 +138,13 @@ public class FileSelection extends CustomComponent {
                         LOGGER.debug(" Ends  EXCEL Export Button Click");
 
                     } catch (Exception exception) {
-                        LOGGER.error(exception);
+                        LOGGER.error(exception.getMessage());
                     }
                 }
 
             });
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         LOGGER.debug("configureFields ends");
     }
@@ -237,7 +238,7 @@ public class FileSelection extends CustomComponent {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
     }
@@ -258,7 +259,7 @@ public class FileSelection extends CustomComponent {
         try {
             resultList = CommonServiceImpl.getInstance().fetchFieldsForSecurity(moduleName, tabName);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return resultList;
     }

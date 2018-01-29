@@ -71,6 +71,7 @@ import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -79,7 +80,7 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 public class DataSelection extends AbstractDataSelection {
 
 	private static final long serialVersionUID = 1905122041950251207L;
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelection.class);
+	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DataSelection.class);
 	/**
 	 * The data selection binder.
 	 */
@@ -145,7 +146,7 @@ public class DataSelection extends AbstractDataSelection {
 			company.setValue(Integer.valueOf(dataSelectionDTO.getCompanySid()));
 			getBusinessUnit().setValue(dataSelectionDTO.getBusinessUnitSystemId());
 		} catch (final Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -619,7 +620,7 @@ public class DataSelection extends AbstractDataSelection {
 					productListEndSids, sessionDTO);
 			UI.getCurrent().addWindow(saveViewPopup);
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -1095,7 +1096,7 @@ public class DataSelection extends AbstractDataSelection {
 						"No Level was selected to move. Please try again.");
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -1644,7 +1645,7 @@ public class DataSelection extends AbstractDataSelection {
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -2224,7 +2225,7 @@ public class DataSelection extends AbstractDataSelection {
 				DataSelectionLogic.selectedProductTableAlignmentChange(selectedProduct, selectedProductContainer);
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -2261,7 +2262,7 @@ public class DataSelection extends AbstractDataSelection {
 						"No Level was selected to move. Please try again. ");
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -2774,7 +2775,7 @@ public class DataSelection extends AbstractDataSelection {
 						"No Level was selected to move. Please try again.");
 			}
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -2804,7 +2805,7 @@ public class DataSelection extends AbstractDataSelection {
 					}
 
 				} catch (Exception exception) {
-					LOGGER.error(exception);
+					LOGGER.error(exception.getMessage());
 				}
 			}
 		}.getConfirmationMessage(Constants.MessageConstants.CONFIRM_DELETION_TITLE.getConstant(),
@@ -2976,7 +2977,7 @@ public class DataSelection extends AbstractDataSelection {
 			relationship.setNullSelectionAllowed(true);
 			relationship.setInputPrompt("-Select One-");
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -3757,7 +3758,7 @@ public class DataSelection extends AbstractDataSelection {
 			}
 			initializeProductHierarchy(projectionId, String.valueOf(session.getProductLevelNumber()));
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 
@@ -3948,7 +3949,7 @@ public class DataSelection extends AbstractDataSelection {
 			}
 
 		} catch (final PortalException | SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 

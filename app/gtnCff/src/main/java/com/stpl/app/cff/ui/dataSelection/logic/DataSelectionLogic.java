@@ -88,6 +88,7 @@ import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -99,7 +100,7 @@ public class DataSelectionLogic {
 	 * The data selection dao.
 	 */
 	private final DataSelectionDAO dataSelectionDaoImpl = new DataSelectionDAOImpl();
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelectionLogic.class);
+	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DataSelectionLogic.class);
 	private int discountDdlbCount = 0;
 	private final CommonDAO vSalesProjectionDao = new CommonDAOImpl();
 	private final DataSelectionDAO vDataSelectionDao = new DataSelectionDAOImpl();
@@ -788,7 +789,7 @@ public class DataSelectionLogic {
 				resultList.add(dto);
 			}
 		} catch (final Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return resultList;
 	}
@@ -817,7 +818,7 @@ public class DataSelectionLogic {
 			dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
 			dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
 		} catch (final Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 
 		}
 		return dto;
@@ -1188,7 +1189,7 @@ public class DataSelectionLogic {
 				}
 			}
 		} catch (final Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return resultList;
 	}
@@ -1315,7 +1316,7 @@ public class DataSelectionLogic {
 				}
 			}
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return resultList;
 	}
@@ -1525,7 +1526,7 @@ public class DataSelectionLogic {
 			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString());
 			return list;
 		} catch (final Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 			return Collections.emptyList();
 		}
 	}
@@ -1552,7 +1553,7 @@ public class DataSelectionLogic {
 			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str);
 			return list;
 		} catch (final Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
 		}
 	}
@@ -1580,7 +1581,7 @@ public class DataSelectionLogic {
 			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str);
 			return list;
 		} catch (final Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
 		}
 	}
@@ -1597,7 +1598,7 @@ public class DataSelectionLogic {
 			query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.LIST_NAME, "RS_TYPE"));
 			discountDdlbCount =(int) HelperTableLocalServiceUtil.dynamicQueryCount(query);
 		} catch (final Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return discountDdlbCount;
 	}
@@ -1693,7 +1694,7 @@ public class DataSelectionLogic {
 			return list;
 
 		} catch (final Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 			return Collections.emptyList();
 		}
 	}
@@ -1877,7 +1878,7 @@ public class DataSelectionLogic {
 			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str);
 			return list;
 		} catch (final Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return Collections.emptyList();
 		}
 	}

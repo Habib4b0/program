@@ -28,10 +28,7 @@ import static com.stpl.app.cff.util.Constants.FrequencyConstants.SEMI_ANNUALLY;
 import static com.stpl.app.cff.util.Constants.FrequencyConstants.YEAR;
 import static com.stpl.app.cff.util.Constants.FrequencyConstants.YEARS;
 import static com.stpl.app.cff.util.Constants.LabelConstants.PERIOD;
-import static com.stpl.app.cff.util.Constants.LabelConstants.TAB_PROJECTION_RESULTS;
 import com.stpl.app.cff.util.ConstantsUtil;
-import com.stpl.app.cff.util.NmSPRGraphWindow;
-import com.stpl.app.cff.util.PRChart;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.parttwo.model.CffCustomViewMaster;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
@@ -63,14 +60,15 @@ import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 public abstract class ForecastProjectionResults extends CustomComponent {
 
-    public static final Logger LOGGER = Logger.getLogger(ForecastProjectionResults.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ForecastProjectionResults.class);
 
     @UiField("tablePanel")
     protected Panel tablePanel;
@@ -678,7 +676,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
                 expandCollapseLevelOption(true, levelDdlb.getValue());
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -694,7 +692,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
                 expandCollapseLevelOption(false, levelDdlb.getValue());
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

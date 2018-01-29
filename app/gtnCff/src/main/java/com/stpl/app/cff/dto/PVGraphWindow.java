@@ -7,7 +7,8 @@ package com.stpl.app.cff.dto;
 import com.stpl.app.cff.util.StplWindow;
 import com.vaadin.ui.Component;
 import elemental.events.KeyboardEvent;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -15,7 +16,7 @@ import org.jboss.logging.Logger;
  */
 public class PVGraphWindow extends StplWindow {
 
-    private static final Logger LOGGER = Logger.getLogger(PVGraphWindow.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PVGraphWindow.class);
 
     public PVGraphWindow(final Component component, final String title) {
         super(title);

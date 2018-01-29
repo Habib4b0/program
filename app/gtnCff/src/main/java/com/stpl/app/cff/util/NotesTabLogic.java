@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -35,7 +36,7 @@ public class NotesTabLogic {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(NotesTabLogic.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NotesTabLogic.class);
 
 	@SuppressWarnings("unchecked")
 	public List<NotesDTO> getAttachmentDTOList(int masterTableSid, String moduleName, String filepath) {
@@ -70,7 +71,7 @@ public class NotesTabLogic {
 				}
 			}
 		} catch (SystemException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return attachmentDTOList;
 	}

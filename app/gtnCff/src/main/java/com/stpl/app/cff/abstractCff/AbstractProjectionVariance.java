@@ -53,7 +53,8 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -283,7 +284,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     /**
      * Logger for ForecastProjectionVariance
      */
-    public static final Logger LOGGER = Logger.getLogger(AbstractProjectionVariance.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(AbstractProjectionVariance.class);
     /**
      * Table logic class instance
      */
@@ -505,7 +506,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
         try {
             expandCollapseLevelOption(true, levelDdlb.getValue());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -515,7 +516,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
         try {
             expandCollapseLevelOption(false, levelDdlb.getValue());
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -591,7 +592,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
             }
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 

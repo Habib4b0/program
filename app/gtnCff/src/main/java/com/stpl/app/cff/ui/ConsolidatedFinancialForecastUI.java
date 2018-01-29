@@ -23,9 +23,9 @@ import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
+import org.slf4j.Logger;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.alump.beforeunload.BeforeUnload;
 

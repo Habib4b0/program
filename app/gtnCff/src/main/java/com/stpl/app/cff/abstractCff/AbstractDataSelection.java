@@ -40,14 +40,14 @@ import com.vaadin.v7.ui.TreeTable;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.addons.lazycontainer.LazyBeanItemContainer;
 import org.asi.ui.container.ExtTreeContainer;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -61,7 +61,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(ForecastDataSelection.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ForecastDataSelection.class);
 	/**
 	 * The private view.
 	 */
@@ -496,7 +496,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 			addValidations();
 
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		LOGGER.debug("configureFields ENDS---");
 	}
@@ -1158,7 +1158,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 					LOGGER.debug("product inner Level - ValueChangeListener selectedLevel " + selectedLevel);
 					productLevelDdlbValueChange(selectedLevel, false);
 				} catch (Exception e) {
-					LOGGER.error(e);
+					LOGGER.error(e.getMessage());
 				}
 			}
 		});

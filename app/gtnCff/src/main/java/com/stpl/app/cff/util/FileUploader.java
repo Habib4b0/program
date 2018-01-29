@@ -16,7 +16,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import static org.apache.commons.io.output.NullOutputStream.NULL_OUTPUT_STREAM;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -47,7 +48,7 @@ public class FileUploader implements Upload.Receiver {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(FileUploader.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileUploader.class);
 	public static final String FILE_PATH = getFilePath();
 	private boolean upload = true;
 	private boolean isFileExists;
@@ -95,11 +96,11 @@ public class FileUploader implements Upload.Receiver {
 			LOGGER.info("File is deleted successfully : "+ isFileExists);
 			LOGGER.info("File is created successfully : "+ isFileCreated);
 		} catch (final java.io.FileNotFoundException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 			return NULL_OUTPUT_STREAM;
 
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 			new Notification("Could not create ", ex.getMessage(), Notification.Type.ERROR_MESSAGE)
 					.show(Page.getCurrent());
 			return NULL_OUTPUT_STREAM;
@@ -124,7 +125,7 @@ public class FileUploader implements Upload.Receiver {
 				outputStream.close();
 			}
 		} catch (IOException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		LOGGER.debug("End of finalize method");
 		super.finalize();

@@ -19,13 +19,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kie.api.runtime.process.WorkItem;
 import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
+import org.slf4j.LoggerFactory;
 
 public class MailWorkItemHandler implements WorkItemHandler {
 
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger
+	private static final org.slf4j.Logger LOGGER = LoggerFactory
 			.getLogger(MailWorkItemHandler.class);
 
         @Override
@@ -54,7 +55,7 @@ public class MailWorkItemHandler implements WorkItemHandler {
 			is = new FileInputStream(f);
 		} catch (Exception e) {
 			is = null;
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 
 		try {
@@ -66,7 +67,7 @@ public class MailWorkItemHandler implements WorkItemHandler {
 			// Try loading properties from the file (if found)
 			props.load(is);
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 
 		final String fromAddress = props.getProperty("fromAddress", "support@bpitechnologies.com");
@@ -120,7 +121,7 @@ public class MailWorkItemHandler implements WorkItemHandler {
 			Transport.send(message);
 
 		} catch (MessagingException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 	}
 

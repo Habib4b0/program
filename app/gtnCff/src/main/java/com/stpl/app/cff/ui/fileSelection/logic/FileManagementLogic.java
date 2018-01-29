@@ -68,7 +68,8 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -81,7 +82,7 @@ public class FileManagementLogic {
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final Logger LOGGER = Logger.getLogger(FileManagementLogic.class);// Logger
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileManagementLogic.class);// Logger
 	// Declaration
 	/**
 	 * The Constant NULLCREATION.
@@ -644,7 +645,7 @@ public class FileManagementLogic {
 
 						AdjustedDemandForecastLocalServiceUtil.addAdjustedDemandForecast(adjustedforecast);
 					} catch (Exception e) {
-						LOGGER.error(e);
+						LOGGER.error(e.getMessage());
 					}
 				} else if (fileType.equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)) {
                                         int create = Long.valueOf(CounterLocalServiceUtil.increment()).intValue();
@@ -1398,7 +1399,7 @@ public class FileManagementLogic {
 			}
 
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		}
 		return object;
 	}
@@ -2096,7 +2097,7 @@ public class FileManagementLogic {
 
 			return sql;
 		} catch (Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 
 			return null;
 		}
@@ -2583,7 +2584,7 @@ public class FileManagementLogic {
 			date = inputDateFormatter.parse(stringDate);
 			return outputDateFormatter.format(date);
 		} catch (ParseException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 		return null;
 	}

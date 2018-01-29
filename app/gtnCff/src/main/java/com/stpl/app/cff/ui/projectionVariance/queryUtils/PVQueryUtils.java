@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +27,7 @@ public class PVQueryUtils {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(PVQueryUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PVQueryUtils.class);
     public static final String CCP_CCP = " @CCP CCP ";
     public static final String GROUP_BY = " group by ";
     public static final String IQUARTER = ", I.QUARTER";

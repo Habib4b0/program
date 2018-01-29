@@ -24,7 +24,7 @@ public class PVQueryUtils {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(PVQueryUtils.class);
+    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(PVQueryUtils.class);
     public static final String VALUE_LABEL = "Value";
     
     public String getUserSessionQueryCondition(int userId, int sessionId, String table) {

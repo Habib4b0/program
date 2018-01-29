@@ -19,7 +19,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,7 +31,7 @@ public class CFFQueryUtils {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(CFFQueryUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CFFQueryUtils.class);
     private static final CFFDAO DAO = CFFDAOImpl.getInstance();
 
     /**
@@ -46,7 +47,7 @@ public class CFFQueryUtils {
             List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
             return list;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
     }
@@ -63,10 +64,10 @@ public class CFFQueryUtils {
         try {
             return (List) DAO.executeSelectQuery(sql);
         } catch (PortalException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
     }
@@ -86,7 +87,7 @@ public class CFFQueryUtils {
             }
             return approvedDetailsSids;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.EMPTY_LIST;
         }
     }
@@ -114,10 +115,10 @@ public class CFFQueryUtils {
             sql += " ORDER BY CM.CREATED_DATE DESC";
             return (List) DAO.executeSelectQuery(sql);
         } catch (PortalException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return Collections.emptyList();
         }
     }
