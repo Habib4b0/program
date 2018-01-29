@@ -8,6 +8,7 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import com.stpl.ifs.ui.NotesDTO;
+import com.stpl.ifs.ui.forecastds.form.ForecastDataSelection;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
@@ -148,7 +149,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         this.projectionId = projectionId;
         AbsAdditionalInformation.moduleName = moduleName;
         this.mode = mode;
-        setCompositionRoot(Clara.create(getClass().getResourceAsStream("/ui/notestabform.xml"), this));
+        setCompositionRoot(Clara.create(ForecastDataSelection.class.getResourceAsStream("/ui/notestabform.xml"), this));
         intailizingObject();
         init();
 

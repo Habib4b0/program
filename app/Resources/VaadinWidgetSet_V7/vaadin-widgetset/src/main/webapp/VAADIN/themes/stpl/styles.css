@@ -14791,6 +14791,7 @@ div.v-layout.v-horizontal.v-widget {
 .stpl .v-window-closebox, .stpl .stpl .v-window-maximizebox, .stpl .stpl .v-window-restorebox {
 	color: #FFFFFF;
 	background: #428bca;
+	background-color: transparent;
 }
 
 .stpl .v-popupbutton .v-popup-indicator {
@@ -14799,8 +14800,19 @@ div.v-layout.v-horizontal.v-widget {
 
 .stpl .v-textfield.searchText {
 	background-image: url(img/imgsearchh-icon.png);
+	background-position: right;
+	background-repeat: no-repeat;
+	cursor: pointer;
 }
 
 .stpl label {
 	font-weight: normal;
+}
+
+.stpl .v-textfield {
+	border-radius: 0px;
+}
+
+.stpl .v-scrollable.v-table-body-wrapper.v-table-body {
+	overflow: unset;
 }
