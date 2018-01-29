@@ -402,17 +402,17 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:jtds:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APP_TST" />
-		<property name="username" value="bpigtn_agn_tst" />
-		<property name="password" value="vedM\4C~WKZ5s6U*" />
+			value="jdbc:jtds:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APP_UNIT" />
+		<property name="username" value="bpigtn_agn_unit" />
+		<property name="password" value="*U6s5ZKW~C4\Mdev" />
 	</bean>
 	<bean id="sysDataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:jtds:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_SYS_TST" />
-		<property name="username" value="bpigtn_agn_tst" />
-		<property name="password" value="vedM\4C~WKZ5s6U*" />
+			value="jdbc:jtds:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APP_UNIT" />
+		<property name="username" value="bpigtn_agn_unit" />
+		<property name="password" value="*U6s5ZKW~C4\Mdev" />
 	</bean>
 
 

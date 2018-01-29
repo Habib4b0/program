@@ -31,21 +31,22 @@ public class GtnWsRelationshipBuilderServiceTest {
 			System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
 			List<String> hiddenIdList = new ArrayList<>();
 			hiddenIdList.add("");
-			hiddenIdList.add("41");
-			hiddenIdList.add("611");
-			hiddenIdList.add("606");
-			hiddenIdList.add("601");
-			hiddenIdList.add("218");
-			hiddenIdList.add("599");
+			hiddenIdList.add("204");
+			hiddenIdList.add("1091");
+			hiddenIdList.add("199");
+			hiddenIdList.add("222");
+			hiddenIdList.add("192");
+			// hiddenIdList.add("113");
 
 			GtnWsRecordBean dto = new GtnWsRecordBean();
 			Object value = GtnWsRelationshipBuilderConstants.VALUE_PROPERTY_ID;
 			dto.setRecordHeader(Arrays.asList(value));
-			List<Object> properties = Arrays.<Object>asList("", "6", "", "", "", "", "", hiddenIdList, "", "",
+			List<Object> properties = Arrays.<Object>asList("", "5", "", "", "", "", "", hiddenIdList, "", "",
 					false);
 			dto.setProperties(properties);
-			service.loadAutoBuildData(90, 1, dto, hiddenIdList.subList(1, hiddenIdList.size()));
+			service.loadAutoBuildData(33, 1, dto, hiddenIdList.subList(1, hiddenIdList.size()));
 		} catch (Exception e) {
+			
 			gtnLogger.error("Exception in loadFilteredResultLayout", e);
 		}
 
