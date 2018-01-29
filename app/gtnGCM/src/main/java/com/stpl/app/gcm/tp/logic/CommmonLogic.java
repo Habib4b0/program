@@ -107,7 +107,7 @@ public class CommmonLogic {
 
             if (!list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object obj[] = (Object[]) list.get(i);
+                    Object[] obj = (Object[]) list.get(i);
                     idDescription = new IdDescriptionDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1]));
                     resultList.add(idDescription);
                 }
@@ -719,7 +719,7 @@ public class CommmonLogic {
 
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
-                Object obj[] = (Object[]) list.get(i);
+                Object[] obj = (Object[]) list.get(i);
                 dto = new ContractResultDTO();
                 dto.setContractHolder(Converters.convertNullToEmpty(obj[0]));
                 dto.setContractNo(String.valueOf(obj[1]));
@@ -1651,7 +1651,7 @@ public class CommmonLogic {
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
 
-                Object obj[] = (Object[]) list.get(i);
+                Object[] obj = (Object[]) list.get(i);
                 dto = new ContractsDetailsDto();
                 if (levelIndicator == 1) {
 
@@ -1806,7 +1806,7 @@ public class CommmonLogic {
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 try {
-                    Object obj[] = (Object[]) list.get(i);
+                    Object[] obj = (Object[]) list.get(i);
                     dto = new ContractResultDTO();
 
                     dto.setProjectionId(String.valueOf(obj[0]));
@@ -1906,7 +1906,7 @@ public class CommmonLogic {
 
             if (!list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object obj[] = (Object[]) list.get(i);
+                    Object[] obj = (Object[]) list.get(i);
                     idDescription = new IdDescriptionDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1]));
                     resultList.add(idDescription);
                 }
@@ -2239,7 +2239,7 @@ public class CommmonLogic {
             SimpleDateFormat outputDateFormatter = new SimpleDateFormat(Constants.DATE_FORMAT);
             if (!list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
-                    Object obj[] = (Object[]) list.get(i);
+                    Object[] obj = (Object[]) list.get(i);
                     dto = new ContractResultDTO();
                     if (field.equals("contractCustomer")) {
                         dto.setTempVarOne(String.valueOf(obj[0]));
