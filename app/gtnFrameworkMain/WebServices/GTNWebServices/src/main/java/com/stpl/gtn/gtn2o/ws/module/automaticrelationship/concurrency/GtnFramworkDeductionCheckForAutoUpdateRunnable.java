@@ -68,7 +68,7 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 	}
 
 	public List<Integer> getItemMastersidList() {
-		return itemMastersidList;
+		return Collections.unmodifiableList(itemMastersidList);
 	}
 
 	public void setGtnFrameworkEntityMasterBean(GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean) {
@@ -86,7 +86,7 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 
 
 	public void setItemMastersidList(List<Integer> itemMastersidList) {
-		this.itemMastersidList = itemMastersidList;
+		this.itemMastersidList = Collections.unmodifiableList(itemMastersidList);
 	}
 
 	public GtnFrameworkHierarchyService getGtnHierarchyServiceBuilder() {
@@ -155,10 +155,10 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 
 			if (!atomicBoolean.get() && finalInputForQuery != null)
 				finalQeury = gtnWsSqlService.getQuery(finalInputForQuery, "checkForUpdateInAutomaticRelation");
-			List<?> result;
+			List<?> resultList;
 			if (!atomicBoolean.get()) {
-				result = gtnSqlQueryEngine.executeSelectQuery(finalQeury);
-				if (Integer.parseInt(result.get(0).toString()) == 1)
+				resultList = gtnSqlQueryEngine.executeSelectQuery(finalQeury);
+				if (Integer.parseInt(resultList.get(0).toString()) == 1)
 					atomicBoolean.compareAndSet(Boolean.FALSE, Boolean.TRUE);
 			}
 		} catch (GtnFrameworkGeneralException e) {
@@ -169,20 +169,20 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 
 	private GtnFrameworkQueryGeneratorBean getCheckForUpdateQuery(HierarchyLevelDefinitionBean hierarchyLevelBean,
 			HierarchyLevelDefinitionBean previousHierarchyLevelBean) {
-		GtnFrameworkFileReadWriteService fileService = new GtnFrameworkFileReadWriteService();
-		GtnFrameworkHierarchyQueryBean hierarchyQuery = fileService.getQueryFromFile(
+		GtnFrameworkFileReadWriteService fileServiceDeduction = new GtnFrameworkFileReadWriteService();
+		GtnFrameworkHierarchyQueryBean hierarchyQuery = fileServiceDeduction.getQueryFromFile(
 				hierarchyLevelBean.getHierarchyDefinitionSid(), hierarchyLevelBean.getHierarchyLevelDefinitionSid(),
 				hierarchyLevelBean.getVersionNo());
-		GtnFrameworkQueryGeneratorBean queryGenerartorBean = hierarchyQuery.getQuery();
+		GtnFrameworkQueryGeneratorBean queryGenerartorBeanDeduction = hierarchyQuery.getQuery();
 		String hierarchyNoSelectClause = getHierarchyNo(hierarchyLevelDefinitionList, hierarchyLevelBean).toString();
-		addJoinClause(previousHierarchyLevelBean, queryGenerartorBean);
-		queryGenerartorBean.addSelectClauseBean(null, "HIERARCHY_NO", false,
+		addJoinClause(previousHierarchyLevelBean, queryGenerartorBeanDeduction);
+		queryGenerartorBeanDeduction.addSelectClauseBean(null, "HIERARCHY_NO", false,
 				hierarchyNoSelectClause);
-		queryGenerartorBean.removeAllWhereClauseConfigList();
-		gtnHierarchyServiceBuilder.getInboundRestrictionQueryForAutoUpdate(queryGenerartorBean);
-		queryGenerartorBean.addWhereClauseBean("RS_CONTRACT_DETAILS.ITEM_MASTER_SID", null, GtnFrameworkOperatorType.IN,
+		queryGenerartorBeanDeduction.removeAllWhereClauseConfigList();
+		gtnHierarchyServiceBuilder.getInboundRestrictionQueryForAutoUpdate(queryGenerartorBeanDeduction);
+		queryGenerartorBeanDeduction.addWhereClauseBean("RS_CONTRACT_DETAILS.ITEM_MASTER_SID", null, GtnFrameworkOperatorType.IN,
 				GtnFrameworkDataType.NULL_ALLOWED, null);
-		return queryGenerartorBean;
+		return queryGenerartorBeanDeduction;
 	}
 
 
@@ -215,24 +215,23 @@ public class GtnFramworkDeductionCheckForAutoUpdateRunnable implements Runnable 
 
 	public StringBuilder getHierarchyNo(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
 			HierarchyLevelDefinitionBean selectedCustomerHierarchyLevelDto) {
-		StringBuilder initialQuery = new StringBuilder();
+		StringBuilder initialQueryDeduction = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder();
 		for (int i = 0; i < selectedCustomerHierarchyLevelDto.getLevelNo(); i++) {
-			HierarchyLevelDefinitionBean leveldto = hierarchyLevelDefinitionList.get(i);
-			if (leveldto.getTableName().isEmpty()) {
-				initialQuery.append(",'%'");
-				initialQuery.append(",'.'");
+			HierarchyLevelDefinitionBean levelDTO = hierarchyLevelDefinitionList.get(i);
+			if (levelDTO.getTableName().isEmpty()) {
+				initialQueryDeduction.append(",'%'");
+				initialQueryDeduction.append(",'.'");
 				continue;
 			}
-			initialQuery.append(",");
+			initialQueryDeduction.append(",");
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
-					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-			initialQuery.append(singleColumnRelationBean.getActualTtableName() + "."
-					+ singleColumnRelationBean.getWhereClauseColumn());
-			initialQuery.append(",'.'");
+					.getKeyRelationBeanUsingTableIdAndColumnName(levelDTO.getTableName(), levelDTO.getFieldName());
+			initialQueryDeduction.append(singleColumnRelationBean.getActualTtableName()).append(".").append(singleColumnRelationBean.getWhereClauseColumn());
+			initialQueryDeduction.append(",'.'");
 		}
 		finalQuery.append("concat( RELATIONSHIP_BUILDER_SID,'-'");
-		finalQuery.append(initialQuery);
+		finalQuery.append(initialQueryDeduction);
 		finalQuery.append(")");
 		return finalQuery;
 	}

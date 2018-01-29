@@ -77,7 +77,7 @@ public class GtnWsAutomaticRelationController {
 			automaticService.waitForRelaitonUpdatetoFinish();
 			relationResponse.setRelationUpdate(Boolean.TRUE);
 			generalResponse.setAutomaticRelationResponse(relationResponse);
-		} catch (InterruptedException ex) {
+		} catch (Exception ex) {
 			LOGGER.error("Error in waitAutomaticRelationUpdateForAllLevel", ex);
 			relationResponse.setRelationUpdate(false);
 		}
