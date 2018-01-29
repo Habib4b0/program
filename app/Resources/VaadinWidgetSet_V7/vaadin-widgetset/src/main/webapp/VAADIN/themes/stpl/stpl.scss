@@ -37,4 +37,8 @@ cursor: pointer;
 border-radius: 0px;
 }
 
+.v-scrollable.v-table-body-wrapper.v-table-body {
+    overflow: unset;
+}
+
 }
