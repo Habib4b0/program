@@ -8,10 +8,12 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.vaadin.ui.ExtCustomTable;
 
 public class GtnFrameworkUdcSearchAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -66,12 +68,35 @@ public class GtnFrameworkUdcSearchAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE_LAYOUT)
 					.setVisible(false);
 			loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_RESULT_TABLE);
-			if (!udcCategory.equals("ALL")) {
-				loadDataTableActionConfig.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.UDC_CATEGORY));
+			if (!udcCategory.equals("-ALL-")) {
+				checkCondition(loadDataTableActionConfig, udcCategory);
 			}
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
 		}
+	}
 
+	private void checkCondition(GtnUIFrameWorkActionConfig loadDataTableActionConfig, String udcCategory) {
+		if (!udcCategory.trim().equals("")) {
+			loadDataTableActionConfig.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.UDC_CATEGORY));
+		} else {
+			GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
+					.getVaadinComponentData(GtnFrameworkCommonConstants.UDC_RESULT_TABLE);
+			if (componentData.getCustomData() instanceof ExtCustomTable) {
+				ExtCustomTable table = (ExtCustomTable) componentData.getCustomData();
+				table.getContainerDataSource().removeAllItems();
+				table.setContainerDataSource(null);
+				table.refreshRowCache();
+			}
+			GtnUIFrameworkComponentData componentDataBrand = GtnUIFrameworkGlobalUI
+					.getVaadinComponentData(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE);
+			if (componentDataBrand.getCustomData() instanceof ExtCustomTable) {
+				ExtCustomTable tableBrand = (ExtCustomTable) componentDataBrand.getCustomData();
+				tableBrand.getContainerDataSource().removeAllItems();
+				tableBrand.setContainerDataSource(null);
+				tableBrand.refreshRowCache();
+			}
+
+		}
 	}
 
 	@Override

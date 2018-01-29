@@ -18,324 +18,293 @@ import org.apache.commons.lang.StringUtils;
  */
 public class PVSelectionDTO extends ProjectionSelectionDTO {
 
-	private int projectionNo;
-	private String level;
-	private String projectionPeriodOrder;
-	private String discountLevel;
-	private String fromDate;
-	private String currentProjectionName;
-	private List<Integer> projIdList = new ArrayList<>();
-	private Map<Integer, String> projectionMap = new HashMap<>();
-	private String variableCategory;
-	private String variables;
-	private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-	private CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
-	private List<String> discountNames = new ArrayList<>();
-	private SessionDTO session = new SessionDTO();
-	private Map<String, String> pivotHeaderMap = new HashMap<>();
-	private int neededRecord;
-	private int mayBeAdded;
-	private boolean isFlag;
-	private boolean discountFlag = false;
-	private boolean valueFlag;
-	private String productHierarchyNo;
-	private String customerHierarchyNo;
-	private String currentOrPrior;
-	private boolean islevelFiler;
-	private boolean isChildFlag;
-	private boolean isPrior = false;
-	private int currentProjId;
-	private String screenName;
-	private int currentProjectionID;
-	private int customCount = 0;
-	private List<String> programCodeNameList = new ArrayList<>();
-	private String toDate;
-	private boolean isCustomerDdlb;
-	private String pivotStartDate;
+    private int projectionNo;
+    private String level;
+    private String projectionPeriodOrder;
+    private String discountLevel;
+    private String fromDate;
+    private String currentProjectionName;
+    private List<Integer> projIdList = new ArrayList<>();
+    private Map<Integer, String> projectionMap = new HashMap<>();
+    private String variableCategory;
+    private String variables;
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
+    private List<String> discountNames = new ArrayList<>();
+    private SessionDTO session = new SessionDTO();
+    private Map<String, String> pivotHeaderMap = new HashMap<>();
+    private int neededRecord;
+    private int mayBeAdded;
+    private boolean isFlag;
+    private boolean discountFlag = false;
+    private boolean valueFlag;
+    private String productHierarchyNo;
+    private String customerHierarchyNo;
+    private String currentOrPrior;
+    private boolean islevelFiler;
+    private boolean isChildFlag;
+    private boolean isPrior = false;
+    private int currentProjId;
+    private String screenName;
+    private int currentProjectionID;
+    private int customCount = 0;
+    private List<String> programCodeNameList = new ArrayList<>();
+    private String toDate;
+    private boolean isCustomerDdlb;
+    private String pivotStartDate;
 
-	private int customerRelationId;
+    private int customerRelationId;
 
-	private String columnName = StringUtils.EMPTY;
+    private String columnName = StringUtils.EMPTY;
 
-	private int productRelationId;
-	private List<String> pivotList = new ArrayList<>();
-	/**
-	 * From Projection Variance DTO
-	 *
-	 */
-	private Integer parent = 0;
-	private String discoutName;
-	private String discountIndicator;
-	private List<String> periodHeaderList = new ArrayList<>();
-	private List<String> pivotHeaderList = new ArrayList<>();
-	private boolean isLevel;
-	private boolean isNetSales;
-	private String varIndicator = StringUtils.EMPTY;
-	private Map<String, Object> headerMap = new HashMap<>();
-	private String graphHeader = StringUtils.EMPTY;
-	private boolean rpu = false;
-	private String discountGroupName = StringUtils.EMPTY;
-	private int excelFilterLevelNo = 0;
-	private boolean netExFactorySales;
+    private int productRelationId;
+    private List<String> pivotList = new ArrayList<>();
+    /**
+     * From Projection Variance DTO
+     *
+     */
+    private Integer parent = 0;
+    private String discoutName;
+    private String discountIndicator;
+    private List<String> periodHeaderList = new ArrayList<>();
+    private List<String> pivotHeaderList = new ArrayList<>();
+    private boolean isLevel;
+    private boolean isNetSales;
+    private String varIndicator = StringUtils.EMPTY;
+    private Map<String, Object> headerMap = new HashMap<>();
+    private String graphHeader = StringUtils.EMPTY;
+    private boolean rpu = false;
+    private String discountGroupName = StringUtils.EMPTY;
+    private int excelFilterLevelNo=0;
+    private boolean netExFactorySales;
+    
+    private boolean netExFactorySalesPerExFactory;
+    /**
+     * Combination variables
+     */
+    /**
+     * The col current.
+     */
+    private boolean colValue;
+    /**
+     * The col variance.
+     */
+    private boolean colVariance;
+    /**
+     * The col percentage.
+     */
+    private boolean colPercentage;
+    /**
+     * The Var gts.
+     */
+    private boolean varGTS;
 
-	private boolean netExFactorySalesPerExFactory;
-	/**
-	 * Combination variables
-	 */
-	/**
-	 * The col current.
-	 */
-	private boolean colValue;
-	/**
-	 * The col variance.
-	 */
-	private boolean colVariance;
-	/**
-	 * The col percentage.
-	 */
-	private boolean colPercentage;
-	/**
-	 * The Var gts.
-	 */
-	private boolean varGTS;
+    /**
+     * The Var gts.
+     */
+    private boolean varExFacSales;
+    /**
+     * The Var gts.
+     */
+    private boolean varDemandSales;
+    /**
+     * The Var gts.
+     */
+    private boolean varInvSales;
+    /**
+     * The Var gts.
+     */
+    private boolean varPerExFacSales;
+    /**
+     * The Var gts.
+     */
+    private boolean varPerDemandSales;
+    /**
+     * The Var gts.
+     */
+    private boolean varPerInvSales;
 
-	/**
-	 * The Var gts.
-	 */
-	private boolean varExFacSales;
-	/**
-	 * The Var gts.
-	 */
-	private boolean varDemandSales;
-	/**
-	 * The Var gts.
-	 */
-	private boolean varInvSales;
-	/**
-	 * The Var gts.
-	 */
-	private boolean varPerExFacSales;
-	/**
-	 * The Var gts.
-	 */
-	private boolean varPerDemandSales;
-	/**
-	 * The Var gts.
-	 */
-	private boolean varPerInvSales;
+    /**
+     * The Var contractsales.
+     */
+    private boolean varContractsales;
+    /**
+     * The Var contract units.
+     */
+    private boolean varContractUnits;
+    /**
+     * The var percentage.
+     */
+    private boolean varPercentage;
+    /**
+     * The var dis amount.
+     */
+    private boolean varDisAmount;
+    /**
+     * The var dis rate.
+     */
+    private boolean varDisRate;
+    /**
+     * The var net sales.
+     */
+    private boolean varNetSales;
 
-	/**
-	 * The Var contractsales.
-	 */
-	private boolean varContractsales;
-	/**
-	 * The Var contract units.
-	 */
-	private boolean varContractUnits;
-	/**
-	 * The var percentage.
-	 */
-	private boolean varPercentage;
-	/**
-	 * The var dis amount.
-	 */
-	private boolean varDisAmount;
-	/**
-	 * The var dis rate.
-	 */
-	private boolean varDisRate;
-	/**
-	 * The var net sales.
-	 */
-	private boolean varNetSales;
+    private boolean varRPU;
 
-	private boolean varRPU;
+    private boolean varCOGC;
 
-	private boolean varCOGC;
+    private boolean varNetProfit;
 
-	private boolean varNetProfit;
+    private boolean varExFacCustomer;
+    private boolean varAdjDemand;
+    private boolean varIwDetails;
+    private boolean varPerExFacCustomer;
+    private boolean varPerAdjDemand;
+    private boolean varPerIwDetails;
+    private String comparisonBasis;
+    private boolean netSalesExFactory;
+    private boolean discountPerExFactory;
+    private boolean isproductFirst = false;
+    private boolean isdeductionFirst = false;
+    private boolean iscustomerFirst = false;
+    private List<String> customerLevelFilter = new ArrayList<>();
+    private List<String> productLevelFilter = new ArrayList<>();
+    private List<String> deductionLevelFilter = new ArrayList<>();
+    private List<String> deductionLevelCaptions = new ArrayList<>();
+    private String deductionLevelValues;
+    private String uomCode = StringUtils.EMPTY;
+    private boolean conversionNeeded = false;
 
-	private boolean varExFacCustomer;
-	private boolean varAdjDemand;
-	private boolean varIwDetails;
-	private boolean varPerExFacCustomer;
-	private boolean varPerAdjDemand;
-	private boolean varPerIwDetails;
-	private String comparisonBasis;
-	private boolean netSalesExFactory;
-	private boolean discountPerExFactory;
-	private boolean isproductFirst = false;
-	private boolean isdeductionFirst = false;
-	private boolean iscustomerFirst = false;
-	private List<String> customerLevelFilter = new ArrayList<>();
-	private List<String> productLevelFilter = new ArrayList<>();
-	private List<String> deductionLevelFilter = new ArrayList<>();
-	private List<String> deductionLevelCaptions = new ArrayList<>();
-	private String deductionLevelValues;
-	private String uomCode = StringUtils.EMPTY;
-	private boolean conversionNeeded = false;
+    public int getProjectionNo() {
+        return projectionNo;
+    }
 
-	public int getProjectionNo() {
-		return projectionNo;
-	}
+    public void setProjectionNo(int projectionNo) {
+        this.projectionNo = projectionNo;
+    }
 
-	public void setProjectionNo(int projectionNo) {
-		this.projectionNo = projectionNo;
-	}
+    @Override
+    public String getLevel() {
+        return level;
+    }
+    
+    @Override
+    public void setLevel(String level) {
+        this.level = level;
+    }
 
-	@Override
-	public String getLevel() {
-		return level;
-	}
+    public String getProjectionPeriodOrder() {
+        return projectionPeriodOrder;
+    }
 
-	@Override
-	public void setLevel(String level) {
-		this.level = level;
-	}
+    public void setProjectionPeriodOrder(String projectionPeriodOrder) {
+        this.projectionPeriodOrder = projectionPeriodOrder;
+    }
 
-	public String getProjectionPeriodOrder() {
-		return projectionPeriodOrder;
-	}
+    @Override
+    public String getDiscountLevel() {
+        return discountLevel;
+    }
 
-	public void setProjectionPeriodOrder(String projectionPeriodOrder) {
-		this.projectionPeriodOrder = projectionPeriodOrder;
-	}
+    @Override
+    public void setDiscountLevel(String discountLevel) {
+        this.discountLevel = discountLevel;
+    }
 
-	@Override
-	public String getDiscountLevel() {
-		return discountLevel;
-	}
+    public String getFromDate() {
+        return fromDate;
+    }
 
-	@Override
-	public void setDiscountLevel(String discountLevel) {
-		this.discountLevel = discountLevel;
-	}
+    public void setFromDate(String fromDate) {
+        this.fromDate = fromDate;
+    }
 
-	public String getFromDate() {
-		return fromDate;
-	}
+    public String getCurrentProjectionName() {
+        return currentProjectionName;
+    }
 
-	public void setFromDate(String fromDate) {
-		this.fromDate = fromDate;
-	}
+    public void setCurrentProjectionName(String currentProjectionName) {
+        this.currentProjectionName = currentProjectionName;
+    }
 
-	public String getCurrentProjectionName() {
-		return currentProjectionName;
-	}
+    public List<Integer> getProjIdList() {
+        Collections.sort(projIdList);
+        return projIdList;
+    }
 
-	public void setCurrentProjectionName(String currentProjectionName) {
-		this.currentProjectionName = currentProjectionName;
-	}
+    public void setProjIdList(List<Integer> projIdList) {
+        this.projIdList = projIdList;
+    }
 
-	public List<Integer> getProjIdList() {
-		return projIdList == null ? projIdList : Collections.unmodifiableList(projIdList);
-	}
+    public Map<Integer, String> getProjectionMap() {
+        return projectionMap;
+    }
 
-	public void setProjIdList(List<Integer> projIdList) {
-		if (projIdList != null) {
-			Collections.sort(projIdList);
-			this.projIdList = Collections.unmodifiableList(projIdList);
-		}
-	}
+    public void setProjectionMap(Map<Integer, String> projectionMap) {
+        this.projectionMap = projectionMap;
+    }
 
-	public Map<Integer, String> getProjectionMap() {
-		return projectionMap;
-	}
+    public String getVariableCategory() {
+        return variableCategory;
+    }
 
-	public void setProjectionMap(Map<Integer, String> projectionMap) {
-		this.projectionMap = projectionMap;
-	}
+    public void setVariableCategory(String variableCategory) {
+        this.variableCategory = variableCategory;
+    }
 
-	public String getVariableCategory() {
-		return variableCategory;
-	}
+    public String getVariables() {
+        return variables;
+    }
 
-	public void setVariableCategory(String variableCategory) {
-		this.variableCategory = variableCategory;
-	}
+    public void setVariables(String variables) {
+        this.variables = variables;
+    }
 
-	public String getVariables() {
-		return variables;
-	}
+    public CustomTableHeaderDTO getRightHeader() {
+        return rightHeader;
+    }
 
-	public void setVariables(String variables) {
-		this.variables = variables;
-	}
+    public void setRightHeader(CustomTableHeaderDTO rightHeader) {
+        this.rightHeader = rightHeader;
+    }
 
-	public CustomTableHeaderDTO getRightHeader() {
-		return rightHeader;
-	}
+    @Override
+    public Integer getParent() {
+        return parent;
+    }
 
-	public void setRightHeader(CustomTableHeaderDTO rightHeader) {
-		this.rightHeader = rightHeader;
-	}
+    @Override
+    public void setParent(Integer parent) {
+        this.parent = parent;
+    }
 
-	@Override
-	public Integer getParent() {
-		return parent;
-	}
+    public String getDiscoutName() {
+        return discoutName;
+    }
 
-	@Override
-	public void setParent(Integer parent) {
-		this.parent = parent;
-	}
+    public void setDiscoutName(String discoutName) {
+        this.discoutName = discoutName;
+    }
 
-	public String getDiscoutName() {
-		return discoutName;
-	}
+    public String getDiscountIndicator() {
+        return discountIndicator;
+    }
 
-	public void setDiscoutName(String discoutName) {
-		this.discoutName = discoutName;
-	}
+    public void setDiscountIndicator(String discountIndicator) {
+        this.discountIndicator = discountIndicator;
+    }
 
-	public String getDiscountIndicator() {
-		return discountIndicator;
-	}
+    public List<String> getPeriodHeaderList() {
+        return periodHeaderList == null ? periodHeaderList : Collections.unmodifiableList(periodHeaderList);
+    }
 
-	public void setDiscountIndicator(String discountIndicator) {
-		this.discountIndicator = discountIndicator;
-	}
+    public void setPeriodHeaderList(List<String> periodHeaderList) {
+        this.periodHeaderList = periodHeaderList == null ? periodHeaderList : Collections.unmodifiableList(periodHeaderList);
+    }
 
-	public List<String> getPeriodHeaderList() {
-		return periodHeaderList == null ? periodHeaderList : Collections.unmodifiableList(periodHeaderList);
-	}
-
-	public void setPeriodHeaderList(List<String> periodHeaderList) {
-		this.periodHeaderList = periodHeaderList == null ? periodHeaderList
-				: Collections.unmodifiableList(periodHeaderList);
-	}
-
-	public boolean isColValue() {
-		return colValue;
-	}
-
-	public void setColValue(boolean colValue) {
-		this.colValue = colValue;
-	}
-
-	public boolean isColVariance() {
-		return colVariance;
-	}
-
-	public void setColVariance(boolean colVariance) {
-		this.colVariance = colVariance;
-	}
-
-	public boolean isColPercentage() {
-		return colPercentage;
-	}
-
-	public void setColPercentage(boolean colPercentage) {
-		this.colPercentage = colPercentage;
-	}
-
-	public boolean isVarGTS() {
-		return varGTS;
-	}
-
-	public void setVarGTS(boolean varGTS) {
-		this.varGTS = varGTS;
-	}
+    public boolean isColValue() {
+        return colValue;
+    }
 
 	public boolean isVarContractsales() {
 		return varContractsales;

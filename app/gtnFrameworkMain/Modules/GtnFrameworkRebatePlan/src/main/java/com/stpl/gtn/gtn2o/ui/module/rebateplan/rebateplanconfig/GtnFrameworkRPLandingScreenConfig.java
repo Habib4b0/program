@@ -938,6 +938,7 @@ public class GtnFrameworkRPLandingScreenConfig {
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_MARKET_SHARE_REFERENCE,
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_FROM,
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_TO,
+				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_FROM_COMPLEX,
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_OPERATOR,
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_VALUE,
 				GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX,

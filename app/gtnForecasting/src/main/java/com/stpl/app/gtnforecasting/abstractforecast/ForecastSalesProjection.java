@@ -550,6 +550,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected List<String> generateProductToBeLoaded = new ArrayList<>();
     public static final String SALES_TAB = "Sales";
     protected List<String> generateCustomerToBeLoaded = new ArrayList<>();
+    protected static final String ADJUSTMENT_PERIODS_TEXT = " adjustment for the following periods ";
 
     /**
      * Instantiates a new Forecast Sales Projection.
@@ -1603,14 +1604,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         private static final long serialVersionUID = 1L;
                             @Override
                             public void focus(FocusEvent event) {
-                                 oldGroupValue = String.valueOf(((TextField) event.getComponent()).getValue());
+                                oldGroupValue = String.valueOf(((TextField) event.getComponent()).getValue());
                             }
                         });
                         textField.addBlurListener(new BlurListener() {
 
-                        @Override
+                            @Override
                         public void blur(BlurEvent event) {
-                            String newValue = ((TextField) event.getComponent()).getValue();
+                                String newValue = ((TextField) event.getComponent()).getValue();
                                 if (!oldGroupValue.equals(newValue)) {
                                     try {
                                         SalesRowDto dto = (SalesRowDto) itemId;
@@ -1625,8 +1626,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                         LOGGER.error(ex.getMessage());
                                     }
                                 }
-                        }
-                    });
+                            }
+                        });
                         return textField;
                     }
                 }
@@ -1782,7 +1783,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                 checkBoxMap.put(event.getPropertyId(), event.isChecked());
                 if (!returnsFlag) {
-                    String arr[] = rightTable.getColumnRadioButtonArray((String) event.getPropertyId());
+                String arr[] = rightTable.getColumnRadioButtonArray((String) event.getPropertyId());
                     if (arr != null) {
                         for (String a : arr) {
                             rightTable.setColumnRadioButtonDisable(a, !event.isChecked());
@@ -2352,7 +2353,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
 
             String confirmMessage = "Confirm Actual variable Adjustment";
-            String messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + " adjustment for the following periods "
+            String messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + ADJUSTMENT_PERIODS_TEXT
                     + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
 
             new AbstractNotificationUtils() {
@@ -2378,7 +2379,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                     } catch (PortalException | SQLException ex) {
                         LOGGER.error(ex.getMessage());
-                    } 
+                    }
                 }
             }.getOkCancelMessage(confirmMessage, messageBody);
 
@@ -2400,7 +2401,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     final String adjMethodology = String.valueOf(allocMethodology.getValue());
                     final String historyPeriods;
                     final String projectionPeriods;
-
+                    
                     if (adjustPeriod.equals(Constant.ALL)) {
                         if (adjMethodology.equals(Constant.HISTORICAL_OF_BUSINESS)) {
                             historyPeriods = getSelectedHistoryPeriods();
@@ -2444,10 +2445,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         if (basis.getValue().equals(Constant.LabelConstants.AMOUNT)) {
                             if (variable.getValue().equals(Constant.UNIT)) {
                                 messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + getFormatValue(Constant.UNIT_FORMAT, adjValue, StringUtils.EMPTY)
-                                        + " adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
+                                        + ADJUSTMENT_PERIODS_TEXT + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
                             } else {
                                 messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + getFormatValue(Constant.TWO_DECIMAL, adjValue, Constant.CURRENCY)
-                                        + " adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
+                                        + ADJUSTMENT_PERIODS_TEXT + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
                             }
                         } else {
                             messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + adjValue
@@ -3774,7 +3775,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             return false;
 
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error(ex);
             return false;
         }
     }
@@ -3847,12 +3848,12 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             allocationBasis.addItems(outputList);
     }
 
-    public ExtTreeContainer<SalesRowDto> getCustomContainer() {
-            return customContainer;
-    }
+public ExtTreeContainer<SalesRowDto> getCustomContainer() {
+	return customContainer;
+}
 
-    public void setCustomContainer(ExtTreeContainer<SalesRowDto> customContainer) {
-            this.customContainer = customContainer;
-    }
+public void setCustomContainer(ExtTreeContainer<SalesRowDto> customContainer) {
+	this.customContainer = customContainer;
+}
     
 }

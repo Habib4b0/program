@@ -85,6 +85,7 @@ public class GtnFrameworkStringConstants {
 	public static final String REBATE_PLAN_CALCULATION_MARKET_SHARE_REFERENCE = "rebatePlanCalculationMarketShareReference";
 	public static final String REBATE_PLAN_CALCULATION_FROM = "rebatePlanCalculationFrom";
 	public static final String REBATE_PLAN_CALCULATION_TO = "rebatePlanCalculationTo";
+	public static final String REBATE_PLAN_CALCULATION_FROM_COMPLEX = "rebatePlanCalculationFromComplex";
 	public static final String REBATE_PLAN_CALCULATION_OPERATOR = "rebatePlanCalculationsOperator";
 	public static final String REBATE_PLAN_CALCULATION_VALUE = "rebatePlanCalculationsValue";
 	public static final String REBATE_PLAN_CALCULATION_TIER_TOLERANCE = "rebatePlanCalculationTierTolerance";

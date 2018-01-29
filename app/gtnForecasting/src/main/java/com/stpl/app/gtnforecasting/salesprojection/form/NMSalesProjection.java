@@ -814,7 +814,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     private void loadCustomerLevel() {
         int hierarchyNo = isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
-        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo, session.getCustRelationshipBuilderSid());
+        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo+1, session.getCustRelationshipBuilderSid());
         Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, NAME);
         
         customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
