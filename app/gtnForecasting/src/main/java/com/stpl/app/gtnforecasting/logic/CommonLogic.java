@@ -2387,7 +2387,7 @@ public class CommonLogic {
                 }
             }
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return newLevelList;
     }
@@ -2610,7 +2610,7 @@ public class CommonLogic {
         try {
             SalesProjectionDAO dao = new SalesProjectionDAOImpl();
             LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
-            final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+            final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
             cfpDynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like(Constant.LIST_NAME, listType), RestrictionsFactoryUtil.like(Constant.LIST_NAME, "ALL")));
             cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(Constant.DESCRIPTION));
             final List<HelperTable> list = dao.getHelperTableList(cfpDynamicQuery);
@@ -2628,7 +2628,7 @@ public class CommonLogic {
             LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return helperList;
     }
@@ -2657,7 +2657,7 @@ public class CommonLogic {
             date = inputDateFormatter.parse(stringDate);
             return outputDateFormatter.format(date);
         } catch (ParseException ex) {
-            java.util.logging.Logger.getLogger(CommonLogic.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(ex.getMessage());
         }
         return null;
     }
@@ -2677,7 +2677,7 @@ public class CommonLogic {
                 String year = Constant.ANNUAL.equalsIgnoreCase(frequency) ? selectedPeriod.trim() : getYearAndPeriod(selectedPeriod, frequency, formatFlag)[0];
                 String period = Constant.ANNUAL.equalsIgnoreCase(frequency) ? selectedPeriod.trim() : getYearAndPeriod(selectedPeriod, frequency, formatFlag)[1];
                 List list;
-                String query = CustomSQLUtil.get("getPeriodSID");
+                String query = SQlUtil.getQuery("getPeriodSID");
                 query = query.replace("@selectedfreq", frequency);
                 query = query.replace("@selectedyear", year);
                 query = query.replace("@selectedperiod", period);
@@ -2687,7 +2687,7 @@ public class CommonLogic {
                     periodSID = String.valueOf(list.get(0));
                 }
             } catch (PortalException | SystemException ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         } else {
             periodSID = DASH;

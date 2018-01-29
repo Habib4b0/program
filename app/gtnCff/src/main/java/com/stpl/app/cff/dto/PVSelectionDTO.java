@@ -306,597 +306,625 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         return colValue;
     }
 
-	public boolean isVarContractsales() {
-		return varContractsales;
-	}
+    public void setColValue(boolean colValue) {
+        this.colValue = colValue;
+    }
 
-	public void setVarContractsales(boolean varContractsales) {
-		this.varContractsales = varContractsales;
-	}
+    public boolean isColVariance() {
+        return colVariance;
+    }
 
-	public boolean isVarContractUnits() {
-		return varContractUnits;
-	}
+    public void setColVariance(boolean colVariance) {
+        this.colVariance = colVariance;
+    }
 
-	public void setVarContractUnits(boolean varContractUnits) {
-		this.varContractUnits = varContractUnits;
-	}
+    public boolean isColPercentage() {
+        return colPercentage;
+    }
 
-	public boolean isVarPercentage() {
-		return varPercentage;
-	}
+    public void setColPercentage(boolean colPercentage) {
+        this.colPercentage = colPercentage;
+    }
 
-	public void setVarPercentage(boolean varPercentage) {
-		this.varPercentage = varPercentage;
-	}
+    public boolean isVarGTS() {
+        return varGTS;
+    }
 
-	public boolean isVarDisAmount() {
-		return varDisAmount;
-	}
+    public void setVarGTS(boolean varGTS) {
+        this.varGTS = varGTS;
+    }
 
-	public void setVarDisAmount(boolean varDisAmount) {
-		this.varDisAmount = varDisAmount;
-	}
+    public boolean isVarContractsales() {
+        return varContractsales;
+    }
 
-	public boolean isVarDisRate() {
-		return varDisRate;
-	}
+    public void setVarContractsales(boolean varContractsales) {
+        this.varContractsales = varContractsales;
+    }
 
-	public void setVarDisRate(boolean varDisRate) {
-		this.varDisRate = varDisRate;
-	}
+    public boolean isVarContractUnits() {
+        return varContractUnits;
+    }
 
-	public boolean isVarNetSales() {
-		return varNetSales;
-	}
+    public void setVarContractUnits(boolean varContractUnits) {
+        this.varContractUnits = varContractUnits;
+    }
 
-	public void setVarNetSales(boolean varNetSales) {
-		this.varNetSales = varNetSales;
-	}
+    public boolean isVarPercentage() {
+        return varPercentage;
+    }
 
-	public SessionDTO getSession() {
-		return session;
-	}
+    public void setVarPercentage(boolean varPercentage) {
+        this.varPercentage = varPercentage;
+    }
 
-	public void setSession(SessionDTO session) {
-		this.session = session;
-	}
+    public boolean isVarDisAmount() {
+        return varDisAmount;
+    }
 
-	public CustomTableHeaderDTO getRightHeaderPeriod() {
-		return rightHeaderPeriod;
-	}
+    public void setVarDisAmount(boolean varDisAmount) {
+        this.varDisAmount = varDisAmount;
+    }
 
-	public void setRightHeaderPeriod(CustomTableHeaderDTO rightHeaderPeriod) {
-		this.rightHeaderPeriod = rightHeaderPeriod;
-	}
+    public boolean isVarDisRate() {
+        return varDisRate;
+    }
 
-	public int getNeededRecord() {
-		return neededRecord;
-	}
+    public void setVarDisRate(boolean varDisRate) {
+        this.varDisRate = varDisRate;
+    }
 
-	public void setNeededRecord(int neededRecord) {
-		this.neededRecord = neededRecord;
-	}
+    public boolean isVarNetSales() {
+        return varNetSales;
+    }
 
-	public int getMayBeAdded() {
-		return mayBeAdded;
-	}
+    public void setVarNetSales(boolean varNetSales) {
+        this.varNetSales = varNetSales;
+    }
 
-	public void setMayBeAdded(int mayBeAdded) {
-		this.mayBeAdded = mayBeAdded;
-	}
+    public SessionDTO getSession() {
+        return session;
+    }
 
-	public boolean isIsFlag() {
-		return isFlag;
-	}
+    public void setSession(SessionDTO session) {
+        this.session = session;
+    }
 
-	public void setIsFlag(boolean isFlag) {
-		this.isFlag = isFlag;
-	}
+    public CustomTableHeaderDTO getRightHeaderPeriod() {
+        return rightHeaderPeriod;
+    }
 
-	public boolean isDiscountFlag() {
-		return discountFlag;
-	}
+    public void setRightHeaderPeriod(CustomTableHeaderDTO rightHeaderPeriod) {
+        this.rightHeaderPeriod = rightHeaderPeriod;
+    }
 
-	public void setDiscountFlag(boolean discountFlag) {
-		this.discountFlag = discountFlag;
-	}
+    public int getNeededRecord() {
+        return neededRecord;
+    }
 
-	public boolean isValueFlag() {
-		return valueFlag;
-	}
+    public void setNeededRecord(int neededRecord) {
+        this.neededRecord = neededRecord;
+    }
 
-	public void setValueFlag(boolean valueFlag) {
-		this.valueFlag = valueFlag;
-	}
+    public int getMayBeAdded() {
+        return mayBeAdded;
+    }
 
-	public String getCurrentOrPrior() {
-		return currentOrPrior;
-	}
+    public void setMayBeAdded(int mayBeAdded) {
+        this.mayBeAdded = mayBeAdded;
+    }
 
-	public void setCurrentOrPrior(String currentOrPrior) {
-		this.currentOrPrior = currentOrPrior;
-	}
+    public boolean isIsFlag() {
+        return isFlag;
+    }
 
-	public boolean isIslevelFiler() {
-		return islevelFiler;
-	}
+    public void setIsFlag(boolean isFlag) {
+        this.isFlag = isFlag;
+    }
 
-	public void setIslevelFiler(boolean islevelFiler) {
-		this.islevelFiler = islevelFiler;
-	}
+    public boolean isDiscountFlag() {
+        return discountFlag;
+    }
 
-	public boolean isIsChildFlag() {
-		return isChildFlag;
-	}
+    public void setDiscountFlag(boolean discountFlag) {
+        this.discountFlag = discountFlag;
+    }
 
-	public void setIsChildFlag(boolean isChildFlag) {
-		this.isChildFlag = isChildFlag;
-	}
+    public boolean isValueFlag() {
+        return valueFlag;
+    }
 
-	public boolean isIsLevel() {
-		return isLevel;
-	}
+    public void setValueFlag(boolean valueFlag) {
+        this.valueFlag = valueFlag;
+    }
 
-	public void setIsLevel(boolean isLevel) {
-		this.isLevel = isLevel;
-	}
+    public String getCurrentOrPrior() {
+        return currentOrPrior;
+    }
 
-	public boolean isIsNetSales() {
-		return isNetSales;
-	}
+    public void setCurrentOrPrior(String currentOrPrior) {
+        this.currentOrPrior = currentOrPrior;
+    }
 
-	public void setIsNetSales(boolean isNetSales) {
-		this.isNetSales = isNetSales;
-	}
+    public boolean isIslevelFiler() {
+        return islevelFiler;
+    }
 
-	public List<String> getDiscountNames() {
-		return discountNames == null ? discountNames : Collections.unmodifiableList(discountNames);
-	}
+    public void setIslevelFiler(boolean islevelFiler) {
+        this.islevelFiler = islevelFiler;
+    }
 
-	public void setDiscountNames(List<String> discountNames) {
-		this.discountNames = discountNames == null ? discountNames : Collections.unmodifiableList(discountNames);
-	}
+    public boolean isIsChildFlag() {
+        return isChildFlag;
+    }
 
-	public boolean isIsPrior() {
-		return isPrior;
-	}
+    public void setIsChildFlag(boolean isChildFlag) {
+        this.isChildFlag = isChildFlag;
+    }
 
-	public void setIsPrior(boolean isPrior) {
-		this.isPrior = isPrior;
-	}
+    public boolean isIsLevel() {
+        return isLevel;
+    }
 
-	public int getCurrentProjId() {
-		return currentProjId;
-	}
+    public void setIsLevel(boolean isLevel) {
+        this.isLevel = isLevel;
+    }
 
-	public void setCurrentProjId(int currentProjId) {
-		this.currentProjId = currentProjId;
-	}
+    public boolean isIsNetSales() {
+        return isNetSales;
+    }
 
-	public String getVarIndicator() {
-		return varIndicator;
-	}
+    public void setIsNetSales(boolean isNetSales) {
+        this.isNetSales = isNetSales;
+    }
 
-	public void setVarIndicator(String varIndicator) {
-		this.varIndicator = varIndicator;
-	}
+    public List<String> getDiscountNames() {
+        return discountNames == null ? discountNames : Collections.unmodifiableList(discountNames);
+    }
 
-	public Map<String, Object> getHeaderMap() {
-		return headerMap;
-	}
+    public void setDiscountNames(List<String> discountNames) {
+        this.discountNames = discountNames == null ? discountNames : Collections.unmodifiableList(discountNames);
+    }
 
-	public void setHeaderMap(Map<String, Object> headerMap) {
-		this.headerMap = headerMap;
-	}
+    public boolean isIsPrior() {
+        return isPrior;
+    }
 
-	public String getGraphHeader() {
-		return graphHeader;
-	}
+    public void setIsPrior(boolean isPrior) {
+        this.isPrior = isPrior;
+    }
 
-	public void setGraphHeader(String graphHeader) {
-		this.graphHeader = graphHeader;
-	}
+    public int getCurrentProjId() {
+        return currentProjId;
+    }
 
-	@Override
-	public String getScreenName() {
-		return screenName;
-	}
+    public void setCurrentProjId(int currentProjId) {
+        this.currentProjId = currentProjId;
+    }
 
-	@Override
-	public void setScreenName(String screenName) {
-		this.screenName = screenName;
-	}
+    public String getVarIndicator() {
+        return varIndicator;
+    }
 
-	@Override
-	public List<String> getPivotList() {
-		return pivotList == null ? pivotList : Collections.unmodifiableList(pivotList);
-	}
+    public void setVarIndicator(String varIndicator) {
+        this.varIndicator = varIndicator;
+    }
 
-	@Override
-	public void setPivotList(List<String> pivotList) {
-		this.pivotList = pivotList == null ? pivotList : Collections.unmodifiableList(pivotList);
-	}
+    public Map<String, Object> getHeaderMap() {
+        return headerMap;
+    }
 
-	public boolean isIsCustomerDdlb() {
-		return isCustomerDdlb;
-	}
+    public void setHeaderMap(Map<String, Object> headerMap) {
+        this.headerMap = headerMap;
+    }
 
-	public void setIsCustomerDdlb(boolean isCustomerDdlb) {
-		this.isCustomerDdlb = isCustomerDdlb;
-	}
+    public String getGraphHeader() {
+        return graphHeader;
+    }
 
-	public int getCurrentProjectionID() {
-		return currentProjectionID;
-	}
+    public void setGraphHeader(String graphHeader) {
+        this.graphHeader = graphHeader;
+    }
 
-	public void setCurrentProjectionID(int currentProjectionID) {
-		this.currentProjectionID = currentProjectionID;
-	}
+    @Override
+    public String getScreenName() {
+        return screenName;
+    }
 
-	public int getCustomCount() {
-		return customCount;
-	}
+    @Override
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
+    }
 
-	public void setCustomCount(int customCount) {
-		this.customCount = customCount;
-	}
+    @Override
+    public List<String> getPivotList() {
+        return pivotList == null ? pivotList : Collections.unmodifiableList(pivotList);
+    }
 
-	public List<String> getProgramCodeNameList() {
-		return programCodeNameList == null ? programCodeNameList : Collections.unmodifiableList(programCodeNameList);
-	}
+    @Override
+    public void setPivotList(List<String> pivotList) {
+        this.pivotList = pivotList == null ? pivotList : Collections.unmodifiableList(pivotList);
+    }
 
-	public void setProgramCodeNameList(List<String> programCodeNameList) {
+    public boolean isIsCustomerDdlb() {
+        return isCustomerDdlb;
+    }
+
+    public void setIsCustomerDdlb(boolean isCustomerDdlb) {
+        this.isCustomerDdlb = isCustomerDdlb;
+    }
+
+    public int getCurrentProjectionID() {
+        return currentProjectionID;
+    }
+
+    public void setCurrentProjectionID(int currentProjectionID) {
+        this.currentProjectionID = currentProjectionID;
+    }
+
+    public int getCustomCount() {
+        return customCount;
+    }
+
+    public void setCustomCount(int customCount) {
+        this.customCount = customCount;
+    }
+
+    public List<String> getProgramCodeNameList() {
+        return programCodeNameList == null ? programCodeNameList : Collections.unmodifiableList(programCodeNameList);
+    }
+
+    public void setProgramCodeNameList(List<String> programCodeNameList) {
 		this.programCodeNameList = programCodeNameList == null ? programCodeNameList
 				: Collections.unmodifiableList(programCodeNameList);
-	}
+    }
 
-	public int getCustomerRelationId() {
-		return customerRelationId;
-	}
+    public int getCustomerRelationId() {
+        return customerRelationId;
+    }
 
-	public void setCustomerRelationId(int customerRelationId) {
-		this.customerRelationId = customerRelationId;
-	}
+    public void setCustomerRelationId(int customerRelationId) {
+        this.customerRelationId = customerRelationId;
+    }
 
-	public String getColumnName() {
-		return columnName;
-	}
+    public String getColumnName() {
+        return columnName;
+    }
 
-	public void setColumnName(String columnName) {
-		this.columnName = columnName;
-	}
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
+    }
 
-	public int getProductRelationId() {
-		return productRelationId;
-	}
+    public int getProductRelationId() {
+        return productRelationId;
+    }
 
-	public void setProductRelationId(int productRelationId) {
-		this.productRelationId = productRelationId;
-	}
+    public void setProductRelationId(int productRelationId) {
+        this.productRelationId = productRelationId;
+    }
 
-	public String getToDate() {
-		return toDate;
-	}
+    public String getToDate() {
+        return toDate;
+    }
 
-	public void setToDate(String toDate) {
-		this.toDate = toDate;
-	}
+    public void setToDate(String toDate) {
+        this.toDate = toDate;
+    }
 
-	public boolean isVarExFacSales() {
-		return varExFacSales;
-	}
+    public boolean isVarExFacSales() {
+        return varExFacSales;
+    }
 
-	public void setVarExFacSales(boolean varExFacSales) {
-		this.varExFacSales = varExFacSales;
-	}
+    public void setVarExFacSales(boolean varExFacSales) {
+        this.varExFacSales = varExFacSales;
+    }
 
-	public boolean isVarDemandSales() {
-		return varDemandSales;
-	}
+    public boolean isVarDemandSales() {
+        return varDemandSales;
+    }
 
-	public void setVarDemandSales(boolean varDemandSales) {
-		this.varDemandSales = varDemandSales;
-	}
+    public void setVarDemandSales(boolean varDemandSales) {
+        this.varDemandSales = varDemandSales;
+    }
 
-	public boolean isVarInvSales() {
-		return varInvSales;
-	}
+    public boolean isVarInvSales() {
+        return varInvSales;
+    }
 
-	public void setVarInvSales(boolean varInvSales) {
-		this.varInvSales = varInvSales;
-	}
+    public void setVarInvSales(boolean varInvSales) {
+        this.varInvSales = varInvSales;
+    }
 
-	public boolean isVarPerExFacSales() {
-		return varPerExFacSales;
-	}
+    public boolean isVarPerExFacSales() {
+        return varPerExFacSales;
+    }
 
-	public void setVarPerExFacSales(boolean varPerExFacSales) {
-		this.varPerExFacSales = varPerExFacSales;
-	}
+    public void setVarPerExFacSales(boolean varPerExFacSales) {
+        this.varPerExFacSales = varPerExFacSales;
+    }
 
-	public boolean isVarPerDemandSales() {
-		return varPerDemandSales;
-	}
+    public boolean isVarPerDemandSales() {
+        return varPerDemandSales;
+    }
 
-	public void setVarPerDemandSales(boolean varPerDemandSales) {
-		this.varPerDemandSales = varPerDemandSales;
-	}
+    public void setVarPerDemandSales(boolean varPerDemandSales) {
+        this.varPerDemandSales = varPerDemandSales;
+    }
 
-	public boolean isVarPerInvSales() {
-		return varPerInvSales;
-	}
+    public boolean isVarPerInvSales() {
+        return varPerInvSales;
+    }
 
-	public void setVarPerInvSales(boolean varPerInvSales) {
-		this.varPerInvSales = varPerInvSales;
-	}
+    public void setVarPerInvSales(boolean varPerInvSales) {
+        this.varPerInvSales = varPerInvSales;
+    }
 
-	public boolean isVarRPU() {
-		return varRPU;
-	}
+    public boolean isVarRPU() {
+        return varRPU;
+    }
 
-	public void setVarRPU(boolean varRPU) {
-		this.varRPU = varRPU;
-	}
+    public void setVarRPU(boolean varRPU) {
+        this.varRPU = varRPU;
+    }
 
-	public boolean isVarCOGC() {
-		return varCOGC;
-	}
+    public boolean isVarCOGC() {
+        return varCOGC;
+    }
 
-	public void setVarCOGC(boolean varCOGC) {
-		this.varCOGC = varCOGC;
-	}
+    public void setVarCOGC(boolean varCOGC) {
+        this.varCOGC = varCOGC;
+    }
 
-	public boolean isVarNetProfit() {
-		return varNetProfit;
-	}
+    public boolean isVarNetProfit() {
+        return varNetProfit;
+    }
 
-	public void setVarNetProfit(boolean varNetProfit) {
-		this.varNetProfit = varNetProfit;
-	}
+    public void setVarNetProfit(boolean varNetProfit) {
+        this.varNetProfit = varNetProfit;
+    }
 
-	public boolean isRPU() {
-		return rpu;
-	}
+    public boolean isRPU() {
+        return rpu;
+    }
 
-	public void setRPU(boolean rpu) {
-		this.rpu = rpu;
-	}
+    public void setRPU(boolean rpu) {
+        this.rpu = rpu;
+    }
 
-	public String getDiscountGroupName() {
-		return discountGroupName;
-	}
+    public String getDiscountGroupName() {
+        return discountGroupName;
+    }
 
-	public void setDiscountGroupName(String discountGroupName) {
-		this.discountGroupName = discountGroupName;
-	}
+    public void setDiscountGroupName(String discountGroupName) {
+        this.discountGroupName = discountGroupName;
+    }
 
-	@Override
-	public String getProductHierarchyNo() {
-		return productHierarchyNo;
-	}
+    @Override
+    public String getProductHierarchyNo() {
+        return productHierarchyNo;
+    }
 
-	@Override
-	public void setProductHierarchyNo(String productHierarchyNo) {
-		this.productHierarchyNo = productHierarchyNo;
-	}
+    @Override
+    public void setProductHierarchyNo(String productHierarchyNo) {
+        this.productHierarchyNo = productHierarchyNo;
+    }
 
-	@Override
-	public String getCustomerHierarchyNo() {
-		return customerHierarchyNo;
-	}
+    @Override
+    public String getCustomerHierarchyNo() {
+        return customerHierarchyNo;
+    }
 
-	@Override
-	public void setCustomerHierarchyNo(String customerHierarchyNo) {
-		this.customerHierarchyNo = customerHierarchyNo;
-	}
+    @Override
+    public void setCustomerHierarchyNo(String customerHierarchyNo) {
+        this.customerHierarchyNo = customerHierarchyNo;
+    }
 
-	public boolean isVarExFacCustomer() {
-		return varExFacCustomer;
-	}
+    public boolean isVarExFacCustomer() {
+        return varExFacCustomer;
+    }
 
-	public void setVarExFacCustomer(boolean varExFacCustomer) {
-		this.varExFacCustomer = varExFacCustomer;
-	}
+    public void setVarExFacCustomer(boolean varExFacCustomer) {
+        this.varExFacCustomer = varExFacCustomer;
+    }
 
-	public boolean isVarAdjDemand() {
-		return varAdjDemand;
-	}
+    public boolean isVarAdjDemand() {
+        return varAdjDemand;
+    }
 
-	public void setVarAdjDemand(boolean varAdjDemand) {
-		this.varAdjDemand = varAdjDemand;
-	}
+    public void setVarAdjDemand(boolean varAdjDemand) {
+        this.varAdjDemand = varAdjDemand;
+    }
 
-	public boolean isVarIwDetails() {
-		return varIwDetails;
-	}
+    public boolean isVarIwDetails() {
+        return varIwDetails;
+    }
 
-	public void setVarIwDetails(boolean varIwDetails) {
-		this.varIwDetails = varIwDetails;
-	}
+    public void setVarIwDetails(boolean varIwDetails) {
+        this.varIwDetails = varIwDetails;
+    }
 
-	public boolean isVarPerExFacCustomer() {
-		return varPerExFacCustomer;
-	}
+    public boolean isVarPerExFacCustomer() {
+        return varPerExFacCustomer;
+    }
 
-	public void setVarPerExFacCustomer(boolean varPerExFacCustomer) {
-		this.varPerExFacCustomer = varPerExFacCustomer;
-	}
+    public void setVarPerExFacCustomer(boolean varPerExFacCustomer) {
+        this.varPerExFacCustomer = varPerExFacCustomer;
+    }
 
-	public boolean isVarPerAdjDemand() {
-		return varPerAdjDemand;
-	}
+    public boolean isVarPerAdjDemand() {
+        return varPerAdjDemand;
+    }
 
-	public void setVarPerAdjDemand(boolean varPerAdjDemand) {
-		this.varPerAdjDemand = varPerAdjDemand;
-	}
+    public void setVarPerAdjDemand(boolean varPerAdjDemand) {
+        this.varPerAdjDemand = varPerAdjDemand;
+    }
 
-	public boolean isVarPerIwDetails() {
-		return varPerIwDetails;
-	}
+    public boolean isVarPerIwDetails() {
+        return varPerIwDetails;
+    }
 
-	public void setVarPerIwDetails(boolean varPerIwDetails) {
-		this.varPerIwDetails = varPerIwDetails;
-	}
+    public void setVarPerIwDetails(boolean varPerIwDetails) {
+        this.varPerIwDetails = varPerIwDetails;
+    }
 
-	@Override
-	public Map<String, String> getPivotHeaderMap() {
-		return pivotHeaderMap;
-	}
+    @Override
+    public Map<String, String> getPivotHeaderMap() {
+        return pivotHeaderMap;
+    }
 
-	@Override
-	public void setPivotHeaderMap(Map<String, String> pivotHeaderMap) {
-		this.pivotHeaderMap = pivotHeaderMap;
-	}
+    @Override
+    public void setPivotHeaderMap(Map<String, String> pivotHeaderMap) {
+        this.pivotHeaderMap = pivotHeaderMap;
+    }
 
-	public List<String> getPivotHeaderList() {
-		return pivotHeaderList == null ? pivotHeaderList : Collections.unmodifiableList(pivotHeaderList);
-	}
+    public List<String> getPivotHeaderList() {
+        return pivotHeaderList == null ? pivotHeaderList : Collections.unmodifiableList(pivotHeaderList);
+    }
 
-	public void setPivotHeaderList(List<String> pivotHeaderList) {
+    public void setPivotHeaderList(List<String> pivotHeaderList) {
 		this.pivotHeaderList = pivotHeaderList == null ? pivotHeaderList
 				: Collections.unmodifiableList(pivotHeaderList);
-	}
+    }
 
-	public String getPivotStartDate() {
-		return pivotStartDate;
-	}
+    public String getPivotStartDate() {
+        return pivotStartDate;
+    }
 
-	public void setPivotStartDate(String pivotStartDate) {
-		this.pivotStartDate = pivotStartDate;
-	}
+    public void setPivotStartDate(String pivotStartDate) {
+        this.pivotStartDate = pivotStartDate;
+    }
 
-	public int getExcelFilterLevelNo() {
-		return excelFilterLevelNo;
-	}
+    public int getExcelFilterLevelNo() {
+        return excelFilterLevelNo;
+    }
 
-	public void setExcelFilterLevelNo(int excelFilterLevelNo) {
-		this.excelFilterLevelNo = excelFilterLevelNo;
-	}
+    public void setExcelFilterLevelNo(int excelFilterLevelNo) {
+        this.excelFilterLevelNo = excelFilterLevelNo;
+    }
 
-	public String getComparisonBasis() {
-		return comparisonBasis;
-	}
+    public String getComparisonBasis() {
+        return comparisonBasis;
+    }
 
-	public void setComparisonBasis(String comparisonBasis) {
-		this.comparisonBasis = comparisonBasis;
-	}
+    public void setComparisonBasis(String comparisonBasis) {
+        this.comparisonBasis = comparisonBasis;
+    }
 
-	public boolean isNetSalesExFactory() {
-		return netSalesExFactory;
-	}
+    public boolean isNetSalesExFactory() {
+        return netSalesExFactory;
+    }
 
-	public void setNetSalesExFactory(boolean netSalesExFactory) {
-		this.netSalesExFactory = netSalesExFactory;
-	}
+    public void setNetSalesExFactory(boolean netSalesExFactory) {
+        this.netSalesExFactory = netSalesExFactory;
+    }
 
-	public boolean isDiscountPerExFactory() {
-		return discountPerExFactory;
-	}
+    public boolean isDiscountPerExFactory() {
+        return discountPerExFactory;
+    }
 
-	public void setDiscountPerExFactory(boolean discountPerExFactory) {
-		this.discountPerExFactory = discountPerExFactory;
-	}
+    public void setDiscountPerExFactory(boolean discountPerExFactory) {
+        this.discountPerExFactory = discountPerExFactory;
+    }
 
-	public boolean isNetExFactorySales() {
-		return netExFactorySales;
-	}
+    public boolean isNetExFactorySales() {
+        return netExFactorySales;
+    }
 
-	public void setNetExFactorySales(boolean netExFactorySales) {
-		this.netExFactorySales = netExFactorySales;
-	}
+    public void setNetExFactorySales(boolean netExFactorySales) {
+        this.netExFactorySales = netExFactorySales;
+    }
 
-	public boolean isNetExFactorySalesPerExFactory() {
-		return netExFactorySalesPerExFactory;
-	}
+    public boolean isNetExFactorySalesPerExFactory() {
+        return netExFactorySalesPerExFactory;
+    }
 
-	public void setNetExFactorySalesPerExFactory(boolean netExFactorySalesPerExFactory) {
-		this.netExFactorySalesPerExFactory = netExFactorySalesPerExFactory;
-	}
+    public void setNetExFactorySalesPerExFactory(boolean netExFactorySalesPerExFactory) {
+        this.netExFactorySalesPerExFactory = netExFactorySalesPerExFactory;
+    }
 
-	public boolean isIsproductFirst() {
-		return isproductFirst;
-	}
+    public boolean isIsproductFirst() {
+        return isproductFirst;
+    }
 
-	public void setIsproductFirst(boolean isproductFirst) {
-		this.isproductFirst = isproductFirst;
-	}
+    public void setIsproductFirst(boolean isproductFirst) {
+        this.isproductFirst = isproductFirst;
+    }
 
-	public boolean isIsdeductionFirst() {
-		return isdeductionFirst;
-	}
+    public boolean isIsdeductionFirst() {
+        return isdeductionFirst;
+    }
 
-	public void setIsdeductionFirst(boolean isdeductionFirst) {
-		this.isdeductionFirst = isdeductionFirst;
-	}
+    public void setIsdeductionFirst(boolean isdeductionFirst) {
+        this.isdeductionFirst = isdeductionFirst;
+    }
 
-	public boolean isIscustomerFirst() {
-		return iscustomerFirst;
-	}
+    public boolean isIscustomerFirst() {
+        return iscustomerFirst;
+    }
 
-	public void setIscustomerFirst(boolean iscustomerFirst) {
-		this.iscustomerFirst = iscustomerFirst;
-	}
+    public void setIscustomerFirst(boolean iscustomerFirst) {
+        this.iscustomerFirst = iscustomerFirst;
+    }
 
-	public List<String> getCustomerLevelFilter() {
-		return customerLevelFilter == null ? customerLevelFilter : Collections.unmodifiableList(customerLevelFilter);
-	}
+    public List<String> getCustomerLevelFilter() {
+        return customerLevelFilter == null ? customerLevelFilter : Collections.unmodifiableList(customerLevelFilter);
+    }
 
-	public void setCustomerLevelFilter(List<String> customerLevelFilter) {
+    public void setCustomerLevelFilter(List<String> customerLevelFilter) {
 		this.customerLevelFilter = customerLevelFilter == null ? customerLevelFilter
 				: Collections.unmodifiableList(customerLevelFilter);
-	}
+    }
 
-	public List<String> getProductLevelFilter() {
-		return productLevelFilter == null ? productLevelFilter : Collections.unmodifiableList(productLevelFilter);
-	}
+    public List<String> getProductLevelFilter() {
+        return productLevelFilter == null ? productLevelFilter : Collections.unmodifiableList(productLevelFilter);
+    }
 
-	public void setProductLevelFilter(List<String> productLevelFilter) {
+    public void setProductLevelFilter(List<String> productLevelFilter) {
 		this.productLevelFilter = productLevelFilter == null ? productLevelFilter
 				: Collections.unmodifiableList(productLevelFilter);
-	}
+    }
 
-	public List<String> getDeductionLevelFilter() {
-		return deductionLevelFilter == null ? deductionLevelFilter : Collections.unmodifiableList(deductionLevelFilter);
-	}
+    public List<String> getDeductionLevelFilter() {
+        return deductionLevelFilter == null ? deductionLevelFilter : Collections.unmodifiableList(deductionLevelFilter);
+    }
 
-	public void setDeductionLevelFilter(List<String> deductionLevelFilter) {
+    public void setDeductionLevelFilter(List<String> deductionLevelFilter) {
 		this.deductionLevelFilter = deductionLevelFilter == null ? deductionLevelFilter
 				: Collections.unmodifiableList(deductionLevelFilter);
-	}
+    }
 
-	public List<String> getDeductionLevelCaptions() {
+    public List<String> getDeductionLevelCaptions() {
 		return deductionLevelCaptions == null ? deductionLevelCaptions
 				: Collections.unmodifiableList(deductionLevelCaptions);
-	}
+    }
 
-	public void setDeductionLevelCaptions(List<String> deductionLevelCaptions) {
+    public void setDeductionLevelCaptions(List<String> deductionLevelCaptions) {
 		this.deductionLevelCaptions = deductionLevelCaptions == null ? deductionLevelCaptions
 				: Collections.unmodifiableList(deductionLevelCaptions);
-	}
+    }
 
-	public String getUomCode() {
-		return uomCode;
-	}
+    public String getUomCode() {
+        return uomCode;
+    }
 
-	public void setUomCode(String uomCode) {
-		this.uomCode = uomCode;
-	}
+    public void setUomCode(String uomCode) {
+        this.uomCode = uomCode;
+    }
 
-	public String getDeductionLevelValues() {
-		return deductionLevelValues;
-	}
+    public String getDeductionLevelValues() {
+        return deductionLevelValues;
+    }
 
-	public void setDeductionLevelValues(String deductionLevelValues) {
-		this.deductionLevelValues = deductionLevelValues;
-	}
+    public void setDeductionLevelValues(String deductionLevelValues) {
+        this.deductionLevelValues = deductionLevelValues;
+    }
 
-	public boolean isConversionNeeded() {
-		return conversionNeeded;
-	}
+    public boolean isConversionNeeded() {
+        return conversionNeeded;
+    }
 
-	public void setConversionNeeded(boolean conversionNeeded) {
-		this.conversionNeeded = conversionNeeded;
-	}
+    public void setConversionNeeded(boolean conversionNeeded) {
+        this.conversionNeeded = conversionNeeded;
+    }
 
-}
+    }

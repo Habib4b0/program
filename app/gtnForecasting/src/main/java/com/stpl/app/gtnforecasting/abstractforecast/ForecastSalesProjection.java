@@ -3775,7 +3775,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             return false;
 
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return false;
         }
     }

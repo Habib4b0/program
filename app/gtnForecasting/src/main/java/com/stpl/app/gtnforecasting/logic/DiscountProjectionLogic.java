@@ -750,7 +750,7 @@ public class DiscountProjectionLogic {
                         : " WHERE RS_CONTRACT_SID IN (SELECT RS_CONTRACT_SID FROM RS_CONTRACT RC JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RC.REBATE_PROGRAM_TYPE WHERE HT.DESCRIPTION NOT IN (" + discountIds + ")) ";
             }
 
-            MSalesProjectionMasterLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()), null, null);
+            HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         }
     }
 
@@ -764,7 +764,7 @@ public class DiscountProjectionLogic {
                     + "select RS_NAME,RS_CONTRACT_SID from RS_CONTRACT where RS_CONTRACT_SID IN(select token from udf_splitstring(@rs_contract,','))\n"
                     + "ORDER BY RS_NAME,RS_CONTRACT_SID";
             rsContractQuery = rsContractQuery.replace("@PROJECTION_MASTER_SID", projectionId);
-            List<Object[]> rsContList = (List<Object[]>) MSalesProjectionMasterLocalServiceUtil.executeSelectQuery(rsContractQuery, null, null);
+            List<Object[]> rsContList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(rsContractQuery);
             List rawList = new ArrayList<>();
             List<String> rsNameSids = new ArrayList<>();
             List<String> rsNoSids = new ArrayList<>();

@@ -170,7 +170,7 @@ public class SalesLogic {
      * @throws Exception
      */
     public int getHistoryAndProjectionCount(final SessionDTO sessionDTO, final ProjectionSelectionDTO projectionSelectionDTO) {
-        String query = CustomSQLUtil.get("rows-per-level-item");
+        String query = SQlUtil.getQuery("rows-per-level-item");
         if (Constant.VIEW.equals(projectionSelectionDTO.getSessionDTO().getAction()) && CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(projectionSelectionDTO.getScreenName())) {
             query = SQlUtil.getQuery("rows-per-level-item-view");
         }
@@ -1538,7 +1538,7 @@ public class SalesLogic {
     public void saveProjectionSelection(Map<String, Object> projectionSelectionDTO, int projectionId) throws PortalException {
         List<ChProjectionSelection> list = null;
         CommonLogic logic = new CommonLogic();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(ChProjectionSelection.class);
+        DynamicQuery query = ChProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
         query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, projectionSelectionDTO.get(Constant.SCREEN_NAME)));
         try {
@@ -1549,7 +1549,7 @@ public class SalesLogic {
                 logic.saveSelection(projectionSelectionDTO, projectionId, String.valueOf(projectionSelectionDTO.get(Constant.SCREEN_NAME)), Constant.UPDATE, "CH_PROJECTION_SELECTION");
             }
         } catch (SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
