@@ -483,7 +483,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     @UiField("totalLivesLayout")
     protected HorizontalLayout totalLivesLayout;
     @UiField("viewLayout")
-    protected HorizontalLayout viewLayout;
+    protected GridLayout viewLayout;
     @UiField("level")
     protected OptionGroup levelOption;
     @UiField("channelView")
