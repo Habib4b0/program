@@ -3,10 +3,11 @@ package com.stpl.app.cff.bpm.persistance;
 import com.stpl.app.cff.bpm.persistance.provider.BasePersistanceProvider;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import java.util.List;
+import org.slf4j.LoggerFactory;
 
 public class WorkflowPersistance extends BasePersistanceProvider {
     
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(WorkflowPersistance.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(WorkflowPersistance.class);
 
     public static boolean insertWFInstanceInfo(int projectionId, long processInstanceId) {
         try {
@@ -16,7 +17,7 @@ public class WorkflowPersistance extends BasePersistanceProvider {
             return executeBulkUpdateQuery(customSql, null, null);
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
             return false;
         }
     }
@@ -29,7 +30,7 @@ public class WorkflowPersistance extends BasePersistanceProvider {
             obj = executeSelectQuery(customSql, null, null);
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return obj;
       
@@ -44,7 +45,7 @@ public class WorkflowPersistance extends BasePersistanceProvider {
             customSql=customSql.replace("?SESSION_ID", String.valueOf(sessionId));
             obj = executeSelectQuery(customSql, null, null);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return obj;
         
@@ -61,7 +62,7 @@ public class WorkflowPersistance extends BasePersistanceProvider {
             customSql=customSql.replace("?SESSION_ID", String.valueOf(sessionId));
             obj = executeSelectQuery(customSql, null, null);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         return obj;
     }

@@ -42,6 +42,7 @@ import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 
@@ -109,7 +110,7 @@ public class ItemSearchLookup extends Window {
     private final TextField itemLookupName;
     private final ItemSearchDTO itemSearchDTO = new ItemSearchDTO();
     private final ErrorfulFieldGroup itemSearchBinder = new ErrorfulFieldGroup(new BeanItem<ItemSearchDTO>(itemSearchDTO));
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ItemSearchLookup.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ItemSearchLookup.class);
     private final BeanItemContainer<ItemSearchDTO> itemBean = new BeanItemContainer<>(ItemSearchDTO.class);
     
     @UiField("tableLayout")
@@ -173,7 +174,7 @@ public class ItemSearchLookup extends Window {
             itemLookupName.setValue(dto.getItemName());
             close();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
 
         }
         LOGGER.debug(" addItemsButtonClick method Ended");
@@ -413,7 +414,7 @@ public class ItemSearchLookup extends Window {
                     itemNumber.setValue(dto.getItemNo());
                     itemLookupName.setValue(dto.getItemName());
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
             }
         });

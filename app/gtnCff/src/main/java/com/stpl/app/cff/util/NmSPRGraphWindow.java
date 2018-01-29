@@ -7,14 +7,15 @@ package com.stpl.app.cff.util;
 
 import com.vaadin.ui.Component;
 import elemental.events.KeyboardEvent;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Lokeshwari
  */
 public class NmSPRGraphWindow extends StplWindow{
-    private static final Logger LOGGER = Logger.getLogger(NmSPRGraphWindow.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NmSPRGraphWindow.class);
     public NmSPRGraphWindow(final Component component, final String title) {
 		super(title);
 

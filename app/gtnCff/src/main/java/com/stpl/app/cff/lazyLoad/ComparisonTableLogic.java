@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -21,7 +22,7 @@ import org.jboss.logging.Logger;
  */
 public class ComparisonTableLogic extends PageTableLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(ComparisonTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComparisonTableLogic.class);
     private boolean loadData = false;
     private ComparisonLookupDTO comparisonLookup;
     private final ProjectionVarianceLogic projectionVarianceLogic = new ProjectionVarianceLogic();
@@ -36,7 +37,7 @@ public class ComparisonTableLogic extends PageTableLogic {
                 count = projectionVarianceLogic.getComparisonCount(comparisonLookup);
                 LOGGER.debug("Count"+count);
             } catch (Exception ex) {
-                LOGGER.log(Logger.Level.ERROR, ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return count;
@@ -53,7 +54,7 @@ public class ComparisonTableLogic extends PageTableLogic {
            comparisonLookup.setSortColumns(getSortByColumns());
             resultList = projectionVarianceLogic.getComparisonResults(comparisonLookup);
         } catch (Exception ex) {
-            LOGGER.log(Logger.Level.ERROR, ex);
+            LOGGER.error(ex.getMessage());
         }
         return resultList;
     }

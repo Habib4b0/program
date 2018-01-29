@@ -27,7 +27,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class holds the logic to grant permission to Users.
@@ -46,7 +47,7 @@ public class StplSecurity {
     public static final int FIELD_VALUE = 2;
     
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger(StplSecurity.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StplSecurity.class);
    
    /** The dao. */
   private final StplSecurityDAO dao = new StplSecurityDAOImpl();
@@ -144,7 +145,7 @@ public StplSecurityDAO getDto() {
             }
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
         return domainIds;

@@ -21,7 +21,8 @@ import com.vaadin.v7.ui.Table;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.container.ExtTreeContainer;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * The Class CustomTreeBuild.
  *
@@ -33,7 +34,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     private int customId = 0;
     private boolean isSelect = false;
     private CffCustomViewMaster customView = null;
-    private static final Logger LOGGER = Logger.getLogger(CustomTreeBuild.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomTreeBuild.class);
     private CustomViewLogic relationBuildLogic = new CustomViewLogic(); 
 
     /**
@@ -179,7 +180,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
                         table.addItem(treeItemId);
                     }
                 } catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
                 }
             }
         } else {
@@ -252,7 +253,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
             LOGGER.debug("customTreeSaveLogic ended" + returnBack);
             return returnBack;
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
             return 0;
         }
 
@@ -354,7 +355,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
         LOGGER.debug("load Deductions productList End size=" + deductionList.size());
         deductionContainer.addAll(deductionList);
         }catch(Exception e){
-        	LOGGER.error(e);
+        	LOGGER.error(e.getMessage());
         }
     }
 

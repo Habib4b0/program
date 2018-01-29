@@ -30,7 +30,8 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.ui.Component;
 import java.util.ArrayList;
 import java.util.List;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -47,7 +48,7 @@ public class PRChart {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(PRChart.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PRChart.class);
     private ProjectionSelectionDTO projSelDTO;
 
     /**

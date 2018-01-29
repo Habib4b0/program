@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -34,7 +35,7 @@ public class AdditionalInfoLogic {
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(AdditionalInfoLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdditionalInfoLogic.class);
     /**
      * The additional info logic dao.
      */

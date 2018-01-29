@@ -6,7 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -37,7 +38,7 @@ public class ProjectionVarianceDTO extends ExtMapDTO implements Comparator<Proje
     private String relationshipLevelName = StringUtils.EMPTY;
     private Integer onExpandTotalRow = 0;
     private String ccpIds;
-    private static final Logger LOGGER = Logger.getLogger(ProjectionVarianceDTO.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectionVarianceDTO.class);
     private String parentHierarchyNo = StringUtils.EMPTY;
 
     public Integer getOnExpandTotalRow() {
@@ -222,7 +223,7 @@ public class ProjectionVarianceDTO extends ExtMapDTO implements Comparator<Proje
                 }
             }
         } catch (Exception e) {
-        LOGGER.error(e);
+        LOGGER.error(e.getMessage());
         }
         return value;
     }

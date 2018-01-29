@@ -27,7 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -35,7 +36,7 @@ import org.jboss.logging.Logger;
  */
 public class PRExcelLogic {
     
-    public static final Logger LOGGER = Logger.getLogger(PRExcelLogic.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(PRExcelLogic.class);
     private ProjectionResultsDTO exFacProduct;
     private ProjectionResultsDTO exFacCustomer;
     private ProjectionResultsDTO demand;
@@ -371,7 +372,7 @@ public class PRExcelLogic {
             pvList.add(netProfit);
 
          } catch (Exception e) {
-             LOGGER.error(e);
+             LOGGER.error(e.getMessage());
          }
 
     }

@@ -17,7 +17,8 @@ import com.vaadin.v7.ui.DateField;
 import com.vaadin.v7.ui.DefaultFieldFactory;
 import com.vaadin.v7.ui.Field;
 import org.asi.ui.customtextfield.CustomTextField;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +30,7 @@ public class FileSelectionTableGenerator extends DefaultFieldFactory {
     private CustomTextField fileName;
     private final SessionDTO session;
     private final String businessUnit;
-    private static final Logger LOGGER = Logger.getLogger(FileSelectionTableGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileSelectionTableGenerator.class);
 
     public FileSelectionTableGenerator(BeanItemContainer searchContainer,SessionDTO sessionDTO,String businessUnit ){
         this.searchContainer = searchContainer;
@@ -76,7 +77,7 @@ public class FileSelectionTableGenerator extends DefaultFieldFactory {
                         });
 
                     } catch (Exception ex) {
-                        LOGGER.error(ex);
+                        LOGGER.error(ex.getMessage());
                     }
                 }
             });

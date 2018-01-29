@@ -31,6 +31,7 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author mohamed.hameed
@@ -39,7 +40,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
      /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(HierarchyLookup.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(HierarchyLookup.class);
     /**
      * Indicates whether it is customer lookup or product lookup.
      */

@@ -70,7 +70,8 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -86,7 +87,7 @@ public class ApprovalTab extends CustomComponent {
     /**
      * Logger implementation for CffApprovalDetailsForm
      */
-    private static final Logger LOGGER = Logger.getLogger(ApprovalTab.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApprovalTab.class);
     /**
      * Close Button
      */
@@ -296,7 +297,7 @@ public class ApprovalTab extends CustomComponent {
             try {
                 latestEstimate = commonUtils.getNativeSelect(latestEstimate, CFFLogic.getDropDownList(ConstantsUtil.LOCKED_STATUS), StringUtils.EMPTY);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
             latestEstimate.setImmediate(true);
             latestEstimate.setNullSelectionAllowed(true);
@@ -319,7 +320,7 @@ public class ApprovalTab extends CustomComponent {
             try {
                 updateCycle = commonUtils.getNativeSelect(updateCycle, CFFLogic.getDropDownList(ConstantsUtil.LOCKED_STATUS), StringUtils.EMPTY);
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
             updateCycle.setImmediate(true);
             updateCycle.setNullSelectionAllowed(true);
@@ -515,7 +516,7 @@ public class ApprovalTab extends CustomComponent {
             resultLayout.addComponent(resultPagination);
 
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
         disableFieldsOnview();
 
@@ -540,7 +541,7 @@ public class ApprovalTab extends CustomComponent {
                     LOGGER.debug(" Ends  EXCEL Export Button Click");
 
                 } catch (Exception exception) {
-                    LOGGER.error(exception);
+                    LOGGER.error(exception.getMessage());
                 }
             }
         });
@@ -897,7 +898,7 @@ public class ApprovalTab extends CustomComponent {
                     return Boolean.TRUE;
                 }
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         return Boolean.FALSE;
@@ -920,7 +921,7 @@ public class ApprovalTab extends CustomComponent {
             final long recordCount = resultsBean.size();
             ExcelExportforBB.createWorkSheet(resultTable.getColumnHeaders(), recordCount, this, getUI(), EXCEL_HEADER);
         } catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         LOGGER.debug("Ending Approval Details createWorkSheet");
     }
@@ -1071,7 +1072,7 @@ public class ApprovalTab extends CustomComponent {
             }
 
         } catch (PortalException | SystemException ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 
@@ -1086,7 +1087,7 @@ public class ApprovalTab extends CustomComponent {
         try {
             resultList = CommonServiceImpl.getInstance().fetchFieldsForSecurity(moduleName, tabName);
         } catch (Exception ex) {
-            LOGGER.error(ex);
+            LOGGER.error(ex.getMessage());
         }
         return resultList;
     }

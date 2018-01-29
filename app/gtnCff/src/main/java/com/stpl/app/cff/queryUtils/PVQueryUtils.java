@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,7 +26,7 @@ public class PVQueryUtils {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(PVQueryUtils.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(PVQueryUtils.class);
     public static final String TODIS = "TODIS";
     public static final String SALEPPA = "SALEPPA";
     

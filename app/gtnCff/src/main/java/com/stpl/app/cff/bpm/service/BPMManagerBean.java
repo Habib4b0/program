@@ -9,6 +9,7 @@ import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.manager.RuntimeEnvironmentBuilder;
 import org.kie.api.runtime.manager.RuntimeManagerFactory;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,7 +20,7 @@ public class BPMManagerBean {
     /**
      * The Constant LOGGER.
      */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(BPMManagerBean.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(BPMManagerBean.class);
 
     private ReleaseId releaseId;
     private RuntimeEngine runtimeEngine;
@@ -34,7 +35,7 @@ public class BPMManagerBean {
             runtimeEngine = RuntimeManagerFactory.Factory.get().newSingletonRuntimeManager(builder.get(), "com.sample:example:1.0").getRuntimeEngine(null);
             runtimeEngine.getKieSession().getWorkItemManager().registerWorkItemHandler("Email", new MailWorkItemHandler());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 

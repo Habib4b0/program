@@ -45,7 +45,8 @@ import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -53,7 +54,7 @@ import org.jboss.logging.Logger;
  */
 public class DataSelectionDAOImpl implements DataSelectionDAO {
     
-     private static final Logger LOGGER = Logger.getLogger(DataSelectionDAOImpl.class);
+     private static final Logger LOGGER = LoggerFactory.getLogger(DataSelectionDAOImpl.class);
 
     /**
      * Delete forecasting view master.
@@ -363,7 +364,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
         try {
             return HierarchyDefinitionLocalServiceUtil.dynamicQuery(query);
         } catch (SystemException ex) {
-             LOGGER.error(ex);
+             LOGGER.error(ex.getMessage());
 
         }
         return Collections.emptyList();

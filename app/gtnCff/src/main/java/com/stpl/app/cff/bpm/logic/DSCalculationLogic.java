@@ -18,13 +18,14 @@ import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsCFFSubmitBean;
 import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.constants.GtnWsWorkFlowConstants;
 import org.kie.api.task.model.TaskSummary;
+import org.slf4j.LoggerFactory;
 
 public class DSCalculationLogic {
 
 	/**
 	 * The Constant LOGGER.
 	 */
-	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DSCalculationLogic.class);
+	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DSCalculationLogic.class);
 
 	
 
@@ -55,7 +56,7 @@ public class DSCalculationLogic {
 				}
 			}
 		} catch (Exception e) {
-                    LOGGER.error(e);
+                    LOGGER.error(e.getMessage());
 		}
 
 		return returnflag;

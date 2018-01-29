@@ -78,7 +78,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -93,7 +94,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 	/**
 	 * Logger implementation for ConsolidatedFinancialForecastForm
 	 */
-	private static final Logger LOGGER = Logger.getLogger(ConsolidatedFinancialForecastForm.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConsolidatedFinancialForecastForm.class);
 	/**
 	 *
 	 * Financial ForecastId Label
@@ -388,7 +389,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						LOGGER.debug(" Ends  EXCEL Export Button Click");
 
 					} catch (final Exception exception) {
-						LOGGER.error(exception);
+						LOGGER.error(exception.getMessage());
 					}
 				}
 			});
@@ -413,7 +414,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 			approvalDetailsBean = new BeanItemContainer<>(ApprovalDetailsDTO.class);
 			resultsBean = new BeanItemContainer<>(CFFResultsDTO.class);
 		} catch (final Exception e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage());
 		} finally {
 			final SessionUtil sessionUtil = new SessionUtil();
 			final SessionDTO session = sessionUtil.createSession();
@@ -607,7 +608,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 			}
 
 		} catch (final Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -788,7 +789,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				AbstractNotificationUtils.getErrorNotification(NO_RECORD_SELECTED, "Please select a record to view.");
 			}
 		} catch (final Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -881,7 +882,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 			resultTable.setFilterGenerator(new CFFFilterGenerator());
 			resultTable.setImmediate(true);
 		} catch (final FieldGroup.CommitException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 
@@ -965,7 +966,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				addBtn.setVisible(true);
 			}
 		} catch (final PortalException | SystemException ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 	}
 	

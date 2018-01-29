@@ -19,7 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeLogicBase;  
 import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,7 +31,7 @@ public class ResultsTableLogic extends PageTreeTableLogic {
     private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final ProjectionResultsLogic projectionResultsLogic = new ProjectionResultsLogic();
     private boolean firstGenerated = false;
-    private static final Logger LOGGER = Logger.getLogger(ResultsTableLogic.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResultsTableLogic.class);
 
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
@@ -51,7 +52,7 @@ public class ResultsTableLogic extends PageTreeTableLogic {
                 }
                 projSelDTO.clearNonFetchableIndex();
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         LOGGER.debug("loadData ended " + map.size());
@@ -66,7 +67,7 @@ public class ResultsTableLogic extends PageTreeTableLogic {
             try {
                 count = getCountByForecastName(getLastParent());
             } catch (Exception ex) {
-                LOGGER.error(ex);
+                LOGGER.error(ex.getMessage());
             }
         }
         LOGGER.debug("getCount ended with count=" + count);

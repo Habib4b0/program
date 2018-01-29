@@ -23,9 +23,10 @@ import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
+import org.slf4j.LoggerFactory;
 import org.vaadin.alump.beforeunload.BeforeUnload;
 
 /**
@@ -53,7 +54,7 @@ public class ConsolidatedFinancialForecastUI extends UI {
 	/**
 	 * Logger constant for the class ConsolidatedFinancialForecastUI
 	 */
-	private static final Logger LOGGER = Logger.getLogger(ConsolidatedFinancialForecastUI.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConsolidatedFinancialForecastUI.class);
 
 	/**
 	 * Override methods called from UI class
@@ -92,7 +93,7 @@ public class ConsolidatedFinancialForecastUI extends UI {
 			navigator.setErrorView(new ConsolidatedFinancialForecastView());
 			LOGGER.debug("init method ends");
 		} catch (Exception ex) {
-			LOGGER.error(ex);
+			LOGGER.error(ex.getMessage());
 		}
 
 		// Configure the error handler for the UI

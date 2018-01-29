@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -46,7 +47,7 @@ public class CustomViewLogic {
       /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = Logger.getLogger(CustomViewLogic.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomViewLogic.class.getName());
     public Map<Integer, String> getData_custom_view(String projectionId, String customViewMasterSid) {
 
         levelValMap.clear();
@@ -251,7 +252,7 @@ public class CustomViewLogic {
 
             formHierarchy();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
 
     }

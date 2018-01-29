@@ -24,14 +24,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
  * @author shrihariharan
  */
 public class ResponsiveUtils {
-       private final static Logger LOGGER = Logger.getLogger(ResponsiveUtils.class);
+       private final static Logger LOGGER = LoggerFactory.getLogger(ResponsiveUtils.class);
 
     public static HorizontalLayout addComponentsInHorizontalLayout(Component c1, Component c2) {
         HorizontalLayout hlayout = new HorizontalLayout();
@@ -57,7 +58,7 @@ public class ResponsiveUtils {
             }
         } catch (Exception e) {
 
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage());
         }
     }
 

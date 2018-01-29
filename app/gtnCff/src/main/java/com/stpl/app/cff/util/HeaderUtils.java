@@ -49,7 +49,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -57,7 +58,7 @@ import org.jboss.logging.Logger;
  */
 public class HeaderUtils {
 
-    public static final Logger LOGGER = Logger.getLogger(HeaderUtils.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(HeaderUtils.class);
     /**
      * The comparison columns.
      */
