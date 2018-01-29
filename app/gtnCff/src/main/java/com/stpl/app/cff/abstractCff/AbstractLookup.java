@@ -33,6 +33,7 @@ import javax.naming.NamingException;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -67,7 +68,7 @@ public abstract class AbstractLookup extends Window {
 	/**
 	 * The logger.
 	 */
-	private static final org.slf4j.Logger LOGGER = org.slf4j.Logger.getLogger(AbstractLookup.class);
+	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(AbstractLookup.class);
 
 	/**
 	 * Constructor for AbstractLookup

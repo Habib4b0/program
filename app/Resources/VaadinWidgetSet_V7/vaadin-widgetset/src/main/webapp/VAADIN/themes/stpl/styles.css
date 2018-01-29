@@ -14814,5 +14814,10 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .stpl .v-scrollable.v-table-body-wrapper.v-table-body {
-	overflow: unset;
+	overflow: auto;
+}
+
+.v-slot, .v-spacing {
+	display: inline;
+	padding-right: 5px;
 }

@@ -9,7 +9,7 @@ and open the template in the editor.
                 xmlns:s="urn:import:org.asi.ui.extfilteringtable.paged" 
                 xmlns:e="urn:import:com.stpl.app.ui.errorhandling"   spacing="true">
     <HorizontalLayout spacing="true" width="100%">
-        <Panel id="searchCriteria" caption="Search Criteria" styleName="textbold" height="325px">
+        <Panel id="searchCriteria" caption="Search Criteria" width="50%" styleName="textbold" height="325px">
             <VerticalLayout>
                 <HorizontalLayout margin="true" width="100%">
                     <e:ErrorLabel id="errorLabel" contentMode="HTML"/>
@@ -28,7 +28,7 @@ and open the template in the editor.
                 </GridLayout>
             </VerticalLayout>    
         </Panel>
-        <Panel id="approvalDetails" caption="Approval Details" styleName="textbold" height="325px">
+        <Panel id="approvalDetails" caption="Approval Details" width="50%"  styleName="textbold" height="325px">
             <VerticalLayout id="approvalLayout">
                 
             </VerticalLayout>

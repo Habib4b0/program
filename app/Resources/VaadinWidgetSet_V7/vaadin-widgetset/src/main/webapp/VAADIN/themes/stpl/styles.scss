@@ -2,4 +2,10 @@
 
 .stpl {
   @include stpl;
+
+}
+
+  .v-slot, .v-spacing {
+    display: inline;
+    padding-right: 5px;
 }
