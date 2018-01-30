@@ -2,12 +2,11 @@ package com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.validatio
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
@@ -46,12 +45,6 @@ public class GtnUIFrameworkCDRSaveConfirmationAction implements GtnUIFrameWorkAc
 
 			onSucessActionConfig.add(custoSavemAction);
 
-			GtnUIFrameWorkActionConfig changeCaptionActionConfig = gtnFrameworkConfigurationFactory
-					.buildActionConfig(GtnUIFrameworkActionType.CHANGE_CAPTION);
-			Map<String, String> captionMap = new HashMap<>();
-			captionMap.put(componentId, "UPDATE");
-			changeCaptionActionConfig.setActionParameterList(Arrays.asList(new Object[] { captionMap }));
-			onSucessActionConfig.add(changeCaptionActionConfig);
 
 			GtnUIFrameWorkActionConfig notificationActionConfig = gtnFrameworkConfigurationFactory
 					.buildActionConfig(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
@@ -64,12 +57,19 @@ public class GtnUIFrameworkCDRSaveConfirmationAction implements GtnUIFrameWorkAc
 			notificationActionConfig.setActionParameterList(notificationParams);
 			onSucessActionConfig.add(notificationActionConfig);
 
+			GtnUIFrameWorkActionConfig changeCaptionActionConfig = gtnFrameworkConfigurationFactory
+					.buildActionConfig(GtnUIFrameworkActionType.CHANGE_CAPTION);
+			List<Object> paramsList = new ArrayList<>();
+			paramsList.add(Arrays.asList("cDRAddSaveButton"));
+			paramsList.add(Arrays.asList("UPDATE"));
+			changeCaptionActionConfig.setActionParameterList(paramsList);
+			onSucessActionConfig.add(changeCaptionActionConfig);
+
+
 			alertParams.add(onSucessActionConfig);
 
 			confirmationActionConfig.setActionParameterList(alertParams);
-			GtnUIFrameWorkAction action = confirmationActionConfig.getActionType().getGtnUIFrameWorkAction();
-			action.configureParams(confirmationActionConfig);
-			action.doAction("", confirmationActionConfig);
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmationActionConfig);
 
 		} catch (GtnFrameworkGeneralException ex) {
 			throw ex;
