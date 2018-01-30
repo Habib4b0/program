@@ -568,11 +568,9 @@ public class RelationShipFilterLogic {
 			List<Leveldto> customerHierarchyLevelDefinitionList, List<Leveldto> productHierarchyLevelDefinitionList,
 			int customerRelationVersionNo, int productRelationVersionNo) {
 		String customerHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, Boolean.FALSE,
-				customerRelationVersionNo);
+				customerHierarchyLevelDefinitionList, Boolean.FALSE, customerRelationVersionNo);
 		String productHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedProductList,
-				productHierarchyLevelDefinitionList, Boolean.TRUE,
-				productRelationVersionNo);
+				productHierarchyLevelDefinitionList, Boolean.TRUE, productRelationVersionNo);
 		List<String> input = new ArrayList<>();
 		input.add(customerHierarchyQuery);
 		input.add(productHierarchyQuery);
@@ -605,11 +603,9 @@ public class RelationShipFilterLogic {
 			int projectionId, String deductionLevel, String dedValue, int customerRelationVersionNo,
 			int productRelationVersionNo) {
 		String customerHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, Boolean.FALSE,
-				customerRelationVersionNo);
+				customerHierarchyLevelDefinitionList, Boolean.FALSE, customerRelationVersionNo);
 		String productHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedProductList,
-				productHierarchyLevelDefinitionList, Boolean.TRUE,
-				productRelationVersionNo);
+				productHierarchyLevelDefinitionList, Boolean.TRUE, productRelationVersionNo);
 		List<Object> input = new ArrayList<>();
 		input.add(customerHierarchyQuery);
 		input.add(productHierarchyQuery);
@@ -624,8 +620,7 @@ public class RelationShipFilterLogic {
 	}
 
 	private String getCustomerAndContractHierarchyQuery(List<Leveldto> selectedRelationLevelList,
-			List<Leveldto> hierarchyLevelDefinitionList, boolean isProduct,
-			int relationVersionNo) {
+			List<Leveldto> hierarchyLevelDefinitionList, boolean isProduct, int relationVersionNo) {
 		int relationSid = Integer.parseInt(selectedRelationLevelList.get(0).getRelationShipBuilderId());
 		List<Object> input = new ArrayList<>();
 		StringBuilder finalQuery = getParentHierarchyNo(hierarchyLevelDefinitionList,
@@ -648,8 +643,7 @@ public class RelationShipFilterLogic {
 	private void getParentHierarchyCondition(GtnFrameworkQueryGeneratorBean queryBean) {
 		GtnFrameworkJoinClauseBean relationJoin = queryBean.addJoinClauseBean(RELATIONSHIP_LEVEL_DEFN,
 				RELATIONSHIP_LEVEL_DEFN, GtnFrameworkJoinType.JOIN);
-		relationJoin.addConditionBean(RELATIONSHIP_BUILD_HIERARCHY_NO, null,
-				GtnFrameworkOperatorType.LIKE);
+		relationJoin.addConditionBean(RELATIONSHIP_BUILD_HIERARCHY_NO, null, GtnFrameworkOperatorType.LIKE);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
 				GtnFrameworkOperatorType.EQUAL_TO);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID", null,
@@ -670,7 +664,8 @@ public class RelationShipFilterLogic {
 			query.append(",");
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = masterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-			query.append(singleColumnRelationBean.getActualTtableName()).append(".").append(singleColumnRelationBean.getWhereClauseColumn());
+			query.append(singleColumnRelationBean.getActualTtableName()).append(".")
+					.append(singleColumnRelationBean.getWhereClauseColumn());
 			query.append(",'.'");
 		}
 		finalQuery.append("concat( RELATIONSHIP_BUILDER_SID,'-'");
@@ -940,5 +935,20 @@ public class RelationShipFilterLogic {
 		token.setSessionId(sessionId.toString());
 		return token;
 	}
-}
 
+	public boolean isRelationUPdated(int projectionIdValue) {
+		List<Integer> input = new ArrayList<>();
+		input.add(projectionIdValue);
+		input.add(projectionIdValue);
+		List results = QueryUtils.getAppData(input, "getRelationShiPVersionUpdatedStatus", null);
+		return Integer.parseInt(results.get(0).toString()) == 1;
+	}
+
+	public void waitForAutomaticRelation() {
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		client.callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_AUTOMATIC_RELATION_SERIVCE
+				+ GtnWebServiceUrlConstants.WAIT_AUTOMATIC_RELATION_UPDATE, request, getGsnWsSecurityToken());
+	}
+
+}

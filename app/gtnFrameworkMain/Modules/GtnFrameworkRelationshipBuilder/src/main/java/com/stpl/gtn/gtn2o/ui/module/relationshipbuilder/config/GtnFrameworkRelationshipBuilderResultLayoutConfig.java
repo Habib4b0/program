@@ -76,6 +76,7 @@ public class GtnFrameworkRelationshipBuilderResultLayoutConfig {
 		addHierarchyLevelPanel(componentList, namespaceprefix, isView);
 		addRelationshipTree(componentList, namespaceprefix, isView);
 		addRemoveFromTreeButtonComponent(componentList, namespaceprefix, isView);
+		addAutoBuildButtonComponent(componentList, namespaceprefix, isView);
 	}
 
 	public void addHierarchyLevelPanel(List<GtnUIFrameworkComponentConfig> componentList, String namespaceprefix,
@@ -103,6 +104,7 @@ public class GtnFrameworkRelationshipBuilderResultLayoutConfig {
 
 		availableResultPanel(componentList, namespaceprefix, isView);
 
+
 	}
 
 	private void availableResultPanel(List<GtnUIFrameworkComponentConfig> componentList, String namespaceprefix,
@@ -123,7 +125,7 @@ public class GtnFrameworkRelationshipBuilderResultLayoutConfig {
 
 		availableResultDataTable(componentList, namespaceprefix);
 		addAddToTreeButtonComponent(componentList, namespaceprefix, isView);
-		addAutoBuildButtonComponent(componentList, namespaceprefix, isView);
+
 	}
 
 	private void addAddToTreeButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namespaceprefix,
@@ -152,7 +154,8 @@ public class GtnFrameworkRelationshipBuilderResultLayoutConfig {
 	private void addAutoBuildButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String namespaceprefix,
 			boolean isView) {
 		GtnUIFrameworkComponentConfig addToTreeBtnConfig = gtnConfigFactory.getUIFrameworkComponentConfig(
-				namespaceprefix + "autoBuildBtn", true, namespaceprefix + BUTTON_HIERARCHY_CSS_LAYOUT,
+				namespaceprefix + "autoBuildBtn", true,
+				namespaceprefix + GtnWsRelationshipBuilderConstants.TREE_CSS_LAYOUT,
 				GtnUIFrameworkComponentType.BUTTON);
 		addToTreeBtnConfig.setAuthorizationIncluded(true);
 		addToTreeBtnConfig.setComponentName("Auto-Build");

@@ -2577,10 +2577,13 @@ public class CommonLogic {
 
         String query = SQlUtil.getQuery("hiearchy-no-query");
         query = query.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
-        query = query.replace("[?START]", String.valueOf(start));
-        query = query.replace("[?END]", String.valueOf(end));
         query = query.replace("[?HIERARCHY_COLUMN]", getColumnName(projSelDTO.getHierarchyIndicator()));
         query = query.replace("[?TAB_BASED_JOIN]", SQlUtil.getQuery("discount-join-filter"));
+        query += CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator());
+        query += SQlUtil.getQuery("custom-view-condition-query");
+        query = query.replace("[?START]", String.valueOf(start));
+        query = query.replace("[?END]", String.valueOf(end));
+        query = query.replace(Constants.RELJOIN, CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator())); 
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
             return list;
