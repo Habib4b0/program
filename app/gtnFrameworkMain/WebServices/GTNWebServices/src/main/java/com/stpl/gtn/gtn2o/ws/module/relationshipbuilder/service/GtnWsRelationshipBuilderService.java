@@ -723,7 +723,7 @@ public class GtnWsRelationshipBuilderService {
 						hierarchyBean.getHierarchyDefinitionSid(), hierarchyBean.getHierarchyLevelDefinitionSid(),
 						hierarchyBean.getVersionNo());
 				GtnFrameworkQueryGeneratorBean finalQueryBean = queryBaen.getQuery();
-				finalQueryBean.removeWhereClauseAboveGivenIndex(linkedLevelValueCount);
+				finalQueryBean.removeWhereClauseAboveGivenIndex(linkedLevelValueCount + 1);
 				hirarchyNo = getSelectClauseForAutoBuild(hirarchyNo, hierarchyBean, finalQueryBean,
 						gethiddenIdhierarchyNo);
 				query = gtnWsSqlService.getReplacedQuery(finalMasterSid, finalQueryBean.generateQuery());
