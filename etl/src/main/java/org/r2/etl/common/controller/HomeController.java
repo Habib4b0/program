@@ -1,29 +1,35 @@
 package org.r2.etl.common.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.pentaho.di.core.Const;
 import org.pentaho.di.core.encryption.Encr;
 import org.pentaho.di.core.encryption.TwoWayPasswordEncoderPluginType;
 import org.pentaho.di.core.exception.KettleException;
-import org.pentaho.di.core.exception.KettlePluginException;
 import org.pentaho.di.core.plugins.PluginRegistry;
 import org.pentaho.di.core.util.EnvUtil;
 import org.r2.etl.common.util.CommonUtils;
 import org.r2.etl.common.util.Constants;
-import org.r2.etl.common.controller.BPIETLException;
+import org.r2.etl.common.util.FilePathUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.r2.etl.common.util.FilePathUtil;
+
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
+import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 
 /**
  * This class is the Controller Class for the Interface Execution.
@@ -690,12 +696,11 @@ public class HomeController {
                 String fileName = dataList[1];
 
                 if (global.contains(interfaceName)) {
-
                     GlobalInterfaces.commonMetodtoLoadAllFile(interfacesName1, fileName);
-
+					updateAllAutomaticRelationShip();
                 } else if (contract.contains(interfaceName)) {
                     ContractInterfaces.commonMetodtoLoadAllFile(interfacesName1, fileName);
-
+					updateAllAutomaticRelationShip();
                 } else if (transaction.contains(interfaceName)) {
                     TransactionalInterfaces.commonMetodtoLoadAllFile(interfacesName1, fileName);
 
@@ -770,5 +775,30 @@ public class HomeController {
             CommonUtils.cleartemp();
         }
     }
+
+	public void updateAllAutomaticRelationShip() throws IOException {
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		final File file = new File("");
+		String logpath = "";
+		logpath = file.getCanonicalPath();
+		final Properties dbResouce = new Properties();
+		final String path = logpath + FilePathUtil.DATABASE_CONFIGURATION_FILE_NAME;
+		dbResouce.load(new FileInputStream(path));
+		System.setProperty("com.stpl.gtnframework.base.path", dbResouce.getProperty("com.stpl.gtnframework.base.path"));
+		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+		wsclient.callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_AUTOMATIC_RELATION_SERIVCE
+				+ GtnWebServiceUrlConstants.AUTOMATIC_ALL_RELATION_UPDATE, request, getGsnWsSecurityToken());
+	}
+
+	private static GtnWsSecurityToken getGsnWsSecurityToken() {
+		GtnWsSecurityToken token = new GtnWsSecurityToken();
+		Integer sessionId = Calendar.getInstance().get(Calendar.MILLISECOND);
+		String userId = "110";
+		token.setUserId(userId);
+		token.setSessionId(sessionId.toString());
+		return token;
+	}
+
+
 
 }

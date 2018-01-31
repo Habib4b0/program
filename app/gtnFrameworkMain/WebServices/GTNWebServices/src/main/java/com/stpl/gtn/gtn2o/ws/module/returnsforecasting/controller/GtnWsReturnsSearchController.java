@@ -1,23 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.module.returnsforecasting.controller;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
@@ -29,7 +11,24 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "gtnReturnsForecasting/DataSelection")
@@ -46,6 +45,8 @@ public class GtnWsReturnsSearchController {
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsReturnsSearchController.class);
 	@Autowired
 	private GtnWsGeneralController gtnGeneralServiceController;
+        @Autowired
+	private GtnWsSqlService gtnWsSqlService;
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "getDataSelectionSearch", method = RequestMethod.POST)
@@ -59,7 +60,7 @@ public class GtnWsReturnsSearchController {
 					: "getDataForecastingReturnsSearch";
 
 			List<Object[]> result = gtnGeneralServiceController.executeQuery(
-					gtnGeneralServiceController.getGtnWsSqlService().getQuery(getSearchInput(gtnWsRequest), queryName));
+					gtnWsSqlService.getQuery(getSearchInput(gtnWsRequest), queryName));
 			if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
 				gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
 			} else {

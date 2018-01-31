@@ -117,8 +117,6 @@ public class DataSelection extends ForecastDataSelection {
 	private List<Leveldto> productHierarchyLevelDefinitionList = Collections.emptyList();
 	private List<Leveldto> customerHierarchyLevelDefinitionList = Collections.emptyList();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
-	private Future customerFuture;
-	private Future productFuture;
 
 	private final ExecutorService service = ThreadPool.getInstance().getService();
 
@@ -1528,9 +1526,6 @@ public class DataSelection extends ForecastDataSelection {
 		String levelName = Constant.LEVEL_LABEL;
 
 		try {
-			if (!isFirstTimeLoad() && customerFuture != null) {
-				customerFuture.get();
-			}
 			int forecastLevel = 0;
 			if (value != null && customerRelationComboBox.getValue() != null
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
@@ -1573,7 +1568,7 @@ public class DataSelection extends ForecastDataSelection {
 				availableCustomer.setFilterDecorator(new ExtDemoFilterDecorator());
 				availableCustomer.setStyleName(Constant.FILTER_TABLE);
 			}
-		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
+		} catch (CloneNotSupportedException | NumberFormatException ex) {
 
 			LOGGER.error(ex + " level  ValueChangeListener ");
 		}
@@ -1611,6 +1606,7 @@ public class DataSelection extends ForecastDataSelection {
 				customerDescriptionMap = null;
 			}
 		} else {
+			relationLogic.waitForAutomaticRelation();
 			try {
 				if (!firstTimeLoad) {
 					selectedCustomer.removeAllItems();
@@ -1620,10 +1616,6 @@ public class DataSelection extends ForecastDataSelection {
 				availableCustomerContainer.removeAllItems();
 				setCustomerForecastLevelNullSelection();
 				setCustomerLevelNullSelection();
-				if (!isFirstTimeLoad()) {
-					customerFuture = checkAndDoAutomaticUpdate(customerRelationComboBox.getValue(),
-							customerHierarchyDto.getHierarchyId());
-				}
 				loadCustomerVersionNo(customerRelationComboBox.getValue());
 			} catch (Exception ex) {
 
@@ -1658,6 +1650,7 @@ public class DataSelection extends ForecastDataSelection {
 
 		} else {
 			try {
+				relationLogic.waitForAutomaticRelation();
 				if (!firstTimeLoad) {
 					selectedProduct.removeAllItems();
 					selectedProductContainer.removeAllItems();
@@ -1667,9 +1660,6 @@ public class DataSelection extends ForecastDataSelection {
 				setProductForecastLevelNullSelection();
 				setProductLevelNullSelection();
 				if (!firstTimeLoad) {
-
-					productFuture = checkAndDoAutomaticUpdate(productRelation.getValue(),
-							productHierarchyDto.getHierarchyId());
 					int relationVersionNo = Integer.parseInt(
 							customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
 					int hierarchyVersionNo = Integer
@@ -1770,9 +1760,7 @@ public class DataSelection extends ForecastDataSelection {
 			List<Leveldto> resultedLevelsList;
 			if (selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel)
 					&& !SELECT_ONE.equals(selectedLevel)) {
-				if (!firstTimeLoad && productFuture != null) {
-					productFuture.get();
-				}
+				relationLogic.waitForAutomaticRelation();
 				int relationVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
@@ -1831,7 +1819,7 @@ public class DataSelection extends ForecastDataSelection {
 			availableProduct.setFilterDecorator(new ExtDemoFilterDecorator());
 			availableProduct.setStyleName(Constant.FILTER_TABLE);
 
-		} catch (CloneNotSupportedException | InterruptedException | NumberFormatException | ExecutionException ex) {
+		} catch (CloneNotSupportedException | NumberFormatException ex) {
 
 			LOGGER.error(ex + " - in loadFilteredProductSelection");
 		}
@@ -4314,12 +4302,4 @@ public class DataSelection extends ForecastDataSelection {
 		level.setContainerDataSource(productForecastLevelContainer);
 	}
 
-	private Future<Boolean> checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
-		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
-				hierarchyId,String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID)));
-		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
-		Future<Boolean> future = customerExecutorService.submit(wsClientRunnableTarget);
-		customerExecutorService.shutdown();
-		return future;
-	}
 }

@@ -240,8 +240,7 @@ public class GtnWsSearchQueryGenerationLogic {
 					.append("'");
 			break;
 		case "LIKE": 
-			whereSqlBuilder.append(dbName).append(" ").append(gtnWebServiceSearchCriteria.getExpression()).append(" '")
-					.append(gtnWebServiceSearchCriteria.getFilterValue1().replace('*', '%').replace("_", "[_]")).append("' ");
+			getWhereSqlBuilderQuery(gtnWebServiceSearchCriteria, whereSqlBuilder, dbName);
 			break;
 		case "EQUAL":
 			whereSqlBuilder.append(dbName).append(" = '").append(gtnWebServiceSearchCriteria.getFilterValue1())
@@ -286,6 +285,20 @@ public class GtnWsSearchQueryGenerationLogic {
 			whereSqlBuilder.append(dbName).append(" ").append(gtnWebServiceSearchCriteria.getExpression()).append(" '")
 					.append(gtnWebServiceSearchCriteria.getFilterValue1()).append("' ");
 			break;
+		}
+	}
+
+	private void getWhereSqlBuilderQuery(GtnWebServiceSearchCriteria gtnWebServiceSearchCriteria,
+			StringBuilder whereSqlBuilder, String dbName) {
+		if (gtnWebServiceSearchCriteria.getFilterValue1().contains("*")) {
+			whereSqlBuilder.append(dbName).append(" ").append(gtnWebServiceSearchCriteria.getExpression())
+					.append(" '")
+					.append(gtnWebServiceSearchCriteria.getFilterValue1().replace('*', '%').replace("_", "[_]"))
+					.append("' ");
+		} else {
+			whereSqlBuilder.append(dbName).append(" ").append(gtnWebServiceSearchCriteria.getExpression())
+					.append(" '%").append(gtnWebServiceSearchCriteria.getFilterValue1().replace('*', '%').replace("_", "[_]"))
+					.append("%' ");
 		}
 	}
 
