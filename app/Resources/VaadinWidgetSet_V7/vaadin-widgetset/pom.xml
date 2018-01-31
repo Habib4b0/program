@@ -6,7 +6,11 @@
 	<artifactId>vaadin-widgetset</artifactId>
 	<version>2.0</version>
 	<name>vaadin-widgetset</name>
-
+<parent>
+        <groupId>com.stpl.addons</groupId>
+        <artifactId>customcomp-parent</artifactId>
+        <version>2.0</version>
+    </parent>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>

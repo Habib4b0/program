@@ -22,7 +22,6 @@ import org.junit.Ignore;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/test/resources/AutomaticContext.xml" })
 public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
-
 	@Autowired
 	GtnFrameworkAutomaticRelationUpdateService service;
 
@@ -30,10 +29,11 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 	@Qualifier("CustService")
 	GtnFrameworkAutoupdateService automaticService;
 
+
 	private static final GtnWSLogger logger = GtnWSLogger
 			.getGTNLogger(GtnFrameworkCustProdAutoUpdateServiceImplTest.class);
 
-	@Test
+	 @Test
 	public void checkForAutoUpdate() throws InterruptedException {
 		GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(614);
 		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList;
@@ -48,11 +48,11 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 
 	}
 
-	@Test
+	 @Test
 	public void doAutomaticUpdate() throws GtnFrameworkGeneralException {
 		try {
 		System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
-			GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(600);
+			GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(675);
 		List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = service
 				.getHierarchyBuilder(relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			String userId = "10948";
@@ -60,6 +60,18 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 		}
 		catch(Exception e)
 		{
+			logger.error(e.getMessage());
+		}
+	}
+
+	@Test
+	public void checkAndUpdateAutomaticRelationship() throws GtnFrameworkGeneralException {
+		try {
+			System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
+
+			String userId = "10948";
+			service.checkAndUpdateAutomaticRelationship(440, userId);
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
 	}

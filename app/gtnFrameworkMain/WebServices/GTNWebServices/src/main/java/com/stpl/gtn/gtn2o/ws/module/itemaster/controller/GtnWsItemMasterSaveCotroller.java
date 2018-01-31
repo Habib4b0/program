@@ -108,7 +108,7 @@ public class GtnWsItemMasterSaveCotroller {
 				imSaveWebservice.updateItemMaster(gtnWsRequest, response);
 			}
 			imSaveWebservice.saveNotesTabDetails(bean);
-
+			imSaveWebservice.checkAndUpdateAllrelationShip();
 			return response;
 		} catch (Exception e) {
 			response.getGtnWsGeneralResponse().setSucess(false);
