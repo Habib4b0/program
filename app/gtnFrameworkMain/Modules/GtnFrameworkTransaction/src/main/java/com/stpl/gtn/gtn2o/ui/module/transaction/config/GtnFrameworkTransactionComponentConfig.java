@@ -942,13 +942,13 @@ public class GtnFrameworkTransactionComponentConfig {
 			fieldConfig.setComponentType(gtnUIFrameworkComponentType);
 
 			List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-			GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
-			customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-			customAction.setActionParameterList(Arrays.asList(GtnUIFrameworkTransactionTableCheckAction.class.getName(),
-					GtnTransactionUIConstants.SEARCH_TABLE_ID, GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT,
-					checkAll));
+			GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+                        customAction.addActionParameter(GtnUIFrameworkTransactionTableCheckAction.class.getName());
+                        customAction.addActionParameter(GtnTransactionUIConstants.SEARCH_TABLE_ID);
+                        customAction.addActionParameter(GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT);
+                        customAction.addActionParameter(checkAll);
 			actionConfigList.add(customAction);
-			fieldConfig.setGtnUIFrameWorkItemClickActionConfigList(actionConfigList);
+			fieldConfig.setGtnUIFrameWorkValueChangeActionConfigList(actionConfigList);
 
 			editableFields.add(fieldConfig);
 		}

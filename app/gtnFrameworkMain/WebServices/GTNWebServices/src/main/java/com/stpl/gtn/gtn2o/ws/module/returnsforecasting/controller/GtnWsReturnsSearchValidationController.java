@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 /**
  *
@@ -33,7 +34,8 @@ public class GtnWsReturnsSearchValidationController {
 
 	@Autowired
 	private GtnWsGeneralController gtnGeneralServiceController;
-
+        @Autowired
+	private GtnWsSqlService gtnWsSqlService;
 	public GtnWsGeneralController getGtnGeneralServiceController() {
 		return gtnGeneralServiceController;
 	}
@@ -53,8 +55,7 @@ public class GtnWsReturnsSearchValidationController {
 			GtnSerachResponse gtnSerachResponse = new GtnSerachResponse();
 			String queryName = "getBusinessUnitValidation";
 			List<Object[]> result = gtnGeneralServiceController
-					.executeQuery(gtnGeneralServiceController.getGtnWsSqlService()
-							.getQuery(getValidationInput(gtnWsRequest.getGtnWsSearchRequest()), queryName));
+					.executeQuery(gtnWsSqlService.getQuery(getValidationInput(gtnWsRequest.getGtnWsSearchRequest()), queryName));
 
 			gtnSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
 
