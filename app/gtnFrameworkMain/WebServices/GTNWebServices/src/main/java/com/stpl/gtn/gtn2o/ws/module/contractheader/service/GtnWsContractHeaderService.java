@@ -28,6 +28,7 @@ import com.stpl.gtn.gtn2o.ws.entity.contract.ContractAliasMaster;
 import com.stpl.gtn.gtn2o.ws.entity.contract.ContractMaster;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractHeaderRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -51,6 +52,9 @@ public class GtnWsContractHeaderService {
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+
+	@Autowired
+	private GtnFrameworkAutomaticService automaticRelationService;
 
 	public void getCompanyHeaderFetchQuery(GtnUIFrameworkWebserviceRequest gtnWsRequest,
 			GtnUIFrameworkWebserviceResponse response) throws GtnFrameworkGeneralException {
@@ -223,6 +227,7 @@ public class GtnWsContractHeaderService {
 			gtnConResponse.setGtnwsContractAliasMasterBeanList(aliasList);
 			gtnResponse.setGtnWsContractHeaderResponse(gtnConResponse);
 			tx.commit();
+			automaticRelationService.checkAndUpdateAllRelationShip("");
 			return contractMasterSid;
 		} catch (Exception e) {
 			tx.rollback();

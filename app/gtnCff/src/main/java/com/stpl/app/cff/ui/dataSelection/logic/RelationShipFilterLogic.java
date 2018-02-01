@@ -1,5 +1,15 @@
 package com.stpl.app.cff.ui.dataSelection.logic;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.stpl.app.cff.dao.CommonDAO;
 import com.stpl.app.cff.dao.impl.CommonDAOImpl;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
@@ -20,15 +30,6 @@ import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.vaadin.server.VaadinSession;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class RelationShipFilterLogic {
 

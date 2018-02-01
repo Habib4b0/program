@@ -104,7 +104,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		return Boolean.FALSE;
 	}
 
-	private GtnFrameworkAutoupdateService getAutomaticserviceObject(String hierarchyCat) {
+	public GtnFrameworkAutoupdateService getAutomaticserviceObject(String hierarchyCat) {
 		if ("Deduction Hierarchy".equals(hierarchyCat))
 			return (GtnFrameworkAutoupdateService) applicationContext.getBean("Deduction");
 		if ("Product Hierarchy".equals(hierarchyCat))
@@ -171,8 +171,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		relationBean.setRelationshipBuilderSid(relationshipBuilder.getRelationshipBuilderSid());
 		relationBean.setRelationshipName(relationshipBuilder.getRelationshipName());
 		relationBean.setRelationshipDescription(relationshipBuilder.getRelationshipDescription());
-		relationBean
-				.setHierarchyDefinitionSid(relationshipBuilder.getHierarchyDefinition().getHierarchyDefinitionSid());
+		relationBean.setHierarchyDefinitionSid(relationshipBuilder.getHierarchyDefinition().getHierarchyDefinitionSid());
 		relationBean.setStartDate(relationshipBuilder.getStartDate());
 		relationBean.setBuildType(relationshipBuilder.getBuildType());
 		relationBean.setVersionNo(relationshipBuilder.getVersionNo());
@@ -216,7 +215,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		return hierarchyDefinitionList;
 	}
 
-	private int getIntegerValue(int index, Object[] objects) {
+	public int getIntegerValue(int index, Object[] objects) {
 		return objects[index] == null ? index : Integer.parseInt(objects[index].toString());
 	}
 

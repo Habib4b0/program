@@ -287,6 +287,7 @@ public class GtnFrameworkForecastReturnProductHierarchyLookUp {
 		searchResults.setPageLength(10);
 		searchResults.setItemPerPage(10);
 		searchResults.setSelectable(true);
+                searchResults.setSinkItemPerPageWithPageLength(false);
 		searchResults.setTableColumnDataType(
 				GtnForecastReturnsTableConstants.getGtnReturnsForecastHeirarchyTableColumnsDataType());
 		searchResults

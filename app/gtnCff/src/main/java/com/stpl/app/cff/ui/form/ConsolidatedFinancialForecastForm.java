@@ -462,7 +462,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				}
 				final String userId = (String) VaadinSession.getCurrent().getAttribute("userId");
 				final User userModel = UserLocalServiceUtil.getUser(Long.parseLong(userId));
-				DSCalculationLogic.isValidWorkflowUser(userModel, roleList, processId);
 				sessionDto.setAction("edit");
 				sessionDto.setIsGenerated(Boolean.TRUE);
 				sessionDto.setProcessId(processId);

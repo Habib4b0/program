@@ -164,7 +164,7 @@
                       DROP TABLE #item_details;
 
                     WITH cte
-                         AS (SELECT HIERARCHY_NO AS parent,
+                         AS (SELECT CAST(HIERARCHY_NO AS VARCHAR(50) ) AS parent,
                                     RELATIONSHIP_LEVEL_SID,
                                     LEVEL_NO,
                                     HIERARCHY_NO,
