@@ -58,8 +58,7 @@ public class GtnFrameworkDeductionRelationServiceRunnable {
 			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = relationUpdateService
 					.getHierarchyBuilder(relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			tx.commit();
-			deDuctionAutoUpdateService.doAutomaticUpdate(hierarchyLevelDefinitionList, relationBean,
-					String.valueOf(relationBuilderBean.getCreatedBy()));
+			deDuctionAutoUpdateService.doAutomaticUpdate(hierarchyLevelDefinitionList, relationBean);
 		}
 	}
 

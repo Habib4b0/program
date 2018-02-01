@@ -10,6 +10,6 @@ public interface GtnFrameworkSelectQueryGeneratorService {
 
 	void addSelectClause(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
 			GtnWsRelationshipBuilderBean relationBean, GtnFrameworkQueryGeneratorBean querygeneratorBean,
-			int updatedVersionNo, String userId, int levelNo);
+			int updatedVersionNo, int levelNo);
 
 }
