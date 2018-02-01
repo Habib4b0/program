@@ -205,11 +205,11 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String PS_SUBSEQ_PERIOD_PRICE_TYPE = "psSubseqPeriodPriceType";
 	public static final String PS_NET_B_SUBSEQ_PRICE_FORMULA_ID_COLUMN = "NET_SUBSEQUENT_PRICE_FORMULA_ID";
 	public static final String PS_NET_B_SUBSEQ_PRICE_FORMULA_ID = "psNetBSubseqPriceFormulaId";
-	public static final String PS_NET_B_RESET_PRICE_FORMULA_ID = "NET_RESET_PRICE_FORMULA_ID";
+	public static final String PS_NET_B_RESET_PRICE_FORMULA_ID = NET_RESET_PRICE_FORMULA_ID;
 	public static final String PS_NET_BASE_PRICE_FORMULA_ID = "psNetBasePriceFormulaId";
 	public static final String PS_NET_BASE_PRICE_FORMULA_ID_COLUMN = "NET_BASE_PRICE_FORMULA_ID";
 	public static final String PS_NEP_FORMULA_ID_COLUMN = "NEP_FORMULA";
-	public static final String PS_NET_PRICE_TYPE_FORMULA_ID_COLUMN = "NET_PRICE_TYPE_FORMULA";
+	public static final String PS_NET_PRICE_TYPE_FORMULA_ID_COLUMN = NET_PRICE_TYPE_FORMULA;
 	public static final String PS_NET_BASE_PRICE = "psNetBasePrice";
 	public static final String PS_BASE_PRICE_ENTRY = "psBasePriceEntry";
 	public static final String PS_BASE_PRICE_TYPE = "psBasePriceType";
@@ -282,7 +282,7 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String SELECT_COUNT = " SELECT count (*)  ";
 	public static final String FROM_WORKFLOW_INBOX_WM = " FROM WORKFLOW_INBOX WM";
 	public static final String FROM_WORKFLOW_INBOX_WM_QUERY = "FROM WORKFLOW_INBOX WM";
-	public static final String NEP_FORMULA = "NEP_FORMULA";
+	public static final String NEP_FORMULA = PS_NEP_FORMULA_ID_COLUMN;
 	public static final String BASE_PRICE_ENTRY = "BASE_PRICE_ENTRY";
 	public static final String BRAND_NAME_COLUMN = "BRAND_NAME";
 	public static final String NET_SALES_FORMULA_NAME = "NET_SALES_FORMULA_NAME";

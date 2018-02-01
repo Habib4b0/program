@@ -27,6 +27,8 @@ public class BpmManagerBean {
 
     private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(BpmManagerBean.class);
 
+    private static final String COM_STPL_APP_BPM = "com.stpl.app.bpm";
+    private static final String ORG_JBPM_DOMAIN = "org.jbpm.domain";
     protected ReleaseId releaseId;
     private Map<String, RuntimeEngine> runtimeEngineMap = new HashMap<>();
     private Properties properties = DroolsProperties.getPropertiesData();
@@ -72,10 +74,10 @@ public class BpmManagerBean {
     public void initReturnsRuntimeEngine() {
         LOGGER.info("initReturnsRuntimeEngine Started ");
         String identifier = "com.stpl:returns:1.0";
-        releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", "com.stpl.app.bpm"),
+        releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", COM_STPL_APP_BPM),
                 properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"),
                 properties.getProperty("Forecasting_version", "1.0"));
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(ORG_JBPM_DOMAIN);
         RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
                 .entityManagerFactory(emf).userGroupCallback(userGroupCallback);
         if (registry.isRegistered(identifier)) {
@@ -91,10 +93,10 @@ public class BpmManagerBean {
     public void initContractRuntimeEngine() {
         LOGGER.info("initContractRuntimeEngine Started ");
         String identifier = "com.stpl:contract:1.0";
-        releaseId = new ReleaseIdImpl(properties.getProperty("Contract_groupId", "com.stpl.app.bpm"),
+        releaseId = new ReleaseIdImpl(properties.getProperty("Contract_groupId", COM_STPL_APP_BPM),
                 properties.getProperty("Contract_artifactId", "ContractSubmissionWorkflow"),
                 properties.getProperty("Contract_version", "1.0"));
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(ORG_JBPM_DOMAIN);
         RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
                 .entityManagerFactory(emf).userGroupCallback(userGroupCallback);
         if (registry.isRegistered(identifier)) {
@@ -109,8 +111,8 @@ public class BpmManagerBean {
     public void initForecastRuntimeEngine() {
         LOGGER.info("init Forecast RuntimeEngine Started ");
         String identifier = "com.stpl:forecast:1.0";
-        releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", "com.stpl.app.bpm"), properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"), properties.getProperty("Forecasting_version", "1.0"));
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
+        releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId", COM_STPL_APP_BPM), properties.getProperty("Forecasting_artifactId", "ForecastingWorkflow"), properties.getProperty("Forecasting_version", "1.0"));
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(ORG_JBPM_DOMAIN);
         RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
                 .entityManagerFactory(emf).userGroupCallback(userGroupCallback);
         if (registry.isRegistered(identifier)) {
@@ -125,8 +127,8 @@ public class BpmManagerBean {
     public void initCFFRuntimeEngine() {
         LOGGER.info("Init CffRuntime Engine Started ");
         String identifier = "com.sample:example:1.0";
-        releaseId = new ReleaseIdImpl(cffproperties.getProperty("CFF_groupId", "com.stpl.app.bpm"), cffproperties.getProperty("CFF_artifactId","CFFWorkflow"), cffproperties.getProperty("CFF_version","1.0"));
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
+        releaseId = new ReleaseIdImpl(cffproperties.getProperty("CFF_groupId", COM_STPL_APP_BPM), cffproperties.getProperty("CFF_artifactId","CFFWorkflow"), cffproperties.getProperty("CFF_version","1.0"));
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(ORG_JBPM_DOMAIN);
         RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId)
                 .entityManagerFactory(emf).userGroupCallback(userGroupCallback);
         if (registry.isRegistered(identifier)) {

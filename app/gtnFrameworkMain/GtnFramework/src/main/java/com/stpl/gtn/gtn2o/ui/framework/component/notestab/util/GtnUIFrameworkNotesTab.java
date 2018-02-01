@@ -35,7 +35,6 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.validator.StringLengthValidator;
-import com.vaadin.v7.event.FieldEvents;
 import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.FileDownloader;
