@@ -537,11 +537,18 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     comparison.setReadOnly(false);
                     comparison.setValue(Constant.SELECT_ONE);
                     comparison.setData(null);
-                    comparison.setImmediate(true);
                     comparison.setReadOnly(true);
                 }
                 isComparisonLookupOpened = true;
                 loadComparison();
+                 comparisonBasis.addItem("Help");
+                if (!pvSelectionDTO.getProjIdList().isEmpty()) {
+                for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
+                    comparisonBasis.addItem(j);
+                    comparisonBasis.setItemCaption(j, pvSelectionDTO.getProjectionMap().get(pvSelectionDTO.getProjIdList().get(j)));
+                    comparisonBasis.select("Current Projection");
+                }
+            }
             }
         });
 
