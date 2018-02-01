@@ -92,7 +92,8 @@ public class GtnWsWorkflowSaveService {
 	public static String getKeyFromValue(Map<Integer, String> hm, String value) {
 		for (Map.Entry<Integer, String> object : hm.entrySet()) {
 			String[] valueArray = value.trim().split(" ");
-			if (object.getValue().contains(valueArray[0]) && object.getValue().contains(valueArray[1])) {
+			if (valueArray.length > 1 && object.getValue().contains(valueArray[0])
+					&& object.getValue().contains(valueArray[1])) {
 				return String.valueOf(object.getKey());
 			}
 		}
