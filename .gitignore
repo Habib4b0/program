@@ -22,3 +22,4 @@ app/gtnForecasting/nb-configuration.xml
 *.jar
 **/target/**
 *.war
+app/Resources/stpl-theme/.sass-cache/

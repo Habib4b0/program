@@ -72,7 +72,7 @@ public class UserGrpBsnsRoleLogic extends BeanItemContainer<BusinessroleMasterDT
     	try{
     	List<String> usrGrpList = new ArrayList<String> ();
     	DynamicQuery ugDynamicQuery = UserGroupLocalServiceUtil.dynamicQuery();
-    	ugDynamicQuery.add(RestrictionsFactoryUtil.like("groupType","Business"));
+    	//Removed this where condition since there is no groupType column in UserGroup Model
     	List<UserGroup> usrGrp=dao.getUserGroups(ugDynamicQuery);
     	HashMap<String, Long> map = new HashMap<String, Long>();
     	Iterator<UserGroup> iterate = usrGrp.iterator();
