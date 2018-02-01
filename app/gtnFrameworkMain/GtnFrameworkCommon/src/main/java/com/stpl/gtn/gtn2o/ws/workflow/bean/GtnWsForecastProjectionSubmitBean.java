@@ -23,134 +23,134 @@ public class GtnWsForecastProjectionSubmitBean implements Serializable {
         super();
     }
 
-    private int projectionId;
+    private int forecastProjectionId;
 
-    private String moduleName;
+    private String forecastProjectionModuleName;
 
-    private String workflowIdGeneratorXmlPath;
+    private String forecastProjectionWorkflowIdGeneratorXmlPath;
 
-    private String notes;
+    private String forecastProjectionNotes;
 
-    private String description;
+    private String forecastProjectionDescription;
 
-    private String workflowId;
+    private String forecastProjectionWorkflowId;
 
-    private int noOfApproval;
+    private int forecastProjectionNoOfApproval;
 
-    private int approvalLevel;
+    private int forecastProjectionApprovalLevel;
 
-    private long processId;
+    private long forecastProjectionProcessId;
 
-    private String workflowStatus = null;
+    private String forecastProjectionWorkflowStatus = null;
 
-    private String userType = null;
+    private String forecastProjectionUserType = null;
 
-    private String variableName;
+    private String forecastProjectionVariableName;
 
-    private Map<String, Object> submitWorkflowParam;
+    private Map<String, Object> forecastProjectionSubmitWorkflowParam;
 
     public int getProjectionId() {
-        return projectionId;
+        return forecastProjectionId;
     }
 
     public void setProjectionId(int projectionId) {
-        this.projectionId = projectionId;
+        this.forecastProjectionId = projectionId;
     }
 
     public String getModuleName() {
-        return moduleName;
+        return forecastProjectionModuleName;
     }
 
     public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
+        this.forecastProjectionModuleName = moduleName;
     }
 
     public String getWorkflowIdGeneratorXmlPath() {
-        return workflowIdGeneratorXmlPath;
+        return forecastProjectionWorkflowIdGeneratorXmlPath;
     }
 
     public void setWorkflowIdGeneratorXmlPath(String workflowIdGeneratorXmlPath) {
-        this.workflowIdGeneratorXmlPath = workflowIdGeneratorXmlPath;
+        this.forecastProjectionWorkflowIdGeneratorXmlPath = workflowIdGeneratorXmlPath;
     }
 
     public String getNotes() {
-        return notes;
+        return forecastProjectionNotes;
     }
 
     public void setNotes(String notes) {
-        this.notes = notes;
+        this.forecastProjectionNotes = notes;
     }
 
     public String getDescription() {
-        return description;
+        return forecastProjectionDescription;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.forecastProjectionDescription = description;
     }
 
     public String getWorkflowId() {
-        return workflowId;
+        return forecastProjectionWorkflowId;
     }
 
     public void setWorkflowId(String workflowId) {
-        this.workflowId = workflowId;
+        this.forecastProjectionWorkflowId = workflowId;
     }
 
     public int getNoOfApproval() {
-        return noOfApproval;
+        return forecastProjectionNoOfApproval;
     }
 
     public void setNoOfApproval(int noOfApproval) {
-        this.noOfApproval = noOfApproval;
+        this.forecastProjectionNoOfApproval = noOfApproval;
     }
 
     public int getApprovalLevel() {
-        return approvalLevel;
+        return forecastProjectionApprovalLevel;
     }
 
     public void setApprovalLevel(int approvalLevel) {
-        this.approvalLevel = approvalLevel;
+        this.forecastProjectionApprovalLevel = approvalLevel;
     }
 
     public long getProcessId() {
-        return processId;
+        return forecastProjectionProcessId;
     }
 
     public void setProcessId(long processId) {
-        this.processId = processId;
+        this.forecastProjectionProcessId = processId;
     }
 
     public String getWorkflowStatus() {
-        return workflowStatus;
+        return forecastProjectionWorkflowStatus;
     }
 
     public void setWorkflowStatus(String workflowStatus) {
-        this.workflowStatus = workflowStatus;
+        this.forecastProjectionWorkflowStatus = workflowStatus;
     }
 
     public String getUserType() {
-        return userType;
+        return forecastProjectionUserType;
     }
 
     public void setUserType(String userType) {
-        this.userType = userType;
+        this.forecastProjectionUserType = userType;
     }
 
     public String getVariableName() {
-        return variableName;
+        return forecastProjectionVariableName;
     }
 
     public void setVariableName(String variableName) {
-        this.variableName = variableName;
+        this.forecastProjectionVariableName = variableName;
     }
 
     public Map<String, Object> getSubmitWorkflowParam() {
-        return submitWorkflowParam;
+        return forecastProjectionSubmitWorkflowParam;
     }
 
     public void setSubmitWorkflowParam(Map<String, Object> submitWorkflowParam) {
-        this.submitWorkflowParam = submitWorkflowParam;
+        this.forecastProjectionSubmitWorkflowParam = submitWorkflowParam;
     }
     
 
