@@ -31,20 +31,16 @@ public class GtnWsRelationshipBuilderServiceTest {
 			System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
 			List<String> hiddenIdList = new ArrayList<>();
 			hiddenIdList.add("");
-			hiddenIdList.add("204");
-			hiddenIdList.add("1091");
-			hiddenIdList.add("199");
 			hiddenIdList.add("222");
-			hiddenIdList.add("192");
+			hiddenIdList.add("13");
 			// hiddenIdList.add("113");
-
 			GtnWsRecordBean dto = new GtnWsRecordBean();
 			Object value = GtnWsRelationshipBuilderConstants.VALUE_PROPERTY_ID;
 			dto.setRecordHeader(Arrays.asList(value));
-			List<Object> properties = Arrays.<Object>asList("", "5", "", "", "", "", "", hiddenIdList, "", "",
+			List<Object> properties = Arrays.<Object>asList("", "2", "", "", "", "", "", hiddenIdList, "", "",
 					false);
 			dto.setProperties(properties);
-			service.loadAutoBuildData(33, 1, dto, hiddenIdList.subList(1, hiddenIdList.size()));
+			service.loadAutoBuildData(3, 1, dto, hiddenIdList.subList(1, hiddenIdList.size()));
 		} catch (Exception e) {
 			
 			gtnLogger.error("Exception in loadFilteredResultLayout", e);

@@ -96,7 +96,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 					relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			if (automaticService.checkAutomaticRelation(relationshipBuilderSid)
 					&& automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList)) {
-				automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean, userId);
+				automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean);
 				return Boolean.TRUE;
 			}
 			LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");
@@ -113,8 +113,8 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 	}
 
 	public int insertRelationTillFirstLevelAndGetVersionNo(int firstLinkedLevelNo,
-			GtnWsRelationshipBuilderBean relationBean, String userId) throws GtnFrameworkGeneralException {
-		int relationVersionNo = updateRelationShipVersionNo(relationBean, userId);
+			GtnWsRelationshipBuilderBean relationBean) throws GtnFrameworkGeneralException {
+		int relationVersionNo = updateRelationShipVersionNo(relationBean);
 		insertRelationshipLevelValues(relationBean, firstLinkedLevelNo);
 		return relationVersionNo;
 	}
@@ -129,17 +129,15 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlquery);
 	}
 
-	public int updateRelationShipVersionNo(GtnWsRelationshipBuilderBean relationBean, String userId) {
+	public int updateRelationShipVersionNo(GtnWsRelationshipBuilderBean relationBean) {
 
 		SessionFactory sessionFactory = gtnSqlQueryEngine.getSessionFactory();
 		try (Session session = sessionFactory.openSession()) {
 			Transaction tx = session.beginTransaction();
 			RelationshipBuilder relationshipBuilder = session.load(RelationshipBuilder.class,
 					relationBean.getRelationshipBuilderSid());
-			relationshipBuilder.setModifiedBy(Integer.valueOf(userId));
+			relationshipBuilder.setModifiedBy(Integer.valueOf(relationshipBuilder.getModifiedBy()));
 			relationshipBuilder.setModifiedDate(new Date());
-			relationshipBuilder.setCreatedBy(Integer.valueOf(userId));
-			relationshipBuilder.setCreatedDate(new Date());
 			relationshipBuilder.setVersionNo(relationshipBuilder.getVersionNo() + 1);
 			session.update("RelationshipBuilder", relationshipBuilder);
 			tx.commit();

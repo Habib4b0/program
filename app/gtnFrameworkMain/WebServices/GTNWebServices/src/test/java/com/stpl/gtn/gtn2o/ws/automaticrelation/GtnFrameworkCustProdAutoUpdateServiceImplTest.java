@@ -16,7 +16,6 @@ import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAu
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutoupdateService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
-import org.junit.Ignore;
 
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -56,7 +55,7 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 		List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = service
 				.getHierarchyBuilder(relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			String userId = "10948";
-			automaticService.doAutomaticUpdate(hierarchyLevelDefinitionList, relationBean, userId);
+			automaticService.doAutomaticUpdate(hierarchyLevelDefinitionList, relationBean);
 		}
 		catch(Exception e)
 		{
