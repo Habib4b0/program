@@ -749,6 +749,7 @@ public class GtnWsRelationshipBuilderService {
 			}
 
 		}
+		appendHelperTableDescriptionRestriction(finalQuery);
 		@SuppressWarnings("unchecked")
 		List<Object[]> result = executeQuery(finalQuery.toString());
 		linkedLevelDataList.addAll(customizeRelationDataForAutoBuild(result));
