@@ -74,7 +74,7 @@ import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.JavaScript;
@@ -390,7 +390,7 @@ public class UpdatedContractSelection extends VerticalLayout {
         }
         contractSeletion.setSearch(true);
         contractSeletion.setReset(false);
-    }
+        }
 
     private void configureFieldsForTransferTP(boolean isTransfer) {
         if (session.getModuleName().equals(PROJECTION_DETAILS_TRANSFER.getConstant())) {
@@ -421,13 +421,8 @@ public class UpdatedContractSelection extends VerticalLayout {
                     }
                 }
             });
-            removeProjectionDetails.addValueChangeListener(new Property.ValueChangeListener() {
-
-                @Override
-                public void valueChange(Property.ValueChangeEvent event) {
-                    transferTpForm.setSalesRemoveFlag(removeProjectionDetails.getValue());
-                }
-            });
+            removeProjectionDetails.addValueChangeListener(event -> transferTpForm.setSalesRemoveFlag(removeProjectionDetails.getValue()));
+            
         }
     }
 
@@ -535,7 +530,7 @@ public class UpdatedContractSelection extends VerticalLayout {
             allCustomer.select("No");
             allCustomer.setReadOnly(Boolean.TRUE);
         } catch (Exception ex) {
-            LOGGER.error("",ex);
+            LOGGER.error(ex.getMessage());
         }
     }
 

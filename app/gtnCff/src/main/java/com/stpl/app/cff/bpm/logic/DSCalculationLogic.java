@@ -1,24 +1,18 @@
 package com.stpl.app.cff.bpm.logic;
 
-import com.liferay.portal.kernel.model.Role;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
-import com.stpl.app.cff.bpm.service.BPMProcessBean;
+import org.slf4j.LoggerFactory;
+
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.util.StringConstantsUtil;
-import java.util.List;
+import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.cff.GtnWsCFFSubmitRequest;
-import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.GtnWsCFFSubmitBean;
-import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
 import com.stpl.gtn.gtn2o.ws.workflow.bean.constants.GtnWsWorkFlowConstants;
-import org.kie.api.task.model.TaskSummary;
-import org.slf4j.LoggerFactory;
 
 public class DSCalculationLogic {
 
@@ -28,39 +22,6 @@ public class DSCalculationLogic {
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DSCalculationLogic.class);
 
 	
-
-
-	public static boolean isValidWorkflowUser(User userModel, List<String> roleList, long processIntanceId) {
-		boolean returnflag = false;
-		TaskSummary taskSummary = null;
-		try {
-
-                    LOGGER.debug("userName :" + userModel.getScreenName());
-			taskSummary = BPMProcessBean.getAvailableTask(processIntanceId);
-                        if(taskSummary == null){
-                           LOGGER.debug("taskSummary id:" + taskSummary.getId());                        
-                           return true;
-                        }
-                        LOGGER.debug(StringConstantsUtil.TASK_SUMMARY + taskSummary.getName());
-			LOGGER.debug(StringConstantsUtil.TASK_SUMMARY + taskSummary.getId());
-			List<String> userRoles = BPMProcessBean.getPotentialOwners(taskSummary.getId(), roleList);
-			LOGGER.debug("userRoles :" + userRoles);
-			List<Role> roles = RoleLocalServiceUtil.getUserRoles(userModel.getUserId());
-			if (userRoles == null || userRoles.isEmpty()) {
-				return returnflag;
-			}
-			for (Role role : roles) {
-				if (userRoles.contains(role.getName())) {
-					returnflag = true;
-					break;
-				}
-			}
-		} catch (Exception e) {
-                    LOGGER.error(e.getMessage());
-		}
-
-		return returnflag;
-	}
 
 	
 

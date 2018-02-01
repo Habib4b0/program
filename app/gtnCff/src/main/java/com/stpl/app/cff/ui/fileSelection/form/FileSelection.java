@@ -4,6 +4,20 @@
  */
 package com.stpl.app.cff.ui.fileSelection.form;
 
+import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.cff.dao.CommonServiceImpl;
 import com.stpl.app.cff.dto.SessionDTO;
@@ -34,17 +48,6 @@ import com.vaadin.v7.data.util.converter.StringToDateConverter;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.VerticalLayout;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import org.asi.ui.extfilteringtable.ExtCustomTable;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.drools.core.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
