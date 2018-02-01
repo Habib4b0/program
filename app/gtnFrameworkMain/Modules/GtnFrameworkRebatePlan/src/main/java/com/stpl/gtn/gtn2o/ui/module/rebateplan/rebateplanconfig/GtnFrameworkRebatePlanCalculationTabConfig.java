@@ -197,6 +197,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		rpRuleDetailsResultDataTable.setAuthorizationIncluded(true);
 		rpRuleDetailsResultDataTable.setComponentName("Results");
 		rpRuleDetailsResultDataTable.setComponentHight("500px");
+		rpRuleDetailsResultDataTable.setComponentWidth("1000px");
 
 		rpRuleDetailsResultDataTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(rpRuleDetailsResultDataTable);
