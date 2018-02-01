@@ -556,7 +556,8 @@ public class GtnUIFrameworkPagedTableLogic extends PageTableLogic {
 	}
 
 	private String getFilterValue(String currentValue) {
-		return currentValue.contains("'") ? currentValue.replaceAll("'", "''") : currentValue;
+		String value = currentValue.contains("'") ? currentValue.replaceAll("'", "''") : currentValue;
+                return value.contains("_") ? value.replaceAll("_", "[_]") : value;
 	}
 
 	private boolean isNullOrEmpty(String currentValue) {

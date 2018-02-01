@@ -35,16 +35,21 @@ public class PVCommonLogic {
     private static final String ACCRUAL_DASH = "-";
     public static final Logger LOGGER = LoggerFactory.getLogger(PVCommonLogic.class);
 
-    static void getPriorCommonCustomization(String variableCategory, PVSelectionDTO pvsdto, final Object[] row, ProjectionVarianceDTO projDTO, String column, int index, int priorIndex, final Boolean isPer, int columnCountTotal, DecimalFormat format) {
+    static void getPriorCommonCustomization(String variableCategory, PVSelectionDTO pvsdto, final Object[] row, ProjectionVarianceDTO projDTO, String column, int index, int priorIndex, final Boolean isPer, int columnCountTotal, DecimalFormat format,String commonColumn) {
         LOGGER.debug("Inside getPivotCommonCustomization");
         String visibleColumn;
+        String comparisonPriorVal = StringUtils.EMPTY;
 
         String priorVal = isNull(StringUtils.EMPTY + row[index + ((priorIndex + 1) * columnCountTotal)]);
         boolean actualBasis = StringConstantsUtil.ACTUALS1.equalsIgnoreCase(pvsdto.getComparisonBasis());
         boolean accrualBasis = StringConstantsUtil.ACCRUALS.equalsIgnoreCase(pvsdto.getComparisonBasis());
+        boolean currentBasis = "Current Projection".equalsIgnoreCase(pvsdto.getComparisonBasis());
         String actValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index - 1])));
         String accrValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index - 2])));
         String currValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index])));
+        if (!actualBasis && !accrualBasis && !currentBasis) {
+            comparisonPriorVal = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index + ((Integer.valueOf(pvsdto.getComparisonBasis()) + 1) * columnCountTotal)])));
+        }
         if (variableCategory.equalsIgnoreCase(Constants.VALUE)) {
             visibleColumn = column;
             String baseValue = pvsdto.isConversionNeeded() ? !isPer
@@ -60,9 +65,14 @@ public class PVCommonLogic {
             } else if (accrualBasis) {
                 String baseValue = getVariance(accrValue, priorVal, format, pvsdto);
                 projDTO.addStringProperties(visibleColumn, isPer ? baseValue + PERCENT : baseValue);
-            } else {
+            } else if (currentBasis) {
                 String baseValue = getVariance(currValue, priorVal, format, pvsdto);
                 projDTO.addStringProperties(visibleColumn, isPer ? baseValue + PERCENT : baseValue);
+            } else{
+                String baseValue = getVariance(comparisonPriorVal, priorVal, format, pvsdto);
+                projDTO.addStringProperties(visibleColumn, isPer ? baseValue + PERCENT : baseValue);
+                String baseValueCurrent = getVariance(comparisonPriorVal, currValue, format, pvsdto);
+                projDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), isPer ? baseValueCurrent + PERCENT : baseValueCurrent);
             }
 
         } else {
@@ -73,9 +83,14 @@ public class PVCommonLogic {
             } else if (accrualBasis) {
                 String baseValue = getPerChange(accrValue, priorVal, format);
                 projDTO.addStringProperties(visibleColumn, isPer ? baseValue + PERCENT : baseValue);
-            } else {
+            } else if (currentBasis) {
                 String baseValue = getPerChange(currValue, priorVal, format);
                 projDTO.addStringProperties(visibleColumn, baseValue + PERCENT);
+            } else{
+                String baseValue = getPerChange(comparisonPriorVal, priorVal, format);
+                projDTO.addStringProperties(visibleColumn, baseValue + PERCENT);
+                String baseValueCurrent = getPerChange(comparisonPriorVal, currValue, format);
+                projDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), baseValueCurrent + PERCENT);
             }
         }
         LOGGER.debug("Ending getPivotCommonCustomization");

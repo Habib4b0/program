@@ -333,16 +333,16 @@ public class GtnFrameworkContractDashboardContants {
 	private static final String[] PRICE_PROTECTION_COLUMN = { CHECK_RECORD_ID, RECORD_TYPE, PRICE_ID, PRICE_NO,
 			PRICE_NAME, BRAND, getPpMassPopulateField()[0].replace(" ", ""),
 			getPpMassPopulateField()[1].replace(" ", ""), getPpMassPopulateField()[2].replace(" ", ""),
-			getPpMassPopulateField()[3].replace(" ", ""), "nep", getPpMassPopulateField()[5].replace(" ", "") + "popup",
+			getPpMassPopulateField()[3].replace(" ", ""), "nep", getPpMassPopulateField()[5].replace(" ", "") + POPUP,
 			getPpMassPopulateField()[6].replace(" ", "") + "Type", getPpMassPopulateField()[6].replace(" ", ""),
-			"netBasePrice", "netBasePriceFormulapopup", "subsequentPeriodPriceType", "netSubsequentPeriodPrice",
-			"netSubsequentPriceFormulapopup", getPpMassPopulateField()[12].replace(" ", ""),
+			"netBasePrice", NET_BASEPRICE_FORMULA_POPUP, "subsequentPeriodPriceType", "netSubsequentPeriodPrice",
+			NET_SUBSEQUENT_PRICE_FORMULA_POPUP, getPpMassPopulateField()[12].replace(" ", ""),
 			getPpMassPopulateField()[13].replace(" ", ""), getPpMassPopulateField()[14].replace(" ", ""),
 			getPpMassPopulateField()[15].replace(" ", ""), getPpMassPopulateField()[16].replace(" ", ""),
 			getPpMassPopulateField()[17].replace(" ", ""), getPpMassPopulateField()[18].replace(" ", ""),
 			getPpMassPopulateField()[19].replace(" ", ""), getPpMassPopulateField()[20].replace(" ", ""),
 			getPpMassPopulateField()[21].replace(" ", ""), "resetPriceType", "netResetPriceType",
-			"netResetPriceTypeFormulapopup", "NetPriceType", NET_PRICE_TYPE_FORMULA_POPUP, ATTACHED_DATE };
+			NET_RESET_PRICE_TYPE_FORMULA_POPUP, "NetPriceType", NET_PRICE_TYPE_FORMULA_POPUP, ATTACHED_DATE };
 	private static final String[] PRICE_PROTECTION_PENDING_COLUMN = { RECORD_TYPE, PRICE_ID, PRICE_NO, PRICE_NAME,
 			BRAND, PP_STATUS_PENDING, getPpMassPopulateField()[1].replace(" ", ""),
 			getPpMassPopulateField()[2].replace(" ", ""), MEASUREMENT_PRICE_PENDING, NEP_LOWER,
@@ -383,13 +383,13 @@ public class GtnFrameworkContractDashboardContants {
 			getPriceProtectionColumn()[30], getPriceProtectionColumn()[31], getPriceProtectionColumn()[32],
 			getPriceProtectionColumn()[33] };
 	private static final String[] PRICE_PROTECTION_COLUMN_HEADER = { "", RECORD_TYPE2, ITEM_ID, ITEM_NO, ITEM_NAME,
-			BRAND2, "Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
-			"Measurement Price", "NEP", "NEP Formula", BASE_PRICE, "Baseline WAC", "Baseline Net WAC",
-			"Net Baseline WAC Formula", "Subsequent Period Price Type", "Net Subsequent Period Price",
-			"Net Subsequent Period Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
-			"Price Tolerance Type", "Price Tolerance", "Max Incremental Change", "Reset Eligible", "Reset Type",
-			"Reset Date", "Reset Interval", "Reset Frequency", "Reset Price Type", "Net Reset Price Type",
-			"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", ATTACHED_DATE2 };
+			BRAND2, PRICE_PROTECTION_STATUS, PRICE_PROTECTION_START_DATE, PRICE_PROTECTION_END_DATE,
+			PRICE_PROTECTION_PRICE_TYPE, NEP, NEP_FORMULA, BASE_PRICE, BASELINE_WAC, BASELINE_NET_WAC,
+			NET_BASELINE_WAC_FORMULA, SUBSEQUENT_PERIOD_PRICE_TYPE, NET_SUBSEQUEN_PERIOD_PRICE,
+			NET_SUBSEQUENT_PERIOD_PRICE_FORMULA, PRICE_TOLERANCE_INTERVAL, PRICE_TOLERANCE_FREQUENCY,
+			PRICE_TOLERANCE_TYPE, PRICE_TOLERENCE, MAX_INCREMENTAL_CHANGE, RESET_ELIGIBLE, RESET_TYPE,
+			RESET_DATE, RESET_INTERVAL, RESET_FREQUENCY, RESET_PRICE_TYPE, NET_RESET_PRICE_TYPE,
+			NET_RESET_PRICE_FORMULA, NET_PRICE_TYPE, NET_PRICE_TYPE_FORMULA, ATTACHED_DATE2 };
 	private static final String[] PRICE_PROTECTION_PENDING_COLUMN_HEADER = { RECORD_TYPE2, ITEM_ID, ITEM_NO, ITEM_NAME,
 			BRAND2, PRICE_PROTECTION_STATUS, PRICE_PROTECTION_START_DATE, PRICE_PROTECTION_END_DATE,
 			PRICE_PROTECTION_PRICE_TYPE, NEP, NEP_FORMULA, BASE_PRICE, BASELINE_WAC, BASELINE_NET_WAC,
@@ -556,7 +556,7 @@ public class GtnFrameworkContractDashboardContants {
 	private static final String[] REBATE_DETAILS_COLUMN_DEFAULT = { CHECK_RECORD_ID, RECORD_TYPE, PRICE_NO, PRICE_NAME,
 			ATTACHED_STATUS, REBATE_START_DATE, REBATE_END_DATE };
 
-	private static final String[] REBATE_DETAILS_VIEW_HEADER = { RECORD_TYPE2, ITEM_NO, ITEM_NAME, "Item Type",
+	private static final String[] REBATE_DETAILS_VIEW_HEADER = { RECORD_TYPE2, ITEM_NO, ITEM_NAME, ITEMS_TYPE,
 			"Formula ID", FORMULA_NAME2, REBATE_PLAN_NAME2, START_DATE2, END_DATE2, "Revision Date" };
 	private static final String[] REBATE_DETAILS_VIEW_COLUMN = { RECORD_TYPE, PRICE_NO, PRICE_NAME, ITEM_TYPE,
 			FORMULA_ID, FORMULA_NAME, REBATE_PLAN_NAME, REBATE_START_DATE, REBATE_END_DATE, "rebateRevisionDate" };
@@ -594,9 +594,9 @@ public class GtnFrameworkContractDashboardContants {
 			String.class, String.class, String.class, Date.class, Date.class, String.class, String.class, String.class,
 			String.class, Date.class };
 
-	private static final String[] TP_LOOKUP_COLUMN = { "companyId", "companyNo", "companyName", "companyStatus",
-			"companyType" };
-	private static final String[] TP_LOOKUP_HEADER = { "Company ID", COMPANY_NO, COMPANY_NAME, "Company Status",
+	private static final String[] TP_LOOKUP_COLUMN = { COMPANYID, COMPANYNO, COMPANYNAME, COMPANYSTATUS,
+			COMPANYTYPE };
+	private static final String[] TP_LOOKUP_HEADER = { COMPANY_ID, COMPANY_NO, COMPANY_NAME, COMPANY_STATUS,
 			COMPANY_TYPE };
 	private static final Class<?>[] TP_LOOKUP_COLUMN_TYPE = { String.class, String.class, String.class, String.class,
 			String.class };
@@ -642,7 +642,7 @@ public class GtnFrameworkContractDashboardContants {
 	private static final String[] RP_LOOKUP_COLUMN = { "rebatePlanId", "rebatePlanNo", REBATE_PLAN_NAME,
 			"rebatePlanStatus", "rebatePlanType", "rebateStructure", "rangeBasedOn", "netSalesFormula", "netSalesRule",
 			"rebateBasedOn", CREATED_DATE, CREATED_BY, MODIFIED_DATE, MODIFIED_BY };
-	private static final String[] RP_LOOKUP_HEADER = { "Rebate Plan ID", "Rebate Plan No", REBATE_PLAN_NAME2,
+	private static final String[] RP_LOOKUP_HEADER = { "Rebate Plan ID", REBATES_PLAN_NO, REBATE_PLAN_NAME2,
 			"Rebate Plan Status", "Rebate Plan Type", "Rebate Structure", "Range Based On", NET_SALES_FORMULA2,
 			NET_SALES_RULE2, "Rebate Based On", CREATED_DATE2, CREATED_BY2, MODIFIED_DATE2, MODIFIED_BY2 };
 	private static final Class<?>[] RP_LOOKUP_COLUMN_TYPE = { String.class, String.class, String.class, String.class,
@@ -651,7 +651,7 @@ public class GtnFrameworkContractDashboardContants {
 
 	private static final String[] DC_LOOKUP_COLUMN = { "dcNo", "dcName", "dcDesc", CATEGORY, CREATED_DATE, CREATED_BY,
 			MODIFIED_DATE, MODIFIED_BY };
-	private static final String[] DC_LOOKUP_HEADER = { DEDUCTION_CALENDAR_NO, "Deduction Calendar Name",
+	private static final String[] DC_LOOKUP_HEADER = { DEDUCTION_CALENDAR_NO, DEDUCTIONS_CALENDER_NAME,
 			"Deduction Calendar Desc", "Category", CREATED_DATE2, CREATED_BY2, MODIFIED_DATE2, MODIFIED_BY2 };
 	private static final Class<?>[] DC_LOOKUP_COLUMN_TYPE = { String.class, String.class, String.class, String.class,
 			Date.class, String.class, Date.class, String.class };
@@ -780,18 +780,18 @@ public class GtnFrameworkContractDashboardContants {
 	private static final String[] ITEM_HISTORY_HEADER = { IFP_ID, "IFP NO", IFP_NAME, IFP_STATUS2, IFP_START_DATE,
 			IFP_END_DATE, IFP_TYPE, "IFP Category", "IFP Designation", "Parent IFP ID", "Parent IFP Name",
 			MODIFIED_DATE2, MODIFIED_BY2, CREATED_DATE2, CREATED_BY2 };
-	private static final String[] ITEM_HISTORY_COLUMN = { "itemId", "itemNo", "itemName", IFP_STATUS, "ifpStartDate",
-			"ifpEndDate", ITEM_TYPE, "ifpCategory", "ifpDesignation", "parentIfpId", "parentIfpName", MODIFIED_DATE,
+	private static final String[] ITEM_HISTORY_COLUMN = { "itemId", ITEMNO, ITEMNAME, IFP_STATUS, IFPSTARTDATE,
+			IFPENDDATE, ITEM_TYPE, "ifpCategory", "ifpDesignation", "parentIfpId", "parentIfpName", MODIFIED_DATE,
 			MODIFIED_BY, CREATED_DATE, CREATED_BY };
 	private static final Class<?>[] COMPANY_HISTORY_COLUMN_TYPE = { String.class, String.class, String.class,
 			String.class, Date.class, Date.class, String.class, String.class, String.class, String.class, String.class,
 			String.class, String.class, String.class, Date.class, String.class, Date.class };
 
-	private static final String[] COMPANY_HISTORY_HEADER = { CFP_ID, CFP_NO, CFP_NAME, CFP_STATUS2, "CFP Start Date",
-			"CFP End Date", CFP_TYPE, "CFP Category", "CFP Trade Class", "CFP Designation", "Parent CFP ID",
+	private static final String[] COMPANY_HISTORY_HEADER = { CFP_ID, CFP_NO, CFP_NAME, CFP_STATUS2, CFP_START_DATE,
+			CFP_END_DATE, CFP_TYPE, "CFP Category", "CFP Trade Class", "CFP Designation", "Parent CFP ID",
 			"Parent CFP Name", "Sales Inclusion", CREATED_BY2, CREATED_DATE2, MODIFIED_BY2, MODIFIED_DATE2 };
-	private static final String[] COMPANY_HISTORY_COLUMN = { "cfpId", "cfpNo", "cfpName", CFP_STATUS, "cfpStartDate",
-			"cfpEndDate", "cfptype", "cfpCategory", "cfpTrade", "cfpDesignation", "parentCfp", "parentCfpName",
+	private static final String[] COMPANY_HISTORY_COLUMN = { "cfpId", "cfpNo", "cfpName", CFP_STATUS, CFPSTARTDATE,
+			CFPENDDATE, "cfptype", "cfpCategory", "cfpTrade", "cfpDesignation", "parentCfp", "parentCfpName",
 			"salesInclusion", CREATED_BY, CREATED_DATE, MODIFIED_BY, MODIFIED_DATE };
 	private static final Class<?>[] CD_HISTORY_COLUMN_TYPE = { String.class, String.class, String.class, String.class,
 			String.class, String.class, String.class, String.class, String.class, String.class, String.class,

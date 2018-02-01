@@ -85,7 +85,7 @@ public final class GtnFrameworkCssConstants {
 	public static final String ERROR = "error";
 	public static final String PERCENT_20 = "20%";
 	public static final String LINK = "link";
-	public static final String GRID_SINGLE_IN_LAYOUT = "gtnGrid-single-ln-layout";
+	public static final String GRID_SINGLE_IN_LAYOUT = GTN_GRID_SINGLE_IN_LAYOUT;
 	public static final String GTN_DUAL_LIST_BOX = "gtn-dual-list-box";
 	public static final String STPL_MIN_HEIGHT_30 = "stpl-min-height-30";
 	public static final String FOUR_HUNDEREND = "400";
