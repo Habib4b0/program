@@ -107,7 +107,7 @@ public class ConsolidatedFinancialForecastUI extends UI {
 					{
 
 						cause += t.getClass().getName();
-					}
+	}
 
 				}
 

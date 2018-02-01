@@ -68,8 +68,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import org.apache.commons.lang.StringUtils;
-import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.task.model.TaskSummary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
