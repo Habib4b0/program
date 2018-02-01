@@ -52,7 +52,8 @@ public class GtnWsReturnsDualListBoxController {
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 
 		try {
-			List<Object> inputList = request.getGtnWsSearchRequest().getQueryInputList();
+                        @SuppressWarnings("unchecked")
+			List<Object> inputList = new ArrayList(request.getGtnWsSearchRequest().getQueryInputList());
 			GtnUIFrameworkWebserviceDualListBoxResponse dualListResponse = new GtnUIFrameworkWebserviceDualListBoxResponse();
 
 			List<Object> newInputList = new ArrayList<>();
@@ -101,7 +102,7 @@ public class GtnWsReturnsDualListBoxController {
 		 */
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
-			List<Object> inputList = request.getGtnWsSearchRequest().getQueryInputList();
+			List<Object> inputList = new ArrayList(request.getGtnWsSearchRequest().getQueryInputList());
 			List<String> filterDataList = (List<String>) inputList.get(1);
 			String fileName = (String) inputList.get(2);
 			boolean isMoveAll = false;
@@ -133,7 +134,7 @@ public class GtnWsReturnsDualListBoxController {
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 
 		try {
-			List<Object> inputList = request.getGtnWsSearchRequest().getQueryInputList();
+			List<Object> inputList = new ArrayList(request.getGtnWsSearchRequest().getQueryInputList());
 			GtnUIFrameworkWebserviceDualListBoxResponse dualListResponse = new GtnUIFrameworkWebserviceDualListBoxResponse();
 
 			List<Object> newInputList = new ArrayList<>();
@@ -173,7 +174,7 @@ public class GtnWsReturnsDualListBoxController {
 		 */
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
-			List<Object> inputList = request.getGtnWsSearchRequest().getQueryInputList();
+			List<Object> inputList =new ArrayList(request.getGtnWsSearchRequest().getQueryInputList());
 			List<String> filterDataList = (List<String>) inputList.get(1);
 			String fileName = (String) inputList.get(2);
 			boolean isMoveAll = false;
@@ -204,7 +205,7 @@ public class GtnWsReturnsDualListBoxController {
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 
 		try {
-			List<Object> inputList = request.getGtnWsSearchRequest().getQueryInputList();
+			List<Object> inputList = new ArrayList(request.getGtnWsSearchRequest().getQueryInputList());
 			GtnUIFrameworkWebserviceDualListBoxResponse dualListResponse = new GtnUIFrameworkWebserviceDualListBoxResponse();
 
 			List<Object> newInputList = new ArrayList<>();
@@ -243,7 +244,7 @@ public class GtnWsReturnsDualListBoxController {
 		 */
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
-			List<Object> inputList = request.getGtnWsSearchRequest().getQueryInputList();
+			List<Object> inputList = new ArrayList(request.getGtnWsSearchRequest().getQueryInputList());
 			List<String> filterDataList = (List<String>) inputList.get(1);
 			String fileName = (String) inputList.get(2);
 			boolean isMoveAll = false;

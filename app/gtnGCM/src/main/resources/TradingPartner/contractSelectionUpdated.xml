@@ -8,7 +8,7 @@ and open the template in the editor.
         xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
     <VerticalLayout id="contractSelectionVerticalLayout" spacing="true"
                     margin="true" immediate="true">
-        <!--<errorMsg:ErrorLabel id="errorMsg"/>-->
+        <errorMsg:ErrorLabel id="errorMsg"/>
         <Panel id="tradingPartnerSearch" caption = "Search Criteria">
             <HorizontalLayout spacing="true" margin="true" immediate="true">
                 <VerticalLayout>
@@ -74,7 +74,7 @@ and open the template in the editor.
                 </GridLayout>
             </HorizontalLayout>
         </Panel>
-        <Panel id="tradingPartnerPanel" caption = "Available Contracts">
+ <Panel id="tradingPartnerPanel" caption = "Available Contracts">
             <VerticalLayout>
                 <VerticalLayout id="currentTradingPartnerTableLayout" spacing="true" margin="false" immediate="true">
                 </VerticalLayout>
@@ -84,6 +84,7 @@ and open the template in the editor.
                     <HorizontalLayout id="transferSalesProjectionLayout" spacing = "false" margin = "false" visible="false">
                         <Label caption="Transfer Sales Projection: " contentMode="HTML"/>
                         <OptionGroup multiSelect="false" id="transferSalesProjection" immediate="true"  styleName = "horizontal" />
+                        <CheckBox id="removeProjectionDetails" immediate="true"  styleName = "horizontal" caption="Remove Projection Details" />
                     </HorizontalLayout>
                     <Button id="resetBtn" caption="RESET" alignment="BOTTOM_LEFT" />
                 </HorizontalLayout>

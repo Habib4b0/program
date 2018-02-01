@@ -27,6 +27,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.contractdashboard.constants.GtnWsContractDashboardContants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticService;
 import com.stpl.gtn.gtn2o.ws.module.contractdashboard.logic.GtnWsContractDashboardCompanyLogic;
 import com.stpl.gtn.gtn2o.ws.module.contractdashboard.logic.GtnWsContractDashboardItemLogic;
 import com.stpl.gtn.gtn2o.ws.module.contractdashboard.logic.GtnWsContractDashboardLogic;
@@ -75,6 +76,13 @@ public class GtnWsContractDashboardController {
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+
+	@Autowired
+	private GtnFrameworkAutomaticService automaticRelationService;
+
+	public GtnFrameworkAutomaticService getAutomaticRelationService() {
+		return automaticRelationService;
+	}
 
 	public GtnWsSqlService getGtnWsSqlService() {
 		return gtnWsSqlService;
@@ -1623,6 +1631,7 @@ public class GtnWsContractDashboardController {
 			GtnWsContractDashboardResponse cdResponse = new GtnWsContractDashboardResponse();
 			gtnResponse.setGtnWsContractDashboardResponse(cdResponse);
 			getSubmitLogic().approveContractDashboard(gtnWsRequest.getGtnWsContractDashboardRequest(), cdResponse);
+			checkAndUpdateAllrelationShip();
 		} catch (Exception ex) {
 			logger.error("Exception in submitContractDashboard", ex);
 		}
@@ -1689,6 +1698,15 @@ public class GtnWsContractDashboardController {
 		}
 
 		return gtnContractProtectionUpdateResponse;
+	}
+
+	public void checkAndUpdateAllrelationShip() {
+		try {
+			automaticRelationService.checkAndUpdateAllRelationShip("");
+		} catch (Exception e) {
+			logger.error("Error checkAndUpdateAllrelationShip" + e.getMessage());
+		}
+
 	}
         
 }

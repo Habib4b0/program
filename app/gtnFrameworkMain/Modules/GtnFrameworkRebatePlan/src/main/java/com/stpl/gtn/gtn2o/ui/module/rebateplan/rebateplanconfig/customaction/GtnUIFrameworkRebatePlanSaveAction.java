@@ -130,12 +130,14 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 		}
 		GtnUIFrameworkActionExecutor
 				.clearErrorBanner(GtnFrameworkCommonConstants.REBATE_PLAN_INFORMATION_TAB_REBATE_PLAN_NO);
+                              
+            
 
 	}
-
 	private void loadRebatePlanInfo(final GtnWsRebatePlanInfoBean rebatePlanInfoBean)
 			throws GtnFrameworkGeneralException {
 		try {
+                     
 			rebatePlanInfoBean.setRebatePlanType(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("rebatePlanInformationTabRebatePlanType").getIntegerFromField());
 			rebatePlanInfoBean.setRebatePlanStatus(GtnUIFrameworkGlobalUI
@@ -187,6 +189,12 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 					.getVaadinBaseComponent("rebatePlanCalculationMarketShareFrom").getDateFromDateField());
 			rebatePlanInfoBean.setMarketShareTo(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("rebatePlanCalculationMarketShareTo").getDateFromDateField());
+                        GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanIdTop")
+                            .loadFieldValue(rebatePlanInfoBean.getRebatePlanId());
+                        GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanNameTop")
+                            .loadFieldValue(rebatePlanInfoBean.getRebatePlanName());
+                        GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanNoTop")
+                            .loadFieldValue(rebatePlanInfoBean.getRebatePlanNo());
 
 		} catch (GtnFrameworkValidationFailedException systemExcption) {
 			throw new GtnFrameworkGeneralException(GtnFrameworkCommonConstants.SAVE_ERROR, systemExcption);
