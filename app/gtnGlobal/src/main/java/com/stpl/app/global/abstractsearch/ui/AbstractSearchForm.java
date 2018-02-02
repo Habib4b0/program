@@ -335,7 +335,7 @@ public final class AbstractSearchForm extends CustomComponent {
     private AbstractSearchTableLogic tableLogic = new AbstractSearchTableLogic();
     private ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<SearchResultsDTO> resultBean = new BeanItemContainer<>(SearchResultsDTO.class);
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchForm.class);
     private final AbstractSearchLogic searchLogic = new AbstractSearchLogic();
     private static ResourceBundle columnBundle = ResourceBundle.getBundle("properties.tableColumns");
