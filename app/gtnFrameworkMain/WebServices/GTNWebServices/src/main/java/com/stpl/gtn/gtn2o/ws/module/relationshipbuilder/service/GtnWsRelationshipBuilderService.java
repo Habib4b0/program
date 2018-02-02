@@ -539,7 +539,7 @@ public class GtnWsRelationshipBuilderService {
 				String selectPrimaryColumn = keyBean.getLevelValueColumnName();
 				getUserFilterClause(gtnWsRequest, finalQueryBean, selectPrimaryColumn);
 				StringBuilder queryBuilder = new StringBuilder(finalQueryBean.generateQuery());
-				appendHelperTableDescriptionRestriction(queryBuilder);
+				appendHelperTableDescriptionRestriction(queryBuilder,"AND");
 				if (!gtnWsRequest.getGtnWsSearchRequest().isCount()) {
 
 					setDefaultOrderBy(gtnWsRequest);
@@ -565,10 +565,10 @@ public class GtnWsRelationshipBuilderService {
 		return serachResponse;
 	}
 
-	private void appendHelperTableDescriptionRestriction(StringBuilder queryBuilder) {
+	private void appendHelperTableDescriptionRestriction(StringBuilder queryBuilder,String append) {
 		if(queryBuilder.toString().contains("HELPER_JOIN .DESCRIPTION"))
 		{
-			queryBuilder.append(" AND HELPER_JOIN.DESCRIPTION  <> '-SELECT ONE-' ");
+			queryBuilder.append(" "+append+" HELPER_JOIN.DESCRIPTION  <> '-SELECT ONE-' ");
 		}
 	}
 
@@ -749,7 +749,6 @@ public class GtnWsRelationshipBuilderService {
 			}
 
 		}
-		appendHelperTableDescriptionRestriction(finalQuery);
 		@SuppressWarnings("unchecked")
 		List<Object[]> result = executeQuery(finalQuery.toString());
 		linkedLevelDataList.addAll(customizeRelationDataForAutoBuild(result));
