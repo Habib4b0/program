@@ -70,6 +70,11 @@
             <version>${apache-poi.version}</version>
             <scope>provided</scope>
         </dependency>
+                <dependency>
+        	<groupId>org.slf4j</groupId>
+        	<artifactId>slf4j-api</artifactId>
+        	<version>1.7.14</version>
+        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>

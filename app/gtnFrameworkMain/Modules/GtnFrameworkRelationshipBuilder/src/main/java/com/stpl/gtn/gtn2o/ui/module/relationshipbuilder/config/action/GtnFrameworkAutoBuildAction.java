@@ -78,9 +78,7 @@ public class GtnFrameworkAutoBuildAction implements GtnUIFrameWorkAction, GtnUIF
 							+ GtnWsRelationshipBuilderConstants.AUTOBUILDERELATIONSHIP,
 					request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 			GtnWsRelationshipBuilderResponse rbResponse = response.getGtnWsRelationshipBuilderResponse();
-			rbTreeBaseComponent
-					.removeTreeItems(rbTreeBaseComponent.getChildNodes(treeSelectedBean)
-							.toArray(new GtnWsRecordBean[rbTreeBaseComponent.getChildNodes(treeSelectedBean).size()]));
+			rbTreeBaseComponent.removeTreeItems();
 			rbTreeBaseComponent.loadTreeFromTreeNode(rbResponse.getRbTreeNodeList(), treeSelectedBean);
 		} catch (Exception e) {
 			gtnLogger.error("Exception in loadFilteredResultLayout", e);
