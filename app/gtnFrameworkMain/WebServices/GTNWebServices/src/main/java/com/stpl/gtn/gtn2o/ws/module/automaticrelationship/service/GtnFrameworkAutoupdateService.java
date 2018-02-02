@@ -16,6 +16,6 @@ public interface GtnFrameworkAutoupdateService {
 			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList) throws InterruptedException;
 
 	public void doAutomaticUpdate(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
-			GtnWsRelationshipBuilderBean relationBean, String userId) throws GtnFrameworkGeneralException;
+			GtnWsRelationshipBuilderBean relationBean) throws GtnFrameworkGeneralException;
         
 }

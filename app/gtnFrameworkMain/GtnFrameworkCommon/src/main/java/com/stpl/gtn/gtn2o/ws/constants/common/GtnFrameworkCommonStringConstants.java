@@ -107,7 +107,7 @@ public class GtnFrameworkCommonStringConstants {
 
 	public static final String ITEM_ID = "itemId";
 
-	public static final String GTN_BASE_PATH = "com.stpl.gtnframework.base.path";
+	public static final String GTN_BASE_PATH = GTNFRAMEWORK_BASE_PATH;
 
 	public static final String RETURNS_FORECAST_DUALLIST_CONFIG_ACTION = "com.stpl.gtn.gtn2o.ui.action.GtnUIFrameworkReturnsDualListBoxConfigAction";
 
@@ -172,7 +172,7 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String DEFAULT_JAVA_DATEFORMAT = "EEE MMM dd HH:mm:ss z yyyy";
 	public static final String SQL_DATEFORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 	public static final String AND_QUOTE = " AND '";
-	public static final String AND_BRACKET_QUOTE = " AND ( '";
+	public static final String AND_BRACKET_QUOTE = AND_WITH_OPEN_BRACE;
 	public static final String AND_BRACKET = " AND (";
 
 	public static final String IFPITEMSTAB_RECORDTYPE = "ifpItemsTabRecordType";
