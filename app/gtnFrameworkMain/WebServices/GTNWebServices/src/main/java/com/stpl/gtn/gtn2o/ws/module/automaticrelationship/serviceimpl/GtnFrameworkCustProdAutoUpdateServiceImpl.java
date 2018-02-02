@@ -93,8 +93,8 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 			customerRunnableTarget.setRelationBean(relationBean);
 			customerExecutorService.submit(customerRunnableTarget);
 		}
-		customerExecutorService.shutdown();
-		customerExecutorService.awaitTermination(5, TimeUnit.MINUTES);
+		 customerExecutorService.shutdown();
+		 customerExecutorService.awaitTermination(5, TimeUnit.MINUTES);
 		return atomicBoolean.get();
 	}
 
@@ -126,6 +126,8 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 			inputsList.add(relationBean.getRelationshipBuilderSid());
 			inputsList.add(previousHierarchyLevelBean.getLevelNo());
 			inputsList.add(customertUpdatedVersionNo);
+			inputsList.add(customerHierarchyLevelBean.getLevelNo());
+			inputsList.add(customertUpdatedVersionNo - 1);
 			inputsList.add(customerHierarchyLevelBean.getLevelNo());
 			inputsList.add(customertUpdatedVersionNo - 1);
 			hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);
@@ -169,6 +171,5 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 	public GtnFrameworkAutomaticRelationUpdateService getService() {
 		return automaticService;
 	}
-
 
 }
