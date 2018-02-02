@@ -5,6 +5,21 @@
  */
 package com.stpl.gtn.gtn2o.ui.framework.component.tree;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
+
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponent;
@@ -18,35 +33,22 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.vaadin.v7.data.Container;
-import com.vaadin.v7.event.DataBoundTransferable;
-import com.vaadin.v7.event.ItemClickEvent;
-import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.event.dd.acceptcriteria.Not;
 import com.vaadin.event.dd.acceptcriteria.Or;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.event.DataBoundTransferable;
+import com.vaadin.v7.event.ItemClickEvent;
+import com.vaadin.v7.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.v7.ui.AbstractSelect;
 import com.vaadin.v7.ui.AbstractSelect.VerticalLocationIs;
 import com.vaadin.v7.ui.Tree;
 import com.vaadin.v7.ui.Tree.CollapseListener;
 import com.vaadin.v7.ui.Tree.ExpandListener;
 import com.vaadin.v7.ui.VerticalLayout;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
 
 /**
  *
@@ -291,7 +293,8 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 			if (!tree.hasChildren(item)) {
 				tree.getContainerDataSource().removeItem(item);
 				String treeLevelNo = hasMultipleTable
-						? String.valueOf(((GtnWsRecordBean) item).getAdditionalPropertyByIndex(0)) : "";
+						? String.valueOf(((GtnWsRecordBean) item).getAdditionalPropertyByIndex(0))
+						: "";
 				GtnUIFrameworkBaseComponent tableBaseComponent = GtnUIFrameworkGlobalUI
 						.getVaadinBaseComponent(initialTableId + treeLevelNo);
 				tableBaseComponent.addItemToDataTable(item);
@@ -491,6 +494,51 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 				container.setChildrenAllowed(parentItemId, true);
 				container.setParent(extListDTO, parentItemId);
 			}
+		}
+	}
+
+	public void removeChildItems(Tree tree) {
+		List<GtnWsRecordBean> returnListToRemove = null;
+		Object selectedValueInTree = tree.getValue();
+
+		if (selectedValueInTree == null) {
+			return;
+		}
+		List<GtnWsRecordBean> selectedItemListFromTree = new ArrayList<>();
+		if (selectedValueInTree instanceof Collection) {
+			for (GtnWsRecordBean gtnWsRecordBean : (Set<GtnWsRecordBean>) selectedValueInTree) {
+				if (tree.getChildren(gtnWsRecordBean) != null)
+				selectedItemListFromTree
+							.addAll(new ArrayList<>((Collection<GtnWsRecordBean>) tree.getChildren(gtnWsRecordBean)));
+			}
+		} else {
+			if (tree.getChildren(selectedValueInTree) != null)
+			selectedItemListFromTree
+						.addAll(new ArrayList<>((Collection<GtnWsRecordBean>) tree.getChildren(selectedValueInTree)));
+		}
+		if (selectedItemListFromTree.isEmpty()) {
+			return;
+		}
+
+		Collections.sort(selectedItemListFromTree, new Comparator<GtnWsRecordBean>() {
+			@Override
+			public int compare(GtnWsRecordBean object1, GtnWsRecordBean object2) {
+				int treeLevelNo1InTree = Integer.parseInt(String.valueOf(object1.getAdditionalPropertyByIndex(0)));
+				int treeLevelNo2InTree = Integer.parseInt(String.valueOf(object2.getAdditionalPropertyByIndex(0)));
+				return treeLevelNo2InTree - treeLevelNo1InTree;
+			}
+		});
+
+		ListIterator<?> listIteratorForTree = selectedItemListFromTree.listIterator();
+		while (listIteratorForTree.hasNext()) {
+			Object itemToRemove = listIteratorForTree.next();
+			Object selectedParent = itemToRemove;
+			if (!tree.hasChildren(itemToRemove)) {
+				tree.getContainerDataSource().removeItem(itemToRemove);
+			} else {
+				getChildren(itemToRemove, tree, selectedParent);
+			}
+			listIteratorForTree.remove();
 		}
 	}
 }

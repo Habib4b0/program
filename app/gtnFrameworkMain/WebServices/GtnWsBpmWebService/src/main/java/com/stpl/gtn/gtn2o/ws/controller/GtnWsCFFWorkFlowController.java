@@ -37,11 +37,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GtnWsCFFWorkFlowController {
     
     
-    private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsCFFWorkFlowController.class);
+    public GtnWsCFFWorkFlowController() {
+		super();
+	}
+
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsCFFWorkFlowController.class);
     @Autowired
     private WorkflowLogicService workflowLogicService;
     @Autowired
     private GtnWsUserRoleService gtnWsUserRoleService;
+    
+    private static final String APPROVE_FLAG = "approveFlag";
     
     @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_START_TASK)
     @ResponseBody
@@ -145,87 +151,87 @@ public class GtnWsCFFWorkFlowController {
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse approveWorkFlow(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-        GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebserviceResponse();
-        GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-        GtnWsCFFSubmitRequest forecastProjectionSubmitRequest = gtnUIFrameworkWebserviceRequest
+        GtnUIFrameworkWebserviceResponse gtnWsresponseCFFApproveWorkFlow = new GtnUIFrameworkWebserviceResponse();
+        GtnWsGeneralResponse generalResponseCFFApproveWorkFlow = new GtnWsGeneralResponse();
+        GtnWsCFFSubmitRequest forecastProjectionSubmitRequestCFFApproveWorkFlow = gtnUIFrameworkWebserviceRequest
                 .getGtnCffsubmitRequest();
-        GtnWsCFFSubmitBean forecastProjectionSubmitBean = forecastProjectionSubmitRequest
+        GtnWsCFFSubmitBean forecastProjectionSubmitBeanCFFApproveWorkFlow = forecastProjectionSubmitRequestCFFApproveWorkFlow
                 .getGtnWsCFFSubmitBean();
-        GtnWsGeneralRequest gtnWsGeneralRequest = forecastProjectionSubmitRequest.getGtnWsGeneralRequest();
-        Map<String, Object> params = new HashMap<>();
-				params.put("approveFlag", "approve");
-				workflowLogicService.updateTaskInBpm(gtnWsGeneralRequest.getUserId(), forecastProjectionSubmitBean.getProcessId(), params,
+        GtnWsGeneralRequest gtnWsGeneralRequestCFFApproveWorkFlow = forecastProjectionSubmitRequestCFFApproveWorkFlow.getGtnWsGeneralRequest();
+        Map<String, Object> paramsCFFApproveWorkFlow = new HashMap<>();
+				paramsCFFApproveWorkFlow.put(APPROVE_FLAG, "approve");
+				workflowLogicService.updateTaskInBpm(gtnWsGeneralRequestCFFApproveWorkFlow.getUserId(), forecastProjectionSubmitBeanCFFApproveWorkFlow.getProcessId(), paramsCFFApproveWorkFlow,
 						GtnWsBpmCommonConstants.CFF);
-        GtnWsCommonWorkflowResponse wfResponse = new GtnWsCommonWorkflowResponse();
-        generalResponse.setSucess(true);
-        gtnWsresponse.setGtnWSCommonWorkflowResponse(wfResponse);
-        gtnWsresponse.setGtnWsGeneralResponse(generalResponse);
-        return gtnWsresponse;
+        GtnWsCommonWorkflowResponse wfResponseCFFApproveWorkFlow = new GtnWsCommonWorkflowResponse();
+        generalResponseCFFApproveWorkFlow.setSucess(true);
+        gtnWsresponseCFFApproveWorkFlow.setGtnWSCommonWorkflowResponse(wfResponseCFFApproveWorkFlow);
+        gtnWsresponseCFFApproveWorkFlow.setGtnWsGeneralResponse(generalResponseCFFApproveWorkFlow);
+        return gtnWsresponseCFFApproveWorkFlow;
     }
     
      @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_REJECT_WORKFLOW)
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse rejectWorkflow(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-        GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebserviceResponse();
-        GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-        GtnWsCFFSubmitRequest forecastProjectionSubmitRequest = gtnUIFrameworkWebserviceRequest
+        GtnUIFrameworkWebserviceResponse gtnWsresponseCFFRejectWorkflow = new GtnUIFrameworkWebserviceResponse();
+        GtnWsGeneralResponse generalResponseCFFRejectWorkflow = new GtnWsGeneralResponse();
+        GtnWsCFFSubmitRequest forecastProjectionSubmitRequestCFFRejectWorkflow = gtnUIFrameworkWebserviceRequest
                 .getGtnCffsubmitRequest();
-        GtnWsCFFSubmitBean forecastProjectionSubmitBean = forecastProjectionSubmitRequest
+        GtnWsCFFSubmitBean forecastProjectionSubmitBeanCFFRejectWorkflow = forecastProjectionSubmitRequestCFFRejectWorkflow
                 .getGtnWsCFFSubmitBean();
-        GtnWsGeneralRequest gtnWsGeneralRequest = forecastProjectionSubmitRequest.getGtnWsGeneralRequest();
-        Map<String, Object> params = new HashMap<>();
-				params.put("approveFlag", "reject-RWC");
-				workflowLogicService.updateTaskInBpm(gtnWsGeneralRequest.getUserId(), forecastProjectionSubmitBean.getProcessId(), params,
+        GtnWsGeneralRequest gtnWsGeneralRequestCFFRejectWorkflow = forecastProjectionSubmitRequestCFFRejectWorkflow.getGtnWsGeneralRequest();
+        Map<String, Object> paramsCFFRejectWorkflow = new HashMap<>();
+				paramsCFFRejectWorkflow.put(APPROVE_FLAG, "reject-RWC");
+				workflowLogicService.updateTaskInBpm(gtnWsGeneralRequestCFFRejectWorkflow.getUserId(), forecastProjectionSubmitBeanCFFRejectWorkflow.getProcessId(), paramsCFFRejectWorkflow,
 						GtnWsBpmCommonConstants.CFF);
-        GtnWsCommonWorkflowResponse wfResponse = new GtnWsCommonWorkflowResponse();
-        generalResponse.setSucess(true);
-        gtnWsresponse.setGtnWSCommonWorkflowResponse(wfResponse);
-        gtnWsresponse.setGtnWsGeneralResponse(generalResponse);
-        return gtnWsresponse;
+        GtnWsCommonWorkflowResponse wfResponseCFFRejectWorkflow = new GtnWsCommonWorkflowResponse();
+        generalResponseCFFRejectWorkflow.setSucess(true);
+        gtnWsresponseCFFRejectWorkflow.setGtnWSCommonWorkflowResponse(wfResponseCFFRejectWorkflow);
+        gtnWsresponseCFFRejectWorkflow.setGtnWsGeneralResponse(generalResponseCFFRejectWorkflow);
+        return gtnWsresponseCFFRejectWorkflow;
     }
      @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_WITHDRAW_WORKFLOW)
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse withDrawWorkflow(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-        GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebserviceResponse();
-        GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-        GtnWsCFFSubmitRequest forecastProjectionSubmitRequest = gtnUIFrameworkWebserviceRequest
+        GtnUIFrameworkWebserviceResponse gtnWsresponseCFFWithDrawWorkflow = new GtnUIFrameworkWebserviceResponse();
+        GtnWsGeneralResponse generalResponseCFFWithDrawWorkflow = new GtnWsGeneralResponse();
+        GtnWsCFFSubmitRequest forecastProjectionSubmitRequestCFFWithDrawWorkflow = gtnUIFrameworkWebserviceRequest
                 .getGtnCffsubmitRequest();
-        GtnWsCFFSubmitBean forecastProjectionSubmitBean = forecastProjectionSubmitRequest
+        GtnWsCFFSubmitBean forecastProjectionSubmitBeanCFFWithDrawWorkflow = forecastProjectionSubmitRequestCFFWithDrawWorkflow
                 .getGtnWsCFFSubmitBean();
-        GtnWsGeneralRequest gtnWsGeneralRequest = forecastProjectionSubmitRequest.getGtnWsGeneralRequest();
-        Map<String, Object> params = new HashMap<>();
-				params.put("approveFlag", "withdraw-RWC");
-				workflowLogicService.updateTaskInBpm(gtnWsGeneralRequest.getUserId(), forecastProjectionSubmitBean.getProcessId(), params,
+        GtnWsGeneralRequest gtnWsGeneralRequestCFFWithDrawWorkflow = forecastProjectionSubmitRequestCFFWithDrawWorkflow.getGtnWsGeneralRequest();
+        Map<String, Object> paramsCFFWithDrawWorkflow = new HashMap<>();
+				paramsCFFWithDrawWorkflow.put(APPROVE_FLAG, "withdraw-RWC");
+				workflowLogicService.updateTaskInBpm(gtnWsGeneralRequestCFFWithDrawWorkflow.getUserId(), forecastProjectionSubmitBeanCFFWithDrawWorkflow.getProcessId(), paramsCFFWithDrawWorkflow,
 						GtnWsBpmCommonConstants.CFF);
-        GtnWsCommonWorkflowResponse wfResponse = new GtnWsCommonWorkflowResponse();
-        generalResponse.setSucess(true);
-        gtnWsresponse.setGtnWSCommonWorkflowResponse(wfResponse);
-        gtnWsresponse.setGtnWsGeneralResponse(generalResponse);
-        return gtnWsresponse;
+        GtnWsCommonWorkflowResponse wfResponseCFFWithDrawWorkflow = new GtnWsCommonWorkflowResponse();
+        generalResponseCFFWithDrawWorkflow.setSucess(true);
+        gtnWsresponseCFFWithDrawWorkflow.setGtnWSCommonWorkflowResponse(wfResponseCFFWithDrawWorkflow);
+        gtnWsresponseCFFWithDrawWorkflow.setGtnWsGeneralResponse(generalResponseCFFWithDrawWorkflow);
+        return gtnWsresponseCFFWithDrawWorkflow;
     }
     
       @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_CANCEL_WORKFLOW)
     @ResponseBody
     public GtnUIFrameworkWebserviceResponse cancelWorkflow(
             @RequestBody GtnUIFrameworkWebserviceRequest gtnUIFrameworkWebserviceRequest) {
-        GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebserviceResponse();
-        GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
-        GtnWsCFFSubmitRequest forecastProjectionSubmitRequest = gtnUIFrameworkWebserviceRequest
+        GtnUIFrameworkWebserviceResponse gtnWsresponseCFFCancelWorkflow = new GtnUIFrameworkWebserviceResponse();
+        GtnWsGeneralResponse generalResponseCFFCancelWorkflow = new GtnWsGeneralResponse();
+        GtnWsCFFSubmitRequest forecastProjectionSubmitRequestCFFCancelWorkflow = gtnUIFrameworkWebserviceRequest
                 .getGtnCffsubmitRequest();
-        GtnWsCFFSubmitBean forecastProjectionSubmitBean = forecastProjectionSubmitRequest
+        GtnWsCFFSubmitBean forecastProjectionSubmitBeanCFFCancelWorkflow = forecastProjectionSubmitRequestCFFCancelWorkflow
                 .getGtnWsCFFSubmitBean();
-        GtnWsGeneralRequest gtnWsGeneralRequest = forecastProjectionSubmitRequest.getGtnWsGeneralRequest();
-        Map<String, Object> params = new HashMap<>();
-				params.put("approveFlag", "cancel-RWC");
-				workflowLogicService.updateTaskInBpm(gtnWsGeneralRequest.getUserId(), forecastProjectionSubmitBean.getProcessId(), params,
+        GtnWsGeneralRequest gtnWsGeneralRequestCFFCancelWorkflow = forecastProjectionSubmitRequestCFFCancelWorkflow.getGtnWsGeneralRequest();
+        Map<String, Object> paramsCFFCancelWorkflow = new HashMap<>();
+				paramsCFFCancelWorkflow.put(APPROVE_FLAG, "cancel-RWC");
+				workflowLogicService.updateTaskInBpm(gtnWsGeneralRequestCFFCancelWorkflow.getUserId(), forecastProjectionSubmitBeanCFFCancelWorkflow.getProcessId(), paramsCFFCancelWorkflow,
 						GtnWsBpmCommonConstants.CFF);
-        GtnWsCommonWorkflowResponse wfResponse = new GtnWsCommonWorkflowResponse();
-        generalResponse.setSucess(true);
-        gtnWsresponse.setGtnWSCommonWorkflowResponse(wfResponse);
-        gtnWsresponse.setGtnWsGeneralResponse(generalResponse);
-        return gtnWsresponse;
+        GtnWsCommonWorkflowResponse wfResponseCFFCancelWorkflow = new GtnWsCommonWorkflowResponse();
+        generalResponseCFFCancelWorkflow.setSucess(true);
+        gtnWsresponseCFFCancelWorkflow.setGtnWSCommonWorkflowResponse(wfResponseCFFCancelWorkflow);
+        gtnWsresponseCFFCancelWorkflow.setGtnWsGeneralResponse(generalResponseCFFCancelWorkflow);
+        return gtnWsresponseCFFCancelWorkflow;
     }
     
     @RequestMapping(value = GtnWsWorkFlowConstants.GTN_WS_CFF_IS_VALID_USER)

@@ -42,13 +42,12 @@ public class GtnFrameworkAutomaticService {
 	public void checkAndUpdateAllRelationShip(String relationShipType) {
 
 		List<GtnWsRelationshipBuilderBean> finalResultbeanList = getRelationShipBuilderData(relationShipType);
-		int count = 0;
 		customerExecutorService = Executors.newFixedThreadPool(50);
 		for (GtnWsRelationshipBuilderBean relationShipBuilderBean : finalResultbeanList) {
 			GtnFrameworkAutomaticRunnable automaticRelationUpdateRunnable = applicationContext
 					.getBean(GtnFrameworkAutomaticRunnable.class);
 			automaticRelationUpdateRunnable.setRelationBean(relationShipBuilderBean);
-			automaticRelationUpdateRunnable.setUserId(String.valueOf(count++));
+			automaticRelationUpdateRunnable.setUserId(String.valueOf(relationShipBuilderBean.getCreatedBy()));
 			customerExecutorService.submit(automaticRelationUpdateRunnable);
 		}
 		customerExecutorService.shutdown();
