@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityPropertyBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.service.property.GtnWsSecurityPropertyReaderService;
-import javax.naming.NamingException;
 
 public class GtnDatabaseConnection {
 

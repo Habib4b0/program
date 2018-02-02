@@ -23,6 +23,7 @@ public class DroolsProperties {
 
     private static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(DroolsProperties.class);
 
+    private static final String ERROR_READING_PROPERTY_FILE = "Error while reading the property file :";
     /**
      * method will return properties class
      *
@@ -60,10 +61,10 @@ public class DroolsProperties {
         } catch (FileNotFoundException e) {
             logger.error(e.getMessage());
             logger.error("Please check the forecasting_properties.properties file in following path :[" + path + "]");
-            throw new IllegalArgumentException("Error while reading the property file :" + e);
+            throw new IllegalArgumentException(ERROR_READING_PROPERTY_FILE + e);
         } catch (IOException e) {
             logger.error(e.getMessage());
-            throw new IllegalArgumentException("Error while reading the property file :" + e);
+            throw new IllegalArgumentException(ERROR_READING_PROPERTY_FILE + e);
         }
     }
 
@@ -104,10 +105,10 @@ public class DroolsProperties {
         } catch (FileNotFoundException e) {
             logger.error(e.getMessage());
             logger.error("Please check the hierarchy_properties.properties file in following path :[" + path + "]");
-            throw new IllegalArgumentException("Error while reading the property file :" + e.getMessage());
+            throw new IllegalArgumentException(ERROR_READING_PROPERTY_FILE + e.getMessage());
         } catch (IOException e) {
             logger.error(e.getMessage());
-            throw new IllegalArgumentException("Error while reading the property file :" + e.getMessage());
+            throw new IllegalArgumentException(ERROR_READING_PROPERTY_FILE + e.getMessage());
         }
     }
 

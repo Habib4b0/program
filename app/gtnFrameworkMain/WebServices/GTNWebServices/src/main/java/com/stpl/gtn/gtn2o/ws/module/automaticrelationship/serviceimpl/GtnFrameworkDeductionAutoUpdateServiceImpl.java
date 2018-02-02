@@ -121,7 +121,7 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 
 	@Override
 	public void doAutomaticUpdate(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
-			GtnWsRelationshipBuilderBean relationBean, String userId) {
+			GtnWsRelationshipBuilderBean relationBean) {
 		try (Session session = sessionFactory.openSession()) {
 			GtnFrameworkFileReadWriteService fileService = new GtnFrameworkFileReadWriteService();
 			int updatedVersionNo = relationBean.getVersionNo() + 1;
@@ -141,7 +141,7 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 				GtnFrameworkQueryGeneraterServiceImpl queryGenerator = new GtnFrameworkQueryGeneraterServiceImpl(
 						selectService, joinService, whereService);
 				queryGenerator.generateQuery(hierarchyLevelDefinitionList, relationBean, querygeneratorBean,
-						updatedVersionNo, userId, i);
+						updatedVersionNo, i);
 				List<String> firstInput = new ArrayList<>();
 				firstInput.add(getListToString(itemMastersidList));
 				String insertQuery = gtnWsSqlService.getReplacedQuery(firstInput, querygeneratorBean.generateQuery());

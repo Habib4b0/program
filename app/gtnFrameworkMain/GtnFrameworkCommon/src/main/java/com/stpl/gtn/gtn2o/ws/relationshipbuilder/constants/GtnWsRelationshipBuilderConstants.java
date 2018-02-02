@@ -67,7 +67,7 @@ public class GtnWsRelationshipBuilderConstants {
 			CONDITIONS.put("lesser than or equal to", "<=");
 			CONDITIONS.put("in", "in");
 			CONDITIONS.put("not in", "not in");
-			CONDITIONS.put("contains", "like");
+			CONDITIONS.put(CONTAINS, "like");
 		}
 		return CONDITIONS.get(key);
 	}

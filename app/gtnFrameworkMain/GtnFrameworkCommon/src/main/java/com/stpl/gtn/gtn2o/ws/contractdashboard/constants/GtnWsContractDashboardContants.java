@@ -167,7 +167,7 @@ public class GtnWsContractDashboardContants {
 	public static final String RS_DESIGNATION = "RS_DESIGNATION";
 
 	public static final String RS_UDC1 = "RS_UDC1";
-	public static final String RS_UDC2 = "RS_UDC2";
+	public static final String RS_UDC2 = RS_UDC_2;
 	public static final String RS_UDC3 = "RS_UDC3";
 	public static final String RS_UDC4 = "RS_UDC4";
 	public static final String RS_UDC5 = "RS_UDC5";
