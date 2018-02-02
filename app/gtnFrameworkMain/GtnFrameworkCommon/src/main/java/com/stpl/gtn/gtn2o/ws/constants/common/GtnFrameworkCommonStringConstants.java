@@ -151,7 +151,7 @@ public class GtnFrameworkCommonStringConstants {
 
 	public static final String STR_MAIL_CONFIG = "mailconfig";
 	public static final String STR_MAIL_CONFIG_PROPERTY = "mailConfiguration.properties";
-	public static final String ST_MAIL_CONFIG = "/../../../WorkflowXML/BPIGeneratorIDs.xml";
+	public static final String ST_MAIL_CONFIG = "/WorkflowXML/BPIGeneratorIDs.xml";
 	public static final String ST_MAIL_CONFIG_PROPERTY = "BPIGeneratorIDs.xml";
 	public static final String CONTRACT_WORKFLOW_ID = "Contract_WorkflowId";
 	public static final String WORKFLOW_ID_XML_PATH = STR_SLASH + "WorkflowXML/BPIGeneratorIDs.xml";

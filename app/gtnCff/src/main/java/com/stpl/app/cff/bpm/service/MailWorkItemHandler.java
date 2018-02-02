@@ -1,5 +1,6 @@
 package com.stpl.app.cff.bpm.service;
 
+import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.GtnFileUtil;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.server.VaadinService;
@@ -43,15 +44,13 @@ public class MailWorkItemHandler implements WorkItemHandler {
 	}
 
 	public static void sendMail(String toAdd, String subject, StringBuffer text) {
-		String path = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null
-				? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
-		String filePath1 = "/../../../mailconfig/mailConfiguration.properties";
+		String filePath1 = CommonUtil.getJbossHome()+"/mailconfig/mailConfiguration.properties";
 		Properties props = new Properties();
 		InputStream is = null;
 
 		// First try loading from the current directory
 		try {
-			File f = GtnFileUtil.getFile(path + filePath1);
+			File f = GtnFileUtil.getFile(filePath1);
 			is = new FileInputStream(f);
 		} catch (Exception e) {
 			is = null;
