@@ -306,7 +306,7 @@ public class ProcessSchedulerLogic {
 		FtpProperties ftpProperties = new FtpProperties();
 		try {
 			String jbossHome=getJbossHome();
-			if (StringUtils.isBlank(jbossHome)) {
+			if (!StringUtils.isBlank(jbossHome)) {
 					LOGGER.info(jbossHome +"/../"+ FTP_PROPERTIES_PATH);
 					java.util.Properties prop = getPropertyFile(jbossHome.concat("/../").concat(FTP_PROPERTIES_PATH));
 					ftpProperties.setScripts(prop.getProperty("scripts"));
