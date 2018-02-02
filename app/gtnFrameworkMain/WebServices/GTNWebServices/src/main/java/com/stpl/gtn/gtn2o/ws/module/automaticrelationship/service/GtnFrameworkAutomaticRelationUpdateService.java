@@ -86,7 +86,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 	private static final GtnWSLogger LOGGER = GtnWSLogger
 			.getGTNLogger(GtnFrameworkAutomaticRelationUpdateService.class);
 
-	public boolean checkAndUpdateAutomaticRelationship(Integer relationshipBuilderSid, String userId)
+	public boolean checkAndUpdateAutomaticRelationship(Integer relationshipBuilderSid)
 			throws GtnFrameworkGeneralException, InterruptedException {
 		GtnWsRelationshipBuilderBean relationBean = getRelationtionshipBuilder(relationshipBuilderSid);
 		if (relationBean != null) {
