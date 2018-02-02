@@ -71,6 +71,33 @@ public class GtnWsUdcConfig implements GtnWsSearchQueryConfigLoader {
 		gtnWsBrandSearchQueryConfig.setCountQuerySelectClause("Select count(distinct BM.BRAND_MASTER_SID)");
 
 		udcSearchQueryConfigMap.put("BrandSearchQuery", gtnWsBrandSearchQueryConfig);
+		
+		GtnWsSearchQueryConfig gtnWsFileTypeSearchQueryConfig = new GtnWsSearchQueryConfig();
+
+		gtnWsFileTypeSearchQueryConfig.setCountQuery(GtnWsUdcQueryConstants.GTN_UDC_FILETYPE_SEARCH_QUERY);
+		gtnWsFileTypeSearchQueryConfig.setSearchQuery(gtnWsFileTypeSearchQueryConfig.getCountQuery());
+		
+		loadFileTypeValues(udcColumnDetailsMap, configProvider);
+
+		gtnWsFileTypeSearchQueryConfig.setFieldToColumnDetailsMap(udcColumnDetailsMap);
+		
+		List<GtnWebServiceOrderByCriteria> orderByClauseListFileType = new ArrayList<>();
+		orderByClauseListFileType.add(new GtnWebServiceOrderByCriteria("HT.DESCRIPTION" , "ASC"));
+		gtnWsFileTypeSearchQueryConfig.setOrderByClause(orderByClauseListFileType);
+		
+
+		gtnWsFileTypeSearchQueryConfig.setCountQuerySelectClause("Select count(distinct HT.HELPER_TABLE_SID)");
+
+		udcSearchQueryConfigMap.put("FileTypeSearchQuery", gtnWsFileTypeSearchQueryConfig);
+	}
+
+	private void loadFileTypeValues(Map<String, GtnWsColumnDetailsConfig> udcColumnDetailsMap,
+			GtnWsSearchQueryConfigProvider configProvider) {
+		udcColumnDetailsMap.put("description", configProvider.getColumnStringConfig("DESCRIPTION", "HT"));
+		udcColumnDetailsMap.put("udcCategory", configProvider.getColumnStringConfig("LIST_NAME", "HT"));
+		udcColumnDetailsMap.put("aliasName", configProvider.getColumnStringConfig("ALIAS_NAME", "HT"));
+		udcColumnDetailsMap.put("systemId", configProvider.getColumnIntegerConfig("HELPER_TABLE_SID", "HT"));
+		
 	}
 
 	private void loadValues(Map<String, GtnWsColumnDetailsConfig> udcColumnDetailsMap,
