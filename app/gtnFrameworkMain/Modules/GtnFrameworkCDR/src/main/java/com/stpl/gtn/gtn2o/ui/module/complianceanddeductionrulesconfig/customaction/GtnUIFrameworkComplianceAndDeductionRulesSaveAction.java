@@ -70,6 +70,7 @@ public class GtnUIFrameworkComplianceAndDeductionRulesSaveAction implements GtnU
 			List<NotesDTO> notesDTOs = (List<NotesDTO>) notes.get(1);
 
 			loadNotesTab(noteBeanList, notesDTOs);
+			ruleInfoBean.setNoteBeanList(noteBeanList);
 			GtnWsComplianceGeneralRequest gtnWsComplianceGeneralRequest = new GtnWsComplianceGeneralRequest();
 			gtnWsComplianceGeneralRequest.setRuleInfoBean(ruleInfoBean);
 			request.setGtnWsComplianceGeneralRequest(gtnWsComplianceGeneralRequest);
