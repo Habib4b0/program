@@ -27,6 +27,7 @@ public class GtnFrameworkQueryGeneratorBean implements Serializable {
 	public static final String FROM = " FROM ";
 	public static final String AND = " AND ";
 	public static final String DISTINCT = " DISTINCT ";
+	public static final String OR = " OR ";
 
 	private String fromTableName;
 	private String fromTableAlies;
