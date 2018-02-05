@@ -93,8 +93,8 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 			customerRunnableTarget.setRelationBean(relationBean);
 			customerExecutorService.submit(customerRunnableTarget);
 		}
-		 customerExecutorService.shutdown();
-		 customerExecutorService.awaitTermination(5, TimeUnit.MINUTES);
+		customerExecutorService.shutdown();
+		customerExecutorService.awaitTermination(5, TimeUnit.MINUTES);
 		return atomicBoolean.get();
 	}
 
