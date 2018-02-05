@@ -216,7 +216,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
             deductiondetails = new DeductionDetails(sessionDTO);
             deductiondetails.setCaption(TabNameUtil.DEDUCTION_DETAILS);
             tabSheet.addTab(deductiondetails, TabNameUtil.DEDUCTION_DETAILS);
-            notesTabForm = new NotesTabForm(binder, "Deduction Calendar", "DEDUCTION_CALENDAR_MASTER", "masterTableSid", "view".equals(sessionDTO.getMode()) ? "view" : sessionDTO.getMode());
+            notesTabForm = new NotesTabForm(binder, "Deduction Calendar", "DEDUCTION_CALENDAR_MASTER", String.valueOf(sessionDTO.getSystemId()), "view".equals(sessionDTO.getMode()) ? "view" : sessionDTO.getMode());
             notesTabForm.setCaption(TabNameUtil.ADDITIONAL_INFO);
             if (!"Add".equals(sessionDTO.getMode())) {
                 notesTabForm.readOnlyNotesHistory(false);

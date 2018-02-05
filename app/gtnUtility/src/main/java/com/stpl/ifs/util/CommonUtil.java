@@ -110,4 +110,7 @@ public class CommonUtil {
 	public static File getFile(File directory, String fileName) {
 		return new File(directory, fileName);
 	}
+         public static String getJbossHome() {
+		return System.getProperty("jboss.home.dir");
+    }
 }
