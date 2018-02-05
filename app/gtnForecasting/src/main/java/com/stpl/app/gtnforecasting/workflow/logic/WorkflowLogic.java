@@ -98,7 +98,8 @@ public class WorkflowLogic {
      * @throws IOException
      */
     public String saveWorkflow(int projectionId, String userId, String notes, int noOfLevels, String screenName, List<NotesDTO> getUploadedData, String description) {
-        String filePath1 = CommonUtil.getJbossHome()+"/WorkflowXML/BPIGeneratorIDs.xml";
+    	 String path = System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH);
+    	 String filePath1 = "WorkflowXML/BPIGeneratorIDs.xml";
         String moduleName = StringUtils.EMPTY;
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             moduleName = Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY;
@@ -109,7 +110,7 @@ public class WorkflowLogic {
         } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
             moduleName = "RE";
         }
-        String workflowId = new BPIWorkFlowGeneratorXML().generateId( filePath1, moduleName);
+        String workflowId = new BPIWorkFlowGeneratorXML().generateId(path + filePath1, moduleName);
         String docDetailsSid = saveDocDetails(getUploadedData);
         WorkflowMasterDTO workflowMasterDTO = setWorkflowMasterDTO(projectionId, workflowId, userId, notes, noOfLevels, docDetailsSid, description);
         return saveWorkflowMaster(workflowMasterDTO);
