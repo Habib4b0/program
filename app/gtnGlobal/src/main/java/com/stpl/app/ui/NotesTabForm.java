@@ -124,7 +124,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	}
 
 	@Override
-	public void intailizingObject() {
+	public void intailizingObject(String moduleName) {
 		uploadReceiver = (Receiver) new FileUploader(moduleName);
 		uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
 		filePath = GtnFileUtil.getFile(basepath + File.separator + "Documents" + File.separator + moduleName);
@@ -316,7 +316,7 @@ public class NotesTabForm extends AbstractNotesTab {
 		try {
 			String masterTableSidValue = StringUtils.EMPTY;
 			binder.commit();
-			if ("Compliance Deduction Rules".equals(this.moduleName)) {
+			if ("Compliance Deduction Rules".equals(this.moduleName) ||  "Deduction Calendar".equals(this.moduleName)) {
 				masterTableSidValue = masterTableSid;
 			} else if (binder.getField(masterTableSid) != null) {
 				masterTableSidValue = String.valueOf(binder.getField(masterTableSid).getValue());

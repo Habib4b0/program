@@ -282,14 +282,11 @@ public class ProcessSchedulerLogic {
 		try {
 			LOGGER.debug("Script Name==========================>" + scriptName);
 			String jbossHome=getJbossHome();
-			if (!"null".equals(jbossHome)) {
-				String[] ftppath = jbossHome.split(JBOSS_HOME_FOLDER);
-				if (ftppath.length != 0) {
-					java.util.Properties prop = getPropertyFile(ftppath[0] + ETL_PROPERTIES_PATH);
+			if (!StringUtils.isBlank(jbossHome)) {
+					java.util.Properties prop = getPropertyFile(jbossHome.concat("/../").concat(ETL_PROPERTIES_PATH));
 					String etlInterfaceUri=buildUrl(scriptName,prop);
 					ftpProperties.setScripts(prop.getProperty("scripts"));
 					runShellScript(etlInterfaceUri);
-				}
 			}
 			LOGGER.debug("runShellScript===================>ends1");
 		} catch (Exception e) {
@@ -309,13 +306,10 @@ public class ProcessSchedulerLogic {
 		FtpProperties ftpProperties = new FtpProperties();
 		try {
 			String jbossHome=getJbossHome();
-			if (!"null".equals(jbossHome)) {
-				String[] ftppath = jbossHome.split(JBOSS_HOME_FOLDER);
-				if (ftppath.length != 0) {
-					LOGGER.info(ftppath[0] + FTP_PROPERTIES_PATH);
-					java.util.Properties prop = getPropertyFile(ftppath[0] + FTP_PROPERTIES_PATH);
+			if (!StringUtils.isBlank(jbossHome)) {
+					LOGGER.info(jbossHome +"/../"+ FTP_PROPERTIES_PATH);
+					java.util.Properties prop = getPropertyFile(jbossHome.concat("/../").concat(FTP_PROPERTIES_PATH));
 					ftpProperties.setScripts(prop.getProperty("scripts"));
-				}
 			}
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
@@ -1163,8 +1157,7 @@ public class ProcessSchedulerLogic {
 	}
 	private String getInterFaceUri(String scriptName) {
 		String jbossHome=getJbossHome();
-		String[] ftppath = jbossHome.split(JBOSS_HOME_FOLDER);
-		java.util.Properties interfaceUriProperties = getPropertyFile(ftppath[0] + "conf/ETL-InterfaceUriConfig/interfaceUrlMapping.properties");
+		java.util.Properties interfaceUriProperties = getPropertyFile(jbossHome.concat("/../").concat("conf/ETL-InterfaceUriConfig/interfaceUrlMapping.properties"));
 		return interfaceUriProperties.getProperty(scriptName).trim();
 	}
 	private static String getJbossHome() {
