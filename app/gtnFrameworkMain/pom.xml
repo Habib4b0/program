@@ -118,7 +118,6 @@
 				<module>GtnFramework</module>
 				<module>GtnFrameworkComponentRepository</module>
 				<module>GtnFrameworkHierarchyRouteBuilder</module>
-				<module>GtnVaadinWidgetSet</module>
 				<module>Modules</module>
 			</modules>
 			<activation>
@@ -176,7 +175,6 @@
 				<module>GtnFrameworkCommon</module>
 				<module>GtnFramework</module>
 				<module>GtnFrameworkComponentRepository</module>
-				<module>GtnVaadinWidgetSet</module>
 				<module>GtnFrameworkHierarchyRouteBuilder</module>
 				<module>GtnFramworkQueryGenerator</module>
 				<module>Modules</module>

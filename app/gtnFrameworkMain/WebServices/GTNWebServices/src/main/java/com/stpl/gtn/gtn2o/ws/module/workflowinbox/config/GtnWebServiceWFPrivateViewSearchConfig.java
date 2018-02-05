@@ -128,7 +128,7 @@ public class GtnWebServiceWFPrivateViewSearchConfig implements GtnWsSearchQueryC
 				configProvider.getColumnStringConfig("GL_COMPANY_MASTER_SID", "WM"));
 		fieldToColumnDetailsMap.put("businessUnitPrivate", configProvider.getColumnStringConfig("BUSINESS_UNIT", "WM"));
 		fieldToColumnDetailsMap.put("workflowStatusPrivate",
-				configProvider.getColumnStringConfig("WORKFLOW_STATUS", "WM"));
+				configProvider.getColumnStringConfig("DESCRIPTION", "HT_STATUS"));
 		fieldToColumnDetailsMap.put("brandIdPrivate", configProvider.getColumnStringConfig("BRAND_ID", "WM"));
 		fieldToColumnDetailsMap.put("brandNamePrivate", configProvider.getColumnStringConfig("BRAND_NAME", "WM"));
 		fieldToColumnDetailsMap.put("glDatePrivate", configProvider.getColumnDateConfig("GL_DATE", "WM"));

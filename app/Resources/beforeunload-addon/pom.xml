@@ -29,7 +29,8 @@
         <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
         <Vaadin-Addon>BeforeUnload-${project.version}.jar</Vaadin-Addon>
         <Vaadin-Widgetset>org.vaadin.alump.beforeunload.gwt.BeforeUnloadWidgetSet</Vaadin-Widgetset>
-
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     
         <build>

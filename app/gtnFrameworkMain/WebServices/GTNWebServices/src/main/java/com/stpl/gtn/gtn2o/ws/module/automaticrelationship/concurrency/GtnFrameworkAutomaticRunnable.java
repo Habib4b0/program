@@ -53,7 +53,7 @@ public class GtnFrameworkAutomaticRunnable implements Runnable {
 		try {
 			checkAndUpdateAutomaticRelationship(relationBean, userId);
 		} catch (GtnFrameworkGeneralException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 
 	}
@@ -67,7 +67,7 @@ public class GtnFrameworkAutomaticRunnable implements Runnable {
 					.getHierarchyBuilder(
 					relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			if (automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList)) {
-				automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean, userId);
+				automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean);
 				return Boolean.TRUE;
 			}
 			LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");
