@@ -698,13 +698,6 @@ WHERE
                 
     ]]> </query>
 </entity>
-<entity id="getUnsavedProjectionIdsforchannel">
-<query> <![CDATA[
-		
-                    SELECT DISTINCT PROJECTION_MASTER_SID FROM PROJECTION_MASTER WHERE SAVE_FLAG = 'false' AND FORECASTING_TYPE = 'Channel'  AND CREATED_DATE < '?' ;
-                
-    ]]> </query>
-</entity>
 <entity id="getChildLevelRLSid">
 <query> <![CDATA[
 		
@@ -924,15 +917,6 @@ WHERE
                     JOIN HIERARCHY_DEFINITION HD ON HD.HIERARCHY_DEFINITION_SID=HLD.HIERARCHY_DEFINITION_SID
                     LEFT JOIN vw_helper_list JVIEW ON JVIEW.ACTUAL_TABLE_NAME=HLD.TABLE_NAME AND JVIEW.ACTUAL_COLUMN_NAME=HLD.FIELD_NAME
                     JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=HD.HIERARCHY_CATEGORY ORDER BY RLD.LEVEL_NO;
-                
-    ]]> </query>
-</entity>
-<entity id="getRelationshipLevelValues">
-<query> <![CDATA[
-		
-                    SELECT RLD.HIERARCHY_NO , TEMP.?FIELD VALUE FROM RELATIONSHIP_LEVEL_DEFINITION RLD 
-                    JOIN ?TABLE TEMP ON TEMP.?IDCOL=RLD.RELATIONSHIP_LEVEL_VALUES AND 
-                    RLD.RELATIONSHIP_BUILDER_SID =?RBSID AND RLD.LEVEL_NO=?LNO 
                 
     ]]> </query>
 </entity>
@@ -1397,59 +1381,6 @@ FROM   (SELECT PM.PROJECTION_NAME,
                     WHERE IG.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
                     AND IGD.ITEM_GROUP_SID = IG.ITEM_GROUP_SID 
 		
-    ]]> </query>
-</entity>
-<entity id="getFileEndDate">
-<query> <![CDATA[
-    
-            WITH CTE
-             AS (SELECT FORECAST_NAME,
-                        [VERSION],
-                        DESCRIPTION AS FILE_TYPE
-                 FROM   (SELECT FT.FORECAST_NAME,
-                                FT.[VERSION],
-                                HT.DESCRIPTION,
-                                FT.FROM_PERIOD,
-                                Row_number()
-                                  OVER (
-                                    PARTITION BY FT.FILE_TYPE
-                                    ORDER BY FT.FROM_PERIOD DESC) RN
-                         FROM   FILE_MANAGEMENT FT
-                                INNER JOIN HELPER_TABLE HT
-                                        ON HT.HELPER_TABLE_SID = FT.FILE_TYPE
-                         WHERE  ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, Getdate())
-                                  AND FT.FROM_PERIOD IS NOT NULL )
-                                AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate())
-                                       OR FT.TO_PERIOD IS NULL )
-                                AND HT.LIST_NAME = 'FILE_TYPE'
-                                AND HT.DESCRIPTION IN ( 'EX-FACTORY SALES', 'DEMAND', 'INVENTORY WITHDRAWAL - FORECAST SUMMARY' )
-                                AND FT.BUSINESS_UNIT = [?BUSINESS_UNIT] )A
-                 WHERE  RN = 1)
-            SELECT TOP 1 FORECAST_YEAR,
-                         FORECAST_MONTH
-            FROM   (SELECT Cast(FORECAST_YEAR AS INT)  FORECAST_YEAR,
-                           Cast(FORECAST_MONTH AS INT) FORECAST_MONTH
-                    FROM   FORECASTING_MASTER f
-                           INNER JOIN CTE c
-                                   ON c.FORECAST_NAME = f.FORECAST_NAME
-                                      AND FORECAST_VER IN ( c.[VERSION], Floor(c.VERSION) )
-                    UNION ALL
-                    SELECT FORECAST_YEAR,
-                           FORECAST_MONTH
-                    FROM   DEMAND_FORECAST f
-                           INNER JOIN CTE c
-                                   ON c.FORECAST_NAME = f.FORECAST_NAME
-                                      AND FORECAST_VER IN ( c.[VERSION], Floor(c.VERSION) )
-                    UNION ALL
-                    SELECT YEAR,
-                           MONTH
-                    FROM   INVENTORY_WD_PROJ_MAS f
-                           INNER JOIN CTE c
-                                   ON c.FORECAST_NAME = f.FORECAST_NAME
-                                      AND FORECAST_VER IN ( c.[VERSION], Floor(c.VERSION) )) A
-            ORDER  BY FORECAST_YEAR DESC,
-                      FORECAST_MONTH DESC;
-        
     ]]> </query>
 </entity>
 <entity id="getAccrualSelection">
