@@ -374,6 +374,11 @@ public class GtnFrameworkTransactionComponentConfig {
 			companyIdConfig.setVisible(false);
 			companyIdConfig.setComponentValue(component.getDefaultValue());
 		}
+		if ("addChgDelIndicator".equals(component.getColumnID())
+				&& !GtnTransactionUIConstants.TRANSACTION_VIEW.equals(componentPrefix)) {
+			companyIdConfig.setVisible(false);
+			companyIdConfig.setComponentValue(component.getDefaultValue());
+		}
 		companyIdConfig.setParentComponentId(layoutPrefix + component.getColumnID());
 		companyIdConfig.setAddToParent(true);
 		companyIdConfig.setEnable(isEnable);
