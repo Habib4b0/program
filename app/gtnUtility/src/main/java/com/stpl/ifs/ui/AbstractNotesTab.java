@@ -132,8 +132,8 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
     protected FileDownloader pdfDownloader;
     AbstractNotificationUtils.Parameter flag = new AbstractNotificationUtils.Parameter();
     protected String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : "";
-    protected Image wordPngImage = new Image(null, new ThemeResource("../../icons/word.png"));
-    protected Image pdfPngImage = new Image(null, new ThemeResource("../../icons/pdf.png"));
+    protected Image wordPngImage = new Image(null, new ThemeResource("img/word.png"));
+    protected Image pdfPngImage = new Image(null, new ThemeResource("img/pdf.png"));
     private File logo = new File(basepath + "/WEB-INF/images/company_logo.png");
     protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<NotesDTO>(NotesDTO.class);
     protected Object tableBeanId = null;
@@ -158,7 +158,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
             this.binder = binder;
             this.fileName = "Notes_History_" + moduleName.replace(" ", "");
             setCompositionRoot(Clara.create(FrameworkUtil.getBundle(AbstractNotesTab.class).getBundleContext().getBundle().getResource("/ui/notestabform.xml").openStream(), this));
-            intailizingObject();
+            intailizingObject(moduleName);
             init();
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
@@ -294,7 +294,8 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
             @Override
             public void call(JsonArray arguments) {
                try {
-                    String value = String.valueOf(arguments.get(0).asString());
+                   elemental.json.impl.JreJsonString jsonstring=arguments.get(0);
+		   String value =jsonstring.asString() ;
                     if (StringUtils.isNotEmpty(value)) {
 
                         fileUpload = new File(fileUploadPath + value);
@@ -712,8 +713,9 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
 
     /**
      * Method to initailize the requried object in the class
+     * @param moduleName
      */
-    public abstract void intailizingObject();
+    public abstract void intailizingObject(String moduleName);
 
     /**
      * method to execute after the item upload successfully
