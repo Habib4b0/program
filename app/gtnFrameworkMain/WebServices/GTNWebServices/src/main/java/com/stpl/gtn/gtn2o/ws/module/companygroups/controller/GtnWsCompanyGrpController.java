@@ -200,10 +200,11 @@ public class GtnWsCompanyGrpController {
 			logger.info("Enter saveService");
 			if (companyGrpSid == 0) {
 				companyGrpSid = companyGrpWebservice.saveCompanyGrpQuery(companyGrpBean);
+                                companyGrpBean.getGtnCompanyGrpInformationBean().setVersionNo(1);
 			} else {
 				companyGrpWebservice.updateCompanyGrpQuery(companyGrpBean);
 			}
-			count = companyGrpWebservice.updateCompanyGrpDetailsTable(gtnWsRequest, companyGrpSid);
+			count = companyGrpWebservice.updateCompanyGrpDetailsTable(gtnWsRequest, companyGrpSid, companyGrpBean);
 			companyGrpBean.getGtnCompanyGrpInformationBean().setCompanyGrpSid(companyGrpSid);
 			GtnWsCompanyGroupResponse gtnCompanyGroupResponse = new GtnWsCompanyGroupResponse();
 			gtnCompanyGroupResponse.setGtnCompanyGrpInformationBean(companyGrpBean.getGtnCompanyGrpInformationBean());
