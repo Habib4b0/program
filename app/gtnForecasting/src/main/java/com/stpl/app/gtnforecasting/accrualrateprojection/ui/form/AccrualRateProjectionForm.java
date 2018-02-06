@@ -561,8 +561,8 @@ public class AccrualRateProjectionForm extends AbstractForm {
      private void configureForView() {
 
         if (Constant.VIEW.equalsIgnoreCase(session.getAction())) {
-            AbstractForm.getBtnSave().setEnabled(false);
-            AbstractForm.getBtnSubmit().setEnabled(false);
+            super.getBtnSave().setEnabled(false);
+            super.getBtnSubmit().setEnabled(false);
         }
 
     }

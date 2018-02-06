@@ -215,10 +215,11 @@ public class GtnWsCompanyGrpService {
 		try {
 			String query = gtnWsSqlService.getQuery("getCompanyGrpDetailsFetchQuery");
 			GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-					GtnFrameworkDataType.INTEGER };
+					GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
 			Object[] params = { gtnWsRequest.getGtnWsGeneralRequest().getUserId(),
 					gtnWsRequest.getGtnWsGeneralRequest().getSessionId(), gtnWsRequest.getGtnCompanyGroupRequest()
-							.getGtnCompanyGroupBean().getGtnCompanyGrpInformationBean().getCompanyGrpSid() };
+							.getGtnCompanyGroupBean().getGtnCompanyGrpInformationBean().getCompanyGrpSid(), gtnWsRequest.getGtnCompanyGroupRequest()
+							.getGtnCompanyGroupBean().getGtnCompanyGrpInformationBean().getVersionNo() };
 			return gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, type);
 
 		} catch (Exception e) {
@@ -299,14 +300,14 @@ public class GtnWsCompanyGrpService {
 
 	}
 
-	public int updateCompanyGrpDetailsTable(GtnUIFrameworkWebserviceRequest gtnWsRequest, int companyGrpSid)
+	public int updateCompanyGrpDetailsTable(GtnUIFrameworkWebserviceRequest gtnWsRequest, int companyGrpSid, GtnCompanyGroupBean companyGrpBean)
 			throws GtnFrameworkGeneralException {
 		try {
 			String query = gtnWsSqlService.getQuery("getCompanyGrpDetailsUpdateQuery");
 			GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-					GtnFrameworkDataType.STRING };
+					GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER };
 			Object[] params = { gtnWsRequest.getGtnWsGeneralRequest().getUserId(),
-					gtnWsRequest.getGtnWsGeneralRequest().getSessionId(), String.valueOf(companyGrpSid) };
+					gtnWsRequest.getGtnWsGeneralRequest().getSessionId(), String.valueOf(companyGrpSid), companyGrpBean.getGtnCompanyGrpInformationBean().getVersionNo() };
 			return gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, type);
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException(e);

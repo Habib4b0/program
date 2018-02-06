@@ -51,28 +51,34 @@ public class GtnUIFrameWorkCMFinancialCloseModeAction
 					componentId, true);
 			resetAndEnableDisableCombobox(GtnFrameworkCompanyStringContants.getGtnCompanyManualModeComponentsList(),
 					componentId, false);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("financialCloseYear", componentId)
-					.loadComboBoxComponentValue(mCalendar.get(Calendar.YEAR));
 
-			String month = new SimpleDateFormat("MMMMM").format(mCalendar.getTime());
-
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("financialCloseMonth", componentId)
-					.loadComboBoxComponentValue(loadDataFromService(url, month));
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("financialCloseOpenButton", componentId).setEnable(true);
+			getDefaultMonth( url, mCalendar);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("financialCloseOpenButton").setEnable(true);
 		} else if ("Auto".equals(mode)) {
 			resetAndEnableDisableCombobox(GtnFrameworkCompanyStringContants.getGtnCompanyAutoModeComponentsList(),
 					componentId, false);
 			resetAndEnableDisableCombobox(GtnFrameworkCompanyStringContants.getGtnCompanyManualModeComponentsList(),
 					componentId, true);
+			getDefaultMonth(url, mCalendar);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("financialCloseOpenButton", componentId).setEnable(false);
 		} else {
 			resetAndEnableDisableCombobox(GtnFrameworkCompanyStringContants.getGtnCompanyAutoModeComponentsList(),
 					componentId, false);
 			resetAndEnableDisableCombobox(GtnFrameworkCompanyStringContants.getGtnCompanyManualModeComponentsList(),
 					componentId, false);
-
+			getDefaultMonth( url, mCalendar);
 		}
 
+	}
+
+	private void getDefaultMonth(String url, Calendar mCalendar) {
+		String month = new SimpleDateFormat("MMMMM").format(mCalendar.getTime());
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("financialCloseYear")
+				.loadComboBoxComponentValue(mCalendar.get(Calendar.YEAR));
+
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("financialCloseMonth")
+				.loadComboBoxComponentValue(loadDataFromService(url, month));
 	}
 
 	void resetAndEnableDisableCombobox(List<String> componentIdList, String sourceComponentId, boolean enable) {
