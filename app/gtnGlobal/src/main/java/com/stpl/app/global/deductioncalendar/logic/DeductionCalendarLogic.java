@@ -397,7 +397,13 @@ public class DeductionCalendarLogic {
                     record.setDeductionCalendarSid(Integer.valueOf(String.valueOf(result[0])));
                     record.setDeductionCalendarno(String.valueOf(result[1]));
                     record.setDeductionCalendarname(String.valueOf(result[NumericConstants.TWO]));
+                   if(result[NumericConstants.THREE]!=null)
+                   {
                     record.setDeductionCalendardesc(String.valueOf(result[NumericConstants.THREE]));
+                   }
+                   else{
+                	   record.setDeductionCalendardesc(StringUtils.EMPTY );
+                   }
                     if (result[NumericConstants.FOUR] != null) {
                         record.setCategory((ConstantsUtils.SELECT_ONE).equals(String.valueOf(result[NumericConstants.FOUR])) ? StringUtils.EMPTY : String.valueOf(result[NumericConstants.FOUR]));
                     } else {
