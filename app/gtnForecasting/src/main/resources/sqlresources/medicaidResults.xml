@@ -1,42 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <sql>
-<entity id="getMedicaidParent">
-<query> <![CDATA[
-
- DECLARE @NA_PROJ_MASTER_SID INT=?PID,
-        @BRAND_MASTER_SID   INT=?BID,
-       @TH_CLASS varchar(50)=?TID,
-        @OFFSET   INT=?OFFSET,
-        @LIMIT   INT=?LIMIT
-SELECT NDC9,
-       ITEM_DESC,
-       ROWNUM
-FROM   (SELECT IM.NDC9,
-               ITEM_DESC=CASE
-                           WHEN Count(DISTINCT IM.ITEM_MASTER_SID) > 1 THEN 'MULTIPLE'
-                           ELSE Max(ITEM_DESC)
-                         END,
-               Row_number()
-                 OVER (
-                   ORDER BY IM.NDC9) AS ROWNUM
-        FROM   NA_PROJ_MASTER PM,
-               NA_PROJ_DETAILS PD,
-               ITEM_MASTER IM
-        WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
-               AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
-               AND ( PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
-                      OR @NA_PROJ_MASTER_SID IS NULL )
-               AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
-                      OR @BRAND_MASTER_SID IS NULL )
-               AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
-                      OR @TH_CLASS IS NULL )
-        GROUP  BY IM.NDC9)A
-WHERE  ROWNUM >= @OFFSET
-       AND ROWNUM < @OFFSET + @LIMIT
- 
-
-    ]]> </query>
-</entity>
 <entity id="getMedicaidParentCount">
 <query> <![CDATA[
 
@@ -601,68 +564,6 @@ ORDER  BY [source],
 
  DECLARE @NA_PROJ_MASTER_SID INT=?PID,
                   @NDC9   VARCHAR(30)= ?NDC9
-                  
-SELECT PRICE_TYPE,
-       Min(ACTUAL_PRICE) AS ACTUAL_PRICE,
-       0                 AS PROJECTION_PRICE,
-       P.YEAR,
-       P.QUARTER,
-       NOTES=Min(NOTES),
-       BASE_YEAR=Min(BASE_YEAR),
-       'ACTUALS'         AS [SOURCE],
-       ALT_BASE_YEAR=Min(ALT_BASE_YEAR)
-FROM   MEDICAID_URA_ACTUALS FA
-       JOIN NA_PROJ_DETAILS ND
-         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
-       JOIN ITEM_MASTER IM
-         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
-       JOIN PERIOD P
-         ON P.PERIOD_SID = FA.PERIOD_SID
-WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
-       AND IM.NDC9 = @NDC9
-       
-GROUP  BY NDC9,
-          PRICE_TYPE,
-          P.YEAR,
-          P.QUARTER
-UNION ALL
-SELECT PRICE_TYPE,
-       0 AS ACTUAL_PRICE,
-       PROJECTION_PRICE=Min(PROJECTION_PRICE),
-       P.YEAR,
-       P.QUARTER,
-       NOTES=Min(NOTES),
-       ADJUSTMENT= Min(Isnull(ADJUSTMENT, 0)),
-       'PROJ',
-       0 ALT_BASE_YEAR
-FROM   MEDICAID_URA_PROJ FA
-       JOIN NA_PROJ_DETAILS ND
-         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
-       JOIN ITEM_MASTER IM
-         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
-       JOIN PERIOD P
-         ON P.PERIOD_SID = FA.PERIOD_SID
-WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
-       AND IM.NDC9 = @NDC9
-       
-GROUP  BY NDC9,
-          PRICE_TYPE,
-          P.YEAR,
-          P.QUARTER
-ORDER  BY [source],
-          PRICE_TYPE,
-          P.YEAR,
-          P.QUARTER  
-          
-    
-
-    ]]> </query>
-</entity>
-<entity id="getMedicaidWorkSheetAdjustment">
-<query> <![CDATA[
-
- DECLARE @NA_PROJ_MASTER_SID INT=?PID,
-                  @NDC9   VARCHAR(30)= ?NDC9
 SELECT PRICE_TYPE,
        MIN(ACTUAL_PRICE) AS ACTUAL_PRICE,
        0                 AS PROJECTION_PRICE,
@@ -873,31 +774,6 @@ WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
 		AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
               OR @TH_CLASS IS NULL )  
             GROUP  BY IM.NDC9,IM.ITEM_DESC ORDER  BY IM.NDC9 
- 
-
-    ]]> </query>
-</entity>
-<entity id="getMedicaidLevelFilter">
-<query> <![CDATA[
-
- DECLARE @NA_PROJ_MASTER_SID INT=?PID,        
-        @BRAND_MASTER_SID   INT=?BID,
-	@TH_CLASS varchar(50)=?TID
-
-SELECT IM.NDC9,
-       IM.ITEM_DESC,
-       IM.ITEM_MASTER_SID
-FROM   NA_PROJ_MASTER PM,
-       NA_PROJ_DETAILS PD,
-       ITEM_MASTER IM
-WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
-       AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
-       AND PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
-       AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
-              OR @BRAND_MASTER_SID IS NULL ) 
-		AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
-              OR @TH_CLASS IS NULL )  
-            
  
 
     ]]> </query>
