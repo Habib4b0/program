@@ -110,7 +110,7 @@ public class WorkflowLogic {
         } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
             moduleName = "RE";
         }
-        String workflowId = new BPIWorkFlowGeneratorXML().generateId( filePath1, moduleName);
+        String workflowId = new BPIWorkFlowGeneratorXML().generateId( path + filePath1, moduleName);
         String docDetailsSid = saveDocDetails(getUploadedData);
         WorkflowMasterDTO workflowMasterDTO = setWorkflowMasterDTO(projectionId, workflowId, userId, notes, noOfLevels, docDetailsSid, description);
         return saveWorkflowMaster(workflowMasterDTO);
