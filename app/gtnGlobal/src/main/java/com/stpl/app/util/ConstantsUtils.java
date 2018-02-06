@@ -2730,7 +2730,7 @@ public final class ConstantsUtils {
     public static final String QUOTE_SESSION_ID = "' AND SESSION_ID='";
     public static final String CUSTOMER_END_DATE_FROM = "customerEndDatefrom";
     public static final String SELECTED = "selected";
-    public static final String ICONS_EXCEL_PNG = "../../icons/excel.png";
+    public static final String ICONS_EXCEL_PNG = "img/excel.png";
     public static final String THREE_NINE_ZERO_PIXEL = "390px";
     public static final String DATE_RANGE = "Date Range";
     public static final String COLLAPSE = "Collapse";
