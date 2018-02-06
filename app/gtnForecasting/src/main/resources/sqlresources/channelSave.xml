@@ -335,13 +335,6 @@
 		
     ]]> </query>
 </entity>
-<entity id="getProjectionIds">
-<query> <![CDATA[
-		
-                    SELECT PROJECTION_MASTER_SID FROM PROJECTION_MASTER WHERE SAVE_FLAG = 'false' 
-		
-    ]]> </query>
-</entity>
 <entity id="ch.clearTemp">
 <query> <![CDATA[
 		

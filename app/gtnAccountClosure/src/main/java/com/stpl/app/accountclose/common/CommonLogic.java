@@ -29,6 +29,7 @@ import com.stpl.app.model.HelperTable;
 import com.stpl.app.model.WorkflowMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.WorkflowMasterLocalServiceUtil;
+import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
@@ -64,7 +65,6 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
-
 import org.vaadin.addons.lazycontainer.LazyContainer;
 
 /**
@@ -570,24 +570,20 @@ public class CommonLogic {
      * @throws IOException
      */
     public WorkflowMasterDTO saveWorkflow(int projectionId, String userId, int statusId, boolean flag, WorkflowMasterDTO wfId) throws IOException {
-        String path = (VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null
-                ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY);
-        String filePath1 = "/../../../WorkflowXML/BPIGeneratorIDs.xml";
+        String filePath1 =CommonUtil.getJbossHome()+"/WorkflowXML/BPIGeneratorIDs.xml";
         String workflowId = StringUtils.EMPTY;
         if (flag) {
-            wfId.setWorkflowId(new BPIWorkFlowGeneratorXML().generateId(path + filePath1, "BR"));
+            wfId.setWorkflowId(new BPIWorkFlowGeneratorXML().generateId(filePath1, "BR"));
         }
         WorkflowMasterDTO workflowMasterDTO = setBRWorkflowMasterDTO(projectionId, wfId, userId, statusId);
         return saveBRWorkflowMaster(workflowMasterDTO, flag);
     }
 
     public String saveWorkflowFDA(int projectionId, String userId, int statusId, boolean flag, String wfId, String notes) throws IOException {
-        String path = (VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null
-                ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY);
-        String filePath1 = "/../../../WorkflowXML/BPIGeneratorIDs.xml";
+        String filePath1 = CommonUtil.getJbossHome()+"/WorkflowXML/BPIGeneratorIDs.xml";
         String workflowId = StringUtils.EMPTY;
         if (flag) {
-            workflowId = new BPIWorkFlowGeneratorXML().generateId(path + filePath1, "FD");
+            workflowId = new BPIWorkFlowGeneratorXML().generateId(filePath1, "FD");
         } else {
             workflowId = wfId;
         }

@@ -273,6 +273,13 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 }
                 isComparisonLookupOpened = true;
                 loadComparison();
+                if (!pvSelectionDTO.getProjIdList().isEmpty()) {
+                for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
+                    comparisonBasis.addItem(j);
+                    comparisonBasis.setItemCaption(j, projectionMap.get(pvSelectionDTO.getProjIdList().get(j)));
+                    comparisonBasis.select("Current Projection");
+            }
+            }
             }
         });
 
@@ -616,7 +623,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void loadVariables() {
-        loadComparison();
         setBaseVariables(variableCategoryValue , variablesValue);
     }
 

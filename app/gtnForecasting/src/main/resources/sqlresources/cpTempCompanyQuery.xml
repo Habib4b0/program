@@ -305,7 +305,7 @@ COMPANY_MASTER_SID, CFP_CONTRACT_SID,COMPANY_START_DATE, COMPANY_END_DATE, INBOU
 		
     ]]> </query>
 </entity>
-<entity id="findItems">
+<entity id="findCpItems">
 <query> <![CDATA[
           
          Select Distinct im.ITEM_MASTER_SID, im.ITEM_ID, im.ITEM_NO, im.ITEM_NAME, im.ITEM_STATUS, hstate.DESCRIPTION as status, im.PACKAGE_SIZE, im.PRIMARY_UOM, hstatus.DESCRIPTION as hform, htype.DESCRIPTION as hpackage, im.ITEM_DESC, hstrength.DESCRIPTION as strength,
