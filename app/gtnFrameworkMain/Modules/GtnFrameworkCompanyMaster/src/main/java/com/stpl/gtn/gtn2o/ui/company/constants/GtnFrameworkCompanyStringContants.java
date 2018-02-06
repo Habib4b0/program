@@ -190,7 +190,7 @@ public class GtnFrameworkCompanyStringContants {
 
 	public static final String GTN_COMPANY_MASTER_CONFIRMATION_MSG = "Confirmation";
 	public static final String GTN_COMPANY_MASTER_CONFIRMATION_MSG_RESET_001 = "Are you sure you want to reset the page to default/previous values?";
-	public static final String GTN_COMPANY_MASTER_VALIDATION_MSG_IDENTIFIER_ATTACH = "Information for the following Mandatory fields need to be provided:";
+	public static final String GTN_COMPANY_MASTER_VALIDATION_MSG_IDENTIFIER_ATTACH = GTN_COMPANY_MASTER_VALIDATION_MSG;
 
 	public static final String GTN_COMPANY_MASTER_VALIDATION_MSG_IDENTIFIER_START_END_EQUAL = "Start date and End date should not be  equal";
 	public static final String GTN_COMPANY_MASTER_VALIDATION_MSG_IDENTIFIER_START_END_GREATER = "End date should be greater than Start date";
@@ -242,7 +242,7 @@ public class GtnFrameworkCompanyStringContants {
 
 	private static final List<String> GTN_COMPANY_MANUAL_MODE_COMPONENTS_LIST = Collections.unmodifiableList(Arrays.asList(
 			"financialCloseBusinessDay", "financialCloseBusinessHour", "financialCloseMinute",
-			"financialCloseCalendar"));
+			FINANCIAL_CLOSE_CALENDAR));
 
 	public static final String GTN_COMPANY_MASTER_VALIDATION_MSG_IDENTIFIER_REMOVE = "Please select an identifier from the list view to remove";
 

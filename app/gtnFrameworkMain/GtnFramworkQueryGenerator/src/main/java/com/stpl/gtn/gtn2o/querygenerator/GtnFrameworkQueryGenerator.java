@@ -75,7 +75,8 @@ public final class GtnFrameworkQueryGenerator {
 				generatedJoinClause.append(gtnFrameworkJoinClauseConfig.getJoinType().getJoinType())
 						.append(gtnFrameworkJoinClauseConfig.getJoinTableName()).append(" ")
 						.append(gtnFrameworkJoinClauseConfig.getJoinTableAliesName()).append(" ON ")
-						.append(generateJoinConditionQuery(gtnFrameworkJoinClauseConfig));
+						.append(generateJoinConditionQuery(gtnFrameworkJoinClauseConfig)
+								.append(generateJoinOrConditionQuery(gtnFrameworkJoinClauseConfig)));
 			}
 		}
 		return generatedJoinClause;
@@ -132,8 +133,7 @@ public final class GtnFrameworkQueryGenerator {
 		int listSize = conditionList.size();
 		for (GtnFrameworkJoinConditionBean gtnFrameworkJoinConditionBean : conditionList) {
 			GtnFrameworkColumnBean joinLeftTableColumnBean = gtnFrameworkJoinConditionBean.getJoinLeftTableColumnBean();
-			String joinRightTableColumnBean = gtnFrameworkJoinConditionBean
-					.getJoinRightTableColumnBean();
+			String joinRightTableColumnBean = gtnFrameworkJoinConditionBean.getJoinRightTableColumnBean();
 			joinConditions.append(joinLeftTableColumnBean.getAliesName()).append(".")
 					.append(joinLeftTableColumnBean.getColumnName())
 					.append(gtnFrameworkJoinConditionBean.getJoinOperator().getOperaterType());
@@ -152,6 +152,40 @@ public final class GtnFrameworkQueryGenerator {
 			countForAddingAnd++;
 		}
 
+		return joinConditions;
+
+	}
+
+	private StringBuilder generateJoinOrConditionQuery(GtnFrameworkJoinClauseBean gtnFrameworkJoinClauseConfig) {
+		StringBuilder joinConditions = new StringBuilder();
+		StringBuilder rightKeyJoinValue;
+		List<GtnFrameworkJoinConditionBean> joinOrConditionList = gtnFrameworkJoinClauseConfig.getJoinOrConditionList();
+		int countForAddingOr = 0;
+		int listSize = joinOrConditionList.size();
+		if (listSize != 0) {
+			joinConditions.append(" AND (");
+			for (GtnFrameworkJoinConditionBean joinConditionBean : joinOrConditionList) {
+				GtnFrameworkColumnBean joinLeftTableColumnBean = joinConditionBean.getJoinLeftTableColumnBean();
+				String rightTableColumnBean = joinConditionBean.getJoinRightTableColumnBean();
+				joinConditions.append(joinLeftTableColumnBean.getAliesName()).append(".")
+						.append(joinLeftTableColumnBean.getColumnName())
+						.append(joinConditionBean.getJoinOperator().getOperaterType());
+				rightKeyJoinValue = new StringBuilder("?");
+				if (rightTableColumnBean != null) {
+					rightKeyJoinValue = new StringBuilder(rightTableColumnBean);
+				}
+				if (joinConditionBean.getJoinOperator().equals(GtnFrameworkOperatorType.IN)
+						|| joinConditionBean.getJoinOperator().equals(GtnFrameworkOperatorType.NOT_IN)) {
+					rightKeyJoinValue.append(")");
+				}
+				joinConditions.append(rightKeyJoinValue);
+				if (listSize > 1 && countForAddingOr != (listSize - 1)) {
+					joinConditions.append(GtnFrameworkQueryGeneratorBean.OR);
+				}
+				countForAddingOr++;
+			}
+			joinConditions.append(")");
+		}
 		return joinConditions;
 
 	}
