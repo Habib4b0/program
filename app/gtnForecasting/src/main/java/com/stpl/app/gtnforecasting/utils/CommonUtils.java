@@ -1971,5 +1971,4 @@ public class CommonUtils {
     public static void setPortletConfig(PortletConfig portletConfig) {
             CommonUtils.portletConfig = portletConfig;
     }
-   
 }
