@@ -51,13 +51,13 @@ public class GtnFrameworkAutomaticRunnable implements Runnable {
 	@Override
 	public void run() {
 		try {
-			checkAndUpdateAutomaticRelationship(relationBean, userId);
+			checkAndUpdateAutomaticRelationship(relationBean);
 		} catch (GtnFrameworkGeneralException | InterruptedException e) {
 			LOGGER.error(e.getMessage());
 		}
 
 	}
-	public boolean checkAndUpdateAutomaticRelationship(GtnWsRelationshipBuilderBean relationBean, String userId)
+	public boolean checkAndUpdateAutomaticRelationship(GtnWsRelationshipBuilderBean relationBean)
 			throws GtnFrameworkGeneralException, InterruptedException {
 		if (relationBean != null) {
 			GtnFrameworkAutoupdateService automaticService = autoUpdateService
