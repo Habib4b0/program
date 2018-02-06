@@ -45,13 +45,45 @@ public class GtnFrameworkUdcSearchAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_LAYOUT).setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_BRAND_EXCEL_BUTTON_LAYOUT)
 					.setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.VALUE_FILETYPE_LAYOUT).setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_FILETYPE_LAYOUT)
+					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_EXCEL_BUTTON_LAYOUT)
+					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_FILETYPE_EXCEL_BUTTON_LAYOUT)
+			.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_RESULT_TABLE_LAYOUT)
+					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_FILETYPE_RESULT_TABLE_LAYOUT)
+					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE_LAYOUT)
+					.setVisible(true);
+			loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE);
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
+		}
+		else if (udcCategory.equals("FILE_TYPE")) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY_BRANDLAYOUT)
+					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.VALUE_LAYOUT).setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_BRAND_LAYOUT)
+					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.VALUE_FILETYPE_LAYOUT).setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_FILETYPE_LAYOUT)
+					.setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_LAYOUT).setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_BRAND_EXCEL_BUTTON_LAYOUT)
+					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_FILETYPE_EXCEL_BUTTON_LAYOUT)
+			.setVisible(true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_EXCEL_BUTTON_LAYOUT)
 					.setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_RESULT_TABLE_LAYOUT)
 					.setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE_LAYOUT)
+					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_FILETYPE_RESULT_TABLE_LAYOUT)
 					.setVisible(true);
-			loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE);
+			loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_FILETYPE_RESULT_TABLE);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
 		} else {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY_BRANDLAYOUT)
@@ -62,11 +94,18 @@ public class GtnFrameworkUdcSearchAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_LAYOUT).setVisible(true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_BRAND_EXCEL_BUTTON_LAYOUT)
 					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_FILETYPE_EXCEL_BUTTON_LAYOUT)
+			.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.VALUE_FILETYPE_LAYOUT).setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_FILETYPE_LAYOUT)
+					.setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_EXCEL_BUTTON_LAYOUT)
 					.setVisible(true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_RESULT_TABLE_LAYOUT)
 					.setVisible(true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE_LAYOUT)
+					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_FILETYPE_RESULT_TABLE_LAYOUT)
 					.setVisible(false);
 			loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_RESULT_TABLE);
 			if (!udcCategory.equals("-ALL-")) {
@@ -80,23 +119,20 @@ public class GtnFrameworkUdcSearchAction
 		if (!udcCategory.trim().equals("")) {
 			loadDataTableActionConfig.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.UDC_CATEGORY));
 		} else {
-			GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
-					.getVaadinComponentData(GtnFrameworkCommonConstants.UDC_RESULT_TABLE);
-			if (componentData.getCustomData() instanceof ExtCustomTable) {
-				ExtCustomTable table = (ExtCustomTable) componentData.getCustomData();
-				table.getContainerDataSource().removeAllItems();
-				table.setContainerDataSource(null);
-				table.refreshRowCache();
-			}
-			GtnUIFrameworkComponentData componentDataBrand = GtnUIFrameworkGlobalUI
-					.getVaadinComponentData(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE);
-			if (componentDataBrand.getCustomData() instanceof ExtCustomTable) {
-				ExtCustomTable tableBrand = (ExtCustomTable) componentDataBrand.getCustomData();
-				tableBrand.getContainerDataSource().removeAllItems();
-				tableBrand.setContainerDataSource(null);
-				tableBrand.refreshRowCache();
-			}
+			clearTableRecords(GtnFrameworkCommonConstants.UDC_RESULT_TABLE);
+			clearTableRecords(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE);
+			clearTableRecords(GtnFrameworkCommonConstants.UDC_FILETYPE_RESULT_TABLE);
+		}
+	}
 
+	private void clearTableRecords(String tableName) {
+		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
+				.getVaadinComponentData(tableName);
+		if (componentData.getCustomData() instanceof ExtCustomTable) {
+			ExtCustomTable table = (ExtCustomTable) componentData.getCustomData();
+			table.removeAllItems();
+			table.setContainerDataSource(null);
+			table.refreshRowCache();
 		}
 	}
 

@@ -511,7 +511,7 @@ public class GtnWsRelationshipBuilderService {
 						levelNo);
 
 				logger.info("finalQuery--->>" + finalQueryBean.generateQuery());
-
+				
 				GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
 						.getKeyRelationBeanUsingTableIdAndColumnName(destinationHierarchyBean.getTableName(),
 								destinationHierarchyBean.getFieldName());
@@ -539,6 +539,7 @@ public class GtnWsRelationshipBuilderService {
 				String selectPrimaryColumn = keyBean.getLevelValueColumnName();
 				getUserFilterClause(gtnWsRequest, finalQueryBean, selectPrimaryColumn);
 				StringBuilder queryBuilder = new StringBuilder(finalQueryBean.generateQuery());
+				appendHelperTableDescriptionRestriction(queryBuilder,"AND");
 				if (!gtnWsRequest.getGtnWsSearchRequest().isCount()) {
 
 					setDefaultOrderBy(gtnWsRequest);
@@ -550,7 +551,7 @@ public class GtnWsRelationshipBuilderService {
 				}
 				String query = queryBuilder.toString().replaceAll(GtnWsRelationshipBuilderConstants.VALUE_PROPERTY_ID,
 						selectPrimaryColumn);
-
+                printFinalQuery(query);
 				List<Object[]> result = executeQuery(query, primaryKeyPositionList.toArray(), datatypes);
 
 				String nextPrimayKey = keyBean.getActualColumnName();
@@ -562,6 +563,20 @@ public class GtnWsRelationshipBuilderService {
 			throw new GtnFrameworkGeneralException("Exception in getFilteredValue", ex);
 		}
 		return serachResponse;
+	}
+
+	private void appendHelperTableDescriptionRestriction(StringBuilder queryBuilder,String append) {
+		if(queryBuilder.toString().contains("HELPER_JOIN .DESCRIPTION"))
+		{
+			queryBuilder.append(" "+append+" HELPER_JOIN.DESCRIPTION  <> '-SELECT ONE-' ");
+		}
+	}
+
+	private void printFinalQuery(String query) {
+		if(query.contains("HELPER_JOIN .DESCRIPTION"))  
+		{
+			logger.info("finalQuery concat--->>"+query);
+		}
 	}
 
 	private void getInboundRestriction(List<HierarchyLevelDefinitionBean> hierarchyList,
