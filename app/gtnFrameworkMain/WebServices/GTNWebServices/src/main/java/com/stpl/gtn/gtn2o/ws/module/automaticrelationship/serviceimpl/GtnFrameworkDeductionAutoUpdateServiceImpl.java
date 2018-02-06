@@ -15,13 +15,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.stpl.gtn.gtn2o.bean.GtnFrameworkJoinClauseBean;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
-import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
 import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipBuilder;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -185,30 +186,50 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 				GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
 						.getKeyRelationBeanUsingTableIdAndColumnName(destinationHierarchyBean.getTableName(),
 								destinationHierarchyBean.getFieldName());
-				List<String> whereClauseColumn = hierarchyService.getMappingColumns(keyBean);
-				List<String> whereQueries = getRelationQueries(productrelationshipBuilder.getRelationshipBuilderSid(),
-						hierarchyList.subList(0, levelNo), productrelationshipBuilder.getVersionNo());
 				GtnFrameworkFileReadWriteService fileReadWriteService = new GtnFrameworkFileReadWriteService();
 				GtnFrameworkHierarchyQueryBean queryBean = fileReadWriteService.getQueryFromFile(
 						destinationHierarchyBean.getHierarchyDefinitionSid(),
 						destinationHierarchyBean.getHierarchyLevelDefinitionSid(),
 						destinationHierarchyBean.getVersionNo());
 				GtnFrameworkQueryGeneratorBean finalQueryBean = queryBean.getQuery();
+				addRelationShipJoin(hierarchyList, destinationHierarchyBean, keyBean, finalQueryBean);
+				List<Object> inputsList = new ArrayList<>();
+				inputsList.add(productrelationshipBuilder.getRelationshipBuilderSid());
+				inputsList.add(destinationHierarchyBean.getLevelNo());
+				inputsList.add(productrelationshipBuilder.getVersionNo());
+				finalQueryBean.removeAllWhereClauseConfigList();
 				finalQueryBean.removeSelectClauseByIndex(0);
 				finalQueryBean.removeSelectClauseByIndex(0);
 				finalQueryBean.addSelectClauseBean(GtnWsRelationshipBuilderConstants.ITEM_MASTER_TABLE_COLUMN_NAME,
 						null, Boolean.TRUE, null);
-				finalQueryBean.addWhereClauseBean(whereClauseColumn.get(1), null, GtnFrameworkOperatorType.IN,
-						GtnFrameworkDataType.NULL_ALLOWED, "?");
 				String finalQuery = finalQueryBean.generateQuery();
 				result = (List<Integer>) gtnSqlQueryEngine
-						.executeSelectQuery(gtnWsSqlService.getReplacedQuery(whereQueries, finalQuery));
+						.executeSelectQuery(gtnWsSqlService.getReplacedQuery(inputsList, finalQuery));
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
 		}
 		return result;
 
+	}
+
+	public void addRelationShipJoin(List<HierarchyLevelDefinitionBean> hierarchyList,
+			HierarchyLevelDefinitionBean destinationHierarchyBean, GtnFrameworkSingleColumnRelationBean keyBean,
+			GtnFrameworkQueryGeneratorBean finalQueryBean) {
+		String relationShipLevelDef = "RELATIONSHIP_LEVEL_DEFINITION";
+		GtnFrameworkJoinClauseBean relationJoin = finalQueryBean.addJoinClauseBean(relationShipLevelDef,
+				relationShipLevelDef, GtnFrameworkJoinType.JOIN);
+		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_Values",
+				keyBean.getActualTtableName() + "." + keyBean.getWhereClauseColumn(),
+				GtnFrameworkOperatorType.EQUAL_TO);
+		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID", null,
+				GtnFrameworkOperatorType.EQUAL_TO);
+		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.level_no", null,
+				GtnFrameworkOperatorType.EQUAL_TO);
+		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
+				GtnFrameworkOperatorType.EQUAL_TO);
+		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO",
+				getHierarchyNoForRelationShip(hierarchyList, destinationHierarchyBean), GtnFrameworkOperatorType.LIKE);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -252,5 +273,30 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 			return result.toString();
 		}
 		return "''";
+	}
+
+	public String getHierarchyNoForRelationShip(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
+			HierarchyLevelDefinitionBean selectedHierarchyLevelDto) {
+		StringBuilder query = new StringBuilder();
+		StringBuilder finalQuery = new StringBuilder();
+		for (int i = 0; i < selectedHierarchyLevelDto.getLevelNo(); i++) {
+			HierarchyLevelDefinitionBean leveldto = hierarchyLevelDefinitionList.get(i);
+			if (leveldto.getTableName().isEmpty()) {
+				query.append(",'%'");
+				query.append(",'.'");
+				continue;
+			}
+			query.append(",");
+			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
+					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
+			query.append(singleColumnRelationBean.getActualTtableName() + "."
+					+ singleColumnRelationBean.getWhereClauseColumn());
+			query.append(",'.'");
+		}
+		finalQuery.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");
+		finalQuery.append(query);
+		query.append(",'%'");
+		finalQuery.append(")");
+		return finalQuery.toString();
 	}
 }

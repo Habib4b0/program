@@ -138,7 +138,8 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 					"relationShipSubQueryToInsertAutomaticData");
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(finalInsertQuery);
 		}
-
+		automaticService.deleteUnwantedUserDefinedLevels(relationBean.getRelationshipBuilderSid(),
+				customertUpdatedVersionNo);
 	}
 
 	private void checkAndInserUserDefinedLevels(GtnWsRelationshipBuilderBean relationBean,
