@@ -278,8 +278,8 @@ public class GtnWsCfpAddService {
 						.append(dbDate.format(new SimpleDateFormat(DATE_FORMAT).parse(filterValue2))).append("'");
 				break;
 			case "LIKE":
-				whereSqlBuilder.append(dbName).append(" ").append(expression).append(" '%")
-						.append(filterValue.replace('*', '%')).append("%' ");
+				whereSqlBuilder.append(dbName).append(" ").append(expression).append(" '")
+						.append(filterValue.replace('*', '%').replace("_", "[_]")).append("' ");
 				break;
 			case "EQUAL":
 				whereSqlBuilder.append(dbName).append(" = '").append(filterValue).append("' ");
