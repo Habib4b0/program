@@ -36,7 +36,7 @@ public class GtnUIFrameWorkLoadValueFormulaTypeComboBoxAction
 		String mode = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("mode"));
 		if (resultValue.equals("Complex")) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_TAB)
-					.setWidth(GtnFrameworkCssConstants.HUNDRED_AND_FIFTY_PERCENTAGE);
+					.setWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnRpRemoveComplexButton")
 					.setVisible(!GtnUIFrameworkModeType.VIEW.equals(GtnUIFrameworkModeType.valueOf(mode)));
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnRpRemoveButton").setVisible(false);
@@ -44,6 +44,12 @@ public class GtnUIFrameWorkLoadValueFormulaTypeComboBoxAction
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX)
 					.setVisible(true);
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX)
+					.setWidth("1000px");
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkCommonConstants.COMPLIANCE_AND_DEDUCTION_RULES_DETAILS_LAYOUT)
+					.setWidth("1000px");
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_FROM_TO_COMPLEX)
 					.setVisible(true);
@@ -53,6 +59,8 @@ public class GtnUIFrameWorkLoadValueFormulaTypeComboBoxAction
 					.setVisible(true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT)
 					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.COMPLIANCE_AND_DEDUCTION_RULES_MAIN_CSS_LAYOUT)
+					.setWidth("2500px");
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ruleDetailsattachResultTable").getExtFilterTable()
 					.setVisible(false);
 		} else {

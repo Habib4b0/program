@@ -97,7 +97,7 @@ public class NotesTabForm extends AbstractNotesTab {
 	}
 
 	@Override
-	public void intailizingObject() {
+	public void intailizingObject(String moduleName) {
 		uploadReceiver = (Upload.Receiver) new FileUploader(basepath, MODULE_NAME);
 		uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
 		filePath = GtnFileUtil.getFile(basepath + File.separator + "Documents" + File.separator + MODULE_NAME);

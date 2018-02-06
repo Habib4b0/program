@@ -269,22 +269,6 @@ JOIN (SELECT PR.*
              ]]>
         </query>
     </entity>
-    <entity id="selected-hierarchy-no-update">
-        <query>
-            <![CDATA[
-                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
-                DROP TABLE #SELECTED_HIERARCHY_NO
-                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT)
-
-                INSERT INTO #SELECTED_HIERARCHY_NO
-                (HIERARCHY_NO,
-                CCP_DETAILS_SID)
-                SELECT DISTINCT HIERARCHY_NO,CH.CCP_DETAILS_SID
-                FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)                
-                [?SELECTED_HIERARCHY_JOIN]
-            ]]>
-        </query>
-    </entity>
     
     <entity id="selected-hierarchy-no-for-custom">
         <query>
@@ -2276,19 +2260,19 @@ INNER JOIN ST_NM_SALES_PROJECTION_MASTER NSP
 IF (@BASED_ON = 'A')
 BEGIN
 	UPDATE NDP
-       SET NDP.PROJECTION_SALES = IIF((
+SET NDP.PROJECTION_SALES = IIF((
                            CD.SALES_INCLUSION = @SALES_INCLUSION
-                           OR @SALES_INCLUSION IS NULL
+			OR @SALES_INCLUSION IS NULL
                            ), ST.ACTUAL_SALES, NULL),
-              NDP.PROJECTION_UNITS = IIF((
+	NDP.PROJECTION_UNITS = IIF((
                            CD.SALES_INCLUSION = @SALES_INCLUSION
-                           OR @SALES_INCLUSION IS NULL
+			OR @SALES_INCLUSION IS NULL
                            ), ST.ACTUAL_UNITS, NULL)
-       FROM ST_NM_SALES_PROJECTION NDP
+FROM ST_NM_SALES_PROJECTION NDP
        INNER JOIN #CCP_DETAILS_TEMP CD
               ON CD.CCP_DETAILS_SID = NDP.CCP_DETAILS_SID
-       INNER JOIN #PERIOD P
-              ON P.PERIOD_SID = NDP.PERIOD_SID
+INNER JOIN #PERIOD P
+	ON P.PERIOD_SID = NDP.PERIOD_SID
        INNER JOIN ST_NM_ACTUAL_SALES ST
               ON CD.CCP_DETAILS_SID = ST.CCP_DETAILS_SID
               and P.PERIOD_SID = ST.PERIOD_SID

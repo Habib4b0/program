@@ -49,7 +49,7 @@ public class GtnFramewrokAutomaticCustProdSelectServiceImpl implements GtnFramew
 	@Override
 	public void addSelectClause(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
 			GtnWsRelationshipBuilderBean relationBean, GtnFrameworkQueryGeneratorBean querygeneratorBean,
-			int updatedVersionNo, String userId, int levelNo) {
+			int updatedVersionNo, int levelNo) {
 		HierarchyLevelDefinitionBean hierarchyLevelBean = hierarchyLevelDefinitionList.get(levelNo);
 		HierarchyLevelDefinitionBean previousHierarchyLevelBean = HierarchyLevelDefinitionBean
 				.getPreviousLinkedLevel(hierarchyLevelDefinitionList, hierarchyLevelBean);
@@ -68,9 +68,11 @@ public class GtnFramewrokAutomaticCustProdSelectServiceImpl implements GtnFramew
 		querygeneratorBean.addSelectClauseBean(null, "PARENT_NODE", Boolean.FALSE, parentNode);
 		querygeneratorBean.addSelectClauseBean(null, "HIERARCHY_NO", Boolean.FALSE, hierarchyNo);
 		querygeneratorBean.addSelectClauseBean(null, "FLAG", Boolean.FALSE, "'F'");
-		querygeneratorBean.addSelectClauseBean(null, "CREATED_BY", Boolean.FALSE, userId);
+		querygeneratorBean.addSelectClauseBean(null, "CREATED_BY", Boolean.FALSE,
+				String.valueOf(relationBean.getCreatedBy()));
 		querygeneratorBean.addSelectClauseBean(null, "CREATED_DATE", Boolean.FALSE, "getdate()");
-		querygeneratorBean.addSelectClauseBean(null, "MODIFIED_BY", Boolean.FALSE, userId);
+		querygeneratorBean.addSelectClauseBean(null, "MODIFIED_BY", Boolean.FALSE,
+				String.valueOf(relationBean.getModifiedBy()));
 		querygeneratorBean.addSelectClauseBean(null, "MODIFIED_DATE", Boolean.FALSE, "getdate()");
 		querygeneratorBean.addSelectClauseBean(null, "VERSION_NO", Boolean.FALSE, String.valueOf(updatedVersionNo));
 		querygeneratorBean.addSelectClauseBean(null, "PARENT_HIERARCHY_NO", Boolean.FALSE, hierarchyNo);
