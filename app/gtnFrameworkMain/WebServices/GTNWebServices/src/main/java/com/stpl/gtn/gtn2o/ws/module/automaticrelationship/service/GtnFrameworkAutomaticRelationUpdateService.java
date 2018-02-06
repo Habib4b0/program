@@ -251,4 +251,16 @@ public class GtnFrameworkAutomaticRelationUpdateService {
             return Boolean.FALSE;
         }
 
+	public void deleteUnwantedUserDefinedLevels(int relationshipBuilderSid, int customertUpdatedVersionNo)
+			throws GtnFrameworkGeneralException {
+		List<Object> input = new ArrayList<>();
+		input.add(relationshipBuilderSid);
+		input.add(customertUpdatedVersionNo);
+		input.add(relationshipBuilderSid);
+		input.add(relationshipBuilderSid);
+		input.add(customertUpdatedVersionNo);
+		String sqlquery = gtnWsSqlService.getQuery(input, "Delete unwanted Userdefined Level");
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlquery);
+	}
+
 }
