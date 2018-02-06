@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchySer
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:GtnFrameworkHierarchyRouteBuilder-test.xml" })
-// @Ignore
+@Ignore
 public class GtnFrameworkHierarchyServiceImplTest {
 
 	@Autowired
@@ -38,7 +39,7 @@ public class GtnFrameworkHierarchyServiceImplTest {
 		*/
 	}
 
-	// @Test
+	@Test
 	public void creatQueryForMultiLevelHierarchy() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
 		List<String> entityList = Arrays.asList("RS_CONTRACT");
@@ -49,7 +50,7 @@ public class GtnFrameworkHierarchyServiceImplTest {
 		Assert.assertEquals(true, !finalQuery.isEmpty());
 	}
 
-	// @Test
+	@Test
 	public void getRoutePath() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
 		GtnFrameworkRouteBean routePath = hierarchyService.getRoutePath(6, 7);
@@ -60,7 +61,7 @@ public class GtnFrameworkHierarchyServiceImplTest {
 		Assert.assertEquals(true, routePath.getPathList().isEmpty());
 	}
 
-	// @Test
+	@Test
 	public void getPathByTableNameAndHierarchyType() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
 		GtnFrameworkRouteBean routePath = hierarchyService.getPathByTableNameAndHierarchyType("RS_CONTRACT", "UDCS",
