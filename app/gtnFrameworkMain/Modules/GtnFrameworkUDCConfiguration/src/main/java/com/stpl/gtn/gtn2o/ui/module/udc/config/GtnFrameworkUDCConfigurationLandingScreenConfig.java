@@ -29,8 +29,6 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 
-	
-
 	public GtnUIFrameworkViewConfig getUDCView() {
 		GtnFrameworkComponentConfigProvider componentConfig = GtnFrameworkComponentConfigProvider.getInstance();
 		GtnUIFrameworkViewConfig udcConfigurationView = componentConfig.getViewConfig("Udc View", "UDC001", true);
@@ -80,7 +78,85 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		addValue(componentList, componentConfig);
 		addADDButton(componentList, componentConfig);
 		addBrandAddButton(componentList, componentConfig);
+		addFileTypeValue(componentList, componentConfig);
+		addFileTypeAddButton(componentList, componentConfig);
 		addDELETEButton(componentList, componentConfig);
+	}
+
+	private void addFileTypeValue(List<GtnUIFrameworkComponentConfig> componentList,
+			GtnFrameworkComponentConfigProvider componentConfig) {
+		GtnUIFrameworkComponentConfig valueFileTypeLayout = componentConfig.getHorizontalLayoutConfig("valueFileTypeLayout", true,
+				GtnFrameworkCommonConstants.UDC_CATEGORYLAYOUT);
+		valueFileTypeLayout.setVisible(false);
+		componentList.add(valueFileTypeLayout);
+
+		GtnUIFrameworkComponentConfig valueFileTypeConfig = componentConfig.getUIFrameworkComponentConfig(
+				GtnFrameworkCommonConstants.UDC_FILETYPE_VALUE, true, valueFileTypeLayout.getComponentId(),
+				GtnUIFrameworkComponentType.TEXTBOX);
+		valueFileTypeConfig.setAuthorizationIncluded(true);
+		valueFileTypeConfig.setComponentName("Value");
+
+		GtnUIFrameworkTextBoxConfig valueFileTypeMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
+		valueFileTypeMaxLengthConfig.setMaximumLength(50);
+		valueFileTypeConfig.setGtnTextBoxConfig(valueFileTypeMaxLengthConfig);
+
+		GtnUIFrameworkValidationConfig valueFileTypeValidationConfig = new GtnUIFrameworkValidationConfig();
+		valueFileTypeValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		valueFileTypeConfig.setGtnUIFrameworkValidationConfig(valueFileTypeValidationConfig);
+		componentList.add(valueFileTypeConfig);
+	}
+
+	private void addFileTypeAddButton(List<GtnUIFrameworkComponentConfig> componentList,
+			GtnFrameworkComponentConfigProvider componentConfig) {
+		GtnUIFrameworkComponentConfig addFileTypeLayout = componentConfig.getCssLayoutConfig("addFileTypeLayout", true,
+				GtnFrameworkCommonConstants.UDC_CATEGORYLAYOUT);
+		addFileTypeLayout.addComponentStyle(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_2);
+		addFileTypeLayout.setVisible(false);
+		componentList.add(addFileTypeLayout);
+
+		GtnUIFrameworkComponentConfig addFileTypeButtonConfig = componentConfig.getUIFrameworkComponentConfig("ADDFILETYPE",
+				true,
+				addFileTypeLayout.getComponentId(), GtnUIFrameworkComponentType.BUTTON);
+		addFileTypeButtonConfig.setComponentName("ADD");
+		addFileTypeButtonConfig.setAuthorizationIncluded(true);
+
+		List<GtnUIFrameWorkActionConfig> addFileTypeActionConfigList = new ArrayList<>();
+
+		GtnUIFrameWorkActionConfig validationFileTypeActionConfig = componentConfig
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.VALIDATION_ACTION);
+		validationFileTypeActionConfig.setFieldValues(Arrays.asList(GtnFrameworkCommonConstants.UDC_FILETYPE_VALUE));
+
+		GtnUIFrameWorkActionConfig alertFileTypeActionConfig = componentConfig
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
+		List<Object> alertParamsList = new ArrayList<>();
+		alertParamsList.add(GtnFrameworkCommonConstants.ERROR);
+		alertParamsList.add(GtnFrameworkCommonConstants.SPACE_SHOULD_NOT_BE_ALLOWED);
+
+		alertFileTypeActionConfig.setActionParameterList(alertParamsList);
+
+		validationFileTypeActionConfig.setActionParameterList(
+				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(alertFileTypeActionConfig)));
+		addFileTypeActionConfigList.add(validationFileTypeActionConfig);
+
+		GtnUIFrameWorkActionConfig addActionConfig = componentConfig
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		addActionConfig.addActionParameter(GtnFrameworkUdcAddAction.class.getName());
+		addFileTypeActionConfigList.add(addActionConfig);
+
+		GtnUIFrameWorkActionConfig defaultActionConfig = new GtnUIFrameWorkActionConfig();
+		defaultActionConfig.setActionType(GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
+		defaultActionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.UDC_FILETYPE_VALUE));
+		defaultActionConfig.addActionParameter(Arrays.asList(""));
+		addFileTypeActionConfigList.add(defaultActionConfig);
+
+		GtnUIFrameWorkActionConfig loadDataTableActionConfig = componentConfig
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
+		loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_FILETYPE_RESULT_TABLE);
+		addFileTypeActionConfigList.add(loadDataTableActionConfig);
+
+		addFileTypeButtonConfig.setGtnUIFrameWorkActionConfigList(addFileTypeActionConfigList);
+		componentList.add(addFileTypeButtonConfig);
+
 	}
 
 	private void addCategory(List<GtnUIFrameworkComponentConfig> componentList,
@@ -240,8 +316,8 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		GtnUIFrameWorkActionConfig brandAlertActionConfig = componentConfig
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
 		List<Object> brandAlertParamsList = new ArrayList<>();
-		brandAlertParamsList.add("Error");
-		brandAlertParamsList.add("Space should not be allowed");
+		brandAlertParamsList.add(GtnFrameworkCommonConstants.ERROR);
+		brandAlertParamsList.add(GtnFrameworkCommonConstants.SPACE_SHOULD_NOT_BE_ALLOWED);
 
 		brandAlertActionConfig.setActionParameterList(brandAlertParamsList);
 
@@ -294,8 +370,8 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		GtnUIFrameWorkActionConfig alertBrandActionConfig = componentConfig
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
 		List<Object> alertParamsList = new ArrayList<>();
-		alertParamsList.add("Error");
-		alertParamsList.add("Space should not be allowed");
+		alertParamsList.add(GtnFrameworkCommonConstants.ERROR);
+		alertParamsList.add(GtnFrameworkCommonConstants.SPACE_SHOULD_NOT_BE_ALLOWED);
 
 		alertBrandActionConfig.setActionParameterList(alertParamsList);
 
@@ -368,6 +444,7 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 
 		addPagedTableComponent(componentList, componentConfig);
 		addBrandPagedTableComponent(componentList, componentConfig);
+		addFileTypePagedTableComponent(componentList, componentConfig);
 		
 	}
 
@@ -444,6 +521,44 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		componentList.add(categoryResultsConfig);
 	}
 
+	private void addFileTypePagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
+			GtnFrameworkComponentConfigProvider componentConfig) {
+		
+		GtnUIFrameworkComponentConfig fileTypeResultTableLayout = componentConfig
+				.getVerticalLayoutConfig(GtnFrameworkCommonConstants.UDC_FILETYPE_RESULT_TABLE_LAYOUT, true,
+						GtnFrameworkCommonConstants.UDC_RESULTS_LAYOUT);
+		fileTypeResultTableLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+		fileTypeResultTableLayout.setVisible(false);
+		componentList.add(fileTypeResultTableLayout);
+		
+		GtnUIFrameworkComponentConfig fileTypeResultsConfig = componentConfig.getUIFrameworkComponentConfig(
+				GtnFrameworkCommonConstants.UDC_FILETYPE_RESULT_TABLE, true,
+				GtnFrameworkCommonConstants.UDC_FILETYPE_RESULT_TABLE_LAYOUT,
+				GtnUIFrameworkComponentType.PAGEDTABLE);
+		fileTypeResultsConfig.setAuthorizationIncluded(true);
+		fileTypeResultsConfig.setComponentName("fileTypeUdcResults");
+		fileTypeResultsConfig.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+
+		GtnUIFrameworkPagedTableConfig searchResultsFileType = componentConfig.getPagedTableConfig(true, true,
+				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
+				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
+				GtnFrameworkCommonConstants.UDC_CONFIGURATION, "FileTypeSearchQuery");
+		searchResultsFileType.setEditable(false);
+		searchResultsFileType.setPageLength(5);
+		searchResultsFileType.setItemPerPage(10);
+		searchResultsFileType.setSinkItemPerPageWithPageLength(false);
+
+		searchResultsFileType.setTableColumnDataType(GtnFrameworkUdcStringConstants.getUdcFileTypeTableColumnType());
+		searchResultsFileType.setTableColumnMappingId(GtnFrameworkUdcStringConstants.getUdcFileTypeTableColumns());
+		searchResultsFileType.setTableVisibleHeader(GtnFrameworkUdcStringConstants.getUdcFileTypeTableColumnHeader());
+
+		searchResultsFileType.setExtraColumn(new Object[] { "systemId" });
+		searchResultsFileType.setExtraColumnDataType(new Class[] { Integer.class });
+		searchResultsFileType.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.UDC_CONFIGURATION);
+		fileTypeResultsConfig.setGtnPagedTableConfig(searchResultsFileType);
+		componentList.add(fileTypeResultsConfig);
+	}
+
 	private void addExcelButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		GtnUIFrameworkComponentConfig buttonLayout = componentConfig
@@ -454,6 +569,7 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 
 		addExcelButtonComponent(componentList, componentConfig);
 		addBrandExcelButtonComponent(componentList, componentConfig);
+		addFileTypeExcelButtonComponent(componentList, componentConfig);
 	}
 
 	private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
@@ -502,5 +618,30 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.EXCEL_EXPORT_CSV_ACTION);
 		excelAction.addActionParameter(gtnUIFrameworkBrandExcelButtonConfig);
 		brandexcelButtonConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(excelAction));
+	}
+	
+	private void addFileTypeExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
+			GtnFrameworkComponentConfigProvider componentConfig) {
+		GtnUIFrameworkComponentConfig fileTypeExcelButtonLayout = componentConfig.getHorizontalLayoutConfig(
+				"gtnFileTypeExcelButtonLayout", true, GtnFrameworkCommonConstants.UDC_EXCEL_BUTTONLAYOUT);
+		fileTypeExcelButtonLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		fileTypeExcelButtonLayout.setVisible(false);
+		componentList.add(fileTypeExcelButtonLayout);
+
+		GtnUIFrameworkComponentConfig fileTypeExcelButtonConfig = componentConfig.getUIFrameworkComponentConfig(
+				"fileTypeExcelExport", true,
+				fileTypeExcelButtonLayout.getComponentId(), GtnUIFrameworkComponentType.EXCEL_BUTTON);
+		fileTypeExcelButtonConfig.setAuthorizationIncluded(true);
+		componentList.add(fileTypeExcelButtonConfig);
+
+		GtnUIFrameworkExcelButtonConfig gtnUIFrameworkFileTypeExcelButtonConfig = componentConfig.getExcelBtnconfig("UDC",
+				true, GtnFrameworkCommonConstants.UDC_FILETYPE_RESULT_TABLE, false);
+		gtnUIFrameworkFileTypeExcelButtonConfig.setTitleNeeded(true);
+		fileTypeExcelButtonConfig.setGtnUIFrameworkExcelButtonConfig(gtnUIFrameworkFileTypeExcelButtonConfig);
+
+		GtnUIFrameWorkActionConfig excelAction = componentConfig
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.EXCEL_EXPORT_CSV_ACTION);
+		excelAction.addActionParameter(gtnUIFrameworkFileTypeExcelButtonConfig);
+		fileTypeExcelButtonConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(excelAction));
 	}
 }

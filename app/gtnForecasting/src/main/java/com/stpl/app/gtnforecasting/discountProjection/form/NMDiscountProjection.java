@@ -455,7 +455,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		variables.setWidth("500px");
                 gridlay.addComponent(conversionFactor, NumericConstants.FOUR, 1);
 		gridlay.addComponent(conversionFactorDdlb, NumericConstants.FIVE, 1);
-
+		conversionFactor.setWidth("121px");
 		fieldDdlb.addItem(SELECT_ONE.getConstant());
 		fieldDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
 		fieldDdlb.select(SELECT_ONE.getConstant());
