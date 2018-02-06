@@ -24,11 +24,11 @@ import com.vaadin.v7.ui.VerticalLayout;
  */
 public abstract class AbstractForm extends VerticalLayout {
 
-	protected static Button btnSave;
-	protected static Button btnSubmit;
-	protected static Button btnNext;
-	protected static Button btnPrev;
-	protected static Button btnClose;
+	protected  Button btnSave;
+	protected  Button btnSubmit;
+	protected  Button btnNext;
+	protected  Button btnPrev;
+	protected  Button btnClose;
 	private Button btnRefresh;
 	protected Button btnApprove;
 	protected Button btnReject;
@@ -42,8 +42,8 @@ public abstract class AbstractForm extends VerticalLayout {
 	 * @return HorizontalLayout containing the buttons
 	 */
 	public HorizontalLayout addFooterButtons(Button btnNext, Button btnPrev, Button btnRefresh) {
-		AbstractForm.btnNext = btnNext;
-		AbstractForm.btnPrev = btnPrev;
+		this.btnNext = btnNext;
+		this.btnPrev = btnPrev;
 		setBtnSave(new Button(BTN_SAVE.getConstant()));
 		setBtnSubmit(new Button(BTN_SUBMIT.getConstant()));
 		setBtnClose(new Button(BTN_CLOSE.getConstant()));
@@ -152,44 +152,44 @@ public abstract class AbstractForm extends VerticalLayout {
 
 	protected abstract void lazyLoadTab(int tabPosition);
 
-	public static Button getBtnSave() {
+	public  Button getBtnSave() {
 		return btnSave;
 	}
 
-	public static void setBtnSave(Button btnSave) {
-		AbstractForm.btnSave = btnSave;
+	public  void setBtnSave(Button btnSave) {
+		this.btnSave = btnSave;
 	}
 
-	public static Button getBtnSubmit() {
+	public  Button getBtnSubmit() {
 		return btnSubmit;
 	}
 
-	public static void setBtnSubmit(Button btnSubmit) {
-		AbstractForm.btnSubmit = btnSubmit;
+	public  void setBtnSubmit(Button btnSubmit) {
+		this.btnSubmit = btnSubmit;
 	}
 
-	public static Button getBtnNext() {
+	public  Button getBtnNext() {
 		return btnNext;
 	}
 
-	public static void setBtnNext(Button btnNext) {
-		AbstractForm.btnNext = btnNext;
+	public  void setBtnNext(Button btnNext) {
+		this.btnNext = btnNext;
 	}
 
-	public static Button getBtnPrev() {
+	public  Button getBtnPrev() {
 		return btnPrev;
 	}
 
-	public static void setBtnPrev(Button btnPrev) {
-		AbstractForm.btnPrev = btnPrev;
+	public  void setBtnPrev(Button btnPrev) {
+		this.btnPrev = btnPrev;
 	}
 
-	public static Button getBtnClose() {
+	public  Button getBtnClose() {
 		return btnClose;
 	}
 
-	public static void setBtnClose(Button btnClose) {
-		AbstractForm.btnClose = btnClose;
+	public  void setBtnClose(Button btnClose) {
+		this.btnClose = btnClose;
 	}
 
 	public Button getBtnRefresh() {
