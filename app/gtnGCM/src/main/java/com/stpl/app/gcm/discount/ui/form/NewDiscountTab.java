@@ -375,6 +375,7 @@ public class NewDiscountTab extends CustomComponent {
             fromCDNo.setEnabled(false);
             fromCDName.setEnabled(false);
             searchValueStatusDdlb.setVisible(false);
+            searchDatePeriod.setVisible(false);
         } catch (Exception ex) {
             LOGGER.error("",ex);
         }
