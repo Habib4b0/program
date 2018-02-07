@@ -276,16 +276,7 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 		if (selectedItemList.isEmpty()) {
 			return returnList;
 		}
-
-		Collections.sort(selectedItemList, new Comparator<GtnWsRecordBean>() {
-			@Override
-			public int compare(GtnWsRecordBean o1, GtnWsRecordBean o2) {
-				int treeLevelNo1 = Integer.parseInt(String.valueOf(o1.getAdditionalPropertyByIndex(0)));
-				int treeLevelNo2 = Integer.parseInt(String.valueOf(o2.getAdditionalPropertyByIndex(0)));
-				return treeLevelNo2 - treeLevelNo1;
-			}
-		});
-
+		collectionsSortTree(selectedItemList);
 		ListIterator<?> listIterator = selectedItemList.listIterator();
 
 		while (listIterator.hasNext()) {
@@ -498,7 +489,6 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 	}
 
 	public void removeChildItems(Tree tree) {
-		List<GtnWsRecordBean> returnListToRemove = null;
 		Object selectedValueInTree = tree.getValue();
 
 		if (selectedValueInTree == null) {
@@ -520,6 +510,22 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 			return;
 		}
 
+		collectionsSortTree(selectedItemListFromTree);
+
+		ListIterator<?> listIteratorForTreeRemove = selectedItemListFromTree.listIterator();
+		while (listIteratorForTreeRemove.hasNext()) {
+			Object itemToRemoveFromTree = listIteratorForTreeRemove.next();
+			Object selectedParentFromTree = itemToRemoveFromTree;
+			if (!tree.hasChildren(itemToRemoveFromTree)) {
+				tree.getContainerDataSource().removeItem(itemToRemoveFromTree);
+			} else {
+				getChildren(itemToRemoveFromTree, tree, selectedParentFromTree);
+			}
+			listIteratorForTreeRemove.remove();
+		}
+	}
+
+	private void collectionsSortTree(List<GtnWsRecordBean> selectedItemListFromTree) {
 		Collections.sort(selectedItemListFromTree, new Comparator<GtnWsRecordBean>() {
 			@Override
 			public int compare(GtnWsRecordBean object1, GtnWsRecordBean object2) {
@@ -528,17 +534,5 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 				return treeLevelNo2InTree - treeLevelNo1InTree;
 			}
 		});
-
-		ListIterator<?> listIteratorForTree = selectedItemListFromTree.listIterator();
-		while (listIteratorForTree.hasNext()) {
-			Object itemToRemove = listIteratorForTree.next();
-			Object selectedParent = itemToRemove;
-			if (!tree.hasChildren(itemToRemove)) {
-				tree.getContainerDataSource().removeItem(itemToRemove);
-			} else {
-				getChildren(itemToRemove, tree, selectedParent);
-			}
-			listIteratorForTree.remove();
-		}
 	}
 }

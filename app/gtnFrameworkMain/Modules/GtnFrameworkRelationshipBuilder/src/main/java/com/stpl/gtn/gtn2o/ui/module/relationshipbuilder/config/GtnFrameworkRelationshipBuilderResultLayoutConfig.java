@@ -162,6 +162,16 @@ public class GtnFrameworkRelationshipBuilderResultLayoutConfig {
 		componentList.add(addToTreeBtnConfig);
 		addToTreeBtnConfig.setEnable(!isView);
 		if (!isView) {
+			GtnUIFrameWorkActionConfig autoBuildConfirmationConfig=gtnConfigFactory
+					.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
+			autoBuildConfirmationConfig.addActionParameter(" Auto Build Confirmation ");
+			autoBuildConfirmationConfig.addActionParameter(" Are you sure you want to proceed with Auto Building the selected level(s)? ");
+			List<GtnUIFrameWorkActionConfig> onSuccessConfigList = new ArrayList<>();
+			GtnUIFrameWorkActionConfig autoBuildStartedConfig=gtnConfigFactory
+					.getUIFrameworkActionConfig(GtnUIFrameworkActionType.INFO_ACTION);
+			autoBuildStartedConfig.addActionParameter(" Auto Build Started");
+			autoBuildStartedConfig.addActionParameter(" Auto Build functionality has been initiated.A message will be displayed when Auto Build has completed. ");
+			onSuccessConfigList.add(autoBuildStartedConfig);
 			GtnUIFrameWorkActionConfig addToTreeAction = gtnConfigFactory
 					.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 			addToTreeAction.addActionParameter(GtnFrameworkAutoBuildAction.class.getName());
@@ -169,8 +179,16 @@ public class GtnFrameworkRelationshipBuilderResultLayoutConfig {
 			addToTreeAction.addActionParameter(namespaceprefix + GtnFrameworkCommonConstants.RESULT_TABLE);
 			addToTreeAction.addActionParameter(namespaceprefix + GtnFrameworkCommonConstants.RB_TREE);
 			addToTreeAction.addActionParameter(namespaceprefix + GtnFrameworkCommonConstants.REMOVE_FROM_TREE_BTN);
+			onSuccessConfigList.add(addToTreeAction);
+			
+			GtnUIFrameWorkActionConfig messageConfig=gtnConfigFactory
+					.getUIFrameworkActionConfig(GtnUIFrameworkActionType.INFO_ACTION);
+			messageConfig.addActionParameter(" Auto Build Completed");
+			messageConfig.addActionParameter(" Auto Build functionality has successfully completed. ");
+			onSuccessConfigList.add(messageConfig);
+			autoBuildConfirmationConfig.addActionParameter(onSuccessConfigList);
 			List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-			actionConfigList.add(addToTreeAction);
+			actionConfigList.add(autoBuildConfirmationConfig);
 			addToTreeBtnConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 		}
 	}

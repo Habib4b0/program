@@ -1628,8 +1628,8 @@ public class ForecastForm extends AbstractForm {
 	private void configureForView() {
 
 		if (Constant.VIEW.equalsIgnoreCase(session.getAction())) {
-			AbstractForm.getBtnSave().setEnabled(false);
-			AbstractForm.getBtnSubmit().setEnabled(false);
+			getBtnSave().setEnabled(false);
+			getBtnSubmit().setEnabled(false);
 		}
 
 	}
