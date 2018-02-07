@@ -210,7 +210,7 @@
             <column name="ACCRUAL_UDC6" length="100" />
         </property>
          <property name="accrualInboundInterfaceId" type="string">
-            <column name="ACCRUAL_INBOUND_INTERFACE_ID" length="100" />
+            <column name="ACCRUAL_INBOUND_INTERFACE_ID" length="200" />
         </property>
     </class>
 </hibernate-mapping>
