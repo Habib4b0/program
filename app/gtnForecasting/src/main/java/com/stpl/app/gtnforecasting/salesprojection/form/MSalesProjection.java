@@ -537,4 +537,3 @@ public class MSalesProjection extends ForecastSalesProjection {
             MSalesProjection.rowCountMap = rowCountMap;
     }
 }
-
