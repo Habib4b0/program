@@ -66,6 +66,7 @@ import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuild
 import com.stpl.gtn.gtn2o.ws.service.GtnFrameworkFileReadWriteService;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
+import java.util.Set;
 
 /**
  *
@@ -581,11 +582,6 @@ public class GtnWsRelationshipBuilderService {
 		}
 	}
 
-	private void getInboundRestriction(List<HierarchyLevelDefinitionBean> hierarchyList,
-			GtnFrameworkQueryGeneratorBean queryBaen) {
-		Set<String> tableNamelist = HierarchyLevelDefinitionBean.getTableNameSet(hierarchyList);
-		hierarchyService.getInboundRestrictionQuery(tableNamelist, queryBaen);
-	}
 
 	public GtnWsRelationshipBuilderResponse getModifiedHiddenIdList(GtnWsRelationshipBuilderRequest rbRequest,
 			GtnWsRelationshipBuilderResponse rbResponse) {
@@ -1208,8 +1204,8 @@ public class GtnWsRelationshipBuilderService {
 			inputlist.add(String.valueOf(rbRequest.getHierarchyVersionNo()));
 			tx.commit();
 			autoMaticRelationService.checkAndUpdateAutomaticRelationship(
-					relationshipBuilder.getRelationshipBuilderSid(),
-					String.valueOf(relationshipBuilder.getCreatedBy()));
+					relationshipBuilder.getRelationshipBuilderSid()
+					);
 			autoMaticRelationService.checkManualRelation(relationshipBuilder.getRelationshipBuilderSid());
 			rbResponse.setSuccess(true);
 		} catch (Exception e) {
