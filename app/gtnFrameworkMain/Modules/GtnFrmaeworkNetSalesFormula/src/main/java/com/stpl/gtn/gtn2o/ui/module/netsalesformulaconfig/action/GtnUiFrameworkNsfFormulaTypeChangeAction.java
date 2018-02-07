@@ -17,11 +17,13 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.confirmation.GtnFrameworkNsfAlertNoAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.util.GtnFrameworkNSFConstants;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.netsales.constants.GtnWsNsfCommonConstants;
 
 /**
@@ -31,10 +33,9 @@ import com.stpl.gtn.gtn2o.ws.netsales.constants.GtnWsNsfCommonConstants;
 public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	private static final String FORMULA_TYPE = "formulaType";
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnUiFrameworkNsfFormulaTypeChangeAction.class);
 	private static final String SELECTED_DEDUCTIONS_RESULT_TABLE = "selectedDeductionsResultTable";
-   
-	
-   
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -143,6 +144,7 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 	}
 
 	private void checkValueChange(String componentId, String viewId) throws GtnFrameworkGeneralException {
+		LOGGER.info("in checkValueChange--------");
 		if (!GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(viewId + GtnFrameworkCommonConstants.AVAILABLE_DEDUCTIONS_TABLE, componentId)
 				.getItemsFromTable().isEmpty()
@@ -156,6 +158,13 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 			alertParams.add(
 					" Changing the Formula Type will clear the Selected Deductions section. Do you want to proceed? ");
 			List<GtnUIFrameWorkActionConfig> onSuccessConfigList = new ArrayList<>();
+			List<GtnUIFrameWorkActionConfig> onFailureActionConfig = new ArrayList<>();
+			GtnUIFrameWorkActionConfig uniqueValidationAction = new GtnUIFrameWorkActionConfig();
+			uniqueValidationAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			uniqueValidationAction.addActionParameter(GtnFrameworkNsfAlertNoAction.class.getName());
+			uniqueValidationAction.addActionParameter(viewId);
+			onFailureActionConfig.add(uniqueValidationAction);
+
 			GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
 			resetActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMED_RESET_ACTION);
 			List<Object> resetParams = new ArrayList<>();
@@ -189,6 +198,7 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 			resetActionConfig.setActionParameterList(resetParams);
 			onSuccessConfigList.add(resetActionConfig);
 			alertParams.add(onSuccessConfigList);
+			alertParams.add(onFailureActionConfig);
 			alertActionConfig.setActionParameterList(alertParams);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
 		} else {
@@ -226,7 +236,6 @@ public class GtnUiFrameworkNsfFormulaTypeChangeAction implements GtnUIFrameWorkA
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, resetActionConfig);
 		}
 	}
-
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
