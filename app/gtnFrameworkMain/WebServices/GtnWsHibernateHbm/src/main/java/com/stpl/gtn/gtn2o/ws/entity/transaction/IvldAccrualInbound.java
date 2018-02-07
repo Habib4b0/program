@@ -72,6 +72,7 @@ public class IvldAccrualInbound implements java.io.Serializable {
 	private String accrualUdc4;
 	private String accrualUdc5;
 	private String accrualUdc6;
+	private String accrualInboundInterfaceId;
 
 	public IvldAccrualInbound() {
 	}
@@ -96,7 +97,7 @@ public class IvldAccrualInbound implements java.io.Serializable {
 			String businessUnitNo, String buIdentCodeQualifier, String businessUnitName, String accrualCategory,
 			String accrualScheduleType, String accrualProgramType, String salesAmount, String quantity,
 			String accrualUdc1, String accrualUdc2, String accrualUdc3, String accrualUdc4, String accrualUdc5,
-			String accrualUdc6) {
+			String accrualUdc6,String accrualInboundInterfaceId) {
 		this.ivldAccrualInboundSid = ivldAccrualInboundSid;
 		this.accrualIntfid = accrualIntfid;
 		this.accrualId = accrualId;
@@ -165,6 +166,7 @@ public class IvldAccrualInbound implements java.io.Serializable {
 		this.accrualUdc4 = accrualUdc4;
 		this.accrualUdc5 = accrualUdc5;
 		this.accrualUdc6 = accrualUdc6;
+		this.accrualInboundInterfaceId=accrualInboundInterfaceId;
 	}
 
 	public int getIvldAccrualInboundSid() {
@@ -709,6 +711,14 @@ public class IvldAccrualInbound implements java.io.Serializable {
 
 	public void setAccrualUdc6(String accrualUdc6) {
 		this.accrualUdc6 = accrualUdc6;
+	}
+
+	public String getAccrualInboundInterfaceId() {
+		return accrualInboundInterfaceId;
+	}
+
+	public void setAccrualInboundInterfaceId(String accrualInboundInterfaceId) {
+		this.accrualInboundInterfaceId = accrualInboundInterfaceId;
 	}
 
 }
