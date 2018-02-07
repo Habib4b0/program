@@ -289,7 +289,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         private List<Object> generateCustomerToBeLoaded=new ArrayList<>();
         private List<String> baselinePeriods= new ArrayList<>();
         private final Map<String, Object> excelParentRecords = new HashMap();
-        
 	private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
 		@Override
 		public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
@@ -458,7 +457,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		variables.setWidth("500px");
                 gridlay.addComponent(conversionFactor, NumericConstants.FOUR, 1);
 		gridlay.addComponent(conversionFactorDdlb, NumericConstants.FIVE, 1);
-
+		conversionFactor.setWidth("121px");
 		fieldDdlb.addItem(SELECT_ONE.getConstant());
 		fieldDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
 		fieldDdlb.select(SELECT_ONE.getConstant());
@@ -5464,7 +5463,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	}
 
 private List<Object[]> getDiscountExcelResults(ProjectionSelectionDTO projectionSelectionDTO) {
-	 LOGGER.info("Inside excel------------------------------");
             String sIds = projectionSelectionDTO.getDeductionLevelFilter().isEmpty() ? null : PVCommonLogic.removeBracesInList(projectionSelectionDTO.getDeductionLevelFilter());
          int customMasterSid = Integer.parseInt(viewDdlb.getValue() == null ? "0" : viewDdlb.getValue().toString());
          Object[] orderedArg = {projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionDTO().getSessionId(),deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()),

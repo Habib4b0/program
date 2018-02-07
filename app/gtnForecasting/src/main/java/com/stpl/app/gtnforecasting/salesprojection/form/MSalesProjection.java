@@ -72,7 +72,7 @@ public class MSalesProjection extends ForecastSalesProjection {
     private final List<String> projectedPeriodList = new ArrayList();
     private SalesRowDto salesPMPYDTO = new SalesRowDto();
     private final Set<String> tableHierarchyNos = new HashSet<>();
-    private final Map<String, Object> excelParentRecords = new HashMap();
+    
     protected String ALL = "ALL";
     
     public MSalesProjection(SessionDTO session, String screenName) throws PortalException, SystemException  {
@@ -113,7 +113,7 @@ public class MSalesProjection extends ForecastSalesProjection {
     protected void excelExportLogic() {
         try {
             configureExcelResultTable();
-            getExcelSalesCommercial();
+            levelFilterDdlbChangeOption(true);
             excelTable.setRefresh(Boolean.TRUE);
             if (excelTable.size() > 0) {
                 ForecastUI.setEXCEL_CLOSE(true);
@@ -546,46 +546,5 @@ public class MSalesProjection extends ForecastSalesProjection {
             MSalesProjection.rowCountMap = rowCountMap;
     }
     
-    private void getExcelSalesCommercial() {
-        try {
-            List<Object[]> salesExcelList = getSalesExcelResults(projectionDTO);
-            NMSalesExcelLogic nmSalesExcelLogic = new NMSalesExcelLogic();
-            List historyColumn = salesLogic.getHistoryColumn(salesLogic.getHeader(projectionDTO));
-            nmSalesExcelLogic.getCustomizedExcelData(salesExcelList, projectionDTO, historyColumn);
-            SalesRowDto itemId = new SalesRowDto();
-            for (Iterator<String> it = nmSalesExcelLogic.getHierarchyKeys().listIterator(); it.hasNext();) {
-                String key = it.next();
-                it.remove();
-                if (nmSalesExcelLogic.getResultMap().containsKey(key)) {
-                    itemId = nmSalesExcelLogic.getResultMap().get(key);
-                    nmSalesExcelLogic.getResultMap().remove(key);
-                }
-                excelContainer.addBean(itemId);
-                Object parentItemId;
-                    String parentKey = CommonUtil.getParentItemId(key, projectionDTO.isIsCustomHierarchy(), itemId.getParentHierarchyNo());
-                    parentItemId = excelParentRecords.get(parentKey);
-
-                    if (parentItemId != null) {
-                        excelContainer.setParent(itemId, parentItemId);
-                    }
-                    parentItemId = itemId;
-                    excelParentRecords.put(key, itemId);
-                    excelContainer.setChildrenAllowed(itemId, true);
-            }
-            excelContainer.sort(new Object[]{"levelName"}, new boolean[]{true});
-        } catch (Exception e) {
-        	LOGGER.error(e.getMessage());
-        }
-    }
-
-    private List<Object[]> getSalesExcelResults(ProjectionSelectionDTO projectionSelectionDTO) {
-         int customMasterSid = Integer.valueOf(viewDdlb.getValue() == null ? "0" : viewDdlb.getValue().toString());
-         Object[] orderedArg = {projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionDTO().getSessionId(), projectionSelectionDTO.getLevelNo(),
-                 projectionSelectionDTO.getFrequency().substring(0, 1), projectionSelectionDTO.isIsCustomHierarchy() ? "D" : projectionSelectionDTO.getHierarchyIndicator(),
-               "Sales","0", projectionSelectionDTO.getHierarchyNo(),
-                projectionSelectionDTO.getLevelNo(), null, customMasterSid, null, projectionSelectionDTO.getUomCode(), ALL.equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion(), ALL.equals(projectionSelectionDTO.getSessionDTO().getDeductionInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getDeductionInclusion(),null,"Sales"};
-            return CommonLogic.callProcedure("PRC_PROJECTION_VARIANCE", orderedArg);
-    }
-
 }
 
