@@ -300,6 +300,42 @@ WHERE
 
 		</query>
 	</entity>
+        <entity id="Delete unwanted Userdefined Level">
+		<query> 
+        <![CDATA[
+        DELETE RLD
+from
+	dbo.RELATIONSHIP_LEVEL_DEFINITION RLD
+JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD on
+	RLD.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+	and HLD.LEVEL_VALUE_REFERENCE = 'User Defined'
+where
+	HIERARCHY_NO not in(
+		SELECT
+			rld1.HIERARCHY_NO
+		from
+			dbo.RELATIONSHIP_LEVEL_DEFINITION as RLD
+		JOIN RELATIONSHIP_LEVEL_DEFINITION as RLD1 on
+			RLD.RELATIONSHIP_BUILDER_SID = RLD1.RELATIONSHIP_BUILDER_SID
+			and rld.VERSION_NO = RLd1.VERSION_NO
+			and rld.LEVEL_NO =(
+				SELECT
+					max( LEVEL_NO )
+				from
+					RELATIONSHIP_LEVEL_DEFINITION
+				where
+					RELATIONSHIP_BUILDER_SID = ?
+					and VERSION_NO = ?
+			)
+			and rld.HIERARCHY_NO like rld1.HIERARCHY_NO + '%'
+			and RLD.RELATIONSHIP_BUILDER_SID = ?
+	)
+	and RELATIONSHIP_BUILDER_SID = ?
+	and RLD.VERSION_NO = ?
+        ]]>
+
+		</query>
+	</entity>
 
 
 </sql>

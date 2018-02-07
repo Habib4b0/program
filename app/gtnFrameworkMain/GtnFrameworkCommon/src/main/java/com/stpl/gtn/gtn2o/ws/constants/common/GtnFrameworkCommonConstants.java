@@ -1098,4 +1098,12 @@ public class GtnFrameworkCommonConstants {
 	public static final String UDC_CONFIGURATION = "Udc Configuration";
 	public static final String UDC_RESULT_TABLE_LAYOUT = "udcResultTableLayout";
 	public static final String UDC_BRAND_RESULT_TABLE_LAYOUT = "udcBrandResultTableLayout";
+	public static final String UDC_FILETYPE_RESULT_TABLE = "udcFileTypeResultTable";
+	public static final String UDC_FILETYPE_RESULT_TABLE_LAYOUT = "udcFileTypeResultLayout";
+	public static final String GTN_FILETYPE_EXCEL_BUTTON_LAYOUT = "gtnFileTypeExcelButtonLayout";
+	public static final String UDC_FILETYPE_VALUE = "udcFileTypeValue";
+	public static final String VALUE_FILETYPE_LAYOUT = "valueFileTypeLayout";
+	public static final String ADD_FILETYPE_LAYOUT = "addFileTypeLayout";
+	public static final String SPACE_SHOULD_NOT_BE_ALLOWED = "Space should not be allowed";
+	public static final String ERROR = "Error";
 }
