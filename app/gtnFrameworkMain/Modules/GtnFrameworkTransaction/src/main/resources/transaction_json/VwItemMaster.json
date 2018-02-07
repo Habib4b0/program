@@ -2,8 +2,8 @@
 "module":[  
       {  
          "reprocessingWebServiceURL":"/gtnTransaction/reprocess",
-		 "stagingUpdateColumns":["reprocessedFlag"],
-		 "stagingUpdateColumnsValues": ["Y"]
+		 "stagingUpdateColumns":["reprocessedFlag" , "addChgDelIndicator" ],
+		 "stagingUpdateColumnsValues": ["Y" , "D"]
 	 
       }
    ],
@@ -543,8 +543,9 @@
 	{
 		"columnID": "addChgDelIndicator",
 		"columnName": "Add Chg Del Indicator",
-		"isSearchCriteria": false,
+		"isSearchCriteria": true,
 		"isResultView": true,
+		"defaultValue": "A",
 		"componentType": "text"
 	},
 	{
@@ -614,7 +615,6 @@
 		"isSearchCriteria": true,
 		"isResultView": true,
 		"componentType": "text",
-		"defaultValue": "N",
 		"isInvalidComponent": true
 	},
 	{

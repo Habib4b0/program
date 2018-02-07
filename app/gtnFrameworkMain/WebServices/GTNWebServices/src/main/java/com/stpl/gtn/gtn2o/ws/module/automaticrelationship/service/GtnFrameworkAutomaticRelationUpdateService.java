@@ -86,7 +86,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 	private static final GtnWSLogger LOGGER = GtnWSLogger
 			.getGTNLogger(GtnFrameworkAutomaticRelationUpdateService.class);
 
-	public boolean checkAndUpdateAutomaticRelationship(Integer relationshipBuilderSid, String userId)
+	public boolean checkAndUpdateAutomaticRelationship(Integer relationshipBuilderSid)
 			throws GtnFrameworkGeneralException, InterruptedException {
 		GtnWsRelationshipBuilderBean relationBean = getRelationtionshipBuilder(relationshipBuilderSid);
 		if (relationBean != null) {
@@ -250,5 +250,17 @@ public class GtnFrameworkAutomaticRelationUpdateService {
             LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");
             return Boolean.FALSE;
         }
+
+	public void deleteUnwantedUserDefinedLevels(int relationshipBuilderSid, int customertUpdatedVersionNo)
+			throws GtnFrameworkGeneralException {
+		List<Object> input = new ArrayList<>();
+		input.add(relationshipBuilderSid);
+		input.add(customertUpdatedVersionNo);
+		input.add(relationshipBuilderSid);
+		input.add(relationshipBuilderSid);
+		input.add(customertUpdatedVersionNo);
+		String sqlquery = gtnWsSqlService.getQuery(input, "Delete unwanted Userdefined Level");
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlquery);
+	}
 
 }

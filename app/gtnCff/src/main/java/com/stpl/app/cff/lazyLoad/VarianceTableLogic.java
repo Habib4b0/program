@@ -23,10 +23,7 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTreeTableLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author manikandaprabu.g
- */
+
 public class VarianceTableLogic extends PageTreeTableLogic{
 
 	public VarianceTableLogic() {

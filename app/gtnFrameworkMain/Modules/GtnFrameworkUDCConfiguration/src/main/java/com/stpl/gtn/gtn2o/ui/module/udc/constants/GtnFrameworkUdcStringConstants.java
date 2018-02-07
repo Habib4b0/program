@@ -20,7 +20,14 @@ public class GtnFrameworkUdcStringConstants {
 
 	private static final Class<?>[] UDC_BRANDTABLE_COLUMN_TYPE = new Class<?>[] { String.class, String.class,
 			String.class, String.class };
+			
+	private static final Class<?>[] UDC_FILETYPETABLE_COLUMN_TYPE = new Class<?>[] { String.class, String.class,
+				String.class};
+				
+    private static final Object[] UDC_FILETYPETABLE_COLUMNS = new Object[] { "description", "udcCategory", "aliasName"};
 
+    private static final String[] UDC_FILETYPETABLE_HEADER = new String[] { "Description", "Category","Alias Name"};
+    
 	public static Object[] getUdcTableColumns() {
 		return UDC_TABLE_COLUMNS.clone();
 	}
@@ -44,4 +51,17 @@ public class GtnFrameworkUdcStringConstants {
 	public static Class<?>[] getUdcBrandTableColumnType() {
 		return UDC_BRANDTABLE_COLUMN_TYPE.clone();
 	}
+	
+	public static Class<?>[] getUdcFileTypeTableColumnType() {
+		return UDC_FILETYPETABLE_COLUMN_TYPE;
+	}
+	
+	public static Object[] getUdcFileTypeTableColumns() {
+		return UDC_FILETYPETABLE_COLUMNS;
+	}
+	
+	public static String[] getUdcFileTypeTableColumnHeader() {
+		return UDC_FILETYPETABLE_HEADER;
+	}
+
 }

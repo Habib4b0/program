@@ -20,6 +20,7 @@ public class GtnFrameworkJoinClauseBean implements Serializable {
 	}
 
 	private List<GtnFrameworkJoinConditionBean> conditionList = new ArrayList<>(0);
+	private List<GtnFrameworkJoinConditionBean> joinOrConditionList = new ArrayList<>(0);
 	private String joinTableName;
 	private String joinTableAliesName;
 	private GtnFrameworkJoinType joinType;
@@ -37,6 +38,15 @@ public class GtnFrameworkJoinClauseBean implements Serializable {
 		conditionList.add(conditionBean);
 	}
 
+	public void addJoinOrConditionList(GtnFrameworkJoinConditionBean conditionBean) {
+
+		joinOrConditionList.add(conditionBean);
+	}
+
+	public List<GtnFrameworkJoinConditionBean> getJoinOrConditionList() {
+		return Collections.unmodifiableList(joinOrConditionList);
+	}
+
 	public String getJoinTableName() {
 		return joinTableName;
 	}
@@ -51,6 +61,14 @@ public class GtnFrameworkJoinClauseBean implements Serializable {
 		joinConditionBean.setColumnNameWithAlies(leftPartColumnNameWithAlies, rightPartColumnNameWithAlies,
 				joinOperator);
 		conditionList.add(joinConditionBean);
+	}
+
+	public void addOrConditionBean(String leftPartColumnNameWithAlies, String rightPartColumnNameWithAlies,
+			GtnFrameworkOperatorType joinOperator) {
+		GtnFrameworkJoinConditionBean joinConditionBean = new GtnFrameworkJoinConditionBean();
+		joinConditionBean.setColumnNameWithAlies(leftPartColumnNameWithAlies, rightPartColumnNameWithAlies,
+				joinOperator);
+		joinOrConditionList.add(joinConditionBean);
 	}
 
 	public void initializeVariables(String joinTableName, String tableAliesName, GtnFrameworkJoinType joinType) {

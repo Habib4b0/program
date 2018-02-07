@@ -387,13 +387,12 @@ public class GtnWsComplianceDeductionAndRulesController {
 
 			cdrNotesQueryDataTypeList.add(GtnFrameworkDataType.STRING);
 			cdrNotesQueryParamList.add(notesTabRequest.getMasterTableName());
-
+			
 			cdrNotesQueryDataTypeList.add(GtnFrameworkDataType.STRING);
 			cdrNotesQueryParamList.add(notesTabRequest.getFilePath());
-
-			cdrNotesQueryDataTypeList.add(GtnFrameworkDataType.STRING);
+			
+			cdrNotesQueryDataTypeList.add(GtnFrameworkDataType.INTEGER);
 			cdrNotesQueryParamList.add(ruleInfoBean.getUserId());
-
 		}
 		if (cdrNoteTabFinalQuery.length() > 0) {
 			return sqlQueryEngine.executeInsertOrUpdateQuery(cdrNoteTabFinalQuery.toString(),

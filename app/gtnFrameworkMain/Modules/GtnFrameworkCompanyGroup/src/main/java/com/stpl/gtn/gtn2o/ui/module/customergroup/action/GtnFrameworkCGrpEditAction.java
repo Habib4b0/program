@@ -54,6 +54,7 @@ public class GtnFrameworkCGrpEditAction
 		cGrpBean.setGtnCompanyGrpInformationBean(cGrpInfoBean);
 		int systemId = (Integer) gtnWsRecordBean.getPropertyValueByIndex(7);
 		cGrpInfoBean.setCompanyGrpSid(systemId);
+		cGrpInfoBean.setVersionNo((Integer) gtnWsRecordBean.getPropertyValueByIndex(3));
 		GtnUIFrameworkGlobalUI.addSessionProperty("companyGrpSid", systemId);
 		GtnCompanyGroupRequest cGrpRequest = new GtnCompanyGroupRequest();
 		cGrpRequest.setGtnCompanyGroupBean(cGrpBean);
