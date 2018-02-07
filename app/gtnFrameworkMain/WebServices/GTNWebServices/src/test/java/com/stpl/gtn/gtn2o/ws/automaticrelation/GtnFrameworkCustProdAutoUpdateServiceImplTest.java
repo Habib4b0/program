@@ -68,7 +68,7 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 			System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
 
 			String userId = "10948";
-			service.checkAndUpdateAutomaticRelationship(575, userId);
+			service.checkAndUpdateAutomaticRelationship(575);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
