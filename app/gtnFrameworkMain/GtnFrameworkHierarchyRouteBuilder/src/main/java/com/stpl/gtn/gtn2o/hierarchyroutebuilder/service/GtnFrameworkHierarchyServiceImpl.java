@@ -315,14 +315,11 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 					GtnFrameworkOperatorType.NOT_EQUAL_TO, GtnFrameworkDataType.STRING,
 					tableBean.getInboundStatusValue());
 		}
-		GtnFramworkTableBean tableBean = entityMasterBean
-				.getEntityBeanByTableName(queryBaen.getFromTableName());
+		GtnFramworkTableBean tableBean = entityMasterBean.getEntityBeanByTableName(queryBaen.getFromTableName());
 		if (tableBean.getInboundStatusColumn() == null)
 			return;
 		queryBaen.addWhereClauseBean(tableBean.getInboundStatusColumn(queryBaen.getFromTableAlies()), null,
-				GtnFrameworkOperatorType.NOT_EQUAL_TO, GtnFrameworkDataType.STRING,
-				tableBean.getInboundStatusValue());
-		
+				GtnFrameworkOperatorType.NOT_EQUAL_TO, GtnFrameworkDataType.STRING, tableBean.getInboundStatusValue());
 
 	}
 
