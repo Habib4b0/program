@@ -87,7 +87,7 @@ public class NMDiscountExcelLogic {
             discountProjectionDTO.setParentHierarchyNo(parentHierarchy);
             discountProjectionDTO.setHierarchyLevel(String.valueOf(hierarchyLevelDetails.get(hierarchyNo).get(1)));
             if (Constant.TRADINGPARTNER.equalsIgnoreCase(discountProjectionDTO.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(discountProjectionDTO.getHierarchyLevel())) {
-                discountProjectionDTO.setGroup(String.valueOf(obj[NumericConstants.ONE]));
+                discountProjectionDTO.setGroup(StringUtils.EMPTY);
             } else {
                 discountProjectionDTO.setGroup(StringUtils.EMPTY);
             }
