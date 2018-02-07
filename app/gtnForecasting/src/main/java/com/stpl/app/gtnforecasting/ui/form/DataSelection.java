@@ -758,66 +758,14 @@ public class DataSelection extends ForecastDataSelection {
 				session.setProductLevelNumber(String.valueOf(selectionDTO.getProductHierarchyLevel()));
 				session.setCustomerLevelNumber(String.valueOf(selectionDTO.getCustomerHierarchyLevel()));
 				customerRelationship();
-				if (selectionDTO.getCustomerHierSid() != null
-						&& !StringUtils.EMPTY.equals(String.valueOf(selectionDTO.getCustomerHierSid()))
-						&& !Constants.CommonConstants.NULL.getConstant()
-								.equals(String.valueOf(selectionDTO.getCustomerHierSid()))) {
-					customerHierarchyDto = new HierarchyLookupDTO();
-					customerHierarchyDto
-							.setHierarchyId(UiUtils.parseStringToInteger(selectionDTO.getCustomerHierSid()));
-					customerHierarchyDto.setHierarchyName(selectionDTO.getCustomerHierarchy());
-					customerHierarchy.setValue(customerHierarchyDto.getHierarchyName());
-					loadCustomerLevel();
-					if (!StringUtils.isBlank(selectionDTO.getCustomerHierarchyInnerLevel())
-							&& !Constants.CommonConstants.NULL.getConstant()
-									.equals(selectionDTO.getCustomerHierarchyInnerLevel())) {
-						loadInnerCustomerLevel();
-					}
-				}
+				customerLevel();
 				productRelationship();
-				if (selectionDTO.getProdHierSid() != null
-						&& !StringUtils.EMPTY.equals(String.valueOf(selectionDTO.getProdHierSid()))
-						&& !Constants.CommonConstants.NULL.getConstant()
-								.equals(String.valueOf(selectionDTO.getProdHierSid()))) {
-					productHierarchyDto = new HierarchyLookupDTO();
-					productHierarchyDto.setHierarchyId(UiUtils.parseStringToInteger(selectionDTO.getProdHierSid()));
-					productHierarchyDto.setHierarchyName(selectionDTO.getProductHierarchy());
-					productHierarchy.setValue(productHierarchyDto.getHierarchyName());
-					loadProductLevel();
-					if (!StringUtils.isBlank(selectionDTO.getProductHierarchyInnerLevel())
-							&& !Constants.CommonConstants.NULL.getConstant()
-									.equals(selectionDTO.getProductHierarchyInnerLevel())) {
-						loadInnerProductLevel();
-					}
-				}
+				productLevel();
 
-				if (selectionDTO.getProdGrpSid() != null
-						&& !StringUtils.EMPTY.equals(String.valueOf(selectionDTO.getProdGrpSid()))
-						&& !Constants.CommonConstants.NULL.getConstant()
-								.equals(String.valueOf(selectionDTO.getProdGrpSid()))) {
-					selectedProductGroupDTO = new GroupDTO();
-					selectedProductGroupDTO.setProductGroupSid(String.valueOf(selectionDTO.getProdGrpSid()));
-					selectedProductGroupDTO.setProductGroupName(selectionDTO.getProductGroup());
-					triggerProdGrpOnView(selectionDTO.getProdGrpSid(), true);
-				}
-				if (selectionDTO.getCustomerGrpSid() != null
-						&& !StringUtils.EMPTY.equals(String.valueOf(selectionDTO.getCustomerGrpSid()))
-						&& !Constants.CommonConstants.NULL.getConstant()
-								.equals(String.valueOf(selectionDTO.getCustomerGrpSid()))) {
-					selectedCustomerGroupDTO = new GroupDTO();
-					selectedCustomerGroupDTO.setCustomerGroupSid(String.valueOf(selectionDTO.getCustomerGrpSid()));
-					selectedCustomerGroupDTO.setCustomerGroupName(selectionDTO.getCustomerGroup());
-					triggerCustGrpOnView(selectionDTO.getCustomerGrpSid(), true);
-				}
+				productGroup();
+				customerGroup();
 
-				if (selectionDTO.getCompanySid() == null
-						|| Constants.CommonConstants.NULL.getConstant()
-								.equalsIgnoreCase(selectionDTO.getSelectedCompanyName())
-						|| "0".equals(selectionDTO.getCompanySid())) {
-					company.setValue(0);
-				} else {
-					company.setValue(selectionDTO.getCompanySid());
-				}
+				companySid();
 
 				businessUnit.setValue(selectionDTO.getBusinessUnitSystemId());
 				
@@ -830,6 +778,78 @@ public class DataSelection extends ForecastDataSelection {
 
 		} catch (Property.ReadOnlyException ex) {
 			LOGGER.error(ex + " in initializeFromDto ");
+		}
+	}
+
+	private void companySid() {
+		if (selectionDTO.getCompanySid() == null
+				|| Constants.CommonConstants.NULL.getConstant()
+						.equalsIgnoreCase(selectionDTO.getSelectedCompanyName())
+				|| "0".equals(selectionDTO.getCompanySid())) {
+			company.setValue(0);
+		} else {
+			company.setValue(selectionDTO.getCompanySid());
+		}
+	}
+
+	private void customerGroup() {
+		if (selectionDTO.getCustomerGrpSid() != null
+				&& !StringUtils.EMPTY.equals(String.valueOf(selectionDTO.getCustomerGrpSid()))
+				&& !Constants.CommonConstants.NULL.getConstant()
+						.equals(String.valueOf(selectionDTO.getCustomerGrpSid()))) {
+			selectedCustomerGroupDTO = new GroupDTO();
+			selectedCustomerGroupDTO.setCustomerGroupSid(String.valueOf(selectionDTO.getCustomerGrpSid()));
+			selectedCustomerGroupDTO.setCustomerGroupName(selectionDTO.getCustomerGroup());
+			triggerCustGrpOnView(selectionDTO.getCustomerGrpSid(), true);
+		}
+	}
+
+	private void productGroup() {
+		if (selectionDTO.getProdGrpSid() != null
+				&& !StringUtils.EMPTY.equals(String.valueOf(selectionDTO.getProdGrpSid()))
+				&& !Constants.CommonConstants.NULL.getConstant()
+						.equals(String.valueOf(selectionDTO.getProdGrpSid()))) {
+			selectedProductGroupDTO = new GroupDTO();
+			selectedProductGroupDTO.setProductGroupSid(String.valueOf(selectionDTO.getProdGrpSid()));
+			selectedProductGroupDTO.setProductGroupName(selectionDTO.getProductGroup());
+			triggerProdGrpOnView(selectionDTO.getProdGrpSid(), true);
+		}
+	}
+
+	private void productLevel() {
+		if (selectionDTO.getProdHierSid() != null
+				&& !StringUtils.EMPTY.equals(String.valueOf(selectionDTO.getProdHierSid()))
+				&& !Constants.CommonConstants.NULL.getConstant()
+						.equals(String.valueOf(selectionDTO.getProdHierSid()))) {
+			productHierarchyDto = new HierarchyLookupDTO();
+			productHierarchyDto.setHierarchyId(UiUtils.parseStringToInteger(selectionDTO.getProdHierSid()));
+			productHierarchyDto.setHierarchyName(selectionDTO.getProductHierarchy());
+			productHierarchy.setValue(productHierarchyDto.getHierarchyName());
+			loadProductLevel();
+			if (!StringUtils.isBlank(selectionDTO.getProductHierarchyInnerLevel())
+					&& !Constants.CommonConstants.NULL.getConstant()
+							.equals(selectionDTO.getProductHierarchyInnerLevel())) {
+				loadInnerProductLevel();
+			}
+		}
+	}
+
+	private void customerLevel() {
+		if (selectionDTO.getCustomerHierSid() != null
+				&& !StringUtils.EMPTY.equals(String.valueOf(selectionDTO.getCustomerHierSid()))
+				&& !Constants.CommonConstants.NULL.getConstant()
+						.equals(String.valueOf(selectionDTO.getCustomerHierSid()))) {
+			customerHierarchyDto = new HierarchyLookupDTO();
+			customerHierarchyDto
+					.setHierarchyId(UiUtils.parseStringToInteger(selectionDTO.getCustomerHierSid()));
+			customerHierarchyDto.setHierarchyName(selectionDTO.getCustomerHierarchy());
+			customerHierarchy.setValue(customerHierarchyDto.getHierarchyName());
+			loadCustomerLevel();
+			if (!StringUtils.isBlank(selectionDTO.getCustomerHierarchyInnerLevel())
+					&& !Constants.CommonConstants.NULL.getConstant()
+							.equals(selectionDTO.getCustomerHierarchyInnerLevel())) {
+				loadInnerCustomerLevel();
+			}
 		}
 	}
 
