@@ -1,54 +1,61 @@
 
 package com.stpl.app.gtnforecasting.salesprojection.form;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjection;
-import com.stpl.app.gtnforecasting.dto.SalesRowDto;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.logic.Utility;
-import com.stpl.app.gtnforecasting.lookups.MPmpyCalculator;
-import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.MSalesProjectionTableLogic;
-import com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.ui.ForecastUI;
-import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
-import com.stpl.app.gtnforecasting.utils.FunctionNameUtil;
-import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
-import com.stpl.app.security.StplSecurity;
-import com.stpl.app.security.permission.model.AppPermission;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUAL;
-import com.stpl.app.utils.UiUtils;
-import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.stpl.ifs.util.ExtCustomTableHolder;
-import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Window;
-import com.vaadin.v7.ui.HorizontalLayout;
+import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjection;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.dto.SalesRowDto;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.logic.Utility;
+import com.stpl.app.gtnforecasting.lookups.MPmpyCalculator;
+import com.stpl.app.gtnforecasting.salesprojection.logic.NMSalesExcelLogic;
+import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.MSalesProjectionTableLogic;
+import com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.ui.ForecastUI;
+import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.FunctionNameUtil;
+import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
+import com.stpl.app.security.StplSecurity;
+import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.utils.UiUtils;
+import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Window;
+import com.vaadin.v7.ui.HorizontalLayout;
 
 /**
  * Mandated Sales Projection.
@@ -65,7 +72,9 @@ public class MSalesProjection extends ForecastSalesProjection {
     private final List<String> projectedPeriodList = new ArrayList();
     private SalesRowDto salesPMPYDTO = new SalesRowDto();
     private final Set<String> tableHierarchyNos = new HashSet<>();
-
+    private final Map<String, Object> excelParentRecords = new HashMap();
+    protected String ALL = "ALL";
+    
     public MSalesProjection(SessionDTO session, String screenName) throws PortalException, SystemException  {
         super(session, screenName);
         this.scrnName = screenName;
@@ -104,7 +113,7 @@ public class MSalesProjection extends ForecastSalesProjection {
     protected void excelExportLogic() {
         try {
             configureExcelResultTable();
-            levelFilterDdlbChangeOption(true);
+            getExcelSalesCommercial();
             excelTable.setRefresh(Boolean.TRUE);
             if (excelTable.size() > 0) {
                 ForecastUI.setEXCEL_CLOSE(true);
@@ -536,5 +545,47 @@ public class MSalesProjection extends ForecastSalesProjection {
     public static void setRowCountMap(Map<String, Integer> rowCountMap) {
             MSalesProjection.rowCountMap = rowCountMap;
     }
+    
+    private void getExcelSalesCommercial() {
+        try {
+            List<Object[]> salesExcelList = getSalesExcelResults(projectionDTO);
+            NMSalesExcelLogic nmSalesExcelLogic = new NMSalesExcelLogic();
+            List historyColumn = salesLogic.getHistoryColumn(salesLogic.getHeader(projectionDTO));
+            nmSalesExcelLogic.getCustomizedExcelData(salesExcelList, projectionDTO, historyColumn);
+            SalesRowDto itemId = new SalesRowDto();
+            for (Iterator<String> it = nmSalesExcelLogic.getHierarchyKeys().listIterator(); it.hasNext();) {
+                String key = it.next();
+                it.remove();
+                if (nmSalesExcelLogic.getResultMap().containsKey(key)) {
+                    itemId = nmSalesExcelLogic.getResultMap().get(key);
+                    nmSalesExcelLogic.getResultMap().remove(key);
+                }
+                excelContainer.addBean(itemId);
+                Object parentItemId;
+                    String parentKey = CommonUtil.getParentItemId(key, projectionDTO.isIsCustomHierarchy(), itemId.getParentHierarchyNo());
+                    parentItemId = excelParentRecords.get(parentKey);
+
+                    if (parentItemId != null) {
+                        excelContainer.setParent(itemId, parentItemId);
+                    }
+                    parentItemId = itemId;
+                    excelParentRecords.put(key, itemId);
+                    excelContainer.setChildrenAllowed(itemId, true);
+            }
+            excelContainer.sort(new Object[]{"levelName"}, new boolean[]{true});
+        } catch (Exception e) {
+        	LOGGER.error(e.getMessage());
+        }
+    }
+
+    private List<Object[]> getSalesExcelResults(ProjectionSelectionDTO projectionSelectionDTO) {
+         int customMasterSid = Integer.valueOf(viewDdlb.getValue() == null ? "0" : viewDdlb.getValue().toString());
+         Object[] orderedArg = {projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionDTO().getSessionId(), projectionSelectionDTO.getLevelNo(),
+                 projectionSelectionDTO.getFrequency().substring(0, 1), projectionSelectionDTO.isIsCustomHierarchy() ? "D" : projectionSelectionDTO.getHierarchyIndicator(),
+               "Sales","0", projectionSelectionDTO.getHierarchyNo(),
+                projectionSelectionDTO.getLevelNo(), null, customMasterSid, null, projectionSelectionDTO.getUomCode(), ALL.equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion(), ALL.equals(projectionSelectionDTO.getSessionDTO().getDeductionInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getDeductionInclusion(),null,"Sales"};
+            return CommonLogic.callProcedure("PRC_PROJECTION_VARIANCE", orderedArg);
+    }
+
 }
 

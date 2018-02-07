@@ -702,4 +702,36 @@ public class CommonUtil {
         }
     }
 
+	public static String getParentHierarchyNumber(String parentHierarchyNo, String key) {
+		String parentKey;
+		if (parentHierarchyNo == null || "null".equals(parentHierarchyNo)) {
+			parentKey = key.substring(0, key.lastIndexOf('.'));
+		} else {
+			parentKey = parentHierarchyNo;
+			if (parentKey.contains("~")) {
+				parentKey = parentKey.substring(parentKey.lastIndexOf('~') + 1);
+
+			}
+			parentKey = parentKey.substring(parentKey.indexOf('-') + 1);
+		}
+
+		return parentKey;
+	}
+
+	public static String getParentItemId(String key, boolean isCustomHierarchy, String parentHierarchyNo) {
+		String parentKey;
+
+		if (!isCustomHierarchy) {
+			parentKey = key.substring(0, key.lastIndexOf('.'));
+		} else {
+			parentKey = getParentHierarchyNumber(parentHierarchyNo, key);
+
+		}
+		if (parentKey.lastIndexOf('.') >= 0) {
+			parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
+		}
+
+		return parentKey;
+	}
+
 }
