@@ -24,7 +24,7 @@ public class GtnFrameworkNsfAlertNoAction implements GtnUIFrameWorkAction, GtnUI
 		List<Object> actionParemeterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String viewId = (String) actionParemeterList.get(1);
 		String formulaTypeValue = String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty(FORMULA_TYPE));
-		if (formulaTypeValue != "null") {
+		if (!"null".equals(formulaTypeValue)) {
 			GtnUIFrameworkBaseComponent formulaTypeComponenet = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(viewId + FORMULA_TYPE);
 			formulaTypeComponenet.loadComboBoxComponentValue(
