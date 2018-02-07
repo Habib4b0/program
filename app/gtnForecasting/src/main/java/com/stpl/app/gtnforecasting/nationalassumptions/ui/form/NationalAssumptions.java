@@ -1422,7 +1422,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     itemMasterSidMap.put(Integer.parseInt(String.valueOf(obj[0])), ndcDesc);
                     nonFampMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.FIVE]));
                     fssMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.SIX]));
-                    federalWacMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.SEVEN]));
+                    federalWacMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.FOUR]));
 
                     NewNdcDTO ndcDto = new NewNdcDTO();
                     ndcDto.setItemMasterSid(Integer.parseInt(String.valueOf(obj[0])));

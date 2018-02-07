@@ -129,6 +129,8 @@ public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAut
 			inputs.add(updatedVersionNo);
 			inputs.add(hierarchyLevelBean.getLevelNo());
 			inputs.add(updatedVersionNo - 1);
+			inputs.add(hierarchyLevelBean.getLevelNo());
+			inputs.add(updatedVersionNo - 1);
 			hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);
 			String finalQuery = gtnWsSqlService.getReplacedQuery(inputs, querygeneratorBean.generateQuery());
 			List<String> insertQueryInput = new ArrayList<>();

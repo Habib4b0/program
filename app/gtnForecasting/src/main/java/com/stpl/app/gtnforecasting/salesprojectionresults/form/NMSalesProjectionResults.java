@@ -1330,11 +1330,11 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         editBtn.setTabIndex(NumericConstants.SIXTEEN);
         excelBtn.setTabIndex(NumericConstants.SEVENTEEN);
         graphBtn.setTabIndex(NumericConstants.EIGHTEEN);
-        AbstractForm.getBtnSave().setTabIndex(NumericConstants.NINETEEN);
-        AbstractForm.getBtnPrev().setTabIndex(NumericConstants.TWENTY);
-        AbstractForm.getBtnNext().setTabIndex(NumericConstants.TWENTY_ONE);
-        AbstractForm.getBtnClose().setTabIndex(NumericConstants.TWENTY_TWO);
-        AbstractForm.getBtnSubmit().setTabIndex(NumericConstants.TWENTY_THREE);
+//        AbstractForm.getBtnSave().setTabIndex(NumericConstants.NINETEEN);
+//        AbstractForm.getBtnPrev().setTabIndex(NumericConstants.TWENTY);
+//        AbstractForm.getBtnNext().setTabIndex(NumericConstants.TWENTY_ONE);
+//        AbstractForm.getBtnClose().setTabIndex(NumericConstants.TWENTY_TWO);
+//        AbstractForm.getBtnSubmit().setTabIndex(NumericConstants.TWENTY_THREE);
     }
 
     /**
