@@ -5,9 +5,9 @@
  */
 package com.stpl.sso.autologin;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
  * @author Jayaram.LeelaRam
  */
 public class StplBPMUserCreation {
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StplBPMUserCreation.class);
     public static final String FWD_SLASH = "\\";
@@ -72,27 +73,20 @@ public class StplBPMUserCreation {
     }
 
     private void getAESEncryptedValueUsingJS(String username) {
-    	
-        String scriptFile = System.getProperty("jboss.home.dir");
-        if (!"null".equals(scriptFile)) {
             try {
-                scriptFile = scriptFile.replace(FWD_SLASH, BWD_SLASH) + "/standalone/deployments/ROOT.war/html/js/aes.js";
-                ScriptEngineManager manager = new ScriptEngineManager();
-                ScriptEngine engine = manager.getEngineByName("javascript");
-                engine.eval(new FileReader(new File(scriptFile)));
-                engine.put("bpmUserObject", this);
+                InputStream in = getClass().getResourceAsStream("/aes.js"); 
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                ScriptEngineManager manager = new ScriptEngineManager(ClassLoader.getSystemClassLoader());
+                ScriptEngine engine = manager.getEngineByName("nashorn");
+                engine.eval(reader);
+                engine.put("bpmUserObject", this);	
                 engine.eval(" var encryptedValue = CryptoJS.AES.encrypt('" + username + "', 'Secret Passphrase'); ");
                 engine.eval(" bpmUserObject.setEncryptedValue(this.encryptedValue); ");
                 LOGGER.info("Encrypted Text  = " + this.getEncryptedValue());
-            } catch (FileNotFoundException ex) {
-                LOGGER.error("aes.js file doesn't exists");
-                LOGGER.error(ex.getMessage());
-            } catch (ScriptException ex) {
+            }  catch (ScriptException ex) {
                 LOGGER.error(ex.getMessage());
             }
-        } else {
-            LOGGER.error(" Jboss home is not yet set");
-        }
+        
     }
 
     public String getEncryptedValue() {
