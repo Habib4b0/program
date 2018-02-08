@@ -56,7 +56,6 @@ import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
 import static com.stpl.app.utils.Constants.LabelConstants.ACTUALS;
-import static com.stpl.app.utils.Constants.LabelConstants.AMOUNT;
 import static com.stpl.app.utils.Constants.LabelConstants.ASCENDING;
 import static com.stpl.app.utils.Constants.LabelConstants.CUSTOM;
 import static com.stpl.app.utils.Constants.LabelConstants.CUSTOMER;
@@ -130,14 +129,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
-import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox.ClickListener;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
 import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
@@ -825,13 +822,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		}
 	};
 
-	private final ClickListener clickListener = new ClickListener() {
+	private final BlurListener checkBoxValueChangeListener = new BlurListener() {
 		@Override
-		public void click(ExtCustomCheckBox.ClickEvent event) {
+		public void blur(FieldEvents.BlurEvent event) {
 			Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
 			final String tableHierarchyNo = tableLogic.getTreeLevelonCurrentPage(obj[0]);
 			DiscountProjectionDTO dto = (DiscountProjectionDTO) obj[0];
-			Boolean checkValue = ((ExtCustomCheckBox) ((AbstractComponent) event.getComponent())).getValue();
+			Boolean checkValue = ((ExtCustomCheckBox) ((AbstractComponent) event.getComponent())).getValue(); 
 			if (isGroupUpdatedManually) {
 				NotificationUtils.getAlertNotification(Constant.GROUP_FILTER_CONFLICT,
 						Constant.GROUP_VALUE_VERIFICATION);
@@ -1552,7 +1549,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						check.setEnabled(!ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()));
 						check.setImmediate(true);
 						check.setData(new Object[] { itemId, propertyId });
-						check.addClickListener(clickListener);
+						check.addBlurListener(checkBoxValueChangeListener);
 						return check;
 					}
 
