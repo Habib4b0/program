@@ -181,7 +181,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     private void addAttachments() {
         Label addAttachmentLable = new Label("Attachment");
         addAttachmentLable.addStyleName("attachment");
-        fileNameField.setImmediate(true);
         fileNameField.setMaxLength(NumericConstants.TWO_FIVE_ZERO);
         fileNameField.addValidator(new StringLengthValidator(" File Name Should be less than 250 characters", 0, NumericConstants.TWO_FIVE_ZERO, true));
 
@@ -213,7 +212,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         table.addStyleName(Constant.FILTERBAR);
         table.setFilterBarVisible(true);
         table.setFilterDecorator(new ExtDemoFilterDecorator());
-        table.setImmediate(true);
         table.setPageLength(NumericConstants.SEVEN);
         table.setContainerDataSource(attachmentsListBean);
         table.setSelectable(true);
@@ -228,7 +226,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         fileNameLb.addStyleName("filenamelable");
         fileNameLb.addStyleName("mandatory");
         uploader.setStyleName(Constant.SEARCH_TEXT);
-        uploader.setImmediate(true);
         uploader.setEnabled(false);
         uploadComponent.setStyleName("uploadIdBB");
         internalNotes.setEnabled(true);
@@ -328,13 +325,11 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
 
         newNote.setSizeFull();
         newNote.setRows(NumericConstants.SEVEN);
-        newNote.setImmediate(true);
         newNote.setMaxLength(NumericConstants.THOUSAND);
         newNote.addValidator(new StringLengthValidator(" New Note Should be less than 1000 characters", 0, NumericConstants.THOUSAND, true));
         internalNotes.setSizeFull();
         internalNotes.setRows(NumericConstants.SEVEN);
         internalNotes.markAsDirty();
-        internalNotes.setImmediate(true);
         internalNotes.setEnabled(false);
         uploadComponent.setButtonCaption(Constant.ADD);
         addNote.addClickListener(new Button.ClickListener() {
@@ -581,7 +576,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
 
     private static Object[] getCollapsibleColumnsDefault(ExtFilterTable table, int length) {
         table.setColumnCollapsingAllowed(true);
-        table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
         List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));
