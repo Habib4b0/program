@@ -211,7 +211,7 @@
             <version>1.7.2</version>
         </dependency>
         <dependency>
-            <groupId>com.stpl.addons</groupId>
+            <groupId>org.vaadin.addons</groupId>
             <artifactId>lazy-container</artifactId>
             <version>${lazy.container.version}</version>
             <scope>provided</scope>

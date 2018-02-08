@@ -28,7 +28,5 @@
 
     <inherits name="org.asi.ui.extcustomcheckbox.ExtCustomCheckBoxWidgetSet" />
 
-    
-
-    <inherits name="org.vaadin.alump.beforeunload.BeforeUnloadWidgetSet" />
+    <inherits name="org.vaadin.alump.beforeunload.gwt.BeforeUnloadWidgetSet" />
 </module>
