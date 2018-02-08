@@ -348,7 +348,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             pvSelectionDTO.setForecastDTO(getHistoricalPeriods(dataSelectionDTO));
             pvSelectionDTO.setComparisonBasis(String.valueOf(comparisonBasis.getValue()));
             pvSelectionDTO.setDisplayFormat(CommonUtils.getDisplayFormatSelectedValues(displayFormatValues));
-            pvSelectionDTO.setConversionFactor(conversionFactorDdlb);
+            pvSelectionDTO.setConversionFactor(conversionFactorDdlb.getValue());
             viewChange(false);
             groupChange(false);
             setCurrentHierarchy(new ArrayList<Leveldto>(viewChangeHierarchy));
