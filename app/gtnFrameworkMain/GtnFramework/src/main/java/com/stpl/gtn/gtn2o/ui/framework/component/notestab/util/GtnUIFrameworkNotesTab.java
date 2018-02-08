@@ -314,7 +314,8 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 		table.setColumnHeaders(objHeaders);
 
 		removeAndDisablingComponents(isViewMode);
-
+		
+		documentExporter();
 	}
 
 	private void init() {
@@ -973,7 +974,7 @@ public class GtnUIFrameworkNotesTab extends CustomComponent {
 			attachmentsListBean.removeAllItems();
 			attachmentsListBean.addAll((List<NotesDTO>) (data.get(1)));
 		}
-
+		documentExporter();
 	}
 
 	public void refreshNotesTab() {

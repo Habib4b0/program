@@ -21,7 +21,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
  *
  * @author STPL
  */
-public class GtnUiFrameworkNsfSaveConfirmationAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
+public class GtnUiFrameworkNsfSaveConfirmationAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -41,21 +41,34 @@ public class GtnUiFrameworkNsfSaveConfirmationAction implements GtnUIFrameWorkAc
 		alertParams.add(" Save record "
 				+ GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "formulaName").getStringFromField() + "?");
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfig = new ArrayList<>();
+		if (!componentId.contains("back")) {
+			saveRecordAction(viewId, onSucessActionConfig);
+			GtnUIFrameWorkActionConfig customSaveAction = new GtnUIFrameWorkActionConfig();
+			customSaveAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			customSaveAction.addActionParameter(GtnUiFrameworkNsfSaveAction.class.getName());
+			customSaveAction.addActionParameter(viewId);
 
-		GtnUIFrameWorkActionConfig customSaveAction = new GtnUIFrameWorkActionConfig();
-		customSaveAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		customSaveAction.addActionParameter(GtnUiFrameworkNsfSaveAction.class.getName());
-		customSaveAction.addActionParameter(viewId);
-
-		onSucessActionConfig.add(customSaveAction);
-		alertParams.add(onSucessActionConfig);
-		confirmationActionConfig.setActionParameterList(alertParams);
-		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmationActionConfig);
+			onSucessActionConfig.add(customSaveAction);
+			alertParams.add(onSucessActionConfig);
+			confirmationActionConfig.setActionParameterList(alertParams);
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, confirmationActionConfig);
+		} else {
+			saveRecordAction(viewId, onSucessActionConfig);
+		}
 	}
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		return this;
+	}
+
+	private void saveRecordAction(String viewId, List onSucessActionConfig) {
+		GtnUIFrameWorkActionConfig customSaveAction = new GtnUIFrameWorkActionConfig();
+		customSaveAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customSaveAction.addActionParameter(GtnUiFrameworkNsfSaveAction.class.getName());
+		customSaveAction.addActionParameter(viewId);
+		onSucessActionConfig.add(customSaveAction);
+
 	}
 
 }

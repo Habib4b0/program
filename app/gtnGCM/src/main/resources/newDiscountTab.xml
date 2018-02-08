@@ -34,7 +34,7 @@ and open the template in the editor.
         <Panel id="contractProcessingDashboard" caption="Contract Processing Dashboard" >
             <VerticalLayout width="100%">
                 <HorizontalLayout width="100%">
-                    <VerticalLayout spacing="true">
+                    <VerticalLayout spacing="true" width="60%">
                         <Panel id="componentSelection" caption="Component Selection" height="30%">
                             <HorizontalLayout margin="true" spacing="true">
                                 <VerticalLayout>
@@ -193,7 +193,7 @@ and open the template in the editor.
                         </Panel>
                     </VerticalLayout>
                 
-                    <VerticalLayout spacing="true" height="100%">
+                    <VerticalLayout spacing="true"  width="40%" height="100%">
                         <Panel id="contractDashBoardResults" caption="Contract DashBoard Results" width="100%"  height="100%">
                             <VerticalLayout>
                                 <TreeTable id="dashboardResultsTable" 

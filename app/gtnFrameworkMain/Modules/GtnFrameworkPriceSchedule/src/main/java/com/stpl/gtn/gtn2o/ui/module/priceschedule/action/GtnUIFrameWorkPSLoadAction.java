@@ -161,7 +161,8 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 				attachmentDTO.setDocumentName("--");
 				String tempfilePath = notesTabBean.getFilePath();
 				attachmentDTO.setDocumentFullPath(tempfilePath);
-				String fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length());
+				String fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.lastIndexOf('_'))
+						+ filePath.substring(filePath.lastIndexOf('.'));
 				attachmentDTO.setDocumentName(fileName);
 				SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
 				TimeZone central = TimeZone.getTimeZone("CST");

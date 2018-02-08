@@ -387,8 +387,8 @@ public class Copycomponents extends CustomComponent {
                     return null;
                 }
             });
-            cfpDetailsNo.setReadOnly(true);
-            cfpDetailsName.setReadOnly(true);
+            cfpDetailsNo.setEnabled(false);
+            cfpDetailsName.setEnabled(false);
 
         } catch (Exception ex) {
             LOGGER.error("",ex);
