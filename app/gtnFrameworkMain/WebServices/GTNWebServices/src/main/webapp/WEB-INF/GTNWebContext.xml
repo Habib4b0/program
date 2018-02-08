@@ -292,6 +292,11 @@
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldAdjustedDemandForecast.hbm.xml
 				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldReturnRateForecast.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldItemUom.hbm.xml
+				</value>
+				
 				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagActualMaster.hbm.xml
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagAdjustedDemandActual.hbm.xml
@@ -383,6 +388,10 @@
 				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwCffOutboundMaster.hbm.xml
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StCffOutboundMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagReturnRateForecast.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagItemUom.hbm.xml
 				</value>
 			</list>
 		</property>
