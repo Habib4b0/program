@@ -274,8 +274,8 @@ public class Exixtingcomponent extends CustomComponent {
             ifpDetailsGrid.setVisible(false);
             psDetailsGrid.setVisible(false);
             rsDetailsGrid.setVisible(false);
-            cfpDetailsNo.setReadOnly(true);
-            cfpDetailsName.setReadOnly(true);
+            cfpDetailsNo.setEnabled(false);
+            cfpDetailsName.setEnabled(false);
         } catch (Exception ex) {
            LOGGER.error(ex.getMessage());
         }

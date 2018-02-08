@@ -75,11 +75,11 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The excel export image.
      */
-    private final Resource wordImage = new ThemeResource("../../icons/word.png");
+    private final Resource wordImage = new ThemeResource("img/word.png");
     /**
      * The graph image.
      */
-    private final Resource pdfImage = new ThemeResource("../../icons/pdf.png");
+    private final Resource pdfImage = new ThemeResource("img/pdf.png");
     /**
      * The excelBtn btn.
      */
@@ -168,12 +168,12 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The file path.
      */
-    private final File filePath = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId);
+    private final File filePath = CommonUtil.getFilePath(CommonUtil.getJbossHome() + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId);
     
     /**
      * The upload receiver.
      */
-    private FileUploader uploadReceiver = new FileUploader(basepath, MODULE_NAME);
+    private FileUploader uploadReceiver = new FileUploader( MODULE_NAME);
     /**
      * The add attachment.
      */
@@ -277,7 +277,8 @@ public class AdditionalInformation extends CustomComponent {
             @Override
             public void call(JsonArray arguments) {
                 File fileUpload;
-                final String value = String.valueOf(arguments.get(0));
+                elemental.json.impl.JreJsonString jsonstring=arguments.get(0);
+                final String value = jsonstring.asString();
                 fileUpload = CommonUtil.getFilePath(value);
                 final String name = fileUpload.getAbsolutePath();
                 if (name.contains("\\")) {

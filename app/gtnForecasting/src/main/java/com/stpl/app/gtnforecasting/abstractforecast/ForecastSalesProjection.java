@@ -639,6 +639,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 for (Object component : rightTable.getDoubleHeaderVisibleColumns()) {
                     if (!rightTable.getDoubleHeaderColumnCheckBoxDisable(component)) {
                         rightTable.setDoubleHeaderColumnCheckBox(component, true, isChecked);
+                        checkBoxMap.put(component, isChecked);
                     }
                 }
             }
@@ -1553,9 +1554,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     check.setValue(false);
                     check.setImmediate(true);
                     check.setEnabled(!ACTION_VIEW.getConstant().equals(session.getAction()));
-                    check.addClickListener(new ExtCustomCheckBox.ClickListener() {
-                        @Override
-                        public void click(ExtCustomCheckBox.ClickEvent event) {
+                    check.addBlurListener(new BlurListener() {
+		    @Override
+		    public void blur(FieldEvents.BlurEvent event) {
                             try {
                                 SalesRowDto checkDTO = (SalesRowDto) itemId;
                                 Boolean checkValue = check.getValue();
@@ -2339,6 +2340,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                             "Please enter a correct adjustment type and adjustment basis ");
                     return;
                 }
+            }
+            if (String.valueOf(getSelectedHistoryPeriods()).equals(StringUtils.EMPTY) && String.valueOf(getSelectedProjectionPeriods()).equals(StringUtils.EMPTY)) {
+            NotificationUtils.getErrorNotification("No period selected", "Please select which periods need to be included in the adjustment.");
+            return;
             }
             if (adjPeriod.equals(Constant.ALL)) {
                 projectionPeriods = getAllProjectionPeriods();

@@ -172,10 +172,11 @@ public class GtnWsItemGrpCotroller {
 			logger.info("Enter saveService");
 			if (itemGrpSid == null || itemGrpSid == 0) {
 				itemGrpSid = itemGrpService.saveItemGrpQuery(itemGrpBean);
+                                itemGrpBean.getItemGrpInfoBean().setVersionNo(1);
 			} else {
 				itemGrpService.updateItemGrpQuery(itemGrpBean);
 			}
-			count = itemGrpService.updateItemGrpDetailsTable(gtnWsRequest, itemGrpSid);
+			count = itemGrpService.updateItemGrpDetailsTable(gtnWsRequest, itemGrpSid, itemGrpBean);
 			itemGrpBean.getItemGrpInfoBean().setItemGrpSid(itemGrpSid);
 			GtnWsItemGroupResponse gtnCompanyGroupResponse = new GtnWsItemGroupResponse();
 			gtnCompanyGroupResponse.setGtnItemGrpInformationBean(itemGrpBean.getItemGrpInfoBean());

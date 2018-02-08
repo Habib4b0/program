@@ -18,6 +18,7 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderMultiSelectBean;
 
 /**
  *
@@ -37,6 +38,14 @@ public class GtnFrameworkRemoveFromTreeAction implements GtnUIFrameWorkAction, G
 		List<Object> parameters = gtnUIFrameWorkActionConfig.getActionParameterList();
 		removeTreeItems(gtnUIFrameWorkActionConfig, parameters.get(1).toString(), parameters.get(2).toString(),
 				componentId);
+		resetSelectedItemsList();
+	}
+
+	private void resetSelectedItemsList() {
+		GtnWsRelationshipBuilderMultiSelectBean relationshipBuilderMultiSelectBean = GtnWsRelationshipBuilderMultiSelectBean
+				.getInstance();
+		relationshipBuilderMultiSelectBean.getSelectedItemsList().clear();
+
 	}
 
 	private void removeTreeItems(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String treeId,

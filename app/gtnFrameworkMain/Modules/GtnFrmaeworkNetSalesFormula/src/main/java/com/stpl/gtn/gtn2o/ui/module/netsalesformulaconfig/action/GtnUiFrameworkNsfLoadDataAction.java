@@ -106,6 +106,8 @@ public class GtnUiFrameworkNsfLoadDataAction implements GtnUIFrameWorkAction, Gt
 		formulaNo.loadFieldValue(nsfInfoBean.getFormulaNo());
 		formulaName.loadFieldValue(nsfInfoBean.getFormulaName());
 		formulaType.loadComboBoxComponentValue(nsfInfoBean.getFormulaType());
+		String value = String.valueOf(nsfInfoBean.getFormulaType());
+		GtnUIFrameworkGlobalUI.addSessionProperty("formulaType", value);
 		formulaCategory.loadComboBoxComponentValue(nsfInfoBean.getFormulaCategory());
 
 		GtnWsRecordBean netSalesRuleBean = new GtnWsRecordBean();
