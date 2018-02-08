@@ -1554,9 +1554,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     check.setValue(false);
                     check.setImmediate(true);
                     check.setEnabled(!ACTION_VIEW.getConstant().equals(session.getAction()));
-                    check.addClickListener(new ExtCustomCheckBox.ClickListener() {
-                        @Override
-                        public void click(ExtCustomCheckBox.ClickEvent event) {
+                    check.addBlurListener(new BlurListener() {
+		    @Override
+		    public void blur(FieldEvents.BlurEvent event) {
                             try {
                                 SalesRowDto checkDTO = (SalesRowDto) itemId;
                                 Boolean checkValue = check.getValue();
