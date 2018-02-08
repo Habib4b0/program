@@ -99,7 +99,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
         uploadReceiver = (Receiver) new FileUploader(moduleName + "/" + userId);
         uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
-        filePath = CommonUtil.getFilePath(basepath + File.separator + "Documents" + File.separator + moduleName);
+        filePath = CommonUtil.getFilePath(CommonUtil.getJbossHome() + File.separator + "Documents" + File.separator + moduleName);
         wordFile = CommonUtil.getFilePath(filePath + File.separator + fileName + ExportWord.DOC_EXT);
         pdfFile = CommonUtil.getFilePath(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
         fileUploadPath = FileUploader.FILE_PATH + moduleName + "/" + userId + "/";
