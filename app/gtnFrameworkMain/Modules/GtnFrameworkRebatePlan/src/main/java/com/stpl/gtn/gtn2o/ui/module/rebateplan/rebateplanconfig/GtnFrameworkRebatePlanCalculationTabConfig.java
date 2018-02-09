@@ -35,7 +35,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		GtnUIFrameworkComponentConfig rpCalculationTabMainLayout = configProvider
 				.getVerticalLayoutConfig(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_TAB, false, null);
 		rpCalculationTabMainLayout.setTabComponent(true);
-		rpCalculationTabMainLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		rpCalculationTabMainLayout.addComponentStyle(GtnFrameworkStringConstants.WIDTH_AUTO);
 		componentList.add(rpCalculationTabMainLayout);
 
                 GtnUIFrameworkComponentConfig rpCalculationTabMainCssConfig = configProvider.getHorizontalLayoutConfig(
@@ -828,7 +828,6 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		GtnUIFrameworkComboBoxConfig valueConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkCommonConstants.TIER_PERCENT_VALUE, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		valueConfig.setNewItemsAllowed(true);
 		value.setGtnComboboxConfig(valueConfig);
 	}
 
