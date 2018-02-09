@@ -4997,11 +4997,11 @@ public class CommonLogic {
             switch (String.valueOf(hierarchyIndicator)) {
                 case Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY:
                     if (StringUtils.isNotBlank(productHierarchyNo)) {
-                        joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST+ productHierarchyNo +"', ',') C WHERE CCPH.PROD_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN");
+                        joinQuery.append(CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST+ productHierarchyNo +"', ',') C WHERE CCPH.PROD_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) CN");
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                         String hierarchyNo = "%" + deductionHierarchyNo + "%";
-                        dedJoin = RELATIONSHIP_LEVEL_DEFINITION_JOIN + hierarchyNo + RELATIONSHIP_BUILDER_SID + sessionDTO.getDedRelationshipBuilderSid() + " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n "
+                        dedJoin = RELATIONSHIP_LEVEL_DEFINITION_JOIN + hierarchyNo + RELATIONSHIP_BUILDER_SID + sessionDTO.getDedRelationshipBuilderSid() + " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=MAS.RS_CONTRACT_SID\n "
                                 + " AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
                     }
                     break;
@@ -5011,7 +5011,7 @@ public class CommonLogic {
                     }
                     if (StringUtils.isNotBlank(deductionHierarchyNo)) {
                          String hierarchyNo = "%" + deductionHierarchyNo + "%";
-                         dedJoin = RELATIONSHIP_LEVEL_DEFINITION_JOIN + hierarchyNo + RELATIONSHIP_BUILDER_SID + sessionDTO.getDedRelationshipBuilderSid() + " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n "
+                         dedJoin = RELATIONSHIP_LEVEL_DEFINITION_JOIN + hierarchyNo + RELATIONSHIP_BUILDER_SID + sessionDTO.getDedRelationshipBuilderSid() + " JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=MAS.RS_CONTRACT_SID\n "
                                 + " AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
                     }
                     break;
@@ -5147,24 +5147,24 @@ public class CommonLogic {
         return resultList;
     }
     
-    public String getHeaderForExcel(Character freq, Object[] obj,String discountId) {
+    public String getHeaderForExcel(Character freq, Object[] obj,String discountId,String separator) {
         String header;
         switch (freq) {
             case 'A':
                 header = discountId+String.valueOf(obj[NumericConstants.TWO]);
                 break;
             case 'Q':
-                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + "-" + obj[NumericConstants.TWO].toString();
+                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
                 break;
             case 'S':
-                header = discountId+Constant.S_SMALL + obj[NumericConstants.ONE].toString() + "-" + obj[NumericConstants.TWO].toString();
+                header = discountId+Constant.S_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
                 break;
             case 'M':
                 String monthName = getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.ONE])) - 1);
-                header = discountId+monthName.toLowerCase() + "-" + obj[NumericConstants.TWO].toString();
+                header = discountId+monthName.toLowerCase() + separator + obj[NumericConstants.TWO].toString();
                 break;
             default:
-                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + "-" + obj[NumericConstants.TWO].toString();
+                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
         }
         return header;
     }

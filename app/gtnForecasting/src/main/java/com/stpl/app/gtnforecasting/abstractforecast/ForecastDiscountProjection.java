@@ -564,9 +564,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         levelDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         levelDdlb.setValue(SELECT_ONE.getConstant());
         levelDdlb.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
-        levelDdlb.setImmediate(true);
         levelFilterDdlb.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
-        levelFilterDdlb.setImmediate(true);
         levelFilterDdlb.addItem(SELECT_ONE.getConstant());
         levelFilterDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         levelFilterDdlb.setValue(SELECT_ONE.getConstant());
@@ -684,7 +682,6 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
             variablesForMandated.addItem(DISCOUNT2.getConstant());
             variablesForMandated.addItem(ACCESS.getConstant());
             variablesForMandated.addItem(PARITY_SETTINGS.getConstant());
-            variablesForMandated.setImmediate(true);
             massCheck.setData(MASS_CHECK);
             massCheck.addValueChangeListener(propertyVlaueChangeListener);
         }

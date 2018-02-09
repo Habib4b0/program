@@ -54,7 +54,7 @@ public class GtnUiFrameworkNsfRuleSaveUniqueValidationAction
 				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_SAVE_UNIQUE_VALIDATION, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		if (!gtnWsresponse.getGtnWsGeneralResponse().isSucess() && !isEditMode && !componentId.contains("back")) {
-			String msg = "Entered Net Sales Formula Rule is already exists  ";
+			String msg = "Entered Net Sales Formula Rule already exists.";
 			GtnUIFrameWorkActionConfig nsfAlertActionConfig = new GtnUIFrameWorkActionConfig();
 			nsfAlertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 			nsfAlertActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.ERROR);

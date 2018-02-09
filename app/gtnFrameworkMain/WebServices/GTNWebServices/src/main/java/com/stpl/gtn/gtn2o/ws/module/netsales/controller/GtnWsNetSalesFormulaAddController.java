@@ -5,6 +5,8 @@
  */
 package com.stpl.gtn.gtn2o.ws.module.netsales.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterBean;
 import com.stpl.gtn.gtn2o.ws.complianceanddeductionrules.constants.GtnWsCDRContants;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.controller.GtnWsSearchServiceController;
@@ -31,6 +35,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.netsales.GtnWsNetSalesGeneralResponse;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @RestController
 @RequestMapping(value = "/" + GtnWsNsfUriConstants.NSF_SERVICE)
@@ -50,6 +55,12 @@ public class GtnWsNetSalesFormulaAddController {
 	private GtnWsSearchServiceController gTNSearchServiceController;
 	@Autowired
 	private GtnWsNsfService gtnWsNsfService;
+
+	@Autowired
+	private GtnWsSqlService gtnWsSqlService;
+
+	@Autowired
+	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	public org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -249,6 +260,7 @@ public class GtnWsNetSalesFormulaAddController {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/" + GtnWsNsfUriConstants.NS_SAVE_UNIQUE_VALIDATION, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse nsfDuplicateFormulaType(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
@@ -256,13 +268,23 @@ public class GtnWsNetSalesFormulaAddController {
 		try (Session session = sessionFactory.openSession()) {
 			gtnResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			GtnUIFrameworkNsfInfoBean nsfInfoBean = gtnWsRequest.getGtnWsNetSalesGeneralRequest().getnSfInfoBean();
-			Criteria criteria = session.createCriteria(NetSalesFormulaMaster.class)
-					.add(Restrictions.eq("netSalesFormulaName", nsfInfoBean.getFormulaName()))
-					.add(Restrictions.eq("netSalesFormulaId", nsfInfoBean.getFormulaId()))
-					.add(Restrictions.eq("netSalesFormulaNo", nsfInfoBean.getFormulaNo()));
-			criteria.setProjection(Projections.rowCount());
 
-			int count = Integer.parseInt(String.valueOf((Long) criteria.uniqueResult()));
+			List<Integer> resultsDb1 = new ArrayList<>();
+
+			resultsDb1 = (List<Integer>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(Arrays.asList(nsfInfoBean.getFormulaName()), "getNsfDuplicateNameCheckQuery"));
+			List<Integer> resultsDb2 = new ArrayList<>();
+
+			resultsDb2 = (List<Integer>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(Arrays.asList(nsfInfoBean.getFormulaId()), "getNsfDuplicateIdCheckQuery"));
+			List<Integer> resultsDb3 = new ArrayList<>();
+			resultsDb3 = (List<Integer>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(Arrays.asList(nsfInfoBean.getFormulaId()), "getNsfDuplicateNoCheckQuery"));
+			int count=0;
+			if(resultsDb3.get(0)>0 || resultsDb2.get(0)>0 || resultsDb1.get(0)>0)
+			{
+			count = 1;
+			}
 			gtnResponse.getGtnWsGeneralResponse().setSucess(count == 0);
 		} catch (Exception ex) {
 			gtnResponse.getGtnWsGeneralResponse().setSucess(false);

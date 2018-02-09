@@ -157,13 +157,11 @@ public class Details extends CustomComponent {
      */
     private void configureFields() {
         accrualRateSelectionDTO.setSessionDto(session);
-        frequencyDdlb.setImmediate(true);
         frequencyDdlb.addItem(Constant.MONTHLY);
         frequencyDdlb.setNullSelectionAllowed(false);
         frequencyDdlb.select(Constant.MONTHLY);
         frequencyDdlb.setReadOnly(true);
 
-        historyDdlb.setImmediate(true);
         historyDdlb.addItems(AccrualRateUtils.getInstance().historyPeriods12);
         historyDdlb.setNullSelectionAllowed(true);
         historyDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
@@ -186,7 +184,6 @@ public class Details extends CustomComponent {
         loadDDLB(brandDdlb, AccrualRateUtils.BRAND, null);
         loadDDLB(productDdlb, AccrualRateUtils.PRODUCT, null);
 
-        productDdlb.setImmediate(true);
         productDdlb.addItem(Constant.SELECT_ONE);
         productDdlb.addItem(AccrualRateUtils.ALL_PRODUCTS);
         productDdlb.setNullSelectionAllowed(true);
@@ -271,7 +268,6 @@ public class Details extends CustomComponent {
     private void loadDDLB(final ComboBox comboBox, final String ddlbName, final Object filterValue) {
 
         comboBox.removeAllItems();
-        comboBox.setImmediate(true);
         switch (ddlbName) {
             case AccrualRateUtils.CUSTOMER:
                 comboBox.addItem(AccrualRateUtils.ALL_CUSTOMERS);
@@ -415,13 +411,11 @@ public class Details extends CustomComponent {
     private void loadFromAndToPeriods() {
         if (isFilterLoadNeeded) {
             fromDdlb.removeAllItems();
-            fromDdlb.setImmediate(true);
             fromDdlb.addItem(Constant.SELECT_ONE);
             fromDdlb.setNullSelectionAllowed(true);
             fromDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
 
             toDdlb.removeAllItems();
-            toDdlb.setImmediate(true);
             toDdlb.addItem(Constant.SELECT_ONE);
             toDdlb.setNullSelectionAllowed(true);
             toDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
@@ -471,7 +465,6 @@ public class Details extends CustomComponent {
      */
     public void configureAndLoadDataForExcel(final ExtCustomTable excelTable, final ExtContainer<AccrualRateProjectionDTO> excelContainer) {
 
-        excelTable.setImmediate(true);
         excelTable.setVisible(false);
         tableVerticalLayout.addComponent(excelTable);
 
@@ -529,12 +522,10 @@ public class Details extends CustomComponent {
             Object value = editviewMap.get(Constant.FREQUENCY_SMALL);
             if (value != null) {
                 frequencyDdlb.setValue(editviewMap.get(Constant.FREQUENCY_SMALL));
-                frequencyDdlb.setImmediate(true);
             }
             value = editviewMap.get(Constant.HISTORY_CAPS);
             if (value != null) {
                 historyDdlb.setValue(String.valueOf(value));
-                historyDdlb.setImmediate(true);
             }
             value = editviewMap.get(Constant.CUSTOMER_SMALL);
             if (value != null) {
