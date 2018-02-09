@@ -59,6 +59,7 @@ public class GtnFrameworkItemGrpCopyAction
 			return;
 		}
 		itemGrpInfoBean.setItemGrpSid(systemId);
+                itemGrpInfoBean.setVersionNo((Integer) gtnWsRecordBean.getPropertyValueByIndex(4));
 		GtnWsItemGroupRequest itemGrpRequest = new GtnWsItemGroupRequest();
 		itemGrpRequest.setGtnWsItemGroupBean(itemGrpBean);
 		gtnRequest.setGtnWsItemGroupRequest(itemGrpRequest);

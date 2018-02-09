@@ -178,7 +178,7 @@ public class NationalAssumptionsForm extends CustomComponent {
         this.medicaidURA = new MedicaidURA(this,sessionDTO);
         this.fcpResults = new FcpResults(this,sessionDTO);
         this.phsResults = new PhsResults(this,sessionDTO);
-        this.additionalInformation = new AdditionalInformationForm(Constant.NATIONAL_ASSUMPTION_SCREEN_NAME, dtoValue.getProjectionId(), String.valueOf(mode.getValue()));
+        this.additionalInformation = new AdditionalInformationForm(Constant.NATIONAL_ASSUMPTION_SCREEN_NAME, sessionDTO.getProjectionId(), String.valueOf(mode.getValue()));
         
         if (Constant.EDIT_SMALL.equalsIgnoreCase(getmode) || Constant.VIEW.equalsIgnoreCase(getmode)) {
             CommonLogic logic = new CommonLogic();

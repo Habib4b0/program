@@ -157,24 +157,4 @@ select distinct spm.PROPERTY_NAME,bmm.ADD_FLAG,bmm.EDIT_FLAG,bmm.VIEW_FLAG,spm.T
 		
     ]]> </query>
 </entity>
-<entity id="buttonSecurity">
-<query> <![CDATA[
-		
-		SELECT DISTINCT SPM.PROPERTY_NAME,
-                BMM.ACCESS_MODULE
-                
-FROM   USERGROUP_BUSINESSROLE AS UBM,
-       BUSINESSROLE_MODULE AS BMM,
-       MODULE_PROPERTIES AS SPM
-WHERE  UBM.BUSINESSROLE_MASTER_SID = BMM.BUSINESSROLE_MASTER_SID
-       AND BMM.SUBMODULE_PROPERTY_ID = SPM.MODULE_PROPERTY_SID
-       AND ( SPM.PROPERTY_NAME IS NOT NULL
-              OR SPM.PROPERTY_NAME != '' )
-       AND SPM.CATEGORY_NAME = '?' 
-	   AND SPM.MODULE_NAME = '?'
-           AND SPM.TAB_NAME='?'
-           ? 
-		
-    ]]> </query>
-</entity>
 </sql>
