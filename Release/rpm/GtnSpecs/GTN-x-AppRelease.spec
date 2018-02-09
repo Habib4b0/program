@@ -145,7 +145,7 @@ sed -i -e "/COMMON_LOGIC_PATH=/ s/=.*/=$COMMON_LOGIC_PATH/" -e  "/SERVER_NAME=/ 
 sed -i -e "/SERVER_USERNAME=/ s/=.*/=$SERVER_USERNAME/" -e  "/BPI_SYS_HOST=/ s/=.*/=$BPI_SYS_HOST/" -e "/BPI_SYS_DB=/ s/=.*/=$BPI_SYS_DB/" -e "/BPI_SYS_USER=/ s/=.*/=$BPI_SYS_USER/" $install_path/etl/Interface_Job/EtlConfiguration.properties
 sed -i -e "/BPI_SYS_PASSWORD=/ s/=.*/=$BPI_SYS_PASSWORD/" -e  "/STAGING_HOST=/ s/=.*/=$STAGING_HOST/" -e  "/STAGING_DB=/ s/=.*/=$STAGING_DB/" -e "/STAGING_USER=/ s/=.*/=$STAGING_USER/" $install_path/etl/Interface_Job/EtlConfiguration.properties
 sed -i -e "/STAGING_PASSWORD=/ s/=.*/=$STAGING_PASSWORD/" -e "/BPI_SOURCE_HOST=/ s/=.*/=$BPI_SOURCE_HOST/" -e "/BPI_SOURCE_DB=/ s/=.*/=$BPI_SOURCE_DB/" -e "/BPI_SOURCE_USER=/ s/=.*/=$BPI_SOURCE_USER/" $install_path/etl/Interface_Job/EtlConfiguration.properties
-sed -i -e "/BPI_SOURCE_PASSWORD=/ s/=.*/=$BPI_SOURCE_PASSWORD/" -e  "/ETL_PORT_NO=/ s/=.*/=$ETL_PORT_NO/"  $install_path/etl/Interface_Job/EtlConfiguration.properties
+sed -i -e "/BPI_SOURCE_PASSWORD=/ s/=.*/=$BPI_SOURCE_PASSWORD/" -e  "/ETL_PORT_NO=/ s/=.*/=$ETL_PORT_NO/" -e "/com_stpl_gtnframework_base_path==/ s/=.*/=$Gtn_Framework_Base_path/" $install_path/etl/Interface_Job/EtlConfiguration.properties
 fi
 # Deleting Service jar index files ends
 

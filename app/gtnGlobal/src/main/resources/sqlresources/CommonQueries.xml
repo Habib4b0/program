@@ -164,7 +164,7 @@ and open the template in the editor.
     <entity id="customer-ddlb-load">
         <query> 
             <![CDATA[
-                SELECT DISTINCT CM.COMPANY_NAME, CM.COMPANY_MASTER_SID FROM ST_DEDUCTION_CALENDAR_COMPANY SC
+                SELECT DISTINCT CM.COMPANY_ID, CM.COMPANY_MASTER_SID FROM ST_DEDUCTION_CALENDAR_COMPANY SC
                 JOIN COMPANY_MASTER CM ON CM.COMPANY_MASTER_SID = SC.COMPANY_MASTER_SID
                 WHERE USER_ID = ?UID
                 AND SESSION_ID = ?SID
@@ -174,7 +174,7 @@ and open the template in the editor.
     <entity id="product-ddlb">
         <query>
             <![CDATA[
-                SELECT DISTINCT IM.ITEM_NAME, IM.ITEM_MASTER_SID FROM ST_DEDUCTION_CALENDAR_ITEM SC
+                SELECT DISTINCT IM.ITEM_ID, IM.ITEM_MASTER_SID FROM ST_DEDUCTION_CALENDAR_ITEM SC
                 JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = SC.ITEM_MASTER_SID
                 WHERE USER_ID = ?UID
                 AND SESSION_ID = ?SID

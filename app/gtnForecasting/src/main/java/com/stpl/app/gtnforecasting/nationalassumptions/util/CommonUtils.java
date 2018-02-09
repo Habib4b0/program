@@ -240,7 +240,7 @@ public class CommonUtils {
               for (int i = 0; i < years; i++) {
                   int year = (startYear) + i;
                   if (priceTypeValue.equals(Constant.ANNUAL_FSS)) {
-                      select.addItem(year);
+                      select.addItem(String.valueOf(year));
                   } else {
                       if (year == endYear) {
                           lastPr = endPeriod;

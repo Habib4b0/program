@@ -98,7 +98,7 @@ public class MedicaidURAResultsLogic {
             projSelDTO.setGroup(parentDto.getPriceType());
             projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
 
-            String parentSid = parentDto.getNdc9();
+            String parentSid = parentDto.getNdc9Value();
             resultList = getMedicaidChildren(start, offset, projSelDTO, parentSid, session);
         } else {
             projSelDTO.setIsProjectionTotal(true);
@@ -186,6 +186,7 @@ public class MedicaidURAResultsLogic {
                 medicaidDTO.setGroup(projSelDTO.getMedicaidSelectedNdc());
                 medicaidDTO.setParent(1);
                 medicaidDTO.setNdc9(projSelDTO.getLevelValue());
+                medicaidDTO.setNdc9Value(projSelDTO.getNdc9Value());
                 projDTOList.add(medicaidDTO);
             } else {
                 com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session = new com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO();
@@ -266,6 +267,7 @@ public class MedicaidURAResultsLogic {
                 medicaidDTO.setGroup(value);
                 medicaidDTO.setParent(1);
                 medicaidDTO.setNdc9(ndc9);
+                medicaidDTO.setNdc9Value(String.valueOf(obj[2]));
                 medicaidDTO.setItemMasterSid(Integer.valueOf(String.valueOf(obj[2])));
                 projDTOList.add(medicaidDTO);
             }
