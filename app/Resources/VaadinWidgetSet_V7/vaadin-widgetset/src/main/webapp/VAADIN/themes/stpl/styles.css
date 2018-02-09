@@ -14798,7 +14798,7 @@ div.v-layout.v-horizontal.v-widget {
 	background: transparent url(img/sprites.png) no-repeat -5px -10px;
 }
 
-.stpl .v-textfield.searchText {
+.stpl .v-textfield.searchText, .stpl .v-textfield.searchicon {
 	background-image: url(img/imgsearchh-icon.png);
 	background-position: right;
 	background-repeat: no-repeat;
@@ -14815,6 +14815,14 @@ div.v-layout.v-horizontal.v-widget {
 
 .stpl .v-scrollable.v-table-body-wrapper.v-table-body {
 	overflow: auto;
+}
+
+.stpl .v-datefield {
+	height: 27px;
+}
+
+.stpl .v-filterselect {
+	border-radius: 0px;
 }
 
 .v-slot, .v-spacing {
