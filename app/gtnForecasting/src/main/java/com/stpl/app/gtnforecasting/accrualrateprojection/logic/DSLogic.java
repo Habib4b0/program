@@ -242,9 +242,7 @@ public class DSLogic {
                     + "AND SCREEN_NAME='View'");
             list = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(insertQuery.toString());
             deductionLevel.select(String.valueOf(list.get(0)));
-            deductionLevel.setImmediate(true);
             deductionValue.select(String.valueOf(list.get(1)));
-            deductionValue.setImmediate(true);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
