@@ -113,6 +113,7 @@ public class ProjectionSelectionDTO {
      
      private String priceType = StringUtils.EMPTY;
      
+      private String ndc9Value = StringUtils.EMPTY;
     public boolean isIsFilter() {
         return isFilter;
     }
@@ -808,6 +809,14 @@ public class ProjectionSelectionDTO {
 
     public void setFourthRowNotesMap(Map<String,String[]> fourthRowNotesMap) {
         this.fourthRowNotesMap = fourthRowNotesMap;
+    }
+
+    public String getNdc9Value() {
+        return ndc9Value;
+    }
+
+    public void setNdc9Value(String ndc9Value) {
+        this.ndc9Value = ndc9Value;
     }
     
   }
