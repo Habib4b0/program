@@ -58,6 +58,7 @@ public class TableDTO extends ExtMapDTO implements Comparator<TableDTO>{
     private String baseYearCpiNotes = StringUtils.EMPTY;
     
      private String ndc9 = StringUtils.EMPTY;
+     private String ndc9Value = StringUtils.EMPTY;
      
      private String newFormulation = StringUtils.EMPTY;
      
@@ -263,4 +264,13 @@ public class TableDTO extends ExtMapDTO implements Comparator<TableDTO>{
     public void setPriceType(String priceType) {
         this.priceType = priceType;
     }
+
+    public String getNdc9Value() {
+        return ndc9Value;
+    }
+
+    public void setNdc9Value(String ndc9Value) {
+        this.ndc9Value = ndc9Value;
+    }
+    
 }

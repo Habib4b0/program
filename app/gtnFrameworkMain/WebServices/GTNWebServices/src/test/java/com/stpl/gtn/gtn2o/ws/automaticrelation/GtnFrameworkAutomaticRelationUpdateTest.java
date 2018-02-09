@@ -28,7 +28,7 @@ public class GtnFrameworkAutomaticRelationUpdateTest {
 
 	@Test
 	public void checkAndUpdateAutomaticRelationship() throws GtnFrameworkGeneralException, InterruptedException {
-			service.checkAndUpdateAutomaticRelationship(324, "12");
+			service.checkAndUpdateAutomaticRelationship(324);
 		return;
 	}
 }

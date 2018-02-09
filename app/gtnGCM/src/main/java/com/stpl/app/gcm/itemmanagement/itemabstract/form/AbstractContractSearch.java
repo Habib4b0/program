@@ -968,7 +968,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
     public boolean submit() {
         List input = getSessionInput(selection);
         if (selectingOneContract("Selecting one contract", input)) {
-            if (submitButtonCheck()) {
+            if ((ConstantsUtil.DELETE.equals(selection.getButtonMode())) ? submitButtonCheckItemRemove() : submitButtonCheck()) {
                 if (!nonApprovedSubmitCheck()) {
                     if (singleContractCheck("Single contract check", input)) {
                         new AbstractNotificationUtils() {
@@ -1022,6 +1022,11 @@ public abstract class AbstractContractSearch extends CustomComponent {
         } else {
             return false;
         }
+    }
+    public Boolean submitButtonCheckItemRemove() {
+        List input = AbstractLogic.getResultsInput(selection);
+        List<Object[]> list = ItemQueries.getItemData(input, "Submit condition check for Item Delete", null);
+        return AbstractLogic.getCount(list) == 0;
     }
 
     public Boolean nonApprovedSubmitCheck() {

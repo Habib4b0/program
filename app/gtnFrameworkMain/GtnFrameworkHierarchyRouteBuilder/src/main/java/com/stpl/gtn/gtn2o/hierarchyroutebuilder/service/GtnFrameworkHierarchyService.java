@@ -15,11 +15,10 @@ public interface GtnFrameworkHierarchyService {
 	public GtnFrameworkRouteBean getPathByTableNameAndHierarchyType(String sourceTableName, String destinationTableName,
 			String hierarchyType);
 
-	public void creatQueryForMultiLevelHierarchy(List<Integer> entityList,
-			GtnFrameworkQueryGeneratorBean queryBean);
+	public void creatQueryForMultiLevelHierarchy(List<Integer> entityList, GtnFrameworkQueryGeneratorBean queryBean);
 
-	public void getQueryByTableNameAndHierarchyTypeForMultiLevel(List<String> tableNameList,
-			String hierarchyType, GtnFrameworkQueryGeneratorBean queryBean);
+	public void getQueryByTableNameAndHierarchyTypeForMultiLevel(List<String> tableNameList, String hierarchyType,
+			GtnFrameworkQueryGeneratorBean queryBean);
 
 	public void getSelectColumnsForRelationShipBuilder(GtnFrameworkSingleColumnRelationBean keyBean,
 			GtnFrameworkQueryGeneratorBean queryBean);
@@ -34,4 +33,6 @@ public interface GtnFrameworkHierarchyService {
 	public void getInboundRestrictionQuery(Set<String> tableNameSet, GtnFrameworkQueryGeneratorBean queryBaen);
 
 	public void getInboundRestrictionQueryForAutoUpdate(GtnFrameworkQueryGeneratorBean queryBaen);
+
+
 }
