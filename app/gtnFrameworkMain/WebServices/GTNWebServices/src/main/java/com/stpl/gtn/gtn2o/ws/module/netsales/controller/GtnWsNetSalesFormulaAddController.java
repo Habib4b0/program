@@ -269,22 +269,21 @@ public class GtnWsNetSalesFormulaAddController {
 			gtnResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			GtnUIFrameworkNsfInfoBean nsfInfoBean = gtnWsRequest.getGtnWsNetSalesGeneralRequest().getnSfInfoBean();
 
-			List<Long> resultsDb1 = new ArrayList<>();
+			List<Integer> resultsDb1 = new ArrayList<>();
 
-			resultsDb1 = (List<Long>) gtnSqlQueryEngine.executeSelectQuery(gtnWsSqlService
-					.getQuery(Arrays.asList(nsfInfoBean.getFormulaName()), "getNsfDuplicateNameCheckQuery"));
-			List<Long> resultsDb2 = new ArrayList<>();
+			resultsDb1 = (List<Integer>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(Arrays.asList(nsfInfoBean.getFormulaName()), "getNsfDuplicateNameCheckQuery"));
+			List<Integer> resultsDb2 = new ArrayList<>();
 
-			resultsDb2 = (List<Long>) gtnSqlQueryEngine.executeSelectQuery(
-					gtnWsSqlService.getQuery(Arrays.asList(nsfInfoBean.getFormulaId()), "getNsfDuplicateIdCheckQuery"));
-			List<Long> resultsDb3 = new ArrayList<>();
-			resultsDb3 = (List<Long>) gtnSqlQueryEngine.executeSelectQuery(
-					gtnWsSqlService.getQuery(Arrays.asList(nsfInfoBean.getFormulaId()), "getNsfDuplicateNoCheckQuery"));
-			int count = 1;
-			if (resultsDb3.get(0) == 0 && resultsDb2.get(0) == 0 && resultsDb1.get(0) == 0)
-
+			resultsDb2 = (List<Integer>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(Arrays.asList(nsfInfoBean.getFormulaId()), "getNsfDuplicateIdCheckQuery"));
+			List<Integer> resultsDb3 = new ArrayList<>();
+			resultsDb3 = (List<Integer>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(Arrays.asList(nsfInfoBean.getFormulaId()), "getNsfDuplicateNoCheckQuery"));
+			int count=0;
+			if(resultsDb3.get(0)>0 || resultsDb2.get(0)>0 || resultsDb1.get(0)>0)
 			{
-				count = 0;
+			count = 1;
 			}
 			gtnResponse.getGtnWsGeneralResponse().setSucess(count == 0);
 		} catch (Exception ex) {
