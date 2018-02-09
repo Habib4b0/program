@@ -186,6 +186,41 @@ public class RemoveContractSearch extends AbstractContractSearch {
                     }
                     return check;
                 }
+                if (propertyId.equals("itemEndDate")) {
+                    final PopupDateField itemendDate = new PopupDateField();
+                    itemendDate.setImmediate(true);
+                    itemendDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
+                    itemendDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
+                    itemendDate.addFocusListener(new com.vaadin.event.FieldEvents.FocusListener() {
+
+                        public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
+                            Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+
+                                @Override
+                                public void valueChange(Property.ValueChangeEvent event) {
+                                    AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                    dto.setCaseNo(0);
+                                    Date startDate = getLogic().getStartDateCheck(dto, selectionDTO, "START_DATE");
+                                    if (startDate != null && itemendDate.getValue() != null && itemendDate.getValue().before(startDate)) {
+                                        itemendDate.setValue(null);
+                                        MessageBox.showPlain(Icon.ERROR, "Start Date cannot come before the End Date", "You cannot proceed with this Item Start Date since it does not come after the End Date you have entered on the previous screen.", ButtonId.OK);
+                                    } else {
+                                        dto.setEndDate(itemendDate.getValue());
+                                        dto.setColumnName("END_DATE");
+                                        dto.setCaseNo(NumericConstants.TWO);
+                                        saveTempItemDetails(dto);
+                                    }
+                                }
+                            };
+
+                            itemendDate.addValueChangeListener(valueChangeListner);
+                            valueChangeListner.valueChange(null);
+                            itemendDate.removeFocusListener(this);
+                        }
+                    });
+
+                    return itemendDate;
+                }
                 return null;
             }
         });

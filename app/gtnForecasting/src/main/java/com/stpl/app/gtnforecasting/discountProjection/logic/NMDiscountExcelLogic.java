@@ -77,7 +77,7 @@ public class NMDiscountExcelLogic {
 
     private void setActualsProjectionValues(DiscountProjectionDTO discountProjectionDTO, Character freq, Object[] obj, ProjectionSelectionDTO projectionSelection, Map<String, List> hierarchyLevelDetails, List doubleProjectedAndHistoryCombinedUniqueList) {
           String discountId=projectionSelection.isIsCustomHierarchy()?StringUtils.EMPTY:obj[5].toString();
-        String header = commonLogic.getHeaderForExcel(freq, obj,discountId);
+        String header = commonLogic.getHeaderForExcel(freq, obj,discountId,StringUtils.EMPTY);
             boolean isActuals = "0".equals(String.valueOf(obj[NumericConstants.THREE]));
             String hierarchyNo = String.valueOf(obj[NumericConstants.ZERO]).trim();
             hierarchyNo = hierarchyNo.contains(",") ? hierarchyNo.split(",")[0].trim() : hierarchyNo;
@@ -87,7 +87,7 @@ public class NMDiscountExcelLogic {
             discountProjectionDTO.setParentHierarchyNo(parentHierarchy);
             discountProjectionDTO.setHierarchyLevel(String.valueOf(hierarchyLevelDetails.get(hierarchyNo).get(1)));
             if (Constant.TRADINGPARTNER.equalsIgnoreCase(discountProjectionDTO.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(discountProjectionDTO.getHierarchyLevel())) {
-                discountProjectionDTO.setGroup(StringUtils.EMPTY);
+                 discountProjectionDTO.setGroup(String.valueOf(obj[NumericConstants.FIFTEEN]));
             } else {
                 discountProjectionDTO.setGroup(StringUtils.EMPTY);
             }

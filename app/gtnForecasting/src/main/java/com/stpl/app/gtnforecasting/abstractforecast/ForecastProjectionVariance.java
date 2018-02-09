@@ -443,9 +443,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         levelDdlb.setNullSelectionItemId(SELECT_ONE);
         levelDdlb.select(SELECT_ONE);
         levelDdlb.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
-        levelDdlb.setImmediate(true);
         levelFilter.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
-        levelFilter.setImmediate(true);
         levelFilter.addItem(SELECT_ONE);
         levelFilter.setNullSelectionItemId(SELECT_ONE);
         levelFilter.select(SELECT_ONE);

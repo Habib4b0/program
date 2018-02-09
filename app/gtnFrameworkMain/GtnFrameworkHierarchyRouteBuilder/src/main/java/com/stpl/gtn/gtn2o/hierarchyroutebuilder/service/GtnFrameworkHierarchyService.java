@@ -34,4 +34,5 @@ public interface GtnFrameworkHierarchyService {
 
 	public void getInboundRestrictionQueryForAutoUpdate(GtnFrameworkQueryGeneratorBean queryBaen);
 
+
 }

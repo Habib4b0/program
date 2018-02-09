@@ -586,9 +586,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      */
     private void configurefields() {
         level.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
-        level.setImmediate(true);
         levelFilter.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
-        levelFilter.setImmediate(true);
         viewDdlb.setEnabled(false);
         editBtn.setEnabled(false);
         newBtn.setEnabled(true);
@@ -849,8 +847,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         metohdologyFilter.setNullSelectionAllowed(false);
         baseLineFilter.setNullSelectionAllowed(false);
         baseLineFilter.setContainerDataSource(baseLineBean);
-        startPeriod.setImmediate(true);
-        endPeriod.setImmediate(true);
 
         if (ACTION_VIEW.getConstant().equals(session.getAction())) {
             configureOnViewMode();
@@ -1167,8 +1163,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         rightTable.markAsDirty();
         rightTable.setEditable(true);
         leftTable.setEditable(true);
-        leftTable.setImmediate(true);
-        rightTable.setImmediate(true);
 
     }
 
@@ -1598,7 +1592,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     if (Constant.GROUP.equals(propertyId) && (Constant.TRADINGPARTNER.equalsIgnoreCase(salesRowDto.getHierarchyLevel()) || Constant.TRADING_PARTNER.equals(salesRowDto.getHierarchyLevel()))) {
                         final TextField textField = new TextField();
                         textField.setData(getBeanFromId(itemId).getHierarchyNo());
-                        textField.setImmediate(true);
                         textField.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
                         
                         textField.addFocusListener(new FocusListener() {
@@ -1664,7 +1657,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         return null;
                     }
                     textField.setData(propertyId + "~" + salesRowDto.getHierarchyNo());
-                    textField.setImmediate(true);
                     textField.addStyleName(Constant.TXT_RIGHT_ALIGN);
                     textField.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
                     textField.setEnabled(true);
@@ -2947,7 +2939,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         frequency.addItem(ANNUAL);
         frequency.select(QUARTERLY.getConstant());
         frequency.setNullSelectionAllowed(false);
-        frequency.setImmediate(true);
         frequency.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
@@ -3275,13 +3266,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             Object value = map.get(Constant.FREQUENCY_SMALL);
             if (value != null) {
                 nmFrequencyDdlb.setValue(map.get(Constant.FREQUENCY_SMALL));
-                nmFrequencyDdlb.setImmediate(true);
             }
             value = map.get(Constant.HISTORY_CAPS);
             if (value != null) {
                 int i = Integer.parseInt(String.valueOf(value));
                 historyDdlb.setValue(i);
-                historyDdlb.setImmediate(true);
             }
             value = map.get(Constant.PERIOD_ORDER);
             if (value != null) {
@@ -3312,7 +3301,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     if (tempValue.equalsIgnoreCase(Constant.ACCOUNT_GROWTH)) {
                         variables.select(Constant.ACCOUNT_GROWTH);
                     }
-                    variables.setImmediate(true);
                 }
             }
             value = map.get(Constant.DISPLAY_FORMAT_SAVE);

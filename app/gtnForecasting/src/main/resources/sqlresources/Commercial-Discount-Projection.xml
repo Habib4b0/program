@@ -2564,6 +2564,45 @@ FROM (
       ]]>
         </query>
     </entity>
-   
+    <entity id="discRatemassPopulate">
+        <query> 
+             <![CDATA[
+    DECLARE @INFO TABLE (
+      CCP_DETAILS_SID int,
+      PERIOD_SID int,
+      RS_CONTRACT_SID int
+    )
+
+
+    INSERT INTO @INFO
+                (CCP_DETAILS_SID,
+                 PERIOD_SID,
+                 RS_CONTRACT_SID)
+    SELECT M.CCP_DETAILS_SID,
+           DP.PERIOD_SID,
+           RS.RS_CONTRACT_SID
+    FROM   ST_NM_DISCOUNT_PROJ_MASTER M,
+           ST_NM_DISCOUNT_PROJECTION DP,
+           RS_CONTRACT RS,
+           "PERIOD" P,#SELECTED_REBATE SR
+    WHERE   M.DEDUCTION_HIERARCHY_NO like SR.DED_HIE_NO+'%' AND M.CHECK_RECORD = 1
+           AND DP.CCP_DETAILS_SID = M.CCP_DETAILS_SID
+           AND M.RS_CONTRACT_SID = RS.RS_CONTRACT_SID
+           AND DP.PERIOD_SID = P.PERIOD_SID
+           AND P.PERIOD_DATE BETWEEN Datefromparts(@START_YEAR, @START_MONTH, 1) AND Datefromparts (@END_YEAR, @END_MONTH, 1)
+
+    UPDATE DPT
+    @COL2
+    FROM ST_NM_DISCOUNT_PROJECTION DPT,
+    @INFO A
+    INNER JOIN ST_NM_SALES_PROJECTION NM
+    ON A.CCP_DETAILS_SID = NM.CCP_DETAILS_SID
+    AND A.PERIOD_SID = NM.PERIOD_SID
+    WHERE DPT.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+    AND DPT.PERIOD_SID = A.PERIOD_SID
+    AND DPT.RS_CONTRACT_SID = A.RS_CONTRACT_SID
+             ]]>
+        </query>
+    </entity>
 </sql>
 

@@ -3,85 +3,67 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Feb 6, 2018 3:06:37 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldItemUom" table="IVLD_ITEM_UOM" schema="dbo">
-        <id name="ivldItemUomSid" type="int">
-            <column name="IVLD_ITEM_UOM_SID" />
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.StagItemUom" table="STAG_ITEM_UOM" schema="dbo">
+        <id name="stagItemUomSid" type="int">
+            <column name="STAG_ITEM_UOM_SID" />
             <generator class="native" />
         </id>
         <property name="itemUomConversionId" type="big_decimal">
             <column name="ITEM_UOM_CONVERSION_ID" precision="38" scale="0" not-null="true" />
         </property>
         <property name="itemId" type="string">
-            <column name="ITEM_ID" length="200" />
+            <column name="ITEM_ID" length="38" not-null="true" />
         </property>
         <property name="itemNo" type="string">
-            <column name="ITEM_NO" length="200" />
+            <column name="ITEM_NO" length="50" />
         </property>
         <property name="itemName" type="string">
-            <column name="ITEM_NAME" length="200" />
+            <column name="ITEM_NAME" length="100" />
         </property>
         <property name="primaryUomBaselineFactor" type="string">
-            <column name="PRIMARY_UOM_BASELINE_FACTOR" length="200" />
+            <column name="PRIMARY_UOM_BASELINE_FACTOR" length="200" not-null="true" />
         </property>
         <property name="primaryUomCode" type="string">
-            <column name="PRIMARY_UOM_CODE" length="200" />
+            <column name="PRIMARY_UOM_CODE" length="20" not-null="true" />
         </property>
         <property name="primaryUomName" type="string">
-            <column name="PRIMARY_UOM_NAME" length="200" />
+            <column name="PRIMARY_UOM_NAME" length="20" not-null="true" />
         </property>
         <property name="secondaryUomConversionFactor" type="string">
-            <column name="SECONDARY_UOM_CONVERSION_FACTOR" length="200" />
+            <column name="SECONDARY_UOM_CONVERSION_FACTOR" length="200" not-null="true" />
         </property>
         <property name="secondaryUomCode" type="string">
-            <column name="SECONDARY_UOM_CODE" length="200" />
+            <column name="SECONDARY_UOM_CODE" length="20" not-null="true" />
         </property>
         <property name="secondaryUomName" type="string">
-            <column name="SECONDARY_UOM_NAME" length="200" />
+            <column name="SECONDARY_UOM_NAME" length="20" not-null="true" />
         </property>
         <property name="status" type="string">
-            <column name="STATUS" length="200" />
+            <column name="STATUS" length="20" not-null="true" />
         </property>
         <property name="uploadDate" type="timestamp">
-            <column name="UPLOAD_DATE" length="23" />
+            <column name="UPLOAD_DATE" length="23" not-null="true" />
         </property>
         <property name="modifiedBy" type="string">
-            <column name="MODIFIED_BY" length="200" />
+            <column name="MODIFIED_BY" length="50" />
         </property>
         <property name="modifiedDate" type="timestamp">
             <column name="MODIFIED_DATE" length="23" />
         </property>
         <property name="createdBy" type="string">
-            <column name="CREATED_BY" length="200" />
+            <column name="CREATED_BY" length="38" />
         </property>
         <property name="createdDate" type="timestamp">
             <column name="CREATED_DATE" length="23" />
         </property>
         <property name="addChgDelIndicator" type="string">
-            <column name="ADD_CHG_DEL_INDICATOR" length="200" />
+            <column name="ADD_CHG_DEL_INDICATOR" length="10" not-null="true" />
         </property>
         <property name="batchId" type="string">
-            <column name="BATCH_ID" length="200" />
+            <column name="BATCH_ID" length="38" not-null="true" />
         </property>
         <property name="source" type="string">
-            <column name="SOURCE" length="200" />
-        </property>
-        <property name="reasonForFailure" type="string">
-            <column name="REASON_FOR_FAILURE" length="1000" />
-        </property>
-        <property name="intfInsertedDate" type="timestamp">
-            <column name="INTF_INSERTED_DATE" length="23" />
-        </property>
-        <property name="errorCode" type="string">
-            <column name="ERROR_CODE" length="200" />
-        </property>
-        <property name="errorField" type="string">
-            <column name="ERROR_FIELD" length="500" />
-        </property>
-        <property name="reprocessedFlag" type="string">
-            <column name="REPROCESSED_FLAG" length="1" />
-        </property>
-        <property name="checkRecord" type="java.lang.Boolean">
-            <column name="CHECK_RECORD" />
+            <column name="SOURCE" length="50" />
         </property>
     </class>
 </hibernate-mapping>

@@ -784,7 +784,7 @@ public class HomeController {
 		final Properties dbResouce = new Properties();
 		final String path = logpath + FilePathUtil.DATABASE_CONFIGURATION_FILE_NAME;
 		dbResouce.load(new FileInputStream(path));
-		System.setProperty("com.stpl.gtnframework.base.path", dbResouce.getProperty("com.stpl.gtnframework.base.path"));
+		System.setProperty("com.stpl.gtnframework.base.path", dbResouce.getProperty("com_stpl_gtnframework_base_path"));
 		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		wsclient.callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_AUTOMATIC_RELATION_SERIVCE
 				+ GtnWebServiceUrlConstants.AUTOMATIC_ALL_RELATION_UPDATE, request, getGsnWsSecurityToken());
