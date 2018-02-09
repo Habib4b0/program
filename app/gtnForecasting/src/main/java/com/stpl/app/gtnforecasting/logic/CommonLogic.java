@@ -59,6 +59,7 @@ import com.vaadin.v7.ui.HorizontalLayout;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.custommenubar.MenuItemDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import static com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils.getMonthForInt;
 /**
  *
  * @author Abhiram
@@ -5086,6 +5087,7 @@ public class CommonLogic {
             String parentHierarchyNo =  replacePercentHierarchy(hierarchyNo);
             columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierarchyNo +RELATIONSHIP_BUILDER_SID+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
             "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'");       
+            columnName.append(" JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.relationship_level_values=A.HIERARCHY_NO ");
         }
         return columnName.toString();
     }
@@ -5143,5 +5145,40 @@ public class CommonLogic {
         resultList.add(visibleList);
         resultList.add(columnHeaderList);
         return resultList;
+    }
+    
+    public String getHeaderForExcel(Character freq, Object[] obj,String discountId) {
+        String header;
+        switch (freq) {
+            case 'A':
+                header = discountId+String.valueOf(obj[NumericConstants.TWO]);
+                break;
+            case 'Q':
+                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + "-" + obj[NumericConstants.TWO].toString();
+                break;
+            case 'S':
+                header = discountId+Constant.S_SMALL + obj[NumericConstants.ONE].toString() + "-" + obj[NumericConstants.TWO].toString();
+                break;
+            case 'M':
+                String monthName = getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.ONE])) - 1);
+                header = discountId+monthName.toLowerCase() + "-" + obj[NumericConstants.TWO].toString();
+                break;
+            default:
+                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + "-" + obj[NumericConstants.TWO].toString();
+        }
+        return header;
+    }
+
+    public String getFormattedValue(DecimalFormat format, String value) {
+           if (value.contains(Constant.NULL) || value.equals("-")) {
+            value = DASH;
+        } else {
+            Double newValue = Double.valueOf(value);
+            if (format.toPattern().contains(Constant.PERCENT)) {
+                newValue = newValue / NumericConstants.HUNDRED;
+            }
+            value = format.format(newValue);
+        }
+        return value;
     }
 }

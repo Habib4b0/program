@@ -4,6 +4,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
 import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
+import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountExcelLogic;
 import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.NMDiscountTableLoadLogic;
 import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
@@ -15,6 +16,7 @@ import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
+import com.stpl.app.gtnforecasting.projectionvariance.logic.PVCommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.ui.form.lookups.AlternateHistory;
@@ -54,7 +56,6 @@ import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
 import static com.stpl.app.utils.Constants.LabelConstants.ACTUALS;
-import static com.stpl.app.utils.Constants.LabelConstants.AMOUNT;
 import static com.stpl.app.utils.Constants.LabelConstants.ASCENDING;
 import static com.stpl.app.utils.Constants.LabelConstants.CUSTOM;
 import static com.stpl.app.utils.Constants.LabelConstants.CUSTOMER;
@@ -128,14 +129,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
-import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox.ClickListener;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
 import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
@@ -286,7 +285,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         private List<Object> generateProductToBeLoaded=new ArrayList<>();
         private List<Object> generateCustomerToBeLoaded=new ArrayList<>();
         private List<String> baselinePeriods= new ArrayList<>();
-
+        private final Map<String, Object> excelParentRecords = new HashMap();
 	private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
 		@Override
 		public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
@@ -823,13 +822,13 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		}
 	};
 
-	private final ClickListener clickListener = new ClickListener() {
+	private final BlurListener checkBoxValueChangeListener = new BlurListener() {
 		@Override
-		public void click(ExtCustomCheckBox.ClickEvent event) {
+		public void blur(FieldEvents.BlurEvent event) {
 			Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
 			final String tableHierarchyNo = tableLogic.getTreeLevelonCurrentPage(obj[0]);
 			DiscountProjectionDTO dto = (DiscountProjectionDTO) obj[0];
-			Boolean checkValue = ((ExtCustomCheckBox) ((AbstractComponent) event.getComponent())).getValue();
+			Boolean checkValue = ((ExtCustomCheckBox) ((AbstractComponent) event.getComponent())).getValue(); 
 			if (isGroupUpdatedManually) {
 				NotificationUtils.getAlertNotification(Constant.GROUP_FILTER_CONFLICT,
 						Constant.GROUP_VALUE_VERIFICATION);
@@ -1550,7 +1549,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						check.setEnabled(!ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()));
 						check.setImmediate(true);
 						check.setData(new Object[] { itemId, propertyId });
-						check.addClickListener(clickListener);
+						check.addBlurListener(checkBoxValueChangeListener);
 						return check;
 					}
 
@@ -2977,7 +2976,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					excelTable.setConverter(propertyId, percentFormat);
 				}
 			}
-			generateButtonlogicForExcel();
+			getExcelDiscountCommercial();
 			Map<String, String> formatter = new HashMap<>();
 			formatter.put("percentThreeDecimal", "Rate");
 			formatter.put("currencyTwoDecimal", "RPU");
@@ -5404,4 +5403,69 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	public void setListviewGenerated(boolean isListviewGenerated) {
 		this.isListviewGenerated = isListviewGenerated;
 	}
+	
+	private void getExcelDiscountCommercial() {
+        try{
+            String tempKey;
+            String parentKey;
+            boolean isCustomHierarchy = CommonUtil.isValueEligibleForLoading()
+                    ? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
+                    : Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.getConstant()
+                    .equals(hierarchyIndicator);
+            projectionSelection.setIsCustomHierarchy(isCustomHierarchy);
+            List<Object[]> discountExcelList = getDiscountExcelResults(projectionSelection);
+            NMDiscountExcelLogic nmDiscountExcelLogic = new NMDiscountExcelLogic();
+            List doubleProjectedAndHistoryCombinedUniqueList = logic.getDoubleProjectedAndHistoryCombinedUniqueList(rightHeader);
+            nmDiscountExcelLogic.getCustomizedExcelData(discountExcelList, projectionSelection, doubleProjectedAndHistoryCombinedUniqueList);
+            DiscountProjectionDTO itemId;
+            for (Iterator<String> it = nmDiscountExcelLogic.getHierarchyKeys().listIterator(); it.hasNext();) {
+                String key = it.next();
+                it.remove();
+                itemId= getItemId(nmDiscountExcelLogic.getResultMap(),key);
+                excelContainer.addBean(itemId);
+                Object parentItemId;
+                key = key.contains("$") ? key.substring(0, key.indexOf('$')) : key;
+                tempKey = key.trim();
+                if (isCustomHierarchy) {
+                    parentKey = itemId.getParentHierarchyNo();
+                    if (!(itemId.getParentHierarchyNo() == null || "null".equals(itemId.getParentHierarchyNo()))) {
+                        tempKey = itemId.getParentHierarchyNo().trim() + "~" + key.trim();
+                    }
+                } else {
+                    parentKey = CommonUtil.getParentItemId(key, isCustomHierarchy, itemId.getParentHierarchyNo());
+                }
+                parentItemId = excelParentRecords.get(parentKey);
+                if (parentItemId != null) {
+                    excelContainer.setParent(itemId, parentItemId);
+                }
+                parentItemId = itemId;
+                excelParentRecords.put(tempKey, itemId);
+                excelContainer.setChildrenAllowed(itemId, true);
+
+            }
+        
+        excelContainer.sort(new Object[]{"levelName"}, new boolean[]{true});
+        }catch(Exception e){
+        	LOGGER.error(e.getMessage());
+    }
+    }
+    
+ private DiscountProjectionDTO getItemId(Map<String, DiscountProjectionDTO> map, String key) {
+	 DiscountProjectionDTO itemId=new DiscountProjectionDTO();
+	 if (map.containsKey(key)) {
+         itemId = map.get(key);
+         map.remove(key);
+     }
+		return itemId;
+	}
+
+private List<Object[]> getDiscountExcelResults(ProjectionSelectionDTO projectionSelectionDTO) {
+            String sIds = projectionSelectionDTO.getDeductionLevelFilter().isEmpty() ? null : PVCommonLogic.removeBracesInList(projectionSelectionDTO.getDeductionLevelFilter());
+         int customMasterSid = Integer.parseInt(viewDdlb.getValue() == null ? "0" : viewDdlb.getValue().toString());
+         Object[] orderedArg = {projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionDTO().getSessionId(),deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue()),
+                 projectionSelectionDTO.getFrequency().substring(0, 1), projectionSelectionDTO.isIsCustomHierarchy() ? "D" : projectionSelectionDTO.getHierarchyIndicator(),
+               "Sales","0", projectionSelectionDTO.getHierarchyNo(),
+                projectionSelectionDTO.getLevelNo(), "DETAIL_DISCOUNT", customMasterSid, "Period", projectionSelectionDTO.getUomCode(), "ALL".equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion(), "ALL".equals(projectionSelectionDTO.getSessionDTO().getDeductionInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getDeductionInclusion(),sIds,"Discount"};
+            return CommonLogic.callProcedure("PRC_PROJECTION_VARIANCE", orderedArg);
+    }
 }
