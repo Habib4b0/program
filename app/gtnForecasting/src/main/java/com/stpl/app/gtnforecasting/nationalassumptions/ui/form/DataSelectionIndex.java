@@ -354,7 +354,6 @@ public class DataSelectionIndex extends CustomComponent implements View {
                 return null;
             }
         });
-        projectionName.setImmediate(true);
         projectionName.setValidationVisible(true);
         projectionName.addValidator(new RegexpValidator(ValidationUtils.Search_specialCharacter, ValidationUtils.Search_specialCharacter_Message));
         projectionName.addValidator(new StringLengthValidator("Projection Name Should be less than 100 characters", 0, NumericConstants.HUNDRED, true));
