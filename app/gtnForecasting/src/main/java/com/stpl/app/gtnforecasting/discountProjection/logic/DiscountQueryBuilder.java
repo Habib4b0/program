@@ -1032,7 +1032,7 @@ public class DiscountQueryBuilder {
 
     private String checkIsCustom(boolean isCustomHierarchy, String hierarchyIndicator, String customerHierarchyNo, String productHierarchyNo, String deductionHierarchyNo, String hierarchyNo, String customSql,SessionDTO session) {
         if (isCustomHierarchy) {
-            customSql = customSql.replace("@CUSTOM_VIEW",commonLogic.getHierarchyJoinQuery(isCustomHierarchy,customerHierarchyNo,productHierarchyNo,deductionHierarchyNo,hierarchyIndicator,session));
+            customSql = customSql.replace("@CUSTOM_VIEW",commonLogic.getHierarchyJoinQuery(isCustomHierarchy,customerHierarchyNo,productHierarchyNo,commonLogic.replacePercentHierarchy(deductionHierarchyNo),hierarchyIndicator,session));
         } else {
             customSql = customSql.replace(Constant.HIERARCHY_NO, hierarchyNo);
         }
