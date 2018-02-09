@@ -14817,7 +14817,33 @@ div.v-layout.v-horizontal.v-widget {
 	overflow: auto;
 }
 
+.stpl .v-datefield {
+	height: 27px;
+}
+
+.stpl .v-filterselect {
+	border-radius: 0px;
+}
+
+.stpl .v-loading-indicator {
+	background-color: #e4ca1f;
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;
+}
+
+.v-loading-indicator {
+	background-color: #e4ca1f;
+}
+
+.v-table-captionspans-container {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.v-table-caption-container {
+	font-weight: bold;
+	font-size: 12px;
 }
