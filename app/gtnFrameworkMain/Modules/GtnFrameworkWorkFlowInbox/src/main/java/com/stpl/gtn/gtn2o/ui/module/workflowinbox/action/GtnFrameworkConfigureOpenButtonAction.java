@@ -50,8 +50,7 @@ public class GtnFrameworkConfigureOpenButtonAction
 		String userType = null;
 		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
 		String userId = GtnUIFrameworkGlobalUI.getCurrentUser();
-		String createdById = String
-				.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID));
+		String createdById = null;
 		String status = String
 				.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.STATUS));
 		String adjustmentTypeName = null;
@@ -91,6 +90,8 @@ public class GtnFrameworkConfigureOpenButtonAction
 			}
 
 			if (projIdfromDataselection.contains(GtnFrameworkWorkflowInboxClassConstants.RECORD_BEAN)) {
+				createdById = String
+						.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID));
 				adjustmentTypeName = String.valueOf(
 						gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.ADJUSTMENTTYPENAME));
 				adjustmentType = String.valueOf(
@@ -120,6 +121,7 @@ public class GtnFrameworkConfigureOpenButtonAction
 				projMasterBean.setProjectionMasterSid(Integer.valueOf(projectionMasterSid));
 
 			} else {
+				createdById = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(19));
 				projectionMasterSidGcm = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(18));
 				workflowSidGcm = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(10));
 				noOfApprovalsGcm = String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(11));
