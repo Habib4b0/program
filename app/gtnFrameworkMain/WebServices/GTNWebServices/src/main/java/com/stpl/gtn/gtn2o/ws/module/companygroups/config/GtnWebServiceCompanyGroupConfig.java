@@ -160,7 +160,7 @@ public class GtnWebServiceCompanyGroupConfig implements GtnWsSearchQueryConfigLo
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "HT_CN", "COUNTRY"));
 		fieldToColumnDetailsMapAddTab.put("regionCode", configProvider.getColumnStringConfig("REGION_CODE", "CM"));
 		fieldToColumnDetailsMapAddTab.put("parentCustomerNo", configProvider
-				.getColumnIntegerConfig(GtnFrameworkWebserviceConstant.COMPANY_NO, "PACM", "PARENT_CUSTOMER_NO"));
+				.getColumnStringConfig(GtnFrameworkWebserviceConstant.COMPANY_NO, "PACM", "PARENT_CUSTOMER_NO"));
 		fieldToColumnDetailsMapAddTab.put("parentStartDate",
 				configProvider.getColumnDateConfig("PARENT_START_DATE", "CPD"));
 		fieldToColumnDetailsMapAddTab.put("parentEndDate",
