@@ -828,7 +828,6 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		GtnUIFrameworkComboBoxConfig valueConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkCommonConstants.TIER_PERCENT_VALUE, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		valueConfig.setNewItemsAllowed(true);
 		value.setGtnComboboxConfig(valueConfig);
 	}
 
