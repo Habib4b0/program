@@ -14817,6 +14817,14 @@ div.v-layout.v-horizontal.v-widget {
 	overflow: auto;
 }
 
+.stpl .v-datefield {
+	height: 27px;
+}
+
+.stpl .v-filterselect {
+	border-radius: 0px;
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;

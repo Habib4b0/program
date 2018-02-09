@@ -581,11 +581,6 @@ public class GtnWsRelationshipBuilderService {
 		}
 	}
 
-private void getInboundRestriction(List<HierarchyLevelDefinitionBean> hierarchyList,
-			GtnFrameworkQueryGeneratorBean queryBaen) {
-		Set<String> tableNamelist = HierarchyLevelDefinitionBean.getTableNameSet(hierarchyList);
-		hierarchyService.getInboundRestrictionQuery(tableNamelist, queryBaen);
-	}
 	public GtnWsRelationshipBuilderResponse getModifiedHiddenIdList(GtnWsRelationshipBuilderRequest rbRequest,
 			GtnWsRelationshipBuilderResponse rbResponse) {
 		rbResponse.clearHiddenIdList();

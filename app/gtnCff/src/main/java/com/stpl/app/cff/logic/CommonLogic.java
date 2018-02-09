@@ -2989,9 +2989,13 @@ public class CommonLogic {
             
             String fullUserDefinedQuery = SQlUtil.getQuery("user-defined-level-values").replace(StringConstantsUtil.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
                     .replace(LEVEL_CAPS, type);
-            String formedQuery = queryFormationForLoadingDdlb(fieldName, tableName, primaryKey, gtnFrameworkQuery, singleColumnRelationBean, maintableName, "C");
-           
-            String query = "User Defined".equals(userDefined) ? fullUserDefinedQuery : formedQuery;
+            String formedQuery = StringUtils.EMPTY;
+            String query = fullUserDefinedQuery;
+            boolean isuserDefined = "User Defined".equals(userDefined);
+            if (!isuserDefined) {
+                  formedQuery = queryFormationForLoadingDdlb(fieldName, tableName, primaryKey, gtnFrameworkQuery, singleColumnRelationBean, maintableName, "C");
+                  query = formedQuery;
+            }
                        
                 
             query = projDto.getProductLevelFilter().isEmpty() ? query : 
