@@ -553,7 +553,7 @@ public class GtnFrameworkCGrpAddComapanyConfig {
 		searchResultsTableConfig.setTableColumnDataType(new Class[] { String.class, String.class, String.class,
 				String.class, String.class, Date.class, Date.class, String.class, String.class, String.class,
 				Date.class, String.class, String.class, String.class, String.class, String.class, String.class,
-				String.class, String.class, String.class, String.class, String.class, Integer.class, Date.class,
+				String.class, String.class, String.class, String.class, String.class, String.class, Date.class,
 				Date.class, Date.class, Date.class });
 
 		searchResultsTableConfig.setTableVisibleHeader(new String[] { "Organization Key ", "Customer ID",
