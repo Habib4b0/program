@@ -1566,7 +1566,7 @@ CROSS APPLY (
        SELECT CONVERT(VARCHAR(8000), HIERARCHY_NO + '~')
        FROM #TEMP_TA r
        WHERE t.CCP_DETAILS_SID = r.CCP_DETAILS_SID
-              AND t.LEVEL_NO > r.LEVEL_NO
+              AND t.LEVEL_NO > r.LEVEL_NO order by r.LEVEL_NO
        FOR XML path('')
        ) m(PARENT_HIERARCHY_NO)
 UPDATE A
@@ -1606,7 +1606,7 @@ CROSS APPLY (
        SELECT CONVERT(VARCHAR(8000), HIERARCHY_NO + '~')
        FROM #PARENT_HIERARCHY r
        WHERE t.CCP_DETAILS_SID = r.CCP_DETAILS_SID
-              AND t.LEVEL_NO > r.LEVEL_NO
+              AND t.LEVEL_NO > r.LEVEL_NO order by r.LEVEL_NO
        FOR XML path('')
        ) m(PARENT_HIERARCHY_NO)  
        ORDER BY T.LEVEL_NO  

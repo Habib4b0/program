@@ -217,12 +217,11 @@ public class GtnUIFrameworkWorkflowPublicPrivateViewPopupConfig {
 		searchResults.setFilterBar(true);
 		searchResults.setSelectable(true);
 		searchResults.setTableColumnDataType(new Class<?>[] { String.class, String.class, String.class, String.class,
-				String.class, String.class, String.class, String.class, Date.class, String.class, Date.class });
+				 String.class, String.class, String.class, Date.class, String.class, Date.class });
 		searchResults.setTableVisibleHeader(new String[] { GtnFrameworkWorkflowInboxClassConstants.VIEW_NAME,
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID_NAME,
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWCOMPONENT_NAME,
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWDESCRIPTION_NAME,
-				GtnFrameworkWorkflowInboxClassConstants.STATUS_LOWERCASE,
 				GtnFrameworkWorkflowInboxClassConstants.COMPANY_NAME,
 				GtnFrameworkWorkflowInboxClassConstants.BUSINESS_UNIT_NAME,
 				GtnFrameworkWorkflowInboxClassConstants.CREATEDBY_NAME,
@@ -268,7 +267,6 @@ public class GtnUIFrameworkWorkflowPublicPrivateViewPopupConfig {
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWIDPRIVATE,
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAMEPRIVATE,
 				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWDESCPRIVATE,
-				GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSTATUSPRIVATE,
 				GtnFrameworkWorkflowInboxClassConstants.COMPANYNAMEPRIVATE,
 				GtnFrameworkWorkflowInboxClassConstants.BUSINESSUNITNAMEPRIVATE,
 				GtnFrameworkWorkflowInboxClassConstants.CREATEDBYPRIVATE, "creationFromDatePrivate",

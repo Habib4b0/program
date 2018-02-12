@@ -53,8 +53,8 @@ public class GtnUiFrameworkNsfRuleSaveUniqueValidationAction
 		GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_SAVE_UNIQUE_VALIDATION, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		if (!gtnWsresponse.getGtnWsGeneralResponse().isSucess() && !isEditMode) {
-			String msg = "Entered Net Sales Formula Rule is already exists  ";
+		if (!gtnWsresponse.getGtnWsGeneralResponse().isSucess() && !isEditMode && !componentId.contains("back")) {
+			String msg = "Entered Net Sales Formula Rule already exists.";
 			GtnUIFrameWorkActionConfig nsfAlertActionConfig = new GtnUIFrameWorkActionConfig();
 			nsfAlertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 			nsfAlertActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.ERROR);
