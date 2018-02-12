@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryB
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.concurrency.GtnFrameworkDeductionRelationServiceRunnable;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.concurrency.GtnFramworkCheckForAutoUpdateRunnable;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.service.GtnFrameworkJoinQueryGeneratorService;
@@ -61,6 +62,9 @@ public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAut
 	private GtnFrameworkJoinQueryGeneratorService joinService;
 	@Autowired
 	private GtnFrameworkDeductionRelationServiceRunnable deductionRelationService;
+
+	private static final GtnWSLogger logger = GtnWSLogger
+			.getGTNLogger(GtnFrameworkProductAutoUpdateServiceImpl.class);
 
 	public GtnFrameworkProductAutoUpdateServiceImpl() {
 		super();
@@ -139,7 +143,11 @@ public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAut
 					"relationShipSubQueryToInsertAutomaticData");
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(finalInsertQuery);
 		}
-		deductionRelationService.saveRelationship(relationBean, relationBean.getDeductionRelation() != null);
+		try {
+			deductionRelationService.saveRelationship(relationBean);
+		} catch (InterruptedException e) {
+			logger.error(e.getMessage());
+		}
 	}
 
 	private void checkAndInserUserDefinedLevels(GtnWsRelationshipBuilderBean relationBean,
