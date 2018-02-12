@@ -234,7 +234,8 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 		return queryList;
 	}
         
-        public boolean checkManualRelation(int relationshipBuilderSid) throws GtnFrameworkGeneralException {
+	public boolean checkManualRelation(int relationshipBuilderSid)
+			throws GtnFrameworkGeneralException, InterruptedException {
             String query = gtnWsSqlService.getQuery("manualRelationCheck");
 		@SuppressWarnings("unchecked")
 		List<Integer> resultData = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query,
@@ -242,8 +243,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
             GtnWsRelationshipBuilderBean relationBeanManual = getRelationtionshipBuilder(relationshipBuilderSid);
 		if (relationBeanManual != null) {
                 if ((int) resultData.get(0) == 1) {
-				deductionRelationService.saveRelationship(relationBeanManual,
-						relationBeanManual.getDeductionRelation() != null);
+				deductionRelationService.saveRelationship(relationBeanManual);
                 }
                 return Boolean.TRUE;
             }
