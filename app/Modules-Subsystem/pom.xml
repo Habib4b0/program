@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.stpl.gtn.esa</groupId>
+	<artifactId>modules-subsytem</artifactId>
+	<packaging>esa</packaging>
+	<version>1.0</version>
+	<parent>
+		<groupId>com.stpl.app</groupId>
+		<artifactId>global-parent</artifactId>
+		<version>1.0</version>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>com.stpl.app</groupId>
+			<artifactId>gtnAdminConsole</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.stpl.app</groupId>
+			<artifactId>gtnCff</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.stpl.app</groupId>
+			<artifactId>gtnforecasting</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.stpl.app</groupId>
+			<artifactId>gtnGCM</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.stpl.app</groupId>
+			<artifactId>gtnGlobal</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.aries</groupId>
+				<artifactId>esa-maven-plugin</artifactId>
+				<version>1.0.2</version>
+				<extensions>true</extensions>
+				<configuration>
+					<generateManifest>true</generateManifest>
+					<startOrder>dependencies</startOrder>
+					<instructions>
+						<Subsystem-Type>osgi.subsystem.feature</Subsystem-Type>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
