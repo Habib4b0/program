@@ -151,19 +151,16 @@ public class Rates extends CustomComponent {
      */
     private void configureFields() {
         accrualRateSelectionDTO.setSessionDto(session);
-        frequencyDdlb.setImmediate(true);
         frequencyDdlb.addItem(Constant.MONTHLY);
         frequencyDdlb.setNullSelectionAllowed(false);
         frequencyDdlb.select(Constant.MONTHLY);
         frequencyDdlb.setReadOnly(true);
 
-        historyDdlb.setImmediate(true);
         historyDdlb.addItems(AccrualRateUtils.getInstance().historyPeriods12);
         historyDdlb.setNullSelectionAllowed(true);
         historyDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
         historyDdlb.select(null);
 
-        rateBasisDdlb.setImmediate(true);
         rateBasisDdlb.addItem(Constant.SELECT_ONE);
         rateBasisDdlb.addItem(AccrualRateUtils.ADJUSTED_DEMAND);
         rateBasisDdlb.addItem(AccrualRateUtils.DEMAND);
@@ -173,7 +170,6 @@ public class Rates extends CustomComponent {
         rateBasisDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
         rateBasisDdlb.select(null);
 
-        variables.setImmediate(true);
         variables.addItem(AccrualRateUtils.RATE);
         variables.addItem(AccrualRateUtils.AMOUNT);
         variables.select(AccrualRateUtils.RATE);
@@ -343,7 +339,6 @@ public class Rates extends CustomComponent {
      */
     public void configureAndLoadDataForExcel(final ExtCustomTable excelTable, final ExtContainer<AccrualRateProjectionDTO> excelContainer) {
 
-        excelTable.setImmediate(true);
         excelTable.setVisible(false);
         tableVerticalLayout.addComponent(excelTable);
 
@@ -368,13 +363,11 @@ public class Rates extends CustomComponent {
     private void loadFromAndToPeriods() {
         if (isFilterLoadNeeded) {
             fromDdlb.removeAllItems();
-            fromDdlb.setImmediate(true);
             fromDdlb.addItem(Constant.SELECT_ONE);
             fromDdlb.setNullSelectionAllowed(true);
             fromDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
 
             toDdlb.removeAllItems();
-            toDdlb.setImmediate(true);
             toDdlb.addItem(Constant.SELECT_ONE);
             toDdlb.setNullSelectionAllowed(true);
             toDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
@@ -416,7 +409,6 @@ public class Rates extends CustomComponent {
             value = editviewMap.get(Constant.HISTORY_CAPS);
             if (value != null) {
                 historyDdlb.setValue(String.valueOf(value));
-                historyDdlb.setImmediate(true);
             }
             value = editviewMap.get(Constant.RATE_BASIS);
             if (value != null) {

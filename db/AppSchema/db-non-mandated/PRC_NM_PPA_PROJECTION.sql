@@ -598,10 +598,10 @@ exec sp_executesql @SQL
                             END AS RESULT,
                             RESET_GRP,A.PPA_INDEX_NO
                      FROM   CTE A
-                            CROSS APPLY (SELECT MIN(( B.NET_BASE_PRICE_VALUE * POWER(( 1 + B.PRICE_TOLERANCE / 100.00 ), NEW_RN-NETTING_EXCLUSION-1) ) + CASE
-                                                                                                                                       WHEN MX_NEW_RN = NEW_RN THEN ( B.FIRST_RESET_VAL * POWER(( 1 + B.PRICE_TOLERANCE / 100.00 ), NEW_RN-NETTING_EXCLUSION-1) )
+                            CROSS APPLY (SELECT MIN(( B.NET_BASE_PRICE_VALUE * POWER(( 1 + B.PRICE_TOLERANCE / 100.00 ), NEW_RN-NETTING_EXCLUSION) ) + CASE
+                                                                                                                                       WHEN MX_NEW_RN = NEW_RN THEN ( B.FIRST_RESET_VAL * POWER(( 1 + B.PRICE_TOLERANCE / 100.00 ), NEW_RN-NETTING_EXCLUSION) )
                                                                                                                                        ELSE 0
-                                                                                                                                     END + ( IIF(B.NET_SUBSEQUENT_PERIOD_PRICE = 'YES', B.NET_SUBSEQUENT_PERIOD_PRICE_VALUE, 0) * POWER(( 1 + B.PRICE_TOLERANCE / 100.00 ), NEW_RN-NETTING_EXCLUSION-1) )) AS RES
+                                                                                                                                     END + ( IIF(B.NET_SUBSEQUENT_PERIOD_PRICE = 'YES', B.NET_SUBSEQUENT_PERIOD_PRICE_VALUE, 0) * POWER(( 1 + B.PRICE_TOLERANCE / 100.00 ), NEW_RN-NETTING_EXCLUSION) )) AS RES
                                          -- ,NEW_RN,B.NET_BASE,B.FIRST_RESET_VAL,B.NET_SUBSEQUENT,B.RNO,MX_NEW_RN
                                          FROM   (SELECT MAX(NEW_RN)
                                                           OVER() AS MX_NEW_RN,

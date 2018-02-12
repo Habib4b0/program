@@ -157,9 +157,6 @@ public abstract class AbstractHistoryLookup extends AbstractLookup {
 				addCustomerSearchButtons(contractName, contractNo, customerNativeSelect, customerId, contractHolder));
 		layout.addComponent(addResultsSection(contractResults, CONTRACT.getConstant()));
 		contractName.setValue(StringUtils.EMPTY);
-		contractName.setImmediate(true);
-		contractHolder.setImmediate(true);
-		customerId.setImmediate(true);
 		customerPanel.setContent(layout);
 		return customerPanel;
 	}

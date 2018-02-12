@@ -216,7 +216,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         frequencyDdlb.addItem(MONTHLY.getConstant());
         frequencyDdlb.setValue(QUARTERLY.getConstant());
 
-        historyDdlb.setImmediate(true);
 
         salesOrUnitsOpg.addStyleName(Constant.HORIZONTAL);
         salesOrUnitsOpg.addStyleName(Constant.OPTION_GROUP_WIDTH);
@@ -224,22 +223,18 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         salesOrUnitsOpg.addItem(UNITS.getConstant());
         salesOrUnitsOpg.addItem(BOTH.getConstant());
         salesOrUnitsOpg.setValue(SALES.getConstant());
-        salesOrUnitsOpg.setImmediate(true);
 
-        periodOrderOpg.setImmediate(true);
         periodOrderOpg.addStyleName(Constant.HORIZONTAL);
         periodOrderOpg.addStyleName(Constant.OPTION_GROUP_WIDTH);
         periodOrderOpg.addItem(ASCENDING.getConstant());
         periodOrderOpg.addItem(Constant.DESCENDING);
         periodOrderOpg.setValue(ASCENDING.getConstant());
-        actualOrProjectionsOpg.setImmediate(true);
         actualOrProjectionsOpg.addStyleName(Constant.HORIZONTAL);
         actualOrProjectionsOpg.addStyleName(Constant.OPTION_GROUP_WIDTH);
         actualOrProjectionsOpg.addItem(Constant.ACTUALS);
         actualOrProjectionsOpg.addItem(Constant.PROJECTIONS);
         actualOrProjectionsOpg.addItem(Constant.BOTH);
         actualOrProjectionsOpg.setValue(Constant.ACTUALS);
-        pivotViewOpg.setImmediate(true);
         pivotViewOpg.addStyleName(Constant.HORIZONTAL);
         pivotViewOpg.addStyleName(Constant.OPTION_GROUP_WIDTH);
         pivotViewOpg.addItem(Constant.PERIOD);
@@ -256,9 +251,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
         levelDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         levelDdlb.setValue(SELECT_ONE.getConstant());
         levelDdlb.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
-        levelDdlb.setImmediate(true);
         levelFilterDdlb.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
-        levelFilterDdlb.setImmediate(true);
         levelFilterDdlb.addItem(SELECT_ONE.getConstant());
         levelFilterDdlb.setNullSelectionItemId(SELECT_ONE.getConstant());
         levelFilterDdlb.setValue(SELECT_ONE.getConstant());

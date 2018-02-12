@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 6, 2018 3:06:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.StagReturnRateForecast" table="STAG_RETURN_RATE_FORECAST" schema="dbo">
+        <id name="stagReturnRateForecastSid" type="int">
+            <column name="STAG_RETURN_RATE_FORECAST_SID" />
+            <generator class="native" />
+        </id>
+        <property name="returnRateForecastInterfaceId" type="string">
+            <column name="RETURN_RATE_FORECAST_INTERFACE_ID" length="200" not-null="true" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="38" not-null="true" />
+        </property>
+        <property name="itemNo" type="string">
+            <column name="ITEM_NO" length="50" />
+        </property>
+        <property name="itemName" type="string">
+            <column name="ITEM_NAME" length="100" />
+        </property>
+        <property name="forecastYear" type="string">
+            <column name="FORECAST_YEAR" length="5" />
+        </property>
+        <property name="forecastMonth" type="string">
+            <column name="FORECAST_MONTH" length="25" />
+        </property>
+        <property name="rate" type="big_decimal">
+            <column name="RATE" precision="22" scale="6" not-null="true" />
+        </property>
+        <property name="forecastName" type="string">
+            <column name="FORECAST_NAME" length="100" />
+        </property>
+        <property name="forecastVer" type="string">
+            <column name="FORECAST_VER" length="15" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="50" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="10" not-null="true" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="38" not-null="true" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>
