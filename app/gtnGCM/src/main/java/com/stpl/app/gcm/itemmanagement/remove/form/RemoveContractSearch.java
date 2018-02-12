@@ -221,7 +221,6 @@ public class RemoveContractSearch extends AbstractContractSearch {
 
                     return itemendDate;
                 }
-
                 return null;
             }
         });

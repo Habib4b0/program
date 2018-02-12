@@ -106,8 +106,8 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected FileDownloader pdfDownloader;
     protected AbstractNotificationUtils.Parameter flag = new AbstractNotificationUtils.Parameter();
     protected static String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
-    protected Image wordPngImage = new Image(null, new ThemeResource("../../icons/word.png"));
-    protected Image pdfPngImage = new Image(null, new ThemeResource("../../icons/pdf.png"));
+    protected Image wordPngImage = new Image(null, new ThemeResource("img/word.png"));
+    protected Image pdfPngImage = new Image(null, new ThemeResource("img//pdf.png"));
     protected final File logo = CommonUtil.getFilePath(basepath + "/WEB-INF/images/company_logo.png");
     protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
     protected Object tableBeanId = null;
@@ -134,7 +134,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     /**
      * The file path.
      */
-    protected final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + MOVE_BACK + MOVE_BACK + MOVE_BACK + File.separator + "Documents" + File.separator + "National Assumptions");
+    protected final File filePathForLink = CommonUtil.getFilePath(CommonUtil.getJbossHome() + File.separator + "Documents" + File.separator + "National Assumptions");
     protected List<String> notesList = new ArrayList<>();
     protected List<String> wordList = new ArrayList<>();
     protected int projectionId = 0;
@@ -181,7 +181,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     private void addAttachments() {
         Label addAttachmentLable = new Label("Attachment");
         addAttachmentLable.addStyleName("attachment");
-        fileNameField.setImmediate(true);
         fileNameField.setMaxLength(NumericConstants.TWO_FIVE_ZERO);
         fileNameField.addValidator(new StringLengthValidator(" File Name Should be less than 250 characters", 0, NumericConstants.TWO_FIVE_ZERO, true));
 
@@ -213,7 +212,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         table.addStyleName(Constant.FILTERBAR);
         table.setFilterBarVisible(true);
         table.setFilterDecorator(new ExtDemoFilterDecorator());
-        table.setImmediate(true);
         table.setPageLength(NumericConstants.SEVEN);
         table.setContainerDataSource(attachmentsListBean);
         table.setSelectable(true);
@@ -228,7 +226,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         fileNameLb.addStyleName("filenamelable");
         fileNameLb.addStyleName("mandatory");
         uploader.setStyleName(Constant.SEARCH_TEXT);
-        uploader.setImmediate(true);
         uploader.setEnabled(false);
         uploadComponent.setStyleName("uploadIdBB");
         internalNotes.setEnabled(true);
@@ -279,7 +276,8 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             @Override
             public void call(JsonArray arguments) {
                 try {
-                    String value = String.valueOf(arguments.get(0));
+                     elemental.json.impl.JreJsonString jsonstring=arguments.get(0);
+                    final String value = jsonstring.asString();
                     if (StringUtils.isNotEmpty(value)) {
 
                         fileUpload = CommonUtil.getFilePath(fileUploadPath + value);
@@ -328,13 +326,11 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
 
         newNote.setSizeFull();
         newNote.setRows(NumericConstants.SEVEN);
-        newNote.setImmediate(true);
         newNote.setMaxLength(NumericConstants.THOUSAND);
         newNote.addValidator(new StringLengthValidator(" New Note Should be less than 1000 characters", 0, NumericConstants.THOUSAND, true));
         internalNotes.setSizeFull();
         internalNotes.setRows(NumericConstants.SEVEN);
         internalNotes.markAsDirty();
-        internalNotes.setImmediate(true);
         internalNotes.setEnabled(false);
         uploadComponent.setButtonCaption(Constant.ADD);
         addNote.addClickListener(new Button.ClickListener() {
@@ -422,6 +418,10 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         try {
             setValues(mode.equalsIgnoreCase(ACTION_EDIT.getConstant()) || mode.equalsIgnoreCase(ACTION_VIEW.getConstant()) ? true : false);
         } catch (Exception ex) {
+            ex.printStackTrace();
+             StackTraceElement[] trace = ex.getStackTrace();
+            for (StackTraceElement traceElement : trace)
+                LOGGER.error("\tat " + traceElement);
             LOGGER.error(ex.getMessage());
 
         }
@@ -786,7 +786,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             String mode2 = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
             if (ACTION_EDIT.getConstant().equalsIgnoreCase(mode2) || ACTION_VIEW.getConstant().equalsIgnoreCase(mode2) || saveFlag) {
                 attachmentsListBean.removeAllItems();
-                if (projectionId == 0) {
+                if (projectionId == 0 && VaadinSession.getCurrent().getAttribute(PROJECTION_ID)!=null) {
                     projectionId = (Integer) VaadinSession.getCurrent().getAttribute(PROJECTION_ID);
                 }
 

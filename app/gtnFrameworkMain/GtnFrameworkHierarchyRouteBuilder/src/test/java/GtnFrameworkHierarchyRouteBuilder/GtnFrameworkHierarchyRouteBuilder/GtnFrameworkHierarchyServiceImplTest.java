@@ -22,7 +22,7 @@ import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchySer
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:GtnFrameworkHierarchyRouteBuilder-test.xml" })
 @Ignore
-public class AppTest {
+public class GtnFrameworkHierarchyServiceImplTest {
 
 	@Autowired
 	private GtnFrameworkHierarchyService hierarchyService;
@@ -33,13 +33,13 @@ public class AppTest {
 	 * @param testName
 	 *            name of the test case
 	 */
-	public AppTest() {
+	public GtnFrameworkHierarchyServiceImplTest() {
 		/*
 		* 
 		*/
 	}
 
-	 @Test
+	@Test
 	public void creatQueryForMultiLevelHierarchy() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
 		List<String> entityList = Arrays.asList("RS_CONTRACT");
@@ -50,7 +50,7 @@ public class AppTest {
 		Assert.assertEquals(true, !finalQuery.isEmpty());
 	}
 
-	 @Test
+	@Test
 	public void getRoutePath() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
 		GtnFrameworkRouteBean routePath = hierarchyService.getRoutePath(6, 7);
@@ -70,6 +70,19 @@ public class AppTest {
 		String finalQuery = queryBean.generateQuery();
 		
 
+		Assert.assertEquals(true, !finalQuery.isEmpty());
+		Assert.assertEquals(true, routePath.getPathList().isEmpty());
+	}
+
+	@Test
+	public void getInboundRestrictionQueryForAutoUpdate() {
+		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
+		GtnFrameworkRouteBean routePath = hierarchyService.getPathByTableNameAndHierarchyType("CONTRACT_MASTER",
+				"COMPANY_MASTER", "CUSTOMER HIERARCHY");
+		hierarchyService.createQuery(routePath, queryBean);
+		hierarchyService.getInboundRestrictionQueryForAutoUpdate(queryBean);
+		String finalQuery = queryBean.generateQuery();
+		System.out.println("finalQuery--->>" + finalQuery);
 		Assert.assertEquals(true, !finalQuery.isEmpty());
 		Assert.assertEquals(true, routePath.getPathList().isEmpty());
 	}

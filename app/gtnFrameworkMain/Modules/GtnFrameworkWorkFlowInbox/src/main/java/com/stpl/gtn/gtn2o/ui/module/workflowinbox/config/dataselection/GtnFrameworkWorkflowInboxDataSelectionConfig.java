@@ -250,7 +250,6 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		GtnUIFrameworkTextBoxConfig privatetextboxConfig = new GtnUIFrameworkTextBoxConfig();
 		privatetextboxConfig.setEnable(true);
 		privatetextboxConfig.setRequired(true);
-		privatetextboxConfig.setImmediate(true);
 		privatetextboxConfig.setReadOnly(true);
 		privateViewComponent.setGtnTextBoxConfig(privatetextboxConfig);
 
@@ -288,7 +287,6 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		GtnUIFrameworkTextBoxConfig publictextboxConfig = new GtnUIFrameworkTextBoxConfig();
 		publictextboxConfig.setEnable(true);
 		publictextboxConfig.setRequired(true);
-		publictextboxConfig.setImmediate(true);
 		publictextboxConfig.setReadOnly(true);
 		publicViewComponent.setGtnTextBoxConfig(publictextboxConfig);
 
@@ -402,7 +400,6 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		GtnUIFrameworkTextBoxConfig createdByboxConfig = new GtnUIFrameworkTextBoxConfig();
 		createdByboxConfig.setEnable(true);
 		createdByboxConfig.setRequired(true);
-		createdByboxConfig.setImmediate(true);
 		createdByboxConfig.setReadOnly(false);
 		createdByComponent.setGtnTextBoxConfig(createdByboxConfig);
 
@@ -471,7 +468,6 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		GtnUIFrameworkTextBoxConfig approvedByboxConfig = new GtnUIFrameworkTextBoxConfig();
 		approvedByboxConfig.setEnable(true);
 		approvedByboxConfig.setRequired(true);
-		approvedByboxConfig.setImmediate(true);
 		approvedByboxConfig.setReadOnly(false);
 		approvedByComponent.setGtnTextBoxConfig(approvedByboxConfig);
 
@@ -552,7 +548,6 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		alertParamsList.add(GtnFrameworkWorkflowInboxClassConstants.BUSINESSPROCESS_MANDATORY);
 		alertActionConfig.setActionParameterList(alertParamsList);
 
-		alertActionConfig.setActionParameterList(alertParamsList);
 		validationActionConfig.setActionParameterList(
 				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(alertActionConfig)));
 		actionConfigList.add(validationActionConfig);

@@ -115,6 +115,7 @@ public class ProjectionVarianceLogic {
     private static final int COLUMN_COUNT_TOTAL = NumericConstants.NINTY_SIX;
     public static final String CROSS_APPLY_SELECT_TOKEN_FROM_UDF_SPLITST = "CROSS APPLY (SELECT TOKEN FROM UDF_SPLITSTRING('";
     public static final String CONCAT_CONDITION = "', ',') C WHERE CH.PROD_HIERARCHY_NO LIKE concat(C.TOKEN , '%')) FN";
+    public static final String WHERE_FILTER_CCPD = " WHERE FILTER_CCPD = 1 ";
 
     public List getChartList() {
         return chartList == null ? chartList : new ArrayList<>(chartList);
@@ -2985,6 +2986,7 @@ public class ProjectionVarianceLogic {
         countQuery = countQuery.replace(Constants.RELVALUE, projSelDTO.getSessionDTO().getDedRelationshipBuilderSid());
         countQuery += insertAvailableHierarchyNo(projSelDTO);
         countQuery += commonLogic.getDedCustomJoinGenerate(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), levelNo);
+        countQuery += WHERE_FILTER_CCPD;
         countQuery += SQlUtil.getQuery("custom-view-count-condition-query");
         countQuery = countQuery.replace(Constants.RELJOIN, CommonLogic.getRelJoinGenerate(commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO)));
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(countQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
@@ -3009,6 +3011,7 @@ public class ProjectionVarianceLogic {
             query = query.replace("[?HIERARCHY_COLUMN]", commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
             query = query.replace("[?TAB_BASED_JOIN]", SQlUtil.getQuery("discount-join-filter"));
             query += commonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator());
+            query += WHERE_FILTER_CCPD;
             query += SQlUtil.getQuery("custom-view-count-condition-query");
             query = query.replace(Constants.RELJOIN, CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator()));
             List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
@@ -3140,6 +3143,7 @@ public class ProjectionVarianceLogic {
         query = query.replace(Constants.RELVALUE, projSelDTO.getSessionDTO().getDedRelationshipBuilderSid());
         query += insertAvailableHierarchyNo(projSelDTO);
         query += commonLogic.getDedCustomJoinGenerate(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), levelNo);
+        query += WHERE_FILTER_CCPD ;
         query += SQlUtil.getQuery("custom-view-condition-query");
         query = query.replace(Constants.RELJOIN, commonLogic.getRelJoinGenerate(commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO)));
         query = query.replace("[?START]", String.valueOf(start));
@@ -3199,6 +3203,7 @@ public class ProjectionVarianceLogic {
         query = query.replace("[?HIERARCHY_COLUMN]", commonLogic.getColumnName(projSelDTO.getHierarchyIndicator()));
         query = query.replace("[?TAB_BASED_JOIN]", SQlUtil.getQuery("discount-join-filter"));
         query += CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator());
+        query += WHERE_FILTER_CCPD;
         query += SQlUtil.getQuery("custom-view-condition-query");
         query = query.replace("[?START]", String.valueOf(start));
         query = query.replace("[?END]", String.valueOf(end));

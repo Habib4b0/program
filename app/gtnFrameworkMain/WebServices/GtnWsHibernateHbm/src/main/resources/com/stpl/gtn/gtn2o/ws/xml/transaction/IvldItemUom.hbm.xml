@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 1, 2017 3:21:50 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Feb 6, 2018 3:06:37 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldItemUom" table="IVLD_ITEM_UOM" schema="dbo">
         <id name="ivldItemUomSid" type="int">
             <column name="IVLD_ITEM_UOM_SID" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
-        <property name="itemUomConversionId" type="double">
+        <property name="itemUomConversionId" type="big_decimal">
             <column name="ITEM_UOM_CONVERSION_ID" precision="38" scale="0" not-null="true" />
         </property>
         <property name="itemId" type="string">
@@ -80,7 +80,7 @@
         <property name="reprocessedFlag" type="string">
             <column name="REPROCESSED_FLAG" length="1" />
         </property>
-        <property name="checkRecord" type="boolean">
+        <property name="checkRecord" type="java.lang.Boolean">
             <column name="CHECK_RECORD" />
         </property>
     </class>

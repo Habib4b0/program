@@ -155,9 +155,7 @@ public abstract class ForecastSalesProjectionResults extends CustomComponent imp
     }
     public void configureField(){
     level.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
-    level.setImmediate(true);
     levelFilter.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
-    levelFilter.setImmediate(true);       
     }
     
     @UiHandler("frequency")

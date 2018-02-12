@@ -105,10 +105,11 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 	private void addRestrictionQuery(GtnFrameworkRouteBean routeBean, GtnFrameworkQueryGeneratorBean queryBean) {
 		List<Integer> pathList = routeBean.getPathList();
 		for (Integer pathValue : pathList) {
-			GtnFrameworkHierarchyRestrictionBean restrictionBean = entityMasterBean.getRestrictionBean(pathValue);
-			if (restrictionBean == null)
+			List<GtnFrameworkHierarchyRestrictionBean> restrictionBeanList = entityMasterBean
+					.getRestrictionBean(pathValue);
+			if (restrictionBeanList == null)
 				continue;
-			restrictionBean.addrestrictionForTable(queryBean);
+			GtnFrameworkHierarchyRestrictionBean.buildRestrictionQuery(restrictionBeanList, queryBean);
 		}
 
 	}
@@ -315,14 +316,11 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 					GtnFrameworkOperatorType.NOT_EQUAL_TO, GtnFrameworkDataType.STRING,
 					tableBean.getInboundStatusValue());
 		}
-		GtnFramworkTableBean tableBean = entityMasterBean
-				.getEntityBeanByTableName(queryBaen.getFromTableName());
+		GtnFramworkTableBean tableBean = entityMasterBean.getEntityBeanByTableName(queryBaen.getFromTableName());
 		if (tableBean.getInboundStatusColumn() == null)
 			return;
 		queryBaen.addWhereClauseBean(tableBean.getInboundStatusColumn(queryBaen.getFromTableAlies()), null,
-				GtnFrameworkOperatorType.NOT_EQUAL_TO, GtnFrameworkDataType.STRING,
-				tableBean.getInboundStatusValue());
-		
+				GtnFrameworkOperatorType.NOT_EQUAL_TO, GtnFrameworkDataType.STRING, tableBean.getInboundStatusValue());
 
 	}
 

@@ -89,12 +89,11 @@ public class QueryUtils {
             List<String> periodsList = new ArrayList<>();
             if (projectionSelection.getMethodology().equals(CONTRACT_DETAILS.getConstant())) {
                 baselinePeriods = " ";
-                for (String discountName : selectedDiscount) {
-                    if(isCustom){
-                      updateBaseLinePeriodsCustom(baselinePeriods, projectionSelection, discountName,isProgram);
-                    }else{
-                     updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName,isProgram);
+                if(isCustom){
+                      updateBaseLinePeriodsCustom(baselinePeriods, projectionSelection);
                     }
+                for (String discountName : selectedDiscount) {
+                     updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName,isProgram);
                 }
             } else {
                 for (String discountName : periodsMap.keySet()) {
@@ -116,7 +115,7 @@ public class QueryUtils {
                         baselinePeriods = CommonUtils.replaceShortMonthForMonth(baselinePeriods);
                     }
                     if (isCustom) {
-                        updateBaseLinePeriodsCustom(baselinePeriods, projectionSelection, discountName, isProgram);
+                        updateBaseLinePeriodsCustom(baselinePeriods, projectionSelection);
                     } else {
                         updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName, isProgram);
                     }
@@ -765,7 +764,7 @@ public class QueryUtils {
                commonDao.executeBulkUpdateQuery(QueryUtil.replaceTableNames(masterTableUpdateQuery, projectionSelection.getSessionDTO().getCurrentTableNames()), null, null);
     }
     
-    private void updateBaseLinePeriodsCustom(String baselinePeriods, ProjectionSelectionDTO projectionSelection, String discountName,Boolean isProgram) {
+    private void updateBaseLinePeriodsCustom(String baselinePeriods, ProjectionSelectionDTO projectionSelection) {
        LOGGER.info(" Baseline Periods " + baselinePeriods);
        String masterTableUpdateQuery;
                 masterTableUpdateQuery = SQlUtil.getQuery("BASELINE_UPDATE_QUERY_CUSTOM");

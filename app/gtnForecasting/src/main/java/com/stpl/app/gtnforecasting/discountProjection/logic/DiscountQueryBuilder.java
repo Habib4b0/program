@@ -259,12 +259,10 @@ public class DiscountQueryBuilder {
             String column2 = "";
             if ("Discount Rate".equals(selectedField)) {
                 column = "DPT.PROJECTION_RATE";
-                column2 = "SET DPT.PROJECTION_SALES = NM.PROJECTION_SALES * (DPT.PROJECTION_RATE / 100.0),\n"
-                        + "DPT.PROJECTION_RPU = (NM.PROJECTION_SALES * (DPT.PROJECTION_RATE / 100.0)) / NULLIF(NM.PROJECTION_UNITS, 0) ";
+                column2 = "SET DPT.PROJECTION_SALES = NM.PROJECTION_SALES * (@DISCOUNT_AMOUNT / 100.0)";
             }
             if ("RPU".equals(selectedField)) {
-                column2 = "SET    DPT.PROJECTION_SALES = DPT.PROJECTION_RPU * NM.PROJECTION_UNITS,\n"
-                        + "DPT.PROJECTION_RATE = (( DPT.PROJECTION_RPU * NM.PROJECTION_UNITS ) / NULLIF(NM.PROJECTION_SALES, 0))*100.0";
+                column2 = "SET    DPT.PROJECTION_SALES = @DISCOUNT_AMOUNT  * NM.PROJECTION_UNITS ";
                 column = "DPT.PROJECTION_RPU";
             }
             if ("Discount Amount".equals(selectedField)) {
@@ -396,8 +394,6 @@ public class DiscountQueryBuilder {
                 if ("Discount Rate".equals(selectedField) || "RPU".equals(selectedField)) {
                     customSql = declareStatement +rebateHiearachyJoin + SQlUtil.getQuery("discRatemassPopulate");
                     customSql = customSql.replaceAll("@SELDISC", "" + selectedDiscounts);
-                    customSql = customSql.replaceAll("@RATE", "" + fieldValue);
-                    customSql = customSql.replace("@COLUMN1", column);
                     customSql = customSql.replace("@COL2", column2);
                     customSql = customSql.replace("@DISCTYPE ", discountType + " IN ");
                 } else if ("Discount Amount".equals(selectedField) ){
@@ -796,7 +792,7 @@ public class DiscountQueryBuilder {
                     + "                         ON SR.PRICE_GROUP_TYPE = MAS.@REBATE_COLUMN ");
             sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo));
         }
-        sql = sql.replace(SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(sessionDTO, customId, levelNo, isCustomHierarchy, hierarchyIndicator, customerHierarchyNo, productHierarchyNo, deductionHierarchyNo, userGroup));
+        sql = sql.replace(SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(sessionDTO, customId, levelNo, isCustomHierarchy, hierarchyIndicator, customerHierarchyNo, productHierarchyNo, commonLogic.replacePercentHierarchy(deductionHierarchyNo), userGroup));
         sql = sql.replace("@START", String.valueOf(startIndex));
         sql = sql.replace("@OFFSET", String.valueOf(endIndex));
         return sql;
@@ -829,7 +825,6 @@ public class DiscountQueryBuilder {
                     + "                         ON SR.PRICE_GROUP_TYPE = MAS.@REBATE_COLUMN ");
             sqlQuery = sqlQuery.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, commonLogic.getSelectedHierarchy(sessionDTO, hierarchyNo, hierarchyIndicator, levelNo));
         }
-        sqlQuery = sqlQuery.replace("@RELTIONVALUES","RLD.RELATIONSHIP_LEVEL_VALUES");
         sqlQuery = sqlQuery.replace(SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(sessionDTO, customId, levelNo, isCustomHierarchy, hierarchyIndicator, customerHierarchyNo, productHierarchyNo, commonLogic.replacePercentHierarchy(deductionHierarchyNo), userGroup));
         sqlQuery = sqlQuery.replace("@START", String.valueOf(startIndex));
         sqlQuery = sqlQuery.replace("@OFFSET", String.valueOf(endIndex));
@@ -1009,7 +1004,6 @@ public class DiscountQueryBuilder {
         .replace(RELVALUE, sessionDTO.getDedRelationshipBuilderSid());
         queryBuilder += SQlUtil.getQuery("custom-view-count-condition-query");
         queryBuilder = queryBuilder.replace(Constant.RELJOIN, commonLogic.getRelJoinGenerate(hierarchyIndicator,sessionDTO));
-        queryBuilder = queryBuilder.replace("@RELTIONVALUES", "RLD.RELATIONSHIP_LEVEL_VALUES");
         return queryBuilder;
     }
 
@@ -1034,7 +1028,7 @@ public class DiscountQueryBuilder {
 
     private String checkIsCustom(boolean isCustomHierarchy, String hierarchyIndicator, String customerHierarchyNo, String productHierarchyNo, String deductionHierarchyNo, String hierarchyNo, String customSql,SessionDTO session) {
         if (isCustomHierarchy) {
-            customSql = customSql.replace("@CUSTOM_VIEW",commonLogic.getHierarchyJoinQuery(isCustomHierarchy,customerHierarchyNo,productHierarchyNo,deductionHierarchyNo,hierarchyIndicator,session));
+            customSql = customSql.replace("@CUSTOM_VIEW",commonLogic.getHierarchyJoinQuery(isCustomHierarchy,customerHierarchyNo,productHierarchyNo,commonLogic.replacePercentHierarchy(deductionHierarchyNo),hierarchyIndicator,session));
         } else {
             customSql = customSql.replace(Constant.HIERARCHY_NO, hierarchyNo);
         }

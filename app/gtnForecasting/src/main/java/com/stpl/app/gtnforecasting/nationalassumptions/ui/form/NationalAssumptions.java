@@ -1422,7 +1422,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     itemMasterSidMap.put(Integer.parseInt(String.valueOf(obj[0])), ndcDesc);
                     nonFampMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.FIVE]));
                     fssMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.SIX]));
-                    federalWacMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.SEVEN]));
+                    federalWacMap.put(String.valueOf(obj[0]), String.valueOf(obj[NumericConstants.FOUR]));
 
                     NewNdcDTO ndcDto = new NewNdcDTO();
                     ndcDto.setItemMasterSid(Integer.parseInt(String.valueOf(obj[0])));
@@ -1593,6 +1593,8 @@ public class NationalAssumptions extends CustomComponent implements View {
         resetBtn.setEnabled(false);
         ndcBtn.setEnabled(false);
         priceBasisDdlb.setEnabled(false);
+        priceTrendDdlb.setEnabled(false);
+        reloadTable();
     }
 
     @UiHandler("priceTypeDdlb")
@@ -1630,6 +1632,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                     frequencyDdlb.setEnabled(true);
                 }
             }
+            wacvalue.setEnabled(false);
         } else if (priceTypeDdlb.getValue() != null && Constant.ANNUAL_FSS.equals(String.valueOf(priceTypeDdlb.getValue()))) {
             cpiCompounding.setEnabled(false);
             baselineStartPeriod.setEnabled(false);

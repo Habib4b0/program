@@ -108,7 +108,7 @@ public class RelationShipFilterLogic {
 		List<Leveldto> resultList = new ArrayList<>();
 		String finalQuery = getQueryForLinkedLevelCustomer(selectedHierarchyLevelDto, relationshipSid,
 				groupFilteredCompanies, levelHierarchyLevelDefinitionList, dedLevel, dedValue, relationVersionNo);
-		List<Object[]> resultsRelationList = getRelationshipList(selectedHierarchyLevelDto, relationshipSid);
+		List<Object[]> resultsRelationList = getRelationshipList(selectedHierarchyLevelDto, relationshipSid,relationVersionNo);
 		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
 			for (int i = 0; i < resultsDataList.size(); i++) {
@@ -174,10 +174,11 @@ public class RelationShipFilterLogic {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object[]> getRelationshipList(Leveldto selectedHierarchyLevelDto, int relationshipSid) {
+	public List<Object[]> getRelationshipList(Leveldto selectedHierarchyLevelDto, int relationshipSid,int relationVersionNo) {
 		List<Object> relationInput = new ArrayList<>();
 		relationInput.add(relationshipSid);
 		relationInput.add(selectedHierarchyLevelDto.getLevelNo());
+		relationInput.add(relationVersionNo);
 		return (List<Object[]>) QueryUtils.getAppData(relationInput, "selectQueryForLevelLoadingForRelation", null);
 	}
 
@@ -233,7 +234,7 @@ public class RelationShipFilterLogic {
 				groupFilteredItems, selectedCustomerContractList, isNdc, levelHierarchyLevelDefinitionList,
 				customerHierarchyLevelList, dedLevel, dedValue, relationVersionNo, customerRelationVersionNo,
 				businessUnitValue);
-		List<Object[]> resultsRelationList = getRelationshipList(selectedHierarchyLevelDto, relationshipSid);
+		List<Object[]> resultsRelationList = getRelationshipList(selectedHierarchyLevelDto, relationshipSid,relationVersionNo);
 		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
 			for (int i = 0; i < resultsDataList.size(); i++) {
