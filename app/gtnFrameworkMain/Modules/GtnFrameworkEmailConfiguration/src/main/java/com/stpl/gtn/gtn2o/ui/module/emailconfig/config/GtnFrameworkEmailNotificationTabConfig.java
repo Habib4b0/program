@@ -25,10 +25,12 @@ public class GtnFrameworkEmailNotificationTabConfig {
 		GtnFrameworkComponentConfigProvider componentConfig = GtnFrameworkComponentConfigProvider.getInstance();
 		GtnUIFrameworkComponentConfig emailNotificationRootLayout = componentConfig
 				.getRootLayoutConfig("emailNotificationTab", GtnUIFrameworkLayoutType.VERTICAL_LAYOUT, true);
+		emailNotificationRootLayout.setComponentWidth(GtnFrameworkEmailConfigStringContants.HUNDRED_PERCENTAGE);
 		componentList.add(emailNotificationRootLayout);
 
 		GtnUIFrameworkComponentConfig emailNotificationMainCssLayout = componentConfig.getVerticalLayoutConfig(
 				GtnFrameworkCommonConstants.EMAIL_NOTIFICATION_MAIN_TAB_LAYOUT, true, "emailNotificationTab");
+		emailNotificationMainCssLayout.setComponentWidth(GtnFrameworkEmailConfigStringContants.HUNDRED_PERCENTAGE);
 		componentList.add(emailNotificationMainCssLayout);
 		addPanel(componentList, componentConfig);
 		addMainLayout(componentList, componentConfig);
@@ -54,6 +56,7 @@ public class GtnFrameworkEmailNotificationTabConfig {
 		GtnUIFrameworkComponentConfig successMailNotificationPanel = componentConfig.getPanelConfig(
 				"successMailNotificationPanel", true, GtnFrameworkCommonConstants.EMAIL_NOTIFICATION_MAIN_TAB_LAYOUT);
 		successMailNotificationPanel.setComponentName("Success Mail Notification");
+		successMailNotificationPanel.setComponentWidth(GtnFrameworkEmailConfigStringContants.HUNDRED_PERCENTAGE);
 		componentList.add(successMailNotificationPanel);
 	}
 
@@ -63,6 +66,7 @@ public class GtnFrameworkEmailNotificationTabConfig {
 		GtnUIFrameworkComponentConfig panel = componentConfig.getPanelConfig("failureMailNotificationPanel", true,
 				GtnFrameworkCommonConstants.EMAIL_NOTIFICATION_MAIN_TAB_LAYOUT);
 		panel.setComponentName("Failure Mail Notification");
+		panel.setComponentWidth(GtnFrameworkEmailConfigStringContants.HUNDRED_PERCENTAGE);
 		componentList.add(panel);
 	}
 
@@ -78,11 +82,29 @@ public class GtnFrameworkEmailNotificationTabConfig {
 	private void addSuccessMailNoficationLayout(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 
-		GtnUIFrameworkComponentConfig successMailNotificationCssLayout = componentConfig.getCssLayoutConfig(
-				GtnFrameworkCommonConstants.SUCCESS_MAIL_NOTIFICATION_LAYOUT, true, "successMailNotificationPanel");
+		GtnUIFrameworkComponentConfig successMailNotificationVerticalLayout = componentConfig.getVerticalLayoutConfig(
+				"successMailNotificationVerticalLayout", true,"successMailNotificationPanel");
+		
+		successMailNotificationVerticalLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		successMailNotificationVerticalLayout.setComponentWidth(GtnFrameworkEmailConfigStringContants.ONE_THIRTY_PERCENTAGE);
+		
+		GtnUIFrameworkComponentConfig successMailNotificationCssLayout = componentConfig.getHorizontalLayoutConfig(
+				GtnFrameworkCommonConstants.SUCCESS_MAIL_NOTIFICATION_LAYOUT, true, "successMailNotificationVerticalLayout");
 		successMailNotificationCssLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		successMailNotificationCssLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_90);
+		
+		GtnUIFrameworkComponentConfig successMailNotificationVerticalLayoutLeft = componentConfig.getVerticalLayoutConfig(
+				GtnFrameworkEmailConfigStringContants.SUCCESS_MAIL_NOTIFICATION_VERTICAL_LAYOUT_LEFT, true,GtnFrameworkCommonConstants.SUCCESS_MAIL_NOTIFICATION_LAYOUT);
+		successMailNotificationVerticalLayoutLeft.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		
+		GtnUIFrameworkComponentConfig successMailNotificationVerticalLayoutRight = componentConfig.getVerticalLayoutConfig(
+				GtnFrameworkEmailConfigStringContants.SUCCESS_MAIL_NOTIFICATION_VERTICAL_LAYOUT_RIGHT, true,GtnFrameworkCommonConstants.SUCCESS_MAIL_NOTIFICATION_LAYOUT);
+		successMailNotificationVerticalLayoutRight.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		
+		componentList.add(successMailNotificationVerticalLayout);
 		componentList.add(successMailNotificationCssLayout);
+		componentList.add(successMailNotificationVerticalLayoutLeft);
+		componentList.add(successMailNotificationVerticalLayoutRight);
+		
 
 		addSuccessEmailTo(componentList, componentConfig);
 		addSuccessEmailCc(componentList, componentConfig);
@@ -93,11 +115,26 @@ public class GtnFrameworkEmailNotificationTabConfig {
 
 	private void addFailureMailNotificationLayout(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
-		GtnUIFrameworkComponentConfig failureMailNotificationCssLayout = componentConfig.getCssLayoutConfig(
-				GtnFrameworkCommonConstants.FAILURE_MAIL_NOTIFICATION_LAYOUT, true, "failureMailNotificationPanel");
+		GtnUIFrameworkComponentConfig failureMailNotificationVerticalLayout = componentConfig.getVerticalLayoutConfig(
+				"failureMailNotificationVerticalLayout", true,"failureMailNotificationPanel");
+		failureMailNotificationVerticalLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		failureMailNotificationVerticalLayout.setComponentWidth(GtnFrameworkEmailConfigStringContants.ONE_THIRTY_PERCENTAGE);
+		
+		GtnUIFrameworkComponentConfig failureMailNotificationCssLayout = componentConfig.getHorizontalLayoutConfig(
+				GtnFrameworkCommonConstants.FAILURE_MAIL_NOTIFICATION_LAYOUT, true, "failureMailNotificationVerticalLayout");
 		failureMailNotificationCssLayout.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
-		failureMailNotificationCssLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_90);
+		
+		GtnUIFrameworkComponentConfig failureMailNotificationVerticalLayoutLeft = componentConfig.getVerticalLayoutConfig(
+				GtnFrameworkEmailConfigStringContants.FAILURE_MAIL_NOTIFICATION_VERTICAL_LAYOUT_LEFT, true,GtnFrameworkCommonConstants.FAILURE_MAIL_NOTIFICATION_LAYOUT);
+		failureMailNotificationVerticalLayoutLeft.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		GtnUIFrameworkComponentConfig failureMailNotificationVerticalLayoutRight = componentConfig.getVerticalLayoutConfig(
+				GtnFrameworkEmailConfigStringContants.FAILURE_MAIL_NOTIFICATION_VERTICAL_LAYOUT_RIGHT, true,GtnFrameworkCommonConstants.FAILURE_MAIL_NOTIFICATION_LAYOUT);
+		failureMailNotificationVerticalLayoutRight.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
+		
+		componentList.add(failureMailNotificationVerticalLayout);
 		componentList.add(failureMailNotificationCssLayout);
+		componentList.add(failureMailNotificationVerticalLayoutLeft);
+		componentList.add(failureMailNotificationVerticalLayoutRight);
 
 		addFieldComponent(componentList, componentConfig);
 	}
@@ -154,10 +191,11 @@ public class GtnFrameworkEmailNotificationTabConfig {
 	private void addSuccessEmailTo(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		GtnUIFrameworkComponentConfig addEmailToLayout = componentConfig.getHorizontalLayoutConfig("addEmailTolayout",
-				true, GtnFrameworkCommonConstants.SUCCESS_MAIL_NOTIFICATION_LAYOUT);
+				true, GtnFrameworkEmailConfigStringContants.SUCCESS_MAIL_NOTIFICATION_VERTICAL_LAYOUT_LEFT);
 		addEmailToLayout.setSpacing(true);
 		addEmailToLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		addEmailToLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_BOTTOM_14);
+		addEmailToLayout.addComponentStyle(GtnFrameworkEmailConfigStringContants.STPL_MARGIN_TOP_14);
 		componentList.add(addEmailToLayout);
 
 		GtnUIFrameworkComponentConfig emailToConfig = componentConfig.getUIFrameworkComponentConfig(
@@ -176,7 +214,7 @@ public class GtnFrameworkEmailNotificationTabConfig {
 	private void addSuccessSubject(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		GtnUIFrameworkComponentConfig addSubjectLayout = componentConfig.getHorizontalLayoutConfig("addSubjectlayout",
-				true, GtnFrameworkCommonConstants.SUCCESS_MAIL_NOTIFICATION_LAYOUT);
+				true,GtnFrameworkEmailConfigStringContants.SUCCESS_MAIL_NOTIFICATION_VERTICAL_LAYOUT_LEFT);
 		addSubjectLayout.setSpacing(true);
 		addSubjectLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		addSubjectLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_BOTTOM_14);
@@ -199,10 +237,11 @@ public class GtnFrameworkEmailNotificationTabConfig {
 	private void addSuccessEmailCc(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		GtnUIFrameworkComponentConfig addEmailCcLayout = componentConfig.getHorizontalLayoutConfig("addEmailCclayout",
-				true, GtnFrameworkCommonConstants.SUCCESS_MAIL_NOTIFICATION_LAYOUT);
+				true,GtnFrameworkEmailConfigStringContants.SUCCESS_MAIL_NOTIFICATION_VERTICAL_LAYOUT_RIGHT);
 		addEmailCcLayout.setSpacing(true);
 		addEmailCcLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		addEmailCcLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_BOTTOM_14);
+		addEmailCcLayout.addComponentStyle(GtnFrameworkEmailConfigStringContants.STPL_MARGIN_TOP_14);
 		componentList.add(addEmailCcLayout);
 
 		GtnUIFrameworkComponentConfig addEmailCc = componentConfig.getUIFrameworkComponentConfig(
@@ -221,7 +260,7 @@ public class GtnFrameworkEmailNotificationTabConfig {
 	private void addSuccessEmailBody(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		GtnUIFrameworkComponentConfig addEmailBodyLayout = componentConfig.getHorizontalLayoutConfig(
-				"addEmailBodylayout", true, GtnFrameworkCommonConstants.SUCCESS_MAIL_NOTIFICATION_LAYOUT);
+				"addEmailBodylayout", true,GtnFrameworkEmailConfigStringContants.SUCCESS_MAIL_NOTIFICATION_VERTICAL_LAYOUT_RIGHT);
 		addEmailBodyLayout.setSpacing(true);
 		addEmailBodyLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		addEmailBodyLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_BOTTOM_14);
@@ -244,10 +283,11 @@ public class GtnFrameworkEmailNotificationTabConfig {
 	private void addFailureEmailTo(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		GtnUIFrameworkComponentConfig addFailureToLayout = componentConfig.getHorizontalLayoutConfig(
-				"addFailureTolayout", true, GtnFrameworkCommonConstants.FAILURE_MAIL_NOTIFICATION_LAYOUT);
+				"addFailureTolayout", true, GtnFrameworkEmailConfigStringContants.FAILURE_MAIL_NOTIFICATION_VERTICAL_LAYOUT_LEFT);
 		addFailureToLayout.setSpacing(true);
 		addFailureToLayout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		addFailureToLayout.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_BOTTOM_14);
+		addFailureToLayout.addComponentStyle(GtnFrameworkEmailConfigStringContants.STPL_MARGIN_TOP_14);
 		componentList.add(addFailureToLayout);
 
 		GtnUIFrameworkComponentConfig failureEmailTo = componentConfig.getUIFrameworkComponentConfig(
@@ -267,7 +307,7 @@ public class GtnFrameworkEmailNotificationTabConfig {
 	private void addFailureSubject(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		GtnUIFrameworkComponentConfig addSubject1Layout = componentConfig.getHorizontalLayoutConfig("addSubjectlayout1",
-				true, GtnFrameworkCommonConstants.FAILURE_MAIL_NOTIFICATION_LAYOUT);
+				true, GtnFrameworkEmailConfigStringContants.FAILURE_MAIL_NOTIFICATION_VERTICAL_LAYOUT_LEFT);
 		addSubject1Layout.setSpacing(true);
 		addSubject1Layout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		addSubject1Layout.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_BOTTOM_14);
@@ -290,10 +330,11 @@ public class GtnFrameworkEmailNotificationTabConfig {
 	private void addFailureEmailCc(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		GtnUIFrameworkComponentConfig addEmailCc1Layout = componentConfig.getHorizontalLayoutConfig("addEmailCclayout1",
-				true, GtnFrameworkCommonConstants.FAILURE_MAIL_NOTIFICATION_LAYOUT);
+				true, GtnFrameworkEmailConfigStringContants.FAILURE_MAIL_NOTIFICATION_VERTICAL_LAYOUT_RIGHT);
 		addEmailCc1Layout.setSpacing(true);
 		addEmailCc1Layout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		addEmailCc1Layout.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_BOTTOM_14);
+		addEmailCc1Layout.addComponentStyle(GtnFrameworkEmailConfigStringContants.STPL_MARGIN_TOP_14);
 		componentList.add(addEmailCc1Layout);
 
 		GtnUIFrameworkComponentConfig addEmailCc1 = componentConfig.getUIFrameworkComponentConfig(
@@ -314,7 +355,7 @@ public class GtnFrameworkEmailNotificationTabConfig {
 	private void addFailureEmailBody(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		GtnUIFrameworkComponentConfig addEmailBody1Layout = componentConfig.getHorizontalLayoutConfig(
-				"addEmailBodylayout1", true, GtnFrameworkCommonConstants.FAILURE_MAIL_NOTIFICATION_LAYOUT);
+				"addEmailBodylayout1", true,GtnFrameworkEmailConfigStringContants.FAILURE_MAIL_NOTIFICATION_VERTICAL_LAYOUT_RIGHT);
 		addEmailBody1Layout.setSpacing(true);
 		addEmailBody1Layout.addComponentStyle(GtnFrameworkCssConstants.INLINE_CAPTION_100);
 		addEmailBody1Layout.addComponentStyle(GtnFrameworkCssConstants.STPL_MARGIN_BOTTOM_14);

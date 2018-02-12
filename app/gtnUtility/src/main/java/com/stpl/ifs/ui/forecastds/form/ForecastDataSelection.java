@@ -700,7 +700,6 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 
 			configureTimeDdlb(fromPeriod, toPeriod, null, null, UIUtil.MODE_ADD, screenName);
 			modeOption.focus();
-			projectionName.setImmediate(true);
 			description.setImmediate(true);
 			privateView.setImmediate(true);
 			publicView.setImmediate(true);
@@ -830,7 +829,6 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	 */
 	private void resetCustomerRelation() {
 		customerRelationComboBox.removeAllItems();
-		customerRelationComboBox.setImmediate(true);
 		customerRelationComboBox.setNullSelectionAllowed(true);
 		customerRelationComboBox.setInputPrompt(UIUtil.SELECT_ONE);
 	}

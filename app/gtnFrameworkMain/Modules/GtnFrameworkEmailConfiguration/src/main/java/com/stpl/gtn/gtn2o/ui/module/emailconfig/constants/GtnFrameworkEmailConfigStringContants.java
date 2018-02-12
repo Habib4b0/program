@@ -22,7 +22,15 @@ public final class GtnFrameworkEmailConfigStringContants {
 	public static final String EMPTY_STRING = "";
 	public static final String SEVENTY_FIVE_PERCENTAGE = "75%";
 	public static final String ONE_TWENTY_PERCENTAGE = "120%";
-
+	public static final String HUNDRED_PERCENTAGE = "100%";
+	public static final String ONE_THIRTY_PERCENTAGE = "130%";
+	public static final String STPL_MARGIN_TOP_14= "stpl-margin-top-14";
+	
+	public static final String FAILURE_MAIL_NOTIFICATION_VERTICAL_LAYOUT_LEFT = "failureMailNotificationVerticalLayoutLeft";
+	public static final String FAILURE_MAIL_NOTIFICATION_VERTICAL_LAYOUT_RIGHT = "failureMailNotificationVerticalLayoutRight";
+	public static final String SUCCESS_MAIL_NOTIFICATION_VERTICAL_LAYOUT_LEFT = "successMailNotificationVerticalLayoutLeft";
+	public static final String SUCCESS_MAIL_NOTIFICATION_VERTICAL_LAYOUT_RIGHT = "successMailNotificationVerticalLayoutRight";
+			
 	public static final String DATA_LOAD_ACTION = GtnFrameworkEmailConfigDefaultDataLoadAction.class.getName();
 	public static final String EMAIL_CONFIG_SAVE_ACTION = GtnFrameworkEmailConfigSaveAction.class.getName();
 	public static final String EMAIL_CONFIG_VIEW_ACTION = GtnFrameworkEmailConfigViewAction.class.getName();

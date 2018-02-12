@@ -26,6 +26,7 @@ import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.ui.ComboBox;
 import java.text.DateFormat;
@@ -831,8 +832,8 @@ public class CopyContractLogic {
                 Object[] obje = (Object[]) itemList.get(i);
                 itemDTO.setItemNo(String.valueOf(obje[0]));
                 itemDTO.setItemName(String.valueOf(obje[1]));
-                itemDTO.setBrand(obje[NumericConstants.TWO] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWO]));
-                itemDTO.setItemStatus(obje[NumericConstants.THREE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THREE]));
+                itemDTO.setBrand(checkNullValue(obje[NumericConstants.TWO]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWO]));
+                itemDTO.setItemStatus(checkNullValue(obje[NumericConstants.THREE]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THREE]));
                 if (obje[NumericConstants.FOUR] != null) {
                     Date date = (Date) DB_DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.FOUR]));
                     String finalString = DATE_FORMAT.format(date);
@@ -850,7 +851,7 @@ public class CopyContractLogic {
                 itemDTO.setItemType(obje[NumericConstants.SIX] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SIX]));
                 itemDTO.setPricePlanNo(obje[NumericConstants.SEVEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SEVEN]));
                 itemDTO.setPricePlanName(obje[NumericConstants.EIGHT] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.EIGHT]));
-                itemDTO.setPriceProtectionStatus(obje[NumericConstants.NINE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.NINE]));
+                itemDTO.setPriceProtectionStatus(checkNullValue(obje[NumericConstants.NINE]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.NINE]));
                 if (obje[NumericConstants.TEN] != null) {
                     Date date = (Date) DB_DATE_FORMAT.parse(String.valueOf(obje[NumericConstants.TEN]));
                     String finalString = DATE_FORMAT.format(date);
@@ -865,17 +866,17 @@ public class CopyContractLogic {
                 } else {
                     itemDTO.setCompanyEndDate(Constants.EMPTY);
                 }
-                itemDTO.setPriceProtectionPriceType(obje[NumericConstants.TWELVE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWELVE]));
-                itemDTO.setPriceToleranceInterval(obje[NumericConstants.THIRTEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THIRTEEN]));
-                itemDTO.setPriceToleranceFrequency(obje[NumericConstants.FOURTEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.FOURTEEN]));
-                itemDTO.setMaxIncrementalChange(obje[NumericConstants.FIFTEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.FIFTEEN]));
-                itemDTO.setPriceTolerance(obje[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SIXTEEN]));
-                itemDTO.setPriceToleranceType(obje[NumericConstants.SEVENTEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SEVENTEEN]));
-                itemDTO.setEligibility(obje[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.EIGHTEEN]));
-                itemDTO.setResetType(obje[NumericConstants.NINETEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.NINETEEN]));
-                itemDTO.setResetDate(obje[NumericConstants.TWENTY] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY]));
-                itemDTO.setResetIntervel(obje[NumericConstants.TWENTY_ONE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY_ONE]));
-                itemDTO.setResetFrequency(obje[NumericConstants.TWENTY_TWO] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY_TWO]));
+                itemDTO.setPriceProtectionPriceType(checkNullValue(obje[NumericConstants.TWELVE]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWELVE]));
+                itemDTO.setPriceToleranceInterval(checkNullValue(obje[NumericConstants.THIRTEEN]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.THIRTEEN].toString())));
+                itemDTO.setPriceToleranceFrequency(checkNullValue(obje[NumericConstants.FOURTEEN]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.FOURTEEN].toString())));
+                itemDTO.setMaxIncrementalChange(checkNullValue(obje[NumericConstants.FIFTEEN]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.FIFTEEN].toString())));
+                itemDTO.setPriceTolerance(checkNullValue(obje[NumericConstants.SIXTEEN]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SIXTEEN]));
+                itemDTO.setPriceToleranceType(checkNullValue(obje[NumericConstants.SEVENTEEN]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SEVENTEEN]));
+                itemDTO.setEligibility(checkNullValue(obje[NumericConstants.EIGHTEEN]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.EIGHTEEN]));
+                itemDTO.setResetType(checkNullValue(obje[NumericConstants.NINETEEN]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.NINETEEN].toString())));
+                itemDTO.setResetDate(checkNullValue(obje[NumericConstants.TWENTY_ONE]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY_ONE]));
+                itemDTO.setResetIntervel(checkNullValue(obje[NumericConstants.TWENTY])  ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY]));
+                itemDTO.setResetFrequency(checkNullValue(obje[NumericConstants.TWENTY_TWO]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.TWENTY_TWO].toString())));
                 itemDTO.setAttachedDate(null);
                 itemDTO.setModelId(String.valueOf(obje[NumericConstants.TWENTY_FIVE]));
                 finalList.add(itemDTO);
@@ -1344,16 +1345,16 @@ public class CopyContractLogic {
                 itemDTO.setPriceProtectionStatus(obje[NumericConstants.ELEVEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.ELEVEN]));
                 itemDTO.setPriceProtectionEndDate(Constants.NULL.equals(String.valueOf(obje[NumericConstants.TWELVE])) ? StringUtils.EMPTY : obje[NumericConstants.TWELVE].toString());
                 itemDTO.setPriceProtectionPriceType(obje[NumericConstants.THIRTEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THIRTEEN]));
-                itemDTO.setPriceToleranceInterval(obje[NumericConstants.FOURTEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.FOURTEEN]));
-                itemDTO.setPriceToleranceFrequency(obje[NumericConstants.FIFTEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.FIFTEEN]));
-                itemDTO.setMaxIncrementalChange(obje[NumericConstants.SEVENTEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SEVENTEEN]));
-                itemDTO.setPriceTolerance(obje[NumericConstants.EIGHTEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.EIGHTEEN]));
-                itemDTO.setPriceToleranceType(obje[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SIXTEEN]));
-                itemDTO.setEligibility(obje[NumericConstants.TWENTY] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY]));
-                itemDTO.setResetType(obje[NumericConstants.TWENTY_ONE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY_ONE]));
-                itemDTO.setResetDate(obje[NumericConstants.TWENTY_TWO] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY_TWO]));
-                itemDTO.setResetIntervel(obje[NumericConstants.TWENTY_THREE] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY_THREE]));
-                itemDTO.setResetFrequency(obje[NumericConstants.TWENTY_FOUR] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY_FOUR]));
+                itemDTO.setPriceToleranceInterval(checkNullValue(obje[NumericConstants.FOURTEEN]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.FOURTEEN].toString())));
+                itemDTO.setPriceToleranceFrequency(checkNullValue(obje[NumericConstants.FIFTEEN]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.FIFTEEN].toString())));
+                itemDTO.setMaxIncrementalChange(checkNullValue(obje[NumericConstants.SEVENTEEN]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.SEVENTEEN].toString())));
+                itemDTO.setPriceTolerance(checkNullValue(obje[NumericConstants.EIGHTEEN]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.EIGHTEEN]));
+                itemDTO.setPriceToleranceType(checkNullValue(obje[NumericConstants.SIXTEEN]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SIXTEEN]));
+                itemDTO.setEligibility(checkNullValue(obje[NumericConstants.TWENTY]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.TWENTY].toString())));
+                itemDTO.setResetType(checkNullValue(obje[NumericConstants.TWENTY_ONE]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.TWENTY_ONE].toString())));
+                itemDTO.setResetDate(checkNullValue(obje[NumericConstants.TWENTY_TWO]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY_TWO]));
+                itemDTO.setResetIntervel(checkNullValue(obje[NumericConstants.TWENTY_THREE]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.TWENTY_THREE].toString())));
+                itemDTO.setResetFrequency(checkNullValue(obje[NumericConstants.TWENTY_FOUR]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.TWENTY_FOUR].toString())));
                 itemDTO.setAttachedDate(null);
                 priceList.add(itemDTO);
             }
@@ -1424,7 +1425,23 @@ public class CopyContractLogic {
         input.add(temptableSId);
         ItemQueries.itemUpdate(input, "Copy Contract- Insert Rs details");
     }
-
-   
+        public static Boolean checkNullValue(Object obj) {
+        if (obj == null || Constants.ZEROSTRING.equals(String.valueOf(obj)) ||Constants.NULL.equals(obj) || Constants.SELECT_ONE.contains(String.valueOf(obj))) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+    }
+        
+     public static String getDescription(int code) throws SystemException {
+        try {
+            HelperTable table = HelperTableLocalServiceUtil.getHelperTable(code);
+            return table.getDescription();
+        } catch (PortalException | SystemException ex) {
+            LOGGER.error("", ex);
+            return null;
+        }
+    }
+        
 
 }

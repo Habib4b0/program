@@ -251,7 +251,6 @@ public abstract class ForecastPVComparisonLookup extends Window{
         container.addItem(WorkflowConstants.getApprovedStatus());
         container.addItem(WorkflowConstants.getRejectedStatus());
         workFlowStatus.setContainerDataSource(container);
-        workFlowStatus.setImmediate(true);
     }
     
     private void loadAvailableResults(){
