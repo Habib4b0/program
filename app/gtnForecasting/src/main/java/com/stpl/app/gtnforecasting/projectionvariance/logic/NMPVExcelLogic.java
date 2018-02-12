@@ -158,6 +158,8 @@ public class NMPVExcelLogic {
     private static final String PER = "Per";
     private static final String P = "P";
     private static final String ALL = "ALL";
+    private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
+    private static final String DF_LEVEL_NAME = "dfLevelName";
     private final int baseColumn_hierarchyIndicator_index = 2;
 
     public NMPVExcelLogic(Map<String, List<ProjectionVarianceDTO>> resultMap, PVSelectionDTO selection,
@@ -349,6 +351,21 @@ public class NMPVExcelLogic {
                 } else {
                       groupName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), obj[baseColumn_hierarchyIndicator_index].toString(),
                       selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+                      detail.setGroup(groupName);
+                    if (groupName.contains("-")) {
+                        String[] tempArr = groupName.split("-");
+                        detail.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
+                        detail.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
+                    } else if (selection.getDisplayFormat().length > 0) {
+                        int index = (int) selection.getDisplayFormat()[0];
+                        if (index == 0) {
+                            detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                        } else {
+                            detail.addStringProperties(DF_LEVEL_NAME, groupName);
+                        }
+                    } else {
+                        detail.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                    }
                 }
 
                 detail.setGroup(groupName);
@@ -1054,7 +1071,10 @@ public class NMPVExcelLogic {
             PVSelectionDTO selection, DecimalFormat format) {
         boolean flag;
         flag = varaibleName.contains("%");
-        pvDTO.setGroup(varaibleName.concat(varibaleCat));
+        String groupValue = varaibleName.concat(varibaleCat);
+        pvDTO.addStringProperties(DF_LEVEL_NUMBER, groupValue);
+        pvDTO.addStringProperties(DF_LEVEL_NAME, groupValue);
+        pvDTO.setGroup(groupValue);
         String commonColumn = StringUtils.EMPTY;
         List<Integer> priorProjIdListList = selection.getProjIdList();
         switch (frequencyDivision) {

@@ -77,6 +77,8 @@ public class DiscountProjectionLogic {
      */
     private static final DecimalFormat PERCENTAGE_FORMAT = new DecimalFormat("#,##0.00%");
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0.00");
+    private static final String DF_LEVEL_NAME  = "dfLevelName";
+    private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     private final QueryUtils utils = new QueryUtils();
     private String baselinePeriods = "";
     private String selectedPeriods = "";
@@ -246,7 +248,24 @@ public class DiscountProjectionLogic {
                                 String hierarchy = discountDto.getHierarchyNo().contains(",") ? discountDto.getHierarchyNo().split(",")[0] : discountDto.getHierarchyNo();
                                 relValue = hierarchy.trim();
                             }
-                            discountDto.setLevelName(CommonUtil.getDisplayFormattedName(relValue, hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
+                            String levelName = CommonUtil.getDisplayFormattedName(relValue, hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat());
+                            discountDto.setLevelName(levelName);
+                            if (levelName.contains("-")) {
+                                String[] tempArr = levelName.split("-");
+                                discountDto.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
+                                discountDto.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
+                            } else if (projectionSelection.getDisplayFormat().length > 0) {
+                                int index = (int) projectionSelection.getDisplayFormat()[0];
+                                if (index == 0) {
+                                    discountDto.addStringProperties(DF_LEVEL_NUMBER, levelName);
+                                    discountDto.addStringProperties(DF_LEVEL_NAME, StringUtils.EMPTY);
+                                } else {
+                                    discountDto.addStringProperties(DF_LEVEL_NAME, levelName);
+                                    discountDto.addStringProperties(DF_LEVEL_NUMBER, StringUtils.EMPTY);
+                                }
+                            } else {
+                                discountDto.addStringProperties(DF_LEVEL_NUMBER, levelName);
+                            }
                             discountDto.setHierarchyIndicator(hierarchyIndicator);
                             if (isCustom) {
                                 discountDto.setTreeLevelNo(treeLevelNo);

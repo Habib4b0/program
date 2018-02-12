@@ -2946,16 +2946,33 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			excelContainer.setColumnProperties(rightHeader.getProperties());
 			excelTable.setContainerDataSource(excelContainer);
 			ExtFilterTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
-			Object[] leftTableVisibleColumn = leftTable.getVisibleColumns();
-			String[] leftTableColumnHeader = leftTable.getColumnHeaders();
+//			Object[] leftTableVisibleColumn = leftTable.getVisibleColumns();
+//			String[] leftTableColumnHeader = leftTable.getColumnHeaders();
+                        
+                        List<Object> leftTableVisibleColumn = new ArrayList(Arrays.asList(leftTable.getVisibleColumns()));
+                        List<String> leftTableColumnHeader = new ArrayList(Arrays.asList(leftTable.getColumnHeaders()));
+                        leftTableVisibleColumn.remove("levelName");
+                        leftTableVisibleColumn.add("dfLevelNumber");
+                        leftTableVisibleColumn.add("dfLevelName");
+                        
+                        leftTableColumnHeader.add(1, "Level Number");
+                        
+                        
+                        
 			Object[] objectArray = ArrayUtils.addAll(
-					Arrays.copyOfRange(leftTableColumnHeader, 1, leftTableColumnHeader.length),
+                                        leftTableColumnHeader.subList(1, leftTableColumnHeader.size()).toArray(),
+//					Arrays.copyOfRange(leftTableColumnHeader, 1, leftTableColumnHeader.length),
 					excelHeader.getSingleHeaders().toArray(new String[0]));
 
-                        Object[] leftTableExcelColumn = ArrayUtils.addAll(Arrays.copyOfRange(leftTableVisibleColumn, 1, leftTableVisibleColumn.length),
+                        Object[] leftTableExcelColumn = ArrayUtils.addAll(
+                                leftTableVisibleColumn.subList(1, leftTableVisibleColumn.size()).toArray(),
+//                                Arrays.copyOfRange(leftTableVisibleColumn, 1, leftTableVisibleColumn.length),
                             excelHeader.getSingleColumns().toArray());
                         securityForListView(leftTableExcelColumn, Arrays.copyOf(objectArray, objectArray.length, String[].class), excelTable);
-
+                        Object[] singleHeader = excelHeaderLeft.getDoubleHeaderMaps().get("group");
+                        List<Object> listHeaders = new ArrayList(Arrays.asList(singleHeader));
+                        listHeaders.remove("levelName");
+                        excelHeaderLeft.getDoubleHeaderMaps().put("group", listHeaders.toArray());
 			excelTable.setDoubleHeaderVisible(true);
 			excelTable
 					.setDoubleHeaderVisibleColumns(ArrayUtils.addAll(
@@ -2996,10 +3013,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				Collections.sort(list);
 				for (int i = 0; i < list.size(); i++) {
 					excelTable.setVisibleColumns(ArrayUtils.addAll(
-							Arrays.copyOfRange(leftTableVisibleColumn, 1, leftTableVisibleColumn.length),
+                                                        leftTableVisibleColumn.subList(1, leftTableVisibleColumn.size()).toArray(),
+//							Arrays.copyOfRange(leftTableVisibleColumn, 1, leftTableVisibleColumn.length),
 							((List<Object>) headerMapBasedonYear.get(list.get(i)).get(0)).toArray()));
 					Object[] header = ArrayUtils.addAll(
-							Arrays.copyOfRange(leftTableColumnHeader, 1, leftTableColumnHeader.length),
+                                                        leftTableColumnHeader.subList(1, leftTableColumnHeader.size()).toArray(),
+//							Arrays.copyOfRange(leftTableColumnHeader, 1, leftTableColumnHeader.length),
 							((List<Object>) headerMapBasedonYear.get(list.get(i)).get(1)).toArray());
 					excelTable.setColumnHeaders(Arrays.copyOf(header, header.length, String[].class));
 					excelTable.setDoubleHeaderVisibleColumns(ArrayUtils.addAll(
@@ -3040,6 +3059,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				excel.export();
 			}
 		} catch (IllegalArgumentException e) {
+                    e.printStackTrace();
 			LOGGER.error(e.getMessage());
 		}
 		LOGGER.debug("excel ends");

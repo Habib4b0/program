@@ -469,7 +469,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
         excelHeader = new CustomTableHeaderDTO();
         leftHeader = HeaderUtils.getSalesLeftTableColumns(projectionDTO);
 
-        excelHeader.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
+//      excelHeader.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
+        excelHeader.addSingleColumn("dfLevelNumber", "Level Number", String.class);
+        excelHeader.addSingleColumn("dfLevelName", "Level Name", String.class);
         if (projectionDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             excelHeader.addSingleColumn(Constant.GROUP, "Group", String.class);
         }
