@@ -282,9 +282,10 @@ public class ProcessSchedulerLogic {
 		try {
 			LOGGER.debug("Script Name==========================>" + scriptName);
 			String jbossHome=getJbossHome();
+			LOGGER.debug("jboss Home==========================>" + jbossHome);
 			if (!StringUtils.isBlank(jbossHome)) {
 					java.util.Properties prop =getPropertyFile(getPropertyPath());
-				    java.util.Properties prop1 = getPropertyFile(prop.getProperty("EtlConfiguration.properties"));
+				    java.util.Properties prop1 = getPropertyFile(jbossHome.concat("/../").concat(prop.getProperty("EtlConfiguration.properties")));
 					String etlInterfaceUri=buildUrl(scriptName,prop1);
 					ftpProperties.setScripts(prop1.getProperty("scripts"));
 					runShellScript(etlInterfaceUri);
@@ -309,7 +310,7 @@ public class ProcessSchedulerLogic {
 			String jbossHome=getJbossHome();
 			if (!StringUtils.isBlank(jbossHome)) {
 					java.util.Properties prop =getPropertyFile(getPropertyPath());
-					java.util.Properties prop1 = getPropertyFile(prop.getProperty("EtlConfiguration.properties"));
+					java.util.Properties prop1 = getPropertyFile(jbossHome.concat("/../").concat(prop.getProperty("EtlConfiguration.properties")));
 					ftpProperties.setScripts(prop1.getProperty("scripts"));
 			}
 		} catch (Exception ex) {
@@ -1155,8 +1156,9 @@ public class ProcessSchedulerLogic {
 		return "http://localhost:" + portNo + "/" + interfaceUri;
 	}
 	private String getInterFaceUri(String scriptName) {
+		String jbossHome=getJbossHome();
 		java.util.Properties interfaceUriProperties = getPropertyFile(getPropertyPath());
-		java.util.Properties interfacename=getPropertyFile(interfaceUriProperties.getProperty("Interfaceuri.properties"));
+		java.util.Properties interfacename=getPropertyFile(jbossHome.concat("/../").concat(interfaceUriProperties.getProperty("Interfaceuri.properties")));
 		return interfacename.getProperty(scriptName).trim();
 	}
 	private static String getJbossHome() {
