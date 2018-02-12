@@ -55,6 +55,7 @@ public class GtnFrameworkItemGrpEditAction
 		itemGrpBean.setItemGrpInfoBean(itemGrpInfoBean);
 		int systemId = (Integer) gtnWsRecordBean.getPropertyValueByIndex(8);
 		itemGrpInfoBean.setItemGrpSid(systemId);
+		itemGrpInfoBean.setVersionNo((Integer) gtnWsRecordBean.getPropertyValueByIndex(4));
 		GtnUIFrameworkGlobalUI.addSessionProperty("itemGroupSid", systemId);
 		GtnWsItemGroupRequest itemGrpRequest = new GtnWsItemGroupRequest();
 		itemGrpRequest.setGtnWsItemGroupBean(itemGrpBean);

@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 6, 2018 3:06:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.StagItemUom" table="STAG_ITEM_UOM" schema="dbo">
+        <id name="stagItemUomSid" type="int">
+            <column name="STAG_ITEM_UOM_SID" />
+            <generator class="native" />
+        </id>
+        <property name="itemUomConversionId" type="big_decimal">
+            <column name="ITEM_UOM_CONVERSION_ID" precision="38" scale="0" not-null="true" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="38" not-null="true" />
+        </property>
+        <property name="itemNo" type="string">
+            <column name="ITEM_NO" length="50" />
+        </property>
+        <property name="itemName" type="string">
+            <column name="ITEM_NAME" length="100" />
+        </property>
+        <property name="primaryUomBaselineFactor" type="string">
+            <column name="PRIMARY_UOM_BASELINE_FACTOR" length="200" not-null="true" />
+        </property>
+        <property name="primaryUomCode" type="string">
+            <column name="PRIMARY_UOM_CODE" length="20" not-null="true" />
+        </property>
+        <property name="primaryUomName" type="string">
+            <column name="PRIMARY_UOM_NAME" length="20" not-null="true" />
+        </property>
+        <property name="secondaryUomConversionFactor" type="string">
+            <column name="SECONDARY_UOM_CONVERSION_FACTOR" length="200" not-null="true" />
+        </property>
+        <property name="secondaryUomCode" type="string">
+            <column name="SECONDARY_UOM_CODE" length="20" not-null="true" />
+        </property>
+        <property name="secondaryUomName" type="string">
+            <column name="SECONDARY_UOM_NAME" length="20" not-null="true" />
+        </property>
+        <property name="status" type="string">
+            <column name="STATUS" length="20" not-null="true" />
+        </property>
+        <property name="uploadDate" type="timestamp">
+            <column name="UPLOAD_DATE" length="23" not-null="true" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="50" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="38" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="10" not-null="true" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="38" not-null="true" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

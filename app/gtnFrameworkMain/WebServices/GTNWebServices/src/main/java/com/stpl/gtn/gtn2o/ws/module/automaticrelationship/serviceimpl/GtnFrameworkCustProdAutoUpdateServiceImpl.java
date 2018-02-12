@@ -100,11 +100,11 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 
 	@Override
 	public void doAutomaticUpdate(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
-			GtnWsRelationshipBuilderBean relationBean, String userId) throws GtnFrameworkGeneralException {
+			GtnWsRelationshipBuilderBean relationBean) throws GtnFrameworkGeneralException {
 		GtnFrameworkFileReadWriteService fileService = new GtnFrameworkFileReadWriteService();
 		int firstLinkedLevelNo = HierarchyLevelDefinitionBean.getFirstLinkedLevel(hierarchyLevelDefinitionList);
 		int customertUpdatedVersionNo = automaticService.insertRelationTillFirstLevelAndGetVersionNo(firstLinkedLevelNo,
-				relationBean, userId);
+				relationBean);
 		for (int i = firstLinkedLevelNo; i < hierarchyLevelDefinitionList.size(); i++) {
 			HierarchyLevelDefinitionBean customerHierarchyLevelBean = hierarchyLevelDefinitionList.get(i);
 			if (customerHierarchyLevelBean.isUserDefined()) {
@@ -121,11 +121,13 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 			GtnFrameworkQueryGeneraterServiceImpl customerQueryGenerator = new GtnFrameworkQueryGeneraterServiceImpl(
 					selectService, joinService, whereService);
 			customerQueryGenerator.generateQuery(hierarchyLevelDefinitionList, relationBean, querygeneratorBean,
-					customertUpdatedVersionNo, userId, i);
+					customertUpdatedVersionNo, i);
 			List<Object> inputsList = new ArrayList<>();
 			inputsList.add(relationBean.getRelationshipBuilderSid());
 			inputsList.add(previousHierarchyLevelBean.getLevelNo());
 			inputsList.add(customertUpdatedVersionNo);
+			inputsList.add(customerHierarchyLevelBean.getLevelNo());
+			inputsList.add(customertUpdatedVersionNo - 1);
 			inputsList.add(customerHierarchyLevelBean.getLevelNo());
 			inputsList.add(customertUpdatedVersionNo - 1);
 			hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);
@@ -136,7 +138,8 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 					"relationShipSubQueryToInsertAutomaticData");
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(finalInsertQuery);
 		}
-
+		automaticService.deleteUnwantedUserDefinedLevels(relationBean.getRelationshipBuilderSid(),
+				customertUpdatedVersionNo);
 	}
 
 	private void checkAndInserUserDefinedLevels(GtnWsRelationshipBuilderBean relationBean,
@@ -169,6 +172,5 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 	public GtnFrameworkAutomaticRelationUpdateService getService() {
 		return automaticService;
 	}
-
 
 }

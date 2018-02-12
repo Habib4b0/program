@@ -1,5 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.entity.transaction;
-// Generated Nov 1, 2017 3:21:49 PM by Hibernate Tools 4.3.1
+// Generated Feb 6, 2018 3:06:35 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -12,7 +12,7 @@ public class IvldItemUom  implements java.io.Serializable {
 
 
      private int ivldItemUomSid;
-     private Double itemUomConversionId;
+     private BigDecimal itemUomConversionId;
      private String itemId;
      private String itemNo;
      private String itemName;
@@ -36,17 +36,17 @@ public class IvldItemUom  implements java.io.Serializable {
      private String errorCode;
      private String errorField;
      private String reprocessedFlag;
-     private boolean checkRecord;
+     private Boolean checkRecord;
 
     public IvldItemUom() {
     }
 
 	
-    public IvldItemUom(int ivldItemUomSid, Double itemUomConversionId) {
+    public IvldItemUom(int ivldItemUomSid, BigDecimal itemUomConversionId) {
         this.ivldItemUomSid = ivldItemUomSid;
         this.itemUomConversionId = itemUomConversionId;
     }
-    public IvldItemUom(int ivldItemUomSid, Double itemUomConversionId, String itemId, String itemNo, String itemName, String primaryUomBaselineFactor, String primaryUomCode, String primaryUomName, String secondaryUomConversionFactor, String secondaryUomCode, String secondaryUomName, String status, Date uploadDate, String modifiedBy, Date modifiedDate, String createdBy, Date createdDate, String addChgDelIndicator, String batchId, String source, String reasonForFailure, Date intfInsertedDate, String errorCode, String errorField, String reprocessedFlag, Boolean checkRecord) {
+    public IvldItemUom(int ivldItemUomSid, BigDecimal itemUomConversionId, String itemId, String itemNo, String itemName, String primaryUomBaselineFactor, String primaryUomCode, String primaryUomName, String secondaryUomConversionFactor, String secondaryUomCode, String secondaryUomName, String status, Date uploadDate, String modifiedBy, Date modifiedDate, String createdBy, Date createdDate, String addChgDelIndicator, String batchId, String source, String reasonForFailure, Date intfInsertedDate, String errorCode, String errorField, String reprocessedFlag, Boolean checkRecord) {
        this.ivldItemUomSid = ivldItemUomSid;
        this.itemUomConversionId = itemUomConversionId;
        this.itemId = itemId;
@@ -82,16 +82,14 @@ public class IvldItemUom  implements java.io.Serializable {
     public void setIvldItemUomSid(int ivldItemUomSid) {
         this.ivldItemUomSid = ivldItemUomSid;
     }
-
-	public Double getItemUomConversionId() {
-		return itemUomConversionId;
-	}
-
-	public void setItemUomConversionId(Double itemUomConversionId) {
-		this.itemUomConversionId = itemUomConversionId;
-	}
-
-	public String getItemId() {
+    public BigDecimal getItemUomConversionId() {
+        return this.itemUomConversionId;
+    }
+    
+    public void setItemUomConversionId(BigDecimal itemUomConversionId) {
+        this.itemUomConversionId = itemUomConversionId;
+    }
+    public String getItemId() {
         return this.itemId;
     }
     
@@ -242,26 +240,25 @@ public class IvldItemUom  implements java.io.Serializable {
         return this.errorField;
     }
     
-	public void setErrorField(String errorField) {
-		this.errorField = errorField;
-	}
+    public void setErrorField(String errorField) {
+        this.errorField = errorField;
+    }
+    public String getReprocessedFlag() {
+        return this.reprocessedFlag;
+    }
+    
+    public void setReprocessedFlag(String reprocessedFlag) {
+        this.reprocessedFlag = reprocessedFlag;
+    }
+    public Boolean getCheckRecord() {
+        return this.checkRecord;
+    }
+    
+    public void setCheckRecord(Boolean checkRecord) {
+        this.checkRecord = checkRecord;
+    }
 
-	public String getReprocessedFlag() {
-		return reprocessedFlag;
-	}
 
-	public void setReprocessedFlag(String reprocessedFlag) {
-		this.reprocessedFlag = reprocessedFlag;
-	}
-
-
-	public boolean isCheckRecord() {
-		return checkRecord;
-	}
-
-	public void setCheckRecord(boolean checkRecord) {
-		this.checkRecord = checkRecord;
-	}
 
 
 }

@@ -9,12 +9,14 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjection;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.GroupFilter;
 import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.lookups.NMPmpyCalculator;
 import com.stpl.app.gtnforecasting.lookups.logic.PmpyLogic;
+import com.stpl.app.gtnforecasting.salesprojection.logic.NMSalesExcelLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.NMSalesProjectionTableLogic;
 import com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils;
 import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
@@ -81,6 +83,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
     protected NMSalesProjectionTableLogic nmSalesProjectionTableLogic;
     protected String ALL = "ALL";
+    private final Map<String, Object> excelParentRecords = new HashMap();
     public static final String SID = "SID";
     SessionDTO sessionDTO;
   
@@ -152,7 +155,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     protected void excelExportLogic() {
         try {
             configureExcelResultTable();
-            levelFilterDdlbChangeOption(true);
+            getExcelSalesCommercial();
             excelTable.setRefresh(Boolean.TRUE);
             excelTable.setDoubleHeaderVisible(false);
             ForecastUI.setEXCEL_CLOSE(true);
@@ -911,5 +914,47 @@ public class NMSalesProjection extends ForecastSalesProjection {
             LOGGER.error(ex.getMessage());
         }
     }
+    
+    private void getExcelSalesCommercial() {
+        try {
+            List<Object[]> salesExcelList = getSalesExcelResults(projectionDTO);
+            NMSalesExcelLogic nmSalesExcelLogic = new NMSalesExcelLogic();
+            List historyColumn = salesLogic.getHistoryColumn(salesLogic.getHeader(projectionDTO));
+            nmSalesExcelLogic.getCustomizedExcelData(salesExcelList, projectionDTO, historyColumn);
+            SalesRowDto itemId = new SalesRowDto();
+            for (Iterator<String> it = nmSalesExcelLogic.getHierarchyKeys().listIterator(); it.hasNext();) {
+                String key = it.next();
+                it.remove();
+                if (nmSalesExcelLogic.getResultMap().containsKey(key)) {
+                    itemId = nmSalesExcelLogic.getResultMap().get(key);
+                    nmSalesExcelLogic.getResultMap().remove(key);
+                }
+                excelContainer.addBean(itemId);
+                Object parentItemId;
+                    String parentKey = CommonUtil.getParentItemId(key, projectionDTO.isIsCustomHierarchy(), itemId.getParentHierarchyNo());
+                    parentItemId = excelParentRecords.get(parentKey);
+
+                    if (parentItemId != null) {
+                        excelContainer.setParent(itemId, parentItemId);
+                    }
+                    parentItemId = itemId;
+                    excelParentRecords.put(key, itemId);
+                    excelContainer.setChildrenAllowed(itemId, true);
+            }
+            excelContainer.sort(new Object[]{"levelName"}, new boolean[]{true});
+        } catch (Exception e) {
+        	LOGGER.error(e.getMessage());
+        }
+    }
+
+    private List<Object[]> getSalesExcelResults(ProjectionSelectionDTO projectionSelectionDTO) {
+         int customMasterSid = Integer.parseInt(viewDdlb.getValue() == null ? "0" : viewDdlb.getValue().toString());
+         Object[] orderedArg = {projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionDTO().getSessionId(), projectionSelectionDTO.getLevelNo(),
+                 projectionSelectionDTO.getFrequency().substring(0, 1), projectionSelectionDTO.isIsCustomHierarchy() ? "D" : projectionSelectionDTO.getHierarchyIndicator(),
+               "Sales","0", projectionSelectionDTO.getHierarchyNo(),
+                projectionSelectionDTO.getLevelNo(), null, customMasterSid, null, projectionSelectionDTO.getUomCode(), ALL.equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion(), ALL.equals(projectionSelectionDTO.getSessionDTO().getDeductionInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getDeductionInclusion(),null,"Sales"};
+            return CommonLogic.callProcedure("PRC_PROJECTION_VARIANCE", orderedArg);
+    }
+
 
 }

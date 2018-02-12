@@ -51,13 +51,13 @@ public class GtnFrameworkAutomaticRunnable implements Runnable {
 	@Override
 	public void run() {
 		try {
-			checkAndUpdateAutomaticRelationship(relationBean, userId);
+			checkAndUpdateAutomaticRelationship(relationBean);
 		} catch (GtnFrameworkGeneralException | InterruptedException e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 
 	}
-	public boolean checkAndUpdateAutomaticRelationship(GtnWsRelationshipBuilderBean relationBean, String userId)
+	public boolean checkAndUpdateAutomaticRelationship(GtnWsRelationshipBuilderBean relationBean)
 			throws GtnFrameworkGeneralException, InterruptedException {
 		if (relationBean != null) {
 			GtnFrameworkAutoupdateService automaticService = autoUpdateService
@@ -67,7 +67,7 @@ public class GtnFrameworkAutomaticRunnable implements Runnable {
 					.getHierarchyBuilder(
 					relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			if (automaticService.checkForAutoUpdate(relationBean, hierarchyDefinitionList)) {
-				automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean, userId);
+				automaticService.doAutomaticUpdate(hierarchyDefinitionList, relationBean);
 				return Boolean.TRUE;
 			}
 			LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");

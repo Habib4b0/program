@@ -102,11 +102,11 @@ public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAut
 
 	@Override
 	public void doAutomaticUpdate(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
-			GtnWsRelationshipBuilderBean relationBean, String userId) throws GtnFrameworkGeneralException {
+			GtnWsRelationshipBuilderBean relationBean) throws GtnFrameworkGeneralException {
 		GtnFrameworkFileReadWriteService fileService = new GtnFrameworkFileReadWriteService();
 		int firstLinkedLevelNo = HierarchyLevelDefinitionBean.getFirstLinkedLevel(hierarchyLevelDefinitionList);
 		int updatedVersionNo = automaticService.insertRelationTillFirstLevelAndGetVersionNo(firstLinkedLevelNo,
-				relationBean, userId);
+				relationBean);
 		for (int i = firstLinkedLevelNo; i < hierarchyLevelDefinitionList.size(); i++) {
 			HierarchyLevelDefinitionBean hierarchyLevelBean = hierarchyLevelDefinitionList.get(i);
 			if (hierarchyLevelBean.isUserDefined()) {
@@ -122,11 +122,13 @@ public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAut
 			GtnFrameworkQueryGeneraterServiceImpl queryGenerator = new GtnFrameworkQueryGeneraterServiceImpl(
 					selectService, joinService, whereService);
 			queryGenerator.generateQuery(hierarchyLevelDefinitionList, relationBean, querygeneratorBean,
-					updatedVersionNo, userId, i);
+					updatedVersionNo, i);
 			List<Object> inputs = new ArrayList<>();
 			inputs.add(relationBean.getRelationshipBuilderSid());
 			inputs.add(previousHierarchyLevelBean == null ? "" : previousHierarchyLevelBean.getLevelNo());
 			inputs.add(updatedVersionNo);
+			inputs.add(hierarchyLevelBean.getLevelNo());
+			inputs.add(updatedVersionNo - 1);
 			inputs.add(hierarchyLevelBean.getLevelNo());
 			inputs.add(updatedVersionNo - 1);
 			hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);

@@ -35,15 +35,14 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		GtnUIFrameworkComponentConfig rpCalculationTabMainLayout = configProvider
 				.getVerticalLayoutConfig(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_TAB, false, null);
 		rpCalculationTabMainLayout.setTabComponent(true);
-		rpCalculationTabMainLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		rpCalculationTabMainLayout.addComponentStyle(GtnFrameworkStringConstants.WIDTH_AUTO);
 		componentList.add(rpCalculationTabMainLayout);
 
-		                GtnUIFrameworkComponentConfig rpCalculationTabPanelConfig = configProvider.getPanelConfig(GtnFrameworkCommonConstants.RP_CALC_TAB_MAIN_PANEL, true, GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_TAB);
-		rpCalculationTabPanelConfig.setComponentWidth(GtnFrameworkCommonConstants.PERCENT_1680);
-                componentList.add(rpCalculationTabPanelConfig);
                 GtnUIFrameworkComponentConfig rpCalculationTabMainCssConfig = configProvider.getHorizontalLayoutConfig(
-				GtnFrameworkCommonConstants.COMPLIANCE_AND_DEDUCTION_RULES_MAIN_CSS_LAYOUT, true, GtnFrameworkCommonConstants.RP_CALC_TAB_MAIN_PANEL);
+				GtnFrameworkCommonConstants.COMPLIANCE_AND_DEDUCTION_RULES_MAIN_CSS_LAYOUT, true,
+				GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATION_TAB);
 		List<String> rpCalculationTabStyles = new ArrayList<>();
+		rpCalculationTabStyles.add(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_12);
 		rpCalculationTabStyles.add(GtnFrameworkCssConstants.NO_MARGIN);
 		rpCalculationTabMainCssConfig.setComponentStyle(rpCalculationTabStyles);
 		componentList.add(rpCalculationTabMainCssConfig);
@@ -61,8 +60,8 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 				GtnFrameworkCommonConstants.COMPLIANCE_AND_DEDUCTION_RULES_DETAILS_LAYOUT, true,
 				GtnFrameworkCommonConstants.COMPLIANCE_AND_DEDUCTION_RULES_MAIN_CSS_LAYOUT);
 		List<String> styleLists = new ArrayList<>();
+		styleLists.add(GtnFrameworkCssConstants.GTN_FRAMEWORK_COL_5);
 		styleLists.add(GtnFrameworkCssConstants.NO_MARGIN);
-                rpCalculationTabRightCssLayoutConfig.setComponentWidth(GtnFrameworkCommonConstants.PERCENT_650);
 		rpCalculationTabRightCssLayoutConfig.setComponentStyle(styleLists);
 		componentList.add(rpCalculationTabRightCssLayoutConfig);
 
@@ -197,6 +196,7 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		rpRuleDetailsResultDataTable.setAuthorizationIncluded(true);
 		rpRuleDetailsResultDataTable.setComponentName("Results");
 		rpRuleDetailsResultDataTable.setComponentHight("500px");
+		rpRuleDetailsResultDataTable.setComponentWidth("1000px");
 
 		rpRuleDetailsResultDataTable.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(rpRuleDetailsResultDataTable);
@@ -828,7 +828,6 @@ public class GtnFrameworkRebatePlanCalculationTabConfig {
 		GtnUIFrameworkComboBoxConfig valueConfig = configProvider.getComboBoxConfig(
 				GtnFrameworkCommonConstants.TIER_PERCENT_VALUE, GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		valueConfig.setNewItemsAllowed(true);
 		value.setGtnComboboxConfig(valueConfig);
 	}
 

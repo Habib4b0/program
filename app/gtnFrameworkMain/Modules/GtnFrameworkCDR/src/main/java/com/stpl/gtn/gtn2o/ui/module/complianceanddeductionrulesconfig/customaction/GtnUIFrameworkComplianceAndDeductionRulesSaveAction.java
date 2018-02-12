@@ -23,7 +23,6 @@ import com.stpl.gtn.gtn2o.ws.request.compliancededuction.GtnWsComplianceGeneralR
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
 public class GtnUIFrameworkComplianceAndDeductionRulesSaveAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
-
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -58,19 +57,20 @@ public class GtnUIFrameworkComplianceAndDeductionRulesSaveAction implements GtnU
 
 			loadRuleInfo(ruleInfoBean);
 
-			ruleInfoBean.setRuleDetailBeanList(ruleDetailBeanList);
+			
 			ruleInfoBean.setNoteBeanList(noteBeanList);
 
 			List<GtnWsRecordBean> ruleDetailsList = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("ruleDetailsattachResultTable").getItemsFromDataTable();
 			loadRuleDetails(ruleDetailBeanList, ruleDetailsList);
-
+			ruleInfoBean.setRuleDetailBeanList(ruleDetailBeanList);
 			List<Object> notes = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("notesTab").getNotesTabValue();
 
 			ruleInfoBean.setInternalNotes((String) notes.get(0));
 			List<NotesDTO> notesDTOs = (List<NotesDTO>) notes.get(1);
 
 			loadNotesTab(noteBeanList, notesDTOs);
+			ruleInfoBean.setNoteBeanList(noteBeanList);
 			GtnWsComplianceGeneralRequest gtnWsComplianceGeneralRequest = new GtnWsComplianceGeneralRequest();
 			gtnWsComplianceGeneralRequest.setRuleInfoBean(ruleInfoBean);
 			request.setGtnWsComplianceGeneralRequest(gtnWsComplianceGeneralRequest);

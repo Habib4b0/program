@@ -16,6 +16,9 @@ import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBe
 @Scope(value = "singleton")
 public class GtnFrameworkDeductionJoinServiceImpl implements GtnFrameworkJoinQueryGeneratorService {
 
+	public GtnFrameworkDeductionJoinServiceImpl() {
+		super();
+	}
 	@Override
 	public void addJoinClause(GtnFrameworkQueryGeneratorBean querygeneratorBean,
 			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList, int levelNo) {
@@ -23,7 +26,6 @@ public class GtnFrameworkDeductionJoinServiceImpl implements GtnFrameworkJoinQue
 				"RS_CONTRACT_DETAILS", GtnFrameworkJoinType.JOIN);
 		rsDetailsJoin.addConditionBean("RS_CONTRACT.RS_CONTRACT_SID", "RS_CONTRACT_DETAILS.RS_CONTRACT_SID",
 				GtnFrameworkOperatorType.EQUAL_TO);
-
 	}
 
 

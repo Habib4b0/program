@@ -674,30 +674,8 @@ public class SalesLogic {
         // obj[21] - CCP Count
         // obj[22] - Hierarchy Indicator
         // obj[23] - User Group
-        CustomTableHeaderDTO salesProjectionExcelHeader = new CustomTableHeaderDTO();
-        CustomTableHeaderDTO salesProjectionFullHeader = new CustomTableHeaderDTO();
-        
-        if (projectionSelectionDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-            salesProjectionExcelHeader.addSingleColumn(Constant.GROUP, "Group", String.class);
-        }
-        if (CommonUtil.isValueEligibleForLoading()) {
-            salesProjectionExcelHeader.addSingleColumn(DF_LEVEL_NUMBER, "Level Number", String.class);
-            salesProjectionExcelHeader.addSingleColumn(DF_LEVEL_NAME, "Level Name", String.class);
-           
-        } else {
-            salesProjectionExcelHeader.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
-        }
-        salesProjectionExcelHeader.addSingleColumn(Constant.BASELINE, "Base Line", String.class);
-        salesProjectionExcelHeader.addSingleColumn(Constant.METHODOLOGY, "Methodology", String.class);
-        CustomTableHeaderDTO rightTableHeader = HeaderUtils.getSalesProjectionRightTableColumns(projectionSelectionDTO, salesProjectionFullHeader, salesProjectionExcelHeader);
-
-        List salesProjectionDoubleColumnList = rightTableHeader.getDoubleColumns();
-        List salesProjectionDoubleProjectedColumnList = rightTableHeader.getDoubleProjectedColumns();
-        List salesProjectionDoubleHistoryColumnList = rightTableHeader.getDoubleHistoryColumns();
-        List salesProjectionDoubleHistoryAndProjectedColumnListUnion = ListUtils.union(salesProjectionDoubleProjectedColumnList, salesProjectionDoubleHistoryColumnList);
-        Set salesProjectionDoubleHistoryAndProjectedColumnSet = new LinkedHashSet(salesProjectionDoubleHistoryAndProjectedColumnListUnion);
-        List<String> salesProjectionDoubleHistoryAndProjectedColumnList = new ArrayList(salesProjectionDoubleHistoryAndProjectedColumnSet);
-        salesProjectionDoubleColumnList.removeAll(salesProjectionDoubleHistoryAndProjectedColumnList);
+    	CustomTableHeaderDTO rightTableHeader = getHeader(projectionSelectionDTO);
+        List salesProjectionDoubleColumnList = getHistoryColumn(rightTableHeader);
 
         SalesRowDto salesRowDto = new SalesRowDto();
         List<SalesRowDto> salesRowList = new ArrayList<>();
@@ -755,8 +733,8 @@ public class SalesLogic {
                     salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(hierarchy).get(NumericConstants.TWO))));
                 }
                 salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(hierarchy).get(1)));
-                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchy.trim(), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
-                String levelName = CommonUtil.getDisplayFormattedName(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat());
+//                salesRowDto.setLevelName(projectionSelectionDTO.getSessionDTO().getLevelValueDiscription(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN])));
+                String levelName = CommonUtil.getDisplayFormattedName(hierarchy.trim(), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat());
                 salesRowDto.setLevelName(levelName);
                 if (levelName.contains("-")) {
                     String[] tempArr = levelName.split("-");
@@ -4459,5 +4437,35 @@ public class SalesLogic {
     public String getPeriodSid(String period, String fre, String order) throws SystemException, PortalException {
         List periodSid = (List) salesAllocationDAO.executeSelectQuery(utils.periodQuery(period, fre, order));
         return periodSid.get(0).toString();
+    }
+    
+    public List getHistoryColumn(CustomTableHeaderDTO rightTableHeader) {
+        List salesProjectionDoubleColumnList = rightTableHeader.getDoubleColumns();
+        List salesProjectionDoubleProjectedColumnList = rightTableHeader.getDoubleProjectedColumns();
+        List salesProjectionDoubleHistoryColumnList = rightTableHeader.getDoubleHistoryColumns();
+        List salesProjectionDoubleHistoryAndProjectedColumnListUnion = ListUtils.union(salesProjectionDoubleProjectedColumnList, salesProjectionDoubleHistoryColumnList);
+        Set salesProjectionDoubleHistoryAndProjectedColumnSet = new LinkedHashSet(salesProjectionDoubleHistoryAndProjectedColumnListUnion);
+        List<String> salesProjectionDoubleHistoryAndProjectedColumnList = new ArrayList(salesProjectionDoubleHistoryAndProjectedColumnSet);
+        salesProjectionDoubleColumnList.removeAll(salesProjectionDoubleHistoryAndProjectedColumnList);
+        return salesProjectionDoubleColumnList;
+    }
+
+    public CustomTableHeaderDTO getHeader(ProjectionSelectionDTO projectionSelectionDTO) {
+        CustomTableHeaderDTO salesProjectionExcelHeader = new CustomTableHeaderDTO();
+        CustomTableHeaderDTO salesProjectionFullHeader = new CustomTableHeaderDTO();
+        salesProjectionExcelHeader.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
+        if (projectionSelectionDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+            salesProjectionExcelHeader.addSingleColumn(Constant.GROUP, "Group", String.class);
+        }
+        if (CommonUtil.isValueEligibleForLoading()) {
+            salesProjectionExcelHeader.addSingleColumn(DF_LEVEL_NUMBER, "Level Number", String.class);
+            salesProjectionExcelHeader.addSingleColumn(DF_LEVEL_NAME, "Level Name", String.class);
+
+        } else {
+            salesProjectionExcelHeader.addSingleColumn(Constant.LEVELNAME, "Level Name", String.class);
+        }
+        salesProjectionExcelHeader.addSingleColumn(Constant.BASELINE, "Base Line", String.class);
+        salesProjectionExcelHeader.addSingleColumn(Constant.METHODOLOGY, "Methodology", String.class);
+       return HeaderUtils.getSalesProjectionRightTableColumns(projectionSelectionDTO, salesProjectionFullHeader, salesProjectionExcelHeader);
     }
 }

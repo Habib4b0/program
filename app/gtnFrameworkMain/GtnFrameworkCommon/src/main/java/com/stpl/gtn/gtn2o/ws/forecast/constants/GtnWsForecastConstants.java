@@ -10,7 +10,12 @@ package com.stpl.gtn.gtn2o.ws.forecast.constants;
  * @author Abishek.Ram
  */
 public class GtnWsForecastConstants {
-    public static final String GTN_WS_FORECAST_WORKFLOW_SERVICE = "/GtnWsForecastWorkflowService";
+    
+	private GtnWsForecastConstants() {
+		super();
+	}
+	
+	public static final String GTN_WS_FORECAST_WORKFLOW_SERVICE = "/GtnWsForecastWorkflowService";
     public static final String GTN_WS_FORECAST_START_TASK = "/GtnWsForecastStartTask";
     public static final String GTN_WS_FORECAST_COMPLETE_TASK = "/GtnWsForecastCompleteTask";
     public static final String GTN_WS_FORECAST_GET_VARIABLE = "/GetProcessVariable";

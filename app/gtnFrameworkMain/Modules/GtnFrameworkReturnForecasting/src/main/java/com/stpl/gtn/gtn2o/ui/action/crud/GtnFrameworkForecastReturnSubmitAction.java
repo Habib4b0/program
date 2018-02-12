@@ -60,14 +60,12 @@ public class GtnFrameworkForecastReturnSubmitAction
 				.getVaadinComponentData(gtnUIFrameWorkActionConfig.getFieldValues().get(0), componentId);
 		GtnForecastBean projMasterBean = (GtnForecastBean) gtnUIFrameworkComponentData.getCustomData();
 		gtnLogger.info("ProjectionMaster Sidddd============================" + projMasterBean.getProjectionMasterSid());
-		String path = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null
-				? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : "";
-		String filePath1 = GtnFrameworkCommonStringConstants.ST_MAIL_CONFIG;
+	
+		String filePath1 = System.getProperty("jboss.home.dir")+GtnFrameworkCommonStringConstants.ST_MAIL_CONFIG;
 		forecastProjectionSubmitBean.setModuleName(GtnWsBpmCommonConstants.FORECAST_RETURNS);
 		forecastProjectionSubmitBean.setProjectionId(Integer.valueOf(projMasterBean.getProjectionMasterSid()));
-		forecastProjectionSubmitBean.setWorkflowIdGeneratorXmlPath(path + filePath1);
+		forecastProjectionSubmitBean.setWorkflowIdGeneratorXmlPath( filePath1);
 		forecastProjectionSubmitBean.setNotes("Please enter notes.");
-		gtnLogger.info("File PAth===============================" + path);
 		gtnWsGeneralRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		forecastProjectionSubmitRequest.setGtnWsForecastProjectionSubmitBean(forecastProjectionSubmitBean);
 		forecastProjectionSubmitRequest.setGtnWsGeneralRequest(gtnWsGeneralRequest);

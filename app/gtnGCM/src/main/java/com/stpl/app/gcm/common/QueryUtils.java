@@ -1028,7 +1028,7 @@ public class QueryUtils {
     }
 
     public String getPSDetails(String ids) {
-        String query = "SELECT \n " +
+        String query = "SELECT distinct \n " +
                     "    im.ITEM_NO,\n" +
                     "    im.ITEM_NAME, \n" +
                     "    h.DESCRIPTION AS THERAPHY, \n" +
@@ -1121,7 +1121,7 @@ public class QueryUtils {
     }
 
     public String getRSDetails(String ids) {
-        String query = "SELECT\n " +
+        String query = "SELECT distinct\n " +
                     "    im.ITEM_NO,  \n" +
                     "    im.ITEM_NAME,\n" +
                     "    h.DESCRIPTION AS THERAPHY,\n" +

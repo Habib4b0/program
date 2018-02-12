@@ -184,22 +184,6 @@ IM.doses_Per_Unit,IM.discontinuation_Date,IM.last_Lot_Expiration_Date,IM.ndc9,IM
         
     ]]> </query>
 </entity>
-<entity id="getInventorySearchResults">
-<query> <![CDATA[
-        
-        SELECT FORECAST_NAME,FORECAST_VER,"SOURCE",COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE, 
-        Max(Cast(( Cast(fm."YEAR" AS VARCHAR(4)) + '-' + Cast(fm."MONTH" AS VARCHAR(2))+ '-01' ) AS DATE)) AS FT_MAX_DATE,  
-        Month(Min(FT_MIN_DATE)) AS MIN_MONTH,Year(Min(FT_MIN_DATE)) AS MIN_YEAR,
-        Month(Max(Cast(( Cast(fm."YEAR" AS VARCHAR(4)) + '-' + Cast(fm."MONTH" AS VARCHAR(2))+ '-01' ) AS DATE))) AS MAX_MONTH,  
-        Year(Max(Cast(( Cast(fm."YEAR" AS VARCHAR(4)) + '-'+ Cast(fm."MONTH" AS VARCHAR(2))+ '-01' ) AS DATE)))  AS MAX_YEAR 
-        FROM  INVENTORY_WD_PROJ_MAS FM  
-        CROSS APPLY(SELECT Min(Cast(( Cast("YEAR" AS VARCHAR(4)) + '-'+ Cast("MONTH" AS VARCHAR(2)) + '-01' ) AS DATE)) AS FT_MIN_DATE 
-        FROM INVENTORY_WD_PROJ_MAS   
-        WHERE  FORECAST_VER = Floor(FM.FORECAST_VER) AND forecast_name = fm.forecast_name) CS 
-        WHERE
-        
-    ]]> </query>
-</entity>
 <entity id="getForecastConfigurationSearchResults">
 <query> <![CDATA[
         

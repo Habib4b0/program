@@ -82,7 +82,7 @@ public class GtnFrameworkCommonConstants {
 
 	public static final String RULE_DETAILS_RESULT_LAYOUT = "ruleDetailsResultLayout";
 	public static final String PROPERTY_RULE_TYPE = "ruleType";
-	public static final String PROPERTY_RULE_NAME = "ruleName";
+	public static final String PROPERTY_RULE_NAME = RULE_NAME;
 	public static final String RULE_CATEGORY = "ruleCategory";
 	public static final String RULE_CATEGORY_LAYOUT = "ruleCategoryLayout";
 	public static final String FORMULA_NAME = "formulaName";
@@ -115,8 +115,8 @@ public class GtnFrameworkCommonConstants {
 	public static final String SECONDARY_REBATE_PLAN_NO = "secondaryRebatePlanNo";
 	public static final String RP_POP_UP_SEARCH_RESULT_TABLE = "rpPopUpSearchResultTable";
 	public static final String CUSTOM_FILTER_COMBO_BOX = "customFilterComboBox";
-	public static final String SEARCH_BUTTONLAYOUT = "searchButtonlayout";
-	public static final String SEARCH_CRITERIALAYOUT = "searchCriterialayout";
+	public static final String SEARCH_BUTTONLAYOUT = SEARCH_BUTTON_LAYOUT;
+	public static final String SEARCH_CRITERIALAYOUT = SEARCH_CRITERIA_LAYOUT;
 	public static final String SECONDARY_REBATE_PLAN_NAME = "secondaryRebatePlanName";
 	public static final String REBATE_PLAN_ID = "rebatePlanId";
 	public static final String FORMULA_NAME_LAYOUT = "formulaNameLayout";
@@ -165,7 +165,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String I_MASTER_SEARCH_ITEM_DESC = "IMasterSearchItemDesc";
 	public static final String I_MASTER_SEARCH_NDC8 = "IMasterSearchNdc8";
 
-	public static final String ACTION_BUTTONLAYOUT = "actionButtonlayout";
+	public static final String ACTION_BUTTONLAYOUT = ACTION_BUTTON_LAYOUT;
 	public static final String I_MASTER_SEARCH_ITEM_IDENTIFIER = "IMasterSearchItemIdentifier";
 	public static final String ITEM_MASTERSEARCH_RESULT_TABLE = "itemMastersearchResultTable";
 	public static final String I_MASTER_SEARCH_QUALIFIER_NAME = "IMasterSearchQualifierName";
@@ -213,17 +213,17 @@ public class GtnFrameworkCommonConstants {
 	public static final String EDIT_LISTIDENTIFIER_CODE_QUALIFIER = "editListidentifierCodeQualifier";
 	public static final String EDIT_LISTIDENTIFIER_CODE_QUALIFIER_NAME = "editListidentifierCodeQualifierName";
 	public static final String PARENT_COMPANY_SEARCHCOMPANY_NAME = "parentCompanySearchcompanyName";
-	public static final String PARENT_COMPANY_SEARCHCOMPANY_ID = "parentCompanySearchcompanyId";
-	public static final String PARENT_COMPANY_SEARCHCOMPANY_TYPE = "parentCompanySearchcompanyType";
+	public static final String PARENT_COMPANY_SEARCHCOMPANY_ID = PARENT_COMPANY_SEARCH_COMPANY_ID;
+	public static final String PARENT_COMPANY_SEARCHCOMPANY_TYPE = PARENT_COMPANY_SEARCH_COMPANY_TYPE;
 	public static final String PARENT_COMPANY_SEARCHCOMPANY_NO = "parentCompanySearchcompanyNo";
 	public static final String PARENT_COMPANY_SEARCHCOMPANY_STATUS = "parentCompanySearchcompanyStatus";
 	public static final String IDENTIFIER_EDITLIST_SAVE_BUTTON = "editListSaveButton";
 
-	public static final String PARENT_COMPANYSEARCH_RESULT_TABLE = "parentCompanysearchResultTable";
+	public static final String PARENT_COMPANYSEARCH_RESULT_TABLE = PARENT_COMPANY_SEARCH_RESULT_TABLE;
 	public static final String PARENT_COMPANY_ROOTLAYOUT = "parentCompanyRootlayout";
-	public static final String PARENT_COMPANY_SEARCH_CRITERIALAYOUT = "parentCompanySearchCriterialayout";
+	public static final String PARENT_COMPANY_SEARCH_CRITERIALAYOUT = PARENT_COMPANY_SEARCH_CRITERIA_LAYOUT;
 	public static final String PARENT_COMPANYACTION_BUTTONLAYOUT = "parentCompanyactionButtonlayout";
-	public static final String PARENT_COMPANYSEARCH_BUTTONLAYOUT = "parentCompanysearchButtonlayout";
+	public static final String PARENT_COMPANYSEARCH_BUTTONLAYOUT = PARENT_COMPANY_SEARCH_BUTTON_LAYOUT;
 	public static final String PRICING_EDIT_LIST_EFFECTIVE_DATES = "pricingEditListEffectiveDates";
 	public static final String PRICING_EDIT_LIST_BUTTON_LAYOUT = "pricingEditListButtonLayout";
 	public static final String EDIL_LIST_PRICING_FIELD_MAIN_LAYOUT = "edilListPricingFieldMainLayout";
@@ -359,7 +359,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String IF_PSAVE_BUTTONLAYOUT = "IFPsaveButtonlayout";
 	public static final String IFP_INFORMATION_LAYOUT = "ifpInformationLayout";
 	public static final String IFP_INFORMATION_TAB_LAYOUT = "ifpInformationTabLayout";
-	public static final String ITEM_NAME_HEADER = "Item Name";
+	public static final String ITEM_NAME_HEADER = LABEL_ITEM_NAME;
 	public static final String ITEM_STATUS_HEADER = "Item Status";
 	public static final String BRAND_IFP = "Brand";
 	public static final String ITEM_MASTER_SID = "itemMasterSid";
@@ -673,7 +673,7 @@ public class GtnFrameworkCommonConstants {
 	 */
 	public static final String MAINLAYOUT = "mainlayout";
 	public static final String RELATIONSHIP_NAME = "relationshipName";
-	public static final String RESULTLAYOUT = "resultlayout";
+	public static final String RESULTLAYOUT = RESULT_LAYOUT;
 	public static final String SELECTION_OPTIONLAYOUT = "selectionOptionlayout";
 	public static final String RELATIONSHIP_DESC = "relationshipDesc";
 	public static final String BUILD_TYPE = "buildType";
@@ -778,12 +778,12 @@ public class GtnFrameworkCommonConstants {
 	public static final String PS_PRICING_TAB_MASS_UPDATE_PANEL_LAYOUT = "PSPricingTabmassUpdatePanelLayout";
 	public static final String PS_PRICING_TAB_TAB_POPULATE_BUTTON = "psPricingTabTabPopulateButton";
 	public static final String PS_ITEM_ADDITION_SEARCH_VALUE = "psItemAdditionSearchValue";
-	public static final String PROPERTY_FORMULA_NO = "formulaNo";
+	public static final String PROPERTY_FORMULA_NO = FORMULA_NO;
 	public static final String LABEL_FORMULA_NO = "Formula NO";
-	public static final String PROPERTY_FORMULA_TYPE = "formulaType";
-	public static final String PROPERTY_RULE_CATEGORY = "ruleCategory";
+	public static final String PROPERTY_FORMULA_TYPE = FORMULA_TYPE;
+	public static final String PROPERTY_RULE_CATEGORY = RULE_CATEGORY;
 
-	public static final String PROPERTY_RULE_NO = "ruleNo";
+	public static final String PROPERTY_RULE_NO = RULE_NO;
 	public static final String LABEL_RULE_NO = "Rule NO";
 	public static final String PS_PRICE_PROTECTION_MASS_UPDATE_PANEL_LAYOUT = "psPriceProtectionmassUpdatePanelLayout";
 	public static final String PRICE_SCHEDULE_INFO_PANEL_LAYOUT = "priceScheduleInfoPanellayout";
@@ -804,12 +804,12 @@ public class GtnFrameworkCommonConstants {
 	public static final String PRICE_SCHEDULE_NAME_LAYOUT = "priceScheduleNameLayout";
 	public static final String CREATED_BY_LAYOUT = "createdByLayout";
 	public static final String PROPERTY_IFP_CATEGORY = "ifpCategory";
-	public static final String PROPERTY_IFP_TYPE = "ifpType";
+	public static final String PROPERTY_IFP_TYPE = IFP_TYPE;
 	public static final String PS_ITEM_ADDITION_MOVE_BUTTONS_LAYOUT = "psItemAdditionmoveButtonsLayout";
 	public static final String PS_ITEM_ADDITION_PANEL_LAYOUT = "psItemAdditionPanelLayout";
 	public static final String PS_ITEM_ADDITION_FIELD_SEARCH_LAYOUT = "psItemAdditionFieldSearchLayout";
 	public static final String PS_ITEM_ADDITION_DUAL_LIST_BOX_LAYOUT = "psItemAdditionDualListBoxLayout";
-	public static final String PROPERTY_IFP_STATUS = "ifpStatus";
+	public static final String PROPERTY_IFP_STATUS = IFP_STATUS;
 	public static final String PRICE_PROTECTION_TAB = "PriceProtectionTab";
 	public static final String PRICING_TAB = "PricingTab";
 	public static final String PRICE_SCHEDULE_NO = "priceScheduleNo";
@@ -1087,7 +1087,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String UDC_BRAND_RESULT_TABLE = "udcBrandResultTable";
 	public static final String UDC_EXCEL_BUTTONLAYOUT = "excelButtonLayout";
 	public static final String UDC_BRAND_ID = "brandId";
-	public static final String UDC_BRAND_NAME = "brandName";
+	public static final String UDC_BRAND_NAME = BRAND_NAME;
 	public static final String UDC_DISPLAY_BRAND = "displayBrand";
 	public static final String UDC_RESULTS_LAYOUT = "categoryResultsLayout";
 	public static final String GTN_EXCEL_BUTTON_LAYOUT = "gtnExcelButtonLayout";
@@ -1098,4 +1098,12 @@ public class GtnFrameworkCommonConstants {
 	public static final String UDC_CONFIGURATION = "Udc Configuration";
 	public static final String UDC_RESULT_TABLE_LAYOUT = "udcResultTableLayout";
 	public static final String UDC_BRAND_RESULT_TABLE_LAYOUT = "udcBrandResultTableLayout";
+	public static final String UDC_FILETYPE_RESULT_TABLE = "udcFileTypeResultTable";
+	public static final String UDC_FILETYPE_RESULT_TABLE_LAYOUT = "udcFileTypeResultLayout";
+	public static final String GTN_FILETYPE_EXCEL_BUTTON_LAYOUT = "gtnFileTypeExcelButtonLayout";
+	public static final String UDC_FILETYPE_VALUE = "udcFileTypeValue";
+	public static final String VALUE_FILETYPE_LAYOUT = "valueFileTypeLayout";
+	public static final String ADD_FILETYPE_LAYOUT = "addFileTypeLayout";
+	public static final String SPACE_SHOULD_NOT_BE_ALLOWED = "Space should not be allowed";
+	public static final String ERROR = "Error";
 }

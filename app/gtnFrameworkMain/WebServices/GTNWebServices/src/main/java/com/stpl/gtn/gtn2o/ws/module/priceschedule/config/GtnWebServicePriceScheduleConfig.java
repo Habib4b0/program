@@ -70,11 +70,11 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "htrade", "trade",
 						GtnFrameworkWebserviceConstant.HELPER_TABLE_SID));
 		psSearchColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_ID,
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_ID_COLUMN, "ps"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_ID_COLUMN, "im"));
 		psSearchColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_NO,
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_NO, "ps"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_NO, "im"));
 		psSearchColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_NAME,
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_NAME, "ps"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_NAME, "im"));
 
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(psSearchColumnDetailsMap);
 

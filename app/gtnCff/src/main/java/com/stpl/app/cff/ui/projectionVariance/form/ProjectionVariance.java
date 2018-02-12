@@ -275,6 +275,13 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 }
                 isComparisonLookupOpened = true;
                 loadComparison();
+                if (!pvSelectionDTO.getProjIdList().isEmpty()) {
+                for (int j = 0; j < pvSelectionDTO.getProjIdList().size(); j++) {
+                    comparisonBasis.addItem(j);
+                    comparisonBasis.setItemCaption(j, projectionMap.get(pvSelectionDTO.getProjIdList().get(j)));
+                    comparisonBasis.select("Current Projection");
+            }
+            }
             }
         });
 
@@ -343,7 +350,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             pvSelectionDTO.setForecastDTO(getHistoricalPeriods(dataSelectionDTO));
             pvSelectionDTO.setComparisonBasis(String.valueOf(comparisonBasis.getValue()));
             pvSelectionDTO.setDisplayFormat(CommonUtils.getDisplayFormatSelectedValues(displayFormatValues));
-            pvSelectionDTO.setConversionFactor(conversionFactorDdlb);
+            pvSelectionDTO.setConversionFactor(conversionFactorDdlb.getValue());
             viewChange(false);
             groupChange(false);
             setCurrentHierarchy(new ArrayList<Leveldto>(viewChangeHierarchy));
@@ -618,7 +625,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     public void loadVariables() {
-        loadComparison();
         setBaseVariables(variableCategoryValue , variablesValue);
     }
 

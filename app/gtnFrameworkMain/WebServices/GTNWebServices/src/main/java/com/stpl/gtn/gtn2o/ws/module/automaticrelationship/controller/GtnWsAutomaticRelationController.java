@@ -39,8 +39,7 @@ public class GtnWsAutomaticRelationController {
 		GtnUIFrameworkWebserviceResponse generalResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
 			Integer relationshipBuilderSid = gtnWsRequest.getAutomaticRelationEequest().getRelationshipBuilderSid();
-			boolean isRelationUpdated = service.checkAndUpdateAutomaticRelationship(relationshipBuilderSid,
-					gtnWsRequest.getAutomaticRelationEequest().getUserId());
+			boolean isRelationUpdated = service.checkAndUpdateAutomaticRelationship(relationshipBuilderSid);
 			relationResponse.setRelationUpdate(isRelationUpdated);
 			generalResponse.setAutomaticRelationResponse(relationResponse);
 		} catch (GtnFrameworkGeneralException | InterruptedException ex) {

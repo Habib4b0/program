@@ -16,7 +16,6 @@ import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAu
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutoupdateService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
-import org.junit.Ignore;
 
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,7 +32,7 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 	private static final GtnWSLogger logger = GtnWSLogger
 			.getGTNLogger(GtnFrameworkCustProdAutoUpdateServiceImplTest.class);
 
-	 @Test
+	@Test
 	public void checkForAutoUpdate() throws InterruptedException {
 		GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(614);
 		List<HierarchyLevelDefinitionBean> hierarchyDefinitionList;
@@ -48,15 +47,14 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 
 	}
 
-	 @Test
+	@Test
 	public void doAutomaticUpdate() throws GtnFrameworkGeneralException {
 		try {
 		System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
-			GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(675);
+			GtnWsRelationshipBuilderBean relationBean = service.getRelationtionshipBuilder(572);
 		List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = service
 				.getHierarchyBuilder(relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
-			String userId = "10948";
-			automaticService.doAutomaticUpdate(hierarchyLevelDefinitionList, relationBean, userId);
+			automaticService.doAutomaticUpdate(hierarchyLevelDefinitionList, relationBean);
 		}
 		catch(Exception e)
 		{
@@ -70,7 +68,7 @@ public class GtnFrameworkCustProdAutoUpdateServiceImplTest {
 			System.setProperty("com.stpl.gtnframework.base.path", "D:/SriThAr/Allergan/Server");
 
 			String userId = "10948";
-			service.checkAndUpdateAutomaticRelationship(440, userId);
+			service.checkAndUpdateAutomaticRelationship(575);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}

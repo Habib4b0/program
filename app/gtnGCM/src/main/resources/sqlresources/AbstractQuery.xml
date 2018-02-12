@@ -1250,6 +1250,19 @@ WHERE
 		]]>
         </query>
     </entity>
+    <entity id="Submit condition check for Item Delete">          
+        <query>
+		<![CDATA[
+  SELECT Count(*)
+            FROM   (SELECT 1 AS CO
+                    FROM   GCM_GLOBAL_DETAILS
+                    WHERE  EXISTS(SELECT * FROM GCM_GLOBAL_DETAILS WHERE  
+                                            (END_DATE IS NULL)
+                           AND 
+                        session_id = '?' AND OPERATION = '?' AND MODULE_NAME = 'ITEM_MANAGEMENT' AND CHECK_RECORD = 1)) a 
+		]]>
+        </query>
+    </entity>
     <entity id="Contract Insert Add">          
         <query>
 		<![CDATA[

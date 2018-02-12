@@ -441,8 +441,8 @@ public class processSchedulerForm extends CustomComponent {
         resultTable.setColumnHeaders(Arrays.copyOf(getColumns(false, key), getColumns(false, key).length, String[].class));
         resultTable.markAsDirtyRecursive();
         resultTable.setImmediate(true);
-	resultTable.setWidth("100%");
-	resultTable.setHeight("253px");
+		resultTable.setWidth("100%");
+		resultTable.setHeight("253px");
         resultTable.setItemsPerPage(10);
         resultTable.setSelectable(true);
         resultTable.markAsDirty();
@@ -457,8 +457,7 @@ public class processSchedulerForm extends CustomComponent {
         manualTabLogic.setContainerDataSource(manualProcSchContainerBean);
         manualTabLogic.setPageLength(10);
         manualTabLogic.sinkItemPerPageWithPageLength(false);
-        manualProcTable.setWidth("100%");
-        manualProcTable.setItemsPerPage(10);
+        manualProcTable.setWidth("497px");
         manualProcTable.setSelectable(true);
         manualProcTable.setMultiSelect(false);
         HorizontalLayout controls = manualTabLogic.createControls();
@@ -466,6 +465,7 @@ public class processSchedulerForm extends CustomComponent {
         manualProcessesTable.addComponent(controlLayout);
         manualProcTable.setContainerDataSource(manualProcSchContainerBean);
 
+        manualTabLogic.setItemsPerPage(10);
         manualProcTable.setVisibleColumns(manualColumn);
         manualProcTable.setColumnHeaders(manualHeader);
 

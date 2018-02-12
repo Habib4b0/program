@@ -181,11 +181,7 @@ public class DiscountProjectionLogic {
         int treeLevelNo = 0;
         String hierarchyNo;
 
-        List doubleProjectedColumnList = rightDto.getDoubleProjectedColumns();
-        List doubleHistoryColumnList = rightDto.getDoubleHistoryColumns();
-        List doubleProjectedAndHistoryCombinedList = ListUtils.union(doubleProjectedColumnList, doubleHistoryColumnList);
-        Set doubleProjectedAndHistoryCombinedSet = new LinkedHashSet(doubleProjectedAndHistoryCombinedList);
-        List doubleProjectedAndHistoryCombinedUniqueList = new ArrayList(doubleProjectedAndHistoryCombinedSet);
+        List doubleProjectedAndHistoryCombinedUniqueList = getDoubleProjectedAndHistoryCombinedUniqueList(rightDto);
 
         levelNo = Integer.valueOf(String.valueOf(detailsList.get(0)));
         hierarchyNo = String.valueOf(detailsList.get(1));
@@ -1251,4 +1247,12 @@ public class DiscountProjectionLogic {
     String updateZeroQuery="UPDATE ST_NM_DISCOUNT_PROJ_MASTER SET CHECK_RECORD=0";
     HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(updateZeroQuery,sessionDto.getCurrentTableNames()));
     }
+    
+    public List getDoubleProjectedAndHistoryCombinedUniqueList(CustomTableHeaderDTO rightDto) {
+        List doubleProjectedColumnList = rightDto.getDoubleProjectedColumns();
+         List doubleHistoryColumnList = rightDto.getDoubleHistoryColumns();
+         List doubleProjectedAndHistoryCombinedList = ListUtils.union(doubleProjectedColumnList, doubleHistoryColumnList);
+         Set doubleProjectedAndHistoryCombinedSet = new LinkedHashSet(doubleProjectedAndHistoryCombinedList);
+         return new ArrayList(doubleProjectedAndHistoryCombinedSet);
+     }
 }

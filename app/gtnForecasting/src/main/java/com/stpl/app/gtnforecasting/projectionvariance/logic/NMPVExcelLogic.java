@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -153,6 +154,7 @@ public class NMPVExcelLogic {
     protected Map<String, Map<String, ProjectionVarianceDTO>> pivotDiscountMap = new HashMap<>();
     private boolean actualBasis = false;
     private boolean accrualBasis = false;
+    private boolean currentBasis = false;
     private static final String VAL = "Value";
     private static final String VAR = "Var";
     private static final String PER = "Per";
@@ -194,6 +196,7 @@ public class NMPVExcelLogic {
         isCustomView = selection.isIsCustomHierarchy();
         actualBasis = (Constant.ACTUALS).equals(selection.getComparisonBasis());
         accrualBasis = (Constant.ACCRUALS).equals(selection.getComparisonBasis());
+        currentBasis = "Current Projection".equals(selection.getComparisonBasis());
 
         if (isCustomView) {
             customView_relationship_hierarchy.putAll(getGroup_customViewNM());
@@ -1076,7 +1079,6 @@ public class NMPVExcelLogic {
         pvDTO.addStringProperties(DF_LEVEL_NAME, groupValue);
         pvDTO.setGroup(groupValue);
         String commonColumn = StringUtils.EMPTY;
-        List<Integer> priorProjIdListList = selection.getProjIdList();
         switch (frequencyDivision) {
             case NumericConstants.FOUR:
                 commonColumn = "Q" + obj[isTotal ? 1 : BASECOLUMN_PERIOD_INDEX] + StringUtils.EMPTY + obj[isTotal ? 0 : BASECOLUMN_YR_INDEX];
@@ -1089,14 +1091,14 @@ public class NMPVExcelLogic {
                 break;
             case NumericConstants.TWELVE:
                 String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[isTotal ? 1 : BASECOLUMN_PERIOD_INDEX])) - 1);
-                commonColumn = monthName.toLowerCase() + obj[isTotal ? 0 : BASECOLUMN_YR_INDEX];
+                commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[isTotal ? 0 : BASECOLUMN_YR_INDEX];
                 break;
             default:
                 break;
         }
         PVCommonLogic.customizePeriod(commonColumn, varibaleCat, selection, pvDTO, format, currentIndex, obj, flag);
-        for (int j = 0; j < priorProjIdListList.size(); j++) {
-            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, commonColumn + priorProjIdListList.get(j), currentIndex, j, flag, isTotal ? COLUMN_COUNT_TOTAL : COLUMN_COUNT_DETAIL, format);
+        for (int j = 0; j < selection.getProjIdList().size(); j++) {
+            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, commonColumn + selection.getProjIdList().get(j), currentIndex, j, flag, isTotal ? COLUMN_COUNT_TOTAL : COLUMN_COUNT_DETAIL, format,commonColumn);
         }
     }
 
@@ -1541,7 +1543,7 @@ public class NMPVExcelLogic {
                     break;
                 case NumericConstants.TWELVE:
                     String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])) - 1);
-                    commonColumn = monthName.toLowerCase() + obj[NumericConstants.FOUR];
+                    commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.FOUR];
                     break;
                 default:
                     break;
@@ -1566,7 +1568,7 @@ public class NMPVExcelLogic {
         priorList.clear();
         priorList.addAll(selection.getProjIdList());
         for (int j = 0; j < priorList.size(); j++) {
-            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, variableName + priorList.get(j), currentIndex, j, format.equals(RATE_PER), isTotal ? COLUMN_COUNT_TOTAL : COLUMN_COUNT_DETAIL, format);
+            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, variableName + priorList.get(j), currentIndex, j, format.equals(RATE_PER), isTotal ? COLUMN_COUNT_TOTAL : COLUMN_COUNT_DETAIL, format,variableName);
         }
     }
 
@@ -1887,7 +1889,7 @@ public class NMPVExcelLogic {
             commonColumn = String.valueOf(obj[NumericConstants.FOUR]);
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])) - 1);
-            commonColumn = monthName.toLowerCase() + obj[NumericConstants.FOUR];
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.FOUR];
         }
         Map<String, ProjectionVarianceDTO> valueMap = pivotDiscountMap.get(key);
         if (valueMap != null) {
@@ -1911,7 +1913,6 @@ public class NMPVExcelLogic {
         pvDTO.setLevelNo(projSelDTO.getLevelNo());
         pvDTO.setTreeLevelNo(projSelDTO.getTreeLevelNo());
         pvDTO.setParent(0);
-        List<Integer> priorProjIdList = new ArrayList<>(projSelDTO.getProjIdList());
 
         if (dataList != null && !dataList.isEmpty()) {
             for (int i = 0; i < dataList.size(); i++) {
@@ -1950,15 +1951,15 @@ public class NMPVExcelLogic {
                         break;
                     case NumericConstants.TWELVE:
                         String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[1])) - 1);
-                        commonColumn = monthName.toLowerCase() + obj[0];
+                        commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[0];
                         break;
                     default:
                         break;
                 }
 
                 PVCommonLogic.customizePeriod(commonColumn, projSelDTO.getVarIndicator(), projSelDTO, pvDTO, isPer ? RATE : AMOUNT, currentIndex, obj, isPer);
-                for (int j = 0; j < priorProjIdList.size(); j++) {
-                    PVCommonLogic.getPriorCommonCustomization(projSelDTO.getVarIndicator(), projSelDTO, obj, pvDTO, commonColumn + priorProjIdList.get(j), currentIndex, j, isPer, COLUMN_COUNT_DISCOUNT, isPer ? RATE : AMOUNT);
+                for (int j = 0; j < projSelDTO.getProjIdList().size(); j++) {
+                    PVCommonLogic.getPriorCommonCustomization(projSelDTO.getVarIndicator(), projSelDTO, obj, pvDTO, commonColumn + projSelDTO.getProjIdList().get(j), currentIndex, j, isPer, COLUMN_COUNT_DISCOUNT, isPer ? RATE : AMOUNT,commonColumn);
                 }
                 if (i == dataList.size() - 1) {
                     resultDto.add(pvDTO);
@@ -2049,7 +2050,7 @@ public class NMPVExcelLogic {
                 break;
             case NumericConstants.TWELVE:
                 String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[BASECOLUMN_PERIOD_DISC_INDEX])) - 1);
-                commonColumn = monthName.toLowerCase() + obj[BASECOLUMN_YR_DISC_INDEX];
+                commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[BASECOLUMN_YR_DISC_INDEX];
                 break;
             default:
                 break;
@@ -2057,7 +2058,7 @@ public class NMPVExcelLogic {
         PVCommonLogic.customizePeriod(commonColumn, varibaleCat, selection, pvDTO, format, currentIndex, obj, format.equals(RATE_PER));
         List<Integer> priorList = selection.getProjIdList();
         for (int j = 0; j < priorList.size(); j++) {
-            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, commonColumn + priorList.get(j), currentIndex, j, format.equals(RATE_PER), COLUMN_COUNT_DISCOUNT, format);
+            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, commonColumn + priorList.get(j), currentIndex, j, format.equals(RATE_PER), COLUMN_COUNT_DISCOUNT, format,commonColumn);
         }
     }
 
@@ -2408,11 +2409,7 @@ public class NMPVExcelLogic {
         if (actualBasis) {
             String discountVarCurrent;
             String variance = PVCommonLogic.getVariance(actualValue, currentValue, format, selection);
-            if (discountColumn.contains("RPU")) {
                 discountVarCurrent = discountColumn + VAR + discount + discountNo + CURRENT + projId;
-            } else {
-                discountVarCurrent = discountColumn + VAR + discount + discountNo + CURRENT + projId;
-            }
             discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
 
             String discountPer = PVCommonLogic.getPerChange(actualValue, currentValue, RATE_PER);
@@ -2421,11 +2418,7 @@ public class NMPVExcelLogic {
         } else if (accrualBasis) {
             String discountVarCurrent;
             String variance = PVCommonLogic.getVariance(accrualValue, currentValue, format, selection);
-            if (discountColumn.contains("RPU")) {
                 discountVarCurrent = discountColumn + VAR + discount + discountNo + CURRENT + projId;
-            } else {
-                discountVarCurrent = discountColumn + VAR + discount + discountNo + CURRENT + projId;
-            }
             discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
 
             String discountPer = PVCommonLogic.getPerChange(accrualValue, currentValue, RATE_PER);
@@ -2436,6 +2429,7 @@ public class NMPVExcelLogic {
     }
 
     private void calculatePivotDiscountPrior(ProjectionVarianceDTO discountDto, Object[] obj, String discount, String discountColumn, int currentIndex, int priorIndex, int projId, DecimalFormat format, boolean isConversionNeeded) {
+        int comparisonPriorIndex = currentIndex + (Integer.valueOf(selection.getComparisonBasis()) + 1) * COLUMN_COUNT_DISCOUNT;
         String discountNo = discount_No(discount);
         selection.setConversionNeeded(isConversionNeeded);
         boolean isPer = format.equals(RATE) || format.equals(RATE_PER);
@@ -2451,33 +2445,40 @@ public class NMPVExcelLogic {
         String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex - 2])));
         String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex - 1])));
         String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex])));
+        String discountVarCurrent = discountColumn + VAR + discount + discountNo + projId;
+        String discountVarPer = discountColumn + PER + discount + discountNo + projId;
 
         if (actualBasis) {
             if (!isActualFormat) {
                 String variance = PVCommonLogic.getVariance(actualValue, priorValue, isPer ? RATE : AMOUNT, selection);
-                String discountVarCurrent = discountColumn + VAR + discount + discountNo + projId;
                 discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
-
                 String discountPer = PVCommonLogic.getPerChange(actualValue, priorValue, RATE_PER);
-                String discountVarPer = discountColumn + PER + discount + discountNo + projId;
                 discountDto.addStringProperties(discountVarPer, isPer ? discountPer + PERCENT : discountPer);
             }
         } else if (accrualBasis) {
             String variance = PVCommonLogic.getVariance(accrualValue, priorValue, isPer ? RATE : AMOUNT, selection);
-            String discountVarCurrent = discountColumn + VAR + discount + discountNo + projId;
             discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
-
             String discountPer = PVCommonLogic.getPerChange(accrualValue, priorValue, RATE_PER);
-            String discountVarPer = discountColumn + PER + discount + discountNo + projId;
+            discountDto.addStringProperties(discountVarPer, isPer ? discountPer + PERCENT : discountPer);
+        } else if (currentBasis) {
+            String variance = PVCommonLogic.getVariance(currentValue, priorValue, isPer ? RATE : AMOUNT, selection);
+            discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
+            String discountPer = PVCommonLogic.getPerChange(currentValue, priorValue, RATE_PER);
             discountDto.addStringProperties(discountVarPer, isPer ? discountPer + PERCENT : discountPer);
         } else {
-            String variance = PVCommonLogic.getVariance(currentValue, priorValue, isPer ? RATE : AMOUNT, selection);
-            String discountVarCurrent = discountColumn + VAR + discount + discountNo + projId;
+            String comparisonPriorValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[comparisonPriorIndex])));
+            String variance = PVCommonLogic.getVariance(comparisonPriorValue, priorValue, isPer ? RATE : AMOUNT, selection);
             discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
-
-            String discountPer = PVCommonLogic.getPerChange(currentValue, priorValue, RATE_PER);
-            String discountVarPer = discountColumn + PER + discount + discountNo + projId;
+            String discountPer = PVCommonLogic.getPerChange(comparisonPriorValue, priorValue, RATE_PER);
             discountDto.addStringProperties(discountVarPer, isPer ? discountPer + PERCENT : discountPer);
+
+            String varianceCurr = PVCommonLogic.getVariance(comparisonPriorValue, currentValue, isPer ? RATE : AMOUNT, selection);
+            String discountVarCurr = discountColumn + VAR + discount + discountNo + CURRENT + projId;
+            discountDto.addStringProperties(discountVarCurr, isPer ? variance + PERCENT : varianceCurr);
+            String discountPerCurr = PVCommonLogic.getPerChange(comparisonPriorValue, currentValue, RATE_PER);
+            String discountVarPerCurr = discountColumn + PER + discount + discountNo + CURRENT + projId;
+            discountDto.addStringProperties(discountVarPerCurr, isPer ? discountPer + PERCENT : discountPerCurr);
+
         }
     }
 
@@ -2505,7 +2506,7 @@ public class NMPVExcelLogic {
             commonColumn = StringUtils.EMPTY + obj[NumericConstants.THREE];
         } else if (frequencyDivision == NumericConstants.TWELVE) {
             String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])) - 1);
-            commonColumn = monthName.toLowerCase() + obj[NumericConstants.THREE];
+            commonColumn = monthName.toLowerCase(Locale.ENGLISH) + obj[NumericConstants.THREE];
         }
         return commonColumn;
     }

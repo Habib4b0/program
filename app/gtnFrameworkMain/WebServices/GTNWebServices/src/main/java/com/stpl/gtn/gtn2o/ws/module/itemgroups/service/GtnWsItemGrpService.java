@@ -207,10 +207,11 @@ public class GtnWsItemGrpService {
 		try {
 			String query = gtnWsSqlService.getQuery("getItemGrpDetailsFetchQuery");
 			GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-					GtnFrameworkDataType.INTEGER };
+					GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
 			Object[] params = { gtnWsRequest.getGtnWsGeneralRequest().getUserId(),
 					gtnWsRequest.getGtnWsGeneralRequest().getSessionId(), gtnWsRequest.getGtnWsItemGroupRequest()
-							.getGtnWsItemGroupBean().getItemGrpInfoBean().getItemGrpSid() };
+							.getGtnWsItemGroupBean().getItemGrpInfoBean().getItemGrpSid(), gtnWsRequest.getGtnWsItemGroupRequest()
+							.getGtnWsItemGroupBean().getItemGrpInfoBean().getVersionNo() };
 			return gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, type);
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException(e);
@@ -290,14 +291,14 @@ public class GtnWsItemGrpService {
 		}
 	}
 
-	public int updateItemGrpDetailsTable(GtnUIFrameworkWebserviceRequest gtnWsRequest, int itemGrpSid)
+	public int updateItemGrpDetailsTable(GtnUIFrameworkWebserviceRequest gtnWsRequest, int itemGrpSid, GtnWsItemGroupBean itemGrpBean)
 			throws GtnFrameworkGeneralException {
 		try {
 			String query = gtnWsSqlService.getQuery("getItemGrpDetailsUpdateQuery");
 			GtnFrameworkDataType[] type = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-					GtnFrameworkDataType.STRING };
+					GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER };
 			Object[] params = { gtnWsRequest.getGtnWsGeneralRequest().getUserId(),
-					gtnWsRequest.getGtnWsGeneralRequest().getSessionId(), String.valueOf(itemGrpSid) };
+					gtnWsRequest.getGtnWsGeneralRequest().getSessionId(), String.valueOf(itemGrpSid), itemGrpBean.getItemGrpInfoBean().getVersionNo() };
 			return gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, type);
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException(e);

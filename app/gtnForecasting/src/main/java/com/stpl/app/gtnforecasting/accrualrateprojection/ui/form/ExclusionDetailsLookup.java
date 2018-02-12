@@ -131,7 +131,6 @@ public class ExclusionDetailsLookup extends Window {
 
     private void configureFields() {
         LOGGER.debug("configureFields starts");
-        filenameDdlb.setImmediate(true);
         filenameDdlb.addItem(Constant.COMPANY_ID);
         filenameDdlb.setValue(Constant.COMPANY_ID);
 
@@ -335,7 +334,6 @@ public class ExclusionDetailsLookup extends Window {
             availableTable.setHeight("300px");
             availableTable.setFilterBarVisible(true);
             avalableTableLogic.sinkItemPerPageWithPageLength(false);
-            availableTable.setImmediate(true);
             availableTable.setSelectable(true);
             availableTable.setSortEnabled(true);
             availableTable.markAsDirty();
@@ -354,7 +352,6 @@ public class ExclusionDetailsLookup extends Window {
         excludedFieldsTable.setFilterBarVisible(true);
         excludedFieldsTable.setWidth("400px");
         excludedFieldsTable.setHeight("300px");
-        excludedFieldsTable.setImmediate(true);
         exclusionDetailsTableLogic.sinkItemPerPageWithPageLength(false);
         excludedFieldsTable.setSortEnabled(true);
         excludedFieldsTable.setSelectable(true);
