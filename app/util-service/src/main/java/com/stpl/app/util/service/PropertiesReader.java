@@ -20,7 +20,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import org.jboss.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -82,10 +84,10 @@ public class PropertiesReader {
      */
     private static Boolean needRefresh = Boolean.FALSE;
 
-    /**
+    /** 
      * java.util.logging.Logger is used to catch the logs
      */
-    private static final Logger LOGGER = Logger.getLogger(PropertiesReader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesReader.class);
 
     /**
      * the method returns the singleton object the class PropertiesReader and
@@ -181,7 +183,7 @@ public class PropertiesReader {
         /**
          * java.util.logging.Logger is used to catch the logs
          */
-        private static final Logger LOGGER = Logger.getLogger(STPLWatchService.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(STPLWatchService.class);
 
         private STPLWatchService() {
             STPLRunnableJob runnable = new STPLRunnableJob();
