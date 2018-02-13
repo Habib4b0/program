@@ -62,7 +62,7 @@ public class NMSalesExcelLogic {
 
     private void setActualsProjectionValues(SalesRowDto salesRowDto, Character freq, Object[] obj, ProjectionSelectionDTO projectionSelectionDTO, List historyColumn, Map<String, List> hierarchyLevelDetails, String hierarchyIndicator) {
         try {
-            String header = commonLogic.getHeaderForExcel(freq, obj,StringUtils.EMPTY);
+            String header = commonLogic.getHeaderForExcel(freq, obj,StringUtils.EMPTY,"-");
             boolean isActuals = (Boolean) obj[NumericConstants.THREE];
             String hierarchyNo=getHierarchyNumber(obj[NumericConstants.ZERO]);
             salesRowDto.setParentHierarchyNo(String.valueOf(obj[NumericConstants.FOUR]).trim());

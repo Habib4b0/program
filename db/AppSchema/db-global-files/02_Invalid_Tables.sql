@@ -11607,6 +11607,7 @@ BEGIN
    SET REPROCESSED_FLAG='N'
    WHERE REPROCESSED_FLAG IS NULL
 END
+GO
 
 
 -------------Add a primary Key For IVLD_ITEM_UOM-------------------

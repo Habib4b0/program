@@ -251,7 +251,8 @@
      TARGET.DEDUCTION_TYPE = SOURCE.DEDUCTION_TYPE,
      TARGET.DEDUCTION_SUB_TYPE = SOURCE.DEDUCTION_SUB_TYPE,
      TARGET.DEDUCTION_CATEGORY = SOURCE.DEDUCTION_CATEGORY,
-     TARGET.RS_CONTRACT_SID = SOURCE.RS_CONTRACT_SID
+     TARGET.RS_CONTRACT_SID = SOURCE.RS_CONTRACT_SID,
+     TARGET.CHECK_RECORD = SOURCE.CHECK_RECORD
      WHEN NOT MATCHED BY TARGET THEN INSERT
              (
                      NET_SALES_FORMULA_MASTER_SID,
@@ -266,7 +267,8 @@
                      DEDUCTION_TYPE,
                      DEDUCTION_SUB_TYPE,
                      DEDUCTION_CATEGORY,
-                     RS_CONTRACT_SID
+                     RS_CONTRACT_SID,
+                     CHECK_RECORD
              )
      VALUES(
              @NSF_MASTER_SID,
@@ -281,7 +283,8 @@
              SOURCE.DEDUCTION_TYPE,
              SOURCE.DEDUCTION_SUB_TYPE,
              SOURCE.DEDUCTION_CATEGORY,
-             SOURCE.RS_CONTRACT_SID
+             SOURCE.RS_CONTRACT_SID,
+             SOURCE.CHECK_RECORD
      );
             ]]>
 		</query>
@@ -421,7 +424,7 @@
 			DD.DEDUCTION_CATEGORY,
 			DD.CDR_MODEL_SID,
 			DD."INDICATOR",
-			0 as CHECK_RECORD,
+			DD.CHECK_RECORD,
 			DD.INBOUND_STATUS,
 			@USERS_ID as USERS_SID,
 			@SESSION_ID as SESSION_ID,
@@ -518,17 +521,33 @@
         ]]>
 		</query>
 	</entity>
-	<entity id="getNsfDuplicateCheckQuery">
+	<entity id="getNsfDuplicateNameCheckQuery">
 		<query> 
             <![CDATA[
             
-            DECLARE @NET_SALES_FORMULA_NAME VARCHAR(10)= ?,
-            @NET_SALES_FORMULA_ID VARCHAR(10)= ?,
-            @NET_SALES_FORMULA_NO VARCHAR(10)= ?
+            DECLARE @NET_SALES_FORMULA_NAME VARCHAR(10)='?'
             
-             select count(*) from NET_SALES_FORMULA_MASTER where NET_SALES_FORMULA_NAME=@NET_SALES_FORMULA_NAME;
-             select count(*) from NET_SALES_FORMULA_MASTER where NET_SALES_FORMULA_ID= @NET_SALES_FORMULA_ID;
-             select count(*) from NET_SALES_FORMULA_MASTER where NET_SALES_FORMULA_NO=@NET_SALES_FORMULA_NO;
+             select count(*) from NET_SALES_FORMULA_MASTER where NET_SALES_FORMULA_NAME=@NET_SALES_FORMULA_NAME and INBOUND_STATUS<>'D' ;
+        ]]>
+		</query>
+	</entity>
+<entity id="getNsfDuplicateIdCheckQuery">
+		<query> 
+            <![CDATA[
+            
+            DECLARE @NET_SALES_FORMULA_ID VARCHAR(10)= '?'
+            
+             select count(*) from NET_SALES_FORMULA_MASTER where NET_SALES_FORMULA_ID= @NET_SALES_FORMULA_ID and INBOUND_STATUS<>'D';
+        ]]>
+		</query>
+	</entity>
+	<entity id="getNsfDuplicateNoCheckQuery">
+		<query> 
+            <![CDATA[
+            
+            DECLARE @NET_SALES_FORMULA_NO VARCHAR(10)= '?'
+            
+             select count(*) from NET_SALES_FORMULA_MASTER where NET_SALES_FORMULA_NO=@NET_SALES_FORMULA_NO and INBOUND_STATUS<>'D';
         ]]>
 		</query>
 	</entity>

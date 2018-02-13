@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyEntityMaster;
-import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyRestrictionMaster;
 import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchySingleColumnRelation;
 import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTableMaster;
 import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTableRelation;
 import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTypeTableRelation;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
 @Service
 public class GtnFrameworkEntityMasterBean {
@@ -32,6 +32,8 @@ public class GtnFrameworkEntityMasterBean {
 	private final List<GtnFrameworkSingleColumnRelationBean> singleColumnRelationList = new ArrayList<>();
 	private final List<GtnFrameworkEntityHierarchyRelationBean> entityHirarchyRelationList = new ArrayList<>();
 	private final List<GtnFrameworkHierarchyRestrictionBean> hierachyRestrcionList = new ArrayList<>();
+
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkEntityMasterBean.class);
 
 	public GtnFrameworkEntityMasterBean() throws GtnFrameworkGeneralException {
 		super();
@@ -288,22 +290,35 @@ public class GtnFrameworkEntityMasterBean {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private void insertToHierarchyRestrictionList() {
-		try (Session session = gtnSqlQueryEngine.getSessionFactory().openSession()) {
-			Criteria criteria = session.createCriteria(HierarchyRestrictionMaster.class);
-			@SuppressWarnings("unchecked")
-			List<HierarchyRestrictionMaster> results = criteria.list();
-			for (HierarchyRestrictionMaster dbTableMasterBean : results) {
+		try {
+			String query = "select HIERARCHY_TABLE_MASTER_SID,	ACTUAL_TABLE_NAME,	ACTUAL_COLUMN_NAME	,REFERENCE_TABLE_NAME,	REFERENCE_COLUMN_NAME,	RESTRICTION_COLUMN_NAME,	RESTRICTION_VALUE,	JOIN_SEQUENCE,OPERATOR_TYPE from HIERARCHY_RESTRICTION_MASTER";
+			List<Object[]> result = (List<Object[]>) gtnSqlQueryEngine.executeSelectQuery(query);
+			for (Object[] dbTableMasterBean : result) {
 				GtnFrameworkHierarchyRestrictionBean tableRestrictionBean = new GtnFrameworkHierarchyRestrictionBean();
-				tableRestrictionBean.setHierarchyTableMasterSid(dbTableMasterBean.getHierarchyTableMasterSid());
-				tableRestrictionBean.setActualTableName(dbTableMasterBean.getActualTableName());
-				tableRestrictionBean.setActualColumnName(dbTableMasterBean.getActualColumnName());
-				tableRestrictionBean.setReferencTableName(dbTableMasterBean.getReferenceTableName());
-				tableRestrictionBean.setReferenceColumnName(dbTableMasterBean.getReferenceColumnName());
-				tableRestrictionBean.setRestrictionColumnName(dbTableMasterBean.getRestrictionColumnName());
-				tableRestrictionBean.setRestrictionValue(dbTableMasterBean.getRestrictionValue());
+				tableRestrictionBean.setHierarchyTableMasterSid(Integer.valueOf(dbTableMasterBean[0].toString()));
+				tableRestrictionBean
+						.setActualTableName(dbTableMasterBean[1] != null ? dbTableMasterBean[1].toString() : "");
+				tableRestrictionBean
+						.setActualColumnName(dbTableMasterBean[2] != null ? dbTableMasterBean[2].toString() : "");
+				tableRestrictionBean
+						.setReferencTableName(dbTableMasterBean[3] != null ? dbTableMasterBean[3].toString() : "");
+				tableRestrictionBean
+						.setReferenceColumnName(dbTableMasterBean[4] != null ? dbTableMasterBean[4].toString() : "");
+				tableRestrictionBean
+						.setRestrictionColumnName(dbTableMasterBean[5] != null ? dbTableMasterBean[5].toString() : "");
+				tableRestrictionBean
+						.setRestrictionValue(dbTableMasterBean[6] != null ? dbTableMasterBean[6].toString() : "");
+				tableRestrictionBean
+						.setJoinSequence(dbTableMasterBean[7] != null ? Integer.valueOf(dbTableMasterBean[7].toString())
+								: Integer.MAX_VALUE);
+				tableRestrictionBean
+						.setOperatorType(dbTableMasterBean[8] != null ? dbTableMasterBean[8].toString() : "");
 				addRestrictionBeanList(tableRestrictionBean);
 			}
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
 		}
 
 	}
@@ -319,11 +334,12 @@ public class GtnFrameworkEntityMasterBean {
 		return null;
 	}
 
-	public GtnFrameworkHierarchyRestrictionBean getRestrictionBean(Integer pathValue) {
+	public List<GtnFrameworkHierarchyRestrictionBean> getRestrictionBean(Integer pathValue) {
+		List<GtnFrameworkHierarchyRestrictionBean> restrictionList = new ArrayList<>();
 		for (GtnFrameworkHierarchyRestrictionBean hierachyRestrcionBean : hierachyRestrcionList) {
 			if (hierachyRestrcionBean.getHierarchyTableMasterSid() == pathValue)
-				return hierachyRestrcionBean;
+				restrictionList.add(hierachyRestrcionBean);
 		}
-		return null;
+		return restrictionList;
 	}
 }
