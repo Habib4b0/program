@@ -48,10 +48,6 @@ public class FileUploader implements Receiver {
 	 */
 	private String moduleName;
 	/**
-	 * The move back.
-	 */
-	private final static String MOVEBACK = "../";
-	/**
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileUploader.class);
@@ -62,13 +58,10 @@ public class FileUploader implements Receiver {
 	/**
 	 * The Constructor.
 	 *
-	 * @param filePath
-	 *            the file path
 	 * @param moduleName
 	 *            the module name
 	 */
-	public FileUploader(final String filePath, final String moduleName) {
-		this.basepath = filePath;
+	public FileUploader( final String moduleName) {
 		this.moduleName = moduleName;
 	}
 
@@ -86,7 +79,7 @@ public class FileUploader implements Receiver {
 		LOGGER.debug("Entering receiveUpload method ");
 		try {
 			final File dir = CommonUtil
-					.getFilePath(basepath + File.separator + MOVEBACK + MOVEBACK + MOVEBACK + File.separator
+					.getFilePath(CommonUtil.getJbossHome() + File.separator
 							+ "Documents" + File.separator + moduleName + File.separator + userId + File.separator);
 			if (!dir.exists()) {
 				dir.mkdirs();

@@ -1185,8 +1185,7 @@ public class ProjectionVarianceLogic {
             }
             list = HelperTableLocalServiceUtil.executeSelectQuery(rsQuery);
         }
-        int count = CFFLogic.getCount(list);
-        return count;
+        return CFFLogic.getCount(list);
     }
     
     public String HelperJoinQuery(PVSelectionDTO dto,List dedInput){
@@ -2681,7 +2680,7 @@ public class ProjectionVarianceLogic {
                     }
                     PVCommonLogic.customizePeriod(commonColumn, varibaleCat, pvsdto, pvDTO, FORMAT, totalListPostion, obj, isPer);
                     for (int j = 0; j < priorList.size(); j++) {
-                        PVCommonLogic.getPriorCommonCustomization(varibaleCat, pvsdto, obj, pvDTO, commonColumn + priorList.get(j), totalListPostion, j, isPer, COLUMN_COUNT_TOTAL, FORMAT,commonColumn);
+                        PVCommonLogic.getPriorCommonCustomization(varibaleCat, pvsdto, obj, pvDTO, commonColumn, totalListPostion, j, isPer, COLUMN_COUNT_TOTAL, FORMAT);
                     }
                 }
             }
@@ -2727,7 +2726,7 @@ public class ProjectionVarianceLogic {
 
                 PVCommonLogic.customizePeriod(commonColumn, projSelDTO.getVarIndicator(), projSelDTO, pvDTO, isPer ? RATE : AMOUNT, index, obj, isPer);
                 for (int j = 0; j < priorList.size(); j++) {
-                    PVCommonLogic.getPriorCommonCustomization(projSelDTO.getVarIndicator(), projSelDTO, obj, pvDTO, commonColumn + priorList.get(j), index, j, isPer, COLUMN_COUNT_DISCOUNT, isPer ? RATE : AMOUNT,commonColumn);
+                    PVCommonLogic.getPriorCommonCustomization(projSelDTO.getVarIndicator(), projSelDTO, obj, pvDTO, commonColumn, index, j, isPer, COLUMN_COUNT_DISCOUNT, isPer ? RATE : AMOUNT);
                 }
                 if (i == dataList.size() - 1) {
                     resultDto.add(pvDTO);
@@ -2967,7 +2966,7 @@ public class ProjectionVarianceLogic {
             List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
             PVCommonLogic.customizePeriod(variableValue, variableCategory, pvsdto, projDTO, format, index, obj, format.equals(RATE));
             for (int j = 0; j < priorList.size(); j++) {
-                PVCommonLogic.getPriorCommonCustomization(variableCategory, pvsdto, obj, projDTO, variableValue + priorList.get(j), index, j, format.equals(RATE), isTotalLevel ? COLUMN_COUNT_TOTAL : COLUMN_COUNT_DISCOUNT, format,variableValue);
+                PVCommonLogic.getPriorCommonCustomization(variableCategory, pvsdto, obj, projDTO, variableValue, index, j, format.equals(RATE), isTotalLevel ? COLUMN_COUNT_TOTAL : COLUMN_COUNT_DISCOUNT, format);
             }
 
         } catch (Exception e) {

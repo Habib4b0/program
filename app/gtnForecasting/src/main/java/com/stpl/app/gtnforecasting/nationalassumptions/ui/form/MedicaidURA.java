@@ -698,6 +698,7 @@ public class MedicaidURA extends CustomComponent implements View {
                         public void buttonClick(final Button.ClickEvent event) {
                             ProjectionSelectionDTO worksheetProjDto = projectionDTO;
                             worksheetProjDto.setNdc9(tableDto.getNdc9());
+                            worksheetProjDto.setNdc9Value(tableDto.getNdc9Value());
                             worksheetProjDto.setAdjust(false);
                             HelperDTO ndcDto = new HelperDTO();
                             ndcDto.setId(tableDto.getItemMasterSid());
@@ -891,7 +892,7 @@ public class MedicaidURA extends CustomComponent implements View {
     }
 
     public void addLowerLevelsForExport(TableDTO id) {
-        List<TableDTO> resultList = medResLogic.getMedicaidChild(projectionDTO, id.getNdc9(),sessionDTO);
+        List<TableDTO> resultList = medResLogic.getMedicaidChild(projectionDTO, id.getNdc9Value(),sessionDTO);
         loadDataToContainer(resultList, id);
     }
     /*
