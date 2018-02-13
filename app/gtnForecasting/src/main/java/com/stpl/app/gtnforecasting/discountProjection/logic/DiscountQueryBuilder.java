@@ -259,12 +259,10 @@ public class DiscountQueryBuilder {
             String column2 = "";
             if ("Discount Rate".equals(selectedField)) {
                 column = "DPT.PROJECTION_RATE";
-                column2 = "SET DPT.PROJECTION_SALES = NM.PROJECTION_SALES * (DPT.PROJECTION_RATE / 100.0),\n"
-                        + "DPT.PROJECTION_RPU = (NM.PROJECTION_SALES * (DPT.PROJECTION_RATE / 100.0)) / NULLIF(NM.PROJECTION_UNITS, 0) ";
+                column2 = "SET DPT.PROJECTION_SALES = NM.PROJECTION_SALES * (@DISCOUNT_AMOUNT / 100.0)";
             }
             if ("RPU".equals(selectedField)) {
-                column2 = "SET    DPT.PROJECTION_SALES = DPT.PROJECTION_RPU * NM.PROJECTION_UNITS,\n"
-                        + "DPT.PROJECTION_RATE = (( DPT.PROJECTION_RPU * NM.PROJECTION_UNITS ) / NULLIF(NM.PROJECTION_SALES, 0))*100.0";
+                column2 = "SET    DPT.PROJECTION_SALES = @DISCOUNT_AMOUNT  * NM.PROJECTION_UNITS ";
                 column = "DPT.PROJECTION_RPU";
             }
             if ("Discount Amount".equals(selectedField)) {
@@ -396,8 +394,6 @@ public class DiscountQueryBuilder {
                 if ("Discount Rate".equals(selectedField) || "RPU".equals(selectedField)) {
                     customSql = declareStatement +rebateHiearachyJoin + SQlUtil.getQuery("discRatemassPopulate");
                     customSql = customSql.replaceAll("@SELDISC", "" + selectedDiscounts);
-                    customSql = customSql.replaceAll("@RATE", "" + fieldValue);
-                    customSql = customSql.replace("@COLUMN1", column);
                     customSql = customSql.replace("@COL2", column2);
                     customSql = customSql.replace("@DISCTYPE ", discountType + " IN ");
                 } else if ("Discount Amount".equals(selectedField) ){

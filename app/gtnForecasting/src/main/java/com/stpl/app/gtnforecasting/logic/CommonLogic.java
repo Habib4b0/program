@@ -5147,24 +5147,24 @@ public class CommonLogic {
         return resultList;
     }
     
-    public String getHeaderForExcel(Character freq, Object[] obj,String discountId) {
+    public String getHeaderForExcel(Character freq, Object[] obj,String discountId,String separator) {
         String header;
         switch (freq) {
             case 'A':
                 header = discountId+String.valueOf(obj[NumericConstants.TWO]);
                 break;
             case 'Q':
-                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + "-" + obj[NumericConstants.TWO].toString();
+                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
                 break;
             case 'S':
-                header = discountId+Constant.S_SMALL + obj[NumericConstants.ONE].toString() + "-" + obj[NumericConstants.TWO].toString();
+                header = discountId+Constant.S_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
                 break;
             case 'M':
                 String monthName = getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.ONE])) - 1);
-                header = discountId+monthName.toLowerCase() + "-" + obj[NumericConstants.TWO].toString();
+                header = discountId+monthName.toLowerCase() + separator + obj[NumericConstants.TWO].toString();
                 break;
             default:
-                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + "-" + obj[NumericConstants.TWO].toString();
+                header = discountId+Constant.Q_SMALL + obj[NumericConstants.ONE].toString() + separator + obj[NumericConstants.TWO].toString();
         }
         return header;
     }

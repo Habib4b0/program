@@ -90,6 +90,9 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 	@Override
 	public boolean checkForAutoUpdate(GtnWsRelationshipBuilderBean relationBean,
 			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList) throws InterruptedException {
+		if (relationBean.getVersionNo() == 0) {
+			return true;
+		}
 		int firstLinkedLevelNo = HierarchyLevelDefinitionBean.getFirstLinkedLevel(hierarchyLevelDefinitionList);
 		final ExecutorService customerExecutorService = Executors
 				.newFixedThreadPool(hierarchyLevelDefinitionList.size() - firstLinkedLevelNo);
@@ -125,7 +128,8 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 			GtnWsRelationshipBuilderBean relationBean) {
 		try (Session session = sessionFactory.openSession()) {
 			GtnFrameworkFileReadWriteService fileService = new GtnFrameworkFileReadWriteService();
-			int updatedVersionNo = relationBean.getVersionNo() + 1;
+			int updatedVersionNo = automaticService.updateRelationShipVersionNo(
+					relationBean);
 
 			RelationshipBuilder productrelationshipBuilder = session.get(RelationshipBuilder.class,
 					relationBean.getDeductionRelation());
@@ -143,14 +147,7 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 						selectService, joinService, whereService);
 				queryGenerator.generateQuery(hierarchyLevelDefinitionList, relationBean, querygeneratorBean,
 						updatedVersionNo, i);
-				List<Object> inputList = new ArrayList<>();
-				inputList.add(relationBean.getRelationshipBuilderSid());
-				inputList.add(hierarchyLevelBean.getLevelNo());
-				inputList.add(updatedVersionNo - 1);
 				List<String> firstInput = new ArrayList<>();
-				firstInput.add(String.valueOf(relationBean.getRelationshipBuilderSid()));
-				firstInput.add(String.valueOf(hierarchyLevelBean.getLevelNo()));
-				firstInput.add(String.valueOf(updatedVersionNo - 1));
 				firstInput.add(getListToString(itemMastersidList));
 				String insertQuery = gtnWsSqlService.getReplacedQuery(firstInput, querygeneratorBean.generateQuery());
 				List<String> insertQueryInput = new ArrayList<>();

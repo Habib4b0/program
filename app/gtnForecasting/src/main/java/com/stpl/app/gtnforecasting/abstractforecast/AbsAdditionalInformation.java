@@ -181,7 +181,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     private void addAttachments() {
         Label addAttachmentLable = new Label("Attachment");
         addAttachmentLable.addStyleName("attachment");
-        fileNameField.setImmediate(true);
         fileNameField.setMaxLength(NumericConstants.TWO_FIVE_ZERO);
         fileNameField.addValidator(new StringLengthValidator(" File Name Should be less than 250 characters", 0, NumericConstants.TWO_FIVE_ZERO, true));
 
