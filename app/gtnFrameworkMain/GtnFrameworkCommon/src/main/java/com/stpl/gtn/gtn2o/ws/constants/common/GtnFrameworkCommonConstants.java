@@ -1106,4 +1106,8 @@ public class GtnFrameworkCommonConstants {
 	public static final String ADD_FILETYPE_LAYOUT = "addFileTypeLayout";
 	public static final String SPACE_SHOULD_NOT_BE_ALLOWED = "Space should not be allowed";
 	public static final String ERROR = "Error";
+	public static final String UDC_FILETYPE_ALIAS = "udcFileTypeAlias";
+	public static final String ALIAS_FILETYPE_LAYOUT = "aliasFileTypeLayout";
+	public static final String UDC_CATEGORY_FILETYPELAYOUT = "fileTypeLayout";
+	public static final String UDC_CATEGORY_FILETYPE_FIELDLAYOUT = "fileTypeFieldLayout";
 }
