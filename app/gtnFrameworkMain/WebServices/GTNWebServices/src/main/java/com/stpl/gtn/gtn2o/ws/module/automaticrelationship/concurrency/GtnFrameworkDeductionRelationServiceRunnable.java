@@ -37,7 +37,7 @@ public class GtnFrameworkDeductionRelationServiceRunnable {
 	private GtnFrameworkAutoupdateService deDuctionAutoUpdateService;
 
 	@Autowired
-	GtnFrameworkAutomaticRelationUpdateService automaticService;
+	private GtnFrameworkAutomaticRelationUpdateService automaticService;
 
 	private static final GtnWSLogger logger = GtnWSLogger
 			.getGTNLogger(GtnFrameworkDeductionRelationServiceRunnable.class);
