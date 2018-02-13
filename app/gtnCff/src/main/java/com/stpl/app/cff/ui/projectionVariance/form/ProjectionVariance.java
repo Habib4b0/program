@@ -97,7 +97,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     /**
      * The excel export image.
      */
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
+    private final Resource excelExportImage = new ThemeResource("img/excel.png");
     private List<Leveldto> viewChangeHierarchy = new ArrayList<>();
     private boolean firstGenerated = false;
     private List<Leveldto> currentHierarchy = new ArrayList<>();

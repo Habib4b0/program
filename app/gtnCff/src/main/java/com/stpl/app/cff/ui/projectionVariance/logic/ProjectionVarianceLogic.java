@@ -78,6 +78,8 @@ public class ProjectionVarianceLogic {
     private static final DecimalFormat CUR_ZERO = new DecimalFormat("$#,##0");
     public static final String DISCOUNT_PERCENT = "Discount %";
     public static final String DISCOUNT_DOLLAR = "Discount $";
+    private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
+    private static final String DF_LEVEL_NAME = "dfLevelName";
     
     /**
      * The Percent Two Decimal Places Format.
@@ -1970,6 +1972,8 @@ public class ProjectionVarianceLogic {
         } else {
             ProjectionVarianceDTO dto = new ProjectionVarianceDTO();
             dto.setGroup("CFF Total");
+            dto.addStringProperties(DF_LEVEL_NUMBER, "CFF Total");
+            dto.addStringProperties(DF_LEVEL_NAME, "CFF Total");
             projectionVarianceDTO.add(dto);
         }
         // ExFac Sales 
