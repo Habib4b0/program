@@ -90,6 +90,9 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 	@Override
 	public boolean checkForAutoUpdate(GtnWsRelationshipBuilderBean relationBean,
 			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList) throws InterruptedException {
+		if (relationBean.getVersionNo() == 0) {
+			return true;
+		}
 		int firstLinkedLevelNo = HierarchyLevelDefinitionBean.getFirstLinkedLevel(hierarchyLevelDefinitionList);
 		final ExecutorService customerExecutorService = Executors
 				.newFixedThreadPool(hierarchyLevelDefinitionList.size() - firstLinkedLevelNo);
@@ -125,7 +128,8 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 			GtnWsRelationshipBuilderBean relationBean) {
 		try (Session session = sessionFactory.openSession()) {
 			GtnFrameworkFileReadWriteService fileService = new GtnFrameworkFileReadWriteService();
-			int updatedVersionNo = relationBean.getVersionNo() + 1;
+			int updatedVersionNo = automaticService.updateRelationShipVersionNo(
+					relationBean);
 
 			RelationshipBuilder productrelationshipBuilder = session.get(RelationshipBuilder.class,
 					relationBean.getDeductionRelation());
