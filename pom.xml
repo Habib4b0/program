@@ -36,6 +36,8 @@
 		<vaadin.charts.version>3.0.0-alpha1</vaadin.charts.version>
 		<log4j.version>2.0-beta8</log4j.version>
 		<bpm.version>6.2.0.Final</bpm.version>
+	 <maven.compiler.source>1.8</maven.compiler.source>
+	 <maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 	<repositories>
 		<repository>
@@ -48,7 +50,7 @@
 		<profile>
 			<id>Release-Build</id>
 			<modules>
-				<module>etl</module>
+				<!--<module>etl</module>-->
 				<module>app/Resources</module>
 				<module>app/gtnProperties</module>
 				<module>app/gtnUtility</module>
