@@ -338,6 +338,8 @@ public class NMPVExcelLogic {
             if (isTotal) {
                 ProjectionVarianceDTO total = new ProjectionVarianceDTO();
                 total.setGroup("Projection Total");
+                total.addStringProperties(DF_LEVEL_NUMBER, Constant.PROJECTION_TOTAL);
+                total.addStringProperties(DF_LEVEL_NAME, Constant.PROJECTION_TOTAL);
                 pvList.add(total);
             } else {
                 ProjectionVarianceDTO detail = new ProjectionVarianceDTO();
