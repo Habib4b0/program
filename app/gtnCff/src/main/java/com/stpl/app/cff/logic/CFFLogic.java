@@ -207,8 +207,8 @@ public class CFFLogic {
         }
 
         String query = "UPDATE dbo.CFF_MASTER\n"
-                + "SET CFF_NAME='" + cffName + "',CFF_TYPE='" + cffType + "'\n"
-                + "WHERE CFF_MASTER_SID=" + cffMasterSid;
+                + "SET CFF_NAME='" + cffName + "',CFF_TYPE='" + cffType + "',\n"
+                + "+ \" CFF_ELIGIBLE_DATE='\"+valueMap.get(\"cffEligiblDate\").toString()+\"' WHERE CFF_MASTER_SID=" + cffMasterSid;
 
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
 
@@ -877,15 +877,15 @@ public class CFFLogic {
      * @throws SystemException the system exception
      * @throws Exception the exception
      */
-    public int saveCFFMaster(final DataSelectionDTO dataSelectionDTO, boolean isUpdate, int projectionIdValue) {
+    public int saveCFFMaster(final DataSelectionDTO dataSelectionDTO, boolean isUpdate, int projectionIdValue,SessionDTO sessionDTO) {
         int projectionId = 0;
         Object[] dedRelId = deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid().equals("0") ? "0" : String.valueOf(dataSelectionDTO.getProdRelationshipBuilderSid()));
         SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
         String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
-        String query = "INSERT INTO CFF_MASTER (CFF_TYPE, CFF_NAME, ACTIVE_FROM_DATE, ACTIVE_TO_DATE, CFF_OFFICIAL, CUSTOMER_HIERARCHY_SID, CUSTOMER_HIERARCHY_LEVEL,\n"
+        String query = "INSERT INTO CFF_MASTER (CFF_ELIGIBLE_DATE,CFF_TYPE, CFF_NAME, ACTIVE_FROM_DATE, ACTIVE_TO_DATE, CFF_OFFICIAL, CUSTOMER_HIERARCHY_SID, CUSTOMER_HIERARCHY_LEVEL,\n"
                 + "    CUSTOMER_HIER_VERSION_NO, COMPANY_GROUP_SID, CUSTOMER_HIERARCHY_INNER_LEVEL, CUST_RELATIONSHIP_BUILDER_SID, COMPANY_MASTER_SID, PRODUCT_HIERARCHY_SID,\n"
                 + "    PRODUCT_HIERARCHY_LEVEL, PRODUCT_HIER_VERSION_NO, ITEM_GROUP_SID, PRODUCT_HIERARCHY_INNER_LEVEL, PROD_RELATIONSHIP_BUILDER_SID, INBOUND_STATUS, CREATED_BY,\n"
-                + "    CREATED_DATE, MODIFIED_BY, MODIFIED_DATE,BUSINESS_UNIT, PROJECTION_CUST_VERSION, PROJECTION_PROD_VERSION @DEDUCTION_ADDITION ) VALUES ('@CFF_TYPE','@CFF_NAME',@ACTIVE_FROM_DATE, @ACTIVE_TO_DATE, 0,\n"
+                + "    CREATED_DATE, MODIFIED_BY, MODIFIED_DATE,BUSINESS_UNIT, PROJECTION_CUST_VERSION, PROJECTION_PROD_VERSION @DEDUCTION_ADDITION ) VALUES ('@CFFELIGDATE','@CFF_TYPE','@CFF_NAME',@ACTIVE_FROM_DATE, @ACTIVE_TO_DATE, 0,\n"
                 + "    '@CUSTOMER_HIERARCHY_SID', '@CUSTOMER_HIERARCHY_LEVEL', '@CUSTOMER_HIER_VERSION_NO', @COMPANY_GROUP_SID,\n"
                 + "    '@CUSTOMER_HIERARCHY_INNER_LEVEL', '@CUST_RELATIONSHIP_BUILDER_SID', '@COMPANY_MASTER_SID', '@PRODUCT_HIERARCHY_SID',\n"
                 + "    '@PRODUCT_HIERARCHY_LEVEL', '@PRODUCT_HIER_VERSION_NO', @ITEM_GROUP_SID, '@PRODUCT_HIERARCHY_INNER_LEVEL',\n"
@@ -897,6 +897,7 @@ public class CFFLogic {
             query = CommonQueryUtils.getAppQuery(l, "updateProjection");
         }
         query = query.replace("@CFF_TYPE", "0");
+        query = query.replace("@CFFELIGDATE", String.valueOf(DBDate.format(sessionDTO.getCffEligibleDate())));
         query = query.replace("@CFF_NAME", "");
         query = query.replace("@ACTIVE_FROM_DATE", "null");
         query = query.replace("@ACTIVE_TO_DATE", "null");

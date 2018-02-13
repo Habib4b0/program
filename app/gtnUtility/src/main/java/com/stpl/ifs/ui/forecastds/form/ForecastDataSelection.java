@@ -50,6 +50,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.NativeSelect;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.ui.Panel;
+import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.TreeTable;
 import com.vaadin.v7.ui.VerticalLayout;
@@ -590,6 +591,8 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	 * the deduction Value ddlb
 	 */
 	protected ComboBox deductionValue = new ComboBox();
+        @UiField("forecastEligibleDate")
+        protected PopupDateField forecastEligibleDate;
 
 
 

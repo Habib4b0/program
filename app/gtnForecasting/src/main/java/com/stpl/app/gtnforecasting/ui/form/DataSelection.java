@@ -744,6 +744,7 @@ public class DataSelection extends ForecastDataSelection {
 
 	private void initializeFromDto() {
 		try {
+                    DataSelectionLogic logic = new DataSelectionLogic();
 			if (selectionDTO != null) {
 				session.setProductLevelNumber(String.valueOf(selectionDTO.getProductHierarchyLevel()));
 				session.setCustomerLevelNumber(String.valueOf(selectionDTO.getCustomerHierarchyLevel()));
@@ -852,6 +853,11 @@ public class DataSelection extends ForecastDataSelection {
 							selectionDTO.getDiscount(), true);
 					loadDiscountDdlb(selectionDTO.getDiscountSid(), selectedDiscountDTO);
 				}
+                                if (selectionDTO.getForecastEligibleDate() != null) {
+                                forecastEligibleDate.setValue(selectionDTO.getForecastEligibleDate());
+                                } else {
+                                   forecastEligibleDate.setValue(logic.getDefaultEligibleDateFromForecastConfiguration()); 
+                                }
 			}
 
 		} catch (Property.ReadOnlyException ex) {
@@ -1290,6 +1296,7 @@ public class DataSelection extends ForecastDataSelection {
 			selectionDTO.setProductHierarchyInnerLevel(String.valueOf(productForecastInnerLevel));
 			selectionDTO.setProjectionName(projectionName.getValue());
 			selectionDTO.setDescription(description.getValue());
+                        selectionDTO.setForecastEligibleDate(forecastEligibleDate.getValue());
 
 		} catch (ParseException ex) {
 			LOGGER.error(ex + " in binding for save, can't parse dates");
@@ -1556,7 +1563,7 @@ public class DataSelection extends ForecastDataSelection {
 						: groupFilteredCompanies;
 				List<Leveldto> resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
 						Integer.valueOf(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList, dedLevel,
-						dedValue, relationVersionNo);
+						dedValue, relationVersionNo, forecastEligibleDate.getValue());
 				if (selectedHierarchyLevelDto.getLevel() != null) {
 					levelName = selectedHierarchyLevelDto.getLevel();
 				}
@@ -4222,7 +4229,7 @@ public class DataSelection extends ForecastDataSelection {
 				.parseInt(productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 		relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(), selectedCustomerContainer.getItemIds(),
 				selectedProductContainer.getItemIds(), customerHierarchyLevelDefinitionList,
-				productHierarchyLevelDefinitionList, customerRelationVersionNo, productRelationVersionNo);
+				productHierarchyLevelDefinitionList, customerRelationVersionNo, productRelationVersionNo,session.getProjectionId());
 		session.addFutureMap(Constant.FILE_INSERT, new Future[] { service
 				.submit(CommonUtil.getInstance().createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCall())) });
 		// PROJECTION_CUST_HIERARCHY INSERT CALL

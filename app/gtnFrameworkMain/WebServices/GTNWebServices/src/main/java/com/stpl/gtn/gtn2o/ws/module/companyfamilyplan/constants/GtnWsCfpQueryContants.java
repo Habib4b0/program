@@ -48,6 +48,7 @@ public class GtnWsCfpQueryContants {
 	public static final String TRADING_PARTNER_CONTRACT_NO = "TRADING_PARTNER_CONTRACT_NO";
 	public static final String CFP_DETAILS_MODIFIED_BY = "CFP_DETAILS_MODIFIED_BY";
 	public static final String CHECK_RECORD = "CHECK_RECORD";
+        public static final String CFP_ELIGIBLE_DATE = "CFP_ELIGIBLE_DATE";
 
 	private GtnWsCfpQueryContants() {
 	}

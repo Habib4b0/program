@@ -232,6 +232,7 @@ public class Converters {
                 dataSelectionDTO.setDeductionLevel(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_SEVEN])));
                 dataSelectionDTO.setDeductionValue(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_EIGHT])));
             }
+            dataSelectionDTO.setForecastEligibleDate(parsetDate(convertNullToEmpty(String.valueOf(objects[NumericConstants.THIRTY_ONE]))));
 
             dataSelectionDTOs.add(dataSelectionDTO);
         }
