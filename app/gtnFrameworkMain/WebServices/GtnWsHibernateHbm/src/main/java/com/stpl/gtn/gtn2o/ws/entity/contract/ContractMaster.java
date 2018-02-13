@@ -711,6 +711,6 @@ public class ContractMaster implements java.io.Serializable {
 
         public void setContractEligibleDate(Date contractEligibleDate) {
                 this.contractEligibleDate = contractEligibleDate;
-        }
+}
 
 }

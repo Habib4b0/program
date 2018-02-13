@@ -596,6 +596,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 
 
 
+
 	public ForecastDataSelection(CustomFieldGroup dataSelectionBinder, String screenName, boolean landingScreenFlag) {
 		setCompositionRoot(Clara.create(ForecastDataSelection.class.getResourceAsStream("/ui/forecast/dataSelectionIndex.xml"), this));
 		this.dataSelectionBinder = dataSelectionBinder;

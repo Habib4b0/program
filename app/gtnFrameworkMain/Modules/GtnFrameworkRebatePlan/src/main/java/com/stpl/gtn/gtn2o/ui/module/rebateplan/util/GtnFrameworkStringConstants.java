@@ -110,7 +110,8 @@ public class GtnFrameworkStringConstants {
 	public static final String GTN_RP_VALIDATION_MSG_VIEW = "Please select a record to view";
 	public static final String GTN_RP_VALIDATION_MSG_COPY = "Please select a record to Copy";
 	public static final String REBATE_PLAN_CALCULATIONS_REBATE_STRUCTURE_LAYOUT = "rebatePlanCalculationsRebateStructureLayout";
-
+	public static final String WIDTH_AUTO="width-auto";
+	
 	private GtnFrameworkStringConstants() {
 	}
 }

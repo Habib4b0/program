@@ -199,7 +199,6 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
-			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_STRING,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_UTIL_DATE,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
@@ -208,7 +207,7 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 	private static final String[] GTN_WORKFLOW_INBOX_PRIVATE_NOT_ARM_SEARCH_TABLE_HEADERS = new String[] { "View Name",
 			"Workflow ID", GtnFrameworkWorkflowInboxClassConstants.WORKFLOWCOMPONENT_NAME,
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWDESCRIPTION_NAME,
-			GtnFrameworkWorkflowInboxClassConstants.STATUS_LOWERCASE, "Company Name",
+			"Company Name",
 			GtnFrameworkWorkflowInboxClassConstants.BUSINESS_UNIT_NAME,
 			GtnFrameworkWorkflowInboxClassConstants.CREATEDBY_NAME,
 			GtnFrameworkWorkflowInboxClassConstants.CREATION_DATE,
@@ -217,7 +216,7 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 
 	private static final Object[] GTN_WORKFLOW_INBOX_PRIVATE_NOT_ARM_SEARCH_TABLE_COLUMNS = new Object[] {
 			"viewNamePrivate", "workflowIdPrivate", "workflowNamePrivate", "workflowDescPrivate",
-			"workflowStatusPrivate", "companyNamePrivate", "businessUnitNamePrivate", "createdByPrivate",
+			"companyNamePrivate", "businessUnitNamePrivate", "createdByPrivate",
 			"creationFromDatePrivate", "approvedByPrivate", "approvedDateFromPrivate" };
 
 	private static final Class<?>[] GTN_WORKFLOW_INBOX_PRIVATE_ARM_SEARCH_TABLE_COLUMNS_DATA_TYPE = new Class<?>[] {
@@ -288,7 +287,7 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 	private static final Object[] GTN_WORKFLOW_INBOX_HISTORY_NOT_ARM_SEARCH_TABLE_COLUMNS = new Object[] {
 			GtnFrameworkWorkflowInboxClassConstants.STATUS, "modifiedDate", "modifiedBy", "notes", "attachmentLink" };
 
-	private static final String[] GTN_WORKFLOW_INBOX_CONTRACT_SEARCH_FIELDVALUES = new String[] {
+	private static final String[] GTN_WORKFLOW_INBOX_CONTRACT_SEARCH_FIELDVALUES = new String[] { GtnFrameworkWorkflowInboxClassConstants.BUSINESS_PROCESS,
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWID, GtnFrameworkWorkflowInboxClassConstants.WORKFLOWNAME,
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOW_DESC, GtnFrameworkWorkflowInboxClassConstants.CREATEDFROM,
 			GtnFrameworkWorkflowInboxClassConstants.CREATEDTO, GtnFrameworkWorkflowInboxClassConstants.CREATEDBY,

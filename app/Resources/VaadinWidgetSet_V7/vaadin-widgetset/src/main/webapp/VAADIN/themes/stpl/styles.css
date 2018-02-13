@@ -14798,7 +14798,7 @@ div.v-layout.v-horizontal.v-widget {
 	background: transparent url(img/sprites.png) no-repeat -5px -10px;
 }
 
-.stpl .v-textfield.searchText {
+.stpl .v-textfield.searchText, .stpl .v-textfield.searchicon {
 	background-image: url(img/imgsearchh-icon.png);
 	background-position: right;
 	background-repeat: no-repeat;
@@ -14825,7 +14825,25 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 0px;
 }
 
+.stpl .v-loading-indicator {
+	background-color: #e4ca1f;
+}
+
 .v-slot, .v-spacing {
 	display: inline;
 	padding-right: 5px;
+}
+
+.v-loading-indicator {
+	background-color: #e4ca1f;
+}
+
+.v-table-captionspans-container {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.v-table-caption-container {
+	font-weight: bold;
+	font-size: 12px;
 }

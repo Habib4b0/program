@@ -14,4 +14,14 @@ public enum GtnFrameworkOperatorType {
 	public String getOperaterType() {
 		return operaterType;
 	}
+
+	public static GtnFrameworkOperatorType getOperaterType(String type) {
+		GtnFrameworkOperatorType[] valus = values();
+		for (GtnFrameworkOperatorType gtnFrameworkOperatorType : valus) {
+			if (gtnFrameworkOperatorType.getOperaterType().trim().equals(type))
+				return gtnFrameworkOperatorType;
+		}
+		return EQUAL_TO;
+	}
+
 }
