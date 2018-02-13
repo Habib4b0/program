@@ -319,6 +319,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 		company.setNullSelectionItemId(0);
 		company.setInputPrompt(Constants.CommonConstants.SELECT_ONE.getConstant());
 		company.markAsDirty();
+                forecastEligibleDate.setValue(dsLogic.getDefaultEligibleDateFromForecastConfiguration());
 
 		List<Object[]> companyList = dsLogic.getCompanies();
 		if (companyList != null && !companyList.isEmpty()) {
