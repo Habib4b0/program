@@ -228,7 +228,7 @@ public class FileManagementLookup extends Window {
 	@UiField("fieldName")
 	private ComboBox fieldName;
 
-	private final ThemeResource excelImage = new ThemeResource("../../icons/excel.png");
+	private final ThemeResource excelImage = new ThemeResource("img/excel.png" );
 
 	private final BeanItemContainer<FileMananagementResultDTO> resultsBean = new BeanItemContainer<>(
 			FileMananagementResultDTO.class);

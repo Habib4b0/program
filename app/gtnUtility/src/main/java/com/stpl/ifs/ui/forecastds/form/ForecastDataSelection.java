@@ -50,6 +50,7 @@ import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.NativeSelect;
 import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.ui.Panel;
+import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.TreeTable;
 import com.vaadin.v7.ui.VerticalLayout;
@@ -590,6 +591,9 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	 * the deduction Value ddlb
 	 */
 	protected ComboBox deductionValue = new ComboBox();
+        @UiField("forecastEligibleDate")
+        protected PopupDateField forecastEligibleDate;
+
 
 
 
@@ -700,6 +704,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 
 			configureTimeDdlb(fromPeriod, toPeriod, null, null, UIUtil.MODE_ADD, screenName);
 			modeOption.focus();
+			projectionName.setImmediate(true);
 			description.setImmediate(true);
 			privateView.setImmediate(true);
 			publicView.setImmediate(true);
@@ -829,6 +834,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	 */
 	private void resetCustomerRelation() {
 		customerRelationComboBox.removeAllItems();
+		customerRelationComboBox.setImmediate(true);
 		customerRelationComboBox.setNullSelectionAllowed(true);
 		customerRelationComboBox.setInputPrompt(UIUtil.SELECT_ONE);
 	}

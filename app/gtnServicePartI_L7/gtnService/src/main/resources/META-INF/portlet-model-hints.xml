@@ -3287,6 +3287,7 @@
 		<field name="dedRelationshipBuilderSid" type="String" />
 		<field name="projectionCustVersionNo" type="int" />
 		<field name="projectionProdVersionNo" type="int" />
+		<field name="forecastEligibleDate" type="Date" />
 	</model>
 	<model name="com.stpl.app.model.ProjectionNameConfig">
 		<field name="createdDate" type="Date" />

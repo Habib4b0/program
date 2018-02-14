@@ -658,42 +658,42 @@ public class GtnFrameworkContractDashboardContants {
 
 	private static final Class<?>[] COMPANY_DETAIL_COLUMN_TYPE = { Boolean.class, String.class, String.class,
 			String.class, String.class, Integer.class, Date.class, Date.class, String.class, String.class, String.class,
-			String.class, String.class, Date.class, Date.class, String.class, Date.class, String.class };
+			String.class, String.class, Date.class, Date.class, String.class, Date.class, String.class,Date.class };
 	private static final String[] COMPANY_DETAIL_HEADER = { "", RECORD_TYPE2, COMPANY_ID, COMPANY_NO, COMPANY_NAME,
 			CFP_STATUS2, CFP_START_DATE, CFP_END_DATE, COMPANY_STATUS, COMPANY_TYPE, COMPANY_TRADECLASS,
 			COMPANY_CATEGORY, TRADING_PARTNER_CONTRACT_NO, ATTACHED_DATE2, MODIFIED_DATE2, MODIFIED_BY2, CREATED_DATE2,
-			CREATED_BY2 };
+			CREATED_BY2 ,"CFP Eligible Date"};
 	private static final String[] COMPANY_DETAIL_PENDING_HEADER = { RECORD_TYPE2, COMPANY_ID, COMPANY_NO, COMPANY_NAME,
 			CFP_STATUS2, CFP_START_DATE, CFP_END_DATE, COMPANY_STATUS, COMPANY_TYPE, COMPANY_TRADECLASS,
 			COMPANY_CATEGORY, TRADING_PARTNER_CONTRACT_NO, ATTACHED_DATE2, MODIFIED_DATE2, MODIFIED_BY2, CREATED_DATE2,
-			CREATED_BY2 };
+			CREATED_BY2 ,"CFP Eligible Date" };
 	private static final String[] COMPANY_DETAIL_COLUMN = { CHECK_RECORD_ID, RECORD_TYPE, COMPANYID, COMPANYNO,
 			COMPANYNAME, CFP_STATUS, CFPSTARTDATE, CFPENDDATE, COMPANYSTATUS, COMPANYTYPE, TRADE_CLASS, COMPANYCATEGORY,
-			TRADINGPARTNERCONTRACTNO, CFPATTACHEDDATE, MODIFIED_DATE, MODIFIED_BY, CREATED_DATE, CREATED_BY };
+			TRADINGPARTNERCONTRACTNO, CFPATTACHEDDATE, MODIFIED_DATE, MODIFIED_BY, CREATED_DATE, CREATED_BY ,"cfpEligibleDate"};
 	private static final String[] COMPANY_DETAIL_PENDING_COLUMN = { RECORD_TYPE, COMPANYID, COMPANYNO, COMPANYNAME,
 			CFP_PENDING_STATUS, CFPSTARTDATE, CFPENDDATE, COMPANYSTATUS, COMPANYTYPE, TRADE_CLASS, COMPANYCATEGORY,
-			TRADINGPARTNERCONTRACTNO, CFPATTACHEDDATE, MODIFIED_DATE, MODIFIED_BY, CREATED_DATE, CREATED_BY };
+			TRADINGPARTNERCONTRACTNO, CFPATTACHEDDATE, MODIFIED_DATE, MODIFIED_BY, CREATED_DATE, CREATED_BY,"cfpEligibleDate" };
 	private static final Class<?>[] COMPANY_DETAIL_VIEW_COLUMN_TYPE = { String.class, String.class, String.class,
 			String.class, Date.class, Date.class, String.class, String.class, String.class, String.class, String.class,
-			Date.class, Date.class, String.class, Date.class, String.class };
+			Date.class, Date.class, String.class, Date.class, String.class , Date.class };
 	private static final String[] COMPANY_DETAIL_VIEW_HEADER = { getCompanyDetailHeader()[2],
 			getCompanyDetailHeader()[3], getCompanyDetailHeader()[4], getCompanyDetailHeader()[5],
 			getCompanyDetailHeader()[6], getCompanyDetailHeader()[7], getCompanyDetailHeader()[8],
 			getCompanyDetailHeader()[9], getCompanyDetailHeader()[10], getCompanyDetailHeader()[11],
 			getCompanyDetailHeader()[12], getCompanyDetailHeader()[13], getCompanyDetailHeader()[14],
-			getCompanyDetailHeader()[15], getCompanyDetailHeader()[16], getCompanyDetailHeader()[17] };
+			getCompanyDetailHeader()[15], getCompanyDetailHeader()[16], getCompanyDetailHeader()[17], getCompanyDetailHeader()[18] };
 	private static final String[] COMPANY_DETAIL_VIEW_COLUMN = { getCompanyDetailColumn()[2],
 			getCompanyDetailColumn()[3], getCompanyDetailColumn()[4], getCompanyDetailColumn()[5],
 			getCompanyDetailColumn()[6], getCompanyDetailColumn()[7], getCompanyDetailColumn()[8],
 			getCompanyDetailColumn()[9], getCompanyDetailColumn()[10], getCompanyDetailColumn()[11],
 			getCompanyDetailColumn()[12], getCompanyDetailColumn()[13], getCompanyDetailColumn()[14],
-			getCompanyDetailColumn()[15], getCompanyDetailColumn()[16], getCompanyDetailColumn()[17] };
+			getCompanyDetailColumn()[15], getCompanyDetailColumn()[16], getCompanyDetailColumn()[17], getCompanyDetailColumn()[18]  };
 	private static final String[] COMPANY_DETAIL_VIEW_PENDING_COLUMN = { getCompanyDetailColumn()[2],
 			getCompanyDetailColumn()[3], getCompanyDetailColumn()[4], getCompanyDetailPendingColumn()[4],
 			getCompanyDetailColumn()[6], getCompanyDetailColumn()[7], getCompanyDetailColumn()[8],
 			getCompanyDetailColumn()[9], getCompanyDetailColumn()[10], getCompanyDetailColumn()[11],
 			getCompanyDetailColumn()[12], getCompanyDetailColumn()[13], getCompanyDetailColumn()[14],
-			getCompanyDetailColumn()[15], getCompanyDetailColumn()[16], getCompanyDetailColumn()[17] };
+			getCompanyDetailColumn()[15], getCompanyDetailColumn()[16], getCompanyDetailColumn()[17],getCompanyDetailColumn()[18]  };
 	private static final Class<?>[] ITEM_DETAIL_COLUMN_TYPE = { Boolean.class, String.class, String.class, String.class,
 			String.class, Integer.class, Date.class, Date.class, String.class, String.class, String.class, String.class,
 			String.class, Date.class, Date.class, String.class, Date.class, String.class };

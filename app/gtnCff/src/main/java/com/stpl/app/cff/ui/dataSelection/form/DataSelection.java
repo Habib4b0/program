@@ -127,6 +127,7 @@ public class DataSelection extends AbstractDataSelection {
 		}
 
 		configureBusinessUnitDdlb();
+                loadCFFEligibleDate();
 
 	}
 
@@ -311,7 +312,7 @@ public class DataSelection extends AbstractDataSelection {
 						: groupFilteredCompanies;
 				List<Leveldto> resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
 						Integer.valueOf(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList,
-						relationVersionNo);
+						relationVersionNo,cffEligibleDate.getValue());
 				if (selectedHierarchyLevelDto.getLevel() != null) {
 					levelName = selectedHierarchyLevelDto.getLevel();
 				}
@@ -444,7 +445,7 @@ public class DataSelection extends AbstractDataSelection {
 			}
 
 			bindDataselectionDtoToSave();
-			int projectionIdValue = cffLogic.saveCFFMaster(dataSelectionDTO, Boolean.FALSE, 0);
+			int projectionIdValue = cffLogic.saveCFFMaster(dataSelectionDTO, Boolean.FALSE, 0,sessionDTO);
 			VaadinSession.getCurrent().setAttribute("projectionId", projectionIdValue);
 			dataSelectionDTO.setProjectionId(projectionIdValue);
 			int prodRelationVersionNo = Integer
@@ -480,7 +481,7 @@ public class DataSelection extends AbstractDataSelection {
 				relationLogic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(),
 						selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(),
 						customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
-						custRelationVersionNo, prodRelationVersionNo);
+						custRelationVersionNo, prodRelationVersionNo,projectionIdValue);
 				insertCffDetailsUsingExecutorService(projectionIdValue, sessionDTO.getCurrentTableNames());
 				sessionDTO.setCustomerLevelDetails(
 						cffLogic.getLevelValueDetails(sessionDTO, customerRelation.getValue(), true));
@@ -3414,6 +3415,7 @@ public class DataSelection extends AbstractDataSelection {
 			dataSelectionDTO.setDiscount(SELECT_ONE);
 			dataSelectionDTO.setDiscountSid(0);
 		}
+                sessionDTO.setCffEligibleDate(cffEligibleDate.getValue());
 		return dataSelectionDTO;
 	}
 
@@ -3509,6 +3511,7 @@ public class DataSelection extends AbstractDataSelection {
 	}
 
 	private void initializeFromDto() {
+            DataSelectionLogic logic = new DataSelectionLogic();
 		try {
 
 			if (dataSelectionDTO != null) {
@@ -3614,6 +3617,11 @@ public class DataSelection extends AbstractDataSelection {
 				} else {
 					company.setValue(dataSelectionDTO.getSelectedCompanyName());
 				}
+                                if (sessionDTO.getCffEligibleDate()!=null) {
+                                       cffEligibleDate.setValue(sessionDTO.getCffEligibleDate());
+                                } else {
+                                      cffEligibleDate.setValue(logic.getDefaultEligibleDateFromForecastConfiguration());
+                                }
 			}
 		} catch (Exception ex) {
 			LOGGER.error(ex + " in initializeFromDto ");
@@ -3825,6 +3833,20 @@ public class DataSelection extends AbstractDataSelection {
 		});
 
 	}
+        public void loadCFFEligibleDate() {
+            DataSelectionLogic logic = new DataSelectionLogic();
+            if (sessionDTO.getCffEligibleDate() != null) {
+                cffEligibleDate.setValue(sessionDTO.getCffEligibleDate());
+            } else {
+                cffEligibleDate.setValue(logic.getDefaultEligibleDateFromForecastConfiguration());
+            }
+            cffEligibleDate.addValueChangeListener(new Property.ValueChangeListener() {
+                @Override
+                public void valueChange(Property.ValueChangeEvent event) {
+                  sessionDTO.setCffEligibleDate(cffEligibleDate.getValue());
+                }
+            });
+        }
 
 	/**
 	 * Used to check which level is top in selected customer hierarchy either

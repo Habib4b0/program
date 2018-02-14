@@ -552,7 +552,7 @@ public class FileManagementIndex extends CustomComponent implements View {
             }
         });
 
-        excelExportDetail.setIcon(new ThemeResource("../../icons/excel.png"));
+        excelExportDetail.setIcon(new ThemeResource("img/excel.png"));
         excelExportDetail.setStyleName("link");
         selectFile.addStyleName("searchText-nonabsolute");
         selectFile.setWidth("250px");

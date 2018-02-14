@@ -171,6 +171,7 @@ public class SessionDTO implements Serializable {
     private int productHierarchyVersion = 0;
     private int customerRelationVersion = 0;
     private int productRelationVersion = 0;
+    private Date forecastEligibleDate;
 
     public String getAltFromPeriod() {
         return altFromPeriod;
@@ -1419,6 +1420,13 @@ public class SessionDTO implements Serializable {
 
     public void setProductRelationVersion(int productRelationVersion) {
         this.productRelationVersion = productRelationVersion;
+    }
+    public Date getForecastEligibleDate() {
+        return forecastEligibleDate;
+    }
+
+    public void setForecastEligibleDate(Date forecastEligibleDate) {
+        this.forecastEligibleDate = forecastEligibleDate;
     }
 
 }

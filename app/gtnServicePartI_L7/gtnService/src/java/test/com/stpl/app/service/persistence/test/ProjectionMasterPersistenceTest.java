@@ -184,6 +184,8 @@ public class ProjectionMasterPersistenceTest {
 
 		newProjectionMaster.setProjectionProdVersionNo(RandomTestUtil.nextInt());
 
+		newProjectionMaster.setForecastEligibleDate(RandomTestUtil.nextDate());
+
 		_projectionMasters.add(_persistence.update(newProjectionMaster));
 
 		ProjectionMaster existingProjectionMaster = _persistence.findByPrimaryKey(newProjectionMaster.getPrimaryKey());
@@ -256,6 +258,10 @@ public class ProjectionMasterPersistenceTest {
 			newProjectionMaster.getProjectionCustVersionNo());
 		Assert.assertEquals(existingProjectionMaster.getProjectionProdVersionNo(),
 			newProjectionMaster.getProjectionProdVersionNo());
+		Assert.assertEquals(Time.getShortTimestamp(
+				existingProjectionMaster.getForecastEligibleDate()),
+			Time.getShortTimestamp(
+				newProjectionMaster.getForecastEligibleDate()));
 	}
 
 	@Test
@@ -296,7 +302,7 @@ public class ProjectionMasterPersistenceTest {
 			true, "prodRelationshipBuilderSid", true, "discountType", true,
 			"businessUnit", true, "deductionHierarchySid", true,
 			"dedRelationshipBuilderSid", true, "projectionCustVersionNo", true,
-			"projectionProdVersionNo", true);
+			"projectionProdVersionNo", true, "forecastEligibleDate", true);
 	}
 
 	@Test
@@ -559,6 +565,8 @@ public class ProjectionMasterPersistenceTest {
 		projectionMaster.setProjectionCustVersionNo(RandomTestUtil.nextInt());
 
 		projectionMaster.setProjectionProdVersionNo(RandomTestUtil.nextInt());
+
+		projectionMaster.setForecastEligibleDate(RandomTestUtil.nextDate());
 
 		_projectionMasters.add(_persistence.update(projectionMaster));
 
