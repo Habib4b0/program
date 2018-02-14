@@ -1549,7 +1549,7 @@ public class AddContractSelection extends CustomComponent {
 
         list.addAll(getResultsInput(selection));
         logic.massUpdateItemDetails(list);
-        addItemTable.getContainerLogic().setCurrentPage(1);
+        addItemTable.getContainerLogic().setCurrentPage(addItemTable.getContainerLogic().getCurrentPage()); 
     }
 
     private void resetMassUpdate() {

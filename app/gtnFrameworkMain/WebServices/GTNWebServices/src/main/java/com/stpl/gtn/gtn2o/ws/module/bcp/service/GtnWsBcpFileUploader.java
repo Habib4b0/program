@@ -89,6 +89,9 @@ public class GtnWsBcpFileUploader {
 				isReadable = dir.setReadable(true, false);
 				GTNLOGGER.debug(Boolean.toString(isExecutable) + isWritable + isReadable);
 			}
+                        for (String fileName : fileList) {
+                        GTNLOGGER.debug("Deleted filename " + fileName);
+                    }
 			builder.directory(dir);
 
 		}
@@ -97,10 +100,6 @@ public class GtnWsBcpFileUploader {
 		p.waitFor();
 		fileList.add(finalFile);
 		fileList.add(logPath);
-                for (String fileName : fileList) {
-			GTNLOGGER.debug("Deleted filename " + fileName);
-			Files.delete(GtnFileNameUtils.getPath(fileName));
-		}
 		GTNLOGGER.info("Upload Complete");
 	}
 

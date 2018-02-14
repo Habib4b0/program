@@ -144,6 +144,7 @@ public class GtnWsContractHeaderService {
 			infoBean.setBatchId(contractMaster.getBatchId());
 			infoBean.setModifiedBy(gtnWebServiceAllListConfig.getUserIdNameMap().get(contractMaster.getModifiedBy()));
 			infoBean.setModifiedDate(contractMaster.getModifiedDate());
+                        infoBean.setContractEligibleDate(contractMaster.getContractEligibleDate());
 
 			GtnWsContractHeaderResponse cGrpResponse = new GtnWsContractHeaderResponse();
 			cGrpResponse.setGtnWsContractMasterBean(infoBean);
@@ -308,6 +309,7 @@ public class GtnWsContractHeaderService {
 		contractMaster.setMinimumOrder(infoBean.getMinimumOrder());
 		contractMaster.setHelperTableByPaymentTerms(getHelperTable(infoBean.getPaymentTerms(), session));
 		contractMaster.setInternalNotes(infoBean.getInternalNotes());
+                contractMaster.setContractEligibleDate(infoBean.getContractEligibleDate());
 
 		contractMaster.setInboundStatus('A');
 		contractMaster.setRecordLockStatus(false);
@@ -398,6 +400,7 @@ public class GtnWsContractHeaderService {
 			updateContractMaster.setMinimumOrder(infoBean.getMinimumOrder());
 			updateContractMaster.setHelperTableByPaymentTerms(getHelperTable(infoBean.getPaymentTerms(), session));
 			updateContractMaster.setInternalNotes(infoBean.getInternalNotes());
+                        updateContractMaster.setContractEligibleDate(infoBean.getContractEligibleDate());
 
 			updateContractMaster.setModifiedBy(userId);
 			updateContractMaster.setModifiedDate(new Date());

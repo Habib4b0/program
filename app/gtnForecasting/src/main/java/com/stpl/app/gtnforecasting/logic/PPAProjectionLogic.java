@@ -304,13 +304,13 @@ public class PPAProjectionLogic {
                     String freq = String.valueOf(propertyId.charAt(1));
                     String year = String.valueOf(propertyId.substring(NumericConstants.TWO, NumericConstants.SIX));
                     input = getInputForSaveRightTable(projectionId, dto, dto.getValue(), freq, year, selection, columnName);
-                    PPAQuerys.ppaUpdate(input, "PPA.saveRightTableFields");
+                    PPAQuerys.ppaUpdateQuery(input, "PPA.saveRightTableFields");
                 }
             } else {
                 columnName = dbColumnIdentifier.get(columnHeaderMap.get(propertyId));
                 if (populateIdentifier.get(Constant.FROZEN_FIELDS).contains(columnHeaderMap.get(propertyId))) {
                     input = getInputForSaveLeftTable(projectionId, dto.getValue(), dto.getHirarechyNo(), dto.getGroup(), selection, columnName);
-                    PPAQuerys.ppaUpdate(input, "PPA.saveLeftTableFields");
+                    PPAQuerys.ppaUpdateQuery(input, "PPA.saveLeftTableFields");
                 } else if (propertyId.contains(Constant.CHECK_RECORD)) {
                     if ((dto.getValue() != null) && (Boolean.valueOf(dto.getValue().toString()))) {
                         input = getInputForSaveCheckRecord(projectionId, dto, Constant.STRING_ONE, selection);

@@ -14,11 +14,11 @@ import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFramworkTableBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkJoinType;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
@@ -124,6 +124,8 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 			inputs.add(relationBean.getRelationshipBuilderSid());
 			inputs.add(previousHierarchyLevelBean.getLevelNo());
 			inputs.add(relationBean.getVersionNo());
+			inputs.add(currnetHierarchyLevelBean.getLevelNo());
+			inputs.add(relationBean.getVersionNo());
 			List<Object> inputsForFinalQuery = null;
 			String finalQeury = null;
 			if (!atomicBoolean.get()) {
@@ -148,9 +150,9 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 				if (Integer.parseInt(result.get(0).toString()) == 1)
 					atomicBoolean.compareAndSet(Boolean.FALSE, Boolean.TRUE);
 			}
-		} catch (GtnFrameworkGeneralException e) {
+		} catch (Exception e) {
 			
-			LOGGER.error(" Error " + e.getErrorMessage());
+			LOGGER.error(" Error " + e.getMessage());
 		}
 	}
 
@@ -161,7 +163,7 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 				hierarchyLevelBean.getHierarchyDefinitionSid(), hierarchyLevelBean.getHierarchyLevelDefinitionSid(),
 				hierarchyLevelBean.getVersionNo());
 		GtnFrameworkQueryGeneratorBean queryGenerartorBean = hierarchyQuery.getQuery();
-		addJoinClause(previousHierarchyLevelBean, queryGenerartorBean);
+		addJoinClause(hierarchyLevelBean, previousHierarchyLevelBean, queryGenerartorBean);
 		String hierarchyNoSelectClause = getHierarchyNo(hierarchyLevelDefinitionList, hierarchyLevelBean).toString();
 		queryGenerartorBean.addSelectClauseBean(null, "HIERARCHY_NO", false,
 				hierarchyNoSelectClause);
@@ -170,10 +172,11 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 
 
 	private void addJoinClause(HierarchyLevelDefinitionBean hierarchyLevelBean,
+			HierarchyLevelDefinitionBean previousHierarchyLevelBean,
 			GtnFrameworkQueryGeneratorBean queryGenerartorBean) {
 		GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
-				.getKeyRelationBeanUsingTableIdAndColumnName(hierarchyLevelBean.getTableName(),
-						hierarchyLevelBean.getFieldName());
+				.getKeyRelationBeanUsingTableIdAndColumnName(previousHierarchyLevelBean.getTableName(),
+						previousHierarchyLevelBean.getFieldName());
 		GtnFrameworkJoinClauseBean relationJoin = queryGenerartorBean.addJoinClauseBean("RELATIONSHIP_LEVEL_DEFINITION",
 				"RELATIONSHIP_LEVEL_DEFINITION", GtnFrameworkJoinType.JOIN);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_Values",
@@ -186,7 +189,32 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
 				GtnFrameworkOperatorType.EQUAL_TO);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO",
-				getHierarchyNoForRelationShip(hierarchyLevelDefinitionList, hierarchyLevelBean),
+				getHierarchyNoForRelationShip(hierarchyLevelDefinitionList, previousHierarchyLevelBean),
+				GtnFrameworkOperatorType.LIKE);
+		GtnFrameworkJoinClauseBean relationDateJoin = queryGenerartorBean.addJoinClauseBean(
+				"RELATIONSHIP_LEVEL_DEFINITION", "RELATIONSHIP_LEVEL_DEFINITION2", GtnFrameworkJoinType.JOIN);
+		relationDateJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION2.RELATIONSHIP_BUILDER_SID",
+				"RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID", GtnFrameworkOperatorType.EQUAL_TO);
+		relationDateJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION2.level_no", null,
+				GtnFrameworkOperatorType.EQUAL_TO);
+		relationDateJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION2.VERSION_NO", null,
+				GtnFrameworkOperatorType.EQUAL_TO);
+		for (GtnFrameworkJoinClauseBean joinClauseBean : queryGenerartorBean.getJoinClauseConfigList()) {
+			GtnFramworkTableBean tableBean = gtnFrameworkEntityMasterBean
+					.getEntityBeanByTableName(joinClauseBean.getJoinTableName());
+			if (tableBean == null || tableBean.getModifiedDateColumn() == null)
+				continue;
+			relationDateJoin.addOrConditionBean(tableBean.getModifiedDateColumn(joinClauseBean.getJoinTableAliesName()),
+					"RELATIONSHIP_LEVEL_DEFINITION.MODIFIED_DATE", GtnFrameworkOperatorType.GREATERTHANOREQUALTO);
+		}
+		GtnFramworkTableBean tableBean = gtnFrameworkEntityMasterBean
+				.getEntityBeanByTableName(queryGenerartorBean.getFromTableName());
+		if (tableBean.getModifiedDateColumn() == null)
+			return;
+		relationDateJoin.addOrConditionBean(tableBean.getModifiedDateColumn(queryGenerartorBean.getFromTableAlies()),
+				"RELATIONSHIP_LEVEL_DEFINITION.MODIFIED_DATE", GtnFrameworkOperatorType.GREATERTHANOREQUALTO);
+		relationDateJoin.addOrConditionBean("RELATIONSHIP_LEVEL_DEFINITION2.HIERARCHY_NO",
+				getHierarchyNo(hierarchyLevelDefinitionList, hierarchyLevelBean).toString(),
 				GtnFrameworkOperatorType.LIKE);
 
 	}
@@ -209,7 +237,7 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 					+ singleColumnRelationBean.getWhereClauseColumn());
 			initialQuery.append(",'.'");
 		}
-		query.append("concat( RELATIONSHIP_BUILDER_SID,'-'");
+		query.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");
 		query.append(initialQuery);
 		query.append(")");
 		return query;

@@ -1,0 +1,77 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.stpl.gtn.esa</groupId>
+    <artifactId>base-subsystem</artifactId>
+    <version>1.0</version>
+    <name> Base sub system</name>
+    <description>Dependencies of GTN</description>
+    <packaging>esa</packaging>
+    <properties>
+        <base.subsystem.order>4</base.subsystem.order>
+    </properties>
+    <parent>
+        <groupId>com.stpl.app</groupId>
+        <artifactId>global-parent</artifactId>
+        <version>1.0</version>
+    </parent>
+    <dependencies>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.3.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.stpl.app</groupId>
+            <artifactId>util-service</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.stpl.app.bpm</groupId>
+            <artifactId>util-class</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.stpl.ifs</groupId>
+            <artifactId>gtnUtility</artifactId>
+            <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>dom4j</artifactId>
+                    <groupId>dom4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>hibernate-validator</artifactId>
+                    <groupId>org.hibernate</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>gtnHierarchyRouteBuilder</groupId>
+            <artifactId>gtnHierarchyRouteBuilder</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>${base.subsystem.order}.${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.aries</groupId>
+                <artifactId>esa-maven-plugin</artifactId>
+                <version>1.0.2</version>
+                <extensions>true</extensions>
+                <configuration>
+
+                    <generateManifest>true</generateManifest>
+                    <startOrder>dependencies</startOrder>
+                    <instructions>
+                        <Subsystem-Type>osgi.subsystem.feature</Subsystem-Type>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

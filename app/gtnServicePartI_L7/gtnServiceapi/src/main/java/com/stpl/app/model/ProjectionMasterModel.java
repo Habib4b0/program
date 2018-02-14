@@ -537,6 +537,20 @@ public interface ProjectionMasterModel extends BaseModel<ProjectionMaster> {
 	 */
 	public void setProjectionProdVersionNo(int projectionProdVersionNo);
 
+	/**
+	 * Returns the forecast eligible date of this projection master.
+	 *
+	 * @return the forecast eligible date of this projection master
+	 */
+	public Date getForecastEligibleDate();
+
+	/**
+	 * Sets the forecast eligible date of this projection master.
+	 *
+	 * @param forecastEligibleDate the forecast eligible date of this projection master
+	 */
+	public void setForecastEligibleDate(Date forecastEligibleDate);
+
 	@Override
 	public boolean isNew();
 

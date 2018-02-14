@@ -3823,6 +3823,7 @@
 		<property column="DED_RELATIONSHIP_BULDER_SID" name="dedRelationshipBuilderSid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="PROJECTION_CUST_VERSION" name="projectionCustVersionNo" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property column="PROJECTION_PROD_VERSION" name="projectionProdVersionNo" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="FORECAST_ELIGIBLE_DATE" name="forecastEligibleDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="com.stpl.app.model.impl.ProjectionNameConfigImpl" table="PROJECTION_NAME_CONFIG">
 		<id column="PROJECTION_NAME_CONFIG_SID" name="projectionNameConfigSid" type="int">

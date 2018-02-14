@@ -70,6 +70,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String NET_SALES_SEARCH_RESULT_TABLE = "netSalesSearchResultTable";
 	public static final String FORMULA_NO = "formulaNo";
 	public static final String RULE_NO = "ruleNo";
+	public static final String RULE_TYPE_CON = "ruleType";
 	public static final String RULE_NAME = "ruleName";
 	public static final String SESSION_ID = "sessionId";
 	public static final String PROPERTY_EQUALS = "EQUALS";
@@ -81,7 +82,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String RESULTS = "Results";
 
 	public static final String RULE_DETAILS_RESULT_LAYOUT = "ruleDetailsResultLayout";
-	public static final String PROPERTY_RULE_TYPE = "ruleType";
+	public static final String PROPERTY_RULE_TYPE = RULE_TYPE_CON;
 	public static final String PROPERTY_RULE_NAME = RULE_NAME;
 	public static final String RULE_CATEGORY = "ruleCategory";
 	public static final String RULE_CATEGORY_LAYOUT = "ruleCategoryLayout";
@@ -1106,4 +1107,8 @@ public class GtnFrameworkCommonConstants {
 	public static final String ADD_FILETYPE_LAYOUT = "addFileTypeLayout";
 	public static final String SPACE_SHOULD_NOT_BE_ALLOWED = "Space should not be allowed";
 	public static final String ERROR = "Error";
+	public static final String UDC_FILETYPE_ALIAS = "udcFileTypeAlias";
+	public static final String ALIAS_FILETYPE_LAYOUT = "aliasFileTypeLayout";
+	public static final String UDC_CATEGORY_FILETYPELAYOUT = "fileTypeLayout";
+	public static final String UDC_CATEGORY_FILETYPE_FIELDLAYOUT = "fileTypeFieldLayout";
 }
