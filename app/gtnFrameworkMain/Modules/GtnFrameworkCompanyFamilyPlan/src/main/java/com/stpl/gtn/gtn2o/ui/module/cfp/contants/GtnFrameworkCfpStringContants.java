@@ -51,6 +51,7 @@ public class GtnFrameworkCfpStringContants {
 	public static final String CFP_COMPANIES_TAB_RESULT_DATA_TABLE = "cfpCompaniesTabResultDataTable";
 	public static final String CFP_DATE_EQUAL_VALIDATION = "CFP Start date and CFP End date should not be equal";
 	public static final String CFP_DATE_LESS_THAN_VALIDATION = "CFP End date should be greater than CFP Start date";
+        public static final String CFP_ELIGIBLE_DATE = "CfpEligibleDate";
 	public static final List<String> CFP_TEXTFIELD_PROPERTIES_LIST = Collections
 			.unmodifiableList(Arrays.asList(GtnFrameworkCommonConstants.PROPERTY_COMPANY_ID,
 					GtnFrameworkCommonConstants.PROPERTY_COMPANY_NO, GtnFrameworkCommonConstants.PROPERTY_COMPANY_NAME,
@@ -61,11 +62,11 @@ public class GtnFrameworkCfpStringContants {
 	public static final List<String> CFP_DATEFIELD_PROPERTIES_LIST = Collections.unmodifiableList(Arrays.asList(
 			GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_START_DATE,
 			GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_END_DATE, GtnFrameworkCommonConstants.CFP_ATTACHED_DATE,
-			GtnFrameworkCommonConstants.MODIFIED_DATE, GtnFrameworkCommonConstants.CREATED_DATE));
+			GtnFrameworkCommonConstants.MODIFIED_DATE, GtnFrameworkCommonConstants.CREATED_DATE, CFP_ELIGIBLE_DATE));
 	public static final List<String> CFP_EDITABLEFIELD_LIST = Collections.unmodifiableList(Arrays.asList(
 			GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_START_DATE,
 			GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_END_DATE, "companyFamilyPlanStatusValue",
-			GtnFrameworkCommonConstants.TRADING_PARTNER_CONTRACT_NO));
+			GtnFrameworkCommonConstants.TRADING_PARTNER_CONTRACT_NO, CFP_ELIGIBLE_DATE));
 
 	public static final List<String> CFP_COMPANIES_VIEW_HEADERS_LIST = Collections.unmodifiableList(Arrays.asList(
 			"Company ID", "Company No", "Company Name", "CFP Status", "CFP Start Date", "CFP End Date",
@@ -76,7 +77,7 @@ public class GtnFrameworkCfpStringContants {
 			.unmodifiableList(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY, "Company ID", "Company No",
 					"Company Name", "CFP Status", "CFP Start Date", "CFP End Date", "Company Status", "Company Type",
 					"Company TradeClass", "Company Category", "Trading Partner Contract No", "Attached Date",
-					"Modified Date", "Modified By", "Created Date", "Created By"));
+					"Modified Date", "Modified By", "Created Date", "Created By","CFP Eligible Date"));
 
 	public static final List<?> CFP_COMPANIES_COLUMN_LIST = Collections.unmodifiableList(Arrays.asList(
 			GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.PROPERTY_COMPANY_ID,
@@ -87,7 +88,7 @@ public class GtnFrameworkCfpStringContants {
 			GtnFrameworkCommonConstants.PROPERTY_COMPANY_CATEGORY,
 			GtnFrameworkCommonConstants.TRADING_PARTNER_CONTRACT_NO, GtnFrameworkCommonConstants.CFP_ATTACHED_DATE,
 			GtnFrameworkCommonConstants.MODIFIED_DATE, GtnFrameworkCommonConstants.MODIFIED_BY,
-			GtnFrameworkCommonConstants.CREATED_DATE, GtnFrameworkCommonConstants.CREATED_BY));
+			GtnFrameworkCommonConstants.CREATED_DATE, GtnFrameworkCommonConstants.CREATED_BY, CFP_ELIGIBLE_DATE));
 
 	public static final List<?> CFP_COMPANIES_VIEW_COLUMN_LIST = Collections.unmodifiableList(Arrays.asList(
 			GtnFrameworkCommonConstants.PROPERTY_COMPANY_ID, GtnFrameworkCommonConstants.PROPERTY_COMPANY_NO,

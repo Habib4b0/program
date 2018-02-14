@@ -308,7 +308,9 @@ public final class AbstractSearchForm extends CustomComponent {
      */
     @UiField("label17")
     private Label label17;
-
+    
+    @UiField("label6")
+    private Label label6;
     /**
      * Copy Button
      */
@@ -864,6 +866,7 @@ public final class AbstractSearchForm extends CustomComponent {
             deleteBtn.setVisible(true);
             reset.setVisible(true);
             exportBtn.setVisible(false);
+            label6.setVisible(true);
 
         } else if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equals(moduleName)) {
             label1.setVisible(false);
@@ -876,6 +879,7 @@ public final class AbstractSearchForm extends CustomComponent {
             text4.setVisible(false);
             label5.setVisible(false);
             text5.setVisible(false);
+            label6.setVisible(true);
             label7.setVisible(false);
             combo2.setVisible(false);
             label9.setVisible(false);

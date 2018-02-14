@@ -1,6 +1,9 @@
 package com.stpl.app.ui.errorhandling;
 
-import org.jboss.logging.Logger;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.ErrorEvent;
@@ -20,7 +23,7 @@ public class ErrorHandler extends DefaultErrorHandler {
     private AbstractLayout layout;
     
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger(ErrorHandler.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorHandler.class.getName());
    
    /** The cause. */
    private static final String CAUSE = "<b>Ooops!!  There is a problem. Try again. If it repeats Contact your System admin.</b><br/>";
@@ -34,7 +37,7 @@ public class ErrorHandler extends DefaultErrorHandler {
         try{
         this.layout = layout;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 
@@ -57,7 +60,7 @@ public class ErrorHandler extends DefaultErrorHandler {
         layout.addComponent(new Label(CAUSE, ContentMode.HTML));
         doDefault(event);
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("",e);
         }
     }
 

@@ -953,7 +953,7 @@ public class GtnFrameworkContractDashboardCompaniesTabConfig {
 		cdCompaniesResultsTable.setCustomFilterConfigMap(getTableFilterFieldMap());
 
 		cdCompaniesResultsTable
-				.setEditableColumnList(Arrays.asList(CHECK_RECORD_ID, CFP_STATUS, "cfpStartDate", "cfpEndDate"));
+				.setEditableColumnList(Arrays.asList(CHECK_RECORD_ID, CFP_STATUS, "cfpStartDate", "cfpEndDate", "cfpEligibleDate"));
 		List<GtnUIFrameworkComponentConfig> editableList = new ArrayList<>(
 				cdCompaniesResultsTable.getEditableColumnList().size());
 		getTableEditableField(editableList);
@@ -1093,7 +1093,7 @@ public class GtnFrameworkContractDashboardCompaniesTabConfig {
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnFrameworkFieldFactoryAction.class.getName());
 		customAction.addActionParameter(GtnWsContractDashboardContants.POPULATE_COMPANY_FIELD);
-		customAction.addActionParameter(19);
+		customAction.addActionParameter(20);
 		checkRecordConfig.setGtnUIFrameWorkItemClickActionConfigList(Arrays.asList(customAction));
 
 		GtnUIFrameWorkActionConfig focusAction = new GtnUIFrameWorkActionConfig();
@@ -1121,6 +1121,11 @@ public class GtnFrameworkContractDashboardCompaniesTabConfig {
 		cdCompaniesComponentList.add(cfpEndDateConfig);
 		cfpEndDateConfig.setGtnUIFrameWorkFocusActionConfigList(Arrays.asList(focusAction));
 		cfpEndDateConfig.setGtnUIFrameWorkValueChangeActionConfigList(Arrays.asList(customAction));
+                GtnUIFrameworkComponentConfig eligibleDateConfig = commonConfig.getUIFrameworkComponentConfig("", false, null,
+				GtnUIFrameworkComponentType.DATEFIELD);
+		cdCompaniesComponentList.add(eligibleDateConfig);
+		eligibleDateConfig.setGtnUIFrameWorkFocusActionConfigList(Arrays.asList(focusAction));
+		eligibleDateConfig.setGtnUIFrameWorkValueChangeActionConfigList(Arrays.asList(customAction));
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getTableFilterFieldMap() {

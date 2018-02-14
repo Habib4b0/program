@@ -204,9 +204,13 @@ public class GtnWsCfpSaveService {
 		case "checkRecordId":
 			cfpUpdateColumnName = GtnWsCfpQueryContants.CHECK_RECORD;
 			break;
+                case "CfpEligibleDate":
+			cfpUpdateColumnName = GtnWsCfpQueryContants.CFP_ELIGIBLE_DATE;
+			break;
 		default:
 			cfpUpdateColumnName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 			break;
+                        
 		}
 		return cfpUpdateColumnName;
 	}

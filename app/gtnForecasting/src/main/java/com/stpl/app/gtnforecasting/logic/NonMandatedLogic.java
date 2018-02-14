@@ -255,7 +255,7 @@ public class NonMandatedLogic {
 		if (markAsSaved) {
 			projectionMaster.setSaveFlag(true);
 		}
-
+                projectionMaster.setForecastEligibleDate(dataSelectionDTO.getForecastEligibleDate());
 		projectionMaster = dataSelection.updateProjectionMaster(projectionMaster);
 		return projectionMaster.getProjectionMasterSid();
 	}
@@ -1491,6 +1491,7 @@ public class NonMandatedLogic {
 		projectionMaster
 				.setDedRelationshipBuilderSid(CommonUtil.isValueEligibleForLoading() ? obj[0].toString() : null);
 		projectionMaster.setDeductionHierarchySid(CommonUtil.isValueEligibleForLoading() ? obj[1].toString() : null);
+                projectionMaster.setForecastEligibleDate(dataSelectionDTO.getForecastEligibleDate());
 		projectionMaster = dataSelection.addProjectionMaster(projectionMaster);
 		return projectionMaster.getProjectionMasterSid();
 

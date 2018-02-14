@@ -515,6 +515,7 @@ SET
 		ISNULL(ICD.CFP_DETAILS_MODIFIED_BY,'') AS CFP_DETAILS_MODIFIED_BY,
 		ICD.CFP_DETAILS_CREATED_DATE,
 		ICD.CFP_DETAILS_CREATED_BY,
+                ICD.CFP_ELIGIBLE_DATE ,
 		ICD.IMTD_CFP_DETAILS_SID,
 		hCfpStatus.DESCRIPTION as CFPHSTATUS
 	FROM
@@ -611,7 +612,8 @@ SET
                                 CREATED_BY,
                                 CREATED_DATE,
                                 MODIFIED_BY,
-                                MODIFIED_DATE
+                                MODIFIED_DATE,
+                                CFP_ELIGIBLE_DATE
                         )
 
                         SELECT
@@ -631,7 +633,8 @@ SET
                                 CFP_DETAILS_CREATED_BY,
                                 CFP_DETAILS_CREATED_DATE,
                                 @USERS_SID,
-                                GETDATE()
+                                GETDATE(),
+                                CFP_ELIGIBLE_DATE
                         FROM
                                 IMTD_CFP_DETAILS
                         WHERE
@@ -677,7 +680,8 @@ DECLARE @USERS_SID VARCHAR(10)=?,
 			CFP_DETAILS_TRADE_CLASS,
 			"OPERATION",
 			CHECK_RECORD,
-			TRADING_PARTNER_CONTRACT_NO
+			TRADING_PARTNER_CONTRACT_NO,
+                        CFP_ELIGIBLE_DATE
 		) SELECT
 			CM.COMPANY_MASTER_SID,
 			CFP.CFP_MODEL_SID,
@@ -701,7 +705,7 @@ DECLARE @USERS_SID VARCHAR(10)=?,
 			CTC.COMPANY_TRADE_CLASS,
 			'A',
 			1,
-			''
+			'',CFP_ELIGIBLE_DATE
 		FROM
 			DBO.CFP_DETAILS CFP
 		JOIN DBO.COMPANY_MASTER CM ON
