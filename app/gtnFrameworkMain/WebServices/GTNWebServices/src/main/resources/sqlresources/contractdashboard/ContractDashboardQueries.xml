@@ -345,6 +345,7 @@ from
 where
 	psd.INBOUND_STATUS <> 'D'
         ?
+        AND psd.PPA_INDEX_NO=1
         ORDER BY ?
 	OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
         ]]>
@@ -363,6 +364,7 @@ from
 where
 	psd.INBOUND_STATUS <> 'D'
         ?
+        AND psd.PPA_INDEX_NO=1
         ]]>
 		</query>
 	</entity>
