@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 IF NOT EXISTS (SELECT 1
                FROM     SYS.TABLES
                WHERE  Object_name(OBJECT_ID) = 'CFP_CONTRACT'
@@ -3106,5 +3105,3 @@ CLOSE CUR1
 DEALLOCATE CUR1
 
 GO 
-
->>>>>>> 515cc0b2340b535cdd8273a352b02f279a1c2a05
