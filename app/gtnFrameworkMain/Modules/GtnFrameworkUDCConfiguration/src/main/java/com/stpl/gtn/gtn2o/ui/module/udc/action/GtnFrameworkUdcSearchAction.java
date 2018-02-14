@@ -45,7 +45,10 @@ public class GtnFrameworkUdcSearchAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_LAYOUT).setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_BRAND_EXCEL_BUTTON_LAYOUT)
 					.setVisible(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.VALUE_FILETYPE_LAYOUT).setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY_FILETYPELAYOUT)
+			.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY_FILETYPE_FIELDLAYOUT)
+			.setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_FILETYPE_LAYOUT)
 					.setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_EXCEL_BUTTON_LAYOUT)
@@ -61,13 +64,16 @@ public class GtnFrameworkUdcSearchAction
 			loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
 		}
-		else if (udcCategory.equals("FILE_TYPE")) {
+		if (udcCategory.equals("FILE_TYPE")) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY_BRANDLAYOUT)
 					.setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.VALUE_LAYOUT).setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_BRAND_LAYOUT)
 					.setVisible(false);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.VALUE_FILETYPE_LAYOUT).setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY_FILETYPELAYOUT)
+			.setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY_FILETYPE_FIELDLAYOUT)
+			.setVisible(true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_FILETYPE_LAYOUT)
 					.setVisible(true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_LAYOUT).setVisible(false);
@@ -91,12 +97,15 @@ public class GtnFrameworkUdcSearchAction
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.VALUE_LAYOUT).setVisible(true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_BRAND_LAYOUT)
 					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY_FILETYPELAYOUT)
+			.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY_FILETYPE_FIELDLAYOUT)
+			.setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_LAYOUT).setVisible(true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_BRAND_EXCEL_BUTTON_LAYOUT)
 					.setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_FILETYPE_EXCEL_BUTTON_LAYOUT)
 			.setVisible(false);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.VALUE_FILETYPE_LAYOUT).setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_FILETYPE_LAYOUT)
 					.setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_EXCEL_BUTTON_LAYOUT)
