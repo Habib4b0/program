@@ -43,6 +43,7 @@ public class GtnWsUdcSaveService {
 			GtnWsUdcInfoBean gtnWsUdcInfoBean = gtnWsUdcBean.getGtnWsUdcInfoBean();
 			HelperTable helperTableBean = new HelperTable();
 			helperTableBean.setDescription(gtnWsUdcInfoBean.getUdcValue());
+			helperTableBean.setAliasName(gtnWsUdcInfoBean.getAliasName());
 			HelperTable helperTableModel = getUdcModel(session, helperTableBean, gtnWsUdcInfoBean);
 			session.save(helperTableModel);
 			transaction.commit();
@@ -61,7 +62,8 @@ public class GtnWsUdcSaveService {
 		HelperTable helperTableModel;
 		Criteria criteria = session.createCriteria(HelperTable.class);
 		criteria.add(Restrictions.eq("description", helperTableBean.getDescription()));
-        criteria.add(Restrictions.eq("listName", helperTableBean.getListName()));
+		criteria.add(Restrictions.eq("aliasName", helperTableBean.getAliasName()));
+		criteria.add(Restrictions.eq("listName", helperTableBean.getListName()));
 		List<HelperTable> helperTableList = (List<HelperTable>) criteria.list();
 		if (helperTableList.isEmpty()) {
 			helperTableModel = setValuesToUdcModel(gtnWsUdcInfoBean);
@@ -75,6 +77,7 @@ public class GtnWsUdcSaveService {
 		HelperTable helperTableModel = new HelperTable();
 		helperTableModel.setListName(gtnWsUdcInfoBean.getUdcCategory());
 		helperTableModel.setDescription(gtnWsUdcInfoBean.getUdcValue());
+		helperTableModel.setAliasName(gtnWsUdcInfoBean.getAliasName());
 		helperTableModel.setRefCount(BigDecimal.valueOf(gtnWsUdcInfoBean.getRefCount()));
 		helperTableModel.setCreatedBy(gtnWsUdcInfoBean.getCreatedBy());
 		helperTableModel.setModifiedBy(gtnWsUdcInfoBean.getModifiedBy());

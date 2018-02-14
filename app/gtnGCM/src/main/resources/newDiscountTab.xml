@@ -7,26 +7,25 @@ and open the template in the editor.
     <VerticalLayout id="parentVerticalLayout" spacing="true"
                     margin="true" immediate="true">
         <Panel id="selectionCriteria" caption="Selection Criteria">
-            <!--<HorizontalLayout id="selectionCriteriahoriLayout" spacing="true" margin="true" immediate="true">-->
-                <!--<GridLayout spacing="true"  id="selectionCriteriaGridLayout" immediate="true" columns="10" rows="1">-->
-                   <HorizontalLayout margin="true"
-                                      spacing="true" styleName="width-auto">
-                    <Label value="Contract No:" contentMode="HTML" />
+            <HorizontalLayout id="selectionCriteriahoriLayout" spacing="true" margin="true" immediate="true">
+                <GridLayout spacing="true"  id="selectionCriteriaGridLayout" immediate="true" columns="10" rows="1">
+                    
+                    <Label value="Contract No:" contentMode="HTML" width="93px" />
                     <TextField id="contractNo" immediate="true" enable="false"/>
                     
-                    <Label value="Contract Name:" contentMode="HTML" />
+                    <Label value="Contract Name:" contentMode="HTML" width="111px"/>
                     <TextField id="contractName"  immediate="true" />
                     
-                    <Label value="Contract Type:" contentMode="HTML" />
+                    <Label value="Contract Type:" contentMode="HTML" width="104px" />
                     <TextField id="contractType" immediate="true" />
                     
-                    <Label value="Start Date:" contentMode="HTML"/>
+                    <Label value="Start Date:" contentMode="HTML" width="79px"/>
                     <TextField id="startDate" immediate="true" />
                     
-                    <Label value="End Date:" contentMode="HTML" />
+                    <Label value="End Date:" contentMode="HTML" width="74px"/>
                     <TextField id="endDate" immediate="true" />
                     
-                <!--</GridLayout>-->
+                </GridLayout>
                 
             </HorizontalLayout>
         </Panel>
