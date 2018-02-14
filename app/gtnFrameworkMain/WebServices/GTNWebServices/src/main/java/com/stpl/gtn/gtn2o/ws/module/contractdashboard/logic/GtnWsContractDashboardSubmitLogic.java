@@ -226,7 +226,6 @@ public class GtnWsContractDashboardSubmitLogic {
 		try {
 			saveAllContractDashboardInfo(session, cdRequest, gtnWsRequest);
 			tx.commit();
-			getController().checkAndUpdateAllrelationShip();
 			cdResponse.setMessageType("success");
 			cdResponse.setMessageHeader("Submitted Information");
 			cdResponse.setMessage("Workflow Id [WORKFLOW_ID] Submitted successfully");

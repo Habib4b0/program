@@ -1033,10 +1033,11 @@ public class GtnUIFrameworkBaseComponent {
 		this.component.setWidth(widthString);
 	}
 
-	public void removeTreeItems() {
+	public void removeTreeItems(GtnWsRecordBean treeSelectedBean) {
 			if (getComponentData().getCustomData() instanceof Tree) {
 			((GtnUIFrameworkTreeComponent) (getComponentConfig().getComponentType().getGtnComponent()))
-						.removeChildItems((Tree) (getComponentData().getCustomData()));
+						.removeChildItems((Tree) (getComponentData().getCustomData()),treeSelectedBean);
 			}
 		}
+	
 }
