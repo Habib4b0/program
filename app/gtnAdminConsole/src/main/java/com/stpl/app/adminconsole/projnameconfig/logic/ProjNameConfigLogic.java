@@ -67,7 +67,7 @@ public class ProjNameConfigLogic {
      */
     public String saveProjNameConfigDetails(final String finalTemplateName)throws SystemException  {       
          LOGGER.debug("saveProjNameConfigDetails method started ");
-         final int userId = Integer.valueOf((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
+         final int userId = Integer.parseInt((String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
          
             final String[] names=finalTemplateName.split("~",NumericConstants.TWO);          
             ProjectionNameConfig config = null;
