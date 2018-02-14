@@ -51,7 +51,7 @@ public class GtnWsBcpFileMerger {
 					.getFile(folderName + "/Cumulative_Logic" + File.separator + "Concat_exec.sh");
 
 			try (FileOutputStream outShell = GtnFileNameUtils.getFileOutputStream(shellFile)) {
-                            System.out.println("strb.toString() ====="+strb.toString());
+                            GTNLOGGER.info("strb.toString() ====="+strb.toString());
 				outShell.write(strb.toString().getBytes());
 				outShell.flush();
 			}
@@ -75,7 +75,7 @@ public class GtnWsBcpFileMerger {
 
                 GTNLOGGER.info("Merge Time: " + (System.currentTimeMillis() - time));
             } catch (Exception ex) {
-                ex.printStackTrace();
+                GTNLOGGER.error(ex.getMessage());
             }
 
 	}
