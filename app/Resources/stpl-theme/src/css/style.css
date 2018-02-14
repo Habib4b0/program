@@ -122,18 +122,18 @@ base64, PD94bWwgdmVyc2lvbj0iMS4wIiA/Pg…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkL
 	position: relative;
 }
 #sidebar:after {
-	content: '';
-	position: absolute;
-	background-color: #f2f2f2;
-	width: calc(100% + 1px);
-	min-height: 10px;
-	overflow: hidden;
-	margin-bottom: -100000px;
-	padding-bottom: 100000px;
-	bottom: 0px;
-	left: 0px;
-	z-index: -1;
 	border-right: 1px solid #cccccc;
+content: '';
+display: block;
+content: "";
+display: block;
+width: 210px;
+position: fixed;
+bottom: 0px;
+top: 0px;
+z-index: -1;
+background-color: #f2f2f2;
+border-right: 1px solid #cccccc;
 }
 #sidebar>ul>li.active {
 	position: relative;

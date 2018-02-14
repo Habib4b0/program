@@ -1501,7 +1501,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         }
 
         getLogic().massUpdateItemDetails(list);
-        getContractSelectionTable().getContainerLogic().setCurrentPage(1);
+        getContractSelectionTable().getContainerLogic().setCurrentPage(getContractSelectionTable().getCurrentPage()); 
     }
 
     public boolean singleContractCheck(String queryName, List input) {

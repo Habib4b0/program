@@ -630,10 +630,10 @@ public class GtnFrameworkCGrpAddComapanyConfig {
 		addAlertActionConfig.setActionParameterList(addAlertParamsList);
 		addActionConfigList.add(addAlertActionConfig);
 
-		GtnUIFrameWorkActionConfig addCustomActionConfig = new GtnUIFrameWorkActionConfig();
-		addCustomActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		addCustomActionConfig.addActionParameter(GtnFrameworkCGrpClassContants.COMPANY_GRP_ADD_BUTTON_ACTION);
-		addActionConfigList.add(addCustomActionConfig);
+		GtnUIFrameWorkActionConfig addButtonCustomActionConfig = new GtnUIFrameWorkActionConfig();
+		addButtonCustomActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		addButtonCustomActionConfig.addActionParameter(GtnFrameworkCGrpClassContants.COMPANY_GRP_ADD_BUTTON_ACTION);
+		addActionConfigList.add(addButtonCustomActionConfig);
 		cGrpaddViewAddButtonConfig.setGtnUIFrameWorkActionConfigList(addActionConfigList);
 	}
 
