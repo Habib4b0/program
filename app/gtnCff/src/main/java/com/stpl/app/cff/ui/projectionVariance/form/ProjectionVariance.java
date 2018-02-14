@@ -2135,10 +2135,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private void excelColumnFormat() {
         Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get("group");
         List<Object> listHeaders = new ArrayList(Arrays.asList(singleHeader));
-        listHeaders.remove("group");
+        listHeaders.remove(GROUP_PROPERTY);
 
-        fullHeader.getDoubleHeaderMaps().put("group", listHeaders.toArray());
-        fullHeader.getSingleColumns().remove("group");
+        fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
+        fullHeader.getSingleColumns().remove(GROUP_PROPERTY);
         fullHeader.getSingleHeaders().remove(0);
 
         Object[] displayFormatIndex = CommonUtils.getDisplayFormatSelectedValues(displayFormatValues);
