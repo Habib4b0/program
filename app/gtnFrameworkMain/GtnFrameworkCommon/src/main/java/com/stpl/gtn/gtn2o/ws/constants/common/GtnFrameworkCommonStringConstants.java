@@ -66,6 +66,8 @@ public class GtnFrameworkCommonStringConstants {
 	public static final String LAYOUT = "Layout";
 
 	public static final String GTNFRAMEWORK_BASE_PATH = "com.stpl.gtnframework.base.path";
+	
+	public static final String GTNFRAMEWORK_BASE_PATH_PROPERTY = "com.stpl.gtnframework.base.path.property";
 
 	public static final String CREATOR = "creator";
 

@@ -1,0 +1,5 @@
+Bundle-Name: ${project.name}
+Bundle-Version: ${project.version}
+Bundle-SymbolicName: ${project.groupId}.${project.artifactId}
+Import-Package:!com.stpl.app.bpm.conn,!com.stpl.app.bpm.dto,*
+Export-Package: com.stpl.app*
