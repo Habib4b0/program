@@ -24,7 +24,8 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.companygroup.GtnCompanyGroupRequest;
 
-public class GtnFrameworkCGrpAddButtonAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable,GtnUIFrameworkDynamicClass {
+public class GtnFrameworkCGrpAddButtonAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkCGrpAddButtonAction.class);
 
@@ -34,13 +35,12 @@ public class GtnFrameworkCGrpAddButtonAction implements GtnUIFrameWorkAction, Gt
 		return;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 
 		try {
-			Set<GtnWsRecordBean> dtoSet = (Set<GtnWsRecordBean>) GtnUIFrameworkGlobalUI
+			Set<GtnWsRecordBean> dtoSet = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("cGrpAvailablesearchResultTable").getValuesFromPagedDataTable();
 			if (dtoSet == null || dtoSet.isEmpty()) {
 				GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
@@ -89,7 +89,7 @@ public class GtnFrameworkCGrpAddButtonAction implements GtnUIFrameWorkAction, Gt
 		return this;
 	}
 
-	public void setValueToComponents()  {
+	public void setValueToComponents() {
 
 		GtnCompanyGrpInformationBean info = new GtnCompanyGrpInformationBean();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("cGrpInformationCGrpName")

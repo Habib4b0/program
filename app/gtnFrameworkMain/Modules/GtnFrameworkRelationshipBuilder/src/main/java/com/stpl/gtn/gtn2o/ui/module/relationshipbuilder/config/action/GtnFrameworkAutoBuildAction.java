@@ -40,7 +40,6 @@ public class GtnFrameworkAutoBuildAction implements GtnUIFrameWorkAction, GtnUIF
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		try {
-
 			GtnUIFrameworkBaseComponent hierarchyName = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("RB001_hierarchyName");
 			GtnUIFrameworkBaseComponent hierarchyVersionNo = GtnUIFrameworkGlobalUI
@@ -83,7 +82,7 @@ public class GtnFrameworkAutoBuildAction implements GtnUIFrameWorkAction, GtnUIF
 								+ GtnWsRelationshipBuilderConstants.AUTOBUILDERELATIONSHIP,
 						request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 				GtnWsRelationshipBuilderResponse rbResponse = response.getGtnWsRelationshipBuilderResponse();
-				rbTreeBaseComponent.removeTreeItems();
+				rbTreeBaseComponent.removeTreeItems(treeSelectedBean);
 				rbTreeBaseComponent.loadTreeFromTreeNode(rbResponse.getRbTreeNodeList(), treeSelectedBean);
 			}
 			resetSelectedItemsList();
