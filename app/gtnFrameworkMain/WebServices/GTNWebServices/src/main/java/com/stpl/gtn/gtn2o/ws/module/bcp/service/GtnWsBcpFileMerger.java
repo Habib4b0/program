@@ -24,7 +24,7 @@ public class GtnWsBcpFileMerger {
 
 	public void mergeFiles(List<String> fileList, String finalFile, List<Closeable> fileOperationList,
 			String folderName) throws IOException, InterruptedException {
-
+        try {
 		Path path = GtnFileNameUtils.getPath(finalFile.substring(0, finalFile.lastIndexOf('/')));
 		if (!Files.exists(path)) {
                     GTNLOGGER.info("path ====="+path.toString());
@@ -51,6 +51,7 @@ public class GtnWsBcpFileMerger {
 					.getFile(folderName + "/Cumulative_Logic" + File.separator + "Concat_exec.sh");
 
 			try (FileOutputStream outShell = GtnFileNameUtils.getFileOutputStream(shellFile)) {
+                            System.out.println("strb.toString() ====="+strb.toString());
 				outShell.write(strb.toString().getBytes());
 				outShell.flush();
 			}
@@ -68,15 +69,14 @@ public class GtnWsBcpFileMerger {
 		Process p = builder.start();
 		p.waitFor();
 
-		for (Closeable closeable : fileOperationList) {
-			closeable.close();
-		}
+                for (Closeable closeable : fileOperationList) {
+                    closeable.close();
+                }
 
-                for (String fileName : fileList) {
-			Files.delete(GtnFileNameUtils.getPath(fileName));
-		}
-
-		GTNLOGGER.info("Merge Time: " + (System.currentTimeMillis() - time));
+                GTNLOGGER.info("Merge Time: " + (System.currentTimeMillis() - time));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
 
 	}
 
