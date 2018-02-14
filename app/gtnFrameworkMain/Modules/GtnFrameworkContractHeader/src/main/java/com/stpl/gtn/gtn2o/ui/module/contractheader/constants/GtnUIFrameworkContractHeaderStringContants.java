@@ -116,7 +116,7 @@ public class GtnUIFrameworkContractHeaderStringContants {
 			"contractInformationTabCurrency", "contractInformationTabMinimumOrder", "contractAliasStartDate",
 			"contractAliasEndDate", "contractAliasContractAliasType", "contractAliasContractAliasNo",
 			"contractAliasContractAliasName", "contractHeaderTabTerm", "contractInformationTabPaymentTerms",
-			"contractInformationTabAdvanceNoticeDays"));
+			"contractInformationTabAdvanceNoticeDays","contractHeaderTabForecastEligibleDate"));
 	public static final List<String> GTN_CONTACT_HEADER_INFORMATION_TAB_FIELD_LIST = Collections.unmodifiableList(Arrays
 			.asList(CONTRACT_HEADER_TAB_CONTRACT_ID, CONTRACT_HEADER_TAB_CONTRACT_NO, CONTRACT_HEADER_TAB_CONTRACT_NAME,
 					"contractHeaderTabContractType", "contractHeaderTabContractStatus", "contractHeaderTabDocumentType",

@@ -213,6 +213,7 @@ public class GtnFrameworkContractDashboardInfomationTabConfig {
 				componentIdList);
 		addManufacturerNo(cdInformationComponentList, cdInformationTabPrefix, gtnLayoutConfig.getComponentId(),
 				componentIdList);
+                addContractEligibleDate(cdInformationComponentList, cdInformationTabPrefix, gtnLayoutConfig.getComponentId(), componentIdList);
 	}
 
 	private void addContractId(List<GtnUIFrameworkComponentConfig> cdInformationComponentList,
@@ -632,6 +633,20 @@ public class GtnFrameworkContractDashboardInfomationTabConfig {
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		comboBoxConfig.setComboBoxType(GtnWsContractDashboardContants.COMPANY_MENUFACTURER);
 		componentConfig.setGtnComboboxConfig(comboBoxConfig);
+		componentIdList.add(componentConfig.getComponentId());
+	}
+        private void addContractEligibleDate(List<GtnUIFrameworkComponentConfig> cdInformationComponentList,
+			String cdInformationTabPrefix, String parent, List<String> componentIdList) {
+		String componentId = cdInformationTabPrefix + "ContractEligibleDate";
+		GtnUIFrameworkComponentConfig gtnLayoutConfig = commonConfig
+				.getHorizontalLayoutConfig(componentId + GtnFrameworkCommonStringConstants.LAYOUT, true, parent);
+		cdInformationComponentList.add(gtnLayoutConfig);
+
+		GtnUIFrameworkComponentConfig componentConfig = commonConfig.getUIFrameworkComponentConfig(componentId, true,
+				gtnLayoutConfig.getComponentId(), GtnUIFrameworkComponentType.DATEFIELD);
+		componentConfig.setAuthorizationIncluded(true);
+		componentConfig.setComponentName("Contract Eligible Date");
+		cdInformationComponentList.add(componentConfig);
 		componentIdList.add(componentConfig.getComponentId());
 	}
 

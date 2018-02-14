@@ -19,7 +19,7 @@ and open the template in the editor.
         <Panel caption="Customer Selection"  id="customerSelection" spacing="true" styleName="ds-selection">
             <VerticalLayout  spacing = "true" margin = "true" styleName = "width-auto" >
                 <HorizontalLayout immediate="true">
-                    <GridLayout  spacing="true" immediate="true" columns="8" rows="1">
+                    <GridLayout  spacing="true" immediate="true" columns="10" rows="1">
                         <Label caption="Hierarchy:" contentMode="HTML" width="80px" />
                         <b:CustomTextField id="customerHierarchy" styleName="searchText" inputPrompt="" />
                         <Label caption="Relationship:" contentMode="HTML" width="100px" ></Label>
@@ -30,6 +30,8 @@ and open the template in the editor.
                         <b:CustomTextField id="customerGP" styleName="searchText"/>
                         <Label id ="customerRelationVersionLabel" caption="Relationship Version:" contentMode="HTML" width="100px" ></Label>
                         <ComboBox id="customerRelationVersion" nullSelectionAllowed="true" styleName = "comboxsize" immediate = "true" />
+                        <Label id ="cffEligibleDateLB" caption="Cff Eligible Date:" contentMode="HTML" width="100px" ></Label>
+                        <PopupDateField id="cffEligibleDate" nullSelectionAllowed="true" immediate = "true" width="130px" />
                     </GridLayout>
                 </HorizontalLayout>
 
