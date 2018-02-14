@@ -52,15 +52,15 @@ public class VCustomWindow extends VWindow {
     void updateMinimize() {
 
         if(headerVisible){
-            ((Element) getElement().getFirstChildElement().getFirstChildElement()).removeClassName("header-nonvisible");
+            ( getElement().getFirstChildElement().getFirstChildElement()).removeClassName("header-nonvisible");
             closeBox.removeClassName("nonvisible");
             closeBox.removeClassName("visible");
-        DOM.setElementProperty(minimizeRestoreBox, "className", "v-window-minimizebox");
-        DOM.setElementAttribute(minimizeRestoreBox, "tabindex", "0");
+        minimizeRestoreBox.setPropertyString("className", "v-window-minimizebox");
+        minimizeRestoreBox.setAttribute( "tabindex", "0");
 
         Roles.getButtonRole().set(minimizeRestoreBox);
         Roles.getButtonRole().setAriaLabelProperty(minimizeRestoreBox, "minimize button");
-        DOM.insertChild((Element) getElement().getFirstChildElement().getFirstChildElement(), minimizeRestoreBox, 2);
+        DOM.insertChild(getElement().getFirstChildElement().getFirstChildElement(), minimizeRestoreBox, 2);
         closeBox.setTitle("Close");
         header.setTitle(header.getInnerText());
         if(minimized){
@@ -87,7 +87,7 @@ public class VCustomWindow extends VWindow {
                 minimizeRestoreBox.addClassName("disabled");
             }
         }else{
-            ((Element) getElement().getFirstChildElement().getFirstChildElement()).addClassName("header-nonvisible");
+            ( getElement().getFirstChildElement().getFirstChildElement()).addClassName("header-nonvisible");
             if(closeBtnVisible){
                 closeBox.addClassName("visible");
             }else{
