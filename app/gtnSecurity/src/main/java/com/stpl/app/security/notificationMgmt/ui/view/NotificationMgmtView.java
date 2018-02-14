@@ -22,6 +22,7 @@ public class NotificationMgmtView extends VerticalLayout implements View{
         addComponent(new NotificationMgmtIndex());
     }
         
+    @Override
     public void enter(ViewChangeEvent event) {
         return;
 		

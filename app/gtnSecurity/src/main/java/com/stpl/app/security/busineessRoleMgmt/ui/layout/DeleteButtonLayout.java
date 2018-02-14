@@ -26,10 +26,10 @@ public class DeleteButtonLayout extends HorizontalLayout {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(DeleteButtonLayout.class.getName());
-	private ErrorfulFieldGroup binder;
-	private BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
+	private final ErrorfulFieldGroup binder;
+	private final BeanItemContainer<BusinessroleMasterDTO> searchResultbeans;
 	private Table table;
-	private BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
+	private final BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
 
         public DeleteButtonLayout(ErrorfulFieldGroup binder,
 			BeanItemContainer<BusinessroleMasterDTO> searchResultbeans,
@@ -43,15 +43,16 @@ public class DeleteButtonLayout extends HorizontalLayout {
 
 	private void init() {
 		this.setSpacing(true);
-		DeleteButton();
+		deleteButton();
 	}
 
-	private void DeleteButton() {
+	private void deleteButton() {
 		Button btnSearch = new Button("Delete");
 		btnSearch.setErrorHandler(new ErrorHandler() {
 
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                  return;  
             
@@ -61,6 +62,7 @@ public class DeleteButtonLayout extends HorizontalLayout {
 		btnSearch.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
+                        @Override
 			public void buttonClick(ClickEvent event) {
 				try {
 					binder.getFields();
@@ -82,11 +84,8 @@ public class DeleteButtonLayout extends HorizontalLayout {
 						notif.setStyleName("mystyle");
 						notif.show(Page.getCurrent());
 					}
-				}catch (SystemException e) {
-					// TODO Auto-generated catch block
+				}catch (SystemException | CommitException e) {
 				LOGGER.error(e.getMessage());
-				}  catch (CommitException e) {
-                                     LOGGER.error(e.getMessage());
 				}
 				binder.getField(CommonUtils.BUSINESS_ROLE_MASTERSID).setReadOnly(true);
 			}
