@@ -62,6 +62,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang.ArrayUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
@@ -164,8 +165,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
             if ((QUARTERLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())) || MONTHLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())))) {
                 for (int i = 0; i < projectionDTO.getHeaderMapForExcel().size(); i++) {
                     Object[] column = ((List<Object>) projectionDTO.getHeaderMapForExcel().get(i).get(0)).toArray();
+                    column = ArrayUtils.removeElement(column, "levelName");
+                    
                     Object[] header = ((List<Object>) projectionDTO.getHeaderMapForExcel().get(i).get(1)).toArray();
+                    header = ArrayUtils.remove(header, 0);
+
                     securityForListView(column, Arrays.copyOf(header, header.length, String[].class), excelTable);
+                    
                     excelTable.setRefresh(true);
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                     ForecastUI.setEXCEL_CLOSE(true);
