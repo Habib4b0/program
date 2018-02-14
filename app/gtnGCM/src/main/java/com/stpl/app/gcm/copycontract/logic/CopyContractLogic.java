@@ -1347,15 +1347,15 @@ public class CopyContractLogic {
                 itemDTO.setPriceProtectionPriceType(obje[NumericConstants.THIRTEEN] == null ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.THIRTEEN]));
                 itemDTO.setPriceToleranceInterval(checkNullValue(obje[NumericConstants.FOURTEEN]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.FOURTEEN].toString())));
                 itemDTO.setPriceToleranceFrequency(checkNullValue(obje[NumericConstants.FIFTEEN]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.FIFTEEN].toString())));
-                itemDTO.setMaxIncrementalChange(checkNullValue(obje[NumericConstants.SEVENTEEN]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.SEVENTEEN].toString())));
+                itemDTO.setMaxIncrementalChange(checkNullValue(obje[NumericConstants.SEVENTEEN]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SEVENTEEN]));
                 itemDTO.setPriceTolerance(checkNullValue(obje[NumericConstants.EIGHTEEN]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.EIGHTEEN]));
                 itemDTO.setPriceToleranceType(checkNullValue(obje[NumericConstants.SIXTEEN]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.SIXTEEN]));
                 itemDTO.setEligibility(checkNullValue(obje[NumericConstants.TWENTY]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.TWENTY].toString())));
-                itemDTO.setResetType(checkNullValue(obje[NumericConstants.TWENTY_ONE]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.TWENTY_ONE].toString())));
+                itemDTO.setResetType(checkNullValue(obje[NumericConstants.TWENTY_ONE]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY_ONE]));
                 itemDTO.setResetDate(checkNullValue(obje[NumericConstants.TWENTY_TWO]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY_TWO]));
                 itemDTO.setResetIntervel(checkNullValue(obje[NumericConstants.TWENTY_THREE]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.TWENTY_THREE].toString())));
-                itemDTO.setResetFrequency(checkNullValue(obje[NumericConstants.TWENTY_FOUR]) ? StringUtils.EMPTY : getDescription(Integer.valueOf(obje[NumericConstants.TWENTY_FOUR].toString())));
-                itemDTO.setAttachedDate(null);
+                itemDTO.setResetFrequency(checkNullValue(obje[NumericConstants.TWENTY_FOUR]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY_FOUR]));
+                itemDTO.setAttachedDate(checkNullValue(obje[NumericConstants.TWENTY_FIVE]) ? StringUtils.EMPTY : String.valueOf(obje[NumericConstants.TWENTY_FIVE]));
                 priceList.add(itemDTO);
             }
         }

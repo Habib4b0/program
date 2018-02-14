@@ -488,8 +488,9 @@ public class GtnUIFrameworkTreeComponent implements GtnUIFrameworkComponent {
 		}
 	}
 
-	public void removeChildItems(Tree tree) {
-		Object selectedValueInTree = tree.getValue();
+	public void removeChildItems(Tree tree, GtnWsRecordBean treeSelectedBean) {
+		
+		Object selectedValueInTree = treeSelectedBean;
 
 		if (selectedValueInTree == null) {
 			return;

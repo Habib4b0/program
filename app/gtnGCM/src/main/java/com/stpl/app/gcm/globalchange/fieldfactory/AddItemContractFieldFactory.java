@@ -1302,7 +1302,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                                     saveTempItemDetails(dto);
                                 }
                                 valueChange = true;
-                                contractSelectionTable.getContainerLogic().setCurrentPage(1);
+                                contractSelectionTable.getContainerLogic().setCurrentPage(contractSelectionTable.getContainerLogic().getCurrentPage()); 
                                 contractSelectionTable.setRefresh(true);
                             }
                         }

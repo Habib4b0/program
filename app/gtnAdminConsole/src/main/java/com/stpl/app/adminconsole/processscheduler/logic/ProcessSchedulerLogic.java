@@ -282,10 +282,12 @@ public class ProcessSchedulerLogic {
 		try {
 			LOGGER.debug("Script Name==========================>" + scriptName);
 			String jbossHome=getJbossHome();
+			LOGGER.debug("jboss Home==========================>" + jbossHome);
 			if (!StringUtils.isBlank(jbossHome)) {
-					java.util.Properties prop = getPropertyFile(jbossHome.concat("/../").concat(ETL_PROPERTIES_PATH));
-					String etlInterfaceUri=buildUrl(scriptName,prop);
-					ftpProperties.setScripts(prop.getProperty("scripts"));
+					java.util.Properties prop =getPropertyFile(getPropertyPath());
+				    java.util.Properties prop1 = getPropertyFile(jbossHome.concat("/../").concat(prop.getProperty("EtlConfiguration.properties")));
+					String etlInterfaceUri=buildUrl(scriptName,prop1);
+					ftpProperties.setScripts(prop1.getProperty("scripts"));
 					runShellScript(etlInterfaceUri);
 			}
 			LOGGER.debug("runShellScript===================>ends1");
@@ -307,9 +309,9 @@ public class ProcessSchedulerLogic {
 		try {
 			String jbossHome=getJbossHome();
 			if (!StringUtils.isBlank(jbossHome)) {
-					LOGGER.info(jbossHome +"/../"+ FTP_PROPERTIES_PATH);
-					java.util.Properties prop = getPropertyFile(jbossHome.concat("/../").concat(FTP_PROPERTIES_PATH));
-					ftpProperties.setScripts(prop.getProperty("scripts"));
+					java.util.Properties prop =getPropertyFile(getPropertyPath());
+					java.util.Properties prop1 = getPropertyFile(jbossHome.concat("/../").concat(prop.getProperty("EtlConfiguration.properties")));
+					ftpProperties.setScripts(prop1.getProperty("scripts"));
 			}
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
@@ -413,8 +415,6 @@ public class ProcessSchedulerLogic {
 		}
 		if (orderBy != null) {
 			searchQuery = searchQuery.replace("@ORDER_BY", orderBy);
-		} else {
-
 		}
 		resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(searchQuery);
 		cffMasterList = getCustomizedSearchResults(resultList);
@@ -1157,11 +1157,14 @@ public class ProcessSchedulerLogic {
 	}
 	private String getInterFaceUri(String scriptName) {
 		String jbossHome=getJbossHome();
-		java.util.Properties interfaceUriProperties = getPropertyFile(jbossHome.concat("/../").concat("conf/ETL-InterfaceUriConfig/interfaceUrlMapping.properties"));
-		return interfaceUriProperties.getProperty(scriptName).trim();
+		java.util.Properties interfaceUriProperties = getPropertyFile(getPropertyPath());
+		java.util.Properties interfacename=getPropertyFile(jbossHome.concat("/../").concat(interfaceUriProperties.getProperty("Interfaceuri.properties")));
+		return interfacename.getProperty(scriptName).trim();
 	}
 	private static String getJbossHome() {
 		return System.getProperty("jboss.home.dir");
 	}
-	
+	private static String getPropertyPath() {
+		return System.getProperty("com.stpl.gtnframework.base.path.property");
+	}
 }
