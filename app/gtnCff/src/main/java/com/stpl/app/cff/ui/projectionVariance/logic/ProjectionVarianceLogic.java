@@ -80,6 +80,7 @@ public class ProjectionVarianceLogic {
     public static final String DISCOUNT_DOLLAR = "Discount $";
     private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     private static final String DF_LEVEL_NAME = "dfLevelName";
+    private static final String CFF_TOTAL = "CFF Total";
     
     /**
      * The Percent Two Decimal Places Format.
@@ -1950,7 +1951,7 @@ public class ProjectionVarianceLogic {
 
         if (!pvsdto.getLevel().equals(DETAIL)) {
             ProjectionVarianceDTO totalDTO = new ProjectionVarianceDTO();
-            totalDTO.setGroup("CFF Total");
+            totalDTO.setGroup(CFF_TOTAL);
             projDTOList.add(0, totalDTO);
 
         }
@@ -1970,9 +1971,9 @@ public class ProjectionVarianceLogic {
             isDetail = true;
         } else {
             ProjectionVarianceDTO dto = new ProjectionVarianceDTO();
-            dto.setGroup("CFF Total");
-            dto.addStringProperties(DF_LEVEL_NUMBER, "CFF Total");
-            dto.addStringProperties(DF_LEVEL_NAME, "CFF Total");
+            dto.setGroup(CFF_TOTAL);
+            dto.addStringProperties(DF_LEVEL_NUMBER, CFF_TOTAL);
+            dto.addStringProperties(DF_LEVEL_NAME, CFF_TOTAL);
             projectionVarianceDTO.add(dto);
         }
         // ExFac Sales 

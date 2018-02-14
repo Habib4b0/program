@@ -137,7 +137,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     public static final String SELECT_VALUES = "-Select Values-";
     private List<String[]> deductionLevel = new ArrayList<>();
     public static final String SID = "SID";
-    public static final String GROUP = "group";
+    public static final String GROUP_PROPERTY = "group";
      
      public static final CommonLogic commonLogic = new CommonLogic();
 
@@ -1010,34 +1010,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     export.export();
                 }
             } else {
-                Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get("group");
-                List<Object> listHeaders = new ArrayList(Arrays.asList(singleHeader));
-                listHeaders.remove("group");
-                
-                fullHeader.getDoubleHeaderMaps().put("group", listHeaders.toArray());
-                fullHeader.getSingleColumns().remove("group");
-                fullHeader.getSingleHeaders().remove(0);
-                
-                Object[] displayFormatIndex = CommonUtils.getDisplayFormatSelectedValues(displayFormatValues);
-                if (displayFormatIndex.length == 1) {
-                    for (int i = 0; i < displayFormatIndex.length; i++) {
-                        LOGGER.info("obj--------------" + i);
-                        int index = (Integer) displayFormatIndex[i];
-                        if (index == 0) {
-                            listHeaders.remove("dfLevelName");
-                            fullHeader.getDoubleHeaderMaps().put(GROUP, listHeaders.toArray());
-                            fullHeader.getSingleColumns().remove("dfLevelName");
-                            fullHeader.getSingleHeaders().remove(1);
-                        } else {
-                            listHeaders.remove("dfLevelNumber");
-                            fullHeader.getDoubleHeaderMaps().put(GROUP, listHeaders.toArray());
-                            fullHeader.getSingleColumns().remove("dfLevelNumber");
-                            fullHeader.getSingleHeaders().remove(0);
-                        }
-
-                    }
-                }
-                
+                excelColumnFormat();
                 excelTable.setVisibleColumns(fullHeader.getSingleColumns().toArray());
                 excelTable.setColumnHeaders(fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size()]));
                 excelTable.setDoubleHeaderVisible(true);
@@ -2156,6 +2129,36 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             loadSalesInclusion();
             uomLoadingTabChange();
             loadDisplayFormatDdlb();
+        }
+    }
+    
+    private void excelColumnFormat() {
+        Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get("group");
+        List<Object> listHeaders = new ArrayList(Arrays.asList(singleHeader));
+        listHeaders.remove("group");
+
+        fullHeader.getDoubleHeaderMaps().put("group", listHeaders.toArray());
+        fullHeader.getSingleColumns().remove("group");
+        fullHeader.getSingleHeaders().remove(0);
+
+        Object[] displayFormatIndex = CommonUtils.getDisplayFormatSelectedValues(displayFormatValues);
+        if (displayFormatIndex.length == 1) {
+            for (int i = 0; i < displayFormatIndex.length; i++) {
+                LOGGER.info("obj--------------" + i);
+                int index = (Integer) displayFormatIndex[i];
+                if (index == 0) {
+                    listHeaders.remove("dfLevelName");
+                    fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
+                    fullHeader.getSingleColumns().remove("dfLevelName");
+                    fullHeader.getSingleHeaders().remove(1);
+                } else {
+                    listHeaders.remove("dfLevelNumber");
+                    fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
+                    fullHeader.getSingleColumns().remove("dfLevelNumber");
+                    fullHeader.getSingleHeaders().remove(0);
+                }
+
+            }
         }
     }
     
