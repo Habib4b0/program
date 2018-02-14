@@ -1,9 +1,10 @@
 package com.stpl.app.ui.errorhandling;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vaadin.server.AbstractErrorMessage;
 import com.vaadin.server.ErrorMessage;
-import org.jboss.logging.Logger;
-
 import com.vaadin.server.UserError;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
@@ -16,7 +17,7 @@ import com.vaadin.v7.ui.Label;
 public class ErrorLabel extends Label implements ErrorDisplay {
   
  /** The Constant LOGGER. */
- private static final Logger LOGGER = Logger.getLogger(ErrorLabel.class);
+ private static final Logger LOGGER = LoggerFactory.getLogger(ErrorLabel.class);
     /**
      * Configures the visibility and style of error message. 
      */
@@ -26,7 +27,7 @@ public class ErrorLabel extends Label implements ErrorDisplay {
         setVisible(false);
         setStyleName("myerror");
         } catch (Exception e) {
-	LOGGER.error(e);
+	LOGGER.error("",e);
 	}
     }
    
@@ -41,7 +42,7 @@ public class ErrorLabel extends Label implements ErrorDisplay {
         setComponentError(new UserError(error, AbstractErrorMessage.ContentMode.HTML, ErrorMessage.ErrorLevel.ERROR));
         setVisible(true);
         } catch(Exception e){
-        LOGGER.error(e);
+        LOGGER.error("",e);
         }
     }
 
@@ -54,7 +55,7 @@ public class ErrorLabel extends Label implements ErrorDisplay {
         setComponentError(null);
         setVisible(false);
          } catch(Exception e){
-        LOGGER.error(e);
+        LOGGER.error("",e);
         }
     }
 }

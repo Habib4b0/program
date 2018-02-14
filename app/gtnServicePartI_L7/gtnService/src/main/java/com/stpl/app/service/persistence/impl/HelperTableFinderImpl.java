@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -21,7 +22,7 @@ import org.jboss.logging.Logger;
  */
 public class HelperTableFinderImpl extends HelperTableFinderBaseImpl implements HelperTableFinder {
 
-    private static final Logger LOGGER = Logger.getLogger(HelperTableFinderImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HelperTableFinderImpl.class);
 
     @Override
     public void executeUpdateQuery(String query) {
