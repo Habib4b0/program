@@ -4,22 +4,22 @@
     <description/>
     <extended_description/>
     <job_version/>
-  <directory>&#47;</directory>
+  <directory>&#x2f;</directory>
   <created_user>-</created_user>
-  <created_date>2015&#47;09&#47;18 14:48:43.247</created_date>
+  <created_date>2015&#x2f;09&#x2f;18 14&#x3a;48&#x3a;43.247</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2015&#47;09&#47;18 14:48:43.247</modified_date>
+  <modified_date>2015&#x2f;09&#x2f;18 14&#x3a;48&#x3a;43.247</modified_date>
     <parameters>
     </parameters>
   <connection>
     <name>DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -36,13 +36,13 @@
   </connection>
   <connection>
     <name>staging</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -65,7 +65,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></job-log-table>
+<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>START_JOB_ENTRY</id><enabled>N</enabled><name>START_JOB_ENTRY</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></job-log-table>
 <jobentry-log-table><connection/>
 <schema/>
 <table/>
@@ -86,7 +86,7 @@
       <filename/>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
         </field>
       </fields>
       <parallel>N</parallel>
@@ -101,7 +101,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE_TRAN.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE_TRAN.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -120,6 +120,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -131,42 +132,7 @@
       <name>ERROR CODE</name>
       <description/>
       <type>SQL</type>
-      <sql>DECLARE @batch_id VARCHAR(20)= (SELECT TOP 1 batch_id
-   FROM   IVLD_CONTRACT_HEADER
-   ORDER  BY INTF_INSERTED_DATE DESC)
-
-UPDATE IVLD_CONTRACT_HEADER
-SET    ERROR_FIELD = Substring(CASE WHEN CONTRACT_ID IS NULL THEN &apos;,CONTRACT_ID&apos; ELSE &apos;&apos; END + CASE WHEN CONTRACT_STATUS IS NULL THEN &apos;,CONTRACT_STATUS&apos; ELSE &apos;&apos; END + CASE WHEN START_DATE IS NULL THEN &apos;,START_DATE&apos; ELSE &apos;&apos; END + CASE WHEN ADD_CHG_DEL_INDICATOR IS NULL THEN &apos;,ADD_CHG_DEL_INDICATOR&apos; ELSE &apos;&apos; END + CASE WHEN BATCH_ID IS NULL THEN &apos;,BATCH_ID&apos; ELSE &apos;&apos; END, 2, 100000)
-WHERE  BATCH_ID = @batch_id   and ERROR_CODE=&apos;E01&apos;
-
-update IVLD_CONTRACT_HEADER set ERROR_FIELD=
-        CASE WHEN  Isdate(START_DATE)=0  and START_DATE is not null THEN &apos;START_DATE&apos; ELSE &apos;&apos; END +
-  CASE WHEN  Isdate(CREATED_DATE)=0 and CREATED_DATE is not null THEN &apos;,CREATED_DATE&apos; ELSE &apos;&apos; END +
- CASE WHEN   Isdate(MODIFIED_DATE)=0 and  MODIFIED_DATE is not null THEN &apos;,MODIFIED_DATE&apos; ELSE &apos;&apos; END +
- CASE WHEN   Isdate(END_DATE)=0 and END_DATE is not null THEN &apos;,END_DATE&apos; ELSE &apos;&apos; END  + 
-CASE WHEN   Isdate(RENEGOTIATION_START_DATE)=0 and RENEGOTIATION_START_DATE is not null THEN &apos;,RENEGOTIATION_START_DATE&apos; ELSE &apos;&apos; END  + 
-  CASE WHEN   Isdate(RENEGOTIATION_END_DATE)=0 and RENEGOTIATION_END_DATE is not null THEN &apos;,RENEGOTIATION_END_DATE&apos; ELSE &apos;&apos; END  + 
-CASE WHEN   Isdate(PRICEPROTECTION_START_DATE)=0 and PRICEPROTECTION_START_DATE is not null THEN &apos;,PRICEPROTECTION_START_DATE&apos; ELSE &apos;&apos; END  + 
- CASE WHEN   Isdate(PRICEPROTECTION_END_DATE)=0 and PRICEPROTECTION_END_DATE is not null THEN &apos;,PRICEPROTECTION_END_DATE&apos; ELSE &apos;&apos; END  + 
-  CASE WHEN   Isdate(PROPOSAL_START_DATE)=0 and PROPOSAL_START_DATE is not null THEN &apos;,PROPOSAL_START_DATE&apos; ELSE &apos;&apos; END  + 
-   CASE WHEN   Isdate(PROPOSAL_END_DATE)=0 and PROPOSAL_END_DATE is not null THEN &apos;,PROPOSAL_END_DATE&apos; ELSE &apos;&apos; END  + 
-  CASE WHEN   Isdate(ORIGINAL_START_DATE)=0 and ORIGINAL_START_DATE is not null THEN &apos;,ORIGINAL_START_DATE&apos; ELSE &apos;&apos; END  +
-    CASE WHEN   Isdate(LAST_UPDATED_DATE)=0 and LAST_UPDATED_DATE is not null THEN &apos;,LAST_UPDATED_DATE&apos; ELSE &apos;&apos; END  
-WHERE      (Isdate(START_DATE) = 0 and START_DATE is not null)
- OR (Isdate(CREATED_DATE) = 0 and CREATED_DATE is not null)
- OR (Isdate(MODIFIED_DATE) = 0 and  MODIFIED_DATE is not null)
- OR (Isdate(END_DATE) = 0  and END_DATE is not null)
- OR (Isdate(RENEGOTIATION_START_DATE) = 0  and RENEGOTIATION_START_DATE is not null)
- OR (Isdate(RENEGOTIATION_END_DATE) = 0  and RENEGOTIATION_END_DATE is not null)
-  OR (Isdate(PRICEPROTECTION_START_DATE) = 0  and PRICEPROTECTION_START_DATE is not null)
- OR (Isdate(PRICEPROTECTION_END_DATE) = 0  and PRICEPROTECTION_END_DATE is not null)
- OR (Isdate(PROPOSAL_START_DATE) = 0  and PROPOSAL_START_DATE is not null)
- OR (Isdate(PROPOSAL_END_DATE) = 0  and PROPOSAL_END_DATE is not null)
-  OR (Isdate(ORIGINAL_START_DATE) = 0  and ORIGINAL_START_DATE is not null)
-   OR (Isdate(LAST_UPDATED_DATE) = 0  and LAST_UPDATED_DATE is not null)
-      and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;START_DATE&apos;
-		 
-</sql>
+      <sql>DECLARE &#x40;batch_id VARCHAR&#x28;20&#x29;&#x3d; &#x28;SELECT TOP 1 batch_id&#xa;   FROM   IVLD_CONTRACT_HEADER&#xa;   ORDER  BY INTF_INSERTED_DATE DESC&#x29;&#xa;&#xa;UPDATE IVLD_CONTRACT_HEADER&#xa;SET    ERROR_FIELD &#x3d; Substring&#x28;CASE WHEN CONTRACT_ID IS NULL THEN &#x27;,CONTRACT_ID&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN CONTRACT_STATUS IS NULL THEN &#x27;,CONTRACT_STATUS&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN START_DATE IS NULL THEN &#x27;,START_DATE&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN ADD_CHG_DEL_INDICATOR IS NULL THEN &#x27;,ADD_CHG_DEL_INDICATOR&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN BATCH_ID IS NULL THEN &#x27;,BATCH_ID&#x27; ELSE &#x27;&#x27; END, 2, 100000&#x29;&#xa;WHERE  BATCH_ID &#x3d; &#x40;batch_id   and ERROR_CODE&#x3d;&#x27;E01&#x27;&#xa;&#xa;update IVLD_CONTRACT_HEADER set ERROR_FIELD&#x3d;&#xa;        CASE WHEN  Isdate&#x28;START_DATE&#x29;&#x3d;0  and START_DATE is not null THEN &#x27;START_DATE&#x27; ELSE &#x27;&#x27; END &#x2b;&#xa;  CASE WHEN  Isdate&#x28;CREATED_DATE&#x29;&#x3d;0 and CREATED_DATE is not null THEN &#x27;,CREATED_DATE&#x27; ELSE &#x27;&#x27; END &#x2b;&#xa; CASE WHEN   Isdate&#x28;MODIFIED_DATE&#x29;&#x3d;0 and  MODIFIED_DATE is not null THEN &#x27;,MODIFIED_DATE&#x27; ELSE &#x27;&#x27; END &#x2b;&#xa; CASE WHEN   Isdate&#x28;END_DATE&#x29;&#x3d;0 and END_DATE is not null THEN &#x27;,END_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b; &#xa;CASE WHEN   Isdate&#x28;RENEGOTIATION_START_DATE&#x29;&#x3d;0 and RENEGOTIATION_START_DATE is not null THEN &#x27;,RENEGOTIATION_START_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b; &#xa;  CASE WHEN   Isdate&#x28;RENEGOTIATION_END_DATE&#x29;&#x3d;0 and RENEGOTIATION_END_DATE is not null THEN &#x27;,RENEGOTIATION_END_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b; &#xa;CASE WHEN   Isdate&#x28;PRICEPROTECTION_START_DATE&#x29;&#x3d;0 and PRICEPROTECTION_START_DATE is not null THEN &#x27;,PRICEPROTECTION_START_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b; &#xa; CASE WHEN   Isdate&#x28;PRICEPROTECTION_END_DATE&#x29;&#x3d;0 and PRICEPROTECTION_END_DATE is not null THEN &#x27;,PRICEPROTECTION_END_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b; &#xa;  CASE WHEN   Isdate&#x28;PROPOSAL_START_DATE&#x29;&#x3d;0 and PROPOSAL_START_DATE is not null THEN &#x27;,PROPOSAL_START_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b; &#xa;   CASE WHEN   Isdate&#x28;PROPOSAL_END_DATE&#x29;&#x3d;0 and PROPOSAL_END_DATE is not null THEN &#x27;,PROPOSAL_END_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b; &#xa;  CASE WHEN   Isdate&#x28;ORIGINAL_START_DATE&#x29;&#x3d;0 and ORIGINAL_START_DATE is not null THEN &#x27;,ORIGINAL_START_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b;&#xa;    CASE WHEN   Isdate&#x28;LAST_UPDATED_DATE&#x29;&#x3d;0 and LAST_UPDATED_DATE is not null THEN &#x27;,LAST_UPDATED_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b;&#xd;&#xa;   CASE WHEN   Isdate&#x28;CONTRACT_ELIGIBLE_DATE&#x29;&#x3d;0 and CONTRACT_ELIGIBLE_DATE is not null THEN &#x27;,CONTRACT_ELIGIBLE_DATE&#x27; ELSE &#x27;&#x27; END  &#xa;WHERE      &#x28;Isdate&#x28;START_DATE&#x29; &#x3d; 0 and START_DATE is not null&#x29;&#xa; OR &#x28;Isdate&#x28;CREATED_DATE&#x29; &#x3d; 0 and CREATED_DATE is not null&#x29;&#xa; OR &#x28;Isdate&#x28;MODIFIED_DATE&#x29; &#x3d; 0 and  MODIFIED_DATE is not null&#x29;&#xa; OR &#x28;Isdate&#x28;END_DATE&#x29; &#x3d; 0  and END_DATE is not null&#x29;&#xa; OR &#x28;Isdate&#x28;RENEGOTIATION_START_DATE&#x29; &#x3d; 0  and RENEGOTIATION_START_DATE is not null&#x29;&#xa; OR &#x28;Isdate&#x28;RENEGOTIATION_END_DATE&#x29; &#x3d; 0  and RENEGOTIATION_END_DATE is not null&#x29;&#xa;  OR &#x28;Isdate&#x28;PRICEPROTECTION_START_DATE&#x29; &#x3d; 0  and PRICEPROTECTION_START_DATE is not null&#x29;&#xa; OR &#x28;Isdate&#x28;PRICEPROTECTION_END_DATE&#x29; &#x3d; 0  and PRICEPROTECTION_END_DATE is not null&#x29;&#xa; OR &#x28;Isdate&#x28;PROPOSAL_START_DATE&#x29; &#x3d; 0  and PROPOSAL_START_DATE is not null&#x29;&#xa; OR &#x28;Isdate&#x28;PROPOSAL_END_DATE&#x29; &#x3d; 0  and PROPOSAL_END_DATE is not null&#x29;&#xa;  OR &#x28;Isdate&#x28;ORIGINAL_START_DATE&#x29; &#x3d; 0  and ORIGINAL_START_DATE is not null&#x29;&#xa;   OR &#x28;Isdate&#x28;LAST_UPDATED_DATE&#x29; &#x3d; 0  and LAST_UPDATED_DATE is not null&#x29;&#xd;&#xa;   OR &#x28;Isdate&#x28;CONTRACT_ELIGIBLE_DATE&#x29; &#x3d; 0  and CONTRACT_ELIGIBLE_DATE is not null&#x29;&#xa;      and BATCH_ID &#x3d; &#x40;batch_id and ERROR_CODE&#x3d;&#x27;E03&#x27; and ERROR_FIELD&#x3d;&#x27;START_DATE&#x27;&#xa;		 &#xa;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -176,7 +142,7 @@ WHERE      (Isdate(START_DATE) = 0 and START_DATE is not null)
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>886</xloc>
-      <yloc>655</yloc>
+      <yloc>654</yloc>
       </entry>
     <entry>
       <name>START</name>
@@ -199,18 +165,18 @@ WHERE      (Isdate(START_DATE) = 0 and START_DATE is not null)
       <yloc>19</yloc>
       </entry>
     <entry>
-      <name>DELETE FIILES IN FILE PROCESS (2)</name>
+      <name>DELETE FIILES IN FILE PROCESS &#x28;2&#x29;</name>
       <description/>
       <type>DELETE_FILES</type>
       <arg_from_previous>N</arg_from_previous>
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;CONTRACT_HEADER_INTERFACE1.csv</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE1.csv</name>
           <filemask/>
         </field>
       </fields>
@@ -228,11 +194,11 @@ WHERE      (Isdate(START_DATE) = 0 and START_DATE is not null)
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
         <field>
-          <name>${INBOUND_FILE_PATH}&#47;CONTRACT_HEADER_INTERFACE&#47;Processed&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
       </fields>
@@ -246,28 +212,7 @@ WHERE      (Isdate(START_DATE) = 0 and START_DATE is not null)
       <name>DATE FORMAT</name>
       <description/>
       <type>SQL</type>
-      <sql>update CONTRACT_HEADER_INTERFACE
-set START_DATE=cast(left(START_DATE,12) as date) 
-update CONTRACT_HEADER_INTERFACE
-set END_DATE=cast(left(END_DATE,12) as date) 
-update CONTRACT_HEADER_INTERFACE
-set RENEGOTIATION_START_DATE=cast(left(RENEGOTIATION_START_DATE,12) as date) 
-update CONTRACT_HEADER_INTERFACE
-set RENEGOTIATION_END_DATE=cast(left(RENEGOTIATION_END_DATE,12) as date) 
-update CONTRACT_HEADER_INTERFACE
-set PRICEPROTECTION_START_DATE=cast(left(PRICEPROTECTION_START_DATE,12) as date) 
-update CONTRACT_HEADER_INTERFACE
-set PRICEPROTECTION_END_DATE=cast(left(PRICEPROTECTION_END_DATE,12) as date) 
-update CONTRACT_HEADER_INTERFACE
-set PROPOSAL_START_DATE=cast(left(PROPOSAL_START_DATE,12) as date) 
-update CONTRACT_HEADER_INTERFACE
-set PROPOSAL_END_DATE=cast(left(PROPOSAL_END_DATE,12) as date) 
-update CONTRACT_HEADER_INTERFACE
-set ORIGINAL_START_DATE=cast(left(ORIGINAL_START_DATE,12) as date) 
-update CONTRACT_HEADER_INTERFACE
-set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date) 
-
-</sql>
+      <sql>update CONTRACT_HEADER_INTERFACE&#xa;set START_DATE&#x3d;cast&#x28;left&#x28;START_DATE,12&#x29; as date&#x29; &#xa;update CONTRACT_HEADER_INTERFACE&#xa;set END_DATE&#x3d;cast&#x28;left&#x28;END_DATE,12&#x29; as date&#x29; &#xa;update CONTRACT_HEADER_INTERFACE&#xa;set RENEGOTIATION_START_DATE&#x3d;cast&#x28;left&#x28;RENEGOTIATION_START_DATE,12&#x29; as date&#x29; &#xa;update CONTRACT_HEADER_INTERFACE&#xa;set RENEGOTIATION_END_DATE&#x3d;cast&#x28;left&#x28;RENEGOTIATION_END_DATE,12&#x29; as date&#x29; &#xa;update CONTRACT_HEADER_INTERFACE&#xa;set PRICEPROTECTION_START_DATE&#x3d;cast&#x28;left&#x28;PRICEPROTECTION_START_DATE,12&#x29; as date&#x29; &#xa;update CONTRACT_HEADER_INTERFACE&#xa;set PRICEPROTECTION_END_DATE&#x3d;cast&#x28;left&#x28;PRICEPROTECTION_END_DATE,12&#x29; as date&#x29; &#xa;update CONTRACT_HEADER_INTERFACE&#xa;set PROPOSAL_START_DATE&#x3d;cast&#x28;left&#x28;PROPOSAL_START_DATE,12&#x29; as date&#x29; &#xa;update CONTRACT_HEADER_INTERFACE&#xa;set PROPOSAL_END_DATE&#x3d;cast&#x28;left&#x28;PROPOSAL_END_DATE,12&#x29; as date&#x29; &#xa;update CONTRACT_HEADER_INTERFACE&#xa;set ORIGINAL_START_DATE&#x3d;cast&#x28;left&#x28;ORIGINAL_START_DATE,12&#x29; as date&#x29; &#xa;update CONTRACT_HEADER_INTERFACE&#xa;set ORIGINAL_END_DATE&#x3d;cast&#x28;left&#x28;ORIGINAL_END_DATE,12&#x29; as date&#x29; &#xd;&#xa;update CONTRACT_HEADER_INTERFACE&#xd;&#xa;set CONTRACT_ELIGIBLE_DATE&#x3d;cast&#x28;left&#x28;CONTRACT_ELIGIBLE_DATE,12&#x29; as date&#x29;&#xa;&#xa;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -329,8 +274,8 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;CONTRACT_HEADER_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE&#x2f;Error&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -348,7 +293,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;CONTRACT_HEADER_INTERFACE1.csv</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE1.csv</name>
           <filemask/>
         </field>
       </fields>
@@ -364,7 +309,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;csv_inject.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;csv_inject.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -383,6 +328,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -420,8 +366,8 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;CONTRACT_HEADER_INTERFACE&#47;Processed&#47;${ORG_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE&#x2f;Processed&#x2f;&#x24;&#x7b;ORG_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -437,7 +383,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE_TRAN_AUDIT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE_TRAN_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -456,6 +402,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -464,7 +411,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <yloc>309</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO ERROR (2)</name>
+      <name>FILEPROCESS TO ERROR &#x28;2&#x29;</name>
       <description/>
       <type>MOVE_FILES</type>
       <move_empty_folders>N</move_empty_folders>
@@ -493,8 +440,8 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;CONTRACT_HEADER_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE&#x2f;Error&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -505,14 +452,14 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <yloc>647</yloc>
       </entry>
     <entry>
-      <name>DELETE TEMP FIILES IN FILE PROCESS (2)</name>
+      <name>DELETE TEMP FIILES IN FILE PROCESS &#x28;2&#x29;</name>
       <description/>
       <type>DELETE_FILES</type>
       <arg_from_previous>N</arg_from_previous>
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;CONTRACT_HEADER_INTERFACE1.csv</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE1.csv</name>
           <filemask/>
         </field>
       </fields>
@@ -526,8 +473,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <name>STOP PROCESS AUDIT</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;CONTRACT_HEADER_INTERFACE&apos;
-</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;CONTRACT_HEADER_INTERFACE&#x27;&#xa;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -540,7 +486,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <yloc>1025</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO OUTBOUND PROCESSED (3)</name>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED &#x28;3&#x29;</name>
       <description/>
       <type>COPY_FILES</type>
       <copy_empty_folders>Y</copy_empty_folders>
@@ -553,8 +499,10 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <create_destination_folder>N</create_destination_folder>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <source_configuration_name/>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed</destination_filefolder>
+          <destination_configuration_name/>
           <wildcard/>
         </field>
       </fields>
@@ -565,7 +513,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <yloc>482</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (3)</name>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;3&#x29;</name>
       <description/>
       <type>MOVE_FILES</type>
       <move_empty_folders>N</move_empty_folders>
@@ -594,8 +542,8 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -606,7 +554,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <yloc>561</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO OUTBOUND PROCESSED (2)</name>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED &#x28;2&#x29;</name>
       <description/>
       <type>COPY_FILES</type>
       <copy_empty_folders>Y</copy_empty_folders>
@@ -619,8 +567,10 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <create_destination_folder>N</create_destination_folder>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <source_configuration_name/>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed</destination_filefolder>
+          <destination_configuration_name/>
           <wildcard/>
         </field>
       </fields>
@@ -631,7 +581,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <yloc>851</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (2)</name>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;2&#x29;</name>
       <description/>
       <type>MOVE_FILES</type>
       <move_empty_folders>N</move_empty_folders>
@@ -660,15 +610,15 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${ORG_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;ORG_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>873</xloc>
+      <xloc>874</xloc>
       <yloc>970</yloc>
       </entry>
     <entry>
@@ -685,8 +635,10 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <create_destination_folder>N</create_destination_folder>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <source_configuration_name/>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed</destination_filefolder>
+          <destination_configuration_name/>
           <wildcard/>
         </field>
       </fields>
@@ -726,8 +678,8 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -743,7 +695,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE_TRAN_USER.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE_TRAN_USER.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -762,6 +714,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -777,11 +730,11 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
         <field>
-          <name>${INBOUND_FILE_PATH}&#47;CONTRACT_HEADER_INTERFACE&#47;Processed&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
       </fields>
@@ -821,8 +774,8 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;CONTRACT_HEADER_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE&#x2f;Error&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -836,8 +789,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <name>STOP PROCESS AUDIT 2</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;CONTRACT_HEADER_INTERFACE&apos;
-</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;CONTRACT_HEADER_INTERFACE&#x27;&#xa;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -866,7 +818,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;HEADER_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;HEADER_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -885,6 +837,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -893,7 +846,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <yloc>530</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO ERROR (2) 2</name>
+      <name>FILEPROCESS TO ERROR &#x28;2&#x29; 2</name>
       <description/>
       <type>MOVE_FILES</type>
       <move_empty_folders>N</move_empty_folders>
@@ -922,8 +875,8 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;CONTRACT_HEADER_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE&#x2f;Error&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -934,18 +887,18 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <yloc>443</yloc>
       </entry>
     <entry>
-      <name>DELETE FIILES IN FILE PROCESS (2) 2</name>
+      <name>DELETE FIILES IN FILE PROCESS &#x28;2&#x29; 2</name>
       <description/>
       <type>DELETE_FILES</type>
       <arg_from_previous>N</arg_from_previous>
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;CONTRACT_HEADER_INTERFACE1.csv</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE1.csv</name>
           <filemask/>
         </field>
       </fields>
@@ -985,8 +938,8 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;CONTRACT_HEADER_INTERFACE&#47;Processed&#47;${ORG_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE&#x2f;Processed&#x2f;&#x24;&#x7b;ORG_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -1002,7 +955,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${OUTBOUND_FLAG}</variablename>
+      <variablename>&#x24;&#x7b;OUTBOUND_FLAG&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1024,7 +977,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${OUTBOUND_FLAG}</variablename>
+      <variablename>&#x24;&#x7b;OUTBOUND_FLAG&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1046,7 +999,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${OUTBOUND_FLAG}</variablename>
+      <variablename>&#x24;&#x7b;OUTBOUND_FLAG&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1068,7 +1021,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;CSV_TO_INTERFACE_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;CSV_TO_INTERFACE_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1087,6 +1040,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1161,7 +1115,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
     </hop>
     <hop>
       <from>FILEPROCESS TO PROCESSED</from>
-      <to>DELETE FIILES IN FILE PROCESS (2)</to>
+      <to>DELETE FIILES IN FILE PROCESS &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1179,7 +1133,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
     </hop>
     <hop>
       <from>REARRANGING THE HEADER IN ORDER</from>
-      <to>DELETE TEMP FIILES IN FILE PROCESS (2)</to>
+      <to>DELETE TEMP FIILES IN FILE PROCESS &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1196,8 +1150,8 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO OUTBOUND PROCESSED (3)</from>
-      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (3)</to>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED &#x28;3&#x29;</from>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1205,8 +1159,8 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (3)</from>
-      <to>FILEPROCESS TO ERROR (2)</to>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;3&#x29;</from>
+      <to>FILEPROCESS TO ERROR &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1214,8 +1168,8 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO OUTBOUND PROCESSED (2)</from>
-      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (2)</to>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED &#x28;2&#x29;</from>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1223,7 +1177,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (2)</from>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;2&#x29;</from>
       <to>FILEPROCESS TO PROCESSED</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1286,7 +1240,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO ERROR (2) 2</from>
+      <from>FILEPROCESS TO ERROR &#x28;2&#x29; 2</from>
       <to>HEADER_FAIL_MAIL 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1305,7 +1259,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
     </hop>
     <hop>
       <from>FILEPROCESS TO PROCESSED 2</from>
-      <to>DELETE FIILES IN FILE PROCESS (2) 2</to>
+      <to>DELETE FIILES IN FILE PROCESS &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1313,7 +1267,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>DELETE TEMP FIILES IN FILE PROCESS (2)</from>
+      <from>DELETE TEMP FIILES IN FILE PROCESS &#x28;2&#x29;</from>
       <to>Simple evaluation 2 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1323,7 +1277,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
     </hop>
     <hop>
       <from>Simple evaluation 2 3</from>
-      <to>FILEPROCESS TO OUTBOUND PROCESSED (3)</to>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1332,7 +1286,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
     </hop>
     <hop>
       <from>Simple evaluation 2 3</from>
-      <to>FILEPROCESS TO ERROR (2) 2</to>
+      <to>FILEPROCESS TO ERROR &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1377,7 +1331,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
     </hop>
     <hop>
       <from>Simple evaluation 2</from>
-      <to>FILEPROCESS TO OUTBOUND PROCESSED (2)</to>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1412,7 +1366,7 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO ERROR (2)</from>
+      <from>FILEPROCESS TO ERROR &#x28;2&#x29;</from>
       <to>HEADER_FAIL_MAIL 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1423,4 +1377,5 @@ set ORIGINAL_END_DATE=cast(left(ORIGINAL_END_DATE,12) as date)
   </hops>
   <notepads>
   </notepads>
+
 </job>

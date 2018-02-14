@@ -255,6 +255,7 @@
       <line> <item>ADD_CHG_DEL_INDICATOR</item> </line>
       <line> <item>BATCH_ID</item> </line>
       <line> <item>SOURCE</item> </line>
+      <line> <item>FORECAST_ELIGIBILITY_DATE</item> </line>
     </data>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -513,6 +514,9 @@
         <norm>col</norm>
         </field>      <field>        <name>col64</name>
         <value>col64</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col65</name>
+        <value>col65</value>
         <norm>col</norm>
         </field>      </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -1531,6 +1535,21 @@
         <trim_type>both</trim_type>
         <repeat>N</repeat>
       </field>
+      <field>
+        <name>col65</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
     </fields>
     <limit>1</limit>
     <error_ignored>N</error_ignored>
@@ -1559,7 +1578,7 @@
     <sizeFieldName/>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>203</xloc>
+      <xloc>204</xloc>
       <yloc>198</yloc>
       <draw>Y</draw>
       </GUI>

@@ -52,7 +52,6 @@ public class GtnFrameworkContractDashBoardConfirmSubmitAction
             if (!var) {
 		GtnWsContractDashboardSessionBean processDataBean = GtnFrameworkSessionManagerAction
 				.getDashboardSessionBean(componentId);
-
 		GtnWsContractDashboardRequest cdRequest = new GtnWsContractDashboardRequest();
 		cdRequest.setContractDashboardBean(processDataBean);
 		cdRequest.setUserId(processDataBean.getProcessBean().getUserId());
@@ -95,8 +94,9 @@ public class GtnFrameworkContractDashBoardConfirmSubmitAction
 
 	private void getModifiedWorkFlowRequest(GtnWsCommonWorkflowRequest workflowRequest,
 			GtnWsContractDashboardSessionBean processDataBean) {
-		StringBuilder filePath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH));
-		filePath.append(GtnFrameworkCommonStringConstants.WORKFLOW_ID_XML_PATH);
+		GtnUIFrameworkContractWorkflowUpdateAction propertyFile=new GtnUIFrameworkContractWorkflowUpdateAction();
+		java.util.Properties path =propertyFile.getPropertyFile(System.getProperty(GtnFrameworkCommonStringConstants.GTNFRAMEWORK_BASE_PATH_PROPERTY));
+   	    java.util.Properties filePath = propertyFile.getPropertyFile(path.getProperty("Workflowpath"));
 		workflowRequest.setContractBean(processDataBean.getWorkflowBean());
 		workflowRequest.setPersistanceId(processDataBean.getPersistanceId());
 		workflowRequest.setModuleKey("Contract_WorkflowId");
