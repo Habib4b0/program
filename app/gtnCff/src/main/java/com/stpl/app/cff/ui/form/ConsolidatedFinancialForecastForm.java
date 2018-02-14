@@ -879,7 +879,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 			}
 			resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
 			resultTable.setFilterGenerator(new CFFFilterGenerator());
-			resultTable.setImmediate(true);
 		} catch (final FieldGroup.CommitException ex) {
 			LOGGER.error(ex.getMessage());
 		}

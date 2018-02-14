@@ -9,6 +9,7 @@ import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.PVParameters;
+import static com.stpl.app.gtnforecasting.projectionvariance.logic.PVCommonLogic.variableValueCustomization;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -104,9 +105,6 @@ public class NMPVExcelLogic {
     private static final DecimalFormat RATE_PERC = new DecimalFormat("#,##0.00%");
     private static final DecimalFormat AMOUNT_UNITS = new DecimalFormat("#,##0");
     private static final String ZERO = "0";
-    private static final String CURRENT = "Current";
-    private static final String ACTUAL = "Actual";
-    private static final String ACCRUAL = "Accrual";
     private static final int COLUMN_COUNT_DISCOUNT = 12;
     private static final int COLUMN_COUNT_TOTAL = 75;
     private static final int COLUMN_COUNT_DETAIL = 54;
@@ -137,7 +135,6 @@ public class NMPVExcelLogic {
     private static final String DASH = "-";
     protected List<Object> pivotDiscountList = new ArrayList<>();
     protected List<ProjectionVarianceDTO> discountList = new ArrayList<>();
-    private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(STRING_FORMAT_TWO_DECIMAL);
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private static final String DETAIL = "Detail";
     protected List<Object> pivotTotalList = new ArrayList<>();
@@ -152,17 +149,11 @@ public class NMPVExcelLogic {
     public static final String PROGRAM_CAT = "Program Category";
     public static final String VARIANCE1 = "VARIANCE";
     protected Map<String, Map<String, ProjectionVarianceDTO>> pivotDiscountMap = new HashMap<>();
-    private boolean actualBasis = false;
-    private boolean accrualBasis = false;
-    private boolean currentBasis = false;
-    private static final String VAL = "Value";
-    private static final String VAR = "Var";
-    private static final String PER = "Per";
     private static final String P = "P";
     private static final String ALL = "ALL";
     private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
     private static final String DF_LEVEL_NAME = "dfLevelName";
-    private final int baseColumn_hierarchyIndicator_index = 2;
+    private static final int baseColumn_hierarchyIndicator_index = 2;
 
     public NMPVExcelLogic(Map<String, List<ProjectionVarianceDTO>> resultMap, PVSelectionDTO selection,
             List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, PVParameters parameterDto) {
@@ -194,9 +185,6 @@ public class NMPVExcelLogic {
         isTotal = "Total".equalsIgnoreCase(selection.getLevel());
         discountFlag = !"Total Discount".equalsIgnoreCase(selection.getDiscountLevel());
         isCustomView = selection.isIsCustomHierarchy();
-        actualBasis = (Constant.ACTUALS).equals(selection.getComparisonBasis());
-        accrualBasis = (Constant.ACCRUALS).equals(selection.getComparisonBasis());
-        currentBasis = "Current Projection".equals(selection.getComparisonBasis());
 
         if (isCustomView) {
             customView_relationship_hierarchy.putAll(getGroup_customViewNM());
@@ -1100,7 +1088,7 @@ public class NMPVExcelLogic {
         }
         PVCommonLogic.customizePeriod(commonColumn, varibaleCat, selection, pvDTO, format, currentIndex, obj, flag);
         for (int j = 0; j < selection.getProjIdList().size(); j++) {
-            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, commonColumn + selection.getProjIdList().get(j), currentIndex, j, flag, isTotal ? COLUMN_COUNT_TOTAL : COLUMN_COUNT_DETAIL, format,commonColumn);
+            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, commonColumn, currentIndex, j, flag, isTotal ? COLUMN_COUNT_TOTAL : COLUMN_COUNT_DETAIL, format);
         }
     }
 
@@ -1570,7 +1558,7 @@ public class NMPVExcelLogic {
         priorList.clear();
         priorList.addAll(selection.getProjIdList());
         for (int j = 0; j < priorList.size(); j++) {
-            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, variableName + priorList.get(j), currentIndex, j, format.equals(RATE_PER), isTotal ? COLUMN_COUNT_TOTAL : COLUMN_COUNT_DETAIL, format,variableName);
+            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, variableName, currentIndex, j, format.equals(RATE_PER), isTotal ? COLUMN_COUNT_TOTAL : COLUMN_COUNT_DETAIL, format);
         }
     }
 
@@ -1961,7 +1949,7 @@ public class NMPVExcelLogic {
 
                 PVCommonLogic.customizePeriod(commonColumn, projSelDTO.getVarIndicator(), projSelDTO, pvDTO, isPer ? RATE : AMOUNT, currentIndex, obj, isPer);
                 for (int j = 0; j < projSelDTO.getProjIdList().size(); j++) {
-                    PVCommonLogic.getPriorCommonCustomization(projSelDTO.getVarIndicator(), projSelDTO, obj, pvDTO, commonColumn + projSelDTO.getProjIdList().get(j), currentIndex, j, isPer, COLUMN_COUNT_DISCOUNT, isPer ? RATE : AMOUNT,commonColumn);
+                    PVCommonLogic.getPriorCommonCustomization(projSelDTO.getVarIndicator(), projSelDTO, obj, pvDTO, commonColumn, currentIndex, j, isPer, COLUMN_COUNT_DISCOUNT, isPer ? RATE : AMOUNT);
                 }
                 if (i == dataList.size() - 1) {
                     resultDto.add(pvDTO);
@@ -2060,10 +2048,10 @@ public class NMPVExcelLogic {
         PVCommonLogic.customizePeriod(commonColumn, varibaleCat, selection, pvDTO, format, currentIndex, obj, format.equals(RATE_PER));
         List<Integer> priorList = selection.getProjIdList();
         for (int j = 0; j < priorList.size(); j++) {
-            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, commonColumn + priorList.get(j), currentIndex, j, format.equals(RATE_PER), COLUMN_COUNT_DISCOUNT, format,commonColumn);
+            PVCommonLogic.getPriorCommonCustomization(varibaleCat, selection, obj, pvDTO, commonColumn, currentIndex, j, format.equals(RATE_PER), COLUMN_COUNT_DISCOUNT, format);
         }
     }
-
+    
     private void addList_detail_discount(String key, final Object[] obj) {
         if (selection.isVarDisAmount()) {
             if (selection.isColValue()) {
@@ -2234,7 +2222,7 @@ public class NMPVExcelLogic {
 
     public void getPivot_customization() {
         NMProjectionVarianceLogic logic = new NMProjectionVarianceLogic();
-
+       
         List<ProjectionVarianceDTO> finalList = logic.getCustomizedPivotTotalResults(pivotTotalList, pivotPriorProjIdList, selection, selection, pivotDiscountList);
         resultMap.put("Total", finalList);
     }
@@ -2281,7 +2269,6 @@ public class NMPVExcelLogic {
         String newPeriod;
         String oldPeriod = StringUtils.EMPTY;
         String commonColumn = StringUtils.EMPTY;
-        List<Integer> projList = selection.getProjIdList();
         ProjectionVarianceDTO discountDto = new ProjectionVarianceDTO();
 
         List<String> discountNames = new ArrayList<>(selection.getDeductionLevelCaptions());
@@ -2315,17 +2302,12 @@ public class NMPVExcelLogic {
             if (oldHierarchyNo.equals(newHierarchyNo)) {
                 if (oldYear.equals(newyear) && newPeriod.equals(oldPeriod)) {
                     String discount = String.valueOf(obj[0]).replaceAll(" ", StringUtils.EMPTY);
-                    setBase_Value(discountDto, obj, discount);
-                    customize_PriorList(discountDto, projList, discount, obj);
+                    setBase_Value(discountDto, obj);
 
                 } else if (i == 0) {
                     discountDto = new ProjectionVarianceDTO();
                     commonColumn = getVisibleColumn_Header(obj);
-                    String discount = String.valueOf(obj[0]).replaceAll(" ", StringUtils.EMPTY);
-
-                    setBase_Value(discountDto, obj, discount);
-                    customize_PriorList(discountDto, projList, discount, obj);
-
+                    setBase_Value(discountDto, obj);
                     oldYear = newyear;
                     oldPeriod = newPeriod;
 
@@ -2335,10 +2317,7 @@ public class NMPVExcelLogic {
                     periodDiscountMap.put(commonColumn, discountDto);
                     discountDto = new ProjectionVarianceDTO();
                     commonColumn = getVisibleColumn_Header(obj);
-                    String discount = String.valueOf(obj[0]).replaceAll(" ", StringUtils.EMPTY);
-                    setBase_Value(discountDto, obj, discount);
-                    customize_PriorList(discountDto, projList, discount, obj);
-
+                    setBase_Value(discountDto, obj);
                     oldYear = newyear;
                     oldPeriod = newPeriod;
 
@@ -2351,10 +2330,7 @@ public class NMPVExcelLogic {
                 periodDiscountMap = new HashMap<>();
                 discountDto = new ProjectionVarianceDTO();
                 commonColumn = getVisibleColumn_Header(obj);
-                String discount = String.valueOf(obj[0]).replaceAll(" ", StringUtils.EMPTY);
-                setBase_Value(discountDto, obj, discount);
-                customize_PriorList(discountDto, projList, discount, obj);
-
+                setBase_Value(discountDto, obj);
                 oldYear = newyear;
                 oldPeriod = newPeriod;
 
@@ -2368,132 +2344,76 @@ public class NMPVExcelLogic {
         }
     }
 
-    private String discount_No(String discountName) {
-        String number = String.valueOf(discountNameMap.get(discountName));
-        if ("null".equals(number) || number.equals("NoNumber")) {
-            return StringUtils.EMPTY;
-        }
-        return number;
+    private void setBase_Value(ProjectionVarianceDTO discountDto, Object[] obj) {
+          addList_detail_discount_Pivot(discountDto,obj);
     }
-
-    private void setBase_Value(ProjectionVarianceDTO discountDto, Object[] obj, String discount) {
-
-        calculatePivotDiscount(discountDto, obj, discount, "DiscountAmount", NumericConstants.SIX, selection.getCurrentProjId(), AMOUNT, true);
-        calculatePivotDiscount(discountDto, obj, discount, "DiscountSales", NumericConstants.NINE, selection.getCurrentProjId(), RATE_PER, false);
-        calculatePivotDiscount(discountDto, obj, discount, "RPU", NumericConstants.TWELVE, selection.getCurrentProjId(), AMOUNT, false);
-        calculatePivotDiscount(discountDto, obj, discount, "DiscountPerExFactory", NumericConstants.FIFTEEN, selection.getCurrentProjId(), RATE_PER, false);
-
-    }
-
-    private void calculatePivotDiscount(ProjectionVarianceDTO discountDto, Object[] obj, String discount, String discountColumn, int currentIndex, int projId, DecimalFormat format, boolean isConversionNeeded) {
-        String discountNo = discount_No(discount);
-        boolean isPer = format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE);
-        selection.setConversionNeeded(isConversionNeeded);
-        String visibleColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.ZERO]).replaceAll(" ", StringUtils.EMPTY) + discountNo + CURRENT + projId;
-        String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex])));
-        String value = selection.isConversionNeeded() && !isPer
-                ? CommonUtil.getConversionFormattedValue(selection, currentValue, true)
-                : getFormattedValue(format, currentValue);
-        discountDto.addStringProperties(visibleColumn, isPer ? value + PERCENT : value);
-        String actualColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.ZERO]).replaceAll(" ", StringUtils.EMPTY) + discountNo + ACTUAL + projId;
-        String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex - 1])));
-        String tempValue = selection.isConversionNeeded() && !isPer
-                ? CommonUtil.getConversionFormattedValue(selection, actualValue, true)
-                : getFormattedValue(format, actualValue);
-        discountDto.addStringProperties(actualColumn, isPer ? tempValue + PERCENT : tempValue);
-        String accrualColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.ZERO]).replaceAll(" ", StringUtils.EMPTY) + discountNo + ACCRUAL + projId;
-        String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex - 2])));
-        String accValue = selection.isConversionNeeded() && !isPer
-                ? CommonUtil.getConversionFormattedValue(selection, accrualValue, true)
-                : getFormattedValue(format, accrualValue);
-        discountDto.addStringProperties(accrualColumn, isPer ? accValue + PERCENT : accValue);
-
-        if (actualBasis) {
-            String discountVarCurrent;
-            String variance = PVCommonLogic.getVariance(actualValue, currentValue, format, selection);
-                discountVarCurrent = discountColumn + VAR + discount + discountNo + CURRENT + projId;
-            discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
-
-            String discountPer = PVCommonLogic.getPerChange(actualValue, currentValue, RATE_PER);
-            String discountVarPer = discountColumn + PER + discount + discountNo + CURRENT + projId;
-            discountDto.addStringProperties(discountVarPer, discountPer + PERCENT);
-        } else if (accrualBasis) {
-            String discountVarCurrent;
-            String variance = PVCommonLogic.getVariance(accrualValue, currentValue, format, selection);
-                discountVarCurrent = discountColumn + VAR + discount + discountNo + CURRENT + projId;
-            discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
-
-            String discountPer = PVCommonLogic.getPerChange(accrualValue, currentValue, RATE_PER);
-            String discountVarPer = discountColumn + PER + discount + discountNo + CURRENT + projId;
-            discountDto.addStringProperties(discountVarPer, discountPer + PERCENT);
-
-        }
-    }
-
-    private void calculatePivotDiscountPrior(ProjectionVarianceDTO discountDto, Object[] obj, String discount, String discountColumn, int currentIndex, int priorIndex, int projId, DecimalFormat format, boolean isConversionNeeded) {
-        int comparisonPriorIndex = currentIndex + (Integer.valueOf(selection.getComparisonBasis()) + 1) * COLUMN_COUNT_DISCOUNT;
-        String discountNo = discount_No(discount);
-        selection.setConversionNeeded(isConversionNeeded);
-        boolean isPer = format.equals(RATE) || format.equals(RATE_PER);
-        priorIndex = currentIndex + priorIndex;
-        String visibleColumn = discountColumn + VAL + String.valueOf(obj[0]).replaceAll(" ", StringUtils.EMPTY) + discountNo + projId;
-        String priorValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[priorIndex])));
-        String val = selection.isConversionNeeded() && !isPer
-                ? CommonUtil.getConversionFormattedValue(selection, priorValue, true)
-                : getFormattedValue(format, priorValue);
-        discountDto.addStringProperties(visibleColumn, isPer ? val + PERCENT : val);
-
-        boolean isActualFormat = (obj[currentIndex - 1] == null);
-        String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex - 2])));
-        String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex - 1])));
-        String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex])));
-        String discountVarCurrent = discountColumn + VAR + discount + discountNo + projId;
-        String discountVarPer = discountColumn + PER + discount + discountNo + projId;
-
-        if (actualBasis) {
-            if (!isActualFormat) {
-                String variance = PVCommonLogic.getVariance(actualValue, priorValue, isPer ? RATE : AMOUNT, selection);
-                discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
-                String discountPer = PVCommonLogic.getPerChange(actualValue, priorValue, RATE_PER);
-                discountDto.addStringProperties(discountVarPer, isPer ? discountPer + PERCENT : discountPer);
+    
+    public void customizePivot(String variableValue, String variableCategory, PVSelectionDTO pvsdto, ProjectionVarianceDTO projDTO, DecimalFormat format, int index, Object[] obj) {
+        try {
+            List<Integer> priorList = new ArrayList<>(pvsdto.getProjIdList());
+            PVCommonLogic.customizePeriod(variableValue, variableCategory, pvsdto, projDTO, format, index, obj, format.equals(RATE));
+            for (int j = 0; j < priorList.size(); j++) {
+                PVCommonLogic.getPriorCommonCustomization(variableCategory, pvsdto, obj, projDTO, variableValue, index, j, format.equals(RATE), COLUMN_COUNT_DISCOUNT, format);
             }
-        } else if (accrualBasis) {
-            String variance = PVCommonLogic.getVariance(accrualValue, priorValue, isPer ? RATE : AMOUNT, selection);
-            discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
-            String discountPer = PVCommonLogic.getPerChange(accrualValue, priorValue, RATE_PER);
-            discountDto.addStringProperties(discountVarPer, isPer ? discountPer + PERCENT : discountPer);
-        } else if (currentBasis) {
-            String variance = PVCommonLogic.getVariance(currentValue, priorValue, isPer ? RATE : AMOUNT, selection);
-            discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
-            String discountPer = PVCommonLogic.getPerChange(currentValue, priorValue, RATE_PER);
-            discountDto.addStringProperties(discountVarPer, isPer ? discountPer + PERCENT : discountPer);
-        } else {
-            String comparisonPriorValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[comparisonPriorIndex])));
-            String variance = PVCommonLogic.getVariance(comparisonPriorValue, priorValue, isPer ? RATE : AMOUNT, selection);
-            discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
-            String discountPer = PVCommonLogic.getPerChange(comparisonPriorValue, priorValue, RATE_PER);
-            discountDto.addStringProperties(discountVarPer, isPer ? discountPer + PERCENT : discountPer);
-
-            String varianceCurr = PVCommonLogic.getVariance(comparisonPriorValue, currentValue, isPer ? RATE : AMOUNT, selection);
-            String discountVarCurr = discountColumn + VAR + discount + discountNo + CURRENT + projId;
-            discountDto.addStringProperties(discountVarCurr, isPer ? variance + PERCENT : varianceCurr);
-            String discountPerCurr = PVCommonLogic.getPerChange(comparisonPriorValue, currentValue, RATE_PER);
-            String discountVarPerCurr = discountColumn + PER + discount + discountNo + CURRENT + projId;
-            discountDto.addStringProperties(discountVarPerCurr, isPer ? discountPer + PERCENT : discountPerCurr);
-
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
         }
     }
-
-    private void customize_PriorList(ProjectionVarianceDTO discountDto, List<Integer> projList, String discount, Object[] obj) {
-
-        if (!projList.isEmpty()) {
-            for (int j = 1; j <= projList.size(); j++) {
-
-                calculatePivotDiscountPrior(discountDto, obj, discount, "DiscountAmount", NumericConstants.SIX, (j * COLUMN_COUNT_DISCOUNT), projList.get(j - 1), AMOUNT, true);
-                calculatePivotDiscountPrior(discountDto, obj, discount, "DiscountSales", NumericConstants.NINE, (j * COLUMN_COUNT_DISCOUNT), projList.get(j - 1), RATE, false);
-                calculatePivotDiscountPrior(discountDto, obj, discount, "RPU", NumericConstants.TWELVE, (j * COLUMN_COUNT_DISCOUNT), projList.get(j - 1), AMOUNT, false);
-                calculatePivotDiscountPrior(discountDto, obj, discount, "DiscountPerExFactory", NumericConstants.FIFTEEN, (j * COLUMN_COUNT_DISCOUNT), projList.get(j - 1), RATE, false);
-
+    
+    
+    private void addList_detail_discount_Pivot(ProjectionVarianceDTO discountDto, Object[] obj) {
+        String discountName = String.valueOf(obj[NumericConstants.ZERO]).replace(" ", StringUtils.EMPTY);
+        String head = discountName + String.valueOf(discountNameMap.get(discountName));
+        if (selection.isVarDisAmount()) {
+            selection.setConversionNeeded(true);
+            if (selection.isColValue()) {
+                customizePivot(Constant.DISCOUNT_AMOUNT_VALUE + head, Constant.VALUE, selection, discountDto, AMOUNT, NumericConstants.SIX, obj);
+            }
+            if (selection.isColVariance()) {
+                customizePivot(Constant.DISCOUNT_AMOUNT_VAR1 + head, Constant.VARIANCE, selection, discountDto, AMOUNT, NumericConstants.SIX, obj);
+            }
+            if (selection.isColPercentage()) {
+                selection.setConversionNeeded(false);
+                customizePivot(Constant.DISCOUNT_AMOUNT_PER1 + head, Constant.CHANGE, selection, discountDto, RATE, NumericConstants.SIX, obj);
+            }
+        }
+        //Discount %
+        if (selection.isVarDisRate()) {
+            selection.setConversionNeeded(false);
+            if (selection.isColValue()) {
+               customizePivot(Constant.DISCOUNT_SALES_VALUE + head, Constant.VALUE, selection, discountDto, RATE, NumericConstants.NINE, obj);
+            }
+            if (selection.isColVariance()) {
+               customizePivot(Constant.DISCOUNT_SALES_VAR1 + head, Constant.VARIANCE, selection, discountDto, RATE, NumericConstants.NINE, obj);
+            }
+            if (selection.isColPercentage()) {
+                customizePivot(Constant.DISCOUNT_SALES_PER1 + head, Constant.CHANGE, selection, discountDto, RATE, NumericConstants.NINE, obj);
+            }
+        }
+        //RPU
+        if (selection.isVarRPU()) {
+            selection.setConversionNeeded(false);
+            if (selection.isColValue()) {
+                customizePivot(Constant.RPU_VALUE + head, Constant.VALUE, selection, discountDto, AMOUNT, NumericConstants.TWELVE, obj);
+            }
+            if (selection.isColVariance()) {
+                customizePivot(Constant.RPU_VAR1 + head, Constant.VARIANCE, selection, discountDto, AMOUNT, NumericConstants.TWELVE, obj);
+            }
+            if (selection.isColPercentage()) {
+                customizePivot(Constant.RPU_PER1 + head, Constant.CHANGE, selection, discountDto, RATE, NumericConstants.TWELVE, obj);
+            }
+        }
+        //Discount Exfactory Per Change
+        if (selection.isDiscountPerExFactory()) {
+            selection.setConversionNeeded(false);
+            if (selection.isColValue()) {
+                customizePivot(Constant.DISCOUNT_PER_EX_FACTORY_VALUE1 + head, Constant.VALUE, selection, discountDto, RATE, NumericConstants.FIFTEEN, obj);
+            }
+            if (selection.isColVariance()) {
+                customizePivot(Constant.DISCOUNT_PER_EX_FACTORY_VAR1 + head, Constant.VARIANCE, selection, discountDto, RATE, NumericConstants.FIFTEEN, obj);
+            }
+            if (selection.isColPercentage()) {
+                customizePivot(Constant.DISCOUNT_PER_EX_FACTORY_PER1 + head, Constant.CHANGE, selection, discountDto, RATE, NumericConstants.FIFTEEN, obj);
             }
         }
     }
