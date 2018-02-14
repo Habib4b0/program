@@ -835,11 +835,11 @@ public class UpdatedContractSelection extends VerticalLayout {
                     if (screenName.equals(TAB_TRANSFER_CONTRACT.getConstant())
                             || (session.getModuleName().equals(ADD_TRADING_PARTNER.getConstant()) && dto.getWorkflowStatus().trim().isEmpty())
                             || (session.getModuleName().equals(TRADING_PARTNER_UPDATE.getConstant()) && dto.getWorkflowStatus().trim().isEmpty())) {
-                        status.addFocusListener(new FocusListener() {
+                        custComboStatus.addFocusListener(new FocusListener() {
 
                             @Override
                             public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
-                                status.addValueChangeListener(new Property.ValueChangeListener() {
+                                custComboStatus.addValueChangeListener(new Property.ValueChangeListener() {
 
                                     @Override
                                     public void valueChange(Property.ValueChangeEvent event) {

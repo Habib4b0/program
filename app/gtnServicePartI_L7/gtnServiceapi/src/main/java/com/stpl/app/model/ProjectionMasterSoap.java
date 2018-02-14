@@ -65,6 +65,7 @@ public class ProjectionMasterSoap implements Serializable {
 		soapModel.setDedRelationshipBuilderSid(model.getDedRelationshipBuilderSid());
 		soapModel.setProjectionCustVersionNo(model.getProjectionCustVersionNo());
 		soapModel.setProjectionProdVersionNo(model.getProjectionProdVersionNo());
+		soapModel.setForecastEligibleDate(model.getForecastEligibleDate());
 
 		return soapModel;
 	}
@@ -383,6 +384,14 @@ public class ProjectionMasterSoap implements Serializable {
 		_projectionProdVersionNo = projectionProdVersionNo;
 	}
 
+	public Date getForecastEligibleDate() {
+		return _forecastEligibleDate;
+	}
+
+	public void setForecastEligibleDate(Date forecastEligibleDate) {
+		_forecastEligibleDate = forecastEligibleDate;
+	}
+
 	private int _productHierarchyLevel;
 	private boolean _saveFlag;
 	private String _projectionName;
@@ -415,4 +424,5 @@ public class ProjectionMasterSoap implements Serializable {
 	private String _dedRelationshipBuilderSid;
 	private int _projectionCustVersionNo;
 	private int _projectionProdVersionNo;
+	private Date _forecastEligibleDate;
 }

@@ -56,7 +56,6 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		categoryPanel.setComponentName("Category Options");
 		categoryPanel.setAuthorizationIncluded(true);
 		componentList.add(categoryPanel);
-
 		addFieldLayout(componentList, componentConfig);
 	}
 
@@ -71,40 +70,88 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		addFieldComponent(componentList, componentConfig);
 	}
 
+
 	private void addFieldComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		addCategory(componentList, componentConfig);
 		addBrandFieldComponent(componentList, componentConfig);
+		addFileTypeLayout(componentList, componentConfig);
 		addValue(componentList, componentConfig);
 		addADDButton(componentList, componentConfig);
 		addBrandAddButton(componentList, componentConfig);
-		addFileTypeValue(componentList, componentConfig);
 		addFileTypeAddButton(componentList, componentConfig);
 		addDELETEButton(componentList, componentConfig);
+	}
+	private void addFileTypeLayout(List<GtnUIFrameworkComponentConfig> componentList,
+			GtnFrameworkComponentConfigProvider componentConfig) {
+		GtnUIFrameworkComponentConfig udcCategoryLayout = componentConfig.getGtnCssLayoutConfig(
+				GtnFrameworkCommonConstants.UDC_CATEGORY_FILETYPELAYOUT, true,GtnFrameworkCommonConstants.UDC_CATEGORYLAYOUT,
+				GtnUIFrameworkLayoutType.COL2_LAYOUT);
+		udcCategoryLayout.setVisible(false);
+		componentList.add(udcCategoryLayout);
+		addFileTypeFieldComponent(componentList, componentConfig);
+		
+	}
+	private void addFileTypeFieldComponent(List<GtnUIFrameworkComponentConfig> componentList,
+			GtnFrameworkComponentConfigProvider componentConfig) {
+		GtnUIFrameworkComponentConfig fileTypeLayout = componentConfig
+				.getGtnCssLayoutConfig(GtnFrameworkCommonConstants.UDC_CATEGORY_FILETYPE_FIELDLAYOUT, true,
+						GtnFrameworkCommonConstants.UDC_CATEGORY_FILETYPELAYOUT,
+						GtnUIFrameworkLayoutType.VERTICAL_LAYOUT);
+		fileTypeLayout.setVisible(true);
+		componentList.add(fileTypeLayout);
+		addFileTypeValue(componentList, componentConfig);
+		addFileTypeAliasName(componentList, componentConfig);
 	}
 
 	private void addFileTypeValue(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		GtnUIFrameworkComponentConfig valueFileTypeLayout = componentConfig.getHorizontalLayoutConfig("valueFileTypeLayout", true,
-				GtnFrameworkCommonConstants.UDC_CATEGORYLAYOUT);
-		valueFileTypeLayout.setVisible(false);
+				GtnFrameworkCommonConstants.UDC_CATEGORY_FILETYPE_FIELDLAYOUT);
+		valueFileTypeLayout.setVisible(true);
 		componentList.add(valueFileTypeLayout);
 
-		GtnUIFrameworkComponentConfig valueFileTypeConfig = componentConfig.getUIFrameworkComponentConfig(
-				GtnFrameworkCommonConstants.UDC_FILETYPE_VALUE, true, valueFileTypeLayout.getComponentId(),
-				GtnUIFrameworkComponentType.TEXTBOX);
-		valueFileTypeConfig.setAuthorizationIncluded(true);
-		valueFileTypeConfig.setComponentName("Value");
+		GtnUIFrameworkComponentConfig fileTypeValue = componentConfig.getUIFrameworkComponentConfig(
+				GtnFrameworkCommonConstants.UDC_FILETYPE_VALUE, true,
+				valueFileTypeLayout.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
+		fileTypeValue.setAuthorizationIncluded(true);
+		fileTypeValue.setComponentName("Value");
 
-		GtnUIFrameworkTextBoxConfig valueFileTypeMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
-		valueFileTypeMaxLengthConfig.setMaximumLength(50);
-		valueFileTypeConfig.setGtnTextBoxConfig(valueFileTypeMaxLengthConfig);
+		GtnUIFrameworkTextBoxConfig fileTypeValueMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
+		fileTypeValueMaxLengthConfig.setMaximumLength(50);
+		fileTypeValue.setGtnTextBoxConfig(fileTypeValueMaxLengthConfig);
 
-		GtnUIFrameworkValidationConfig valueFileTypeValidationConfig = new GtnUIFrameworkValidationConfig();
-		valueFileTypeValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
-		valueFileTypeConfig.setGtnUIFrameworkValidationConfig(valueFileTypeValidationConfig);
-		componentList.add(valueFileTypeConfig);
+		GtnUIFrameworkValidationConfig fileTypeValueValidationConfig = new GtnUIFrameworkValidationConfig();
+		fileTypeValueValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		fileTypeValue.setGtnUIFrameworkValidationConfig(fileTypeValueValidationConfig);
+		componentList.add(fileTypeValue);
 	}
+
+	private void addFileTypeAliasName(List<GtnUIFrameworkComponentConfig> componentList,
+			GtnFrameworkComponentConfigProvider componentConfig) {
+		GtnUIFrameworkComponentConfig aliasNameLayout = componentConfig.getHorizontalLayoutConfig("aliasFileTypeLayout",
+				true, GtnFrameworkCommonConstants.UDC_CATEGORY_FILETYPE_FIELDLAYOUT);
+		aliasNameLayout.setVisible(true);
+		componentList.add(aliasNameLayout);
+
+		GtnUIFrameworkComponentConfig aliasName = componentConfig.getUIFrameworkComponentConfig(
+				GtnFrameworkCommonConstants.UDC_FILETYPE_ALIAS, true,
+				aliasNameLayout.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
+		aliasName.setAuthorizationIncluded(true);
+		aliasName.setComponentName("Alias Name");
+
+		GtnUIFrameworkTextBoxConfig aliasNamevalueMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
+		aliasNamevalueMaxLengthConfig.setMaximumLength(50);
+		aliasName.setGtnTextBoxConfig(aliasNamevalueMaxLengthConfig);
+
+		GtnUIFrameworkValidationConfig aliasNameValueValidationConfig = new GtnUIFrameworkValidationConfig();
+		aliasNameValueValidationConfig
+				.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		aliasName.setGtnUIFrameworkValidationConfig(aliasNameValueValidationConfig);
+		componentList.add(aliasName);
+	}
+
+
 
 	private void addFileTypeAddButton(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
@@ -191,7 +238,6 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		componentList.add(udcCategory);
 
 	}
-
 	private void addBrandFieldComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
 		GtnUIFrameworkComponentConfig brandLayout = componentConfig

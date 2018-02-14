@@ -1884,7 +1884,7 @@ public class DataSelectionLogic {
 	}
 
 	public List getProjection(int projectionId) {
-		final String sql = "SELECT CFF_NAME,PROD_RELATIONSHIP_BUILDER_SID,CUST_RELATIONSHIP_BUILDER_SID From dbo.CFF_MASTER where CFF_MASTER_SID = "
+		final String sql = "SELECT CFF_NAME,PROD_RELATIONSHIP_BUILDER_SID,CUST_RELATIONSHIP_BUILDER_SID,CFF_ELIGIBLE_DATE From dbo.CFF_MASTER where CFF_MASTER_SID = "
 				+ projectionId;
 		final List list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
 		if (list.isEmpty()) {
@@ -1953,4 +1953,15 @@ public class DataSelectionLogic {
 		}
 		return resultMap;
 	}
+        public Date getDefaultEligibleDateFromForecastConfiguration() {
+            String query = "SELECT  PROJECTION_START_DATE FROM   [Udf_na_proj_dates]('Consolidated Financial Forecast')";
+            List cffEligibleDatelist = HelperTableLocalServiceUtil.executeSelectQuery(query);
+            return (Date) cffEligibleDatelist.get(0);
+        }
+            public String getremovedcontractbasedonCFFEligibleDate(final SessionDTO session) {
+            List<Object> inputList = new ArrayList();
+		inputList.add(session.getProjectionId());
+            List<Object[]> removedcontract = CommonQueryUtils.getAppData(inputList, "CFFeligibledatealertquery",null);
+            return   removedcontract.toString().replace("[", "").replace("]", "");
+        }
 }

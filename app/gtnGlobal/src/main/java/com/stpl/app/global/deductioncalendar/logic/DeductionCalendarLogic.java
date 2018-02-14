@@ -166,7 +166,7 @@ public class DeductionCalendarLogic {
         String query = (isItem ? SQLUtil.getQuery("deduction-item-count") : SQLUtil.getQuery("deduction-company-count"))
                 .replace("?UID", sessionDTO.getUserId())
                 .replace("?SID", "'" + sessionDTO.getUiSessionId() + "'");
-        final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
+        final List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (list != null && !list.isEmpty()) {
             return (Integer) list.get(0) != 0;
         }
