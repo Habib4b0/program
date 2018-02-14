@@ -169,6 +169,21 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     
                     Object[] header = ((List<Object>) projectionDTO.getHeaderMapForExcel().get(i).get(1)).toArray();
                     header = ArrayUtils.remove(header, 0);
+                    
+                    Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
+                    if (displayFormatIndex.length == 1) {
+                        for (int k = 0; k < displayFormatIndex.length; k++) {
+                            LOGGER.info("obj--------------" + k);
+                            int index = (Integer) displayFormatIndex[k];
+                            if (index == 0) {
+                                column = ArrayUtils.removeElement(column, "dfLevelName");
+                                header = ArrayUtils.removeElement(header, "Level Name");
+                            } else {
+                                column = ArrayUtils.removeElement(column, "dfLevelNumber");
+                                header = ArrayUtils.removeElement(header, "Level Number");
+                            }
+                        }
+                    }
 
                     securityForListView(column, Arrays.copyOf(header, header.length, String[].class), excelTable);
                     
