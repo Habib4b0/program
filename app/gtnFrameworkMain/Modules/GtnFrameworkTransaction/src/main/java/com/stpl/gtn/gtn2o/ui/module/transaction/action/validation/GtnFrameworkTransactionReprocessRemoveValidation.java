@@ -60,7 +60,7 @@ public class GtnFrameworkTransactionReprocessRemoveValidation
 
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsTransactionRequest gtnWsTransactionRequest = new GtnWsTransactionRequest();
-		if (actionParametersList.size()<3 && (boolean) actionParametersList.get(3)) {
+		if ((boolean) actionParametersList.get(3)) {
 			gtnWsTransactionRequest
 					.setTableName(getProcessName().get(String.valueOf(String.valueOf(actionParametersList.get(4)))));
 		} else {
