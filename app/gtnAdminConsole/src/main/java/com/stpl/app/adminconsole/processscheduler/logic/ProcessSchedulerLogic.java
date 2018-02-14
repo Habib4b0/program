@@ -232,10 +232,10 @@ public class ProcessSchedulerLogic {
 				}
 				if ("Interval".equals(ProcessDTO.getFrequencyRadio())) {
 					profile.setStartHour(ProcessDTO.getRunHours() == null || "null".equals(ProcessDTO.getRunHours())
-							? NumericConstants.TWENTY_FOUR : Integer.valueOf(ProcessDTO.getRunHours()));
+							? NumericConstants.TWENTY_FOUR : Integer.parseInt(ProcessDTO.getRunHours()));
 					profile.setStartMinutes(
 							ProcessDTO.getRunMinutes() == null || "null".equals(ProcessDTO.getRunMinutes())
-									? NumericConstants.SIXTY : Integer.valueOf(ProcessDTO.getRunMinutes()));
+									? NumericConstants.SIXTY : Integer.parseInt(ProcessDTO.getRunMinutes()));
 					profile.setStartHour1(NumericConstants.TWENTY_FOUR);
 					profile.setStartHour2(NumericConstants.TWENTY_FOUR);
 					profile.setStartHour3(NumericConstants.TWENTY_FOUR);
@@ -245,27 +245,27 @@ public class ProcessSchedulerLogic {
 
 				} else {
 					profile.setStartHour1(ProcessDTO.getHoursOne() == null || "null".equals(ProcessDTO.getHoursOne())
-							? NumericConstants.TWENTY_FOUR : Integer.valueOf(ProcessDTO.getHoursOne()));
+							? NumericConstants.TWENTY_FOUR : Integer.parseInt(ProcessDTO.getHoursOne()));
 					profile.setStartHour2(ProcessDTO.getHoursTwo() == null || "null".equals(ProcessDTO.getHoursTwo())
-							? NumericConstants.TWENTY_FOUR : Integer.valueOf(ProcessDTO.getHoursTwo()));
+							? NumericConstants.TWENTY_FOUR : Integer.parseInt(ProcessDTO.getHoursTwo()));
 					profile.setStartHour3(
 							ProcessDTO.getHoursThree() == null || "null".equals(ProcessDTO.getHoursThree())
-									? NumericConstants.TWENTY_FOUR : Integer.valueOf(ProcessDTO.getHoursThree()));
+									? NumericConstants.TWENTY_FOUR : Integer.parseInt(ProcessDTO.getHoursThree()));
 					profile.setStartMinutes1(
 							ProcessDTO.getMinutesOne() == null || "null".equals(ProcessDTO.getMinutesOne())
-									? NumericConstants.SIXTY : Integer.valueOf(ProcessDTO.getMinutesOne()));
+									? NumericConstants.SIXTY : Integer.parseInt(ProcessDTO.getMinutesOne()));
 					profile.setStartMinutes2(
 							ProcessDTO.getMinutesTwo() == null || "null".equals(ProcessDTO.getMinutesTwo())
-									? NumericConstants.SIXTY : Integer.valueOf(ProcessDTO.getMinutesTwo()));
+									? NumericConstants.SIXTY : Integer.parseInt(ProcessDTO.getMinutesTwo()));
 					profile.setStartMinutes3(
 							ProcessDTO.getMinutesThree() == null || "null".equals(ProcessDTO.getMinutesThree())
-									? NumericConstants.SIXTY : Integer.valueOf(ProcessDTO.getMinutesThree()));
+									? NumericConstants.SIXTY : Integer.parseInt(ProcessDTO.getMinutesThree()));
 					profile.setStartHour(NumericConstants.TWENTY_FOUR);
 					profile.setStartMinutes(NumericConstants.SIXTY);
 				}
 				profile.setStartDate(ProcessDTO.getStartDate());
 				profile.setEndDate(ProcessDTO.getEndDate());
-				profile.setModifiedBy(Integer.valueOf(String.valueOf(profile.getModifiedBy())));
+				profile.setModifiedBy(Integer.parseInt(String.valueOf(profile.getModifiedBy())));
 				profile.setModifiedDate(new Date());
 				WorkflowProfileLocalServiceUtil.updateWorkflowProfile(profile);
 
@@ -544,7 +544,7 @@ public class ProcessSchedulerLogic {
 			cffSearchDTOLoop
 					.setYear(isValid(obj[NumericConstants.FIVE]) ? String.valueOf(obj[NumericConstants.FIVE]) : "0");
 			cffSearchDTOLoop.setMonth(isValid(obj[NumericConstants.SIX])
-					? Integer.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0);
+					? Integer.parseInt(String.valueOf(obj[NumericConstants.SIX])) : 0);
 			cffSearchDTOLoop.setContractId(isValid(obj[NumericConstants.SEVEN])
 					? String.valueOf(obj[NumericConstants.SEVEN]) : StringUtils.EMPTY);
 			cffSearchDTOLoop.setContractNo(isValid(obj[NumericConstants.EIGHT])
@@ -641,11 +641,11 @@ public class ProcessSchedulerLogic {
 					? String.valueOf(obj[NumericConstants.FIFTY_THREE]) : StringUtils.EMPTY);
 
 			cffSearchDTOLoop.setPeriodSid(isValid(obj[NumericConstants.FIFTY_FOUR])
-					? Integer.valueOf(String.valueOf(obj[NumericConstants.FIFTY_FOUR])) : 0);
+					? Integer.parseInt(String.valueOf(obj[NumericConstants.FIFTY_FOUR])) : 0);
 			cffSearchDTOLoop.setCffDetailSid(isValid(obj[NumericConstants.FIFTY_FIVE])
-					? Integer.valueOf(String.valueOf(obj[NumericConstants.FIFTY_FIVE])) : 0);
+					? Integer.parseInt(String.valueOf(obj[NumericConstants.FIFTY_FIVE])) : 0);
 			cffSearchDTOLoop.setRsModelSid(isValid(obj[NumericConstants.FIFTY_SIX])
-					? Integer.valueOf(String.valueOf(obj[NumericConstants.FIFTY_SIX])) : 0);
+					? Integer.parseInt(String.valueOf(obj[NumericConstants.FIFTY_SIX])) : 0);
 			if (isValid(obj[NumericConstants.FIFTY_SEVEN])) {
 				cffSearchDTOLoop.setCheckRecord((Boolean) obj[NumericConstants.FIFTY_SEVEN]);
 			}
@@ -988,7 +988,7 @@ public class ProcessSchedulerLogic {
 		String query = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM ST_CFF_OUTBOUND_MASTER WHERE USER_ID = "
 				+ userId + AND_SESSION_ID + sessionId + " AND ETL_CHECK_RECORD = 1";
 		List count = HelperTableLocalServiceUtil.executeSelectQuery(query);
-		int c = Integer.valueOf(String.valueOf(count.get(0)));
+		int c = Integer.parseInt(String.valueOf(count.get(0)));
 		return c > 0;
 	}
 
@@ -996,7 +996,7 @@ public class ProcessSchedulerLogic {
 		String query = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM ST_ARP_OUTBOUND WHERE USER_ID = '" + userId
 				+ "' AND SESSION_ID = " + sessionId + " AND ETL_CHECK_RECORD = 1";
 		List count = HelperTableLocalServiceUtil.executeSelectQuery(query);
-		int c = Integer.valueOf(String.valueOf(count.get(0)));
+		int c = Integer.parseInt(String.valueOf(count.get(0)));
 		return c > 0;
 	}
 
@@ -1140,7 +1140,7 @@ public class ProcessSchedulerLogic {
 		for (final Iterator<Object[]> iterator = returnList.iterator(); iterator.hasNext();) {
 			final Object[] value = iterator.next();
 			dto = new HelperDTO(StringUtils.EMPTY);
-			dto.setId(value[0] == null ? 0 : Integer.valueOf(value[0].toString()));
+			dto.setId(value[0] == null ? 0 : Integer.parseInt(value[0].toString()));
 			dto.setDescription(value[1] == null ? StringUtils.EMPTY : value[1].toString());
 			if (!StringUtils.EMPTY.equals(dto.getDescription())) {
 				list.add(dto);

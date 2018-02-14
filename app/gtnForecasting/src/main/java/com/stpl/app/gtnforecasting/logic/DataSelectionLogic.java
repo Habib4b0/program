@@ -74,6 +74,7 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -2600,4 +2601,16 @@ public class DataSelectionLogic {
 		salesProjectionDAO.executeBulkUpdateQuery(finalQuery, null, null);
 
 	}
+        public Date getDefaultEligibleDateFromForecastConfiguration() {
+            String query = "SELECT  PROJECTION_START_DATE FROM   [Udf_na_proj_dates]('Commercial')";
+            List forecastEligibleDate = (List)salesProjectionDAO.executeSelectQuery(query, null, null);
+            return forecastEligibleDate != null ? (Date) forecastEligibleDate.get(0) : null;
+        }
+        
+        public String getremovedcontractbasedonEligibleDate(final SessionDTO session) {
+            List<Object> inputList = new ArrayList();
+		inputList.add(session.getProjectionId());
+            List<Object[]> removedcontract = QueryUtils.getAppData(inputList, "eligibledatealertquery",null);
+            return   removedcontract.toString().replace("[", "").replace("]", "");
+        }
 }
