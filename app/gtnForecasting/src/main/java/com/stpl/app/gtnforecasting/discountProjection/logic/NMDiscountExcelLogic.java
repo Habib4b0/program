@@ -34,8 +34,10 @@ public class NMDiscountExcelLogic {
     
     private final Map<String, DiscountProjectionDTO> resultMap = new HashMap<>();
     private final List<String> hierarchyKeys = new ArrayList<>();
-     private final CommonLogic commonLogic=new CommonLogic();
-      private static final DecimalFormat PERCENTAGE_FORMAT = new DecimalFormat("#,##0.00%");
+    private final CommonLogic commonLogic = new CommonLogic();
+    private static final DecimalFormat PERCENTAGE_FORMAT = new DecimalFormat("#,##0.00%");
+    private static final String DF_LEVEL_NAME = "dfLevelName";
+    private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
 
     public void getCustomizedExcelData(List<Object[]> discountExcelList, ProjectionSelectionDTO projectionSelection, List doubleProjectedAndHistoryCombinedUniqueList) {
         SessionDTO sessionDTO = projectionSelection.getSessionDTO();
@@ -91,7 +93,29 @@ public class NMDiscountExcelLogic {
             } else {
                 discountProjectionDTO.setGroup(StringUtils.EMPTY);
             }
+         if (CommonUtil.isValueEligibleForLoading()) {
+            String levelName = CommonUtil.getDisplayFormattedName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat());
+            discountProjectionDTO.setLevelName(levelName);
+            if (levelName.contains("-")) {
+                String[] tempArr = levelName.split("-");
+                discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
+                discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
+            } else if (projectionSelection.getDisplayFormat().length == 1 && projectionSelection.getDisplayFormat().length > 0) {
+                int index = (int) projectionSelection.getDisplayFormat()[0];
+                if (index == 0) {
+                    discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName);
+                } else {
+                    discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName);
+                }
+            } else {
+                discountProjectionDTO.addStringProperties(DF_LEVEL_NAME, levelName);
+                discountProjectionDTO.addStringProperties(DF_LEVEL_NUMBER, levelName);
+            }
+
+        } else {
             discountProjectionDTO.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelection.getSessionDTO(), projectionSelection.getDisplayFormat()));
+
+        }
             if (CommonUtil.isValueEligibleForLoading()) {
                 discountProjectionDTO.setDeductionInclusion(obj[NumericConstants.FOURTEEN] != null ? String.valueOf(obj[NumericConstants.FOURTEEN]) : StringUtils.EMPTY);
             }
