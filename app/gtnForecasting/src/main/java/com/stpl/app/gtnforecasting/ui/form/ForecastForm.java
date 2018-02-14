@@ -222,8 +222,8 @@ public class ForecastForm extends AbstractForm {
 	private ForecastEditWindow editWindow;
 	private ForecastWindow forecastWindow;
 	private int lastPosition;
-	private Button btnNext = new Button(BTN_NEXT.getConstant());
-	private Button btnPrev = new Button(BTN_PREVIOUS.getConstant());
+	private Button btnNextInForm = new Button(BTN_NEXT.getConstant());
+	private Button btnPrevInForm = new Button(BTN_PREVIOUS.getConstant());
 	private Button btnRefresh = new Button("REFRESH");
 	private ExtFilterTable resultTable;
 	private NonMandatedViewWindow viewWindow;
@@ -539,20 +539,20 @@ public class ForecastForm extends AbstractForm {
 
 	protected void buttonEnableLogic(int tabPosition, int i) {
 		if (tabPosition != 0) {
-			btnPrev.setVisible(true);
+			btnPrevInForm.setVisible(true);
 		} else {
-			btnPrev.setVisible(false);
+			btnPrevInForm.setVisible(false);
 		}
 		if (tabPosition == i) {
-			btnNext.setVisible(false);
+			btnNextInForm.setVisible(false);
 			btnRefresh.setVisible(true);
 
 		} else {
-			btnNext.setVisible(true);
+			btnNextInForm.setVisible(true);
 			btnRefresh.setVisible(false);
 		}
 		if (tabPosition <= i) {
-			btnPrev.setEnabled(true);
+			btnPrevInForm.setEnabled(true);
 		}
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 			if (tabPosition == NumericConstants.NINE) {
@@ -574,7 +574,7 @@ public class ForecastForm extends AbstractForm {
 
 		final VerticalLayout vLayout = (VerticalLayout) UiUtils.getLayout(new VerticalLayout());
 		vLayout.addComponent(tabSheet);
-		vLayout.addComponent(addFooterButtons(btnNext, btnPrev, btnRefresh));
+		vLayout.addComponent(addFooterButtons(btnNextInForm, btnPrevInForm, btnRefresh));
 		configureFields();
 		addComponent(vLayout);
 		session.setSaveFlag(false);
@@ -587,13 +587,13 @@ public class ForecastForm extends AbstractForm {
 	 */
 	private void configureFields() {
 		
-		btnPrev.addClickListener(new Button.ClickListener() {
+		btnPrevInForm.addClickListener(new Button.ClickListener() {
                         @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnPreviousLogic();
 			}
 		});
-		btnNext.addClickListener(new Button.ClickListener() {
+		btnNextInForm.addClickListener(new Button.ClickListener() {
                         @Override
 			public void buttonClick(Button.ClickEvent event) {
 

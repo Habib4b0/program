@@ -124,7 +124,7 @@ public class PPAQuerys {
         return QueryUtil.replaceTableNames(sql.toString(), replaceTableName);
     }
 
-    public static Boolean ppaUpdate(List input, String queryName) {
+    public static Boolean ppaUpdateQuery(List input, String queryName) {
         LOGGER.debug("Inside PPA Update");
         StringBuilder sql = new StringBuilder();
         try {

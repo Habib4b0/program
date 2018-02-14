@@ -739,9 +739,11 @@ public class GtnWsRelationshipBuilderService {
 				hirarchyNo = getSelectClauseForAutoBuild(hirarchyNo, hierarchyBean, finalQueryBean,
 						gethiddenIdhierarchyNo);
 				query = gtnWsSqlService.getReplacedQuery(finalMasterSid, finalQueryBean.generateQuery());
+				query = checkForSelectOne(query);
 				if (finalQuery.length() > 0) {
 					finalQuery.append(" UNION ALL ");
 				}
+				
 				finalQuery.append(query);
 			}
 
@@ -753,6 +755,15 @@ public class GtnWsRelationshipBuilderService {
 			getIntermediateUserDefinedData(linkedLevelDataList, userDefinedLevelDataList, hierarchyList);
 		return linkedLevelDataList;
 
+	}
+
+	private String checkForSelectOne(String query) {
+		String quer=query;
+		if(quer.contains("HELPER_JOIN .DESCRIPTION"))
+		{
+			quer=quer.concat(" AND HELPER_JOIN .DESCRIPTION<> '-Select One-' ");
+		}
+		return quer;
 	}
 
 	private void getIntermediateUserDefinedData(List<GtnWsRecordBean> linkedLevelDataList,
