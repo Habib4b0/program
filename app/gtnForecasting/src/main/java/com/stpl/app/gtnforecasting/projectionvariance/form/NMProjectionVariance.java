@@ -95,6 +95,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
     private final StplSecurity stplSecurity = new StplSecurity();
     public static final String CAPTION = "CAPTION";
+    public static final String GROUP = "group";
     /**
      * The projection id.
      */
@@ -374,7 +375,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         pvSelectionDTO.setTreeLevelNo(Integer.valueOf(getSessionDTO().getCustomerLevelNumber()));
         pvSelectionDTO.setPpa(CommonLogic.isPPA(Boolean.TRUE, pvSelectionDTO));
         pvSelectionDTO.setReturns(CommonLogic.isReturns(Boolean.TRUE, pvSelectionDTO));
-        resultsTable.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(session, Constant.TOTAL.equals(level.getValue().toString())));
+        resultsTable.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(session, CommonUtil.isValueEligibleForLoading()));
 
         UiUtils.setExtFilterTreeTableColumnWidth(rightTable, NumericConstants.ONE_SEVEN_ZERO, TAB_PROJECTION_VARIANCE.getConstant());
         if (fromDate.getValue() != null && !"null".equals(String.valueOf(fromDate.getValue())) && !Constant.SELECT_ONE.equals(String.valueOf(fromDate.getValue()))) {
@@ -476,7 +477,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         resultsTable.getLeftFreezeAsTable().setFilterBarVisible(true);
         resultsTable.getLeftFreezeAsTable().setFilterDecorator(new ExtDemoFilterDecorator());
         pvSelectionDTO.setProjectionId(projectionId);
-        resultsTable.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(session, Constant.TOTAL.equals(level.getValue().toString())));
+        resultsTable.getLeftFreezeAsTable().setFilterGenerator(new FilterGenerator(session, CommonUtil.isValueEligibleForLoading()));
     }
 
     private void loadExcelResultTable(int levelNo, String hierarchyNo) {
@@ -642,6 +643,33 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     export.export();
                 }
             } else {
+                Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get(GROUP);
+                List<Object> listHeaders = new ArrayList(Arrays.asList(singleHeader));
+                listHeaders.remove(GROUP);
+                fullHeader.getDoubleHeaderMaps().put(GROUP, listHeaders.toArray());
+                fullHeader.getSingleColumns().remove(GROUP);
+                fullHeader.getSingleHeaders().remove(0);
+
+                Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
+                if (displayFormatIndex.length == 1) {
+                    for (int i = 0; i < displayFormatIndex.length; i++) {
+                        LOGGER.info("obj--------------" + i);
+                        int index = (Integer) displayFormatIndex[i];
+                        if (index == 0) {
+                            listHeaders.remove("dfLevelName");
+                            fullHeader.getDoubleHeaderMaps().put(GROUP, listHeaders.toArray());
+                            fullHeader.getSingleColumns().remove("dfLevelName");
+                            fullHeader.getSingleHeaders().remove(1);
+                        } else {
+                            listHeaders.remove("dfLevelNumber");
+                            fullHeader.getDoubleHeaderMaps().put(GROUP, listHeaders.toArray());
+                            fullHeader.getSingleColumns().remove("dfLevelNumber");
+                            fullHeader.getSingleHeaders().remove(0);
+                        }
+
+                    }
+                }
+
                 excelTable.setVisibleColumns(fullHeader.getSingleColumns().toArray());
                 excelTable.setColumnHeaders(fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size()]));
                 excelTable.setDoubleHeaderVisible(true);
@@ -897,7 +925,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             view.setEnabled(false);
         } else {
             levelDdlb.setEnabled(true);
-            group.setEnabled(true);
+            group.setEnabled(false);
             if (!pvSelectionDTO.isIsCustomHierarchy()) {
                 levelFilter.setEnabled(true);
             } else {
