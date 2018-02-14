@@ -32,8 +32,11 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
+import com.stpl.ifs.util.GtnFileUtil;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.vaadin.server.VaadinService;
+
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -98,8 +101,9 @@ public class WorkflowLogic {
      * @throws IOException
      */
     public String saveWorkflow(int projectionId, String userId, String notes, int noOfLevels, String screenName, List<NotesDTO> getUploadedData, String description) {
-    	 String path = System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH);
-    	 String filePath1 = "WorkflowXML/BPIGeneratorIDs.xml";
+    	 java.util.Properties path =getPropertyFile(System.getProperty(GtnFrameworkCommonStringConstants.GTNFRAMEWORK_BASE_PATH_PROPERTY));
+    	 java.util.Properties filePath1 = getPropertyFile(path.getProperty("Workflowpath"));
+    	 String filePath2=String.valueOf(filePath1);
         String moduleName = StringUtils.EMPTY;
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             moduleName = Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY;
@@ -110,7 +114,7 @@ public class WorkflowLogic {
         } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
             moduleName = "RE";
         }
-        String workflowId = new BPIWorkFlowGeneratorXML().generateId( path + filePath1, moduleName);
+        String workflowId = new BPIWorkFlowGeneratorXML().generateId( filePath2, moduleName);
         String docDetailsSid = saveDocDetails(getUploadedData);
         WorkflowMasterDTO workflowMasterDTO = setWorkflowMasterDTO(projectionId, workflowId, userId, notes, noOfLevels, docDetailsSid, description);
         return saveWorkflowMaster(workflowMasterDTO);
@@ -481,4 +485,18 @@ public class WorkflowLogic {
         }
         return String.valueOf(docdetailsSids);
     }
+	public static java.util.Properties getPropertyFile(String bpiPropLoc) {
+		LOGGER.debug("getPropertyFile===================>starts");
+		java.util.Properties prop = new java.util.Properties();
+		try {
+			FileInputStream fileIS = null;
+			fileIS = GtnFileUtil.getFileInputStream(bpiPropLoc);
+			prop.load(fileIS);
+		} catch (Exception ex) {
+			LOGGER.error(ex.getMessage());
+		}
+		LOGGER.debug("getPropertyFile===================>ends");
+		return prop;
+
+	}
 }
