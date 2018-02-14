@@ -743,7 +743,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                     if (buttonId.name().equals(ConstantsUtils.YES)) {
                         final FileManagementLogic fileMgtLogic = new FileManagementLogic();
                         try {
-                            fileMgtDTO.setBusinessUnitSysId(Integer.valueOf(String.valueOf(businessUnit.getValue())));
+                            fileMgtDTO.setBusinessUnitSysId(Integer.parseInt(String.valueOf(businessUnit.getValue())));
                             final String msg = fileMgtLogic.saveFileMgtHist(fileMgtDTO, CommonUtil.getSelectedFileType(fileType), sessionDTO);
                             if (ConstantsUtils.SUCCESS.equals(msg)) {
                                 CommonUIUtils.getMessageNotification("Saved succesfully");

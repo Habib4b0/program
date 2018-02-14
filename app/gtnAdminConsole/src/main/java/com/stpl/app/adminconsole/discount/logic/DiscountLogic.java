@@ -144,7 +144,7 @@ public class DiscountLogic {
                     Compare compare = (Compare) filter;
                     Compare.Operation operation = compare.getOperation();
                     if (ConstantsUtils.VERSION_NO.equalsIgnoreCase(String.valueOf(compare.getPropertyId()))) {
-                        int value = Integer.valueOf(String.valueOf(compare.getValue()));
+                        int value = Integer.parseInt(String.valueOf(compare.getValue()));
                         if (operation.GREATER.toString().equalsIgnoreCase(operation.name())) {
                             discountgroupDynamicQuery.add(RestrictionsFactoryUtil.ge(ConstantsUtils.VERSION_NO, value));
                         } else if (operation.LESS.toString().equalsIgnoreCase(operation.name())) {
@@ -257,7 +257,7 @@ public class DiscountLogic {
                 final String rscategory = CommonUtil.getDescriptionFromHelper(rebate.getRsCategory());
                 dto.setRebateScheduleCategory(rscategory);
                 if (rebate.getRebatePlanLevel()!=null&&!rebate.getRebatePlanLevel().equals(ConstantsUtils.EMPTY)) {
-                    final String level = CommonUtil.getDescriptionFromHelper(Integer.valueOf(rebate.getRebatePlanLevel()));
+                    final String level = CommonUtil.getDescriptionFromHelper(Integer.parseInt(rebate.getRebatePlanLevel()));
                     dto.setRebatePlanLevel(level);
                 } else {
                     dto.setRebatePlanLevel(ConstantsUtils.EMPTY);
@@ -309,7 +309,7 @@ public class DiscountLogic {
      */
     public List<Integer> saveDiscount(final CustomFieldGroup binder, final List<DiscountSearchDTO> selectedRebates, final int version, final SessionDTO sessionDTO) throws SystemException, PortalException {
         final List<Integer> idList = new ArrayList<>();
-        final int userId = Integer.valueOf(sessionDTO.getUserId());
+        final int userId = Integer.parseInt(sessionDTO.getUserId());
         int versionNo = version + 1;
         final int deductionGroupSystemId = sessionDTO.getSystemId();
         DeductionGroup deductionGroup;
