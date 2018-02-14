@@ -358,7 +358,6 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 		container.addItem(WorkflowConstants.getApprovedStatus());
 		container.addItem(WorkflowConstants.getRejectedStatus());
 		workflowStatus.setContainerDataSource(container);
-		workflowStatus.setImmediate(true);
 	}
 
 	/**
@@ -854,7 +853,6 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 			comparisonLookup.setReadOnly(false);
 			comparisonLookup.setValue(Constant.SELECT_ONE);
 			comparisonLookup.setData(null);
-			comparisonLookup.setImmediate(true);
 			comparisonLookup.setReadOnly(true);
 		}
 		close();

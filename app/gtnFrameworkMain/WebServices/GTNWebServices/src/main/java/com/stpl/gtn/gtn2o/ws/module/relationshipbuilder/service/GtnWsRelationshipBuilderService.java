@@ -581,7 +581,6 @@ public class GtnWsRelationshipBuilderService {
 		}
 	}
 
-
 	public GtnWsRelationshipBuilderResponse getModifiedHiddenIdList(GtnWsRelationshipBuilderRequest rbRequest,
 			GtnWsRelationshipBuilderResponse rbResponse) {
 		rbResponse.clearHiddenIdList();
@@ -1184,12 +1183,10 @@ public class GtnWsRelationshipBuilderService {
 				relationshipBuilder.setVersionNo(rbRequest.getVersionNo());
 			} else {
 				relationshipBuilder = session.load(RelationshipBuilder.class, rbRequest.getRbSysId());
-				relationshipBuilder = new RelationshipBuilder();
 				relationshipBuilder.setRelationshipBuilderSid(rbRequest.getRbSysId());
 				relationshipBuilder.setModifiedBy(rbRequest.getUserId());
 				relationshipBuilder.setModifiedDate(date);
 				relationshipBuilder.setCreatedBy(rbRequest.getCreatedById());
-				relationshipBuilder.setCreatedDate(date);
 				relationshipBuilder.setVersionNo(rbRequest.getVersionNo() + 1);
 			}
 			updateRelationshipBuilderFromRequest(relationshipBuilder, rbRequest, session);
@@ -1202,9 +1199,6 @@ public class GtnWsRelationshipBuilderService {
 			inputlist.add(String.valueOf(rbRequest.getHierarchyDefSId()));
 			inputlist.add(String.valueOf(rbRequest.getHierarchyVersionNo()));
 			tx.commit();
-			autoMaticRelationService.checkAndUpdateAutomaticRelationship(
-					relationshipBuilder.getRelationshipBuilderSid()
-					);
 			autoMaticRelationService.checkManualRelation(relationshipBuilder.getRelationshipBuilderSid());
 			rbResponse.setSuccess(true);
 		} catch (Exception e) {

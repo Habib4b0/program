@@ -105,10 +105,11 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 	private void addRestrictionQuery(GtnFrameworkRouteBean routeBean, GtnFrameworkQueryGeneratorBean queryBean) {
 		List<Integer> pathList = routeBean.getPathList();
 		for (Integer pathValue : pathList) {
-			GtnFrameworkHierarchyRestrictionBean restrictionBean = entityMasterBean.getRestrictionBean(pathValue);
-			if (restrictionBean == null)
+			List<GtnFrameworkHierarchyRestrictionBean> restrictionBeanList = entityMasterBean
+					.getRestrictionBean(pathValue);
+			if (restrictionBeanList == null)
 				continue;
-			restrictionBean.addrestrictionForTable(queryBean);
+			GtnFrameworkHierarchyRestrictionBean.buildRestrictionQuery(restrictionBeanList, queryBean);
 		}
 
 	}

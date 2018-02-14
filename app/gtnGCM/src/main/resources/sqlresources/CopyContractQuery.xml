@@ -568,7 +568,7 @@ AND isnull(im.THERAPEUTIC_CLASS,'0') Like '${therapyClass}' order by im.ITEM_MAS
     <entity id="Copy Contract-Components Details RS Search">        
         <query>
         <![CDATA[
-SELECT
+SELECT distinct
 IFP_M.IFP_NO,
 IFP_M.IFP_NAME,
 Bm.BRAND_NAME,
@@ -604,8 +604,8 @@ AND isnull(IFP_M.IFP_TYPE,'0') LIKE '${ifpType}' order by IFP_M.IFP_MODEL_SID  O
         <query>
         <![CDATA[
 SELECT distinct
-IM.ITEM_NO,
-IM.ITEM_NAME,
+IFP_M.IFP_NO,
+IFP_M.IFP_NAME,
 Bm.BRAND_NAME,
 h.DESCRIPTION AS STATUS,
 IM.ITEM_START_DATE,
@@ -656,10 +656,10 @@ AND isnull(IFP_M.IFP_TYPE,'0') LIKE '?' order by IFP_M.IFP_MODEL_SID  OFFSET ? R
     <entity id="Copy Contract-Components Details PS Search COUNT">        
         <query>
         <![CDATA[
-        SELECT count(*) FROM (
+        SELECT distinct count(*) FROM (
 SELECT distinct
-IM.ITEM_NO,
-IM.ITEM_NAME,
+IFP_M.IFP_NO,
+IFP_M.IFP_NAME,
 Bm.BRAND_NAME,
 h.DESCRIPTION AS STATUS,
 IM.ITEM_START_DATE,
@@ -711,8 +711,8 @@ AND isnull(IFP_M.IFP_TYPE,'0') LIKE '?')A;
     <entity id="Copy Contract-Components Details RS Search COUNT">        
         <query>
         <![CDATA[
-        SELECT count(*) FROM (
-SELECT
+        SELECT distinct count(*) FROM (
+SELECT distinct
 IFP_M.IFP_NO,
 IFP_M.IFP_NAME,
 Bm.BRAND_NAME,
