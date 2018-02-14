@@ -173,7 +173,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 			}
 		}
 
-		if (comboboxConfig.isHasDefaultValue()) {
+		if (comboboxConfig.isHasDefaultValue() && !vaadinComboBox.getItemIds().isEmpty() ) {
 			vaadinComboBox.setNullSelectionAllowed(Boolean.FALSE);
 			vaadinComboBox.setValue(vaadinComboBox.getItemIds().iterator().next());
 		}
