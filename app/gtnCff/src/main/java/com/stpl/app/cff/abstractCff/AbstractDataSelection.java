@@ -223,9 +223,10 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	protected ComboBox customerRelationVersionComboBox;
 
 	private ComboBox businessUnit = new ComboBox();
+
         @UiField("cffEligibleDate")
 	protected PopupDateField cffEligibleDate;
-
+        
 	public Button getGenerateBtn() {
 		return generateBtn;
 	}
@@ -1079,7 +1080,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 				customerRelationValueChange(event.getProperty().getValue());
 				loadForecastLevels(innerCustLevels, customerInnerLevelContainer, level,
 						customerHierarchyDto.getHierarchyId(),
-						Integer.valueOf(customerRelationVersionComboBox.getValue().toString()));
+						Integer.parseInt(customerRelationVersionComboBox.getValue().toString()));
 			}
 		});
 	}
