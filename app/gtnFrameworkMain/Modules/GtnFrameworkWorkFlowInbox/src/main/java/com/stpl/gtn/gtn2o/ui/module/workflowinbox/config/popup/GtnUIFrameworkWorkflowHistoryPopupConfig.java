@@ -280,7 +280,7 @@ public class GtnUIFrameworkWorkflowHistoryPopupConfig {
 		GtnUIFrameworkComponentConfig gtnLayout = configProvider.getHorizontalLayoutConfig(
 				GtnFrameworkWorkflowInboxClassConstants.PARENTRESULT_LAYOUT, true,
 				GtnFrameworkWorkflowInboxClassConstants.HISTORYROOTLAYOUT);
-		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+		gtnLayout.setComponentWidth(GtnFrameworkCssConstants.PERCENT_50);
 		componentList.add(gtnLayout);
 	}
 
