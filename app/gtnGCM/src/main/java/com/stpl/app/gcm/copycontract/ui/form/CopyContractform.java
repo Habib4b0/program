@@ -43,7 +43,6 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -51,7 +50,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import com.vaadin.v7.event.FieldEvents;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -78,11 +76,11 @@ import com.vaadin.event.FieldEvents.BlurListener;
 public class CopyContractform extends CustomComponent implements View {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CopyContractform.class);
-    private CopyContractWindow editWindow;
+    private final CopyContractWindow editWindow;
     private ExtFilterTable resultTable;
     @UiField("main")
     public VerticalLayout layout;
-    private TabSheet tabsheet = new TabSheet();
+    private final TabSheet tabsheet = new TabSheet();
     @UiField("typeNC")
     public ComboBox aliastypecc;
     @UiField("CLOSE")
@@ -544,6 +542,7 @@ public class CopyContractform extends CustomComponent implements View {
                 if (Constants.CONTRACT_NO.equals(propertyId)) {
                     final TextField contractNo = new TextField();
                     contractNo.addBlurListener(new BlurListener() {
+                        @Override
                         public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(contractNo.getValue());
                             specValidation(newValue, contractNo);
@@ -554,6 +553,7 @@ public class CopyContractform extends CustomComponent implements View {
                 if (Constants.CONTRACT_NAME.equals(propertyId)) {
                     final TextField contractName = new TextField();
                     contractName.addBlurListener(new BlurListener() {
+                        @Override
                         public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(contractName.getValue());
                             specValidation(newValue, contractName);
@@ -565,6 +565,7 @@ public class CopyContractform extends CustomComponent implements View {
                     final TextField aliasNumber = new TextField();
                     aliasNumber.setWidth("120px");
                     aliasNumber.addBlurListener(new BlurListener() {
+                        @Override
                         public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(aliasNumber.getValue());
                             specValidation(newValue, aliasNumber);

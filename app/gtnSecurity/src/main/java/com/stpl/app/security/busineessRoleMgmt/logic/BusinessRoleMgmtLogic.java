@@ -25,7 +25,7 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
         super(BusinessroleMasterDTO.class);
 
     }
- private BusinessRoleMgmtLogicDAO dao = new BusinessRoleMgmtLogicDAOImpl();
+ private final BusinessRoleMgmtLogicDAO dao = new BusinessRoleMgmtLogicDAOImpl();
 
     public List<BusinessroleMasterDTO> getAllBusinessroles() throws SystemException {
     	DynamicQuery businessroleMasterDynamicQuery = BusinessroleMasterLocalServiceUtil.dynamicQuery();
@@ -92,8 +92,6 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
 			businessroleMaster.setModifiedDate(new Date());
 			dao.updateBusinessRoleMgmt(businessroleMaster);
 		} catch (SystemException e) {
-			// TODO Auto-generated catch block
-                       
 			LOGGER.error(e.getMessage());
 		}
 	}
@@ -123,8 +121,6 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
 	        dao.saveBusinessRoleMgmt(businessroleMaster);
 			return "success";
 		} catch (SystemException e) {
-			// TODO Auto-generated catch block
-                    
 			LOGGER.error(e.getMessage());
 			return null;
 		}
@@ -137,7 +133,6 @@ public class BusinessRoleMgmtLogic extends BeanItemContainer<BusinessroleMasterD
 			businessroleMaster.setIsActive("N");
 			dao.updateBusinessRoleMgmt(businessroleMaster);
 		} catch (SystemException e) {
-			// TODO Auto-generated catch block
 			LOGGER.error(e.getMessage());
 		}
 		

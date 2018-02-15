@@ -739,9 +739,11 @@ public class GtnWsRelationshipBuilderService {
 				hirarchyNo = getSelectClauseForAutoBuild(hirarchyNo, hierarchyBean, finalQueryBean,
 						gethiddenIdhierarchyNo);
 				query = gtnWsSqlService.getReplacedQuery(finalMasterSid, finalQueryBean.generateQuery());
+				query = checkForSelectOne(query);
 				if (finalQuery.length() > 0) {
 					finalQuery.append(" UNION ALL ");
 				}
+				
 				finalQuery.append(query);
 			}
 
@@ -753,6 +755,15 @@ public class GtnWsRelationshipBuilderService {
 			getIntermediateUserDefinedData(linkedLevelDataList, userDefinedLevelDataList, hierarchyList);
 		return linkedLevelDataList;
 
+	}
+
+	private String checkForSelectOne(String query) {
+		String quer=query;
+		if(quer.contains("HELPER_JOIN .DESCRIPTION"))
+		{
+			quer=quer.concat(" AND HELPER_JOIN .DESCRIPTION<> '-Select One-' ");
+		}
+		return quer;
 	}
 
 	private void getIntermediateUserDefinedData(List<GtnWsRecordBean> linkedLevelDataList,
@@ -1183,12 +1194,10 @@ public class GtnWsRelationshipBuilderService {
 				relationshipBuilder.setVersionNo(rbRequest.getVersionNo());
 			} else {
 				relationshipBuilder = session.load(RelationshipBuilder.class, rbRequest.getRbSysId());
-				relationshipBuilder = new RelationshipBuilder();
 				relationshipBuilder.setRelationshipBuilderSid(rbRequest.getRbSysId());
 				relationshipBuilder.setModifiedBy(rbRequest.getUserId());
 				relationshipBuilder.setModifiedDate(date);
 				relationshipBuilder.setCreatedBy(rbRequest.getCreatedById());
-				relationshipBuilder.setCreatedDate(date);
 				relationshipBuilder.setVersionNo(rbRequest.getVersionNo() + 1);
 			}
 			updateRelationshipBuilderFromRequest(relationshipBuilder, rbRequest, session);
@@ -1201,8 +1210,6 @@ public class GtnWsRelationshipBuilderService {
 			inputlist.add(String.valueOf(rbRequest.getHierarchyDefSId()));
 			inputlist.add(String.valueOf(rbRequest.getHierarchyVersionNo()));
 			tx.commit();
-			autoMaticRelationService.checkAndUpdateAutomaticRelationship(
-					relationshipBuilder.getRelationshipBuilderSid());
 			autoMaticRelationService.checkManualRelation(relationshipBuilder.getRelationshipBuilderSid());
 			rbResponse.setSuccess(true);
 		} catch (Exception e) {

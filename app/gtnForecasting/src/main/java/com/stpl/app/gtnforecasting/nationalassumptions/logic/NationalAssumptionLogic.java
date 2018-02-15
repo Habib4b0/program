@@ -962,7 +962,7 @@ public class NationalAssumptionLogic {
             projectionList.add(ProjectionFactoryUtil.property("itemDesc"));
             ndcQuery.setProjection(projectionList);
 
-            ndcQuery.addOrder(OrderFactoryUtil.asc(Constant.ITEM_NO));
+            ndcQuery.addOrder(OrderFactoryUtil.asc("itemDesc"));
             ndcQuery.add(RestrictionsFactoryUtil.ilike(Constant.ITEM_NO, filterText));
 
             qualifierList = DAO.getItemList(ndcQuery);

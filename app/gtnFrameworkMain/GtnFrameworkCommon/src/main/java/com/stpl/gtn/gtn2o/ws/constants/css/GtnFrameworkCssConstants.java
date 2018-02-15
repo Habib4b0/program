@@ -110,6 +110,7 @@ public final class GtnFrameworkCssConstants {
 	public static final String STPL_MARGIN_TOP_34 = "stpl-margin-top-34";
 	public static final String STPL_MARGIN_TOP_25 = "stpl-margin-top-25";
 	public static final String GTN_DUAL_LIST_BOX_BUTTON = "gtnGrid-DualList-Buttons";
+    public static final String PERCENT_50 = "50%";
 
 	private GtnFrameworkCssConstants() {
 		super();

@@ -84,7 +84,7 @@ public class OutboundLogic {
         List<Object> masterData = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         if (masterData != null && !masterData.isEmpty()) {
             Object ob = masterData.get(0);
-            count += Integer.valueOf(String.valueOf(ob));
+            count += Integer.parseInt(String.valueOf(ob));
         }
         LOGGER.debug(" getHierarchyDefinitionCount ===>" + count);
         return count;
@@ -156,8 +156,8 @@ public class OutboundLogic {
 
                     hierarchyBuilderDTO.setHierarchyDefinitionSystemId(!"null".equals(String.valueOf(object[0])) && StringUtils.isNotBlank(String.valueOf(object[0])) ? String.valueOf(object[0]) : "0");
                     hierarchyBuilderDTO.setHierarchyName(!"null".equals(String.valueOf(object[1])) && StringUtils.isNotBlank(String.valueOf(object[1])) ? String.valueOf(object[1]) : StringUtils.EMPTY);
-                    hierarchyBuilderDTO.setHierarchyTypeDto(helperListUtil.getIdHelperDTOMap().get(object[NumericConstants.TWO] != null ? Integer.valueOf(String.valueOf(object[NumericConstants.TWO])) : 0));
-                    hierarchyBuilderDTO.setHierarchyCategory(helperListUtil.getIdHelperDTOMap().get(object[NumericConstants.THREE] != null ? Integer.valueOf(String.valueOf(object[NumericConstants.THREE])) : 0));
+                    hierarchyBuilderDTO.setHierarchyTypeDto(helperListUtil.getIdHelperDTOMap().get(object[NumericConstants.TWO] != null ? Integer.parseInt(String.valueOf(object[NumericConstants.TWO])) : 0));
+                    hierarchyBuilderDTO.setHierarchyCategory(helperListUtil.getIdHelperDTOMap().get(object[NumericConstants.THREE] != null ? Integer.parseInt(String.valueOf(object[NumericConstants.THREE])) : 0));
                     hierarchyBuilderDTO.setNoOfLevels(!"null".equals(String.valueOf(object[NumericConstants.FOUR])) && StringUtils.isNotBlank(String.valueOf(object[NumericConstants.FOUR])) ? String.valueOf(object[NumericConstants.FOUR]) : StringUtils.EMPTY);
                     hierarchyBuilderDTO.setCreatedBy(object[NumericConstants.FIVE] != null ? userMap.get(Integer.valueOf(String.valueOf(object[NumericConstants.FIVE]))) : StringUtils.EMPTY);
                     if (object[NumericConstants.SIX] != null) {
@@ -421,7 +421,7 @@ public class OutboundLogic {
                         Compare.Operation operation = compare.getOperation();
                          
                         if (ConstantsUtils.VERSION_NO.equalsIgnoreCase(String.valueOf(compare.getPropertyId()))) {
-                            int value = Integer.valueOf(String.valueOf(compare.getValue()));
+                            int value = Integer.parseInt(String.valueOf(compare.getValue()));
                             if (operation.GREATER.toString().equalsIgnoreCase(operation.name())) {
                                 relationBuilderDynamicQuery.add(RestrictionsFactoryUtil.gt(ConstantsUtils.VERSION_NO, value));
                             }

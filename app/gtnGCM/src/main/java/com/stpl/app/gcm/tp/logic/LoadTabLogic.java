@@ -9,7 +9,6 @@ import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.dao.CommonDao;
 import com.stpl.app.gcm.common.dao.impl.CommonImpl;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
 import com.stpl.app.gcm.tp.dao.impl.TradingPartnerDAOImpl;

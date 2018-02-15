@@ -30,6 +30,8 @@ import org.apache.commons.lang.StringUtils;
  */
 public class NMSalesExcelLogic {
 
+    public static final String DF_LEVEL_NUMBER = "dfLevelNumber";
+    public static final String DF_LEVEL_NAME = "dfLevelName";
     private final Map<String, SalesRowDto> resultMap = new HashMap<>();
     private final List<String> hierarchyKeys = new ArrayList<>();
     private final CommonLogic commonLogic=new CommonLogic();
@@ -72,7 +74,29 @@ public class NMSalesExcelLogic {
             } else {
                 salesRowDto.setGroup(StringUtils.EMPTY);
             }
-            salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
+             if (CommonUtil.isValueEligibleForLoading()) {
+                String levelName = CommonUtil.getDisplayFormattedName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat());
+                salesRowDto.setLevelName(levelName);
+                if (levelName.contains("-")) {
+                    String[] tempArr = levelName.split("-");
+                    salesRowDto.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
+                    salesRowDto.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
+                } else if (projectionSelectionDTO.getDisplayFormat().length == 1 && projectionSelectionDTO.getDisplayFormat().length > 0) {
+                    int index = (int) projectionSelectionDTO.getDisplayFormat()[0];
+                    if (index == 0) {
+                        salesRowDto.addStringProperties(DF_LEVEL_NUMBER, levelName);
+                    } else {
+                        salesRowDto.addStringProperties(DF_LEVEL_NAME, levelName);
+                    }
+                } else {
+                    salesRowDto.addStringProperties(DF_LEVEL_NAME, levelName);
+                    salesRowDto.addStringProperties(DF_LEVEL_NUMBER, levelName);
+                }
+
+            } else {
+                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(hierarchyNo, hierarchyIndicator, hierarchyLevelDetails, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
+
+            }
             salesRowDto.addStringProperties(Constant.METHODOLOGY, StringUtils.isBlank(String.valueOf(obj[NumericConstants.ELEVEN])) || Constant.NULL.equals(String.valueOf(obj[NumericConstants.ELEVEN])) ? "-" : String.valueOf(obj[NumericConstants.ELEVEN]));
             salesRowDto.addStringProperties(Constant.BASELINE, StringUtils.isBlank(String.valueOf(obj[NumericConstants.THIRTEEN])) || Constant.NULL.equals(String.valueOf(obj[NumericConstants.THIRTEEN])) ? "-" : String.valueOf(obj[NumericConstants.THIRTEEN]));
             if (CommonUtil.isValueEligibleForLoading()) {

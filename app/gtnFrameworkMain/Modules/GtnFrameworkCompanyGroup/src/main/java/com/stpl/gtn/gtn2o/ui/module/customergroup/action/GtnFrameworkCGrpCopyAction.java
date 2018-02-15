@@ -40,9 +40,9 @@ public class GtnFrameworkCGrpCopyAction
 			throws GtnFrameworkGeneralException {
 		gtnLogger.info("In GtnFrameworkCGrpCopyAction");
 		String tableId = (String) gtnUIFrameWorkActionConfig.getActionParameterList().get(1);
-		GtnWsRecordBean gtnWsRecordBean = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableId)
+		GtnWsRecordBean gtnWsRecordBeanCopy = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableId)
 				.getValueFromPagedDataTable();
-		if (gtnWsRecordBean == null) {
+		if (gtnWsRecordBeanCopy == null) {
 			return;
 		}
 		GtnUIFrameworkGlobalUI.addSessionProperty("restrictReloadFlag", true);
@@ -50,13 +50,13 @@ public class GtnFrameworkCGrpCopyAction
 
 		GtnCompanyGrpInformationBean cGrpInfoBean = new GtnCompanyGrpInformationBean();
 
-		GtnCompanyGroupBean cGrpBean = new GtnCompanyGroupBean();
-		cGrpBean.setGtnCompanyGrpInformationBean(cGrpInfoBean);
-		int systemId = (Integer) gtnWsRecordBean.getPropertyValueByIndex(7);
+		GtnCompanyGroupBean cGrpBeanCopy = new GtnCompanyGroupBean();
+		cGrpBeanCopy.setGtnCompanyGrpInformationBean(cGrpInfoBean);
+		int systemId = (Integer) gtnWsRecordBeanCopy.getPropertyValueByIndex(7);
 		cGrpInfoBean.setCompanyGrpSid(systemId);
-                cGrpInfoBean.setVersionNo((Integer) gtnWsRecordBean.getPropertyValueByIndex(3));
+                cGrpInfoBean.setVersionNo((Integer) gtnWsRecordBeanCopy.getPropertyValueByIndex(3));
 		GtnCompanyGroupRequest cGrpRequest = new GtnCompanyGroupRequest();
-		cGrpRequest.setGtnCompanyGroupBean(cGrpBean);
+		cGrpRequest.setGtnCompanyGroupBean(cGrpBeanCopy);
 		gtnRequest.setGtnCompanyGroupRequest(cGrpRequest);
 		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
 		generalWSRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());

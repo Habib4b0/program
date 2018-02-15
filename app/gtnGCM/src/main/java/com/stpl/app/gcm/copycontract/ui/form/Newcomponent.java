@@ -271,7 +271,7 @@ public class Newcomponent extends CustomComponent {
     private final CommonDao DAO = CommonImpl.getInstance();
     private final CommonUtil commonUtil = CommonUtil.getInstance();
     private final NewComponentsDetailsSearchTableLogic tablelogic = new NewComponentsDetailsSearchTableLogic();
-    private ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tablelogic);
+    private final ExtPagedTable componentDetailsSearchTable = new ExtPagedTable(tablelogic);
     private final CopyContractLogic logic = new CopyContractLogic();
     public static final String REGEX_STRING = "([0-9|a-z|A-Z|\\.|\\,|\\_|\\@|\\*|\\#|\\$|\\&|\\-|\\s])*";
     public static final String SELECT_ATLEAST_ONE_RECORD = "Please Select Atleast one Record at Component Details Section";

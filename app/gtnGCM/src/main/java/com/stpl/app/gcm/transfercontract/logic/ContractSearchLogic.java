@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gcm.transfercontract.logic;
 
-import com.stpl.app.gcm.common.QueryUtils;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;

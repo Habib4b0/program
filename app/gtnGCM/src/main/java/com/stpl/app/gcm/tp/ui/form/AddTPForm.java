@@ -14,7 +14,6 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.CONTRACT_SELECT
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TAB_SUMMARY;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;

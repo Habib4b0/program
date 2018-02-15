@@ -11,7 +11,6 @@ import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.HelperUtils;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.LogFactory;
 import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -34,19 +33,19 @@ public class SearchButtonLayout extends HorizontalLayout {
 	private static final long serialVersionUID = 1L;
 
 	
-	private ErrorfulFieldGroup binder;
-	private BusinessRoleModuleSearchLogic businessRoleModuleLogic=new BusinessRoleModuleSearchLogic();
+	private final ErrorfulFieldGroup binder;
+	private final BusinessRoleModuleSearchLogic businessRoleModuleLogic=new BusinessRoleModuleSearchLogic();
 	
-	private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
-	private BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
-	private ExtFilterTable table;
-	private ExtFilterTable tableField;
-	private ComboBox subModuleName;
-	private ComboBox moduleName;
-	private ComboBox businessRoleName;
-	private CheckBox add;
-        private CheckBox edit;
-        private CheckBox view;
+	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
+	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
+	private final ExtFilterTable table;
+	private final ExtFilterTable tableField;
+	private final ComboBox subModuleName;
+	private final ComboBox moduleName;
+	private final ComboBox businessRoleName;
+	private final CheckBox add;
+        private final CheckBox edit;
+        private final CheckBox view;
 	private static final Logger LOGGER = LoggerFactory.getLogger(SearchButtonLayout.class
 			.getName());
 	private final String Select=CommonUtils.SELECT_ONE;
@@ -69,11 +68,11 @@ public class SearchButtonLayout extends HorizontalLayout {
 
 	private void init(){
 		this.setSpacing(true);
-		SearchButton();
-		ResetButton();
+		searchButton();
+		resetButton();
 	}
 
-	private void SearchButton() {
+	private void searchButton() {
 		// Commit button
            LOGGER.info("In search button----------------");
 		Button btnSearch = new Button("Search");
@@ -82,6 +81,7 @@ public class SearchButtonLayout extends HorizontalLayout {
 
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                    
             
@@ -93,6 +93,7 @@ public class SearchButtonLayout extends HorizontalLayout {
 			private static final long serialVersionUID = 1L;
 
 			
+            @Override
 			public void buttonClick(ClickEvent event) {
 				try {
 					binder.getFields();
@@ -135,13 +136,11 @@ public class SearchButtonLayout extends HorizontalLayout {
                                   MessageBox.showPlain(Icon.ERROR, "Search Criteria", "Please enter Search Criteria", ButtonId.OK);
         
         }
-                                            } catch (SystemException e) {
+                                            } catch (SystemException | PortalException e) {
 						LOGGER.error(e.getMessage());
                                                 
 						
-					} catch (PortalException e) {
-						LOGGER.error(e.getMessage());
-                                               					}
+					}
 					
 				} catch (CommitException e) {
 					LOGGER.error(e.getMessage());
@@ -156,11 +155,12 @@ public class SearchButtonLayout extends HorizontalLayout {
 		this.addComponent(btnSearch);
 	}
 
-	private void ResetButton() {
+	private void resetButton() {
 		Button btnReset = new Button("Reset");
 		btnReset.setWidth("75");
 		btnReset.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
+            @Override
 			public void buttonClick(ClickEvent event) {
 				binder.discard();
 				binder.setItemDataSource(new BeanItem<SearchDTO>(new SearchDTO()));

@@ -29,10 +29,10 @@ public class BusinessRoleMgmtView extends VerticalLayout implements View {
 	
 	private final ErrorLabel errorMsg = new ErrorLabel();
 	
-	private BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
-	private BeanItemContainer<BusinessroleMasterDTO> searchResultbeans = new BeanItemContainer<BusinessroleMasterDTO>(
+	private final BusinessRoleMgmtLogic businessRoleMgmtLogic = new BusinessRoleMgmtLogic();
+	private final BeanItemContainer<BusinessroleMasterDTO> searchResultbeans = new BeanItemContainer<BusinessroleMasterDTO>(
 			BusinessroleMasterDTO.class);
-	private Table table=new Table();
+	private final Table table=new Table();
 	
 	private static final Logger LOGGER =
 			 LoggerFactory.getLogger(ActionButtonLayout.class
@@ -70,6 +70,7 @@ public class BusinessRoleMgmtView extends VerticalLayout implements View {
 		return binder;
 	}
 	
+        @Override
 	public void enter(ViewChangeEvent event) {
             return;
 	}

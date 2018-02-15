@@ -14,7 +14,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.customwindow.CustomWindow;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 /**
  *

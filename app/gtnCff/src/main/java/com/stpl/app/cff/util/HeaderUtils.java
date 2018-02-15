@@ -69,6 +69,9 @@ public class HeaderUtils {
      */
     public final String[] COMPARISON_HEADER = new String[]{"Projection Name", "Description",
         "Market Type", "Customer", "Contract", "Brand", "NDC #", "NDC Name", "Created Date", "Created By"};
+    
+    public static final String BP_NAME = "ALLERGAN";
+    public static final String BUSINESS_PROCESS = "businessProcess";
 
     public static CustomTableHeaderDTO getLeftTableColumns(CustomTableHeaderDTO fullHeaderDTO, String group) {
 
@@ -298,9 +301,18 @@ public class HeaderUtils {
         tableHeaderDTO.addSingleColumn(singleCol[0], " ", String.class);
         tableHeaderDTO.addDoubleColumn(doubleCol, " ");
         tableHeaderDTO.addDoubleHeaderMap(doubleCol, singleCol);
-        fullHeaderDTO.addSingleColumn(singleCol[0], " ", String.class);
-        fullHeaderDTO.addDoubleColumn(doubleCol, " ");
-        fullHeaderDTO.addDoubleHeaderMap(doubleCol, singleCol);
+        
+         if (System.getProperty(BUSINESS_PROCESS).equals(BP_NAME)) {
+            fullHeaderDTO.addSingleColumn(singleCol[0], " ", String.class);
+            fullHeaderDTO.addDoubleColumn(doubleCol, " ");
+            fullHeaderDTO.addSingleColumn("dfLevelNumber", "Level Number", String.class);
+            fullHeaderDTO.addSingleColumn("dfLevelName", "Level Name", String.class);
+            fullHeaderDTO.addDoubleHeaderMap(doubleCol, new Object[]{singleCol[0],"dfLevelNumber", "dfLevelName"});
+        } else {
+            fullHeaderDTO.addSingleColumn(singleCol[0], " ", String.class);
+            fullHeaderDTO.addDoubleColumn(doubleCol, " ");
+            fullHeaderDTO.addDoubleHeaderMap(doubleCol, singleCol);
+        }
         return tableHeaderDTO;
     }
 

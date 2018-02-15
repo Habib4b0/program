@@ -19,7 +19,6 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutoupdateService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
-import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @Service
@@ -38,7 +37,7 @@ public class GtnFrameworkDeductionRelationServiceRunnable {
 	private GtnFrameworkAutoupdateService deDuctionAutoUpdateService;
 
 	@Autowired
-	private GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
+	private GtnFrameworkAutomaticRelationUpdateService automaticService;
 
 	private static final GtnWSLogger logger = GtnWSLogger
 			.getGTNLogger(GtnFrameworkDeductionRelationServiceRunnable.class);
@@ -48,43 +47,40 @@ public class GtnFrameworkDeductionRelationServiceRunnable {
 	}
 
 
-	public void saveRelationship(GtnWsRelationshipBuilderBean relationBuilderBean, boolean isRelationSaved)
-			throws GtnFrameworkGeneralException {
+	public void saveRelationship(GtnWsRelationshipBuilderBean relationBuilderBean)
+			throws GtnFrameworkGeneralException, InterruptedException {
 		try (Session session = sessionFactory.openSession()) {
 			Transaction tx = session.beginTransaction();
 			RelationshipBuilder relationBuilder;
-			relationBuilder = saveRelationShipBuilder(relationBuilderBean, session, isRelationSaved);
+			relationBuilder = saveRelationShipBuilder(relationBuilderBean, session);
 			GtnWsRelationshipBuilderBean relationBean = customizeDeductionRelation(relationBuilder);
-			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = relationUpdateService
-					.getHierarchyBuilder(relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
 			tx.commit();
-			deDuctionAutoUpdateService.doAutomaticUpdate(hierarchyLevelDefinitionList, relationBean);
+			automaticService.checkAndUpdateAutomaticRelationship(relationBean.getRelationshipBuilderSid());
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private RelationshipBuilder saveRelationShipBuilder(GtnWsRelationshipBuilderBean relationBuilderBean,
-			Session session, boolean isRelationSaved) throws GtnFrameworkGeneralException {
-		RelationshipBuilder relationBuilder;
+	private RelationshipBuilder saveRelationShipBuilder(GtnWsRelationshipBuilderBean productRelationBuilderBean,
+			Session session) throws GtnFrameworkGeneralException {
+		RelationshipBuilder relationBuilder = null;
 		Date date = new Date();
-		if (isRelationSaved) {
-			List<String> input = new ArrayList<>();
-			input.add(String.valueOf(relationBuilderBean.getRelationshipBuilderSid()));
-			List<Integer> resultset = (List<Integer>) gtnSqlQueryEngine
-					.executeSelectQuery(getQueryReplaced(input, "getProductRelationId"));
-			relationBuilder = session.load(RelationshipBuilder.class, resultset.get(0));
-			relationBuilder.setModifiedBy(relationBuilderBean.getCreatedBy());
-			relationBuilder.setVersionNo(relationBuilder.getVersionNo() + 1);
-		} else {
+		List<String> input = new ArrayList<>();
+		input.add(String.valueOf(productRelationBuilderBean.getRelationshipBuilderSid()));
+		List<Integer> resultset = (List<Integer>) gtnSqlQueryEngine
+				.executeSelectQuery(getQueryReplaced(input, "getProductRelationId"));
+		if (resultset == null || resultset.isEmpty())
+		{
 			relationBuilder = new RelationshipBuilder();
-			relationBuilder.setVersionNo(1);
-
+			relationBuilder.setVersionNo(0);
+			relationBuilder.setCreatedDate(date);
+			relationBuilder.setCreatedBy(productRelationBuilderBean.getCreatedBy());
+			relationBuilder.setModifiedDate(date);
+			updateRelationshipBuilderFromRequest(relationBuilder, session, productRelationBuilderBean);
+			session.saveOrUpdate(relationBuilder);
+		} else {
+			relationBuilder = session.get(RelationshipBuilder.class, resultset.get(0));
 		}
-		relationBuilder.setCreatedBy(relationBuilderBean.getCreatedBy());
-		relationBuilder.setCreatedDate(date);
-		relationBuilder.setModifiedDate(date);
-		updateRelationshipBuilderFromRequest(relationBuilder, session, relationBuilderBean);
-		session.saveOrUpdate(relationBuilder);
+
 		return relationBuilder;
 	}
 
