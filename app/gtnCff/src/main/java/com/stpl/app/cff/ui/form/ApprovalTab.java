@@ -893,7 +893,7 @@ public class ApprovalTab extends CustomComponent {
             valueMap.put("cffEligiblDate", new SimpleDateFormat("YYYY-MM-dd HH:mm:ss").format(sessionDTO.getCffEligibleDate()));
             try {
                 final String result = cffLogic.saveCffInformation(cffMasterSystemId, userId, valueMap, sessionDTO);
-                notestab.saveAdditionalInformation(Integer.valueOf(String.valueOf(VaadinSession.getCurrent().getAttribute("projectionId"))), userId, sessionDTO);
+                notestab.saveAdditionalInformation(Integer.parseInt(String.valueOf(VaadinSession.getCurrent().getAttribute("projectionId"))), userId, sessionDTO);
                 if (!result.equals(CommonUtils.FAIL)) {
                     CommonUIUtils.getMessageNotification("Submitted Successfully");
                     return Boolean.TRUE;
