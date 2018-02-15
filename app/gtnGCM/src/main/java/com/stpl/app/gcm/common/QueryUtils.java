@@ -18,7 +18,6 @@ import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.gcm.promotetptocontract.dto.ComponentInfoDTO;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.transfercontract.dto.ContractSearchDTO;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.gcm.util.Constants;

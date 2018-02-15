@@ -49,7 +49,7 @@ public class NEPLookup extends Window {
 
     private final NEPLookuptablelogic tablelogic = new NEPLookuptablelogic();
     private final ExtPagedTable resultTable = new ExtPagedTable(tablelogic);
-    private BeanItemContainer<FormulaDTO> forumulaLookupBean = new BeanItemContainer<>(FormulaDTO.class);
+    private final BeanItemContainer<FormulaDTO> forumulaLookupBean = new BeanItemContainer<>(FormulaDTO.class);
     @UiField("formulaId")
     public TextField formulaId;
     @UiField("formulaNo")
@@ -79,7 +79,7 @@ public class NEPLookup extends Window {
     private String lookupName = StringUtils.EMPTY;
     @UiField("vertiLayout")
     private VerticalLayout vertiLayout;
-    private CustomTextField componentTextField;
+    private final CustomTextField componentTextField;
     private final SelectionDTO selection = new SelectionDTO();
 
     public final Object[] formulaSearchColumns = new Object[]{

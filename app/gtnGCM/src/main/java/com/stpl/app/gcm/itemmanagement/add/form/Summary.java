@@ -38,7 +38,6 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
-import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
 
@@ -101,7 +100,7 @@ public class Summary extends CustomComponent {
     @UiField("componentDetailsLay")
     private VerticalLayout componentDetailsLay;
     private final ItemDetailsTableLogic contractTableLogic = new ItemDetailsTableLogic();
-    private ExtPagedTable addContractTable = new ExtPagedTable(contractTableLogic);
+    private final ExtPagedTable addContractTable = new ExtPagedTable(contractTableLogic);
     private final ContractDashboardTableLogic contractDashboardTableLogic = new ContractDashboardTableLogic();
     private final FreezePagedTreeTable contractDashBoardtable = new FreezePagedTreeTable(contractDashboardTableLogic);
     private List<ItemIndexDto> selecteditemList;

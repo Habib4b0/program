@@ -91,7 +91,7 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ComponentLookUp.clas
     private final AbstractLogic logic = AbstractLogic.getInstance();
     private final List<String> countFlag = new ArrayList<>();
     private final List<String> loadDataFlag = new ArrayList<>();
-    private CustomTextField componentTextField;
+    private final CustomTextField componentTextField;
 
     public ComponentLookUp(final String component, final String caption, final CustomTextField componentTextField) {
         this.component = component;

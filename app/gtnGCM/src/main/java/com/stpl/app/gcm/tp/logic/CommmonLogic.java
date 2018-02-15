@@ -24,7 +24,6 @@ import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 
-import static com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic.getDdlbmap;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import com.stpl.app.gcm.util.Converters;
 import com.stpl.app.gcm.util.ErrorCodeUtil;
