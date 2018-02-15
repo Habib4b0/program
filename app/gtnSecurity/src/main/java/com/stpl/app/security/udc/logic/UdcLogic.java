@@ -38,7 +38,7 @@ public class UdcLogic {
     private static final String BRAND_NAME = "brandName";
     private static final String DISPLAY_BRAND = "displayBrand";
     private static final String BRAND_ID = "brand_id";
-    private UdcLogicDAO dao = new UdcLogicDAOImpl();
+    private final UdcLogicDAO dao = new UdcLogicDAOImpl();
 
     public Container getListNames() {
 
@@ -117,7 +117,7 @@ public class UdcLogic {
 
     }
 
-    public String SaveHelperTable(ErrorfulFieldGroup helperForm) {
+    public String saveHelperTable(ErrorfulFieldGroup helperForm) {
         HelperTable helperTable = HelperTableLocalServiceUtil.createHelperTable(0);
         List<HelperTable> list;
         int count = 0;
@@ -152,13 +152,13 @@ public class UdcLogic {
 
             return "fail";
         } catch (Exception e) {
-            LOGGER.debug("exception occured--->" + e);
+            LOGGER.debug("Exception occured---> {}.",e);
             return "fail";
         }
 
     }
     
-    public String SaveFileTypeHelperTable(ErrorfulFieldGroup helperForm) {
+    public String saveFileTypeHelperTable(ErrorfulFieldGroup helperForm) {
         HelperTable helperTable = HelperTableLocalServiceUtil.createHelperTable(0);
         List<HelperTable> list;
         int count = 0;
@@ -195,7 +195,7 @@ public class UdcLogic {
 
             return "fail";
         } catch (Exception e) {
-            LOGGER.debug("exception occured--->" + e);
+            LOGGER.debug("Exception occured---> {].", e);
             return "fail";
         }
 
@@ -205,7 +205,6 @@ public class UdcLogic {
         BrandMaster brandTable = BrandMasterLocalServiceUtil.createBrandMaster(0);
         Date date = new Date();
         try {
-           LOGGER.debug("=======brand id====" +brandForm.getField(CommonUtils.BRAND_ID).getValue());
             if (brandForm.getField(CommonUtils.CATEGORY) != null && brandForm.getField(CommonUtils.CATEGORY).getValue() != null
                     && brandForm.getField(CommonUtils.BRAND_ID).getValue() != null && !StringUtils.EMPTY.equals(brandForm.getField(CommonUtils.BRAND_ID).getValue().toString())) {
                LOGGER.debug("=====inside if=====");

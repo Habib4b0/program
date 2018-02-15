@@ -55,11 +55,11 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
 	private final Button delete = new Button("DELETE");
 	private final ErrorLabel errorMsg = new ErrorLabel();
 	private int mailNotificationSystemId;
-	private NotificationMgmtIndexDTO notificationMgmtIndexDTO = new NotificationMgmtIndexDTO();
-	private CustomFieldGroup notificationMgmtBinder = new CustomFieldGroup(new BeanItem<NotificationMgmtIndexDTO>(notificationMgmtIndexDTO));
-	private BeanItemContainer<NotificationMgmtIndexDTO> notificationIndexBean = new BeanItemContainer<NotificationMgmtIndexDTO>(
+	private final NotificationMgmtIndexDTO notificationMgmtIndexDto = new NotificationMgmtIndexDTO();
+	private final CustomFieldGroup notificationMgmtBinder = new CustomFieldGroup(new BeanItem<NotificationMgmtIndexDTO>(notificationMgmtIndexDto));
+	private final BeanItemContainer<NotificationMgmtIndexDTO> notificationIndexBean = new BeanItemContainer<NotificationMgmtIndexDTO>(
             NotificationMgmtIndexDTO.class);
-	private NotificationMgmtLogic notificationLogic = new NotificationMgmtLogic();
+	private final NotificationMgmtLogic notificationLogic = new NotificationMgmtLogic();
     private static final Logger LOGGER = LoggerFactory.getLogger(NotificationMgmtIndex.class);
 
     public NotificationMgmtIndex() {
@@ -141,13 +141,14 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
         table.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void itemClick(ItemClickEvent event) {
                 try {
                     if (event.getItem() != null) {
-                        NotificationMgmtIndexDTO notificationMgmtIndexDTO=resultsItemClick(event.getItemId());
-                        mailNotificationSystemId = notificationMgmtIndexDTO.getMailNotificationSystemId();
+                        NotificationMgmtIndexDTO vObjNotificationIndexDto=resultsItemClick(event.getItemId());
+                        mailNotificationSystemId = vObjNotificationIndexDto.getMailNotificationSystemId();
                         
-                        notificationMgmtBinder.setItemDataSource(new BeanItem<NotificationMgmtIndexDTO>(notificationMgmtIndexDTO));
+                        notificationMgmtBinder.setItemDataSource(new BeanItem<NotificationMgmtIndexDTO>(vObjNotificationIndexDto));
 
                     }
                 } catch (Exception e) {
@@ -257,6 +258,7 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
         mode.addValueChangeListener(new Property.ValueChangeListener() {
             private static final long serialVersionUID = 1172963944103056571L;
 
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 if (mode.getValue() == "Edit") {
 
@@ -284,11 +286,12 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
             }
         });
         add.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 boolean check = validatingFields();
                 if (check) {
                     loadDataIntoNotificationDTO();
-                    String result = notificationLogic.saveNotification(notificationMgmtIndexDTO);
+                    String result = notificationLogic.saveNotification(notificationMgmtIndexDto);
                     if ("success".equals(result)) {
                         loadTableAfterAdd();
                         MessageUtils.getMessageNotification("Saved Successfully");
@@ -299,11 +302,12 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
             }
         });
         update.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 boolean check = validatingFields();
                 if (check) {
                     loadDataIntoNotificationDTO();
-                    String result = notificationLogic.updateNotification(notificationMgmtIndexDTO, mailNotificationSystemId);
+                    String result = notificationLogic.updateNotification(notificationMgmtIndexDto, mailNotificationSystemId);
                     if("success".equals(result)){
                          MessageUtils.getMessageNotification("Updated Successfully");
                           loadTableAfterAdd();
@@ -314,6 +318,7 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
             }
         });
         delete.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 boolean result = notificationLogic.deleteNotification(mailNotificationSystemId);
                 if (result) {
@@ -325,6 +330,7 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
             }
         });
         reset.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 resetButtonLogic();
             }
@@ -376,25 +382,25 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
 
     public void loadDataIntoNotificationDTO() {
         if (categoryddlb.getValue() != null && !"".equals(categoryddlb.getValue()) && !"null".equals(categoryddlb.getValue())) {
-            notificationMgmtIndexDTO.setCategoryId(((HelperDTO) categoryddlb.getValue()).getId());
+            notificationMgmtIndexDto.setCategoryId(((HelperDTO) categoryddlb.getValue()).getId());
         }
         if (businessProcess.getValue() != null) {
-            notificationMgmtIndexDTO.setBusinessProcess(String.valueOf(businessProcess.getValue()));
+            notificationMgmtIndexDto.setBusinessProcess(String.valueOf(businessProcess.getValue()));
         }
-        notificationMgmtIndexDTO.setFromMailId(fromMailId.getValue().trim());
-        notificationMgmtIndexDTO.setToMailId(toMailId.getValue().trim());
-        notificationMgmtIndexDTO.setCcMailId(ccMailId.getValue().trim());
-        notificationMgmtIndexDTO.setSubject(subject.getValue().trim());
-        notificationMgmtIndexDTO.setBody(body.getValue().trim());
+        notificationMgmtIndexDto.setFromMailId(fromMailId.getValue().trim());
+        notificationMgmtIndexDto.setToMailId(toMailId.getValue().trim());
+        notificationMgmtIndexDto.setCcMailId(ccMailId.getValue().trim());
+        notificationMgmtIndexDto.setSubject(subject.getValue().trim());
+        notificationMgmtIndexDto.setBody(body.getValue().trim());
         String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
-        notificationMgmtIndexDTO.setCreatedById(userId != null || !"".equals(userId) ? Integer.valueOf(userId) : 0);
-        notificationMgmtIndexDTO.setModifiedById(userId != null || !"".equals(userId) ? Integer.valueOf(userId) : 0);
+        notificationMgmtIndexDto.setCreatedById(userId != null || !"".equals(userId) ? Integer.valueOf(userId) : 0);
+        notificationMgmtIndexDto.setModifiedById(userId != null || !"".equals(userId) ? Integer.valueOf(userId) : 0);
     }
 
     private CustomFieldGroup getBinder() {
 
         notificationMgmtBinder.setItemDataSource(new BeanItem<NotificationMgmtIndexDTO>(
-                notificationMgmtIndexDTO));
+                notificationMgmtIndexDto));
         notificationMgmtBinder.bindMemberFields(this);
         notificationMgmtBinder.setBuffered(true);
         notificationMgmtBinder.setErrorDisplay(errorMsg);
@@ -403,43 +409,43 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
 
     public boolean validatingFields() {
         String category = "";
-        String businessProcess = "";
-        String from = "";
-        String to = "";
-        String cc = "";
-        String subject = "";
-        String body = "";
+        String bussProcess = "";
+        String emailFrom = "";
+        String emailTo = "";
+        String emailCc = "";
+        String emailSubj = "";
+        String emailBody = "";
         category = String.valueOf(this.categoryddlb.getValue());
-        businessProcess = String.valueOf(this.businessProcess);
-        from = fromMailId.getValue();
-        to = toMailId.getValue();
-        cc = ccMailId.getValue();
-        subject = this.subject.getValue();
-        body = this.body.getValue();
+        bussProcess = String.valueOf(this.businessProcess);
+        emailFrom = fromMailId.getValue();
+        emailTo = toMailId.getValue();
+        emailCc = ccMailId.getValue();
+        emailSubj = this.subject.getValue();
+        emailBody = this.body.getValue();
         if (category == null || "".equals(category) || "null".equals(category)) {
             NotificationUtils.getErrorNotification("Category Empty", "You didn't select a category. \n Please select again");
             return false;
         }
-        if (businessProcess == null || "".equals(businessProcess) || "null".equals(businessProcess)) {
+        if (bussProcess == null || "".equals(bussProcess) || "null".equals(bussProcess)) {
             NotificationUtils.getErrorNotification("businessProcess Empty", "You didn't select a businessProcess. \n Please select again");
             return false;
         }
-        if (subject == null || "".equals(subject) || "null".equals(subject)) {
+        if (emailSubj == null || "".equals(emailSubj) || "null".equals(emailSubj)) {
             NotificationUtils.getErrorNotification("subject Empty", "Subject field should not be empty .");
             return false;
         }
-        if (body == null || "".equals(body) || "null".equals(body)) {
+        if (emailBody == null || "".equals(emailBody) || "null".equals(emailBody)) {
             NotificationUtils.getErrorNotification("Message body Empty", "Message body field should not be empty .");
             return false;
         }
-        if (from == null || "".equals(from) || "null".equals(from)) {
+        if (emailFrom == null || "".equals(emailFrom) || "null".equals(emailFrom)) {
             NotificationUtils.getErrorNotification("From  Empty", " From field should not be empty .");
             return false;
         } else {
 
-             String emails[]=from.split(",");
+             String emails[]=emailFrom.split(",");
              if(emails.length==1){
-            if (!(EmailValidator.getInstance().isValid(from))) {
+            if (!(EmailValidator.getInstance().isValid(emailFrom))) {
                 NotificationUtils.getErrorNotification("Email Invalid in From", "Please enter a valid E-mail for From");
                 return false;
             }
@@ -449,11 +455,11 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
                 return false;
              }
         }
-        if (to == null || "".equals(to) || "null".equals(to)) {
+        if (emailTo == null || "".equals(emailTo) || "null".equals(emailTo)) {
             NotificationUtils.getErrorNotification("To Empty", " To field should not be empty .");
             return false;
         } else {
-            String emails[]=to.split(",");
+            String emails[]=emailTo.split(",");
         for(String email:emails){
         if (!(EmailValidator.getInstance().isValid(email))) {
 
@@ -462,11 +468,11 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
             }
         }   
         }
-        if (cc == null || "".equals(cc) || "null".equals(cc)) {
+        if (emailCc == null || "".equals(emailCc) || "null".equals(emailCc)) {
             NotificationUtils.getErrorNotification("Cc Empty", " Cc field should not be empty .");
             return false;
         } else {
-             String emails[]=cc.split(",");
+             String emails[]=emailCc.split(",");
         for(String email:emails){
             if (!(EmailValidator.getInstance().isValid(email))) {
 
@@ -487,13 +493,14 @@ public class NotificationMgmtIndex extends CustomComponent implements View {
                 targetItem = new BeanItem<NotificationMgmtIndexDTO>(
                         (NotificationMgmtIndexDTO) id);
             }
-            NotificationMgmtIndexDTO notificationMgmtIndexDTO = (NotificationMgmtIndexDTO) targetItem.getBean();
-            notificationMgmtIndexDTO.setCategoryddlb(((NotificationMgmtIndexDTO) targetItem.getBean()).getCategoryddlb());
-    return notificationMgmtIndexDTO;
+            NotificationMgmtIndexDTO notiMgmtIndexDto = (NotificationMgmtIndexDTO) targetItem.getBean();
+            notiMgmtIndexDto.setCategoryddlb(((NotificationMgmtIndexDTO) targetItem.getBean()).getCategoryddlb());
+    return notiMgmtIndexDto;
         }
        return null;
     }
 
+        @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         return;
     }

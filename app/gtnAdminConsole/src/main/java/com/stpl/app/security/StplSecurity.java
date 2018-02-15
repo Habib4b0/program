@@ -73,7 +73,7 @@ public class StplSecurity {
         final User user = dto.getUserByUserId(userId);
         for (int i = 0; i < user.getUserGroups().size(); i++) {
             final Long userGroup = user.getUserGroups().get(i).getUserGroupId();
-            userGroupId.add(Integer.parseInt(userGroup.toString()));
+            userGroupId.add(Integer.valueOf(userGroup.toString()));
         }
         return userGroupId;
     }

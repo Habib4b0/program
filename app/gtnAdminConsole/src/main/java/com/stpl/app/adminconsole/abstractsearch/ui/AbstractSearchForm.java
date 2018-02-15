@@ -386,7 +386,7 @@ public class AbstractSearchForm extends CustomComponent {
         try {
             if (event.isDoubleClick()) {
                 SearchResultsDTO searchForm1 = (SearchResultsDTO) event.getItemId();
-                sessionDTO.setSystemId(Integer.valueOf(searchForm1.getSystemID()));
+                sessionDTO.setSystemId(Integer.parseInt(searchForm1.getSystemID()));
                     if (searchForm1.isRecordLockStatus()) {
 
                         if (!itemStatusCheck()) {
@@ -413,7 +413,7 @@ public class AbstractSearchForm extends CustomComponent {
         try {
 
             final String userId = sessionDTO.getUserId();
-            boolean etlCheck = commonsUtil.checkETLUser(Integer.valueOf(userId));
+            boolean etlCheck = commonsUtil.checkETLUser(Integer.parseInt(userId));
 
             return etlCheck;
         } catch (Exception ex) {
@@ -642,7 +642,7 @@ public class AbstractSearchForm extends CustomComponent {
                             if (buttonId.name().equals(ConstantsUtils.YES)) {
                                 try {
 
-                                    sessionDTO.setSystemId(Integer.valueOf(searchForm.getSystemID()));
+                                    sessionDTO.setSystemId(Integer.parseInt(searchForm.getSystemID()));
                                     int systemId = sessionDTO.getSystemId();
                                     if (ConstantsUtils.DEDUCTION_GROUPING.equals(moduleName)) {
                                         final String deletedDeductionGroupName = discountLogic.deletedeductionGroup(systemId);
@@ -879,7 +879,7 @@ public class AbstractSearchForm extends CustomComponent {
                     } else {
                         SearchResultsDTO searchForm = (SearchResultsDTO) resultTable.getValue();
                         sessionDTO.setMode(ConstantsUtils.EDIT);
-                        sessionDTO.setSystemId(Integer.valueOf(searchForm.getSystemID()));
+                        sessionDTO.setSystemId(Integer.parseInt(searchForm.getSystemID()));
                         sessionDTO.setVersionNo(searchForm.getVersionNo());
                             if (searchForm.isRecordLockStatus()) {
                                 if (itemStatusCheck()) {
@@ -915,7 +915,7 @@ public class AbstractSearchForm extends CustomComponent {
                     } else {
                         sessionDTO.setMode(ConstantsUtils.VIEW);
                         SearchResultsDTO searchForm = (SearchResultsDTO) resultTable.getValue();
-                        sessionDTO.setSystemId(Integer.valueOf(searchForm.getSystemID()));
+                        sessionDTO.setSystemId(Integer.parseInt(searchForm.getSystemID()));
                         sessionDTO.setVersionNo(searchForm.getVersionNo());
                         viewLogic();
                     }
@@ -951,7 +951,7 @@ public class AbstractSearchForm extends CustomComponent {
                                     if (buttonId.name().equals(ConstantsUtils.YES)) {
                                         try {
 
-                                            sessionDTO.setSystemId(Integer.valueOf(searchForm.getSystemID()));
+                                            sessionDTO.setSystemId(Integer.parseInt(searchForm.getSystemID()));
                                             sessionDTO.setVersionNo(searchForm.getVersionNo());
                                             sessionDTO.setLogic("copy");
                                         } catch (Exception e) {
@@ -1013,7 +1013,7 @@ public class AbstractSearchForm extends CustomComponent {
                 if (buttonId.name().equals(ConstantsUtils.YES)) {
                     try {
 
-                        sessionDTO.setSystemId(Integer.valueOf(searchForm.getSystemID()));
+                        sessionDTO.setSystemId(Integer.parseInt(searchForm.getSystemID()));
                         int systemId = sessionDTO.getSystemId();
                         if (ConstantsUtils.DEDUCTION_GROUPING.equals(moduleName)) {
                             final String deletedDeductionGroupName = discountLogic.deletedeductionGroup(systemId);

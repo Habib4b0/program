@@ -253,7 +253,7 @@ public class ForecastUI extends UI {
                         relationLogic.ccpHierarchyInsert(sessionDto.getCurrentTableNames(), customerItemIds,
                                 productItemIds, customerHierarchyLevelDefinitionList,
                                 productHierarchyLevelDefinitionList, dto.getCustomerRelationShipVersionNo(),
-                                dto.getProductRelationShipVersionNo());
+                                dto.getProductRelationShipVersionNo(),Integer.valueOf(projectionId));
                         sessionDto.setCustomerLevelDetails(
                                 dsLogic.getLevelValueDetails(sessionDto, dto.getCustRelationshipBuilderSid(), true));
                         sessionDto.setProductLevelDetails(

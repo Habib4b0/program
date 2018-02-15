@@ -50,7 +50,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.ui.UI;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;

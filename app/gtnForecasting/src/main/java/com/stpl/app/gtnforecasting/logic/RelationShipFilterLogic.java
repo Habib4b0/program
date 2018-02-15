@@ -26,9 +26,11 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.vaadin.server.VaadinSession;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,6 +54,7 @@ public class RelationShipFilterLogic {
 	private static final String RELATIONSHIP_LEVEL_DEFN = "RELATIONSHIP_LEVEL_DEFINITION";
 	private static final String RELATION_HIERARCHY_JOIN = "HIERARCHY_NO_JOIN.HIERARCHY_NO";
 	private static final String RELATION_HIERARCHY_LEVEL_JOIN = "HIERARCHY_NO_JOIN.LEVEL_NO";
+        private static final SimpleDateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT);
 
 	private RelationShipFilterLogic() {
 		// Singleton constructor
@@ -93,21 +96,21 @@ public class RelationShipFilterLogic {
 
 	public List<Leveldto> loadAvailableCustomerlevel(Leveldto selectedHierarchyLevelDto, int relationshipSid,
 			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, String dedLevel,
-			String dedValue, int relationVersionNo) throws CloneNotSupportedException {
+			String dedValue, int relationVersionNo, Date forecastEligibleDate) throws CloneNotSupportedException {
 		if (selectedHierarchyLevelDto.isUserDefined()) {
 			return getUserDefinedData(selectedHierarchyLevelDto, relationshipSid, relationVersionNo);
 		}
 		return getLinkedLevelData(selectedHierarchyLevelDto, relationshipSid, groupFilteredCompanies,
-				levelHierarchyLevelDefinitionList, dedLevel, dedValue, relationVersionNo);
+				levelHierarchyLevelDefinitionList, dedLevel, dedValue, relationVersionNo,forecastEligibleDate);
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Leveldto> getLinkedLevelData(Leveldto selectedHierarchyLevelDto, int relationshipSid,
 			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, String dedLevel,
-			String dedValue, int relationVersionNo) throws CloneNotSupportedException {
+			String dedValue, int relationVersionNo,Date forecastEligibleDate) throws CloneNotSupportedException {
 		List<Leveldto> resultList = new ArrayList<>();
 		String finalQuery = getQueryForLinkedLevelCustomer(selectedHierarchyLevelDto, relationshipSid,
-				groupFilteredCompanies, levelHierarchyLevelDefinitionList, dedLevel, dedValue, relationVersionNo);
+				groupFilteredCompanies, levelHierarchyLevelDefinitionList, dedLevel, dedValue, relationVersionNo,forecastEligibleDate);
 		List<Object[]> resultsRelationList = getRelationshipList(selectedHierarchyLevelDto, relationshipSid,relationVersionNo);
 		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
@@ -134,13 +137,20 @@ public class RelationShipFilterLogic {
 
 	private String getQueryForLinkedLevelCustomer(Leveldto selectedHierarchyLevelDto, int relationshipSid,
 			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, String dedLevel,
-			String dedValue, int relationVersionNo) {
+			String dedValue, int relationVersionNo,Date forecastEligibleDate) {
 		GtnFrameworkQueryGeneratorBean queryBean = getQueryToFilterCustomerProduct(selectedHierarchyLevelDto,
 				groupFilteredCompanies);
 		List<String> whereQueries = getRelationQueries(relationshipSid, relationVersionNo,
 				levelHierarchyLevelDefinitionList.toArray(new Leveldto[levelHierarchyLevelDefinitionList.size()]));
 		getDeductionJoin(dedLevel, dedValue, queryBean);
-		return QueryUtils.getQuery(queryBean.generateQuery(), whereQueries);
+		StringBuilder query = new StringBuilder(queryBean.generateQuery());
+                if(forecastEligibleDate != null){
+                    whereQueries.add(dateFormat.format(forecastEligibleDate));
+                    whereQueries.add(dateFormat.format(forecastEligibleDate));
+                    query.append("AND (CONTRACT_ELIGIBLE_DATE >= '?' OR CONTRACT_ELIGIBLE_DATE IS NULL)");
+                    query.append("AND (CFP_ELIGIBLE_DATE >= '?' OR CFP_ELIGIBLE_DATE IS NULL)");
+                }
+		return QueryUtils.getQuery(query.toString(), whereQueries);
 	}
 
 	public void getDeductionJoin(String dedLevel, String dedValue, GtnFrameworkQueryGeneratorBean queryBean) {
@@ -567,11 +577,11 @@ public class RelationShipFilterLogic {
 	public void ccpHierarchyInsert(final GtnSmallHashMap tempTableNames,
 			final List<Leveldto> selectedCustomerContractList, final List<Leveldto> selectedProductList,
 			List<Leveldto> customerHierarchyLevelDefinitionList, List<Leveldto> productHierarchyLevelDefinitionList,
-			int customerRelationVersionNo, int productRelationVersionNo) {
+			int customerRelationVersionNo, int productRelationVersionNo,int projectionId) {
 		String customerHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, Boolean.FALSE, customerRelationVersionNo);
+				customerHierarchyLevelDefinitionList, Boolean.FALSE, customerRelationVersionNo,projectionId);
 		String productHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedProductList,
-				productHierarchyLevelDefinitionList, Boolean.TRUE, productRelationVersionNo);
+				productHierarchyLevelDefinitionList, Boolean.TRUE, productRelationVersionNo,projectionId);
 		List<String> input = new ArrayList<>();
 		input.add(customerHierarchyQuery);
 		input.add(productHierarchyQuery);
@@ -604,9 +614,9 @@ public class RelationShipFilterLogic {
 			int projectionId, String deductionLevel, String dedValue, int customerRelationVersionNo,
 			int productRelationVersionNo) {
 		String customerHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedCustomerContractList,
-				customerHierarchyLevelDefinitionList, Boolean.FALSE, customerRelationVersionNo);
+				customerHierarchyLevelDefinitionList, Boolean.FALSE, customerRelationVersionNo,projectionId);
 		String productHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedProductList,
-				productHierarchyLevelDefinitionList, Boolean.TRUE, productRelationVersionNo);
+				productHierarchyLevelDefinitionList, Boolean.TRUE, productRelationVersionNo,projectionId);
 		List<Object> input = new ArrayList<>();
 		input.add(customerHierarchyQuery);
 		input.add(productHierarchyQuery);
@@ -621,7 +631,7 @@ public class RelationShipFilterLogic {
 	}
 
 	private String getCustomerAndContractHierarchyQuery(List<Leveldto> selectedRelationLevelList,
-			List<Leveldto> hierarchyLevelDefinitionList, boolean isProduct, int relationVersionNo) {
+			List<Leveldto> hierarchyLevelDefinitionList, boolean isProduct, int relationVersionNo,int projectionId) {
 		int relationSid = Integer.parseInt(selectedRelationLevelList.get(0).getRelationShipBuilderId());
 		List<Object> input = new ArrayList<>();
 		StringBuilder finalQuery = getParentHierarchyNo(hierarchyLevelDefinitionList,
@@ -638,7 +648,13 @@ public class RelationShipFilterLogic {
 		getParentHierarchyCondition(queryBean);
 		getWhereQueryForCustomerAndContract(selectedRelationLevelList, hierarchyLevelDefinitionList, queryBean,
 				relationVersionNo);
-		return QueryUtils.getQuery(queryBean.generateQuery(), input);
+		 StringBuilder query = new StringBuilder(queryBean.generateQuery());
+                if(!isProduct){
+                    List<Object> input1 = new ArrayList<>();
+                   input1.add(projectionId);
+                    query.append(QueryUtils.getQuery(input1, "filtercontractsbasedoneligibledate")); 
+                }
+		return QueryUtils.getQuery(query.toString(), input);
 	}
 
 	private void getParentHierarchyCondition(GtnFrameworkQueryGeneratorBean queryBean) {
@@ -676,7 +692,7 @@ public class RelationShipFilterLogic {
 	}
 
 	public Map<String, String> getLevelValueMap1(Object relationshipBuilderSID, int hierarchyBuilderSid,
-			int hierarchyVersionNo) throws CloneNotSupportedException {
+			int hierarchyVersionNo, Date forecastEligibleDate) throws CloneNotSupportedException {
 		Map<String, Object> input = new HashMap<>();
 		input.put("?RBSID", relationshipBuilderSID);
 		List<Leveldto> hierarchyLevelDefinitionList = getHierarchyLevelDefinition(hierarchyBuilderSid,
@@ -687,7 +703,7 @@ public class RelationShipFilterLogic {
 			levelHierarchyLevelDefinitionList = hierarchyLevelDefinitionList.subList(0, leveldto.getLevelNo());
 			List<Leveldto> data = loadAvailableCustomerlevel(leveldto,
 					Integer.valueOf(relationshipBuilderSID.toString()), Collections.<String>emptyList(),
-					levelHierarchyLevelDefinitionList, StringUtils.EMPTY, StringUtils.EMPTY, 1);
+					levelHierarchyLevelDefinitionList, StringUtils.EMPTY, StringUtils.EMPTY, 1, forecastEligibleDate);
 			for (Leveldto leveldto2 : data) {
 				relationMap.put(leveldto2.getHierarchyNo(), leveldto2.getLevel());
 			}

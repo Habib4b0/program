@@ -32,8 +32,6 @@ import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
@@ -85,10 +83,10 @@ private static final Logger LOGGER = LoggerFactory.getLogger(IFPLookUp.class);
     private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<>(binderDto));
     private final SelectionDTO selection = new SelectionDTO();
     private final AbstractLogic logic = AbstractLogic.getInstance();
-    private CustomTextField componentTextField;
-    private Object[] CFP_SEARCH_COLUMNS = new Object[]{
+    private final CustomTextField componentTextField;
+    private final Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentNo", "componentName", "componentType", "category", "designation", "planId", "planName", "componentStatus", Constants.START_DATE, Constants.END_DATE};
-    private String[] CFP_SEARCH_HEADERS = new String[]{Constants.IFP_NO, Constants.IFP_NAME_LABEL, "IFP Type", "IFP Category", "IFP Designation", "IFP Plan ID", "IFP Plan Name", "IFP Status", "IFP Start Date", "IFP End Date"};
+    private final String[] CFP_SEARCH_HEADERS = new String[]{Constants.IFP_NO, Constants.IFP_NAME_LABEL, "IFP Type", "IFP Category", "IFP Designation", "IFP Plan ID", "IFP Plan Name", "IFP Status", "IFP Start Date", "IFP End Date"};
 
     public IFPLookUp(final CustomTextField componentTextField) {
         this.componentTextField = componentTextField;
