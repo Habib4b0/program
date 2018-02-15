@@ -193,25 +193,13 @@
             <version>${commons.lang.version}</version>
             <scope>compile</scope>
         </dependency>  
-        <dependency>
-            <groupId>com.stpl.portal</groupId>
-            <artifactId>portal-service</artifactId>
-            <version>${com.stpl.portal.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.stpl.portal</groupId>
-            <artifactId>util-java</artifactId>
-            <version>${com.stpl.portal.version}</version>
-            <scope>provided</scope>
-        </dependency>
        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.2</version>
         </dependency>
         <dependency>
-            <groupId>org.vaadin.addons</groupId>
+             <groupId>com.stpl.addons</groupId>
             <artifactId>lazy-container</artifactId>
             <version>${lazy.container.version}</version>
             <scope>provided</scope>

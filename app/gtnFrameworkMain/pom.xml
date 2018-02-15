@@ -54,7 +54,6 @@
 		<gtnQueryEngine.version>1.0</gtnQueryEngine.version>
 		<gtnHiberNateHbm.version>1.0</gtnHiberNateHbm.version>
 		<apache.commons.lang.version>2.6</apache.commons.lang.version>
-
 		<bpm.version.org.springframework>3.2.12.RELEASE</bpm.version.org.springframework>
 		<bpm.version.org.hibernate.commons.annotations>4.0.2.Final</bpm.version.org.hibernate.commons.annotations>
 		<bpm.version.org.hibernate>4.2.17.Final</bpm.version.org.hibernate>
@@ -90,7 +89,7 @@
 				<module>GtnFramworkQueryGenerator</module>
 			</modules>
 			<build>
-				<defaultGoal>clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release</defaultGoal>
+				<defaultGoal>clean install</defaultGoal>
 			</build>
 		</profile>
 
@@ -104,7 +103,7 @@
 				<module>GtnFramworkQueryGenerator</module>
 			</modules>
 			<build>
-				<defaultGoal>clean install  com.stpl.gtn.gtn2o:JarReleasePlugin:Release</defaultGoal>
+				<defaultGoal>clean install</defaultGoal>
 			</build>
 		</profile>
 		<profile>
@@ -130,7 +129,7 @@
 			</properties>
 			<build>
 				<defaultGoal>
-                    clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release 
+                    clean install
                 </defaultGoal>
 				<plugins>
 					<plugin>
@@ -220,7 +219,7 @@
 			</properties>
 			<build>
 				<defaultGoal>
-                    clean install  com.stpl.gtn.gtn2o:JarReleasePlugin:Release
+                    clean install
                 </defaultGoal>
 				<plugins>
 					<plugin>
@@ -231,6 +230,31 @@
 						</configuration>
 					</plugin>
 				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>Build-Subsystem</id>
+			<modules>
+				<module>Resources/Resource-subsystem</module>
+				<module>Gtn-base-subsystem</module>
+				<module>Modules/GtnModules-Subsystem</module>
+			</modules>
+			<build>
+				<defaultGoal>
+                    clean install  com.stpl.gtn.gtn2o:JarReleasePlugin:Release
+                </defaultGoal>
+			</build>
+		</profile>
+		
+		<profile>
+			<id>Build-Gtn-basesubsystem</id>
+			<modules>
+				<module>Gtn-base-subsystem</module>
+			</modules>
+			<build>
+				<defaultGoal>
+                    clean install  com.stpl.gtn.gtn2o:JarReleasePlugin:Release
+                </defaultGoal>
 			</build>
 		</profile>
 
