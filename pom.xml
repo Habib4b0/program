@@ -75,7 +75,7 @@
 			</properties>
 			<build>
 				<defaultGoal>
-                    clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release 
+                    clean install
                 </defaultGoal>
 				<plugins>
 					<plugin>
@@ -164,7 +164,7 @@
 				<module>app/Modules-Subsystem</module>
 			</modules>
 			<build>
-				<defaultGoal>clean</defaultGoal>
+				<defaultGoal>clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release </defaultGoal>
 			</build>
 		</profile>
 
