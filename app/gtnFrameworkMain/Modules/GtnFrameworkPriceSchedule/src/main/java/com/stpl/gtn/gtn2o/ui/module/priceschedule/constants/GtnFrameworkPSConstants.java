@@ -70,7 +70,7 @@ public class GtnFrameworkPSConstants {
     public static final String PS_PRICEPROTECTION_RESULTPANEL= "psPriceProtectionTabResultPanel";
     public static final String PS_PRICINGTAB_RESULTPANEL= "psPricingTabTabResultPanel";
     public static final String PS_PRICINGTAB_RESULT_LAYOUT="psPricingTabTabResultLayout";
-	private static final String[] PRICE_PROTECTION_HEADER = { "", "Item Id", "Item No", "Item Name", "Brand",
+	private static final String[] PRICE_PROTECTION_HEADER = { "", "Item ID", "Item No", "Item Name", "Brand",
 
 			"Price Protection Status", "Price Protection Start Date", "Price Protection End Date",  
 			"Measurement Price", "NEP", "NEP Formula", GtnFrameworkCommonConstants.BASE_PRICE_TYPE,
