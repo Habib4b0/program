@@ -2946,46 +2946,63 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			excelContainer.setColumnProperties(excelHeaderLeft.getProperties());
 			excelContainer.setColumnProperties(rightHeader.getProperties());
 			excelTable.setContainerDataSource(excelContainer);
-			ExtFilterTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
-//			Object[] leftTableVisibleColumn = leftTable.getVisibleColumns();
-//			String[] leftTableColumnHeader = leftTable.getColumnHeaders();
+			ExtFilterTreeTable leftResultTable = resultsTable.getLeftFreezeAsTable();
                         
-                        List<Object> leftTableVisibleColumn = new ArrayList(Arrays.asList(leftTable.getVisibleColumns()));
-                        List<String> leftTableColumnHeader = new ArrayList(Arrays.asList(leftTable.getColumnHeaders()));
-                        leftTableVisibleColumn.remove("levelName");
-                        leftTableVisibleColumn.add("dfLevelNumber");
-                        leftTableVisibleColumn.add("dfLevelName");
+                        List<Object> leftTableVisibleColumnList = new ArrayList(Arrays.asList(leftResultTable.getVisibleColumns()));
+                        List<String> leftTableColumnHeaderList = new ArrayList(Arrays.asList(leftResultTable.getColumnHeaders()));
+                        leftTableVisibleColumnList.remove("levelName");
+                        leftTableVisibleColumnList.add("dfLevelNumber");
+                        leftTableVisibleColumnList.add("dfLevelName");
                         
-                        leftTableColumnHeader.add(1, "Level Number");
+                        leftTableColumnHeaderList.add(1, "Level Number");
                         
                         
                         
-			Object[] objectArray = ArrayUtils.addAll(
-                                        leftTableColumnHeader.subList(1, leftTableColumnHeader.size()).toArray(),
-//					Arrays.copyOfRange(leftTableColumnHeader, 1, leftTableColumnHeader.length),
+			Object[] objectArrayHeaders = ArrayUtils.addAll(
+                                        leftTableColumnHeaderList.subList(1, leftTableColumnHeaderList.size()).toArray(),
 					excelHeader.getSingleHeaders().toArray(new String[0]));
+                        LOGGER.info("HEADERS-----------------"+Arrays.asList(objectArrayHeaders));
 
-                        Object[] leftTableExcelColumn = ArrayUtils.addAll(
-                                leftTableVisibleColumn.subList(1, leftTableVisibleColumn.size()).toArray(),
-//                                Arrays.copyOfRange(leftTableVisibleColumn, 1, leftTableVisibleColumn.length),
+                        Object[] leftTableExcelColumns = ArrayUtils.addAll(
+                                leftTableVisibleColumnList.subList(1, leftTableVisibleColumnList.size()).toArray(),
                             excelHeader.getSingleColumns().toArray());
-                        securityForListView(leftTableExcelColumn, Arrays.copyOf(objectArray, objectArray.length, String[].class), excelTable);
-                        Object[] singleHeader = excelHeaderLeft.getDoubleHeaderMaps().get("group");
-                        List<Object> listHeaders = new ArrayList(Arrays.asList(singleHeader));
-                        listHeaders.remove("levelName");
-                        excelHeaderLeft.getDoubleHeaderMaps().put("group", listHeaders.toArray());
+                        
+                        LOGGER.info("COLUMNS-----------------"+Arrays.asList(leftTableExcelColumns));
+                        
+                        Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
+                    if (displayFormatIndex.length == 1) {
+                        for (int i = 0; i < displayFormatIndex.length; i++) {
+                            LOGGER.info("obj--------------" + i);
+                            int index = (Integer) displayFormatIndex[i];
+                            if (index == 0) {
+                                leftTableExcelColumns = ArrayUtils.removeElement(leftTableExcelColumns, "dfLevelName");
+                                objectArrayHeaders = ArrayUtils.removeElement(objectArrayHeaders, "Level Name");
+                            } else {
+
+                                leftTableExcelColumns = ArrayUtils.removeElement(leftTableExcelColumns, "dfLevelNumber");
+                                objectArrayHeaders = ArrayUtils.removeElement(objectArrayHeaders, "Level Number");
+
+                            }
+
+                        }
+                    }
+                        securityForListView(leftTableExcelColumns, Arrays.copyOf(objectArrayHeaders, objectArrayHeaders.length, String[].class), excelTable);
+                        Object[] singleHeaderArray = excelHeaderLeft.getDoubleHeaderMaps().get("group");
+                        List<Object> listHeadersList = new ArrayList(Arrays.asList(singleHeaderArray));
+                        listHeadersList.remove("levelName");
+                        excelHeaderLeft.getDoubleHeaderMaps().put("group", listHeadersList.toArray());
 			excelTable.setDoubleHeaderVisible(true);
 			excelTable
 					.setDoubleHeaderVisibleColumns(ArrayUtils.addAll(
 							Arrays.copyOfRange(leftHeader.getDoubleColumns().toArray(), 0,
 									leftHeader.getDoubleColumns().toArray().length),
 							excelHeader.getDoubleColumns().toArray()));
-			Object[] objectArrayDouble = ArrayUtils.addAll(
+			Object[] objectDoubleArray = ArrayUtils.addAll(
 					Arrays.copyOfRange(leftHeader.getDoubleHeaders().toArray(), 0,
 							leftHeader.getDoubleHeaders().toArray().length),
 					excelHeader.getDoubleHeaders().toArray(new String[excelHeader.getDoubleHeaders().size()]));
 			excelTable.setDoubleHeaderColumnHeaders(
-					Arrays.copyOf(objectArrayDouble, objectArrayDouble.length, String[].class));
+					Arrays.copyOf(objectDoubleArray, objectDoubleArray.length, String[].class));
 			Map<Object, Object[]> mapVisibleCols = new HashMap();
 			mapVisibleCols.putAll(excelHeaderLeft.getDoubleHeaderMaps());
 			mapVisibleCols.putAll(excelHeader.getDoubleHeaderMaps());
@@ -2996,10 +3013,10 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				}
 			}
 			getExcelDiscountCommercial();
-			Map<String, String> formatter = new HashMap<>();
-			formatter.put("percentThreeDecimal", "Rate");
-			formatter.put("currencyTwoDecimal", "RPU");
-			formatter.put("amountTwoDecimal", "Amount");
+			Map<String, String> formatterMap = new HashMap<>();
+			formatterMap.put("percentThreeDecimal", "Rate");
+			formatterMap.put("currencyTwoDecimal", "RPU");
+			formatterMap.put("amountTwoDecimal", "Amount");
 			excelTable.setRefresh(Boolean.TRUE);
 			ForecastUI.setEXCEL_CLOSE(true);
 			CustomExcelNM excel = null;
@@ -3009,46 +3026,60 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 				Map<Integer, List> headerMapBasedonYear = logic
 						.configureVisibleColumnMapsForExcel(projectionSelection.getHeaderMapForExcel());
-				int exportAt = headerMapBasedonYear.size() - 1;
-				List<Integer> list = new ArrayList(headerMapBasedonYear.keySet());
-				Collections.sort(list);
-				for (int i = 0; i < list.size(); i++) {
+				int exportVal = headerMapBasedonYear.size() - 1;
+				List<Integer> listHeader = new ArrayList(headerMapBasedonYear.keySet());
+				Collections.sort(listHeader);
+				for (int i = 0; i < listHeader.size(); i++) {
+                     
+                                    if (displayFormatIndex.length == 1) {
+                                        for (int k = 0; k < displayFormatIndex.length; k++) {
+                                            LOGGER.info("obj--------------" + k);
+                                            int index = (Integer) displayFormatIndex[k];
+                                            if (index == 0) {
+                                                leftTableVisibleColumnList.remove("dfLevelName");
+                                                leftTableColumnHeaderList.remove("Level Name");
+                                            } else {
+                                                leftTableVisibleColumnList.remove("dfLevelNumber");
+                                                leftTableColumnHeaderList.remove("Level Number");
+
+                                            }
+
+                                        }
+                                    }
 					excelTable.setVisibleColumns(ArrayUtils.addAll(
-                                                        leftTableVisibleColumn.subList(1, leftTableVisibleColumn.size()).toArray(),
-//							Arrays.copyOfRange(leftTableVisibleColumn, 1, leftTableVisibleColumn.length),
-							((List<Object>) headerMapBasedonYear.get(list.get(i)).get(0)).toArray()));
-					Object[] header = ArrayUtils.addAll(
-                                                        leftTableColumnHeader.subList(1, leftTableColumnHeader.size()).toArray(),
-//							Arrays.copyOfRange(leftTableColumnHeader, 1, leftTableColumnHeader.length),
-							((List<Object>) headerMapBasedonYear.get(list.get(i)).get(1)).toArray());
-					excelTable.setColumnHeaders(Arrays.copyOf(header, header.length, String[].class));
+                                                        leftTableVisibleColumnList.subList(1, leftTableVisibleColumnList.size()).toArray(),
+							((List<Object>) headerMapBasedonYear.get(listHeader.get(i)).get(0)).toArray()));
+					Object[] headerArray = ArrayUtils.addAll(
+                                                        leftTableColumnHeaderList.subList(1, leftTableColumnHeaderList.size()).toArray(),
+							((List<Object>) headerMapBasedonYear.get(listHeader.get(i)).get(1)).toArray());
+					excelTable.setColumnHeaders(Arrays.copyOf(headerArray, headerArray.length, String[].class));
 					excelTable.setDoubleHeaderVisibleColumns(ArrayUtils.addAll(
 							Arrays.copyOfRange(leftHeader.getDoubleColumns().toArray(), 0,
 									leftHeader.getDoubleColumns().toArray().length),
-							((List<Object>) headerMapBasedonYear.get(list.get(i)).get(NumericConstants.THREE))
+							((List<Object>) headerMapBasedonYear.get(listHeader.get(i)).get(NumericConstants.THREE))
 									.toArray()));
-					Object[] doubleHeader = ArrayUtils.addAll(
+					Object[] doubleArrayHeader = ArrayUtils.addAll(
 							Arrays.copyOfRange(leftHeader.getDoubleHeaders().toArray(), 0,
 									leftHeader.getDoubleHeaders().toArray().length),
-							((List<Object>) headerMapBasedonYear.get(list.get(i)).get(NumericConstants.FOUR))
+							((List<Object>) headerMapBasedonYear.get(listHeader.get(i)).get(NumericConstants.FOUR))
 									.toArray());
 					excelTable.setDoubleHeaderColumnHeaders(
-							Arrays.copyOf(doubleHeader, doubleHeader.length, String[].class));
+							Arrays.copyOf(doubleArrayHeader, doubleArrayHeader.length, String[].class));
 					mapVisibleCols = new HashMap();
 					mapVisibleCols.putAll(excelHeaderLeft.getDoubleHeaderMaps());
 					mapVisibleCols.putAll(
-							(Map<Object, Object[]>) headerMapBasedonYear.get(list.get(i)).get(NumericConstants.FIVE));
+							(Map<Object, Object[]>) headerMapBasedonYear.get(listHeader.get(i)).get(NumericConstants.FIVE));
 					excelTable.setDoubleHeaderMap(mapVisibleCols);
 					excelTable.setRefresh(true);
-					String sheetName = "Year " + list.get(i);
+					String sheetName = "Year " + listHeader.get(i);
 					ForecastUI.setEXCEL_CLOSE(true);
 					if (i == 0) {
 						excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
-								Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatter);
+								Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatterMap);
 					} else {
 						excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
 					}
-					if (i == exportAt) {
+					if (i == exportVal) {
 						excel.exportMultipleTabs(true);
 					} else {
 						excel.exportMultipleTabs(false);
@@ -3056,7 +3087,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				}
 			} else {
 				excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), Constant.DISCOUNT_PROJECTION_LABEL,
-						Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatter);
+						Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatterMap);
 				excel.export();
 			}
 		} catch (IllegalArgumentException e) {
@@ -5488,5 +5519,118 @@ private List<Object[]> getDiscountExcelResults(ProjectionSelectionDTO projection
                "Sales","0", projectionSelectionDTO.getHierarchyNo(),
                 projectionSelectionDTO.getLevelNo(), "DETAIL_DISCOUNT", customMasterSid, "Period", projectionSelectionDTO.getUomCode(), "ALL".equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion(), "ALL".equals(projectionSelectionDTO.getSessionDTO().getDeductionInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getDeductionInclusion(),sIds,"Discount"};
             return CommonLogic.callProcedure("PRC_PROJECTION_VARIANCE", orderedArg);
+    }
+
+    @Override
+    protected void excelExportBtnClickLogic() {
+        LOGGER.debug("excel starts");
+        try {
+            excelTable.setRefresh(Boolean.FALSE);
+            excelContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class, ExtContainer.DataStructureMode.MAP);
+            excelContainer.setColumnProperties(excelHeaderLeft.getProperties());
+            excelContainer.setColumnProperties(rightHeader.getProperties());
+            excelTable.setContainerDataSource(excelContainer);
+            ExtFilterTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
+            Object[] leftTableVisibleColumn = leftTable.getVisibleColumns();
+            String[] leftTableColumnHeader = leftTable.getColumnHeaders();
+
+            Object[] objectArray = ArrayUtils.addAll(
+                    Arrays.copyOfRange(leftTableColumnHeader, 1, leftTableColumnHeader.length),
+                    excelHeader.getSingleHeaders().toArray(new String[0]));
+
+            Object[] leftTableExcelColumn = ArrayUtils.addAll(
+                    Arrays.copyOfRange(leftTableVisibleColumn, 1, leftTableVisibleColumn.length),
+                    excelHeader.getSingleColumns().toArray());
+
+            securityForListView(leftTableExcelColumn, Arrays.copyOf(objectArray, objectArray.length, String[].class), excelTable);
+
+            excelTable.setDoubleHeaderVisible(true);
+            excelTable
+                    .setDoubleHeaderVisibleColumns(ArrayUtils.addAll(
+                            Arrays.copyOfRange(leftHeader.getDoubleColumns().toArray(), 0,
+                                    leftHeader.getDoubleColumns().toArray().length),
+                            excelHeader.getDoubleColumns().toArray()));
+            Object[] objectArrayDouble = ArrayUtils.addAll(
+                    Arrays.copyOfRange(leftHeader.getDoubleHeaders().toArray(), 0,
+                            leftHeader.getDoubleHeaders().toArray().length),
+                    excelHeader.getDoubleHeaders().toArray(new String[excelHeader.getDoubleHeaders().size()]));
+            excelTable.setDoubleHeaderColumnHeaders(
+                    Arrays.copyOf(objectArrayDouble, objectArrayDouble.length, String[].class));
+            Map<Object, Object[]> mapVisibleCols = new HashMap();
+            mapVisibleCols.putAll(excelHeaderLeft.getDoubleHeaderMaps());
+            mapVisibleCols.putAll(excelHeader.getDoubleHeaderMaps());
+            excelTable.setDoubleHeaderMap(mapVisibleCols);
+            for (Object propertyId : excelTable.getContainerPropertyIds()) {
+                if (String.valueOf(propertyId).endsWith("Rate")) {
+                    excelTable.setConverter(propertyId, percentFormat);
+                }
+            }
+            getExcelDiscountCommercial();
+            Map<String, String> formatter = new HashMap<>();
+            formatter.put("percentThreeDecimal", "Rate");
+            formatter.put("currencyTwoDecimal", "RPU");
+            formatter.put("amountTwoDecimal", "Amount");
+            excelTable.setRefresh(Boolean.TRUE);
+            ForecastUI.setEXCEL_CLOSE(true);
+            CustomExcelNM excel = null;
+            HeaderUtils.getDiscountProjectionRightTableColumns(projectionSelection);
+            if (QUARTERLY.getConstant().equals(String.valueOf(frequencyDdlb.getValue()))
+                    || MONTHLY.getConstant().equals(String.valueOf(frequencyDdlb.getValue()))) {
+
+                Map<Integer, List> headerMapBasedonYear = logic
+                        .configureVisibleColumnMapsForExcel(projectionSelection.getHeaderMapForExcel());
+                int exportAt = headerMapBasedonYear.size() - 1;
+                List<Integer> list = new ArrayList(headerMapBasedonYear.keySet());
+                Collections.sort(list);
+                for (int i = 0; i < list.size(); i++) {
+
+                    excelTable.setVisibleColumns(ArrayUtils.addAll(
+                            Arrays.copyOfRange(leftTableVisibleColumn, 1, leftTableVisibleColumn.length),
+                            ((List<Object>) headerMapBasedonYear.get(list.get(i)).get(0)).toArray()));
+                    Object[] header = ArrayUtils.addAll(
+                            Arrays.copyOfRange(leftTableColumnHeader, 1, leftTableColumnHeader.length),
+                            ((List<Object>) headerMapBasedonYear.get(list.get(i)).get(1)).toArray());
+                    excelTable.setColumnHeaders(Arrays.copyOf(header, header.length, String[].class));
+                    excelTable.setDoubleHeaderVisibleColumns(ArrayUtils.addAll(
+                            Arrays.copyOfRange(leftHeader.getDoubleColumns().toArray(), 0,
+                                    leftHeader.getDoubleColumns().toArray().length),
+                            ((List<Object>) headerMapBasedonYear.get(list.get(i)).get(NumericConstants.THREE))
+                                    .toArray()));
+                    Object[] doubleHeader = ArrayUtils.addAll(
+                            Arrays.copyOfRange(leftHeader.getDoubleHeaders().toArray(), 0,
+                                    leftHeader.getDoubleHeaders().toArray().length),
+                            ((List<Object>) headerMapBasedonYear.get(list.get(i)).get(NumericConstants.FOUR))
+                                    .toArray());
+                    excelTable.setDoubleHeaderColumnHeaders(
+                            Arrays.copyOf(doubleHeader, doubleHeader.length, String[].class));
+                    mapVisibleCols = new HashMap();
+                    mapVisibleCols.putAll(excelHeaderLeft.getDoubleHeaderMaps());
+                    mapVisibleCols.putAll(
+                            (Map<Object, Object[]>) headerMapBasedonYear.get(list.get(i)).get(NumericConstants.FIVE));
+                    excelTable.setDoubleHeaderMap(mapVisibleCols);
+                    excelTable.setRefresh(true);
+                    String sheetName = "Year " + list.get(i);
+                    ForecastUI.setEXCEL_CLOSE(true);
+                    if (i == 0) {
+                        excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
+                                Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatter);
+                    } else {
+                        excel.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                    }
+                    if (i == exportAt) {
+                        excel.exportMultipleTabs(true);
+                    } else {
+                        excel.exportMultipleTabs(false);
+                    }
+                }
+            } else {
+                excel = new CustomExcelNM(new ExtCustomTableHolder(excelTable), Constant.DISCOUNT_PROJECTION_LABEL,
+                        Constant.DISCOUNT_PROJECTION_LABEL, "Discount_Projection.xls", false, formatter);
+                excel.export();
+            }
+        } catch (IllegalArgumentException e) {
+            LOGGER.error(e.getMessage());
+        }
+        LOGGER.debug("excel ends");
     }
 }

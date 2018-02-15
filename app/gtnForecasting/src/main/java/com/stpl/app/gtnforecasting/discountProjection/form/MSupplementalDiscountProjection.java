@@ -1480,6 +1480,11 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     protected void adjustBtnClickLogic() {
         return;
     }
+    
+    @Override
+    protected void excelExportBtnClickLogic() {
+        return;
+    }
 
     @Override
     protected void excelExportClickLogic() {
