@@ -822,9 +822,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		}
 	};
 
-	private final BlurListener checkBoxValueChangeListener = new BlurListener() {
+	private final ExtCustomCheckBox.ClickListener clickListener = new ExtCustomCheckBox.ClickListener() {
 		@Override
-		public void blur(FieldEvents.BlurEvent event) {
+		public void click(ExtCustomCheckBox.ClickEvent event) {
 			Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
 			final String tableHierarchyNo = tableLogic.getTreeLevelonCurrentPage(obj[0]);
 			DiscountProjectionDTO dto = (DiscountProjectionDTO) obj[0];
@@ -1549,7 +1549,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						check.setEnabled(!ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()));
 						check.setImmediate(true);
 						check.setData(new Object[] { itemId, propertyId });
-						check.addBlurListener(checkBoxValueChangeListener);
+						check.addClickListener(clickListener);
 						return check;
 					}
 
