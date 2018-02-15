@@ -26,7 +26,7 @@ public class SearchButtonLayout extends HorizontalLayout {
 
 	
 	private ErrorfulFieldGroup binder;
-	private BusinessRoleModuleSearchLogic businessRoleModuleLogic=new BusinessRoleModuleSearchLogic();
+	private final BusinessRoleModuleSearchLogic businessRoleModuleLogic=new BusinessRoleModuleSearchLogic();
 	
 	private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
 	private Table table;
@@ -41,11 +41,11 @@ public class SearchButtonLayout extends HorizontalLayout {
 
 	private void init(){
 		this.setSpacing(true);
-		SearchButton();
-		ResetButton();
+		searchButton();
+		resetButton();
 	}
 
-	private void SearchButton() {
+	private void searchButton() {
 		// Commit button
 		Button btnSearch = new Button("Search");
 		btnSearch.setWidth("75");
@@ -53,6 +53,7 @@ public class SearchButtonLayout extends HorizontalLayout {
 			private static final long serialVersionUID = 1L;
 
 			
+                        @Override
 			public void buttonClick(ClickEvent event) {
 				try {
 					binder.getFields();
@@ -64,11 +65,9 @@ public class SearchButtonLayout extends HorizontalLayout {
 						searchResultbeans.removeAllItems();
 						searchResultbeans.addAll(searchResults);
 						table.setVisibleColumns(UIUtils.getInstance().businessRoleModuleMasterCol);
-					} catch (SystemException e) {
+					} catch (SystemException | PortalException e) {
 						LOGGER.error(e.getMessage());
 						
-					} catch (PortalException e) {
-						LOGGER.error(e.getMessage());
 					}
 					
 				} catch (CommitException e) {
@@ -79,12 +78,13 @@ public class SearchButtonLayout extends HorizontalLayout {
 		this.addComponent(btnSearch);
 	}
 
-	private void ResetButton() {
+	private void resetButton() {
 		Button btnReset = new Button("Reset");
 		btnReset.setWidth("75");
 		btnReset.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
+                        @Override
 			public void buttonClick(ClickEvent event) {
 				binder.discard();
 				binder.setItemDataSource(new BeanItem<SearchDTO>(new SearchDTO()));

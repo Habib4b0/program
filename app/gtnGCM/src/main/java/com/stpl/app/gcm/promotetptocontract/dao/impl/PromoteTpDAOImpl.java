@@ -9,7 +9,6 @@ import com.stpl.app.gcm.promotetptocontract.dao.PromoteTpDAO;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.promotetptocontract.dto.CurrentContractDTO;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.COMPANY_FAMILY_PLAN;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.ITEM_FAMILY_PLAN;
@@ -30,7 +29,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

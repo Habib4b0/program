@@ -39,14 +39,14 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
         super(SearchBusinessRoleModuleForm.class);
 
     }
-    private BusinessRoleModuleMasterLogicDAO dao = new BusinessRoleModuleMasterLogicDAOImpl();
+    private final BusinessRoleModuleMasterLogicDAO dao = new BusinessRoleModuleMasterLogicDAOImpl();
     /**
      *
      */
     private static final long serialVersionUID = 4573149356126437540L;
     private static final Logger LOGGER = LoggerFactory
             .getLogger(BusinessRoleModuleSearchLogic.class.getName());
-    private int VersionNo = NumericConstants.ONE;
+    private final int VersionNo = NumericConstants.ONE;
     public List<SearchBusinessRoleModuleForm> searchmoduleAccessDetails(
             ErrorfulFieldGroup searchBusinessRoleModuleForm)
             throws SystemException, PortalException {
@@ -60,27 +60,26 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                 .getValue() != null) {
             businessRoleName = searchBusinessRoleModuleForm
                     .getField(CommonUtils.BUSINESS_ROLE_NAME).getValue().toString();
-           LOGGER.debug(CommonUtils.BUSINESS_ROLE_NAME + businessRoleName);
+           LOGGER.debug("Business Role Name is {}.{}.", CommonUtils.BUSINESS_ROLE_NAME,businessRoleName);
         }
         if (searchBusinessRoleModuleForm.getField(CommonUtils.SUB_MODULE_NAME).getValue() != null) {
             subModuleName = searchBusinessRoleModuleForm
                     .getField(CommonUtils.SUB_MODULE_NAME).getValue().toString();
-            LOGGER.debug(CommonUtils.SUB_MODULE_NAME + subModuleName);
+            LOGGER.debug("Sub Module Name Name is {}.{}.", CommonUtils.SUB_MODULE_NAME, subModuleName);
         }
         if (searchBusinessRoleModuleForm.getField(CommonUtils.MODULE_NAME).getValue() != null) {
             moduleName = searchBusinessRoleModuleForm.getField(CommonUtils.MODULE_NAME)
                     .getValue().toString();
-            LOGGER.debug(CommonUtils.MODULE_NAME + moduleName);
+            LOGGER.debug("{}.{}.",CommonUtils.MODULE_NAME,moduleName);
         }
        
 
         @SuppressWarnings("rawtypes")
         List businessRoleModuleList = dao.getBusinessRoleModuleList(businessRoleName, subModuleName, moduleName);
-           LOGGER.debug("businessRoleModuleList size is ------>" + businessRoleModuleList.size());
         
         @SuppressWarnings("rawtypes")
         List subModuleProperyList = dao.getSubModuleProperyList(businessRoleName, subModuleName, moduleName);
-            LOGGER.debug("subModuleProperyList size is ------>" + subModuleProperyList.size());
+            LOGGER.debug("SubModuleProperyList size is {}.", subModuleProperyList.size());
        
             DynamicQuery businessRoleDynamicQuery = BusinessroleMasterLocalServiceUtil.dynamicQuery();
             if (StringUtils.isNotBlank(businessRoleName)) {
@@ -101,7 +100,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
             searchList = getCustomizedSearchFormFromSubModuleProperty(subModuleProperyList, businessroleMasterId, moduleName);
         }
         
-        } catch (Exception e) {
+        } catch (SystemException e) {
                 LOGGER.error(e.getMessage());
                 }
         return searchList;
@@ -115,7 +114,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
         String businessRoleName = "";
         String subModuleName = "";
         String moduleName = "";
-        LOGGER.debug("In searchFieldAccessDetails-----------------");
+        LOGGER.debug("In Search Field Access Details-----------------");
         List<SearchBusinessRoleModuleForm> searchList = new ArrayList<>();
         try {
         if (searchBusinessRoleModuleForm.getField(CommonUtils.BUSINESS_ROLE_NAME)
@@ -144,7 +143,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
        
         if (businessRoleModuleList != null && !businessRoleModuleList.isEmpty()) {
             searchList = getCustomizedSearchFieldObject(businessRoleModuleList, subModuleProperyList, moduleName);
-            LOGGER.debug("Custom sql() -> " + searchList.size());
+            LOGGER.debug("Custom sql: {}. ",searchList.size());
         } else {
             DynamicQuery businessRoleDynamicQuery = BusinessroleMasterLocalServiceUtil.dynamicQuery();
             if (StringUtils.isNotBlank(businessRoleName)) {
@@ -158,9 +157,9 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
             int businessroleMasterId = businessroleMastersList.get(0).getBusinessroleMasterSid();
 
             searchList = getCustomizedSearchFormFieldProperty(subModuleProperyList, businessroleMasterId, moduleName);
-    LOGGER.debug("Custom sql() Second -> " + searchList.size());
+            LOGGER.debug("Custom sql getCustomizedSearchFormFieldProperty is {}.", searchList.size());
         }
-        } catch (Exception e) {
+        } catch (SystemException e) {
                LOGGER.error(e.getMessage());
                 }
         return searchList;
@@ -293,8 +292,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
     public List<SearchBusinessRoleModuleForm> getCustomizedSearchFormFromObject(
             @SuppressWarnings("rawtypes") List list, @SuppressWarnings("rawtypes") List submoduleProperties, String moduleName,int businessroleMasterSid) {
         List<SearchBusinessRoleModuleForm> searchBusinessRoleModuleFormList = new ArrayList<>();
-        LOGGER.debug("list--------------------"+list.size());
-       LOGGER.debug("submoduleProperties--------------------"+submoduleProperties.size());
+        LOGGER.debug("List-------------------: {}.", list.size());
         if (submoduleProperties != null) {
             for (int i = 0; i < submoduleProperties.size(); i++) {
                 SearchBusinessRoleModuleForm searchBusinessRoleModuleForm = new SearchBusinessRoleModuleForm();
@@ -387,7 +385,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                     .property(CommonUtils.MODULE_NAME)));
             @SuppressWarnings("unchecked")
             List<ModuleSubmoduleMaster> moduleSubmoduleMastersList = dao.getModuleSubmoduleMaster(moduleSubmoduleMasterDynamicQuery);
-            LOGGER.debug("moduleSubmoduleMastersList size is----------------->" + moduleSubmoduleMastersList.size());
+            LOGGER.debug("Module Submodule Masters List Size is -----------------> {}.",moduleSubmoduleMastersList.size());
             for (int i = 0; i < moduleSubmoduleMastersList.size(); i++) {
                 moduleNames.add(String.valueOf(moduleSubmoduleMastersList
                         .get(i)));
@@ -521,7 +519,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
              
             }
             LOGGER.debug("Updated Successfully");
-        } catch (Exception e) {
+        } catch (SystemException | NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
     }

@@ -68,7 +68,7 @@ import org.vaadin.teemu.clara.Clara;
 public class CopyContractindex extends VerticalLayout {
 
     private static final Logger  LOGGER = LoggerFactory.getLogger(CopyContractindex.class);
-    private BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<>(ContractSearchDTO.class);
+    private final BeanItemContainer<ContractSearchDTO> resultContainer = new BeanItemContainer<>(ContractSearchDTO.class);
     @UiField("copycontractTableLayout")
     public VerticalLayout copycontractTableLayout;
     @UiField("copyBtn")
@@ -110,7 +110,7 @@ public class CopyContractindex extends VerticalLayout {
     private final TextField hiddenId = new TextField();
     private final CommonUtil commonUtils = CommonUtil.getInstance();
     private final ContractSearchTableLogic tablelogic = new ContractSearchTableLogic();
-    private ExtPagedTable copycontractResultsTable = new ExtPagedTable(tablelogic);
+    private final ExtPagedTable copycontractResultsTable = new ExtPagedTable(tablelogic);
     private final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
     private ContractSearchDTO binderDTO;
     private final List<ContractSearchDTO> selectionList = new ArrayList<>();

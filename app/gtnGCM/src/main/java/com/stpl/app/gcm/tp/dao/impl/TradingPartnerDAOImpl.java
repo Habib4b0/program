@@ -5,7 +5,6 @@ import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gcm.impl.CompanyMasterImpl;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;

@@ -38,7 +38,6 @@ import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.v7.ui.TextField;
-import com.vaadin.v7.ui.TreeTable;
 import com.vaadin.v7.ui.VerticalLayout;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

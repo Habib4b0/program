@@ -31,8 +31,8 @@ import org.slf4j.LoggerFactory;
 public class NotificationMgmtLogic {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(NotificationMgmtLogic.class);
-    private Date date = new Date();
-    private NotificationMgmtLogicDAO dao=new NotificationMgmtLogicDAOImpl();
+    private final Date date = new Date();
+    private final NotificationMgmtLogicDAO dao=new NotificationMgmtLogicDAOImpl();
     public  List<String> loadBusinessProcess() {
         DynamicQuery businessProcessDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         businessProcessDynamicQuery.add(RestrictionsFactoryUtil.ilike("listName", "WorkflowProcesses"));
@@ -206,10 +206,10 @@ if (notificationMgmtIndexDTO.getBusinessProcess()!= null) {
            notificationMgmtIndexDTO.setMailNotificationSystemId(result.getMailNotificationSid());
            
            int categoryId=result.getNotificationCategoryId();
-           LOGGER.debug("categoryId========================>>"+categoryId);
+           LOGGER.debug("CategoryId========================>> {}.", categoryId);
            
            notificationMgmtIndexDTO.setCategory(hmForCategory.get(categoryId));
-           LOGGER.debug("notificationMgmtIndexDTO.getCategory()--------------"+notificationMgmtIndexDTO.getCategory());
+           LOGGER.debug("notificationMgmtIndexDTO.getCategory()--------------: {}.", notificationMgmtIndexDTO.getCategory());
           HelperDTO helperDTO=new HelperDTO();
             if(notificationMgmtIndexDTO.getCategory().equals("") || notificationMgmtIndexDTO.getCategory().equals("null")){
                 helperDTO=null;

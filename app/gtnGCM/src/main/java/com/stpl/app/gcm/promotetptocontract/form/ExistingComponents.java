@@ -78,7 +78,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;

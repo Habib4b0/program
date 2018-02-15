@@ -60,7 +60,7 @@ public class ViewForm extends CustomComponent implements View {
 	private final TextField brandId = new TextField("brandId");
 
 	private BusinessRoleModuleMasterDTO salesMasterDTO;
-	private ErrorfulFieldGroup binder;
+	private final ErrorfulFieldGroup binder;
 
 	public ViewForm(BusinessRoleModuleMasterDTO salesMasterDTO, ErrorfulFieldGroup binder) {
 		this.setSalesMasterDTO(salesMasterDTO);
@@ -129,6 +129,7 @@ public class ViewForm extends CustomComponent implements View {
 		return grid;
 	}
 
+        @Override
 	public void enter(ViewChangeEvent event) {
             return;
 	}

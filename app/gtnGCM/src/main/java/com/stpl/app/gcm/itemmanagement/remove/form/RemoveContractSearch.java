@@ -26,7 +26,6 @@ import com.vaadin.v7.ui.TableFieldFactory;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
-import com.vaadin.v7.event.FieldEvents;
 import com.vaadin.v7.ui.PopupDateField;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
@@ -193,6 +192,7 @@ public class RemoveContractSearch extends AbstractContractSearch {
                     itemendDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
                     itemendDate.addFocusListener(new com.vaadin.event.FieldEvents.FocusListener() {
 
+                        @Override
                         public void focus(com.vaadin.event.FieldEvents.FocusEvent event) {
                             Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
 

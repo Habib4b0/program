@@ -19,17 +19,22 @@ import org.slf4j.LoggerFactory;
 public class SecurityImpl {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityImpl.class);
+    private static final String BUSINESS_ROLE_MASTER_SID = " AND ubm.BUSINESSROLE_MASTER_SID in (";
+    private static final String SPM_MODULE_NAME = " AND spm.MODULE_NAME in ('";
+    private static final String MSM_MODULE_NAME = " AND MSM.MODULE_NAME = '";
+    private static final String MSM_SUB_MODULE_NAME = " AND MSM.SUBMODULE_NAME = '";
+    
+    
 
     public List getBusinessTabPermission(String businessRoleId, String moduleName) {
         String sql = StringUtils.EMPTY;
         try {
             sql = SQLUtil.getQuery("tabPermission");
             if (businessRoleId.length() != 0) {
-                sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
-                        + businessRoleId + ")";
+                sql += BUSINESS_ROLE_MASTER_SID + businessRoleId + ")";
             }
             if (moduleName.length() != 0) {
-                sql += " AND spm.MODULE_NAME in ('" + moduleName + "') ";
+                sql += SPM_MODULE_NAME + moduleName + "') ";
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {
@@ -58,12 +63,12 @@ public class SecurityImpl {
             }
 
             if (businessRoleId.length() != 0) {
-                sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                sql += BUSINESS_ROLE_MASTER_SID
                         + businessRoleId + ")";
             }
 
             if (mod.length() != 0) {
-                sql += " AND spm.MODULE_NAME in ('" + mod + "') ";
+                sql += SPM_MODULE_NAME + mod + "') ";
             }
             if (str != null && !str[1].equals(StringUtils.EMPTY) && str[1].length() != 0) {
                 sql += " AND spm.TAB_NAME like ('" + str[1] + "') ";
@@ -97,11 +102,11 @@ public class SecurityImpl {
         try {
             sql = SQLUtil.getQuery("functionPermission");
             if (businessRoleId.length() != 0) {
-                sql += " AND ubm.BUSINESSROLE_MASTER_SID in ("
+                sql += BUSINESS_ROLE_MASTER_SID
                         + businessRoleId + ")";
             }
             if (mod.length() != 0) {
-                sql += " AND spm.MODULE_NAME in ('" + mod + "') ";
+                sql += SPM_MODULE_NAME + mod + "') ";
             }
 
             if (str != null && !str[1].equals(StringUtils.EMPTY) && str[1].length() != 0) {
@@ -140,10 +145,10 @@ public class SecurityImpl {
                                     + businessRoleName + "'";
             }
             if (moduleName.length()!=0) {
-                    sql += " AND MSM.MODULE_NAME = '" + moduleName + "' ";
+                    sql += MSM_MODULE_NAME + moduleName + "' ";
             }
             if (subModuleName.length()!=0) {
-                    sql += " AND MSM.SUBMODULE_NAME = '" + subModuleName + "' ";
+                    sql += MSM_SUB_MODULE_NAME + subModuleName + "' ";
             }
             sql+=" order by SPM.CATEGORY_NAME";
 
@@ -160,10 +165,10 @@ public class SecurityImpl {
         try {
             sql = SQLUtil.getQuery("findsubmodulePropertyDetails");
             if (moduleName.length()!=0) {
-                    sql += " AND MSM.MODULE_NAME = '" + moduleName + "' ";
+                    sql += MSM_MODULE_NAME + moduleName + "' ";
             }
             if (subModuleName.length()!=0) {
-                    sql += " AND MSM.SUBMODULE_NAME = '" + subModuleName + "' ";
+                    sql += MSM_SUB_MODULE_NAME + subModuleName + "' ";
             }
             sql+=" order by SPM.CATEGORY_NAME";
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
@@ -183,12 +188,11 @@ public class SecurityImpl {
                                     + businessRoleName + "'";
             }
             if (moduleName.length()!=0) {
-                    sql += " AND MSM.MODULE_NAME = '" + moduleName + "' ";
+                    sql += MSM_MODULE_NAME + moduleName + "' ";
             }
             if (subModuleName.length()!=0) {
-                    sql += " AND MSM.SUBMODULE_NAME = '" + subModuleName + "' ";
+                    sql += MSM_SUB_MODULE_NAME + subModuleName + "' ";
             }
-            System.out.println("findFieldAccessDetails sql = "+sql);
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -202,10 +206,10 @@ public class SecurityImpl {
         try {
             sql = SQLUtil.getQuery("findsubmoduleFieldDetails");
             if (moduleName.length()!=0) {
-                sql += " AND MSM.MODULE_NAME = '" + moduleName + "' ";
+                sql += MSM_MODULE_NAME + moduleName + "' ";
             }
             if (subModuleName.length()!=0) {
-                sql += " AND MSM.SUBMODULE_NAME = '" + subModuleName + "' ";
+                sql += MSM_SUB_MODULE_NAME + subModuleName + "' ";
             }
             return HelperTableLocalServiceUtil.executeSelectQuery(sql);
         } catch (Exception e) {

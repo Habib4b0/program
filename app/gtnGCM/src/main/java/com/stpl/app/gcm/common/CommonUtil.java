@@ -35,7 +35,7 @@ public class CommonUtil {
      */
     private static CommonUtil object;
     private static HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
-    private static HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
+    private static final HelperDTO ddlbShowAllValue = new HelperDTO(0, Constants.SHOW_ALL);
     /**
      * The helper list util.
      */

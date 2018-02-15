@@ -6,8 +6,6 @@
 package com.stpl.app.gcm.tp.ui.form;
 
 import com.stpl.app.gcm.sessionutils.SessionDTO;
-import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.VerticalLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +22,7 @@ public class SalesRebateTab extends VerticalLayout {
     private VerticalLayout tradingPartnerSalesTableLayout;
     @UiField("tradingPartnerRebatesTableLayout")
     private VerticalLayout tradingPartnerRebatesTableLayout;
-    private SessionDTO session;
+    private final SessionDTO session;
     private final boolean isLoad;
     /**
      * The Constant LOGGER.

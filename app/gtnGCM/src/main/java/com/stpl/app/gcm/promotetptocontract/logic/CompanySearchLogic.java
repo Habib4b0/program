@@ -15,7 +15,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
