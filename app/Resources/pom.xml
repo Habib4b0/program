@@ -40,7 +40,7 @@
         <module>customdatefield</module>
         <module>MessageBox</module>
         <module>calendarfield</module>
-        <module>VaadinWidgetSet_V7/vaadin-widgetset</module>
+        <module>vaadin-widgetset</module>
         <module>ErrorLabel</module> 
     </modules>
     <repositories>

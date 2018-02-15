@@ -233,6 +233,27 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>Build-Subsystem</id>
+			<modules>
+			<module>Resources/Resource-subsystem</module>
+<module>Gtn-base-subsystem</module>
+<module>Modules/GtnModules-Subsystem</module>
+			</modules>
+			<activation>
+				<property>
+					<name>releaseBuildParallel</name>
+				</property>
+			</activation>
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+			<build>
+				<defaultGoal>
+                    clean install
+                </defaultGoal>
+			</build>
+		</profile>
 
 	</profiles>
 </project>
