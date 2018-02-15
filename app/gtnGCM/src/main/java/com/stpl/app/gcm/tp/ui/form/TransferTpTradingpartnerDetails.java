@@ -377,7 +377,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
         try {
             csvTransferFlag = false;
             List list = CommmonLogic.getSubmittedRecords(session, TAB_CURRENT_CONTRACT.getConstant(), true);
-            int recordCount = Integer.valueOf(String.valueOf(list.get(0)));
+            int recordCount = Integer.parseInt(String.valueOf(list.get(0)));
 
             List tempVisibleHeaders = new ArrayList(Arrays.asList(currentTradingPartnerDetailsTable.getColumnHeaders()));
             tempVisibleHeaders.remove(0);
@@ -394,7 +394,7 @@ public class TransferTpTradingpartnerDetails extends CustomTPDetailsLayout {
         try {
             csvTransferFlag = true;
             List list = CommmonLogic.getSubmittedRecords(session, TAB_TRANSFER_CONTRACT.getConstant(), true);
-            int recordCount = Integer.valueOf(String.valueOf(list.get(0)));
+            int recordCount = Integer.parseInt(String.valueOf(list.get(0)));
 
             List tempVisibleHeaders = new ArrayList(Arrays.asList(transferTradingPartnerDetailsTable.getColumnHeaders()));
             tempVisibleHeaders.remove(0);

@@ -83,7 +83,7 @@ public class DeductionDetailsLogic {
             }
             String query = queryUtils.getDeductionCountQuery(deductionDTO, tableDTO);
             List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDTO.getCurrentTableNames()));
-            count =  (list == null || list.isEmpty() ) ? 0 : Integer.valueOf(String.valueOf(list.get(0)));
+            count =  (list == null || list.isEmpty() ) ? 0 : Integer.parseInt(String.valueOf(list.get(0)));
             LOGGER.debug("End of getDeductionDetailsCount");
             return count;
         } catch (NumberFormatException e) {
@@ -155,27 +155,27 @@ public class DeductionDetailsLogic {
                         String stringProperty;
                         switch (freq) {
                             case ConstantsUtils.ANNUAL:
-                                stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
+                                stringProperty = CommonUtil.columnProperty(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])),
                                         0, deductionDTO);
                                 dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 break;
                             case ConstantsUtils.SEMI_ANNUAL:
                                 for (int semi = 1; semi <= NumericConstants.TWO; semi++, index++) {
-                                    stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
+                                    stringProperty = CommonUtil.columnProperty(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])),
                                             semi, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
                             case ConstantsUtils.QUARTERLY:
                                 for (int quarter = 1; quarter <= NumericConstants.FOUR; quarter++, index++) {
-                                    stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
+                                    stringProperty = CommonUtil.columnProperty(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])),
                                             quarter, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
                             case ConstantsUtils.MONTHLY:
                                 for (int month = 1; month <= NumericConstants.TWELVE; month++, index++) {
-                                    stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
+                                    stringProperty = CommonUtil.columnProperty(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])),
                                             month, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
@@ -223,27 +223,27 @@ public class DeductionDetailsLogic {
                         String stringProperty;
                         switch (freq) {
                             case ConstantsUtils.ANNUAL:
-                                stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
+                                stringProperty = CommonUtil.columnProperty(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])),
                                         0, deductionDTO);
                                 dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 break;
                             case ConstantsUtils.SEMI_ANNUAL:
                                 for (int semi = 1; semi <= NumericConstants.TWO; semi++, index++) {
-                                    stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
+                                    stringProperty = CommonUtil.columnProperty(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])),
                                             semi, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
                             case ConstantsUtils.QUARTERLY:
                                 for (int quarter = 1; quarter <= NumericConstants.FOUR; quarter++, index++) {
-                                    stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
+                                    stringProperty = CommonUtil.columnProperty(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])),
                                             quarter, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
                             case ConstantsUtils.MONTHLY:
                                 for (int month = 1; month <= NumericConstants.TWELVE; month++, index++) {
-                                    stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])),
+                                    stringProperty = CommonUtil.columnProperty(Integer.parseInt(String.valueOf(obj[NumericConstants.TWO])),
                                             month, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
@@ -266,27 +266,27 @@ public class DeductionDetailsLogic {
                         String stringProperty;
                         switch (freq) {
                             case ConstantsUtils.ANNUAL:
-                                stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[1])),
+                                stringProperty = CommonUtil.columnProperty(Integer.parseInt(String.valueOf(obj[1])),
                                         0, deductionDTO);
                                 dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 break;
                             case ConstantsUtils.SEMI_ANNUAL:
                                 for (int semi = 1; semi <= NumericConstants.TWO; semi++, index++) {
-                                    stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[1])),
+                                    stringProperty = CommonUtil.columnProperty(Integer.parseInt(String.valueOf(obj[1])),
                                             semi, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
                             case ConstantsUtils.QUARTERLY:
                                 for (int quarter = 1; quarter <= NumericConstants.FOUR; quarter++, index++) {
-                                    stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[1])),
+                                    stringProperty = CommonUtil.columnProperty(Integer.parseInt(String.valueOf(obj[1])),
                                             quarter, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
                                 break;
                             case ConstantsUtils.MONTHLY:
                                 for (int month = 1; month <= NumericConstants.TWELVE; month++, index++) {
-                                    stringProperty = CommonUtil.columnProperty(Integer.valueOf(String.valueOf(obj[1])),
+                                    stringProperty = CommonUtil.columnProperty(Integer.parseInt(String.valueOf(obj[1])),
                                             month, deductionDTO);
                                     dto.addStringProperties(stringProperty, obj[index] != null || !ConstantsUtils.NULL.equals(String.valueOf(obj[index])) ? DEC_FORMAT.format(Double.valueOf(String.valueOf(obj[index]))) : "0.00");
                                 }
@@ -344,9 +344,9 @@ public class DeductionDetailsLogic {
      */
     public int getItemCount(String value,SessionDTO sessionDTO) {
         Object[] obj = value.split("~");
-        String query = queryUtils.getItemCount(Integer.valueOf(String.valueOf(obj[NumericConstants.THREE])), Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])));
+        String query = queryUtils.getItemCount(Integer.parseInt(String.valueOf(obj[NumericConstants.THREE])), Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR])));
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()));
-        return  (list == null || list.isEmpty()) ? 0 : Integer.valueOf(String.valueOf(list.get(0)));
+        return  (list == null || list.isEmpty()) ? 0 : Integer.parseInt(String.valueOf(list.get(0)));
     }
 
     /**
@@ -391,7 +391,7 @@ public class DeductionDetailsLogic {
             count = HelperTableLocalServiceUtil.executeUpdateQueryCount(QueryUtil.replaceTableNames(query,sessionDTO.getCurrentTableNames()));
             String qry="SELECT COUNT(DISTINCT \"YEAR\") FROM ST_DEDUCTION_CALENDAR_DETAILS ";
             List list=HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(qry,sessionDTO.getCurrentTableNames()));
-            return count/Integer.valueOf(list.get(0).toString());
+            return count/Integer.parseInt(list.get(0).toString());
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
             return 0;
@@ -551,7 +551,7 @@ public class DeductionDetailsLogic {
             }
         }
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDTO.getCurrentTableNames()));
-        return (list == null || list.isEmpty()) ? 0.0 : Integer.valueOf(String.valueOf(list.get(0)));
+        return (list == null || list.isEmpty()) ? 0.0 : Integer.parseInt(String.valueOf(list.get(0)));
     }
     
      /**

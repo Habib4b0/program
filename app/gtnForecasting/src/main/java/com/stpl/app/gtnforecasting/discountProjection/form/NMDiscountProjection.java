@@ -279,6 +279,12 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         public static final String SELECT_VALUES = "-Select Values-";
         public static final String SID = "SID";
         public static final String CAPTION = "CAPTION";
+        private static String DF_LEVEL_NUMBER = "dfLevelNumber";
+        private static String DF_LEVEL_NAME = "dfLevelName";
+        private static String LEVEL_NAME_PROPERTY = "levelName";
+        private static String LEVEL_NUMBER_HEADER = "Level Number";
+        private static String LEVEL_NAME_HEADER = "Level Name";
+        private static String GROUP_PROPERTY_ID = "group";
 
         private List<Object> generateDiscountToBeLoaded=new ArrayList<>();
         private List<Object> generateDiscountNamesToBeLoaded=new ArrayList<>();
@@ -2948,11 +2954,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                         
                         List<Object> leftTableVisibleColumnList = new ArrayList(Arrays.asList(leftResultTable.getVisibleColumns()));
                         List<String> leftTableColumnHeaderList = new ArrayList(Arrays.asList(leftResultTable.getColumnHeaders()));
-                        leftTableVisibleColumnList.remove("levelName");
-                        leftTableVisibleColumnList.add("dfLevelNumber");
-                        leftTableVisibleColumnList.add("dfLevelName");
+                        leftTableVisibleColumnList.remove(LEVEL_NAME_PROPERTY);
+                        leftTableVisibleColumnList.add(DF_LEVEL_NUMBER);
+                        leftTableVisibleColumnList.add(DF_LEVEL_NAME);
                         
-                        leftTableColumnHeaderList.add(1, "Level Number");
+                        leftTableColumnHeaderList.add(1, LEVEL_NUMBER_HEADER);
                         
                         
                         
@@ -2973,22 +2979,22 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                             LOGGER.info("obj--------------" + i);
                             int index = (Integer) displayFormatIndex[i];
                             if (index == 0) {
-                                leftTableExcelColumns = ArrayUtils.removeElement(leftTableExcelColumns, "dfLevelName");
-                                objectArrayHeaders = ArrayUtils.removeElement(objectArrayHeaders, "Level Name");
+                                leftTableExcelColumns = ArrayUtils.removeElement(leftTableExcelColumns, DF_LEVEL_NAME);
+                                objectArrayHeaders = ArrayUtils.removeElement(objectArrayHeaders, LEVEL_NAME_HEADER);
                             } else {
 
-                                leftTableExcelColumns = ArrayUtils.removeElement(leftTableExcelColumns, "dfLevelNumber");
-                                objectArrayHeaders = ArrayUtils.removeElement(objectArrayHeaders, "Level Number");
+                                leftTableExcelColumns = ArrayUtils.removeElement(leftTableExcelColumns, DF_LEVEL_NUMBER);
+                                objectArrayHeaders = ArrayUtils.removeElement(objectArrayHeaders, LEVEL_NUMBER_HEADER);
 
                             }
 
                         }
                     }
                         securityForListView(leftTableExcelColumns, Arrays.copyOf(objectArrayHeaders, objectArrayHeaders.length, String[].class), excelTable);
-                        Object[] singleHeaderArray = excelHeaderLeft.getDoubleHeaderMaps().get("group");
+                        Object[] singleHeaderArray = excelHeaderLeft.getDoubleHeaderMaps().get(GROUP_PROPERTY_ID);
                         List<Object> listHeadersList = new ArrayList(Arrays.asList(singleHeaderArray));
-                        listHeadersList.remove("levelName");
-                        excelHeaderLeft.getDoubleHeaderMaps().put("group", listHeadersList.toArray());
+                        listHeadersList.remove(LEVEL_NAME_PROPERTY);
+                        excelHeaderLeft.getDoubleHeaderMaps().put(GROUP_PROPERTY_ID, listHeadersList.toArray());
 			excelTable.setDoubleHeaderVisible(true);
 			excelTable
 					.setDoubleHeaderVisibleColumns(ArrayUtils.addAll(
@@ -3034,11 +3040,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                             LOGGER.info("obj--------------" + k);
                                             int index = (Integer) displayFormatIndex[k];
                                             if (index == 0) {
-                                                leftTableVisibleColumnList.remove("dfLevelName");
-                                                leftTableColumnHeaderList.remove("Level Name");
+                                                leftTableVisibleColumnList.remove(DF_LEVEL_NAME);
+                                                leftTableColumnHeaderList.remove(LEVEL_NAME_HEADER);
                                             } else {
-                                                leftTableVisibleColumnList.remove("dfLevelNumber");
-                                                leftTableColumnHeaderList.remove("Level Number");
+                                                leftTableVisibleColumnList.remove(DF_LEVEL_NUMBER);
+                                                leftTableColumnHeaderList.remove(LEVEL_NUMBER_HEADER);
 
                                             }
 
@@ -5494,7 +5500,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
             }
         
-        excelContainer.sort(new Object[]{"levelName"}, new boolean[]{true});
+        excelContainer.sort(new Object[]{LEVEL_NAME_PROPERTY}, new boolean[]{true});
         }catch(Exception e){
         	LOGGER.error(e.getMessage());
     }

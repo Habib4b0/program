@@ -204,7 +204,7 @@ public class CommonUtils {
     
     }
     public boolean checkETL(String userId) throws SystemException {
-        List<Role> userRoles = RoleLocalServiceUtil.getUserRoles(Long.valueOf(userId));
+        List<Role> userRoles = RoleLocalServiceUtil.getUserRoles(Long.parseLong(userId));
         List roleList = new ArrayList();
         for (Role role : userRoles) {
             roleList.add(role.getRoleId());

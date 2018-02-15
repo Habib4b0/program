@@ -1,73 +1,22 @@
-<?xml version="1.0"?>
-<project
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.stpl.app</groupId>
-        <artifactId>global-parent</artifactId>
-        <version>1.0</version>
-    </parent>
-    <groupId>com.stpl.app</groupId>
-    <artifactId>gtnServicePartII</artifactId>
-    <version>1.0</version>
-    <name>gtnServicePartII</name>
-    
-    <dependencies>
-        <dependency>
-            <groupId>com.stpl.portal</groupId>
-            <artifactId>portal-service</artifactId>
-            <version>${com.stpl.portal.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.stpl.portal</groupId>
-            <artifactId>util-java</artifactId>
-            <version>${com.stpl.portal.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging</artifactId>
-            <version>3.3.0.Final</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-	
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.stpl.maven.plugins</groupId>
-                <artifactId>stpl-maven-plugin</artifactId>
-                <version>${com.stpl.portal.version}</version>
-                <configuration>
-                    <autoDeployDir>${liferay.auto.deploy.dir}</autoDeployDir>
-                    <appServerDeployDir>${liferay.app.server.deploy.dir}</appServerDeployDir>
-                    <appServerLibGlobalDir>${liferay.app.server.lib.global.dir}</appServerLibGlobalDir>
-                    <appServerPortalDir>${liferay.app.server.portal.dir}</appServerPortalDir>
-                    <liferayVersion>${com.stpl.portal.version}</liferayVersion>
-                    <pluginName>gtnPartII</pluginName>
-                    <pluginType>portlet</pluginType>
-                    <webappBaseDir>${basedir}/../gtnServicePartII</webappBaseDir>
-                    <apiBaseDir>${basedir}/../gtnServicePartII</apiBaseDir>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <fork>true</fork>
-                    <meminitial>128m</meminitial>
-                    <maxmem>1024m</maxmem>
-                </configuration>
-            </plugin>                        
-        </plugins>
-    </build>
-    
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.stpl.app</groupId>
+		<artifactId>global-parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+	<groupId>com.stpl</groupId>
+	<artifactId>gtnServicePartII</artifactId>
+	<version>2.0</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>gtnServiceapi</module>
+		<module>gtnService</module>
+	</modules>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 </project>

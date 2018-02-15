@@ -238,22 +238,22 @@ public class CopyContractindex extends VerticalLayout {
             dto.setPSname(temp.getPriceSchedule());
             dto.setRSname(temp.getRebateSchedule());
             if (!temp.getRsContractSid().equals(StringUtils.EMPTY)) {
-                dto.setRSId(Integer.valueOf(temp.getRsContractSid()));
+                dto.setRSId(Integer.parseInt(temp.getRsContractSid()));
             } else {
                 dto.setRSId(0);
             }
             if (!temp.getCfpContractSid().equals(StringUtils.EMPTY)) {
-                dto.setCFPId(Integer.valueOf(temp.getCfpContractSid()));
+                dto.setCFPId(Integer.parseInt(temp.getCfpContractSid()));
             } else {
                 dto.setCFPId(0);
             }
             if (!temp.getIfpContractSid().equals(StringUtils.EMPTY)) {
-                dto.setIFPId(Integer.valueOf(temp.getIfpContractSid()));
+                dto.setIFPId(Integer.parseInt(temp.getIfpContractSid()));
             } else {
                 dto.setIFPId(0);
             }
             if (!temp.getPsContractSid().equals(StringUtils.EMPTY)) {
-                dto.setPSId(Integer.valueOf(temp.getPsContractSid()));
+                dto.setPSId(Integer.parseInt(temp.getPsContractSid()));
             } else {
                 dto.setPSId(0);
             }
