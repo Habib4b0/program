@@ -274,26 +274,26 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 
 	public String getHierarchyNoForRelationShip(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
 			HierarchyLevelDefinitionBean selectedHierarchyLevelDto) {
-		StringBuilder query = new StringBuilder();
-		StringBuilder finalQuery = new StringBuilder();
+		StringBuilder dedQuery = new StringBuilder();
+		StringBuilder dedFinalQuery = new StringBuilder();
 		for (int i = 0; i < selectedHierarchyLevelDto.getLevelNo(); i++) {
 			HierarchyLevelDefinitionBean leveldto = hierarchyLevelDefinitionList.get(i);
 			if (leveldto.getTableName().isEmpty()) {
-				query.append(",'%'");
-				query.append(",'.'");
+				dedQuery.append(",'%'");
+				dedQuery.append(",'.'");
 				continue;
 			}
-			query.append(",");
+			dedQuery.append(",");
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-			query.append(singleColumnRelationBean.getActualTtableName() + "."
+			dedQuery.append(singleColumnRelationBean.getActualTtableName() + "."
 					+ singleColumnRelationBean.getWhereClauseColumn());
-			query.append(",'.'");
+			dedQuery.append(",'.'");
 		}
-		finalQuery.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");
-		finalQuery.append(query);
-		query.append(",'%'");
-		finalQuery.append(")");
-		return finalQuery.toString();
+		dedFinalQuery.append("concat( RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,'-'");
+		dedFinalQuery.append(dedQuery);
+		dedQuery.append(",'%'");
+		dedFinalQuery.append(")");
+		return dedFinalQuery.toString();
 	}
 }

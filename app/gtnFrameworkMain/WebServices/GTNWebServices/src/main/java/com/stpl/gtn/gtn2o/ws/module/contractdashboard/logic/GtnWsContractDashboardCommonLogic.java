@@ -361,6 +361,7 @@ public class GtnWsContractDashboardCommonLogic {
 		companyAdditionColumnNameMap.put(RECORD_TYPE, RECORD_TYPE);
 		companyAdditionColumnNameMap.put("tradingPartnerContractNo", "tradeContact");
 		companyAdditionColumnNameMap.put("createdBy", "CREATED_BY");
+                companyAdditionColumnNameMap.put("cfpEligibleDate", "CFP_ELIGIBLE_DATE");
 	}
 
 	private void addNetSalesFormulaColumn() {

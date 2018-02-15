@@ -60,6 +60,7 @@ import com.vaadin.v7.data.Property;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -136,6 +137,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     public static final String SELECT_VALUES = "-Select Values-";
     private List<String[]> deductionLevel = new ArrayList<>();
     public static final String SID = "SID";
+    public static final String GROUP_PROPERTY = "group";
      
      public static final CommonLogic commonLogic = new CommonLogic();
 
@@ -1008,6 +1010,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     export.export();
                 }
             } else {
+                excelColumnFormat();
                 excelTable.setVisibleColumns(fullHeader.getSingleColumns().toArray());
                 excelTable.setColumnHeaders(fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size()]));
                 excelTable.setDoubleHeaderVisible(true);
@@ -2126,6 +2129,36 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             loadSalesInclusion();
             uomLoadingTabChange();
             loadDisplayFormatDdlb();
+        }
+    }
+    
+    private void excelColumnFormat() {
+        Object[] singleHeader = fullHeader.getDoubleHeaderMaps().get("group");
+        List<Object> listHeaders = new ArrayList(Arrays.asList(singleHeader));
+        listHeaders.remove(GROUP_PROPERTY);
+
+        fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
+        fullHeader.getSingleColumns().remove(GROUP_PROPERTY);
+        fullHeader.getSingleHeaders().remove(0);
+
+        Object[] displayFormatIndex = CommonUtils.getDisplayFormatSelectedValues(displayFormatValues);
+        if (displayFormatIndex.length == 1) {
+            for (int i = 0; i < displayFormatIndex.length; i++) {
+                LOGGER.info("obj--------------" + i);
+                int index = (Integer) displayFormatIndex[i];
+                if (index == 0) {
+                    listHeaders.remove("dfLevelName");
+                    fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
+                    fullHeader.getSingleColumns().remove("dfLevelName");
+                    fullHeader.getSingleHeaders().remove(1);
+                } else {
+                    listHeaders.remove("dfLevelNumber");
+                    fullHeader.getDoubleHeaderMaps().put(GROUP_PROPERTY, listHeaders.toArray());
+                    fullHeader.getSingleColumns().remove("dfLevelNumber");
+                    fullHeader.getSingleHeaders().remove(0);
+                }
+
+            }
         }
     }
     

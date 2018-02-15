@@ -81,6 +81,7 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
@@ -95,6 +96,8 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     private String screenName = StringUtils.EMPTY;
 
     private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(NMDiscountProjectionResults.class);
 
     private List<List<String>> discountlist = new ArrayList<>();
     private boolean generated = false;

@@ -95,6 +95,7 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
 			getDedRelationshipBuilderSid());
 		attributes.put("projectionCustVersionNo", getProjectionCustVersionNo());
 		attributes.put("projectionProdVersionNo", getProjectionProdVersionNo());
+		attributes.put("forecastEligibleDate", getForecastEligibleDate());
 
 		return attributes;
 	}
@@ -308,6 +309,12 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
 		if (projectionProdVersionNo != null) {
 			setProjectionProdVersionNo(projectionProdVersionNo);
 		}
+
+		Date forecastEligibleDate = (Date)attributes.get("forecastEligibleDate");
+
+		if (forecastEligibleDate != null) {
+			setForecastEligibleDate(forecastEligibleDate);
+		}
 	}
 
 	@Override
@@ -463,6 +470,16 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _projectionMaster.getExpandoBridge();
+	}
+
+	/**
+	* Returns the forecast eligible date of this projection master.
+	*
+	* @return the forecast eligible date of this projection master
+	*/
+	@Override
+	public Date getForecastEligibleDate() {
+		return _projectionMaster.getForecastEligibleDate();
 	}
 
 	/**
@@ -866,6 +883,16 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_projectionMaster.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the forecast eligible date of this projection master.
+	*
+	* @param forecastEligibleDate the forecast eligible date of this projection master
+	*/
+	@Override
+	public void setForecastEligibleDate(Date forecastEligibleDate) {
+		_projectionMaster.setForecastEligibleDate(forecastEligibleDate);
 	}
 
 	/**

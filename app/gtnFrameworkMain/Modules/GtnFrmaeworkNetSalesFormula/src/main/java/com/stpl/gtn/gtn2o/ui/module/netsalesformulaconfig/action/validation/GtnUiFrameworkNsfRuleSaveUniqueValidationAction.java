@@ -53,15 +53,24 @@ public class GtnUiFrameworkNsfRuleSaveUniqueValidationAction
 		GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_SAVE_UNIQUE_VALIDATION, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		if (!gtnWsresponse.getGtnWsGeneralResponse().isSucess() && !isEditMode && !componentId.contains("back")) {
-			String msg = "Entered Net Sales Formula Rule already exists.";
-			GtnUIFrameWorkActionConfig nsfAlertActionConfig = new GtnUIFrameWorkActionConfig();
-			nsfAlertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			nsfAlertActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.ERROR);
-			nsfAlertActionConfig.addActionParameter(msg);
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, nsfAlertActionConfig);
-			throw new GtnFrameworkValidationFailedException("Validation Error :" + msg);
+		if (!componentId.contains("back")) {
+			notBackButtonAction(componentId, isEditMode, gtnWsresponse);
 
+		}
+	}
+
+	private void notBackButtonAction(String componentId, boolean isEditMode,
+			GtnUIFrameworkWebserviceResponse gtnWsresponse)
+			throws GtnFrameworkGeneralException, GtnFrameworkValidationFailedException {
+		if(!gtnWsresponse.getGtnWsGeneralResponse().isSucess() && !isEditMode)
+		{
+		String msg = "Entered Net Sales Formula Rule already exists.";
+		GtnUIFrameWorkActionConfig nsfAlertActionConfig = new GtnUIFrameWorkActionConfig();
+		nsfAlertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		nsfAlertActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.ERROR);
+		nsfAlertActionConfig.addActionParameter(msg);
+		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, nsfAlertActionConfig);
+		throw new GtnFrameworkValidationFailedException("Validation Error :" + msg);
 		}
 	}
 

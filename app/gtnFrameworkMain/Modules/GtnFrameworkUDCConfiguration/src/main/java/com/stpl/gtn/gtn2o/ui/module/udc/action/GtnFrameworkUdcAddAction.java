@@ -66,9 +66,34 @@ public class GtnFrameworkUdcAddAction
 						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 				displayResultStatus(response, componentId);
 
-			}
-			else {
-				String udcValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_VALUE)
+			} else if (udcCategory.equals("FILE_TYPE")) {
+				String udcValue = null;
+				String alias = null;
+				udcValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_FILETYPE_VALUE)
+						.getStringFromField();
+				alias = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_FILETYPE_ALIAS)
+						.getStringFromField();
+				GtnWsUdcInfoBean udcInfoBean = new GtnWsUdcInfoBean();
+				udcInfoBean.setUdcCategory(udcCategory);
+				udcInfoBean.setUdcValue(udcValue);
+				udcInfoBean.setAliasName(alias);
+				udcInfoBean.setRefCount(0);
+				udcInfoBean.setCreatedBy(0);
+				udcInfoBean.setModifiedBy(0);
+				udcInfoBean.setCreatedDate(date);
+				udcInfoBean.setModifiedDate(date);
+				GtnWsUdcBean udcBean = new GtnWsUdcBean();
+				udcBean.setGtnWsUdcInfoBean(udcInfoBean);
+
+				udcRequest.setGtnWsUdcBean(udcBean);
+				request.setGtnWsUdcRequest(udcRequest);
+				GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+						GtnWsUdcConstants.GTN_UDC_SERVICE + GtnWsUdcConstants.GTN_UDC_SAVE_SERVICE, request,
+						GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+				displayResultStatus(response, componentId);
+			} else {
+				String udcValue = null;
+				udcValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_VALUE)
 						.getStringFromField();
 				GtnWsUdcInfoBean udcInfoBean = new GtnWsUdcInfoBean();
 				udcInfoBean.setUdcCategory(udcCategory);
@@ -78,7 +103,6 @@ public class GtnFrameworkUdcAddAction
 				udcInfoBean.setModifiedBy(0);
 				udcInfoBean.setCreatedDate(date);
 				udcInfoBean.setModifiedDate(date);
-
 				GtnWsUdcBean udcBean = new GtnWsUdcBean();
 				udcBean.setGtnWsUdcInfoBean(udcInfoBean);
 
@@ -91,14 +115,12 @@ public class GtnFrameworkUdcAddAction
 
 			}
 
-
 		} catch (GtnFrameworkGeneralException e) {
 			gtnLogger.error("Error while executing UdcSaveAction");
 		} finally {
 			gtnLogger.info("Exit UdcSaveAction");
 		}
 	}
-
 
 	private GtnWsBrandMasterBean loadBrandValues(Date date) {
 		GtnWsBrandMasterBean gtnWsBrandMasterBean = new GtnWsBrandMasterBean();
@@ -123,10 +145,10 @@ public class GtnFrameworkUdcAddAction
 			GtnUIFrameWorkActionConfig notificationActionConfig = new GtnUIFrameWorkActionConfig();
 			notificationActionConfig.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
 			Object emptyValue = "";
-				notificationActionConfig.setActionParameterList(Arrays.asList("Category " + GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY).getCaptionFromComboBox()
-						+ " Saved successfully", emptyValue));
-				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationActionConfig);
+			notificationActionConfig.setActionParameterList(Arrays.asList("Category " + GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY).getCaptionFromComboBox()
+					+ " Saved successfully", emptyValue));
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationActionConfig);
 
 		} else {
 			GtnUIFrameWorkActionConfig failedAlertActionConfig = new GtnUIFrameWorkActionConfig();

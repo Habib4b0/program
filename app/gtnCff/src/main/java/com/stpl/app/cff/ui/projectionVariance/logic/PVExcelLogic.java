@@ -84,6 +84,9 @@ public class PVExcelLogic {
     private static final int COLUMN_COUNT_DISCOUNT = 12;
     private static final String ALL = "ALL";
     private static final int BASECOLUMN_HIERARCHY_INDEX = 2;
+    private static final String DF_LEVEL_NUMBER = "dfLevelNumber";
+    private static final String DF_LEVEL_NAME = "dfLevelName";
+    private boolean currentBasis = false;
 
     public PVExcelLogic(Map<String, List<ProjectionVarianceDTO>> resultMap, PVSelectionDTO selection,
             List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, PVParameters parameterDto, Map<String, List<ProjectionVarianceDTO>> discountMap, Map<String, List<List<ProjectionVarianceDTO>>> discountMapDetails) {
@@ -1434,6 +1437,23 @@ public class PVExcelLogic {
         } else {
             groupName = CommonUtils.getDisplayFormattedName(hierarchy.trim(), selection.getHierarchyIndicator(),
                             selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
+            dto.setGroup(groupName);
+            if (groupName.contains("-")) {
+                String[] tempArr = groupName.split("-");
+                dto.addStringProperties(DF_LEVEL_NUMBER, tempArr[0]);
+                dto.addStringProperties(DF_LEVEL_NAME, tempArr[1]);
+            } else if (selection.getDisplayFormat().length > 0) {
+                int index = (int) selection.getDisplayFormat()[0];
+                if (index == 0) {
+                    dto.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                    
+                } else {
+                    dto.addStringProperties(DF_LEVEL_NAME, groupName);
+                }
+            } else {
+                dto.addStringProperties(DF_LEVEL_NUMBER, groupName);
+                dto.addStringProperties(DF_LEVEL_NAME, groupName);
+            }
         }
         dto.setGroup(groupName);
         pvList.add(dto);
@@ -2037,11 +2057,20 @@ public class PVExcelLogic {
          
         if (addFlag) {
             if (pvsdto.getVarIndicator().equals(Constants.VALUE)) {
-                pvDTO.setGroup(groupName.concat(Constants.VALUE));
+               String groupValue = groupName.concat(Constants.VALUE);
+                pvDTO.addStringProperties(DF_LEVEL_NUMBER, groupValue);
+                pvDTO.addStringProperties(DF_LEVEL_NAME, groupValue);
+                pvDTO.setGroup(groupValue);
             } else if (pvsdto.getVarIndicator().equals(Constants.VARIANCE)) {
-                pvDTO.setGroup(groupName.concat(Constants.VARIANCE));
+                String groupVaiance = groupName.concat(Constants.VARIANCE);
+                pvDTO.addStringProperties(DF_LEVEL_NUMBER, groupVaiance);
+                pvDTO.addStringProperties(DF_LEVEL_NAME, groupVaiance);
+                pvDTO.setGroup(groupVaiance);
             } else if (pvsdto.getVarIndicator().equals(Constants.CHANGE)) {
-                pvDTO.setGroup(groupName.concat(Constants.CHANGE));
+                String groupChange = groupName.concat(Constants.CHANGE);
+                pvDTO.addStringProperties(DF_LEVEL_NUMBER, groupChange);
+                pvDTO.addStringProperties(DF_LEVEL_NAME, groupChange);
+                pvDTO.setGroup(groupChange);
             }
         }
         List<Integer> vPriorList = new ArrayList<>(pvsdto.getProjIdList());
