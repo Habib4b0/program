@@ -95,7 +95,7 @@ public class CDRLogic {
         List<Object> masterData = (List<Object>) HelperTableLocalServiceUtil.executeSelectQuery(queryBuilder.toString());
         if (masterData != null && !masterData.isEmpty()) {
             Object ob = masterData.get(0);
-            count += Integer.valueOf(String.valueOf(ob));
+            count += Integer.parseInt(String.valueOf(ob));
         }
         return count;
     }
@@ -196,7 +196,7 @@ public class CDRLogic {
                 searchDto.setRecordLockStatus(false);
                 if (!ConstantsUtils.NULL.equals(String.valueOf(object[NumericConstants.SIX])) && StringUtils.isNotBlank(String.valueOf(object[NumericConstants.SIX]))) {
                     try {
-                        User createdUser = (User) securityDto.getUserByUserId(Long.valueOf(String.valueOf(object[NumericConstants.SIX])));
+                        User createdUser = (User) securityDto.getUserByUserId(Long.parseLong(String.valueOf(object[NumericConstants.SIX])));
                         searchDto.setCreatedBy(createdUser == null ? StringUtils.EMPTY : createdUser.getFullName());
                     } catch (SystemException | PortalException ex) {
                         LOGGER.error(ex.getMessage());
@@ -205,7 +205,7 @@ public class CDRLogic {
                 }
                 if (!ConstantsUtils.NULL.equals(String.valueOf(object[NumericConstants.EIGHT])) && StringUtils.isNotBlank(String.valueOf(object[NumericConstants.EIGHT]))) {
                     try {
-                        User createdUser = (User) securityDto.getUserByUserId(Long.valueOf(String.valueOf(object[NumericConstants.EIGHT])));
+                        User createdUser = (User) securityDto.getUserByUserId(Long.parseLong(String.valueOf(object[NumericConstants.EIGHT])));
                         searchDto.setModifiedBy(createdUser == null ? StringUtils.EMPTY : createdUser.getFullName());
                     } catch (SystemException | PortalException ex) {
                         LOGGER.error(ex.getMessage());
@@ -361,14 +361,14 @@ public class CDRLogic {
                 cdrModel = dao.getCdrModelBySystemId(sessionDTO.getSystemId());
             } else {
                 cdrModel = dao.createCdrModel(0);
-                cdrModel.setCreatedBy(Integer.valueOf(sessionDTO.getUserId()));
+                cdrModel.setCreatedBy(Integer.parseInt(sessionDTO.getUserId()));
                 cdrModel.setCreatedDate(new Date());
             }
             cdrModel.setRuleNo(binderDto.getRuleNo());
             cdrModel.setRuleName(binderDto.getRuleName());
             cdrModel.setRuleType(binderDto.getRuleTypeDto() == null ? 0 : binderDto.getRuleTypeDto().getId());
             cdrModel.setRuleCategory(binderDto.getRuleCategoryDto() == null ? 0 : binderDto.getRuleCategoryDto().getId());
-            cdrModel.setModifiedBy(Integer.valueOf(sessionDTO.getUserId()));
+            cdrModel.setModifiedBy(Integer.parseInt(sessionDTO.getUserId()));
             cdrModel.setModifiedDate(new Date());
             if (!notes.isEmpty() && !ConstantsUtils.NULL.equals(notes)) {
                 cdrModel.setInternalNotes(notes);
