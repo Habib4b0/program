@@ -6,12 +6,12 @@ import java.util.List;
 
 
 import com.stpl.gtn.gtn2o.ui.contractdashboard.config.action.GtnFrameworkSessionManagerAction;
-import com.stpl.gtn.gtn2o.ui.contractdashboard.config.action.fieldfactory.GtnFrameworkFieldFactoryAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.workflow.GtnWsBpmCommonConstants;
@@ -24,7 +24,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractDashboardRequest;
 import com.stpl.gtn.gtn2o.ws.request.workflow.GtnWsCommonWorkflowRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.ifs.util.GtnFileUtil;
+
 
 
 public class GtnUIFrameworkContractWorkflowUpdateAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
@@ -122,7 +122,7 @@ public class GtnUIFrameworkContractWorkflowUpdateAction implements GtnUIFrameWor
 		java.util.Properties prop = new java.util.Properties();
 		try {
 			FileInputStream fileIS = null;
-			fileIS = GtnFileUtil.getFileInputStream(bpiPropLoc);
+			fileIS = GtnFileNameUtils.getFileInputStream(bpiPropLoc);
 			prop.load(fileIS);
 		} catch (Exception ex) {
 			logger.error("Exception",ex);
