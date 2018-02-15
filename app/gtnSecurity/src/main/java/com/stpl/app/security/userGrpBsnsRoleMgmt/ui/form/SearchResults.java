@@ -24,9 +24,9 @@ import com.vaadin.v7.ui.VerticalLayout;
 public class SearchResults extends CustomComponent {
 	private static final long serialVersionUID = 1L;
 	private final Label space = new Label("&nbsp;", ContentMode.HTML);
-	private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
+	private final BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
 	private BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
-	private Table table;
+	private final Table table;
 
 	public SearchResults(
 			BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans,

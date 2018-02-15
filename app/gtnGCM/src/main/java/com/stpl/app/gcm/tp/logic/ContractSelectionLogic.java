@@ -39,8 +39,8 @@ import org.slf4j.LoggerFactory;
 public class ContractSelectionLogic {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ContractSelectionLogic.class);
-    private TradingPartnerDAO dao = new TradingPartnerDAOImpl();
-    private static CommonDao daoImpl = CommonImpl.getInstance();
+    private final TradingPartnerDAO dao = new TradingPartnerDAOImpl();
+    private static final CommonDao daoImpl = CommonImpl.getInstance();
 
     public int getComponentInformationCount(String componentSelectionValue, String[] id, Set<Container.Filter> filters) {
         List<Object[]> componentInformationList = getComponentInformationData(componentSelectionValue, id, false, true, 0, 0, filters);

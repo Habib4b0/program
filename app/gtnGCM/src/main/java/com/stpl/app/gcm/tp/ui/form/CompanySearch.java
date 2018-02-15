@@ -69,8 +69,6 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -130,10 +128,10 @@ public class CompanySearch extends VerticalLayout {
     private String updateType = StringUtils.EMPTY;
     private final CompanySearchTableLogic companyLogic = new CompanySearchTableLogic();
     private final StplSecurity stplSecurity = new StplSecurity();
-    private ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
+    private final ExtPagedTable companySearchResultsTable = new ExtPagedTable(companyLogic);
     private final BeanItemContainer<TradingPartnerDTO> companyResultsContainer = new BeanItemContainer<>(TradingPartnerDTO.class);
     private final ExtTreeContainer<TradingPartnerDTO> resultsLazyContainer = new ExtTreeContainer<>(TradingPartnerDTO.class);
-    private TradingPartnerDTO tpDto = new TradingPartnerDTO();
+    private final TradingPartnerDTO tpDto = new TradingPartnerDTO();
     private final ErrorLabel errorMsg = new ErrorLabel();
     public static final String SEARCH_BTN = "searchBtn";
     public static final String PLEASE_SELECT_A_VALUE_IN_THE_RESULTS_LIST = "Please select a value in the Results list view then try again.";
@@ -141,7 +139,7 @@ public class CompanySearch extends VerticalLayout {
     /**
      * The data selection binder.
      */
-    private ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(tpDto));
+    private final ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(tpDto));
     /**
      * The excel export image.
      */

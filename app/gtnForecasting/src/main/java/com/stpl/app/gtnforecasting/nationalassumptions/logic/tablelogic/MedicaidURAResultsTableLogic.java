@@ -115,33 +115,26 @@ public class MedicaidURAResultsTableLogic extends PageTreeTableLogic {
             int index = count - size + 1;
             for (int j = 0; j < size; j++) {
                 String customTreeLevel = (index + j) + ".";
-                String currentTreeLevel = (rowIndex) + ".";
-                if (expandedList.contains(customTreeLevel) || currentTreeLevel.equals(customTreeLevel) || rowIndex == -1) {
                     TableDTO levelDto = levelList.get(j);
                     addExpandedTreeList(customTreeLevel, levelDto);
                     count =  medResLogic.getConfiguredMedicaidResultsCount(levelDto, projSelDTO);
                     addlevelMap(customTreeLevel, new LevelMap(count, getColumnIdToFilterMap()));
-                }
             }
-        } else {
-            if (rowIndex == -1) { // collapse all
-                getExpandedTreeList().clear();
-            } else if (!expandedList.isEmpty()) { // To collapse a single node
+        } else {                              
+            if (!expandedList.isEmpty()) { // To collapse a single node
                 List<TableDTO> levelList =  medResLogic.getConfiguredMedicaidResults(new Object(), 0, count, projSelDTO,sessionDTO);
                 int size = levelList.size();
                 int index = count - size + 1;
                 for (int j = 0; j < size; j++) {
                     String customTreeLevel = (index + j) + ".";
-                    String currentTreeLevel = (rowIndex) + ".";
-                    if (expandedList.contains(customTreeLevel) && !currentTreeLevel.equals(customTreeLevel)) {// expanding the already expanded nodes 
                         TableDTO levelDto = levelList.get(j);
                         addExpandedTreeList(customTreeLevel, levelDto);
                         count =  medResLogic.getConfiguredMedicaidResultsCount(levelDto, projSelDTO);
                         addlevelMap(customTreeLevel, new LevelMap(count, getColumnIdToFilterMap()));
-                    }
                 }
-
             }
+            getExpandedTreeList().clear();
+            
         }
         setRecordCount(getCalculatedTotalRecordCount());
         setCurrentPage(getTotalAmountOfPages());

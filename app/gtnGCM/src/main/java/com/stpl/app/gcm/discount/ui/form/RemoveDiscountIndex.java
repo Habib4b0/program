@@ -119,7 +119,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     private static final Logger LOGGER = LoggerFactory.getLogger(RemoveDiscountIndex.class);
     private String screenName = StringUtils.EMPTY;
     /* The bean used to load Start Period */
-    final private BeanItemContainer<String> marketTypeBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> marketTypeBean = new BeanItemContainer<>(String.class);
     private final DiscountLogic discountLogic = new DiscountLogic();
     private final RemoveDiscountDto removeDiscountDto = new RemoveDiscountDto();
     private final CommonUtil commonUtil = CommonUtil.getInstance();
@@ -127,7 +127,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
     /**
      * Binder for DataSelection.
      */
-    final private ErrorfulFieldGroup discountChBinder = new ErrorfulFieldGroup(new BeanItem<>(removeDiscountDto));
+    private final ErrorfulFieldGroup discountChBinder = new ErrorfulFieldGroup(new BeanItem<>(removeDiscountDto));
     /**
      * Bean container for result table.
      */

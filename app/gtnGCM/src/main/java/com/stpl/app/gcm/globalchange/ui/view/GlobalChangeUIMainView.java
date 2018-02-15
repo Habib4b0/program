@@ -6,7 +6,6 @@ package com.stpl.app.gcm.globalchange.ui.view;
 
 import com.stpl.app.gcm.globalchange.dto.GlobalChangeDTO;
 import com.stpl.app.gcm.globalchange.ui.form.GlobalChangeIndex;
-import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.util.Constants;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;

@@ -50,7 +50,7 @@
 		<profile>
 			<id>Release-Build</id>
 			<modules>
-				<!--<module>etl</module>-->
+				<module>etl</module>
 				<module>app/Resources</module>
 				<module>app/gtnProperties</module>
 				<module>app/gtnUtility</module>
