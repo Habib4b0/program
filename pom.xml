@@ -60,6 +60,7 @@
 				<module>app/gtnHierarchyRouteBuilder</module>
 				<module>app/gtnGlobal</module>
 				<module>app/gtnSecurity</module>
+				<module>app/bpm-common-utility</module>
 				<module>app/gtnForecasting</module>
 				<module>app/gtnAdminConsole</module>
 				<module>app/gtnGCM</module>
