@@ -4834,7 +4834,6 @@ public class CommonLogic {
                 query.append(oldProductQuery);
             }
             query.append(" GROUP BY ").append(selectClause);
-            LOGGER.info("Query--------------->>>>>>"+query);
             deductionValuesList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(),projectionDto.getSessionDTO().getCurrentTableNames()));
 
         } catch (SystemException | PortalException ex) {
