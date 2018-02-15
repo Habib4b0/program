@@ -700,7 +700,7 @@ public class Exixtingcomponent extends CustomComponent {
             Object root = dashboardResultsTable.getValue();
             if (root != null) {
                 String levelNo = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.LEVELNO).getValue());
-                int levelNumber = Integer.valueOf(levelNo);
+                int levelNumber = Integer.parseInt(levelNo);
                 String level = String.valueOf(ComponenttypeNC.getValue());
                 if (level.equals(Constants.COMPANY_FAMILY_PLAN)) {
                     if (1 - levelNumber == 1) {
@@ -966,12 +966,12 @@ public class Exixtingcomponent extends CustomComponent {
                     String idvalue = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.HIDDEN_ID).getValue());
                     String contractSId = String.valueOf(dashboardResultsTable.getContainerProperty(contractParent, SAVED_SYSTEM_ID).getValue());
                     
-                    final CfpModel companyFamily = CfpModelLocalServiceUtil.getCfpModel(Integer.valueOf(idvalue));
+                    final CfpModel companyFamily = CfpModelLocalServiceUtil.getCfpModel(Integer.parseInt(idvalue));
                     final CfpContract cfpMasterAttached = CfpContractLocalServiceUtil.createCfpContract(0);
                     cfpMasterAttached.setCfpName(companyFamily.getCfpName());
                     cfpMasterAttached.setCfpNo(companyFamily.getCfpNo());
                     cfpMasterAttached.setCfpModelSid(companyFamily.getCfpModelSid());
-                    cfpMasterAttached.setContractMasterSid(Integer.valueOf(contractSId));
+                    cfpMasterAttached.setContractMasterSid(Integer.parseInt(contractSId));
                     cfpMasterAttached.setSource("BPI");
                     cfpMasterAttached.setCfpType(companyFamily.getCfpType());
                     cfpMasterAttached.setCfpCategory(companyFamily.getCfpCategory());
@@ -999,7 +999,7 @@ public class Exixtingcomponent extends CustomComponent {
                 String category = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.CATEGORY).getValue());
                 if (category.equalsIgnoreCase(Constants.IFP)) {
                     String idvalue = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.HIDDEN_ID).getValue());
-                    final IfpModel itemFamily = IfpModelLocalServiceUtil.getIfpModel(Integer.valueOf(idvalue));
+                    final IfpModel itemFamily = IfpModelLocalServiceUtil.getIfpModel(Integer.parseInt(idvalue));
                     final IfpContract ifpMasterAttached = IfpContractLocalServiceUtil.createIfpContract(0);
                     
                     ifpMasterAttached.setIfpModelSid(itemFamily.getIfpModelSid());
@@ -1027,7 +1027,7 @@ public class Exixtingcomponent extends CustomComponent {
                     ifpMasterAttached.setCfpContractSid(parentCFPId);
                     Object contractItem = dashboardResultsTable.getParent(parentItem);
                     String contractSId = String.valueOf(dashboardResultsTable.getContainerProperty(contractItem, SAVED_SYSTEM_ID).getValue());
-                    ifpMasterAttached.setContractMasterSid(Integer.valueOf(contractSId));
+                    ifpMasterAttached.setContractMasterSid(Integer.parseInt(contractSId));
                     IfpContract im1 = IfpContractLocalServiceUtil.addIfpContract(ifpMasterAttached);
                     SaveIFP(String.valueOf(im1.getIfpContractSid()), itemFamily.getIfpModelSid());
                     dashboardResultsTable.getContainerProperty(itemIds[i], SAVED_SYSTEM_ID).setValue(String.valueOf(im1.getIfpContractSid()));
@@ -1035,7 +1035,7 @@ public class Exixtingcomponent extends CustomComponent {
             }
             if (level.equalsIgnoreCase("3")) {
                 String idvalue = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.HIDDEN_ID).getValue());
-                final PsModel priceSchedule = PsModelLocalServiceUtil.getPsModel(Integer.valueOf(idvalue));
+                final PsModel priceSchedule = PsModelLocalServiceUtil.getPsModel(Integer.parseInt(idvalue));
                 final PsContract psMasterAttached = PsContractLocalServiceUtil.createPsContract(0);
                 
                 psMasterAttached.setPsName(priceSchedule.getPsName());
@@ -1064,7 +1064,7 @@ public class Exixtingcomponent extends CustomComponent {
                 Object contractItem = dashboardResultsTable.getParent(parentCFPItem);
                 String contractSId = String.valueOf(dashboardResultsTable.getContainerProperty(contractItem, SAVED_SYSTEM_ID).getValue());
 
-                psMasterAttached.setContractMasterSid(Integer.valueOf(contractSId));
+                psMasterAttached.setContractMasterSid(Integer.parseInt(contractSId));
                 psMasterAttached.setCfpContractSid(parentCFPId);
                 psMasterAttached.setIfpContractSid(parentIFPId);
                 PsContract im1 = PsContractLocalServiceUtil.addPsContract(psMasterAttached);
@@ -1083,7 +1083,7 @@ public class Exixtingcomponent extends CustomComponent {
                 String idvalue = String.valueOf(dashboardResultsTable.getContainerProperty(itemIds[i], Constants.HIDDEN_ID).getValue());
                 final RsModel rebateMaster = RsModelLocalServiceUtil.getRsModel(Integer.parseInt(idvalue));
                 final RsContract rsMasterAttached = RsContractLocalServiceUtil.createRsContract(0);
-                rsMasterAttached.setContractMasterSid(Integer.valueOf(contractSId));
+                rsMasterAttached.setContractMasterSid(Integer.parseInt(contractSId));
                 rsMasterAttached.setCfpContractSid(parentCFPId);
                 rsMasterAttached.setIfpContractSid(parentIFPId);
                 rsMasterAttached.setPsContractSid(parentPSId);
