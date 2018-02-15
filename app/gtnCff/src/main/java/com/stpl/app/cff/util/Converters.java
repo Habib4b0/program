@@ -227,7 +227,7 @@ public class Converters {
         dataSelectionDTO.setProductGroup(String.valueOf(objects[NumericConstants.SIXTEEN]).equals(CommonConstants.NULL.getConstant()) ? StringUtils.EMPTY : String.valueOf(objects[NumericConstants.SIXTEEN]));
         dataSelectionDTO.setCustomerHierVersionNo(Integer.parseInt(String.valueOf(objects[NumericConstants.SEVENTEEN])));
         dataSelectionDTO.setProductHierVersionNo(Integer.parseInt(String.valueOf(objects[NumericConstants.EIGHTEEN])));
-        dataSelectionDTO.setBrand(Boolean.valueOf(String.valueOf(objects[NumericConstants.NINETEEN])));
+        dataSelectionDTO.setBrand(Boolean.parseBoolean(String.valueOf(objects[NumericConstants.NINETEEN])));
         dataSelectionDTO.setSelectedCompanyName(String.valueOf(objects[NumericConstants.TWENTY]));
         try {
             dataSelectionDTO.setFromPeriod(String.valueOf(objects[NumericConstants.TWENTY_ONE]));
@@ -243,7 +243,7 @@ public class Converters {
         }
         
         dataSelectionDTO.setModifiedBy(String.valueOf(objects[NumericConstants.TWENTY_TWO]));
-        dataSelectionDTO.setSaveFlag(CommonConstants.NULL.getConstant().equals(String.valueOf(objects[NumericConstants.TWENTY_THREE])) ? false : Boolean.valueOf(String.valueOf(objects[NumericConstants.TWENTY_THREE])));
+        dataSelectionDTO.setSaveFlag(CommonConstants.NULL.getConstant().equals(String.valueOf(objects[NumericConstants.TWENTY_THREE])) ? false : Boolean.parseBoolean(String.valueOf(objects[NumericConstants.TWENTY_THREE])));
         
         dataSelectionDTO.setCustomerHierarchyInnerLevel(String.valueOf(objects[NumericConstants.TWENTY_FIVE]));
         dataSelectionDTO.setProductHierarchyInnerLevel(String.valueOf(objects[NumericConstants.TWENTY_SIX]));
