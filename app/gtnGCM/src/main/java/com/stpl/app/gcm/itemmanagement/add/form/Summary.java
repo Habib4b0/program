@@ -38,7 +38,6 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
-import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
 
@@ -101,7 +100,7 @@ public class Summary extends CustomComponent {
     @UiField("componentDetailsLay")
     private VerticalLayout componentDetailsLay;
     private final ItemDetailsTableLogic contractTableLogic = new ItemDetailsTableLogic();
-    private ExtPagedTable addContractTable = new ExtPagedTable(contractTableLogic);
+    private final ExtPagedTable addContractTable = new ExtPagedTable(contractTableLogic);
     private final ContractDashboardTableLogic contractDashboardTableLogic = new ContractDashboardTableLogic();
     private final FreezePagedTreeTable contractDashBoardtable = new FreezePagedTreeTable(contractDashboardTableLogic);
     private List<ItemIndexDto> selecteditemList;
@@ -418,19 +417,19 @@ public class Summary extends CustomComponent {
         String flag = StringUtils.EMPTY;
         if (componentInfoDTO.getLevelNo() == NumericConstants.TWO) {
             flag = Constants.CFP;
-            selection.setCfpContractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.valueOf(componentInfoDTO.getMasterSid()));
+            selection.setCfpContractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.parseInt(componentInfoDTO.getMasterSid()));
             component.fireComponentListener(Constants.CFP, selection);
         } else if (componentInfoDTO.getLevelNo() == NumericConstants.THREE) {
             flag = Constants.IFP;
-            selection.setIfpConteractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.valueOf(componentInfoDTO.getMasterSid()));
+            selection.setIfpConteractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.parseInt(componentInfoDTO.getMasterSid()));
             component.fireComponentListener(Constants.IFP, selection);
         } else if (componentInfoDTO.getLevelNo() == NumericConstants.FOUR) {
             flag = Constants.PS;
-            selection.setPsContractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.valueOf(componentInfoDTO.getMasterSid()));
+            selection.setPsContractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.parseInt(componentInfoDTO.getMasterSid()));
             component.fireComponentListener(Constants.PS, selection);
         } else if (componentInfoDTO.getLevelNo() == NumericConstants.FIVE) {
             flag = Constants.RS;
-            selection.setRsContractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.valueOf(componentInfoDTO.getMasterSid()));
+            selection.setRsContractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.parseInt(componentInfoDTO.getMasterSid()));
             component.fireComponentListener(Constants.RS, selection);
         }
         component.fireComponentListener(flag, selection);

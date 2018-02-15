@@ -31,7 +31,6 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -112,7 +111,7 @@ public class RebateTab extends VerticalLayout {
     private final float splitPosition = 300;
     @UiField("mainPanel")
     public Panel panel;
-    private TabSelectionDTO selectionDTO = new TabSelectionDTO();
+    private final TabSelectionDTO selectionDTO = new TabSelectionDTO();
     private ExtCustomTreeTable exportPeriodViewTable;
     private ExtTreeContainer<RebateTabDTO> excelResultBean = new ExtTreeContainer<>(RebateTabDTO.class,ExtContainer.DataStructureMode.MAP);
     private final LoadTabLogic tabLogic = new LoadTabLogic();
@@ -329,7 +328,7 @@ public class RebateTab extends VerticalLayout {
             initializeResultTable();
             leftDTO = HeaderUtils.getSalesTabLeftTableColumns(fullHeader);
             tableHeader = new CustomTableHeaderDTO();
-            rightDTO = HeaderUtils.getSalesAndRebateColumns(tableHeader, fullHeader, Integer.valueOf(his[0]), String.valueOf(frequency.getValue()), false);
+            rightDTO = HeaderUtils.getSalesAndRebateColumns(tableHeader, fullHeader, Integer.parseInt(his[0]), String.valueOf(frequency.getValue()), false);
             resultBean.setColumnProperties(leftDTO.getProperties());
             resultBean.setColumnProperties(rightDTO.getProperties());
             tableLogic.setTreeNodeMultiClick(false);

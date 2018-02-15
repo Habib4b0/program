@@ -14,4 +14,10 @@
 		<module>JarReleasePlugin</module>
 		<module>WarReleasePlugin</module>
 	</modules>
+	<parent>
+		<groupId>com.stpl.app</groupId>
+		<artifactId>global-parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
 </project>

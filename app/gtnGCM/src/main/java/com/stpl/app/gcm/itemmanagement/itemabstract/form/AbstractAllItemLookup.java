@@ -7,7 +7,6 @@ package com.stpl.app.gcm.itemmanagement.itemabstract.form;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.index.logic.ItemIndexTableLogic;
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;

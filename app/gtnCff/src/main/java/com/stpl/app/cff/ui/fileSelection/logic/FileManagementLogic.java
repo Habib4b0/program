@@ -323,7 +323,7 @@ public class FileManagementLogic {
 		fileManagement.setFromPeriod(new Date());
 		fileManagement.setCreatedDate(new Date());
 		fileManagement.setModifiedDate(new Date());
-		fileManagement.setCreatedBy(Integer.valueOf(userId));
+		fileManagement.setCreatedBy(Integer.parseInt(userId));
 		fileManagement.setFileType(fileType.getId());
 		List<FileManagement> resultsList;
 		final DynamicQuery dynamicQuery = FileManagementLocalServiceUtil.dynamicQuery();
@@ -350,7 +350,7 @@ public class FileManagementLogic {
 			final FileManagement currentActiveFile = resultsList.get(0);
 			currentActiveFile.setToPeriod(new Date());
 			currentActiveFile.setModifiedDate(new Date());
-			currentActiveFile.setModifiedBy(Integer.valueOf(userId));
+			currentActiveFile.setModifiedBy(Integer.parseInt(userId));
 			currentActiveFile.setFileType(fileType.getId());
 
 			DAO.updateFiles(currentActiveFile);
@@ -549,9 +549,9 @@ public class FileManagementLogic {
 					master.setRecordLockStatus(false);
 					Date date = new Date();
 					master.setForecastDate(beanItem.getStartDate());
-					master.setUnits(Double.valueOf(beanItem.getUnits().replace("$", ConstantsUtils.EMPTY)));
-					master.setPrice(Double.valueOf(beanItem.getPrice().replace("$", ConstantsUtils.EMPTY)));
-					master.setDollars(Double.valueOf(beanItem.getDollars().replace("$", ConstantsUtils.EMPTY)));
+					master.setUnits(Double.parseDouble(beanItem.getUnits().replace("$", ConstantsUtils.EMPTY)));
+					master.setPrice(Double.parseDouble(beanItem.getPrice().replace("$", ConstantsUtils.EMPTY)));
+					master.setDollars(Double.parseDouble(beanItem.getDollars().replace("$", ConstantsUtils.EMPTY)));
 					master.setSource(source);
 					master.setCountry(country);
 					master.setForecastVer(version);
@@ -571,18 +571,18 @@ public class FileManagementLogic {
 					forecast.setItemIdentifier(beanItem.getItemIdentifier());
 					forecast.setBrandId(beanItem.getBrandId());
 					forecast.setSegment(beanItem.getSegment());
-					forecast.setMarketSizeUnits(Double.valueOf(beanItem.getMarketSizeUnits()));
-					forecast.setMarketShareUnits(Double.valueOf(beanItem.getMarketShareUnits()));
+					forecast.setMarketSizeUnits(Double.parseDouble(beanItem.getMarketSizeUnits()));
+					forecast.setMarketShareUnits(Double.parseDouble(beanItem.getMarketShareUnits()));
 					forecast.setMarketShareRatio(beanItem.getMarketShareRatio());
-					forecast.setUncapturedUnits(Double.valueOf(beanItem.getUncapturedUnits()));
+					forecast.setUncapturedUnits(Double.parseDouble(beanItem.getUncapturedUnits()));
 					forecast.setUncapturedUnitsRatio(beanItem.getUncapturedUnitsRatio());
-					forecast.setTotalDemandUnits(Double.valueOf(beanItem.getTotalDemandUnits()));
-					forecast.setTotalDemandAmount(Double.valueOf(beanItem.getTotalDemandAmount()));
-					forecast.setInventoryUnitChange(Double.valueOf(beanItem.getInventoryUnitChange()));
-					forecast.setGrossUnits(Double.valueOf(beanItem.getGrossUnits()));
-					forecast.setGrossPrice(Double.valueOf(beanItem.getGrossPrice()));
-					forecast.setGrossAmount(Double.valueOf(beanItem.getGrossAmount()));
-					forecast.setNetSalesPrice(Double.valueOf(beanItem.getNetSalesPrice()));
+					forecast.setTotalDemandUnits(Double.parseDouble(beanItem.getTotalDemandUnits()));
+					forecast.setTotalDemandAmount(Double.parseDouble(beanItem.getTotalDemandAmount()));
+					forecast.setInventoryUnitChange(Double.parseDouble(beanItem.getInventoryUnitChange()));
+					forecast.setGrossUnits(Double.parseDouble(beanItem.getGrossUnits()));
+					forecast.setGrossPrice(Double.parseDouble(beanItem.getGrossPrice()));
+					forecast.setGrossAmount(Double.parseDouble(beanItem.getGrossAmount()));
+					forecast.setNetSalesPrice(Double.parseDouble(beanItem.getNetSalesPrice()));
 					forecast.setBatchId(beanItem.getBatchId());
 					forecast.setOrganizationKey(beanItem.getOrganizationKey());
 					Date date = new Date();
@@ -944,7 +944,7 @@ public class FileManagementLogic {
 					Compare compare = (Compare) filter;
 					Compare.Operation operation = compare.getOperation();
 					if (StringConstantsUtil.VERSION.equalsIgnoreCase(String.valueOf(compare.getPropertyId()))) {
-						int value = Integer.valueOf(String.valueOf(compare.getValue()));
+						int value = Integer.parseInt(String.valueOf(compare.getValue()));
 						if (Compare.Operation.GREATER.toString().equalsIgnoreCase(operation.name())) {
 							projectionDynamicQuery.add(RestrictionsFactoryUtil.ge(StringConstantsUtil.VERSION, value));
 						} else if (Compare.Operation.LESS.toString().equalsIgnoreCase(operation.name())) {
@@ -1761,7 +1761,7 @@ public class FileManagementLogic {
 				boolean recordStatus = ((Boolean) obj[NumericConstants.TWENTY_SIX]).booleanValue();
 				fmDTO.setRecordLockStatus(recordStatus);
 				if (obj[NumericConstants.TWENTY_SEVEN] != null) {
-					fmDTO.setForecastSystemId(Integer.valueOf(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])));
+					fmDTO.setForecastSystemId(Integer.parseInt(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])));
 				}
 				fmDTO.setCheck(Boolean.FALSE);
 				resultsListDTO.add(fmDTO);
@@ -2268,9 +2268,9 @@ public class FileManagementLogic {
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace(".", "~");
 				version2Array = tmpString.split("~");
-				y = Integer.valueOf(version2Array[1]);
+				y = Integer.parseInt(version2Array[1]);
 			} else {
-				x = Integer.valueOf(versionArray[0]);
+				x = Integer.parseInt(versionArray[0]);
 				y = 0;
 			}
 			sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE)
@@ -2401,9 +2401,9 @@ public class FileManagementLogic {
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace(".", "~");
 				version2Array = tmpString.split("~");
-				y = Integer.valueOf(version2Array[1]);
+				y = Integer.parseInt(version2Array[1]);
 			} else {
-				x = Integer.valueOf(versionArray[0]);
+				x = Integer.parseInt(versionArray[0]);
 				y = 0;
 			}
 			sqlString = sqlString.concat(StringConstantsUtil.SPACE_AND_SPACE)

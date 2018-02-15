@@ -5,9 +5,6 @@
  */
 package com.stpl.app.security.common;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author Manasa

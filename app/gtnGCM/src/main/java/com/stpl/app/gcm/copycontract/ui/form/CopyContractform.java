@@ -43,7 +43,6 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -51,7 +50,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
-import com.vaadin.v7.event.FieldEvents;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -78,11 +76,11 @@ import com.vaadin.event.FieldEvents.BlurListener;
 public class CopyContractform extends CustomComponent implements View {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CopyContractform.class);
-    private CopyContractWindow editWindow;
+    private final CopyContractWindow editWindow;
     private ExtFilterTable resultTable;
     @UiField("main")
     public VerticalLayout layout;
-    private TabSheet tabsheet = new TabSheet();
+    private final TabSheet tabsheet = new TabSheet();
     @UiField("typeNC")
     public ComboBox aliastypecc;
     @UiField("CLOSE")
@@ -147,7 +145,7 @@ public class CopyContractform extends CustomComponent implements View {
         this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
         this.count = Count;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/CopyContractform.xml"), this));
-        if (Integer.valueOf(Count) > 1) {
+        if (Integer.parseInt(Count) > 1) {
             multiContractLayout.addComponent(multiContractTable);
         }
 
@@ -298,12 +296,12 @@ public class CopyContractform extends CustomComponent implements View {
             copyContractDashBoardTable.getContainerProperty(rootId, "dashboardNumber").setValue(cNo);
             copyContractDashBoardTable.getContainerProperty(rootId, "dashboardName").setValue(cName);
             copyContractDashBoardTable.getContainerProperty(rootId, "levelNo").setValue("0");
-            copyContractDashBoardTable.getContainerProperty(rootId, "marketType").setValue(HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(markettype.getValue().toString())));
+            copyContractDashBoardTable.getContainerProperty(rootId, "marketType").setValue(HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(markettype.getValue().toString())));
             copyContractDashBoardTable.getContainerProperty(rootId, "contractHolder").setValue(contHolder);
             copyContractDashBoardTable.getContainerProperty(rootId, "startDate").setValue(SDATE);
-            copyContractDashBoardTable.getContainerProperty(rootId, Constants.STATUS_S).setValue(HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(contractStatus.getValue().toString())));
+            copyContractDashBoardTable.getContainerProperty(rootId, Constants.STATUS_S).setValue(HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(contractStatus.getValue().toString())));
             copyContractDashBoardTable.getContainerProperty(rootId, "endDate").setValue(eDate);
-            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_TYPE).setValue(aliastypecc.getValue() == null ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(aliastypecc.getValue().toString())));
+            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_TYPE).setValue(aliastypecc.getValue() == null ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(aliastypecc.getValue().toString())));
             copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_START_DATE).setValue(AliasSDATE);
             copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_NUMBER).setValue(AliasNumber);
             copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_END_DATE).setValue(AliasEDATE);
@@ -544,6 +542,7 @@ public class CopyContractform extends CustomComponent implements View {
                 if (Constants.CONTRACT_NO.equals(propertyId)) {
                     final TextField contractNo = new TextField();
                     contractNo.addBlurListener(new BlurListener() {
+                        @Override
                         public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(contractNo.getValue());
                             specValidation(newValue, contractNo);
@@ -554,6 +553,7 @@ public class CopyContractform extends CustomComponent implements View {
                 if (Constants.CONTRACT_NAME.equals(propertyId)) {
                     final TextField contractName = new TextField();
                     contractName.addBlurListener(new BlurListener() {
+                        @Override
                         public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(contractName.getValue());
                             specValidation(newValue, contractName);
@@ -565,6 +565,7 @@ public class CopyContractform extends CustomComponent implements View {
                     final TextField aliasNumber = new TextField();
                     aliasNumber.setWidth("120px");
                     aliasNumber.addBlurListener(new BlurListener() {
+                        @Override
                         public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(aliasNumber.getValue());
                             specValidation(newValue, aliasNumber);
@@ -587,7 +588,7 @@ public class CopyContractform extends CustomComponent implements View {
             multiContractTable.setEditable(true);
             multiContractTable.setPageLength(NumericConstants.FIVE);
             multiContractTable.setWidth("1800px");
-            int i = Integer.valueOf(count);
+            int i = Integer.parseInt(count);
             loadMultiContainer(i);
             multiContractTable.setContainerDataSource(multiContractContainer);
             multiContractTable.setVisibleColumns("check", "contractId", Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.CONTRACT_HOLDER, "contractHolderName", Constants.ALIAS_TYPE, Constants.ALIAS_NUMBER, Constants.ALIAS_START_DATE, Constants.ALIAS_END_DATE);

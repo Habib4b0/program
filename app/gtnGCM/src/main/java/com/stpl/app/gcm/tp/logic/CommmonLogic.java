@@ -24,7 +24,6 @@ import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 
-import static com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic.getDdlbmap;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import com.stpl.app.gcm.util.Converters;
 import com.stpl.app.gcm.util.ErrorCodeUtil;
@@ -1959,7 +1958,7 @@ public class CommmonLogic {
             company.setCompanyStringId(companyform.getCompanyId());
             company.setCompanyNo(companyform.getCompanyNo());
             company.setCompanyName(companyform.getCompanyName());
-            company.setCompanyStatus(Integer.valueOf(companyform.getComapnyStatus()));
+            company.setCompanyStatus(Integer.parseInt(companyform.getComapnyStatus()));
             company.setCompanyStartDate(companyform.getCompanyStartDate());
             company.setCompanyEndDate(null);
             company.setRecordLockStatus(false);//unlocked
@@ -1989,11 +1988,11 @@ public class CommmonLogic {
 
                 final CompanyIdentifier identifier = CompanyIdentifierLocalServiceUtil.createCompanyIdentifier(0);
 
-                identifier.setCompanyQualifierSid(Integer.valueOf(identifierForm.getQualifierName()));
+                identifier.setCompanyQualifierSid(Integer.parseInt(identifierForm.getQualifierName()));
 
-                identifier.setIdentifierStatus(Integer.valueOf(identifierForm.getIdentifierStatus()));
+                identifier.setIdentifierStatus(Integer.parseInt(identifierForm.getIdentifierStatus()));
                 identifier.setCompanyStringIdentifierValue(identifierForm.getCompanyIdentifier().trim());
-                identifier.setIdentifierStatus(Integer.valueOf(identifierForm.getIdentifierStatus()));
+                identifier.setIdentifierStatus(Integer.parseInt(identifierForm.getIdentifierStatus()));
                 identifier.setCreatedDate(new Date());
                 identifier.setModifiedDate(new Date());
                 identifier.setCreatedBy(Integer.parseInt(VaadinSession.getCurrent().getAttribute(Constants.USER_ID).toString()));
@@ -2028,7 +2027,7 @@ public class CommmonLogic {
                 tradeClass.setRecordLockStatus(false);//unlocked
                 tradeClass.setCompanyMasterSid(result.getCompanyMasterSid());
 
-                tradeClass.setCompanyTradeClass(Integer.valueOf(companyTradeList.get(i).getTradeClass()));
+                tradeClass.setCompanyTradeClass(Integer.parseInt(companyTradeList.get(i).getTradeClass()));
 
                 if (companyTradeList.get(i).getTradeStartDate() != null && !StringUtils.EMPTY.equals(companyTradeList.get(i).getTradeStartDate())) {
                     tradeClass.setTradeClassStartDate(companyTradeList.get(i).getTradeStartDate());
@@ -2298,7 +2297,7 @@ public class CommmonLogic {
             for (Object[] str : list) {
                 if (!str[1].equals(String.valueOf(Constants.IndicatorConstants.SELECT_ONE.getConstant()))) {
                     HelperDTO dto = new HelperDTO();
-                    dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                    dto.setId(str[0] == null ? 0 : Integer.parseInt(str[0].toString()));
                     dto.setDescription(str[1] == null ? Constants.ZEROSTRING : String.valueOf(str[1]));
                     resultList.add(dto);
                 }

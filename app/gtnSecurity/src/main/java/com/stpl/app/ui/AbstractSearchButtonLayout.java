@@ -28,11 +28,11 @@ public abstract class AbstractSearchButtonLayout  extends HorizontalLayout{
         private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSearchButtonLayout.class);
 
 	
-	private ErrorfulFieldGroup binder;
+	private final ErrorfulFieldGroup binder;
 	
-	private BeanItemContainer<?> searchResultbeans;
-	private String okLabel;
-	private String resetLabel;
+	private final BeanItemContainer<?> searchResultbeans;
+	private final String okLabel;
+	private final String resetLabel;
 
 	public AbstractSearchButtonLayout(ErrorfulFieldGroup binder,BeanItemContainer<?> searchResultbeans,Table table,String okLabel,String resetLabel) {
 		super();
@@ -45,11 +45,11 @@ public abstract class AbstractSearchButtonLayout  extends HorizontalLayout{
 
 	private void init(){
 		this.setSpacing(true);
-		SearchButton();
-		ResetButton();
+		searchButton();
+		resetButton();
 	}
 
-	private void SearchButton() {
+	private void searchButton() {
 		// Commit button
 		Button btnSearch = new Button(okLabel);
 		btnSearch.setWidth("75");
@@ -57,6 +57,7 @@ public abstract class AbstractSearchButtonLayout  extends HorizontalLayout{
 			private static final long serialVersionUID = 1L;
 
 			
+                        @Override
 			public void buttonClick(ClickEvent event) {
 				try {
 					binder.getFields();
@@ -81,12 +82,13 @@ public abstract class AbstractSearchButtonLayout  extends HorizontalLayout{
 		this.addComponent(btnSearch);
 	}
 
-	private void ResetButton() {
+	private void resetButton() {
 		Button btnReset = new Button(resetLabel);
 		btnReset.setWidth("75");
 		btnReset.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
+                        @Override
 			public void buttonClick(ClickEvent event) {
 				btnResetLogic();
 			}

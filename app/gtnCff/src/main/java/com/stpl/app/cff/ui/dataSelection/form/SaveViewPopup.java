@@ -282,7 +282,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
 
                     close();
                     if (updateView()) {
-                        saveView(selectedCustomersList, selectedProductsList, "Update", Integer.valueOf(viewDTO.getProjectionId()));
+                        saveView(selectedCustomersList, selectedProductsList, "Update", Integer.parseInt(viewDTO.getProjectionId()));
                     } else {
                         saveView(selectedCustomersList, selectedProductsList, "save", Constants.ZERO);
                     }

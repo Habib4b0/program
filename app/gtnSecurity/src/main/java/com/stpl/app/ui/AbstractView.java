@@ -16,6 +16,7 @@ public abstract class AbstractView extends VerticalLayout implements View {
 		setSpacing(true);
 		setComponentError(new UserError(""));
 	}
+        @Override
 	public void enter(ViewChangeEvent event) {
 		
 	}

@@ -14,7 +14,6 @@ import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.HelperUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.data.Container;
-import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.Property.ValueChangeEvent;
 import com.vaadin.v7.data.Property.ValueChangeListener;
 import com.vaadin.v7.data.util.BeanItem;
@@ -46,13 +45,13 @@ public class SearchForm extends CustomComponent {
     private static final long serialVersionUID = 8893447767363695369L;
 
     private final ErrorLabel errorMsg = new ErrorLabel();
-    private IndexedContainer con = new IndexedContainer();
-    private BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
-    private BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
-    private BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
-    private CheckBox add = new CheckBox("Add");
-    private CheckBox view = new CheckBox("View");
-    private CheckBox edit = new CheckBox("Edit");
+    private final IndexedContainer con = new IndexedContainer();
+    private final BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans;
+    private final BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult;
+    private final BusinessRoleModuleSearchLogic businessRoleModuleLogic = new BusinessRoleModuleSearchLogic();
+    private final CheckBox add = new CheckBox("Add");
+    private final CheckBox view = new CheckBox("View");
+    private final CheckBox edit = new CheckBox("Edit");
     @UiField("functionResult")
     private HorizontalLayout functionResult;
     @UiField("fieldResult")
@@ -74,11 +73,11 @@ public class SearchForm extends CustomComponent {
     @UiField("cssLayout")
     private CssLayout cssLayout;
 
-    private ExtFilterTable tableResult;
+    private final ExtFilterTable tableResult;
 
-    private ExtFilterTable table;
+    private final ExtFilterTable table;
 
-    private String userId;
+    private final String userId;
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchForm.class);
 
     public SearchForm(BeanItemContainer<SearchBusinessRoleModuleForm> searchResultbeans, BeanItemContainer<SearchBusinessRoleModuleForm> searchFieldResult, ExtFilterTable table, ExtFilterTable tableResult, String userId) {
@@ -137,6 +136,7 @@ public class SearchForm extends CustomComponent {
         businessRoleName.addValueChangeListener(new ValueChangeListener() {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void valueChange(ValueChangeEvent event) {
                 if (event.getProperty().getValue() != null) {
 
@@ -163,6 +163,7 @@ public class SearchForm extends CustomComponent {
         moduleName.addValueChangeListener(new ValueChangeListener() {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void valueChange(ValueChangeEvent event) {
                 if (event.getProperty().getValue() != null) {
 

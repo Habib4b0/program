@@ -13,9 +13,9 @@ import com.vaadin.v7.ui.VerticalLayout;
 public abstract class AbstractSearchResults  extends CustomComponent{
 	private static final long serialVersionUID = 1L;
 	private final Label space = new Label("&nbsp;", ContentMode.HTML);
-	private BeanItemContainer<?> searchResultbeans;
-	private Table table ;
-	private Object[] defaultColumns;
+	private final BeanItemContainer<?> searchResultbeans;
+	private final Table table ;
+	private final Object[] defaultColumns;
 	protected VerticalLayout content;
 	public AbstractSearchResults(BeanItemContainer<?> searchResultbeans,Table table,Object[] defaultColumns) {
 		this.searchResultbeans = searchResultbeans;
@@ -29,15 +29,15 @@ public abstract class AbstractSearchResults  extends CustomComponent{
 	}
 
 	protected VerticalLayout addToContentAbstract() {
-		final VerticalLayout content = new VerticalLayout();
-		content.addComponentAsFirst(space);
-		content.addComponent(space);
-		content.addComponent(addToTable());
-		content.addComponent(space);
+		final VerticalLayout vContent = new VerticalLayout();
+		vContent.addComponentAsFirst(space);
+		vContent.addComponent(space);
+		vContent.addComponent(addToTable());
+		vContent.addComponent(space);
 		
 		
-		setCompositionRoot(content);
-		return content;
+		setCompositionRoot(vContent);
+		return vContent;
 	}
 
 	protected Table addToTable() {
@@ -52,6 +52,7 @@ public abstract class AbstractSearchResults  extends CustomComponent{
 
 			private static final long serialVersionUID = 1L;
 
+                        @Override
 			public void itemClick(ItemClickEvent event) {
 				itemSelectLogic(event);
 			}

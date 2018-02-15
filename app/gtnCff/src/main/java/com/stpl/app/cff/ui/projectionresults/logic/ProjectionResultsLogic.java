@@ -136,8 +136,8 @@ public class ProjectionResultsLogic {
                     if (start) {
                         discount = discountRow[NumericConstants.TWO].toString();
                         String column = "";
-                        int year = Integer.valueOf(String.valueOf(discountRow[0]));
-                        int period = Integer.valueOf(String.valueOf(discountRow[1]));
+                        int year = Integer.parseInt(String.valueOf(discountRow[0]));
+                        int period = Integer.parseInt(String.valueOf(discountRow[1]));
                         List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
                         String commonColumn = common.get(0);
                         column = commonColumn + ACTUALS.getConstant();
@@ -321,8 +321,8 @@ public class ProjectionResultsLogic {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 String column = "";
-                int year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
-                int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
+                int year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
+                int period = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = common.get(0);
                 column = commonColumn + ACTUALS.getConstant();
@@ -682,11 +682,11 @@ public class ProjectionResultsLogic {
                 String column = "";
                 int year = 0;
                 if (obj[NumericConstants.THREE] != null) {
-                    year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
+                    year = Integer.parseInt(String.valueOf(obj[NumericConstants.THREE]));
                 }
                 int period = 0;
                 if (obj[NumericConstants.FOUR] != null) {
-                    period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
+                    period = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
                 }
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
                 String commonColumn = common.get(0);
@@ -3080,8 +3080,8 @@ public class ProjectionResultsLogic {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 String column = "";
-                int year = (obj[0] == null) ? 0 : Integer.valueOf(String.valueOf(obj[0]));
-                int period = (obj[1] == null) ? 0 : Integer.valueOf(String.valueOf(obj[1]));
+                int year = (obj[0] == null) ? 0 : Integer.parseInt(String.valueOf(obj[0]));
+                int period = (obj[1] == null) ? 0 : Integer.parseInt(String.valueOf(obj[1]));
                 List<String> common = getCommonColumnHeader(projSelDTO.getFrequencyDivision(), year, period);
                 String commonColumn = common.get(0);
                 int col = NumericConstants.THREE;
@@ -3764,11 +3764,11 @@ public class ProjectionResultsLogic {
             String column = "";
             int year = 0;
             if (row[NumericConstants.THREE] != null) {
-                year = Integer.valueOf(String.valueOf(row[NumericConstants.THREE]));
+                year = Integer.parseInt(String.valueOf(row[NumericConstants.THREE]));
             }
             int period = 0;
             if (row[NumericConstants.FOUR] != null) {
-                period = Integer.valueOf(String.valueOf(row[NumericConstants.FOUR]));
+                period = Integer.parseInt(String.valueOf(row[NumericConstants.FOUR]));
             }
             List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
             String pcommonColumn = common.get(0);
@@ -4099,8 +4099,8 @@ public class ProjectionResultsLogic {
                 if (discountList != null) {
                     for (int i = discountIndex; i < discountList.size(); i++) {
                         Object[] discountRow = discountList.get(i);
-                        int dyear = Integer.valueOf(String.valueOf(discountRow[dcol - NumericConstants.TWO]));
-                        int dperiod = Integer.valueOf(String.valueOf(discountRow[dcol-1]));
+                        int dyear = Integer.parseInt(String.valueOf(discountRow[dcol - NumericConstants.TWO]));
+                        int dperiod = Integer.parseInt(String.valueOf(discountRow[dcol-1]));
                         List<String> dcommon = getCommonColumnHeader(frequencyDivision, dyear, dperiod);
                         String dcommonColumn = dcommon.get(0);
                         if (pcommonColumn.equals(dcommonColumn)) {
@@ -4314,7 +4314,7 @@ public class ProjectionResultsLogic {
             for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; neededRecord--, i++) {
                 String hierarchyNo = hierarchyNoList.get(i);
                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (started + i))) {
-                    resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo), hierarchyNoList.size(), i));
+                    resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo), hierarchyNoList.size(), i));
                 }
                 started++;
             }

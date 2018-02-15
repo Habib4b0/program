@@ -167,7 +167,7 @@ public class NewDiscountTab extends CustomComponent {
     private GridLayout psComponent;
     @UiField("rsComponent")
     private GridLayout rsComponent;
-    private SessionDTO session;
+    private final SessionDTO session;
     @UiField("addToTree")
     private Button addToTree;
     @UiField("rsId")

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 /**
  *

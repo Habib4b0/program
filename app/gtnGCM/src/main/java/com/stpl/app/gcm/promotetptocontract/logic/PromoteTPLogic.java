@@ -99,7 +99,7 @@ public class PromoteTPLogic {
      * The Constant LOGGER.
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(PromoteTPLogic.class);
-    private static PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
+    private static final PromoteTpDAO promoteTpDAO = new PromoteTpDAOImpl();
     private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private final ContractDetailsDAO dao = new ContractDetailsDaoImpl();
     private final DiscountDAO discountDAO = new DiscountDaoImpl();
@@ -279,13 +279,13 @@ public class PromoteTPLogic {
     public List<HelperDTO> getDdlbList(String QueryName, final List<String> input) {
         List<Object[]> list = ItemQueries.getItemData(input, QueryName, null);
         List<HelperDTO> resultList = new ArrayList<>();
-        if (Integer.valueOf(String.valueOf(input.get(1))) == 0) {
+        if (Integer.parseInt(String.valueOf(input.get(1))) == 0) {
             HelperDTO defaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
             resultList.add(defaultValue);
         }
         for (Object[] str : list) {
             HelperDTO dto = new HelperDTO();
-            dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+            dto.setId(str[0] == null ? 0 : Integer.parseInt(str[0].toString()));
             dto.setDescription(str[1] == null ? Constants.ZEROSTRING : String.valueOf(str[1]));
             resultList.add(dto);
         }
@@ -1489,7 +1489,7 @@ public class PromoteTPLogic {
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (null != list && list.size() > 0) {
                     Object obj = list.get(0);
-                    count = Integer.valueOf(String.valueOf(obj));
+                    count = Integer.parseInt(String.valueOf(obj));
                     return count;
                 }
             }
@@ -1505,7 +1505,7 @@ public class PromoteTPLogic {
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (null != list && list.size() > 0) {
                     Object obj = list.get(0);
-                    count = Integer.valueOf(String.valueOf(obj));
+                    count = Integer.parseInt(String.valueOf(obj));
                     return count;
                 }
             }
@@ -1521,7 +1521,7 @@ public class PromoteTPLogic {
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (null != list && list.size() > 0) {
                     Object obj = list.get(0);
-                    count = Integer.valueOf(String.valueOf(obj));
+                    count = Integer.parseInt(String.valueOf(obj));
                     return count;
                 }
             }
@@ -2393,7 +2393,7 @@ public class PromoteTPLogic {
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (null != list && list.size() > 0) {
                     Object obj = list.get(0);
-                    count = Integer.valueOf(String.valueOf(obj));
+                    count = Integer.parseInt(String.valueOf(obj));
                     return count;
                 }
 
@@ -2415,7 +2415,7 @@ public class PromoteTPLogic {
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (null != list && list.size() > 0) {
                     Object obj = list.get(0);
-                    count = Integer.valueOf(String.valueOf(obj));
+                    count = Integer.parseInt(String.valueOf(obj));
                     return count;
                 }
 
@@ -2456,7 +2456,7 @@ public class PromoteTPLogic {
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (null != list && list.size() > 0) {
                     Object obj = list.get(0);
-                    count = Integer.valueOf(String.valueOf(obj));
+                    count = Integer.parseInt(String.valueOf(obj));
                     return count;
                 }
 

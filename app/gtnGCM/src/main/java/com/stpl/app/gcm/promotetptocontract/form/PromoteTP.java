@@ -12,7 +12,6 @@ import com.stpl.app.gcm.promotetptocontract.logic.PromoteTPLogic;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.ui.form.CompanySearch;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
-import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
@@ -53,7 +52,6 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
@@ -74,7 +72,7 @@ public class PromoteTP extends VerticalLayout {
 
     private SessionDTO session = new SessionDTO();
     private static final Logger LOGGER = LoggerFactory.getLogger(PromoteTP.class);
-    private PromoteTpToChDto promoteTpToChDto = new PromoteTpToChDto();
+    private final PromoteTpToChDto promoteTpToChDto = new PromoteTpToChDto();
     private ErrorfulFieldGroup promoteTpToChDtoBinder;
     @UiField("promoteTpToChDtoTableLayout")
     public VerticalLayout promoteTpToChDtoTableLayout;
@@ -124,11 +122,11 @@ public class PromoteTP extends VerticalLayout {
     private final HelperDTO ddlbDefaultValue = new HelperDTO(0, Constants.IndicatorConstants.SELECT_ONE.getConstant());
     private final PromoteTPLogic logic = new PromoteTPLogic();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    private String updateType = PROMOTE_TRADING_PARTNER.getConstant();
+    private final String updateType = PROMOTE_TRADING_PARTNER.getConstant();
     private ExtCustomTable companyViewTable;
     private String searchSessionId = StringUtils.EMPTY;
     private final CompanySearchTableLogic compLogic = new CompanySearchTableLogic();
-    private ExtPagedTable companySearchResultsTable = new ExtPagedTable(compLogic);
+    private final ExtPagedTable companySearchResultsTable = new ExtPagedTable(compLogic);
     private ErrorfulFieldGroup dataSelectionBinder = new ErrorfulFieldGroup(new BeanItem<>(promoteTpToChDto));
     private final CommonUtil commonUtil = CommonUtil.getInstance();
     public LazyBeanItemContainer<PromoteTpToChDto> getResultsLazyContainer() {
