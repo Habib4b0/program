@@ -78,8 +78,12 @@ public class GtnWorkFlowIdGeneratorService {
 			c = 1;
 		}
 		String bpiIDCounter = df.format(c);
-
-		String bpiWKid = moduleName + "F" + updateDate + bpiIDCounter;
+                String bpiWKid = "";
+                if (!moduleName.equals("CM")){
+                    bpiWKid = moduleName + "F" + updateDate + bpiIDCounter;
+                } else {
+                    bpiWKid = moduleName + updateDate + bpiIDCounter;
+                }
 
 		hm.put("dateToUpdate", updateDate);
 		hm.put("counterToUpdate", counterValue);
