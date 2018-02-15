@@ -10,7 +10,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 
-import com.stpl.app.cff.bpm.logic.DSCalculationLogic;
 import com.stpl.app.cff.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
 import com.stpl.app.cff.dto.CFFFilterGenerator;
@@ -63,9 +62,11 @@ import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
+import de.steinwedel.messagebox.MessageBoxListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -527,6 +528,17 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					dataSelectionDto.setCustomerHierarchyLevel(sessionDto.getCustomerLevelNumber());
 					dataSelectionDto.setProductHierarchyLevel(sessionDto.getProductLevelNumber());
 					topLevelName = cffLogic.getTopLevelInHierarchy(dataSelectionDto.getCustomerHierSid());
+                                        String contractIds = dataLogic.getremovedcontractbasedonCFFEligibleDate(sessionDto);
+                                       if (contractIds != null && !contractIds.isEmpty()) {
+                                        MessageBox.showPlain(Icon.QUESTION, "Info", contractIds + " is removed from the projection as it is not eligible to be brought into the projection" + "\"",
+                                                new MessageBoxListener() {
+                                            @SuppressWarnings("PMD")
+                                            @Override
+                                            public void buttonClicked(final ButtonId buttonId) {
+                                                return;
+                                            }
+                                        }, ButtonId.OK);
+                                    }
 
 					final Map<String, String> tempCustomerDescriptionMap = relationLogic.getLevelValueMap(
 							dataSelectionDto.getCustRelationshipBuilderSid(),
@@ -558,7 +570,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					relationLogic.ccpHierarchyInsert(sessionDto.getCurrentTableNames(), customerItemIds, productItemIds,
 							customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
 							dataSelectionDto.getCustomerRelationShipVersionNo(),
-							dataSelectionDto.getProductRelationShipVersionNo());
+							dataSelectionDto.getProductRelationShipVersionNo(),projectionIdValue);
 
 					sessionDto.setCustomerLevelDetails(cffLogic.getLevelValueDetails(sessionDto,
 							dataSelectionDto.getCustRelationshipBuilderSid(), true));
@@ -624,6 +636,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					sessionDTO.setProjectionName(String.valueOf(temp[0]));
 					sessionDTO.setProdRelationshipBuilderSid(String.valueOf(temp[1]));
 					sessionDTO.setCustRelationshipBuilderSid(String.valueOf(temp[NumericConstants.TWO]));
+                                        sessionDTO.setCffEligibleDate(new Date(String.valueOf(temp[NumericConstants.THREE])));
 				}
 				sessionDTO.setHasTradingPartner(logic.hasTradingPartner(projectionId));
 
@@ -741,7 +754,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				relationLogic.ccpHierarchyInsert(vSessionDTO.getCurrentTableNames(), customerItemIds, productItemIds,
 						customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
 						dataSelectionDto.getCustomerRelationShipVersionNo(),
-						dataSelectionDto.getProductRelationShipVersionNo());
+						dataSelectionDto.getProductRelationShipVersionNo(),projectionIdValue);
 
 				cffLogic.ccpHierarchyInsert(vSessionDTO.getCurrentTableNames(), dataSelectionDto,
 						cffLogic.getCustandProdSelection(vSessionDTO.getProjectionId(),

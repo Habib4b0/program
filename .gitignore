@@ -23,3 +23,4 @@ app/gtnForecasting/nb-configuration.xml
 **/target/**
 *.war
 app/Resources/stpl-theme/.sass-cache/
+/app/Resources/VaadinWidgetSet_V7/vaadin-widgetset/src/main/resources/com/stpl/widgetset/vaadin/widgetset/excel.png

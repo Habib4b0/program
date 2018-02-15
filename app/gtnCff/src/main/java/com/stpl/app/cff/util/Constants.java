@@ -73,6 +73,7 @@ public class Constants {
     public static final String RELATIONSHIPJOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO ";
     public static final String PARENTVALIDATE = "PARENT-VALIDATE";
     public static final String DED_JOIN = "?DEDJOIN";
+    public static final String DATE_FORMAT= "yyyy-MM-dd";
 
     
     

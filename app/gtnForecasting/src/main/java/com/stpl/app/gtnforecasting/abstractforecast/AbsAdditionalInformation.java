@@ -581,7 +581,6 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
 
     private static Object[] getCollapsibleColumnsDefault(ExtFilterTable table, int length) {
         table.setColumnCollapsingAllowed(true);
-        table.setImmediate(true);
         Object[] visibleColumns = table.getVisibleColumns();
         Object[] propertyIds = Arrays.copyOf(visibleColumns, visibleColumns.length, Object[].class);
         List<Object> list = new ArrayList<>(Arrays.asList(visibleColumns));

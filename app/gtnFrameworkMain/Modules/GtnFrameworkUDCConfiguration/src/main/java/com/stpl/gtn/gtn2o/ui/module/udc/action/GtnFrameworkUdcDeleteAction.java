@@ -32,7 +32,6 @@ public class GtnFrameworkUdcDeleteAction
 		return;
 	}
 
-
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
@@ -42,8 +41,7 @@ public class GtnFrameworkUdcDeleteAction
 		List<Object> beanValue = isBrand(categoryValue);
 		String tableComponentId = (String) beanValue.get(0);
 		boolean isBrand = (boolean) beanValue.get(1);
-		GtnWsRecordBean gtnWsRecordBean = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(tableComponentId)
+		GtnWsRecordBean gtnWsRecordBean = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableComponentId)
 				.getValueFromPagedDataTable();
 
 		GtnUIFrameworkWebserviceRequest gtnUIFrameworkDeleteWebserviceRequest = new GtnUIFrameworkWebserviceRequest();
@@ -97,6 +95,10 @@ public class GtnFrameworkUdcDeleteAction
 			beanValues.add(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE);
 			udcInfoBean.setBrand(true);
 			beanValues.add(udcInfoBean.isBrand());
+		} else if (categoryValue.equals("FILE_TYPE")) {
+			beanValues.add(GtnFrameworkCommonConstants.UDC_FILETYPE_RESULT_TABLE);
+			udcInfoBean.setBrand(false);
+			beanValues.add(udcInfoBean.isBrand());
 		} else {
 			beanValues.add(GtnFrameworkCommonConstants.UDC_RESULT_TABLE);
 			udcInfoBean.setBrand(false);
@@ -117,8 +119,7 @@ public class GtnFrameworkUdcDeleteAction
 					+ " deleted successfully", emptyValue));
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationActionConfig);
 
-		}
-		else {
+		} else {
 			notificationActionConfig
 					.setActionParameterList(Arrays.asList(
 							"Deleted Failed : The Category Value " + GtnUIFrameworkGlobalUI
@@ -128,7 +129,6 @@ public class GtnFrameworkUdcDeleteAction
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, notificationActionConfig);
 		}
 	}
-
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {

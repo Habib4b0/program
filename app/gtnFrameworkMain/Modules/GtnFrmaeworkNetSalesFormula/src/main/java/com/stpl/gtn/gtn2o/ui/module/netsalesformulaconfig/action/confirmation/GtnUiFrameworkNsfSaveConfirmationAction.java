@@ -42,7 +42,6 @@ public class GtnUiFrameworkNsfSaveConfirmationAction implements GtnUIFrameWorkAc
 				+ GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "formulaName").getStringFromField() + "?");
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfig = new ArrayList<>();
 		if (!componentId.contains("back")) {
-			saveRecordAction(viewId, onSucessActionConfig);
 			GtnUIFrameWorkActionConfig customSaveAction = new GtnUIFrameWorkActionConfig();
 			customSaveAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 			customSaveAction.addActionParameter(GtnUiFrameworkNsfSaveAction.class.getName());

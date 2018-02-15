@@ -290,7 +290,7 @@ public class FileManagementLogic {
 		fileManagement.setFromPeriod(new Date());
 		fileManagement.setCreatedDate(new Date());
 		fileManagement.setModifiedDate(new Date());
-		fileManagement.setCreatedBy(Integer.valueOf(userId));
+		fileManagement.setCreatedBy(Integer.parseInt(userId));
 		fileManagement.setFileType(fileType.getId());
 		fileManagement.setBusinessUnit(String.valueOf(fileMgtDTO.getBusinessUnitSysId()));
 		fileManagement.setCompany(fileMgtDTO.getCompanyMasterSystemId());
@@ -325,7 +325,7 @@ public class FileManagementLogic {
 			final FileManagement currentActiveFile = resultsList.get(0);
 			currentActiveFile.setToPeriod(new Date());
 			currentActiveFile.setModifiedDate(new Date());
-			currentActiveFile.setModifiedBy(Integer.valueOf(userId));
+			currentActiveFile.setModifiedBy(Integer.parseInt(userId));
 			currentActiveFile.setFileType(fileType.getId());
 			currentActiveFile.setVersionNo(currentActiveFile.getVersionNo() + 1);
 			DAO.updateFiles(currentActiveFile);
@@ -565,7 +565,7 @@ public class FileManagementLogic {
 				String ver = versionList.get(i);
 				if (ver.contains(".")) {
 					String[] array = ver.split("\\.");
-					int vers = Integer.valueOf(String.valueOf(array[1]));
+					int vers = Integer.parseInt(String.valueOf(array[1]));
 					etlVer = String.valueOf(array[0]);
 					tmpList.add(vers);
 				}
@@ -622,14 +622,14 @@ public class FileManagementLogic {
 
 						master.setForecastDate(beanItem.getStartDate());
 						master.setUnits(
-								Double.valueOf(beanItem.getUnits().toString().replace("$", ConstantsUtils.EMPTY)));
+								Double.parseDouble(beanItem.getUnits().replace("$", ConstantsUtils.EMPTY)));
 						master.setPrice(
-								Double.valueOf(beanItem.getPrice().toString().replace("$", ConstantsUtils.EMPTY)));
+								Double.parseDouble(beanItem.getPrice().replace("$", ConstantsUtils.EMPTY)));
 						master.setDollars(
-								Double.valueOf(beanItem.getDollars().toString().replace("$", ConstantsUtils.EMPTY)));
+								Double.parseDouble(beanItem.getDollars().replace("$", ConstantsUtils.EMPTY)));
 						master.setSource(source);
 						master.setCountry(country);
-						master.setBusinessUnit(Integer.valueOf(businessUnit));
+						master.setBusinessUnit(Integer.parseInt(businessUnit));
 						master.setForecastVer(version);
 						master.setForecastName(forecastName);
 						master.setCreatedDate(new Date());
@@ -1139,7 +1139,7 @@ public class FileManagementLogic {
 					Compare compare = (Compare) filter;
 					Compare.Operation operation = compare.getOperation();
 					if (CommonUtils.VERSION.equalsIgnoreCase(String.valueOf(compare.getPropertyId()))) {
-						int value = Integer.valueOf(String.valueOf(compare.getValue()));
+						int value = Integer.parseInt(String.valueOf(compare.getValue()));
 						if (operation.GREATER.toString().equalsIgnoreCase(operation.name())) {
 							projectionDynamicQuery.add(RestrictionsFactoryUtil.ge(CommonUtils.VERSION, value));
 						} else if (operation.LESS.toString().equalsIgnoreCase(operation.name())) {
@@ -1933,7 +1933,7 @@ public class FileManagementLogic {
 				boolean recordStatus = ((Boolean) obj[NumericConstants.TWENTY_SIX]).booleanValue();
 				fmDTO.setRecordLockStatus(recordStatus);
 				if (obj[NumericConstants.TWENTY_SEVEN] != null) {
-					fmDTO.setForecastSystemId(Integer.valueOf(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])));
+					fmDTO.setForecastSystemId(Integer.parseInt(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])));
 				}
 				fmDTO.setCheck(Boolean.FALSE);
 				resultsListDTO.add(fmDTO);
@@ -2582,9 +2582,9 @@ public class FileManagementLogic {
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace(".", "~");
 				version2Array = tmpString.split("~");
-				y = Integer.valueOf(version2Array[1]);
+				y = Integer.parseInt(version2Array[1]);
 			} else {
-				x = Integer.valueOf(versionArray[0]);
+				x = Integer.parseInt(versionArray[0]);
 				y = 0;
 			}
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
@@ -2719,9 +2719,9 @@ public class FileManagementLogic {
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace(".", "~");
 				version2Array = tmpString.split("~");
-				y = Integer.valueOf(version2Array[1]);
+				y = Integer.parseInt(version2Array[1]);
 			} else {
-				x = Integer.valueOf(versionArray[0]);
+				x = Integer.parseInt(versionArray[0]);
 				y = 0;
 			}
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
@@ -3651,9 +3651,9 @@ public class FileManagementLogic {
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace(".", "~");
 				version2Array = tmpString.split("~");
-				y = Integer.valueOf(version2Array[1]);
+				y = Integer.parseInt(version2Array[1]);
 			} else {
-				x = Integer.valueOf(versionArray[0]);
+				x = Integer.parseInt(versionArray[0]);
 				y = 0;
 			}
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)
@@ -3793,9 +3793,9 @@ public class FileManagementLogic {
 			if (versionArray[0].contains(".")) {
 				String tmpString = versionArray[0].replace(".", "~");
 				version2Array = tmpString.split("~");
-				y = Integer.valueOf(version2Array[1]);
+				y = Integer.parseInt(version2Array[1]);
 			} else {
-				x = Integer.valueOf(versionArray[0]);
+				x = Integer.parseInt(versionArray[0]);
 				y = 0;
 			}
 			sqlString = sqlString.concat(StringConstantUtils.AND_SPACE)

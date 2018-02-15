@@ -319,6 +319,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 		company.setNullSelectionItemId(0);
 		company.setInputPrompt(Constants.CommonConstants.SELECT_ONE.getConstant());
 		company.markAsDirty();
+                forecastEligibleDate.setValue(dsLogic.getDefaultEligibleDateFromForecastConfiguration());
 
 		List<Object[]> companyList = dsLogic.getCompanies();
 		if (companyList != null && !companyList.isEmpty()) {
@@ -845,6 +846,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			dataSelectionDTO.setProductHierarchyInnerLevel(String.valueOf(productForecastInnerLevel));
 			dataSelectionDTO.setProjectionName(projectionName.getValue());
 			dataSelectionDTO.setDescription(description.getValue());
+                        dataSelectionDTO.setForecastEligibleDate(forecastEligibleDate.getValue());
 
 		} catch (ParseException ex) {
 
@@ -3227,7 +3229,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						relationLogic.ccpHierarchyInsert(tempSession.getCurrentTableNames(), customerItemIds,
 								productItemIds, customerHierarchyLevelDefinitionList,
 								productHierarchyLevelDefinitionList, dto.getCustomerRelationShipVersionNo(),
-								dto.getProductRelationShipVersionNo());
+								dto.getProductRelationShipVersionNo(),projectionIdValue);
 
 					} else {
 						HelperListUtil helperUtil = HelperListUtil.getInstance();
@@ -3250,6 +3252,18 @@ public class DataSelectionForm extends ForecastDataSelection {
 				tempSession.setProductHierarchyId(Integer.valueOf(dto.getProdHierSid()));
 				tempSession.setBusineesUnit(businessUnitlist);
 				tempSession.setProjectionName(dto.getProjectionName());
+                                String contractIds=dsLogic.getremovedcontractbasedonEligibleDate(tempSession);
+                                if (contractIds != null && !contractIds.isEmpty()) {
+                                MessageBox.showPlain(Icon.QUESTION, "Info", contractIds + " is removed from the projection as it is not eligible to be brought into the projection" + "\"",
+                                        new MessageBoxListener() {
+                                    @SuppressWarnings("PMD")
+                                    @Override
+                                    public void buttonClicked(final ButtonId buttonId) {
+                                        return;
+                                    }
+                                }, ButtonId.OK);
+                            }
+                                tempSession.setForecastEligibleDate(dto.getForecastEligibleDate());
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equalsIgnoreCase(scrName)) {
 					String marketType = dataLogic.getHelperValue(StringUtils.EMPTY + projectionIdValue);
 					tempSession.setMarketTypeValue(marketType);
@@ -3421,7 +3435,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 							Integer.parseInt(dto.getProdHierSid()), dto.getProductHierVersionNo());
 					relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(), customerItemIds, productItemIds,
 							customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
-							dto.getCustomerRelationShipVersionNo(), dto.getProductRelationShipVersionNo());
+							dto.getCustomerRelationShipVersionNo(), dto.getProductRelationShipVersionNo(),projectionIdValue);
 				}
 				DataSelectionLogic logic = new DataSelectionLogic();
 				session.setProductRelationId(Integer.valueOf(dto.getProdRelationshipBuilderSid()));
@@ -3922,6 +3936,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				relationship.select(selectedRelationshipDdlbDto.getRelationshipBuilderSid());
 			}
 			relationship.setPageLength(7);
+			relationship.setImmediate(true);
 			relationship.setNullSelectionAllowed(true);
 			relationship.setInputPrompt(SELECT_ONE);
 
@@ -4088,7 +4103,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						: groupFilteredCompanies;
 				List<Leveldto> resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
 						Integer.valueOf(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList, dedLevel,
-						dedValue, relationVersionNo);
+						dedValue, relationVersionNo, forecastEligibleDate.getValue());
 				if (selectedHierarchyLevelDto.getLevel() != null) {
 					levelName = selectedHierarchyLevelDto.getLevel();
 				}
@@ -4316,7 +4331,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(),
 								selectedCustomerContainer.getItemIds(), selectedProductContainer.getItemIds(),
 								customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
-								customerRelationVersionNo, productRelationVersionNo);
+								customerRelationVersionNo, productRelationVersionNo,projectionIdValue);
 
 						session.setCustomerLevelDetails(
 								dsLogic.getLevelValueDetails(session, customerRelationComboBox.getValue(), true));
@@ -4436,7 +4451,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				relationLogic.ccpHierarchyInsert(session.getCurrentTableNames(), selectedCustomerContainer.getItemIds(),
 						selectedProductContainer.getItemIds(), customerHierarchyLevelDefinitionList,
-						productHierarchyLevelDefinitionList, customerRelationVersionNo, productRelationVersionNo);
+						productHierarchyLevelDefinitionList, customerRelationVersionNo, productRelationVersionNo,projectionIdValue);
 				session.setCustomerLevelDetails(
 						dsLogic.getLevelValueDetails(session, customerRelationComboBox.getValue(), true));
 				session.setProductLevelDetails(

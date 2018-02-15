@@ -25,7 +25,7 @@ public class ManualTableLogic extends PageTableLogic{
         int count =0;
         List list = logic.getSearchResult(true,0,0, false,null);
         if(list != null && !list.isEmpty()){
-            count = Integer.valueOf(String.valueOf(list.get(0)));
+            count = Integer.parseInt(String.valueOf(list.get(0)));
         } else {
             count = 0;
         }

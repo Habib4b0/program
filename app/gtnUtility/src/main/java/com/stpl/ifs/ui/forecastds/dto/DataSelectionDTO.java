@@ -211,6 +211,7 @@ public class DataSelectionDTO implements Serializable {
 
 	private int customerRelationShipVersionNo;
 	private int productRelationShipVersionNo;
+        private Date forecastEligibleDate;
 
 	public Integer getFileEndMonth() {
 		return fileEndMonth;
@@ -1055,5 +1056,12 @@ public class DataSelectionDTO implements Serializable {
 	public void setDeductionType(String deductionType) {
 		this.deductionType = deductionType;
 	}
+        public Date getForecastEligibleDate() {
+            return forecastEligibleDate;
+        }
+
+        public void setForecastEligibleDate(Date forecastEligibleDate) {
+            this.forecastEligibleDate = forecastEligibleDate;
+        }
 
 }

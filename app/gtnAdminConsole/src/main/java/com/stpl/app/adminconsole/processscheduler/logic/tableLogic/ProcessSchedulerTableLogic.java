@@ -25,7 +25,7 @@ public class ProcessSchedulerTableLogic extends PageTableLogic{
         List list = logic.getSearchResult(true,0,0, true,null);
         if (list != null && !list.isEmpty()) {
             Object ob = list.get(0);
-            count = Integer.valueOf(String.valueOf(ob));
+            count = Integer.parseInt(String.valueOf(ob));
         }
         return count;
     }

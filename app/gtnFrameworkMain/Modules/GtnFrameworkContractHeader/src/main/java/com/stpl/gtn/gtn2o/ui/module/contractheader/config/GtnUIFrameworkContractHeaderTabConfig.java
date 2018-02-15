@@ -52,6 +52,7 @@ public class GtnUIFrameworkContractHeaderTabConfig {
 		addPriceProtectionStartDate(componentList);
 		addPriceProtectionEndDate(componentList);
 		addManufacturerNo(componentList);
+                addForecastEligibleDate(componentList);
 	}
 
 	private void addContractId(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -421,6 +422,21 @@ public class GtnUIFrameworkContractHeaderTabConfig {
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		itemCategory.setGtnComboboxConfig(itemCategoryConfig);
+
+	}
+        private void addForecastEligibleDate(List<GtnUIFrameworkComponentConfig> componentList) {
+		GtnUIFrameworkComponentConfig addContractEligibleDateLayout = configProvider.getHorizontalLayoutConfig(
+				"contractHeaderTabForecastEligibleDatelayout", true,
+				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_LAYOUT);
+		componentList.add(addContractEligibleDateLayout);
+
+		GtnUIFrameworkComponentConfig addContractEligibleDate = configProvider.getUIFrameworkComponentConfig(
+				"contractHeaderTabForecastEligibleDate", true, "contractHeaderTabForecastEligibleDatelayout",
+				GtnUIFrameworkComponentType.DATEFIELD);
+		addContractEligibleDate.setAuthorizationIncluded(true);
+		addContractEligibleDate.setComponentName("Forecast Eligible Date");
+
+		componentList.add(addContractEligibleDate);
 
 	}
 
