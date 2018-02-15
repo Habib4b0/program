@@ -253,7 +253,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
                                 projSelDTO.setHierarchyIndicator(indicator);
                                 projSelDTO.setTreeLevelNo(currentLevelNo);
                                 String customTreeLevel = treeLevel + (index + j) + ".";
-                                ProjectionVarianceDTO dto = new ProjectionVarianceLogic().configureDetailsInDTO(projSelDTO, list.get(j), projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(list.get(j)).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(list.get(j)));
+                                ProjectionVarianceDTO dto = new ProjectionVarianceLogic().configureDetailsInDTO(projSelDTO, list.get(j), projSelDTO.getHierarchyIndicator(), Integer.parseInt(relationshipLevelDetailsMap.get(list.get(j)).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(list.get(j)));
                                 addExpandedTreeList(customTreeLevel, dto);
                                 recursivelyLoadExpandData(dto, customTreeLevel, expandLevelNo);
                 }

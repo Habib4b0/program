@@ -129,14 +129,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
-import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox.ClickListener;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtCustomTable.ColumnCheckListener;
 import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
@@ -824,9 +822,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		}
 	};
 
-	private final BlurListener checkBoxValueChangeListener = new BlurListener() {
+	private final ExtCustomCheckBox.ClickListener clickListener = new ExtCustomCheckBox.ClickListener() {
 		@Override
-		public void blur(FieldEvents.BlurEvent event) {
+		public void click(ExtCustomCheckBox.ClickEvent event) {
 			Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
 			final String tableHierarchyNo = tableLogic.getTreeLevelonCurrentPage(obj[0]);
 			DiscountProjectionDTO dto = (DiscountProjectionDTO) obj[0];
@@ -1551,7 +1549,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						check.setEnabled(!ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()));
 						check.setImmediate(true);
 						check.setData(new Object[] { itemId, propertyId });
-						check.addBlurListener(checkBoxValueChangeListener);
+						check.addClickListener(clickListener);
 						return check;
 					}
 
