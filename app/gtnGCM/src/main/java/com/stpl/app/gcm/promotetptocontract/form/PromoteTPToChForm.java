@@ -237,7 +237,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
                         List<String> projectionWithNewContract = logic.generateNewProjection(userId, sessionId, selectedProjectionId, masterids, true, false, session);
                         String copiedToProjId = String.valueOf(projectionWithNewContract.get(NumericConstants.TWO));
                         Integer copiedFromProjId = Integer.valueOf(String.valueOf(existingProjection.get(NumericConstants.TWO)));
-                        CommonLogic.insertInputsBeforeTranfer(selectedProjectionId, copiedFromProjId, Integer.valueOf(copiedToProjId), Integer.valueOf(copiedToProjId), session.getContMasteSid(), Integer.valueOf(session.getContractMasterSid()), session.getCompanyMasterSid(), DBDate.format(new Date()), DBDate.format(new Date()), true, sessionId, true);
+                        CommonLogic.insertInputsBeforeTranfer(selectedProjectionId, copiedFromProjId, Integer.parseInt(copiedToProjId), Integer.parseInt(copiedToProjId), session.getContMasteSid(), Integer.parseInt(session.getContractMasterSid()), session.getCompanyMasterSid(), DBDate.format(new Date()), DBDate.format(new Date()), true, sessionId, true);
                         CommonLogic.callPromoteProcedure(sessionId);
                         String query = "select PROJECTION_NAME from PROJECTION_MASTER where PROJECTION_MASTER_SID in (" + copiedFromProjId + "," + copiedToProjId + ")";
                         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -345,7 +345,7 @@ public class PromoteTPToChForm extends CustomComponent implements View {
         DataSource datasource;
         CallableStatement statement = null;
         String sessionValue = session.getSessionId();
-        int sessionIdValue = Integer.valueOf(sessionValue);
+        int sessionIdValue = Integer.parseInt(sessionValue);
 
         try {
             Context initialContext = new InitialContext();

@@ -145,7 +145,7 @@ public class CopyContractform extends CustomComponent implements View {
         this.selectedList = selectedList == null ? selectedList : new ArrayList<>(selectedList);
         this.count = Count;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/CopyContractform.xml"), this));
-        if (Integer.valueOf(Count) > 1) {
+        if (Integer.parseInt(Count) > 1) {
             multiContractLayout.addComponent(multiContractTable);
         }
 
@@ -296,12 +296,12 @@ public class CopyContractform extends CustomComponent implements View {
             copyContractDashBoardTable.getContainerProperty(rootId, "dashboardNumber").setValue(cNo);
             copyContractDashBoardTable.getContainerProperty(rootId, "dashboardName").setValue(cName);
             copyContractDashBoardTable.getContainerProperty(rootId, "levelNo").setValue("0");
-            copyContractDashBoardTable.getContainerProperty(rootId, "marketType").setValue(HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(markettype.getValue().toString())));
+            copyContractDashBoardTable.getContainerProperty(rootId, "marketType").setValue(HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(markettype.getValue().toString())));
             copyContractDashBoardTable.getContainerProperty(rootId, "contractHolder").setValue(contHolder);
             copyContractDashBoardTable.getContainerProperty(rootId, "startDate").setValue(SDATE);
-            copyContractDashBoardTable.getContainerProperty(rootId, Constants.STATUS_S).setValue(HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(contractStatus.getValue().toString())));
+            copyContractDashBoardTable.getContainerProperty(rootId, Constants.STATUS_S).setValue(HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(contractStatus.getValue().toString())));
             copyContractDashBoardTable.getContainerProperty(rootId, "endDate").setValue(eDate);
-            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_TYPE).setValue(aliastypecc.getValue() == null ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(aliastypecc.getValue().toString())));
+            copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_TYPE).setValue(aliastypecc.getValue() == null ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.parseInt(aliastypecc.getValue().toString())));
             copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_START_DATE).setValue(AliasSDATE);
             copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_NUMBER).setValue(AliasNumber);
             copyContractDashBoardTable.getContainerProperty(rootId, Constants.ALIAS_END_DATE).setValue(AliasEDATE);
@@ -588,7 +588,7 @@ public class CopyContractform extends CustomComponent implements View {
             multiContractTable.setEditable(true);
             multiContractTable.setPageLength(NumericConstants.FIVE);
             multiContractTable.setWidth("1800px");
-            int i = Integer.valueOf(count);
+            int i = Integer.parseInt(count);
             loadMultiContainer(i);
             multiContractTable.setContainerDataSource(multiContractContainer);
             multiContractTable.setVisibleColumns("check", "contractId", Constants.CONTRACT_NO, Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.CONTRACT_HOLDER, "contractHolderName", Constants.ALIAS_TYPE, Constants.ALIAS_NUMBER, Constants.ALIAS_START_DATE, Constants.ALIAS_END_DATE);
