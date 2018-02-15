@@ -277,7 +277,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                 searchBusinessRoleModuleForm.setTabName("null".equals(String.valueOf(obj[NumericConstants.FOUR]))?" ":String.valueOf(obj[NumericConstants.FOUR]));
                 searchBusinessRoleModuleForm.setSystemId(id);
                 searchBusinessRoleModuleForm
-                        .setBusinessroleMasterSid(Integer.valueOf(businessroleMasterId.trim()));
+                        .setBusinessroleMasterSid(Integer.parseInt(businessroleMasterId.trim()));
                 searchBusinessRoleModuleForm.setCategoryName(String.valueOf(obj[NumericConstants.FIVE]));
                 searchBusinessRoleModuleForm.setAdd(addFlag);
                 searchBusinessRoleModuleForm.setEdit(editFlag);
@@ -324,7 +324,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                 searchBusinessRoleModuleForm.setTabName("null".equals(String.valueOf(obj[NumericConstants.FOUR]))?" ":String.valueOf(obj[NumericConstants.FOUR]));
                 searchBusinessRoleModuleForm.setSystemId(id);
                 searchBusinessRoleModuleForm
-                        .setBusinessroleMasterSid(Integer.valueOf(businessroleMasterId));
+                        .setBusinessroleMasterSid(Integer.parseInt(businessroleMasterId));
                 searchBusinessRoleModuleForm.setAccess(access);
 
                 searchBusinessRoleModuleFormList
@@ -366,7 +366,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                 }
                 searchBusinessRoleModuleForm.setSystemId(id);
                 searchBusinessRoleModuleForm
-                        .setBusinessroleMasterSid(Integer.valueOf(businessroleMasterId));
+                        .setBusinessroleMasterSid(Integer.parseInt(businessroleMasterId));
                 searchBusinessRoleModuleForm.setAccess(access);
                 searchBusinessRoleModuleFormList
                         .add(searchBusinessRoleModuleForm);
@@ -442,7 +442,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                         businessroleModuleMaster.setAccessModule("0");
                     }
                     businessroleModuleMaster.setModifiedDate(date);
-                    businessroleModuleMaster.setModifiedBy(Integer.valueOf(userId));
+                    businessroleModuleMaster.setModifiedBy(Integer.parseInt(userId));
                     businessroleModuleMaster.setVersionNo(VersionNo);
                     dao.updateBusinessroleModuleMaster(businessroleModuleMaster);
 
@@ -458,7 +458,7 @@ public class BusinessRoleModuleSearchLogic extends BeanItemContainer<SearchBusin
                     businessroleModuleMaster.setBusinessroleMasterSid(currentRecord.getBusinessroleMasterSid());
                     businessroleModuleMaster.setCreatedDate(date);
                     businessroleModuleMaster.setModifiedDate(date);
-                    businessroleModuleMaster.setCreatedBy(Integer.valueOf(userId));
+                    businessroleModuleMaster.setCreatedBy(Integer.parseInt(userId));
                     businessroleModuleMaster.setModifiedBy(NumericConstants.ONE);
                     businessroleModuleMaster.setVersionNo(NumericConstants.ONE);
                     dao.saveBusinessroleModuleMaster(businessroleModuleMaster);
