@@ -301,7 +301,7 @@ public class GtnFrameworkCfpCompaniesTabConfig {
 
 		resultTableConfig.setTableColumnDataType(new Class[] { Boolean.class, String.class, String.class, String.class,
 				Integer.class, Date.class, Date.class, String.class, String.class, String.class, String.class,
-				String.class, Date.class, Date.class, String.class, Date.class, String.class });
+				String.class, Date.class, Date.class, String.class, Date.class, String.class,Date.class });
 		resultTableConfig.setTableVisibleHeader(GtnFrameworkCfpStringContants.CFP_COMPANIES_HEADERS_LIST
 				.toArray(new String[GtnFrameworkCfpStringContants.CFP_COMPANIES_HEADERS_LIST.size()]));
 		resultTableConfig.setTableColumnMappingId(GtnFrameworkCfpStringContants.CFP_COMPANIES_COLUMN_LIST.toArray());
@@ -315,7 +315,7 @@ public class GtnFrameworkCfpCompaniesTabConfig {
 				"companyNo", "companyName", GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_STATUS_VALUE,
 				"companyFamilyPlanStartDate", "companyFamilyPlanEndDate", "companyStatusValue", "companyTypeValue",
 				"tradeClass", "companyCategory", "tradingPartnerContractNo", "cfpAttachedDate", "modifiedDate",
-				"modifiedBy", "createdDate", "createdBy"));
+				"modifiedBy", "createdDate", "createdBy","CfpEligibleDate"));
 
 		resultTableConfig.setEditableField(
 				createTableFieldFactoryComponents(resultTableConfig.getEditableColumnList(), componentConfig));

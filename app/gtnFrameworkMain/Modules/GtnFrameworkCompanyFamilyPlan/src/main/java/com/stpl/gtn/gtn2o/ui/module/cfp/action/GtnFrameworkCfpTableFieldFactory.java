@@ -47,7 +47,7 @@ public class GtnFrameworkCfpTableFieldFactory
 		if (GtnFrameworkCfpValueChangeManager.isValueChangeAllowed()) {
 
 			updateField(actionParam.getPropertyId(), actionParam.getCurrentValue(), dataType,
-					actionParam.getItemId().getProperties().get(17).toString());
+					actionParam.getItemId().getProperties().get(18).toString());
 		}
 		if (GtnFrameworkCommonConstants.CHECK_RECORD_ID.equals(actionParam.getPropertyId())) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParam.getTableComponentId())

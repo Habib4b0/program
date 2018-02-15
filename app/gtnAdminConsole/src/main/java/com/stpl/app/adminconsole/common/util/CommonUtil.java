@@ -790,7 +790,7 @@ public final class CommonUtil {
         HelperDTO selectedFileType = null;
         if(fileType.getValue() != null && !String.valueOf(fileType.getValue()).equals("0")) {
             String Desc = HelperListUtil.getInstance().getIdHelperDTOMap().get(fileType.getValue()).getDescription();
-            selectedFileType = new HelperDTO(Integer.valueOf(String.valueOf(fileType.getValue())),Desc);
+            selectedFileType = new HelperDTO(Integer.parseInt(String.valueOf(fileType.getValue())),Desc);
         }
         return selectedFileType;
     }

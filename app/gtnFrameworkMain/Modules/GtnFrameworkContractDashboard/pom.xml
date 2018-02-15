@@ -29,7 +29,7 @@
 			<version>${gtnFrameworkComponentRepository.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
+		
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

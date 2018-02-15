@@ -545,7 +545,9 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
         for (NotesDTO uploadedFile : uploadedFiles) {
             String doc = uploadedFile.getDocumentName();
             int index = doc.indexOf('.');
+            if(index!=-1){
             doc = doc.substring(0, index);
+            }
             if (doc.equals(fileName)) {
                 return true;
             }
@@ -729,7 +731,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
      *
      * @param event
      */
-    public abstract void uploadComponentStartedLogic(Upload.StartedEvent event);
+    public abstract void uploadComponentStartedLogic(@SuppressWarnings("deprecation") Upload.StartedEvent event);
 
     /**
      * method for remove button logic

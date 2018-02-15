@@ -339,7 +339,7 @@ public class GtnUIFrameworkContractHeaderAddConfig {
 				"contractInformationTabLastUpdatedDate", "contractInformationTabPriceEscalationClause",
 				"contractInformationTabExemptFromLowPrice", "contractInformationTabCancellationClause",
 				"contractInformationTabMostFavoredNation", "contractInformationTabCategory",
-				"contractInformationTabCurrency", "contractInformationTabMinimumOrder"));
+				"contractInformationTabCurrency", "contractInformationTabMinimumOrder","contractHeaderTabForecastEligibleDate"));
 
 		customAction.addActionParameter(Arrays.asList("contractId", "contractNo", "contractName", "contractType",
 				"contractStatus", "documentType", "startDate", "endDate", "documentClass", "contractTradeClass",
@@ -349,7 +349,7 @@ public class GtnUIFrameworkContractHeaderAddConfig {
 				"outsidePhone", "outsideAuthor", "outsideAdditional", "outsideAdditionalName", "outsideAdditionalPhone",
 				"affiliatedContractInfo", "shippingTerms", "proposalStartDate", "proposalEndDate", "originalStartDate",
 				"originalEndDate", "awardStatus", "lastUpdatedDate", "priceEscalationClause", "exemptFromLowPrice",
-				"cancellationClause", "mostFavoredNation", "category", "currency", "minimumOrder"));
+				"cancellationClause", "mostFavoredNation", "category", "currency", "minimumOrder","contractEligibleDate"));
 		onSucessActionConfigList.add(customAction);
 		confirmationActionConfig.setActionParameterList(alertParamsList);
 		actionConfigList.add(confirmationActionConfig);

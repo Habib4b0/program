@@ -85,6 +85,7 @@ public class ContractMaster implements java.io.Serializable {
 	private Date createdDate;
 	private int modifiedBy;
 	private Date modifiedDate;
+        private Date contractEligibleDate;
 	private Set rsContracts = new HashSet(0);
 	private Set psContracts = new HashSet(0);
 	private Set ifpContracts = new HashSet(0);
@@ -704,5 +705,12 @@ public class ContractMaster implements java.io.Serializable {
 	public void setCfpContracts(Set cfpContracts) {
 		this.cfpContracts = cfpContracts;
 	}
+        public Date getContractEligibleDate() {
+                return contractEligibleDate;
+        }   
+
+        public void setContractEligibleDate(Date contractEligibleDate) {
+                this.contractEligibleDate = contractEligibleDate;
+}
 
 }

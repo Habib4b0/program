@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ws.workflow.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -43,6 +44,8 @@ public class GtnWsCFFSubmitBean implements Serializable {
     private String variableName;
 
     private Map<String, Object> submitWorkflowParam;
+    
+    private Object value;
 
     public int getProjectionId() {
         return projectionId;
@@ -147,4 +150,22 @@ public class GtnWsCFFSubmitBean implements Serializable {
     public void setSubmitWorkflowParam(Map<String, Object> submitWorkflowParam) {
         this.submitWorkflowParam = submitWorkflowParam;
     }
-}
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
+    
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeObject(value);
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        value = in.readObject();
+    }
+    }

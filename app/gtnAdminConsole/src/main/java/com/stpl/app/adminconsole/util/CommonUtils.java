@@ -269,8 +269,8 @@ public class CommonUtils {
             }
             List<Object[]> list = getForecastYear(finalVersion, forecastName, fileType);
             Object[] object = list.get(0);
-            year = object[0] != null ? Integer.valueOf(object[0].toString()) : 0;
-            month = object[1] != null ? Integer.valueOf(object[1].toString()) : 0;
+            year = object[0] != null ? Integer.parseInt(object[0].toString()) : 0;
+            month = object[1] != null ? Integer.parseInt(object[1].toString()) : 0;
             Calendar cal = Calendar.getInstance();
 
             date.setMonth(month - 1);
@@ -425,7 +425,7 @@ public class CommonUtils {
     }
 
     public boolean checkETL(String userId) throws SystemException {
-        List<Role> userRoles = RoleLocalServiceUtil.getUserRoles(Long.valueOf(userId));
+        List<Role> userRoles = RoleLocalServiceUtil.getUserRoles(Long.parseLong(userId));
         List roleList = new ArrayList();
         for (Role role : userRoles) {
             roleList.add(role.getRoleId());
@@ -447,7 +447,7 @@ public class CommonUtils {
                 String[] rules = String.valueOf(key).split(",");
                 if (rules[0] != null && rules[0] != "null" && ValidationUtil.getMessage(rules[0]) != null && StringUtils.isNotEmpty(ValidationUtil.getMessage(rules[0]))) {
                     String[] temp = ValidationUtil.getMessage(rules[0]).split(",");
-                    tempObj.addValidator(new StringLengthValidator(ValidationUtil.getMessage(rules[1]), Integer.valueOf(temp[0]), Integer.valueOf(temp[1]), Boolean.valueOf(temp[NumericConstants.TWO])));
+                    tempObj.addValidator(new StringLengthValidator(ValidationUtil.getMessage(rules[1]), Integer.parseInt(temp[0]), Integer.parseInt(temp[1]), Boolean.parseBoolean(temp[NumericConstants.TWO])));
                 }
                 if (rules[NumericConstants.TWO] != null && !"null".equals(rules[NumericConstants.TWO]) && ValidationUtil.getMessage(rules[NumericConstants.TWO]) != null && StringUtils.isNotEmpty(ValidationUtil.getMessage(rules[NumericConstants.TWO]))) {
                     tempObj.addValidator(new RegexpValidator(ValidationUtil.getMessage(rules[NumericConstants.TWO]), ValidationUtil.getMessage(rules[NumericConstants.THREE])));

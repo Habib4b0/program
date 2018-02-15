@@ -1,7 +1,9 @@
 package com.stpl.gtn.gtn2o.ui.contractdashboard.config.action.process;
 
+import java.io.FileInputStream;
 import java.util.Date;
 import java.util.List;
+
 
 import com.stpl.gtn.gtn2o.ui.contractdashboard.config.action.GtnFrameworkSessionManagerAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -9,19 +11,25 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.workflow.GtnWsBpmCommonConstants;
 import com.stpl.gtn.gtn2o.ws.contractdashboard.beans.GtnWsContractDashboardSessionBean;
 import com.stpl.gtn.gtn2o.ws.contractdashboard.constants.GtnWsContractDashboardContants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractDashboardRequest;
 import com.stpl.gtn.gtn2o.ws.request.workflow.GtnWsCommonWorkflowRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
+
+
 public class GtnUIFrameworkContractWorkflowUpdateAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnUIFrameworkContractWorkflowUpdateAction.class);
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -49,8 +57,8 @@ public class GtnUIFrameworkContractWorkflowUpdateAction implements GtnUIFrameWor
 		workflowRequest.setPersistanceId(sharedBean.getPersistanceId());
 		workflowRequest.setModuleKey(GtnFrameworkCommonStringConstants.CONTRACT_WORKFLOW_ID);
 		workflowRequest.setDefaultValue("ForecastingWorkflow.ContractSubmissionWorkflow");
-		StringBuilder filePath = new StringBuilder(System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH));
-		filePath.append(GtnFrameworkCommonStringConstants.WORKFLOW_ID_XML_PATH);
+   	    java.util.Properties path =getPropertyFile(System.getProperty(GtnFrameworkCommonStringConstants.GTNFRAMEWORK_BASE_PATH_PROPERTY));
+   	    java.util.Properties filePath = getPropertyFile(path.getProperty("Workflowpath"));
 
 		workflowRequest.setModuleName(GtnWsBpmCommonConstants.CONTRACT_MASTER);
 		workflowRequest.setWorkflowGeneratorPath(filePath.toString());
@@ -108,8 +116,20 @@ public class GtnUIFrameworkContractWorkflowUpdateAction implements GtnUIFrameWor
 				.setEnable(false);
 		GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.INFO_ACTION,
 				parameters.get(3).toString(), parameters.get(4).toString().replace("[WORKFLOW_ID]", workflowId));
+		
 	}
+	public  java.util.Properties getPropertyFile(String bpiPropLoc) {
+		java.util.Properties prop = new java.util.Properties();
+		try {
+			FileInputStream fileIS = null;
+			fileIS = GtnFileNameUtils.getFileInputStream(bpiPropLoc);
+			prop.load(fileIS);
+		} catch (Exception ex) {
+			logger.error("Exception",ex);
+		}
+		return prop;
 
+	}
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
 		return this;

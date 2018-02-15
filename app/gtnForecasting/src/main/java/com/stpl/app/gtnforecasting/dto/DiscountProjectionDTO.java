@@ -71,6 +71,25 @@ public class DiscountProjectionDTO extends ExtMapDTO {
     private String hierarchyLevel = "empty";
     private List<DiscountProjectionDTO> alternatePivotList;
     private String parentAlternatePivot = StringUtils.EMPTY;
+    private String dfLevelNumber = StringUtils.EMPTY ;
+    private String dfLevelName = StringUtils.EMPTY;
+
+    public String getDfLevelNumber() {
+        return dfLevelNumber;
+    }
+
+    public void setDfLevelNumber(String dfLevelNumber) {
+        this.dfLevelNumber = dfLevelNumber;
+    }
+
+    public String getDfLevelName() {
+        return dfLevelName;
+    }
+
+    public void setDfLevelName(String dfLevelName) {
+        this.dfLevelName = dfLevelName;
+    }
+    
 
     private GtnSmallHashMap ccpCountForDiscount = new GtnSmallHashMap();
     private String parentHierarchyNo = StringUtils.EMPTY;

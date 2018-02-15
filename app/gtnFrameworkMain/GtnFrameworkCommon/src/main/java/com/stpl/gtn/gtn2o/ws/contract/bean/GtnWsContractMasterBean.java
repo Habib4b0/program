@@ -77,6 +77,7 @@ public class GtnWsContractMasterBean implements java.io.Serializable {
 	private Date createdDate;
 	private String modifiedBy = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 	private Date modifiedDate;
+        private Date contractEligibleDate;
 
 	public int getContractMasterSid() {
 		return contractMasterSid;
@@ -573,6 +574,13 @@ public class GtnWsContractMasterBean implements java.io.Serializable {
 
 	public void setTradingPartnerName(String tradingPartnerName) {
 		this.tradingPartnerName = tradingPartnerName;
+	}
+        public Date getContractEligibleDate() {
+		return contractEligibleDate == null ? null : (Date) contractEligibleDate.clone();
+	}
+
+	public void setContractEligibleDate(Date contractEligibleDate) {
+		this.contractEligibleDate = contractEligibleDate == null ? null : (Date) contractEligibleDate.clone();
 	}
 
 	@Override

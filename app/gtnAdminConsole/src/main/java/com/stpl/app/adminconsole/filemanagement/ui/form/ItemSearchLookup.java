@@ -183,7 +183,7 @@ public class ItemSearchLookup extends Window {
             itemNumber.setValue(dto.getItemNo());
             itemLookupName.setValue(dto.getItemName());
             itemId = dto.getItemId();
-            masterSid = Integer.valueOf(dto.getSystemId());
+            masterSid = Integer.parseInt(dto.getSystemId());
             setSelected(true);
             close();
         } catch (Exception e) {
@@ -396,7 +396,7 @@ public class ItemSearchLookup extends Window {
                     itemNumber.setValue(dto.getItemNo());
                     itemLookupName.setValue(dto.getItemName());
                     itemId = dto.getItemId();
-                    masterSid = Integer.valueOf(dto.getSystemId());
+                    masterSid = Integer.parseInt(dto.getSystemId());
                 } catch (Exception e) {
                     LOGGER.error(e.getMessage());
                 }

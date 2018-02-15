@@ -17,6 +17,7 @@ public class GtnWsUdcInfoBean implements Serializable {
 
 	private String udcCategory;
 	private String udcValue;
+	private String aliasName;
 	private Integer helperTableSid;
 	private Integer refCount;
 	private Integer createdBy;
@@ -24,7 +25,7 @@ public class GtnWsUdcInfoBean implements Serializable {
 	private Date createdDate;
 	private Date modifiedDate;
 	private boolean isBrand;
-
+    
 	public String getUdcCategory() {
 		return this.udcCategory;
 	}
@@ -96,5 +97,13 @@ public class GtnWsUdcInfoBean implements Serializable {
 	public void setBrand(boolean isBrand) {
 		this.isBrand = isBrand;
 	}
+	
+	public String getAliasName() {
+		return aliasName;
+	}
 
+	public void setAliasName(String aliasName) {
+		this.aliasName = aliasName;
+	}
+	
 }
