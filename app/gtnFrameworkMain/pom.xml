@@ -103,7 +103,7 @@
 				<module>GtnFramworkQueryGenerator</module>
 			</modules>
 			<build>
-				<defaultGoal>clean install</defaultGoal>
+				<defaultGoal>clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release</defaultGoal>
 			</build>
 		</profile>
 		<profile>
@@ -129,7 +129,7 @@
 			</properties>
 			<build>
 				<defaultGoal>
-                    clean install
+                    clean install 
                 </defaultGoal>
 				<plugins>
 					<plugin>
@@ -219,7 +219,7 @@
 			</properties>
 			<build>
 				<defaultGoal>
-                    clean install
+                    clean install com.stpl.gtn.gtn2o:JarReleasePlugin:Release
                 </defaultGoal>
 				<plugins>
 					<plugin>
