@@ -417,19 +417,19 @@ public class Summary extends CustomComponent {
         String flag = StringUtils.EMPTY;
         if (componentInfoDTO.getLevelNo() == NumericConstants.TWO) {
             flag = Constants.CFP;
-            selection.setCfpContractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.valueOf(componentInfoDTO.getMasterSid()));
+            selection.setCfpContractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.parseInt(componentInfoDTO.getMasterSid()));
             component.fireComponentListener(Constants.CFP, selection);
         } else if (componentInfoDTO.getLevelNo() == NumericConstants.THREE) {
             flag = Constants.IFP;
-            selection.setIfpConteractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.valueOf(componentInfoDTO.getMasterSid()));
+            selection.setIfpConteractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.parseInt(componentInfoDTO.getMasterSid()));
             component.fireComponentListener(Constants.IFP, selection);
         } else if (componentInfoDTO.getLevelNo() == NumericConstants.FOUR) {
             flag = Constants.PS;
-            selection.setPsContractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.valueOf(componentInfoDTO.getMasterSid()));
+            selection.setPsContractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.parseInt(componentInfoDTO.getMasterSid()));
             component.fireComponentListener(Constants.PS, selection);
         } else if (componentInfoDTO.getLevelNo() == NumericConstants.FIVE) {
             flag = Constants.RS;
-            selection.setRsContractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.valueOf(componentInfoDTO.getMasterSid()));
+            selection.setRsContractSid(componentInfoDTO.getMasterSid() == null ? 0 : Integer.parseInt(componentInfoDTO.getMasterSid()));
             component.fireComponentListener(Constants.RS, selection);
         }
         component.fireComponentListener(flag, selection);

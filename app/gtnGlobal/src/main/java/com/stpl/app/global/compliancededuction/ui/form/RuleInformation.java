@@ -483,27 +483,27 @@ public class RuleInformation extends CustomComponent {
         List<CDRDto> ruleDetails = new ArrayList<>();
         for (Object[] objects : list) {
             CDRDto ruleDetailsDto = new CDRDto();
-            ruleDetailsDto.setLineTypeDdlb(helperListUtil.getIdHelperDTOMap().get(objects[NumericConstants.SIX] != null ? Integer.valueOf(String.valueOf(objects[NumericConstants.SIX])) : 0));
-            ruleDetailsDto.setItemGroupDdlb(helperListUtil.getIdHelperDTOMap().get(objects[NumericConstants.SEVEN] != null ? Integer.valueOf(String.valueOf(objects[NumericConstants.SEVEN])) : 0));
-            ruleDetailsDto.setKeywordDdlb(helperListUtil.getIdHelperDTOMap().get(objects[NumericConstants.EIGHT] != null ? Integer.valueOf(String.valueOf(objects[NumericConstants.EIGHT])) : 0));
-            ruleDetailsDto.setOperatorDdlb(helperListUtil.getIdHelperDTOMap().get(objects[NumericConstants.NINE] != null ? Integer.valueOf(String.valueOf(objects[NumericConstants.NINE])) : 0));
+            ruleDetailsDto.setLineTypeDdlb(helperListUtil.getIdHelperDTOMap().get(objects[NumericConstants.SIX] != null ? Integer.parseInt(String.valueOf(objects[NumericConstants.SIX])) : 0));
+            ruleDetailsDto.setItemGroupDdlb(helperListUtil.getIdHelperDTOMap().get(objects[NumericConstants.SEVEN] != null ? Integer.parseInt(String.valueOf(objects[NumericConstants.SEVEN])) : 0));
+            ruleDetailsDto.setKeywordDdlb(helperListUtil.getIdHelperDTOMap().get(objects[NumericConstants.EIGHT] != null ? Integer.parseInt(String.valueOf(objects[NumericConstants.EIGHT])) : 0));
+            ruleDetailsDto.setOperatorDdlb(helperListUtil.getIdHelperDTOMap().get(objects[NumericConstants.NINE] != null ? Integer.parseInt(String.valueOf(objects[NumericConstants.NINE])) : 0));
 
-            if(objects[NumericConstants.ELEVEN] != null && Integer.valueOf(String.valueOf(objects[NumericConstants.ELEVEN])) != 0) {
+            if(objects[NumericConstants.ELEVEN] != null && Integer.parseInt(String.valueOf(objects[NumericConstants.ELEVEN])) != 0) {
                 ruleDetailsDto.setComparisonDdlb(helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(objects[NumericConstants.ELEVEN]))));
             }
-            if (objects[NumericConstants.ELEVEN] != null && Integer.valueOf(String.valueOf(objects[NumericConstants.ELEVEN])) == 0) {
+            if (objects[NumericConstants.ELEVEN] != null && Integer.parseInt(String.valueOf(objects[NumericConstants.ELEVEN])) == 0) {
                 ruleDetailsDto.setValueText(objects[NumericConstants.TEN] != null ? dollarFormat.format(Double.valueOf(String.valueOf(objects[NumericConstants.TEN]))) : StringUtils.EMPTY);
             } else {
                 ruleDetailsDto.setValueText(objects[NumericConstants.TEN] != null ? percentFormat.format(Double.valueOf(String.valueOf(objects[NumericConstants.TEN]))) + "%" : StringUtils.EMPTY);
             }
-            if(objects[NumericConstants.TWELVE] != null && Integer.valueOf(String.valueOf(objects[NumericConstants.TWELVE])) != 0) {
+            if(objects[NumericConstants.TWELVE] != null && Integer.parseInt(String.valueOf(objects[NumericConstants.TWELVE])) != 0) {
                 ruleDetailsDto.setLogicalOperatorDdlb(helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(objects[NumericConstants.TWELVE]))));
             }
 
             if (ConstantsUtils.COPY.equals(sessionDTO.getMode())) {
                 ruleDetailsDto.setCdrDetailsSid(0);
             } else {
-                ruleDetailsDto.setCdrDetailsSid(Integer.valueOf(String.valueOf(objects[NumericConstants.THIRTEEN])));
+                ruleDetailsDto.setCdrDetailsSid(Integer.parseInt(String.valueOf(objects[NumericConstants.THIRTEEN])));
             }
             ruleDetails.add(ruleDetailsDto);
         }

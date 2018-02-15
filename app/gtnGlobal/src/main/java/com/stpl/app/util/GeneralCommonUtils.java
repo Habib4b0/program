@@ -478,7 +478,7 @@ public class GeneralCommonUtils {
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));
         List result=DAO.getHelperTableList(dynamicQuery);
         if(result !=null && !result.isEmpty()){
-           code= Integer.valueOf(result.get(ZERO).toString());
+           code= Integer.parseInt(result.get(ZERO).toString());
         }
         return code;
     }
