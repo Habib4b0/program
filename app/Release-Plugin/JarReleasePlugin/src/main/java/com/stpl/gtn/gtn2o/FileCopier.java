@@ -48,7 +48,7 @@ public class FileCopier {
 					String str = name.substring(lastIndex);
 
 					// match path name extension
-					if (str.equals(".esa")) {
+					if (str.equals(".esa") || ".jar".equals(str)) {
 						return true;
 					}
 				}

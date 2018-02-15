@@ -104,8 +104,8 @@ public class UiUtils {
 
 	public static AbstractOrderedLayout getLayout(AbstractOrderedLayout layout) {
 		resourceBundle = ResourceBundle.getBundle("configurations/default");
-		layout.setMargin(Boolean.valueOf(resourceBundle.getString("layout_margin")));
-		layout.setSpacing(Boolean.valueOf(resourceBundle.getString("layout_spacing")));
+		layout.setMargin(Boolean.parseBoolean(resourceBundle.getString("layout_margin")));
+		layout.setSpacing(Boolean.parseBoolean(resourceBundle.getString("layout_spacing")));
 		return layout;
 	}
 

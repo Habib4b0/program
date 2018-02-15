@@ -984,7 +984,7 @@ public class QueryUtils {
         List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (list != null && list.size() > 0) {
             String retCount = String.valueOf(list.get(0));
-            count = Integer.valueOf(retCount);
+            count = Integer.parseInt(retCount);
             return count;
         }
 

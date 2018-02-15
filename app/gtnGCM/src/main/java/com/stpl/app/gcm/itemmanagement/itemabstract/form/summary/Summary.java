@@ -289,7 +289,7 @@ public abstract class Summary extends CustomComponent {
 
     public void getRightVisibleColumns(final String[] his, String frequency) {
         rightDTO = new CustomTableHeaderDTO();
-        rightDTO = HeaderUtils.getSalesAndRebateColumns(rightDTO, fullHeader, Integer.valueOf(his[0]), frequency, isSales());
+        rightDTO = HeaderUtils.getSalesAndRebateColumns(rightDTO, fullHeader, Integer.parseInt(his[0]), frequency, isSales());
     }
 
     /**

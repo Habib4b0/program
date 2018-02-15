@@ -128,7 +128,7 @@ public class CommonUtil {
             for (Object[] str : list) {
                 if (!str[1].equals(String.valueOf(IndicatorConstants.SELECT_ONE.getConstant()))) {
                     HelperDTO dto = new HelperDTO();
-                    dto.setId(str[0] == null ? 0 : Integer.valueOf(str[0].toString()));
+                    dto.setId(str[0] == null ? 0 : Integer.parseInt(str[0].toString()));
                     dto.setDescription(str[1] == null ? Constants.ZEROSTRING : String.valueOf(str[1]));
                     resultList.add(dto);
                 }
@@ -157,7 +157,7 @@ public class CommonUtil {
                 String[] rules = String.valueOf(key).split(",");
                 if (rules[0] != null && ValidationUtils.getMessage(rules[0]) != null && StringUtils.isNotEmpty(ValidationUtils.getMessage(rules[0]))) {
                     String[] temp = ValidationUtils.getMessage(rules[0]).split(",");
-                    tempObj.addValidator(new StringLengthValidator(ValidationUtils.getMessage(rules[1]), Integer.valueOf(temp[0]), Integer.valueOf(temp[1]), Boolean.valueOf(temp[NumericConstants.TWO])));
+                    tempObj.addValidator(new StringLengthValidator(ValidationUtils.getMessage(rules[1]), Integer.parseInt(temp[0]), Integer.valueOf(temp[1]), Boolean.valueOf(temp[NumericConstants.TWO])));
                 }
                 if (rules[NumericConstants.TWO] != null && ValidationUtils.getMessage(rules[NumericConstants.TWO]) != null && StringUtils.isNotEmpty(ValidationUtils.getMessage(rules[NumericConstants.TWO]))) {
                     tempObj.addValidator(new RegexpValidator(ValidationUtils.getMessage(rules[NumericConstants.TWO]), ValidationUtils.getMessage(rules[NumericConstants.THREE])));
