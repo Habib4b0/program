@@ -30,22 +30,22 @@ and open the template in the editor.
             </VerticalLayout>
         </Panel> 
         
-        <Panel caption="File Selection">
+       <Panel caption="File Selection">
             <VerticalLayout  id="searchPanel" styleName = "responsiveTabGrid">
                 <HorizontalLayout spacing="true" styleName="responsiveTabGrid" margin="true" >
                     <CssLayout id="selectFileCssLayout" immediate="true" width="100%" height="100%">
                         
                         <Label value="Select File" contentMode="HTML" immediate="true"  styleName="filemanagement-selectedfile" width="100px"/>
                         <c:CustomTextField id="selectFile" inputPrompt="" immediate="true"
-                                            styleName="searchText-nonabsolute" width="250px" />
-                        
+                                            styleName="searchText" />
+                        <Label value="" contentMode="HTML" immediate="true"  width="220px" />
                         <Button id="saveBtn" caption="SAVE" immediate="true"/>
                         <Button id="resetBtn" caption="RESET" immediate="true" />
                     </CssLayout>
                 </HorizontalLayout>       
             </VerticalLayout>
         </Panel>
-        
+
         
         <Panel caption="File History"  >
             <VerticalLayout id="tableLayout">
