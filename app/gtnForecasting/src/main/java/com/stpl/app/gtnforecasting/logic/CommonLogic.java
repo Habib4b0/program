@@ -3482,8 +3482,8 @@ public class CommonLogic {
     }
 
     /**
-     * Method is used to get the count for a particular level in the customer or
-     * product hierarchy. Count varies based on the parent level.
+     * Method is used to get the count for a particular level in the CUSTOMER or
+ PRODUCT hierarchy. Count varies based on the parent level.
      *
      * @param sessionDTO
      * @param hierarchyNo
@@ -3542,8 +3542,8 @@ public class CommonLogic {
     }
 
     /**
-     * Method is used to get the count for a particular level in the customer or
-     * product hierarchy. Count varies based on the parent level.
+     * Method is used to get the count for a particular level in the CUSTOMER or
+ PRODUCT hierarchy. Count varies based on the parent level.
      *
      * @param projSelDTO
      * @return
