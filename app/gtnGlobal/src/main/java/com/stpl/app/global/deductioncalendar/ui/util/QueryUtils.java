@@ -321,7 +321,7 @@ public class QueryUtils {
      * @return
      */
     public String getLineUpdateQueryForCustomer(DeductionDetailsDTO deductionDTO,String value, Object[] obj, TableDTO dto) {
-        int levelNo = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
+        int levelNo = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
         boolean isFiltered= StringUtils.isNotEmpty(deductionDTO.getFilterDdlb())&&!ConstantsUtils.NULL.equalsIgnoreCase(deductionDTO.getFilterDdlb());
         String query = "";
         if (levelNo == (isFiltered ? 1 : NumericConstants.TWO)) {
@@ -363,7 +363,7 @@ public class QueryUtils {
      * @return
      */
     public String getLineUpdateQueryForProduct(DeductionDetailsDTO deductionDTO,String value, Object[] obj,TableDTO dto) {
-        int levelNo = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
+        int levelNo = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
         boolean isFiltered= StringUtils.isNotEmpty(deductionDTO.getFilterDdlb())&&!ConstantsUtils.NULL.equalsIgnoreCase(deductionDTO.getFilterDdlb());
         String query = "";
         if (levelNo == (isFiltered ? 1 : NumericConstants.TWO)) {

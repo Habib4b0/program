@@ -798,7 +798,7 @@ public class DeductionDetails extends CustomComponent {
                         String[] end = String.valueOf(endPeriod.getValue()).split(" ");
                         int startMonth = CommonUtil.getMonth(start[0]);
                         int endMonth = CommonUtil.getMonth(end[0]);
-                        if (Integer.valueOf(start[1]) > Integer.valueOf(end[1])) {
+                        if (Integer.parseInt(start[1]) > Integer.parseInt(end[1])) {
                             AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Start period cannot be greater than end period");
                         } else if (Integer.valueOf(start[1]) == Integer.valueOf(end[1]) && (startMonth > endMonth)) {
                             AbstractNotificationUtils.getErrorNotification(ConstantsUtils.MASS_UPDATE, "Start period cannot be greater than end period");
