@@ -6,7 +6,6 @@
 package com.stpl.app.gcm.common.dao.impl;
 
 import com.stpl.app.gcm.common.dao.CommonDao;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;
 
@@ -25,10 +24,12 @@ public class CommonImpl implements CommonDao {
         return dao;
     }
 
+    @Override
     public List executeSelect(String query) {
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
+    @Override
     public Object executeUpdate(String query) {
         return HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
     }

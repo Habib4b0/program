@@ -39,9 +39,9 @@ public class DroolsProperties {
             if (!isPrinted) {
                 logger.debug("File resources Path :" + file.getAbsolutePath());
             }
-            FileInputStream fileInput = new FileInputStream(file);
-            properties.load(fileInput);
-            fileInput.close();
+            try (FileInputStream fileInput = new FileInputStream(file)) {
+                properties.load(fileInput);
+            }
             if (!isPrinted) {
                 Enumeration<Object> enuKeys = properties.keys();
                 while (enuKeys.hasMoreElements()) {

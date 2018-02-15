@@ -8,8 +8,6 @@ package com.stpl.app.gcm.itemmanagement.transfer;
 
 import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
-import com.stpl.app.gcm.common.dao.CommonDao;
-import com.stpl.app.gcm.common.dao.impl.CommonImpl;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.index.dto.ItemIndexDto;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;

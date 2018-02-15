@@ -39,9 +39,9 @@ public class SearchForm extends CustomComponent {
     private final Label space = new Label("&nbsp;", ContentMode.HTML);
     private final NativeSelect userGroup1 = new NativeSelect();
     private final TwinColSelect ugTobrSelect = new TwinColSelect();
-    private UserGrpBsnsRoleLogic businessRoleModuleLogic = new UserGrpBsnsRoleLogic();
+    private final UserGrpBsnsRoleLogic businessRoleModuleLogic = new UserGrpBsnsRoleLogic();
     private UserGrpBsnsRoleDTO usrDTO = new UserGrpBsnsRoleDTO();
-    private ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<UserGrpBsnsRoleDTO>(usrDTO));
+    private final ErrorfulFieldGroup binder = new ErrorfulFieldGroup(new BeanItem<UserGrpBsnsRoleDTO>(usrDTO));
 	
 	public SearchForm() {
 		init();
@@ -64,8 +64,8 @@ public class SearchForm extends CustomComponent {
         content.addComponent(space);
         content.addComponent(addToGrid());
         content.addComponent(space);
-        content1.addComponent(SearchButton());
-        content1.addComponent(ResetButton());
+        content1.addComponent(searchButton());
+        content1.addComponent(resetButton());
         content.addComponent(content1);
         setCompositionRoot(content);
 		
@@ -99,6 +99,7 @@ public class SearchForm extends CustomComponent {
         userGroup1.addValueChangeListener(new ValueChangeListener() {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void valueChange(ValueChangeEvent event) {
                 if (event.getProperty().getValue() != null) {
                     if (!"".equals(event.getProperty().getValue())) {
@@ -131,13 +132,14 @@ public class SearchForm extends CustomComponent {
 		return new IndexedContainer(helperLst);
 	}
 	
-	private Button SearchButton() {
+	private Button searchButton() {
 		// Commit button
 		Button btnSearch = new Button("Save");
 		btnSearch.setErrorHandler(new ErrorHandler() {
 
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                 return;
 
@@ -148,6 +150,7 @@ public class SearchForm extends CustomComponent {
 			private static final long serialVersionUID = 1L;
 
 			
+                        @Override
 			public void buttonClick(ClickEvent event) {
 				try {
 					binder.getFields();
@@ -190,12 +193,13 @@ public class SearchForm extends CustomComponent {
 		return btnSearch;
 	}
 
-	private Button ResetButton() {
+	private Button resetButton() {
 		Button btnReset = new Button("Reset");
 		btnReset.setErrorHandler(new ErrorHandler() {
 
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                 return;
             }
@@ -204,6 +208,7 @@ public class SearchForm extends CustomComponent {
 		          btnReset.addClickListener(new ClickListener() {
                 private static final long serialVersionUID = 1L;
 
+                @Override
                 public void buttonClick(ClickEvent event) {
                     userGroup1.setContainerDataSource(getUserGroupValue());
                     ugTobrSelect.setContainerDataSource(new IndexedContainer());

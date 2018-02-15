@@ -47,7 +47,7 @@ public class RemoveItemLogic {
      * The unit volume.
      */
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.0");
-    private static TradingPartnerDAO tpDao = LoadTabLogic.getTpDao();
+    private static final TradingPartnerDAO tpDao = LoadTabLogic.getTpDao();
     
     public int getLevelCount(Object parentId, TabSelectionDTO tabSelectionDTO, SelectionDTO selection) {
         int count = 0;

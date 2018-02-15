@@ -13,7 +13,6 @@ import com.stpl.app.gcm.itemmanagement.index.logic.ItemIndexTableLogic;
 import com.stpl.app.gcm.itemmanagement.index.logic.ItemLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;

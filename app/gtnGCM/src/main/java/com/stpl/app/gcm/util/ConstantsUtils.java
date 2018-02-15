@@ -18,36 +18,36 @@ public final class ConstantsUtils {
     /**
      * The zero.
      */
-    public final static int ZERO_INT = 0;
+    public static final int ZERO_INT = 0;
     /**
      * The list name.
      */
-    public final static String LIST_NAME = "listName";
+    public static final String LIST_NAME = "listName";
 
     /**
      * The description.
      */
-    public final static String DESCRIPTION = "description";
+    public static final String DESCRIPTION = "description";
 
     /**
      * The Constant COMPANY_TYPE.
      */
-    public final static String COMPANY_TYPE = "COMP_TYPE";
+    public static final String COMPANY_TYPE = "COMP_TYPE";
 
     /**
      * The Constant COMPANY_TYPE.
      */
-    public final static String COMPANY_CATEGORY = "COMP_CATEGORY";
+    public static final String COMPANY_CATEGORY = "COMP_CATEGORY";
 
     /**
      * The Constant COMPANY_TYPE.
      */
-    public final static String COMPANY_TRADE_CLASS = "COMP_CATEGORY";
+    public static final String COMPANY_TRADE_CLASS = "COMP_CATEGORY";
 
     /**
      * The quote.
      */
-    public final static String QUOTE = "\"";
+    public static final String QUOTE = "\"";
     public static final String NULL = "null";
     
     

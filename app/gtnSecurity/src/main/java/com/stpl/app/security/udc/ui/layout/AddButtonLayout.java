@@ -24,11 +24,11 @@ public class AddButtonLayout extends HorizontalLayout {
 	 * 
 	 */
 	private static final long serialVersionUID = -8933552027033590861L;
-	   private ErrorfulFieldGroup binder;
-	   private UdcLogic udcLogic = new UdcLogic();
+	   private final ErrorfulFieldGroup binder;
+	   private final UdcLogic udcLogic = new UdcLogic();
     private static final Logger LOGGER = LoggerFactory
             .getLogger(AddButtonLayout.class.getName());
-    private BeanItemContainer<HelperForm> searchResultbeans;
+    private final BeanItemContainer<HelperForm> searchResultbeans;
 	
 	
 
@@ -54,13 +54,14 @@ public class AddButtonLayout extends HorizontalLayout {
 		btnUpdate.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
+                        @Override
 			public void buttonClick(ClickEvent event) {
 				try {
 					binder.getFields();
 					binder.commit();
 					try {
 					
-						String success = udcLogic.SaveHelperTable(binder);
+						String success = udcLogic.saveHelperTable(binder);
 					                                   if (success.equals("success")) {
                                             searchResultbeans.removeAllItems();
                                         }
@@ -96,6 +97,7 @@ public class AddButtonLayout extends HorizontalLayout {
 
 			private static final long serialVersionUID = 1L;
 
+                        @Override
 			public void error(com.vaadin.server.ErrorEvent event) {
                             return;
 			}
@@ -103,6 +105,7 @@ public class AddButtonLayout extends HorizontalLayout {
 	    btnDelete.addClickListener(new ClickListener() {
          private static final long serialVersionUID = 1L;
 
+         @Override
          public void buttonClick(ClickEvent event) {
 
              binder.getFields();

@@ -85,7 +85,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.slf4j.Logger;
@@ -97,15 +96,15 @@ import org.slf4j.LoggerFactory;
  */
 public class DiscountLogic {
 
-    private static CommonDao DAO = CommonImpl.getInstance();
-    private static DiscountDAO discountDAO = new DiscountDaoImpl();
+    private static final CommonDao DAO = CommonImpl.getInstance();
+    private static final DiscountDAO discountDAO = new DiscountDaoImpl();
     private static final Logger LOGGER = LoggerFactory.getLogger(DiscountLogic.class);
     public static final SimpleDateFormat DBDate = new SimpleDateFormat(MMDDYYYY.getConstant());
-    private QueryUtils queryUtils = new QueryUtils();
+    private final QueryUtils queryUtils = new QueryUtils();
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0");
     private static final DecimalFormat AMOUNT_UNITS = new DecimalFormat("#,##0");
     public static final char CHAR_PERCENT = '%';
-    private DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+    private final DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     private final HelperListUtil helperlist = HelperListUtil.getInstance();
     public static final String SPACE_OFFSET_SPACE = " OFFSET ";
     public static final String SET_COLUMN_NAME_QUESTION = "?SET_COLUMN_NAME?";
