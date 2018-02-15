@@ -212,9 +212,10 @@ public class MedicaidNdcPopUp extends CustomComponent {
                         }
 
                     } else {
-                        wac.setReadOnly(false);
+                        
                         ndc.setValue(StringUtils.EMPTY);
                         wac.setValue(StringUtils.EMPTY);
+                        wac.setReadOnly(true);
                         forecastAMP.setValue(StringUtils.EMPTY);
                         baseAMP.setValue(StringUtils.EMPTY);
                         baseYearCPI.setReadOnly(false);
@@ -222,7 +223,6 @@ public class MedicaidNdcPopUp extends CustomComponent {
                         baseYearCPI.setReadOnly(true);
                         bestPrice.setValue(StringUtils.EMPTY);
                     }
-                    wac.setReadOnly(true);
                 } catch (Property.ReadOnlyException | NumberFormatException ex) {
                     LOGGER.error(ex.getMessage());
                 }
