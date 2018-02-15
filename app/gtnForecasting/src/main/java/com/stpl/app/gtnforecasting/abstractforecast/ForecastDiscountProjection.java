@@ -745,6 +745,8 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     protected abstract void adjustBtnClickLogicCustom();
     
     protected abstract void excelExportClickLogic();
+    
+    protected abstract void excelExportBtnClickLogic();
 
     protected abstract void levelFilterValueChangeLogic(Property.ValueChangeEvent event);
 
@@ -846,7 +848,11 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 populateBtnClickLogic();
                 break;
             case "excelExport":
-                excelExportClickLogic();
+                if (CommonUtil.isValueEligibleForLoading()) {
+                    excelExportClickLogic();
+                } else {
+                    excelExportBtnClickLogic();
+                }
                 break;
             case "generateBtn":
                 generateBtnClickLogic(true);
