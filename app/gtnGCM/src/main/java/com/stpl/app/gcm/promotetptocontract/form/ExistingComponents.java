@@ -650,7 +650,7 @@ public class ExistingComponents extends CustomComponent implements View {
                         contractDashboardResultsTable.setChildrenAllowed(rootId, true);
                         contractDashboardResultsTable.setCollapsed(root, false);
                     } else {
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.CORRECT_NODE_ALERT);
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_CORRECT_NODE);
                     }
                 } else if (level.equals(Constants.PRICE_SCHEDULE)) {
                     if (NumericConstants.THREE - levelNumber == 1) {
@@ -672,7 +672,7 @@ public class ExistingComponents extends CustomComponent implements View {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "PS does not associate with  IFP");
                         }
                     } else {
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.CORRECT_NODE_ALERT);
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_CORRECT_NODE);
                     }
                 } else if (level.equals(Constants.REBATE_SCHEDULE)) {
                     if (NumericConstants.FOUR - levelNumber == 1) {
@@ -691,7 +691,7 @@ public class ExistingComponents extends CustomComponent implements View {
                         contractDashboardResultsTable.setCollapsed(root, false);
 
                     } else {
-                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.CORRECT_NODE_ALERT);
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR, Constants.SELECT_CORRECT_NODE);
                     }
                 }
             } else {

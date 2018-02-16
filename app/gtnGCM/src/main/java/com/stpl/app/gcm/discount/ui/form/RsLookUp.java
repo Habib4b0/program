@@ -212,10 +212,10 @@ public class RsLookUp extends Window {
         rsType.setNullSelectionItemId(Constants.HELPER_DTO);
         rsType.setValue(Constants.HELPER_DTO);
         rsType.setItemCaptionPropertyId(Constants.DESCRIPTION);
-        rsStartDate.setDateFormat(Constants.DATE_FORMAT);
-        rsStartDate.addStyleName(Constants.DATE_FIEILD_CENTER);
-        rsEndDate.setDateFormat(Constants.DATE_FORMAT);
-        rsEndDate.addStyleName(Constants.DATE_FIEILD_CENTER);
+        rsStartDate.setDateFormat(Constants.MM_DD_YYYY);
+        rsStartDate.addStyleName(Constants.DATE_FIELD_CENTER);
+        rsEndDate.setDateFormat(Constants.MM_DD_YYYY);
+        rsEndDate.addStyleName(Constants.DATE_FIELD_CENTER);
         temp = new BeanItemContainer<>(HelperDTO.class);
         temp.addAll(new DiscountLogic().getDropDownList("REBATE_PROGRAM_TYPE", Constants.HELPER_DTO));
         rebateProgramType.setContainerDataSource(temp);
