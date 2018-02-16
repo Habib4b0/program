@@ -241,7 +241,7 @@ public class DataAssumptionsLogic {
                 String query = SQlUtil.getQuery("QUERY_TO_CHECK_ISSALES_CALCULATED_ALREADY").replace("@PROJECTION_ID", String.valueOf(session.getProjectionId()));
                 List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
                 if (list != null && !list.isEmpty()) {
-                    discountCanBeCalculated = Integer.valueOf(String.valueOf(list.get(0))) == 1;
+                    discountCanBeCalculated = Integer.parseInt(String.valueOf(list.get(0))) == 1;
                 }
                 if (!discountCanBeCalculated) {
                     return obj[0].equals(obj1[1]);
