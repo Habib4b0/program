@@ -558,6 +558,7 @@ public class DeductionCalendarForm extends StplCustomComponent implements AddBas
                 notif.show(Page.getCurrent());
                 notif.setDelayMsec(NumericConstants.TWO_THOUSAND);
                 sessionDTO.setMode(ConstantsUtils.EDIT);
+                saveBtn.setCaption("UPDATE");
                 getUI().getNavigator().navigateTo(DeductionCalendarView.NAME);
             }
 
