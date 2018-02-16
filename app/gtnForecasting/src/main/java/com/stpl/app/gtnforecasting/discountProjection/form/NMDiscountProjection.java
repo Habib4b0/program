@@ -156,6 +156,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private ExtTreeContainer<DiscountProjectionDTO> resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,
 			ExtContainer.DataStructureMode.MAP);
 	private GtnSmallHashMap manualEntryMap = new GtnSmallHashMap();
+	private GtnSmallHashMap multipleVariableCheckMap = new GtnSmallHashMap();
 	/* Discount Bean */
 	protected BeanItemContainer<String> programBean = new BeanItemContainer<>(String.class);
 	/* To store the current hierarchy */
@@ -286,6 +287,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         private List<Object> generateCustomerToBeLoaded=new ArrayList<>();
         private List<String> baselinePeriods= new ArrayList<>();
         private final Map<String, Object> excelParentRecords = new HashMap();
+        private boolean isMultipleVariablesUpdated = false;
 	private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
 		@Override
 		public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
@@ -798,6 +800,9 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 					try {
 						multiVariablesCheck(period, refreshName);
+                                                if(!refreshName.equals("GROWTH")){
+                                                checkMultiVariables(period+"~"+dto.getHierarchyNo(), refreshName);
+                                                }
 						if (saveList.size() == 1) {
 							saveDiscountProjectionListview();
 						}
@@ -884,7 +889,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	public void multiVariablesCheck(final String period, final String refreshName) {
 		if (manualEntryMap.get(period) == null) {
 			manualEntryMap.put(period, refreshName);
-		}
+                }
+	}
+        
+        public void checkMultiVariables(final String period, final String refreshName) {
+		if (multipleVariableCheckMap.get(period.trim()) == null) {
+			multipleVariableCheckMap.put(period.trim(), refreshName);
+                }else{
+                LOGGER.info("manualEntryMap.get(period)-----------------------------------------------------"+isMultipleVariablesUpdated);
+                isMultipleVariablesUpdated = true;
+                }
 	}
 
 	/**
@@ -1025,6 +1039,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			refreshBtn.addClickListener(new Button.ClickListener() {
 				@Override
 				public void buttonClick(Button.ClickEvent event) {
+                                    if(!isMultipleVariablesUpdated){
 					if (isGrowthUpdatedManually || isRateUpdatedManually || isRPUUpdatedManually
 							|| isAmountUpdatedManually) {
 						LOGGER.debug("inside if refreshBtn--------------------------------- ");
@@ -1043,9 +1058,17 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						notif.setPosition(Position.TOP_CENTER);
 						notif.setStyleName(ConstantsUtils.MY_STYLE);
 						notif.show(Page.getCurrent());
+                                                multipleVariableCheckMap.clear();
 					}
 
-				}
+				}else{
+                                    AbstractNotificationUtils.getErrorNotification("Multiple Variables Updated",
+								"Multiple variables for the same customer/product/time period combination have been changed.  Please only change one variable for a single customer/product/time period combination.");
+                                    isMultipleVariablesUpdated = false;
+                                    refreshTableData(getCheckedRecordsHierarchyNo());
+			            multipleVariableCheckMap.clear();
+                                    }
+                                }
 			});
 
 		} catch (Exception e) {

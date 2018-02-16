@@ -438,7 +438,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     }
 
     @Override
-    protected void generateBtnLogic(Button.ClickEvent event) {
+    public void generateBtnLogic(Button.ClickEvent event) {
         try {
             projectionDTO.setCustomerLevelFilter(generateCustomerToBeLoaded);
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
