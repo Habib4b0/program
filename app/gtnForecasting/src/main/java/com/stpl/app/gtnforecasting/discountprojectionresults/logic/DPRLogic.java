@@ -1734,7 +1734,7 @@ public class DPRLogic {
                     suppRPU = getFormatValue(NumericConstants.TWO, suppRPU, CURRENCY);
                     columnName = actualFlag ? Constant.ACTUALS_RPU : Constant.PROJECTIONS_RPU;
                     suppDTO.addStringProperties(commonColumn + columnName, suppRPU);
-                    Double rpu = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.NINE])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.NINE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TEN])) ? Double.valueOf(String.valueOf(obj[NumericConstants.TEN])) : 0.00);
+                    Double rpu = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.NINE])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.NINE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TEN])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.TEN])) : 0.00);
                     String stringRpu = String.valueOf(rpu);
                     if (!actualFlag) {
                         stringRpu = CommonUtils.forecastConfigDataHide(projSelDTO.getFrequency(), projSelDTO.getForecastConfigPeriods(), commonColumn, stringRpu);
@@ -1987,8 +1987,8 @@ public class DPRLogic {
                     actualFlag = Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
                     String mandSupp = projSelDTO.getMandatedOrSupp();
 
-                    int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
-                    int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.valueOf(String.valueOf(obj[NumericConstants.TWELVE]));
+                    int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
+                    int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE]));
                     List<String> common = HeaderUtils.getCommonColumnHeader(frequencyDivision, year, period, false);
                     String column = common.get(0);
                     String commonHeader = common.get(1);
@@ -2119,9 +2119,9 @@ public class DPRLogic {
                         periodDTO.addStringProperties(commonColumn + columnName, suppRPU);
 
                         commonColumn = Constant.TOTALDISCOUNT;
-                        Double amt = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.FIVE])) ? Double.valueOf(String.valueOf(obj[NumericConstants.FIVE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.SEVEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SEVEN])) ? Double.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) : 0.00);
-                        Double rate = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SIX])) ? Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.EIGHT])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.EIGHT])) ? Double.valueOf(String.valueOf(obj[NumericConstants.EIGHT])) : 0.00);
-                        Double rpu = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.NINE])) ? Double.valueOf(String.valueOf(obj[NumericConstants.NINE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TEN])) ? Double.valueOf(String.valueOf(obj[NumericConstants.TEN])) : 0.00);
+                        Double amt = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.FIVE])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.FIVE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.SEVEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SEVEN])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.SEVEN])) : 0.00);
+                        Double rate = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.SIX])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.SIX])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.EIGHT])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.EIGHT])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.EIGHT])) : 0.00);
+                        Double rpu = (StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.NINE])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.NINE])) : 0.00) + (!Constant.NULL.equalsIgnoreCase(String.valueOf(obj[NumericConstants.TEN])) && StringUtils.isNotBlank(String.valueOf(obj[NumericConstants.TEN])) ? Double.parseDouble(String.valueOf(obj[NumericConstants.TEN])) : 0.00);
 
                         String stringAmt = String.valueOf(amt);
                         String stringRate = String.valueOf(rate);
@@ -2184,10 +2184,10 @@ public class DPRLogic {
 
                 String columnName;
                 final Object[] obj = (Object[]) list.get(i);
-                actualFlag = Integer.valueOf(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
+                actualFlag = Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])) == 0;
 
-                int year = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
-                int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.valueOf(String.valueOf(obj[NumericConstants.TWELVE]));
+                int year = Integer.parseInt(String.valueOf(obj[NumericConstants.FOUR]));
+                int period = projSelDTO.getFrequencyDivision() == 1 ? 0 : Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE]));
                 List<String> common = HeaderUtils.getCommonColumnHeader(frequencyDivision, year, period, false);
                 String column = common.get(0);
                 lastPeriod = Constant.YEAR_SPACE.equalsIgnoreCase(freq) ? String.valueOf(obj[NumericConstants.FOUR]) : String.valueOf(obj[NumericConstants.THIRTEEN]);
