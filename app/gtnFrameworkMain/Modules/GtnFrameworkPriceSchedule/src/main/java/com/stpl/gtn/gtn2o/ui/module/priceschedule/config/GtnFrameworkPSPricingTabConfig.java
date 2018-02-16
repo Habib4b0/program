@@ -369,7 +369,7 @@ public class GtnFrameworkPSPricingTabConfig {
 				String.class, String.class, String.class, GtnFrameworkCommonConstants.JAVALANG_INTEGER, Date.class,
 				Date.class, GtnFrameworkCommonConstants.JAVALANG_INTEGER, String.class, String.class, String.class,
 				Date.class, Date.class });
-		psPricingTabTabResultDataTableConfig.setTableVisibleHeader(new String[] { "", "Item ID", "Item NO", "Item Name",
+		psPricingTabTabResultDataTableConfig.setTableVisibleHeader(new String[] { "", "Item ID", "Item No", "Item Name",
 				"Brand Name", "Status", "CP Start Date", "CP End Date", "Price Type", "Price", "Suggested Price",
 				"Created By", "Created Date", "Attached Date" });
 		psPricingTabTabResultDataTableConfig
